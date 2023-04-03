@@ -212,12 +212,15 @@ export default function DrawerNavigator({ route }: Props) {
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
+  const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
+  )
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
     <CustomDrawerContent {...props} />
   )
 
-  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
+  const shouldShowSwapMenuInDrawerMenu = showSwapOnMenu && useSelector(isAppSwapsEnabledSelector)
 
   // Show ExchangeHomeScreen if the user has completed the Celo education
   // or if the Celo News feature is enabled
@@ -313,11 +316,13 @@ export default function DrawerNavigator({ route }: Props) {
           initialParams={{ showDrawerTopBar: true }}
         />
       )}
-      <Drawer.Screen
-        name={Screens.FiatExchange}
-        component={FiatExchange}
-        options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
-      />
+      {showAddWithdrawOnMenu && (
+        <Drawer.Screen
+          name={Screens.FiatExchange}
+          component={FiatExchange}
+          options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
+        />
+      )}
       <Drawer.Screen
         name={Screens.Invite}
         component={Invite}

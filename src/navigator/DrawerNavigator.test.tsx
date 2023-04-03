@@ -3,8 +3,16 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
+import { getExperimentParams } from 'src/statsig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn().mockReturnValue({
+    showAddWithdrawOnMenu: true,
+    showSwapOnMenu: true,
+  }),
+}))
 
 // TODO avoid rendering WalletHome as we're mostly interested in testing the menu here
 
@@ -63,5 +71,34 @@ describe('DrawerNavigator', () => {
       </Provider>
     )
     expect(queryByTestId('DrawerItem/dappsScreen.title')).toBeNull()
+  })
+
+  it('hides add/withdraw menu item based on statsig experiment param', () => {
+    ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
+      showAddWithdrawOnMenu: false,
+    })
+    const { queryByTestId } = render(
+      <Provider store={createMockStore()}>
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+      </Provider>
+    )
+    expect(queryByTestId('DrawerItem/addAndWithdraw')).toBeNull()
+  })
+
+  it('hides swap menu item based on statsig experiment param', () => {
+    ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
+      showSwapOnMenu: false,
+    })
+    const store = createMockStore({
+      app: {
+        showSwapMenuInDrawerMenu: true,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+      </Provider>
+    )
+    expect(queryByTestId('DrawerItem/swapScreen.title')).toBeNull()
   })
 })
