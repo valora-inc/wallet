@@ -1663,7 +1663,7 @@
     "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
+    "add": "Hinzufügen",
     "receive": "Erhalten",
     "request": "Anfragen",
     "send": "Senden",
