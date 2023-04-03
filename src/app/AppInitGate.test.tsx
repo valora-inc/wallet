@@ -26,7 +26,7 @@ jest.mock('src/navigator/NavigationService', () => ({
 const mockedI18n = I18n as jest.Mocked<typeof I18n>
 const setLanguageSpy = jest.spyOn(I18nActions, 'setLanguage')
 
-const renderI18nGate = (language: string | null) =>
+const renderAppInitGate = (language: string | null) =>
   render(
     <Provider store={createMockStore({ i18n: { language } })}>
       <AppInitGate loading={<Text>Loading component</Text>}>
@@ -39,17 +39,21 @@ describe('AppInitGate', () => {
   const initI18nPromise = Promise.resolve<TFunction>(jest.fn())
   mockedI18n.initI18n.mockImplementation(jest.fn(() => initI18nPromise))
 
+  const initAnalyticsPromise = Promise.resolve()
+  mocked(ValoraAnalytics.init).mockImplementation(jest.fn(() => initAnalyticsPromise))
+
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should render the fallback before i18n is initialised, and the app after initialisation', async () => {
-    const { getByText, queryByText } = renderI18nGate(null)
+  it('should render the fallback before i18n and analytics is initialised, and the app after initialisation', async () => {
+    const { getByText, queryByText } = renderAppInitGate(null)
 
     expect(getByText('Loading component')).toBeTruthy()
     expect(queryByText('App')).toBeFalsy()
 
     await act(() => initI18nPromise)
+    await act(() => initAnalyticsPromise)
 
     expect(getByText('App')).toBeTruthy()
     expect(queryByText('Loading component')).toBeFalsy()
@@ -57,8 +61,9 @@ describe('AppInitGate', () => {
   })
 
   it('should initialise i18n with the store language if it exists', async () => {
-    renderI18nGate('pt-BR')
+    renderAppInitGate('pt-BR')
     await act(() => initI18nPromise)
+    await act(() => initAnalyticsPromise)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
     expect(mockedI18n.initI18n).toHaveBeenCalledWith('pt-BR', false, '0')
@@ -71,8 +76,9 @@ describe('AppInitGate', () => {
       .spyOn(RNLocalize, 'findBestAvailableLanguage')
       .mockReturnValue({ languageTag: 'de', isRTL: true })
 
-    renderI18nGate(null)
+    renderAppInitGate(null)
     await act(() => initI18nPromise)
+    await act(() => initAnalyticsPromise)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
     expect(mockedI18n.initI18n).toHaveBeenCalledWith('de', false, '0')
@@ -83,8 +89,9 @@ describe('AppInitGate', () => {
   it('should initialise i18n with the default fallback language', async () => {
     jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValueOnce(undefined)
 
-    renderI18nGate(null)
+    renderAppInitGate(null)
     await act(() => initI18nPromise)
+    await act(() => initAnalyticsPromise)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
     expect(mockedI18n.initI18n).toHaveBeenCalledWith('en-US', false, '0')
@@ -95,7 +102,7 @@ describe('AppInitGate', () => {
   it('should show error screen in case of failed i18n init', async () => {
     const initI18nPromise = Promise.reject('some error')
     mockedI18n.initI18n.mockImplementationOnce(jest.fn(() => initI18nPromise))
-    renderI18nGate(null)
+    renderAppInitGate(null)
 
     await act(flushMicrotasksQueue)
 
@@ -105,7 +112,7 @@ describe('AppInitGate', () => {
 
   it('should show error screen in case of failed analytics init', async () => {
     mocked(ValoraAnalytics.init).mockRejectedValueOnce('some analytics error')
-    renderI18nGate(null)
+    renderAppInitGate(null)
 
     await act(flushMicrotasksQueue)
 
