@@ -193,6 +193,7 @@ export function SwapReviewScreen() {
                 <View style={styles.tokenDisplayView}>
                   <TokenDisplay
                     style={[styles.amountText, { color: colors.greenUI }]}
+                    // Fix: I think we shouldn't subtract gas from the buyAmount here.
                     amount={divideByWei(
                       new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).minus(
                         new BigNumber(swapResponse.unvalidatedSwapTransaction.gas)
@@ -244,6 +245,7 @@ export function SwapReviewScreen() {
                         new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
                       )
                     )}
+                    // Fix: this is not the gas token.
                     tokenAddress={fromToken}
                     showLocalAmount={false}
                     testID={'EstimatedGas'}
