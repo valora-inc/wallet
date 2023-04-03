@@ -27,7 +27,6 @@ const AppInitGate = ({ loading, children }: Props) => {
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
 
   const i18nInitializer = async () => {
-    Logger.debug('i18n', 'Starting i18n init')
     await initI18n(
       language || bestLanguage || DEFAULT_APP_LANGUAGE,
       allowOtaTranslations,
@@ -36,25 +35,18 @@ const AppInitGate = ({ loading, children }: Props) => {
     if (!language && bestLanguage) {
       await changelanguage(bestLanguage)
     }
-    Logger.debug('i18n', 'i18n init completed')
-  }
-
-  const analyticsInitializer = async () => {
-    Logger.debug('analytics', 'Starting analytics init')
-    await ValoraAnalytics.init()
-    Logger.debug('analytics', 'analytics init completed')
   }
 
   const initResult = useAsync(
     async () => {
       Logger.debug('AppInitGate', 'Starting init')
-      await Promise.all([i18nInitializer(), analyticsInitializer()])
+      await Promise.all([i18nInitializer(), ValoraAnalytics.init()])
       Logger.debug('AppInitGate', 'init completed')
     },
     [],
     {
       onError: (error) => {
-        Logger.error('AppInitGate', 'Failed i18n', error)
+        Logger.error('AppInitGate', 'Failed init', error)
         navigateToError('appInitFailed', error)
       },
     }
