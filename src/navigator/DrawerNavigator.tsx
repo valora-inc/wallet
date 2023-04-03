@@ -315,7 +315,6 @@ export default function DrawerNavigator({ route }: Props) {
       )}
       <Drawer.Screen
         name={Screens.FiatExchange}
-        // @ts-expect-error component type in native-stack v6
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />

@@ -67,7 +67,7 @@ function ActionsCarousel() {
       title: t('homeActions.withdraw'),
       icon: <HomeActionsWithdraw />,
       onPress: () => {
-        navigate(Screens.FiatExchange, { hideAddFunds: true })
+        navigate(Screens.WithdrawSpend)
       },
     },
   ]

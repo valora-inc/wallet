@@ -20,17 +20,16 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchange>
+function FiatExchange() {
+  return <FiatExchangeSection />
+}
 
-function FiatExchange({ route }: Props) {
+export function FiatExchangeSection({ hideAddFunds }: { hideAddFunds?: boolean }) {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
   const dispatch = useDispatch()
-  const hideAddFunds = route?.params?.hideAddFunds
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {

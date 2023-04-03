@@ -139,11 +139,7 @@ export type StackParamList = {
     flow: CICOFlow
     exchanges: ExternalExchangeProvider[]
   }
-  [Screens.FiatExchange]:
-    | {
-        hideAddFunds: boolean
-      }
-    | undefined
+  [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
     flow: CICOFlow
@@ -390,6 +386,7 @@ export type StackParamList = {
     amount?: BigNumber
     recipientAddress?: string
   }
+  [Screens.WithdrawSpend]: undefined
   [Screens.TokenBalances]: undefined
 }
 
