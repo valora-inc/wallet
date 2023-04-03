@@ -252,7 +252,7 @@ function Send({ route }: Props) {
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
         tokens={sortedTokens}
-        titleText={t('selectToken')}
+        title={t('selectToken')}
       />
     </SafeAreaView>
   )

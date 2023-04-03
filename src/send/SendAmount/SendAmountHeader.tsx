@@ -5,7 +5,7 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
+import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
@@ -93,7 +93,7 @@ function SendAmountHeader({
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
         tokens={sortedTokens}
-        titleText={t('selectToken')}
+        title={t('selectToken')}
       />
     </>
   )

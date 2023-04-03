@@ -1,5 +1,5 @@
-import { throttle } from 'lodash'
-import React, { useState } from 'react'
+import { debounce } from 'lodash'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
@@ -29,7 +29,7 @@ interface Props {
   onClose: () => void
   tokens: TokenBalance[]
   searchEnabled?: boolean
-  titleText: string
+  title: string
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -70,16 +70,15 @@ function TokenBottomSheet({
   onClose,
   tokens,
   searchEnabled,
-  titleText,
+  title: titleText,
 }: Props) {
-  const [tokenList, setTokenList] = useState(tokens)
+  const [searchInputText, setSearchInputText] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
 
   const { t } = useTranslation()
 
   const resetSearchState = () => {
     setSearchQuery('')
-    setTokenList(tokens)
   }
 
   const onCloseBottomSheet = () => {
@@ -88,42 +87,49 @@ function TokenBottomSheet({
   }
 
   const onTokenPressed = (tokenAddress: string) => () => {
-    resetSearchState()
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
       tokenAddress,
     })
     onTokenSelected(tokenAddress)
+    resetSearchState()
   }
 
-  const throttleSearch = throttle((searchInput: string) => {
-    const matchedTokens = tokens.filter((tokenInfo) => {
-      if (searchInput.length === 0) {
-        return true
-      }
+  const debounceSearch = useCallback(
+    debounce((searchInput: string) => {
+      setSearchQuery(searchInput)
+      ValoraAnalytics.track(TokenBottomSheetEvents.search_token, {
+        origin,
+        searchInput,
+      })
+    }, 5),
+    []
+  )
 
-      return (
-        tokenInfo.symbol.toLowerCase().includes(searchInput.toLowerCase()) ||
-        tokenInfo.name.toLowerCase().includes(searchInput.toLowerCase())
-      )
-    })
-    setTokenList(matchedTokens)
+  const tokenList = useMemo(
+    () =>
+      tokens.filter((tokenInfo) => {
+        if (searchQuery.length === 0) {
+          return true
+        }
 
-    ValoraAnalytics.track(TokenBottomSheetEvents.search_token, {
-      origin,
-      searchInput,
-    })
-  }, 100)
+        return (
+          tokenInfo.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          tokenInfo.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      }),
+    [searchQuery]
+  )
 
   const title = <Text style={styles.title}>{titleText}</Text>
 
   const searchInput = (
     <SearchInput
       placeholder={t('tokenBottomSheet.searchAssets')}
-      value={searchQuery}
+      value={searchInputText}
       onChangeText={(text) => {
-        setSearchQuery(text)
-        throttleSearch(text)
+        setSearchInputText(text)
+        debounceSearch(text)
       }}
       style={styles.searchInput}
       returnKeyType={'search'}
@@ -216,8 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
   },
   searchInput: {
-    marginTop: Spacing.Regular16,
-    marginBottom: Spacing.Thick24,
+    marginVertical: Spacing.Regular16,
   },
   iconContainer: {
     flex: 1,
@@ -239,7 +244,6 @@ const styles = StyleSheet.create({
   stickyHeader: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: Spacing.Smallest8,
   },
 })
 

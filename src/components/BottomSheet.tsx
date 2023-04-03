@@ -94,7 +94,8 @@ function BottomSheet({
         ]}
         onLayout={onLayout}
       >
-        {stickyHeader}
+        <View style={styles.stickyHeader}>{stickyHeader}</View>
+
         <Animated.ScrollView
           contentContainerStyle={
             pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined
@@ -128,12 +129,17 @@ const styles = StyleSheet.create({
     opacity: 1,
     width: '100%',
     backgroundColor: colors.light,
-    padding: Spacing.Thick24,
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
   },
   fullHeightScrollView: {
+    width: '100%',
+    paddingHorizontal: Spacing.Regular16,
     paddingBottom: 50,
+  },
+  stickyHeader: {
+    padding: Spacing.Regular16,
+    marginTop: Spacing.Regular16,
   },
 })
 

@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -88,6 +88,11 @@ describe('TokenBottomSheet', () => {
   beforeAll(() => {
     // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
     global.__reanimatedWorkletInit = jest.fn()
+    jest.useFakeTimers()
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
   })
 
   beforeEach(() => {
@@ -98,7 +103,7 @@ describe('TokenBottomSheet', () => {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
-          titleText="testTitle"
+          title="testTitle"
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
@@ -156,7 +161,11 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeTruthy()
 
-    fireEvent.changeText(searchInput, 'Celo')
+    act(() => {
+      fireEvent.changeText(searchInput, 'Celo')
+      // Wait for the search debounce
+      jest.runAllTimers()
+    })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
@@ -167,7 +176,11 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeNull()
 
-    fireEvent.changeText(searchInput, 'Test')
+    act(() => {
+      fireEvent.changeText(searchInput, 'Test')
+      // Wait for the search debounce
+      jest.runAllTimers()
+    })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
@@ -178,7 +191,11 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeNull()
     expect(queryByTestId('TTTouchable')).toBeTruthy()
 
-    fireEvent.changeText(searchInput, 'Usd')
+    act(() => {
+      fireEvent.changeText(searchInput, 'Usd')
+      // Wait for the search debounce
+      jest.runAllTimers()
+    })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
@@ -188,5 +205,28 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cUSDTouchable')).toBeTruthy()
     expect(queryByTestId('cEURTouchable')).toBeNull()
     expect(queryByTestId('TTTouchable')).toBeNull()
+  })
+
+  it('does not send events for temporary search inputs', () => {
+    const { getByPlaceholderText } = renderPicker(true, true)
+    const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
+
+    act(() => {
+      fireEvent.changeText(searchInput, 'TemporaryInput')
+      fireEvent.changeText(searchInput, 'FinalInput')
+      // Wait for the search debounce
+      jest.runAllTimers()
+    })
+
+    // We don't send events for intermediate search inputs
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'TemporaryInput',
+    })
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'FinalInput',
+    })
   })
 })
