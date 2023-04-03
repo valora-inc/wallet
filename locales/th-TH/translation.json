@@ -1661,8 +1661,8 @@
     "namePlaceholder": "เลือกชื่อ เช่น {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
+    "add": "เพิ่ม",
+    "receive": "รับ",
     "request": "ส่งคำขอ",
     "send": "ส่ง",
     "swap": "สว็อป",
