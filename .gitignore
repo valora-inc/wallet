@@ -140,3 +140,7 @@ src/icons/Home.tsx
 src/images/*
 !src/images/Images.ts
 !src/images/link-arrow.png
+
+
+# typechain output
+src/abis/types

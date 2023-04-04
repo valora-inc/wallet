@@ -45,8 +45,9 @@
     "e2e:test:ios-debug": "detox test -c ios.debug -l verbose",
     "e2e:test:ios-release": "detox test -c ios.release -l verbose",
     "pre-deploy": "./scripts/pre-deploy.sh",
+    "typechain": "typechain --target ethers-v5 --out-dir src/abis/types src/abis/",
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
-    "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh",
+    "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh && yarn typechain",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt"
   },
