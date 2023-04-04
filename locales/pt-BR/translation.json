@@ -596,6 +596,10 @@
     "title": "Convide amigos e colete NFTs",
     "body": "Depois que seu amigo configurar a carteira dele e conectar o seu número de celular, vocês receberão um NFT."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Convide amigos e receba recompensas",
+    "body": "Uma vez que tenham criado a sua carteira {{appName}} e ligado o seu número, ambos serão recompensados com 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Convide um amigo",
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",

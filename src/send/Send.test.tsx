@@ -73,7 +73,7 @@ describe('Send', () => {
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeFalsy()
   })
 
-  it('renders correctly with invite rewards enabled', async () => {
+  it('renders correctly with NFT invite rewards enabled', async () => {
     const store = createMockStore({
       ...defaultStore,
       send: {
@@ -89,7 +89,30 @@ describe('Send', () => {
       </Provider>
     )
 
-    expect(tree.queryByTestId('InviteRewardsBanner')).toBeTruthy()
+    expect(tree.getByText('inviteRewardsBanner.title')).toBeTruthy()
+    expect(tree.getByTestId('InviteRewardsBanner')).toHaveTextContent('inviteRewardsBanner.body')
+  })
+
+  it('renders correctly with cUSD invite rewards enabled', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      send: {
+        ...defaultStore.send,
+        inviteRewardsVersion: 'v5',
+        inviteRewardCusd: 1,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <Send {...mockScreenProps({})} />
+      </Provider>
+    )
+
+    expect(tree.getByText('inviteRewardsBannerCUSD.title')).toBeTruthy()
+    expect(tree.getByTestId('InviteRewardsBanner')).toHaveTextContent(
+      'inviteRewardsBannerCUSD.body'
+    )
   })
 
   it('looks up a contact, prompts token entry, navigates to the send amount screen', async () => {
