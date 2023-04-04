@@ -28,7 +28,7 @@ describe('Welcome', () => {
     )
     fireEvent.press(getByTestId('CreateAccountButton'))
     jest.runOnlyPendingTimers()
-    await Promise.resolve() // waits for Statsig.updateUser promise to resolve
+    await Promise.resolve() // waits for updateStatsigUser promise to resolve
     expect(updateStatsigUser).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
