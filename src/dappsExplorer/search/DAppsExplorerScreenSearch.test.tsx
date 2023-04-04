@@ -374,61 +374,7 @@ describe(DAppsExplorerScreenSearch, () => {
         () => {
           expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
           expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
-            query: 'swap',
-            clearing: false,
-          })
-        },
-        { timeout: 1500 }
-      )
-    })
-
-    it('triggers events when clearing search', async () => {
-      jest.useRealTimers()
-      const store = createMockStore({
-        dapps: {
-          dappListApiUrl: 'http://url.com',
-          dappsList,
-          dappsCategories,
-          dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
-          favoriteDappIds: [],
-        },
-      })
-
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <DAppsExplorerScreenSearch />
-        </Provider>
-      )
-
-      // don't include events dispatched on screen load
-      jest.clearAllMocks()
-
-      fireEvent.changeText(getByTestId('SearchInput'), 'swap')
-      await waitFor(
-        () => {
-          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
-            query: 'swap',
-            clearing: false,
-          })
-        },
-        { timeout: 1500 }
-      )
-
-      // clear search input
-      fireEvent.changeText(getByTestId('SearchInput'), '')
-
-      await waitFor(
-        () => {
-          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
-            query: 'swap',
-            clearing: false,
-          })
-          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
-            query: 'swap',
-            clearing: true,
+            searchTerm: 'swap',
           })
         },
         { timeout: 1500 }

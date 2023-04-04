@@ -1177,8 +1177,7 @@ interface DappExplorerEventsProperties {
     remove: boolean
   }
   [DappExplorerEvents.dapp_search]: {
-    query: string
-    clearing: boolean
+    searchTerm: string
   }
 }
 

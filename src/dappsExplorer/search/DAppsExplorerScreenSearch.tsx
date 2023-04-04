@@ -73,11 +73,8 @@ export function DAppsExplorerScreenSearch() {
   const [favoriteResultsEmpty, setFavoriteResultsEmpty] = React.useState(false)
   const [allResultEmpty, setAllResultEmpty] = React.useState(false)
 
-  // Search Analytics
-  // @ts-expect-error 'previousSearchQuery' is declared but its value is never read
-  const [previousSearchTerm, setPreviousSearchTerm] = React.useState('')
-  const [value] = useDebounce(searchTerm, 1000)
-  const [previousValue] = useDebounce(value, 1000)
+  // Search term debounced to minimize incomplete searches in analytics events
+  const [searchTermDebounced] = useDebounce(searchTerm, 1000)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
@@ -88,19 +85,13 @@ export function DAppsExplorerScreenSearch() {
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
-  // Analytics for Search Term
-  // Wait 1 second after the users finishes interacting with the search bar get the value
   useEffect(() => {
-    value
-      ? ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
-          query: value,
-          clearing: false,
-        })
-      : ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
-          query: previousValue,
-          clearing: true,
-        })
-  }, [value])
+    if (searchTermDebounced) {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+        searchTerm: searchTermDebounced,
+      })
+    }
+  }, [searchTermDebounced])
 
   const allSectionResults: SectionData[] = React.useMemo(() => {
     const allResultsParsed = parseResultsIntoAll(
@@ -171,9 +162,8 @@ export function DAppsExplorerScreenSearch() {
                   message={t('dappsScreen.message')}
                 />
                 <SearchInput
-                  onChangeText={(value) => {
-                    setPreviousSearchTerm(searchTerm)
-                    setSearchTerm(value)
+                  onChangeText={(text) => {
+                    setSearchTerm(text)
                   }}
                   value={searchTerm}
                   multiline={false}
