@@ -127,7 +127,9 @@ export const favoriteDappsWithCategoryNamesSelector = createSelector(
     })
     return dapps.map((dapp) => {
       if (!isDappV2(dapp))
-        throw new Error(`favoriteDappsWithCategoryNamesSelector: ${dapp.id} is not DappV2`)
+        throw new Error(
+          `favoriteDappsWithCategoryNamesSelector: dapp.id: '${dapp.id}' is not DappV2`
+        )
       return {
         ...dapp,
         categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
@@ -146,7 +148,7 @@ export const dappListWithCategoryNamesSelector = createSelector(
     })
     return dapps.map((dapp) => {
       if (!isDappV2(dapp))
-        throw new Error(`dappListWithCategoryNamesSelector: ${dapp.id} is not DappV2`)
+        throw new Error(`dappListWithCategoryNamesSelector: dapp.id: '${dapp.id}' is not DappV2`)
       return {
         ...dapp,
         categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
