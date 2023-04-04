@@ -177,7 +177,7 @@ export function* sendAndMonitorTransaction<T>(
       return (yield receipt) as CeloTxReceipt
     }
     const txReceipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
-    yield put(transactionConfirmed(context.id, txReceipt))
+    yield put(transactionConfirmed(context.id, txReceipt.status))
 
     yield put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }

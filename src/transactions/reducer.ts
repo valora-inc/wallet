@@ -99,7 +99,7 @@ export const reducer = (
         standbyTransactionsLegacy: [],
       }
     case Actions.TRANSACTION_CONFIRMED:
-      const status = action.receipt.status
+      const status = action.status
 
       if (!status) {
         return {

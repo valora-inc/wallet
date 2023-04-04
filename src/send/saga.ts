@@ -1,11 +1,13 @@
-import { CeloTransactionObject, Contract, toTransactionObject } from '@celo/connect'
+import { Contract, toTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { sendAndMonitorTransaction } from 'src/ethers/saga'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import { transferGoldTokenLegacy } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
@@ -39,7 +41,6 @@ import {
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
-import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
   newTransactionContext,
   TokenTransactionTypeV2,
@@ -261,16 +262,6 @@ export function* buildAndSendPayment(
   comment: string,
   feeInfo: FeeInfo
 ) {
-  const userAddress: string = yield call(getConnectedUnlockedAccount)
-
-  const encryptedComment: string = yield call(
-    encryptComment,
-    comment,
-    recipientAddress,
-    userAddress,
-    true
-  )
-
   Logger.debug(
     TAG,
     'Transferring token',
@@ -294,23 +285,13 @@ export function* buildAndSendPayment(
     })
   )
 
-  const tx: CeloTransactionObject<boolean> = yield call(
-    buildSendTx,
-    tokenAddress,
-    amount,
-    recipientAddress,
-    encryptedComment
-  )
-
-  const { receipt, error } = yield call(
-    sendAndMonitorTransaction,
-    tx,
-    userAddress,
+  const { receipt, error } = yield call(sendAndMonitorTransaction, {
     context,
-    feeInfo.feeCurrency,
-    feeInfo.gas ? Number(feeInfo.gas) : undefined,
-    feeInfo.gasPrice
-  )
+    recipientAddress,
+    amount: ethers.utils.parseUnits(amount.toString(), 18),
+    tokenAddress,
+    feeInfo,
+  })
 
   return { receipt, error }
 }
