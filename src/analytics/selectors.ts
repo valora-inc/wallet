@@ -3,11 +3,7 @@ import BigNumber from 'bignumber.js'
 import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
-import {
-  defaultCountryCodeSelector,
-  pincodeTypeSelector,
-  startOnboardingTimeSelector,
-} from 'src/account/selectors'
+import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { phoneVerificationStatusSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
@@ -32,7 +28,6 @@ export const getCurrentUserTraits = createSelector(
     backupCompletedSelector,
     pincodeTypeSelector,
     superchargeInfoSelector,
-    startOnboardingTimeSelector,
   ],
   (
     rawWalletAddress,
@@ -46,8 +41,7 @@ export const getCurrentUserTraits = createSelector(
     { numberVerifiedDecentralized, numberVerifiedCentralized },
     hasCompletedBackup,
     pincodeType,
-    superchargeInfo,
-    startOnboardingTime
+    superchargeInfo
   ): // Enforce primitive types, TODO: check this using `satisfies` once we upgrade to TS >= 4.9
   // so we don't need to erase the named keys
   Record<string, string | boolean | number | null | undefined> => {
@@ -106,7 +100,6 @@ export const getCurrentUserTraits = createSelector(
       pincodeType,
       superchargingToken: superchargeInfo.superchargingTokenConfig?.tokenSymbol,
       superchargingAmountInUsd: superchargeInfo.superchargeUsdBalance,
-      startOnboardingTime,
     }
   }
 )

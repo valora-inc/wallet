@@ -6,11 +6,7 @@ describe('getCurrentUserTraits', () => {
   it('returns the current user traits', () => {
     const state = getMockStoreData({
       web3: { mtwAddress: '0x123' },
-      account: {
-        defaultCountryCode: '+33',
-        pincodeType: PincodeType.CustomPin,
-        startOnboardingTime: 1680564431,
-      },
+      account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
       app: {
         superchargeTokenConfigByToken: {
           '0xcusd': {
@@ -197,7 +193,6 @@ describe('getCurrentUserTraits', () => {
       walletAddress: '0x0000000000000000000000000000000000007e57',
       superchargingToken: 'cEUR',
       superchargingAmountInUsd: 25.9245,
-      startOnboardingTime: 1680564431,
     })
   })
   it('uses wallet address as fallback for accountAddress if MTW is null', () => {
