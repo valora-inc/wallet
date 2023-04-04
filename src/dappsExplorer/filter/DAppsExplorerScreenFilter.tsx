@@ -27,8 +27,8 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
-import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
-import { NoResults } from 'src/dappsExplorer/NoResults'
+import FavoriteDappsSection from 'src/dappsExplorer/filter/FavoriteDappsSection'
+import { NoResults } from 'src/dappsExplorer/filter/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
@@ -152,17 +152,8 @@ export function DAppsExplorerScreenFilter() {
                     bounces={false}
                     ref={horizontalScrollView}
                   >
-                    {/* All Dapps Filter */}
-                    <DappFilterChip
-                      filterId={'all'}
-                      filterName={t('dappsScreen.allDapps')}
-                      isSelected={selectedFilter === 'all'}
-                      onPress={filterPress}
-                      style={styles.dappFilterAllChip}
-                      key={'all'}
-                    />
                     {/* Category Filter Chips */}
-                    {categories.map((category) => {
+                    {categories.map((category, idx) => {
                       return (
                         <DappFilterChip
                           filterId={category.id}
@@ -170,6 +161,7 @@ export function DAppsExplorerScreenFilter() {
                           isSelected={selectedFilter === category.id}
                           onPress={filterPress}
                           key={category.id}
+                          style={idx === 0 ? styles.dappFilterChipFirst : undefined}
                         />
                       )
                     })}
@@ -285,7 +277,7 @@ const styles = StyleSheet.create({
   dappsFilteringScrollViewContentContainer: {
     paddingHorizontal: Spacing.Thick24,
   },
-  dappFilterAllChip: {
+  dappFilterChipFirst: {
     marginLeft: 0,
   },
   sectionListContentContainer: {

@@ -596,6 +596,10 @@
     "title": "Invita gli amici e colleziona NFT",
     "body": "Riceverete entrambi un NFT dopo che avrà configurato il wallet collegato il numero telefonico."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Invita amici e ricevi ricompense",
+    "body": "Una volta che avranno configurato il loro portafoglio {{appName}} e collegato il loro numero, verrete entrambi ricompensati con 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Invita un amico",
     "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
@@ -1553,7 +1557,7 @@
     "review": "Rivedi",
     "swapFrom": "Da",
     "swapTo": "A",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
     "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
     "swapFromTokenSelection": "Scambia da",
@@ -1602,7 +1606,7 @@
     },
     "swapCompleteSection": {
       "title": "Scambio eseguito",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "I tuoi asset scambiati appariranno nel tuo portafoglio a breve",
       "done": "Fatto"
     },
     "swapErrorSection": {
@@ -1661,6 +1665,14 @@
   "profileScreen": {
     "generateName": "Genera un nome",
     "namePlaceholder": "Seleziona un nome, ad es.: {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Aggiungi",
+    "receive": "Ricevi",
+    "request": "Richiedi",
+    "send": "Invia",
+    "swap": "Scambia",
+    "withdraw": "Preleva"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

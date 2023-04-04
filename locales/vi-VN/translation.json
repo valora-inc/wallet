@@ -596,6 +596,10 @@
     "title": "Mời bạn bè và nhận NFT",
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Mời bạn bè và nhận tiền thưởng",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you will both get rewarded with 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
     "body": "Kết nối và chia sẻ giá trị với bạn bè và gia đình trên {{appName}}.",
@@ -1551,7 +1555,7 @@
     "review": "Xem lại",
     "swapFrom": "Từ",
     "swapTo": "Đến",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
     "swapFromTokenSelection": "Trao đổi từ",
@@ -1600,7 +1604,7 @@
     },
     "swapCompleteSection": {
       "title": "Trao đổi thành công",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "Tài sản bạn đã chuyển đổi sẽ sớm xuất hiện trong ví của bạn",
       "done": "Xong"
     },
     "swapErrorSection": {
@@ -1659,6 +1663,14 @@
   "profileScreen": {
     "generateName": "Tạo tên",
     "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "Nạp",
+    "receive": "Nhận được",
+    "request": "Yêu cầu",
+    "send": "Gửi",
+    "swap": "Trao đổi",
+    "withdraw": "Rút tiền"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

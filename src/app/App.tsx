@@ -14,11 +14,11 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo/index'
 import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
+import AppInitGate from 'src/app/AppInitGate'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
-import I18nGate from 'src/i18n/I18nGate'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { persistor, store } from 'src/redux/store'
@@ -74,7 +74,6 @@ export class App extends React.Component<Props> {
     if (isE2EEnv) {
       LogBox.ignoreAllLogs(true)
     }
-    await ValoraAnalytics.init()
 
     // Handles opening Clevertap deeplinks when app is closed / in background
     // @ts-expect-error the clevertap ts definition has url as an object, but it
@@ -171,12 +170,12 @@ export class App extends React.Component<Props> {
         <ApolloProvider client={apolloClient}>
           <Provider store={store}>
             <PersistGate loading={<AppLoading />} persistor={persistor}>
-              <I18nGate loading={<AppLoading />}>
+              <AppInitGate loading={<AppLoading />}>
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <ErrorBoundary>
                   <NavigatorWrapper />
                 </ErrorBoundary>
-              </I18nGate>
+              </AppInitGate>
             </PersistGate>
           </Provider>
         </ApolloProvider>

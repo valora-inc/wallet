@@ -2204,6 +2204,7 @@
                 "WithdrawCeloQrScannerScreen",
                 "WithdrawCeloReviewScreen",
                 "WithdrawCeloScreen",
+                "WithdrawSpend",
                 "XanpoolScreen"
             ],
             "type": "string"
@@ -2416,6 +2417,9 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
+                "decentralizedVerificationEnabled": {
+                    "type": "boolean"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2556,6 +2560,7 @@
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
+                "decentralizedVerificationEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",

@@ -8,6 +8,7 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { decentralizedVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   requireSecureSend,
@@ -225,6 +226,34 @@ describe('Fetch Addresses Saga', () => {
         .put(requireSecureSend(mockE164Number, AddressValidationType.PARTIAL))
         .run()
     })
+
+    it('bypasses the decentralised lookup if odis v1 is disabled', async () => {
+      const mockE164NumberToAddress = {
+        [mockE164Number]: [mockAccount.toLowerCase()],
+      }
+      const updatedAccount = '0xAbC'
+      mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [updatedAccount] } }))
+
+      await expectSaga(fetchAddressesAndValidateSaga, {
+        e164Number: mockE164Number,
+      })
+        .provide([
+          [select(decentralizedVerificationEnabledSelector), false],
+          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+          [select(walletAddressSelector), '0xxyz'],
+          [call(retrieveSignedMessage), 'some signed message'],
+          [select(secureSendPhoneNumberMappingSelector), {}],
+        ])
+        .put(
+          updateE164PhoneNumberAddresses(
+            { [mockE164Number]: ['0xabc'] },
+            { '0xabc': mockE164Number }
+          )
+        )
+        .run()
+
+      expect(mockFetch).toHaveBeenCalledTimes(1)
+    })
   })
 
   it('fetches and caches addresses correctly when walletAddress === accountAddress', async () => {
@@ -257,6 +286,7 @@ describe('Fetch Addresses Saga', () => {
       e164Number: mockE164Number,
     })
       .provide([
+        [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
@@ -313,6 +343,7 @@ describe('Fetch Addresses Saga', () => {
       e164Number: mockE164Number,
     })
       .provide([
+        [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
@@ -367,6 +398,7 @@ describe('Fetch Addresses Saga', () => {
       e164Number: mockE164Number,
     })
       .provide([
+        [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
@@ -430,6 +462,7 @@ describe('Fetch Addresses Saga', () => {
       e164Number: mockE164Number,
     })
       .provide([
+        [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), {}],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
@@ -500,6 +533,7 @@ describe('Fetch Addresses Saga', () => {
       e164Number: mockE164Number,
     })
       .provide([
+        [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), {}],
         [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],

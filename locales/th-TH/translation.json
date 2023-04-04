@@ -596,6 +596,10 @@
     "title": "เชิญเพื่อนและสะสม NFT",
     "body": "เมื่อมีการตั้งค่ากระเป๋าเงิน {{appName}} และเชื่อมต่อหมายเลขแล้ว คุณแต่ละคนจะได้รับ NFT พิเศษ"
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "เชิญเพื่อนและรับรางวัล",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you will both get rewarded with 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "เชิญเพื่อน",
     "body": "เชื่อมต่อและแบ่งปันมูลค่าให้กับเพื่อนและครอบครัวของคุณบน {{appName}}",
@@ -1551,7 +1555,7 @@
     "review": "ตรวจสอบ",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
+    "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
     "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
     "swapFromTokenSelection": "สว็อปจาก",
@@ -1600,7 +1604,7 @@
     },
     "swapCompleteSection": {
       "title": "สว็อปสำเร็จ",
-      "subtitle": "Your swapped assets will appear in your wallet shortly",
+      "subtitle": "สินทรัพย์ที่สว็อปจะแสดงในกระเป๋าเงินของคุณเร็วๆ นี้",
       "done": "เสร็จสิ้น"
     },
     "swapErrorSection": {
@@ -1659,6 +1663,14 @@
   "profileScreen": {
     "generateName": "สร้างชื่อ",
     "namePlaceholder": "เลือกชื่อ เช่น {{exampleName}}"
+  },
+  "homeActions": {
+    "add": "เพิ่ม",
+    "receive": "รับ",
+    "request": "ส่งคำขอ",
+    "send": "ส่ง",
+    "swap": "สว็อป",
+    "withdraw": "ถอน"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
