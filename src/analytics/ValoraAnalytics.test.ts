@@ -174,7 +174,7 @@ describe('ValoraAnalytics', () => {
       { userID: '0x1234abc' },
       { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
     )
-    expect(updateStatsigUser).toHaveBeenCalledWith()
+    expect(updateStatsigUser).toHaveBeenCalledWith({ userID: '0x1234abc' })
   })
 
   it('creates statsig client on initialization with null as user id if wallet address is not set', async () => {
@@ -185,7 +185,7 @@ describe('ValoraAnalytics', () => {
       overrideStableID: 'anonId',
       localMode: false,
     })
-    expect(updateStatsigUser).toHaveBeenCalledWith()
+    expect(updateStatsigUser).toHaveBeenCalledWith({})
   })
 
   it('delays identify calls until async init has finished', async () => {
