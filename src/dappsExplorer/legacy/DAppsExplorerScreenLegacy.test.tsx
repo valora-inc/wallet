@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection, DappV1 } from 'src/dapps/types'
-import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
+import DAppsExplorerScreenLegacy from 'src/dappsExplorer/legacy/DAppsExplorerScreenLegacy'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -218,7 +218,7 @@ describe(DAppsExplorerScreenLegacy, () => {
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy')
+      const favoritesSection = getByTestId('DAppsExplorerScreenLegacy/FavoriteDappsSection')
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
@@ -283,7 +283,7 @@ describe(DAppsExplorerScreenLegacy, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy')
+      const favoritesSection = getByTestId('DAppsExplorerScreenLegacy/FavoriteDappsSection')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
