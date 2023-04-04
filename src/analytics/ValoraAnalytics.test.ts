@@ -4,6 +4,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { Statsig } from 'statsig-react-native'
+import { updateStatsigUser } from 'src/statsig'
 import { getMockStoreData } from 'test/utils'
 import {
   mockCeloAddress,
@@ -35,6 +36,7 @@ jest.mock('src/config', () => ({
   STATSIG_API_KEY: 'statsig-key',
 }))
 jest.mock('statsig-react-native')
+jest.mock('src/statsig')
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
@@ -172,6 +174,7 @@ describe('ValoraAnalytics', () => {
       { userID: '0x1234abc' },
       { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
     )
+    expect(updateStatsigUser).toHaveBeenCalledWith()
   })
 
   it('creates statsig client on initialization with null as user id if wallet address is not set', async () => {
@@ -182,6 +185,7 @@ describe('ValoraAnalytics', () => {
       overrideStableID: 'anonId',
       localMode: false,
     })
+    expect(updateStatsigUser).toHaveBeenCalledWith()
   })
 
   it('delays identify calls until async init has finished', async () => {

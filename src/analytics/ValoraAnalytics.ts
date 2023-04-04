@@ -147,6 +147,7 @@ class ValoraAnalytics {
         environment: STATSIG_ENV,
         localMode: isE2EEnv,
       })
+      await updateStatsigUser()
     } catch (error) {
       Logger.warn(TAG, `Statsig setup error`, error)
     }

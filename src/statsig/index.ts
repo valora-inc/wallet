@@ -71,6 +71,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
  */
 export async function updateStatsigUser(statsigUser?: StatsigUser) {
   const state = store.getState()
+  console.log(state.account)
   const defaultUser = {
     userID: walletAddressSelector(state),
     custom: {
