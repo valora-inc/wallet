@@ -285,8 +285,8 @@ export default function DrawerNavigator({ route }: Props) {
             dappsSearchEnabled
               ? DAppsExplorerScreenSearch
               : dappsFilterEnabled
-                ? DAppsExplorerScreenFilter
-                : DAppsExplorerScreenLegacy
+              ? DAppsExplorerScreenFilter
+              : DAppsExplorerScreenLegacy
           }
           options={{
             title: t('dappsScreen.title'),
