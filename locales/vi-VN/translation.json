@@ -596,6 +596,10 @@
     "title": "Mời bạn bè và nhận NFT",
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Mời bạn bè và nhận tiền thưởng",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you will both get rewarded with 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
     "body": "Kết nối và chia sẻ giá trị với bạn bè và gia đình trên {{appName}}.",
