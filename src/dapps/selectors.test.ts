@@ -94,7 +94,7 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
       favoriteDappsWithCategoryNamesSelector(
         getMockStoreData({
           dapps: {
-            dappsList: [dapp1V1, dapp2V1],
+            dappsList: [dapp1V2, dapp2V2],
             dappsCategories,
             favoriteDappIds: [],
           },
@@ -103,8 +103,8 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
     ).toEqual([])
   })
 
-  it('should return favorites with category names v1', () => {
-    expect(
+  it('should throw error with dappV1', () => {
+    expect(() => {
       favoriteDappsWithCategoryNamesSelector(
         getMockStoreData({
           dapps: {
@@ -114,16 +114,7 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
           },
         })
       )
-    ).toEqual([
-      {
-        ...dapp1V1,
-        categoryName: dappsCategories[0].name,
-      },
-      {
-        ...dapp2V1,
-        categoryName: dappsCategories[1].name,
-      },
-    ])
+    }).toThrow("favoriteDappsWithCategoryNamesSelector: dapp.id: '1' is not DappV2")
   })
 
   it('should return favorites with category names v2', () => {
@@ -151,8 +142,8 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
 })
 
 describe('dappListWithCategoryNamesSelector', () => {
-  it('should return dapps with category names v1', () => {
-    expect(
+  it('should throw error with dappV1', () => {
+    expect(() => {
       dappListWithCategoryNamesSelector(
         getMockStoreData({
           dapps: {
@@ -161,16 +152,7 @@ describe('dappListWithCategoryNamesSelector', () => {
           },
         })
       )
-    ).toEqual([
-      {
-        ...dapp1V1,
-        categoryName: dappsCategories[0].name,
-      },
-      {
-        ...dapp2V1,
-        categoryName: dappsCategories[1].name,
-      },
-    ])
+    }).toThrow("dappListWithCategoryNamesSelector: dapp.id: '1' is not DappV2")
   })
 
   it('should return dapps with category names v2', () => {

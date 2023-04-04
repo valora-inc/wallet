@@ -18,13 +18,7 @@ import {
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import {
-  DappSection,
-  DappV1,
-  DappV1WithCategoryName,
-  DappV2,
-  DappV2WithCategoryNames,
-} from 'src/dapps/types'
+import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/search/FavoriteDappsSection'
 import NoResultsSearch from 'src/dappsExplorer/search/NoResults'
@@ -45,7 +39,7 @@ const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
 
 interface SectionData {
-  data: (DappV1WithCategoryName | DappV2WithCategoryNames)[]
+  data: DappV2WithCategoryNames[]
   category: string
 }
 
@@ -211,7 +205,6 @@ export function DAppsExplorerScreenSearch() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            // @ts-expect-error Type 'SectionData[]' is not assignable to type 'readonly SectionListData<DappV2, SectionData>[] | AnimatedNode<readonly SectionListData<DappV2, SectionData>[]>'
             sections={allSectionResults}
             renderItem={({ item: dapp }) => (
               <DappCard
@@ -221,7 +214,7 @@ export function DAppsExplorerScreenSearch() {
                 onFavoriteDapp={onFavoriteDapp}
               />
             )}
-            keyExtractor={(dapp: DappV1 | DappV2) => dapp.id}
+            keyExtractor={(dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
             testID="DAppsExplorerScreenSearch/DappsList"
             ListEmptyComponent={emptyListComponent}
@@ -247,14 +240,12 @@ function DescriptionView({ message, title }: { message: string; title: string })
 }
 
 function parseResultsIntoAll(
-  dappList: (DappV1WithCategoryName | DappV2WithCategoryNames)[],
+  dappList: DappV2WithCategoryNames[],
   searchTerm: string,
   favoriteDappsById: string[]
 ) {
   // If there is no search query, return the non favorite dapps in the all section
-  const nonFavoriteDapps = dappList.filter(
-    (dapp: DappV1 | DappV2) => !favoriteDappsById.includes(dapp.id)
-  )
+  const nonFavoriteDapps = dappList.filter((dapp) => !favoriteDappsById.includes(dapp.id))
   if (searchTerm === '') {
     return [
       {
@@ -265,9 +256,8 @@ function parseResultsIntoAll(
   }
 
   // Filter out dapps that don't match the search query
-  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter(
-    (dapp: DappV1WithCategoryName | DappV2WithCategoryNames) =>
-      calculateSearchScore(dapp, searchTerm)
+  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter((dapp) =>
+    calculateSearchScore(dapp, searchTerm)
   )
 
   // If there are no dapps matching the search query, return an empty array to be handled by section list
@@ -275,10 +265,7 @@ function parseResultsIntoAll(
 
   // Sort these dapps by their search score - could be faster with counting sort
   nonFavoriteDappsMatchingSearch.sort(
-    (
-      a: DappV2WithCategoryNames | DappV1WithCategoryName,
-      b: DappV2WithCategoryNames | DappV1WithCategoryName
-    ) => calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
+    (a, b) => calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
   )
 
   // Otherwise, return the dapps matching the search query ordered descending by their search score

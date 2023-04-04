@@ -596,6 +596,10 @@
     "title": "Zaproś znajomych i zbieraj NFT",
     "body": "Po założeniu portfela w aplikacji {{appName}} i podłączeniu numeru oboje otrzymacie ekskluzywne NFT."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Zapraszaj znajomych i zbieraj nagrody",
+    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, oboje otrzymacie nagrodę w postaci 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
@@ -1667,12 +1671,12 @@
     "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
-    "request": "Żądanie",
-    "send": "Wyślij",
+    "add": "Dodaj",
+    "receive": "Otrzymaj",
+    "request": "Zażądaj",
+    "send": "Wysyłaj",
     "swap": "Zamieniaj",
-    "withdraw": "Wypłać"
+    "withdraw": "Wycofaj"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

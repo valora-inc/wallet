@@ -46,8 +46,8 @@ import {
   dappsListApiUrlSelector,
   dappsSearchEnabledSelector,
 } from 'src/dapps/selectors'
-import DAppsExplorerScreenFilter from 'src/dappsExplorer/DAppsExplorerScreenFilter'
-import DAppsExplorerScreenLegacy from 'src/dappsExplorer/DAppsExplorerScreenLegacy'
+import DAppsExplorerScreenFilter from 'src/dappsExplorer/filter/DAppsExplorerScreenFilter'
+import DAppsExplorerScreenLegacy from 'src/dappsExplorer/legacy/DAppsExplorerScreenLegacy'
 import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'

@@ -126,15 +126,13 @@ export const favoriteDappsWithCategoryNamesSelector = createSelector(
       categoryMap[category.id] = category.name
     })
     return dapps.map((dapp) => {
-      if (isDappV2(dapp)) {
-        return {
-          ...dapp,
-          categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
-        }
-      }
+      if (!isDappV2(dapp))
+        throw new Error(
+          `favoriteDappsWithCategoryNamesSelector: dapp.id: '${dapp.id}' is not DappV2`
+        )
       return {
         ...dapp,
-        categoryName: categoryMap[dapp.categoryId],
+        categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
       }
     })
   }
@@ -149,15 +147,11 @@ export const dappListWithCategoryNamesSelector = createSelector(
       categoryMap[category.id] = category.name
     })
     return dapps.map((dapp) => {
-      if (isDappV2(dapp)) {
-        return {
-          ...dapp,
-          categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
-        }
-      }
+      if (!isDappV2(dapp))
+        throw new Error(`dappListWithCategoryNamesSelector: dapp.id: '${dapp.id}' is not DappV2`)
       return {
         ...dapp,
-        categoryName: categoryMap[dapp.categoryId],
+        categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
       }
     })
   }

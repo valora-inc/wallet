@@ -8,11 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
-import {
-  numberVerifiedCentrallySelector,
-  numberVerifiedSelector,
-  sessionIdSelector,
-} from 'src/app/selectors'
+import { numberVerifiedCentrallySelector, sessionIdSelector } from 'src/app/selectors'
 import { APP_NAME } from 'src/brandingConfig'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -26,6 +22,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
@@ -37,8 +34,8 @@ function SupportContact({ route }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
-  const numberVerifiedDecentralized = useSelector(numberVerifiedSelector)
   const numberVerifiedCentralized = useSelector(numberVerifiedCentrallySelector)
+  const { countryCodeAlpha2: country, region } = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
 
   const prefilledText = route.params?.prefilledText
@@ -59,12 +56,13 @@ function SupportContact({ route }: Props) {
       version: DeviceInfo.getVersion(),
       buildNumber: DeviceInfo.getBuildNumber(),
       apiLevel: DeviceInfo.getApiLevelSync(),
+      country,
+      region,
       deviceId: DeviceInfo.getDeviceId(),
       deviceBrand: DeviceInfo.getBrand(),
       deviceModel: DeviceInfo.getModel(),
       address: currentAccount,
       sessionId,
-      numberVerifiedDecentralized,
       numberVerifiedCentralized,
       network: DEFAULT_TESTNET,
     }
