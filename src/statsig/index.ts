@@ -36,7 +36,11 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
     const experiment = Statsig.getExperiment(experimentName)
     return getParams({ config: experiment, defaultValues })
   } catch (error) {
-    Logger.warn('getExperimentParams', `Error getting experiment params`, error)
+    Logger.warn(
+      'getExperimentParams',
+      `Error getting params for experiment: ${experimentName}`,
+      error
+    )
     return defaultValues
   }
 }
@@ -52,7 +56,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
     const config = Statsig.getConfig(configName)
     return getParams({ config, defaultValues })
   } catch (error) {
-    Logger.warn('getDynamicConfig', `Error getting experiment params`, error)
+    Logger.warn('getDynamicConfig', `Error getting params for dynamic config: ${configName}`, error)
     return defaultValues
   }
 }
