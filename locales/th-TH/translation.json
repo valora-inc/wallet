@@ -596,6 +596,10 @@
     "title": "เชิญเพื่อนและสะสม NFT",
     "body": "เมื่อมีการตั้งค่ากระเป๋าเงิน {{appName}} และเชื่อมต่อหมายเลขแล้ว คุณแต่ละคนจะได้รับ NFT พิเศษ"
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "เชิญเพื่อนและรับรางวัล",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you will both get rewarded with 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "เชิญเพื่อน",
     "body": "เชื่อมต่อและแบ่งปันมูลค่าให้กับเพื่อนและครอบครัวของคุณบน {{appName}}",
