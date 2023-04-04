@@ -132,18 +132,18 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: statsigUser.custom,
       })
-    }),
-      it('overrides user ID when passed (full override)', async () => {
-        const statsigUser = {
-          userID: 'some address',
-          custom: {
-            startOnboardingTime: 1680563880,
-            otherCustomProperty: 'foo',
-          },
-        }
-        await updateStatsigUser(statsigUser)
-        expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
-        expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
-      })
+    })
+    it('overrides user ID when passed (full override)', async () => {
+      const statsigUser = {
+        userID: 'some address',
+        custom: {
+          startOnboardingTime: 1680563880,
+          otherCustomProperty: 'foo',
+        },
+      }
+      await updateStatsigUser(statsigUser)
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
+    })
   })
 })
