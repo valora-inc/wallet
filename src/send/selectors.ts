@@ -30,8 +30,8 @@ export const inviteRewardsTypeSelector = (state: RootState) => {
 
 export const inviteRewardsActiveSelector = createSelector(
   [inviteRewardsTypeSelector, numberVerifiedCentrallySelector],
-  (inviteRewardsVersion, numberCentrallyVerified) =>
-    inviteRewardsVersion !== 'none' && numberCentrallyVerified
+  (inviteRewardsType, numberCentrallyVerified) =>
+    inviteRewardsType !== InviteRewardsType.NONE && numberCentrallyVerified
 )
 
 export const canSendTokensSelector = createSelector(

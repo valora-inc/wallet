@@ -596,6 +596,10 @@
     "title": "Invita a tus amigos y obtén NFTs",
     "body": "Por cada amigo que configure su cuenta y conecte su número, ambos obtendrán un NFT exclusivo de regalo."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Invita a tus amigos y obtén recompensas",
+    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, ambos seréis recompensados con 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
@@ -1663,11 +1667,11 @@
     "namePlaceholder": "Elige un nombre, p. ej. {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
+    "add": "Depositar",
     "receive": "Recibir",
     "request": "Solicitar",
     "send": "Enviar",
-    "swap": "Cambia",
+    "swap": "Cambiar",
     "withdraw": "Transferir"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

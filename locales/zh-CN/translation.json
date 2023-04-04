@@ -596,6 +596,10 @@
     "title": "邀请朋友并收集 NFT",
     "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得一个专属 NFT。"
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "邀请好友并领取奖励",
+    "body": "一旦他们设置了他们的 {{appName}} 钱包并连接他们的号码，你们都将得到1美元的奖励。"
+  },
   "inviteWithUrl": {
     "title": "邀请朋友",
     "body": "在 {{appName}} 上关联您的朋友和家人并分享价值。",
@@ -1661,8 +1665,8 @@
     "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
+    "add": "添加",
+    "receive": "接收",
     "request": "请求",
     "send": "发送",
     "swap": "交换",

@@ -596,6 +596,10 @@
     "title": "Invita gli amici e colleziona NFT",
     "body": "Riceverete entrambi un NFT dopo che avrà configurato il wallet collegato il numero telefonico."
   },
+  "inviteRewardsBannerCUSD": {
+    "title": "Invita amici e ricevi ricompense",
+    "body": "Una volta che avranno configurato il loro portafoglio {{appName}} e collegato il loro numero, verrete entrambi ricompensati con 1 cUSD."
+  },
   "inviteWithUrl": {
     "title": "Invita un amico",
     "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
@@ -1663,8 +1667,8 @@
     "namePlaceholder": "Seleziona un nome, ad es.: {{exampleName}}"
   },
   "homeActions": {
-    "add": "Add",
-    "receive": "Receive",
+    "add": "Aggiungi",
+    "receive": "Ricevi",
     "request": "Richiedi",
     "send": "Invia",
     "swap": "Scambia",
