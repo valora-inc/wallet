@@ -26,7 +26,7 @@ describe('FiatExchange', () => {
     store.dispatch = jest.fn()
     const tree = render(
       <Provider store={store}>
-        <FiatExchangeSection hideAddFunds={true} hideDrawerTopNav={true} />
+        <FiatExchangeSection showAddFunds={false} showDrawerTopNav={false} />
       </Provider>
     )
     expect(store.dispatch).toHaveBeenCalledWith(fetchFiatConnectProviders())
