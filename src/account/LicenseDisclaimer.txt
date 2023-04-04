@@ -185,32 +185,6 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @celo-tools/celo-ethers-wrapper. A copy of the source code may be downloaded from https://github.com/celo-tools/celo-ethers-wrapper. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2020 J M Rossy
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
 The following software may be included in this product: @celo/base, @celo/connect, @celo/contractkit, @celo/cryptographic-utils, @celo/identity, @celo/phone-utils, @celo/utils, @celo/wallet-base, @celo/wallet-local, @celo/wallet-remote, @celo/wallet-rpc, react-native-blind-threshold-bls. A copy of the source code may be downloaded from https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/base (@celo/base), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/connect (@celo/connect), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/contractkit (@celo/contractkit), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/cryptographic-utils (@celo/cryptographic-utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/identity (@celo/identity), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/phone-utils (@celo/phone-utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/utils (@celo/utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-base), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-local), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-remote), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-rpc), git+https://github.com/celo-org/react-native-blind-threshold-bls.git (react-native-blind-threshold-bls). This software contains the following license and notice below:
 
 Apache License

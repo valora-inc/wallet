@@ -64,7 +64,6 @@
   },
   "dependencies": {
     "@badrap/result": "~0.2.13",
-    "@celo-tools/celo-ethers-wrapper": "^0.4.0",
     "@celo/connect": "^3.2.0",
     "@celo/contractkit": "^3.2.0",
     "@celo/cryptographic-utils": "^3.2.0",
