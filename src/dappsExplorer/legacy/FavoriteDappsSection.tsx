@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsSelector } from 'src/dapps/selectors'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
-import DappCard from 'src/dappsExplorer/DappCard'
+import DappCard from 'src/dappsExplorer/shared/DappCard'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -14,13 +14,13 @@ interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
 }
 
-export function FavoriteDappsSectionLegacy({ onPressDapp }: Props) {
+export function FavoriteDappsSection({ onPressDapp }: Props) {
   const { t } = useTranslation()
   const favoriteDapps = useSelector(favoriteDappsSelector)
 
   if (favoriteDapps.length > 0) {
     return (
-      <View testID="DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy">
+      <View testID="DAppsExplorerScreenLegacy/FavoriteDappsSection">
         {favoriteDapps.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default FavoriteDappsSectionLegacy
+export default FavoriteDappsSection

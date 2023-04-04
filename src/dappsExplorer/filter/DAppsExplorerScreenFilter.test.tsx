@@ -5,7 +5,7 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
-import DAppsExplorerScreenFilter from 'src/dappsExplorer/DAppsExplorerScreenFilter'
+import DAppsExplorerScreenFilter from 'src/dappsExplorer/filter/DAppsExplorerScreenFilter'
 import { createMockStore } from 'test/utils'
 import { mockDappListV2 } from 'test/values'
 
@@ -166,7 +166,7 @@ describe(DAppsExplorerScreenFilter, () => {
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenFilter/FavoriteDappsSection')
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
@@ -233,7 +233,7 @@ describe(DAppsExplorerScreenFilter, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenFilter/FavoriteDappsSection')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
@@ -273,7 +273,7 @@ describe(DAppsExplorerScreenFilter, () => {
       expect(getByText(dappsCategories[1].name)).toBeTruthy()
 
       // Displays favorited dapp in Favorites section
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenFilter/FavoriteDappsSection')
       expect(within(favoritesSection).getByText(dappsList[0].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[0].description)).toBeTruthy()
       expect(within(favoritesSection).queryByText(dappsList[1].name)).toBeFalsy()
