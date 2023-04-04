@@ -70,12 +70,16 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
  * state themselves.
  */
 export async function updateStatsigUser(statsigUser?: StatsigUser) {
+  const defaultUser = getDefaultStatsigUser()
+  await Statsig.updateUser(_.merge(defaultUser, statsigUser))
+}
+
+export function getDefaultStatsigUser(): StatsigUser {
   const state = store.getState()
-  const defaultUser = {
-    userID: walletAddressSelector(state),
+  return {
+    userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
     },
   }
-  await Statsig.updateUser(_.merge(defaultUser, statsigUser))
 }

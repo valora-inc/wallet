@@ -22,7 +22,7 @@ import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
 import { Statsig } from 'statsig-react-native'
-import { updateStatsigUser } from 'src/statsig'
+import { getDefaultStatsigUser } from 'src/statsig'
 
 const TAG = 'ValoraAnalytics'
 
@@ -131,14 +131,8 @@ class ValoraAnalytics {
     }
 
     try {
-      const { walletAddress } = getCurrentUserTraits(store.getState())
-      const statsigUser =
-        typeof walletAddress === 'string'
-          ? {
-              userID: walletAddress,
-            }
-          : null
-
+      const defaultStatsigUser = getDefaultStatsigUser()
+      const statsigUser = defaultStatsigUser.userID ? defaultStatsigUser : null
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
@@ -147,7 +141,6 @@ class ValoraAnalytics {
         environment: STATSIG_ENV,
         localMode: isE2EEnv,
       })
-      await updateStatsigUser(statsigUser ?? {})
     } catch (error) {
       Logger.warn(TAG, `Statsig setup error`, error)
     }
