@@ -16,7 +16,7 @@ import {
   SHOW_TESTNET_BANNER,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import useOpenDapp from 'src/dappsExplorer/shared/useOpenDapp'
+import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
