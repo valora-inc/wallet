@@ -20,9 +20,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 const TAG = 'ethers/saga'
 
 /**
- *
- * @param param0
- * @returns
+ * An ethers version of sendAndMonitorTransaction in src/transactions/saga.ts
  */
 export function* sendAndMonitorTransaction({
   context,
