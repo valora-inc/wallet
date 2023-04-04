@@ -26,6 +26,7 @@ class ValoraAnalytics {
   page = jest.fn((page: string, eventProperties: {}) => {
     console.log('Page', page, eventProperties)
   })
+  init = jest.fn(() => Promise.resolve())
 }
 
 export default new ValoraAnalytics()
