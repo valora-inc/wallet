@@ -119,7 +119,7 @@ describe('Statsig helpers', () => {
         },
       })
     })
-    it('overrides custom fields when passed (partial override)', async () => {
+    it('overrides custom fields when passed', async () => {
       const statsigUser = {
         custom: {
           startOnboardingTime: 1680563880,
@@ -133,7 +133,7 @@ describe('Statsig helpers', () => {
         custom: statsigUser.custom,
       })
     })
-    it('overrides user ID when passed (full override)', async () => {
+    it('overrides user ID when passed', async () => {
       const statsigUser = {
         userID: 'some address',
         custom: {
@@ -144,6 +144,23 @@ describe('Statsig helpers', () => {
       await updateStatsigUser(statsigUser)
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
       expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
+    })
+    it('uses custom and default fields', async () => {
+      const statsigUser = {
+        custom: {
+          otherCustomProperty1: 'foo',
+          otherCustomProperty2: 'bar',
+        },
+      }
+      await updateStatsigUser(statsigUser)
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: {
+          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          ...statsigUser.custom,
+        },
+      })
     })
   })
 })

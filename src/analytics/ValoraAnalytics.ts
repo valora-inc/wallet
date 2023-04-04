@@ -204,7 +204,7 @@ class ValoraAnalytics {
     })
   }
 
-  identify(userID: string | null, traits: {}) {
+  async identify(userID: string | null, traits: {}) {
     if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
@@ -216,7 +216,7 @@ class ValoraAnalytics {
     }
 
     try {
-      void updateStatsigUser({ userID })
+      await updateStatsigUser({ userID })
     } catch (error) {
       Logger.warn(TAG, 'Error updating statsig user', error)
     }
@@ -349,11 +349,11 @@ export default new Proxy(new ValoraAnalytics(), {
       if (prop === 'init') {
         return new Proxy(target[prop], {
           apply: (target, thisArg, argumentsList) => {
-            return Reflect.apply(target, thisArg, argumentsList).finally(() => {
+            return Reflect.apply(target, thisArg, argumentsList).finally(async () => {
               isInitialized = true
               // Init finished, we can now process queued calls
               for (const fn of queuedCalls) {
-                fn()
+                await fn()
               }
               queuedCalls = []
             })

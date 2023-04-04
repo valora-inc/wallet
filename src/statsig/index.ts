@@ -57,6 +57,14 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
   }
 }
 
+/* Updates the current Statsig user. If no argument is given, a default StatsigUser
+ * object is used to update the user, based on values from the redux store. If a StatsigUser
+ * object is provided as a parameter, the provided object will be deep merged with the default
+ * object from redux, with the provided object overriding fields in the default object.
+ *
+ * This function does not update default values in redux; callers are expected to update redux
+ * state themselves.
+ */
 export async function updateStatsigUser(statsigUser?: StatsigUser) {
   const state = store.getState()
   const defaultUser = {

@@ -185,7 +185,7 @@ describe('ValoraAnalytics', () => {
   })
 
   it('delays identify calls until async init has finished', async () => {
-    ValoraAnalytics.identify('0xUSER', { someUserProp: 'testValue' })
+    await ValoraAnalytics.identify('0xUSER', { someUserProp: 'testValue' })
     expect(mockedAnalytics.identify).not.toHaveBeenCalled()
 
     await ValoraAnalytics.init()
@@ -194,7 +194,7 @@ describe('ValoraAnalytics', () => {
 
     // And now test that identify calls go trough directly
     mockedAnalytics.identify.mockClear()
-    ValoraAnalytics.identify('0xUSER2', { someUserProp: 'testValue2' })
+    await ValoraAnalytics.identify('0xUSER2', { someUserProp: 'testValue2' })
     expect(mockedAnalytics.identify).toHaveBeenCalledWith('0xUSER2', { someUserProp: 'testValue2' })
   })
 
