@@ -206,20 +206,22 @@ class ValoraAnalytics {
   }
 
   async identify(userID: string | null, traits: {}) {
-    if (!this.isEnabled()) {
-      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
-      return
-    }
-
     // Only identify user if userID (walletAddress) is set
     if (!userID) {
       return
     }
 
+    // Ensure that Statsig user is updated even if analytics is disabled.
+    // This is primarily for dev builds, where analytics is disabled by default.
     try {
       await updateStatsigUser({ userID })
     } catch (error) {
       Logger.warn(TAG, 'Error updating statsig user', error)
+    }
+
+    if (!this.isEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
+      return
     }
 
     if (!SEGMENT_API_KEY) {
