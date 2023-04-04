@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 84,
-    height: 91,
     marginHorizontal: 6,
     padding: 0,
     backgroundColor: '#E8FCEF',
@@ -109,12 +108,12 @@ const styles = StyleSheet.create({
   },
   touchable: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 16,
   },
   name: {
     ...fontStyles.small500,
     lineHeight: 17,
-    paddingTop: 10,
+    paddingTop: 8,
     color: Colors.onboardingGreen,
   },
 })
