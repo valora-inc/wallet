@@ -198,9 +198,6 @@ function VerificationStartScreen({
     await waitUntilSagasFinishLoading()
     if (walletAddress === null) {
       dispatch(initializeAccount())
-      // Must update Statsig user with ID after account initialization; no
-      // navigation is performed if calling with empty args.
-      dispatch(updateStatsigAndNavigate())
     }
   }, [])
 

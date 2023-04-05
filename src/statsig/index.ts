@@ -68,7 +68,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 export function getDefaultStatsigUser(): StatsigUser {
   const state = store.getState()
   return {
-    userID: walletAddressSelector(state) ?? undefined,
+    userID: walletAddressSelector(state),
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
     },
@@ -94,4 +94,5 @@ export async function initializeStatsig(statsigUser?: StatsigUser) {
     environment: STATSIG_ENV,
     localMode: isE2EEnv,
   })
+  Logger.info('statsig', 'in init statsig, done')
 }

@@ -1,9 +1,5 @@
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import {
-  getDynamicConfigParams,
-  getExperimentParams,
-  patchUpdateStatsigUser,
-} from 'src/statsig/index'
+import { getDynamicConfigParams, getExperimentParams, initializeStatsig } from 'src/statsig/index'
 import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
@@ -11,6 +7,14 @@ import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
+jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
+jest.mock('src/config', () => ({
+  ...(jest.requireActual('src/config') as any),
+  E2E_TEST_STATSIG_ID: 'statsig id',
+  isE2EEnv: true,
+  STATSIG_API_KEY: 'api key',
+  STATSIG_ENV: { tier: 'development' },
+}))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
@@ -112,16 +116,24 @@ describe('Statsig helpers', () => {
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
     })
   })
-  describe('patchUpdateStatsigUser', () => {
+  describe('initializeStatsig', () => {
     it('uses default values when passed no parameters', async () => {
-      await patchUpdateStatsigUser()
-      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
-      expect(Statsig.updateUser).toHaveBeenCalledWith({
-        userID: MOCK_ACCOUNT.toLowerCase(),
-        custom: {
-          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+      await initializeStatsig()
+      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
+      expect(Statsig.initialize).toHaveBeenCalledWith(
+        'api key',
+        {
+          userID: MOCK_ACCOUNT.toLowerCase(),
+          custom: {
+            startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          },
         },
-      })
+        {
+          overrideStableID: 'statsig id',
+          environment: { tier: 'development' },
+          localMode: true,
+        }
+      )
     })
     it('overrides custom fields when passed', async () => {
       const statsigUser = {
@@ -130,12 +142,20 @@ describe('Statsig helpers', () => {
           otherCustomProperty: 'foo',
         },
       }
-      await patchUpdateStatsigUser(statsigUser)
-      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
-      expect(Statsig.updateUser).toHaveBeenCalledWith({
-        userID: MOCK_ACCOUNT.toLowerCase(),
-        custom: statsigUser.custom,
-      })
+      await initializeStatsig(statsigUser)
+      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
+      expect(Statsig.initialize).toHaveBeenCalledWith(
+        'api key',
+        {
+          userID: MOCK_ACCOUNT.toLowerCase(),
+          custom: statsigUser.custom,
+        },
+        {
+          overrideStableID: 'statsig id',
+          environment: { tier: 'development' },
+          localMode: true,
+        }
+      )
     })
     it('overrides user ID when passed', async () => {
       const statsigUser = {
@@ -145,9 +165,13 @@ describe('Statsig helpers', () => {
           otherCustomProperty: 'foo',
         },
       }
-      await patchUpdateStatsigUser(statsigUser)
-      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
-      expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
+      await initializeStatsig(statsigUser)
+      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
+      expect(Statsig.initialize).toHaveBeenCalledWith('api key', statsigUser, {
+        overrideStableID: 'statsig id',
+        environment: { tier: 'development' },
+        localMode: true,
+      })
     })
     it('uses custom and default fields', async () => {
       const statsigUser = {
@@ -156,15 +180,23 @@ describe('Statsig helpers', () => {
           otherCustomProperty2: 'bar',
         },
       }
-      await patchUpdateStatsigUser(statsigUser)
-      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
-      expect(Statsig.updateUser).toHaveBeenCalledWith({
-        userID: MOCK_ACCOUNT.toLowerCase(),
-        custom: {
-          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
-          ...statsigUser.custom,
+      await initializeStatsig(statsigUser)
+      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
+      expect(Statsig.initialize).toHaveBeenCalledWith(
+        'api key',
+        {
+          userID: MOCK_ACCOUNT.toLowerCase(),
+          custom: {
+            startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+            ...statsigUser.custom,
+          },
         },
-      })
+        {
+          overrideStableID: 'statsig id',
+          environment: { tier: 'development' },
+          localMode: true,
+        }
+      )
     })
   })
 })

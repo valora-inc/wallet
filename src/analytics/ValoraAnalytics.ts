@@ -134,7 +134,7 @@ class ValoraAnalytics {
     }
   }
 
-  trackingEnabled() {
+  isEnabled() {
     // Remove __DEV__ here to test analytics in dev builds
     return !__DEV__ && store.getState().app.analyticsEnabled
   }
@@ -164,7 +164,7 @@ class ValoraAnalytics {
   ) {
     const [eventName, eventProperties] = args
 
-    if (!this.trackingEnabled()) {
+    if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking event ${eventName}`)
       return
     }
@@ -186,8 +186,8 @@ class ValoraAnalytics {
     })
   }
 
-  async identify(userID: string | null, traits: {}) {
-    if (!this.trackingEnabled()) {
+  identify(userID: string | null, traits: {}) {
+    if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
     }
@@ -208,7 +208,7 @@ class ValoraAnalytics {
   }
 
   page(screenId: string, eventProperties = {}) {
-    if (!this.trackingEnabled()) {
+    if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking screen ${screenId}`)
       return
     }
@@ -325,11 +325,11 @@ export default new Proxy(new ValoraAnalytics(), {
       if (prop === 'init') {
         return new Proxy(target[prop], {
           apply: (target, thisArg, argumentsList) => {
-            return Reflect.apply(target, thisArg, argumentsList).finally(async () => {
+            return Reflect.apply(target, thisArg, argumentsList).finally(() => {
               isInitialized = true
               // Init finished, we can now process queued calls
               for (const fn of queuedCalls) {
-                await fn()
+                fn()
               }
               queuedCalls = []
             })

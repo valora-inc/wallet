@@ -18,6 +18,7 @@ import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
+jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
 
 const mockStore = mocked(store)
 

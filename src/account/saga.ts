@@ -227,11 +227,8 @@ export function* handleUpdateAccountRegistration() {
   }
 }
 
-export function* updateStatsigAndNavigate() {
+export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction) {
   // Wait for wallet address to exist before updating statsig user
-  const action: UpdateStatsigAndNavigateAction = yield take(
-    OnboardingActions.UPDATE_STATSIG_AND_NAVIGATE
-  )
   yield call(getWalletAddress)
   yield call(initializeStatsig)
   if (action.screen === Screens.WalletHome) {
@@ -239,6 +236,14 @@ export function* updateStatsigAndNavigate() {
   } else if (action.screen) {
     navigate(action.screen)
   }
+}
+
+export function* watchUpdateStatsigAndNavigate() {
+  const action: UpdateStatsigAndNavigateAction = yield takeLeading(
+    OnboardingActions.UPDATE_STATSIG_AND_NAVIGATE,
+    updateStatsigAndNavigate
+  )
+  yield call(updateStatsigAndNavigate, action)
 }
 
 export function* watchClearStoredAccount() {
@@ -256,7 +261,7 @@ export function* watchSignedMessage() {
 }
 
 export function* accountSaga() {
-  yield spawn(updateStatsigAndNavigate)
+  yield spawn(watchUpdateStatsigAndNavigate)
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
   yield spawn(registerAccountDek)
