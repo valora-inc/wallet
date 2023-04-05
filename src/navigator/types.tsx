@@ -310,6 +310,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
+  [Screens.SwapActionScreen]: undefined
   [Screens.SwapScreen]: undefined
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined

@@ -85,6 +85,7 @@ export enum Screens {
   StoreWipeRecoveryScreen = 'StoreWipeRecoveryScreen',
   Support = 'Support',
   SupportContact = 'SupportContact',
+  SwapActionScreen = 'SwapActionScreen',
   SwapScreen = 'SwapScreen',
   SwapExecuteScreen = 'SwapExecuteScreen',
   SwapReviewScreen = 'SwapReviewScreen',

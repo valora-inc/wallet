@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Edge, SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
@@ -42,7 +42,11 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-export function SwapScreen() {
+function SwapScreen() {
+  return <SwapScreenSection showDrawerTopNav={true} />
+}
+
+export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav?: boolean }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -251,25 +255,30 @@ export function SwapScreen() {
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
+  const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
+
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <DrawerTopBar
-        middleElement={
-          <View style={styles.headerContainer}>
-            <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-            {exchangeRate && fromToken && toToken && (
-              <Text
-                style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
-              >
-                {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
-                  5,
-                  BigNumber.ROUND_DOWN
-                )} ${toToken.symbol}`}
-              </Text>
-            )}
-          </View>
-        }
-      />
+    <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
+      {showDrawerTopNav && (
+        <DrawerTopBar
+          testID={'SwapScreen/DrawerBar'}
+          middleElement={
+            <View style={styles.headerContainer}>
+              <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
+              {exchangeRate && fromToken && toToken && (
+                <Text
+                  style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
+                >
+                  {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
+                    5,
+                    BigNumber.ROUND_DOWN
+                  )} ${toToken.symbol}`}
+                </Text>
+              )}
+            </View>
+          }
+        />
+      )}
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput

@@ -63,13 +63,13 @@ import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
-import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeCurrency'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
+import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -122,6 +122,7 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
+import SwapActionScreen from 'src/swap/SwapActionScreen'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -582,8 +583,18 @@ const generalScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const swapActionScreenOptions = {
+  ...headerWithBackButton,
+  headerTitle: i18n.t('swapScreen.title'),
+}
+
 const swapScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen
+      name={Screens.SwapActionScreen}
+      component={SwapActionScreen}
+      options={swapActionScreenOptions}
+    />
     <Navigator.Screen
       name={Screens.SwapReviewScreen}
       component={SwapReviewScreen}
