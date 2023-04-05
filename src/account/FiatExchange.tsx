@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, Edge } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -23,9 +23,20 @@ import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 function FiatExchange() {
+  return <FiatExchangeSection showAddFunds={true} showDrawerTopNav={true} />
+}
+
+export function FiatExchangeSection({
+  showAddFunds,
+  showDrawerTopNav,
+}: {
+  showAddFunds?: boolean
+  showDrawerTopNav?: boolean
+}) {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
   const dispatch = useDispatch()
+
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
@@ -70,23 +81,27 @@ function FiatExchange() {
     setTimestamp(Date.now())
   }
 
+  const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
+
   return (
-    <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
+    <SafeAreaView style={styles.container} edges={edges}>
+      {showDrawerTopNav && <DrawerTopBar testID="FiatExchange/DrawerBar" />}
       <ScrollView testID="FiatExchange/scrollView" contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <FiatExchangeTokenBalance key={'FiatExchangeTokenBalance'} />
           <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
         </View>
         <View style={styles.optionsListContainer}>
-          <ListItem onPress={goToAddFunds}>
-            <Text testID="addFunds" style={styles.optionTitle}>
-              {t(`fiatExchangeFlow.cashIn.fiatExchangeTitle`)}
-            </Text>
-            <Text style={styles.optionSubtitle}>
-              {t(`fiatExchangeFlow.cashIn.fiatExchangeSubtitle`)}
-            </Text>
-          </ListItem>
+          {showAddFunds && (
+            <ListItem onPress={goToAddFunds}>
+              <Text testID="addFunds" style={styles.optionTitle}>
+                {t(`fiatExchangeFlow.cashIn.fiatExchangeTitle`)}
+              </Text>
+              <Text style={styles.optionSubtitle}>
+                {t(`fiatExchangeFlow.cashIn.fiatExchangeSubtitle`)}
+              </Text>
+            </ListItem>
+          )}
           <ListItem onPress={goToSpend}>
             <Text testID="spend" style={styles.optionTitle}>
               {t(`fiatExchangeFlow.spend.fiatExchangeTitle`)}
