@@ -112,7 +112,7 @@ describe('Statsig helpers', () => {
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
     })
   })
-  describe('updateStatsigUser', () => {
+  describe('patchUpdateStatsigUser', () => {
     it('uses default values when passed no parameters', async () => {
       await patchUpdateStatsigUser()
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)

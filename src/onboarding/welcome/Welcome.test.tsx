@@ -12,7 +12,7 @@ import { mocked } from 'ts-jest/utils'
 jest.mock('src/onboarding/steps')
 jest.mock('src/statsig', () => ({
   ...(jest.requireActual('src/statsig') as any),
-  updateStatsigUser: jest.fn(),
+  patchUpdateStatsigUser: jest.fn(),
 }))
 
 describe('Welcome', () => {
