@@ -6,6 +6,7 @@ import { Statsig } from 'statsig-react-native'
 import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
+import { EvaluationReason } from 'statsig-js'
 
 jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
 jest.mock('src/config', () => ({
@@ -70,11 +71,35 @@ describe('Statsig helpers', () => {
       })
       ;(Statsig.getExperiment as jest.Mock).mockImplementation(() => ({
         get: getMock,
+        getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
       }))
       const defaultValues = { param1: 'defaultValue1', param2: 'defaultValue2' }
       const experimentName = 'mock_experiment_name' as StatsigExperiments
       const output = getExperimentParams({ experimentName, defaultValues })
       expect(Logger.warn).not.toHaveBeenCalled()
+      expect(Statsig.getExperiment).toHaveBeenCalledWith(experimentName)
+      expect(getMock).toHaveBeenCalledWith('param1', 'defaultValue1')
+      expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')
+      expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
+    })
+    it('returns values and logs error if sdk uninitialized', () => {
+      const getMock = jest.fn().mockImplementation((paramName: string, _defaultValue: string) => {
+        if (paramName === 'param1') {
+          return 'statsigValue1'
+        } else if (paramName === 'param2') {
+          return 'statsigValue2'
+        } else {
+          throw new Error('unexpected param name')
+        }
+      })
+      ;(Statsig.getExperiment as jest.Mock).mockImplementation(() => ({
+        get: getMock,
+        getEvaluationDetails: () => ({ reason: EvaluationReason.Uninitialized }),
+      }))
+      const defaultValues = { param1: 'defaultValue1', param2: 'defaultValue2' }
+      const experimentName = 'mock_experiment_name' as StatsigExperiments
+      const output = getExperimentParams({ experimentName, defaultValues })
+      expect(Logger.warn).toHaveBeenCalled()
       expect(Statsig.getExperiment).toHaveBeenCalledWith(experimentName)
       expect(getMock).toHaveBeenCalledWith('param1', 'defaultValue1')
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')

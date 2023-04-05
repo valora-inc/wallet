@@ -38,7 +38,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 
 function getPhoneNumberState(
   phoneNumber: string,
