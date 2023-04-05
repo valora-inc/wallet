@@ -3,10 +3,13 @@ import Analytics from '@segment/analytics-react-native'
 import { E2E_TEST_STATSIG_ID, isE2EEnv, STATSIG_API_KEY, STATSIG_ENV } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
+import { EvaluationReason } from 'statsig-js'
 import { store } from 'src/redux/store'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import * as _ from 'lodash'
+
+const TAG = 'Statsig'
 
 function getParams<T extends Record<string, StatsigParameter>>({
   config,
@@ -36,13 +39,18 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
-    const stack = new Error().stack
-    Logger.warn('getExperimentParams statsig', experiment, stack)
+    if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
+      Logger.warn(
+        TAG,
+        'getExperimentParams: SDK is uninitialized when getting experiment',
+        experiment
+      )
+    }
     return getParams({ config: experiment, defaultValues })
   } catch (error) {
     Logger.warn(
-      'getExperimentParams',
-      `Error getting params for experiment: ${experimentName}`,
+      TAG,
+      `getExperimentParams: Error getting params for experiment: ${experimentName}`,
       error
     )
     return defaultValues
@@ -94,5 +102,4 @@ export async function initializeStatsig(statsigUser?: StatsigUser) {
     environment: STATSIG_ENV,
     localMode: isE2EEnv,
   })
-  Logger.info('statsig', 'in init statsig, done')
 }
