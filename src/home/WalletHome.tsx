@@ -17,7 +17,7 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
+import { refreshAllBalances } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
@@ -61,10 +61,6 @@ function WalletHome() {
   const { showHomeActions, showHomeNavBar } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
-
-  useEffect(() => {
-    dispatch(visitHome())
-  })
 
   const showTestnetBanner = () => {
     dispatch(
