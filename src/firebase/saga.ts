@@ -86,7 +86,7 @@ function* initializeFirebase() {
   }
 }
 
-export function* initializeMessagingOnVisitHome() {
+export function* initializeMessagingOnceOnboardingComplete() {
   yield take(OnboardingActions.ONBOARDING_COMPLETE)
   yield call(waitForFirebaseAuth)
   const address = yield call(getWalletAddress)
@@ -178,7 +178,7 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
 
 export function* firebaseSaga() {
   yield spawn(initializeFirebase)
-  yield spawn(initializeMessagingOnVisitHome)
+  yield spawn(initializeMessagingOnceOnboardingComplete)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
   yield takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
