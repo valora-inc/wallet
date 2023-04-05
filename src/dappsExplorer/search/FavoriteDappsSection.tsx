@@ -15,10 +15,10 @@ import { Spacing } from 'src/styles/styles'
 interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
   searchTerm: string
-  setFavoriteResultsEmpty: (empty: boolean) => void
+  onShowSearchResult: (empty: boolean) => void
 }
 
-export function FavoriteDappsSection({ onPressDapp, searchTerm, setFavoriteResultsEmpty }: Props) {
+export function FavoriteDappsSection({ onPressDapp, searchTerm, onShowSearchResult }: Props) {
   const { t } = useTranslation()
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
@@ -34,14 +34,14 @@ export function FavoriteDappsSection({ onPressDapp, searchTerm, setFavoriteResul
 
   useEffect(() => {
     if (favoritedDappsSearched.length > 0 && searchTerm !== '') {
-      setFavoriteResultsEmpty(false)
+      onShowSearchResult(false)
     } else {
-      setFavoriteResultsEmpty(true)
+      onShowSearchResult(true)
     }
-  }, [favoritedDappsSearched])
+  }, [favoritedDappsSearched, searchTerm])
 
   if (favoritedDappsSearched.length === 0 && searchTerm !== '') {
-    return <NoResults testID="FavoriteDappsSection" searchTerm={searchTerm} />
+    return <NoResults testID="FavoriteDappsSection/NoResults" searchTerm={searchTerm} />
   }
 
   if (favoritedDappsSearched.length > 0) {
