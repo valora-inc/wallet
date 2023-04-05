@@ -28,7 +28,7 @@ describe('Welcome', () => {
     )
     fireEvent.press(getByTestId('CreateAccountButton'))
     jest.runOnlyPendingTimers()
-    await Promise.resolve() // waits for updateStatsigUser promise to resolve
+    await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
     expect(patchUpdateStatsigUser).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
@@ -68,7 +68,7 @@ describe('Welcome', () => {
 
     fireEvent.press(getByTestId('CreateAccountButton'))
     jest.runOnlyPendingTimers()
-    await Promise.resolve() // waits for updateStatsigUser promise to resolve
+    await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
     expect(firstOnboardingScreen).toHaveBeenCalled()
     expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
   })
