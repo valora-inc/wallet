@@ -24,7 +24,7 @@ describe('ActionsCarousel', () => {
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreen, undefined],
     [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
-    [HomeActionName.Withdraw, 'withdraw', Screens.FiatExchange, undefined],
+    [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(
     'renders title and navigates to appropriate screen for %s',
     (name, title, screen, screenOptions) => {
