@@ -18,13 +18,14 @@ import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
+import { StackParamList } from 'src/navigator/types'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate | ((screen: Screens) => void)
   popToScreen: typeof NavigationService.popToScreen | ((screen: Screens) => void)
-  finishOnboarding: (screen: Screens) => void
+  finishOnboarding: (screen: keyof StackParamList) => void
   navigateClearingStack:
     | typeof NavigationService.navigateClearingStack
     | ((screen: Screens) => void)
@@ -172,7 +173,7 @@ export function goToNextOnboardingScreen({
     navigator: {
       navigate: NavigationService.navigate,
       popToScreen: NavigationService.popToScreen,
-      finishOnboarding: (screen: Screens) => {
+      finishOnboarding: (screen: keyof StackParamList) => {
         store.dispatch(updateStatsigAndNavigate(screen))
       },
       navigateClearingStack: NavigationService.navigateClearingStack,

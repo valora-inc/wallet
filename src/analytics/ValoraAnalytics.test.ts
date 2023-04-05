@@ -185,7 +185,7 @@ describe('ValoraAnalytics', () => {
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       {
-        userID: null,
+        userID: undefined,
         custom: {
           startOnboardingTime: 1234,
         },

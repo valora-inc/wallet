@@ -39,6 +39,7 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
+
     if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
       Logger.warn(
         TAG,
@@ -76,7 +77,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 export function getDefaultStatsigUser(): StatsigUser {
   const state = store.getState()
   return {
-    userID: walletAddressSelector(state),
+    userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
     },

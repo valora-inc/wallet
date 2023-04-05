@@ -12,6 +12,7 @@ import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
+import { StackParamList } from 'src/navigator/types'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
 jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
@@ -121,7 +122,9 @@ describe('onboarding steps', () => {
         // If we are not on the last screen, we should navigate to the next screen via navigate or navigateClearingStack
         if (index === screens.length - 1) {
           // eslint-disable-next-line jest/no-conditional-expect
-          expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(finalScreen))
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateStatsigAndNavigate(finalScreen as keyof StackParamList)
+          )
         } else {
           try {
             // eslint-disable-next-line jest/no-conditional-expect
