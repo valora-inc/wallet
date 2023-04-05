@@ -15,7 +15,7 @@ import {
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions } from 'src/app/actions'
-import { Actions as OnboardingActions } from 'src/onboarding/actions'
+import { Actions as HomeActions } from 'src/home/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
@@ -30,7 +30,7 @@ import {
 import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
-import { getAccount, getWalletAddress } from 'src/web3/saga'
+import { getAccount } from 'src/web3/saga'
 
 const TAG = 'firebase/saga'
 const EXCHANGE_RATES = 'exchangeRates'
@@ -38,7 +38,6 @@ const VALUE_CHANGE_HOOK = 'value'
 const FIREBASE_CONNECT_RETRIES = 3
 
 let firebaseAlreadyAuthorized = false
-
 export function* waitForFirebaseAuth() {
   if (firebaseAlreadyAuthorized) {
     return
@@ -86,10 +85,10 @@ function* initializeFirebase() {
   }
 }
 
-export function* initializeMessagingOnceOnboardingComplete() {
-  yield take(OnboardingActions.ONBOARDING_COMPLETE)
-  yield call(waitForFirebaseAuth)
-  const address = yield call(getWalletAddress)
+export function* initializeMessagingOnVisitHome() {
+  yield take(HomeActions.VISIT_HOME) // todo need this to work for any end of onboarding screen, not just home (could be CYA screen)
+  yield call(waitForFirebaseAuth) // todo might want to put this stuff into initializeCloudMessaging to keep things simpler. should watch out for tests though.
+  const address = yield call(getAccount)
   yield call(initializeCloudMessaging, firebase, address)
 }
 
@@ -178,7 +177,7 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
 
 export function* firebaseSaga() {
   yield spawn(initializeFirebase)
-  yield spawn(initializeMessagingOnceOnboardingComplete)
+  yield spawn(initializeMessagingOnVisitHome)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
   yield takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
