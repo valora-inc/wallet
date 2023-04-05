@@ -95,12 +95,5 @@ export function getDefaultStatsigUser(): StatsigUser {
  */
 export async function initializeStatsig(statsigUser?: StatsigUser) {
   const defaultUser = getDefaultStatsigUser()
-  // getAnonymousId causes the e2e tests to fail
-  const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
-  await Statsig.initialize(STATSIG_API_KEY, _.merge(defaultUser, statsigUser), {
-    // StableID should match Segment anonymousId
-    overrideStableID,
-    environment: STATSIG_ENV,
-    localMode: isE2EEnv,
-  })
+  await Statsig.updateUser(_.merge(defaultUser, statsigUser))
 }
