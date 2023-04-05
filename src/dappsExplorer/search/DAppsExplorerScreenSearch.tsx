@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import { debounce } from 'lodash'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SectionList, SectionListProps, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -33,7 +34,6 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useDebounce } from 'use-debounce'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
@@ -63,29 +63,30 @@ export function DAppsExplorerScreenSearch() {
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
 
   // Some state lifted up from all and favorite sections
-  const [searchTerm, setSearchTerm] = React.useState('')
-  const [favoriteResultsEmpty, setFavoriteResultsEmpty] = React.useState(false)
-  const [allResultEmpty, setAllResultEmpty] = React.useState(false)
-
-  // Search term debounced to minimize incomplete searches in analytics events
-  const [searchTermDebounced] = useDebounce(searchTerm, 1000)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [favoriteResultsEmpty, setFavoriteResultsEmpty] = useState(false)
+  const [allResultEmpty, setAllResultEmpty] = useState(false)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
+  // Search term debounced to minimize incomplete searches in analytics events
+  const debounceSearch = useCallback(
+    debounce((searchTerm: string) => {
+      if (searchTerm) {
+        ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+          searchTerm,
+        })
+      }
+    }, 1000),
+    []
+  )
+
   useEffect(() => {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
-
-  useEffect(() => {
-    if (searchTermDebounced) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
-        searchTerm: searchTermDebounced,
-      })
-    }
-  }, [searchTermDebounced])
 
   const allSectionResults: SectionData[] = React.useMemo(() => {
     const allResultsParsed = parseResultsIntoAll(
@@ -158,6 +159,7 @@ export function DAppsExplorerScreenSearch() {
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
+                    debounceSearch(text)
                   }}
                   value={searchTerm}
                   multiline={false}
