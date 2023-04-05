@@ -1,5 +1,9 @@
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { getDynamicConfigParams, getExperimentParams, updateStatsigUser } from 'src/statsig/index'
+import {
+  getDynamicConfigParams,
+  getExperimentParams,
+  patchUpdateStatsigUser,
+} from 'src/statsig/index'
 import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
@@ -110,7 +114,7 @@ describe('Statsig helpers', () => {
   })
   describe('updateStatsigUser', () => {
     it('uses default values when passed no parameters', async () => {
-      await updateStatsigUser()
+      await patchUpdateStatsigUser()
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
       expect(Statsig.updateUser).toHaveBeenCalledWith({
         userID: MOCK_ACCOUNT.toLowerCase(),
@@ -126,7 +130,7 @@ describe('Statsig helpers', () => {
           otherCustomProperty: 'foo',
         },
       }
-      await updateStatsigUser(statsigUser)
+      await patchUpdateStatsigUser(statsigUser)
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
       expect(Statsig.updateUser).toHaveBeenCalledWith({
         userID: MOCK_ACCOUNT.toLowerCase(),
@@ -141,7 +145,7 @@ describe('Statsig helpers', () => {
           otherCustomProperty: 'foo',
         },
       }
-      await updateStatsigUser(statsigUser)
+      await patchUpdateStatsigUser(statsigUser)
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
       expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
     })
@@ -152,7 +156,7 @@ describe('Statsig helpers', () => {
           otherCustomProperty2: 'bar',
         },
       }
-      await updateStatsigUser(statsigUser)
+      await patchUpdateStatsigUser(statsigUser)
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
       expect(Statsig.updateUser).toHaveBeenCalledWith({
         userID: MOCK_ACCOUNT.toLowerCase(),

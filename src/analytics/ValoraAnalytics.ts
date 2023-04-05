@@ -22,7 +22,7 @@ import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
 import { Statsig } from 'statsig-react-native'
-import { getDefaultStatsigUser, updateStatsigUser } from 'src/statsig'
+import { getDefaultStatsigUser, patchUpdateStatsigUser } from 'src/statsig'
 
 const TAG = 'ValoraAnalytics'
 
@@ -131,8 +131,7 @@ class ValoraAnalytics {
     }
 
     try {
-      const defaultStatsigUser = getDefaultStatsigUser()
-      const statsigUser = defaultStatsigUser.userID ? defaultStatsigUser : null
+      const statsigUser = getDefaultStatsigUser()
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
@@ -146,7 +145,7 @@ class ValoraAnalytics {
     }
   }
 
-  isEnabled() {
+  trackingEnabled() {
     // Remove __DEV__ here to test analytics in dev builds
     return !__DEV__ && store.getState().app.analyticsEnabled
   }
@@ -176,7 +175,7 @@ class ValoraAnalytics {
   ) {
     const [eventName, eventProperties] = args
 
-    if (!this.isEnabled()) {
+    if (!this.trackingEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking event ${eventName}`)
       return
     }
@@ -207,12 +206,12 @@ class ValoraAnalytics {
     // Ensure that Statsig user is updated even if analytics is disabled.
     // This is primarily for dev builds, where analytics is disabled by default.
     try {
-      await updateStatsigUser({ userID })
+      await patchUpdateStatsigUser({ userID })
     } catch (error) {
-      Logger.warn(TAG, 'Error updating statsig user', error)
+      Logger.error(TAG, 'Error updating statsig user', error)
     }
 
-    if (!this.isEnabled()) {
+    if (!this.trackingEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
     }
@@ -228,7 +227,7 @@ class ValoraAnalytics {
   }
 
   page(screenId: string, eventProperties = {}) {
-    if (!this.isEnabled()) {
+    if (!this.trackingEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking screen ${screenId}`)
       return
     }
