@@ -17,13 +17,14 @@ import { store } from 'src/redux/store'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
+import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate | ((screen: Screens) => void)
   popToScreen: typeof NavigationService.popToScreen | ((screen: Screens) => void)
-  navigateHome: typeof NavigationService.navigateHome | (() => void)
+  finishOnboarding: (screen: Screens) => void
   navigateClearingStack:
     | typeof NavigationService.navigateClearingStack
     | ((screen: Screens) => void)
@@ -127,8 +128,8 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
     currentScreen = nextScreen
   }
 
-  const toHomeStep = () => {
-    currentScreen = Screens.WalletHome
+  const finishOnboarding = (nextScreen: Screens) => {
+    currentScreen = nextScreen
   }
 
   while (!END_OF_ONBOARDING_SCREENS.includes(currentScreen)) {
@@ -139,7 +140,7 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
         popToScreen: () => {
           // no-op
         },
-        navigateHome: toHomeStep,
+        finishOnboarding,
         navigateClearingStack: nextStepAndCount,
       },
       dispatch: () => {
@@ -171,7 +172,9 @@ export function goToNextOnboardingScreen({
     navigator: {
       navigate: NavigationService.navigate,
       popToScreen: NavigationService.popToScreen,
-      navigateHome: NavigationService.navigateHome,
+      finishOnboarding: (screen: Screens) => {
+        store.dispatch(updateStatsigAndNavigate(screen))
+      },
       navigateClearingStack: NavigationService.navigateClearingStack,
     },
     dispatch: store.dispatch,
@@ -191,7 +194,7 @@ export function goToNextOnboardingScreen({
  * @returns
  */
 export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
-  const { navigate, popToScreen, navigateHome, navigateClearingStack } = navigator
+  const { navigate, popToScreen, finishOnboarding, navigateClearingStack } = navigator
   const {
     recoveringFromStoreWipe,
     choseToRestoreAccount,
@@ -203,9 +206,9 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
 
   const navigateHomeOrChooseAdventure = () => {
     if (props.chooseAdventureEnabled) {
-      navigate(Screens.ChooseYourAdventure)
+      finishOnboarding(Screens.ChooseYourAdventure)
     } else {
-      navigateHome()
+      finishOnboarding(Screens.WalletHome)
     }
   }
 
@@ -286,7 +289,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (skipVerification) {
             dispatch(setHasSeenVerificationNux(true))
-            navigateHome()
+            finishOnboarding(Screens.WalletHome)
           } else {
             navigate(Screens.VerificationStartScreen)
           }

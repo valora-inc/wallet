@@ -11,18 +11,15 @@ import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
   DEFAULT_TESTNET,
-  E2E_TEST_STATSIG_ID,
   FIREBASE_ENABLED,
   isE2EEnv,
   SEGMENT_API_KEY,
-  STATSIG_API_KEY,
   STATSIG_ENV,
 } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
-import { Statsig } from 'statsig-react-native'
-import { getDefaultStatsigUser, patchUpdateStatsigUser } from 'src/statsig'
+import { initializeStatsig } from 'src/statsig'
 
 const TAG = 'ValoraAnalytics'
 
@@ -131,15 +128,7 @@ class ValoraAnalytics {
     }
 
     try {
-      const statsigUser = getDefaultStatsigUser()
-      // getAnonymousId causes the e2e tests to fail
-      const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
-      await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
-        // StableID should match Segment anonymousId
-        overrideStableID,
-        environment: STATSIG_ENV,
-        localMode: isE2EEnv,
-      })
+      await initializeStatsig()
     } catch (error) {
       Logger.warn(TAG, `Statsig setup error`, error)
     }
@@ -198,21 +187,13 @@ class ValoraAnalytics {
   }
 
   async identify(userID: string | null, traits: {}) {
-    // Only identify user if userID (walletAddress) is set
-    if (!userID) {
+    if (!this.trackingEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
     }
 
-    // Ensure that Statsig user is updated even if analytics is disabled.
-    // This is primarily for dev builds, where analytics is disabled by default.
-    try {
-      await patchUpdateStatsigUser({ userID })
-    } catch (error) {
-      Logger.error(TAG, 'Error updating statsig user', error)
-    }
-
-    if (!this.trackingEnabled()) {
-      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
+    // Only identify user if userID (walletAddress) is set
+    if (!userID) {
       return
     }
 

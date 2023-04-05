@@ -38,6 +38,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 
 function getPhoneNumberState(
   phoneNumber: string,
@@ -197,6 +198,9 @@ function VerificationStartScreen({
     await waitUntilSagasFinishLoading()
     if (walletAddress === null) {
       dispatch(initializeAccount())
+      // Must update Statsig user with ID after account initialization; no
+      // navigation is performed if calling with empty args.
+      dispatch(updateStatsigAndNavigate())
     }
   }, [])
 

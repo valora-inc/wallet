@@ -24,7 +24,7 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { firebaseSignOut } from 'src/firebase/firebase'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigateClearingStack, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import {
@@ -42,6 +42,13 @@ import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { initializeStatsig } from 'src/statsig'
+import { navigateHome } from 'src/navigator/NavigationService'
+import { getWalletAddress } from 'src/web3/saga'
+import {
+  Actions as OnboardingActions,
+  UpdateStatsigAndNavigateAction,
+} from 'src/onboarding/actions'
 
 const TAG = 'account/saga'
 
@@ -220,6 +227,20 @@ export function* handleUpdateAccountRegistration() {
   }
 }
 
+export function* updateStatsigAndNavigate() {
+  // Wait for wallet address to exist before updating statsig user
+  const action: UpdateStatsigAndNavigateAction = yield take(
+    OnboardingActions.UPDATE_STATSIG_AND_NAVIGATE
+  )
+  yield call(getWalletAddress)
+  yield call(initializeStatsig)
+  if (action.screen === Screens.WalletHome) {
+    navigateHome()
+  } else if (action.screen) {
+    navigate(action.screen)
+  }
+}
+
 export function* watchClearStoredAccount() {
   const action = yield take(Actions.CLEAR_STORED_ACCOUNT)
   yield call(clearStoredAccountSaga, action)
@@ -235,6 +256,7 @@ export function* watchSignedMessage() {
 }
 
 export function* accountSaga() {
+  yield spawn(updateStatsigAndNavigate)
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
   yield spawn(registerAccountDek)

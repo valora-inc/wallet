@@ -1,4 +1,6 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
+import Analytics from '@segment/analytics-react-native'
+import { E2E_TEST_STATSIG_ID, isE2EEnv, STATSIG_API_KEY, STATSIG_ENV } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 import { store } from 'src/redux/store'
@@ -34,6 +36,8 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
+    const stack = new Error().stack
+    Logger.warn('getExperimentParams statsig', experiment, stack)
     return getParams({ config: experiment, defaultValues })
   } catch (error) {
     Logger.warn(
@@ -61,20 +65,6 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
   }
 }
 
-/**
- * Updates the current Statsig user. If no argument is given, a default StatsigUser
- * object is used to update the user, based on values from the redux store. If a StatsigUser
- * object is provided as a parameter, the provided object will be deep merged with the default
- * object from redux, with the provided object overriding fields in the default object.
- *
- * This function does not update default values in redux; callers are expected to update redux
- * state themselves.
- */
-export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
-  const defaultUser = getDefaultStatsigUser()
-  await Statsig.updateUser(_.merge(defaultUser, statsigUser))
-}
-
 export function getDefaultStatsigUser(): StatsigUser {
   const state = store.getState()
   return {
@@ -83,4 +73,25 @@ export function getDefaultStatsigUser(): StatsigUser {
       startOnboardingTime: startOnboardingTimeSelector(state),
     },
   }
+}
+
+/**
+ * Initializes the Statsig SDK. If no argument is given, a default StatsigUser
+ * object is used to initialize the SDK, based on values from the redux store. If a StatsigUser
+ * object is provided as a parameter, the provided object will be deep merged with the default
+ * object from redux, with the provided object overriding fields in the default object.
+ *
+ * This function does not update default values in redux; callers are expected to update redux
+ * state themselves.
+ */
+export async function initializeStatsig(statsigUser?: StatsigUser) {
+  const defaultUser = getDefaultStatsigUser()
+  // getAnonymousId causes the e2e tests to fail
+  const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
+  await Statsig.initialize(STATSIG_API_KEY, _.merge(defaultUser, statsigUser), {
+    // StableID should match Segment anonymousId
+    overrideStableID,
+    environment: STATSIG_ENV,
+    localMode: isE2EEnv,
+  })
 }
