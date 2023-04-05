@@ -17,6 +17,7 @@ import { store } from 'src/redux/store'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
+import { onboardingComplete } from 'src/onboarding/actions'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
@@ -202,6 +203,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
   } = props
 
   const navigateHomeOrChooseAdventure = () => {
+    dispatch(onboardingComplete())
     if (props.chooseAdventureEnabled) {
       navigate(Screens.ChooseYourAdventure)
     } else {
