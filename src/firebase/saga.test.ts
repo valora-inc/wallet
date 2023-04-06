@@ -30,19 +30,14 @@ describe('firebase saga', () => {
     await expectSaga(testSaga).call(testEffect).run()
   })
   it('initializeFirebase', async () => {
-    mocked(walletAddressSelector).mockReturnValue('0x123')
+    const testAddress = '0x123'
+    mocked(walletAddressSelector).mockReturnValue(testAddress) // todo use provider for this instead? like this: [select(walletAddressSelector), '0x123']
     await expectSaga(initializeFirebase)
-      // .call(getAccount)
-      // .call(initializeAuth)
-      // .put({ type: 'FIREBASE/AUTHORIZED' })
-      .provide([
-        // [select(walletAddressSelector), '0x123'],  // trying out jest mock instead
-        [take('HOME/VISIT_HOME'), 'HOME/VISIT_HOME'],
-      ])
-      // .not.call(initializeCloudMessaging)
-      // .dispatch({ type: 'HOME/VISIT_HOME' })
-      // .provide([[take('HOME/VISIT_HOME'), 'HOME/VISIT_HOME']])
-      .call(initializeCloudMessaging, firebase, '0x123')
+      .call(getAccount)
+      .call(initializeAuth, firebase, testAddress)
+      .put({ type: 'FIREBASE/AUTHORIZED' })
+      .dispatch({ type: 'HOME/VISIT_HOME' })
+      .call(initializeCloudMessaging, firebase, testAddress)
       .run()
   })
 })
