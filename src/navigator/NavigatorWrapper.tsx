@@ -13,7 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
-import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
+import { doingBackupFlowSelector, pastForcedBackupDeadlineSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import {
   navigate,
@@ -30,6 +30,9 @@ import appTheme from 'src/styles/appTheme'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode
@@ -74,7 +77,10 @@ export const NavigatorWrapper = () => {
     return isVersionBelowMinimum(version, minRequiredVersion)
   }, [minRequiredVersion])
 
-  const shouldForceBackup = useSelector(shouldForceBackupSelector)
+  const shouldForceBackup =
+    useSelector(pastForcedBackupDeadlineSelector) &&
+    getExperimentParams(ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING])
+      .enableForcedBackup
   const doingBackupFlow = useSelector(doingBackupFlowSelector)
 
   React.useEffect(() => {
