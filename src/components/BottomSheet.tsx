@@ -19,7 +19,7 @@ interface Props {
   testID?: string
   opacity?: number
   backgroundColor?: string
-  stickyHeader?: JSX.Element
+  stickyHeader?: React.ReactNode
   fullHeight?: boolean
 }
 
