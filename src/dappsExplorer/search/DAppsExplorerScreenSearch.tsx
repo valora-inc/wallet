@@ -9,7 +9,6 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SearchInput from 'src/components/SearchInput'
 import {
-  dappFavoritesEnabledSelector,
   dappListWithCategoryNamesSelector,
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
@@ -55,7 +54,6 @@ export function DAppsExplorerScreenSearch() {
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
-  const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappList = useSelector(dappsListSelector)
   const dappListWithCategoryNames = useSelector(dappListWithCategoryNamesSelector)
@@ -141,7 +139,8 @@ export function DAppsExplorerScreenSearch() {
                 onRefresh={() => dispatch(fetchDappsList())}
               />
             }
-            // @ts-ignore TODO: resolve type error
+            // TODO: resolve type error
+            // @ts-expect-error
             ref={sectionListRef}
             ListFooterComponent={
               <>
@@ -169,33 +168,29 @@ export function DAppsExplorerScreenSearch() {
                   showClearButton={true}
                   allowFontScaling={false}
                 />
-                {dappFavoritesEnabled && (
-                  <>
-                    {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
-                    {allResultEmpty && favoriteResultsEmpty ? (
-                      <Text style={styles.sectionTitle}>
-                        {t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(
-                          language ?? 'en-US'
-                        )}
-                      </Text>
-                    ) : (
-                      <Text style={styles.sectionTitle}>
-                        {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
-                      </Text>
-                    )}
-                    <FavoriteDappsSection
-                      onPressDapp={onSelectDapp}
-                      searchTerm={searchTerm}
-                      setFavoriteResultsEmpty={setFavoriteResultsEmpty}
-                    />
-                    {/* If all dapp section isn't empty or favoriteResults isn't empty display add section header */}
-                    {(!allResultEmpty || !favoriteResultsEmpty) && (
-                      <Text style={styles.sectionTitle}>
-                        {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
-                      </Text>
-                    )}
-                  </>
-                )}
+                <>
+                  {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
+                  {allResultEmpty && favoriteResultsEmpty ? (
+                    <Text style={styles.sectionTitle}>
+                      {t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')}
+                    </Text>
+                  ) : (
+                    <Text style={styles.sectionTitle}>
+                      {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
+                    </Text>
+                  )}
+                  <FavoriteDappsSection
+                    onPressDapp={onSelectDapp}
+                    searchTerm={searchTerm}
+                    onShowSearchResult={setFavoriteResultsEmpty}
+                  />
+                  {/* If all dapp section isn't empty or favoriteResults isn't empty display add section header */}
+                  {(!allResultEmpty || !favoriteResultsEmpty) && (
+                    <Text style={styles.sectionTitle}>
+                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
+                    </Text>
+                  )}
+                </>
               </>
             }
             style={styles.sectionList}

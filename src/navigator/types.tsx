@@ -386,6 +386,7 @@ export type StackParamList = {
     amount?: BigNumber
     recipientAddress?: string
   }
+  [Screens.WithdrawSpend]: undefined
   [Screens.TokenBalances]: undefined
 }
 

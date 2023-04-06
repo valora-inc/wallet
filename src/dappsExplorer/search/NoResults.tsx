@@ -13,7 +13,7 @@ interface Props {
 
 function NoResults({ testID, searchTerm }: Props) {
   return (
-    <View testID={`${testID}/NoResults`} style={styles.viewContainer}>
+    <View testID={testID} style={styles.viewContainer}>
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.onboardingBlue} />
       </View>
