@@ -93,6 +93,7 @@ describe('TokenBottomSheet', () => {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
+          title="testTitle"
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
