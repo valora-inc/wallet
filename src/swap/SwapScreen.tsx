@@ -347,7 +347,7 @@ export function SwapScreen() {
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
         searchEnabled={swappingNonNativeTokensEnabled}
-        tokens={Object.values(supportedTokens)}
+        tokens={sortedTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
