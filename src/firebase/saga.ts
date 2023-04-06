@@ -47,6 +47,17 @@ export function* waitForFirebaseAuth() {
   return
 }
 
+let visitedHome = false
+export function* waitForVisitedHome() {
+  // todo refactor to be more DRY
+  if (visitedHome) {
+    return
+  }
+  yield take(HomeActions.VISIT_HOME)
+  visitedHome = true
+  return
+}
+
 function* initializeFirebase() {
   const address = yield call(getAccount)
   if (isE2EEnv) {
@@ -68,6 +79,8 @@ function* initializeFirebase() {
 
         yield call(initializeAuth, firebase, address)
         yield put(firebaseAuthorized())
+        yield waitForVisitedHome()
+        yield call(initializeCloudMessaging, firebase, address)
         Logger.info(TAG, `Firebase initialized`)
 
         return
@@ -83,13 +96,6 @@ function* initializeFirebase() {
     Logger.error(TAG, 'Error while initializing firebase', error)
     yield put(showError(ErrorMessages.FIREBASE_FAILED))
   }
-}
-
-export function* initializeMessagingOnVisitHome() {
-  yield take(HomeActions.VISIT_HOME) // todo need this to work for any end of onboarding screen, not just home (could be CYA screen)
-  yield call(waitForFirebaseAuth) // todo might want to put this stuff into initializeCloudMessaging to keep things simpler. should watch out for tests though.
-  const address = yield call(getAccount)
-  yield call(initializeCloudMessaging, firebase, address)
 }
 
 export function* syncLanguageSelection() {
@@ -177,7 +183,6 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
 
 export function* firebaseSaga() {
   yield spawn(initializeFirebase)
-  yield spawn(initializeMessagingOnVisitHome)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
   yield takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
