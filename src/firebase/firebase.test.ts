@@ -50,6 +50,7 @@ describe(initializeCloudMessaging, () => {
     let catchedError
 
     await expectSaga(initializeCloudMessaging, app, mockAccount)
+      .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
           call([app.messaging(), 'hasPermission']),
@@ -95,6 +96,7 @@ describe(initializeCloudMessaging, () => {
 
   it('should track when messaging permission is granted', async () => {
     await expectSaga(initializeCloudMessaging, app, mockAccount)
+      .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
           call([app.messaging(), 'hasPermission']),

@@ -15,7 +15,6 @@ import {
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions } from 'src/app/actions'
-import { Actions as HomeActions } from 'src/home/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
@@ -37,23 +36,15 @@ const EXCHANGE_RATES = 'exchangeRates'
 const VALUE_CHANGE_HOOK = 'value'
 const FIREBASE_CONNECT_RETRIES = 3
 
-const actionSeen: Record<string, boolean> = {}
-
-export function* waitForAction(action: Actions | HomeActions) {
-  if (actionSeen[action]) {
-    return
-  }
-  yield take(action)
-  actionSeen[action] = true
-  return
-}
+let firebaseAlreadyAuthorized = false
 
 export function* waitForFirebaseAuth() {
-  yield waitForAction(Actions.AUTHORIZED)
-}
-
-export function* waitForVisitHome() {
-  yield waitForAction(HomeActions.VISIT_HOME)
+  if (firebaseAlreadyAuthorized) {
+    return
+  }
+  yield take(Actions.AUTHORIZED)
+  firebaseAlreadyAuthorized = true
+  return
 }
 
 export function* initializeFirebase() {
@@ -77,7 +68,6 @@ export function* initializeFirebase() {
 
         yield call(initializeAuth, firebase, address)
         yield put(firebaseAuthorized())
-        yield waitForVisitHome()
         yield call(initializeCloudMessaging, firebase, address)
         Logger.info(TAG, `Firebase initialized`)
 

@@ -27,6 +27,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
+import { Actions as HomeActions } from 'src/home/actions'
 
 const TAG = 'firebase/firebase'
 
@@ -150,6 +151,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
+    yield take(HomeActions.VISIT_HOME)
     try {
       yield call([app.messaging(), 'requestPermission'])
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
