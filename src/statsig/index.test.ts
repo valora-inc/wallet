@@ -138,6 +138,18 @@ describe('Statsig helpers', () => {
     })
   })
   describe('patchUpdateStatsigUser', () => {
+    it('logs an error if statsig throws', async () => {
+      mocked(Statsig.updateUser).mockRejectedValue(new Error())
+      await patchUpdateStatsigUser()
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: {
+          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+        },
+      })
+      expect(Logger.error).toHaveBeenCalledTimes(1)
+    })
     it('uses default values when passed no parameters', async () => {
       await patchUpdateStatsigUser()
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)

@@ -87,10 +87,16 @@ export function getDefaultStatsigUser(): StatsigUser {
  * object is provided as a parameter, the provided object will be deep merged with the default
  * object from redux, with the provided object overriding fields in the default object.
  *
+ * If the update fails for whatever reason, an error will be logged.
+ *
  * This function does not update default values in redux; callers are expected to update redux
  * state themselves.
  */
 export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
-  const defaultUser = getDefaultStatsigUser()
-  await Statsig.updateUser(_.merge(defaultUser, statsigUser))
+  try {
+    const defaultUser = getDefaultStatsigUser()
+    await Statsig.updateUser(_.merge(defaultUser, statsigUser))
+  } catch (error) {
+    Logger.error(TAG, 'Failed to update Statsig user', error)
+  }
 }
