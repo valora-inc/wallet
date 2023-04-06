@@ -233,7 +233,7 @@ export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction
   yield call(patchUpdateStatsigUser)
   if (action.screen === Screens.WalletHome) {
     navigateHome()
-  } else if (action.screen) {
+  } else {
     navigate(action.screen)
   }
 }
