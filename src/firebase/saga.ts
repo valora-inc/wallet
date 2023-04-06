@@ -24,6 +24,7 @@ import {
   checkInitialNotification,
   initializeAuth,
   initializeCloudMessaging,
+  takeWithInMemoryCache,
   watchFirebaseNotificationChannel,
 } from 'src/firebase/firebase'
 import { setLanguage } from 'src/i18n/slice'
@@ -36,15 +37,8 @@ const EXCHANGE_RATES = 'exchangeRates'
 const VALUE_CHANGE_HOOK = 'value'
 const FIREBASE_CONNECT_RETRIES = 3
 
-let firebaseAlreadyAuthorized = false
-
 export function* waitForFirebaseAuth() {
-  if (firebaseAlreadyAuthorized) {
-    return
-  }
-  yield take(Actions.AUTHORIZED)
-  firebaseAlreadyAuthorized = true
-  return
+  yield takeWithInMemoryCache(Actions.AUTHORIZED)
 }
 
 export function* initializeFirebase() {
