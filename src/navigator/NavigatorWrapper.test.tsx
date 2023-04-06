@@ -28,12 +28,11 @@ describe('NavigatorWrapper', () => {
 
   function renderNavigatorWrapper() {
     const store = createMockStore()
-    const tree = render(
+    render(
       <Provider store={store}>
         <NavigatorWrapper />
       </Provider>
     )
-    return { tree, store }
   }
 
   it('forces backup when deadline in past and enableForcedBackup is true', () => {
