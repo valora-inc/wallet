@@ -11,7 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { setSwapUserInput } from 'src/swap/slice'
-import SwapScreen, { SwapScreenSection } from 'src/swap/SwapScreen'
+import SwapScreen, { SwapScreenSection } from 'src/swap/SwapDrawerScreen'
 import { Field } from 'src/swap/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
@@ -34,7 +34,7 @@ jest.mock('react-native-localize', () => ({
 }))
 
 const now = Date.now()
-const emptyProps = {} as NativeStackScreenProps<StackParamList, Screens.SwapActionScreen>
+const emptyProps = {} as NativeStackScreenProps<StackParamList, Screens.SwapScreen>
 
 const renderScreen = ({
   celoBalance = '10',
@@ -618,7 +618,7 @@ describe('SwapScreen', () => {
   it('should be able to hide top drawer nav when parameter is set', () => {
     const mockProps = { navigation: mockNavigation } as NativeStackScreenProps<
       StackParamList,
-      Screens.SwapActionScreen
+      Screens.SwapScreen
     >
     const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({
       showDrawerTopNav: false,

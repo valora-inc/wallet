@@ -122,9 +122,9 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import SwapActionScreen from 'src/swap/SwapActionScreen'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
+import SwapScreen from 'src/swap/SwapScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
@@ -586,8 +586,8 @@ const generalScreens = (Navigator: typeof Stack) => (
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
-      name={Screens.SwapActionScreen}
-      component={SwapActionScreen}
+      name={Screens.SwapScreen}
+      component={SwapScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen

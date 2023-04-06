@@ -51,7 +51,7 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
-        navigate(Screens.SwapActionScreen)
+        navigate(Screens.SwapScreen)
       },
     },
     {
