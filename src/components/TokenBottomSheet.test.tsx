@@ -91,7 +91,6 @@ describe('TokenBottomSheet', () => {
   beforeAll(() => {
     // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
     global.__reanimatedWorkletInit = jest.fn()
-    jest.useFakeTimers()
   })
 
   afterAll(() => {
@@ -168,7 +167,7 @@ describe('TokenBottomSheet', () => {
 
     act(() => {
       fireEvent.changeText(searchInput, 'Celo')
-      // Wait for the search debounce
+      // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
@@ -183,7 +182,7 @@ describe('TokenBottomSheet', () => {
 
     act(() => {
       fireEvent.changeText(searchInput, 'Test')
-      // Wait for the search debounce
+      // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
@@ -198,7 +197,7 @@ describe('TokenBottomSheet', () => {
 
     act(() => {
       fireEvent.changeText(searchInput, 'Usd')
-      // Wait for the search debounce
+      // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
@@ -219,7 +218,7 @@ describe('TokenBottomSheet', () => {
     act(() => {
       fireEvent.changeText(searchInput, 'TemporaryInput')
       fireEvent.changeText(searchInput, 'FinalInput')
-      // Wait for the search debounce
+      // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
