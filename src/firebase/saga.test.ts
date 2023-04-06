@@ -1,10 +1,8 @@
 import { initializeFirebase, waitForAction } from 'src/firebase/saga'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select, take } from 'redux-saga/effects'
+import { call } from 'redux-saga/effects'
 import { getAccount } from 'src/web3/saga'
 import { initializeAuth, initializeCloudMessaging } from 'src/firebase/firebase'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { mocked } from 'ts-jest/utils'
 import firebase from '@react-native-firebase/app'
 
 jest.mock('@react-native-firebase/app', () => ({
@@ -12,7 +10,6 @@ jest.mock('@react-native-firebase/app', () => ({
 }))
 jest.mock('src/firebase/firebase')
 jest.mock('@celo/utils/lib/async')
-jest.mock('src/web3/selectors')
 
 describe('firebase saga', () => {
   it('waitForAction', async () => {
@@ -31,9 +28,8 @@ describe('firebase saga', () => {
   })
   it('initializeFirebase', async () => {
     const testAddress = '0x123'
-    mocked(walletAddressSelector).mockReturnValue(testAddress) // todo use provider for this instead? like this: [select(walletAddressSelector), '0x123']
     await expectSaga(initializeFirebase)
-      .call(getAccount)
+      .provide([[call(getAccount), testAddress]])
       .call(initializeAuth, firebase, testAddress)
       .put({ type: 'FIREBASE/AUTHORIZED' })
       .dispatch({ type: 'HOME/VISIT_HOME' })
