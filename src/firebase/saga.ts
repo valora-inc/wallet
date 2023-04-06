@@ -56,7 +56,7 @@ export function* waitForVisitHome() {
   yield waitForAction(HomeActions.VISIT_HOME)
 }
 
-function* initializeFirebase() {
+export function* initializeFirebase() {
   const address = yield call(getAccount)
   if (isE2EEnv) {
     // Return early if isE2EEnv === true and don't show banner
