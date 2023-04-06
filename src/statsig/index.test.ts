@@ -1,5 +1,9 @@
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { getDynamicConfigParams, getExperimentParams, initializeStatsig } from 'src/statsig/index'
+import {
+  getDynamicConfigParams,
+  getExperimentParams,
+  patchUpdateStatsigUser,
+} from 'src/statsig/index'
 import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
@@ -141,24 +145,16 @@ describe('Statsig helpers', () => {
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
     })
   })
-  describe('initializeStatsig', () => {
+  describe('patchUpdateStatsigUser', () => {
     it('uses default values when passed no parameters', async () => {
-      await initializeStatsig()
-      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
-      expect(Statsig.initialize).toHaveBeenCalledWith(
-        'api key',
-        {
-          userID: MOCK_ACCOUNT.toLowerCase(),
-          custom: {
-            startOnboardingTime: MOCK_START_ONBOARDING_TIME,
-          },
+      await patchUpdateStatsigUser()
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: {
+          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
         },
-        {
-          overrideStableID: 'statsig id',
-          environment: { tier: 'development' },
-          localMode: true,
-        }
-      )
+      })
     })
     it('overrides custom fields when passed', async () => {
       const statsigUser = {
@@ -167,20 +163,12 @@ describe('Statsig helpers', () => {
           otherCustomProperty: 'foo',
         },
       }
-      await initializeStatsig(statsigUser)
-      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
-      expect(Statsig.initialize).toHaveBeenCalledWith(
-        'api key',
-        {
-          userID: MOCK_ACCOUNT.toLowerCase(),
-          custom: statsigUser.custom,
-        },
-        {
-          overrideStableID: 'statsig id',
-          environment: { tier: 'development' },
-          localMode: true,
-        }
-      )
+      await patchUpdateStatsigUser(statsigUser)
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: statsigUser.custom,
+      })
     })
     it('overrides user ID when passed', async () => {
       const statsigUser = {
@@ -190,13 +178,9 @@ describe('Statsig helpers', () => {
           otherCustomProperty: 'foo',
         },
       }
-      await initializeStatsig(statsigUser)
-      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
-      expect(Statsig.initialize).toHaveBeenCalledWith('api key', statsigUser, {
-        overrideStableID: 'statsig id',
-        environment: { tier: 'development' },
-        localMode: true,
-      })
+      await patchUpdateStatsigUser(statsigUser)
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith(statsigUser)
     })
     it('uses custom and default fields', async () => {
       const statsigUser = {
@@ -205,23 +189,15 @@ describe('Statsig helpers', () => {
           otherCustomProperty2: 'bar',
         },
       }
-      await initializeStatsig(statsigUser)
-      expect(Statsig.initialize).toHaveBeenCalledTimes(1)
-      expect(Statsig.initialize).toHaveBeenCalledWith(
-        'api key',
-        {
-          userID: MOCK_ACCOUNT.toLowerCase(),
-          custom: {
-            startOnboardingTime: MOCK_START_ONBOARDING_TIME,
-            ...statsigUser.custom,
-          },
+      await patchUpdateStatsigUser(statsigUser)
+      expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
+      expect(Statsig.updateUser).toHaveBeenCalledWith({
+        userID: MOCK_ACCOUNT.toLowerCase(),
+        custom: {
+          startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          ...statsigUser.custom,
         },
-        {
-          overrideStableID: 'statsig id',
-          environment: { tier: 'development' },
-          localMode: true,
-        }
-      )
+      })
     })
   })
 })

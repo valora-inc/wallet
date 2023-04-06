@@ -16,7 +16,7 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { default as useSelector } from 'src/redux/useSelector'
-import { getExperimentParams, initializeStatsig, getDefaultStatsigUser } from 'src/statsig'
+import { getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -62,7 +62,7 @@ export default function Welcome() {
       try {
         // this lets us restrict some onboarding experiments to only users who begin onboarding
         //  after the experiment begins
-        await initializeStatsig({ custom: { startOnboardingTime: now } })
+        await patchUpdateStatsigUser({ custom: { startOnboardingTime: now } })
       } catch (error) {
         Logger.error(TAG, 'Failed to update Statsig user with startOnboardingTimestamp', error)
       }

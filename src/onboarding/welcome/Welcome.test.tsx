@@ -5,14 +5,14 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import Welcome from 'src/onboarding/welcome/Welcome'
-import { initializeStatsig } from 'src/statsig'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/onboarding/steps')
 jest.mock('src/statsig', () => ({
   ...(jest.requireActual('src/statsig') as any),
-  initializeStatsig: jest.fn(),
+  patchUpdateStatsigUser: jest.fn(),
 }))
 jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
 
@@ -29,8 +29,8 @@ describe('Welcome', () => {
     )
     fireEvent.press(getByTestId('CreateAccountButton'))
     jest.runOnlyPendingTimers()
-    await Promise.resolve() // waits for initializeStatsig promise to resolve
-    expect(initializeStatsig).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
+    await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
+    expect(patchUpdateStatsigUser).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
@@ -69,7 +69,7 @@ describe('Welcome', () => {
 
     fireEvent.press(getByTestId('CreateAccountButton'))
     jest.runOnlyPendingTimers()
-    await Promise.resolve() // waits for initializeStatsig promise to resolve
+    await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
     expect(firstOnboardingScreen).toHaveBeenCalled()
     expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
   })

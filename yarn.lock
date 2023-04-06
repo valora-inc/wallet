@@ -17544,14 +17544,13 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-statsig-js@^4.28.1:
-  version "4.28.1"
-  resolved "https://registry.yarnpkg.com/statsig-js/-/statsig-js-4.28.1.tgz#07010f1cd51012087f3b5f7a51fe23767dd876dd"
-  integrity sha512-ZRmkWWsst06JWT9jQncLDLG1KGXnLtaHvMoeC6pLUa4n6sU0It0SpupVTeC+60wH3I/+PHU2y6C5u7bR1MFzMA==
+statsig-js@^4.33.1:
+  version "4.33.1"
+  resolved "https://registry.yarnpkg.com/statsig-js/-/statsig-js-4.33.1.tgz#58790d351fcda065be134ed64c7417846fa842c0"
+  integrity sha512-ag+OLO3UkwQnURcZWKQ7AJHPCgJxZTY5iN1rc8C4a0P1gsfg1FN3CGdPRpXSyhGhfu2PQ3Fb87qs4TPxYJ3w3w==
   dependencies:
     js-sha256 "^0.9.0"
     uuid "^8.3.2"
-    whatwg-fetch "^3.6.2"
 
 statsig-react-native@^4.9.2:
   version "4.9.2"
@@ -17563,11 +17562,11 @@ statsig-react-native@^4.9.2:
     uuid "^3.4.0"
 
 statsig-react@^1.21.1:
-  version "1.21.1"
-  resolved "https://registry.yarnpkg.com/statsig-react/-/statsig-react-1.21.1.tgz#6ad0cf7dc08b9f0f6cb52b62a0312eee6a7aa21a"
-  integrity sha512-2SpBTMcqb2b+7AYGjW7W6OUXy9sG+e7ScUpq2HUweYG0EPCQ6Evwxpa/CTLy0q7IvEpVLzfiPRKA+c6yZC49qw==
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/statsig-react/-/statsig-react-1.27.0.tgz#2c4c2ae37673c2773ab51b54eab13a5824987066"
+  integrity sha512-t288cQUEistyp/9R8HNPzdNYehiPiHy1GV0nfuVvhn/PMYMPoZhI2c3XxsK71InJur2gJlDdO80sF1VtfQn8sw==
   dependencies:
-    statsig-js "^4.28.1"
+    statsig-js "^4.33.1"
 
 statuses@2.0.1:
   version "2.0.1"
@@ -19721,7 +19720,7 @@ whatwg-fetch@^3.0.0:
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
 
-whatwg-fetch@^3.4.1, whatwg-fetch@^3.6.2:
+whatwg-fetch@^3.4.1:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
   integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==

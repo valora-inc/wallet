@@ -21,7 +21,7 @@ import {
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
-import { initializeStatsig, getDefaultStatsigUser } from 'src/statsig'
+import { getDefaultStatsigUser } from 'src/statsig'
 import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
@@ -140,7 +140,6 @@ class ValoraAnalytics {
         environment: STATSIG_ENV,
         localMode: isE2EEnv,
       })
-      await initializeStatsig()
     } catch (error) {
       Logger.warn(TAG, `Statsig setup error`, error)
     }

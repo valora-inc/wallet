@@ -42,7 +42,7 @@ import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { initializeStatsig } from 'src/statsig'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { getWalletAddress } from 'src/web3/saga'
 import {
@@ -230,7 +230,7 @@ export function* handleUpdateAccountRegistration() {
 export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction) {
   // Wait for wallet address to exist before updating statsig user
   yield call(getWalletAddress)
-  yield call(initializeStatsig)
+  yield call(patchUpdateStatsigUser)
   if (action.screen === Screens.WalletHome) {
     navigateHome()
   } else if (action.screen) {
@@ -241,9 +241,8 @@ export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction
 export function* watchUpdateStatsigAndNavigate() {
   const action: UpdateStatsigAndNavigateAction = yield takeLeading(
     OnboardingActions.UPDATE_STATSIG_AND_NAVIGATE,
-    updateStatsigAndNavigate
+    safely(updateStatsigAndNavigate)
   )
-  yield call(updateStatsigAndNavigate, action)
 }
 
 export function* watchClearStoredAccount() {

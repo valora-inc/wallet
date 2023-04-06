@@ -1,6 +1,4 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
-import Analytics from '@segment/analytics-react-native'
-import { E2E_TEST_STATSIG_ID, isE2EEnv, STATSIG_API_KEY, STATSIG_ENV } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 import { EvaluationReason } from 'statsig-js'
@@ -39,12 +37,13 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
-
     if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
+      const stack = new Error().stack
       Logger.warn(
         TAG,
-        'getExperimentParams: SDK is uninitialized when getting experiment',
-        experiment
+        'getExperimentParams: SDK is uninitialized when getting experiment statsig',
+        experiment,
+        stack
       )
     }
     return getParams({ config: experiment, defaultValues })
@@ -85,15 +84,15 @@ export function getDefaultStatsigUser(): StatsigUser {
 }
 
 /**
- * Initializes the Statsig SDK. If no argument is given, a default StatsigUser
- * object is used to initialize the SDK, based on values from the redux store. If a StatsigUser
+ * Updates the current Statsig user. If no argument is given, a default StatsigUser
+ * object is used to update the user, based on values from the redux store. If a StatsigUser
  * object is provided as a parameter, the provided object will be deep merged with the default
  * object from redux, with the provided object overriding fields in the default object.
  *
  * This function does not update default values in redux; callers are expected to update redux
  * state themselves.
  */
-export async function initializeStatsig(statsigUser?: StatsigUser) {
+export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
   const defaultUser = getDefaultStatsigUser()
   await Statsig.updateUser(_.merge(defaultUser, statsigUser))
 }
