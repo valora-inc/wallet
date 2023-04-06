@@ -20,7 +20,6 @@ import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
-import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import { CeloExchangeEvents } from 'src/analytics/Events'
@@ -87,6 +86,7 @@ import {
   noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
+import { getInitialRoute } from 'src/navigator/initialRoute'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
@@ -122,9 +122,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -609,7 +606,7 @@ const mapStateToProps = (state: RootState) => {
     account: state.web3.account,
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
-    hasSeenRecoveryPhraseInOnboarding: state.account.hasSeenRecoveryPhraseInOnboarding,
+    recoveryPhraseInOnboardingStatus: state.account.recoveryPhraseInOnboardingStatus,
   }
 }
 
@@ -626,30 +623,18 @@ export function MainStackScreen() {
       pincodeType,
       account,
       hasSeenVerificationNux,
-      hasSeenRecoveryPhraseInOnboarding,
+      recoveryPhraseInOnboardingStatus,
     } = mapStateToProps(store.getState())
 
-    let initialRoute: InitialRouteName
-
-    if (!language) {
-      initialRoute = Screens.Language
-    } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
-      // allow empty username
-      // User didn't go far enough in onboarding, start again from education
-      initialRoute = Screens.Welcome
-    } else if (!account) {
-      initialRoute = choseToRestoreAccount ? Screens.ImportWallet : Screens.Welcome
-    } else if (
-      getExperimentParams(ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING])
-        .showRecoveryPhraseInOnboarding &&
-      !hasSeenRecoveryPhraseInOnboarding
-    ) {
-      initialRoute = Screens.ProtectWallet
-    } else if (!hasSeenVerificationNux) {
-      initialRoute = Screens.VerificationStartScreen
-    } else {
-      initialRoute = Screens.DrawerNavigator
-    }
+    const initialRoute: InitialRouteName = getInitialRoute({
+      choseToRestoreAccount,
+      language,
+      acceptedTerms,
+      pincodeType,
+      account,
+      hasSeenVerificationNux,
+      recoveryPhraseInOnboardingStatus,
+    })
 
     setInitialRoute(initialRoute)
     Logger.info(`${TAG}@MainStackScreen`, `Initial route: ${initialRoute}`)

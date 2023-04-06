@@ -33,7 +33,7 @@ export interface State {
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
   celoEducationCompleted: boolean
-  hasSeenRecoveryPhraseInOnboarding: boolean
+  recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus
 }
 
 export enum PincodeType {
@@ -68,6 +68,12 @@ export enum FinclusiveKycStatus {
   InReview = 4,
 }
 
+export enum RecoveryPhraseInOnboardingStatus {
+  NotSeen = 'NotSeen', // ineligible and control users, and variant users who have not reached the "ProtectWallet" screen
+  Seen = 'Seen', // variant users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
+  Saved = 'Saved', // variant users who have clicked "I've saved it"
+}
+
 export const initialState: State = {
   name: null,
   e164PhoneNumber: null,
@@ -96,7 +102,7 @@ export const initialState: State = {
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
   celoEducationCompleted: false,
-  hasSeenRecoveryPhraseInOnboarding: false,
+  recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
 }
 
 export const reducer = (
@@ -271,7 +277,12 @@ export const reducer = (
     case Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN:
       return {
         ...state,
-        hasSeenRecoveryPhraseInOnboarding: true,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Seen,
+      }
+    case Actions.RECOVERY_PHRASE_IN_ONBOARDING_SAVED:
+      return {
+        ...state,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Saved,
       }
     default:
       return state

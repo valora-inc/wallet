@@ -2,6 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { recoveryPhraseInOnboardingSeen } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
@@ -56,6 +57,7 @@ describe('ProtectWalletScreen', () => {
       account: '0xaccount',
     },
   })
+  store.dispatch = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
     mocked(getExperimentParams).mockReturnValue(mockExperimentParams)
@@ -68,6 +70,7 @@ describe('ProtectWalletScreen', () => {
         <ProtectWallet {...mockScreenProps} />
       </Provider>
     )
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingSeen())
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(queryByTestId('cloudBackupCard')).toBeNull()
@@ -79,6 +82,7 @@ describe('ProtectWalletScreen', () => {
         <ProtectWallet {...mockScreenProps} />
       </Provider>
     )
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingSeen())
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(getByTestId('cloudBackupCard')).toBeTruthy()

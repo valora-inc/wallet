@@ -32,6 +32,7 @@ export enum Actions {
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
   SET_CELO_EDUCATION_COMPLETED = 'ACCOUNT/SET_CELO_EDUCATION_COMPLETED',
   RECOVERY_PHRASE_IN_ONBOARDING_SEEN = 'ACCOUNT/RECOVERY_PHRASE_IN_ONBOARDING_SEEN',
+  RECOVERY_PHRASE_IN_ONBOARDING_SAVED = 'ACCOUNT/RECOVERY_PHRASE_IN_ONBOARDING_SAVED',
 }
 
 export interface ChooseCreateAccountAction {
@@ -165,6 +166,10 @@ export interface RecoveryPhraseInOnboardingSeen {
   type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN
 }
 
+export interface RecoveryPhraseInOnboardingSaved {
+  type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_SAVED
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -195,6 +200,7 @@ export type ActionTypes =
   | SaveSignedMessage
   | SetCeloEducationCompletedAction
   | RecoveryPhraseInOnboardingSeen
+  | RecoveryPhraseInOnboardingSaved
 
 export function chooseCreateAccount(now: number): ChooseCreateAccountAction {
   return {
@@ -353,4 +359,8 @@ export const setGoldEducationCompleted = (): SetCeloEducationCompletedAction => 
 
 export const recoveryPhraseInOnboardingSeen = (): RecoveryPhraseInOnboardingSeen => ({
   type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN,
+})
+
+export const recoveryPhraseInOnboardingSaved = (): RecoveryPhraseInOnboardingSaved => ({
+  type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_SAVED,
 })

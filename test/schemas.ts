@@ -1,5 +1,9 @@
 import _ from 'lodash'
-import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
+import {
+  FinclusiveKycStatus,
+  PincodeType,
+  RecoveryPhraseInOnboardingStatus,
+} from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
@@ -2180,7 +2184,7 @@ export const v122Schema = {
   },
   account: {
     ...v121Schema.account,
-    hasSeenRecoveryPhraseInOnboarding: false,
+    recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
   },
 }
 

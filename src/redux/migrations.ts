@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { FinclusiveKycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
@@ -1103,7 +1103,7 @@ export const migrations = {
     ...state,
     account: {
       ...state.account,
-      hasSeenRecoveryPhraseInOnboarding: true,
+      recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
     },
   }),
 }
