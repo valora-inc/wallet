@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
@@ -21,6 +21,8 @@ export enum TokenPickerOrigin {
   Exchange = 'Exchange',
   Swap = 'Swap',
 }
+
+export const DEBOUCE_WAIT_TIME = 200
 
 interface Props {
   isVisible: boolean
@@ -72,14 +74,12 @@ function TokenBottomSheet({
   searchEnabled,
   title,
 }: Props) {
-  const [searchInputText, setSearchInputText] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const { t } = useTranslation()
 
   const resetSearchState = () => {
-    setSearchQuery('')
-    setSearchInputText('')
+    setSearchTerm('')
   }
 
   const onCloseBottomSheet = () => {
@@ -96,41 +96,36 @@ function TokenBottomSheet({
     resetSearchState()
   }
 
-  const debounceSearch = useCallback(
+  const sendAnalytics = useCallback(
     debounce((searchInput: string) => {
-      setSearchQuery(searchInput)
       ValoraAnalytics.track(TokenBottomSheetEvents.search_token, {
         origin,
         searchInput,
       })
-    }, 5),
+    }, DEBOUCE_WAIT_TIME),
     []
   )
 
-  const tokenList = useMemo(
-    () =>
-      tokens.filter((tokenInfo) => {
-        if (searchQuery.length === 0) {
-          return true
-        }
+  const tokenList = tokens.filter((tokenInfo) => {
+    if (searchTerm.length === 0) {
+      return true
+    }
 
-        return (
-          tokenInfo.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          tokenInfo.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      }),
-    [searchQuery]
-  )
+    return (
+      tokenInfo.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tokenInfo.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  })
 
   const titleComponent = <Text style={styles.title}>{title}</Text>
 
   const searchInput = (
     <SearchInput
       placeholder={t('tokenBottomSheet.searchAssets')}
-      value={searchInputText}
+      value={searchTerm}
       onChangeText={(text) => {
-        setSearchInputText(text)
-        debounceSearch(text)
+        setSearchTerm(text)
+        sendAnalytics(text)
       }}
       style={styles.searchInput}
       returnKeyType={'search'}
@@ -154,7 +149,7 @@ function TokenBottomSheet({
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.onboardingBlue} />
       </View>
-      <Text style={styles.text}>{t('tokenBottomSheet.noTokenInResult', { searchQuery })}</Text>
+      <Text style={styles.text}>{t('tokenBottomSheet.noTokenInResult', { searchTerm })}</Text>
     </View>
   )
 

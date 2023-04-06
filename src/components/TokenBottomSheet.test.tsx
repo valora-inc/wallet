@@ -4,7 +4,10 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  DEBOUCE_WAIT_TIME,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
@@ -96,6 +99,8 @@ describe('TokenBottomSheet', () => {
   })
 
   beforeEach(() => {
+    // see: https://stackoverflow.com/questions/52695553/testing-debounced-function-in-react-component-with-jest-and-enzyme/64336022#64336022
+    jest.useFakeTimers('modern')
     jest.clearAllMocks()
   })
 
@@ -164,7 +169,7 @@ describe('TokenBottomSheet', () => {
     act(() => {
       fireEvent.changeText(searchInput, 'Celo')
       // Wait for the search debounce
-      jest.runAllTimers()
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -179,7 +184,7 @@ describe('TokenBottomSheet', () => {
     act(() => {
       fireEvent.changeText(searchInput, 'Test')
       // Wait for the search debounce
-      jest.runAllTimers()
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -194,7 +199,7 @@ describe('TokenBottomSheet', () => {
     act(() => {
       fireEvent.changeText(searchInput, 'Usd')
       // Wait for the search debounce
-      jest.runAllTimers()
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -215,7 +220,7 @@ describe('TokenBottomSheet', () => {
       fireEvent.changeText(searchInput, 'TemporaryInput')
       fireEvent.changeText(searchInput, 'FinalInput')
       // Wait for the search debounce
-      jest.runAllTimers()
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
     // We don't send events for intermediate search inputs

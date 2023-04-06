@@ -86,10 +86,10 @@ function BottomSheet({
         <Animated.View style={[styles.background, animatedOpacity]} />
       </TouchableWithoutFeedback>
 
-      <View
+      <Animated.View
         style={[
           styles.contentContainer,
-          { paddingBottom, maxHeight, minHeight },
+          { paddingBottom, maxHeight: maxHeight, minHeight },
           animatedPickerPosition,
         ]}
         onLayout={onLayout}
@@ -97,13 +97,13 @@ function BottomSheet({
         <View style={styles.stickyHeader}>{stickyHeader}</View>
 
         <Animated.ScrollView
-          contentContainerStyle={
-            pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined
-          }
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={styles.scrollViewContent}
         >
           {children}
         </Animated.ScrollView>
-      </View>
+      </Animated.View>
     </View>
   )
 }
@@ -132,10 +132,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
   },
-  fullHeightScrollView: {
+  scrollViewContent: {
     width: '100%',
     paddingHorizontal: Spacing.Regular16,
-    paddingBottom: 50,
+    paddingBottom: Spacing.Regular16,
   },
   stickyHeader: {
     padding: Spacing.Regular16,
