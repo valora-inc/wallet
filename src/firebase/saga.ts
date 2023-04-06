@@ -37,25 +37,23 @@ const EXCHANGE_RATES = 'exchangeRates'
 const VALUE_CHANGE_HOOK = 'value'
 const FIREBASE_CONNECT_RETRIES = 3
 
-let firebaseAlreadyAuthorized = false
-export function* waitForFirebaseAuth() {
-  if (firebaseAlreadyAuthorized) {
+const actionSeen: Record<string, boolean> = {}
+
+export function* waitForAction(action: Actions | HomeActions) {
+  if (actionSeen[action]) {
     return
   }
-  yield take(Actions.AUTHORIZED)
-  firebaseAlreadyAuthorized = true
+  yield take(action)
+  actionSeen[action] = true
   return
 }
 
-let visitedHome = false
-export function* waitForVisitedHome() {
-  // todo refactor to be more DRY
-  if (visitedHome) {
-    return
-  }
-  yield take(HomeActions.VISIT_HOME)
-  visitedHome = true
-  return
+export function* waitForFirebaseAuth() {
+  yield waitForAction(Actions.AUTHORIZED)
+}
+
+export function* waitForVisitHome() {
+  yield waitForAction(HomeActions.VISIT_HOME)
 }
 
 function* initializeFirebase() {
@@ -79,7 +77,7 @@ function* initializeFirebase() {
 
         yield call(initializeAuth, firebase, address)
         yield put(firebaseAuthorized())
-        yield waitForVisitedHome()
+        yield waitForVisitHome()
         yield call(initializeCloudMessaging, firebase, address)
         Logger.info(TAG, `Firebase initialized`)
 
