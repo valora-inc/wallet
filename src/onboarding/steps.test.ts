@@ -15,7 +15,6 @@ import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { StackParamList } from 'src/navigator/types'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
-jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
 
 const mockStore = mocked(store)
 

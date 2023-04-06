@@ -239,10 +239,7 @@ export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction
 }
 
 export function* watchUpdateStatsigAndNavigate() {
-  const action: UpdateStatsigAndNavigateAction = yield takeLeading(
-    OnboardingActions.UPDATE_STATSIG_AND_NAVIGATE,
-    safely(updateStatsigAndNavigate)
-  )
+  yield takeLeading(OnboardingActions.UPDATE_STATSIG_AND_NAVIGATE, safely(updateStatsigAndNavigate))
 }
 
 export function* watchClearStoredAccount() {

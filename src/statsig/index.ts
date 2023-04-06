@@ -38,12 +38,10 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
   try {
     const experiment = Statsig.getExperiment(experimentName)
     if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
-      const stack = new Error().stack
       Logger.warn(
         TAG,
-        'getExperimentParams: SDK is uninitialized when getting experiment statsig',
-        experiment,
-        stack
+        'getExperimentParams: SDK is uninitialized when getting experiment',
+        experiment
       )
     }
     return getParams({ config: experiment, defaultValues })

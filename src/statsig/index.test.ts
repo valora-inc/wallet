@@ -12,14 +12,6 @@ import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 import { EvaluationReason } from 'statsig-js'
 
-jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
-jest.mock('src/config', () => ({
-  ...(jest.requireActual('src/config') as any),
-  E2E_TEST_STATSIG_ID: 'statsig id',
-  isE2EEnv: true,
-  STATSIG_API_KEY: 'api key',
-  STATSIG_ENV: { tier: 'development' },
-}))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')

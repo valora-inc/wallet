@@ -14,7 +14,6 @@ jest.mock('src/statsig', () => ({
   ...(jest.requireActual('src/statsig') as any),
   patchUpdateStatsigUser: jest.fn(),
 }))
-jest.mock('@segment/analytics-react-native', () => ({ __esModule: true }))
 
 describe('Welcome', () => {
   beforeAll(() => {
