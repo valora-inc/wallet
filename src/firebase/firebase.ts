@@ -163,7 +163,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
-    yield takeWithInMemoryCache(HomeActions.VISIT_HOME)
+    yield takeWithInMemoryCache(HomeActions.VISIT_HOME) // better than take(HomeActions.VISIT_HOME) because if failure occurs, retries can succeed without an additional visit home
     try {
       yield call([app.messaging(), 'requestPermission'])
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
