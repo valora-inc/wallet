@@ -3,7 +3,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
-export const shouldForceBackupSelector = (state: RootState) => {
+export const pastForcedBackupDeadlineSelector = (state: RootState) => {
   if (state.account.backupCompleted) {
     return false
   }
