@@ -64,9 +64,16 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }): T {
   try {
     const config = Statsig.getConfig(configName)
+    if (config.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
+      Logger.warn(
+        TAG,
+        'getDynamicConfigParams: SDK is uninitialized when getting experiment',
+        config
+      )
+    }
     return getParams({ config, defaultValues })
   } catch (error) {
-    Logger.warn('getDynamicConfig', `Error getting params for dynamic config: ${configName}`, error)
+    Logger.warn(TAG, `Error getting params for dynamic config: ${configName}`, error)
     return defaultValues
   }
 }
