@@ -1,4 +1,4 @@
-import { shouldForceBackupSelector } from 'src/backup/selectors'
+import { pastForcedBackupDeadlineSelector } from 'src/backup/selectors'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { getMockStoreData } from 'test/utils'
 
@@ -24,25 +24,29 @@ describe('backup/selectors', () => {
     dateNowSpy.mockRestore()
   })
 
-  describe('shouldForceBackupSelector', () => {
+  describe('pastForcedBackupDeadlineSelector', () => {
     it("should not force Recovery Phrase prompt if enough time hasn't passed since creation", () => {
       // Account created 12 hours ago, no delay and no backup.
       expect(
-        shouldForceBackupSelector(mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 0.5, null, false))
+        pastForcedBackupDeadlineSelector(
+          mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 0.5, null, false)
+        )
       ).toBe(false)
     })
 
     it('should force Recovery Phrase prompt if enough time passed since account creation', () => {
       // Account created 36 hours ago, no delay and no backup.
       expect(
-        shouldForceBackupSelector(mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, null, false))
+        pastForcedBackupDeadlineSelector(
+          mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, null, false)
+        )
       ).toBe(true)
     })
 
     it('should not force Recovery Phrase prompt if delay button was just pressed', () => {
       // Account created 36 hours ago, delay pressed less than an hour ago and no backup.
       expect(
-        shouldForceBackupSelector(
+        pastForcedBackupDeadlineSelector(
           mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, mockCurrentTime + 10, false)
         )
       ).toBe(false)
@@ -51,7 +55,7 @@ describe('backup/selectors', () => {
     it('should force Recovery Phrase prompt if delay button was pressed a while ago', () => {
       // Account created 36 hours ago, delay pressed over an hour ago and no backup.
       expect(
-        shouldForceBackupSelector(
+        pastForcedBackupDeadlineSelector(
           mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, mockCurrentTime - 10, false)
         )
       ).toBe(true)
@@ -60,7 +64,9 @@ describe('backup/selectors', () => {
     it('should not force Recovery Phrase prompt if backup was already completed', () => {
       // Account already backed up.
       expect(
-        shouldForceBackupSelector(mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, null, true))
+        pastForcedBackupDeadlineSelector(
+          mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, null, true)
+        )
       ).toBe(false)
     })
   })
