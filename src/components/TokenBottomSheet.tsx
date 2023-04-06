@@ -1,6 +1,6 @@
 import { debounce } from 'lodash'
 import React, { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -61,6 +61,21 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
         </View>
       </View>
     </Touchable>
+  )
+}
+
+function NoResults({ testID = 'NoResult', searchTerm }: { testID?: string; searchTerm: string }) {
+  return (
+    <View testID={testID} style={styles.viewContainer}>
+      <View style={styles.iconContainer}>
+        <InfoIcon color={Colors.onboardingBlue} />
+      </View>
+      <Text style={styles.text}>
+        <Trans i18nKey="tokenBottomSheet.noTokenInResult" tOptions={{ searchTerm }}>
+          <Text style={styles.text} />
+        </Trans>
+      </Text>
+    </View>
   )
 }
 
@@ -144,15 +159,6 @@ function TokenBottomSheet({
     </>
   )
 
-  const noTokensComponent = (
-    <View style={styles.viewContainer}>
-      <View style={styles.iconContainer}>
-        <InfoIcon color={Colors.onboardingBlue} />
-      </View>
-      <Text style={styles.text}>{t('tokenBottomSheet.noTokenInResult', { searchTerm })}</Text>
-    </View>
-  )
-
   return (
     <BottomSheet
       isVisible={isVisible}
@@ -162,7 +168,7 @@ function TokenBottomSheet({
     >
       <View>
         {tokenList.length == 0
-          ? noTokensComponent
+          ? NoResults({ searchTerm })
           : tokenList.map((tokenInfo, index) => {
               return (
                 <React.Fragment key={`token-${tokenInfo.address}`}>
