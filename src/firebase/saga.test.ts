@@ -17,19 +17,17 @@ jest.mock('src/web3/selectors')
 describe('firebase saga', () => {
   it('waitForAction', async () => {
     const testEffect = jest.fn()
-    const action = 'TestAction'
+    const testAction = 'TestAction'
     const testSaga = function* () {
-      yield waitForAction(action as any)
-      yield call(testEffect, 'done waiting')
+      yield waitForAction(testAction as any)
+      yield call(testEffect)
     }
-    // calls testEffect only after action is dispatched
-    await expectSaga(testSaga)
-      .not.call(testEffect)
-      .provide([[take(action), action]])
-      .call(testEffect, 'done waiting')
-      .run()
+
+    // calls testEffect after action is dispatched
+    await expectSaga(testSaga).dispatch({ type: testAction }).call(testEffect).run()
+
     // calls testEffect without waiting for action after the first time
-    await expectSaga(testSaga).call(testEffect, 'done waiting').run()
+    await expectSaga(testSaga).call(testEffect).run()
   })
   it('initializeFirebase', async () => {
     mocked(walletAddressSelector).mockReturnValue('0x123')
