@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
@@ -8,12 +9,19 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapScreen, { SwapScreenSection } from 'src/swap/SwapScreen'
 import { Field } from 'src/swap/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import {
+  mockAccount,
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockNavigation,
+} from 'test/values'
 
 const mockFetch = fetch as FetchMock
 
@@ -26,8 +34,14 @@ jest.mock('react-native-localize', () => ({
 }))
 
 const now = Date.now()
+const emptyProps = {} as NativeStackScreenProps<StackParamList, Screens.SwapActionScreen>
 
-const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTopNav = true }) => {
+const renderScreen = ({
+  celoBalance = '10',
+  cUSDBalance = '20.456',
+  showDrawerTopNav = true,
+  props = emptyProps,
+}) => {
   const store = createMockStore({
     tokens: {
       tokenBalances: {
@@ -94,7 +108,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
       {showDrawerTopNav ? (
         <SwapScreen />
       ) : (
-        <SwapScreenSection showDrawerTopNav={showDrawerTopNav} />
+        <SwapScreenSection showDrawerTopNav={false} props={props} />
       )}
     </Provider>
   )
@@ -602,12 +616,18 @@ describe('SwapScreen', () => {
   })
 
   it('should be able to hide top drawer nav when parameter is set', () => {
+    const mockProps = { navigation: mockNavigation } as NativeStackScreenProps<
+      StackParamList,
+      Screens.SwapActionScreen
+    >
     const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({
       showDrawerTopNav: false,
+      props: mockProps,
     })
 
     expect(queryByTestId('SwapScreen/DrawerBar')).toBeFalsy()
     expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(mockProps.navigation.setOptions).toHaveBeenCalled()
 
     expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()

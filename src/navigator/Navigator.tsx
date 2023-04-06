@@ -583,17 +583,12 @@ const generalScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const swapActionScreenOptions = {
-  ...headerWithBackButton,
-  headerTitle: i18n.t('swapScreen.title'),
-}
-
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
       name={Screens.SwapActionScreen}
       component={SwapActionScreen}
-      options={swapActionScreenOptions}
+      options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.SwapReviewScreen}

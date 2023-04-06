@@ -1,6 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -18,9 +19,10 @@ import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { styles as headerStyles } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -42,11 +44,19 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 
 const { decimalSeparator } = getNumberFormatSettings()
 
+type Props = NativeStackScreenProps<StackParamList, Screens.SwapActionScreen>
+
 function SwapScreen() {
   return <SwapScreenSection showDrawerTopNav={true} />
 }
 
-export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav?: boolean }) {
+export function SwapScreenSection({
+  showDrawerTopNav,
+  props,
+}: {
+  showDrawerTopNav: boolean
+  props?: Props
+}) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -95,6 +105,33 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav?: boo
     }),
     [swapAmount]
   )
+
+  const subTitleElement = useMemo(
+    () =>
+      exchangeRate && fromToken && toToken ? (
+        <Text style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}>
+          {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
+            5,
+            BigNumber.ROUND_DOWN
+          )} ${toToken.symbol}`}
+        </Text>
+      ) : undefined,
+    [exchangeRate, fromToken, toToken, fetchSwapQuoteError]
+  )
+
+  useLayoutEffect(() => {
+    //Props are defined only when navigation was to the SwapActionScreen
+    props?.navigation &&
+      props.navigation.setOptions({
+        headerTitle: () => (
+          <HeaderTitleWithSubtitle
+            testID="SwapActionScreen/header"
+            title={t('swapScreen.title')}
+            subTitle={subTitleElement}
+          />
+        ),
+      })
+  }, [props, subTitleElement])
 
   // Used to reset the swap when after a successful swap or error
   useEffect(() => {
@@ -265,16 +302,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav?: boo
           middleElement={
             <View style={styles.headerContainer}>
               <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-              {exchangeRate && fromToken && toToken && (
-                <Text
-                  style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
-                >
-                  {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
-                    5,
-                    BigNumber.ROUND_DOWN
-                  )} ${toToken.symbol}`}
-                </Text>
-              )}
+              {subTitleElement}
             </View>
           }
         />
