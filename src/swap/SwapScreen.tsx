@@ -346,8 +346,8 @@ export function SwapScreen() {
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
-        tokens={sortedTokens}
         searchEnabled={swappingNonNativeTokensEnabled}
+        tokens={Object.values(supportedTokens)}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
