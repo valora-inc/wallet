@@ -36,11 +36,27 @@ describe('NavigatorWrapper', () => {
     return { tree, store }
   }
 
-  it('forces backup when it should', () => {
+  it('forces backup when deadline in past and enableForcedBackup is true', () => {
     mocked(getExperimentParams).mockReturnValue({ enableForcedBackup: true })
     mocked(pastForcedBackupDeadlineSelector).mockReturnValue(true)
 
     renderNavigatorWrapper()
     expect(navigate).toHaveBeenCalledWith(Screens.BackupForceScreen)
+  })
+
+  it('does not force backup when enableForcedBackup is false', () => {
+    mocked(getExperimentParams).mockReturnValue({ enableForcedBackup: false })
+    mocked(pastForcedBackupDeadlineSelector).mockReturnValue(true)
+
+    renderNavigatorWrapper()
+    expect(navigate).not.toHaveBeenCalledWith(Screens.BackupForceScreen)
+  })
+
+  it('does not force backup when deadline in future', () => {
+    mocked(getExperimentParams).mockReturnValue({ enableForcedBackup: true })
+    mocked(pastForcedBackupDeadlineSelector).mockReturnValue(false)
+
+    renderNavigatorWrapper()
+    expect(navigate).not.toHaveBeenCalledWith(Screens.BackupForceScreen)
   })
 })
