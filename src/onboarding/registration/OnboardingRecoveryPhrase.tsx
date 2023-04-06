@@ -1,35 +1,36 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
-import Clipboard from '@react-native-clipboard/clipboard'
+import { useDispatch, useSelector } from 'react-redux'
+import { recoveryPhraseInOnboardingSeen } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackupPhraseContainer, {
+  BackupPhraseContainerMode,
+  BackupPhraseType,
+} from 'src/backup/BackupPhraseContainer'
+import { useAccountKey } from 'src/backup/utils'
+import BottomSheet from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import TextButton from 'src/components/TextButton'
+import CopyIcon from 'src/icons/CopyIcon'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import CopyIcon from 'src/icons/CopyIcon'
-import { useAccountKey } from 'src/backup/utils'
 import {
   getOnboardingStepValues,
   goToNextOnboardingScreen,
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
-import BackupPhraseContainer, {
-  BackupPhraseContainerMode,
-  BackupPhraseType,
-} from 'src/backup/BackupPhraseContainer'
 import { default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { twelveWordMnemonicEnabledSelector } from 'src/web3/selectors'
-import BottomSheet from 'src/components/BottomSheet'
-import TextButton from 'src/components/TextButton'
 import Logger from 'src/utils/Logger'
+import { twelveWordMnemonicEnabledSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
 
@@ -40,6 +41,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const accountKey = useAccountKey()
   const [showBottomSheet, setShowBottomSheet] = useState(false)
+  const dispatch = useDispatch()
 
   const { t } = useTranslation()
 
@@ -79,6 +81,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
   }
   const onPressContinue = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_complete)
+    dispatch(recoveryPhraseInOnboardingSeen())
     goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.ProtectWallet, onboardingProps })
   }
 

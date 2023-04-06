@@ -31,6 +31,7 @@ export enum Actions {
   DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
   SET_CELO_EDUCATION_COMPLETED = 'ACCOUNT/SET_CELO_EDUCATION_COMPLETED',
+  RECOVERY_PHRASE_IN_ONBOARDING_SEEN = 'ACCOUNT/RECOVERY_PHRASE_IN_ONBOARDING_SEEN',
 }
 
 export interface ChooseCreateAccountAction {
@@ -160,6 +161,10 @@ export interface SetCeloEducationCompletedAction {
   celoEducationCompleted: boolean
 }
 
+export interface RecoveryPhraseInOnboardingSeen {
+  type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -189,6 +194,7 @@ export type ActionTypes =
   | DismissStartSuperchargingAction
   | SaveSignedMessage
   | SetCeloEducationCompletedAction
+  | RecoveryPhraseInOnboardingSeen
 
 export function chooseCreateAccount(now: number): ChooseCreateAccountAction {
   return {
@@ -343,4 +349,8 @@ export const saveSignedMessage = (): SaveSignedMessage => ({
 export const setGoldEducationCompleted = (): SetCeloEducationCompletedAction => ({
   type: Actions.SET_CELO_EDUCATION_COMPLETED,
   celoEducationCompleted: true,
+})
+
+export const recoveryPhraseInOnboardingSeen = (): RecoveryPhraseInOnboardingSeen => ({
+  type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN,
 })

@@ -33,6 +33,7 @@ export interface State {
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
   celoEducationCompleted: boolean
+  hasSeenRecoveryPhraseInOnboarding: boolean
 }
 
 export enum PincodeType {
@@ -95,6 +96,7 @@ export const initialState: State = {
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
   celoEducationCompleted: false,
+  hasSeenRecoveryPhraseInOnboarding: false,
 }
 
 export const reducer = (
@@ -265,6 +267,11 @@ export const reducer = (
       return {
         ...state,
         celoEducationCompleted: action.celoEducationCompleted,
+      }
+    case Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN:
+      return {
+        ...state,
+        hasSeenRecoveryPhraseInOnboarding: true,
       }
     default:
       return state
