@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Dimensions,
+  Keyboard,
   LayoutChangeEvent,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -37,6 +38,10 @@ function BottomSheet({
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
   const safeAreaInsets = useSafeAreaInsets()
+
+  useEffect(() => {
+    if (isVisible) Keyboard.dismiss()
+  }, [isVisible])
 
   const progress = useSharedValue(0)
   const animatedPickerPosition = useAnimatedStyle(
