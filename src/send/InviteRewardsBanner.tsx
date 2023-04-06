@@ -1,17 +1,30 @@
 import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { INVITE_REWARDS_LEARN_MORE } from 'src/config'
 import { notificationInvite } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { inviteRewardsTypeSelector } from 'src/send/selectors'
+import { InviteRewardsType } from 'src/send/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 export function InviteRewardsBanner() {
   const { t } = useTranslation()
+  const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
+
+  // Default to NFT invite rewards banner
+  let title = t('inviteRewardsBanner.title')
+  let bodyKey = 'inviteRewardsBanner.body'
+
+  if (inviteRewardsType === InviteRewardsType.CUSD) {
+    title = t('inviteRewardsBannerCUSD.title')
+    bodyKey = 'inviteRewardsBannerCUSD.body'
+  }
 
   useEffect(() => {
     ValoraAnalytics.track(InviteEvents.invite_banner_impression)
@@ -25,9 +38,9 @@ export function InviteRewardsBanner() {
     <View style={styles.container} testID="InviteRewardsBanner">
       <Image source={notificationInvite} resizeMode="contain" />
       <View style={styles.textContainer}>
-        <Text style={fontStyles.small600}>{t('inviteRewardsBanner.title')}</Text>
+        <Text style={fontStyles.small600}>{title}</Text>
         <Text style={styles.bodyText}>
-          <Trans i18nKey="inviteRewardsBanner.body">
+          <Trans i18nKey={bodyKey}>
             <Text onPress={handleOpenInviteTerms} style={styles.learnMore} />
           </Trans>
         </Text>
