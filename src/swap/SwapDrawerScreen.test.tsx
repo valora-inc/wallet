@@ -122,7 +122,7 @@ const renderScreen = ({
   }
 }
 
-describe('SwapScreen', () => {
+describe('SwapDrawerScreen', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
 
