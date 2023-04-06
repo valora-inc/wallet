@@ -2172,6 +2172,18 @@ export const v121Schema = {
   },
 }
 
+export const v122Schema = {
+  ...v121Schema,
+  _persist: {
+    ...v121Schema._persist,
+    version: 122,
+  },
+  account: {
+    ...v121Schema.account,
+    hasSeenRecoveryPhraseInOnboarding: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v121Schema as Partial<RootState>
+  return v122Schema as Partial<RootState>
 }

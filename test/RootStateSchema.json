@@ -2690,6 +2690,9 @@
                 "hasMigratedToNewBip39": {
                     "type": "boolean"
                 },
+                "hasSeenRecoveryPhraseInOnboarding": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": [
                         "null",
@@ -2734,6 +2737,7 @@
                 "dismissedStartSupercharging",
                 "e164PhoneNumber",
                 "hasMigratedToNewBip39",
+                "hasSeenRecoveryPhraseInOnboarding",
                 "name",
                 "photosNUXClicked",
                 "pictureUri",
