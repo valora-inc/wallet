@@ -10,7 +10,7 @@ describe('initialRoute', () => {
     pincodeType: PincodeType.CustomPin,
     account: '0x1234',
     hasSeenVerificationNux: true,
-    recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
+    recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
   }
 
   it('returns language screen if no language is set', () => {
@@ -41,7 +41,7 @@ describe('initialRoute', () => {
     expect(
       getInitialRoute({
         ...defaultArgs,
-        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Seen,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.InProgress,
       })
     ).toEqual(Screens.ProtectWallet)
   })
@@ -57,7 +57,7 @@ describe('initialRoute', () => {
       getInitialRoute({
         ...defaultArgs,
         hasSeenVerificationNux: false,
-        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Saved,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
       })
     ).toEqual(Screens.VerificationStartScreen)
   })
@@ -70,7 +70,7 @@ describe('initialRoute', () => {
     expect(
       getInitialRoute({
         ...defaultArgs,
-        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Saved,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
       })
     ).toEqual(Screens.DrawerNavigator)
   })

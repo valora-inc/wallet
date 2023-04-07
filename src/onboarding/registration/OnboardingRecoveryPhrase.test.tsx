@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { recoveryPhraseInOnboardingSaved } from 'src/account/actions'
+import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
@@ -47,7 +47,7 @@ describe('OnboardingRecoveryPhraseScreen', () => {
     fireEvent.press(getByTestId('protectWalletBottomSheetContinue'))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_complete)
-    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingSaved())
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingCompleted())
     expect(goToNextOnboardingScreen).toBeCalledWith({
       firstScreenInCurrentStep: Screens.ProtectWallet,
       onboardingProps: mockOnboardingProps,

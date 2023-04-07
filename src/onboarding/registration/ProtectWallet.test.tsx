@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { recoveryPhraseInOnboardingSeen } from 'src/account/actions'
+import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
 import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -71,7 +71,7 @@ describe('ProtectWalletScreen', () => {
         <ProtectWallet {...mockScreenProps} />
       </Provider>
     )
-    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingSeen())
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingStarted())
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(queryByTestId('cloudBackupCard')).toBeNull()
@@ -83,20 +83,20 @@ describe('ProtectWalletScreen', () => {
         <ProtectWallet {...mockScreenProps} />
       </Provider>
     )
-    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingSeen())
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingStarted())
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(getByTestId('cloudBackupCard')).toBeTruthy()
     })
   })
-  it('does not dispatch event if recoveryPhraseInOnboardingStatus is already set to seen', async () => {
+  it('does not dispatch event if recoveryPhraseInOnboardingStatus is not NotStarted', async () => {
     const mockStore = createMockStore({
       web3: {
         twelveWordMnemonicEnabled: true,
         account: '0xaccount',
       },
       account: {
-        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Seen,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.InProgress,
       },
     })
     const { getByTestId } = render(

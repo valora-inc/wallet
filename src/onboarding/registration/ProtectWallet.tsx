@@ -5,7 +5,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import seedrandom from 'seedrandom'
-import { recoveryPhraseInOnboardingSeen } from 'src/account/actions'
+import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
 import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -84,8 +84,8 @@ function ProtectWallet({ navigation }: Props) {
   }, [navigation, step, totalSteps])
 
   useEffect(() => {
-    if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.NotSeen) {
-      dispatch(recoveryPhraseInOnboardingSeen())
+    if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.NotStarted) {
+      dispatch(recoveryPhraseInOnboardingStarted())
     }
   })
 

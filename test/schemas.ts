@@ -2184,7 +2184,7 @@ export const v122Schema = {
   },
   account: {
     ...v121Schema.account,
-    recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
+    recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
   },
 }
 

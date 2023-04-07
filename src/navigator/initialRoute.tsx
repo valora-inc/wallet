@@ -26,7 +26,7 @@ export function getInitialRoute({
     return Screens.Welcome
   } else if (!account) {
     return choseToRestoreAccount ? Screens.ImportWallet : Screens.Welcome
-  } else if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.Seen) {
+  } else if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.InProgress) {
     return Screens.ProtectWallet
   } else if (!hasSeenVerificationNux) {
     return Screens.VerificationStartScreen

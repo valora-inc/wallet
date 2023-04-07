@@ -1103,7 +1103,7 @@ export const migrations = {
     ...state,
     account: {
       ...state.account,
-      recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
+      recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
     },
   }),
 }

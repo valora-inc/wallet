@@ -69,9 +69,9 @@ export enum FinclusiveKycStatus {
 }
 
 export enum RecoveryPhraseInOnboardingStatus {
-  NotSeen = 'NotSeen', // ineligible and control users, and variant users who have not reached the "ProtectWallet" screen
-  Seen = 'Seen', // variant users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
-  Saved = 'Saved', // variant users who have clicked "I've saved it"
+  NotStarted = 'NotStarted', // ineligible and control users, and variant users who have not reached the "ProtectWallet" screen
+  InProgress = 'InProgress', // variant users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
+  Completed = 'Completed', // variant users who have clicked "I've saved it"
 }
 
 export const initialState: State = {
@@ -102,7 +102,7 @@ export const initialState: State = {
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
   celoEducationCompleted: false,
-  recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotSeen,
+  recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
 }
 
 export const reducer = (
@@ -274,15 +274,15 @@ export const reducer = (
         ...state,
         celoEducationCompleted: action.celoEducationCompleted,
       }
-    case Actions.RECOVERY_PHRASE_IN_ONBOARDING_SEEN:
+    case Actions.RECOVERY_PHRASE_IN_ONBOARDING_STARTED:
       return {
         ...state,
-        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Seen,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.InProgress,
       }
-    case Actions.RECOVERY_PHRASE_IN_ONBOARDING_SAVED:
+    case Actions.RECOVERY_PHRASE_IN_ONBOARDING_COMPLETED:
       return {
         ...state,
-        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Saved,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
       }
     default:
       return state

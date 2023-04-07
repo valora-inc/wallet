@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { recoveryPhraseInOnboardingSaved } from 'src/account/actions'
+import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackupPhraseContainer, {
@@ -81,7 +81,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
   }
   const onPressContinue = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_complete)
-    dispatch(recoveryPhraseInOnboardingSaved())
+    dispatch(recoveryPhraseInOnboardingCompleted())
     goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.ProtectWallet, onboardingProps })
   }
 
