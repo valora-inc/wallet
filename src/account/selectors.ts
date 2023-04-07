@@ -57,3 +57,5 @@ export const shouldShowRecoveryPhraseInSettingsSelector = (state: RootState) =>
 
 export const celoEducationCompletedSelector = (state: RootState) =>
   state.account.celoEducationCompleted
+
+export const startOnboardingTimeSelector = (state: RootState) => state.account.startOnboardingTime
