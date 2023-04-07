@@ -27,6 +27,8 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
+import { Actions as HomeActions } from 'src/home/actions'
+import { Actions } from 'src/firebase/actions'
 
 const TAG = 'firebase/firebase'
 
@@ -141,6 +143,17 @@ function createFirebaseNotificationChannel() {
   })
 }
 
+const actionSeen: Record<string, boolean> = {}
+
+export function* takeWithInMemoryCache(action: Actions | HomeActions) {
+  if (actionSeen[action]) {
+    return
+  }
+  yield take(action)
+  actionSeen[action] = true
+  return
+}
+
 export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, address: string) {
   Logger.info(TAG, 'Initializing Firebase Cloud Messaging')
 
@@ -150,6 +163,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
+    yield takeWithInMemoryCache(HomeActions.VISIT_HOME) // better than take(HomeActions.VISIT_HOME) because if failure occurs, retries can succeed without an additional visit home
     try {
       yield call([app.messaging(), 'requestPermission'])
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
