@@ -1,4 +1,4 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -10,18 +10,6 @@ import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
-
-jest.mock('lodash', () => ({
-  ...(jest.requireActual('lodash') as any),
-  // Couldn't get jest to advance timers properly with debounce, so just mock it out
-  // I tried most of the things described here:
-  // https://github.com/facebook/jest/issues/3465
-  // We can trust that lodash works, so this is fine
-  debounce: (fn: any) => {
-    fn.cancel = jest.fn()
-    return fn
-  },
-}))
 
 const dappsList = mockDappListWithCategoryNames
 
@@ -44,8 +32,14 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
+// For advanced timers with debounce
+// Can be removed with jest
+jest.useFakeTimers('modern')
+
 describe(DAppsExplorerScreenSearch, () => {
   beforeEach(() => {
+    // Run all timers to ensure debounced calls don't affect next tests
+    jest.runAllTimers()
     defaultStore.clearActions()
     jest.clearAllMocks()
   })
@@ -359,7 +353,7 @@ describe(DAppsExplorerScreenSearch, () => {
       expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
     })
 
-    it('triggers events when searching', async () => {
+    it('triggers events when searching', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
@@ -379,7 +373,12 @@ describe(DAppsExplorerScreenSearch, () => {
 
       // don't include events dispatched on screen load
       jest.clearAllMocks()
-      fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+
+      act(() => {
+        fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+        // Wait for the analytics debounce
+        jest.advanceTimersByTime(1500)
+      })
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
