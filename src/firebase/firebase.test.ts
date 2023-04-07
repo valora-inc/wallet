@@ -8,9 +8,10 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { pushNotificationsEnabledSelector } from 'src/app/selectors'
-import { initializeCloudMessaging } from 'src/firebase/firebase'
+import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/firebase'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount } from 'test/values'
+import { Actions } from 'src/firebase/actions'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -39,6 +40,23 @@ const app: any = {
     getInitialNotification: getInitialNotificationMock,
   }),
 }
+
+describe(takeWithInMemoryCache, () => {
+  it('should take the action if it is not in the cache', async () => {
+    const testAction = 'TEST/ACTION'
+    const testEffect = jest.fn()
+    const testSaga = function* () {
+      yield takeWithInMemoryCache(testAction as Actions)
+      yield call(testEffect)
+    }
+
+    // calls testEffect after action is dispatched
+    await expectSaga(testSaga).dispatch({ type: testAction }).call(testEffect).run()
+
+    // calls testEffect without waiting for action after the first time
+    await expectSaga(testSaga).call(testEffect).run()
+  })
+})
 
 describe(initializeCloudMessaging, () => {
   beforeEach(() => {
