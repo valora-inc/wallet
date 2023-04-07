@@ -93,13 +93,10 @@ describe('TokenBottomSheet', () => {
     global.__reanimatedWorkletInit = jest.fn()
   })
 
-  afterAll(() => {
-    jest.useRealTimers()
-  })
-
   beforeEach(() => {
     // see: https://stackoverflow.com/questions/52695553/testing-debounced-function-in-react-component-with-jest-and-enzyme/64336022#64336022
     jest.useFakeTimers('modern')
+    jest.runAllTimers()
     jest.clearAllMocks()
   })
 
@@ -171,6 +168,7 @@ describe('TokenBottomSheet', () => {
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
+    expect(ValoraAnalytics.track).toBeCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Celo',
@@ -186,6 +184,7 @@ describe('TokenBottomSheet', () => {
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
+    expect(ValoraAnalytics.track).toBeCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Test',
@@ -201,6 +200,7 @@ describe('TokenBottomSheet', () => {
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
+    expect(ValoraAnalytics.track).toBeCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Usd',
@@ -222,6 +222,7 @@ describe('TokenBottomSheet', () => {
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
+    expect(ValoraAnalytics.track).toBeCalledTimes(1)
     // We don't send events for intermediate search inputs
     expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
