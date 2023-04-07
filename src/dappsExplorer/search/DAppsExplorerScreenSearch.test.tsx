@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
+import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -10,6 +10,18 @@ import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+
+jest.mock('lodash', () => ({
+  ...(jest.requireActual('lodash') as any),
+  // Couldn't get jest to advance timers properly with debounce, so just mock it out
+  // I tried most of the things described here:
+  // https://github.com/facebook/jest/issues/3465
+  // We can trust that lodash works, so this is fine
+  debounce: (fn: any) => {
+    fn.cancel = jest.fn()
+    return fn
+  },
+}))
 
 const dappsList = mockDappListWithCategoryNames
 
@@ -348,7 +360,6 @@ describe(DAppsExplorerScreenSearch, () => {
     })
 
     it('triggers events when searching', async () => {
-      jest.useRealTimers()
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
@@ -370,15 +381,10 @@ describe(DAppsExplorerScreenSearch, () => {
       jest.clearAllMocks()
       fireEvent.changeText(getByTestId('SearchInput'), 'swap')
 
-      await waitFor(
-        () => {
-          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-          expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
-            searchTerm: 'swap',
-          })
-        },
-        { timeout: 1500 }
-      )
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+        searchTerm: 'swap',
+      })
     })
   })
 })
