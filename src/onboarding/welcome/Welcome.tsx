@@ -16,16 +16,12 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { default as useSelector } from 'src/redux/useSelector'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { Statsig } from 'statsig-react-native'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'Welcome'
 
 export default function Welcome() {
   const { t } = useTranslation()
@@ -60,13 +56,9 @@ export default function Welcome() {
     const now = Date.now()
     if (startOnboardingTime === undefined) {
       // this is the user's first time selecting 'create account' on this device
-      try {
-        // this lets us restrict some onboarding experiments to only users who begin onboarding
-        //  after the experiment begins
-        await Statsig.updateUser({ custom: { startOnboardingTime: now } })
-      } catch (error) {
-        Logger.error(TAG, 'Failed to update Statsig user with startOnboardingTimestamp', error)
-      }
+      // this lets us restrict some onboarding experiments to only users who begin onboarding
+      //  after the experiment begins
+      await patchUpdateStatsigUser({ custom: { startOnboardingTime: now } })
     }
     dispatch(chooseCreateAccount(now))
     navigateNext()
