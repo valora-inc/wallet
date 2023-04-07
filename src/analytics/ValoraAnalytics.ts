@@ -134,6 +134,7 @@ class ValoraAnalytics {
       const statsigUser = getDefaultStatsigUser()
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
+      Logger.debug(TAG, 'Statsig stable ID', overrideStableID)
       await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
         // StableID should match Segment anonymousId
         overrideStableID,
