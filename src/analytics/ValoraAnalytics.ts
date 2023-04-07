@@ -11,16 +11,17 @@ import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
   DEFAULT_TESTNET,
-  E2E_TEST_STATSIG_ID,
   FIREBASE_ENABLED,
   isE2EEnv,
   SEGMENT_API_KEY,
-  STATSIG_API_KEY,
   STATSIG_ENV,
+  E2E_TEST_STATSIG_ID,
+  STATSIG_API_KEY,
 } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
+import { getDefaultStatsigUser } from 'src/statsig'
 import { Statsig } from 'statsig-react-native'
 
 const TAG = 'ValoraAnalytics'
@@ -130,14 +131,7 @@ class ValoraAnalytics {
     }
 
     try {
-      const { walletAddress } = getCurrentUserTraits(store.getState())
-      const statsigUser =
-        typeof walletAddress === 'string'
-          ? {
-              userID: walletAddress,
-            }
-          : null
-
+      const statsigUser = getDefaultStatsigUser()
       // getAnonymousId causes the e2e tests to fail
       const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
       await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
@@ -212,12 +206,6 @@ class ValoraAnalytics {
     // Only identify user if userID (walletAddress) is set
     if (!userID) {
       return
-    }
-
-    try {
-      void Statsig.updateUser({ userID })
-    } catch (error) {
-      Logger.warn(TAG, 'Error updating statsig user', error)
     }
 
     if (!SEGMENT_API_KEY) {
