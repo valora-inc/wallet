@@ -32,8 +32,8 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
-// For advanced timers with debounce
-// Can be removed with jest
+// For advancing timers with debounce
+// Can be removed with jest >= 27
 jest.useFakeTimers('modern')
 
 describe(DAppsExplorerScreenSearch, () => {
@@ -376,7 +376,7 @@ describe(DAppsExplorerScreenSearch, () => {
 
       act(() => {
         fireEvent.changeText(getByTestId('SearchInput'), 'swap')
-        // Wait for the analytics debounce
+        // Will trigger the debounced analytics event
         jest.advanceTimersByTime(1500)
       })
 
