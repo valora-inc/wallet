@@ -164,24 +164,38 @@ describe('ValoraAnalytics', () => {
 
   it('creates statsig client on initialization with wallet address as user id', async () => {
     mockStore.getState.mockImplementation(() =>
-      getMockStoreData({ web3: { account: '0x1234ABC', mtwAddress: '0x0000' } })
+      getMockStoreData({
+        web3: { account: '0x1234ABC', mtwAddress: '0x0000' },
+        account: { startOnboardingTime: 1234 },
+      })
     )
     await ValoraAnalytics.init()
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
-      { userID: '0x1234abc' },
+      { userID: '0x1234abc', custom: { startOnboardingTime: 1234 } },
       { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
     )
   })
 
   it('creates statsig client on initialization with null as user id if wallet address is not set', async () => {
-    mockStore.getState.mockImplementation(() => getMockStoreData({ web3: { account: undefined } }))
+    mockStore.getState.mockImplementation(() =>
+      getMockStoreData({ web3: { account: undefined }, account: { startOnboardingTime: 1234 } })
+    )
     await ValoraAnalytics.init()
-    expect(Statsig.initialize).toHaveBeenCalledWith('statsig-key', null, {
-      environment: { tier: 'development' },
-      overrideStableID: 'anonId',
-      localMode: false,
-    })
+    expect(Statsig.initialize).toHaveBeenCalledWith(
+      'statsig-key',
+      {
+        userID: undefined,
+        custom: {
+          startOnboardingTime: 1234,
+        },
+      },
+      {
+        environment: { tier: 'development' },
+        overrideStableID: 'anonId',
+        localMode: false,
+      }
+    )
   })
 
   it('delays identify calls until async init has finished', async () => {
