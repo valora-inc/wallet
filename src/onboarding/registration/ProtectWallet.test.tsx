@@ -3,6 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { recoveryPhraseInOnboardingSeen } from 'src/account/actions'
+import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
@@ -83,6 +84,27 @@ describe('ProtectWalletScreen', () => {
       </Provider>
     )
     expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingSeen())
+    await waitFor(() => {
+      expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
+      expect(getByTestId('cloudBackupCard')).toBeTruthy()
+    })
+  })
+  it('does not dispatch event if recoveryPhraseInOnboardingStatus is already set to seen', async () => {
+    const mockStore = createMockStore({
+      web3: {
+        twelveWordMnemonicEnabled: true,
+        account: '0xaccount',
+      },
+      account: {
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Seen,
+      },
+    })
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <ProtectWallet {...mockScreenProps} />
+      </Provider>
+    )
+    expect(store.dispatch).not.toHaveBeenCalled()
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(getByTestId('cloudBackupCard')).toBeTruthy()

@@ -6,6 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import seedrandom from 'seedrandom'
 import { recoveryPhraseInOnboardingSeen } from 'src/account/actions'
+import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
+import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet from 'src/components/BottomSheet'
@@ -51,6 +53,7 @@ function ProtectWallet({ navigation }: Props) {
   const [showBottomSheet, setShowBottomSheet] = useState(false)
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const recoveryPhraseInOnboardingStatus = useSelector(recoveryPhraseInOnboardingStatusSelector)
 
   const cloudBackupIndex = getCloudBackupIndex(address)
 
@@ -81,7 +84,9 @@ function ProtectWallet({ navigation }: Props) {
   }, [navigation, step, totalSteps])
 
   useEffect(() => {
-    dispatch(recoveryPhraseInOnboardingSeen())
+    if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.NotSeen) {
+      dispatch(recoveryPhraseInOnboardingSeen())
+    }
   })
 
   const onPressRecoveryPhrase = () => {
