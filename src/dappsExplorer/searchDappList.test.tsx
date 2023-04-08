@@ -1,5 +1,5 @@
 import { DappV2WithCategoryNames } from 'src/dapps/types'
-import { scoreDapp } from './searchDappList'
+import { scoreDapp, searchDappList } from './searchDappList'
 
 // Spanish translation of "Ubeswap"
 const dappV2: DappV2WithCategoryNames = {
@@ -24,6 +24,8 @@ describe('scoreDapp', () => {
     ${'yield'}              | ${1.25}
     ${'Cómo puedo cambiar'} | ${0.625}
     ${'yield farming'}      | ${2.5}
+    ${'Uniswap'}            | ${1.25}
+    ${'participar'}         | ${0.625}
     ${''}                   | ${0}
   `(
     `Dapp: '${dappV2.name}' searchTerm: '$searchTerm' returns $expectedScore`,
@@ -31,4 +33,26 @@ describe('scoreDapp', () => {
       expect(scoreDapp(dappV2, searchTerm)).toBe(expectedScore)
     }
   )
+})
+
+describe('searchDappList', () => {
+  it('returns an empty array if there are no dapps', () => {
+    expect(searchDappList([], 'test')).toEqual([])
+  })
+
+  it('returns an empty array if there is no search term', () => {
+    expect(searchDappList([dappV2], '')).toEqual([])
+  })
+
+  it('returns an empty array if there are no matches', () => {
+    expect(searchDappList([dappV2], 'test')).toEqual([])
+  })
+
+  it.each`
+    searchTerm
+    ${'Ubeswap'}
+    ${'Cambia'}
+  `('returns an array of dapps that match the search term', ({ searchTerm }) => {
+    expect(searchDappList([dappV2], searchTerm)).toEqual([dappV2])
+  })
 })
