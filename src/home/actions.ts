@@ -7,6 +7,11 @@ export enum Actions {
   REFRESH_BALANCES = 'HOME/REFRESH_BALANCES',
   START_BALANCE_AUTOREFRESH = 'HOME/START_BALANCE_AUTOREFRESH',
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
+  VISIT_HOME = 'HOME/VISIT_HOME',
+}
+
+export interface VisitHomeAction {
+  type: Actions.VISIT_HOME
 }
 
 export interface SetLoadingAction {
@@ -29,6 +34,10 @@ export interface RefreshBalancesBalancesAction {
 }
 
 export type ActionTypes = SetLoadingAction | UpdateNotificationsAction | DismissNotificationAction
+
+export const visitHome = (): VisitHomeAction => ({
+  type: Actions.VISIT_HOME,
+})
 
 export const setLoading = (loading: boolean): SetLoadingAction => ({
   type: Actions.SET_LOADING,

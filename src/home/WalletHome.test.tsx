@@ -158,6 +158,9 @@ describe('WalletHome', () => {
           "type": "ALERT/HIDE",
         },
         Object {
+          "type": "HOME/VISIT_HOME",
+        },
+        Object {
           "type": "SENTRY/INITIALIZE_SENTRY_USER_CONTEXT",
         },
         Object {
