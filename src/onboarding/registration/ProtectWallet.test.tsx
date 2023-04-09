@@ -2,6 +2,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
+import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
@@ -56,6 +58,7 @@ describe('ProtectWalletScreen', () => {
       account: '0xaccount',
     },
   })
+  store.dispatch = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
     mocked(getExperimentParams).mockReturnValue(mockExperimentParams)
@@ -68,6 +71,7 @@ describe('ProtectWalletScreen', () => {
         <ProtectWallet {...mockScreenProps} />
       </Provider>
     )
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingStarted())
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(queryByTestId('cloudBackupCard')).toBeNull()
@@ -79,6 +83,28 @@ describe('ProtectWalletScreen', () => {
         <ProtectWallet {...mockScreenProps} />
       </Provider>
     )
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingStarted())
+    await waitFor(() => {
+      expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
+      expect(getByTestId('cloudBackupCard')).toBeTruthy()
+    })
+  })
+  it('does not dispatch event if recoveryPhraseInOnboardingStatus is not NotStarted', async () => {
+    const mockStore = createMockStore({
+      web3: {
+        twelveWordMnemonicEnabled: true,
+        account: '0xaccount',
+      },
+      account: {
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.InProgress,
+      },
+    })
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <ProtectWallet {...mockScreenProps} />
+      </Provider>
+    )
+    expect(store.dispatch).not.toHaveBeenCalled()
     await waitFor(() => {
       expect(getByTestId('recoveryPhraseCard')).toBeTruthy()
       expect(getByTestId('cloudBackupCard')).toBeTruthy()

@@ -2,6 +2,8 @@ import { createSelector } from 'reselect'
 import { DappCategory, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
 import { RootState } from 'src/redux/reducers'
 
+const TAG = 'dapps/selectors'
+
 export interface CategoryWithDapps extends DappCategory {
   dapps: Array<DappV1 | DappV2>
 }
@@ -117,44 +119,33 @@ export const favoriteDappsSelector = createSelector(
   }
 )
 
+function addCategoryNamesToDapps(dapps: Array<DappV1 | DappV2>, categories: Array<DappCategory>) {
+  const categoryMap: Record<string, string> = {}
+
+  categories.forEach((category) => {
+    categoryMap[category.id] = category.name
+  })
+  return dapps.map((dapp) => {
+    if (!isDappV2(dapp)) {
+      throw new Error(`${TAG}@addCategoryNamesToDapps '${dapp.id}' is not DappV2`)
+    }
+    return {
+      ...dapp,
+      categoryNames: dapp.categories.map((id) => categoryMap[id]),
+    }
+  })
+}
+
 export const favoriteDappsWithCategoryNamesSelector = createSelector(
   favoriteDappsSelector,
   dappsCategoriesSelector,
-  (dapps, categories) => {
-    const categoryMap: { [id: string]: string } = {}
-    categories.forEach((category) => {
-      categoryMap[category.id] = category.name
-    })
-    return dapps.map((dapp) => {
-      if (!isDappV2(dapp))
-        throw new Error(
-          `favoriteDappsWithCategoryNamesSelector: dapp.id: '${dapp.id}' is not DappV2`
-        )
-      return {
-        ...dapp,
-        categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
-      }
-    })
-  }
+  (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )
 
 export const dappListWithCategoryNamesSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
-  (dapps, categories) => {
-    const categoryMap: { [id: string]: string } = {}
-    categories.forEach((category) => {
-      categoryMap[category.id] = category.name
-    })
-    return dapps.map((dapp) => {
-      if (!isDappV2(dapp))
-        throw new Error(`dappListWithCategoryNamesSelector: dapp.id: '${dapp.id}' is not DappV2`)
-      return {
-        ...dapp,
-        categoryNames: dapp.categories.map((categoryId) => categoryMap[categoryId]),
-      }
-    })
-  }
+  (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )
 
 export const dappsFilterEnabledSelector = (state: RootState) => state.dapps.dappsFilterEnabled

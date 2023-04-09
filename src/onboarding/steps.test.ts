@@ -1,12 +1,7 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { initializeAccount } from 'src/account/actions'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import {
-  navigate,
-  navigateClearingStack,
-  navigateHome,
-  popToScreen,
-} from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, popToScreen } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
   firstOnboardingScreen,
@@ -16,6 +11,8 @@ import {
 import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { updateStatsigAndNavigate } from 'src/onboarding/actions'
+import { StackParamList } from 'src/navigator/types'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
 
@@ -39,6 +36,7 @@ describe('onboarding steps', () => {
       Screens.VerificationStartScreen,
     ],
     name: 'newUserFlowWithEverythingEnabled',
+    finalScreen: Screens.WalletHome,
   }
 
   const newUserChooseAdventure = {
@@ -58,6 +56,7 @@ describe('onboarding steps', () => {
       Screens.VerificationStartScreen,
     ],
     name: 'newUserChooseAdventure',
+    finalScreen: Screens.ChooseYourAdventure,
   }
 
   const newUserFlowWithEverythingDisabled = {
@@ -70,6 +69,7 @@ describe('onboarding steps', () => {
     },
     screens: [Screens.NameAndPicture, Screens.PincodeSet],
     name: 'newUserFlowWithEverythingDisabled',
+    finalScreen: Screens.WalletHome,
   }
 
   const importWalletFlowEverythingEnabled = {
@@ -89,6 +89,7 @@ describe('onboarding steps', () => {
       Screens.VerificationStartScreen,
     ],
     name: 'importWalletFlowEverythingEnabled',
+    finalScreen: Screens.WalletHome,
   }
 
   it.each([
@@ -98,7 +99,7 @@ describe('onboarding steps', () => {
     importWalletFlowEverythingEnabled,
   ])(
     'goToNextOnboardingScreen and getOnboardingStepValues work as expected',
-    ({ onboardingProps, screens, name }) => {
+    ({ onboardingProps, screens, name, finalScreen }) => {
       const expectedTotalSteps = screens.length
       screens.forEach((screen, index) => {
         const { totalSteps, step } = getOnboardingStepValues(screen, onboardingProps)
@@ -120,7 +121,9 @@ describe('onboarding steps', () => {
         // If we are not on the last screen, we should navigate to the next screen via navigate or navigateClearingStack
         if (index === screens.length - 1) {
           // eslint-disable-next-line jest/no-conditional-expect
-          expect(navigateHome).toHaveBeenCalled()
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateStatsigAndNavigate(finalScreen as keyof StackParamList)
+          )
         } else {
           try {
             // eslint-disable-next-line jest/no-conditional-expect
@@ -171,7 +174,9 @@ describe('onboarding steps', () => {
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
       })
       it('should navigate to ImportWallet if choseToRestoreAccount is true', () => {
         goToNextOnboardingScreen({
@@ -270,7 +275,9 @@ describe('onboarding steps', () => {
         goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.PincodeSet, onboardingProps })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
       })
       it('should navigate to Screens.ChooseYourAdventure and initialize account if skipVerification is true and chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
@@ -279,7 +286,9 @@ describe('onboarding steps', () => {
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
       it('should otherwise navigate to VerificationStartScreen clearing the stack', () => {
         goToNextOnboardingScreen({
@@ -301,7 +310,9 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
       })
       it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
@@ -309,7 +320,9 @@ describe('onboarding steps', () => {
           onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
       it('should also navigate to the home screen if numberAlreadyVerifiedCentrally is true', () => {
         goToNextOnboardingScreen({
@@ -321,7 +334,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
       })
       it('should otherwise navigate to VerificationStartScreen', () => {
         goToNextOnboardingScreen({
@@ -341,14 +356,18 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.VerificationStartScreen,
           onboardingProps,
         })
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
       })
       it('should navigate to the Screens.ChooseYourAdventure if chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.VerificationStartScreen,
           onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
         })
-        expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
     })
     describe('Screens.ProtectWallet', () => {
@@ -358,7 +377,9 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(navigateHome).toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
       })
       it('should navigate to VerficationStartScreen if skipVerification is false and choseToRestoreAccount is false', () => {
         goToNextOnboardingScreen({

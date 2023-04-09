@@ -114,7 +114,7 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
           },
         })
       )
-    }).toThrow("favoriteDappsWithCategoryNamesSelector: dapp.id: '1' is not DappV2")
+    }).toThrow("dapps/selectors@addCategoryNamesToDapps '1' is not DappV2")
   })
 
   it('should return favorites with category names v2', () => {
@@ -152,7 +152,7 @@ describe('dappListWithCategoryNamesSelector', () => {
           },
         })
       )
-    }).toThrow("dappListWithCategoryNamesSelector: dapp.id: '1' is not DappV2")
+    }).toThrow("dapps/selectors@addCategoryNamesToDapps '1' is not DappV2")
   })
 
   it('should return dapps with category names v2', () => {

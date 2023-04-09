@@ -43,7 +43,10 @@ jest.mock('src/firebase/firebase', () => ({
 const mockStatsigGet = jest.fn()
 jest.mock('statsig-react-native', () => ({
   Statsig: {
-    getExperiment: jest.fn().mockImplementation(() => ({ get: mockStatsigGet })),
+    getExperiment: jest.fn().mockImplementation(() => ({
+      get: mockStatsigGet,
+      getEvaluationDetails: jest.fn().mockReturnValue({ reason: 'network' }),
+    })),
   },
 }))
 
