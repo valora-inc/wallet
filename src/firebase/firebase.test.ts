@@ -1,5 +1,5 @@
 import firebase from '@react-native-firebase/app'
-import { expectSaga } from 'redux-saga-test-plan'
+import { expectSaga, SagaType } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
@@ -8,9 +8,10 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { pushNotificationsEnabledSelector } from 'src/app/selectors'
-import { initializeCloudMessaging } from 'src/firebase/firebase'
+import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/firebase'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount } from 'test/values'
+import { Actions } from 'src/firebase/actions'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -40,6 +41,23 @@ const app: any = {
   }),
 }
 
+describe(takeWithInMemoryCache, () => {
+  it('should take the action if it is not in the cache', async () => {
+    const testAction = 'TEST/ACTION'
+    const testEffect = jest.fn()
+    const testSaga = function* () {
+      yield takeWithInMemoryCache(testAction as Actions)
+      yield call(testEffect)
+    }
+
+    // calls testEffect after action is dispatched
+    await expectSaga(testSaga).dispatch({ type: testAction }).call(testEffect).run()
+
+    // calls testEffect without waiting for action after the first time
+    await expectSaga(testSaga).call(testEffect).run()
+  })
+})
+
 describe(initializeCloudMessaging, () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -49,7 +67,8 @@ describe(initializeCloudMessaging, () => {
     const errorToRaise = new Error('No permission')
     let catchedError
 
-    await expectSaga(initializeCloudMessaging, app, mockAccount)
+    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+      .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
           call([app.messaging(), 'hasPermission']),
@@ -70,7 +89,7 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('handle account registration if firebase messaging is enabled', async () => {
-    await expectSaga(initializeCloudMessaging, app, mockAccount)
+    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
       .provide([
         [select(pushNotificationsEnabledSelector), true],
         [
@@ -94,7 +113,8 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('should track when messaging permission is granted', async () => {
-    await expectSaga(initializeCloudMessaging, app, mockAccount)
+    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+      .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
           call([app.messaging(), 'hasPermission']),
@@ -112,7 +132,7 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('track when firebase messaging permission has changed between app sessions', async () => {
-    await expectSaga(initializeCloudMessaging, app, mockAccount)
+    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
       .provide([
         [select(pushNotificationsEnabledSelector), true],
         [call([app.messaging(), 'hasPermission']), firebase.messaging.AuthorizationStatus.DENIED],

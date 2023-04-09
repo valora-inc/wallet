@@ -4,7 +4,7 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -33,6 +33,8 @@ const useDappInfoBottomSheet = () => {
   }
 
   const openSheet = () => {
+    // dismiss keyboard if it's open prior to showing bottom sheet
+    Keyboard.dismiss()
     ValoraAnalytics.track(DappExplorerEvents.dapp_open_info)
     bottomSheetRef.current?.snapToIndex(0)
   }

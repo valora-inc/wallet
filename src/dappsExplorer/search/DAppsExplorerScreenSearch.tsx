@@ -22,10 +22,10 @@ import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import FavoriteDappsSection from 'src/dappsExplorer/search/FavoriteDappsSection'
 import NoResultsSearch from 'src/dappsExplorer/search/NoResults'
+import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { calculateSearchScore } from 'src/dappsExplorer/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -252,23 +252,11 @@ function parseResultsIntoAll(
     ]
   }
 
-  // Filter out dapps that don't match the search query
-  const nonFavoriteDappsMatchingSearch = nonFavoriteDapps.filter((dapp) =>
-    calculateSearchScore(dapp, searchTerm)
-  )
-
-  // If there are no dapps matching the search query, return an empty array to be handled by section list
-  if (nonFavoriteDappsMatchingSearch.length === 0) return []
-
-  // Sort these dapps by their search score - could be faster with counting sort
-  nonFavoriteDappsMatchingSearch.sort(
-    (a, b) => calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
-  )
-
-  // Otherwise, return the dapps matching the search query ordered descending by their search score
+  // Score and sort the non favorite dapps
+  const results = searchDappList(nonFavoriteDapps, searchTerm) as DappV2WithCategoryNames[]
   return [
     {
-      data: nonFavoriteDappsMatchingSearch,
+      data: results,
       category: 'all',
     },
   ]

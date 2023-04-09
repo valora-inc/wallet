@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import NoResults from 'src/dappsExplorer/search/NoResults'
-import { calculateSearchScore } from 'src/dappsExplorer/utils'
+import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -21,33 +21,27 @@ interface Props {
 export function FavoriteDappsSection({ onPressDapp, searchTerm, onShowSearchResult }: Props) {
   const { t } = useTranslation()
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
-
-  // Filter dapps that match the search query if present
-  const favoritedDappsSearched = favoriteDappsWithCategoryNames.filter((dapp) =>
-    searchTerm === '' ? true : calculateSearchScore(dapp, searchTerm)
-  )
-
-  // Sort these dapps by their search score
-  favoritedDappsSearched.sort(
-    (a, b) => calculateSearchScore(b, searchTerm) - calculateSearchScore(a, searchTerm)
-  )
+  const favoriteResults =
+    searchTerm === ''
+      ? favoriteDappsWithCategoryNames
+      : (searchDappList(favoriteDappsWithCategoryNames, searchTerm) as DappV2[])
 
   useEffect(() => {
-    if (favoritedDappsSearched.length > 0 && searchTerm !== '') {
+    if (favoriteResults.length > 0 && searchTerm !== '') {
       onShowSearchResult(false)
     } else {
       onShowSearchResult(true)
     }
-  }, [favoritedDappsSearched, searchTerm])
+  }, [favoriteResults, searchTerm])
 
-  if (favoritedDappsSearched.length === 0 && searchTerm !== '') {
+  if (favoriteResults.length === 0 && searchTerm !== '') {
     return <NoResults testID="FavoriteDappsSection/NoResults" searchTerm={searchTerm} />
   }
 
-  if (favoritedDappsSearched.length > 0) {
+  if (favoriteResults.length > 0) {
     return (
       <View testID="DAppsExplorerScreenSearch/FavoriteDappsSection">
-        {favoritedDappsSearched.map((favoriteDapp) => (
+        {favoriteResults.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
             dapp={favoriteDapp}
