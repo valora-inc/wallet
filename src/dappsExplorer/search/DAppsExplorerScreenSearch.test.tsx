@@ -1,6 +1,7 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
@@ -31,8 +32,14 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
+// For advancing timers with debounce
+// Can be removed with jest >= 27
+jest.useFakeTimers('modern')
+
 describe(DAppsExplorerScreenSearch, () => {
   beforeEach(() => {
+    // Run all timers to ensure debounced calls don't affect next tests
+    jest.runAllTimers()
     defaultStore.clearActions()
     jest.clearAllMocks()
   })
@@ -344,6 +351,39 @@ describe(DAppsExplorerScreenSearch, () => {
 
       // Names display correctly in the all dapps section
       expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+    })
+
+    it('triggers events when searching', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          dappsSearchEnabled: true,
+          favoriteDappIds: [],
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      // don't include events dispatched on screen load
+      jest.clearAllMocks()
+
+      act(() => {
+        fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+        // Will trigger the debounced analytics event
+        jest.advanceTimersByTime(1500)
+      })
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+        searchTerm: 'swap',
+      })
     })
   })
 })

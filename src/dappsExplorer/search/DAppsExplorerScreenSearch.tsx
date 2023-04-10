@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import { debounce } from 'lodash'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SectionList, SectionListProps, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -60,13 +61,25 @@ export function DAppsExplorerScreenSearch() {
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
 
   // Some state lifted up from all and favorite sections
-  const [searchTerm, setSearchTerm] = React.useState('')
-  const [favoriteResultsEmpty, setFavoriteResultsEmpty] = React.useState(false)
-  const [allResultEmpty, setAllResultEmpty] = React.useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [favoriteResultsEmpty, setFavoriteResultsEmpty] = useState(false)
+  const [allResultEmpty, setAllResultEmpty] = useState(false)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
+
+  // Search term debounced to minimize incomplete searches in analytics events
+  const debounceSearch = useCallback(
+    debounce((searchTerm: string) => {
+      if (searchTerm) {
+        ValoraAnalytics.track(DappExplorerEvents.dapp_search, {
+          searchTerm,
+        })
+      }
+    }, 1000),
+    []
+  )
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -143,8 +156,9 @@ export function DAppsExplorerScreenSearch() {
                   message={t('dappsScreen.message')}
                 />
                 <SearchInput
-                  onChangeText={(value) => {
-                    setSearchTerm(value)
+                  onChangeText={(text) => {
+                    setSearchTerm(text)
+                    debounceSearch(text)
                   }}
                   value={searchTerm}
                   multiline={false}
