@@ -125,7 +125,7 @@ export function DAppsExplorerScreenSearchFilter() {
         testID="DAppsExplorerScreenSearchFilter/NoResults"
       />
     )
-  }, [allResultEmpty, favoriteResultsEmpty])
+  }, [allResultEmpty, favoriteResultsEmpty, searchTerm])
 
   return (
     <SafeAreaView
