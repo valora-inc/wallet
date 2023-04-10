@@ -1274,6 +1274,8 @@
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
+    "favoriteDappsAndAll": "Favorilerim & Hepsi",
+    "searchPlaceHolder": "Dapp'ları ara",
     "noFavorites": {
       "title": "Favori eklenmemiş",
       "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
@@ -1284,7 +1286,8 @@
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> filtresi uygulandı",
-      "removeFilter": "Filtreyi kaldır"
+      "removeFilter": "Filtreyi kaldır",
+      "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
     }
   },
   "dappsScreenHelpDialog": {
