@@ -2,7 +2,7 @@ import { DappV2WithCategoryNames } from 'src/dapps/types'
 import { scoreDapp, searchDappList } from './searchDappList'
 
 // Spanish translation of "Ubeswap"
-const dappV2: DappV2WithCategoryNames = {
+const dappV2Ubeswap: DappV2WithCategoryNames = {
   name: 'Ubeswap',
   description: 'Intercambia tokens, entra a un fondo o participa del yield farming',
   dappUrl: 'https://app.ubeswap.org/',
@@ -11,6 +11,17 @@ const dappV2: DappV2WithCategoryNames = {
   isFeatured: false,
   id: 'ubeswap',
   categoryNames: ['Cambia', 'Gana'],
+}
+
+const dappV2Revo: DappV2WithCategoryNames = {
+  name: 'Revo',
+  description: 'Yield farming sencillo con protocolo de intereses compuestos automáticos',
+  dappUrl: 'https://revo.market',
+  categories: ['earn'],
+  iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/revo.png',
+  isFeatured: false,
+  id: 'revo',
+  categoryNames: ['Gana'],
 }
 
 describe('scoreDapp', () => {
@@ -28,9 +39,9 @@ describe('scoreDapp', () => {
     ${'participar'}         | ${0.625}
     ${''}                   | ${0}
   `(
-    `Dapp: '${dappV2.name}' searchTerm: '$searchTerm' returns $expectedScore`,
+    `Dapp: '${dappV2Ubeswap.name}' searchTerm: '$searchTerm' returns $expectedScore`,
     ({ searchTerm, expectedScore }) => {
-      expect(scoreDapp(dappV2, searchTerm)).toBe(expectedScore)
+      expect(scoreDapp(dappV2Ubeswap, searchTerm)).toBe(expectedScore)
     }
   )
 })
@@ -41,18 +52,20 @@ describe('searchDappList', () => {
   })
 
   it('returns an empty array if there is no search term', () => {
-    expect(searchDappList([dappV2], '')).toEqual([])
+    expect(searchDappList([dappV2Ubeswap, dappV2Revo], '')).toEqual([])
   })
 
   it('returns an empty array if there are no matches', () => {
-    expect(searchDappList([dappV2], 'test')).toEqual([])
+    expect(searchDappList([dappV2Ubeswap, dappV2Revo], 'test')).toEqual([])
   })
 
   it.each`
-    searchTerm
-    ${'Ubeswap'}
-    ${'Cambia'}
-  `('returns an array of dapps that match the search term', ({ searchTerm }) => {
-    expect(searchDappList([dappV2], searchTerm)).toEqual([dappV2])
+    searchTerm                  | expectedResult
+    ${'Ubeswap'}                | ${[dappV2Ubeswap]}
+    ${'Cambia'}                 | ${[dappV2Ubeswap]}
+    ${'Yield farming sencillo'} | ${[dappV2Revo, dappV2Ubeswap]}
+    ${'Revo'}                   | ${[dappV2Revo]}
+  `(`returns dapps that match the search term: '$searchTerm'`, ({ searchTerm, expectedResult }) => {
+    expect(searchDappList([dappV2Ubeswap, dappV2Revo], searchTerm)).toEqual(expectedResult)
   })
 })
