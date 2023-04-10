@@ -1278,6 +1278,8 @@
     "featuredDapp": "Подборка",
     "allDapps": "Все",
     "favoriteDapps": "Мое избранное",
+    "favoriteDappsAndAll": "Мои любимые и все",
+    "searchPlaceHolder": "Поиск даппов",
     "noFavorites": {
       "title": "Избранное не добавлено",
       "description": "Отслеживайте самые используемые Dapp, нажимая на значок звезды, чтобы добавить его в избранное"
@@ -1288,7 +1290,8 @@
     },
     "emptyResults": {
       "message": "Применен фильтр <0>{{filter}}</0>",
-      "removeFilter": "Удалить фильтр"
+      "removeFilter": "Удалить фильтр",
+      "searchMessage": "Не найдено подходящих результатов для <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
