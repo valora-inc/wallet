@@ -64,7 +64,7 @@ describe('QRNavigator', () => {
     const overrides = Statsig.getAllOverrides()
     Object.keys(overrides.gates).forEach((gateName) => Statsig.removeGateOverride(gateName))
     Object.keys(overrides.configs).forEach((configName) => Statsig.removeConfigOverride(configName))
-    Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverrie(layerName)) // lol @ the typo, I (Charlie) submitted a PR to fix their SDK but it will take time to get a new version published
+    Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverride(layerName))
   })
   const qrLayerControlParams = { qrCodeStyle: 'Legacy', qrCodeDataType: 'ValoraDeepLink' }
   const qrLayerTreatmentParams = { qrCodeStyle: 'New', qrCodeDataType: 'Address' }

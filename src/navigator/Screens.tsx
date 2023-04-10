@@ -106,4 +106,5 @@ export enum Screens {
   WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
   WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
   WithdrawCeloScreen = 'WithdrawCeloScreen',
+  WithdrawSpend = 'WithdrawSpend',
 }

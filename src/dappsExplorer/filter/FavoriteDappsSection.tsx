@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { favoriteDappsSelector } from 'src/dapps/selectors'
 import { ActiveDapp, DappSection, isDappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
-import { NoResults } from 'src/dappsExplorer/NoResults'
+import { NoResults } from 'src/dappsExplorer/filter/NoResults'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -45,7 +45,7 @@ export function FavoriteDappsSection({ onPressDapp, filterName, filterId, remove
   // Matching favorite dapp(s) found
   if (favoritedDappsFiltered.length > 0) {
     return (
-      <View testID="DAppsExplorerScreen/FavoriteDappsSection">
+      <View testID="DAppsExplorerScreenFilter/FavoriteDappsSection">
         {favoritedDappsFiltered.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
