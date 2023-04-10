@@ -24,7 +24,7 @@ export function SwapExecuteScreen() {
   const { t } = useTranslation()
 
   const navigateToSwapStart = () => {
-    navigate(Screens.SwapScreen)
+    navigate(Screens.SwapStartScreen)
   }
 
   const navigateToReviewScreen = () => {

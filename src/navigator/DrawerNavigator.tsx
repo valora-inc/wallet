@@ -71,7 +71,7 @@ import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import SwapDrawerScreen from 'src/swap/SwapDrawerScreen'
+import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -264,8 +264,8 @@ export default function DrawerNavigator({ route }: Props) {
       />
       {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
-          name={Screens.SwapDrawerScreen}
-          component={SwapDrawerScreen}
+          name={Screens.SwapScreen}
+          component={SwapScreen}
           options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
         />
       ) : (

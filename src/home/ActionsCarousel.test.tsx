@@ -22,7 +22,7 @@ describe('ActionsCarousel', () => {
     [HomeActionName.Send, 'send', Screens.Send, undefined],
     [HomeActionName.Receive, 'receive', Screens.QRNavigator, undefined],
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
-    [HomeActionName.Swap, 'swap', Screens.SwapScreen, undefined],
+    [HomeActionName.Swap, 'swap', Screens.SwapStartScreen, undefined],
     [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(
