@@ -283,13 +283,13 @@ export default function DrawerNavigator({ route }: Props) {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={
-            (dappsSearchEnabled && dappsFilterEnabled)
+            dappsSearchEnabled && dappsFilterEnabled
               ? DAppsExplorerScreenSearchFilter
               : dappsSearchEnabled
-                ? DAppsExplorerScreenSearch
-                : dappsFilterEnabled
-                  ? DAppsExplorerScreenFilter
-                  : DAppsExplorerScreenLegacy
+              ? DAppsExplorerScreenSearch
+              : dappsFilterEnabled
+              ? DAppsExplorerScreenFilter
+              : DAppsExplorerScreenLegacy
           }
           options={{
             title: t('dappsScreen.title'),
