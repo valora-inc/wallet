@@ -4391,25 +4391,43 @@
     redux-thunk "^2.4.2"
     reselect "^4.1.7"
 
-"@segment/analytics-react-native-adjust@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-adjust/-/analytics-react-native-adjust-1.5.3.tgz#5bb3ea94dba8119caffaaca4cea67402b539d259"
-  integrity sha512-13GLG9NPLYknNK5ll6MNI4C57ST9q+SUgoWgb5ppbj7zOdRnpJiO3V5fEhC16c0X0OAYnSdXhjZcK4QMcRMBqA==
+"@segment/analytics-react-native-plugin-adjust@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.6.1.tgz#010fb12a8f81b41070d20c2d7c9a58133e860bd0"
+  integrity sha512-iTQ8wBnbW1mzAHsgG8kUE7i1n50BvcQ5j/QoWb/tpplts7OE6v96dSRlOjrqCvISfVX1deLLfBr6vxKQqoQ3MQ==
+  dependencies:
+    react-native-adjust "^4.33.0"
 
-"@segment/analytics-react-native-clevertap@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-clevertap/-/analytics-react-native-clevertap-1.5.3.tgz#4a2ed42fa3cd4601618792e08dd26d2f82ad860d"
-  integrity sha512-pkJ/+LxiN99T9p78ERd64t+Tlrxn1YRk+KjdxkVURFm5e9y8clc4RtbFWQmknzRzVZkb0pf49dKaLHBgsAXDDA==
+"@segment/analytics-react-native-plugin-clevertap@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.0.0.tgz#9b50d4cc223b6640ca42a9628e865ae6ee8ed1a9"
+  integrity sha512-uKtCjkfjwcD1tLzkJ6SxVkEXJfV2OO1FZqcjlpwsN5dXwi0ZaQkU2JUZlsAQ9a5iXskKwYp75qi14nMaJQstJg==
+  dependencies:
+    clevertap-react-native "^1.0.0"
 
-"@segment/analytics-react-native-firebase@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-firebase/-/analytics-react-native-firebase-1.5.3.tgz#34d85e0dcda57863037bbb2f04ae74909ec2c45b"
-  integrity sha512-i+QZKbHX1/JZL9T6wuioB/PGMEXd/bJtslRTlGxm8dHL7X/JovQbiy6OmN2Y0fXh7RwAConlFzbqPe+eIcnaHA==
+"@segment/analytics-react-native-plugin-firebase@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.3.7.tgz#caa7e7327c4403c1a960ff23080e206a3c2fcb8f"
+  integrity sha512-0lidYR8GL81wpu3sq92ud/bwHeiVmMKf9XfT+DT+PsZAVk94wOOdr3hqJDgSzaTtUxp5ETteVCuVNiq8Ah4A7w==
 
-"@segment/analytics-react-native@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.5.3.tgz#0fc0ec3ffbe01cad06c728360c67379660486402"
-  integrity sha512-sCUSqppTHKEB1FkvplO1e+uALyidTZSa/LnxrvuClsjP8Q5s5rfxLgK/aj3D3ffScIefQd+v9gY2cBjAo3zMWw==
+"@segment/analytics-react-native@^2.13.4":
+  version "2.13.4"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.13.4.tgz#52216972bf0a1f8722ddf18088340c9d4d90ca5a"
+  integrity sha512-47z2TmODJpeA7Pf1P8kE5dNTiqmxJ7khQ/NgiFR3eoiSy/ir0QOpT49QFrwVMeG35fEl+wDGLXUoYWoAMvBy6w==
+  dependencies:
+    "@segment/sovran-react-native" "^1"
+    deepmerge "^4.2.2"
+    js-base64 "^3.7.2"
+    uuid "^9.0.0"
+
+"@segment/sovran-react-native@^1", "@segment/sovran-react-native@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.0.1.tgz#4311f0af2e2b606d2c17e535b293c096c6a3c2e8"
+  integrity sha512-7VZrIa7/VP59d4QDvAs0ZOhiadlJ+2YC8K8dKOF0fGwiFC0UmQUZVs4IN9GZfbBavXsagVVMgL2GzjVGLLQdBw==
+  dependencies:
+    ansi-regex "5.0.1"
+    deepmerge "^4.2.2"
+    shell-quote "1.7.3"
 
 "@sentry/browser@7.29.0":
   version "7.29.0"
@@ -6156,6 +6174,11 @@ ansi-fragments@^0.2.1:
     slice-ansi "^2.0.0"
     strip-ansi "^5.0.0"
 
+ansi-regex@5.0.1, ansi-regex@^5.0.0, ansi-regex@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
+  integrity sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==
+
 ansi-regex@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
@@ -6170,11 +6193,6 @@ ansi-regex@^4.0.0, ansi-regex@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.1.1.tgz#164daac87ab2d6f6db3a29875e2d1766582dabed"
   integrity sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==
-
-ansi-regex@^5.0.0, ansi-regex@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
-  integrity sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==
 
 ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   version "3.2.1"
@@ -7592,6 +7610,13 @@ clevertap-react-native@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.8.1.tgz#168a4d421e20157aea2f4cf4fdd6515a2549b8b4"
   integrity sha512-Ierz74Vi9oY7ZgTLBRkDOLb8i7t5Qn+lMThgQE0IWYRY1fK3XbxmQlP3oKZcYRL5rqOrCfRqHDOk2IbVDVn4tQ==
+  dependencies:
+    extract-zip "^1.6.6"
+
+clevertap-react-native@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-1.0.2.tgz#9d7f7805ca43087408eb685d42358d0e8b24e66a"
+  integrity sha512-97bOeRow/xN/4mnwGxzwyGXiVvOProNJNpN/TDF1EPFE6KitKj8SkWjOu9PIUKH+3N1whU7DUd0bRHIvzvMbfQ==
   dependencies:
     extract-zip "^1.6.6"
 
@@ -12455,6 +12480,11 @@ joi@^17.2.1:
     "@sideway/formula" "^3.0.0"
     "@sideway/pinpoint" "^2.0.0"
 
+js-base64@^3.7.2:
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.7.5.tgz#21e24cf6b886f76d6f5f165bfcd69cc55b9e3fca"
+  integrity sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==
+
 js-beautify@^1.7.4:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.10.2.tgz#88c9099cd6559402b124cfab18754936f8a7b178"
@@ -15670,6 +15700,11 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-native-adjust@^4.33.0:
+  version "4.33.0"
+  resolved "https://registry.yarnpkg.com/react-native-adjust/-/react-native-adjust-4.33.0.tgz#92a906d137993d8763500d85e07e4789c6ab33cd"
+  integrity sha512-EYCG5iA5I/VaIpAEEvawEvdE4miKH2hAtEzWo7on775go+dbtKsd4c3G26NvSu8cCei39HMs9CAIlGBVI+SxRw==
+
 react-native-android-open-settings@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-native-android-open-settings/-/react-native-android-open-settings-1.3.0.tgz#c6257f3c88ada62945fffe887933a2a828adf45d"
@@ -17248,7 +17283,7 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@1.6.1, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3:
+shell-quote@1.6.1, shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
   integrity sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==
