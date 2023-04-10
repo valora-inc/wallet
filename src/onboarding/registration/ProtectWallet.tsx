@@ -1,10 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import seedrandom from 'seedrandom'
+import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
+import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
+import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet from 'src/components/BottomSheet'
@@ -49,6 +52,8 @@ function ProtectWallet({ navigation }: Props) {
   const address = useSelector(walletAddressSelector)
   const [showBottomSheet, setShowBottomSheet] = useState(false)
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const recoveryPhraseInOnboardingStatus = useSelector(recoveryPhraseInOnboardingStatusSelector)
 
   const cloudBackupIndex = getCloudBackupIndex(address)
 
@@ -77,6 +82,12 @@ function ProtectWallet({ navigation }: Props) {
       headerLeft: undefined,
     })
   }, [navigation, step, totalSteps])
+
+  useEffect(() => {
+    if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.NotStarted) {
+      dispatch(recoveryPhraseInOnboardingStarted())
+    }
+  })
 
   const onPressRecoveryPhrase = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_recovery, {
