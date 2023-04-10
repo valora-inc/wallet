@@ -1,7 +1,5 @@
-import Analytics, { Analytics as analytics } from '@segment/analytics-react-native'
-import Adjust from '@segment/analytics-react-native-adjust'
-import CleverTapSegment from '@segment/analytics-react-native-clevertap'
-import Firebase from '@segment/analytics-react-native-firebase'
+//<reference path="../node_modules/@segment/sovran-react-native/lib/typescript/src/index.d.ts"/>
+import { createClient, SegmentClient } from '@segment/analytics-react-native'
 import { sha256FromString } from 'ethereumjs-util'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -20,9 +18,12 @@ import {
 } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
-import { isPresent } from 'src/utils/typescript'
 import { getDefaultStatsigUser } from 'src/statsig'
 import { Statsig } from 'statsig-react-native'
+import { InjectTraits } from 'src/analytics/InjectTraits'
+import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
+import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
+import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 
 const TAG = 'ValoraAnalytics'
 
@@ -86,25 +87,13 @@ async function getDeviceInfo(): Promise<DeviceInfoType> {
   }
 }
 
-const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust, CleverTapSegment].filter(isPresent),
-  flushAt: 20,
-  debug: __DEV__,
-  trackAppLifecycleEvents: true,
-  recordScreenViews: true,
-  trackAttributionData: true,
-  ios: {
-    trackAdvertising: false,
-    trackDeepLinks: true,
-  },
-}
-
 class ValoraAnalytics {
   sessionId: string = ''
   deviceInfo: DeviceInfoType | undefined
 
   private currentScreenId: string | undefined
   private prevScreenId: string | undefined
+  private segmentClient: SegmentClient | undefined
 
   async init() {
     let uniqueID
@@ -112,7 +101,22 @@ class ValoraAnalytics {
       if (!SEGMENT_API_KEY) {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
       }
-      await Analytics.setup(SEGMENT_API_KEY, SEGMENT_OPTIONS)
+      this.segmentClient = createClient({
+        // using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust, CleverTapSegment].filter(isPresent),
+        flushAt: 20,
+        debug: __DEV__,
+        trackAppLifecycleEvents: true,
+        // recordScreenViews: true, // todo figure out if we still need this
+        // trackAttributionData: true, // todo figure out if we still need this
+        trackDeepLinks: true,
+        writeKey: SEGMENT_API_KEY,
+      })
+      this.segmentClient.add({ plugin: new InjectTraits() })
+      this.segmentClient.add({ plugin: new AdjustPlugin() })
+      this.segmentClient.add({ plugin: new ClevertapPlugin() })
+      if (FIREBASE_ENABLED) {
+        this.segmentClient.add({ plugin: new FirebasePlugin() })
+      }
 
       try {
         const deviceInfo = await getDeviceInfo()
@@ -133,7 +137,13 @@ class ValoraAnalytics {
     try {
       const statsigUser = getDefaultStatsigUser()
       // getAnonymousId causes the e2e tests to fail
-      const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
+      let overrideStableID: string = E2E_TEST_STATSIG_ID
+      if (!isE2EEnv) {
+        if (!this.segmentClient) {
+          throw new Error('segmentClient is undefined, cannot get anonymous ID')
+        }
+        overrideStableID = this.segmentClient.userInfo.get().anonymousId
+      }
       Logger.debug(TAG, 'Statsig stable ID', overrideStableID)
       await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
         // StableID should match Segment anonymousId
@@ -181,8 +191,8 @@ class ValoraAnalytics {
       return
     }
 
-    if (!SEGMENT_API_KEY) {
-      Logger.debug(TAG, `No API key, not tracking event ${eventName}`)
+    if (!this.segmentClient) {
+      Logger.debug(TAG, `segmentClient undefined, not tracking event ${eventName}`)
       return
     }
 
@@ -193,7 +203,7 @@ class ValoraAnalytics {
 
     Logger.info(TAG, `Tracking event ${eventName} with properties:`, props)
 
-    Analytics.track(eventName, props).catch((err) => {
+    this.segmentClient.track(eventName, props).catch((err) => {
       Logger.error(TAG, `Failed to track event ${eventName}`, err)
     })
   }
@@ -209,12 +219,12 @@ class ValoraAnalytics {
       return
     }
 
-    if (!SEGMENT_API_KEY) {
-      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
+    if (!this.segmentClient) {
+      Logger.debug(TAG, `segmentClient is undefined, not tracking user ${userID}`)
       return
     }
 
-    Analytics.identify(userID, traits).catch((err) => {
+    this.segmentClient.identify(userID, traits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
     })
   }
@@ -225,8 +235,8 @@ class ValoraAnalytics {
       return
     }
 
-    if (!SEGMENT_API_KEY) {
-      Logger.debug(TAG, `No API key, not tracking screen ${screenId}`)
+    if (!this.segmentClient) {
+      Logger.debug(TAG, `segmentClient is undefined, not tracking screen ${screenId}`)
       return
     }
 
@@ -240,15 +250,19 @@ class ValoraAnalytics {
       ...eventProperties,
     }
 
-    Analytics.screen(screenId, props).catch((err) => {
+    this.segmentClient.screen(screenId, props).catch((err) => {
       Logger.error(TAG, 'Error tracking page', err)
     })
   }
 
   async reset() {
+    if (!this.segmentClient) {
+      Logger.debug(TAG, `segmentClient is undefined, not resetting`)
+      return
+    }
     try {
-      await Analytics.flush()
-      await Analytics.reset()
+      await this.segmentClient.flush()
+      await this.segmentClient.reset()
     } catch (error) {
       Logger.error(TAG, 'Error resetting analytics', error)
     }
