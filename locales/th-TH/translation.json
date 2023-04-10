@@ -1272,6 +1272,8 @@
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
+    "favoriteDappsAndAll": "My Favorites & All",
+    "searchPlaceHolder": "Search dapps",
     "noFavorites": {
       "title": "สิ่งที่ฉันชอบ",
       "description": "ติดตาม dapps ที่ใช้มากที่สุดของคุณโดยแตะไอคอนดาวเพื่อเพิ่มเป็นรายการโปรด"
@@ -1282,7 +1284,8 @@
     },
     "emptyResults": {
       "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
-      "removeFilter": "ลบตัวกรอง"
+      "removeFilter": "ลบตัวกรอง",
+      "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
