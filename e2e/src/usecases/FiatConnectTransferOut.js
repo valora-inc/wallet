@@ -261,6 +261,10 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.label('Take photo')).tap()
     await element(by.text('Use this photo')).tap()
 
+    // License photo barcode
+    await element(by.label('Take photo')).tap()
+    await element(by.text('Use this photo')).tap()
+
     // Selfie section
     await waitFor(element(by.text('Get started')))
       .toBeVisible()
