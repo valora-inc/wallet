@@ -1278,6 +1278,8 @@
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
+    "favoriteDappsAndAll": "Moje ulubione i wszystkie",
+    "searchPlaceHolder": "Wyszukaj dapps",
     "noFavorites": {
       "title": "Nie dodano żadnych ulubionych",
       "description": "Śledź swoje najczęściej używane aplikacje Dapp poprzez dotknięcie ikony gwiazdki, aby dodać je do ulubionych"
@@ -1288,7 +1290,8 @@
     },
     "emptyResults": {
       "message": "Zastosowano filtr <0>{{filter}}</0>",
-      "removeFilter": "Usuń filtr"
+      "removeFilter": "Usuń filtr",
+      "searchMessage": "Nie znaleziono pasujących wyników dla <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {

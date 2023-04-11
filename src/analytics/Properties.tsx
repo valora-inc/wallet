@@ -1176,6 +1176,9 @@ interface DappExplorerEventsProperties {
     id: string
     remove: boolean
   }
+  [DappExplorerEvents.dapp_search]: {
+    searchTerm: string
+  }
 }
 
 interface WebViewEventsProperties {
