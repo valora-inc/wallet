@@ -254,11 +254,6 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.label('Take photo')).tap()
     await element(by.text('Use this photo')).tap()
 
-    await waitFor(element(by.text('Enable camera')))
-      .toBeVisible()
-      .withTimeout(5 * 1000)
-    await element(by.text('Enable camera')).tap()
-
     // Manually wait for Take Photo button to appear, withTimeout didn't work
     await sleep(10000)
 
