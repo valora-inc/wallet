@@ -32,7 +32,7 @@ export function FavoriteDappsSection({
   const { t } = useTranslation()
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
   const favoriteResultsFiltered = favoriteDappsWithCategoryNames.filter(
-    (dapp) => dapp.categories.includes(filterId ?? '') || filterId === 'all'
+    (dapp) => dapp.categories.includes(filterId) || filterId === 'all'
   )
   const favoriteResults =
     searchTerm === ''
