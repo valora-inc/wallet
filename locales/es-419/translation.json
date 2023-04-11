@@ -1274,6 +1274,8 @@
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
+    "favoriteDappsAndAll": "Mis favoritos y todo",
+    "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
       "title": "No has añadido favoritas aún",
       "description": "No pierdas de vista tus dapps más usadas. Toca la estrella para agregarlas a tus favoritas"
@@ -1284,7 +1286,8 @@
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
-      "removeFilter": "Quitar filtro"
+      "removeFilter": "Quitar filtro",
+      "searchMessage": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
