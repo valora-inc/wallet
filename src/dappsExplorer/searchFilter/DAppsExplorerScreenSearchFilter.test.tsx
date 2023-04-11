@@ -627,12 +627,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.press(getByText(dappsCategories[0].name))
 
       // Favorite Section should show no results
-      const favoriteDappsSection = getByTestId(
-        'DAppsExplorerScreenSearchFilter/FavoriteDappsSection'
-      )
-      expect(
-        within(favoriteDappsSection).getByTestId('DAppsExplorerScreenSearchFilter/NoResults')
-      ).toBeTruthy()
+      expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
 
       // All Section should show only 'dapp 1'
       const allDappsSection = getByTestId('DAppsExplorerScreenSearchFilter/DappsList')
