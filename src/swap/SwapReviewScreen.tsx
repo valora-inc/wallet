@@ -16,6 +16,7 @@ import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { useFeeCurrency } from 'src/fees/hooks'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -26,7 +27,7 @@ import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { Field, ZeroExResponse } from 'src/swap/types'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -59,8 +60,37 @@ export function SwapReviewScreen() {
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
   const [swapResponse, setSwapResponse] = useState<ZeroExResponse | null>(null)
   const [fetchError, setFetchError] = useState(false)
-  const allTokens = useSelector(tokensListSelector)
+  const tokensByAddress = useSelector(tokensByAddressSelector)
   const walletAddress = useSelector(walletAddressSelector)
+  const celoAddress = useSelector(celoAddressSelector)
+  const feeCurrency = useFeeCurrency() ?? celoAddress
+
+  const estimateFeeAmount = () => {
+    if (!feeCurrency || !swapResponse || !celoAddress || !tokensByAddress) {
+      return new BigNumber(0)
+    }
+
+    const celoUsdPrice = tokensByAddress[celoAddress]?.usdPrice
+    const feeCurrencyUsdPrice = tokensByAddress[feeCurrency]?.usdPrice
+
+    if (!celoUsdPrice || !feeCurrencyUsdPrice) {
+      return new BigNumber(0)
+    }
+
+    const estimatedCeloFeeAmount = divideByWei(
+      new BigNumber(swapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
+        new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
+      )
+    )
+
+    if (!tokensByAddress[feeCurrency]?.usdPrice || !tokensByAddress[celoAddress]?.usdPrice) {
+      return new BigNumber(0)
+    }
+
+    return estimatedCeloFeeAmount.multipliedBy(feeCurrencyUsdPrice).dividedBy(celoUsdPrice)
+  }
+
+  const estimatedFeeAmount = estimateFeeAmount()
 
   // Items set from remote config
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
@@ -69,8 +99,8 @@ export function SwapReviewScreen() {
   const dispatch = useDispatch()
 
   // Token Symbols
-  const toTokenSymbol = allTokens.find((token) => token.address === toToken)?.symbol
-  const fromTokenSymbol = allTokens.find((token) => token.address === fromToken)?.symbol
+  const toTokenSymbol = tokensByAddress[toToken]?.symbol
+  const fromTokenSymbol = tokensByAddress[fromToken]?.symbol
 
   // BuyAmount or SellAmount
   const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
@@ -193,11 +223,8 @@ export function SwapReviewScreen() {
                 <View style={styles.tokenDisplayView}>
                   <TokenDisplay
                     style={[styles.amountText, { color: colors.greenUI }]}
-                    // Fix: I think we shouldn't subtract gas from the buyAmount here.
                     amount={divideByWei(
-                      new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).minus(
-                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gas)
-                      )
+                      new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount)
                     )}
                     tokenAddress={toToken}
                     showLocalAmount={false}
@@ -240,13 +267,8 @@ export function SwapReviewScreen() {
                 <View style={styles.tokenDisplayView}>
                   <TokenDisplay
                     style={styles.transactionDetailsRightText}
-                    amount={divideByWei(
-                      new BigNumber(swapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
-                        new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
-                      )
-                    )}
-                    // Fix: this is not the gas token.
-                    tokenAddress={fromToken}
+                    amount={estimatedFeeAmount}
+                    tokenAddress={feeCurrency}
                     showLocalAmount={false}
                     testID={'EstimatedGas'}
                   />

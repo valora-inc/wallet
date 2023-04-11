@@ -87,6 +87,5 @@ export function useMaxSendAmount(
     return balance
   }
 
-  console.log(`DIEGO`, balance, feeEstimate)
   return balance.minus(feeEstimate)
 }
