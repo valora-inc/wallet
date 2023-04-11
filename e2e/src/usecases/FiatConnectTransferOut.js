@@ -261,6 +261,9 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.label('Take photo')).tap()
     await element(by.text('Use this photo')).tap()
 
+    // Manually wait for Take Photo button to appear, withTimeout didn't work
+    await sleep(10000)
+
     // License photo barcode
     await element(by.label('Take photo')).tap()
     await element(by.text('Use this photo')).tap()
