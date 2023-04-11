@@ -560,4 +560,86 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       })
     })
   })
+
+  describe('searching and filtering', () => {
+    it('renders correctly when results in favorites and none in all', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          favoriteDappIds: ['dapp1'],
+          dappFavoritesEnabled: true,
+          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
+        },
+      })
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      // Searching for tokens should return both dapps
+      fireEvent.changeText(getByTestId('SearchInput'), 'tokens')
+
+      // Filtering by category 1 should return only dapp 1
+      fireEvent.press(getByText(dappsCategories[0].name))
+
+      // Favorite Section should show only 'dapp 1'
+      const favoriteDappsSection = getByTestId(
+        'DAppsExplorerScreenSearchFilter/FavoriteDappsSection'
+      )
+      expect(within(favoriteDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+      expect(within(favoriteDappsSection).getByText(dappsList[0].description)).toBeTruthy()
+      expect(within(favoriteDappsSection).queryByText(dappsList[1].name)).toBeFalsy()
+      expect(within(favoriteDappsSection).queryByText(dappsList[1].description)).toBeFalsy()
+
+      // All Section should show no results
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearchFilter/DappsList')
+      expect(
+        within(allDappsSection).getByTestId('DAppsExplorerScreenSearchFilter/NoResults')
+      ).toBeTruthy()
+    })
+
+    it('renders correctly when results in all and none in favorites', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          favoriteDappIds: ['dapp2'],
+          dappFavoritesEnabled: true,
+          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
+        },
+      })
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      // Searching for tokens should return both dapps
+      fireEvent.changeText(getByTestId('SearchInput'), 'tokens')
+
+      // Filtering by category 1 should return only dapp 1
+      fireEvent.press(getByText(dappsCategories[0].name))
+
+      // Favorite Section should show no results
+      const favoriteDappsSection = getByTestId(
+        'DAppsExplorerScreenSearchFilter/FavoriteDappsSection'
+      )
+      expect(
+        within(favoriteDappsSection).getByTestId('DAppsExplorerScreenSearchFilter/NoResults')
+      ).toBeTruthy()
+
+      // All Section should show only 'dapp 1'
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearchFilter/DappsList')
+      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+      expect(within(allDappsSection).getByText(dappsList[0].description)).toBeTruthy()
+      expect(within(allDappsSection).queryByText(dappsList[1].name)).toBeFalsy()
+      expect(within(allDappsSection).queryByText(dappsList[1].description)).toBeFalsy()
+    })
+  })
 })
