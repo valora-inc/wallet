@@ -64,7 +64,13 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
   )
 }
 
-function NoResults({ testID = 'NoResult', searchTerm }: { testID?: string; searchTerm: string }) {
+function NoResults({
+  testID = 'TokenBottomSheet/NoResult',
+  searchTerm,
+}: {
+  testID?: string
+  searchTerm: string
+}) {
   return (
     <View testID={testID} style={styles.viewContainer}>
       <View style={styles.iconContainer}>
@@ -167,16 +173,20 @@ function TokenBottomSheet({
       fullHeight={searchEnabled}
     >
       <View>
-        {tokenList.length == 0
-          ? NoResults({ searchTerm })
-          : tokenList.map((tokenInfo, index) => {
-              return (
-                <React.Fragment key={`token-${tokenInfo.address}`}>
-                  {index > 0 && <View style={styles.separator} />}
-                  <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-                </React.Fragment>
-              )
-            })}
+        {tokenList.length == 0 ? (
+          searchEnabled ? (
+            <NoResults searchTerm={searchTerm} />
+          ) : null
+        ) : (
+          tokenList.map((tokenInfo, index) => {
+            return (
+              <React.Fragment key={`token-${tokenInfo.address}`}>
+                {index > 0 && <View style={styles.separator} />}
+                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+              </React.Fragment>
+            )
+          })
+        )}
       </View>
     </BottomSheet>
   )
