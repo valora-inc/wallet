@@ -13,6 +13,7 @@ import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
+jest.mock('src/analytics/ValoraAnalytics')
 
 const tokens: TokenBalance[] = [
   {
@@ -184,7 +185,7 @@ describe('TokenBottomSheet', () => {
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(ValoraAnalytics.track).toBeCalledTimes(2)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Test',
@@ -200,7 +201,7 @@ describe('TokenBottomSheet', () => {
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
     })
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(ValoraAnalytics.track).toBeCalledTimes(3)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Usd',
