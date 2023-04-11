@@ -209,8 +209,8 @@
     "body": "Vous serez récompensé chaque semaine sur votre stablecoin Celo avec le solde la plus élevée (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorer"
   },
-  "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingTitle": "Mise à jour de l'application nécessaire",
+  "superchargingDescription": "Mettez à jour l'appli pour continuer à recevoir vos récompenses Supercharge hebdomadaires",
   "superchargingTitleV1_54": "Vos {{token}} sont Superchargé",
   "superchargingDescriptionV1_54": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
