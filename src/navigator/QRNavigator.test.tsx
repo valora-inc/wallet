@@ -1,21 +1,21 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
+import { Provider } from 'react-redux'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
 import QRNavigator, {
-  getExperimentParams,
   QRCodePicker,
   QRCodeProps,
+  getExperimentParams,
 } from 'src/navigator/QRNavigator'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
-import { Provider } from 'react-redux'
+import QRCode from 'src/qrcode/QRGen'
+import StyledQRCode from 'src/qrcode/StyledQRGen'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
-import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
-import { mockExchanges } from 'test/values'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { Statsig } from 'statsig-react-native'
 import MockedNavigator from 'test/MockedNavigator'
-import StyledQRCode from 'src/qrcode/StyledQRGen'
-import QRCode from 'src/qrcode/QRGen'
+import { createMockStore } from 'test/utils'
+import { mockExchanges } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -64,7 +64,8 @@ describe('QRNavigator', () => {
     const overrides = Statsig.getAllOverrides()
     Object.keys(overrides.gates).forEach((gateName) => Statsig.removeGateOverride(gateName))
     Object.keys(overrides.configs).forEach((configName) => Statsig.removeConfigOverride(configName))
-    Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverride(layerName))
+    // There is a typo in the statsig library
+    Object.keys(overrides.layers).forEach((layerName) => Statsig.removeLayerOverrie(layerName))
   })
   const qrLayerControlParams = { qrCodeStyle: 'Legacy', qrCodeDataType: 'ValoraDeepLink' }
   const qrLayerTreatmentParams = { qrCodeStyle: 'New', qrCodeDataType: 'Address' }
