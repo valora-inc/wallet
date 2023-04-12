@@ -80,8 +80,9 @@ describe('SimplexScreen', () => {
       </Provider>
     )
 
-    expect(tree).toMatchSnapshot()
     await waitFor(() => tree.getByText(/continueToProvider/))
+    expect(tree).toMatchSnapshot()
+
     fireEvent.press(tree.getByText(/continueToProvider/))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_simplex_open_webview,

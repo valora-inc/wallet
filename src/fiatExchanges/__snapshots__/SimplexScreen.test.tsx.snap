@@ -30,6 +30,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           },
         ]
       }
+      testID="ReviewFees.Simplex"
     >
       <Modal
         animationType="none"
@@ -927,11 +928,11 @@ exports[`SimplexScreen renders correctly 1`] = `
         <View
           accessibilityState={
             Object {
-              "disabled": true,
+              "disabled": false,
             }
           }
           accessible={true}
-          focusable={false}
+          focusable={true}
           nativeBackgroundAndroid={
             Object {
               "attribute": "selectableItemBackground",
@@ -949,7 +950,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#97DFC1",
+              "backgroundColor": "#1AB775",
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
@@ -960,11 +961,21 @@ exports[`SimplexScreen renders correctly 1`] = `
             }
           }
         >
-          <ActivityIndicator
-            color="#FFFFFF"
-            size="small"
-            testID="Button/Loading"
-          />
+          <Text
+            maxFontSizeMultiplier={1}
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginLeft": 0,
+                "marginRight": 0,
+              }
+            }
+          >
+            continueToProvider, {"provider":"Simplex"}
+          </Text>
         </View>
       </View>
     </View>
