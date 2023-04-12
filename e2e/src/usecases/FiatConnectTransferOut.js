@@ -277,12 +277,18 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.label('shutter button')).tap()
     await element(by.label('shutter button')).tap()
 
-    // Name, number, address form
+    // Name, number, email, address form
     await waitFor(element(by.text('Phone Number')))
       .toBeVisible()
       .withTimeout(10000)
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
     await element(by.text('Phone Number')).tap() // Tap away to unfocus from input
+
+    await waitFor(element(by.text('Email')))
+      .toBeVisible()
+      .withTimeout(10000)
+    await element(by.text('Email Address')).typeText('test@example.com')
+    await element(by.text('Email')).tap() // Tap away to unfocus from input
 
     // Scroll down to continue button - all params needed to scroll down on persona template
     // Last parameter is the start point of the scroll, 0.5 is the middle of the element
