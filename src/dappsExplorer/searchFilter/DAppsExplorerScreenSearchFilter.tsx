@@ -16,13 +16,11 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SearchInput from 'src/components/SearchInput'
 import {
-  dappListWithCategoryNamesSelector,
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
-  dappsListSelector,
   dappsMinimalDisclaimerEnabledSelector,
-  favoriteDappIdsSelector,
+  nonFavoriteDappsWithCategoryNamesSelector
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
@@ -64,10 +62,8 @@ export function DAppsExplorerScreenSearchFilter() {
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
-  const dappList = useSelector(dappsListSelector)
-  const dappListWithCategoryNames = useSelector(dappListWithCategoryNamesSelector)
   const language = useSelector(currentLanguageSelector)
-  const favoriteDappsById = useSelector(favoriteDappIdsSelector)
+  const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const [selectedFilter, setSelectedFilter] = useState('all')
 
   // Some state lifted up from all and favorite sections
@@ -101,10 +97,9 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const allSectionResults: SectionData[] = useMemo(() => {
     const allResultsParsed = parseResultsIntoAll(
-      dappListWithCategoryNames,
+      nonFavoriteDappsWithCategoryNames,
       searchTerm,
       selectedFilter,
-      favoriteDappsById
     )
     if (allResultsParsed.length === 0) {
       setAllResultEmpty(true)
@@ -112,7 +107,7 @@ export function DAppsExplorerScreenSearchFilter() {
       setAllResultEmpty(false)
     }
     return allResultsParsed
-  }, [dappList, searchTerm, selectedFilter, favoriteDappsById])
+  }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
 
   const emptyListComponent = useMemo(() => {
     if (allResultEmpty && favoriteResultsEmpty) return null
@@ -287,21 +282,19 @@ function DescriptionView({ message, title }: { message: string; title: string })
 }
 
 function parseResultsIntoAll(
-  dappList: DappV2WithCategoryNames[],
+  nonFavoriteDapps: DappV2WithCategoryNames[],
   searchTerm: string,
   filterId: string,
-  favoriteDappsById: string[]
 ) {
   // Dapps in the all section are all the non favorite dapps that match the filter
   const dappsMatchingFilter =
     filterId === 'all'
-      ? dappList.filter((dapp: DappV2) => !favoriteDappsById.includes(dapp.id))
-      : dappList.filter(
-          (dapp: DappV2) =>
-            !favoriteDappsById.includes(dapp.id) &&
-            dapp.categories &&
-            dapp.categories.includes(filterId)
-        )
+      ? nonFavoriteDapps
+      : nonFavoriteDapps.filter(
+        (dapp: DappV2) =>
+          dapp.categories &&
+          dapp.categories.includes(filterId)
+      )
   // If there are no dapps matching the filter return an empty array
   if (dappsMatchingFilter.length === 0) return []
   // If there is no search term return the dapps matching the category filter
