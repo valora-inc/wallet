@@ -10,8 +10,8 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import SwapScreen, { SwapScreenSection } from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
-import { SwapScreenSection } from 'src/swap/SwapScreen'
 import { Field } from 'src/swap/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
@@ -105,7 +105,7 @@ const renderScreen = ({
 
   const tree = render(
     <Provider store={store}>
-      <SwapScreenSection showDrawerTopNav={showDrawerTopNav} props={props} />
+      <SwapScreenSection showDrawerTopNav={showDrawerTopNav} backNavigator={props.navigation} />
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
@@ -633,5 +633,14 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+  })
+  it('SwapScreen component renders the top drawer', () => {
+    const { queryByTestId } = render(
+      <Provider store={createMockStore()}>
+        <SwapScreen />
+      </Provider>
+    )
+
+    expect(queryByTestId('SwapScreen/DrawerBar')).toBeTruthy()
   })
 })

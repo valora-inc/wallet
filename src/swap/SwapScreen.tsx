@@ -1,5 +1,5 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -19,7 +19,7 @@ import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { HeaderTitleWithSubtitle, styles as headerStyles } from 'src/navigator/Headers'
+import { styles as headerStyles, HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -44,7 +44,7 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
+type Navigator = NativeStackNavigationProp<StackParamList, Screens.SwapScreenWithBack, undefined>
 
 function SwapScreen() {
   return <SwapScreenSection showDrawerTopNav={true} />
@@ -52,10 +52,10 @@ function SwapScreen() {
 
 export function SwapScreenSection({
   showDrawerTopNav,
-  props,
+  backNavigator,
 }: {
   showDrawerTopNav: boolean
-  props?: Props
+  backNavigator?: Navigator
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -120,18 +120,17 @@ export function SwapScreenSection({
   )
 
   useLayoutEffect(() => {
-    //Props are defined only when navigation was to the SwapScreenWithBack, not SwapScreen
-    props?.navigation &&
-      props.navigation.setOptions({
-        headerTitle: () => (
-          <HeaderTitleWithSubtitle
-            testID="SwapScreen/header"
-            title={t('swapScreen.title')}
-            subTitle={subTitleElement}
-          />
-        ),
-      })
-  }, [props, subTitleElement])
+    // backNavigator is defined only when user navigated to the SwapScreenWithBack, not SwapScreen
+    backNavigator?.setOptions({
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle
+          testID="SwapScreen/header"
+          title={t('swapScreen.title')}
+          subTitle={subTitleElement}
+        />
+      ),
+    })
+  }, [backNavigator, subTitleElement])
 
   // Used to reset the swap when after a successful swap or error
   useEffect(() => {

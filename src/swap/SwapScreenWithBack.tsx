@@ -6,8 +6,8 @@ import { SwapScreenSection } from 'src/swap/SwapScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
-function SwapScreenWithBack(props: Props) {
-  return <SwapScreenSection showDrawerTopNav={false} props={props} />
+function SwapScreenWithBack({ navigation }: Props) {
+  return <SwapScreenSection showDrawerTopNav={false} backNavigator={navigation} />
 }
 
 export default SwapScreenWithBack
