@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -8,9 +7,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
-import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -25,6 +22,7 @@ interface Props {
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
   tokens: TokenBalance[]
+  title: string
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -57,11 +55,7 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
   )
 }
 // TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
-function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens }: Props) {
-  const tokenList = tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
-
-  const { t } = useTranslation()
-
+function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens, title }: Props) {
   const onTokenPressed = (tokenAddress: string) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
@@ -70,11 +64,12 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose, tokens 
     onTokenSelected(tokenAddress)
   }
 
+  const titleComponent = <Text style={styles.title}>{title}</Text>
+
   return (
-    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose}>
+    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose} stickyHeader={titleComponent}>
       <>
-        <Text style={styles.title}>{t('selectToken')}</Text>
-        {tokenList.map((tokenInfo, index) => {
+        {tokens.map((tokenInfo, index) => {
           return (
             <React.Fragment key={`token-${tokenInfo.address}`}>
               {index > 0 && <View style={styles.separator} />}
@@ -92,7 +87,6 @@ TokenBottomSheet.navigationOptions = {}
 const styles = StyleSheet.create({
   title: {
     ...fontStyles.h2,
-    marginBottom: Spacing.Smallest8,
   },
   tokenOptionContainer: {
     flexDirection: 'row',
