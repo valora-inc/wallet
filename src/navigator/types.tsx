@@ -313,7 +313,7 @@ export type StackParamList = {
   [Screens.SwapScreen]: undefined
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
-  [Screens.SwapStartScreen]: undefined
+  [Screens.SwapScreenWithBack]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }

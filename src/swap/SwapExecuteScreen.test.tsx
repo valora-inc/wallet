@@ -201,7 +201,7 @@ describe('SwapExecuteScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.swapAgain'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SwapStartScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack)
   })
 
   it("should be able to navigate home on press of 'Done'", () => {

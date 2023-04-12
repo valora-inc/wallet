@@ -44,7 +44,7 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-type Props = NativeStackScreenProps<StackParamList, Screens.SwapStartScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 function SwapScreen() {
   return <SwapScreenSection showDrawerTopNav={true} />
@@ -120,7 +120,7 @@ export function SwapScreenSection({
   )
 
   useLayoutEffect(() => {
-    //Props are defined only when navigation was to the SwapStartScreen, not SwapScreen
+    //Props are defined only when navigation was to the SwapScreenWithBack, not SwapScreen
     props?.navigation &&
       props.navigation.setOptions({
         headerTitle: () => (

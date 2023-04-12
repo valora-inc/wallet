@@ -34,7 +34,7 @@ jest.mock('react-native-localize', () => ({
 }))
 
 const now = Date.now()
-const emptyProps = {} as NativeStackScreenProps<StackParamList, Screens.SwapStartScreen>
+const emptyProps = {} as NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 const renderScreen = ({
   celoBalance = '10',
@@ -614,7 +614,7 @@ describe('SwapScreen', () => {
   it('should be able to hide top drawer nav when parameter is set', () => {
     const mockProps = { navigation: mockNavigation } as NativeStackScreenProps<
       StackParamList,
-      Screens.SwapStartScreen
+      Screens.SwapScreenWithBack
     >
     const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({
       showDrawerTopNav: false,
