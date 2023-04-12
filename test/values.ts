@@ -14,7 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
-import { DappV1, DappV2 } from 'src/dapps/types'
+import { DappV1, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
@@ -1034,6 +1034,29 @@ export const mockDappListV2: DappV2[] = [
     name: 'Dapp 2',
     id: 'dapp2',
     categories: ['2'],
+    description: 'Lend and borrow tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
+    dappUrl: 'celo://wallet/dapp2Screen',
+    isFeatured: false,
+  },
+]
+
+export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
+  {
+    name: 'Dapp 1',
+    id: 'dapp1',
+    categories: ['1'],
+    categoryNames: ['Swap'],
+    description: 'Swap tokens!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
+    dappUrl: 'https://app.dapp1.org/',
+    isFeatured: false,
+  },
+  {
+    name: 'Dapp 2',
+    id: 'dapp2',
+    categories: ['2'],
+    categoryNames: ['Lend, Borrow & Earn'],
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',

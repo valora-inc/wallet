@@ -1272,6 +1272,8 @@
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
+    "favoriteDappsAndAll": "My Favorites & All",
+    "searchPlaceHolder": "Search dapps",
     "noFavorites": {
       "title": "Bạn không có Dapps yêu thích",
       "description": "Theo dõi các Dapp được sử dụng nhiều nhất của bạn bằng cách nhấn vào biểu tượng ngôi sao để thêm nó như một yêu thích"
@@ -1282,7 +1284,8 @@
     },
     "emptyResults": {
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
-      "removeFilter": "Xóa bộ lọc"
+      "removeFilter": "Xóa bộ lọc",
+      "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {

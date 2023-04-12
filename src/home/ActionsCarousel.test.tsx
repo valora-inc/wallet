@@ -1,5 +1,7 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
@@ -19,15 +21,45 @@ describe('ActionsCarousel', () => {
   })
 
   it.each([
-    [HomeActionName.Send, 'send', Screens.Send, undefined],
-    [HomeActionName.Receive, 'receive', Screens.QRNavigator, undefined],
-    [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
-    [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
-    [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
-    [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
+    [HomeActionName.Send, 'send', Screens.Send, undefined, HomeEvents.home_actions_send],
+    [
+      HomeActionName.Receive,
+      'receive',
+      Screens.QRNavigator,
+      undefined,
+      HomeEvents.home_actions_receive,
+    ],
+    [
+      HomeActionName.Add,
+      'add',
+      Screens.FiatExchangeCurrency,
+      { flow: FiatExchangeFlow.CashIn },
+      HomeEvents.home_actions_add,
+    ],
+    [
+      HomeActionName.Swap,
+      'swap',
+      Screens.SwapScreenWithBack,
+      undefined,
+      HomeEvents.home_actions_swap,
+    ],
+    [
+      HomeActionName.Request,
+      'request',
+      Screens.Send,
+      { isOutgoingPaymentRequest: true },
+      HomeEvents.home_actions_request,
+    ],
+    [
+      HomeActionName.Withdraw,
+      'withdraw',
+      Screens.WithdrawSpend,
+      undefined,
+      HomeEvents.home_actions_withdraw,
+    ],
   ])(
     'renders title and navigates to appropriate screen for %s',
-    (name, title, screen, screenOptions) => {
+    (name, title, screen, screenOptions, event) => {
       const { getByTestId } = render(<ActionsCarousel />)
       expect(
         within(getByTestId(`HomeAction/Title-${name}`)).getByText(`homeActions.${title}`)
@@ -40,6 +72,9 @@ describe('ActionsCarousel', () => {
       // isn't explicitly passed for screens with no options and the expect fails
       expect(mocked(navigate).mock.calls[0][0]).toEqual(screen)
       expect(mocked(navigate).mock.calls[0][1]).toEqual(screenOptions)
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(event)
     }
   )
 })

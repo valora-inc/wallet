@@ -34,6 +34,7 @@ import { SendSearchInput } from 'src/send/SendSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
 
@@ -221,6 +222,10 @@ function Send({ route }: Props) {
     return null
   }
 
+  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
+    sortFirstStableThenCeloThenOthersByUsdBalance
+  )
+
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
@@ -246,7 +251,8 @@ function Send({ route }: Props) {
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
-        tokens={isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
+        tokens={sortedTokens}
+        title={t('selectToken')}
       />
     </SafeAreaView>
   )
