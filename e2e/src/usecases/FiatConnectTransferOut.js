@@ -285,7 +285,7 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.text('Phone Number')).tap() // Tap away to unfocus from input
 
     // Email is the 4th text field after first name, last name and phone number
-    await element(by.label('UITextField')).atIndex(3).typeText('test@example.com')
+    await element(by.type('UITextField')).atIndex(3).typeText('test@example.com')
     await element(by.text('Email')).tap() // Tap away to unfocus from input
 
     // Scroll down to continue button - all params needed to scroll down on persona template
