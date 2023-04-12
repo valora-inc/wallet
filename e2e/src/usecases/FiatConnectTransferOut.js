@@ -283,6 +283,7 @@ export const fiatConnectKycTransferOut = () => {
       .withTimeout(10000)
 
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
+    await element(by.text('Phone Number')).tap() // Tap away to unfocus from input to dismiss keyboard
     await element(by.type('UITextField').withDescendant(by.label('Email Address'))).typeText(
       'test@example.com'
     )
