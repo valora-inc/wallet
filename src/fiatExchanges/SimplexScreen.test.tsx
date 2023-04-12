@@ -72,6 +72,23 @@ describe('SimplexScreen', () => {
   })
 
   it('renders correctly', async () => {
+    const tree = render(
+      <Provider store={mockStore}>
+        <SimplexScreen {...mockScreenProps()} />
+      </Provider>
+    )
+
+    expect(tree).toMatchSnapshot()
+    mockFetch.mockResponseOnce(MOCK_SIMPLEX_PAYMENT_REQUEST_RESPONSE)
+    await waitFor(() => tree.getByText(/continueToProvider/))
+    tree.rerender(
+      <Provider store={mockStore}>
+        <SimplexScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+  it('fires an analytics event', async () => {
     mockFetch.mockResponseOnce(MOCK_SIMPLEX_PAYMENT_REQUEST_RESPONSE)
 
     const tree = render(
@@ -81,7 +98,6 @@ describe('SimplexScreen', () => {
     )
 
     await waitFor(() => tree.getByText(/continueToProvider/))
-    expect(tree).toMatchSnapshot()
 
     fireEvent.press(tree.getByText(/continueToProvider/))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -91,11 +107,5 @@ describe('SimplexScreen', () => {
         currency: CiCoCurrency.cUSD,
       }
     )
-    tree.rerender(
-      <Provider store={mockStore}>
-        <SimplexScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
   })
 })
