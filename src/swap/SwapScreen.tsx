@@ -21,6 +21,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -30,7 +33,11 @@ import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
-import { coreTokensSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
+import {
+  coreTokensSelector,
+  swappableTokensSelector,
+  tokensByUsdBalanceSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -40,13 +47,32 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
+function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
+  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
+  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
+  if (usdPriceComparison === 0) {
+    const token1Name = token1.name ?? 'ZZ'
+    const token2Name = token2.name ?? 'ZZ'
+    return token1Name.localeCompare(token2Name)
+  } else {
+    return usdPriceComparison
+  }
+}
+
 const { decimalSeparator } = getNumberFormatSettings()
 
 export function SwapScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const supportedTokens = useSelector(coreTokensSelector)
+  const { swappingNonNativeTokensEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
+  )
+
+  const supportedTokens = useSelector(
+    swappingNonNativeTokensEnabled ? swappableTokensSelector : coreTokensSelector
+  )
 
   const swapInfo = useSelector(swapInfoSelector)
   const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
@@ -251,6 +277,8 @@ export function SwapScreen() {
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
+  const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <DrawerTopBar
@@ -318,7 +346,8 @@ export function SwapScreen() {
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
-        tokens={Object.values(supportedTokens)}
+        searchEnabled={swappingNonNativeTokensEnabled}
+        tokens={sortedTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
