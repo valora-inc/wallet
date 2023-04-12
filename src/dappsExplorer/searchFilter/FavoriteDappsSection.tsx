@@ -16,7 +16,7 @@ interface Props {
   filterId: string
   filterName: string
   onPressDapp: (dapp: ActiveDapp) => void
-  onShowSearchResult: (empty: boolean) => void
+  setFavoriteResultsEmpty: (empty: boolean) => void
   removeFilter: () => void
   searchTerm: string
 }
@@ -25,7 +25,7 @@ export function FavoriteDappsSection({
   filterId,
   filterName,
   onPressDapp,
-  onShowSearchResult,
+  setFavoriteResultsEmpty,
   removeFilter,
   searchTerm,
 }: Props) {
@@ -40,11 +40,7 @@ export function FavoriteDappsSection({
       : (searchDappList(favoriteResultsFiltered, searchTerm) as DappV2[])
 
   useEffect(() => {
-    if (favoriteResults.length > 0) {
-      onShowSearchResult(false)
-    } else {
-      onShowSearchResult(true)
-    }
+    setFavoriteResultsEmpty(favoriteResults.length <= 0)
   }, [favoriteResults, searchTerm, filterId])
 
   // Display favorites matching search and filter

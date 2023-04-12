@@ -101,11 +101,7 @@ export function DAppsExplorerScreenSearchFilter() {
       searchTerm,
       selectedFilter,
     )
-    if (allResultsParsed.length === 0) {
-      setAllResultEmpty(true)
-    } else {
-      setAllResultEmpty(false)
-    }
+    setAllResultEmpty(allResultsParsed.length === 0)
     return allResultsParsed
   }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
 
@@ -212,22 +208,18 @@ export function DAppsExplorerScreenSearchFilter() {
                 </View>
                 <>
                   {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
-                  {allResultEmpty && favoriteResultsEmpty ? (
-                    <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')}
-                    </Text>
-                  ) : (
-                    <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
-                    </Text>
-                  )}
+                  <Text style={styles.sectionTitle}>
+                    {allResultEmpty && favoriteResultsEmpty
+                      ? t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')
+                      : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
+                  </Text>
                   <FavoriteDappsSection
                     onPressDapp={onSelectDapp}
                     filterId={selectedFilter}
                     filterName={selectedFilterName}
                     removeFilter={removeFilter}
                     searchTerm={searchTerm}
-                    onShowSearchResult={setFavoriteResultsEmpty}
+                    setFavoriteResultsEmpty={setFavoriteResultsEmpty}
                   />
                   {/* If all dapp section isn't empty or favoriteResults isn't empty display all section header */}
                   {(!allResultEmpty || !favoriteResultsEmpty) && (
