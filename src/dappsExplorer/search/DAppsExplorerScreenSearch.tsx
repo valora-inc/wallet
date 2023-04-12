@@ -254,6 +254,7 @@ function parseResultsIntoAll(
 
   // Score and sort the non favorite dapps
   const results = searchDappList(nonFavoriteDapps, searchTerm) as DappV2WithCategoryNames[]
+  if (results.length === 0) return []
   return [
     {
       data: results,
