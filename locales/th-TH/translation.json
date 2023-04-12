@@ -209,8 +209,8 @@
     "body": "คุณจะได้รับรางวัลทุกสัปดาห์ในรูปแบบ Celo stablecoin ด้วยมูลค่าสูงสุด (cEUR, cUSD, cREAL)",
     "dismiss": "ปิด"
   },
-  "superchargingTitle": "กำลัง Supercharge {{token}} ของคุณ",
-  "superchargingDescription": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
+  "superchargingTitle": "ต้องอัปเดตแอป",
+  "superchargingDescription": "อัปเดตแอป Valora เพื่อรับรางวัล Supercharge ทุกสัปดาห์อย่างต่อเนื่อง",
   "superchargingTitleV1_54": "กำลัง Supercharge {{token}} ของคุณ",
   "superchargingDescriptionV1_54": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
   "superchargeRewardsAvailable": "คุณมี {{amount}} {{token}} ที่สามารถขอรับได้!",
