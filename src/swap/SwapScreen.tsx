@@ -319,6 +319,11 @@ export function SwapScreen() {
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
         tokens={Object.values(supportedTokens)}
+        title={
+          selectingToken == Field.FROM
+            ? t('swapScreen.swapFromTokenSelection')
+            : t('swapScreen.swapToTokenSelection')
+        }
       />
     </SafeAreaView>
   )
