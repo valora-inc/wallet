@@ -12,25 +12,25 @@ import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
 import { useDispatch, useSelector } from 'react-redux'
+import { QrScreenEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { QRTabParamList } from 'src/navigator/types'
-import QRCode from 'src/qrcode/QRCode'
+import { QRTabParamList, StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import NewQRCode from 'src/qrcode/NewQRCode'
+import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
+import { LayerParams } from 'src/statsig/constants'
+import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
+import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
-import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
-import { LayerParams } from 'src/statsig/constants'
 import { Statsig } from 'statsig-react-native'
-import { CiCoCurrency } from 'src/utils/currencies'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { QrScreenEvents } from 'src/analytics/Events'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 
 const TAG = 'QRNavigator'
 
@@ -218,13 +218,18 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
 const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
   Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
-export default function QRNavigator() {
+type Props = NativeStackScreenProps<StackParamList, Screens.QRNavigator>
+
+export default function QRNavigator({ route }: Props) {
+  const showBackButton = route.params?.showBackButton ?? false
   const { qrCodeDataType, qrCodeStyle } = getExperimentParams()
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
-  const tabBar = (props: MaterialTopTabBarProps) => <QRTabBar {...props} qrSvgRef={qrSvgRef} />
+  const tabBar = (props: MaterialTopTabBarProps) => (
+    <QRTabBar {...props} qrSvgRef={qrSvgRef} showBackButton={showBackButton} />
+  )
 
   return (
     <Tab.Navigator

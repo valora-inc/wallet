@@ -21,12 +21,18 @@ describe('ActionsCarousel', () => {
   })
 
   it.each([
-    [HomeActionName.Send, 'send', Screens.Send, undefined, HomeEvents.home_actions_send],
+    [
+      HomeActionName.Send,
+      'send',
+      Screens.Send,
+      { showBackButton: true },
+      HomeEvents.home_actions_send,
+    ],
     [
       HomeActionName.Receive,
       'receive',
       Screens.QRNavigator,
-      undefined,
+      { screen: Screens.QRCode, showBackButton: true },
       HomeEvents.home_actions_receive,
     ],
     [
@@ -41,7 +47,7 @@ describe('ActionsCarousel', () => {
       HomeActionName.Request,
       'request',
       Screens.Send,
-      { isOutgoingPaymentRequest: true },
+      { isOutgoingPaymentRequest: true, showBackButton: true },
       HomeEvents.home_actions_request,
     ],
     [

@@ -35,8 +35,8 @@ import {
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
   [K in keyof ParamList]: undefined extends ParamList[K]
-    ? { screen: K; params?: ParamList[K] }
-    : { screen: K; params: ParamList[K] }
+    ? { screen: K; params?: ParamList[K]; showBackButton?: boolean }
+    : { screen: K; params: ParamList[K]; showBackButton?: boolean }
 }[keyof ParamList]
 
 interface SendConfirmationLegacyParams {
@@ -286,6 +286,7 @@ export type StackParamList = {
         skipContactsImport?: boolean
         forceTokenAddress?: boolean
         defaultTokenOverride?: string
+        showBackButton?: boolean
       }
     | undefined
   [Screens.SendAmount]: {

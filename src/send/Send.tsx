@@ -45,6 +45,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
+  const showBackButton = route.params?.showBackButton ?? false
   const forceTokenAddress = route.params?.forceTokenAddress
   const defaultTokenOverride = route.params?.defaultTokenOverride
   const { t } = useTranslation()
@@ -228,7 +229,10 @@ function Send({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
-      <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
+      <SendHeader
+        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
+        showBackButton={showBackButton}
+      />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
       {inviteRewardsActive && hasGivenContactPermission && <InviteRewardsBanner />}

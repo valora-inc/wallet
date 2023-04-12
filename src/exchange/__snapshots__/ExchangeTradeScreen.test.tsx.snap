@@ -206,7 +206,6 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           }
         >
           <svg
-            fill="none"
             height={16}
             style={Object {}}
             testID="BackChevron"

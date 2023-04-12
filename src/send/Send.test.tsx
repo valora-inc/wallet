@@ -23,6 +23,7 @@ const mockScreenProps = (params: {
   skipContactsImport?: boolean
   forceTokenAddress?: boolean
   defaultTokenOverride?: string
+  showBackButton?: boolean
 }) => getMockStackScreenProps(Screens.Send, params)
 
 const defaultStore = {
@@ -191,5 +192,15 @@ describe('Send', () => {
 
     await waitFor(() => expect(getByText('inviteModal.sendInviteButtonLabel')).toBeTruthy())
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('shows back button when parameter is set', () => {
+    const { queryByTestId } = render(
+      <Provider store={createMockStore(defaultStore)}>
+        <Send {...mockScreenProps({ showBackButton: true })} />
+      </Provider>
+    )
+
+    expect(queryByTestId('BackChevron')).toBeTruthy()
   })
 })

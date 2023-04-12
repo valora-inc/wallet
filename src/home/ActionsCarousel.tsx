@@ -28,7 +28,7 @@ function ActionsCarousel() {
       icon: <HomeActionsSend />,
       onPress: () => {
         ValoraAnalytics.track(HomeEvents.home_actions_send)
-        navigate(Screens.Send)
+        navigate(Screens.Send, { showBackButton: true })
       },
     },
     {
@@ -37,7 +37,7 @@ function ActionsCarousel() {
       icon: <HomeActionsReceive />,
       onPress: () => {
         ValoraAnalytics.track(HomeEvents.home_actions_receive)
-        navigate(Screens.QRNavigator)
+        navigate(Screens.QRNavigator, { screen: Screens.QRCode, showBackButton: true })
       },
     },
     {
@@ -66,7 +66,7 @@ function ActionsCarousel() {
       icon: <HomeActionsRequest />,
       onPress: () => {
         ValoraAnalytics.track(HomeEvents.home_actions_request)
-        navigate(Screens.Send, { isOutgoingPaymentRequest: true })
+        navigate(Screens.Send, { isOutgoingPaymentRequest: true, showBackButton: true })
       },
     },
     {

@@ -81,7 +81,6 @@ exports[`SendConfirmation renders correctly 1`] = `
           onStartShouldSetResponder={[Function]}
         >
           <svg
-            fill="none"
             height={16}
             style={Object {}}
             testID="BackChevron"
