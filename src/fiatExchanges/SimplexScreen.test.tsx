@@ -1,10 +1,13 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockE164Number } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,6 +17,7 @@ const mockUserIpAddress = '1.1.1.1.1.1.0'
 
 const MOCK_SIMPLEX_PAYMENT_REQUEST_RESPONSE = JSON.stringify({
   is_kyc_update_required: false,
+  paymentId: '123',
 })
 
 const mockStore = createMockStore({
@@ -68,6 +72,8 @@ describe('SimplexScreen', () => {
   })
 
   it('renders correctly', async () => {
+    mockFetch.mockResponseOnce(MOCK_SIMPLEX_PAYMENT_REQUEST_RESPONSE)
+
     const tree = render(
       <Provider store={mockStore}>
         <SimplexScreen {...mockScreenProps()} />
@@ -75,8 +81,15 @@ describe('SimplexScreen', () => {
     )
 
     expect(tree).toMatchSnapshot()
-    mockFetch.mockResponseOnce(MOCK_SIMPLEX_PAYMENT_REQUEST_RESPONSE)
     await waitFor(() => tree.getByText(/continueToProvider/))
+    fireEvent.press(tree.getByText(/continueToProvider/))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      FiatExchangeEvents.cico_simplex_open_webview,
+      {
+        amount: 25,
+        currency: CiCoCurrency.cUSD,
+      }
+    )
     tree.rerender(
       <Provider store={mockStore}>
         <SimplexScreen {...mockScreenProps()} />

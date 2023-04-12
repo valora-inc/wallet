@@ -6,6 +6,8 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
@@ -57,6 +59,10 @@ function SimplexScreen({ route, navigation }: Props) {
   }
 
   const onButtonPress = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_simplex_open_webview, {
+      amount: simplexQuote.digital_money.amount,
+      currency: currencyToBuy,
+    })
     setLoadSimplexCheckout(true)
     navigation.setOptions({
       ...emptyHeader,
