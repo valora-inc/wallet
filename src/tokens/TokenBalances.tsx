@@ -3,7 +3,15 @@ import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Image, PixelRatio, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  PixelRatio,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -220,12 +228,18 @@ function PositionDisplay({ position }: { position: Position }) {
     <View style={styles.tokenContainer}>
       <View style={styles.row}>
         {/* <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} /> */}
-        {baseTokenImages.map((image, index) => (
-          <Image source={{ uri: image }} style={styles.tokenImg} key={index} />
-        ))}
+        <View style={{ flexDirection: 'row-reverse' }}>
+          {baseTokenImages.reverse().map((image, index) => (
+            <Image
+              source={{ uri: image }}
+              style={[styles.tokenImg, { marginRight: index > 0 ? -20 : 12 }]}
+              key={index}
+            />
+          ))}
+        </View>
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName}>{position.label}</Text>
-          {/* <Text style={styles.subtext}>{token.name}</Text> */}
+          <Text style={styles.subtext}>Ubeswap</Text>
         </View>
       </View>
       <View style={styles.balances}>
@@ -291,6 +305,10 @@ function Positions() {
       },
     }
   )
+
+  if (asyncPositions.loading) {
+    return <ActivityIndicator />
+  }
 
   if (!Array.isArray(asyncPositions.result)) {
     return null
