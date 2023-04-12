@@ -125,9 +125,7 @@ function mapExchangeStandbyToFeedItem(
   // Find amount relative to the queried currency
   const accountAmount = [makerAmount, takerAmount].find((amount) => {
     const amountCurrency = amount.currencyCode as Currency
-    return feedType === FeedType.EXCHANGE
-      ? amountCurrency === Currency.Celo
-      : STABLE_CURRENCIES.some((stableCurrency) => stableCurrency === amountCurrency)
+    return STABLE_CURRENCIES.some((stableCurrency) => stableCurrency === amountCurrency)
   })
 
   if (!accountAmount) {
@@ -237,7 +235,7 @@ export class TransactionsList extends React.PureComponent<Props> {
     } = this.props
 
     const queryAddress = address || ''
-    const tokens = feedType === FeedType.EXCHANGE ? [Currency.Celo] : Object.keys(CURRENCIES)
+    const tokens = Object.keys(CURRENCIES)
 
     const UserTransactions = ({
       loading,
