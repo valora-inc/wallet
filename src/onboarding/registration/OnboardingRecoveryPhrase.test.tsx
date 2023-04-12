@@ -1,15 +1,16 @@
+import Clipboard from '@react-native-clipboard/clipboard'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { Screens } from 'src/navigator/Screens'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { mockOnboardingProps, mockTwelveWordMnemonic } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { Screens } from 'src/navigator/Screens'
+import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'
-import Clipboard from '@react-native-clipboard/clipboard'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockOnboardingProps, mockTwelveWordMnemonic } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/backup/utils', () => ({
@@ -33,6 +34,7 @@ describe('OnboardingRecoveryPhraseScreen', () => {
       account: '0xaccount',
     },
   })
+  store.dispatch = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -45,6 +47,7 @@ describe('OnboardingRecoveryPhraseScreen', () => {
     fireEvent.press(getByTestId('protectWalletBottomSheetContinue'))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_complete)
+    expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingCompleted())
     expect(goToNextOnboardingScreen).toBeCalledWith({
       firstScreenInCurrentStep: Screens.ProtectWallet,
       onboardingProps: mockOnboardingProps,

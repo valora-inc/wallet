@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -25,6 +27,7 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
+        ValoraAnalytics.track(HomeEvents.home_actions_send)
         navigate(Screens.Send)
       },
     },
@@ -33,6 +36,7 @@ function ActionsCarousel() {
       title: t('homeActions.receive'),
       icon: <HomeActionsReceive />,
       onPress: () => {
+        ValoraAnalytics.track(HomeEvents.home_actions_receive)
         navigate(Screens.QRNavigator)
       },
     },
@@ -41,6 +45,7 @@ function ActionsCarousel() {
       title: t('homeActions.add'),
       icon: <HomeActionsAdd />,
       onPress: () => {
+        ValoraAnalytics.track(HomeEvents.home_actions_add)
         navigate(Screens.FiatExchangeCurrency, {
           flow: FiatExchangeFlow.CashIn,
         })
@@ -51,6 +56,7 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
+        ValoraAnalytics.track(HomeEvents.home_actions_swap)
         navigate(Screens.SwapScreen)
       },
     },
@@ -59,6 +65,7 @@ function ActionsCarousel() {
       title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
+        ValoraAnalytics.track(HomeEvents.home_actions_request)
         navigate(Screens.Send, { isOutgoingPaymentRequest: true })
       },
     },
@@ -67,6 +74,7 @@ function ActionsCarousel() {
       title: t('homeActions.withdraw'),
       icon: <HomeActionsWithdraw />,
       onPress: () => {
+        ValoraAnalytics.track(HomeEvents.home_actions_withdraw)
         navigate(Screens.WithdrawSpend)
       },
     },

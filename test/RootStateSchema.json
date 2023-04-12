@@ -2081,6 +2081,14 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "RecoveryPhraseInOnboardingStatus": {
+            "enum": [
+                "Completed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "RelayerTypes.ProtocolOptions": {
             "additionalProperties": false,
             "properties": {
@@ -2714,6 +2722,9 @@
                 "recoveringFromStoreWipe": {
                     "type": "boolean"
                 },
+                "recoveryPhraseInOnboardingStatus": {
+                    "$ref": "#/definitions/RecoveryPhraseInOnboardingStatus"
+                },
                 "startOnboardingTime": {
                     "type": "number"
                 }
@@ -2737,7 +2748,8 @@
                 "name",
                 "photosNUXClicked",
                 "pictureUri",
-                "pincodeType"
+                "pincodeType",
+                "recoveryPhraseInOnboardingStatus"
             ],
             "type": "object"
         },

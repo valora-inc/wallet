@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 121,
+          "version": 122,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -128,6 +128,7 @@ describe('store state', () => {
           "pincodeType": "Unset",
           "profileUploaded": false,
           "recoveringFromStoreWipe": false,
+          "recoveryPhraseInOnboardingStatus": "NotStarted",
           "startOnboardingTime": undefined,
         },
         "alert": null,
