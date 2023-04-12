@@ -1667,6 +1667,10 @@
     "generateName": "Tạo tên",
     "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Search Assets",
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "Nạp",
     "receive": "Nhận được",
