@@ -20,7 +20,7 @@ import {
   dappsListErrorSelector,
   dappsListLoadingSelector,
   dappsMinimalDisclaimerEnabledSelector,
-  nonFavoriteDappsWithCategoryNamesSelector
+  nonFavoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
@@ -99,7 +99,7 @@ export function DAppsExplorerScreenSearchFilter() {
     const allResultsParsed = parseResultsIntoAll(
       nonFavoriteDappsWithCategoryNames,
       searchTerm,
-      selectedFilter,
+      selectedFilter
     )
     setAllResultEmpty(allResultsParsed.length === 0)
     return allResultsParsed
@@ -276,17 +276,15 @@ function DescriptionView({ message, title }: { message: string; title: string })
 function parseResultsIntoAll(
   nonFavoriteDapps: DappV2WithCategoryNames[],
   searchTerm: string,
-  filterId: string,
+  filterId: string
 ) {
   // Dapps in the all section are all the non favorite dapps that match the filter
   const dappsMatchingFilter =
     filterId === 'all'
       ? nonFavoriteDapps
       : nonFavoriteDapps.filter(
-        (dapp: DappV2) =>
-          dapp.categories &&
-          dapp.categories.includes(filterId)
-      )
+          (dapp: DappV2) => dapp.categories && dapp.categories.includes(filterId)
+        )
   // If there are no dapps matching the filter return an empty array
   if (dappsMatchingFilter.length === 0) return []
   // If there is no search term return the dapps matching the category filter
