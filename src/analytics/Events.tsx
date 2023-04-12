@@ -592,6 +592,10 @@ export enum CeloNewsEvents {
   celo_news_retry_tap = 'celo_news_retry_tap', // When a user taps on the retry button
 }
 
+export enum TokenBottomSheetEvents {
+  search_token = 'search_token', // When a user searches a token using the token bottom sheet search box
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -619,3 +623,4 @@ export type AnalyticsEventType =
   | CoinbasePayEvents
   | SwapEvents
   | CeloNewsEvents
+  | TokenBottomSheetEvents

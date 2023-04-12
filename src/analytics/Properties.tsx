@@ -32,6 +32,7 @@ import {
   SendEvents,
   SettingsEvents,
   SwapEvents,
+  TokenBottomSheetEvents,
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
@@ -1256,6 +1257,12 @@ interface CeloNewsEventsProperties {
   }
   [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
+interface TokenBottomSheetEventsProperties {
+  [TokenBottomSheetEvents.search_token]: {
+    origin: TokenPickerOrigin
+    searchInput: string
+  }
+}
 
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
@@ -1285,4 +1292,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CoinbasePayEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
-  QrScreenProperties
+  QrScreenProperties &
+  TokenBottomSheetEventsProperties
