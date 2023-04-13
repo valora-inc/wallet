@@ -1673,6 +1673,10 @@
     "generateName": "Сгенерировать имя",
     "namePlaceholder": "Выберите имя, например, {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Поисковые активы",
+    "noTokenInResult": "Не найдено подходящих результатов для <0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "Внести",
     "receive": "Получить",
