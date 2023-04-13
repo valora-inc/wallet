@@ -105,7 +105,12 @@ export function SwapScreen() {
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
-  const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
+  const maxFromAmountUnchecked = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
+  const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
+    ? new BigNumber(0)
+    : maxFromAmountUnchecked
+  // TODO: Check the user has enough balance in native tokens to pay for the gas fee
+
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
     useSwapQuote()
 
