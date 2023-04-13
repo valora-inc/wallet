@@ -86,6 +86,5 @@ export function useMaxSendAmount(
   if (tokenAddress !== feeTokenAddress) {
     return balance
   }
-
   return balance.minus(feeEstimate)
 }

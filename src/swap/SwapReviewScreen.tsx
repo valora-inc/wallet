@@ -87,7 +87,9 @@ export function SwapReviewScreen() {
       return new BigNumber(0)
     }
 
-    return estimatedCeloFeeAmount.multipliedBy(feeCurrencyUsdPrice).dividedBy(celoUsdPrice)
+    // This is only an estimate, we are assuming the estimated fee in non celo token
+    // should be the same as the estimated fee in celo token in usd value.
+    return estimatedCeloFeeAmount.dividedBy(feeCurrencyUsdPrice).multipliedBy(celoUsdPrice)
   }
 
   const estimatedFeeAmount = estimateFeeAmount()

@@ -29,8 +29,8 @@ import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'fees/saga'
 
-const SWAP_FEE_ESTIMATE_MULTIPLIER = 8
-const SWAP_CELO_FEE_ESTIMATE_MULTIPLIER = 3 * SWAP_FEE_ESTIMATE_MULTIPLIER
+export const SWAP_FEE_ESTIMATE_MULTIPLIER = 8
+export const SWAP_CELO_FEE_ESTIMATE_MULTIPLIER = 3 * SWAP_FEE_ESTIMATE_MULTIPLIER
 
 export interface FeeInfo {
   fee: BigNumber
