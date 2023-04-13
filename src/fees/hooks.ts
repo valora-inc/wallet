@@ -87,6 +87,5 @@ export function useMaxSendAmount(
     return balance
   }
 
-  console.log('balance', balance.toString(), 'feeEstimate', feeEstimate.toString())
   return balance.minus(feeEstimate)
 }

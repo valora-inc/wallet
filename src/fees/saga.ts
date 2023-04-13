@@ -13,10 +13,10 @@ import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import {
+  celoAddressSelector,
   coreTokensSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
-  tokensListSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
@@ -30,7 +30,7 @@ import { estimateGas } from 'src/web3/utils'
 const TAG = 'fees/saga'
 
 const SWAP_FEE_ESTIMATE_MULTIPLIER = 8
-const SWAP_CELO_FEE_ESTIMATE_MULTIPLIER = 12 * SWAP_FEE_ESTIMATE_MULTIPLIER
+const SWAP_CELO_FEE_ESTIMATE_MULTIPLIER = 3 * SWAP_FEE_ESTIMATE_MULTIPLIER
 
 export interface FeeInfo {
   fee: BigNumber
@@ -166,11 +166,12 @@ export function* estimateSwapFee(tokenAddress: string) {
   // approximate the fee to be 8x that of a simple transfer, to take into
   // account long swap routes.
   // Increased multiplier for CELO swaps because the ratio swap_fee / simple_transaction_fee is higher
-  const celoAddress: string = yield select(tokensListSelector)
+
+  const celoAddress: string = yield select(celoAddressSelector)
   const feeInfo: FeeInfo = yield call(
     calculateFeeForTx,
     tx.txo,
-    tokenAddress == celoAddress ? SWAP_CELO_FEE_ESTIMATE_MULTIPLIER : SWAP_FEE_ESTIMATE_MULTIPLIER
+    tokenAddress === celoAddress ? SWAP_CELO_FEE_ESTIMATE_MULTIPLIER : SWAP_FEE_ESTIMATE_MULTIPLIER
   )
   return feeInfo
 }
