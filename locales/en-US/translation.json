@@ -1669,6 +1669,10 @@
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name ex) {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Search Assets",
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "Add",
     "receive": "Receive",

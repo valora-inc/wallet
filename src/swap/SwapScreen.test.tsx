@@ -13,9 +13,17 @@ import SwapScreen from 'src/swap/SwapScreen'
 import { Field } from 'src/swap/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import {
+  mockAccount,
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockPoofAddress,
+  mockTestTokenAddress,
+} from 'test/values'
 
 const mockFetch = fetch as FetchMock
+const mockExperimentParams = jest.fn()
 
 // Use comma as decimal separator for all tests here
 // Input with "." will still work, but it will also work with ",".
@@ -24,6 +32,12 @@ jest.mock('react-native-localize', () => ({
     decimalSeparator: ',',
   }),
 }))
+
+jest.mock('src/statsig', () => {
+  return {
+    getExperimentParams: (_: any) => mockExperimentParams(),
+  }
+})
 
 const now = Date.now()
 
@@ -46,12 +60,14 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456' }) => {
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cEUR.png',
           isCoreToken: true,
+          isSwappable: true,
           name: 'Celo Euro',
           balance: '0',
         },
         [mockCusdAddress]: {
           usdPrice: '1',
           isCoreToken: true,
+          isSwappable: true,
           address: mockCusdAddress,
           priceFetchedAt: now,
           symbol: 'cUSD',
@@ -82,8 +98,32 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456' }) => {
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
           isCoreToken: true,
+          isSwappable: true,
           name: 'Celo native asset',
           balance: celoBalance,
+        },
+        [mockTestTokenAddress]: {
+          address: mockTestTokenAddress,
+          symbol: 'TT',
+          priceFetchedAt: now,
+          decimals: 18,
+          imageUrl:
+            'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/TT.png',
+          isCoreToken: false,
+          isSwappable: false,
+          name: 'Test Token',
+          balance: '100',
+        },
+        [mockPoofAddress]: {
+          address: mockPoofAddress,
+          symbol: 'POOF',
+          priceFetchedAt: now,
+          decimals: 18,
+          imageUrl: `https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/POOF.png`,
+          isCoreToken: false,
+          isSwappable: true,
+          name: 'Poof',
+          balance: '100',
         },
       },
     },
@@ -106,12 +146,17 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456' }) => {
 
 describe('SwapScreen', () => {
   beforeEach(() => {
+    jest.clearAllMocks()
     mockFetch.resetMocks()
 
     BigNumber.config({
       FORMAT: {
         decimalSeparator: '.',
       },
+    })
+
+    mockExperimentParams.mockReturnValue({
+      swappingNonNativeTokensEnabled: false,
     })
   })
 
@@ -594,5 +639,24 @@ describe('SwapScreen', () => {
         }),
       ])
     )
+  })
+
+  it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {
+    mockExperimentParams.mockReturnValue({
+      swappingNonNativeTokensEnabled: true,
+    })
+
+    const { swapToContainer, getByPlaceholderText, queryByTestId } = renderScreen({})
+    act(() => {
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByPlaceholderText('tokenBottomSheet.searchAssets')).toBeTruthy()
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    expect(queryByTestId('POOFTouchable')).toBeTruthy()
+    expect(queryByTestId('CELOTouchable')).toBeTruthy()
+    expect(queryByTestId('TTTouchable')).toBeNull()
   })
 })

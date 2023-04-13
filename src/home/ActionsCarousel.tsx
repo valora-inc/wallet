@@ -27,7 +27,6 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
-        ValoraAnalytics.track(HomeEvents.home_actions_send)
         navigate(Screens.Send, { showBackButton: true })
       },
     },
@@ -36,7 +35,6 @@ function ActionsCarousel() {
       title: t('homeActions.receive'),
       icon: <HomeActionsReceive />,
       onPress: () => {
-        ValoraAnalytics.track(HomeEvents.home_actions_receive)
         navigate(Screens.QRNavigator, { screen: Screens.QRCode, showBackButton: true })
       },
     },
@@ -45,7 +43,6 @@ function ActionsCarousel() {
       title: t('homeActions.add'),
       icon: <HomeActionsAdd />,
       onPress: () => {
-        ValoraAnalytics.track(HomeEvents.home_actions_add)
         navigate(Screens.FiatExchangeCurrency, {
           flow: FiatExchangeFlow.CashIn,
         })
@@ -56,7 +53,6 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
-        ValoraAnalytics.track(HomeEvents.home_actions_swap)
         navigate(Screens.SwapScreen)
       },
     },
@@ -65,7 +61,6 @@ function ActionsCarousel() {
       title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
-        ValoraAnalytics.track(HomeEvents.home_actions_request)
         navigate(Screens.Send, { isOutgoingPaymentRequest: true, showBackButton: true })
       },
     },
@@ -74,7 +69,6 @@ function ActionsCarousel() {
       title: t('homeActions.withdraw'),
       icon: <HomeActionsWithdraw />,
       onPress: () => {
-        ValoraAnalytics.track(HomeEvents.home_actions_withdraw)
         navigate(Screens.WithdrawSpend)
       },
     },
@@ -89,7 +83,14 @@ function ActionsCarousel() {
     >
       {actions.map(({ name, title, icon, onPress }) => (
         <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
-          <Touchable onPress={onPress} style={styles.touchable} testID={`HomeAction-${name}`}>
+          <Touchable
+            onPress={() => {
+              ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+              onPress()
+            }}
+            style={styles.touchable}
+            testID={`HomeAction-${name}`}
+          >
             <>
               {icon}
               <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
