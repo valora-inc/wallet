@@ -171,11 +171,11 @@ export function DAppsExplorerScreenSearch() {
                 <>
                   {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
                   {allResultEmpty && favoriteResultsEmpty ? (
-                    <Text style={styles.sectionTitle}>
+                    <Text testID="FavoriteAndAllSectionHeader" style={styles.sectionTitle}>
                       {t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                   ) : (
-                    <Text style={styles.sectionTitle}>
+                    <Text testID="FavoriteSectionHeader" style={styles.sectionTitle}>
                       {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                   )}
@@ -186,7 +186,7 @@ export function DAppsExplorerScreenSearch() {
                   />
                   {/* If all dapp section isn't empty or favoriteResults isn't empty display add section header */}
                   {(!allResultEmpty || !favoriteResultsEmpty) && (
-                    <Text style={styles.sectionTitle}>
+                    <Text testID="AllSectionHeader" style={styles.sectionTitle}>
                       {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
                   )}
@@ -254,6 +254,7 @@ function parseResultsIntoAll(
 
   // Score and sort the non favorite dapps
   const results = searchDappList(nonFavoriteDapps, searchTerm) as DappV2WithCategoryNames[]
+  if (results.length === 0) return []
   return [
     {
       data: results,
