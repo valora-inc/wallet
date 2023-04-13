@@ -1669,6 +1669,10 @@
     "generateName": "Bir isim oluşturun",
     "namePlaceholder": "Ad örneği seçme) {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Arama Varlıkları",
+    "noTokenInResult": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
+  },
   "homeActions": {
     "add": "Ekle",
     "receive": "Almak",
