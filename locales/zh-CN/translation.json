@@ -1667,6 +1667,10 @@
     "generateName": "生成名称",
     "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "搜索资产",
+    "noTokenInResult": "没有找到与之匹配的结果<0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "添加",
     "receive": "接收",
