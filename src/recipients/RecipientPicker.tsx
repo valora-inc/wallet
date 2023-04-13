@@ -1,5 +1,5 @@
-import { isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/phone-utils'
+import { isValidAddress } from '@celo/utils/lib/address'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import * as React from 'react'
 import { useState } from 'react'
