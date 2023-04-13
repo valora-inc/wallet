@@ -38,7 +38,7 @@ export enum HomeEvents {
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
   view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
-  home_actions_pressed = 'home_actions_pressed',
+  home_action_pressed = 'home_action_pressed',
 }
 
 export enum SettingsEvents {

@@ -159,7 +159,7 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.view_nft_home_assets]: undefined
-  [HomeEvents.home_actions_pressed]: { action: HomeActionName }
+  [HomeEvents.home_action_pressed]: { action: HomeActionName }
 }
 
 interface SettingsEventsProperties {

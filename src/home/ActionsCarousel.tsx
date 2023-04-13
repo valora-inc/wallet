@@ -85,7 +85,7 @@ function ActionsCarousel() {
         <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
           <Touchable
             onPress={() => {
-              ValoraAnalytics.track(HomeEvents.home_actions_pressed, { action: name })
+              ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
               onPress()
             }}
             style={styles.touchable}

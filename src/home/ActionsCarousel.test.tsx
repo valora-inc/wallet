@@ -44,7 +44,7 @@ describe('ActionsCarousel', () => {
       expect(mocked(navigate).mock.calls[0][1]).toEqual(screenOptions)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_actions_pressed, {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
         action: name,
       })
     }
