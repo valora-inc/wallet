@@ -26,23 +26,19 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
     removeFilter()
   }
 
-  // No Match Search & Filter
-  // If filterId is not 'all' and searchTerm is not empty - No Match Filter & Search
-  // Else if filterId is not 'all' and searchTerm is empty - No Match Filter
-  // Else - No Match Search
-  if (filterId !== 'all' && searchTerm !== '') {
-    return (
-      <View testID={testID}>
+  return (
+    <View testID={testID}>
+      {searchTerm !== '' && (
         <View style={styles.searchContainer}>
-          <View style={styles.iconContainer}>
-            <InfoIcon color={Colors.onboardingBlue} />
-          </View>
+          <InfoIcon color={Colors.onboardingBlue} />
           <Text style={styles.text}>
             <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
               <Text style={styles.searchedText} />
             </Trans>
           </Text>
         </View>
+      )}
+      {filterId !== 'all' && (
         <View style={styles.filterContainer}>
           <Text style={styles.filterAppliedText}>
             <Trans
@@ -65,49 +61,9 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
             </Touchable>
           </View>
         </View>
-      </View>
-    )
-  } else if (filterId !== 'all' && searchTerm === '') {
-    // No Match Filter
-    return (
-      <View testID={testID} style={styles.filterContainer}>
-        <Text style={styles.filterAppliedText}>
-          <Trans
-            i18nKey={'dappsScreen.emptyResults.message'}
-            tOptions={{ filter: filterName?.toLocaleUpperCase(language ?? 'en-US') }}
-          >
-            <Text style={styles.filterText} />
-          </Trans>
-        </Text>
-        <View style={styles.removeFilterTouchableContainer}>
-          <Touchable
-            hitSlop={iconHitslop}
-            onPress={onPress}
-            style={styles.removeFilterTouchable}
-            testID={`${testID}/RemoveFilter`}
-          >
-            <Text style={styles.removeFilterText}>
-              {t('dappsScreen.emptyResults.removeFilter')}
-            </Text>
-          </Touchable>
-        </View>
-      </View>
-    )
-  } else {
-    // No Match Search
-    return (
-      <View testID={testID} style={styles.searchContainer}>
-        <View style={styles.iconContainer}>
-          <InfoIcon color={Colors.onboardingBlue} />
-        </View>
-        <Text style={styles.text}>
-          <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
-            <Text style={styles.searchedText} />
-          </Trans>
-        </Text>
-      </View>
-    )
-  }
+      )}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
