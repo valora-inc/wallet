@@ -1067,13 +1067,13 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
 
 // Generate exchange rates
 const endDate = new Date('01/01/2020').getTime()
-const celoGoldExchangeRates = range(60).map((i) => ({
+const celoExchangeRates = range(60).map((i) => ({
   exchangeRate: (i / 60).toString(),
   timestamp: endDate - i * 24 * 3600 * 1000,
 }))
 export const exchangePriceHistory = {
-  aggregatedExchangeRates: celoGoldExchangeRates,
-  celoGoldExchangeRates: celoGoldExchangeRates,
+  aggregatedExchangeRates: celoExchangeRates,
+  celoGoldExchangeRates: celoExchangeRates,
   granularity: 60,
   lastTimeUpdated: endDate,
   range: 30 * 24 * 60 * 60 * 1000, // 30 days
