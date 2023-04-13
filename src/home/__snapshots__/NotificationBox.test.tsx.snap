@@ -21,7 +21,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         style={
           Object {
             "margin": 16,
-            "marginBottom": 24,
             "width": 718,
           }
         }
@@ -38,14 +37,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 "borderRadius": 8,
               },
               Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "elevation": 1.5,
+                "shadowColor": "rgba(129, 134, 139, 0.5)",
                 "shadowOffset": Object {
-                  "height": 2,
+                  "height": 0,
                   "width": 0,
                 },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
+                "shadowOpacity": 0.5,
+                "shadowRadius": 1.5,
               },
               Array [
                 Object {
@@ -173,7 +172,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         style={
           Object {
             "margin": 16,
-            "marginBottom": 24,
             "width": 718,
           }
         }
@@ -190,14 +188,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 "borderRadius": 8,
               },
               Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "elevation": 1.5,
+                "shadowColor": "rgba(129, 134, 139, 0.5)",
                 "shadowOffset": Object {
-                  "height": 2,
+                  "height": 0,
                   "width": 0,
                 },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
+                "shadowOpacity": 0.5,
+                "shadowRadius": 1.5,
               },
               Array [
                 Object {
@@ -331,7 +329,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         style={
           Object {
             "margin": 16,
-            "marginBottom": 24,
             "width": 718,
           }
         }
@@ -348,14 +345,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 "borderRadius": 8,
               },
               Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "elevation": 1.5,
+                "shadowColor": "rgba(129, 134, 139, 0.5)",
                 "shadowOffset": Object {
-                  "height": 2,
+                  "height": 0,
                   "width": 0,
                 },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
+                "shadowOpacity": 0.5,
+                "shadowRadius": 1.5,
               },
               Array [
                 Object {
@@ -525,7 +522,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         style={
           Object {
             "margin": 16,
-            "marginBottom": 24,
             "width": 718,
           }
         }
@@ -542,14 +538,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 "borderRadius": 8,
               },
               Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "elevation": 1.5,
+                "shadowColor": "rgba(129, 134, 139, 0.5)",
                 "shadowOffset": Object {
-                  "height": 2,
+                  "height": 0,
                   "width": 0,
                 },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
+                "shadowOpacity": 0.5,
+                "shadowRadius": 1.5,
               },
               Array [
                 Object {
@@ -719,7 +715,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         style={
           Object {
             "margin": 16,
-            "marginBottom": 24,
             "width": 718,
           }
         }
@@ -736,14 +731,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 "borderRadius": 8,
               },
               Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "elevation": 1.5,
+                "shadowColor": "rgba(129, 134, 139, 0.5)",
                 "shadowOffset": Object {
-                  "height": 2,
+                  "height": 0,
                   "width": 0,
                 },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
+                "shadowOpacity": 0.5,
+                "shadowRadius": 1.5,
               },
               Array [
                 Object {
@@ -887,7 +882,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         style={
           Object {
             "margin": 16,
-            "marginBottom": 24,
             "width": 718,
           }
         }
@@ -904,14 +898,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 "borderRadius": 8,
               },
               Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "elevation": 1.5,
+                "shadowColor": "rgba(129, 134, 139, 0.5)",
                 "shadowOffset": Object {
-                  "height": 2,
+                  "height": 0,
                   "width": 0,
                 },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
+                "shadowOpacity": 0.5,
+                "shadowRadius": 1.5,
               },
               Array [
                 Object {

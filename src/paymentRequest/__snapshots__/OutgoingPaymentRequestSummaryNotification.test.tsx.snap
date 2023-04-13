@@ -20,14 +20,14 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
             "borderRadius": 8,
           },
           Object {
-            "elevation": 12,
-            "shadowColor": "rgba(156, 164, 169, 0.4)",
+            "elevation": 1.5,
+            "shadowColor": "rgba(129, 134, 139, 0.5)",
             "shadowOffset": Object {
-              "height": 2,
+              "height": 0,
               "width": 0,
             },
-            "shadowOpacity": 1,
-            "shadowRadius": 12,
+            "shadowOpacity": 0.5,
+            "shadowRadius": 1.5,
           },
           Array [
             Object {
@@ -285,14 +285,14 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
             "borderRadius": 8,
           },
           Object {
-            "elevation": 12,
-            "shadowColor": "rgba(156, 164, 169, 0.4)",
+            "elevation": 1.5,
+            "shadowColor": "rgba(129, 134, 139, 0.5)",
             "shadowOffset": Object {
-              "height": 2,
+              "height": 0,
               "width": 0,
             },
-            "shadowOpacity": 1,
-            "shadowRadius": 12,
+            "shadowOpacity": 0.5,
+            "shadowRadius": 1.5,
           },
           Array [
             Object {
@@ -542,14 +542,14 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for multipl
         "borderRadius": 8,
       },
       Object {
-        "elevation": 12,
-        "shadowColor": "rgba(156, 164, 169, 0.4)",
+        "elevation": 1.5,
+        "shadowColor": "rgba(129, 134, 139, 0.5)",
         "shadowOffset": Object {
-          "height": 2,
+          "height": 0,
           "width": 0,
         },
-        "shadowOpacity": 1,
-        "shadowRadius": 12,
+        "shadowOpacity": 0.5,
+        "shadowRadius": 1.5,
       },
       Array [
         Object {
