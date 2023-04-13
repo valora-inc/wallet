@@ -61,7 +61,9 @@ function SimplexScreen({ route, navigation }: Props) {
   const onButtonPress = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_simplex_open_webview, {
       amount: simplexQuote.digital_money.amount,
-      currency: currencyToBuy,
+      cryptoCurrency: currencyToBuy,
+      feeInFiat: simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount,
+      fiatCurrency: simplexQuote.fiat_money.currency,
     })
     setLoadSimplexCheckout(true)
     navigation.setOptions({

@@ -52,7 +52,7 @@ const MOCK_SIMPLEX_QUOTE = {
   fiat_money: {
     currency: 'USD',
     base_amount: 19,
-    total_amount: 6,
+    total_amount: 26,
   },
   valid_until: new Date().toISOString(),
   supported_digital_currencies: ['CUSD', 'CELO'],
@@ -104,7 +104,9 @@ describe('SimplexScreen', () => {
       FiatExchangeEvents.cico_simplex_open_webview,
       {
         amount: 25,
-        currency: CiCoCurrency.cUSD,
+        cryptoCurrency: CiCoCurrency.cUSD,
+        feeInFiat: 7,
+        fiatCurrency: 'USD',
       }
     )
   })

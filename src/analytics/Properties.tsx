@@ -914,7 +914,9 @@ interface FiatExchangeEventsProperties {
   }
   [FiatExchangeEvents.cico_simplex_open_webview]: {
     amount: number
-    currency: CiCoCurrency
+    cryptoCurrency: CiCoCurrency
+    feeInFiat: number
+    fiatCurrency: string
   }
   [FiatExchangeEvents.cico_fc_transfer_api_error]: {
     fiatConnectError?: FiatConnectError
