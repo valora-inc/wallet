@@ -209,8 +209,8 @@
     "body": "Sarai ricompensato settimanalmente sulla tua stablecoin Celo con il saldo più alto (cEUR, cUSD, cREAL).",
     "dismiss": "Ignora"
   },
-  "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Stai ricevendo ricompense pari al {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
+  "superchargingTitle": "È necessario aggiornare l’app",
+  "superchargingDescription": "Aggiorna l’app Valora per continuare a ricevere le ricompense Supercharge settimanali",
   "superchargingTitleV1_54": "Stai ricevendo ricompense sui tuoi {{token}}",
   "superchargingDescriptionV1_54": "Stai ricevendo ricompense pari al {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",

@@ -209,8 +209,8 @@
     "body": "Bạn sẽ được nhận thưởng mỗi tuần tính trên stablecoin Celo có giá trị cao nhất (cEUR, cUSD, cREAL).",
     "dismiss": "Bỏ qua"
   },
-  "superchargingTitle": "{{token}} của bạn đang được áp dụng Supercharge",
-  "superchargingDescription": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
+  "superchargingTitle": "Cần cập nhật ứng dụng",
+  "superchargingDescription": "Cập nhật ứng dụng Valora để tiếp tục nhận tiền thưởng Supercharge hàng tuần",
   "superchargingTitleV1_54": "{{token}} của bạn đang được áp dụng Supercharge",
   "superchargingDescriptionV1_54": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
   "superchargeRewardsAvailable": "Bạn có {{amount}} {{token}} cần xác nhận!",

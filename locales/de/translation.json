@@ -209,8 +209,8 @@
     "body": "Du wirst wöchentlich für deinen Celo-Stablecoin mit dem höchsten Guthaben (cEUR, cUSD, cREAL) belohnt.",
     "dismiss": "Verwerfen"
   },
-  "superchargingTitle": "Dein {{token}} wird aufgeladen",
-  "superchargingDescription": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
+  "superchargingTitle": "Aktualisierung der App erforderlich",
+  "superchargingDescription": "Aktualisiere die Valora-App, um weiterhin deine wöchentlichen Supercharge-Rewards zu erhalten",
   "superchargingTitleV1_54": "Dein {{token}} wird aufgeladen",
   "superchargingDescriptionV1_54": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
