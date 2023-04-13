@@ -277,7 +277,9 @@ describe(DAppsExplorerScreenSearch, () => {
 
       // Should display just the no results within the favorites section
       expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
+      expect(queryByTestId('FavoriteAndAllSectionHeader')).toBeTruthy()
       expect(queryByTestId('DAppsExplorerScreenSearch/NoResults')).toBeNull()
+      expect(queryByTestId('AllSectionHeader')).toBeNull()
     })
 
     it('renders correctly when there are search results in both sections', () => {
