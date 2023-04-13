@@ -1673,6 +1673,10 @@
     "generateName": "Wygeneruj nazwę",
     "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Wyszukaj aktywa",
+    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>\"{{searchTerm}}\"</0>."
+  },
   "homeActions": {
     "add": "Dodaj",
     "receive": "Otrzymaj",
