@@ -38,6 +38,12 @@ export enum HomeEvents {
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
   view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
+  home_actions_send = 'home_actions_send',
+  home_actions_receive = 'home_actions_receive',
+  home_actions_add = 'home_actions_add',
+  home_actions_swap = 'home_actions_swap',
+  home_actions_request = 'home_actions_request',
+  home_actions_withdraw = 'home_actions_withdraw',
 }
 
 export enum SettingsEvents {
@@ -583,6 +589,10 @@ export enum CeloNewsEvents {
   celo_news_retry_tap = 'celo_news_retry_tap', // When a user taps on the retry button
 }
 
+export enum TokenBottomSheetEvents {
+  search_token = 'search_token', // When a user searches a token using the token bottom sheet search box
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -610,3 +620,4 @@ export type AnalyticsEventType =
   | CoinbasePayEvents
   | SwapEvents
   | CeloNewsEvents
+  | TokenBottomSheetEvents

@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -32,6 +32,7 @@ import {
   SendEvents,
   SettingsEvents,
   SwapEvents,
+  TokenBottomSheetEvents,
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
@@ -157,6 +158,12 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.view_nft_home_assets]: undefined
+  [HomeEvents.home_actions_send]: undefined
+  [HomeEvents.home_actions_receive]: undefined
+  [HomeEvents.home_actions_add]: undefined
+  [HomeEvents.home_actions_swap]: undefined
+  [HomeEvents.home_actions_request]: undefined
+  [HomeEvents.home_actions_withdraw]: undefined
 }
 
 interface SettingsEventsProperties {
@@ -1246,6 +1253,12 @@ interface CeloNewsEventsProperties {
   }
   [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
+interface TokenBottomSheetEventsProperties {
+  [TokenBottomSheetEvents.search_token]: {
+    origin: TokenPickerOrigin
+    searchInput: string
+  }
+}
 
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
@@ -1275,4 +1288,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CoinbasePayEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
-  QrScreenProperties
+  QrScreenProperties &
+  TokenBottomSheetEventsProperties
