@@ -1669,6 +1669,10 @@
     "generateName": "Namen generieren",
     "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Vermögenswerte suchen",
+    "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "Hinzufügen",
     "receive": "Erhalten",

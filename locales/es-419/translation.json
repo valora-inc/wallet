@@ -1669,6 +1669,10 @@
     "generateName": "Generar un nombre",
     "namePlaceholder": "Elige un nombre, p. ej. {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Buscar activos",
+    "noTokenInResult": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "Depositar",
     "receive": "Recibir",
