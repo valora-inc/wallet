@@ -1,29 +1,29 @@
 //<reference path="../node_modules/@segment/sovran-react-native/lib/typescript/src/index.d.ts"/>
 import { createClient, SegmentClient } from '@segment/analytics-react-native'
+import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
+import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
+import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
 import { sha256FromString } from 'ethereumjs-util'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
+import { InjectTraits } from 'src/analytics/InjectTraits'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
   DEFAULT_TESTNET,
+  E2E_TEST_STATSIG_ID,
   FIREBASE_ENABLED,
   isE2EEnv,
   SEGMENT_API_KEY,
-  STATSIG_ENV,
-  E2E_TEST_STATSIG_ID,
   STATSIG_API_KEY,
+  STATSIG_ENV,
 } from 'src/config'
 import { store } from 'src/redux/store'
-import Logger from 'src/utils/Logger'
 import { getDefaultStatsigUser } from 'src/statsig'
+import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
-import { InjectTraits } from 'src/analytics/InjectTraits'
-import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
-import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
-import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 
 const TAG = 'ValoraAnalytics'
 
