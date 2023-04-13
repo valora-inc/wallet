@@ -55,6 +55,7 @@ import { DappSection } from 'src/dapps/types'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { HomeActionName } from 'src/home/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
@@ -158,12 +159,7 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.view_nft_home_assets]: undefined
-  [HomeEvents.home_actions_send]: undefined
-  [HomeEvents.home_actions_receive]: undefined
-  [HomeEvents.home_actions_add]: undefined
-  [HomeEvents.home_actions_swap]: undefined
-  [HomeEvents.home_actions_request]: undefined
-  [HomeEvents.home_actions_withdraw]: undefined
+  [HomeEvents.home_actions_pressed]: { action: HomeActionName }
 }
 
 interface SettingsEventsProperties {

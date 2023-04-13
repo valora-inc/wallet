@@ -21,39 +21,15 @@ describe('ActionsCarousel', () => {
   })
 
   it.each([
-    [HomeActionName.Send, 'send', Screens.Send, undefined, HomeEvents.home_actions_send],
-    [
-      HomeActionName.Receive,
-      'receive',
-      Screens.QRNavigator,
-      undefined,
-      HomeEvents.home_actions_receive,
-    ],
-    [
-      HomeActionName.Add,
-      'add',
-      Screens.FiatExchangeCurrency,
-      { flow: FiatExchangeFlow.CashIn },
-      HomeEvents.home_actions_add,
-    ],
-    [HomeActionName.Swap, 'swap', Screens.SwapScreen, undefined, HomeEvents.home_actions_swap],
-    [
-      HomeActionName.Request,
-      'request',
-      Screens.Send,
-      { isOutgoingPaymentRequest: true },
-      HomeEvents.home_actions_request,
-    ],
-    [
-      HomeActionName.Withdraw,
-      'withdraw',
-      Screens.WithdrawSpend,
-      undefined,
-      HomeEvents.home_actions_withdraw,
-    ],
+    [HomeActionName.Send, 'send', Screens.Send, undefined],
+    [HomeActionName.Receive, 'receive', Screens.QRNavigator, undefined],
+    [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
+    [HomeActionName.Swap, 'swap', Screens.SwapScreen, undefined],
+    [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
+    [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(
     'renders title and navigates to appropriate screen for %s',
-    (name, title, screen, screenOptions, event) => {
+    (name, title, screen, screenOptions) => {
       const { getByTestId } = render(<ActionsCarousel />)
       expect(
         within(getByTestId(`HomeAction/Title-${name}`)).getByText(`homeActions.${title}`)
@@ -68,7 +44,9 @@ describe('ActionsCarousel', () => {
       expect(mocked(navigate).mock.calls[0][1]).toEqual(screenOptions)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(event)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_actions_pressed, {
+        action: name,
+      })
     }
   )
 })
