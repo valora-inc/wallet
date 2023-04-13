@@ -111,24 +111,17 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
 }
 
 const styles = StyleSheet.create({
-  iconContainer: {
-    flex: 1,
-  },
   searchedText: {
     color: Colors.dark,
     fontWeight: 'bold',
   },
   text: {
     ...fontStyles.xsmall,
-    flex: 14,
     textAlignVertical: 'center',
   },
   searchContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: Spacing.Thick24,
     marginTop: Spacing.Regular16,
   },
   filterContainer: {
