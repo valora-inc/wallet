@@ -1669,6 +1669,10 @@
     "generateName": "Genera un nome",
     "namePlaceholder": "Seleziona un nome, ad es.: {{exampleName}}"
   },
+  "tokenBottomSheet": {
+    "searchAssets": "Ricerca attività",
+    "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>"
+  },
   "homeActions": {
     "add": "Aggiungi",
     "receive": "Ricevi",
