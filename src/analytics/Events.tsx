@@ -38,6 +38,12 @@ export enum HomeEvents {
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
   view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
+  home_actions_send = 'home_actions_send',
+  home_actions_receive = 'home_actions_receive',
+  home_actions_add = 'home_actions_add',
+  home_actions_swap = 'home_actions_swap',
+  home_actions_request = 'home_actions_request',
+  home_actions_withdraw = 'home_actions_withdraw',
 }
 
 export enum SettingsEvents {
@@ -547,6 +553,7 @@ export enum DappExplorerEvents {
   dapp_open_info = 'dapp_open_info', // when a user taps on the help icon
   dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
   dapp_filter = 'dapp_filter', // when a user taps on a filter
+  dapp_search = 'dapp_search', // when a user searches on the dapp explorer screen
 }
 
 export enum WebViewEvents {
