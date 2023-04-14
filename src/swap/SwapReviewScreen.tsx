@@ -26,7 +26,7 @@ import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { Field, ZeroExResponse } from 'src/swap/types'
-import { coreTokensSelector } from 'src/tokens/selectors'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -59,7 +59,7 @@ export function SwapReviewScreen() {
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
   const [swapResponse, setSwapResponse] = useState<ZeroExResponse | null>(null)
   const [fetchError, setFetchError] = useState(false)
-  const coreTokens = useSelector(coreTokensSelector)
+  const allTokens = useSelector(tokensListSelector)
   const walletAddress = useSelector(walletAddressSelector)
 
   // Items set from remote config
@@ -69,8 +69,8 @@ export function SwapReviewScreen() {
   const dispatch = useDispatch()
 
   // Token Symbols
-  const toTokenSymbol = coreTokens.find((token) => token.address === toToken)?.symbol
-  const fromTokenSymbol = coreTokens.find((token) => token.address === fromToken)?.symbol
+  const toTokenSymbol = allTokens.find((token) => token.address === toToken)?.symbol
+  const fromTokenSymbol = allTokens.find((token) => token.address === fromToken)?.symbol
 
   // BuyAmount or SellAmount
   const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
@@ -193,6 +193,7 @@ export function SwapReviewScreen() {
                 <View style={styles.tokenDisplayView}>
                   <TokenDisplay
                     style={[styles.amountText, { color: colors.greenUI }]}
+                    // Fix: I think we shouldn't subtract gas from the buyAmount here.
                     amount={divideByWei(
                       new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).minus(
                         new BigNumber(swapResponse.unvalidatedSwapTransaction.gas)
@@ -244,6 +245,7 @@ export function SwapReviewScreen() {
                         new BigNumber(swapResponse.unvalidatedSwapTransaction.gasPrice)
                       )
                     )}
+                    // Fix: this is not the gas token.
                     tokenAddress={fromToken}
                     showLocalAmount={false}
                     testID={'EstimatedGas'}

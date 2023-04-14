@@ -209,8 +209,8 @@
     "body": "Ви отримаєте винагороду щотижня за ваші стейблкойни Celo з найбільшою вартістю (cEUR, cUSD, cREAL).",
     "dismiss": "Відхилити"
   },
-  "superchargingTitle": "Ваш {{token}} отримав надбавку",
-  "superchargingDescription": "Ви отримуєте {{apy}}% річних. Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
+  "superchargingTitle": "Треба оновити застосунок",
+  "superchargingDescription": "Оновіть застосунок Valora, щоб і надалі щотижня отримувати винагороди Supercharge",
   "superchargingTitleV1_54": "Ваш {{token}} отримав надбавку",
   "superchargingDescriptionV1_54": "Ви отримуєте {{apy}}% річних. Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Запрошуйте друзів і збирайте винагороди",
-    "body": "Як тільки вони встановлять свій {{appName}} гаманець, і під'єднають їх кількість, ви обоє отримаєте винагороду за 1 сUSD."
+    "body": "Щойно вони налаштують свій гаманець {{appName}} і під’єднають номер, кожен із вас отримає 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Запросити друга",
@@ -1278,8 +1278,8 @@
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
-    "favoriteDappsAndAll": "Мої уподобання та все",
-    "searchPlaceHolder": "Пошук dapps",
+    "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
+    "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
       "title": "Немає доданих уподобань",
       "description": "Відстежуйте застосунки dapp, якими найчастіше користуєтеся. Для цього натисніть значок із зірочкою, щоб додати їх до вподобань"
@@ -1291,7 +1291,7 @@
     "emptyResults": {
       "message": "Фільтр <0>{{filter}}</0> застосовано",
       "removeFilter": "Видалити фільтр",
-      "searchMessage": "Відповідних результатів не знайдено для <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1672,6 +1672,10 @@
   "profileScreen": {
     "generateName": "Згенерувати ім'я",
     "namePlaceholder": "Вибрати ім’я (напр.) {{exampleName}}"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Пошук активів",
+    "noTokenInResult": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Додати",
