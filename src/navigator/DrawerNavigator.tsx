@@ -41,11 +41,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import {
-  dappsFilterEnabledSelector,
-  dappsListApiUrlSelector,
-  dappsSearchEnabledSelector,
-} from 'src/dapps/selectors'
+import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenFilter from 'src/dappsExplorer/filter/DAppsExplorerScreenFilter'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/legacy/DAppsExplorerScreenLegacy'
 import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
@@ -213,8 +209,9 @@ export default function DrawerNavigator({ route }: Props) {
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const dappsFilterEnabled = useSelector(dappsFilterEnabledSelector)
-  const dappsSearchEnabled = useSelector(dappsSearchEnabledSelector)
+  const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
+  )
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)

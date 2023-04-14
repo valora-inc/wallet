@@ -147,7 +147,3 @@ export const dappListWithCategoryNamesSelector = createSelector(
   dappsCategoriesSelector,
   (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )
-
-export const dappsFilterEnabledSelector = (state: RootState) => state.dapps.dappsFilterEnabled
-
-export const dappsSearchEnabledSelector = (state: RootState) => state.dapps.dappsSearchEnabled

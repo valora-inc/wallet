@@ -64,6 +64,13 @@ export const ExperimentConfigs = {
       swappingNonNativeTokensEnabled: false,
     },
   },
+  [StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]: {
+    experimentName: StatsigExperiments.DAPPS_FILTERS_AND_SEARCH,
+    defaultValues: {
+      dappsFilterEnabled: false,
+      dappsSearchEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {
