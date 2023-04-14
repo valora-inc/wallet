@@ -104,26 +104,16 @@ export const recentDappsSelector = createSelector(
   }
 )
 
-function dappsFavoritesFilter(
-  dapps: Array<DappV1 | DappV2>,
-  favoriteDappIds: Array<string>,
-  filterFn: (dapp: DappV1 | DappV2, favoriteDappIds: Array<string>) => boolean
-): Array<DappV1 | DappV2> {
-  return dapps.filter((dapp) => filterFn(dapp, favoriteDappIds))
-}
-
 export const favoriteDappsSelector = createSelector(
   dappsListSelector,
   favoriteDappIdsSelector,
-  (dapps, favoriteDappIds) =>
-    dappsFavoritesFilter(dapps, favoriteDappIds, (dapp) => favoriteDappIds.includes(dapp.id))
+  (dapps, favoriteDappIds) => dapps.filter((dapp) => favoriteDappIds.includes(dapp.id))
 )
 
 export const nonFavoriteDappsSelector = createSelector(
   dappsListSelector,
   favoriteDappIdsSelector,
-  (dapps, favoriteDappIds) =>
-    dappsFavoritesFilter(dapps, favoriteDappIds, (dapp) => !favoriteDappIds.includes(dapp.id))
+  (dapps, favoriteDappIds) => dapps.filter((dapp) => !favoriteDappIds.includes(dapp.id))
 )
 
 function addCategoryNamesToDapps(dapps: Array<DappV1 | DappV2>, categories: Array<DappCategory>) {
