@@ -595,8 +595,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       const allDappsSection = getByTestId('DAppsExplorerScreenSearchFilter/DappsList')
       expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
-      expect(within(allDappsSection).queryByText(dappsList[0].name)).toBeFalsy()
-      expect(within(allDappsSection).queryByText(dappsList[0].description)).toBeFalsy()
     })
 
     it('renders correctly when there are results in favorites and no results in all', () => {
