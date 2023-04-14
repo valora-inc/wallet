@@ -35,7 +35,7 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { celoNewsConfigSelector } from 'src/app/selectors'
+import { celoNewsConfigSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -164,6 +164,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -183,7 +184,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
             {displayName}
           </Text>
         )}
-        {e164PhoneNumber && (
+        {phoneNumberVerified && e164PhoneNumber && (
           <PhoneNumberWithFlag
             e164PhoneNumber={e164PhoneNumber}
             defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}
