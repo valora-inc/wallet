@@ -389,9 +389,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
   },
-  mutedHeader: {
-    color: colors.gray3,
-  },
   disclaimerWrapper: {
     paddingBottom: Spacing.Thick24,
     justifyContent: 'flex-end',
