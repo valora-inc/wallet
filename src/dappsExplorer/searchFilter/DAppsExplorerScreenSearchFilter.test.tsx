@@ -562,7 +562,44 @@ describe(DAppsExplorerScreenSearchFilter, () => {
   })
 
   describe('searching and filtering', () => {
-    it('renders correctly when results in favorites and none in all', () => {
+    it('renders correctly when there are results in all and favorites sections', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          favoriteDappIds: ['dapp1'],
+          dappFavoritesEnabled: true,
+          dappsFilterEnabled: true,
+          dappsSearchEnabled: true,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+      // Search for 'tokens'
+      fireEvent.changeText(getByTestId('SearchInput'), 'tokens')
+
+      // Favorites section displays correctly
+      const favoriteDappsSection = getByTestId(
+        'DAppsExplorerScreenSearchFilter/FavoriteDappsSection'
+      )
+      expect(within(favoriteDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+      expect(within(favoriteDappsSection).getByText(dappsList[0].description)).toBeTruthy()
+      expect(within(favoriteDappsSection).queryByText(dappsList[1].name)).toBeFalsy()
+      expect(within(favoriteDappsSection).queryByText(dappsList[1].description)).toBeFalsy()
+
+      // All section displays correctly
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearchFilter/DappsList')
+      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
+      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+      expect(within(allDappsSection).queryByText(dappsList[0].name)).toBeFalsy()
+      expect(within(allDappsSection).queryByText(dappsList[0].description)).toBeFalsy()
+    })
+
+    it('renders correctly when there are results in favorites and no results in all', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
@@ -602,7 +639,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       ).toBeTruthy()
     })
 
-    it('renders correctly when results in all and none in favorites', () => {
+    it('renders correctly when there are no results in favorites and results in all', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
