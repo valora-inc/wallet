@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -61,7 +61,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -907,6 +907,12 @@ interface FiatExchangeEventsProperties {
     fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_simplex_open_webview]: {
+    amount: number
+    cryptoCurrency: CiCoCurrency
+    feeInFiat: number
+    fiatCurrency: string
   }
   [FiatExchangeEvents.cico_fc_transfer_api_error]: {
     fiatConnectError?: FiatConnectError
