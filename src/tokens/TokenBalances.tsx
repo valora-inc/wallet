@@ -46,6 +46,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
 
 interface AbstractPosition {
+  appId: string // Example: ubeswap
   label: string // Example: Pool
   tokens: Token[]
 }
@@ -239,7 +240,7 @@ function PositionDisplay({ position }: { position: Position }) {
         </View>
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName}>{position.label}</Text>
-          <Text style={styles.subtext}>Ubeswap</Text>
+          <Text style={styles.subtext}>{position.appId || 'Ubeswap'}</Text>
         </View>
       </View>
       <View style={styles.balances}>
