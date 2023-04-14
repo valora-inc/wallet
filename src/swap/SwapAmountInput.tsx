@@ -66,7 +66,7 @@ const SwapAmountInput = ({
 
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
-      <Text style={styles.label}>{label.toLocaleUpperCase()}</Text>
+      <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
         <TextInput
           forwardedRef={textInputRef}
@@ -139,9 +139,7 @@ const SwapAmountInput = ({
             </>
           ) : (
             <>
-              <Text style={styles.tokenNamePlaceholder}>
-                {buttonPlaceholder.toLocaleUpperCase()}
-              </Text>
+              <Text style={styles.tokenNamePlaceholder}>{buttonPlaceholder}</Text>
               <DownArrowIcon color={Colors.gray5} />
             </>
           )}
