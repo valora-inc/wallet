@@ -417,6 +417,9 @@ export enum FiatExchangeEvents {
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
 
+  // Simplex Review Screen
+  cico_simplex_open_webview = 'cico_simplex_open_webview',
+
   // Fiat connect review screen
   cico_fc_review_submit = 'cico_fc_review_submit',
   cico_fc_review_cancel = 'cico_fc_review_cancel',
