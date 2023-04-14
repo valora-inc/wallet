@@ -1571,7 +1571,8 @@
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
       "learnMore": "Learn more"
-    }
+    },
+    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",

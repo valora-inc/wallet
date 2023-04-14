@@ -285,16 +285,6 @@ export function SwapScreen() {
         middleElement={
           <View style={styles.headerContainer}>
             <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-            {exchangeRate && fromToken && toToken && (
-              <Text
-                style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
-              >
-                {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
-                  5,
-                  BigNumber.ROUND_DOWN
-                )} ${toToken.symbol}`}
-              </Text>
-            )}
           </View>
         }
       />
@@ -322,7 +312,24 @@ export function SwapScreen() {
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && fetchingSwapQuote}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
-          />
+          >
+            {exchangeRate && fromToken && toToken ? (
+              <Text style={styles.exchangeRateText}>
+                {`1 ${fromToken.symbol} ≈ `}
+                <Text style={styles.exchangeRateValueText}>
+                  {`${new BigNumber(exchangeRate).toFormat(5, BigNumber.ROUND_DOWN)} ${
+                    toToken.symbol
+                  }`}
+                </Text>
+              </Text>
+            ) : (
+              <Text style={styles.exchangeRateText}>
+                <Trans i18nKey={'swapScreen.estimatedExchangeRate'}>
+                  <Text style={styles.exchangeRateValueText} />
+                </Trans>
+              </Text>
+            )}
+          </SwapAmountInput>
           {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>
         <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
@@ -375,12 +382,12 @@ const styles = StyleSheet.create({
   },
   fromSwapAmountInput: {
     borderBottomWidth: 0,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   toSwapAmountInput: {
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
   mutedHeader: {
     color: colors.gray3,
@@ -398,6 +405,13 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     color: colors.greenUI,
     flexWrap: 'wrap',
+  },
+  exchangeRateText: {
+    ...fontStyles.xsmall,
+    color: colors.gray3,
+  },
+  exchangeRateValueText: {
+    ...fontStyles.xsmall600,
   },
 })
 
