@@ -10,6 +10,12 @@ import { createMockStore } from 'test/utils'
 import { mockDappListV2 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/statsig', () => ({
+  getExperimentParams: () => ({
+    dappsFilterEnabled: true,
+    dappsSearchEnabled: false,
+  }),
+}))
 
 const dappsList = mockDappListV2
 
@@ -136,7 +142,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsCategories,
           favoriteDappIds: [],
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
         },
       })
       const { getByText } = render(
@@ -157,7 +162,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsCategories,
           favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
         },
       })
       const { getByTestId, queryByText } = render(
@@ -180,7 +184,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -216,7 +219,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -256,7 +258,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -292,7 +293,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -324,7 +324,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -354,7 +353,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -391,7 +389,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -429,7 +426,6 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
