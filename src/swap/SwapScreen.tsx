@@ -122,19 +122,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     [swapAmount]
   )
 
-  const subTitleElement = useMemo(
-    () =>
-      exchangeRate && fromToken && toToken ? (
-        <Text style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}>
-          {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
-            5,
-            BigNumber.ROUND_DOWN
-          )} ${toToken.symbol}`}
-        </Text>
-      ) : undefined,
-    [exchangeRate, fromToken, toToken, fetchSwapQuoteError]
-  )
-
   // Used to reset the swap when after a successful swap or error
   useEffect(() => {
     if (swapInfo === null) {
@@ -305,7 +292,16 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
           middleElement={
             <View style={styles.headerContainer}>
               <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-              {subTitleElement}
+              {exchangeRate && fromToken && toToken && (
+                <Text
+                  style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
+                >
+                  {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
+                    5,
+                    BigNumber.ROUND_DOWN
+                  )} ${toToken.symbol}`}
+                </Text>
+              )}
             </View>
           }
         />
