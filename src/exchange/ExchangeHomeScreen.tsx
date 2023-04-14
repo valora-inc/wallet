@@ -98,7 +98,7 @@ function ExchangeHomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.background} edges={['top']}>
+    <SafeAreaView testID="ExchangeHomeScreen" style={styles.background} edges={['top']}>
       <DrawerTopBar
         scrollPosition={scrollPosition}
         middleElement={
@@ -137,7 +137,7 @@ function ExchangeHomeScreen() {
             <View style={styles.goldPriceTitleArea}>
               <Text style={styles.goldPriceTitle}>{t('goldPrice')}</Text>
               <Touchable onPress={navigateToGuide} hitSlop={variables.iconHitslop}>
-                <InfoIcon size={14} />
+                <InfoIcon testID="ExchangeHomeScreen/Info" size={14} />
               </Touchable>
             </View>
             <View style={styles.goldPriceValues}>

@@ -18,6 +18,7 @@ exports[`Education renders correctly 1`] = `
       undefined,
     ]
   }
+  testID="Education"
 >
   <View
     style={
