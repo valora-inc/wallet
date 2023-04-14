@@ -45,6 +45,7 @@ import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenFilter from 'src/dappsExplorer/filter/DAppsExplorerScreenFilter'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/legacy/DAppsExplorerScreenLegacy'
 import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
+import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/searchFilter/DAppsExplorerScreenSearchFilter'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
@@ -280,7 +281,9 @@ export default function DrawerNavigator({ route }: Props) {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={
-            dappsSearchEnabled
+            dappsSearchEnabled && dappsFilterEnabled
+              ? DAppsExplorerScreenSearchFilter
+              : dappsSearchEnabled
               ? DAppsExplorerScreenSearch
               : dappsFilterEnabled
               ? DAppsExplorerScreenFilter
