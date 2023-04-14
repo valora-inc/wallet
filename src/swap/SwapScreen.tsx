@@ -158,7 +158,9 @@ export function SwapScreen() {
         const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
         const newAmount = exchangeRate
           ? parsedSwapAmount[updatedField]
-              .multipliedBy(new BigNumber(exchangeRate).pow(updatedField === Field.FROM ? 1 : -1))
+              .multipliedBy(
+                new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
+              )
               .toFormat()
           : ''
         return {
@@ -278,6 +280,10 @@ export function SwapScreen() {
   }
 
   const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
+  const exchangeRateUpdatePending =
+    exchangeRate &&
+    (exchangeRate.fromTokenAddress !== fromToken?.address ||
+      exchangeRate.toTokenAddress !== toToken?.address)
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -313,22 +319,22 @@ export function SwapScreen() {
             loading={updatedField === Field.FROM && fetchingSwapQuote}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
           >
-            {exchangeRate && fromToken && toToken ? (
-              <Text style={styles.exchangeRateText}>
-                {`1 ${fromToken.symbol} ≈ `}
-                <Text style={styles.exchangeRateValueText}>
-                  {`${new BigNumber(exchangeRate).toFormat(5, BigNumber.ROUND_DOWN)} ${
-                    toToken.symbol
-                  }`}
-                </Text>
-              </Text>
-            ) : (
-              <Text style={styles.exchangeRateText}>
+            <Text style={[styles.exchangeRateText, { opacity: exchangeRateUpdatePending ? 0 : 1 }]}>
+              {fromToken && toToken && exchangeRate ? (
+                <>
+                  {`1 ${fromToken.symbol} ≈ `}
+                  <Text style={styles.exchangeRateValueText}>
+                    {`${new BigNumber(exchangeRate.price).toFormat(5, BigNumber.ROUND_DOWN)} ${
+                      toToken.symbol
+                    }`}
+                  </Text>
+                </>
+              ) : (
                 <Trans i18nKey={'swapScreen.estimatedExchangeRate'}>
                   <Text style={styles.exchangeRateValueText} />
                 </Trans>
-              </Text>
-            )}
+              )}
+            </Text>
           </SwapAmountInput>
           {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>

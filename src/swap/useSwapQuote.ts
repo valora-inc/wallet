@@ -9,10 +9,16 @@ import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
+interface ExchangeRate {
+  toTokenAddress: string
+  fromTokenAddress: string
+  price: string
+}
+
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
-  const [exchangeRate, setExchangeRate] = useState<string | null>(null)
+  const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(null)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [fetchingSwapQuote, setFetchingSwapQuote] = useState(false)
 
@@ -71,11 +77,14 @@ const useSwapQuote = () => {
         const swapPrice = useGuaranteedPrice
           ? quote.unvalidatedSwapTransaction.guaranteedPrice
           : quote.unvalidatedSwapTransaction.price
-        setExchangeRate(
-          updatedField === Field.FROM
-            ? swapPrice
-            : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
-        )
+        setExchangeRate({
+          toTokenAddress: toToken.address,
+          fromTokenAddress: fromToken.address,
+          price:
+            updatedField === Field.FROM
+              ? swapPrice
+              : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
+        })
       } else {
         setFetchSwapQuoteError(true)
         setExchangeRate(null)
