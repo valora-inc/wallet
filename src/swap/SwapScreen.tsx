@@ -283,7 +283,8 @@ export function SwapScreen() {
   const exchangeRateUpdatePending =
     exchangeRate &&
     (exchangeRate.fromTokenAddress !== fromToken?.address ||
-      exchangeRate.toTokenAddress !== toToken?.address)
+      exchangeRate.toTokenAddress !== toToken?.address ||
+      !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>

@@ -12,6 +12,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 interface ExchangeRate {
   toTokenAddress: string
   fromTokenAddress: string
+  swapAmount: BigNumber
   price: string
 }
 
@@ -80,6 +81,7 @@ const useSwapQuote = () => {
         setExchangeRate({
           toTokenAddress: toToken.address,
           fromTokenAddress: fromToken.address,
+          swapAmount: swapAmount[updatedField],
           price:
             updatedField === Field.FROM
               ? swapPrice
