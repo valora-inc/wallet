@@ -516,7 +516,6 @@ const styles = StyleSheet.create({
   notificationContainer: {
     width: variables.width - 2 * variables.contentPadding,
     margin: variables.contentPadding,
-    marginBottom: 24, // Enough space so the shadow is not clipped
   },
   pagination: {
     paddingBottom: variables.contentPadding,

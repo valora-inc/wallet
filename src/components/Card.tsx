@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, ViewProps } from 'react-native'
 import colors from 'src/styles/colors'
-import { getShadowStyle, Shadow } from 'src/styles/styles'
+import { Shadow, getShadowStyle } from 'src/styles/styles'
 
 export interface Props extends ViewProps {
   rounded?: boolean
