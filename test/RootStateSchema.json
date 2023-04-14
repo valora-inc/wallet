@@ -3286,9 +3286,6 @@
                     },
                     "type": "array"
                 },
-                "dappsFilterEnabled": {
-                    "type": "boolean"
-                },
                 "dappsList": {
                     "items": {
                         "anyOf": [
@@ -3312,9 +3309,6 @@
                     "type": "boolean"
                 },
                 "dappsMinimalDisclaimerEnabled": {
-                    "type": "boolean"
-                },
-                "dappsSearchEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3342,12 +3336,10 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
-                "dappsFilterEnabled",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
                 "dappsMinimalDisclaimerEnabled",
-                "dappsSearchEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
