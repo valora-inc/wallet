@@ -4,7 +4,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
-import TransactionFeed, { FeedItem, FeedType } from 'src/transactions/TransactionFeed'
+import TransactionFeed, { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 
@@ -40,7 +40,7 @@ const store = createMockStore({})
 it('renders for no transactions', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed loading={false} error={undefined} data={[]} kind={FeedType.HOME} />
+      <TransactionFeed loading={false} error={undefined} data={[]} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
@@ -49,12 +49,7 @@ it('renders for no transactions', () => {
 it('renders for error', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed
-        loading={false}
-        error={new ApolloError({})}
-        data={[]}
-        kind={FeedType.EXCHANGE}
-      />
+      <TransactionFeed loading={false} error={new ApolloError({})} data={[]} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
@@ -63,7 +58,7 @@ it('renders for error', () => {
 it('renders for loading', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed loading={true} error={undefined} data={undefined} kind={FeedType.HOME} />
+      <TransactionFeed loading={true} error={undefined} data={undefined} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
@@ -72,12 +67,7 @@ it('renders for loading', () => {
 it('renders for gold to dollar exchange properly', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed
-        loading={false}
-        error={undefined}
-        data={exchangeTransactions}
-        kind={FeedType.HOME}
-      />
+      <TransactionFeed loading={false} error={undefined} data={exchangeTransactions} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
