@@ -19,8 +19,7 @@ import TransactionFeed, {
 import { getNewTxsFromUserTxQuery, getTxsFromUserTxQuery } from 'src/transactions/transferFeedUtils'
 import {
   StandbyTransactionLegacy,
-  TransactionStatus,
-  TransferStandbyLegacy,
+  TransactionStatus
 } from 'src/transactions/types'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -86,7 +85,7 @@ function resolveAmount(
 }
 
 function mapTransferStandbyToFeedItem(
-  standbyTx: TransferStandbyLegacy,
+  standbyTx: StandbyTransactionLegacy,
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ): FeedItem {
@@ -162,7 +161,7 @@ export class TransactionsList extends React.PureComponent<Props> {
       const queryDataTxHashes = new Set(transactions.map((tx) => tx.hash))
       const standbyTxs = standbyTransactions
         .filter((tx) => {
-          const isForQueriedCurrency = tokens.includes((tx as TransferStandbyLegacy).currency)
+          const isForQueriedCurrency = tokens.includes((tx as StandbyTransactionLegacy).currency)
           const notInQueryTxs =
             (!tx.hash || !queryDataTxHashes.has(tx.hash)) && tx.status !== TransactionStatus.Failed
           return isForQueriedCurrency && notInQueryTxs
