@@ -43,10 +43,10 @@ function* celoToDollarAmount(amount: BigNumber) {
 export function* withdrawCelo(action: WithdrawCeloAction) {
   let context: TransactionContext | null = null
   try {
-    const { recipientAddress, amount, isCashOut } = action
+    const { recipientAddress, amount } = action
     const account: string = yield call(getConnectedUnlockedAccount)
 
-    navigate(isCashOut ? Screens.WalletHome : Screens.ExchangeHomeScreen)
+    navigate(Screens.WalletHome)
 
     context = newTransactionContext(TAG, 'Withdraw CELO')
     yield put(
