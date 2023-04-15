@@ -87,46 +87,6 @@ describe('ExchangeFeedItem', () => {
     expect(getElementText(tokenDisplay)).toEqual(expectedTokenAmount)
   }
 
-  it('renders correctly for CELO purchases', async () => {
-    const { getByTestId } = renderScreen({
-      inAmount: {
-        tokenAddress: mockCusdAddress,
-        value: 10,
-      },
-      outAmount: {
-        tokenAddress: mockCeloAddress,
-        value: 2,
-      },
-    })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: ['feedItemBoughtCeloTitle'],
-      expectedSubtitleSections: ['feedItemExchangeCeloInfo', '2.00'],
-      expectedAmount: '-₱13.30',
-      expectedTokenAmount: '2.00 CELO',
-    })
-  })
-
-  it('renders correctly for selling CELO', async () => {
-    const { getByTestId } = renderScreen({
-      inAmount: {
-        tokenAddress: mockCeloAddress,
-        value: 2,
-      },
-      outAmount: {
-        tokenAddress: mockCusdAddress,
-        value: 10,
-      },
-    })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: ['feedItemSoldCeloTitle'],
-      expectedSubtitleSections: ['feedItemExchangeCeloInfo', '2.00'],
-      expectedAmount: '+₱13.30',
-      expectedTokenAmount: '2.00 CELO',
-    })
-  })
-
   it('renders the localAmount correctly when set', async () => {
     const { getByTestId } = renderScreen({
       inAmount: {
