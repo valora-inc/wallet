@@ -10,12 +10,7 @@ import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
-import {
-  StandbyTransaction,
-  TokenTransaction,
-  TransactionStatus,
-  TransferStandby,
-} from 'src/transactions/types'
+import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
 export type FeedTokenProperties = {
@@ -25,7 +20,7 @@ export type FeedTokenProperties = {
 export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
-  const transferTx = tx as TransferStandby
+  const transferTx = tx as StandbyTransaction
   return {
     __typename: 'TokenTransferV2',
     type: tx.type,
