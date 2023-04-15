@@ -17,10 +17,7 @@ import TransactionFeed, {
   TransactionFeedFragments,
 } from 'src/transactions/TransactionFeed'
 import { getNewTxsFromUserTxQuery, getTxsFromUserTxQuery } from 'src/transactions/transferFeedUtils'
-import {
-  StandbyTransactionLegacy,
-  TransactionStatus
-} from 'src/transactions/types'
+import { StandbyTransactionLegacy, TransactionStatus } from 'src/transactions/types'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
