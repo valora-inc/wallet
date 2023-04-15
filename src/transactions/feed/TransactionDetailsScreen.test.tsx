@@ -101,46 +101,6 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
-  function tokenExchange({
-    inAmount = {
-      value: 10,
-      tokenAddress: mockCusdAddress,
-      localAmount: {
-        currencyCode: 'EUR',
-        exchangeRate: '0.4',
-        value: '4',
-      },
-    },
-    outAmount = {
-      value: 3,
-      tokenAddress: mockCeloAddress,
-      localAmount: {
-        currencyCode: 'EUR',
-        exchangeRate: '1.33',
-        value: '4',
-      },
-    },
-    metadata = {},
-    fees = [],
-  }: {
-    inAmount?: TokenAmount
-    outAmount?: TokenAmount
-    metadata?: TokenExchangeMetadata
-    fees?: Fee[]
-  }): TokenExchange {
-    return {
-      __typename: 'TokenExchangeV2',
-      type: TokenTransactionTypeV2.Exchange,
-      transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
-      timestamp: 1542306118,
-      block: '8648978',
-      inAmount,
-      outAmount,
-      metadata,
-      fees,
-    }
-  }
-
   function swapTransaction({
     inAmount = {
       value: 34,
