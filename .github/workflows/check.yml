@@ -32,6 +32,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
+            patches
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
@@ -51,6 +52,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
+            patches
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
@@ -71,6 +73,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
+            patches
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
@@ -89,6 +92,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
+            patches
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
@@ -107,6 +111,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
+            patches
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
