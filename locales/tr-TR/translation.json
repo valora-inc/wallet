@@ -209,8 +209,8 @@
     "body": "Celo stablecoinlerinizden en yüksek değeri olanla (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
     "dismiss": "Yoksay"
   },
-  "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
+  "superchargingTitle": "Uygulama güncellemesi gerekli",
+  "superchargingDescription": "Supercharge ödüllerini almaya devam etmek için Valora uygulamasını güncelleyin",
   "superchargingTitleV1_54": "Supercharge uygulanan varlık: {{token}}",
   "superchargingDescriptionV1_54": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
@@ -1274,6 +1274,8 @@
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
+    "favoriteDappsAndAll": "Favorilerim & Hepsi",
+    "searchPlaceHolder": "Dapp'ları ara",
     "noFavorites": {
       "title": "Favori eklenmemiş",
       "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
@@ -1284,7 +1286,8 @@
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> filtresi uygulandı",
-      "removeFilter": "Filtreyi kaldır"
+      "removeFilter": "Filtreyi kaldır",
+      "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1665,6 +1668,10 @@
   "profileScreen": {
     "generateName": "Bir isim oluşturun",
     "namePlaceholder": "Ad örneği seçme) {{exampleName}}"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Arama Varlıkları",
+    "noTokenInResult": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
   },
   "homeActions": {
     "add": "Ekle",

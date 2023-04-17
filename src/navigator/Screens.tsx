@@ -86,6 +86,7 @@ export enum Screens {
   Support = 'Support',
   SupportContact = 'SupportContact',
   SwapScreen = 'SwapScreen',
+  SwapScreenWithBack = 'SwapScreenWithBack',
   SwapExecuteScreen = 'SwapExecuteScreen',
   SwapReviewScreen = 'SwapReviewScreen',
   Sync = 'Sync',
@@ -106,4 +107,5 @@ export enum Screens {
   WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
   WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
   WithdrawCeloScreen = 'WithdrawCeloScreen',
+  WithdrawSpend = 'WithdrawSpend',
 }

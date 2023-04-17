@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { FinclusiveKycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
@@ -1050,8 +1050,8 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      dappsFilterEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsFilterEnabled,
-      dappsSearchEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsSearchEnabled,
+      dappsFilterEnabled: false,
+      dappsSearchEnabled: false,
     },
   }),
   113: (state: any) => ({
@@ -1099,4 +1099,15 @@ export const migrations = {
   119: (state: any) => state,
   120: (state: any) => state,
   121: (state: any) => state,
+  122: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
+    },
+  }),
+  123: (state: any) => ({
+    ...state,
+    dapps: _.omit(state.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
+  }),
 }

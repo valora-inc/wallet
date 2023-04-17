@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Dimensions,
+  Keyboard,
   LayoutChangeEvent,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -19,6 +20,8 @@ interface Props {
   testID?: string
   opacity?: number
   backgroundColor?: string
+  stickyHeader?: React.ReactNode
+  fullHeight?: boolean
 }
 
 const MIN_EMPTY_SPACE = 100
@@ -33,10 +36,16 @@ function BottomSheet({
   testID = 'BottomSheetContainer',
   opacity = 0.5,
   backgroundColor = colors.modalBackdrop,
+  stickyHeader,
+  fullHeight = false,
 }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
   const safeAreaInsets = useSafeAreaInsets()
+
+  useEffect(() => {
+    if (isVisible) Keyboard.dismiss()
+  }, [isVisible])
 
   const progress = useSharedValue(0)
   const animatedPickerPosition = useAnimatedStyle(
@@ -73,6 +82,7 @@ function BottomSheet({
   }
 
   const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
+  const minHeight = fullHeight ? maxHeight : undefined
   const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
 
   return (
@@ -80,13 +90,25 @@ function BottomSheet({
       <TouchableWithoutFeedback onPress={onBackgroundPress} testID={'BackgroundTouchable'}>
         <Animated.View style={[styles.background, animatedOpacity]} />
       </TouchableWithoutFeedback>
-      <Animated.ScrollView
-        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
-        contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
+
+      <Animated.View
+        style={[
+          styles.contentContainer,
+          { paddingBottom, maxHeight: maxHeight, minHeight },
+          animatedPickerPosition,
+        ]}
         onLayout={onLayout}
       >
-        {children}
-      </Animated.ScrollView>
+        <View style={styles.stickyHeader}>{stickyHeader}</View>
+
+        <Animated.ScrollView
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={styles.scrollViewContent}
+        >
+          {children}
+        </Animated.ScrollView>
+      </Animated.View>
     </View>
   )
 }
@@ -112,12 +134,17 @@ const styles = StyleSheet.create({
     opacity: 1,
     width: '100%',
     backgroundColor: colors.light,
-    padding: Spacing.Thick24,
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
   },
-  fullHeightScrollView: {
-    paddingBottom: 50,
+  scrollViewContent: {
+    width: '100%',
+    paddingHorizontal: Spacing.Regular16,
+    paddingBottom: Spacing.Regular16,
+  },
+  stickyHeader: {
+    padding: Spacing.Regular16,
+    marginTop: Spacing.Regular16,
   },
 })
 

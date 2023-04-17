@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { favoriteDappsSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection } from 'src/dapps/types'
+import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
+import { ActiveDapp, DappSection, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
+import NoResults from 'src/dappsExplorer/search/NoResults'
+import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -12,16 +14,34 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
+  searchTerm: string
+  onShowSearchResult: (empty: boolean) => void
 }
 
-export function FavoriteDappsSectionLegacy({ onPressDapp }: Props) {
+export function FavoriteDappsSection({ onPressDapp, searchTerm, onShowSearchResult }: Props) {
   const { t } = useTranslation()
-  const favoriteDapps = useSelector(favoriteDappsSelector)
+  const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
+  const favoriteResults =
+    searchTerm === ''
+      ? favoriteDappsWithCategoryNames
+      : (searchDappList(favoriteDappsWithCategoryNames, searchTerm) as DappV2[])
 
-  if (favoriteDapps.length > 0) {
+  useEffect(() => {
+    if (favoriteResults.length > 0 && searchTerm !== '') {
+      onShowSearchResult(false)
+    } else {
+      onShowSearchResult(true)
+    }
+  }, [favoriteResults, searchTerm])
+
+  if (favoriteResults.length === 0 && searchTerm !== '') {
+    return <NoResults testID="FavoriteDappsSection/NoResults" searchTerm={searchTerm} />
+  }
+
+  if (favoriteResults.length > 0) {
     return (
-      <View testID="DAppsExplorerScreenLegacy/FavoriteDappsSectionLegacy">
-        {favoriteDapps.map((favoriteDapp) => (
+      <View testID="DAppsExplorerScreenSearch/FavoriteDappsSection">
+        {favoriteResults.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
             dapp={favoriteDapp}
@@ -64,4 +84,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default FavoriteDappsSectionLegacy
+export default FavoriteDappsSection

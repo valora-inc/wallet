@@ -20,7 +20,6 @@ import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
-import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import { CeloExchangeEvents } from 'src/analytics/Events'
@@ -69,6 +68,7 @@ import FiatExchangeCurrency, {
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
+import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -86,6 +86,7 @@ import {
   noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
+import { getInitialRoute } from 'src/navigator/initialRoute'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
@@ -123,6 +124,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
+import SwapScreenWithBack from 'src/swap/SwapScreenWithBack'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
@@ -468,6 +470,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen options={spendScreenOptions} name={Screens.Spend} component={Spend} />
     <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.WithdrawSpend}
+      component={WithdrawSpend}
+    />
+    <Navigator.Screen
       options={FiatExchangeAmount.navOptions}
       name={Screens.FiatExchangeAmount}
       component={FiatExchangeAmount}
@@ -579,6 +586,11 @@ const generalScreens = (Navigator: typeof Stack) => (
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
+      name={Screens.SwapScreenWithBack}
+      component={SwapScreenWithBack}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
       name={Screens.SwapReviewScreen}
       component={SwapReviewScreen}
       options={SwapReviewScreen.navOptions}
@@ -600,6 +612,7 @@ const mapStateToProps = (state: RootState) => {
     account: state.web3.account,
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
+    recoveryPhraseInOnboardingStatus: state.account.recoveryPhraseInOnboardingStatus,
   }
 }
 
@@ -616,23 +629,18 @@ export function MainStackScreen() {
       pincodeType,
       account,
       hasSeenVerificationNux,
+      recoveryPhraseInOnboardingStatus,
     } = mapStateToProps(store.getState())
 
-    let initialRoute: InitialRouteName
-
-    if (!language) {
-      initialRoute = Screens.Language
-    } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
-      // allow empty username
-      // User didn't go far enough in onboarding, start again from education
-      initialRoute = Screens.Welcome
-    } else if (!account) {
-      initialRoute = choseToRestoreAccount ? Screens.ImportWallet : Screens.Welcome
-    } else if (!hasSeenVerificationNux) {
-      initialRoute = Screens.VerificationStartScreen
-    } else {
-      initialRoute = Screens.DrawerNavigator
-    }
+    const initialRoute: InitialRouteName = getInitialRoute({
+      choseToRestoreAccount,
+      language,
+      acceptedTerms,
+      pincodeType,
+      account,
+      hasSeenVerificationNux,
+      recoveryPhraseInOnboardingStatus,
+    })
 
     setInitialRoute(initialRoute)
     Logger.info(`${TAG}@MainStackScreen`, `Initial route: ${initialRoute}`)

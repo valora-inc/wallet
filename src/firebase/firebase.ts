@@ -20,8 +20,10 @@ import { RemoteConfigValues } from 'src/app/saga'
 import { pushNotificationsEnabledSelector } from 'src/app/selectors'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
+import { Actions } from 'src/firebase/actions'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import { Actions as HomeActions } from 'src/home/actions'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -141,6 +143,17 @@ function createFirebaseNotificationChannel() {
   })
 }
 
+const actionSeen: Record<string, boolean> = {}
+
+export function* takeWithInMemoryCache(action: Actions | HomeActions) {
+  if (actionSeen[action]) {
+    return
+  }
+  yield take(action)
+  actionSeen[action] = true
+  return
+}
+
 export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, address: string) {
   Logger.info(TAG, 'Initializing Firebase Cloud Messaging')
 
@@ -150,6 +163,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
+    yield takeWithInMemoryCache(HomeActions.VISIT_HOME) // better than take(HomeActions.VISIT_HOME) because if failure occurs, retries can succeed without an additional visit home
     try {
       yield call([app.messaging(), 'requestPermission'])
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
@@ -322,8 +336,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     superchargeV2Enabled: flags.superchargeV2Enabled.asBoolean(),
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
     superchargeV1Addresses: flags.superchargeV1Addresses.asString().split(','),
-    dappsFilterEnabled: flags.dappsFilterEnabled.asBoolean(),
-    dappsSearchEnabled: flags.dappsSearchEnabled.asBoolean(),
     requireCPV: flags.requireCPV.asBoolean(),
     decentralizedVerificationEnabled: flags.decentralizedVerificationEnabled.asBoolean(),
   }

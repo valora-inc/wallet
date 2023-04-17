@@ -58,6 +58,19 @@ export const ExperimentConfigs = {
       showHomeNavBar: true,
     },
   },
+  [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {
+    experimentName: StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS,
+    defaultValues: {
+      swappingNonNativeTokensEnabled: false,
+    },
+  },
+  [StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]: {
+    experimentName: StatsigExperiments.DAPPS_FILTERS_AND_SEARCH,
+    defaultValues: {
+      dappsFilterEnabled: false,
+      dappsSearchEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {

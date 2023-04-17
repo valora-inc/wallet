@@ -1,17 +1,23 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { act, fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
-import DAppsExplorerScreenFilter from 'src/dappsExplorer/DAppsExplorerScreenFilter'
+import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
 import { createMockStore } from 'test/utils'
-import { mockDappListV2 } from 'test/values'
+import { mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/statsig', () => ({
+  getExperimentParams: () => ({
+    dappsFilterEnabled: false,
+    dappsSearchEnabled: true,
+  }),
+}))
 
-const dappsList = mockDappListV2
+const dappsList = mockDappListWithCategoryNames
 
 const dappsCategories: DappCategory[] = [
   {
@@ -32,8 +38,14 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
-describe(DAppsExplorerScreenFilter, () => {
+// For advancing timers with debounce
+// Can be removed with jest >= 27
+jest.useFakeTimers('modern')
+
+describe(DAppsExplorerScreenSearch, () => {
   beforeEach(() => {
+    // Run all timers to ensure debounced calls don't affect next tests
+    jest.runAllTimers()
     defaultStore.clearActions()
     jest.clearAllMocks()
   })
@@ -41,7 +53,7 @@ describe(DAppsExplorerScreenFilter, () => {
   it('renders correctly and fires the correct actions on press dapp', () => {
     const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreenFilter />
+        <DAppsExplorerScreenSearch />
       </Provider>
     )
 
@@ -62,7 +74,7 @@ describe(DAppsExplorerScreenFilter, () => {
   it('renders correctly and fires the correct actions on press deep linked dapp', () => {
     const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreenFilter />
+        <DAppsExplorerScreenSearch />
       </Provider>
     )
 
@@ -82,7 +94,7 @@ describe(DAppsExplorerScreenFilter, () => {
   it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
     const { getByText } = render(
       <Provider store={defaultStore}>
-        <DAppsExplorerScreenFilter />
+        <DAppsExplorerScreenSearch />
       </Provider>
     )
 
@@ -112,7 +124,7 @@ describe(DAppsExplorerScreenFilter, () => {
     })
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <DAppsExplorerScreenFilter />
+        <DAppsExplorerScreenSearch />
       </Provider>
     )
 
@@ -136,12 +148,11 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsCategories,
           favoriteDappIds: [],
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
         },
       })
       const { getByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
@@ -157,16 +168,15 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsCategories,
           favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
         },
       })
       const { getByTestId, queryByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenSearch/FavoriteDappsSection')
       expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
       expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
@@ -180,20 +190,19 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
       const { getByTestId, getByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearch/DappsList')
       fireEvent.press(within(allDappsSection).getByTestId('Dapp/Favorite/dapp2'))
 
       // favorited dapp confirmation toast
@@ -216,13 +225,12 @@ describe(DAppsExplorerScreenFilter, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
       const { getByTestId, getAllByTestId, queryByText } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
@@ -233,7 +241,7 @@ describe(DAppsExplorerScreenFilter, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
+      const favoritesSection = getByTestId('DAppsExplorerScreenSearch/FavoriteDappsSection')
       fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
@@ -248,215 +256,133 @@ describe(DAppsExplorerScreenFilter, () => {
     })
   })
 
-  describe('filter dapps', () => {
-    it('renders correctly when there are no filters applied', () => {
+  describe('searching dapps', () => {
+    it('renders correctly when there are no search results', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
-          favoriteDappIds: ['dapp1'],
+          favoriteDappIds: [],
         },
       })
-      const { getByTestId, getByText, queryByText } = render(
+
+      const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
-      // All Filter Chips is not displayed
-      expect(queryByText('dappsScreen.allDapps')).toBeFalsy()
-      // Category Filter Chips displayed
-      expect(getByText(dappsCategories[0].name)).toBeTruthy()
-      expect(getByText(dappsCategories[1].name)).toBeTruthy()
+      fireEvent.changeText(getByTestId('SearchInput'), 'iDoNotExist')
 
-      // Displays favorited dapp in Favorites section
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      expect(within(favoritesSection).getByText(dappsList[0].name)).toBeTruthy()
-      expect(within(favoritesSection).getByText(dappsList[0].description)).toBeTruthy()
-      expect(within(favoritesSection).queryByText(dappsList[1].name)).toBeFalsy()
-      expect(within(favoritesSection).queryByText(dappsList[1].description)).toBeFalsy()
-
-      // Displays other dapps in All section
-      const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
-      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
-      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
-    })
-
-    it('renders correctly when there are filters applied', () => {
-      const store = createMockStore({
-        dapps: {
-          dappListApiUrl: 'http://url.com',
-          dappsList,
-          dappsCategories,
-          dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
-          favoriteDappIds: ['dapp1'],
-        },
-      })
-      const { getByTestId, getByText } = render(
-        <Provider store={store}>
-          <DAppsExplorerScreenFilter />
-        </Provider>
-      )
-
-      // Tap on category 2 filter
-      fireEvent.press(getByText(dappsCategories[1].name))
-
-      // Favorite Section should show no results
+      // Should display just the no results within the favorites section
       expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
-
-      // All Section should show only 'dapp 2'
-      const allDappsSection = getByTestId('DAppsExplorerScreenFilter/DappsList')
-      // queryByText returns null if not found
-      expect(within(allDappsSection).queryByText(dappsList[0].name)).toBeFalsy()
-      expect(within(allDappsSection).queryByText(dappsList[0].description)).toBeFalsy()
-      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
-      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+      expect(queryByTestId('FavoriteAndAllSectionHeader')).toBeTruthy()
+      expect(queryByTestId('DAppsExplorerScreenSearch/NoResults')).toBeNull()
+      expect(queryByTestId('AllSectionHeader')).toBeNull()
     })
 
-    it('triggers event when filtering', () => {
+    it('renders correctly when there are search results in both sections', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
-          favoriteDappIds: ['dapp1'],
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <DAppsExplorerScreenFilter />
-        </Provider>
-      )
-
-      // don't include events dispatched on screen load
-      jest.clearAllMocks()
-
-      // Tap on category 2 filter
-      fireEvent.press(getByText(dappsCategories[1].name))
-
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: false,
-      })
-    })
-
-    it('triggers events when toggling a category filter', () => {
-      const store = createMockStore({
-        dapps: {
-          dappListApiUrl: 'http://url.com',
-          dappsList,
-          dappsCategories,
-          dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
-          favoriteDappIds: ['dapp1'],
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <DAppsExplorerScreenFilter />
-        </Provider>
-      )
-
-      // don't include events dispatched on screen load
-      jest.clearAllMocks()
-
-      // Tap on category 2 filter
-      fireEvent.press(getByText(dappsCategories[1].name))
-
-      // Tap on category 2 filter again to remove it
-      fireEvent.press(getByText(dappsCategories[1].name))
-
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: false,
-      })
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: true,
-      })
-    })
-
-    it('triggers event when clearing filters from category section', () => {
-      const store = createMockStore({
-        dapps: {
-          dappListApiUrl: 'http://url.com',
-          dappsList,
-          dappsCategories,
-          dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
-      const { getByTestId, getByText } = render(
+
+      const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
-      // don't include events dispatched on screen load
-      jest.clearAllMocks()
+      fireEvent.changeText(getByTestId('SearchInput'), 'dapp')
 
-      // Tap on category 2 filter
-      fireEvent.press(getByText(dappsCategories[1].name))
+      // Should display the correct sections
+      const favoritesSection = getByTestId('DAppsExplorerScreenSearch/FavoriteDappsSection')
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearch/DappsList')
 
-      // Tap on remove filters from all section
-      fireEvent.press(getByTestId('DAppsExplorerScreenFilter/NoResults/RemoveFilter'))
+      // Names display correctly in the favorites section
+      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
+      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
 
-      // Assert correct analytics are fired
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: false,
-      })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: true,
-      })
+      // Names display correctly in the all dapps section
+      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+
+      // No results sections should not be displayed
+      expect(queryByTestId('FavoriteDappsSection/NoResults')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreenSearch/NoResults')).toBeNull()
     })
 
-    it('triggers event when clearing filters from favorite section', () => {
+    it('clearing search input should show all dapps', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
-          favoriteDappIds: ['dapp1'],
+          favoriteDappIds: ['dapp2'],
         },
       })
-      const { getByTestId, getByText } = render(
+
+      const { getByTestId } = render(
         <Provider store={store}>
-          <DAppsExplorerScreenFilter />
+          <DAppsExplorerScreenSearch />
+        </Provider>
+      )
+
+      // Type in search that should have no results
+      fireEvent.press(getByTestId('SearchInput'))
+      fireEvent.changeText(getByTestId('SearchInput'), 'iDoNotExist')
+
+      // Clear search field - onPress is tested in src/components/CircleButton.test.tsx
+      fireEvent.changeText(getByTestId('SearchInput'), '')
+
+      // Dapps displayed in the correct sections
+      const favoritesSection = getByTestId('DAppsExplorerScreenSearch/FavoriteDappsSection')
+      const allDappsSection = getByTestId('DAppsExplorerScreenSearch/DappsList')
+
+      // Names display correctly in the favorites section
+      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
+      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
+
+      // Names display correctly in the all dapps section
+      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+    })
+
+    it('triggers events when searching', () => {
+      const store = createMockStore({
+        dapps: {
+          dappListApiUrl: 'http://url.com',
+          dappsList,
+          dappsCategories,
+          dappFavoritesEnabled: true,
+          favoriteDappIds: [],
+        },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearch />
         </Provider>
       )
 
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      // Tap on category 2 filter
-      fireEvent.press(getByText(dappsCategories[1].name))
-
-      // Tap on remove filters from all section
-      fireEvent.press(getByTestId('FavoriteDappsSection/NoResults/RemoveFilter'))
-
-      // Assert correct analytics are fired
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: false,
+      act(() => {
+        fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+        // Will trigger the debounced analytics event
+        jest.advanceTimersByTime(1500)
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
-        remove: true,
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
+        searchTerm: 'swap',
       })
     })
   })

@@ -209,8 +209,8 @@
     "body": "Recibirás recompensas semanales sobre tu stablecoin Celo con mayor saldo (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorar"
   },
-  "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingTitle": "Actualización de aplicación necesaria",
+  "superchargingDescription": "Actualiza la app Valora para seguir recibiendo tus recompensas semanales Supercharge",
   "superchargingTitleV1_54": "Estás participando en Supercharge con tus {{token}}",
   "superchargingDescriptionV1_54": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
@@ -1274,6 +1274,8 @@
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
+    "favoriteDappsAndAll": "Mis favoritos y todo",
+    "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
       "title": "No has añadido favoritas aún",
       "description": "No pierdas de vista tus dapps más usadas. Toca la estrella para agregarlas a tus favoritas"
@@ -1284,7 +1286,8 @@
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
-      "removeFilter": "Quitar filtro"
+      "removeFilter": "Quitar filtro",
+      "searchMessage": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1665,6 +1668,10 @@
   "profileScreen": {
     "generateName": "Generar un nombre",
     "namePlaceholder": "Elige un nombre, p. ej. {{exampleName}}"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Buscar activos",
+    "noTokenInResult": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Depositar",

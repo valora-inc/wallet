@@ -2081,6 +2081,14 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "RecoveryPhraseInOnboardingStatus": {
+            "enum": [
+                "Completed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "RelayerTypes.ProtocolOptions": {
             "additionalProperties": false,
             "properties": {
@@ -2186,6 +2194,7 @@
                 "SwapExecuteScreen",
                 "SwapReviewScreen",
                 "SwapScreen",
+                "SwapScreenWithBack",
                 "Sync",
                 "TokenBalances",
                 "TransactionDetailsScreen",
@@ -2204,6 +2213,7 @@
                 "WithdrawCeloQrScannerScreen",
                 "WithdrawCeloReviewScreen",
                 "WithdrawCeloScreen",
+                "WithdrawSpend",
                 "XanpoolScreen"
             ],
             "type": "string"
@@ -2713,6 +2723,9 @@
                 "recoveringFromStoreWipe": {
                     "type": "boolean"
                 },
+                "recoveryPhraseInOnboardingStatus": {
+                    "$ref": "#/definitions/RecoveryPhraseInOnboardingStatus"
+                },
                 "startOnboardingTime": {
                     "type": "number"
                 }
@@ -2736,7 +2749,8 @@
                 "name",
                 "photosNUXClicked",
                 "pictureUri",
-                "pincodeType"
+                "pincodeType",
+                "recoveryPhraseInOnboardingStatus"
             ],
             "type": "object"
         },
@@ -3272,9 +3286,6 @@
                     },
                     "type": "array"
                 },
-                "dappsFilterEnabled": {
-                    "type": "boolean"
-                },
                 "dappsList": {
                     "items": {
                         "anyOf": [
@@ -3298,9 +3309,6 @@
                     "type": "boolean"
                 },
                 "dappsMinimalDisclaimerEnabled": {
-                    "type": "boolean"
-                },
-                "dappsSearchEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3328,12 +3336,10 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
-                "dappsFilterEnabled",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
                 "dappsMinimalDisclaimerEnabled",
-                "dappsSearchEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
@@ -4084,6 +4090,9 @@
                     "type": "string"
                 },
                 "isCoreToken": {
+                    "type": "boolean"
+                },
+                "isSwappable": {
                     "type": "boolean"
                 },
                 "name": {
