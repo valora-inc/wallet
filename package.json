@@ -102,7 +102,6 @@
     "@segment/analytics-react-native-plugin-adjust": "^0.6.1",
     "@segment/analytics-react-native-plugin-clevertap": "^1.0.0",
     "@segment/analytics-react-native-plugin-firebase": "^0.3.7",
-    "@segment/sovran-react-native": "^1.0.1",
     "@sentry/react-native": "^4.13.0",
     "@sentry/types": "^7.29.0",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",

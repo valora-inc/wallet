@@ -1,4 +1,4 @@
-import { PluginType, SegmentEvent, PlatformPlugin } from '@segment/analytics-react-native'
+import { PlatformPlugin, PluginType, SegmentEvent } from '@segment/analytics-react-native'
 
 /**
  * Plugin that injects the user traits to every event

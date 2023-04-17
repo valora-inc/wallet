@@ -1,4 +1,3 @@
-//<reference path="../node_modules/@segment/sovran-react-native/lib/typescript/src/index.d.ts"/>
 import { createClient, SegmentClient } from '@segment/analytics-react-native'
 import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
 import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
