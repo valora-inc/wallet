@@ -6,17 +6,22 @@ import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import { getExperimentParams } from 'src/statsig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig', () => ({
-  getExperimentParams: jest.fn().mockReturnValue({
-    showAddWithdrawOnMenu: true,
-    showSwapOnMenu: true,
-  }),
+  getExperimentParams: jest.fn(),
 }))
 
 // TODO avoid rendering WalletHome as we're mostly interested in testing the menu here
 
 describe('DrawerNavigator', () => {
+  beforeEach(() => {
+    mocked(getExperimentParams).mockReturnValue({
+      showAddWithdrawOnMenu: true,
+      showSwapOnMenu: true,
+    })
+  })
+
   it('shows the expected menu items', () => {
     const store = createMockStore({
       app: {
@@ -74,7 +79,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('hides add/withdraw menu item based on statsig experiment param', () => {
-    ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
+    mocked(getExperimentParams).mockReturnValue({
       showAddWithdrawOnMenu: false,
     })
     const { queryByTestId } = render(
@@ -86,7 +91,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('hides swap menu item based on statsig experiment param', () => {
-    ;(getExperimentParams as jest.Mock).mockReturnValueOnce({
+    mocked(getExperimentParams).mockReturnValue({
       showSwapOnMenu: false,
     })
     const store = createMockStore({
