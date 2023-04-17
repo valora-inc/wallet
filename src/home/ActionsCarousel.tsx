@@ -53,7 +53,7 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
-        navigate(Screens.SwapScreen)
+        navigate(Screens.SwapScreenWithBack)
       },
     },
     {
@@ -107,6 +107,7 @@ function ActionsCarousel() {
 const styles = StyleSheet.create({
   carouselContainer: {
     paddingHorizontal: 10,
+    marginBottom: 8,
   },
   card: {
     width: 84,

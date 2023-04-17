@@ -2194,6 +2194,7 @@
                 "SwapExecuteScreen",
                 "SwapReviewScreen",
                 "SwapScreen",
+                "SwapScreenWithBack",
                 "Sync",
                 "TokenBalances",
                 "TransactionDetailsScreen",

@@ -29,7 +29,7 @@ describe('ActionsCarousel', () => {
       { screen: Screens.QRCode, showBackButton: true },
     ],
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
-    [HomeActionName.Swap, 'swap', Screens.SwapScreen, undefined],
+    [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
     [
       HomeActionName.Request,
       'request',
