@@ -45,8 +45,8 @@ import {
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
 import useSelector from 'src/redux/useSelector'
-import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
+import { useExperimentParams } from 'src/statsig/hooks'
 import { StatsigExperiments } from 'src/statsig/types'
 import variables from 'src/styles/variables'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
@@ -129,12 +129,12 @@ function useSimpleActions() {
   }, [])
 
   const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const { useNewBackupHomeCard } = useExperimentParams(
+    ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
+  )
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
-    const { useNewBackupHomeCard } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
-    )
     const text = useNewBackupHomeCard ? t('backupKeyNotification2') : t('backupKeyNotification')
     const icon = useNewBackupHomeCard ? <GuideKeyIcon /> : backupKey
     const ctaText = useNewBackupHomeCard ? t('backupKeyCTA') : t('introPrimaryAction')

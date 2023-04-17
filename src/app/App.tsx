@@ -13,15 +13,16 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo/index'
-import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppInitGate from 'src/app/AppInitGate'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
+import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { persistor, store } from 'src/redux/store'
+import StatsigProvider from 'src/statsig/Provider'
 import Logger from 'src/utils/Logger'
 
 Logger.debug('App/init', 'Current Language: ' + i18n.language)
@@ -171,10 +172,12 @@ export class App extends React.Component<Props> {
           <Provider store={store}>
             <PersistGate loading={<AppLoading />} persistor={persistor}>
               <AppInitGate loading={<AppLoading />}>
-                <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-                <ErrorBoundary>
-                  <NavigatorWrapper />
-                </ErrorBoundary>
+                <StatsigProvider loading={<AppLoading />}>
+                  <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+                  <ErrorBoundary>
+                    <NavigatorWrapper />
+                  </ErrorBoundary>
+                </StatsigProvider>
               </AppInitGate>
             </PersistGate>
           </Provider>

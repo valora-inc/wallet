@@ -20,8 +20,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { default as useTypedSelector } from 'src/redux/useSelector'
-import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
+import { useExperimentParams } from 'src/statsig/hooks'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -45,7 +45,7 @@ function ProtectWallet({ navigation }: Props) {
   const twelveWordMnemonicEnabled = useSelector(twelveWordMnemonicEnabledSelector)
   const mnemonicLength = twelveWordMnemonicEnabled ? '12' : '24'
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
-  const { showCloudBackupFakeDoor } = getExperimentParams(
+  const { showCloudBackupFakeDoor } = useExperimentParams(
     ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
   )
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)

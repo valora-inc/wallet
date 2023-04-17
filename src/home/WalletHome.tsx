@@ -29,8 +29,8 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
+import { useExperimentParams } from 'src/statsig/hooks'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
@@ -58,8 +58,12 @@ function WalletHome() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
-  const { showHomeActions, showHomeNavBar } = getExperimentParams(
+  const { showHomeActions, showHomeNavBar } = useExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
+  )
+
+  const { cashInBottomSheetEnabled } = useExperimentParams(
+    ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
   )
 
   useEffect(() => {
@@ -130,10 +134,6 @@ function WalletHome() {
         .find((token) => token.address === celoAddress)
         ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
     const isAccountBalanceZero = hasStable === false && hasCelo === false
-
-    const { cashInBottomSheetEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
 
     return cashInBottomSheetEnabled && isAccountBalanceZero
   }
