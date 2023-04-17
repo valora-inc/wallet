@@ -245,6 +245,22 @@ export function* appRemoteFeatureFlagSaga() {
   }
 }
 
+export function* refreshStatsigUserSaga() {
+  let lastLoadTime = 0
+  let isAppActive = true
+
+  while (true) {
+    const action: SetAppState = yield take(Actions.SET_APP_STATE)
+    isAppActive = action.state === 'active'
+
+    if (isAppActive) {
+      lastLoadTime = Date.now()
+
+      Logger.debug(TAG, 'refreshStatsigUserSaga', lastLoadTime)
+    }
+  }
+}
+
 function parseValue(value: string) {
   if (['true', 'false'].indexOf(value) >= 0) {
     return value === 'true'
