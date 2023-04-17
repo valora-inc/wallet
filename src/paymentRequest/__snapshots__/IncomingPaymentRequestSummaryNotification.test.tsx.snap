@@ -19,18 +19,11 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
           Object {
             "borderRadius": 8,
           },
-          Object {
-            "elevation": 12,
-            "shadowColor": "rgba(156, 164, 169, 0.4)",
-            "shadowOffset": Object {
-              "height": 2,
-              "width": 0,
-            },
-            "shadowOpacity": 1,
-            "shadowRadius": 12,
-          },
+          undefined,
           Array [
             Object {
+              "borderColor": "#E6E6E6",
+              "borderWidth": 1,
               "flex": 1,
               "minHeight": 144,
             },
@@ -273,18 +266,11 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
           Object {
             "borderRadius": 8,
           },
-          Object {
-            "elevation": 12,
-            "shadowColor": "rgba(156, 164, 169, 0.4)",
-            "shadowOffset": Object {
-              "height": 2,
-              "width": 0,
-            },
-            "shadowOpacity": 1,
-            "shadowRadius": 12,
-          },
+          undefined,
           Array [
             Object {
+              "borderColor": "#E6E6E6",
+              "borderWidth": 1,
               "flex": 1,
               "minHeight": 144,
             },
@@ -519,18 +505,11 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
       Object {
         "borderRadius": 8,
       },
-      Object {
-        "elevation": 12,
-        "shadowColor": "rgba(156, 164, 169, 0.4)",
-        "shadowOffset": Object {
-          "height": 2,
-          "width": 0,
-        },
-        "shadowOpacity": 1,
-        "shadowRadius": 12,
-      },
+      undefined,
       Array [
         Object {
+          "borderColor": "#E6E6E6",
+          "borderWidth": 1,
           "flex": 1,
           "minHeight": 144,
         },

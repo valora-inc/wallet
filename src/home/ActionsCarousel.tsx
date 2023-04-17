@@ -107,6 +107,7 @@ function ActionsCarousel() {
 const styles = StyleSheet.create({
   carouselContainer: {
     paddingHorizontal: 10,
+    marginBottom: 8,
   },
   card: {
     width: 84,
