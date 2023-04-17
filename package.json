@@ -143,7 +143,7 @@
     "react-native-device-info": "^10.2.0",
     "react-native-email-link": "^1.14.3",
     "react-native-exit-app": "^1.1.0",
-    "react-native-fast-crypto": "^2.2.0",
+    "react-native-fast-crypto": "^2.0.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-get-random-values": "^1.8.0",
