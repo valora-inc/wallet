@@ -26,19 +26,7 @@ export enum CacheControlScope {
   Private = 'PRIVATE',
 }
 
-export type Event = Exchange | Transfer
-
-export interface Exchange {
-  __typename?: 'Exchange'
-  type: Scalars['String']
-  timestamp: Scalars['Float']
-  block: Scalars['Int']
-  outValue: Scalars['Float']
-  outSymbol: Scalars['String']
-  inValue: Scalars['Float']
-  inSymbol: Scalars['String']
-  hash: Scalars['String']
-}
+export type Event = Transfer
 
 export interface ExchangeRate {
   __typename?: 'ExchangeRate'
@@ -114,17 +102,6 @@ export enum Token {
   CGld = 'cGLD',
 }
 
-export type TokenExchange = TokenTransaction & {
-  __typename?: 'TokenExchange'
-  type: TokenTransactionType
-  timestamp: Scalars['Timestamp']
-  block: Scalars['String']
-  amount: MoneyAmount
-  takerAmount: MoneyAmount
-  makerAmount: MoneyAmount
-  hash: Scalars['String']
-}
-
 export interface TokenTransaction {
   type: TokenTransactionType
   timestamp: Scalars['Timestamp']
@@ -146,7 +123,6 @@ export interface TokenTransactionEdge {
 }
 
 export enum TokenTransactionType {
-  Exchange = 'EXCHANGE',
   Received = 'RECEIVED',
   Sent = 'SENT',
   EscrowSent = 'ESCROW_SENT',
@@ -195,57 +171,11 @@ export interface ExchangeRateQuery {
   currencyConversion: Maybe<{ __typename?: 'ExchangeRate'; rate: BigNumber.Value }>
 }
 
-export interface ExchangeItemFragment {
-  __typename: 'TokenExchange'
-  type: TokenTransactionType
-  hash: string
-  timestamp: number
-  amount: {
-    __typename?: 'MoneyAmount'
-    value: BigNumber.Value
-    currencyCode: string
-    localAmount: Maybe<{
-      __typename?: 'LocalMoneyAmount'
-      value: BigNumber.Value
-      currencyCode: string
-      exchangeRate: BigNumber.Value
-    }>
-  }
-  takerAmount: {
-    __typename?: 'MoneyAmount'
-    value: BigNumber.Value
-    currencyCode: string
-    localAmount: Maybe<{
-      __typename?: 'LocalMoneyAmount'
-      value: BigNumber.Value
-      currencyCode: string
-      exchangeRate: BigNumber.Value
-    }>
-  }
-  makerAmount: {
-    __typename?: 'MoneyAmount'
-    value: BigNumber.Value
-    currencyCode: string
-    localAmount: Maybe<{
-      __typename?: 'LocalMoneyAmount'
-      value: BigNumber.Value
-      currencyCode: string
-      exchangeRate: BigNumber.Value
-    }>
-  }
-}
-
-type TransactionFeed_TokenExchange_Fragment = {
-  __typename?: 'TokenExchange'
-} & ExchangeItemFragment
-
 type TransactionFeed_TokenTransfer_Fragment = {
   __typename?: 'TokenTransfer'
 } & TransferItemFragment
 
-export type TransactionFeedFragment =
-  | TransactionFeed_TokenExchange_Fragment
-  | TransactionFeed_TokenTransfer_Fragment
+export type TransactionFeedFragment = TransactionFeed_TokenTransfer_Fragment
 
 export interface UserTransactionsQueryVariables {
   address: Scalars['Address']
@@ -259,10 +189,7 @@ export interface UserTransactionsQuery {
     __typename?: 'TokenTransactionConnection'
     edges: Array<{
       __typename?: 'TokenTransactionEdge'
-      node: Maybe<
-        | ({ __typename?: 'TokenExchange' } & TransactionFeed_TokenExchange_Fragment)
-        | ({ __typename?: 'TokenTransfer' } & TransactionFeed_TokenTransfer_Fragment)
-      >
+      node: Maybe<{ __typename?: 'TokenTransfer' } & TransactionFeed_TokenTransfer_Fragment>
     }>
   }>
 }
@@ -309,9 +236,6 @@ export const introspectionQueryResultData: IntrospectionResultData = {
         name: 'Event',
         possibleTypes: [
           {
-            name: 'Exchange',
-          },
-          {
             name: 'Transfer',
           },
         ],
@@ -320,9 +244,6 @@ export const introspectionQueryResultData: IntrospectionResultData = {
         kind: 'INTERFACE',
         name: 'TokenTransaction',
         possibleTypes: [
-          {
-            name: 'TokenExchange',
-          },
           {
             name: 'TokenTransfer',
           },

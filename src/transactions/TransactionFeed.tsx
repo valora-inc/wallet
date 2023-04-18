@@ -8,7 +8,6 @@ import SectionHead from 'src/components/SectionHead'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import ExchangeFeedItem from 'src/transactions/ExchangeFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { recentTxRecipientsCacheSelector } from 'src/transactions/reducer'
 import TransferFeedItem from 'src/transactions/TransferFeedItem'
@@ -51,8 +50,6 @@ function TransactionFeed({ loading, error, data }: Props) {
             {...tx}
           />
         )
-      case 'TokenExchange':
-        return <ExchangeFeedItem {...tx} />
     }
   }
 
@@ -94,11 +91,9 @@ function TransactionFeed({ loading, error, data }: Props) {
 export const TransactionFeedFragments = {
   transaction: gql`
     fragment TransactionFeed on TokenTransaction {
-      ...ExchangeItem
       ...TransferItem
     }
 
-    ${ExchangeFeedItem.fragments.exchange}
     ${TransferFeedItem.fragments.transfer}
   `,
 }

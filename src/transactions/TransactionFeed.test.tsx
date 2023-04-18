@@ -10,28 +10,23 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/utils/time.ts')
 
-const exchangeTransactions: FeedItem[] = [
+const transferTransactions: FeedItem[] = [
   {
-    __typename: 'TokenExchange',
+    __typename: 'TokenTransfer',
+    type: TokenTransactionType.Received,
     status: TransactionStatus.Complete,
-    type: TokenTransactionType.Exchange,
     amount: {
-      value: '-30',
+      value: '100',
       currencyCode: 'cUSD',
-      localAmount: null,
-    },
-    makerAmount: {
-      value: '30',
-      currencyCode: 'cUSD',
-      localAmount: null,
-    },
-    takerAmount: {
-      value: '200',
-      currencyCode: 'cGLD',
       localAmount: null,
     },
     timestamp: 1542306118,
     hash: '0x00000000000000000000',
+    address: '0x00000000000000000000',
+    comment: 'test',
+    account: '0x00000000000000000000',
+    defaultImage: 'test',
+    defaultName: 'test',
   },
 ]
 
@@ -64,10 +59,10 @@ it('renders for loading', () => {
   expect(tree).toMatchSnapshot()
 })
 
-it('renders for gold to dollar exchange properly', () => {
+it('renders for transactions', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed loading={false} error={undefined} data={exchangeTransactions} />
+      <TransactionFeed loading={false} error={undefined} data={transferTransactions} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
