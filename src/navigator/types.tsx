@@ -44,7 +44,7 @@ export enum QRCloseButton {
   TimesSymbol = 'TimesSymbol',
 }
 
-type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { qrCloseButton: QRCloseButton }
+type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { qrCloseButton?: QRCloseButton }
 
 interface SendConfirmationLegacyParams {
   origin: SendOrigin
