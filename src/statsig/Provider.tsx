@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export default function Provider({ children }: Props) {
+export default function Provider({ children, loading }: Props) {
   const user = useSelector(statsigUserSelector)
   const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : 'dummy-for-now'
 
@@ -18,8 +18,8 @@ export default function Provider({ children }: Props) {
       sdkKey={STATSIG_API_KEY}
       user={user}
       options={{ overrideStableID, environment: STATSIG_ENV, localMode: isE2EEnv }}
-      waitForInitialization={false}
-      mountKey="statsig"
+      waitForInitialization={true}
+      initializingComponent={loading}
     >
       {children}
     </StatsigProvider>
