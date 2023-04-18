@@ -26,7 +26,7 @@ describe('ActionsCarousel', () => {
       HomeActionName.Receive,
       'receive',
       Screens.QRNavigator,
-      { screen: Screens.QRCode, showBackButton: true },
+      { screen: Screens.QRCode, qrCloseButton: 'BackChevron' },
     ],
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],

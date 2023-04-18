@@ -11,12 +11,13 @@ import Times from 'src/icons/Times'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import { shareQRCode, SVG } from 'src/send/actions'
+import { QRCloseButton } from 'src/navigator/types'
+import { SVG, shareQRCode } from 'src/send/actions'
 import colors from 'src/styles/colors'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
-  showBackButton: boolean
+  qrCloseButton: QRCloseButton
 }
 
 export default function QRTabBar({
@@ -25,7 +26,7 @@ export default function QRTabBar({
   navigation,
   position,
   qrSvgRef,
-  showBackButton,
+  qrCloseButton,
 }: Props) {
   const dispatch = useDispatch()
 
@@ -51,7 +52,7 @@ export default function QRTabBar({
 
   const { closeIcon, onPressClose } = useMemo(
     () =>
-      showBackButton
+      qrCloseButton === QRCloseButton.BackChevron
         ? {
             closeIcon: <BackChevron color={color} />,
             onPressClose: () => navigate(Screens.WalletHome),

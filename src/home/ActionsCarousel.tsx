@@ -15,6 +15,7 @@ import HomeActionsSwap from 'src/icons/home-actions/Swap'
 import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { QRCloseButton } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -35,7 +36,10 @@ function ActionsCarousel() {
       title: t('homeActions.receive'),
       icon: <HomeActionsReceive />,
       onPress: () => {
-        navigate(Screens.QRNavigator, { screen: Screens.QRCode, showBackButton: true })
+        navigate(Screens.QRNavigator, {
+          screen: Screens.QRCode,
+          qrCloseButton: QRCloseButton.BackChevron,
+        })
       },
     },
     {

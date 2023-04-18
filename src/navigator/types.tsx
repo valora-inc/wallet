@@ -35,9 +35,16 @@ import {
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
   [K in keyof ParamList]: undefined extends ParamList[K]
-    ? { screen: K; params?: ParamList[K]; showBackButton?: boolean }
-    : { screen: K; params: ParamList[K]; showBackButton?: boolean }
+    ? { screen: K; params?: ParamList[K] }
+    : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
+
+export enum QRCloseButton {
+  BackChevron = 'BackChevron',
+  TimesSymbol = 'TimesSymbol',
+}
+
+type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { qrCloseButton: QRCloseButton }
 
 interface SendConfirmationLegacyParams {
   origin: SendOrigin
@@ -259,7 +266,7 @@ export type StackParamList = {
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
-  [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.QRNavigator]: QRNavigatorParams | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void

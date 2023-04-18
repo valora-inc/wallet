@@ -3,9 +3,9 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import QRNavigator, {
-  getExperimentParams,
   QRCodePicker,
   QRCodeProps,
+  getExperimentParams,
 } from 'src/navigator/QRNavigator'
 import QRCode from 'src/qrcode/QRGen'
 import StyledQRCode from 'src/qrcode/StyledQRGen'
@@ -118,7 +118,7 @@ describe('QRNavigator', () => {
     it('renders back button when parameter is set', () => {
       const { queryByTestId } = render(
         <Provider store={mockStore}>
-          <MockedNavigator component={QRNavigator} params={{ showBackButton: true }} />
+          <MockedNavigator component={QRNavigator} params={{ qrCloseButton: 'BackChevron' }} />
         </Provider>
       )
 
