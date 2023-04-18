@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Tauschen",
     "review": "Überprüfen",
-    "swapFrom": "Von",
-    "swapTo": "Zu",
+    "swapFrom": "VON",
+    "swapTo": "AN",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
     "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>",
-    "swapFromTokenSelection": "Tausch von",
-    "swapToTokenSelection": "Tausch zu",
+    "swapFromTokenSelection": "SWAP VON",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
       "learnMore": "Mehr Infos"
-    }
+    },
+    "estimatedExchangeRate": "Geschätzter Satz ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
