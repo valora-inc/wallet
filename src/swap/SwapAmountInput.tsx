@@ -77,7 +77,7 @@ const SwapAmountInput = ({
           // hide input when loading to prevent the UI height from jumping
           style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
           editable={!showInputLoader}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
           inputStyle={[
