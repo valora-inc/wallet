@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Edge, SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
@@ -62,7 +62,11 @@ function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-export function SwapScreen() {
+function SwapScreen() {
+  return <SwapScreenSection showDrawerTopNav={true} />
+}
+
+export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: boolean }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -279,6 +283,7 @@ export function SwapScreen() {
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
+  const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
   const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
   const exchangeRateUpdatePending =
     exchangeRate &&
@@ -287,14 +292,17 @@ export function SwapScreen() {
       !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <DrawerTopBar
-        middleElement={
-          <View style={styles.headerContainer}>
-            <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-          </View>
-        }
-      />
+    <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
+      {showDrawerTopNav && (
+        <DrawerTopBar
+          testID={'SwapScreen/DrawerBar'}
+          middleElement={
+            <View style={styles.headerContainer}>
+              <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
+            </View>
+          }
+        />
+      )}
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
