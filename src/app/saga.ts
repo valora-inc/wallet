@@ -32,6 +32,7 @@ import {
   phoneNumberVerificationMigrated,
   SetAppState,
   setAppState,
+  setStatsigRefreshTime,
   setSupportedBiometryType,
   updateRemoteConfigValues,
 } from 'src/app/actions'
@@ -43,6 +44,7 @@ import {
   inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
+  statsigLoadTimeSelector,
 } from 'src/app/selectors'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -65,6 +67,7 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -379,6 +382,14 @@ export function* handleSetAppState(action: SetAppState) {
 
   if (requirePinOnAppOpen && isPassedDoNotLockPeriod && isAppActive) {
     yield put(appLock())
+  }
+
+  const statsigLoadTime = yield select(statsigLoadTimeSelector)
+  const now = Date.now()
+  if (isAppActive && now - statsigLoadTime > 10000) {
+    // 10s for test
+    yield put(setStatsigRefreshTime(now))
+    yield call(patchUpdateStatsigUser, { custom: { loadTime: now } })
   }
 }
 

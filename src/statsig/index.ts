@@ -1,11 +1,12 @@
+import * as _ from 'lodash'
+import { startOnboardingTimeSelector } from 'src/account/selectors'
+import { statsigLoadTimeSelector } from 'src/app/selectors'
+import { store } from 'src/redux/store'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
-import { EvaluationReason } from 'statsig-js'
-import { store } from 'src/redux/store'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { startOnboardingTimeSelector } from 'src/account/selectors'
-import * as _ from 'lodash'
+import { EvaluationReason } from 'statsig-js'
+import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 
 const TAG = 'Statsig'
 
@@ -37,6 +38,12 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
+    Logger.debug(
+      TAG,
+      `getExperimentParams: ${experimentName}`,
+      experiment.getEvaluationDetails(),
+      experiment.value
+    )
     if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
       Logger.warn(
         TAG,
@@ -84,6 +91,7 @@ export function getDefaultStatsigUser(): StatsigUser {
     userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
+      loadTime: statsigLoadTimeSelector(state),
     },
   }
 }
