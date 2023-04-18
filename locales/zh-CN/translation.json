@@ -209,8 +209,8 @@
     "body": "您将每周获得基于您的 Celo 稳定币最高价值（cEUR、cUSD、cREAL）的奖励。",
     "dismiss": "忽略"
   },
-  "superchargingTitle": "您的 {{token}} 正在进行 Supercharge",
-  "superchargingDescription": "您将获得年度 {{apy}}% 的奖励。每周当您的奖励准备就绪时，您将获得通知，请记得返回此处领取奖励。",
+  "superchargingTitle": "必须更新应用",
+  "superchargingDescription": "更新 Valora 应用以继续领取您每周的 Supercharge 奖励",
   "superchargingTitleV1_54": "您的 {{token}} 正在进行 Supercharge",
   "superchargingDescriptionV1_54": "您将获得年度 {{apy}}% 的奖励。每周当您的奖励准备就绪时，您将获得通知，请记得返回此处领取奖励。",
   "superchargeRewardsAvailable": "您有 {{amount}} {{token}} 可领取！",
@@ -1272,6 +1272,8 @@
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
+    "favoriteDappsAndAll": "我的最爱和所有",
+    "searchPlaceHolder": "搜索Dapps",
     "noFavorites": {
       "title": "未添加收藏",
       "description": "点击星星图标将其添加为收藏，轻松找到最常使用的 Dapp"
@@ -1282,7 +1284,8 @@
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0>已应用筛选条件",
-      "removeFilter": "移除筛选条件"
+      "removeFilter": "移除筛选条件",
+      "searchMessage": "没有找到与之匹配的结果<0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1663,6 +1666,10 @@
   "profileScreen": {
     "generateName": "生成名称",
     "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "搜索资产",
+    "noTokenInResult": "没有找到与之匹配的结果<0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "添加",

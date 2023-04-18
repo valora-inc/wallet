@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -51,7 +53,7 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
-        navigate(Screens.SwapScreen)
+        navigate(Screens.SwapScreenWithBack)
       },
     },
     {
@@ -81,7 +83,14 @@ function ActionsCarousel() {
     >
       {actions.map(({ name, title, icon, onPress }) => (
         <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
-          <Touchable onPress={onPress} style={styles.touchable} testID={`HomeAction-${name}`}>
+          <Touchable
+            onPress={() => {
+              ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+              onPress()
+            }}
+            style={styles.touchable}
+            testID={`HomeAction-${name}`}
+          >
             <>
               {icon}
               <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
@@ -98,6 +107,7 @@ function ActionsCarousel() {
 const styles = StyleSheet.create({
   carouselContainer: {
     paddingHorizontal: 10,
+    marginBottom: 8,
   },
   card: {
     width: 84,

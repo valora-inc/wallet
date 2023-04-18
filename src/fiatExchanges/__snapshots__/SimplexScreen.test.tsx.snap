@@ -750,7 +750,9 @@ exports[`SimplexScreen renders correctly 1`] = `
               ]
             }
           >
-            feeDiscount
+            Simplex
+             
+            fee
           </Text>
           <View
             accessible={true}
@@ -808,17 +810,29 @@ exports[`SimplexScreen renders correctly 1`] = `
             </svg>
           </View>
         </View>
-        <Text
-          style={
-            Object {
-              "color": "#1AB775",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
+        <Text>
+          <Text
+            style={
+              Array [
+                Array [
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  },
+                ],
+                Object {
+                  "color": "#2E3338",
+                },
+              ]
             }
-          }
-        >
-          free
+            testID="undefined/value"
+          >
+            
+            $
+            7.00
+          </Text>
         </Text>
       </View>
       <View
@@ -895,7 +909,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           >
             
             $
-            6.00
+            26.00
           </Text>
         </Text>
       </View>
@@ -1722,7 +1736,9 @@ exports[`SimplexScreen renders correctly 2`] = `
               ]
             }
           >
-            feeDiscount
+            Simplex
+             
+            fee
           </Text>
           <View
             accessible={true}
@@ -1780,17 +1796,29 @@ exports[`SimplexScreen renders correctly 2`] = `
             </svg>
           </View>
         </View>
-        <Text
-          style={
-            Object {
-              "color": "#1AB775",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
+        <Text>
+          <Text
+            style={
+              Array [
+                Array [
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  },
+                ],
+                Object {
+                  "color": "#2E3338",
+                },
+              ]
             }
-          }
-        >
-          free
+            testID="undefined/value"
+          >
+            
+            $
+            7.00
+          </Text>
         </Text>
       </View>
       <View
@@ -1867,7 +1895,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           >
             
             $
-            6.00
+            26.00
           </Text>
         </Text>
       </View>

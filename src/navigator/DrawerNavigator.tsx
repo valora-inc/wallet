@@ -35,15 +35,17 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { celoNewsConfigSelector } from 'src/app/selectors'
+import { celoNewsConfigSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { dappsFilterEnabledSelector, dappsListApiUrlSelector } from 'src/dapps/selectors'
+import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenFilter from 'src/dappsExplorer/filter/DAppsExplorerScreenFilter'
 import DAppsExplorerScreenLegacy from 'src/dappsExplorer/legacy/DAppsExplorerScreenLegacy'
+import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
+import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/searchFilter/DAppsExplorerScreenSearchFilter'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
@@ -163,6 +165,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -182,7 +185,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
             {displayName}
           </Text>
         )}
-        {e164PhoneNumber && (
+        {phoneNumberVerified && e164PhoneNumber && (
           <PhoneNumberWithFlag
             e164PhoneNumber={e164PhoneNumber}
             defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}
@@ -207,17 +210,22 @@ export default function DrawerNavigator({ route }: Props) {
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const dappsFilterEnabled = useSelector(dappsFilterEnabledSelector)
+  const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
+  )
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
+  const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
+  )
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
     <CustomDrawerContent {...props} />
   )
 
-  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector)
+  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
   // Show ExchangeHomeScreen if the user has completed the Celo education
   // or if the Celo News feature is enabled
@@ -275,7 +283,15 @@ export default function DrawerNavigator({ route }: Props) {
       {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
-          component={dappsFilterEnabled ? DAppsExplorerScreenFilter : DAppsExplorerScreenLegacy}
+          component={
+            dappsSearchEnabled && dappsFilterEnabled
+              ? DAppsExplorerScreenSearchFilter
+              : dappsSearchEnabled
+              ? DAppsExplorerScreenSearch
+              : dappsFilterEnabled
+              ? DAppsExplorerScreenFilter
+              : DAppsExplorerScreenLegacy
+          }
           options={{
             title: t('dappsScreen.title'),
             drawerIcon: DappsExplorer,
@@ -313,11 +329,13 @@ export default function DrawerNavigator({ route }: Props) {
           initialParams={{ showDrawerTopBar: true }}
         />
       )}
-      <Drawer.Screen
-        name={Screens.FiatExchange}
-        component={FiatExchange}
-        options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
-      />
+      {showAddWithdrawOnMenu && (
+        <Drawer.Screen
+          name={Screens.FiatExchange}
+          component={FiatExchange}
+          options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
+        />
+      )}
       <Drawer.Screen
         name={Screens.Invite}
         component={Invite}

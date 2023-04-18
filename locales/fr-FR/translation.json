@@ -209,8 +209,8 @@
     "body": "Vous serez récompensé chaque semaine sur votre stablecoin Celo avec le solde la plus élevée (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorer"
   },
-  "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingTitle": "Mise à jour de l'application nécessaire",
+  "superchargingDescription": "Mettez à jour l'appli pour continuer à recevoir vos récompenses Supercharge hebdomadaires",
   "superchargingTitleV1_54": "Vos {{token}} sont Superchargé",
   "superchargingDescriptionV1_54": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
@@ -1274,6 +1274,8 @@
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous",
     "favoriteDapps": "Mes favorites",
+    "favoriteDappsAndAll": "Mes favoris et tout le reste",
+    "searchPlaceHolder": "Rechercher des dapps",
     "noFavorites": {
       "title": "Pas de favorites ajoutés",
       "description": "Gardez une trace de vos dapps favorites en appuyant sur l'étoile"
@@ -1284,7 +1286,8 @@
     },
     "emptyResults": {
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
-      "removeFilter": "Supprimer le filtre"
+      "removeFilter": "Supprimer le filtre",
+      "searchMessage": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>."
     }
   },
   "dappsScreenHelpDialog": {
@@ -1665,6 +1668,10 @@
   "profileScreen": {
     "generateName": "Générez un nom",
     "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Recherche d'actifs",
+    "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
     "add": "Ajouter",

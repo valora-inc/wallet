@@ -209,8 +209,8 @@
     "body": "คุณจะได้รับรางวัลทุกสัปดาห์ในรูปแบบ Celo stablecoin ด้วยมูลค่าสูงสุด (cEUR, cUSD, cREAL)",
     "dismiss": "ปิด"
   },
-  "superchargingTitle": "กำลัง Supercharge {{token}} ของคุณ",
-  "superchargingDescription": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
+  "superchargingTitle": "ต้องอัปเดตแอป",
+  "superchargingDescription": "อัปเดตแอป Valora เพื่อรับรางวัล Supercharge ทุกสัปดาห์อย่างต่อเนื่อง",
   "superchargingTitleV1_54": "กำลัง Supercharge {{token}} ของคุณ",
   "superchargingDescriptionV1_54": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
   "superchargeRewardsAvailable": "คุณมี {{amount}} {{token}} ที่สามารถขอรับได้!",
@@ -1272,6 +1272,8 @@
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
+    "favoriteDappsAndAll": "My Favorites & All",
+    "searchPlaceHolder": "Search dapps",
     "noFavorites": {
       "title": "สิ่งที่ฉันชอบ",
       "description": "ติดตาม dapps ที่ใช้มากที่สุดของคุณโดยแตะไอคอนดาวเพื่อเพิ่มเป็นรายการโปรด"
@@ -1282,7 +1284,8 @@
     },
     "emptyResults": {
       "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
-      "removeFilter": "ลบตัวกรอง"
+      "removeFilter": "ลบตัวกรอง",
+      "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1663,6 +1666,10 @@
   "profileScreen": {
     "generateName": "สร้างชื่อ",
     "namePlaceholder": "เลือกชื่อ เช่น {{exampleName}}"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Search Assets",
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "เพิ่ม",

@@ -209,8 +209,8 @@
     "body": "Você receberá recompensas semanalmente na sua stablecoin de Celo com o maior saldo (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorar"
   },
-  "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
+  "superchargingTitle": "Atualização do app necessária",
+  "superchargingDescription": "Atualize o app da Valora para continuar recebendo recompensas do Supercharge semanalmente",
   "superchargingTitleV1_54": "Você está recebendo recompensas de Supercharge no seus {{token}}",
   "superchargingDescriptionV1_54": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
@@ -1274,6 +1274,8 @@
     "featuredDapp": "Em destaque",
     "allDapps": "Todos",
     "favoriteDapps": "Meus favoritos",
+    "favoriteDappsAndAll": "Os meus favoritos e todos",
+    "searchPlaceHolder": "Pesquisar dapps",
     "noFavorites": {
       "title": "Não há favoritos adicionados",
       "description": "Mantenha o controle de seus dapps mais usados tocando na estrela para adicioná-los como favoritos"
@@ -1284,7 +1286,8 @@
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
-      "removeFilter": "Remover filtro"
+      "removeFilter": "Remover filtro",
+      "searchMessage": "Não foram encontrados resultados correspondentes para <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1665,6 +1668,10 @@
   "profileScreen": {
     "generateName": "Gerar um nome",
     "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Pesquisar bens",
+    "noTokenInResult": "Não foram encontrados resultados correspondentes para <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Adicionar",

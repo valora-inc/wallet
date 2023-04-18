@@ -65,7 +65,7 @@ public class MainApplication
     super.onCreate();
     SoLoader.init(this, /* native exopackage */false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-    OkHttpClientProvider.setOkHttpClientFactory(new UserAgentClientFactory());
+    OkHttpClientProvider.setOkHttpClientFactory(new UserAgentClientFactory(this));
   }
 
   @Override

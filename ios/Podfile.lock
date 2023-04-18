@@ -444,7 +444,8 @@ PODS:
     - React-Core
   - react-native-cookies (6.2.1):
     - React-Core
-  - react-native-fast-crypto (2.2.0):
+  - react-native-fast-crypto (2.0.0):
+    - OpenSSL-Universal
     - React-Core
   - react-native-flipper (0.127.0):
     - React-Core
@@ -1037,7 +1038,7 @@ SPEC CHECKSUMS:
   react-native-config: bcafda5b4c51491ee1b0e1d0c4e3905bc7b56c1b
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
-  react-native-fast-crypto: 1a13010b6e56c066711f974a225cfe67683aea15
+  react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
