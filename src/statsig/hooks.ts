@@ -12,7 +12,12 @@ export function useExperimentParams<T extends Record<string, StatsigParameter>>(
   defaultValues: T
 }): T {
   const { config: experiment, isLoading } = useExperiment(experimentName)
-  Logger.debug(TAG, `useExperimentParams: loading: ${isLoading}, expresult`, experiment)
+  Logger.debug(
+    TAG,
+    `useExperimentParams: exp: ${experimentName}, loading: ${isLoading}`,
+    experiment.getEvaluationDetails(),
+    experiment.value
+  )
   type Parameter = keyof T
   type DefaultValue = T[Parameter]
   const output = {} as T
