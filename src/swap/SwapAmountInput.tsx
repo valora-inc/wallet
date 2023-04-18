@@ -31,6 +31,7 @@ interface Props {
   inputError?: boolean
   style?: StyleProp<ViewStyle>
   buttonPlaceholder: string
+  children?: React.ReactNode
 }
 
 const SwapAmountInput = ({
@@ -45,6 +46,7 @@ const SwapAmountInput = ({
   inputError,
   style,
   buttonPlaceholder,
+  children,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -81,7 +83,7 @@ const SwapAmountInput = ({
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
           inputStyle={[
-            { lineHeight: undefined },
+            styles.inputText,
             inputError ? styles.inputError : {},
             loading ? styles.inputLoading : {},
           ]}
@@ -137,27 +139,27 @@ const SwapAmountInput = ({
             </>
           ) : (
             <>
-              <Text style={styles.tokenName}>{buttonPlaceholder}</Text>
+              <Text style={styles.tokenNamePlaceholder}>{buttonPlaceholder}</Text>
               <DownArrowIcon color={Colors.gray5} />
             </>
           )}
         </Touchable>
       </View>
+      {children}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Spacing.Regular16,
-    paddingVertical: Spacing.Smallest8,
+    padding: Spacing.Regular16,
     backgroundColor: Colors.gray1,
     borderColor: Colors.gray2,
     borderWidth: 1,
   },
   label: {
-    ...fontStyles.small,
-    color: Colors.gray5,
+    ...fontStyles.xsmall,
+    fontWeight: 'bold',
   },
   contentContainer: {
     flexDirection: 'row',
@@ -172,6 +174,12 @@ const styles = StyleSheet.create({
   },
   inputLoading: {
     color: Colors.gray3,
+  },
+  inputText: {
+    ...fontStyles.h2,
+    fontSize: 26,
+    lineHeight: undefined,
+    paddingVertical: Spacing.Smallest8,
   },
   maxButton: {
     backgroundColor: Colors.light,
@@ -194,12 +202,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 100,
-    padding: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Smallest8,
+    paddingVertical: 4,
   },
   tokenName: {
-    ...fontStyles.displayName,
-    color: Colors.gray5,
+    ...fontStyles.small600,
     paddingHorizontal: 4,
+  },
+  tokenNamePlaceholder: {
+    ...fontStyles.small600,
+    paddingHorizontal: 4,
+    color: Colors.greenUI,
   },
   tokenImage: {
     width: 24,

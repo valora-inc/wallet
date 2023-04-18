@@ -261,7 +261,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    await waitFor(() => expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD'))
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -295,7 +295,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -329,7 +329,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 8.10000 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8.10000 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0.15234566652'
     )
@@ -369,7 +369,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 1,23456 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1,23456 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1,5234566652'
@@ -409,7 +409,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 8,10000 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8,10000 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0,15234566652'
     )
@@ -436,7 +436,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    await waitFor(() => expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD'))
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
@@ -511,7 +511,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    await waitFor(() => expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD'))
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
