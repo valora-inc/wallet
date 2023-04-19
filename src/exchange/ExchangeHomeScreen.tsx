@@ -82,7 +82,8 @@ function ExchangeHomeScreen() {
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
   const lastKnownUsdPrice =
     tokensBySymbol.CGLD?.lastKnownUsdPrice ||
-    exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate ||
+    (exchangeHistoryLength &&
+      exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate) ||
     new BigNumber(0)
 
   const currentGoldRateInLocalCurrency = dollarsToLocal(lastKnownUsdPrice)
