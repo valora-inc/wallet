@@ -1556,18 +1556,19 @@
   "swapScreen": {
     "title": "Trao đổi",
     "review": "Xem lại",
-    "swapFrom": "Từ",
-    "swapTo": "Đến",
+    "swapFrom": "FROM",
+    "swapTo": "TO",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
-    "swapFromTokenSelection": "Trao đổi từ",
-    "swapToTokenSelection": "Trao đổi sang",
+    "swapFromTokenSelection": "SWAP FROM",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
-    }
+    },
+    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trao đổi từ",

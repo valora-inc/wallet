@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
-    "swapFrom": "Bu Token’dan",
-    "swapTo": "Şu Token’a",
+    "swapFrom": "FROM",
+    "swapTo": "K",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>",
-    "swapFromTokenSelection": "Şuradan Gelen Takas",
-    "swapToTokenSelection": "Şuraya Giden Takas",
+    "swapFromTokenSelection": "ŞURADAN TAKAS",
+    "swapToTokenSelection": "TAKAS",
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
-    }
+    },
+    "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Takas kaynağı",
