@@ -22,6 +22,7 @@ export enum StatsigExperiments {
   CHOOSE_YOUR_ADVENTURE = 'choose_your_adventure',
   HOME_SCREEN_ACTIONS = 'home_screen_actions',
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
+  DAPPS_FILTERS_AND_SEARCH = 'dapps_filters_and_search',
 }
 
 export type StatsigParameter =
