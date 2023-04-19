@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Scambia",
     "review": "Rivedi",
-    "swapFrom": "Da",
-    "swapTo": "A",
+    "swapFrom": "DA",
+    "swapTo": "TO",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
     "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
-    "swapFromTokenSelection": "Scambia da",
-    "swapToTokenSelection": "Scambia a",
+    "swapFromTokenSelection": "SCAMBIA DA",
+    "swapToTokenSelection": "SCAMBIA CON",
     "maxSwapAmountWarning": {
       "title": "Scambio dell’importo MAX",
       "body": "Assicurati di avere CELO nel portafoglio, per coprire le commissioni gas per le transazioni future",
       "learnMore": "Ulteriori informazioni"
-    }
+    },
+    "estimatedExchangeRate": "Tasso stimato ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Scambia da",
