@@ -200,8 +200,8 @@ describe(checkTxsForIdentityMetadata, () => {
       comment: simpleComment,
     },
     {
-      __typename: 'TokenExchange',
-      type: TokenTransactionType.Exchange,
+      __typename: 'TokenTransfer',
+      type: TokenTransactionType.Sent,
       hash: '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852',
     } as any,
     {

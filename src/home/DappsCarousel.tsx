@@ -27,7 +27,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Shadow, Spacing } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 interface Props {
@@ -146,7 +146,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
         scrollEventThrottle={50}
       >
         {dapps.slice(0, maxNumDisplayedDapps).map((dapp) => (
-          <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} key={dapp.id}>
+          <Card style={styles.card} rounded={true} shadow={null} key={dapp.id}>
             <Touchable
               onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
               style={styles.touchable}
@@ -172,7 +172,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
           </Card>
         ))}
 
-        <Card style={[styles.card, { marginRight: 0 }]} rounded={true} shadow={Shadow.SoftLight}>
+        <Card style={[styles.card, { marginRight: 0 }]} rounded={true} shadow={null}>
           <Touchable style={styles.touchable} onPress={onPressAllDapps}>
             <>
               <View style={[styles.icon, styles.viewAllIcon]}>

@@ -874,98 +874,6 @@
             ],
             "type": "object"
         },
-        "ExchangeStandby": {
-            "additionalProperties": false,
-            "properties": {
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "hash": {
-                    "type": "string"
-                },
-                "inTokenAddress": {
-                    "type": "string"
-                },
-                "inValue": {
-                    "type": "string"
-                },
-                "outTokenAddress": {
-                    "type": "string"
-                },
-                "outValue": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "type": {
-                    "enum": [
-                        "EXCHANGE"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "context",
-                "inTokenAddress",
-                "inValue",
-                "outTokenAddress",
-                "outValue",
-                "status",
-                "timestamp",
-                "type"
-            ],
-            "type": "object"
-        },
-        "ExchangeStandbyLegacy": {
-            "additionalProperties": false,
-            "properties": {
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "hash": {
-                    "type": "string"
-                },
-                "inCurrency": {
-                    "$ref": "#/definitions/Currency"
-                },
-                "inValue": {
-                    "type": "string"
-                },
-                "outCurrency": {
-                    "$ref": "#/definitions/Currency"
-                },
-                "outValue": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "type": {
-                    "enum": [
-                        "EXCHANGE"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "context",
-                "inCurrency",
-                "inValue",
-                "outCurrency",
-                "outValue",
-                "status",
-                "timestamp",
-                "type"
-            ],
-            "type": "object"
-        },
         "Fee": {
             "additionalProperties": false,
             "properties": {
@@ -2194,6 +2102,7 @@
                 "SwapExecuteScreen",
                 "SwapReviewScreen",
                 "SwapScreen",
+                "SwapScreenWithBack",
                 "Sync",
                 "TokenBalances",
                 "TransactionDetailsScreen",
@@ -2395,6 +2304,92 @@
             "required": [
                 "name",
                 "proportion"
+            ],
+            "type": "object"
+        },
+        "StandbyTransaction": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "tokenAddress": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransferTypeV2"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "comment",
+                "context",
+                "status",
+                "timestamp",
+                "tokenAddress",
+                "type",
+                "value"
+            ],
+            "type": "object"
+        },
+        "StandbyTransactionLegacy": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "currency": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "type": {
+                    "$ref": "#/definitions/TransferTransactionType"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "comment",
+                "context",
+                "currency",
+                "status",
+                "timestamp",
+                "type",
+                "value"
             ],
             "type": "object"
         },
@@ -3285,9 +3280,6 @@
                     },
                     "type": "array"
                 },
-                "dappsFilterEnabled": {
-                    "type": "boolean"
-                },
                 "dappsList": {
                     "items": {
                         "anyOf": [
@@ -3311,9 +3303,6 @@
                     "type": "boolean"
                 },
                 "dappsMinimalDisclaimerEnabled": {
-                    "type": "boolean"
-                },
-                "dappsSearchEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3341,12 +3330,10 @@
                 "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
-                "dappsFilterEnabled",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
                 "dappsMinimalDisclaimerEnabled",
-                "dappsSearchEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
@@ -3933,27 +3920,13 @@
                 },
                 "standbyTransactions": {
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/ExchangeStandby"
-                            },
-                            {
-                                "$ref": "#/definitions/TransferStandby"
-                            }
-                        ]
+                        "$ref": "#/definitions/StandbyTransaction"
                     },
                     "type": "array"
                 },
                 "standbyTransactionsLegacy": {
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/ExchangeStandbyLegacy"
-                            },
-                            {
-                                "$ref": "#/definitions/TransferStandbyLegacy"
-                            }
-                        ]
+                        "$ref": "#/definitions/StandbyTransactionLegacy"
                     },
                     "type": "array"
                 },
@@ -4632,92 +4605,6 @@
                 "Pending"
             ],
             "type": "string"
-        },
-        "TransferStandby": {
-            "additionalProperties": false,
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "hash": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "tokenAddress": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransferTypeV2"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "comment",
-                "context",
-                "status",
-                "timestamp",
-                "tokenAddress",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
-        "TransferStandbyLegacy": {
-            "additionalProperties": false,
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "currency": {
-                    "$ref": "#/definitions/Currency"
-                },
-                "hash": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "type": {
-                    "$ref": "#/definitions/TransferTransactionType"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "comment",
-                "context",
-                "currency",
-                "status",
-                "timestamp",
-                "type",
-                "value"
-            ],
-            "type": "object"
         },
         "TransferTransactionType": {
             "enum": [

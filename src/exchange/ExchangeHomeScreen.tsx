@@ -12,7 +12,6 @@ import Touchable from 'src/components/Touchable'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
-import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -26,7 +25,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { goldToDollarAmount } from 'src/utils/currencyExchange'
+import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 
 function navigateToGuide() {
@@ -72,17 +71,24 @@ function ExchangeHomeScreen() {
   const { t } = useTranslation()
 
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
+  const tokensBySymbol = useSelector(tokensBySymbolSelector)
+  const lastKnownUsdPrice = tokensBySymbol.CGLD?.lastKnownUsdPrice
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
-  const currentExchangeRate = useDollarToCeloExchangeRate()
-
-  const perOneGoldInDollars = goldToDollarAmount(1, currentExchangeRate)
-  const currentGoldRateInLocalCurrency = perOneGoldInDollars && dollarsToLocal(perOneGoldInDollars)
-  let rateChangeInPercentage, rateWentUp
   const exchangeHistory = useSelector(exchangeHistorySelector)
-  if (exchangeHistory.aggregatedExchangeRates.length) {
+
+  const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
+
+  const currentGoldRateInLocalCurrency = dollarsToLocal(
+    exchangeHistoryLength
+      ? exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate
+      : new BigNumber(lastKnownUsdPrice ?? 0)
+  )
+  let rateChangeInPercentage, rateWentUp
+
+  if (exchangeHistoryLength) {
     const oldestGoldRateInLocalCurrency = dollarsToLocal(
       exchangeHistory.aggregatedExchangeRates[0].exchangeRate
     )

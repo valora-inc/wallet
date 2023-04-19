@@ -2188,6 +2188,15 @@ export const v122Schema = {
   },
 }
 
+export const v123Schema = {
+  ...v122Schema,
+  _persist: {
+    ...v122Schema._persist,
+    version: 123,
+  },
+  dapps: _.omit(v122Schema.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v122Schema as Partial<RootState>
+  return v123Schema as Partial<RootState>
 }
