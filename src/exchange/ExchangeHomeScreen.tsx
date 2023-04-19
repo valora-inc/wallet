@@ -72,20 +72,18 @@ function ExchangeHomeScreen() {
 
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
-  const lastKnownUsdPrice = tokensBySymbol.CGLD?.lastKnownUsdPrice
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const exchangeHistory = useSelector(exchangeHistorySelector)
-
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
+  const lastKnownUsdPrice =
+    tokensBySymbol.CGLD?.lastKnownUsdPrice ||
+    exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate ||
+    new BigNumber(0)
 
-  const currentGoldRateInLocalCurrency = dollarsToLocal(
-    exchangeHistoryLength
-      ? exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate
-      : new BigNumber(lastKnownUsdPrice ?? 0)
-  )
+  const currentGoldRateInLocalCurrency = dollarsToLocal(lastKnownUsdPrice)
   let rateChangeInPercentage, rateWentUp
 
   if (exchangeHistoryLength) {
