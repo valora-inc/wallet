@@ -4437,7 +4437,7 @@
     js-base64 "^3.7.2"
     uuid "^9.0.0"
 
-"@segment/sovran-react-native@^1":
+"@segment/sovran-react-native@1.0.1", "@segment/sovran-react-native@^1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.0.1.tgz#4311f0af2e2b606d2c17e535b293c096c6a3c2e8"
   integrity sha512-7VZrIa7/VP59d4QDvAs0ZOhiadlJ+2YC8K8dKOF0fGwiFC0UmQUZVs4IN9GZfbBavXsagVVMgL2GzjVGLLQdBw==
