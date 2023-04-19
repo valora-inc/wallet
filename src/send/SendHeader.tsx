@@ -9,14 +9,16 @@ import Times from 'src/icons/Times'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { CloseIcon } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 
 interface Props {
   isOutgoingPaymentRequest: boolean
-  showBackButton: boolean
+  closeIcon: CloseIcon
 }
-function SendHeader({ isOutgoingPaymentRequest, showBackButton }: Props) {
+
+function SendHeader({ isOutgoingPaymentRequest, closeIcon }: Props) {
   const { t } = useTranslation()
 
   const goToQRScanner = () =>
@@ -31,7 +33,7 @@ function SendHeader({ isOutgoingPaymentRequest, showBackButton }: Props) {
     <CustomHeader
       left={
         <TopBarIconButton
-          icon={showBackButton ? <BackButton /> : <Times />}
+          icon={closeIcon === CloseIcon.BackChevron ? <BackButton /> : <Times />}
           onPress={navigateBack}
           eventName={
             isOutgoingPaymentRequest ? RequestEvents.request_cancel : SendEvents.send_cancel

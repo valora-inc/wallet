@@ -82,18 +82,15 @@ exports[`SendConfirmation renders correctly 1`] = `
         >
           <svg
             height={16}
-            style={Object {}}
             testID="BackChevron"
             viewBox="0 0 8 16"
             width={8}
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               clipRule="evenodd"
               d="M7.707 13.707a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 1.414L2.414 7l5.293 5.293a1 1 0 0 1 0 1.414Z"
               fill="#2E3338"
               fillRule="evenodd"
-              style={Object {}}
             />
           </svg>
         </View>

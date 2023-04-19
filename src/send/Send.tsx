@@ -21,7 +21,7 @@ import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { CloseIcon, StackParamList } from 'src/navigator/types'
 import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -45,7 +45,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
-  const showBackButton = route.params?.showBackButton ?? false
+  const closeIcon = route.params?.closeIcon ?? CloseIcon.TimesSymbol
   const forceTokenAddress = route.params?.forceTokenAddress
   const defaultTokenOverride = route.params?.defaultTokenOverride
   const { t } = useTranslation()
@@ -229,10 +229,7 @@ function Send({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
-      <SendHeader
-        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
-        showBackButton={showBackButton}
-      />
+      <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} closeIcon={closeIcon} />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
       {inviteRewardsActive && hasGivenContactPermission && <InviteRewardsBanner />}

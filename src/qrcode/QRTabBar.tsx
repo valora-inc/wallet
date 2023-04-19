@@ -11,13 +11,13 @@ import Times from 'src/icons/Times'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import { QRCloseButton } from 'src/navigator/types'
+import { CloseIcon } from 'src/navigator/types'
 import { SVG, shareQRCode } from 'src/send/actions'
 import colors from 'src/styles/colors'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
-  qrCloseButton: QRCloseButton
+  closeIcon: CloseIcon
 }
 
 export default function QRTabBar({
@@ -26,7 +26,7 @@ export default function QRTabBar({
   navigation,
   position,
   qrSvgRef,
-  qrCloseButton,
+  closeIcon,
 }: Props) {
   const dispatch = useDispatch()
 
@@ -50,15 +50,15 @@ export default function QRTabBar({
     outputColorRange: [colors.dark, colors.light],
   })
 
-  const { closeIcon, onPressClose } = useMemo(
+  const { closeIconComponent, onPressClose } = useMemo(
     () =>
-      qrCloseButton === QRCloseButton.BackChevron
+      closeIcon === CloseIcon.BackChevron
         ? {
-            closeIcon: <BackChevron color={color} />,
+            closeIconComponent: <BackChevron color={color} />,
             onPressClose: () => navigate(Screens.WalletHome),
           }
         : {
-            closeIcon: <Times color={color} />,
+            closeIconComponent: <Times color={color} />,
             onPressClose: () => navigation.getParent()?.goBack(),
           },
     []
@@ -90,7 +90,7 @@ export default function QRTabBar({
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.leftContainer}>
-        <TopBarIconButton icon={closeIcon} onPress={onPressClose} />
+        <TopBarIconButton icon={closeIconComponent} onPress={onPressClose} />
       </View>
       <SegmentedControl
         values={values}

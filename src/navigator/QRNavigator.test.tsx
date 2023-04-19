@@ -7,6 +7,7 @@ import QRNavigator, {
   QRCodeProps,
   getExperimentParams,
 } from 'src/navigator/QRNavigator'
+import { CloseIcon } from 'src/navigator/types'
 import QRCode from 'src/qrcode/QRGen'
 import StyledQRCode from 'src/qrcode/StyledQRGen'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
@@ -118,7 +119,7 @@ describe('QRNavigator', () => {
     it('renders back button when parameter is set', () => {
       const { queryByTestId } = render(
         <Provider store={mockStore}>
-          <MockedNavigator component={QRNavigator} params={{ qrCloseButton: 'BackChevron' }} />
+          <MockedNavigator component={QRNavigator} params={{ closeIcon: CloseIcon.BackChevron }} />
         </Provider>
       )
 

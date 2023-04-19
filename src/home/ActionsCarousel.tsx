@@ -15,7 +15,7 @@ import HomeActionsSwap from 'src/icons/home-actions/Swap'
 import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { QRCloseButton } from 'src/navigator/types'
+import { CloseIcon } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -28,7 +28,7 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
-        navigate(Screens.Send, { showBackButton: true })
+        navigate(Screens.Send, { closeIcon: CloseIcon.BackChevron })
       },
     },
     {
@@ -38,7 +38,7 @@ function ActionsCarousel() {
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
-          qrCloseButton: QRCloseButton.BackChevron,
+          closeIcon: CloseIcon.BackChevron,
         })
       },
     },
@@ -65,7 +65,7 @@ function ActionsCarousel() {
       title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
-        navigate(Screens.Send, { isOutgoingPaymentRequest: true, showBackButton: true })
+        navigate(Screens.Send, { isOutgoingPaymentRequest: true, closeIcon: CloseIcon.BackChevron })
       },
     },
     {

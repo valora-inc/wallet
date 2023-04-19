@@ -39,12 +39,12 @@ type NestedNavigatorParams<ParamList> = {
     : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
 
-export enum QRCloseButton {
+export enum CloseIcon {
   BackChevron = 'BackChevron',
   TimesSymbol = 'TimesSymbol',
 }
 
-type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { qrCloseButton?: QRCloseButton }
+type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { closeIcon?: CloseIcon }
 
 interface SendConfirmationLegacyParams {
   origin: SendOrigin
@@ -293,7 +293,7 @@ export type StackParamList = {
         skipContactsImport?: boolean
         forceTokenAddress?: boolean
         defaultTokenOverride?: string
-        showBackButton?: boolean
+        closeIcon?: CloseIcon
       }
     | undefined
   [Screens.SendAmount]: {

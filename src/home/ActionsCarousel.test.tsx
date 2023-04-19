@@ -7,6 +7,7 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { CloseIcon } from 'src/navigator/types'
 import { mocked } from 'ts-jest/utils'
 
 describe('ActionsCarousel', () => {
@@ -21,12 +22,12 @@ describe('ActionsCarousel', () => {
   })
 
   it.each([
-    [HomeActionName.Send, 'send', Screens.Send, { showBackButton: true }],
+    [HomeActionName.Send, 'send', Screens.Send, { closeIcon: CloseIcon.BackChevron }],
     [
       HomeActionName.Receive,
       'receive',
       Screens.QRNavigator,
-      { screen: Screens.QRCode, qrCloseButton: 'BackChevron' },
+      { screen: Screens.QRCode, closeIcon: CloseIcon.BackChevron },
     ],
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
@@ -34,7 +35,7 @@ describe('ActionsCarousel', () => {
       HomeActionName.Request,
       'request',
       Screens.Send,
-      { isOutgoingPaymentRequest: true, showBackButton: true },
+      { isOutgoingPaymentRequest: true, closeIcon: CloseIcon.BackChevron },
     ],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(

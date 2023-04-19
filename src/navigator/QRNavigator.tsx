@@ -18,7 +18,7 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { QRCloseButton, QRTabParamList, StackParamList } from 'src/navigator/types'
+import { CloseIcon, QRTabParamList, StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import NewQRCode from 'src/qrcode/NewQRCode'
 import QRCode from 'src/qrcode/QRCode'
@@ -221,14 +221,14 @@ const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
 type Props = NativeStackScreenProps<StackParamList, Screens.QRNavigator>
 
 export default function QRNavigator({ route }: Props) {
-  const qrCloseButton = route.params?.qrCloseButton ?? QRCloseButton.TimesSymbol
+  const closeIcon = route.params?.closeIcon ?? CloseIcon.TimesSymbol
   const { qrCodeDataType, qrCodeStyle } = getExperimentParams()
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
   const tabBar = (props: MaterialTopTabBarProps) => (
-    <QRTabBar {...props} qrSvgRef={qrSvgRef} qrCloseButton={qrCloseButton} />
+    <QRTabBar {...props} qrSvgRef={qrSvgRef} closeIcon={closeIcon} />
   )
 
   return (
