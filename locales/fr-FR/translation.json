@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Échanger",
     "review": "Vérifier",
-    "swapFrom": "De",
-    "swapTo": "À",
+    "swapFrom": "DE",
+    "swapTo": "POUR",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
     "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>",
-    "swapFromTokenSelection": "Échanger de",
-    "swapToTokenSelection": "Échanger pour",
+    "swapFromTokenSelection": "ÉCHANGE DE",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
       "learnMore": "En savoir plus"
-    }
+    },
+    "estimatedExchangeRate": "Taux estimé ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",

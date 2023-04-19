@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Trocar",
     "review": "Revisar",
-    "swapFrom": "De",
-    "swapTo": "Para",
+    "swapFrom": "DESDE",
+    "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
-    "swapFromTokenSelection": "Trocar de",
-    "swapToTokenSelection": "Trocar para",
+    "swapFromTokenSelection": "SWAP DE",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
-    }
+    },
+    "estimatedExchangeRate": "Taxa estimada ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",

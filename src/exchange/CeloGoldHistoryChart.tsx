@@ -18,6 +18,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 import { formatFeedDate } from 'src/utils/time'
 import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory-native'
@@ -189,6 +190,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
     [localExchangeRate]
   )
   const exchangeHistory = useSelector(exchangeHistorySelector)
+  const tokensBySymbol = useSelector(tokensBySymbolSelector)
 
   const onTap = useCallback(() => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_chart_tapped)
@@ -206,10 +208,12 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
     }
   })
 
-  // Use the last value as the current gold rate
-  const currentGoldRateInLocalCurrency = chartData[chartData.length - 1]?.amount
+  const currentGoldRateInLocalCurrency =
+    tokensBySymbol.CGLD?.lastKnownUsdPrice?.toNumber() ||
+    chartData[chartData.length - 1].amount ||
+    null
   const oldestGoldRateInLocalCurrency = chartData[0].amount
-  if (oldestGoldRateInLocalCurrency == null || currentGoldRateInLocalCurrency == null) {
+  if (oldestGoldRateInLocalCurrency === null || currentGoldRateInLocalCurrency === null) {
     return <Loader />
   }
   // We need displayValue to show min/max on the chart. In case the
