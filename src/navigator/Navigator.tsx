@@ -30,6 +30,7 @@ import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import KeyshareEducation from 'src/backup/mpc/KeyshareEducation'
 import ManageKeyshares from 'src/backup/mpc/ManageKeyshares'
+import MultiPartyEducation from 'src/backup/mpc/MultiPartyEducation'
 import RecoveryKeyshareDisplay from 'src/backup/RecoveryKeyshare'
 import RecoveryVerificationScreen from 'src/backup/RecoveryVerificationScreen'
 import BackButton from 'src/components/BackButton'
@@ -830,6 +831,11 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.KeyshareScanner}
       component={KeyshareScanner}
       options={KeyshareScanner.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.MultiPartyEducationScreen}
+      component={MultiPartyEducation}
+      options={MultiPartyEducation.navigationOptions}
     />
   </>
 )

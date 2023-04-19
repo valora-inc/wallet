@@ -2,7 +2,7 @@ import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Education, { EmbeddedNavBar } from 'src/account/Education'
-import { KeyshareType, useKeyshareEducation } from 'src/backup/mpc/hooks'
+import { useMultiPartyEducation } from 'src/backup/mpc/hooks'
 import { BtnTypes } from 'src/components/Button'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -12,24 +12,14 @@ import { StackParamList } from 'src/navigator/types'
 const TAG = 'education/keyshare'
 
 type OwnProps = {}
-type Props = OwnProps & StackScreenProps<StackParamList, Screens.KeyshareEducationScreen>
+type Props = OwnProps & StackScreenProps<StackParamList, Screens.MultiPartyEducationScreen>
 
-const KeyshareEducation = ({ route }: Props) => {
+const MultiPartyEducation = ({ route }: Props) => {
   const { t } = useTranslation()
-  const { type: educationType } = route.params
-  const steps = useKeyshareEducation(educationType)
+  const steps = useMultiPartyEducation()
 
   const onComplete = async () => {
-    switch (educationType) {
-      case KeyshareType.User:
-        navigate(Screens.UserKeyshareCode)
-        break
-      case KeyshareType.Recovery:
-        navigate(Screens.RecoveryKeyshare)
-        break
-      default:
-        break
-    }
+    navigate(Screens.ManageKeyshareScreen)
   }
 
   return (
@@ -44,9 +34,9 @@ const KeyshareEducation = ({ route }: Props) => {
   )
 }
 
-KeyshareEducation.navigationOptions = {
+MultiPartyEducation.navigationOptions = {
   ...noHeader,
   ...TransitionPresets.ModalTransition,
 }
 
-export default KeyshareEducation
+export default MultiPartyEducation

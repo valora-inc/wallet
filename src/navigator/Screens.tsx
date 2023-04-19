@@ -47,6 +47,7 @@ export enum Screens {
   ManageKeyshareScreen = 'ManageKeyshareScreen',
   MerchantPayment = 'MerchantPayment',
   MoonPayScreen = 'MoonPayScreen',
+  MultiPartyEducationScreen = 'MultiPartyEducationScreen',
   XanpoolScreen = 'XanpoolScreen',
   NameAndPicture = 'NameAndPicture',
   NuxInterests = 'NuxInterests',

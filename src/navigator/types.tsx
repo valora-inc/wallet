@@ -197,6 +197,7 @@ export type StackParamList = {
         navigatedFromSettings?: boolean
       }
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
+  [Screens.MultiPartyEducationScreen]: undefined
   [Screens.NuxInterests]:
     | {
         showSkipDialog?: boolean
