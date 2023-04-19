@@ -1562,18 +1562,19 @@
   "swapScreen": {
     "title": "Обменять",
     "review": "Проверить",
-    "swapFrom": "От",
-    "swapTo": "К",
+    "swapFrom": "ОТ",
+    "swapTo": "НА",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выбрать другой актив.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
     "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>",
-    "swapFromTokenSelection": "Обменять с",
-    "swapToTokenSelection": "Обменять на",
+    "swapFromTokenSelection": "ПОМЕНЯТЬСЯ МЕСТАМИ",
+    "swapToTokenSelection": "ПОМЕНЯТЬСЯ МЕСТАМИ",
     "maxSwapAmountWarning": {
       "title": "Обмен МАКС. суммы",
       "body": "Убедитесь, что в вашем кошельке достаточно CELO для покрытия газа для будущих транзакций",
       "learnMore": "Подробнее"
-    }
+    },
+    "estimatedExchangeRate": "Расчетная ставка ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обменять с",

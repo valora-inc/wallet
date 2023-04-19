@@ -1556,18 +1556,19 @@
   "swapScreen": {
     "title": "สว็อป",
     "review": "ตรวจสอบ",
-    "swapFrom": "จาก",
-    "swapTo": "เป็น",
+    "swapFrom": "FROM",
+    "swapTo": "TO",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
     "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
-    "swapFromTokenSelection": "สว็อปจาก",
-    "swapToTokenSelection": "สว็อปเป็น",
+    "swapFromTokenSelection": "SWAP FROM",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "การสว็อปจำนวนเงินสูงสุด",
       "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
       "learnMore": "ดูข้อมูลเพิ่มเติม"
-    }
+    },
+    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "สว็อปจาก",
