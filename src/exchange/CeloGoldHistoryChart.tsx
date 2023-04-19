@@ -210,7 +210,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
     chartData[chartData.length - 1].amount ||
     null
   const oldestGoldRateInLocalCurrency = chartData[0].amount
-  if (oldestGoldRateInLocalCurrency == null || currentGoldRateInLocalCurrency == null) {
+  if (oldestGoldRateInLocalCurrency === null || currentGoldRateInLocalCurrency === null) {
     return <Loader />
   }
   // We need displayValue to show min/max on the chart. In case the
