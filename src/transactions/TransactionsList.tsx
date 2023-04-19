@@ -158,10 +158,9 @@ export class TransactionsList extends React.PureComponent<Props> {
       const queryDataTxHashes = new Set(transactions.map((tx) => tx.hash))
       const standbyTxs = standbyTransactions
         .filter((tx) => {
-          const isForQueriedCurrency = tokens.includes((tx as StandbyTransactionLegacy).currency)
           const notInQueryTxs =
             (!tx.hash || !queryDataTxHashes.has(tx.hash)) && tx.status !== TransactionStatus.Failed
-          return isForQueriedCurrency && notInQueryTxs
+          return notInQueryTxs
         })
         .map(mapStandbyTransactionToFeedItem(localCurrencyCode, localCurrencyExchangeRates))
 
