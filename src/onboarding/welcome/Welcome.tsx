@@ -16,7 +16,7 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { default as useSelector } from 'src/redux/useSelector'
-import { getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
+import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -54,12 +54,12 @@ export default function Welcome() {
   const onPressCreateAccount = async () => {
     ValoraAnalytics.track(OnboardingEvents.create_account_start)
     const now = Date.now()
-    if (startOnboardingTime === undefined) {
-      // this is the user's first time selecting 'create account' on this device
-      // this lets us restrict some onboarding experiments to only users who begin onboarding
-      //  after the experiment begins
-      await patchUpdateStatsigUser({ custom: { startOnboardingTime: now } })
-    }
+    // if (startOnboardingTime === undefined) {
+    //   // this is the user's first time selecting 'create account' on this device
+    //   // this lets us restrict some onboarding experiments to only users who begin onboarding
+    //   //  after the experiment begins
+    //   await patchUpdateStatsigUser({ custom: { startOnboardingTime: now } })
+    // }
     dispatch(chooseCreateAccount(now))
     navigateNext()
   }

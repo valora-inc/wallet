@@ -17,16 +17,20 @@ import { updateAccountRegistration } from 'src/account/updateAccountRegistration
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { firebaseSignOut } from 'src/firebase/firebase'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { navigateClearingStack, navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import {
+  Actions as OnboardingActions,
+  UpdateStatsigAndNavigateAction,
+} from 'src/onboarding/actions'
 import {
   removeAccountLocally,
   retrieveSignedMessage,
@@ -36,19 +40,12 @@ import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
-import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
+import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { patchUpdateStatsigUser } from 'src/statsig'
-import { navigateHome } from 'src/navigator/NavigationService'
-import { getWalletAddress } from 'src/web3/saga'
-import {
-  Actions as OnboardingActions,
-  UpdateStatsigAndNavigateAction,
-} from 'src/onboarding/actions'
 
 const TAG = 'account/saga'
 
@@ -230,7 +227,7 @@ export function* handleUpdateAccountRegistration() {
 export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction) {
   // Wait for wallet address to exist before updating statsig user
   yield call(getWalletAddress)
-  yield call(patchUpdateStatsigUser)
+  // yield call(patchUpdateStatsigUser)
   if (action.screen === Screens.WalletHome) {
     navigateHome()
   } else {

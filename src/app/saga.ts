@@ -67,7 +67,6 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { patchUpdateStatsigUser } from 'src/statsig'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -405,7 +404,7 @@ export function* handleSetAppState(action: SetAppState) {
   if (isAppActive && now - statsigLoadTime > 10000) {
     // 10s for test
     yield put(setStatsigRefreshTime(now))
-    yield call(patchUpdateStatsigUser, { custom: { loadTime: now } })
+    // yield call(patchUpdateStatsigUser, { custom: { loadTime: now } })
   }
 }
 
