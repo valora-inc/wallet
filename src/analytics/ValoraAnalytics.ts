@@ -3,6 +3,7 @@ import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
 import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
 import { sha256FromString } from 'ethereumjs-util'
+import _ from 'lodash'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
@@ -157,7 +158,7 @@ class ValoraAnalytics {
 
   isEnabled() {
     // Remove __DEV__ here to test analytics in dev builds
-    return !__DEV__ && store.getState().app.analyticsEnabled
+    return store.getState().app.analyticsEnabled
   }
 
   startSession(
@@ -222,9 +223,12 @@ class ValoraAnalytics {
       Logger.debug(TAG, `segmentClient is undefined, not tracking user ${userID}`)
       return
     }
+    // The firebase segment plugin can't handle null or undefined values
+    const safeTraits = _.omitBy(traits, _.isNil)
 
-    this.segmentClient.identify(userID, traits).catch((err) => {
+    this.segmentClient.identify(userID, safeTraits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
+      throw err
     })
   }
 

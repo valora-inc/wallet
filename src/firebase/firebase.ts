@@ -9,6 +9,7 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, put, select, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
@@ -184,11 +185,12 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
       yield put(pushNotificationsPermissionChanged(pushNotificationsEnabled))
     }
   }
-
-  // `registerDeviceForRemoteMessages` must be called before calling `getToken`
-  // Note: `registerDeviceForRemoteMessages` is really only required for iOS and is a no-op on Android
-  yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
-  const fcmToken = yield call([app.messaging(), 'getToken'])
+  let fcmToken
+  const isEmulator = yield call([DeviceInfo, 'isEmulator'])
+  // Emulators can't handle fcm tokens and calling getToken on them will throw an error
+  if (!isEmulator) {
+    fcmToken = yield call([firebase.app().messaging(), 'getToken'])
+  }
   if (fcmToken) {
     yield call(handleUpdateAccountRegistration)
 
