@@ -176,8 +176,6 @@ function Loader() {
 }
 
 function CeloGoldHistoryChart({ testID, i18n }: Props) {
-  // We hardcode localCurrencyCode to null, hence the chart will always show cGLD to cUSD no matter what.
-  // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const displayLocalCurrency = useCallback(
     (amount: BigNumber.Value) =>
