@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 import { FiatAccount } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -327,7 +326,7 @@ export type StackParamList = {
   }
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps
-    confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps
+    confirmationProps: TransferConfirmationCardProps
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {

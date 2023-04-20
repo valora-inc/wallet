@@ -1,16 +1,13 @@
 import { ApolloError } from 'apollo-boost'
 import gql from 'graphql-tag'
 import React, { useMemo } from 'react'
-import { FlatList, SectionList, SectionListData } from 'react-native'
+import { SectionList, SectionListData } from 'react-native'
 import { useSelector } from 'react-redux'
 import { TransactionFeedFragment } from 'src/apollo/types'
 import SectionHead from 'src/components/SectionHead'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
-import ExchangeFeedItem from 'src/transactions/ExchangeFeedItem'
-import GoldTransactionFeedItem from 'src/transactions/GoldTransactionFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { recentTxRecipientsCacheSelector } from 'src/transactions/reducer'
 import TransferFeedItem from 'src/transactions/TransferFeedItem'
@@ -21,23 +18,17 @@ import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'transactions/TransactionFeed'
 
-export enum FeedType {
-  HOME = 'home',
-  EXCHANGE = 'exchange',
-}
-
 export type FeedItem = TransactionFeedFragment & {
   status: TransactionStatus // for standby transactions
 }
 
 interface Props {
-  kind: FeedType
   loading: boolean
   error: ApolloError | undefined
   data: FeedItem[] | undefined
 }
 
-function TransactionFeed({ kind, loading, error, data }: Props) {
+function TransactionFeed({ loading, error, data }: Props) {
   const commentKey = useSelector(dataEncryptionKeySelector)
   // Diego: I think we can remove these line because we already have that info in recipientInfo.
   const addressToE164Number = useSelector((state: RootState) => state.identity.addressToE164Number)
@@ -49,26 +40,16 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
   const renderItem = ({ item: tx }: { item: FeedItem; index: number }) => {
     switch (tx.__typename) {
       case 'TokenTransfer':
-        if (kind === FeedType.EXCHANGE) {
-          return <CeloTransferFeedItem {...tx} />
-        } else {
-          return (
-            <TransferFeedItem
-              addressToE164Number={addressToE164Number}
-              phoneRecipientCache={phoneRecipientCache}
-              recentTxRecipientsCache={recentTxRecipientsCache}
-              commentKey={commentKey}
-              recipientInfo={recipientInfo}
-              {...tx}
-            />
-          )
-        }
-      case 'TokenExchange':
-        if (kind === FeedType.HOME) {
-          return <ExchangeFeedItem {...tx} />
-        } else {
-          return <GoldTransactionFeedItem {...tx} />
-        }
+        return (
+          <TransferFeedItem
+            addressToE164Number={addressToE164Number}
+            phoneRecipientCache={phoneRecipientCache}
+            recentTxRecipientsCache={recentTxRecipientsCache}
+            commentKey={commentKey}
+            recipientInfo={recipientInfo}
+            {...tx}
+          />
+        )
     }
   }
 
@@ -82,11 +63,9 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
 
   const sections = useMemo(() => {
     // Only compute sections for home screen.
-    if (!data || data.length === 0 || kind !== FeedType.HOME) {
-      return []
-    }
+    if (!data || data.length === 0) return []
     return groupFeedItemsInSections(data)
-  }, [kind, data])
+  }, [data])
 
   if (error) {
     // Log an error, but continue to show any events we have cached.
@@ -94,40 +73,27 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
   }
 
   if (!data || data.length === 0) {
-    return <NoActivity kind={kind} loading={loading} error={error} />
+    return <NoActivity loading={loading} error={error} />
   }
 
-  if (kind === FeedType.HOME) {
-    return (
-      <SectionList
-        renderItem={renderItem}
-        renderSectionHeader={renderSectionHeader}
-        sections={sections}
-        keyExtractor={keyExtractor}
-        keyboardShouldPersistTaps="always"
-        testID="TransactionList"
-      />
-    )
-  } else {
-    return (
-      <FlatList
-        testID="TransactionList"
-        data={data}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-      />
-    )
-  }
+  return (
+    <SectionList
+      renderItem={renderItem}
+      renderSectionHeader={renderSectionHeader}
+      sections={sections}
+      keyExtractor={keyExtractor}
+      keyboardShouldPersistTaps="always"
+      testID="TransactionList"
+    />
+  )
 }
 
 export const TransactionFeedFragments = {
   transaction: gql`
     fragment TransactionFeed on TokenTransaction {
-      ...ExchangeItem
       ...TransferItem
     }
 
-    ${ExchangeFeedItem.fragments.exchange}
     ${TransferFeedItem.fragments.transfer}
   `,
 }

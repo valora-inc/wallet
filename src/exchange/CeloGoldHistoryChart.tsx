@@ -6,7 +6,6 @@ import { ActivityIndicator, LayoutChangeEvent, StyleSheet, Text, View } from 're
 import { Circle, G, Line, Text as SvgText } from 'react-native-svg'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import { withTranslation } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -16,7 +15,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { goldToDollarAmount } from 'src/utils/currencyExchange'
+import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 import { formatFeedDate } from 'src/utils/time'
 import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory-native'
@@ -182,14 +181,13 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
       getLocalCurrencyDisplayValue(amount, localCurrencyCode || LocalCurrencyCode.USD, true),
     [localCurrencyCode]
   )
-  const currentExchangeRate = useDollarToCeloExchangeRate()
-  const goldToDollars = (amount: BigNumber.Value) => goldToDollarAmount(amount, currentExchangeRate)
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const dollarsToLocal = useCallback(
     (amount) => convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),
     [localExchangeRate]
   )
   const exchangeHistory = useSelector(exchangeHistorySelector)
+  const tokensBySymbol = useSelector(tokensBySymbolSelector)
 
   const onTap = useCallback(() => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_chart_tapped)
@@ -207,16 +205,19 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
     }
   })
 
-  const currentGoldRateInLocalCurrency = dollarsToLocal(goldToDollars(1))
+  const currentGoldRateInLocalCurrency =
+    tokensBySymbol.CGLD?.lastKnownUsdPrice?.toNumber() ||
+    chartData[chartData.length - 1].amount ||
+    null
   const oldestGoldRateInLocalCurrency = chartData[0].amount
-  if (oldestGoldRateInLocalCurrency == null || currentGoldRateInLocalCurrency == null) {
+  if (oldestGoldRateInLocalCurrency === null || currentGoldRateInLocalCurrency === null) {
     return <Loader />
   }
   // We need displayValue to show min/max on the chart. In case the
   // current value is min/max we do not need to show it once again,
   // therefor displayValue = ''
   chartData.push({
-    amount: currentGoldRateInLocalCurrency.toNumber(),
+    amount: currentGoldRateInLocalCurrency,
     displayValue: displayLocalCurrency(currentGoldRateInLocalCurrency),
   })
   const RenderPoint = renderPointOnChart(chartData, CHART_WIDTH)
