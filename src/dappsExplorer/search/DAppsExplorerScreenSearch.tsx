@@ -13,8 +13,8 @@ import {
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
-  dappsListSelector,
   dappsMinimalDisclaimerEnabledSelector,
+  dappsV2ListSelector,
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -55,7 +55,7 @@ export function DAppsExplorerScreenSearch() {
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
-  const dappList = useSelector(dappsListSelector)
+  const dappList = useSelector(dappsV2ListSelector)
   const dappListWithCategoryNames = useSelector(dappListWithCategoryNamesSelector)
   const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
