@@ -80,6 +80,7 @@ const SwapAmountInput = ({
           style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
           editable={!showInputLoader}
           keyboardType="decimal-pad"
+          autoCapitalize="words"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
           inputStyle={[
