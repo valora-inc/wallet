@@ -249,7 +249,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       setUpdatedField(fieldType)
       setSwapAmount((prev) => ({
         ...prev,
-        [fieldType]: value,
+        // Regex to match only numbers and one decimal separator
+        [fieldType]: value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev[fieldType],
       }))
     }
     setShowMaxSwapAmountWarning(false)
