@@ -20,6 +20,8 @@
 #import "RNSplashScreen.h"
 #import "ReactNativeConfig.h"
 
+#import <segment_analytics_react_native-Swift.h>
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -32,8 +34,6 @@
 
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapReact/CleverTapReactManager.h>
-
-#import <segment_analytics_react_native-Swift.h>
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
