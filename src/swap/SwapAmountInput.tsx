@@ -80,6 +80,8 @@ const SwapAmountInput = ({
           style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
           editable={!showInputLoader}
           keyboardType="decimal-pad"
+          // Work around for RN issue with Samsung keyboards
+          // https://github.com/facebook/react-native/issues/22005
           autoCapitalize="words"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
