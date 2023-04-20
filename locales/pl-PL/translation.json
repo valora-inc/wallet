@@ -1562,18 +1562,19 @@
   "swapScreen": {
     "title": "Zamieniaj",
     "review": "Analizuj",
-    "swapFrom": "Od",
-    "swapTo": "Do",
+    "swapFrom": "Z",
+    "swapTo": "DO",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
     "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>",
-    "swapFromTokenSelection": "Zamień z",
-    "swapToTokenSelection": "Zamień na",
+    "swapFromTokenSelection": "ZAMIANA Z",
+    "swapToTokenSelection": "ZAMIEŃ NA",
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
       "learnMore": "Dowiedz się więcej"
-    }
+    },
+    "estimatedExchangeRate": "Szacowany wskaźnik ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",

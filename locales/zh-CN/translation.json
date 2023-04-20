@@ -1556,18 +1556,19 @@
   "swapScreen": {
     "title": "交换",
     "review": "查看",
-    "swapFrom": "自",
-    "swapTo": "至",
+    "swapFrom": "从",
+    "swapTo": "呼叫中心",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
     "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
-    "swapFromTokenSelection": "交换自",
-    "swapToTokenSelection": "交换至",
+    "swapFromTokenSelection": "替换自",
+    "swapToTokenSelection": "调换到",
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
       "learnMore": "了解更多"
-    }
+    },
+    "estimatedExchangeRate": "估计比率≈<0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",

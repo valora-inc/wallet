@@ -4,34 +4,29 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
-import TransactionFeed, { FeedItem, FeedType } from 'src/transactions/TransactionFeed'
+import TransactionFeed, { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/utils/time.ts')
 
-const exchangeTransactions: FeedItem[] = [
+const transferTransactions: FeedItem[] = [
   {
-    __typename: 'TokenExchange',
+    __typename: 'TokenTransfer',
+    type: TokenTransactionType.Received,
     status: TransactionStatus.Complete,
-    type: TokenTransactionType.Exchange,
     amount: {
-      value: '-30',
+      value: '100',
       currencyCode: 'cUSD',
-      localAmount: null,
-    },
-    makerAmount: {
-      value: '30',
-      currencyCode: 'cUSD',
-      localAmount: null,
-    },
-    takerAmount: {
-      value: '200',
-      currencyCode: 'cGLD',
       localAmount: null,
     },
     timestamp: 1542306118,
     hash: '0x00000000000000000000',
+    address: '0x00000000000000000000',
+    comment: 'test',
+    account: '0x00000000000000000000',
+    defaultImage: 'test',
+    defaultName: 'test',
   },
 ]
 
@@ -40,7 +35,7 @@ const store = createMockStore({})
 it('renders for no transactions', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed loading={false} error={undefined} data={[]} kind={FeedType.HOME} />
+      <TransactionFeed loading={false} error={undefined} data={[]} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
@@ -49,12 +44,7 @@ it('renders for no transactions', () => {
 it('renders for error', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed
-        loading={false}
-        error={new ApolloError({})}
-        data={[]}
-        kind={FeedType.EXCHANGE}
-      />
+      <TransactionFeed loading={false} error={new ApolloError({})} data={[]} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
@@ -63,21 +53,16 @@ it('renders for error', () => {
 it('renders for loading', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed loading={true} error={undefined} data={undefined} kind={FeedType.HOME} />
+      <TransactionFeed loading={true} error={undefined} data={undefined} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
 })
 
-it('renders for gold to dollar exchange properly', () => {
+it('renders for transactions', () => {
   const tree = render(
     <Provider store={store}>
-      <TransactionFeed
-        loading={false}
-        error={undefined}
-        data={exchangeTransactions}
-        kind={FeedType.HOME}
-      />
+      <TransactionFeed loading={false} error={undefined} data={transferTransactions} />
     </Provider>
   )
   expect(tree).toMatchSnapshot()
