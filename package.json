@@ -111,7 +111,6 @@
     "Base64": "^1.2.0",
     "apollo-boost": "^0.4.9",
     "apollo-cache-persist": "^0.1.1",
-    "awesome-debounce-promise": "^2.1.0",
     "bignumber.js": "^9.1.1",
     "clevertap-react-native": "^0.8.1",
     "country-data": "^0.0.31",

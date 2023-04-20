@@ -36,7 +36,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import AwesomeDebouncePromise from 'awesome-debounce-promise'
+import { debounce } from 'lodash'
 
 export interface Section {
   key: string
@@ -83,11 +83,18 @@ function RecipientPicker(props: RecipientProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
-  const debouncedResolveId = React.useCallback(
-    AwesomeDebouncePromise(resolveId, TYPING_DEBOUNCE_MILLSECONDS),
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(props.searchQuery)
+
+  const debounceSearchQuery = React.useCallback(
+    debounce((query: string) => {
+      setDebouncedSearchQuery(query)
+    }, TYPING_DEBOUNCE_MILLSECONDS),
     []
   )
-  const { result: resolveAddressResult } = useAsync(debouncedResolveId, [props.searchQuery])
+  React.useEffect(() => {
+    debounceSearchQuery(props.searchQuery)
+  }, [props.searchQuery])
+  const { result: resolveAddressResult } = useAsync(resolveId, [debouncedSearchQuery])
 
   const onToggleKeyboard = (visible: boolean) => {
     setKeyboardVisible(visible)
