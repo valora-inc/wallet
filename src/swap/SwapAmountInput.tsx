@@ -79,7 +79,10 @@ const SwapAmountInput = ({
           // hide input when loading to prevent the UI height from jumping
           style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
           editable={!showInputLoader}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
+          // Work around for RN issue with Samsung keyboards
+          // https://github.com/facebook/react-native/issues/22005
+          autoCapitalize="words"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
           inputStyle={[
