@@ -189,7 +189,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   const isEmulator = yield call([DeviceInfo, 'isEmulator'])
   // Emulators can't handle fcm tokens and calling getToken on them will throw an error
   if (!isEmulator) {
-    fcmToken = yield call([firebase.app().messaging(), 'getToken'])
+    fcmToken = yield call([app.messaging(), 'getToken'])
   }
   if (fcmToken) {
     yield call(handleUpdateAccountRegistration)
