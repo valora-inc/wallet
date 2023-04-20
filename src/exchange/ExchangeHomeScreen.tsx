@@ -103,13 +103,13 @@ function ExchangeHomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.background} edges={['top']}>
+    <SafeAreaView testID="ExchangeHomeScreen" style={styles.background} edges={['top']}>
       <DrawerTopBar
         scrollPosition={scrollPosition}
         middleElement={
-          <Animated.View style={[styles.header, headerOpacity]}>
+          <Animated.View testID="Header" style={[styles.header, headerOpacity]}>
             {currentGoldRateInLocalCurrency && (
-              <Text style={styles.goldPriceCurrentValueHeader}>
+              <Text testID="CeloPriceInLocalCurrency" style={styles.goldPriceCurrentValueHeader}>
                 {getLocalCurrencyDisplayValue(
                   currentGoldRateInLocalCurrency,
                   LocalCurrencyCode.USD,
@@ -119,6 +119,7 @@ function ExchangeHomeScreen() {
             )}
             {rateChangeInPercentage && (
               <Text
+                testID="CeloPriceChange"
                 style={rateWentUp ? styles.goldPriceWentUpHeader : styles.goldPriceWentDownHeader}
               >
                 {rateWentUp ? '▴' : '▾'} {rateChangeInPercentage.toFormat(2)}%
@@ -141,7 +142,7 @@ function ExchangeHomeScreen() {
             <View style={styles.goldPriceTitleArea}>
               <Text style={styles.goldPriceTitle}>{t('goldPrice')}</Text>
               <Touchable onPress={navigateToGuide} hitSlop={variables.iconHitslop}>
-                <InfoIcon size={14} />
+                <InfoIcon testID="ExchangeHomeScreen/Info" size={14} />
               </Touchable>
             </View>
             <View style={styles.goldPriceValues}>
@@ -159,7 +160,7 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          <CeloGoldHistoryChart />
+          <CeloGoldHistoryChart testID="PriceChart" />
           {isCeloNewsEnabled && <CeloNewsFeed />}
         </SafeAreaView>
       </Animated.ScrollView>
