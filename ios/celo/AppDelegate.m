@@ -33,6 +33,8 @@
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapReact/CleverTapReactManager.h>
 
+#import <segment_analytics_react_native-Swift.h>
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -169,7 +171,8 @@ static void SetCustomNSURLSessionConfiguration() {
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   BOOL handled = [RCTLinkingManager application:application openURL:url options:options];
-  
+  // Deeplink tracking in segment
+  [AnalyticsReactNative trackDeepLink:url withOptions:options];  
   return handled;
 }
 

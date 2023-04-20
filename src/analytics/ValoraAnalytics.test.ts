@@ -13,7 +13,6 @@ import {
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
-// jest.mock('@react-native-firebase/analytics')
 jest.mock('@segment/analytics-react-native')
 jest.mock('@segment/analytics-react-native-plugin-adjust')
 jest.mock('@segment/analytics-react-native-plugin-clevertap')

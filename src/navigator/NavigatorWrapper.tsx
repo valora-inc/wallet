@@ -26,13 +26,13 @@ import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import appTheme from 'src/styles/appTheme'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode
@@ -153,8 +153,6 @@ export const NavigatorWrapper = () => {
     const currentRouteName = getActiveRouteName(state)
 
     if (previousRouteName !== currentRouteName) {
-      // The line below uses the @react-native-firebase/analytics tracker
-      // Change this line to use another Mobile analytics SDK
       ValoraAnalytics.page(currentRouteName, {
         previousScreen: previousRouteName,
         currentScreen: currentRouteName,

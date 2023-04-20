@@ -102,12 +102,8 @@ class ValoraAnalytics {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
       }
       this.segmentClient = createClient({
-        // using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust, CleverTapSegment].filter(isPresent),
-        flushAt: 20,
         debug: __DEV__,
         trackAppLifecycleEvents: true,
-        // recordScreenViews: true, // todo figure out if we still need this
-        // trackAttributionData: true, // todo figure out if we still need this
         trackDeepLinks: true,
         writeKey: SEGMENT_API_KEY,
       })
@@ -158,7 +154,7 @@ class ValoraAnalytics {
 
   isEnabled() {
     // Remove __DEV__ here to test analytics in dev builds
-    return store.getState().app.analyticsEnabled
+    return !__DEV__ && store.getState().app.analyticsEnabled
   }
 
   startSession(
