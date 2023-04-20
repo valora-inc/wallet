@@ -38,6 +38,13 @@ type NestedNavigatorParams<ParamList> = {
     : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
 
+export enum CloseIcon {
+  BackChevron = 'BackChevron',
+  TimesSymbol = 'TimesSymbol',
+}
+
+type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { closeIcon?: CloseIcon }
+
 interface SendConfirmationLegacyParams {
   origin: SendOrigin
   transactionData: TransactionDataInputLegacy
@@ -258,7 +265,7 @@ export type StackParamList = {
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
-  [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.QRNavigator]: QRNavigatorParams | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void
@@ -285,6 +292,7 @@ export type StackParamList = {
         skipContactsImport?: boolean
         forceTokenAddress?: boolean
         defaultTokenOverride?: string
+        closeIcon?: CloseIcon
       }
     | undefined
   [Screens.SendAmount]: {
