@@ -8,8 +8,6 @@ import SegmentedControl from 'src/components/SegmentedControl'
 import BackChevron from 'src/icons/BackChevron'
 import Share from 'src/icons/Share'
 import Times from 'src/icons/Times'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { CloseIcon } from 'src/navigator/types'
 import { SVG, shareQRCode } from 'src/send/actions'
@@ -50,19 +48,9 @@ export default function QRTabBar({
     outputColorRange: [colors.dark, colors.light],
   })
 
-  const { closeIconComponent, onPressClose } = useMemo(
-    () =>
-      closeIcon === CloseIcon.BackChevron
-        ? {
-            closeIconComponent: <BackChevron color={color} />,
-            onPressClose: () => navigate(Screens.WalletHome),
-          }
-        : {
-            closeIconComponent: <Times color={color} />,
-            onPressClose: () => navigation.getParent()?.goBack(),
-          },
-    []
-  )
+  const onPressClose = () => {
+    navigation.getParent()?.goBack()
+  }
 
   const onPressShare = () => {
     dispatch(shareQRCode(qrSvgRef.current))
@@ -90,7 +78,16 @@ export default function QRTabBar({
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.leftContainer}>
-        <TopBarIconButton icon={closeIconComponent} onPress={onPressClose} />
+        <TopBarIconButton
+          icon={
+            closeIcon === CloseIcon.BackChevron ? (
+              <BackChevron color={color} />
+            ) : (
+              <Times color={color} />
+            )
+          }
+          onPress={onPressClose}
+        />
       </View>
       <SegmentedControl
         values={values}
