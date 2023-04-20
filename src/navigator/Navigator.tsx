@@ -8,10 +8,7 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
-import {
-  BottomSheetScreenProps,
-  createBottomSheetNavigator,
-} from '@th3rdwave/react-navigation-bottom-sheet'
+import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { LayoutChangeEvent, PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
@@ -732,24 +729,15 @@ function nativeBottomSheets(
 ) {
   return (
     <>
-      <BottomSheet.Screen
-        name={Screens.WalletConnectRequest}
-        component={(
-          props: BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
-        ) => <WalletConnectRequest handleContentLayout={handleContentLayout} {...props} />}
-      />
-      <BottomSheet.Screen
-        name={Screens.DappKitAccountScreen}
-        component={(
-          props: BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen>
-        ) => <DappKitAccountScreen handleContentLayout={handleContentLayout} {...props} />}
-      />
-      <BottomSheet.Screen
-        name={Screens.DappKitSignTxScreen}
-        component={(props: BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>) => (
-          <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />
-        )}
-      />
+      <BottomSheet.Screen name={Screens.WalletConnectRequest}>
+        {(props) => <WalletConnectRequest handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
+      <BottomSheet.Screen name={Screens.DappKitAccountScreen}>
+        {(props) => <DappKitAccountScreen handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
+      <BottomSheet.Screen name={Screens.DappKitSignTxScreen}>
+        {(props) => <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
     </>
   )
 }
