@@ -8,17 +8,11 @@ import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { celoNewsConfigSelector } from 'src/app/selectors'
-import ItemSeparator from 'src/components/ItemSeparator'
-import SectionHead from 'src/components/SectionHeadGold'
 import Touchable from 'src/components/Touchable'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
-import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
 import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
-import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
-import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -26,16 +20,12 @@ import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selecto
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { FeedType } from 'src/transactions/TransactionFeed'
-import TransactionsList from 'src/transactions/TransactionsList'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
-import { goldToDollarAmount } from 'src/utils/currencyExchange'
+import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 
 function navigateToGuide() {
@@ -50,11 +40,6 @@ function ExchangeHomeScreen() {
 
   function displayLocalCurrency(amount: BigNumber.Value) {
     return getLocalCurrencyDisplayValue(amount, localCurrencyCode || LocalCurrencyCode.USD, true)
-  }
-
-  function goToWithdrawCelo() {
-    ValoraAnalytics.track(CeloExchangeEvents.celo_home_withdraw)
-    navigate(Screens.WithdrawCeloScreen, { isCashOut: false })
   }
 
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -85,20 +70,24 @@ function ExchangeHomeScreen() {
 
   const { t } = useTranslation()
 
-  const { RESTRICTED_CP_DOTO } = useCountryFeatures()
-  const inAppSwapsEnabled = useSelector(isAppSwapsEnabledSelector)
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
+  const tokensBySymbol = useSelector(tokensBySymbolSelector)
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
-  const currentExchangeRate = useDollarToCeloExchangeRate()
-
-  const perOneGoldInDollars = goldToDollarAmount(1, currentExchangeRate)
-  const currentGoldRateInLocalCurrency = perOneGoldInDollars && dollarsToLocal(perOneGoldInDollars)
-  let rateChangeInPercentage, rateWentUp
   const exchangeHistory = useSelector(exchangeHistorySelector)
-  if (exchangeHistory.aggregatedExchangeRates.length) {
+  const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
+  const lastKnownUsdPrice =
+    tokensBySymbol.CGLD?.lastKnownUsdPrice ||
+    (exchangeHistoryLength &&
+      exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate) ||
+    new BigNumber(0)
+
+  const currentGoldRateInLocalCurrency = dollarsToLocal(lastKnownUsdPrice)
+  let rateChangeInPercentage, rateWentUp
+
+  if (exchangeHistoryLength) {
     const oldestGoldRateInLocalCurrency = dollarsToLocal(
       exchangeHistory.aggregatedExchangeRates[0].exchangeRate
     )
@@ -114,13 +103,13 @@ function ExchangeHomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.background} edges={['top']}>
+    <SafeAreaView testID="ExchangeHomeScreen" style={styles.background} edges={['top']}>
       <DrawerTopBar
         scrollPosition={scrollPosition}
         middleElement={
-          <Animated.View style={[styles.header, headerOpacity]}>
+          <Animated.View testID="Header" style={[styles.header, headerOpacity]}>
             {currentGoldRateInLocalCurrency && (
-              <Text style={styles.goldPriceCurrentValueHeader}>
+              <Text testID="CeloPriceInLocalCurrency" style={styles.goldPriceCurrentValueHeader}>
                 {getLocalCurrencyDisplayValue(
                   currentGoldRateInLocalCurrency,
                   LocalCurrencyCode.USD,
@@ -130,6 +119,7 @@ function ExchangeHomeScreen() {
             )}
             {rateChangeInPercentage && (
               <Text
+                testID="CeloPriceChange"
                 style={rateWentUp ? styles.goldPriceWentUpHeader : styles.goldPriceWentDownHeader}
               >
                 {rateWentUp ? '▴' : '▾'} {rateChangeInPercentage.toFormat(2)}%
@@ -152,7 +142,7 @@ function ExchangeHomeScreen() {
             <View style={styles.goldPriceTitleArea}>
               <Text style={styles.goldPriceTitle}>{t('goldPrice')}</Text>
               <Touchable onPress={navigateToGuide} hitSlop={variables.iconHitslop}>
-                <InfoIcon size={14} />
+                <InfoIcon testID="ExchangeHomeScreen/Info" size={14} />
               </Touchable>
             </View>
             <View style={styles.goldPriceValues}>
@@ -170,24 +160,8 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          <CeloGoldHistoryChart />
-          {isCeloNewsEnabled ? (
-            <CeloNewsFeed />
-          ) : (
-            <>
-              {!inAppSwapsEnabled &&
-                (RESTRICTED_CP_DOTO ? (
-                  <RestrictedCeloExchange onPressWithdraw={goToWithdrawCelo} />
-                ) : (
-                  <CeloExchangeButtons />
-                ))}
-              <ItemSeparator />
-              <CeloGoldOverview testID="ExchangeAccountOverview" />
-              <ItemSeparator />
-              <SectionHead text={t('activity')} />
-              <TransactionsList feedType={FeedType.EXCHANGE} />
-            </>
-          )}
+          <CeloGoldHistoryChart testID="PriceChart" />
+          {isCeloNewsEnabled && <CeloNewsFeed />}
         </SafeAreaView>
       </Animated.ScrollView>
     </SafeAreaView>
