@@ -322,28 +322,6 @@ export enum TransactionEvents {
 
 export enum CeloExchangeEvents {
   celo_home_info = 'celo_home_info', // when the (i) next to Celo Gold price is clicked, launching education (not pictured)
-  celo_home_buy = 'celo_home_buy', // when the “Buy” button is clicked
-  celo_home_sell = 'celo_home_sell', // when the “Sell” button is clicked
-  celo_home_withdraw = 'celo_home_withdraw', // when the “Withdraw” button is clicked
-  celo_transaction_select = 'celo_transaction_select', // when an transaction item is clicked
-  celo_transaction_back = 'celo_transaction_back', // when back caret is clicked from drilldown
-
-  celo_toggle_input_currency = 'celo_toggle_input_currency', // when ‘switch to gold’ button pressed
-  celo_buy_continue = 'celo_buy_continue', // when ‘review’ button clicked
-  celo_buy_confirm = 'celo_buy_confirm', // when ‘buy’ button clicked
-  celo_buy_cancel = 'celo_buy_cancel', // when ‘cancel’ is clicked
-  celo_buy_edit = 'celo_buy_edit', // when ‘edit’ is clicked
-  celo_buy_error = 'celo_buy_error', // error in send flow
-  celo_sell_continue = 'celo_sell_continue', // when ‘review’ button clicked
-  celo_sell_confirm = 'celo_sell_confirm', // when ‘sell’ button clicked
-  celo_sell_cancel = 'celo_sell_cancel', // when ‘cancel’ is clicked
-  celo_sell_edit = 'celo_sell_edit', // when ‘edit’ is clicked
-  celo_sell_error = 'celo_sell_error', // error in sell flow
-
-  celo_exchange_start = 'celo_exchange_start',
-  celo_exchange_complete = 'celo_exchange_complete',
-  celo_exchange_error = 'celo_exchange_error',
-
   celo_fetch_exchange_rate_start = 'celo_fetch_exchange_rate_start',
   celo_fetch_exchange_rate_complete = 'celo_fetch_exchange_rate_complete',
   celo_fetch_exchange_rate_error = 'celo_fetch_exchange_rate_error',
@@ -416,6 +394,9 @@ export enum FiatExchangeEvents {
   spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
+
+  // Simplex Review Screen
+  cico_simplex_open_webview = 'cico_simplex_open_webview',
 
   // Fiat connect review screen
   cico_fc_review_submit = 'cico_fc_review_submit',

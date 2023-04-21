@@ -2,19 +2,23 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
+import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import QRCodeBorderlessIcon from 'src/icons/QRCodeBorderless'
 import Times from 'src/icons/Times'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { CloseIcon } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 
 interface Props {
   isOutgoingPaymentRequest: boolean
+  closeIcon: CloseIcon
 }
-function SendHeader({ isOutgoingPaymentRequest }: Props) {
+
+function SendHeader({ isOutgoingPaymentRequest, closeIcon }: Props) {
   const { t } = useTranslation()
 
   const goToQRScanner = () =>
@@ -29,7 +33,7 @@ function SendHeader({ isOutgoingPaymentRequest }: Props) {
     <CustomHeader
       left={
         <TopBarIconButton
-          icon={<Times />}
+          icon={closeIcon === CloseIcon.BackChevron ? <BackButton /> : <Times />}
           onPress={navigateBack}
           eventName={
             isOutgoingPaymentRequest ? RequestEvents.request_cancel : SendEvents.send_cancel

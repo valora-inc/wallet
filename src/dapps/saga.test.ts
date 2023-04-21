@@ -2,18 +2,17 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
-import {
-  dappsFilterEnabledSelector,
-  dappsListApiUrlSelector,
-  dappsSearchEnabledSelector,
-  dappsWebViewEnabledSelector,
-} from 'src/dapps/selectors'
+import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
 import { DappSection } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/statsig')
 
 describe('Dapps saga', () => {
   describe('Handles opening a dapp', () => {
@@ -103,14 +102,16 @@ describe('Dapps saga', () => {
           featured: dapp1,
         })
       )
+      mocked(getExperimentParams).mockReturnValue({
+        dappsFilterEnabled: false,
+        dappsSearchEnabled: false,
+      })
 
       await expectSaga(handleFetchDappsList)
         .provide([
           [select(dappsListApiUrlSelector), 'http://some.url'],
           [select(walletAddressSelector), '0xabc'],
           [select(currentLanguageSelector), 'en'],
-          [select(dappsFilterEnabledSelector), false],
-          [select(dappsSearchEnabledSelector), false],
         ])
         .put(
           fetchDappsListCompleted({
@@ -152,14 +153,16 @@ describe('Dapps saga', () => {
 
     it('saves an error', async () => {
       mockFetch.mockRejectOnce()
+      mocked(getExperimentParams).mockReturnValue({
+        dappsFilterEnabled: false,
+        dappsSearchEnabled: false,
+      })
 
       await expectSaga(handleFetchDappsList)
         .provide([
           [select(dappsListApiUrlSelector), 'http://some.url'],
           [select(walletAddressSelector), '0xabc'],
           [select(currentLanguageSelector), 'en'],
-          [select(dappsFilterEnabledSelector), false],
-          [select(dappsSearchEnabledSelector), false],
         ])
         .put(
           fetchDappsListFailed({
@@ -215,14 +218,16 @@ describe('Dapps saga', () => {
           featured: dapp1,
         })
       )
+      mocked(getExperimentParams).mockReturnValue({
+        dappsFilterEnabled: true,
+        dappsSearchEnabled: true,
+      })
 
       await expectSaga(handleFetchDappsList)
         .provide([
           [select(dappsListApiUrlSelector), 'http://some.url'],
           [select(walletAddressSelector), '0xabc'],
           [select(currentLanguageSelector), 'en'],
-          [select(dappsFilterEnabledSelector), true],
-          [select(dappsSearchEnabledSelector), true],
         ])
         .put(
           fetchDappsListCompleted({
@@ -264,14 +269,16 @@ describe('Dapps saga', () => {
 
     it('saves an error', async () => {
       mockFetch.mockRejectOnce()
+      mocked(getExperimentParams).mockReturnValue({
+        dappsFilterEnabled: true,
+        dappsSearchEnabled: true,
+      })
 
       await expectSaga(handleFetchDappsList)
         .provide([
           [select(dappsListApiUrlSelector), 'http://some.url'],
           [select(walletAddressSelector), '0xabc'],
           [select(currentLanguageSelector), 'en'],
-          [select(dappsFilterEnabledSelector), true],
-          [select(dappsSearchEnabledSelector), true],
         ])
         .put(
           fetchDappsListFailed({

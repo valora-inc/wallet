@@ -15,6 +15,7 @@ import HomeActionsSwap from 'src/icons/home-actions/Swap'
 import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { CloseIcon } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -27,7 +28,7 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
-        navigate(Screens.Send)
+        navigate(Screens.Send, { closeIcon: CloseIcon.BackChevron })
       },
     },
     {
@@ -35,7 +36,10 @@ function ActionsCarousel() {
       title: t('homeActions.receive'),
       icon: <HomeActionsReceive />,
       onPress: () => {
-        navigate(Screens.QRNavigator)
+        navigate(Screens.QRNavigator, {
+          screen: Screens.QRCode,
+          closeIcon: CloseIcon.BackChevron,
+        })
       },
     },
     {
@@ -53,7 +57,7 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
-        navigate(Screens.SwapScreen)
+        navigate(Screens.SwapScreenWithBack)
       },
     },
     {
@@ -61,7 +65,7 @@ function ActionsCarousel() {
       title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
-        navigate(Screens.Send, { isOutgoingPaymentRequest: true })
+        navigate(Screens.Send, { isOutgoingPaymentRequest: true, closeIcon: CloseIcon.BackChevron })
       },
     },
     {
@@ -107,6 +111,7 @@ function ActionsCarousel() {
 const styles = StyleSheet.create({
   carouselContainer: {
     paddingHorizontal: 10,
+    marginBottom: 8,
   },
   card: {
     width: 84,

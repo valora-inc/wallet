@@ -1562,18 +1562,19 @@
   "swapScreen": {
     "title": "Обміняти",
     "review": "Перегляд",
-    "swapFrom": "Від",
+    "swapFrom": "ВІД",
     "swapTo": "До",
     "insufficientFunds": "{{token}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин.",
     "disclaimer": "Свопи здійснюються за підтримки партнерів у мережі Celo. <0>Дізнатися більше.</0>",
-    "swapFromTokenSelection": "Обміняти з",
-    "swapToTokenSelection": "Обміняти на",
+    "swapFromTokenSelection": "SWAP ІЗ",
+    "swapToTokenSelection": "СWAP",
     "maxSwapAmountWarning": {
       "title": "Обмін МАКС. суми",
       "body": "Переконайтеся, що у вашому гаманці є CELO, щоб покрити комісії за газ для подальших транзакцій",
       "learnMore": "Дізнатися більше"
-    }
+    },
+    "estimatedExchangeRate": "Орієнтовна ставка <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обміняти з",

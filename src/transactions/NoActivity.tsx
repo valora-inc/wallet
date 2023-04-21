@@ -5,10 +5,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { FeedType } from 'src/transactions/TransactionFeed'
-
 interface OwnProps {
-  kind: FeedType
   loading: boolean
   error: ApolloError | Error | undefined
 }
@@ -17,7 +14,7 @@ type Props = OwnProps & WithTranslation
 
 export class NoActivity extends React.PureComponent<Props> {
   render() {
-    const { kind, loading, error, t } = this.props
+    const { loading, error, t } = this.props
 
     if (error) {
       return (
@@ -27,9 +24,6 @@ export class NoActivity extends React.PureComponent<Props> {
         </View>
       )
     }
-
-    const statusText =
-      kind === FeedType.EXCHANGE ? t('noExchangeActivity') : t('noTransactionActivity')
 
     return (
       <View style={styles.container}>
@@ -41,7 +35,7 @@ export class NoActivity extends React.PureComponent<Props> {
             testID="NoActivity/loading"
           />
         )}
-        <Text style={styles.text}>{statusText} </Text>
+        <Text style={styles.text}>{t('noTransactionActivity')} </Text>
       </View>
     )
   }

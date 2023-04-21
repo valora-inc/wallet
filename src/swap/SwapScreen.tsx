@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Edge, SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
@@ -62,7 +62,11 @@ function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-export function SwapScreen() {
+function SwapScreen() {
+  return <SwapScreenSection showDrawerTopNav={true} />
+}
+
+export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: boolean }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -163,7 +167,9 @@ export function SwapScreen() {
         const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
         const newAmount = exchangeRate
           ? parsedSwapAmount[updatedField]
-              .multipliedBy(new BigNumber(exchangeRate).pow(updatedField === Field.FROM ? 1 : -1))
+              .multipliedBy(
+                new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
+              )
               .toFormat()
           : ''
         return {
@@ -248,7 +254,8 @@ export function SwapScreen() {
       setUpdatedField(fieldType)
       setSwapAmount((prev) => ({
         ...prev,
-        [fieldType]: value,
+        // Regex to match only numbers and one decimal separator
+        [fieldType]: value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev[fieldType],
       }))
     }
     setShowMaxSwapAmountWarning(false)
@@ -282,27 +289,26 @@ export function SwapScreen() {
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
+  const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
   const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
+  const exchangeRateUpdatePending =
+    exchangeRate &&
+    (exchangeRate.fromTokenAddress !== fromToken?.address ||
+      exchangeRate.toTokenAddress !== toToken?.address ||
+      !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <DrawerTopBar
-        middleElement={
-          <View style={styles.headerContainer}>
-            <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-            {exchangeRate && fromToken && toToken && (
-              <Text
-                style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
-              >
-                {`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRate).toFormat(
-                  5,
-                  BigNumber.ROUND_DOWN
-                )} ${toToken.symbol}`}
-              </Text>
-            )}
-          </View>
-        }
-      />
+    <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
+      {showDrawerTopNav && (
+        <DrawerTopBar
+          testID={'SwapScreen/DrawerBar'}
+          middleElement={
+            <View style={styles.headerContainer}>
+              <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
+            </View>
+          }
+        />
+      )}
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
@@ -327,7 +333,24 @@ export function SwapScreen() {
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && fetchingSwapQuote}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
-          />
+          >
+            <Text style={[styles.exchangeRateText, { opacity: exchangeRateUpdatePending ? 0 : 1 }]}>
+              {fromToken && toToken && exchangeRate ? (
+                <>
+                  {`1 ${fromToken.symbol} ≈ `}
+                  <Text style={styles.exchangeRateValueText}>
+                    {`${new BigNumber(exchangeRate.price).toFormat(5, BigNumber.ROUND_DOWN)} ${
+                      toToken.symbol
+                    }`}
+                  </Text>
+                </>
+              ) : (
+                <Trans i18nKey={'swapScreen.estimatedExchangeRate'}>
+                  <Text style={styles.exchangeRateValueText} />
+                </Trans>
+              )}
+            </Text>
+          </SwapAmountInput>
           {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>
         <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
@@ -380,15 +403,12 @@ const styles = StyleSheet.create({
   },
   fromSwapAmountInput: {
     borderBottomWidth: 0,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   toSwapAmountInput: {
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-  },
-  mutedHeader: {
-    color: colors.gray3,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
   disclaimerWrapper: {
     paddingBottom: Spacing.Thick24,
@@ -403,6 +423,13 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     color: colors.greenUI,
     flexWrap: 'wrap',
+  },
+  exchangeRateText: {
+    ...fontStyles.xsmall,
+    color: colors.gray3,
+  },
+  exchangeRateValueText: {
+    ...fontStyles.xsmall600,
   },
 })
 

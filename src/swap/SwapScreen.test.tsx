@@ -8,8 +8,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import SwapScreen, { SwapScreenSection } from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
-import SwapScreen from 'src/swap/SwapScreen'
 import { Field } from 'src/swap/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
@@ -41,7 +41,7 @@ jest.mock('src/statsig', () => {
 
 const now = Date.now()
 
-const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456' }) => {
+const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTopNav = true }) => {
   const store = createMockStore({
     tokens: {
       tokenBalances: {
@@ -131,7 +131,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456' }) => {
 
   const tree = render(
     <Provider store={store}>
-      <SwapScreen />
+      <SwapScreenSection showDrawerTopNav={showDrawerTopNav} />
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
@@ -161,10 +161,11 @@ describe('SwapScreen', () => {
   })
 
   it('should display the correct elements on load', () => {
-    const { getByText, swapFromContainer, swapToContainer } = renderScreen({})
+    const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({})
 
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(queryByTestId('SwapScreen/DrawerBar')).toBeTruthy()
 
     expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
@@ -260,7 +261,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    await waitFor(() => expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD'))
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -294,7 +295,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -328,7 +329,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 8.10000 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8.10000 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0.15234566652'
     )
@@ -368,7 +369,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 1,23456 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1,23456 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1,5234566652'
@@ -408,7 +409,7 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
     )
 
-    expect(getByText('1 CELO ≈ 8,10000 cUSD')).toBeTruthy()
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8,10000 cUSD')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0,15234566652'
     )
@@ -435,7 +436,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    await waitFor(() => expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD'))
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
@@ -510,7 +511,7 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(getByText('1 CELO ≈ 1.23456 cUSD')).toBeTruthy())
+    await waitFor(() => expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD'))
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
@@ -658,5 +659,32 @@ describe('SwapScreen', () => {
     expect(queryByTestId('POOFTouchable')).toBeTruthy()
     expect(queryByTestId('CELOTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeNull()
+  })
+
+  it('should be able to hide top drawer nav when parameter is set', () => {
+    const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({
+      showDrawerTopNav: false,
+    })
+
+    expect(queryByTestId('SwapScreen/DrawerBar')).toBeFalsy()
+    expect(getByText('swapScreen.review')).toBeDisabled()
+
+    expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
+
+    expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+  })
+  it('SwapScreen component renders the top drawer', () => {
+    const { queryByTestId } = render(
+      <Provider store={createMockStore()}>
+        <SwapScreen />
+      </Provider>
+    )
+
+    expect(queryByTestId('SwapScreen/DrawerBar')).toBeTruthy()
   })
 })
