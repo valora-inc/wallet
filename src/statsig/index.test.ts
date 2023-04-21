@@ -1,27 +1,39 @@
+import { store } from 'src/redux/store'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import {
   getDynamicConfigParams,
   getExperimentParams,
+  initializeStatsig,
   patchUpdateStatsigUser,
 } from 'src/statsig/index'
 import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
+import { EvaluationReason } from 'statsig-js'
 import { Statsig } from 'statsig-react-native'
-import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { EvaluationReason } from 'statsig-js'
 
+jest.unmock('src/statsig/index')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
+jest.mock('@segment/analytics-react-native', () => ({
+  __esModule: true,
+  default: {
+    getAnonymousId: jest.fn().mockResolvedValue('anonId'),
+  },
+}))
+jest.mock('src/config', () => ({
+  ...(jest.requireActual('src/config') as any),
+  STATSIG_API_KEY: 'statsig-key',
+}))
 
 const mockStore = mocked(store)
 const MOCK_ACCOUNT = '0x000000000000000000000000000000000000000000'
 const MOCK_START_ONBOARDING_TIME = 1680563877
 mockStore.getState.mockImplementation(() =>
   getMockStoreData({
-    web3: { account: MOCK_ACCOUNT },
+    web3: { account: MOCK_ACCOUNT, mtwAddress: '0x0000' },
     account: { startOnboardingTime: MOCK_START_ONBOARDING_TIME },
   })
 )
@@ -29,6 +41,42 @@ mockStore.getState.mockImplementation(() =>
 describe('Statsig helpers', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+  describe('initialization', () => {
+    it('creates statsig client on initialization with wallet address as user id', async () => {
+      await initializeStatsig()
+
+      expect(Statsig.initialize).toHaveBeenCalledWith(
+        'statsig-key',
+        { userID: MOCK_ACCOUNT, custom: { startOnboardingTime: MOCK_START_ONBOARDING_TIME } },
+        { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
+      )
+    })
+
+    it('creates statsig client on initialization with null as user id if wallet address is not set', async () => {
+      mockStore.getState.mockImplementationOnce(() =>
+        getMockStoreData({
+          web3: { account: undefined },
+          account: { startOnboardingTime: MOCK_START_ONBOARDING_TIME },
+        })
+      )
+      await initializeStatsig()
+
+      expect(Statsig.initialize).toHaveBeenCalledWith(
+        'statsig-key',
+        {
+          userID: undefined,
+          custom: {
+            startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          },
+        },
+        {
+          environment: { tier: 'development' },
+          overrideStableID: 'anonId',
+          localMode: false,
+        }
+      )
+    })
   })
   describe('data validation', () => {
     it.each(Object.entries(ExperimentConfigs))(
