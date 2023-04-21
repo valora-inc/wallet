@@ -210,7 +210,7 @@
     "dismiss": "Dismiss"
   },
   "superchargingTitle": "App update required",
-  "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards",
+  "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards.",
   "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
   "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
