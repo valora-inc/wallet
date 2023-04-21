@@ -225,16 +225,16 @@ export function DAppsExplorerScreenFilter() {
 }
 
 function parseResultsIntoAll(
-  dappList: any,
+  dappList: DappV2[],
   filterId: string,
   favoriteDappsById: string[]
 ): SectionData[] {
   // Prevent favorite dapps from showing up in the all dapps section
   const data =
     filterId === 'all'
-      ? dappList.filter((dapp: DappV2) => !favoriteDappsById.includes(dapp.id))
+      ? dappList.filter((dapp) => !favoriteDappsById.includes(dapp.id))
       : dappList.filter(
-          (dapp: DappV2) =>
+          (dapp) =>
             !favoriteDappsById.includes(dapp.id) &&
             dapp.categories &&
             dapp.categories.includes(filterId)
