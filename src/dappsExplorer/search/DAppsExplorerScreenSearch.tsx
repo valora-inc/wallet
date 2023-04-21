@@ -55,7 +55,6 @@ export function DAppsExplorerScreenSearch() {
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const dappListWithCategoryNames = useSelector(dappListWithCategoryNamesSelector)
-  console.log('dappListWithCategoryNames', dappListWithCategoryNames)
   const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
 
