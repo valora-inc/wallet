@@ -16,7 +16,10 @@ import { exchangeHistorySelector } from 'src/exchange/reducer'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  getLocalCurrencyToDollarsExchangeRate,
+} from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -72,11 +75,10 @@ function ExchangeHomeScreen() {
 
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
-
-  // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
-  const localCurrencyCode = null
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const exchangeHistory = useSelector(exchangeHistorySelector)
+
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
   const lastKnownUsdPrice =
     tokensBySymbol.CGLD?.lastKnownUsdPrice ||
@@ -103,13 +105,13 @@ function ExchangeHomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.background} edges={['top']}>
+    <SafeAreaView testID="ExchangeHomeScreen" style={styles.background} edges={['top']}>
       <DrawerTopBar
         scrollPosition={scrollPosition}
         middleElement={
-          <Animated.View style={[styles.header, headerOpacity]}>
+          <Animated.View testID="Header" style={[styles.header, headerOpacity]}>
             {currentGoldRateInLocalCurrency && (
-              <Text style={styles.goldPriceCurrentValueHeader}>
+              <Text testID="CeloPriceInLocalCurrency" style={styles.goldPriceCurrentValueHeader}>
                 {getLocalCurrencyDisplayValue(
                   currentGoldRateInLocalCurrency,
                   LocalCurrencyCode.USD,
@@ -119,6 +121,7 @@ function ExchangeHomeScreen() {
             )}
             {rateChangeInPercentage && (
               <Text
+                testID="CeloPriceChange"
                 style={rateWentUp ? styles.goldPriceWentUpHeader : styles.goldPriceWentDownHeader}
               >
                 {rateWentUp ? '▴' : '▾'} {rateChangeInPercentage.toFormat(2)}%
@@ -141,7 +144,7 @@ function ExchangeHomeScreen() {
             <View style={styles.goldPriceTitleArea}>
               <Text style={styles.goldPriceTitle}>{t('goldPrice')}</Text>
               <Touchable onPress={navigateToGuide} hitSlop={variables.iconHitslop}>
-                <InfoIcon size={14} />
+                <InfoIcon testID="ExchangeHomeScreen/Info" size={14} />
               </Touchable>
             </View>
             <View style={styles.goldPriceValues}>
@@ -159,7 +162,7 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          <CeloGoldHistoryChart />
+          <CeloGoldHistoryChart testID="PriceChart" />
           {isCeloNewsEnabled && <CeloNewsFeed />}
         </SafeAreaView>
       </Animated.ScrollView>

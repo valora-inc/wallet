@@ -35,7 +35,7 @@ interface Props {
 }
 
 const DAPP_ICON_SIZE = 32
-const DAPP_WIDTH = 104
+const DAPP_WIDTH = 88
 const SCROLL_DEBOUNCE_TIME = 300 // milliseconds
 const windowWidth = Dimensions.get('window').width
 
@@ -211,7 +211,8 @@ const styles = StyleSheet.create({
   },
   touchable: {
     alignItems: 'center',
-    padding: Spacing.Regular16,
+    paddingVertical: Spacing.Regular16,
+    paddingHorizontal: Spacing.Smallest8,
   },
   dappName: {
     ...fontStyles.small,
