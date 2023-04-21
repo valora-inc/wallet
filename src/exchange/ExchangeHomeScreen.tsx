@@ -16,7 +16,10 @@ import { exchangeHistorySelector } from 'src/exchange/reducer'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  getLocalCurrencyToDollarsExchangeRate,
+} from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -72,11 +75,10 @@ function ExchangeHomeScreen() {
 
   const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
-
-  // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
-  const localCurrencyCode = null
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const exchangeHistory = useSelector(exchangeHistorySelector)
+
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
   const lastKnownUsdPrice =
     tokensBySymbol.CGLD?.lastKnownUsdPrice ||
