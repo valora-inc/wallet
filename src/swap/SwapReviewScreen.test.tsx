@@ -15,6 +15,11 @@ import { createMockStore } from 'test/utils'
 import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockFetch = fetch as FetchMock
+const mockFeeCurrency = jest.fn()
+
+jest.mock('src/fees/hooks', () => ({
+  useFeeCurrency: () => mockFeeCurrency(),
+}))
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -124,6 +129,8 @@ describe('SwapReviewScreen', () => {
   })
 
   it('should display correct info on fetch', async () => {
+    mockFeeCurrency.mockImplementation(() => mockCeloAddress)
+
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -160,6 +167,8 @@ describe('SwapReviewScreen', () => {
   })
 
   it('should display correct exchange rate when buyAmount is used', async () => {
+    mockFeeCurrency.mockImplementation(() => mockCusdAddress)
+
     const newStore = {
       ...store,
       swap: {
@@ -209,7 +218,7 @@ describe('SwapReviewScreen', () => {
       // Exchange Rate
       expect(getByTestId('ExchangeRate')).toHaveTextContent('4.10 cUSD ≈ 1 CELO')
       // Estimated Gas
-      expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00015 cUSD')
+      expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00047 cUSD')
       // Swap Fee
       expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
     })
