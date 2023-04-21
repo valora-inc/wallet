@@ -30,6 +30,7 @@ exports[`renders correctly 1`] = `
 >
   <View
     accessible={true}
+    collapsable={false}
     focusable={true}
     forwardedRef={[Function]}
     onClick={[Function]}
@@ -54,6 +55,7 @@ exports[`renders correctly 1`] = `
     }
   />
   <View
+    collapsable={false}
     deviceHeight={1334}
     deviceWidth={null}
     forwardedRef={[Function]}
