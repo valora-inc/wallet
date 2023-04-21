@@ -133,6 +133,19 @@ export async function waitForElementId(elementId, timeout = 10 * 1000) {
   }
 }
 
+/**
+ * Wait for an element to be visible and then tap it
+ * @param {string} elementId testID of the element to wait for
+ * @param {number} timeout timeout in milliseconds
+ * @param {number} index index of the element to tap
+ */
+export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, index = 0) {
+  await waitForElementId(elementId, timeout)
+  index === 0
+    ? await element(by.id(elementId)).tap()
+    : await element(by.id(elementId)).atIndex(index).tap()
+}
+
 export function quote(s) {
   // on ios the command line uses double quotes around the string
   // while on android it does not, so we add it
