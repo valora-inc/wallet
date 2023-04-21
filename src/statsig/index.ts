@@ -1,13 +1,32 @@
+import Analytics from '@segment/analytics-react-native'
+import * as _ from 'lodash'
+import { startOnboardingTimeSelector } from 'src/account/selectors'
+import { E2E_TEST_STATSIG_ID, isE2EEnv, STATSIG_API_KEY, STATSIG_ENV } from 'src/config'
+import { store } from 'src/redux/store'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
-import { EvaluationReason } from 'statsig-js'
-import { store } from 'src/redux/store'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { startOnboardingTimeSelector } from 'src/account/selectors'
-import * as _ from 'lodash'
+import { EvaluationReason } from 'statsig-js'
+import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 
 const TAG = 'Statsig'
+
+export async function initializeStatsig() {
+  try {
+    const statsigUser = getDefaultStatsigUser()
+    // getAnonymousId causes the e2e tests to fail
+    const overrideStableID = isE2EEnv ? E2E_TEST_STATSIG_ID : await Analytics.getAnonymousId()
+    Logger.debug(TAG, 'Statsig stable ID', overrideStableID)
+    await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
+      // StableID should match Segment anonymousId
+      overrideStableID,
+      environment: STATSIG_ENV,
+      localMode: isE2EEnv,
+    })
+  } catch (error) {
+    Logger.error(TAG, 'Statsig setup error', error)
+  }
+}
 
 function getParams<T extends Record<string, StatsigParameter>>({
   config,

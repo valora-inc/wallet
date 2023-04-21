@@ -65,6 +65,7 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
+import { initializeStatsig } from 'src/statsig'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -94,6 +95,7 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
   yield call(initializeSentry)
+  yield call(initializeStatsig)
   // This step is important if the user if offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
   const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
