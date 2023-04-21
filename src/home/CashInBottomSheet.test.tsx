@@ -2,12 +2,12 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
-import { navigateToURI } from 'src/utils/linking'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore } from 'test/utils'
-import { FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { navigateToURI } from 'src/utils/linking'
+import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 
 const mockRampProvider = {
   name: 'Ramp',
@@ -42,7 +42,6 @@ describe('CashInBottomSheet', () => {
   const mockFetch = fetch as FetchMock
 
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })
@@ -57,69 +56,45 @@ describe('CashInBottomSheet', () => {
   })
 
   it('navigates to the add funds page when the add funds button is clicked', async () => {
+    mockFetch.mockResponse(JSON.stringify([mockRampProvider]))
     const { getByTestId } = render(
       <Provider store={createMockStore({})}>
         <CashInBottomSheet />
       </Provider>
     )
+    await flushMicrotasksQueue()
+    await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
 
     fireEvent.press(getByTestId('cashInBtn'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
       flow: FiatExchangeFlow.CashIn,
     })
   })
-  it('Regular Version is visible when experiment is disabled even if ramp is available', async () => {
-    mockFetch.mockResponse(JSON.stringify([mockRampProvider]))
-    const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: { rampCashInButtonExpEnabled: false },
-        })}
-      >
-        <CashInBottomSheet />
-      </Provider>
-    )
-    await waitFor(() => expect(getByTestId('cashInBtn')))
-  })
-  it('Regular Version is visible when ramp is unavailable', async () => {
-    mockFetch.mockResponse(JSON.stringify([mockRampProviderUnavailable]))
-    const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: { rampCashInButtonExpEnabled: true },
-        })}
-      >
-        <CashInBottomSheet />
-      </Provider>
-    )
-    await waitFor(() => expect(getByTestId('cashInBtn')))
-  })
-  it('Regular Version is visible when ramp is restricted', async () => {
-    mockFetch.mockResponse(JSON.stringify([mockRampProviderRestricted]))
-    const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: { rampCashInButtonExpEnabled: true },
-        })}
-      >
-        <CashInBottomSheet />
-      </Provider>
-    )
-    await waitFor(() => expect(getByTestId('cashInBtn')))
-  })
-  it('Regular Version is visible when ramp does not have cash in', async () => {
-    mockFetch.mockResponse(JSON.stringify([mockRampProviderNoCashIn]))
-    const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: { rampCashInButtonExpEnabled: true },
-        })}
-      >
-        <CashInBottomSheet />
-      </Provider>
-    )
-    await waitFor(() => expect(getByTestId('cashInBtn')))
-  })
+
+  it.each`
+    rampCondition                                | providerResponse                 | rampCashInButtonExpEnabled
+    ${'does not have cash in'}                   | ${[mockRampProviderNoCashIn]}    | ${true}
+    ${'is restricted'}                           | ${[mockRampProviderRestricted]}  | ${true}
+    ${'is unavailable'}                          | ${[mockRampProviderUnavailable]} | ${true}
+    ${'is available but experiment is disabled'} | ${[mockRampProvider]}            | ${false}
+  `(
+    'Regular Version is visible when ramp $rampCondition',
+    async ({ providerResponse, rampCashInButtonExpEnabled }) => {
+      mockFetch.mockResponse(JSON.stringify(providerResponse))
+      const { getByTestId } = render(
+        <Provider
+          store={createMockStore({
+            app: { rampCashInButtonExpEnabled },
+          })}
+        >
+          <CashInBottomSheet />
+        </Provider>
+      )
+      await flushMicrotasksQueue()
+      await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
+    }
+  )
+
   it('Ramp Version: navigates to ramp when add funds button is clicked', async () => {
     mockFetch.mockResponse(JSON.stringify([mockRampProvider]))
     const { getByTestId } = render(
@@ -131,7 +106,8 @@ describe('CashInBottomSheet', () => {
         <CashInBottomSheet />
       </Provider>
     )
-    await waitFor(() => expect(getByTestId('cashInBtnRamp')))
+    await flushMicrotasksQueue()
+    await waitFor(() => expect(getByTestId('cashInBtnRamp')).toBeTruthy())
     fireEvent.press(getByTestId('cashInBtnRamp'))
     expect(navigateToURI).toHaveBeenCalledWith(mockRampProvider.url)
   })
