@@ -32,11 +32,11 @@ const MapScreen = () => {
     if (!mapCategory.includes(MapCategory.Vendor)) return
     return (
       <>
-        {vendors.map((vendor: VendorWithLocation) => (
+        {vendors.map((vendor: VendorWithLocation, i: number) => (
           <VendorMarker
             title={vendor.title}
             coordinate={vendor.location}
-            key={vendor.title}
+            key={vendor.title + i}
             description={vendor.subtitle}
             onPress={() => dispatch(setCurrentVendor(vendor))}
             color={currentVendor === vendor ? Colors.activeMarker : Colors.inactiveVendor}
@@ -50,12 +50,12 @@ const MapScreen = () => {
     if (!mapCategory.includes(MapCategory.FoodForest)) return // forest is selected
     return (
       <>
-        {map(forests, (forest: FoodForest) => {
+        {map(forests, (forest: FoodForest, i: number) => {
           return (
             <ForestMarker
               title={forest.title}
               coordinate={forest.ingress || { latitude: 0, longitude: 0 }}
-              key={forest.title}
+              key={forest.title + i}
               onPress={() => dispatch(setFoodForest(forest))}
             />
           )
@@ -68,9 +68,10 @@ const MapScreen = () => {
     if (!mapCategory.includes(MapCategory.FoodForest)) return
     return (
       <>
-        {map(forests, (forest: FoodForest) => {
+        {map(forests, (forest: FoodForest, i: number) => {
           return (
             <Geojson
+              key={i}
               geojson={forest.data}
               strokeColor={Colors.goldUI}
               strokeWidth={StyleSheet.hairlineWidth}

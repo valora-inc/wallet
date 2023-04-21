@@ -60,7 +60,12 @@ const MapBottomSheet = ({ mapRef }: Props) => {
 
   const renderHandle = useCallback(
     (props) => (
-      <MapSheetHandle title={MapCategory.All} {...props} ref={bottomSheetRef} mapRef={mapRef} />
+      <MapSheetHandle
+        title={MapCategory.All}
+        {...props}
+        sheetRef={bottomSheetRef}
+        mapRef={mapRef}
+      />
     ),
     []
   )

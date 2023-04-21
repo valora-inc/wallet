@@ -2317,9 +2317,9 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capsule/client@github:capsule-org/user-management-client":
+"@capsule/client@capsule-org/user-management-client":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/capsule-org/user-management-client.git#e54a69a6cd30d790409ba410226adb9246092543"
+  resolved "git+ssh://git@github.com/capsule-org/user-management-client.git#51de65165aadec790430f29fb97fef3f2c716bd5"
   dependencies:
     axios "^0.27.2"
 

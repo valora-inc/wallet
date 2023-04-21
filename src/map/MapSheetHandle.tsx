@@ -1,5 +1,5 @@
 import { BottomSheetHandleProps } from '@gorhom/bottom-sheet'
-import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
+import Geolocation from '@react-native-community/geolocation'
 import { includes, remove, valuesIn } from 'lodash'
 import React, { memo, useMemo } from 'react'
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native'
@@ -12,11 +12,7 @@ import Searchbar from 'src/components/SearchBar'
 import FindMy from 'src/icons/FindMy'
 import { removeMapCategory, setMapCategory } from 'src/map/actions'
 import { MapCategory } from 'src/map/constants'
-import {
-  currentForestSelector,
-  currentMapCategorySelector,
-  userLocationSelector,
-} from 'src/map/selector'
+import { currentForestSelector, currentMapCategorySelector } from 'src/map/selector'
 import variables from 'src/styles/variables'
 import { currentVendorSelector } from 'src/vendors/selector'
 
@@ -28,7 +24,6 @@ interface CustomHandleProps extends BottomSheetHandleProps {
 
 const MapSheetHandle: React.FC<CustomHandleProps> = ({ title, style, animatedIndex, mapRef }) => {
   const dispatch = useDispatch()
-  const userLocation = useSelector(userLocationSelector)
   const mapCategory = useSelector(currentMapCategorySelector)
   const currentVendor = useSelector(currentVendorSelector)
   const currentForest = useSelector(currentForestSelector)
@@ -52,9 +47,9 @@ const MapSheetHandle: React.FC<CustomHandleProps> = ({ title, style, animatedInd
   const renderFilters = () => {
     return (
       <>
-        {remove(valuesIn(MapCategory), (x) => x !== 'All').map((cat: string) => {
+        {remove(valuesIn(MapCategory), (x) => x !== 'All').map((cat: string, i: number) => {
           return (
-            <View style={styles.filterRow}>
+            <View style={styles.filterRow} key={i}>
               <MapFilterButton
                 text={cat}
                 active={mapCategory.includes(cat as MapCategory)}
@@ -71,11 +66,20 @@ const MapSheetHandle: React.FC<CustomHandleProps> = ({ title, style, animatedInd
   }
 
   const handleFindMy = () => {
-    mapRef.current?.animateToRegion({
-      ...userLocation,
-      latitudeDelta: 0.005,
-      longitudeDelta: 0.005,
-    })
+    // @note Get user's current location using geolocation
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords
+        mapRef.current?.animateToRegion({
+          ...{ latitude, longitude },
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        })
+      },
+      (error) => {
+        console.error('error', error)
+      }
+    )
   }
 
   // render
