@@ -210,7 +210,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Uygulama güncellemesi gerekli",
-  "superchargingDescription": "Supercharge ödüllerini almaya devam etmek için Valora uygulamasını güncelleyin",
+  "superchargingDescription": "Supercharge ödüllerini almaya devam etmek için Valora uygulamasını güncelleyin.",
   "superchargingTitleV1_54": "Supercharge uygulanan varlık: {{token}}",
   "superchargingDescriptionV1_54": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
