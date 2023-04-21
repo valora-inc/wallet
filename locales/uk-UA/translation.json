@@ -210,7 +210,7 @@
     "dismiss": "Відхилити"
   },
   "superchargingTitle": "Треба оновити застосунок",
-  "superchargingDescription": "Оновіть застосунок Valora, щоб і надалі щотижня отримувати винагороди Supercharge",
+  "superchargingDescription": "Оновіть застосунок Valora, щоб і надалі щотижня отримувати винагороди Supercharge.",
   "superchargingTitleV1_54": "Ваш {{token}} отримав надбавку",
   "superchargingDescriptionV1_54": "Ви отримуєте {{apy}}% річних. Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
