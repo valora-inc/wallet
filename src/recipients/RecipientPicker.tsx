@@ -36,6 +36,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
+import { debounce } from 'lodash'
 
 export interface Section {
   key: string
@@ -56,6 +57,22 @@ interface RecipientProps {
   recipientVerificationStatus: RecipientVerificationStatus
 }
 
+const TYPING_DEBOUNCE_MILLSECONDS = 300
+
+async function resolveId(id: string) {
+  const resolveIdUrl = networkConfig.resolveId
+  try {
+    const response = await fetch(`${resolveIdUrl}?id=${id}`)
+    if (response.ok) {
+      return await response.json()
+    }
+    Logger.warn(TAG, `Unexpected result from resolving '${id}'`)
+  } catch (error) {
+    Logger.warn(TAG, `Error resolving '${id}'`, error)
+  }
+  return null
+}
+
 function RecipientPicker(props: RecipientProps) {
   const recipientInfo = useSelector(recipientInfoSelector)
   const showSendToAddressWarning = useSelector(
@@ -66,21 +83,18 @@ function RecipientPicker(props: RecipientProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
-  const { result: resolveAddressResult } = useAsync(
-    async (id: string) => {
-      try {
-        const response = await fetch(`${networkConfig.resolveId}?id=${id}`)
-        if (response.ok) {
-          return await response.json()
-        }
-        Logger.warn(TAG, `Unexpected result from resolving '${id}'`)
-      } catch (error) {
-        Logger.warn(TAG, `Error resolving '${id}'`, error)
-      }
-      return null
-    },
-    [props.searchQuery]
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(props.searchQuery)
+
+  const debounceSearchQuery = React.useCallback(
+    debounce((query: string) => {
+      setDebouncedSearchQuery(query)
+    }, TYPING_DEBOUNCE_MILLSECONDS),
+    []
   )
+  React.useEffect(() => {
+    debounceSearchQuery(props.searchQuery)
+  }, [props.searchQuery])
+  const { result: resolveAddressResult } = useAsync(resolveId, [debouncedSearchQuery])
 
   const onToggleKeyboard = (visible: boolean) => {
     setKeyboardVisible(visible)

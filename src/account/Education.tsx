@@ -152,7 +152,7 @@ const Education = (props: Props) => {
         return (
           <View style={styles.top} testID="Education/top">
             <TopBarIconButton
-              testID="Education/CloseIcon"
+              testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
               onPress={goBack}
               icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.dark} />}
             />
@@ -166,7 +166,7 @@ const Education = (props: Props) => {
   }
 
   return (
-    <SafeAreaView style={[styles.root, style]} {...passThroughProps}>
+    <SafeAreaView testID="Education" style={[styles.root, style]} {...passThroughProps}>
       {renderEmbeddedNavBar()}
       <View style={styles.container}>
         <ScrollView

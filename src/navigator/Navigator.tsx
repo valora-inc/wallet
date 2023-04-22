@@ -3,17 +3,13 @@ import {
   BottomSheetBackdropProps,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet'
-import { RouteProp } from '@react-navigation/native'
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
-import {
-  BottomSheetScreenProps,
-  createBottomSheetNavigator,
-} from '@th3rdwave/react-navigation-bottom-sheet'
+import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
-import { LayoutChangeEvent, PixelRatio, Platform } from 'react-native'
+import { LayoutChangeEvent, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
@@ -22,7 +18,6 @@ import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
-import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
@@ -33,15 +28,11 @@ import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
-import BackButton from 'src/components/BackButton'
-import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
-import ExchangeReview from 'src/exchange/ExchangeReview'
-import ExchangeTradeScreen from 'src/exchange/ExchangeTradeScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
@@ -69,7 +60,6 @@ import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
-import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -79,15 +69,12 @@ import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
-  HeaderTitleWithBalance,
   headerWithBackButton,
-  headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import { getInitialRoute } from 'src/navigator/initialRoute'
-import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -128,7 +115,6 @@ import SwapScreenWithBack from 'src/swap/SwapScreenWithBack'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
@@ -319,54 +305,8 @@ const sendScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const exchangeReviewScreenOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.ExchangeReview>
-}) => {
-  const { makerToken } = route.params
-  const isCeloPurchase = makerToken !== Currency.Celo
-  const title = isCeloPurchase ? i18n.t('buyGold') : i18n.t('sellGold')
-  const cancelEventName = isCeloPurchase
-    ? CeloExchangeEvents.celo_buy_cancel
-    : CeloExchangeEvents.celo_sell_cancel
-  const editEventName = isCeloPurchase
-    ? CeloExchangeEvents.celo_buy_edit
-    : CeloExchangeEvents.celo_sell_edit
-  return {
-    ...headerWithBackEditButtons,
-    headerLeft: () => (
-      <BackButton testID="EditButton" onPress={navigateBack} eventName={editEventName} />
-    ),
-    headerRight: () =>
-      PixelRatio.getFontScale() > 1 ? (
-        <CancelButton
-          buttonType={'icon'}
-          onCancel={navigateToExchangeHome}
-          eventName={cancelEventName}
-        />
-      ) : (
-        <CancelButton
-          buttonType={'text'}
-          onCancel={navigateToExchangeHome}
-          eventName={cancelEventName}
-        />
-      ),
-    headerTitle: () => <HeaderTitleWithBalance title={title} token={makerToken} />,
-  }
-}
 const exchangeScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.ExchangeTradeScreen}
-      component={ExchangeTradeScreen}
-      options={noHeader}
-    />
-    <Navigator.Screen
-      name={Screens.ExchangeReview}
-      component={ExchangeReview}
-      options={exchangeReviewScreenOptions}
-    />
     <Navigator.Screen
       name={Screens.WithdrawCeloScreen}
       component={WithdrawCeloScreen}
@@ -732,24 +672,15 @@ function nativeBottomSheets(
 ) {
   return (
     <>
-      <BottomSheet.Screen
-        name={Screens.WalletConnectRequest}
-        component={(
-          props: BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
-        ) => <WalletConnectRequest handleContentLayout={handleContentLayout} {...props} />}
-      />
-      <BottomSheet.Screen
-        name={Screens.DappKitAccountScreen}
-        component={(
-          props: BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen>
-        ) => <DappKitAccountScreen handleContentLayout={handleContentLayout} {...props} />}
-      />
-      <BottomSheet.Screen
-        name={Screens.DappKitSignTxScreen}
-        component={(props: BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>) => (
-          <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />
-        )}
-      />
+      <BottomSheet.Screen name={Screens.WalletConnectRequest}>
+        {(props) => <WalletConnectRequest handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
+      <BottomSheet.Screen name={Screens.DappKitAccountScreen}>
+        {(props) => <DappKitAccountScreen handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
+      <BottomSheet.Screen name={Screens.DappKitSignTxScreen}>
+        {(props) => <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
     </>
   )
 }

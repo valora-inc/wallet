@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 import { FiatAccount } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -38,6 +37,13 @@ type NestedNavigatorParams<ParamList> = {
     ? { screen: K; params?: ParamList[K] }
     : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
+
+export enum CloseIcon {
+  BackChevron = 'BackChevron',
+  TimesSymbol = 'TimesSymbol',
+}
+
+type QRNavigatorParams = NestedNavigatorParams<QRTabParamList> & { closeIcon?: CloseIcon }
 
 interface SendConfirmationLegacyParams {
   origin: SendOrigin
@@ -259,7 +265,7 @@ export type StackParamList = {
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
-  [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.QRNavigator]: QRNavigatorParams | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void
@@ -286,6 +292,7 @@ export type StackParamList = {
         skipContactsImport?: boolean
         forceTokenAddress?: boolean
         defaultTokenOverride?: string
+        closeIcon?: CloseIcon
       }
     | undefined
   [Screens.SendAmount]: {
@@ -319,7 +326,7 @@ export type StackParamList = {
   }
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps
-    confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps
+    confirmationProps: TransferConfirmationCardProps
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
