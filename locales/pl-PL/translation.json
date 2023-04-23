@@ -210,7 +210,7 @@
     "dismiss": "Odrzuć"
   },
   "superchargingTitle": "Wymagana aktualizacja aplikacji",
-  "superchargingDescription": "Zaktualizuj aplikację Valora, aby kontynuować otrzymywanie cotygodniowych nagród w programie Supercharge",
+  "superchargingDescription": "Zaktualizuj aplikację Valora, aby kontynuować otrzymywanie cotygodniowych nagród w programie Supercharge.",
   "superchargingTitleV1_54": "Twoje tokeny {{token}} biorą udział w programie Supercharge",
   "superchargingDescriptionV1_54": "Otrzymujesz {{apy}}% rocznie. Co tydzień otrzymasz powiadomienie, gdy nagrody będą gotowe. Wróć tutaj, aby je odebrać.",
   "superchargeRewardsAvailable": "Masz {{amount}} {{token}} dostępne do odbioru!",
