@@ -210,7 +210,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Требуется обновление приложения",
-  "superchargingDescription": "Обновите приложение Valora, чтобы по-прежнему получать вознаграждения по программе Supercharge",
+  "superchargingDescription": "Обновите приложение Valora, чтобы по-прежнему получать вознаграждения по программе Supercharge.",
   "superchargingTitleV1_54": "Для вашего {{token}} действует программа Supercharge",
   "superchargingDescriptionV1_54": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
