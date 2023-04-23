@@ -70,13 +70,13 @@ jobs:
           node-version: '16'
           check-latest: true
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
-      - uses: actions/cache@v3
-        with:
-          path: |
-            patches
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      # - uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       patches
+      #       node_modules
+      #       */*/node_modules
+      #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn || yarn --network-concurrency 1
       - run: git diff --exit-code
   licenses:
