@@ -210,7 +210,7 @@
     "dismiss": "Bỏ qua"
   },
   "superchargingTitle": "Cần cập nhật ứng dụng",
-  "superchargingDescription": "Cập nhật ứng dụng Valora để tiếp tục nhận tiền thưởng Supercharge hàng tuần",
+  "superchargingDescription": "Cập nhật ứng dụng Valora để tiếp tục nhận tiền thưởng Supercharge hàng tuần.",
   "superchargingTitleV1_54": "{{token}} của bạn đang được áp dụng Supercharge",
   "superchargingDescriptionV1_54": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
   "superchargeRewardsAvailable": "Bạn có {{amount}} {{token}} cần xác nhận!",
