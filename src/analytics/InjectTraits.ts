@@ -28,6 +28,7 @@ export class InjectTraits extends PlatformPlugin {
         : event
     } catch (error) {
       Logger.error('SegmentPlugin InjectTraits', 'Error injecting traits', error)
+      return event
     }
   }
 }
