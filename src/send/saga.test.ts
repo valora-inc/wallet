@@ -29,10 +29,10 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import {
+  UnlockResult,
   getConnectedAccount,
   getConnectedUnlockedAccount,
   unlockAccount,
-  UnlockResult,
 } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -46,9 +46,9 @@ import {
   mockE164NumberInvite,
   mockFeeInfo,
   mockName,
+  mockQRCodeRecipient,
   mockQrCodeData,
   mockQrCodeData2,
-  mockQRCodeRecipient,
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
@@ -226,6 +226,7 @@ describe(watchQrCodeDetections, () => {
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
+      isFromScan: true,
     })
   })
 
@@ -249,6 +250,7 @@ describe(watchQrCodeDetections, () => {
       .silentRun()
     expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
       transactionData: mockTransactionData,
+      isFromScan: true,
     })
   })
 

@@ -236,10 +236,12 @@ export type StackParamList = {
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput
+    isFromScan?: boolean
   }
   [Screens.PaymentRequestConfirmationLegacy]: {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
+    isFromScan?: boolean
   }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {

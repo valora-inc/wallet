@@ -92,6 +92,8 @@ function PaymentRequestConfirmation({ route }: Props) {
 
     ValoraAnalytics.track(RequestEvents.request_confirm_request, {
       requesteeAddress: paymentInfo.requesteeAddress,
+      recipientType: route.params.transactionData.recipient.recipientType,
+      isScan: !!route.params.isFromScan,
     })
     dispatch(writePaymentRequest(paymentInfo))
     Logger.showMessage(t('requestSent'))

@@ -153,6 +153,7 @@ function Send({ route }: Props) {
           : SendEvents.send_select_recipient,
         {
           usedSearchBar: searchQuery.length > 0,
+          recipientType: recipient.recipientType,
         }
       )
       setSelectedRecipient(recipient)

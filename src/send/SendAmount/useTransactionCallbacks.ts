@@ -171,7 +171,7 @@ function useTransactionCallbacks({
       })
     } else {
       ValoraAnalytics.track(RequestEvents.request_amount_continue, continueAnalyticsParams)
-      navigate(Screens.PaymentRequestConfirmation, { transactionData })
+      navigate(Screens.PaymentRequestConfirmation, { transactionData, isFromScan })
     }
   }, [addressValidationType, getTransactionData])
 

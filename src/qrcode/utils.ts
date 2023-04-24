@@ -171,11 +171,13 @@ export function* handleBarcode(
         navigate(Screens.PaymentRequestConfirmationLegacy, {
           transactionData: secureSendTxData as TransactionDataInputLegacy,
           addressJustValidated: true,
+          isFromScan: true,
         })
       } else {
         navigate(Screens.SendConfirmationLegacy, {
           transactionData: secureSendTxData as TransactionDataInputLegacy,
           addressJustValidated: true,
+          isFromScan: true,
           origin: SendOrigin.AppSendFlow,
         })
       }
@@ -183,11 +185,13 @@ export function* handleBarcode(
       if (isOutgoingPaymentRequest) {
         navigate(Screens.PaymentRequestConfirmation, {
           transactionData: secureSendTxData as TransactionDataInput,
+          isFromScan: true,
         })
       } else {
         navigate(Screens.SendConfirmation, {
           transactionData: secureSendTxData as TransactionDataInput,
           origin: SendOrigin.AppSendFlow,
+          isFromScan: true,
         })
       }
     }

@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -491,8 +491,8 @@ interface EscrowEventsProperties {
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
-    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
+    recipientType?: RecipientType
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
@@ -605,8 +605,8 @@ interface RequestEventsProperties {
   [RequestEvents.request_cancel]: undefined
   [RequestEvents.request_scan]: undefined
   [RequestEvents.request_select_recipient]: {
-    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
+    recipientType?: RecipientType
   }
   [RequestEvents.request_amount_continue]:
     | {
@@ -632,6 +632,8 @@ interface RequestEventsProperties {
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
+    recipientType?: RecipientType
+    isScan: boolean
   }
   [RequestEvents.request_error]: {
     error: string
