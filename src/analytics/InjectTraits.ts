@@ -1,4 +1,5 @@
 import { PlatformPlugin, PluginType, SegmentEvent } from '@segment/analytics-react-native'
+import Logger from 'src/utils/Logger'
 
 /**
  * Plugin that injects the user traits to every event
@@ -12,17 +13,21 @@ export class InjectTraits extends PlatformPlugin {
   type = PluginType.before
 
   execute(event: SegmentEvent) {
-    return this.analytics
-      ? {
-          ...event,
-          context: {
-            ...event.context,
-            traits: {
-              ...event.context?.traits,
-              ...this.analytics.userInfo.get().traits,
+    try {
+      return this.analytics
+        ? {
+            ...event,
+            context: {
+              ...event.context,
+              traits: {
+                ...event.context?.traits,
+                ...this.analytics.userInfo.get().traits,
+              },
             },
-          },
-        }
-      : event
+          }
+        : event
+    } catch (error) {
+      Logger.error('SegmentPlugin InjectTraits', 'Error injecting traits', error)
+    }
   }
 }
