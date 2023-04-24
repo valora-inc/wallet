@@ -109,7 +109,7 @@ export function* appInit() {
   yield put(appInitCompleted())
 
   const t1 = Date.now()
-  ValoraAnalytics.track(AppEvents.app_initialized, { durationMs: t1 - t0 })
+  ValoraAnalytics.track(AppEvents.app_tooling_initialized, { durationMs: t1 - t0 })
 }
 
 export function* appVersionSaga() {
