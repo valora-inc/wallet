@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 123,
+          "version": 124,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -136,6 +136,7 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
+          "appToolingInitialized": false,
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoNews": Object {

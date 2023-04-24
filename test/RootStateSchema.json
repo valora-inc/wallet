@@ -2405,6 +2405,9 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
+                "appToolingInitialized": {
+                    "type": "boolean"
+                },
                 "celoEducationUri": {
                     "type": [
                         "null",
@@ -2559,6 +2562,7 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
+                "appToolingInitialized",
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoNews",
