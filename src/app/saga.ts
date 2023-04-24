@@ -24,7 +24,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
   androidMobileServicesAvailabilityChecked,
-  appInitCompleted,
   appLock,
   inviteLinkConsumed,
   minAppVersionDetermined,
@@ -105,8 +104,6 @@ export function* appInit() {
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
-
-  yield put(appInitCompleted())
 
   const t1 = Date.now()
   ValoraAnalytics.track(AppEvents.app_tooling_initialized, { durationMs: t1 - t0 })

@@ -2,7 +2,6 @@ import locales from 'locales'
 import { useAsync } from 'react-async-hook'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { useSelector } from 'react-redux'
-import { appToolingInitializedSelector } from 'src/app/selectors'
 import { DEFAULT_APP_LANGUAGE } from 'src/config'
 import { initI18n } from 'src/i18n'
 import {
@@ -12,6 +11,7 @@ import {
 } from 'src/i18n/selectors'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { navigateToError } from 'src/navigator/NavigationService'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'AppInitGate'
@@ -23,7 +23,6 @@ interface Props {
 
 const AppInitGate = ({ loading, children }: Props) => {
   const changelanguage = useChangeLanguage()
-  const appToolingInitialized = useSelector(appToolingInitializedSelector)
   const allowOtaTranslations = useSelector(allowOtaTranslationsSelector)
   const otaTranslationsAppVersion = useSelector(otaTranslationsAppVersionSelector)
   const language = useSelector(currentLanguageSelector)
@@ -43,7 +42,7 @@ const AppInitGate = ({ loading, children }: Props) => {
   const initResult = useAsync(
     async () => {
       Logger.debug(TAG, 'Starting AppInitGate init')
-      await i18nInitializer()
+      await Promise.all([i18nInitializer(), waitUntilSagasFinishLoading()])
       Logger.debug(TAG, 'AppInitGate init completed')
     },
     [],
@@ -56,9 +55,7 @@ const AppInitGate = ({ loading, children }: Props) => {
   )
 
   // type assertion here because https://github.com/DefinitelyTyped/DefinitelyTyped/issues/44572
-  return initResult.loading || !appToolingInitialized
-    ? (loading as JSX.Element)
-    : (children as JSX.Element)
+  return initResult.loading ? (loading as JSX.Element) : (children as JSX.Element)
 }
 
 export default AppInitGate
