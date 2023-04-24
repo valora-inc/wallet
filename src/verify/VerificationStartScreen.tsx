@@ -32,7 +32,6 @@ import {
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
-import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -194,7 +193,6 @@ function VerificationStartScreen({
   }, [signedMessageCreated])
 
   useAsync(async () => {
-    await waitUntilSagasFinishLoading()
     if (walletAddress === null) {
       dispatch(initializeAccount())
     }
