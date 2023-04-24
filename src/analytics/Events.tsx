@@ -22,6 +22,8 @@ export enum AppEvents {
 
   account_funded = 'account_funded',
   account_liquidated = 'account_liquidated',
+
+  app_initialized = 'app_initialized', // when the app has finished initializing
 }
 
 export enum HomeEvents {

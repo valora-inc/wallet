@@ -129,6 +129,9 @@ interface AppEventsProperties {
   }
   [AppEvents.account_funded]: undefined
   [AppEvents.account_liquidated]: undefined
+  [AppEvents.app_initialized]: {
+    durationMs: number
+  }
 }
 
 interface HomeEventsProperties {

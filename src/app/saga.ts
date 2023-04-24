@@ -95,6 +95,7 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
+  const t0 = Date.now()
   yield all([call(initializeSentry), call(ValoraAnalytics.init)])
 
   // This step is important if the user if offline and unable to fetch remote
@@ -106,6 +107,9 @@ export function* appInit() {
   yield put(setSupportedBiometryType(supportedBiometryType))
 
   yield put(appInitCompleted())
+
+  const t1 = Date.now()
+  ValoraAnalytics.track(AppEvents.app_initialized, { durationMs: t1 - t0 })
 }
 
 export function* appVersionSaga() {
