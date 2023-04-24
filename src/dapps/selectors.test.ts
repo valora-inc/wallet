@@ -103,20 +103,6 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
     ).toEqual([])
   })
 
-  it('should throw error with dappV1', () => {
-    expect(() => {
-      favoriteDappsWithCategoryNamesSelector(
-        getMockStoreData({
-          dapps: {
-            dappsList: [dapp1V1, dapp2V1],
-            dappsCategories,
-            favoriteDappIds: [dapp1V1.id, dapp2V1.id],
-          },
-        })
-      )
-    }).toThrow("dapps/selectors@addCategoryNamesToDapps '1' is not DappV2")
-  })
-
   it('should return favorites with category names v2', () => {
     expect(
       favoriteDappsWithCategoryNamesSelector(
@@ -142,19 +128,6 @@ describe('favoriteDappsWithCategoryNamesSelector', () => {
 })
 
 describe('dappListWithCategoryNamesSelector', () => {
-  it('should throw error with dappV1', () => {
-    expect(() => {
-      dappListWithCategoryNamesSelector(
-        getMockStoreData({
-          dapps: {
-            dappsList: [dapp1V1, dapp2V1],
-            dappsCategories,
-          },
-        })
-      )
-    }).toThrow("dapps/selectors@addCategoryNamesToDapps '1' is not DappV2")
-  })
-
   it('should return dapps with category names v2', () => {
     expect(
       dappListWithCategoryNamesSelector(

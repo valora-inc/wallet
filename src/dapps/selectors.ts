@@ -2,8 +2,6 @@ import { createSelector } from 'reselect'
 import { DappCategory, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
 import { RootState } from 'src/redux/reducers'
 
-const TAG = 'dapps/selectors'
-
 export interface CategoryWithDapps extends DappCategory {
   dapps: Array<DappV1 | DappV2>
 }
@@ -22,6 +20,8 @@ export const dappsWebViewEnabledSelector = (state: RootState) => state.dapps.dap
 export const dappsCategoriesSelector = (state: RootState) => state.dapps.dappsCategories
 
 export const dappsListSelector = (state: RootState) => state.dapps.dappsList
+
+export const dappsV2ListSelector = (state: RootState) => state.dapps.dappsList.filter(isDappV2)
 
 export const dappsListLoadingSelector = (state: RootState) => state.dapps.dappsListLoading
 
@@ -110,22 +110,19 @@ export const favoriteDappsSelector = createSelector(
   (dapps, favoriteDappIds) => dapps.filter((dapp) => favoriteDappIds.includes(dapp.id))
 )
 
-export const nonFavoriteDappsSelector = createSelector(
-  dappsListSelector,
+const nonFavoriteDappsSelector = createSelector(
+  dappsV2ListSelector,
   favoriteDappIdsSelector,
   (dapps, favoriteDappIds) => dapps.filter((dapp) => !favoriteDappIds.includes(dapp.id))
 )
 
-function addCategoryNamesToDapps(dapps: Array<DappV1 | DappV2>, categories: Array<DappCategory>) {
+function addCategoryNamesToDapps(dapps: Array<DappV2>, categories: Array<DappCategory>) {
   const categoryMap: Record<string, string> = {}
 
   categories.forEach((category) => {
     categoryMap[category.id] = category.name
   })
   return dapps.map((dapp) => {
-    if (!isDappV2(dapp)) {
-      throw new Error(`${TAG}@addCategoryNamesToDapps '${dapp.id}' is not DappV2`)
-    }
     return {
       ...dapp,
       categoryNames: dapp.categories.map((id) => categoryMap[id]),
@@ -142,11 +139,11 @@ export const nonFavoriteDappsWithCategoryNamesSelector = createSelector(
 export const favoriteDappsWithCategoryNamesSelector = createSelector(
   favoriteDappsSelector,
   dappsCategoriesSelector,
-  (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
+  (dapps, categories) => addCategoryNamesToDapps(dapps.filter(isDappV2), categories)
 )
 
 export const dappListWithCategoryNamesSelector = createSelector(
-  dappsListSelector,
+  dappsV2ListSelector,
   dappsCategoriesSelector,
   (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )
