@@ -6,6 +6,7 @@ import DeviceInfo from 'react-native-device-info'
 import * as Keychain from 'react-native-keychain'
 import { eventChannel } from 'redux-saga'
 import {
+  all,
   call,
   cancelled,
   delay,
@@ -23,6 +24,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
   androidMobileServicesAvailabilityChecked,
+  appInitCompleted,
   appLock,
   inviteLinkConsumed,
   minAppVersionDetermined,
@@ -93,7 +95,8 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
-  yield call(initializeSentry)
+  yield all([call(initializeSentry), call(ValoraAnalytics.init)])
+
   // This step is important if the user if offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
   const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
@@ -101,6 +104,8 @@ export function* appInit() {
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
+
+  yield put(appInitCompleted())
 }
 
 export function* appVersionSaga() {

@@ -56,6 +56,7 @@ export interface State {
   hapticFeedbackEnabled: boolean
   decentralizedVerificationEnabled: boolean
   pushNotificationsEnabled: boolean
+  appToolingInitialized: boolean
 }
 
 const initialState = {
@@ -105,6 +106,7 @@ const initialState = {
   hapticFeedbackEnabled: true,
   decentralizedVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.decentralizedVerificationEnabled,
   pushNotificationsEnabled: false,
+  appToolingInitialized: false,
 }
 
 export const appReducer = (
@@ -121,6 +123,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        appToolingInitialized: false,
       }
     }
     case Actions.SET_APP_STATE:
@@ -262,6 +265,11 @@ export const appReducer = (
       return {
         ...state,
         pushNotificationsEnabled: action.enabled,
+      }
+    case Actions.APP_INIT_COMPLETED:
+      return {
+        ...state,
+        appToolingInitialized: true,
       }
     default:
       return state

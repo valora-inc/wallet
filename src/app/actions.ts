@@ -36,6 +36,7 @@ export enum Actions {
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
+  APP_INIT_COMPLETED = 'APP/APP_INIT_COMPLETED',
 }
 
 export interface SetAppState {
@@ -157,6 +158,10 @@ export interface PushNotificationsPermissionChanged {
   enabled: boolean
 }
 
+export interface AppInitCompleted {
+  type: Actions.APP_INIT_COMPLETED
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -182,6 +187,7 @@ export type ActionTypes =
   | InviteLinkConsumed
   | HapticFeedbackSet
   | PushNotificationsPermissionChanged
+  | AppInitCompleted
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -329,5 +335,11 @@ export const pushNotificationsPermissionChanged = (
   return {
     type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED,
     enabled,
+  }
+}
+
+export const appInitCompleted = (): AppInitCompleted => {
+  return {
+    type: Actions.APP_INIT_COMPLETED,
   }
 }

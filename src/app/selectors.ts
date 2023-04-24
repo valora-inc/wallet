@@ -121,3 +121,5 @@ export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hap
 
 export const pushNotificationsEnabledSelector = (state: RootState) =>
   state.app.pushNotificationsEnabled
+
+export const appToolingInitializedSelector = (state: RootState) => state.app.appToolingInitialized
