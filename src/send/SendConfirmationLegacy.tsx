@@ -194,6 +194,7 @@ function SendConfirmationLegacy(props: Props) {
 
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
+      recipientType: props.route.params.transactionData.recipient.recipientType,
       isScan: !!props.route.params?.isFromScan,
       isRequest: type === TokenTransactionType.PayRequest,
       localCurrencyExchangeRate: newCurrencyInfo.localExchangeRate,
