@@ -210,7 +210,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Atualização do app necessária",
-  "superchargingDescription": "Atualize o app da Valora para continuar recebendo recompensas do Supercharge semanalmente",
+  "superchargingDescription": "Atualize o app da Valora para continuar recebendo recompensas do Supercharge semanalmente.",
   "superchargingTitleV1_54": "Você está recebendo recompensas de Supercharge no seus {{token}}",
   "superchargingDescriptionV1_54": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
