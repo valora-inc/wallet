@@ -126,7 +126,7 @@ export function* appInit() {
     ),
   ])
 
-  // This step is important if the user if offline and unable to fetch remote
+  // This step is important if the user is offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
   const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
   Logger.setNetworkErrors(sentryNetworkErrors)

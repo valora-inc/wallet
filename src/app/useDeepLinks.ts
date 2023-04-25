@@ -84,7 +84,7 @@ export const useDeepLinks = () => {
       linkingUnsubscribeRef.current?.remove()
       dynamicLinksUnsubscribeRef.current?.()
     }
-  })
+  }, [])
 
   return {
     addDeepLinkListeners,
