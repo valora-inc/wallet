@@ -953,13 +953,13 @@
   "stableBalance": "{{token}} Bakiyesi",
   "selectToken": "Varlık seçin",
   "verificationCta": {
-    "header": "Bir arkadaşınıza mı gönderiyorsunuz?",
-    "body": "Telefonunuzu bağlayın ve arkadaşlarınıza hızlı bir şekilde göndermek için kişilerinizi senkronize edin.",
-    "cta": "Telefon Numarasını Bağla"
+    "header": "Bir metin gibi kripto gönderin!",
+    "body": "Telefon numaranızı cüzdan adresinize bağlayın, böylece arkadaşlarınızla ödeme gönderebilir ve alabilirsiniz.",
+    "cta": "Bağlantı Telefon numarası"
   },
   "importContactsCta": {
-    "header": "Kişileri Aktar",
-    "body": "Arkadaşlarınızı isimleri ile bulmak için lütfen telefonunuzun Ayarlarında Kişiler erişimine izin verin.",
+    "header": "Kişileri Etkinleştir",
+    "body": "Kolayca ödeme göndermek ve talep etmek için telefonunuzun Ayarlar bölümünden Kişiler'i etkinleştirin.",
     "cta": "Ayarlar"
   },
   "contactSyncProgress": {
