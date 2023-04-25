@@ -951,13 +951,13 @@
   "stableBalance": "{{token}} 余额",
   "selectToken": "选择资产",
   "verificationCta": {
-    "header": "发送给朋友吗？",
-    "body": "关联您的手机并同步您的联系人以快速发送给您的朋友。",
-    "cta": "关联手机号码"
+    "header": "像发短信一样发送加密货币!",
+    "body": "将你的电话号码与你的钱包地址联系起来，这样你就可以与朋友一起发送和接收付款。",
+    "cta": "链接电话"
   },
   "importContactsCta": {
-    "header": "导入联系人",
-    "body": "请在您的手机设置中启用联系人权限以便按姓名查找您的朋友。",
+    "header": "启用联系人",
+    "body": "在你的手机设置中启用联系人，以方便发送和请求付款。",
     "cta": "设置"
   },
   "contactSyncProgress": {
