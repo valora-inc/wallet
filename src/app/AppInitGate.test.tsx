@@ -47,7 +47,7 @@ describe('AppInitGate', () => {
   it.each`
     delayedInit    | sagasInitTime | i18nInitTime
     ${'i18n'}      | ${1000}       | ${5000}
-    ${'root saga'} | ${1000}       | ${5000}
+    ${'root saga'} | ${5000}       | ${1000}
   `(
     'should render the fallback before $delayedInit is initialised',
     async ({ sagasInitTime, i18nInitTime }) => {
