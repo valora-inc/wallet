@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller toplayın",
-    "body": "{{appName}} cüzdanlarını kurduklarında ve numaralarını bağladıklarında, ikiniz de 1 cUSD ile ödüllendirileceksiniz."
+    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de 1 cUSD ile ödüllendirileceksiniz."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -1275,7 +1275,7 @@
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
-    "searchPlaceHolder": "Dapp'ları ara",
+    "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
       "title": "Favori eklenmemiş",
       "description": "Favori olarak eklemek için yıldız simgesine dokunarak en çok kullandığınız Dapp'leri takip edin"
@@ -1558,13 +1558,13 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
-    "swapFrom": "FROM",
-    "swapTo": "K",
+    "swapFrom": "KAYNAK",
+    "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
-    "swapToTokenSelection": "TAKAS",
+    "swapToTokenSelection": "ŞUNA TAKAS",
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
@@ -1671,8 +1671,8 @@
     "namePlaceholder": "Ad örneği seçme) {{exampleName}}"
   },
   "tokenBottomSheet": {
-    "searchAssets": "Arama Varlıkları",
-    "noTokenInResult": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
+    "searchAssets": "Varlıkları Ara",
+    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı"
   },
   "homeActions": {
     "add": "Ekle",
