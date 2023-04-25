@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Once they set up their {{appName}} wallet and connect their number, you will both get rewarded with 1 cUSD."
+    "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại của họ thì cả hai đều sẽ nhận được 1 cUSD tiền thưởng."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -1272,8 +1272,8 @@
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
-    "favoriteDappsAndAll": "My Favorites & All",
-    "searchPlaceHolder": "Search dapps",
+    "favoriteDappsAndAll": "Mục yêu thích của tôi và Tất cả",
+    "searchPlaceHolder": "Tìm kiếm Dapp",
     "noFavorites": {
       "title": "Bạn không có Dapps yêu thích",
       "description": "Theo dõi các Dapp được sử dụng nhiều nhất của bạn bằng cách nhấn vào biểu tượng ngôi sao để thêm nó như một yêu thích"
@@ -1285,7 +1285,7 @@
     "emptyResults": {
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
       "removeFilter": "Xóa bộ lọc",
-      "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "Không tìm thấy kết quả phù hợp cho cụm từ tìm kiếm <0>“{{searchTerm}}”</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1556,19 +1556,19 @@
   "swapScreen": {
     "title": "Trao đổi",
     "review": "Xem lại",
-    "swapFrom": "FROM",
-    "swapTo": "TO",
+    "swapFrom": "TỪ",
+    "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
-    "swapFromTokenSelection": "SWAP FROM",
-    "swapToTokenSelection": "SWAP TO",
+    "swapFromTokenSelection": "TRAO ĐỔI TỪ",
+    "swapToTokenSelection": "TRAO ĐỔI SANG",
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
     },
-    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trao đổi từ",
@@ -1669,8 +1669,8 @@
     "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
   },
   "tokenBottomSheet": {
-    "searchAssets": "Search Assets",
-    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+    "searchAssets": "Tìm kiếm tài sản",
+    "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Nạp",
