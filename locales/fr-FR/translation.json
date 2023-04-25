@@ -953,13 +953,13 @@
   "stableBalance": "Solde de {{token}}",
   "selectToken": "Sélectionner l'actif",
   "verificationCta": {
-    "header": "Envoyer à un ami ?",
-    "body": "Connectez votre téléphone et synchronisez vos contacts pour envoyer des fonds rapidement à vos amis.",
-    "cta": "Connecter un numéro de téléphone"
+    "header": "Envoie de la crypto comme un texte !",
+    "body": "Relie ton numéro de téléphone à l'adresse de ton portefeuille pour pouvoir envoyer et recevoir des paiements avec tes amis.",
+    "cta": "Lien Numéro de téléphone"
   },
   "importContactsCta": {
-    "header": "Importer des contacts",
-    "body": "Veuillez activer les contacts dans les paramètres de votre téléphone pour trouver vos amis par nom.",
+    "header": "Activer les contacts",
+    "body": "Active les contacts dans les paramètres de ton téléphone pour envoyer et demander facilement des paiements.",
     "cta": "Paramètres"
   },
   "contactSyncProgress": {
