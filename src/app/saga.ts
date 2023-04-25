@@ -108,7 +108,7 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
-  SentryTransactionHub.startTransaction(SentryTransaction.app_tooling_initialised)
+  SentryTransactionHub.startTransaction(SentryTransaction.app_init_saga)
 
   const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
   const otaTranslationsAppVersion = yield select(otaTranslationsAppVersionSelector)
@@ -134,7 +134,7 @@ export function* appInit() {
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
 
-  SentryTransactionHub.finishTransaction(SentryTransaction.app_tooling_initialised)
+  SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
 
 export function* appVersionSaga() {
