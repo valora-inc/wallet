@@ -9,7 +9,7 @@ import {
   TokenTransactionType,
   UserTransactionsQuery,
 } from 'src/apollo/types'
-import TransactionFeed, { FeedType } from 'src/transactions/TransactionFeed'
+import TransactionFeed from 'src/transactions/TransactionFeed'
 import TransactionsList, { TRANSACTIONS_QUERY } from 'src/transactions/TransactionsList'
 import { StandbyTransactionLegacy, TransactionStatus } from 'src/transactions/types'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
@@ -34,38 +34,18 @@ const standbyTransactions: StandbyTransactionLegacy[] = [
     timestamp: 1542406110,
     address: '0072bvy2o23u',
   },
-  {
-    context: { id: 'a-cusd-cgld-standby-exchange-id' },
-    type: TokenTransactionType.Exchange,
-    status: TransactionStatus.Pending,
-    inCurrency: Currency.Dollar,
-    inValue: '20',
-    outCurrency: Currency.Celo,
-    outValue: '30',
-    timestamp: 1542409112,
-  },
-  {
-    context: { id: 'a-cgld-cusd-standby-exchange-id' },
-    type: TokenTransactionType.Exchange,
-    status: TransactionStatus.Pending,
-    inCurrency: Currency.Celo,
-    inValue: '30',
-    outCurrency: Currency.Dollar,
-    outValue: '20',
-    timestamp: 1542409113,
-  },
 ]
 
 const failedStandbyTransactions: StandbyTransactionLegacy[] = [
   {
-    context: { id: '0x00000000000000000001' },
-    type: TokenTransactionType.Exchange,
+    context: { id: 'a-failed-standby-tx-id' },
     status: TransactionStatus.Failed,
-    inCurrency: Currency.Dollar,
-    inValue: '20',
-    outCurrency: Currency.Celo,
-    outValue: '30',
-    timestamp: 1542409112,
+    value: '100',
+    currency: Currency.Dollar,
+    comment: 'Dinner Payment!',
+    timestamp: 1542406110,
+    type: TokenTransactionType.Sent,
+    address: '0072bvy2o23u',
   },
 ]
 
@@ -138,48 +118,6 @@ const mockQueryData: UserTransactionsQuery = {
           defaultName: null,
         },
       },
-      {
-        __typename: 'TokenTransactionEdge',
-        node: {
-          __typename: 'TokenExchange',
-          type: TokenTransactionType.Exchange,
-          hash: '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852',
-          amount: {
-            __typename: 'MoneyAmount',
-            value: '0.994982275992944156',
-            currencyCode: 'cUSD',
-            localAmount: {
-              __typename: 'LocalMoneyAmount',
-              value: '0.994982275992944156',
-              currencyCode: 'USD',
-              exchangeRate: '1',
-            },
-          },
-          takerAmount: {
-            __typename: 'MoneyAmount',
-            value: '0.994982275992944156',
-            currencyCode: 'cUSD',
-            localAmount: {
-              __typename: 'LocalMoneyAmount',
-              value: '0.994982275992944156',
-              currencyCode: 'USD',
-              exchangeRate: '1',
-            },
-          },
-          makerAmount: {
-            __typename: 'MoneyAmount',
-            value: '0.1',
-            currencyCode: 'cGLD',
-            localAmount: {
-              __typename: 'LocalMoneyAmount',
-              value: '1.006007113270411465777',
-              currencyCode: 'USD',
-              exchangeRate: '10.06007113270411465777',
-            },
-          },
-          timestamp: 1578530498,
-        },
-      },
     ],
   },
 }
@@ -216,14 +154,14 @@ it('renders the received data along with the standby transactions', async () => 
   const { UNSAFE_getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
-        <TransactionsList feedType={FeedType.HOME} />
+        <TransactionsList />
       </MockedProvider>
     </Provider>
   )
-  await waitFor(() => expect(UNSAFE_getByType(TransactionFeed).props.data.length).toEqual(6))
+  await waitFor(() => expect(UNSAFE_getByType(TransactionFeed).props.data.length).toEqual(3))
   const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
   const { data } = feed.props
-  expect(data.length).toEqual(6)
+  expect(data.length).toEqual(3)
 
   // Check standby transfer
   const standbyTransfer = data[0]
@@ -232,70 +170,6 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cUSD',
     localAmount: {
       value: new BigNumber(-133),
-      currencyCode: 'PHP',
-      exchangeRate: '1.33',
-    },
-  })
-
-  // Check standby cUSD -> cGLD
-  const standbyDollarToGold = data[1]
-  expect(standbyDollarToGold.amount).toMatchObject({
-    value: new BigNumber(-20),
-    currencyCode: 'cUSD',
-    localAmount: {
-      value: new BigNumber(-26.6),
-      currencyCode: 'PHP',
-      exchangeRate: '1.33',
-    },
-  })
-  expect(standbyDollarToGold.makerAmount).toMatchObject({
-    value: new BigNumber(20),
-    currencyCode: 'cUSD',
-    localAmount: {
-      value: new BigNumber(26.6),
-      currencyCode: 'PHP',
-      exchangeRate: '1.33',
-    },
-  })
-  const matcher = {
-    value: new BigNumber(30),
-    currencyCode: 'cGLD',
-    localAmount: {
-      value: '26.600000000000000000133',
-      currencyCode: 'PHP',
-      exchangeRate: '0.8866666666666666666711',
-    },
-  }
-
-  expect(JSON.stringify(standbyDollarToGold.takerAmount)).toEqual(JSON.stringify(matcher))
-
-  // Check standby cGLD -> cUSD
-  const standbyGoldToDollar = data[2]
-  expect(standbyGoldToDollar.amount).toMatchObject({
-    value: new BigNumber(20),
-    currencyCode: 'cUSD',
-    localAmount: {
-      value: new BigNumber(26.6),
-      currencyCode: 'PHP',
-      exchangeRate: '1.33',
-    },
-  })
-  const match = {
-    value: new BigNumber(30),
-    currencyCode: 'cGLD',
-    localAmount: {
-      value: '26.600000000000000000133',
-      currencyCode: 'PHP',
-      exchangeRate: '0.8866666666666666666711',
-    },
-  }
-
-  expect(JSON.stringify(standbyGoldToDollar.makerAmount)).toEqual(JSON.stringify(match))
-  expect(standbyGoldToDollar.takerAmount).toMatchObject({
-    value: new BigNumber(20),
-    currencyCode: 'cUSD',
-    localAmount: {
-      value: new BigNumber(26.6),
       currencyCode: 'PHP',
       exchangeRate: '1.33',
     },
@@ -314,13 +188,13 @@ it('ignores pending standby transactions that are completed in the response', as
   const { UNSAFE_getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
-        <TransactionsList feedType={FeedType.HOME} />
+        <TransactionsList />
       </MockedProvider>
     </Provider>
   )
 
   const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
-  expect(feed.props.data.length).toEqual(3)
+  expect(feed.props.data.length).toEqual(2)
   expect(toJSON()).toMatchSnapshot()
 })
 
@@ -332,12 +206,12 @@ it('ignores failed standby transactions', async () => {
   const { UNSAFE_getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
-        <TransactionsList feedType={FeedType.HOME} />
+        <TransactionsList />
       </MockedProvider>
     </Provider>
   )
 
   const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
-  expect(feed.props.data.length).toEqual(3)
+  expect(feed.props.data.length).toEqual(2)
   expect(toJSON()).toMatchSnapshot()
 })

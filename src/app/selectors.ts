@@ -22,7 +22,7 @@ export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
 
-export const numberVerifiedSelector = (state: RootState) => state.app.numberVerified
+export const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
@@ -82,13 +82,13 @@ export const numberVerifiedCentrallySelector = (state: RootState) => state.app.p
 const requireCPVSelector = (state: RootState) => state.app.requireCPV
 
 export const phoneNumberVerifiedSelector = createSelector(
-  [numberVerifiedCentrallySelector, numberVerifiedSelector, requireCPVSelector],
+  [numberVerifiedCentrallySelector, numberVerifiedDecentrallySelector, requireCPVSelector],
   (numberVerifiedCentrally, numberVerifiedDecentrally, requireCPV) =>
     requireCPV ? numberVerifiedCentrally : numberVerifiedCentrally || numberVerifiedDecentrally
 )
 
 export const phoneVerificationStatusSelector = createSelector(
-  numberVerifiedSelector,
+  numberVerifiedDecentrallySelector,
   numberVerifiedCentrallySelector,
   (numberVerifiedDecentralized, numberVerifiedCentralized) => {
     return {
@@ -104,7 +104,7 @@ export const decentralizedVerificationEnabledSelector = (state: RootState) =>
 export const shouldRunVerificationMigrationSelector = createSelector(
   [
     numberVerifiedCentrallySelector,
-    numberVerifiedSelector,
+    numberVerifiedDecentrallySelector,
     decentralizedVerificationEnabledSelector,
   ],
   (numberVerifiedCentrally, numberVerifiedDecentrally, decentralizedVerificationEnabled) =>

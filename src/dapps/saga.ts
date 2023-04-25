@@ -2,12 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import {
-  dappsFilterEnabledSelector,
-  dappsListApiUrlSelector,
-  dappsSearchEnabledSelector,
-  dappsWebViewEnabledSelector,
-} from 'src/dapps/selectors'
+import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import {
   dappSelected,
   DappSelectedAction,
@@ -19,6 +14,9 @@ import { DappCategory, DappV1, DappV2 } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -76,8 +74,10 @@ export function* handleFetchDappsList() {
   const address = yield select(walletAddressSelector)
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
-  const dappsFilterEnabled = yield select(dappsFilterEnabledSelector)
-  const dappsSearchEnabled = yield select(dappsSearchEnabledSelector)
+  const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
+  )
+
   const dappsListVersion = dappsFilterEnabled || dappsSearchEnabled ? '2' : '1'
   const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=${dappsListVersion}`
 

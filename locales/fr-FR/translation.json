@@ -209,8 +209,8 @@
     "body": "Vous serez récompensé chaque semaine sur votre stablecoin Celo avec le solde la plus élevée (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorer"
   },
-  "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingTitle": "Mise à jour nécessaire",
+  "superchargingDescription": "Mettez à jour l'appli pour continuer à recevoir vos récompenses Supercharge hebdomadaires.",
   "superchargingTitleV1_54": "Vos {{token}} sont Superchargé",
   "superchargingDescriptionV1_54": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Échanger",
     "review": "Vérifier",
-    "swapFrom": "De",
-    "swapTo": "À",
+    "swapFrom": "DE",
+    "swapTo": "POUR",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
     "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>",
-    "swapFromTokenSelection": "Échanger de",
-    "swapToTokenSelection": "Échanger pour",
+    "swapFromTokenSelection": "ÉCHANGE DE",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
       "learnMore": "En savoir plus"
-    }
+    },
+    "estimatedExchangeRate": "Taux estimé ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",
@@ -1668,6 +1669,10 @@
   "profileScreen": {
     "generateName": "Générez un nom",
     "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Recherche d'actifs",
+    "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
     "add": "Ajouter",

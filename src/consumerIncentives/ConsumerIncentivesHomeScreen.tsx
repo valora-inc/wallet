@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
-  phoneNumberVerifiedSelector,
+  numberVerifiedDecentrallySelector,
   superchargeTokenConfigByTokenSelector,
 } from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
@@ -90,7 +90,7 @@ function SuperchargeInstructions() {
   const [tokenDetailsVisible, setTokenDetailsVisible] = useState(false)
 
   const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
-  const numberVerifiedDecentrally = useSelector(phoneNumberVerifiedSelector)
+  const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
   const { superchargeApy } = useSelector((state) => state.app)
   const { hasBalanceForSupercharge, superchargingTokenConfig } =

@@ -209,8 +209,6 @@ export interface RemoteConfigValues {
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
   superchargeV1Addresses: string[]
-  dappsFilterEnabled: boolean
-  dappsSearchEnabled: boolean
   requireCPV: boolean
   decentralizedVerificationEnabled: boolean
 }

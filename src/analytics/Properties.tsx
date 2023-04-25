@@ -32,6 +32,7 @@ import {
   SendEvents,
   SettingsEvents,
   SwapEvents,
+  TokenBottomSheetEvents,
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
@@ -51,15 +52,15 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
-import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { HomeActionName } from 'src/home/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -157,6 +158,7 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.view_nft_home_assets]: undefined
+  [HomeEvents.home_action_pressed]: { action: HomeActionName }
 }
 
 interface SettingsEventsProperties {
@@ -689,58 +691,6 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-  [CeloExchangeEvents.celo_home_buy]: undefined
-  [CeloExchangeEvents.celo_home_sell]: undefined
-  [CeloExchangeEvents.celo_home_withdraw]: undefined
-  [CeloExchangeEvents.celo_transaction_select]: undefined
-  [CeloExchangeEvents.celo_transaction_back]: undefined
-
-  [CeloExchangeEvents.celo_toggle_input_currency]: {
-    to: InputToken
-  }
-  [CeloExchangeEvents.celo_buy_continue]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_buy_confirm]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    stableAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_buy_cancel]: undefined
-  [CeloExchangeEvents.celo_buy_edit]: undefined
-  [CeloExchangeEvents.celo_buy_error]: {
-    error: string
-  }
-  [CeloExchangeEvents.celo_sell_continue]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_sell_confirm]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    stableAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_sell_cancel]: undefined
-  [CeloExchangeEvents.celo_sell_edit]: undefined
-  [CeloExchangeEvents.celo_sell_error]: {
-    error: string
-  }
-
-  [CeloExchangeEvents.celo_exchange_start]: undefined
-  [CeloExchangeEvents.celo_exchange_complete]: {
-    txId: string
-    currency: string
-    amount: string
-  }
-  [CeloExchangeEvents.celo_exchange_error]: {
-    error: string
-  }
-
   [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
   [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
     currency: StableCurrency
@@ -904,6 +854,12 @@ interface FiatExchangeEventsProperties {
     fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_simplex_open_webview]: {
+    amount: number
+    cryptoCurrency: CiCoCurrency
+    feeInFiat: number
+    fiatCurrency: string
   }
   [FiatExchangeEvents.cico_fc_transfer_api_error]: {
     fiatConnectError?: FiatConnectError
@@ -1246,6 +1202,12 @@ interface CeloNewsEventsProperties {
   }
   [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
+interface TokenBottomSheetEventsProperties {
+  [TokenBottomSheetEvents.search_token]: {
+    origin: TokenPickerOrigin
+    searchInput: string
+  }
+}
 
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
@@ -1275,4 +1237,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CoinbasePayEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
-  QrScreenProperties
+  QrScreenProperties &
+  TokenBottomSheetEventsProperties

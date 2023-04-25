@@ -250,7 +250,21 @@ export const fiatConnectKycTransferOut = () => {
     // Manually wait for Take Photo button to appear, withTimeout didn't work
     await sleep(10000)
 
-    // License photo
+    // License photo front
+    await element(by.label('Take photo')).tap()
+    await element(by.text('Use this photo')).tap()
+
+    // Manually wait for Take Photo button to appear, withTimeout didn't work
+    await sleep(10000)
+
+    // License photo back
+    await element(by.label('Take photo')).tap()
+    await element(by.text('Use this photo')).tap()
+
+    // Manually wait for Take Photo button to appear, withTimeout didn't work
+    await sleep(10000)
+
+    // License photo barcode
     await element(by.label('Take photo')).tap()
     await element(by.text('Use this photo')).tap()
 
@@ -263,16 +277,26 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.label('shutter button')).tap()
     await element(by.label('shutter button')).tap()
 
-    // Name, number, address form
+    // Name, number, email, address form
     await waitFor(element(by.text('Phone Number')))
       .toBeVisible()
       .withTimeout(10000)
+
     await element(by.type('PersonaPhoneNumberKit2.PhoneNumberTextField')).typeText('0123456789')
+    await element(by.text('Phone Number')).tap() // Tap away to unfocus from input to dismiss keyboard
+    await element(by.type('UITextField').withDescendant(by.label('Email Address'))).typeText(
+      'test@example.com'
+    )
     await element(by.text('Phone Number')).tap() // Tap away to unfocus from input
 
     // Scroll down to continue button - all params needed to scroll down on persona template
     // Last parameter is the start point of the scroll, 0.5 is the middle of the element
-    await element(by.type('UIScrollView')).atIndex(0).scroll(400, 'down', NaN, 0.0)
+    await element(by.type('UIScrollView').withDescendant(by.text('Phone Number'))).scroll(
+      400,
+      'down',
+      NaN,
+      0
+    )
 
     await element(by.text('Continue')).tap()
 

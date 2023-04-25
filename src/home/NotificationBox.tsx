@@ -15,7 +15,7 @@ import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import {
-  numberVerifiedSelector,
+  numberVerifiedDecentrallySelector,
   phoneNumberVerifiedSelector,
   rewardsEnabledSelector,
 } from 'src/app/selectors'
@@ -106,7 +106,7 @@ function useSimpleActions() {
   } = useSelector((state) => state.account)
 
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
-  const numberVerifiedDecentrally = useSelector(numberVerifiedSelector)
+  const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
   const numberVerifiedForSupercharge = useSelector(userIsVerifiedForSuperchargeSelector)
   const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
@@ -516,7 +516,6 @@ const styles = StyleSheet.create({
   notificationContainer: {
     width: variables.width - 2 * variables.contentPadding,
     margin: variables.contentPadding,
-    marginBottom: 24, // Enough space so the shadow is not clipped
   },
   pagination: {
     paddingBottom: variables.contentPadding,

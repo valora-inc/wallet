@@ -209,8 +209,8 @@
     "body": "Você receberá recompensas semanalmente na sua stablecoin de Celo com o maior saldo (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorar"
   },
-  "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
+  "superchargingTitle": "Atualização do app necessária",
+  "superchargingDescription": "Atualize o app da Valora para continuar recebendo recompensas do Supercharge semanalmente.",
   "superchargingTitleV1_54": "Você está recebendo recompensas de Supercharge no seus {{token}}",
   "superchargingDescriptionV1_54": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Trocar",
     "review": "Revisar",
-    "swapFrom": "De",
-    "swapTo": "Para",
+    "swapFrom": "DESDE",
+    "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
-    "swapFromTokenSelection": "Trocar de",
-    "swapToTokenSelection": "Trocar para",
+    "swapFromTokenSelection": "SWAP DE",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
-    }
+    },
+    "estimatedExchangeRate": "Taxa estimada ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",
@@ -1668,6 +1669,10 @@
   "profileScreen": {
     "generateName": "Gerar um nome",
     "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Pesquisar bens",
+    "noTokenInResult": "Não foram encontrados resultados correspondentes para <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Adicionar",

@@ -10,15 +10,7 @@ import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
-import { FeedType } from 'src/transactions/TransactionFeed'
-import {
-  ExchangeStandby,
-  StandbyTransaction,
-  TokenTransaction,
-  TokenTransactionTypeV2,
-  TransactionStatus,
-  TransferStandby,
-} from 'src/transactions/types'
+import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
 export type FeedTokenProperties = {
@@ -28,44 +20,21 @@ export type FeedTokenProperties = {
 export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
-  switch (tx.type) {
-    case TokenTransactionTypeV2.Exchange:
-      const exchangeTx = tx as ExchangeStandby
-      return {
-        __typename: 'TokenExchangeV2',
-        type: tx.type,
-        status: tx.status,
-        transactionHash: tx.hash || '',
-        timestamp: tx.timestamp,
-        block: '',
-        inAmount: {
-          value: exchangeTx.inValue,
-          tokenAddress: exchangeTx.inTokenAddress,
-        },
-        outAmount: {
-          value: exchangeTx.outValue,
-          tokenAddress: exchangeTx.outTokenAddress,
-        },
-        metadata: {},
-        fees: [],
-      }
-    default:
-      const transferTx = tx as TransferStandby
-      return {
-        __typename: 'TokenTransferV2',
-        type: tx.type,
-        status: tx.status,
-        transactionHash: tx.hash || '',
-        timestamp: tx.timestamp,
-        block: '',
-        address: transferTx.address,
-        amount: {
-          value: transferTx.value,
-          tokenAddress: transferTx.tokenAddress,
-        },
-        metadata: {},
-        fees: [],
-      }
+  const transferTx = tx as StandbyTransaction
+  return {
+    __typename: 'TokenTransferV2',
+    type: tx.type,
+    status: tx.status,
+    transactionHash: tx.hash || '',
+    timestamp: tx.timestamp,
+    block: '',
+    address: transferTx.address,
+    amount: {
+      value: transferTx.value,
+      tokenAddress: transferTx.tokenAddress,
+    },
+    metadata: {},
+    fees: [],
   }
 }
 
@@ -97,7 +66,7 @@ function TransactionFeed() {
   }, [tokenTransactions.map((tx) => tx.transactionHash).join(',')])
 
   if (!tokenTransactions.length) {
-    return <NoActivity kind={FeedType.HOME} loading={loading} error={error} />
+    return <NoActivity loading={loading} error={error} />
   }
 
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {

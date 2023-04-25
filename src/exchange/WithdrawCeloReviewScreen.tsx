@@ -125,7 +125,7 @@ WithdrawCeloReviewScreen.navigationOptions = ({
         icon={<BackButton />}
         testID="EditButton"
         onPress={onEdit}
-        eventName={CeloExchangeEvents.celo_sell_edit}
+        eventName={CeloExchangeEvents.celo_withdraw_edit}
       />
     ),
     headerRight: () =>

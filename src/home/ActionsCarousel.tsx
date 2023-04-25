@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -13,6 +15,7 @@ import HomeActionsSwap from 'src/icons/home-actions/Swap'
 import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { CloseIcon } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -25,7 +28,7 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
-        navigate(Screens.Send)
+        navigate(Screens.Send, { closeIcon: CloseIcon.BackChevron })
       },
     },
     {
@@ -33,7 +36,10 @@ function ActionsCarousel() {
       title: t('homeActions.receive'),
       icon: <HomeActionsReceive />,
       onPress: () => {
-        navigate(Screens.QRNavigator)
+        navigate(Screens.QRNavigator, {
+          screen: Screens.QRCode,
+          closeIcon: CloseIcon.BackChevron,
+        })
       },
     },
     {
@@ -51,7 +57,7 @@ function ActionsCarousel() {
       title: t('homeActions.swap'),
       icon: <HomeActionsSwap />,
       onPress: () => {
-        navigate(Screens.SwapScreen)
+        navigate(Screens.SwapScreenWithBack)
       },
     },
     {
@@ -59,7 +65,7 @@ function ActionsCarousel() {
       title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
-        navigate(Screens.Send, { isOutgoingPaymentRequest: true })
+        navigate(Screens.Send, { isOutgoingPaymentRequest: true, closeIcon: CloseIcon.BackChevron })
       },
     },
     {
@@ -81,7 +87,14 @@ function ActionsCarousel() {
     >
       {actions.map(({ name, title, icon, onPress }) => (
         <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
-          <Touchable onPress={onPress} style={styles.touchable} testID={`HomeAction-${name}`}>
+          <Touchable
+            onPress={() => {
+              ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+              onPress()
+            }}
+            style={styles.touchable}
+            testID={`HomeAction-${name}`}
+          >
             <>
               {icon}
               <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
@@ -98,6 +111,7 @@ function ActionsCarousel() {
 const styles = StyleSheet.create({
   carouselContainer: {
     paddingHorizontal: 10,
+    marginBottom: 8,
   },
   card: {
     width: 84,

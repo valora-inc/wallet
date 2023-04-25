@@ -5,12 +5,13 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
+import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 interface Props {
   tokenAddress: string
@@ -70,6 +71,10 @@ function SendAmountHeader({
     )
   }, [isOutgoingPaymentRequest, tokenInfo])
 
+  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
+    sortFirstStableThenCeloThenOthersByUsdBalance
+  )
+
   return (
     <>
       <CustomHeader
@@ -87,7 +92,8 @@ function SendAmountHeader({
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
-        tokens={isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
+        tokens={sortedTokens}
+        title={t('selectToken')}
       />
     </>
   )

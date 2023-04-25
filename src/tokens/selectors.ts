@@ -124,6 +124,10 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
+export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isSwappable)
+})
+
 export const tokensByCurrencySelector = createSelector(
   tokensListSelector,
   (tokens): CurrencyTokens => {

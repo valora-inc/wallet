@@ -12,6 +12,7 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
+import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { DappV1, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
@@ -1063,3 +1064,17 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     isFeatured: false,
   },
 ]
+
+// Generate exchange rates
+const endDate = new Date('01/01/2020').getTime()
+const celoExchangeRates = range(60).map((i) => ({
+  exchangeRate: (i / 60).toString(),
+  timestamp: endDate - i * 24 * 3600 * 1000,
+}))
+export const exchangePriceHistory = {
+  aggregatedExchangeRates: celoExchangeRates,
+  celoGoldExchangeRates: celoExchangeRates,
+  granularity: 60,
+  lastTimeUpdated: endDate,
+  range: 30 * 24 * 60 * 60 * 1000, // 30 days
+}

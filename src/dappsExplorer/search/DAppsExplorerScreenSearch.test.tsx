@@ -10,6 +10,12 @@ import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/statsig', () => ({
+  getExperimentParams: () => ({
+    dappsFilterEnabled: false,
+    dappsSearchEnabled: true,
+  }),
+}))
 
 const dappsList = mockDappListWithCategoryNames
 
@@ -142,7 +148,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsCategories,
           favoriteDappIds: [],
           dappFavoritesEnabled: true,
-          dappsFilterEnabled: true,
         },
       })
       const { getByText } = render(
@@ -163,7 +168,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsCategories,
           favoriteDappIds: ['dapp2'],
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
         },
       })
       const { getByTestId, queryByText } = render(
@@ -186,7 +190,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -222,7 +225,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -262,7 +264,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
           favoriteDappIds: [],
         },
       })
@@ -277,7 +278,9 @@ describe(DAppsExplorerScreenSearch, () => {
 
       // Should display just the no results within the favorites section
       expect(getByTestId('FavoriteDappsSection/NoResults')).toBeTruthy()
+      expect(queryByTestId('FavoriteAndAllSectionHeader')).toBeTruthy()
       expect(queryByTestId('DAppsExplorerScreenSearch/NoResults')).toBeNull()
+      expect(queryByTestId('AllSectionHeader')).toBeNull()
     })
 
     it('renders correctly when there are search results in both sections', () => {
@@ -287,7 +290,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -323,7 +325,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -360,7 +361,6 @@ describe(DAppsExplorerScreenSearch, () => {
           dappsList,
           dappsCategories,
           dappFavoritesEnabled: true,
-          dappsSearchEnabled: true,
           favoriteDappIds: [],
         },
       })

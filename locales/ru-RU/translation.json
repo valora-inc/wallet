@@ -209,8 +209,8 @@
     "body": "Вы будете еженедельно получать вознаграждение за стейблкойн Celo с наибольшей стоимостью (cEUR, cUSD, cREAL).",
     "dismiss": "Отклонить"
   },
-  "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingTitle": "Требуется обновление приложения",
+  "superchargingDescription": "Обновите приложение Valora, чтобы по-прежнему получать вознаграждения по программе Supercharge.",
   "superchargingTitleV1_54": "Для вашего {{token}} действует программа Supercharge",
   "superchargingDescriptionV1_54": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
@@ -1562,18 +1562,19 @@
   "swapScreen": {
     "title": "Обменять",
     "review": "Проверить",
-    "swapFrom": "От",
-    "swapTo": "К",
+    "swapFrom": "ОТ",
+    "swapTo": "НА",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выбрать другой актив.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
     "disclaimer": "Обмены, поддерживаемые партнерами по Celo. <0>Подробнее.</0>",
-    "swapFromTokenSelection": "Обменять с",
-    "swapToTokenSelection": "Обменять на",
+    "swapFromTokenSelection": "ПОМЕНЯТЬСЯ МЕСТАМИ",
+    "swapToTokenSelection": "ПОМЕНЯТЬСЯ МЕСТАМИ",
     "maxSwapAmountWarning": {
       "title": "Обмен МАКС. суммы",
       "body": "Убедитесь, что в вашем кошельке достаточно CELO для покрытия газа для будущих транзакций",
       "learnMore": "Подробнее"
-    }
+    },
+    "estimatedExchangeRate": "Расчетная ставка ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обменять с",
@@ -1672,6 +1673,10 @@
   "profileScreen": {
     "generateName": "Сгенерировать имя",
     "namePlaceholder": "Выберите имя, например, {{exampleName}}"
+  },
+  "tokenBottomSheet": {
+    "searchAssets": "Поисковые активы",
+    "noTokenInResult": "Не найдено подходящих результатов для <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Внести",

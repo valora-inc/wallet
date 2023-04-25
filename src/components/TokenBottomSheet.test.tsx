@@ -1,13 +1,19 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import { TokenBottomSheetEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import TokenBottomSheet, {
+  DEBOUCE_WAIT_TIME,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
+jest.mock('src/analytics/ValoraAnalytics')
 
 const tokens: TokenBalance[] = [
   {
@@ -57,6 +63,7 @@ const mockStore = createMockStore({
         address: mockCusdAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        name: 'Celo Dollar',
       },
       [mockCeurAddress]: {
         balance: '20',
@@ -65,12 +72,14 @@ const mockStore = createMockStore({
         address: mockCeurAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        name: 'Celo Euro',
       },
       [mockTestTokenAddress]: {
         balance: '10',
         symbol: 'TT',
         address: mockTestTokenAddress,
         priceFetchedAt: Date.now(),
+        name: 'Test Token',
       },
     },
   },
@@ -86,28 +95,32 @@ describe('TokenBottomSheet', () => {
   })
 
   beforeEach(() => {
+    // see: https://stackoverflow.com/questions/52695553/testing-debounced-function-in-react-component-with-jest-and-enzyme/64336022#64336022
+    jest.useFakeTimers('modern')
+    jest.runAllTimers()
     jest.clearAllMocks()
   })
 
-  function renderPicker(visible: boolean, isInvite: boolean = false) {
+  function renderPicker(visible: boolean, searchEnabled: boolean = false) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
+          title="testTitle"
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           onClose={onCloseMock}
           tokens={tokens}
+          searchEnabled={searchEnabled}
         />
       </Provider>
     )
   }
 
   it('renders correctly', () => {
-    const tree = renderPicker(true)
-    const { getByTestId } = tree
+    const { getByTestId } = renderPicker(true)
 
-    expect(tree.getByTestId('BottomSheetContainer')).toBeTruthy()
+    expect(getByTestId('BottomSheetContainer')).toBeTruthy()
 
     expect(getElementText(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
     expect(getElementText(getByTestId('LocalcUSDBalance'))).toBe('₱13.30')
@@ -139,5 +152,87 @@ describe('TokenBottomSheet', () => {
   it('renders nothing if not visible', () => {
     const { queryByTestId } = renderPicker(false)
     expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
+  })
+
+  it('renders and behaves correctly when the search is enabled', () => {
+    const { getByPlaceholderText, queryByTestId } = renderPicker(true, true)
+    const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
+    expect(searchInput).toBeTruthy()
+
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    expect(queryByTestId('TTTouchable')).toBeTruthy()
+
+    act(() => {
+      fireEvent.changeText(searchInput, 'Celo')
+      // Wait for the analytics debounce
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    })
+
+    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'Celo',
+    })
+
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    expect(queryByTestId('TTTouchable')).toBeNull()
+
+    act(() => {
+      fireEvent.changeText(searchInput, 'Test')
+      // Wait for the analytics debounce
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    })
+
+    expect(ValoraAnalytics.track).toBeCalledTimes(2)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'Test',
+    })
+
+    expect(queryByTestId('cUSDTouchable')).toBeNull()
+    expect(queryByTestId('cEURTouchable')).toBeNull()
+    expect(queryByTestId('TTTouchable')).toBeTruthy()
+
+    act(() => {
+      fireEvent.changeText(searchInput, 'Usd')
+      // Wait for the analytics debounce
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    })
+
+    expect(ValoraAnalytics.track).toBeCalledTimes(3)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'Usd',
+    })
+
+    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(queryByTestId('cEURTouchable')).toBeNull()
+    expect(queryByTestId('TTTouchable')).toBeNull()
+  })
+
+  it('does not send events for temporary search inputs', () => {
+    const { getByPlaceholderText } = renderPicker(true, true)
+    const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
+
+    act(() => {
+      fireEvent.changeText(searchInput, 'TemporaryInput')
+      fireEvent.changeText(searchInput, 'FinalInput')
+      // Wait for the analytics debounce
+      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    })
+
+    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    // We don't send events for intermediate search inputs
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'TemporaryInput',
+    })
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+      origin: TokenPickerOrigin.Send,
+      searchInput: 'FinalInput',
+    })
   })
 })

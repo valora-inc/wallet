@@ -1050,8 +1050,8 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      dappsFilterEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsFilterEnabled,
-      dappsSearchEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsSearchEnabled,
+      dappsFilterEnabled: false,
+      dappsSearchEnabled: false,
     },
   }),
   113: (state: any) => ({
@@ -1105,5 +1105,9 @@ export const migrations = {
       ...state.account,
       recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
     },
+  }),
+  123: (state: any) => ({
+    ...state,
+    dapps: _.omit(state.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
   }),
 }

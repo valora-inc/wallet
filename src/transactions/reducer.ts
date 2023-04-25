@@ -6,7 +6,6 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
-import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import {
   StandbyTransaction,
   StandbyTransactionLegacy,
@@ -149,9 +148,7 @@ export const reducer = (
     case Actions.NEW_TRANSACTIONS_IN_FEED:
       const newKnownFeedTransactions = { ...state.knownFeedTransactions }
       action.transactions.forEach((tx) => {
-        isTransferTransaction(tx)
-          ? (newKnownFeedTransactions[tx.hash] = tx.address)
-          : (newKnownFeedTransactions[tx.hash] = true)
+        newKnownFeedTransactions[tx.hash] = tx.address
       })
       return {
         ...state,

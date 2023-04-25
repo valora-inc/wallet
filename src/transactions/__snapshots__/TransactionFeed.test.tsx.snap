@@ -40,33 +40,96 @@ exports[`renders for error 1`] = `
 </View>
 `;
 
-exports[`renders for gold to dollar exchange properly 1`] = `
+exports[`renders for loading 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+      "marginTop": 32,
+      "paddingHorizontal": 16,
+    }
+  }
+>
+  <ActivityIndicator
+    color="#42D689"
+    size="large"
+    style={
+      Object {
+        "height": 108,
+        "marginVertical": 20,
+        "width": 108,
+      }
+    }
+    testID="NoActivity/loading"
+  />
+  <Text
+    style={
+      Object {
+        "color": "#757575",
+        "fontFamily": "Inter-Regular",
+        "fontSize": 18,
+        "lineHeight": 24,
+      }
+    }
+  >
+    noTransactionActivity
+     
+  </Text>
+</View>
+`;
+
+exports[`renders for no transactions 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+      "marginTop": 32,
+      "paddingHorizontal": 16,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#757575",
+        "fontFamily": "Inter-Regular",
+        "fontSize": 18,
+        "lineHeight": 24,
+      }
+    }
+  >
+    noTransactionActivity
+     
+  </Text>
+</View>
+`;
+
+exports[`renders for transactions 1`] = `
 <RCTScrollView
   data={
     Array [
       Object {
         "data": Array [
           Object {
-            "__typename": "TokenExchange",
+            "__typename": "TokenTransfer",
+            "account": "0x00000000000000000000",
+            "address": "0x00000000000000000000",
             "amount": Object {
               "currencyCode": "cUSD",
               "localAmount": null,
-              "value": "-30",
+              "value": "100",
             },
+            "comment": "test",
+            "defaultImage": "test",
+            "defaultName": "test",
             "hash": "0x00000000000000000000",
-            "makerAmount": Object {
-              "currencyCode": "cUSD",
-              "localAmount": null,
-              "value": "30",
-            },
             "status": "Complete",
-            "takerAmount": Object {
-              "currencyCode": "cGLD",
-              "localAmount": null,
-              "value": "200",
-            },
             "timestamp": 1542306118,
-            "type": "EXCHANGE",
+            "type": "RECEIVED",
           },
         ],
         "title": "undefined",
@@ -169,20 +232,57 @@ exports[`renders for gold to dollar exchange properly 1`] = `
               }
             }
           >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../src/images/transaction-exchange.png",
-                }
-              }
+            <View
               style={
-                Object {
-                  "height": 40,
-                  "width": 40,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
               }
-            />
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(0, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <Image
+                  resizeMode="cover"
+                  source={
+                    Object {
+                      "uri": "test",
+                    }
+                  }
+                  style={
+                    Array [
+                      Object {
+                        "alignSelf": "center",
+                        "margin": "auto",
+                      },
+                      Object {
+                        "borderRadius": 20,
+                        "height": 40,
+                        "width": 40,
+                      },
+                    ]
+                  }
+                />
+              </View>
+            </View>
           </View>
           <View
             style={
@@ -211,7 +311,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                   }
                 }
               >
-                feedItemBoughtCeloTitle
+                feedItemReceivedTitle, {"displayName":"test"}
               </Text>
               <Text
                 style={
@@ -228,18 +328,20 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                         "textAlign": "right",
                         "width": "40%",
                       },
-                      false,
+                      Object {
+                        "color": "#1AB775",
+                      },
                     ],
                     Object {
-                      "color": "#2E3338",
+                      "color": "#1AB775",
                     },
                   ]
                 }
                 testID="FeedItemAmountDisplay/value"
               >
-                -
+                +
                 ₱
-                39.90
+                133.00
               </Text>
             </View>
             <Text
@@ -253,7 +355,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                 }
               }
             >
-              feedItemExchangeCeloInfo, {"amount":"200.000","price":"-"}
+              feedItemReceivedInfo, {"context":null,"comment":"test"}
             </Text>
           </View>
         </View>
@@ -265,72 +367,4 @@ exports[`renders for gold to dollar exchange properly 1`] = `
     />
   </View>
 </RCTScrollView>
-`;
-
-exports[`renders for loading 1`] = `
-<View
-  style={
-    Object {
-      "alignItems": "center",
-      "flex": 1,
-      "justifyContent": "center",
-      "marginTop": 32,
-      "paddingHorizontal": 16,
-    }
-  }
->
-  <ActivityIndicator
-    color="#42D689"
-    size="large"
-    style={
-      Object {
-        "height": 108,
-        "marginVertical": 20,
-        "width": 108,
-      }
-    }
-    testID="NoActivity/loading"
-  />
-  <Text
-    style={
-      Object {
-        "color": "#757575",
-        "fontFamily": "Inter-Regular",
-        "fontSize": 18,
-        "lineHeight": 24,
-      }
-    }
-  >
-    noTransactionActivity
-     
-  </Text>
-</View>
-`;
-
-exports[`renders for no transactions 1`] = `
-<View
-  style={
-    Object {
-      "alignItems": "center",
-      "flex": 1,
-      "justifyContent": "center",
-      "marginTop": 32,
-      "paddingHorizontal": 16,
-    }
-  }
->
-  <Text
-    style={
-      Object {
-        "color": "#757575",
-        "fontFamily": "Inter-Regular",
-        "fontSize": 18,
-        "lineHeight": 24,
-      }
-    }
-  >
-    noTransactionActivity
-     
-  </Text>
-</View>
 `;

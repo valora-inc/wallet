@@ -96,7 +96,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       )
     }
     yield put(setAvailableRewards([]))
-    yield put(fetchAvailableRewards())
+    yield put(fetchAvailableRewards({ forceRefresh: true }))
     yield put(claimRewardsSuccess())
     yield put(showMessage(i18n.t('superchargeClaimSuccess')))
     navigateHome()
@@ -200,7 +200,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   }
 }
 
-export function* fetchAvailableRewardsSaga() {
+export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchAvailableRewards>) {
   const address: string | null = yield select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
@@ -223,7 +223,13 @@ export function* fetchAvailableRewardsSaga() {
     const response: Response = yield call(
       fetchWithTimeout,
       `${superchargeRewardsUrl}?address=${address}`,
-      null,
+      payload?.forceRefresh
+        ? {
+            headers: {
+              'Cache-Control': 'max-age=0',
+            },
+          }
+        : null,
       SUPERCHARGE_FETCH_TIMEOUT
     )
     const data: { availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] } =

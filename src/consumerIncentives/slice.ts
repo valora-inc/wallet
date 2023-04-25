@@ -54,7 +54,10 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
-    fetchAvailableRewards: (state) => ({
+    fetchAvailableRewards: (
+      state,
+      action: PayloadAction<{ forceRefresh: boolean } | undefined>
+    ) => ({
       ...state,
       fetchAvailableRewardsLoading: true,
       fetchAvailableRewardsError: false,

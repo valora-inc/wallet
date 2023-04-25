@@ -133,7 +133,7 @@ describe('fetchAvailableRewardsSaga', () => {
       }
       const uri = `${availableRewardsUri}?address=${userAddress}`
 
-      await expectSaga(fetchAvailableRewardsSaga)
+      await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
         .provide([
           [select(numberVerifiedCentrallySelector), true],
           [select(superchargeV2EnabledSelector), version === '2'],
@@ -146,6 +146,34 @@ describe('fetchAvailableRewardsSaga', () => {
     }
   )
 
+  it('bypasses the cache to fetch rewards for a user who has already claimed', async () => {
+    const mockResponse = {
+      json: () => {
+        return { availableRewards: expectedRewardsV2 }
+      },
+    }
+    const uri = `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`
+
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
+      .provide([
+        [select(numberVerifiedCentrallySelector), true],
+        [select(superchargeV2EnabledSelector), true],
+        [select(walletAddressSelector), userAddress],
+        [
+          call(
+            fetchWithTimeout,
+            uri,
+            { headers: { 'Cache-Control': 'max-age=0' } },
+            SUPERCHARGE_FETCH_TIMEOUT
+          ),
+          mockResponse,
+        ],
+      ])
+      .put(setAvailableRewards(expectedRewardsV2))
+      .put(fetchAvailableRewardsSuccess())
+      .run()
+  })
+
   it.each`
     version | availableRewardsUri
     ${'1'}  | ${config.fetchAvailableSuperchargeRewards}
@@ -154,12 +182,12 @@ describe('fetchAvailableRewardsSaga', () => {
     const error = new Error('Unexpected error')
     const uri = `${availableRewardsUri}?address=${userAddress}`
 
-    await expectSaga(fetchAvailableRewardsSaga)
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(numberVerifiedCentrallySelector), true],
         [select(superchargeV2EnabledSelector), version === '2'],
         [select(walletAddressSelector), userAddress],
-        [call(fetchWithTimeout, uri, SUPERCHARGE_FETCH_TIMEOUT), error],
+        [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
@@ -169,7 +197,7 @@ describe('fetchAvailableRewardsSaga', () => {
   })
 
   it('skips fetching rewards for an unverified user for supercharge v2', async () => {
-    await expectSaga(fetchAvailableRewardsSaga)
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(numberVerifiedCentrallySelector), false],
         [select(superchargeV2EnabledSelector), true],
@@ -180,7 +208,7 @@ describe('fetchAvailableRewardsSaga', () => {
   })
 
   it('displays an error if a user is not properly verified for supercharge v2', async () => {
-    await expectSaga(fetchAvailableRewardsSaga)
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(numberVerifiedCentrallySelector), true],
         [select(superchargeV2EnabledSelector), true],
@@ -189,6 +217,7 @@ describe('fetchAvailableRewardsSaga', () => {
           call(
             fetchWithTimeout,
             `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`,
+            null,
             SUPERCHARGE_FETCH_TIMEOUT
           ),
           JSON.stringify({ message: 'user not verified' }),
@@ -245,7 +274,7 @@ describe('claimRewardsSaga', () => {
             transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
           },
         })
-        .put(fetchAvailableRewards())
+        .put(fetchAvailableRewards({ forceRefresh: true }))
         .put(claimRewardsSuccess())
         .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
         .run()
@@ -279,7 +308,7 @@ describe('claimRewardsSaga', () => {
             transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
           },
         })
-        .put(fetchAvailableRewards())
+        .put(fetchAvailableRewards({ forceRefresh: true }))
         .put(claimRewardsSuccess())
         .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
         .run()
@@ -344,7 +373,7 @@ describe('claimRewardsSaga', () => {
             transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
           },
         })
-        .put(fetchAvailableRewards())
+        .put(fetchAvailableRewards({ forceRefresh: true }))
         .put(claimRewardsSuccess())
         .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
         .run()
@@ -378,7 +407,7 @@ describe('claimRewardsSaga', () => {
             transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
           },
         })
-        .put(fetchAvailableRewards())
+        .put(fetchAvailableRewards({ forceRefresh: true }))
         .put(claimRewardsSuccess())
         .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
         .run()
