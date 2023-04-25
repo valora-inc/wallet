@@ -109,8 +109,8 @@ export function* appInit() {
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
 
-  SentryTransactionHub.finishTransaction(SentryTransaction.app_tooling_initialised)
   const t1 = Date.now()
+  SentryTransactionHub.finishTransaction(SentryTransaction.app_tooling_initialised)
   ValoraAnalytics.track(AppEvents.app_tooling_initialized, { durationMs: t1 - t0 })
 }
 
