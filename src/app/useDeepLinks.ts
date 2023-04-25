@@ -13,16 +13,16 @@ export const useDeepLinks = () => {
 
   const dispatch = useDispatch()
 
-  const handleOpenURL = async (event: { url: string }, isSecureOrigin: boolean = false) => {
+  const handleOpenURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
     dispatch(openDeepLink(event.url, isSecureOrigin))
   }
 
-  const handleOpenInitialURL = async (event: { url: string }, isSecureOrigin: boolean = false) => {
+  const handleOpenInitialURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
     // this function handles initial deep links, but not dynamic links (which
     // are handled by firebase)
     if (!isConsumingInitialLink && !event.url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
       setIsConsumingInitialLink(true)
-      await handleOpenURL(event, isSecureOrigin)
+      handleOpenURL(event, isSecureOrigin)
     }
   }
 
@@ -38,20 +38,20 @@ export const useDeepLinks = () => {
           Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
         }
       } else if (url) {
-        await handleOpenInitialURL({ url }, true)
+        handleOpenInitialURL({ url }, true)
       }
     })
 
     if (FIREBASE_ENABLED) {
       const firebaseUrl = await dynamicLinks().getInitialLink()
       if (firebaseUrl) {
-        await handleOpenURL({ url: firebaseUrl.url })
+        handleOpenURL({ url: firebaseUrl.url })
       }
     }
 
     const initialUrl = await Linking.getInitialURL()
     if (initialUrl) {
-      await handleOpenInitialURL({ url: initialUrl })
+      handleOpenInitialURL({ url: initialUrl })
     }
   }, [])
 
@@ -61,7 +61,7 @@ export const useDeepLinks = () => {
       // Url location differs for iOS and Android
       const url = Platform.OS === 'ios' ? event.customExtras['wzrk_dl'] : event['wzrk_dl']
       if (url) {
-        await handleOpenURL({ url }, true)
+        handleOpenURL({ url }, true)
       }
     })
 
