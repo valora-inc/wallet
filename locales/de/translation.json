@@ -953,13 +953,13 @@
   "stableBalance": "{{token}} Guthaben",
   "selectToken": "Vermögen auswählen",
   "verificationCta": {
-    "header": "An einen Freund senden?",
-    "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
-    "cta": "Telefonnummer verbinden"
+    "header": "Sende Krypto wie eine SMS!",
+    "body": "Verbinde deine Telefonnummer mit deiner Brieftaschenadresse, damit du Zahlungen an Freunde senden und empfangen kannst.",
+    "cta": "Link Telefonnummer"
   },
   "importContactsCta": {
-    "header": "Kontakte importieren",
-    "body": "Bitte aktiviere die Kontakte in den Einstellungen deines Telefons, um deine Freunde mit Namen zu finden.",
+    "header": "Kontakte aktivieren",
+    "body": "Aktiviere die Kontakte in den Einstellungen deines Telefons, um ganz einfach Zahlungen zu senden und anzufordern.",
     "cta": "Einstellungen"
   },
   "contactSyncProgress": {
