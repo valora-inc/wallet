@@ -1,16 +1,14 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import CleverTap from 'clevertap-react-native'
-import { useEffect, useRef, useState } from 'react'
-import { EmitterSubscription, Linking, Platform } from 'react-native'
+import { useEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
+import { Linking, Platform } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { openDeepLink } from 'src/app/actions'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FIREBASE_ENABLED } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 export const useDeepLinks = () => {
-  const linkingUnsubscribeRef = useRef<EmitterSubscription>()
-  const dynamicLinksUnsubscribeRef = useRef<() => void>()
-
   const [isConsumingInitialLink, setIsConsumingInitialLink] = useState(false)
 
   const dispatch = useDispatch()
@@ -28,7 +26,7 @@ export const useDeepLinks = () => {
     }
   }
 
-  const handlePendingInitialLinks = async () => {
+  useAsync(async () => {
     // Handles opening Clevertap deeplinks when app is closed / in background
     // @ts-expect-error the clevertap ts definition has url as an object, but it
     // is a string!
@@ -55,11 +53,9 @@ export const useDeepLinks = () => {
     if (initialUrl) {
       await handleOpenInitialURL({ url: initialUrl })
     }
-  }
+  }, [])
 
-  const addDeepLinkListeners = async () => {
-    await handlePendingInitialLinks()
-
+  useEffect(() => {
     // Handles opening Clevertap deeplinks when app is open
     CleverTap.addListener('CleverTapPushNotificationClicked', async (event: any) => {
       // Url location differs for iOS and Android
@@ -69,24 +65,17 @@ export const useDeepLinks = () => {
       }
     })
 
-    linkingUnsubscribeRef.current = Linking.addEventListener('url', handleOpenURL)
+    const linkingEventListener = Linking.addEventListener('url', handleOpenURL)
 
+    let dynamicLinksUnsubsribe: () => void | undefined
     if (FIREBASE_ENABLED) {
-      dynamicLinksUnsubscribeRef.current = dynamicLinks().onLink(({ url }) =>
-        handleOpenURL({ url })
-      )
+      dynamicLinksUnsubsribe = dynamicLinks().onLink(({ url }) => handleOpenURL({ url }))
     }
-  }
 
-  useEffect(() => {
     return () => {
       CleverTap.removeListener('CleverTapPushNotificationClicked')
-      linkingUnsubscribeRef.current?.remove()
-      dynamicLinksUnsubscribeRef.current?.()
+      linkingEventListener.remove()
+      dynamicLinksUnsubsribe?.()
     }
   }, [])
-
-  return {
-    addDeepLinkListeners,
-  }
 }

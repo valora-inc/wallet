@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appMounted, appUnmounted } from 'src/app/actions'
-import { useDeepLinks } from 'src/app/useDeepLinks'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
@@ -26,7 +25,6 @@ interface Props {
 const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
   const changelanguage = useChangeLanguage()
   const dispatch = useDispatch()
-  const { addDeepLinkListeners } = useDeepLinks()
 
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
@@ -66,7 +64,6 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
         Logger.error(TAG, 'Failed init', error)
         navigateToError('appInitFailed', error)
       },
-      onSuccess: addDeepLinkListeners,
     }
   )
 
