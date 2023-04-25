@@ -955,7 +955,7 @@
   "stableBalance": "{{token}} Balance",
   "selectToken": "Select Asset",
   "verificationCta": {
-    "header": "Sending crypto like a text!",
+    "header": "Send crypto like a text!",
     "body": "Link your phone number to your wallet address so you can send & receive payments with friends.",
     "cta": "Link Phone number"
   },
