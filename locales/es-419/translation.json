@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, ambos seréis recompensados con 1 cUSD."
+    "body": "Una vez que configuren su billetera {{appName}} y conecten su número, ambos serán recompensados con 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -1274,7 +1274,7 @@
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
-    "favoriteDappsAndAll": "Mis favoritos y todo",
+    "favoriteDappsAndAll": "Mis favoritos y Todo",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
       "title": "No has añadido favoritas aún",
@@ -1563,8 +1563,8 @@
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
-    "swapFromTokenSelection": "INTERCAMBIO DESDE",
-    "swapToTokenSelection": "CAMBIAR A",
+    "swapFromTokenSelection": "SWAP DESDE",
+    "swapToTokenSelection": "SWAP A",
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
