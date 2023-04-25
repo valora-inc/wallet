@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invitez des amis et recevez des récompenses",
-    "body": "Une fois qu'il aura configuré son portefeuille {{appName}} et connecté son numéro, vous serez tous deux récompensés par 1 cUSD."
+    "body": "Vous recevrez tous les deux un (1) cUSD en récompense une fois que votre ami aura configuré son wallet {{appName}} et connecté son numéro."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -1274,8 +1274,8 @@
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous",
     "favoriteDapps": "Mes favorites",
-    "favoriteDappsAndAll": "Mes favoris et tout le reste",
-    "searchPlaceHolder": "Rechercher des dapps",
+    "favoriteDappsAndAll": "Mes favoris et tous",
+    "searchPlaceHolder": "Rechercher dans les dapps",
     "noFavorites": {
       "title": "Pas de favorites ajoutés",
       "description": "Gardez une trace de vos dapps favorites en appuyant sur l'étoile"
@@ -1287,7 +1287,7 @@
     "emptyResults": {
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
       "removeFilter": "Supprimer le filtre",
-      "searchMessage": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>."
+      "searchMessage": "Aucun résultat correspondant à <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1559,18 +1559,18 @@
     "title": "Échanger",
     "review": "Vérifier",
     "swapFrom": "DE",
-    "swapTo": "POUR",
+    "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
     "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
-    "swapToTokenSelection": "SWAP TO",
+    "swapToTokenSelection": "ÉCHANGER CONTRE",
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
       "learnMore": "En savoir plus"
     },
-    "estimatedExchangeRate": "Taux estimé ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",
@@ -1671,8 +1671,8 @@
     "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})"
   },
   "tokenBottomSheet": {
-    "searchAssets": "Recherche d'actifs",
-    "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>."
+    "searchAssets": "Rechercher des actifs",
+    "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Ajouter",
