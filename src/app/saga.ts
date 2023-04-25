@@ -66,6 +66,8 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -94,7 +96,9 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
+  SentryTransactionHub.startTransaction(SentryTransaction.app_tooling_initialised)
   const t0 = Date.now()
+
   yield all([call(initializeSentry), call(ValoraAnalytics.init)])
 
   // This step is important if the user if offline and unable to fetch remote
@@ -105,6 +109,7 @@ export function* appInit() {
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
 
+  SentryTransactionHub.finishTransaction(SentryTransaction.app_tooling_initialised)
   const t1 = Date.now()
   ValoraAnalytics.track(AppEvents.app_tooling_initialized, { durationMs: t1 - t0 })
 }

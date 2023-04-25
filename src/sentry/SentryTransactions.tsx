@@ -14,6 +14,7 @@ export enum SentryTransaction {
   send_payment_legacy = 'SendPaymentLegacy',
   wallet_connect_connection = 'WalletConnectConnection',
   wallet_connect_transaction = 'WalletConnectTransaction',
+  app_tooling_initialised = 'AppToolingInitialised',
 }
 
 type values = typeof SentryTransaction[keyof typeof SentryTransaction]
@@ -58,5 +59,9 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   WalletConnectTransaction: {
     name: 'Wallet Connect Transaction',
     op: 'wallet_connect_transaction',
+  },
+  AppToolingInitialised: {
+    name: 'App Tooling Initialised',
+    op: 'app_tooling_initialised',
   },
 }
