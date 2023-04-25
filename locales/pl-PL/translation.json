@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Zapraszaj znajomych i zbieraj nagrody",
-    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, oboje otrzymacie nagrodę w postaci 1 cUSD."
+    "body": "Po założeniu portfela w aplikacji {{appName}} i podłączeniu numeru oboje otrzymacie nagrodę w wysokości 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -1291,7 +1291,7 @@
     "emptyResults": {
       "message": "Zastosowano filtr <0>{{filter}}</0>",
       "removeFilter": "Usuń filtr",
-      "searchMessage": "Nie znaleziono pasujących wyników dla <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1563,18 +1563,18 @@
     "title": "Zamieniaj",
     "review": "Analizuj",
     "swapFrom": "Z",
-    "swapTo": "DO",
+    "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
     "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
-    "swapToTokenSelection": "ZAMIEŃ NA",
+    "swapToTokenSelection": "ZAMIANA NA",
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
       "learnMore": "Dowiedz się więcej"
     },
-    "estimatedExchangeRate": "Szacowany wskaźnik ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",
@@ -1676,7 +1676,7 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",
-    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
   },
   "homeActions": {
     "add": "Dodaj",

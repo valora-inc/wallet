@@ -13,7 +13,6 @@ import {
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
-  dappsListSelector,
   dappsMinimalDisclaimerEnabledSelector,
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
@@ -55,7 +54,6 @@ export function DAppsExplorerScreenSearch() {
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
-  const dappList = useSelector(dappsListSelector)
   const dappListWithCategoryNames = useSelector(dappListWithCategoryNamesSelector)
   const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
@@ -98,7 +96,7 @@ export function DAppsExplorerScreenSearch() {
       setAllResultEmpty(false)
     }
     return allResultsParsed
-  }, [dappList, searchTerm, favoriteDappsById])
+  }, [dappListWithCategoryNames, searchTerm, favoriteDappsById])
 
   const emptyListComponent = React.useMemo(() => {
     if (allResultEmpty && favoriteResultsEmpty) return null
