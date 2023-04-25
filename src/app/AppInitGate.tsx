@@ -1,12 +1,12 @@
 import locales from 'locales'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Dimensions } from 'react-native'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { appMounted } from 'src/app/actions'
+import { appMounted, appUnmounted } from 'src/app/actions'
 import { useDeepLinks } from 'src/app/useDeepLinks'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -30,6 +30,11 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
 
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
+
+  useEffect(() => {
+    dispatch(appUnmounted())
+  }, [])
+
   const initResult = useAsync(
     async () => {
       Logger.debug(TAG, 'Starting AppInitGate init')

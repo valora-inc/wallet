@@ -9,7 +9,6 @@ import { enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { apolloClient } from 'src/apollo/index'
-import { appUnmounted } from 'src/app/actions'
 import AppInitGate from 'src/app/AppInitGate'
 import ErrorBoundary from 'src/app/ErrorBoundary'
 import { isE2EEnv } from 'src/config'
@@ -68,10 +67,6 @@ export class App extends React.Component<Props> {
     if (isE2EEnv) {
       LogBox.ignoreAllLogs(true)
     }
-  }
-
-  componentWillUnmount() {
-    store.dispatch(appUnmounted())
   }
 
   render() {
