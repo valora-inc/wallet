@@ -64,7 +64,7 @@ function WalletHome() {
 
   useEffect(() => {
     dispatch(visitHome())
-  })
+  }, [])
 
   const showTestnetBanner = () => {
     dispatch(
