@@ -1,14 +1,15 @@
 import locales from 'locales'
+import React from 'react'
 import { useAsync } from 'react-async-hook'
+import { Dimensions } from 'react-native'
 import { findBestAvailableLanguage } from 'react-native-localize'
-import { useSelector } from 'react-redux'
-import { DEFAULT_APP_LANGUAGE } from 'src/config'
-import { initI18n } from 'src/i18n'
-import {
-  allowOtaTranslationsSelector,
-  currentLanguageSelector,
-  otaTranslationsAppVersionSelector,
-} from 'src/i18n/selectors'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { appMounted } from 'src/app/actions'
+import { useDeepLinks } from 'src/app/useDeepLinks'
+import i18n from 'src/i18n'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
@@ -17,33 +18,42 @@ import Logger from 'src/utils/Logger'
 const TAG = 'AppInitGate'
 
 interface Props {
-  loading: React.ReactNode
+  reactLoadTime: number
+  appStartedMillis: number
   children: React.ReactNode
 }
 
-const AppInitGate = ({ loading, children }: Props) => {
+const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
   const changelanguage = useChangeLanguage()
-  const allowOtaTranslations = useSelector(allowOtaTranslationsSelector)
-  const otaTranslationsAppVersion = useSelector(otaTranslationsAppVersionSelector)
+  const dispatch = useDispatch()
+  const { addDeepLinkListeners } = useDeepLinks()
+
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
-
-  const i18nInitializer = async () => {
-    await initI18n(
-      language || bestLanguage || DEFAULT_APP_LANGUAGE,
-      allowOtaTranslations,
-      otaTranslationsAppVersion
-    )
-    if (!language && bestLanguage) {
-      await changelanguage(bestLanguage)
-    }
-  }
-
   const initResult = useAsync(
     async () => {
       Logger.debug(TAG, 'Starting AppInitGate init')
-      await Promise.all([i18nInitializer(), waitUntilSagasFinishLoading()])
+      await waitUntilSagasFinishLoading()
+
+      if (!language && bestLanguage) {
+        await changelanguage(bestLanguage)
+      }
+
+      const reactLoadDuration = (reactLoadTime - appStartedMillis) / 1000
+      const appLoadDuration = (Date.now() - appStartedMillis) / 1000
+      Logger.debug('TAG', `reactLoad: ${reactLoadDuration} appLoad: ${appLoadDuration}`)
+
+      const { width, height } = Dimensions.get('window')
+      ValoraAnalytics.startSession(AppEvents.app_launched, {
+        deviceHeight: height,
+        deviceWidth: width,
+        reactLoadDuration,
+        appLoadDuration,
+        language: i18n.language || language,
+      })
+
       Logger.debug(TAG, 'AppInitGate init completed')
+      dispatch(appMounted())
     },
     [],
     {
@@ -51,11 +61,12 @@ const AppInitGate = ({ loading, children }: Props) => {
         Logger.error(TAG, 'Failed init', error)
         navigateToError('appInitFailed', error)
       },
+      onSuccess: addDeepLinkListeners,
     }
   )
 
   // type assertion here because https://github.com/DefinitelyTyped/DefinitelyTyped/issues/44572
-  return initResult.loading ? (loading as JSX.Element) : (children as JSX.Element)
+  return initResult.loading ? null : (children as JSX.Element)
 }
 
 export default AppInitGate

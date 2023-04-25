@@ -1,9 +1,11 @@
 import { compressedPubKey } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { hexToBuffer } from '@celo/utils/lib/address'
+import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import * as Keychain from 'react-native-keychain'
+import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import {
   all,
@@ -45,7 +47,11 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
+import {
+  DEFAULT_APP_LANGUAGE,
+  DYNAMIC_LINK_DOMAIN_URI_PREFIX,
+  FETCH_TIMEOUT_DURATION,
+} from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -57,6 +63,12 @@ import {
   fetchRemoteConfigValues,
   resolveDynamicLink,
 } from 'src/firebase/firebase'
+import { initI18n } from 'src/i18n'
+import {
+  allowOtaTranslationsSelector,
+  currentLanguageSelector,
+  otaTranslationsAppVersionSelector,
+} from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -97,9 +109,22 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
   SentryTransactionHub.startTransaction(SentryTransaction.app_tooling_initialised)
-  const t0 = Date.now()
 
-  yield all([call(initializeSentry), call(ValoraAnalytics.init)])
+  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+  const otaTranslationsAppVersion = yield select(otaTranslationsAppVersionSelector)
+  const language = yield select(currentLanguageSelector)
+  const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
+
+  yield all([
+    call(initializeSentry),
+    call(ValoraAnalytics.init),
+    call(
+      initI18n,
+      language || bestLanguage || DEFAULT_APP_LANGUAGE,
+      allowOtaTranslations,
+      otaTranslationsAppVersion
+    ),
+  ])
 
   // This step is important if the user if offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
@@ -109,9 +134,7 @@ export function* appInit() {
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
 
-  const t1 = Date.now()
   SentryTransactionHub.finishTransaction(SentryTransaction.app_tooling_initialised)
-  ValoraAnalytics.track(AppEvents.app_tooling_initialized, { durationMs: t1 - t0 })
 }
 
 export function* appVersionSaga() {
