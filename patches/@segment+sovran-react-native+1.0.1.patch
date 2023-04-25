@@ -6,5 +6,7 @@ index 961c442..aba4c3a 100644
 -export { createStore, type Store, type Notify, type Unsubscribe, } from './store';
  export { registerBridgeStore } from './bridge';
  export * from './persistor';
++// TODO: This file can be removed when we upgrade to Typescript 4.4.X or higher.
++// It was causing an error similar to this with our current typescript version segmentio/analytics-react-native#607
 +export { createStore, Notify, Store, Unsubscribe } from './store';
 +

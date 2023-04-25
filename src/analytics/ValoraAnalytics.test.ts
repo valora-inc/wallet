@@ -143,16 +143,11 @@ const defaultProperties = {
 
 describe('ValoraAnalytics', () => {
   let ValoraAnalytics: typeof ValoraAnalyticsModule
-  const mockPromiseFactory = () =>
-    jest.fn().mockReturnValue({
-      then: jest.fn(),
-      catch: jest.fn(),
-    })
   const mockSegmentClient = {
-    identify: mockPromiseFactory(),
-    track: mockPromiseFactory(),
-    screen: mockPromiseFactory(),
-    flush: mockPromiseFactory(),
+    identify: jest.fn().mockResolvedValue(undefined),
+    track: jest.fn().mockResolvedValue(undefined),
+    screen: jest.fn().mockResolvedValue(undefined),
+    flush: jest.fn().mockResolvedValue(undefined),
     userInfo: { get: jest.fn().mockReturnValue({ anonymousId: 'anonId' }) },
     reset: jest.fn(),
     add: jest.fn(),
