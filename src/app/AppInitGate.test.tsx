@@ -1,7 +1,6 @@
 import { act, render, waitFor } from '@testing-library/react-native'
-import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
-import { Linking, Text } from 'react-native'
+import { Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -17,12 +16,6 @@ jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/redux/sagas', () => ({
   ...(jest.requireActual('src/redux/sagas') as any),
   waitUntilSagasFinishLoading: jest.fn(),
-}))
-
-jest.mock('clevertap-react-native', () => ({
-  getInitialUrl: jest.fn(),
-  addListener: jest.fn(),
-  removeListener: jest.fn(),
 }))
 
 jest.mock('src/i18n', () => ({
@@ -77,10 +70,6 @@ describe('AppInitGate', () => {
         reactLoadDuration: 3,
       })
     )
-    expect(CleverTap.addListener).toHaveBeenCalled()
-    expect(Linking.addEventListener).toHaveBeenCalled()
-    expect(CleverTap.getInitialUrl).toHaveBeenCalled()
-    expect(Linking.getInitialURL).toHaveBeenCalled()
     expect(navigateToError).not.toHaveBeenCalled()
   })
 

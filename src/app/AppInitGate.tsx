@@ -30,7 +30,9 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
 
   useEffect(() => {
-    dispatch(appUnmounted())
+    return () => {
+      dispatch(appUnmounted())
+    }
   }, [])
 
   const initResult = useAsync(
