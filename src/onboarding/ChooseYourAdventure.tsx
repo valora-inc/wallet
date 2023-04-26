@@ -3,10 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import DevSkipButton from 'src/components/DevSkipButton'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import CeloIconNew from 'src/icons/CeloIconNew'
 import GraphSparkle from 'src/icons/GraphSparkle'
 import PlusIcon from 'src/icons/PlusIcon'
@@ -14,14 +17,12 @@ import ProfilePlus from 'src/icons/ProfilePlus'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { AdventureCardName } from 'src/onboarding/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { AdventureCardName } from 'src/onboarding/types'
 
 const DEFAULT_SEED = '0x0'
 
@@ -61,7 +62,8 @@ function ChooseYourAdventure() {
       {
         text: t('chooseYourAdventure.options.add'),
         goToNextScreen: () => {
-          navigateHome({ params: { initialScreen: Screens.FiatExchange } })
+          navigateHome()
+          navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
         },
         icon: <PlusIcon />,
         name: AdventureCardName.Add,
