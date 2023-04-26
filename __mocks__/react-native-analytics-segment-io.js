@@ -21,3 +21,15 @@ export default {
 
   disable: function () {},
 }
+
+export const AnalyticsConstants = {
+  enableAdvertisingTracking: false,
+  flushAt: 1,
+  recordScreenViews: false,
+  shouldUseBluetooth: false,
+  shouldUseLocationServices: false,
+  trackApplicationLifecycleEvents: false,
+  trackAttributionData: false,
+  trackDeepLinks: false,
+  debug: true,
+}
