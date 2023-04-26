@@ -32,10 +32,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            patches
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: ./scripts/ci_check_vulnerabilities.sh
 
@@ -52,10 +51,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            patches
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn run format:check
       - run: yarn run lint
@@ -73,10 +71,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            patches
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: git diff --exit-code
   licenses:
@@ -92,10 +89,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            patches
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn check-licenses
   depcheck:
@@ -111,9 +107,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            patches
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn depcheck
