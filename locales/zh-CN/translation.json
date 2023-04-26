@@ -1272,8 +1272,8 @@
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
-    "favoriteDappsAndAll": "我的收藏夹和所有。",
-    "searchPlaceHolder": "搜索应用。",
+    "favoriteDappsAndAll": "我的收藏夹和所有",
+    "searchPlaceHolder": "搜索应用",
     "noFavorites": {
       "title": "未添加收藏",
       "description": "点击星星图标将其添加为收藏，轻松找到最常使用的 Dapp"
@@ -1670,7 +1670,7 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
-    "noTokenInResult": "没有找到与 <0>\"{{searchTerm}}\"</0> 匹配的结果"
+    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
   },
   "homeActions": {
     "add": "添加",
