@@ -35,7 +35,10 @@ const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
   FiatAccountSchema.MobileMoney,
   FiatAccountSchema.PIXAccount,
 ])
-const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([KycSchema.PersonalDataAndDocuments])
+const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([
+  KycSchema.PersonalDataAndDocuments,
+  KycSchema.PersonalDataAndDocumentsDetailed,
+])
 
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess

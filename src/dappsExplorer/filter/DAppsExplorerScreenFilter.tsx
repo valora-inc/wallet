@@ -19,8 +19,8 @@ import {
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
-  dappsListSelector,
   dappsMinimalDisclaimerEnabledSelector,
+  dappsV2ListSelector,
   favoriteDappIdsSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -63,7 +63,7 @@ export function DAppsExplorerScreenFilter() {
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
-  const dappList = useSelector(dappsListSelector)
+  const dappList = useSelector(dappsV2ListSelector)
   const language = useSelector(currentLanguageSelector)
   const favoriteDappsById = useSelector(favoriteDappIdsSelector)
   const [selectedFilter, setSelectedFilter] = useState('all')
@@ -225,16 +225,16 @@ export function DAppsExplorerScreenFilter() {
 }
 
 function parseResultsIntoAll(
-  dappList: any,
+  dappList: DappV2[],
   filterId: string,
   favoriteDappsById: string[]
 ): SectionData[] {
   // Prevent favorite dapps from showing up in the all dapps section
   const data =
     filterId === 'all'
-      ? dappList.filter((dapp: DappV2) => !favoriteDappsById.includes(dapp.id))
+      ? dappList.filter((dapp) => !favoriteDappsById.includes(dapp.id))
       : dappList.filter(
-          (dapp: DappV2) =>
+          (dapp) =>
             !favoriteDappsById.includes(dapp.id) &&
             dapp.categories &&
             dapp.categories.includes(filterId)
