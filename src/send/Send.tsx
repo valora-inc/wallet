@@ -132,6 +132,7 @@ function Send({ route }: Props) {
     // and only if the user is permitted to change tokens.
     if (defaultTokenOverride) {
       navigate(Screens.SendAmount, {
+        isFromScan: false,
         defaultTokenOverride,
         forceTokenAddress,
         recipient,
@@ -168,6 +169,7 @@ function Send({ route }: Props) {
     }
 
     navigate(Screens.SendAmount, {
+      isFromScan: false,
       defaultTokenOverride: token,
       recipient,
       isOutgoingPaymentRequest,

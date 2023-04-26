@@ -129,6 +129,7 @@ describe('ValidateRecipientAccount', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
+      isFromScan: false,
     })
   })
 })
@@ -177,5 +178,6 @@ it('navigates to payment request confirmation when validation successful for req
 
   expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
     transactionData: mockTransactionData,
+    isFromScan: false,
   })
 })

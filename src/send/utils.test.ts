@@ -9,6 +9,7 @@ import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
+import { RecipientType } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handlePaymentDeeplink, handleSendPaymentData } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
@@ -43,7 +44,7 @@ describe('send/utils', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
         origin: SendOrigin.AppSendFlow,
-        recipient: { address: mockData.address },
+        recipient: { address: mockData.address, recipientType: RecipientType.Address },
         isOutgoingPaymentRequest: undefined,
         forceTokenAddress: false,
       })
@@ -59,7 +60,7 @@ describe('send/utils', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
         origin: SendOrigin.AppSendFlow,
-        recipient: { address: mockData.address },
+        recipient: { address: mockData.address, recipientType: RecipientType.Address },
         isOutgoingPaymentRequest: undefined,
         forceTokenAddress: true,
         defaultTokenOverride: mockCeurAddress,
@@ -76,7 +77,7 @@ describe('send/utils', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
         origin: SendOrigin.AppSendFlow,
-        recipient: { address: mockData.address },
+        recipient: { address: mockData.address, recipientType: RecipientType.Address },
         isOutgoingPaymentRequest: undefined,
         forceTokenAddress: false,
       })
@@ -113,7 +114,7 @@ describe('send/utils', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
         transactionData: {
-          recipient: { address: mockData.address },
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
           inputAmount: new BigNumber(1),
           amountIsInLocalCurrency: true,
           tokenAddress: mockCeurAddress,
@@ -133,7 +134,7 @@ describe('send/utils', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
         transactionData: {
-          recipient: { address: mockData.address },
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
           inputAmount: new BigNumber(1),
           amountIsInLocalCurrency: true,
           tokenAddress: mockCusdAddress,
@@ -245,7 +246,10 @@ describe('send/utils', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
           origin: SendOrigin.AppSendFlow,
           transactionData: {
-            recipient: { address: mockUriData[0].address.toLowerCase() },
+            recipient: {
+              address: mockUriData[0].address.toLowerCase(),
+              recipientType: RecipientType.Address,
+            },
             tokenAddress: mockCeloAddress,
             tokenAmount: new BigNumber(mockUriData[0].amount!).times(5), // 5 is the CELO price.
             inputAmount: new BigNumber(mockUriData[0].amount!),
@@ -264,7 +268,10 @@ describe('send/utils', () => {
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
           origin: SendOrigin.AppSendFlow,
-          recipient: { address: mockUriData[1].address.toLowerCase() },
+          recipient: {
+            address: mockUriData[1].address.toLowerCase(),
+            recipientType: RecipientType.Address,
+          },
           forceTokenAddress: true,
           defaultTokenOverride: mockCeloAddress,
         })
@@ -280,7 +287,10 @@ describe('send/utils', () => {
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
           origin: SendOrigin.AppSendFlow,
-          recipient: { address: mockUriData[2].address.toLowerCase() },
+          recipient: {
+            address: mockUriData[2].address.toLowerCase(),
+            recipientType: RecipientType.Address,
+          },
           forceTokenAddress: false,
         })
       })

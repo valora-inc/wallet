@@ -200,7 +200,7 @@ export function* handleBarcode(
 
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
-  yield call(handleSendPaymentData, qrData, cachedRecipient, isOutgoingPaymentRequest, true)
+  yield call(handleSendPaymentData, qrData, true, cachedRecipient, isOutgoingPaymentRequest)
 }
 type PaymentDeepLinkHandlers = {
   [key in PaymentDeepLinkHandler]: (uri: string) => Generator

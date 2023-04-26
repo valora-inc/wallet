@@ -20,8 +20,8 @@ import { AddressRecipient, getDisplayName, RecipientType } from 'src/recipients/
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
 import {
-  Actions as TransactionActions,
   NewTransactionsInFeedAction,
+  Actions as TransactionActions,
 } from 'src/transactions/actions'
 import { resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -67,6 +67,7 @@ function* bidaliPaymentRequest({
   navigate(Screens.SendConfirmationLegacyModal, {
     transactionData,
     origin: SendOrigin.Bidali,
+    isFromScan: false,
   })
 
   while (true) {

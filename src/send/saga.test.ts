@@ -14,6 +14,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { urlFromUriData } from 'src/qrcode/schema'
 import { BarcodeTypes } from 'src/qrcode/utils'
+import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
@@ -103,6 +104,7 @@ describe(watchQrCodeDetections, () => {
         e164PhoneNumber: mockE164Number,
         contactId: undefined,
         thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
       },
       forceTokenAddress: false,
     })
@@ -133,6 +135,7 @@ describe(watchQrCodeDetections, () => {
         e164PhoneNumber: mockE164Number,
         contactId: undefined,
         thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
       },
       forceTokenAddress: false,
     })
@@ -165,6 +168,7 @@ describe(watchQrCodeDetections, () => {
         e164PhoneNumber: undefined,
         contactId: undefined,
         thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
       },
       forceTokenAddress: false,
     })

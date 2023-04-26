@@ -57,9 +57,9 @@ export const getConfirmationInput = (
 
 export function* handleSendPaymentData(
   data: UriData,
+  isFromScan: boolean,
   cachedRecipient?: Recipient,
-  isOutgoingPaymentRequest?: boolean,
-  isFromScan?: boolean
+  isOutgoingPaymentRequest?: boolean
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
@@ -136,7 +136,7 @@ export function* handleSendPaymentData(
 export function* handlePaymentDeeplink(deeplink: string) {
   try {
     const paymentData = uriDataFromUrl(deeplink)
-    yield call(handleSendPaymentData, paymentData)
+    yield call(handleSendPaymentData, paymentData, false)
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }

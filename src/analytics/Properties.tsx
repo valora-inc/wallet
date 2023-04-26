@@ -492,7 +492,7 @@ interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
     usedSearchBar: boolean
-    recipientType?: RecipientType
+    recipientType: RecipientType
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
@@ -508,7 +508,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
-        recipientType?: RecipientType
+        recipientType: RecipientType
         isScan: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
@@ -532,7 +532,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
-        recipientType?: RecipientType
+        recipientType: RecipientType
         isScan: boolean
         localCurrency: LocalCurrencyCode
         usdAmount: string | null
@@ -606,7 +606,7 @@ interface RequestEventsProperties {
   [RequestEvents.request_scan]: undefined
   [RequestEvents.request_select_recipient]: {
     usedSearchBar: boolean
-    recipientType?: RecipientType
+    recipientType: RecipientType
   }
   [RequestEvents.request_amount_continue]:
     | {
@@ -632,7 +632,7 @@ interface RequestEventsProperties {
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
-    recipientType?: RecipientType
+    recipientType: RecipientType
     isScan: boolean
   }
   [RequestEvents.request_error]: {

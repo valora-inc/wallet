@@ -16,6 +16,7 @@ import { PaymentStatus, useMerchantPayments } from 'src/merchantPayment/hooks'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { RecipientType } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
@@ -125,7 +126,8 @@ function MerchantPaymentScreen({ route }: Props) {
                 recipient={{
                   name: businessInformation?.name,
                   thumbnailPath: businessInformation?.imageUrl,
-                  address: businessInformation?.address?.city || 'Missing address', // TODO: what do we do here
+                  address: '0x0', // Use default address, only used for Avatar color
+                  recipientType: RecipientType.Merchant,
                 }}
               />
               <View style={styles.recipientInfoContainer}>
