@@ -58,8 +58,8 @@ interface AbstractToken {
   // These would be resolved dynamically
   symbol: string // Example: cUSD
   decimals: number // Example: 18
-  priceUsd: number // Example: 1.5
-  balance: string // Example: "2000000000000", would be negative for debt
+  priceUsd: string // Example: 1.5
+  balance: string // Example: "200", would be negative for debt
 }
 
 interface BaseToken extends AbstractToken {
@@ -70,7 +70,7 @@ interface AppTokenPosition extends AbstractPosition, AbstractToken {
   type: 'app-token'
   supply: string
   // Price ratio between the token and underlying token(s)
-  pricePerShare: number[]
+  pricePerShare: string[]
 }
 
 interface ContractPosition extends AbstractPosition {
@@ -100,8 +100,8 @@ const TEST_RESPONSE = {
           address: '0x17700282592d6917f6a73d0bf8accf4d578c131e',
           symbol: 'MOO',
           decimals: 18,
-          priceUsd: 0.006945061569050171,
-          balance: '180868419020792201216',
+          priceUsd: '0.006945061569050171',
+          balance: '180.868419020792201216',
         },
         {
           type: 'base-token',
@@ -109,14 +109,14 @@ const TEST_RESPONSE = {
           address: '0x471ece3750da237f93b8e339c536989b8978a438',
           symbol: 'CELO',
           decimals: 18,
-          priceUsd: 0.6959536890241361,
-          balance: '1801458498251141632',
+          priceUsd: '0.6959536890241361',
+          balance: '1.801458498251141632',
         },
       ],
-      pricePerShare: [15.203387577266431, 0.15142650055521278],
-      priceUsd: 0.21097429445966362,
-      balance: '11896586737763895000',
-      supply: '29726018516587721136286',
+      pricePerShare: ['15.203387577266431', '0.15142650055521278'],
+      priceUsd: '0.21097429445966362',
+      balance: '11.896586737763895000',
+      supply: '29726.018516587721136286',
     },
     {
       type: 'app-token',
@@ -132,8 +132,8 @@ const TEST_RESPONSE = {
           address: '0x62b8b11039fcfe5ab0c56e502b1c372a3d2a9c7a',
           symbol: 'G$',
           decimals: 18,
-          priceUsd: 0.00016235559507324788,
-          balance: '1.2400197092864986e+22',
+          priceUsd: '0.00016235559507324788',
+          balance: '12400.197092864986',
         },
         {
           type: 'base-token',
@@ -141,14 +141,14 @@ const TEST_RESPONSE = {
           address: '0x765de816845861e75a25fca122bb6898b8b1282a',
           symbol: 'cUSD',
           decimals: 18,
-          priceUsd: 1,
-          balance: '2066998331535406848',
+          priceUsd: '1',
+          balance: '2.066998331535406848',
         },
       ],
-      pricePerShare: [77.49807502864574, 0.012918213362397938],
-      priceUsd: 0.025500459450704928,
-      balance: '160006517430032700000',
-      supply: '232413684885485035933',
+      pricePerShare: ['77.49807502864574', '0.012918213362397938'],
+      priceUsd: '0.025500459450704928',
+      balance: '160.006517430032700000',
+      supply: '232.413684885485035933',
     },
     {
       type: 'contract-position',
@@ -169,8 +169,8 @@ const TEST_RESPONSE = {
               address: '0x471ece3750da237f93b8e339c536989b8978a438',
               symbol: 'CELO',
               decimals: 18,
-              priceUsd: 0.6959536890241361,
-              balance: '950545800159603456',
+              priceUsd: '0.6959536890241361',
+              balance: '0.950545800159603456',
             },
             {
               type: 'base-token',
@@ -178,14 +178,14 @@ const TEST_RESPONSE = {
               address: '0x765de816845861e75a25fca122bb6898b8b1282a',
               symbol: 'cUSD',
               decimals: 18,
-              priceUsd: 1,
-              balance: '659223169268731392',
+              priceUsd: '1',
+              balance: '0.659223169268731392',
             },
           ],
-          pricePerShare: [2.827719585853931, 1.961082008754231],
-          priceUsd: 3.9290438860550765,
-          balance: '336152780111169400',
-          supply: '42744727037884449180591',
+          pricePerShare: ['2.827719585853931', '1.961082008754231'],
+          priceUsd: '3.9290438860550765',
+          balance: '0.336152780111169400',
+          supply: '42744.727037884449180591',
         },
       ],
       balanceUsd: '1.3207590254762067',
@@ -215,15 +215,11 @@ function PositionDisplay({ position }: { position: Position }) {
     .filter((image) => image !== undefined)
 
   const balanceInDecimal =
-    position.type === 'contract-position'
-      ? undefined
-      : new BigNumber(position.balance).dividedBy(new BigNumber(10).pow(position.decimals))
+    position.type === 'contract-position' ? undefined : new BigNumber(position.balance)
   const balanceUsd =
     position.type === 'contract-position'
       ? new BigNumber(position.balanceUsd)
-      : new BigNumber(position.balance)
-          .dividedBy(new BigNumber(10).pow(position.decimals))
-          .multipliedBy(position.priceUsd)
+      : new BigNumber(position.balance).multipliedBy(position.priceUsd)
 
   return (
     <View style={styles.tokenContainer}>
