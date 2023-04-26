@@ -20,7 +20,7 @@ export type Recipient = {
   displayNumber?: string
   e164PhoneNumber?: string
   address?: string
-  recipientType?: RecipientType
+  recipientType: RecipientType
 } & ({ e164PhoneNumber: string } | { address: string })
 
 export type MobileRecipient = Recipient & {
@@ -35,6 +35,7 @@ export type ContactRecipient = MobileRecipient & {
 
 export type AddressRecipient = Recipient & {
   address: string
+  recipientType: RecipientType.Address
 }
 
 export enum RecipientType {
@@ -117,6 +118,7 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
             // @ts-ignore TODO Minimal contact type is incorrect, on android it returns id
             contactId: contact.recordID || contact.id,
             // we are no longer using local contact pictures
+            recipientType: RecipientType.PhoneNumber,
           }
         } else {
           // don't do anything for contacts without e164PhoneNumber, as we can't interact with them anyways
@@ -163,6 +165,7 @@ export function getRecipientFromAddress(
     contactId: valoraRecipient?.contactId || numberRecipient?.contactId,
     e164PhoneNumber: e164PhoneNumber || undefined,
     displayNumber: numberRecipient?.displayNumber,
+    recipientType: RecipientType.Address,
   }
 
   return recipient

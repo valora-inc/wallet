@@ -185,6 +185,7 @@ function RecipientPicker(props: RecipientProps) {
       displayNumber,
       name: t('requestFromMobileNumber'),
       e164PhoneNumber,
+      recipientType: RecipientType.PhoneNumber,
     }
     return (
       <>
@@ -280,7 +281,10 @@ function RecipientPicker(props: RecipientProps) {
           closeWarning={onCancelWarning}
           onSelectRecipient={props.onSelectRecipient}
           isVisible={isSendToAddressWarningVisible}
-          recipient={{ address: props.searchQuery.toLowerCase() }}
+          recipient={{
+            address: props.searchQuery.toLowerCase(),
+            recipientType: RecipientType.Address,
+          }}
         />
       )}
       <SafeAreaInsetsContext.Consumer>

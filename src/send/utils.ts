@@ -11,7 +11,7 @@ import { getLocalCurrencyCode, localCurrencyToUsdSelector } from 'src/localCurre
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
-import { AddressRecipient, Recipient } from 'src/recipients/recipient'
+import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
@@ -68,6 +68,7 @@ export function* handleSendPaymentData(
     displayNumber: cachedRecipient?.displayNumber,
     thumbnailPath: cachedRecipient?.thumbnailPath,
     contactId: cachedRecipient?.contactId,
+    recipientType: RecipientType.Address,
   }
   yield put(
     updateValoraRecipientCache({
