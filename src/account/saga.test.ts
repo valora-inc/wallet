@@ -38,7 +38,6 @@ jest.mock('@react-native-firebase/app', () => ({
   app: jest.fn(() => ({
     messaging: () => ({
       getToken: jest.fn().mockResolvedValue('someToken'),
-      registerDeviceForRemoteMessages: jest.fn(),
     }),
   })),
 }))
