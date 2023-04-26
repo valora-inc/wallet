@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que configuren su billetera {{appName}} y conecten su número, ambos serán recompensados con 1 cUSD."
+    "body": "Una vez que configure su billetera {{appName}} y conecte su número, ambos recibirán 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -1274,7 +1274,7 @@
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
-    "favoriteDappsAndAll": "Mis favoritos y Todo",
+    "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
       "title": "No has añadido favoritas aún",
@@ -1287,7 +1287,7 @@
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Quitar filtro",
-      "searchMessage": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
     }
   },
   "dappsScreenHelpDialog": {
@@ -1558,13 +1558,13 @@
   "swapScreen": {
     "title": "Cambiar",
     "review": "Revisar",
-    "swapFrom": "DESDE",
+    "swapFrom": "DE",
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
-    "swapFromTokenSelection": "SWAP DESDE",
-    "swapToTokenSelection": "SWAP A",
+    "swapFromTokenSelection": "CAMBIAR DE",
+    "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
@@ -1672,7 +1672,7 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
     "add": "Depositar",
