@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "一旦他们设置了他们的 {{appName}} 钱包并连接他们的号码，你们都将得到1美元的奖励。"
+    "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得 1 cUSD。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -951,13 +951,13 @@
   "stableBalance": "{{token}} 余额",
   "selectToken": "选择资产",
   "verificationCta": {
-    "header": "发送给朋友吗？",
-    "body": "关联您的手机并同步您的联系人以快速发送给您的朋友。",
-    "cta": "关联手机号码"
+    "header": "像发短信一样发送加密货币!",
+    "body": "将你的电话号码与你的钱包地址联系起来，这样你就可以与朋友一起发送和接收付款。",
+    "cta": "链接电话"
   },
   "importContactsCta": {
-    "header": "导入联系人",
-    "body": "请在您的手机设置中启用联系人权限以便按姓名查找您的朋友。",
+    "header": "启用联系人",
+    "body": "在你的手机设置中启用联系人，以方便发送和请求付款。",
     "cta": "设置"
   },
   "contactSyncProgress": {
@@ -1272,8 +1272,8 @@
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
-    "favoriteDappsAndAll": "我的最爱和所有",
-    "searchPlaceHolder": "搜索Dapps",
+    "favoriteDappsAndAll": "我的收藏夹和所有",
+    "searchPlaceHolder": "搜索应用",
     "noFavorites": {
       "title": "未添加收藏",
       "description": "点击星星图标将其添加为收藏，轻松找到最常使用的 Dapp"
@@ -1285,7 +1285,7 @@
     "emptyResults": {
       "message": "<0>{{filter}}</0>已应用筛选条件",
       "removeFilter": "移除筛选条件",
-      "searchMessage": "没有找到与之匹配的结果<0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1556,19 +1556,19 @@
   "swapScreen": {
     "title": "交换",
     "review": "查看",
-    "swapFrom": "从",
-    "swapTo": "呼叫中心",
+    "swapFrom": "自",
+    "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
     "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
     "swapFromTokenSelection": "替换自",
-    "swapToTokenSelection": "调换到",
+    "swapToTokenSelection": "替换至",
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
       "learnMore": "了解更多"
     },
-    "estimatedExchangeRate": "估计比率≈<0>0.00</0>"
+    "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",
@@ -1670,7 +1670,7 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
-    "noTokenInResult": "没有找到与之匹配的结果<0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
   },
   "homeActions": {
     "add": "添加",
