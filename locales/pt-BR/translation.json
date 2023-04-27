@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Convide amigos e receba recompensas",
-    "body": "Uma vez que tenham criado a sua carteira {{appName}} e ligado o seu número, ambos serão recompensados com 1 cUSD."
+    "body": "Depois que seu amigo configurar a carteira {{appName}} dele e conectar o número de celular, vocês dois receberão 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -953,13 +953,13 @@
   "stableBalance": "Saldo de {{token}}",
   "selectToken": "Selecionar ativo",
   "verificationCta": {
-    "header": "Enviando para um amigo?",
-    "body": "Conecte o seu celular e sincronize os seus contatos para enviar fundos aos seus amigos.",
-    "cta": "Conectar número de celular"
+    "header": "Envie criptomoedas como se fossem mensagens de texto!",
+    "body": "Ligue o seu número de telefone ao endereço da sua carteira para poder enviar e receber pagamentos com amigos.",
+    "cta": "Ligação Número de telefone"
   },
   "importContactsCta": {
-    "header": "Importar contatos",
-    "body": "Autorize os contatos nas configurações do seu celular para encontrar seus amigos pelo nome.",
+    "header": "Activar contactos",
+    "body": "Active os Contactos nas Definições do seu telemóvel para enviar e pedir pagamentos facilmente.",
     "cta": "Configurações"
   },
   "contactSyncProgress": {
@@ -1274,7 +1274,7 @@
     "featuredDapp": "Em destaque",
     "allDapps": "Todos",
     "favoriteDapps": "Meus favoritos",
-    "favoriteDappsAndAll": "Os meus favoritos e todos",
+    "favoriteDappsAndAll": "Meus favoritos e todos",
     "searchPlaceHolder": "Pesquisar dapps",
     "noFavorites": {
       "title": "Não há favoritos adicionados",
@@ -1287,7 +1287,7 @@
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Remover filtro",
-      "searchMessage": "Não foram encontrados resultados correspondentes para <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1558,19 +1558,19 @@
   "swapScreen": {
     "title": "Trocar",
     "review": "Revisar",
-    "swapFrom": "DESDE",
+    "swapFrom": "DE",
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "As trocas são fornecidas por parceiros no Celo. <0>Saiba mais</0>",
-    "swapFromTokenSelection": "SWAP DE",
-    "swapToTokenSelection": "SWAP TO",
+    "swapFromTokenSelection": "TROCA DE",
+    "swapToTokenSelection": "TROCA PARA",
     "maxSwapAmountWarning": {
       "title": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
     },
-    "estimatedExchangeRate": "Taxa estimada ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Câmbio estimado ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",
@@ -1671,8 +1671,8 @@
     "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
   },
   "tokenBottomSheet": {
-    "searchAssets": "Pesquisar bens",
-    "noTokenInResult": "Não foram encontrados resultados correspondentes para <0>\"{{searchTerm}}\"</0>"
+    "searchAssets": "Pesquisar ativos",
+    "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Adicionar",
