@@ -20,8 +20,6 @@
 #import "RNSplashScreen.h"
 #import "ReactNativeConfig.h"
 
-#import <segment_analytics_react_native-Swift.h>
-
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -171,8 +169,7 @@ static void SetCustomNSURLSessionConfiguration() {
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
   BOOL handled = [RCTLinkingManager application:application openURL:url options:options];
-  // Deeplink tracking in segment
-  [AnalyticsReactNative trackDeepLink:url withOptions:options];  
+  
   return handled;
 }
 

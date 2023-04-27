@@ -1,4 +1,3 @@
-import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useState } from 'react'
@@ -12,6 +11,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Persona from 'src/account/Persona'
