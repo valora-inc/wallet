@@ -126,7 +126,7 @@ function MerchantPaymentScreen({ route }: Props) {
                 recipient={{
                   name: businessInformation?.name,
                   thumbnailPath: businessInformation?.imageUrl,
-                  address: '0x0', // Use default address, only used for Avatar color
+                  address: '0x0', // Use as default address, only used for Avatar color
                   recipientType: RecipientType.Merchant,
                 }}
               />
