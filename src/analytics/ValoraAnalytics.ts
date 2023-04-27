@@ -7,6 +7,7 @@ import _ from 'lodash'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
+import { AsyncStoragePersistor } from 'src/analytics/AsyncStoragePersistor'
 import { AppEvents } from 'src/analytics/Events'
 import { InjectTraits } from 'src/analytics/InjectTraits'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
@@ -106,6 +107,7 @@ class ValoraAnalytics {
         trackAppLifecycleEvents: true,
         trackDeepLinks: true,
         writeKey: SEGMENT_API_KEY,
+        storePersistor: AsyncStoragePersistor,
       })
       this.segmentClient.add({ plugin: new InjectTraits() })
       this.segmentClient.add({ plugin: new AdjustPlugin() })
