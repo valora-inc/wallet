@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Freunde einladen und Rewards erhalten",
-    "body": "Sobald sie ihre {{appName}} Brieftasche einrichten und ihre Nummer verbinden, werdet ihr beide mit 1 cUSD belohnt."
+    "body": "Sobald sie ihre {{appName}} -Wallet eingerichtet und ihre Nummer verbunden haben, werdet Ihr beide mit 1 cUSD belohnt."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
@@ -953,13 +953,13 @@
   "stableBalance": "{{token}} Guthaben",
   "selectToken": "Vermögen auswählen",
   "verificationCta": {
-    "header": "An einen Freund senden?",
-    "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
-    "cta": "Telefonnummer verbinden"
+    "header": "Sende Krypto wie eine SMS!",
+    "body": "Verbinde deine Telefonnummer mit deiner Brieftaschenadresse, damit du Zahlungen an Freunde senden und empfangen kannst.",
+    "cta": "Link Telefonnummer"
   },
   "importContactsCta": {
-    "header": "Kontakte importieren",
-    "body": "Bitte aktiviere die Kontakte in den Einstellungen deines Telefons, um deine Freunde mit Namen zu finden.",
+    "header": "Kontakte aktivieren",
+    "body": "Aktiviere die Kontakte in den Einstellungen deines Telefons, um ganz einfach Zahlungen zu senden und anzufordern.",
     "cta": "Einstellungen"
   },
   "contactSyncProgress": {
@@ -1287,7 +1287,7 @@
     "emptyResults": {
       "message": "<0>{{filter}}</0> Filter angewendet",
       "removeFilter": "Filter entfernen",
-      "searchMessage": "Keine passenden Ergebnisse gefunden für <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "Keine passenden Ergebnisse für <0>\"{{searchTerm}}\"</0> gefunden"
     }
   },
   "dappsScreenHelpDialog": {
@@ -1559,18 +1559,18 @@
     "title": "Tauschen",
     "review": "Überprüfen",
     "swapFrom": "VON",
-    "swapTo": "AN",
+    "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
     "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>",
-    "swapFromTokenSelection": "SWAP VON",
-    "swapToTokenSelection": "SWAP TO",
+    "swapFromTokenSelection": "TAUSCH VON",
+    "swapToTokenSelection": "TAUSCH ZU",
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
       "learnMore": "Mehr Infos"
     },
-    "estimatedExchangeRate": "Geschätzter Satz ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
@@ -1671,8 +1671,8 @@
     "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
   },
   "tokenBottomSheet": {
-    "searchAssets": "Vermögenswerte suchen",
-    "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>\"{{searchTerm}}\"</0>"
+    "searchAssets": "Vermögen suchen",
+    "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>„{{searchTerm}}”</0>"
   },
   "homeActions": {
     "add": "Hinzufügen",
