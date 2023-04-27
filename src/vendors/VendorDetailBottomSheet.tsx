@@ -73,7 +73,6 @@ function VendorDetailBottomSheet({ vendor, dismiss, select }: Props) {
               />
             ))}
           </View>
-          {/* @todo Add Send button */}
           <View style={styles.actionButtons}>
             {address && (
               <Button
@@ -87,7 +86,6 @@ function VendorDetailBottomSheet({ vendor, dismiss, select }: Props) {
               <QRCodeBorderless />
             </TouchableOpacity>
           </View>
-          {/* @todo Add QR scanning button, this should utilize deep linking */}
         </View>
       </View>
     </Modal>

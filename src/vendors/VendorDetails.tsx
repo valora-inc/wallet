@@ -142,7 +142,6 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
             />
           ))}
         </View>
-        {/* @todo Add Send button */}
         <View style={styles.actionButtons}>
           {account && (
             <Button
@@ -156,7 +155,6 @@ const VendorDetails = ({ vendor, close, action }: Props) => {
             <QRCodeBorderless />
           </TouchableOpacity>
         </View>
-        {/* @todo Add QR scanning button, this should utilize deep linking */}
       </View>
     </View>
   )

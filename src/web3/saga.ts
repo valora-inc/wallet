@@ -185,7 +185,6 @@ export function* getOrCreateCapsuleAccount() {
     Logger.debug(TAG + '@getOrCreateCapsuleAccount', 'Account already exists.')
     return account
   } else {
-    // @todo Halt until determine whether using create or login with user keyshare
     try {
       Logger.debug(TAG + '@getOrCreateCapsuleAccount', 'Creating a new account')
       const accountAddress: string = yield call(createAndAssignCapsuleAccount)

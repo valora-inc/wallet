@@ -50,7 +50,7 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
-import { CURRENCIES, Currency, StableCurrency, STABLE_CURRENCIES } from 'src/utils/currencies'
+import { CURRENCIES, Currency, STABLE_CURRENCIES, StableCurrency } from 'src/utils/currencies'
 import {
   getRateForMakerToken,
   getTakerAmount,
@@ -105,8 +105,16 @@ export function* doFetchTobinTax({ makerAmount, makerToken }: FetchTobinTaxActio
   }
 }
 
+/**
+ * This function is called when the user wants to exchange a given
+ * amount of CELO for cUSD and returns the appropriate exchange
+ * contract.
+ * @note A similar function may be used to get exchange contracts
+ * from Symmetric DEX.
+ * @param token Celo stable token currency
+ * @returns {Promise<ExchangeWrapper>} Exchange contract for the given stable token
+ */
 export async function getExchangeContract(token: StableCurrency) {
-  // @todo Update this function to get exchange contracts from Symmetric DEX
   Logger.debug(TAG + '@getTokenContract', `Fetching contract for ${token}`)
   const contractKit = await getContractKitAsync(false)
   switch (token) {
@@ -117,20 +125,6 @@ export async function getExchangeContract(token: StableCurrency) {
     default:
       throw new Error(`Could not fetch contract for unknown token ${token}`)
   }
-}
-
-/**
- * Get the contract from the Symmetric Exchange to use for the given asset pair.
- * @todo This function should query the symmetric DEx for the exchange contract
- * @param assetIn Asset to convert from
- * @param assetOut Asset to convert to
- */
-export async function getSymmetricContract(assetIn: Currency, assetOut: Currency) {
-  if (assetIn == null) throw new Error('Input Asset is undefined.')
-  if (assetOut == null) throw new Error('Output Asset is undefined.')
-  Logger.debug(TAG, '@getSymmetricContract', `Fetching contract for ${assetIn} and ${assetOut}`)
-
-  throw new Error(`Could not fetch contract for unknown pair (${assetIn}, ${assetOut})`)
 }
 
 export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
@@ -226,13 +220,6 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
     Logger.error(TAG, 'Error fetching exchange rate', error)
     yield put(showError(ErrorMessages.EXCHANGE_RATE_FAILED))
   }
-}
-
-// @todo Query Symmetric DEx contracts for exchange rates
-export function* doFetchSymmetricRate(action: FetchSymmetricRateAction) {
-  Logger.debug(TAG, '@doFetchSymmetricRate', 'Fetching exchange rate')
-  throw new Error('Not implemented')
-  yield
 }
 
 export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {

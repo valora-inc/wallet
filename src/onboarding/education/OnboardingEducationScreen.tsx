@@ -23,7 +23,6 @@ import { Spacing } from 'src/styles/styles'
 
 function useStep() {
   const { t } = useTranslation()
-  // @todo Replace value propositions with ones from Kolektivo
   return React.useMemo(() => {
     return [
       {

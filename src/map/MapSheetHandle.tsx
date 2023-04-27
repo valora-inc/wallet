@@ -66,7 +66,6 @@ const MapSheetHandle: React.FC<CustomHandleProps> = ({ title, style, animatedInd
   }
 
   const handleFindMy = () => {
-    // @note Get user's current location using geolocation
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords

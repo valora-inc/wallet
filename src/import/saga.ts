@@ -58,7 +58,11 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { setAccount } from 'src/web3/actions'
 import { getWallet } from 'src/web3/contracts'
-import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
+import {
+  assignAccountFromPrivateKey,
+  transmitRecoveryKeyshare,
+  waitWeb3LastBlock,
+} from 'src/web3/saga'
 import { ZedWallet } from 'src/web3/wallet'
 
 const TAG = 'import/saga'
@@ -255,14 +259,13 @@ export function* attemptKeyshareStorage(account: string) {
 }
 
 export function* importRecoveryKeyshareSaga({ keyshare }: ImportRecoveryKeyshareAction) {
-  // @todo Execute Capsule logic for importing recovery key
   try {
     const wallet: ZedWallet = yield call(getWallet)
     yield call([wallet, wallet.initSessionManagement])
     const account: string = yield call(
       [wallet, wallet.recoverAccountFromRecoveryKeyshare],
       keyshare,
-      () => {}
+      transmitRecoveryKeyshare
     )
     const cachedUserKeyshare: string = yield call([wallet, wallet.getKeyshare], account)
     yield call(storeCapsuleKeyShare, cachedUserKeyshare, account)

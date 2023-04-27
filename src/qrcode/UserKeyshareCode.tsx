@@ -84,7 +84,6 @@ export default function UserKeyshareDisplay({ content, qrSvgRef }: Props) {
         <QRCode value={content ?? qrContent} size={(variables.width * 2) / 3} svgRef={qrSvgRef} />
       )}
       {startTime && userKeyshareSecret && (
-        // @note Modify the sizing of the timer pls
         <VerificationCountdown
           onFinish={refreshKeyshareSecret}
           startTime={startTime}

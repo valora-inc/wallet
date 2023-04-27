@@ -16,8 +16,6 @@ type ExchangeFieldProps = {
 }
 
 const ExchangeAssetField = ({ asset, direction, style }: ExchangeFieldProps) => {
-  // // @todo Get required display details for asset
-  // // @todo Actions to interact with elements
   const dispatch = useDispatch()
   const { amountIn, amountOut } = useSelector(fetchSelectedSwapAssets)
   const amount = direction === SwapDirection.IN ? amountIn : amountOut

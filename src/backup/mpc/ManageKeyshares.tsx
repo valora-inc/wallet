@@ -86,15 +86,13 @@ ManageKeyshares.navigationOptions = () => {
 
 const useAccountManagement = () => {
   const goToUserKeyshare = () => {
-    // @note has seen education?
+    // @todo has seen education?
     navigate(Screens.KeyshareEducationScreen, { type: KeyshareType.User })
-    // @todo nav to user keyshare education
   }
 
   const goToRecoveryKeyshare = () => {
-    // @note has seen education?
+    // @todo has seen education?
     navigate(Screens.KeyshareEducationScreen, { type: KeyshareType.Recovery })
-    // @todo nav to restore education
   }
 
   const goToMultiParty = () => {

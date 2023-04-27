@@ -5,11 +5,11 @@ export const isAddressFormat = (content: string): boolean => {
 }
 
 export const emailFormatValidator = (email: string): string => {
-  // @todo Email validation
+  // @audit Email validation
   return email
 }
 
 export const passwordFormatValidator = (password: string): string => {
-  // @todo Password validation
+  // @audit Password validation
   return password
 }

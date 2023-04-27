@@ -143,13 +143,11 @@ const FoodForestDetails = ({ forest, close, action }: Props) => {
             />
           ))}
         </View>
-        {/* @todo Add Send button */}
         <View style={styles.actionButtons}>
           <TouchableOpacity onPress={action}>
             <QRCodeBorderless />
           </TouchableOpacity>
         </View>
-        {/* @todo Add QR scanning button, this should utilize deep linking */}
       </View>
     </View>
   )
