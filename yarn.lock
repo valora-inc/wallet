@@ -4408,6 +4408,11 @@
     redux-thunk "^2.4.2"
     reselect "^4.1.7"
 
+"@segment/analytics-react-native-legacy@npm:@segment/analytics-react-native@1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.5.2.tgz#1540cef83a83a6001fc249605ccf28f596edf791"
+  integrity sha512-LFfU2t6BIrVGmTU8CC/vaANfyczDBq4JD7700jTPbONMzfKUkO9sp2jgRA1+dKI+f8SuWNditA7ImUczAj2giw==
+
 "@segment/analytics-react-native-plugin-adjust@^0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.6.1.tgz#010fb12a8f81b41070d20c2d7c9a58133e860bd0"
@@ -7252,7 +7257,7 @@ buffer-equal-constant-time@1.0.1:
   resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
   integrity sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=
 
-buffer-from@^1.0.0, buffer-from@1.x:
+buffer-from@1.x, buffer-from@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
   integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==

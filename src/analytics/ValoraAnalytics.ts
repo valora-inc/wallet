@@ -1,4 +1,5 @@
 import { createClient, SegmentClient } from '@segment/analytics-react-native'
+import LegacySegment from '@segment/analytics-react-native-legacy'
 import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
 import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
@@ -109,6 +110,9 @@ class ValoraAnalytics {
         writeKey: SEGMENT_API_KEY,
         storePersistor: AsyncStoragePersistor,
       })
+      await LegacySegment.setup('n/a', {})
+      const anonymousId = await LegacySegment.getAnonymousId()
+      await this.segmentClient.userInfo.set({ anonymousId })
       this.segmentClient.add({ plugin: new InjectTraits() })
       this.segmentClient.add({ plugin: new AdjustPlugin() })
       this.segmentClient.add({ plugin: new ClevertapPlugin() })
