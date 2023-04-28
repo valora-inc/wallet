@@ -951,13 +951,13 @@
   "stableBalance": "ยอดคงเหลือ {{token}}",
   "selectToken": "เลือกสินทรัพย์",
   "verificationCta": {
-    "header": "Send crypto like a text!",
-    "body": "Link your phone number to your wallet address so you can send & receive payments with friends.",
-    "cta": "Link Phone number"
+    "header": "ส่งคริปโตได้ง่ายเหมือนส่งข้อความ!",
+    "body": "เชื่อมโยงหมายเลขโทรศัพท์ของคุณกับที่อยู่กระเป๋าเงินของคุณ เพื่อให้คุณสามารถส่งและรับเงินกับเพื่อนได้",
+    "cta": "เชื่อมต่อหมายเลขโทรศัพท์"
   },
   "importContactsCta": {
-    "header": "Enable Contacts",
-    "body": "Enable Contacts in your phone’s Settings to easily send and request payments.",
+    "header": "เปิดใช้งานการเข้าถึงผู้ติดต่อ",
+    "body": "โปรดเปิดใช้งานผู้ติดต่อในการตั้งค่าของโทรศัพท์เพื่อใช้ชื่อค้นหาเพื่อนของคุณ",
     "cta": "การตั้งค่า"
   },
   "contactSyncProgress": {
