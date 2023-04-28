@@ -14,6 +14,13 @@ import {
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('@segment/analytics-react-native')
+jest.mock('@segment/analytics-react-native-legacy', () => ({
+  __esModule: true,
+  default: {
+    setup: jest.fn().mockResolvedValue(undefined),
+    getAnonymousId: jest.fn().mockResolvedValue('legacy-anon-id'),
+  },
+}))
 jest.mock('@segment/analytics-react-native-plugin-adjust')
 jest.mock('@segment/analytics-react-native-plugin-clevertap')
 jest.mock('@segment/analytics-react-native-plugin-firebase')
@@ -148,7 +155,10 @@ describe('ValoraAnalytics', () => {
     track: jest.fn().mockResolvedValue(undefined),
     screen: jest.fn().mockResolvedValue(undefined),
     flush: jest.fn().mockResolvedValue(undefined),
-    userInfo: { get: jest.fn().mockReturnValue({ anonymousId: 'anonId' }) },
+    userInfo: {
+      get: jest.fn().mockReturnValue({ anonymousId: 'anonId' }),
+      set: jest.fn().mockReturnValue(undefined),
+    },
     reset: jest.fn(),
     add: jest.fn(),
   }
@@ -171,6 +181,9 @@ describe('ValoraAnalytics', () => {
       })
     )
     await ValoraAnalytics.init()
+    expect(mockSegmentClient.userInfo.set).toHaveBeenCalledWith({
+      anonymousId: 'legacy-anon-id',
+    })
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       { userID: '0x1234abc', custom: { startOnboardingTime: 1234 } },
