@@ -195,7 +195,7 @@ const Education = ({
           loop={false}
           dotStyle={dotStyle}
           activeDotStyle={activeDotStyle}
-          removeClippedSubviews={false}
+          removeClippedSubviews={true}
         >
           {stepInfo.map((step: EducationStep, i: number) => {
             return (
@@ -204,15 +204,13 @@ const Education = ({
                 style={styles.swipedContent}
                 key={i}
               >
-                <View style={styles.swipedContentInner}>
-                  {step.isTopTitle && <Logo height={64} />}
-                  {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
-                  {step.image && !experimentalSwiper && (
-                    <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
-                  )}
-                  {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
-                  {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
-                </View>
+                {step.isTopTitle && <Logo height={64} />}
+                {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
+                {step.image && !experimentalSwiper && (
+                  <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
+                )}
+                {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
+                {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
               </ScrollView>
             )
           })}
@@ -234,18 +232,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
-  contentContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexGrow: 1,
-  },
   container: {
     flex: 1,
-    flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 24,
+  },
+  contentContainer: {},
+  swipedContent: {
+    paddingHorizontal: 24,
   },
   heading: {
     marginTop: 24,
@@ -258,22 +251,12 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...fontStyles.regular,
-    textAlign: 'justify',
-    paddingTop: 16,
     marginBottom: 24,
   },
   bodyImage: {
     alignSelf: 'center',
-    marginBottom: 24,
     maxHeight: '60%',
-  },
-  swipedContent: {
-    marginBottom: 24,
-    paddingHorizontal: 24,
-    overflow: 'scroll',
-  },
-  swipedContentInner: {
-    width: '100%',
+    maxWidth: '100%',
   },
   top: {
     paddingHorizontal: 24,

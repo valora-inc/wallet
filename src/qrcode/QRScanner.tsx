@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
 import TextButton from 'src/components/TextButton'
+import Times from 'src/icons/Times'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
 import SendSheet from 'src/send/SendSheet'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+
+const height = Dimensions.get('window').height
 
 interface QRScannerProps {
   isForKeyshare?: boolean
@@ -61,6 +66,14 @@ export default function QRScanner({ onBarCodeDetected, isForKeyshare }: QRScanne
   const [value, setValue] = useState('')
   const [displayEntryModal, setDisplayEntryModal] = useState(false)
 
+  const closeScanner = () => {
+    if (isForKeyshare) {
+      navigate(Screens.Welcome)
+    } else {
+      navigateBack()
+    }
+  }
+
   const openModal = () => {
     setDisplayEntryModal(true)
   }
@@ -99,6 +112,16 @@ export default function QRScanner({ onBarCodeDetected, isForKeyshare }: QRScanne
       testID={'Camera'}
     >
       <SeeThroughOverlay />
+
+      <View>
+        <TouchableOpacity
+          testID="ImportCloseButton"
+          onPress={closeScanner}
+          style={styles.closeButton}
+        >
+          <Times color={Colors.light} />
+        </TouchableOpacity>
+      </View>
 
       <View>
         {isEmulator ? (
@@ -173,6 +196,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     maxWidth: '100%',
     flexWrap: 'wrap',
+  },
+  closeButton: {
+    position: 'absolute',
+    bottom: height - height * 0.1,
+    left: 24,
   },
   cancelButton: {
     color: colors.gray5,
