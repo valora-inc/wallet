@@ -22,7 +22,7 @@ type Props = RouteProps
 function CapsuleOAuthScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const { isExistingUser } = route.params || {}
-  const { authenticate, initiateLogin } = useCapsule()
+  const { loading, authenticate, initiateLogin } = useCapsule()
 
   const headerHeight = useHeaderHeight()
 
@@ -75,6 +75,7 @@ function CapsuleOAuthScreen({ route, navigation }: Props) {
         </View>
         <View style={styles.flexBottom}>
           <Button
+            showLoading={loading}
             type={BtnTypes.BRAND_PRIMARY}
             size={BtnSizes.FULL}
             text={t('next')}

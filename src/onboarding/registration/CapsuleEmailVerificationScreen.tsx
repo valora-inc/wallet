@@ -22,14 +22,16 @@ const TAG = 'capsule/capsule'
 function CapsuleEmailVerificationScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const { isExistingUser } = route.params || {}
-  const { verify, loginWithKeyshare } = useCapsule()
+  const { loading, verify, loginWithKeyshare } = useCapsule()
 
   const headerHeight = useHeaderHeight()
 
   const [code, setCode] = useState<string>()
 
   const handleDigitPress = (digit: number) => {
-    setCode(`${code ?? ''}${digit}`)
+    if (!loading) {
+      setCode(`${code ?? ''}${digit}`)
+    }
   }
 
   const handleBackspace = () => {
@@ -74,7 +76,11 @@ function CapsuleEmailVerificationScreen({ route, navigation }: Props) {
             </Text>
           </View>
           <View style={styles.callout}>
-            <Text style={styles.hasNotReceivedEmail}>{t('hasNotReceivedEmail')}</Text>
+            {loading ? (
+              <Text style={styles.hasNotReceivedEmail}>{t('waitingOnVerification')}</Text>
+            ) : (
+              <Text style={styles.hasNotReceivedEmail}>{t('hasNotReceivedEmail')}</Text>
+            )}
           </View>
         </View>
         <Button
