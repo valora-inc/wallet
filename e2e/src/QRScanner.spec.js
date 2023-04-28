@@ -1,7 +1,7 @@
 import { reloadReactNative } from './utils/retries'
 import { quickOnboarding, waitForElementId } from './utils/utils'
 
-describe.skip('Given QR Scanner', () => {
+describe('Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
