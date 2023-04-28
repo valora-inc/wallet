@@ -11,6 +11,8 @@ import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+jest.mock('src/fiatExchanges/navigator')
+
 const store = createMockStore()
 
 describe('RefetchQuoteScreen', () => {
