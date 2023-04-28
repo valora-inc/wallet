@@ -11,6 +11,7 @@ import {
   v106Schema,
   v112Schema,
   v115Schema,
+  v123Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -870,6 +871,18 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[116](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.startOnboardingTime = undefined
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v123 to v124', () => {
+    const oldSchema = v123Schema
+    const migratedSchema = migrations[124](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.appReview = {
+      inAppRatingSupported: false,
+      appRated: false,
+      lastInteractionTimestamp: null,
+    }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

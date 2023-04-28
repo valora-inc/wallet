@@ -2197,6 +2197,19 @@ export const v123Schema = {
   dapps: _.omit(v122Schema.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
 }
 
+export const v124Schema = {
+  ...v123Schema,
+  _persist: {
+    ...v123Schema._persist,
+    version: 124,
+  },
+  appReview: {
+    inAppRatingSupported: false,
+    appRated: false,
+    lastInteractionTimestamp: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v123Schema as Partial<RootState>
+  return v124Schema as Partial<RootState>
 }
