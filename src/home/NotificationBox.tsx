@@ -3,48 +3,25 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
+import { HomeEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { openUrl } from 'src/app/actions'
-import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
-import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { useHasBalanceForSupercharge } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
-import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { dismissNotification } from 'src/home/actions'
-import { DEFAULT_PRIORITY } from 'src/home/reducers'
-import { getExtraNotifications } from 'src/home/selectors'
-import { backupKey, boostRewards } from 'src/images/Images'
-import { ensurePincode, navigate } from 'src/navigator/NavigationService'
+import { setCicoCompleted } from 'src/goldToken/actions'
+import { boostRewards } from 'src/images/Images'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
-import OutgoingPaymentRequestSummaryNotification from 'src/paymentRequest/OutgoingPaymentRequestSummaryNotification'
-import {
-  getIncomingPaymentRequests,
-  getOutgoingPaymentRequests,
-} from 'src/paymentRequest/selectors'
+import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import variables from 'src/styles/variables'
-import { getContentForCurrentLang } from 'src/utils/contentTranslations'
-import Logger from 'src/utils/Logger'
 
 const TAG = 'NotificationBox'
 // Priority of static notifications
 const BACKUP_PRIORITY = 1000
-const KOLEKTIVO_NOTIFICATTION_PRIORITY = 975
-const VERIFICATION_PRIORITY = 100
-const INVITES_PRIORITY = 400
-const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
-const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
-const CELO_EDUCATION_PRIORITY = 10
-const SUPERCHARGE_AVAILABLE_PRIORITY = 950
-const SUPERCHARGE_INFO_PRIORITY = 440
+const KOLEKTIVO_NOTIFICATTION_PRIORITY = 500
 
 export enum NotificationBannerTypes {
   incoming_tx_request = 'incoming_tx_request',
@@ -79,34 +56,18 @@ interface Notification {
   id: string
 }
 
+/**
+ * This function constructs a list of simple notifications to be displayed
+ * to the user in the NotificationBox on the Wallet Home.
+ * - Prompt to Buy kGuilder
+ * @returns {Notification[]} Array of notifications to be displayed
+ */
 function useSimpleActions() {
-  const { backupCompleted } = useSelector((state) => state.account)
-
-  const numberVerified = useSelector((state) => state.app.numberVerified)
-  const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
-
-  const extraNotifications = useSelector(getExtraNotifications)
-
-  const kolektivoNotifications = useSelector((state) => state.goldToken.kolektivoNotifications)
-
-  const verificationPossible = useSelector(verificationPossibleSelector)
-
-  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
-  const isSupercharging = numberVerified && hasBalanceForSupercharge
-
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
-
-  const { superchargeApy } = useSelector((state) => state.app)
-
   const { t } = useTranslation()
-
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchAvailableRewards())
-  }, [])
-
-  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const kolektivoNotifications = useSelector(
+    (state: RootState) => state.goldToken.kolektivoNotifications
+  )
 
   const actions: SimpleMessagingCardProps[] = []
 
@@ -118,7 +79,7 @@ function useSimpleActions() {
       priority: KOLEKTIVO_NOTIFICATTION_PRIORITY,
       callToActions: [
         {
-          text: 'Read More',
+          text: t('moreInfo'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.kolektivo_cico,
@@ -127,101 +88,15 @@ function useSimpleActions() {
             navigate(Screens.GuilderEducation)
           },
         },
-      ],
-    })
-  }
-
-  if (!backupCompleted) {
-    actions.push({
-      id: 'backup',
-      text: t('backupKeyNotification'),
-      icon: backupKey,
-      priority: BACKUP_PRIORITY,
-      callToActions: [
         {
-          text: t('introPrimaryAction'),
-          onPress: () => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.backup_prompt,
-              selectedAction: NotificationBannerCTATypes.accept,
-            })
-            ensurePincode()
-              .then((pinIsCorrect) => {
-                if (pinIsCorrect) {
-                  navigate(Screens.BackupIntroduction)
-                }
-              })
-              .catch((error) => {
-                Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
-              })
-          },
-        },
-      ],
-    })
-  }
-
-  if (rewardsEnabled) {
-    if (superchargeRewards.length > 0) {
-      actions.push({
-        id: 'claimSuperchargeRewards',
-        text: t('superchargeNotificationBody'),
-        icon: boostRewards,
-        priority: SUPERCHARGE_AVAILABLE_PRIORITY,
-        callToActions: [
-          {
-            text: t('superchargeNotificationStart'),
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.supercharge_available,
-                selectedAction: NotificationBannerCTATypes.accept,
-              })
-              navigate(Screens.ConsumerIncentivesHomeScreen)
-              ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-                origin: RewardsScreenOrigin.RewardAvailableNotification,
-              })
-            },
-          },
-        ],
-      })
-    }
-  }
-
-  for (const [id, notification] of Object.entries(extraNotifications)) {
-    if (!notification) {
-      continue
-    }
-    const texts = getContentForCurrentLang(notification.content)
-    if (!texts) {
-      continue
-    }
-
-    actions.push({
-      id,
-      text: texts.body,
-      icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
-      priority: notification.priority ?? DEFAULT_PRIORITY,
-      callToActions: [
-        {
-          text: texts.cta,
-          onPress: () => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.remote_notification,
-              selectedAction: NotificationBannerCTATypes.remote_notification_cta,
-              notificationId: id,
-            })
-            dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
-          },
-        },
-        {
-          text: texts.dismiss,
+          text: t('close'),
           isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.remote_notification,
+              notificationType: NotificationBannerTypes.kolektivo_cico,
               selectedAction: NotificationBannerCTATypes.decline,
-              notificationId: id,
             })
-            dispatch(dismissNotification(id))
+            dispatch(setCicoCompleted())
           },
         },
       ],
@@ -233,42 +108,6 @@ function useSimpleActions() {
 
 function useNotifications() {
   const notifications: Notification[] = []
-
-  // Pending outgoing invites in escrow
-  const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
-  if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
-    notifications.push({
-      element: (
-        <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />
-      ),
-      priority: INVITES_PRIORITY,
-      id: 'reclaimInvite',
-    })
-  }
-
-  // Incoming payment requests
-  const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
-  if (incomingPaymentRequests && incomingPaymentRequests.length) {
-    notifications.push({
-      element: (
-        <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />
-      ),
-      priority: INCOMING_PAYMENT_REQUESTS_PRIORITY,
-      id: 'incomingPaymentRequest',
-    })
-  }
-
-  // Outgoing payment requests
-  const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
-  if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
-    notifications.push({
-      element: (
-        <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />
-      ),
-      priority: OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-      id: 'outgoingPaymentRequest',
-    })
-  }
 
   const simpleActions = useSimpleActions()
   notifications.push(
