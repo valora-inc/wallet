@@ -953,13 +953,13 @@
   "stableBalance": "Saldo en {{token}}",
   "selectToken": "Seleccionar activo",
   "verificationCta": {
-    "header": "¡Envía criptomonedas como un texto!",
-    "body": "Vincula tu número de teléfono a la dirección de tu monedero para poder enviar y recibir pagos con tus amigos.",
-    "cta": "Enlace Número de teléfono"
+    "header": "¡Envía cripto en un mensaje!",
+    "body": "Conecta tu número de teléfono a tu dirección de wallet para enviar y recibir cripto entre tus contactos.",
+    "cta": "Conecta tu número"
   },
   "importContactsCta": {
-    "header": "Activar Contactos",
-    "body": "Activa Contactos en los Ajustes de tu teléfono para enviar y solicitar pagos fácilmente.",
+    "header": "Habilita el acceso a contactos",
+    "body": "Habilita el acceso a tus contactos en la configuración de tu teléfono para encontrar a tus personas preferidas por nombre.",
     "cta": "Configuración"
   },
   "contactSyncProgress": {
