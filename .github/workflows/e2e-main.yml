@@ -31,7 +31,7 @@ jobs:
         # TODO enable android 21 & 31
         # 21 is failing 9 specs
         # 31 is failing ? spec(s)
-        android-api-level: [24, 29, 30]
+        android-api-level: [23, 24, 29, 30]
     uses: ./.github/workflows/e2e-android.yml
     with:
       android-api-level: ${{ matrix.android-api-level }}
