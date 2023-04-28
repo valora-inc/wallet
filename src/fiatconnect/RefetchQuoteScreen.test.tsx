@@ -4,6 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 import { refetchQuote } from 'src/fiatconnect/slice'
+import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -20,7 +21,7 @@ describe('RefetchQuoteScreen', () => {
     jest.clearAllMocks()
   })
 
-  it('navigates to CICO screen when cached quote does not exist', () => {
+  it('navigates to CICO start when cached quote does not exist', () => {
     const props = getMockStackScreenProps(Screens.FiatConnectRefetchQuote, {
       providerId: 'some-provider',
       kycSchema: KycSchema.PersonalDataAndDocuments,
@@ -30,12 +31,12 @@ describe('RefetchQuoteScreen', () => {
         <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchange)
+    expect(navigateToFiatExchangeStart).toHaveBeenCalledTimes(1)
+    expect(navigateToFiatExchangeStart).toHaveBeenCalledWith()
     expect(store.dispatch).not.toHaveBeenCalled()
   })
 
-  it('navigates to CICO screen on error during quote re-fetch', () => {
+  it('navigates to CICO start on error during quote re-fetch', () => {
     const store = createMockStore({
       fiatConnect: {
         quotesError: 'some error',
@@ -62,8 +63,8 @@ describe('RefetchQuoteScreen', () => {
         <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchange)
+    expect(navigateToFiatExchangeStart).toHaveBeenCalledTimes(1)
+    expect(navigateToFiatExchangeStart).toHaveBeenCalledWith()
     expect(store.dispatch).toHaveBeenCalledWith(
       refetchQuote({
         flow: CICOFlow.CashOut,
