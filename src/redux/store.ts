@@ -138,6 +138,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'imports',
           'paymentRequest',
           'fiatConnect',
+          'appReview',
         ],
       })
     )
