@@ -951,13 +951,13 @@
   "stableBalance": "Số dư {{token}}",
   "selectToken": "Chọn tài sản",
   "verificationCta": {
-    "header": "Send crypto like a text!",
-    "body": "Link your phone number to your wallet address so you can send & receive payments with friends.",
-    "cta": "Link Phone number"
+    "header": "Gửi tiền điện tử như gửi tin nhắn văn bản!",
+    "body": "Liên kết số điện thoại của bạn với địa chỉ ví của bạn để bạn có thể gửi và nhận thanh toán với bạn bè.",
+    "cta": "Kết nối số điện thoại"
   },
   "importContactsCta": {
-    "header": "Enable Contacts",
-    "body": "Enable Contacts in your phone’s Settings to easily send and request payments.",
+    "header": "Bật quyền truy cập danh bạ",
+    "body": "Vui lòng bật Danh bạ trong phần Cài đặt của điện thoại để tìm bạn bè theo tên.",
     "cta": "Cài đặt"
   },
   "contactSyncProgress": {
