@@ -24,6 +24,7 @@ import {
   fiatConnectQuotesLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
+import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -126,7 +127,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         },
       })
     } else if (previousScreen?.name === Screens.FiatConnectRefetchQuote) {
-      navigate(Screens.FiatExchange)
+      navigateToFiatExchangeStart()
     } else {
       navigateBack()
     }
@@ -693,7 +694,7 @@ FiatConnectReviewScreen.navigationOptions = ({
           flow: route.params.flow,
           provider: route.params.normalizedQuote.getProviderId(),
         })
-        navigate(Screens.FiatExchange)
+        navigateToFiatExchangeStart()
       }}
       style={styles.cancelBtn}
     />
