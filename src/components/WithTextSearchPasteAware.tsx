@@ -21,7 +21,8 @@ export default function withTextSearchPasteAware<P extends TextInputProps>(
           <View style={styles.searchIconContainer}>{iconToUse}</View>
           <WrappedTextInput
             {...this.props}
-            inputStyle={styles.input}
+            style={styles.inputContainer}
+            inputStyle={styles.inputText}
             testID="SearchInput"
             showClearButton={!isPasteIconVisible}
           />
@@ -53,7 +54,10 @@ const styles = StyleSheet.create({
     marginLeft: 17,
     marginRight: 13,
   },
-  input: {
+  inputContainer: {
+    flexGrow: 1,
+  },
+  inputText: {
     paddingVertical: 6,
   },
 })
