@@ -17,11 +17,13 @@ function NoResults({ testID, searchTerm }: Props) {
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.onboardingBlue} />
       </View>
-      <Text style={styles.text}>
-        <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
-          <Text style={styles.searchedText} />
-        </Trans>
-      </Text>
+      <View style={styles.searchTextContainer}>
+        <Text style={styles.text}>
+          <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
+            <Text style={styles.searchedText} />
+          </Trans>
+        </Text>
+      </View>
     </View>
   )
 }
@@ -29,6 +31,10 @@ function NoResults({ testID, searchTerm }: Props) {
 const styles = StyleSheet.create({
   iconContainer: {
     flex: 1,
+    alignSelf: 'flex-start',
+  },
+  searchTextContainer: {
+    flex: 11,
   },
   searchedText: {
     color: Colors.dark,
