@@ -4,6 +4,7 @@ import { Actions } from 'src/account/actions'
 import { reducer as account, State as AccountState } from 'src/account/reducer'
 import { reducer as alert, State as AlertState } from 'src/alert/reducer'
 import { appReducer as app, State as AppState } from 'src/app/reducers'
+import appReviewReducer, { State as AppReviewState } from 'src/appReview/slice'
 import superchargeReducer, { State as SuperchargeState } from 'src/consumerIncentives/slice'
 import dappsReducer, { State as DappsState } from 'src/dapps/slice'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
@@ -51,6 +52,7 @@ const appReducer = combineReducers({
   dapps: dappsReducer,
   fiatConnect: fiatConnectReducer,
   swap: swapReducer,
+  appReview: appReviewReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -98,6 +100,7 @@ export interface RootState {
   dapps: DappsState
   fiatConnect: FiatConnectState
   swap: SwapState
+  appReview: AppReviewState
 }
 
 export interface PersistedRootState {
@@ -114,4 +117,5 @@ export interface PersistedRootState {
   localCurrency: LocalCurrencyState
   recipients: RecipientsState
   fiatExchanges: FiatExchangesState
+  appReview: AppReviewState
 }

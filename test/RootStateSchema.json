@@ -3708,6 +3708,29 @@
             ],
             "type": "object"
         },
+        "State_26": {
+            "additionalProperties": false,
+            "properties": {
+                "appRated": {
+                    "type": "boolean"
+                },
+                "inAppRatingSupported": {
+                    "type": "boolean"
+                },
+                "lastInteractionTimestamp": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "appRated",
+                "inAppRatingSupported",
+                "lastInteractionTimestamp"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -5454,6 +5477,9 @@
         "app": {
             "$ref": "#/definitions/State"
         },
+        "appReview": {
+            "$ref": "#/definitions/State_26"
+        },
         "dapps": {
             "$ref": "#/definitions/State_23"
         },
@@ -5523,6 +5549,7 @@
         "account",
         "alert",
         "app",
+        "appReview",
         "dapps",
         "escrow",
         "exchange",
