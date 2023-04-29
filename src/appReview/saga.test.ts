@@ -2,7 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { initializeAppReview, updateAppReview } from 'src/appReview/actions'
 import { initAppReview, setAppReview } from 'src/appReview/saga'
-import { appReview } from 'src/appReview/selectors'
+import { appReviewSelector } from 'src/appReview/selectors'
 
 jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: jest.fn(),
@@ -17,7 +17,7 @@ describe(initAppReview, () => {
     await expectSaga(setAppReview)
       .provide([
         [
-          select(appReview),
+          select(appReviewSelector),
           {
             isAvailable: true,
             appRated: false,
