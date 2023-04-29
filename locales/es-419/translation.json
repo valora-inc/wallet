@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que configuren su monedero {{appName}} y conecten su número, ambos seréis recompensados con 1 cUSD."
+    "body": "Una vez que configure su billetera {{appName}} y conecte su número, ambos recibirán 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -953,13 +953,13 @@
   "stableBalance": "Saldo en {{token}}",
   "selectToken": "Seleccionar activo",
   "verificationCta": {
-    "header": "¿Quieres enviar saldo a un amigo?",
-    "body": "Conecta tu número de teléfono y sincroniza tus contactos para enviar fondos rápidamente.",
+    "header": "¡Envía cripto en un mensaje!",
+    "body": "Conecta tu número de teléfono a tu dirección de wallet para enviar y recibir cripto entre tus contactos.",
     "cta": "Conecta tu número"
   },
   "importContactsCta": {
-    "header": "Importar contactos",
-    "body": "Habilita la integración de tus contactos en la configuración de tu teléfono para encontrar a tus amigos por nombre.",
+    "header": "Habilita el acceso a contactos",
+    "body": "Habilita el acceso a tus contactos en la configuración de tu teléfono para encontrar a tus personas preferidas por nombre.",
     "cta": "Configuración"
   },
   "contactSyncProgress": {
@@ -1274,7 +1274,7 @@
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
-    "favoriteDappsAndAll": "Mis favoritos y todo",
+    "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
       "title": "No has añadido favoritas aún",
@@ -1287,7 +1287,7 @@
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Quitar filtro",
-      "searchMessage": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
     }
   },
   "dappsScreenHelpDialog": {
@@ -1558,12 +1558,12 @@
   "swapScreen": {
     "title": "Cambiar",
     "review": "Revisar",
-    "swapFrom": "DESDE",
+    "swapFrom": "DE",
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
-    "swapFromTokenSelection": "INTERCAMBIO DESDE",
+    "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
@@ -1672,7 +1672,7 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se han encontrado resultados para <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
     "add": "Depositar",

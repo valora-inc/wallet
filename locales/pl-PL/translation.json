@@ -957,13 +957,13 @@
   "stableBalance": "Saldo {{token}}",
   "selectToken": "Wybierz aktywa",
   "verificationCta": {
-    "header": "Wysyłasz do znajomego?",
-    "body": "Podłącz swój telefon i zsynchronizuj kontakty, aby szybko wysyłać płatności znajomym.",
-    "cta": "Podłącz numer telefonu"
+    "header": "Wysyłaj kryptowaluty jak tekst!",
+    "body": "Połącz swój numer telefonu z adresem portfela, aby móc wysyłać i otrzymywać płatności od znajomych.",
+    "cta": "Link Numer telefonu"
   },
   "importContactsCta": {
-    "header": "Importuj kontakty",
-    "body": "Włącz opcję Kontakty w ustawieniach swojego telefonu, aby móc wyszukiwać znajomych po nazwie.",
+    "header": "Włącz kontakty",
+    "body": "Włącz opcję Kontakty w ustawieniach telefonu, aby łatwo wysyłać i żądać płatności.",
     "cta": "Ustawienia"
   },
   "contactSyncProgress": {

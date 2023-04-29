@@ -598,7 +598,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita amici e ricevi ricompense",
-    "body": "Una volta che avranno configurato il loro portafoglio {{appName}} e collegato il loro numero, verrete entrambi ricompensati con 1 cUSD."
+    "body": "Dopo che avrà configurato il wallet {{appName}} e collegato il numero telefonico, riceverete entrambi 1 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
@@ -953,13 +953,13 @@
   "stableBalance": "Saldo {{token}}",
   "selectToken": "Seleziona asset",
   "verificationCta": {
-    "header": "Inviare a un amico?",
-    "body": "Collega il tuo telefono e sincronizza i tuoi contatti per inviare rapidamente ai tuoi amici.",
-    "cta": "Collega numero telefonico"
+    "header": "Invia criptovalute come un messaggio!",
+    "body": "Collega il tuo numero di telefono all'indirizzo del tuo portafoglio per poter inviare e ricevere pagamenti con gli amici.",
+    "cta": "Link Numero di telefono"
   },
   "importContactsCta": {
-    "header": "Importa contatti",
-    "body": "Abilita i Contatti nelle Impostazioni del tuo telefono per cercare i tuoi amici per nome.",
+    "header": "Abilita i contatti",
+    "body": "Attiva i Contatti nelle Impostazioni del telefono per inviare e richiedere facilmente i pagamenti.",
     "cta": "Impostazioni"
   },
   "contactSyncProgress": {
@@ -1274,8 +1274,8 @@
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
     "favoriteDapps": "Le mie dapp preferite",
-    "favoriteDappsAndAll": "I miei preferiti e tutto il resto",
-    "searchPlaceHolder": "Cerca le dapps",
+    "favoriteDappsAndAll": "I miei Preferiti e Tutto",
+    "searchPlaceHolder": "Cerca dapp",
     "noFavorites": {
       "title": "Non hai dapp preferite",
       "description": "Gestisci le tue Dapp preferite toccando la stella"
@@ -1287,7 +1287,7 @@
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> applicato",
       "removeFilter": "Rimuovi filtro",
-      "searchMessage": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>"
+      "searchMessage": "Non sono stati trovati risultati corrispondenti per <0>\"{{searchTerm}}\"</0>."
     }
   },
   "dappsScreenHelpDialog": {
@@ -1559,7 +1559,7 @@
     "title": "Scambia",
     "review": "Rivedi",
     "swapFrom": "DA",
-    "swapTo": "TO",
+    "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
     "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
@@ -1570,7 +1570,7 @@
       "body": "Assicurati di avere CELO nel portafoglio, per coprire le commissioni gas per le transazioni future",
       "learnMore": "Ulteriori informazioni"
     },
-    "estimatedExchangeRate": "Tasso stimato ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Scambia da",
@@ -1671,8 +1671,8 @@
     "namePlaceholder": "Seleziona un nome, ad es.: {{exampleName}}"
   },
   "tokenBottomSheet": {
-    "searchAssets": "Ricerca attività",
-    "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>"
+    "searchAssets": "Cerca asset",
+    "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
     "add": "Aggiungi",
