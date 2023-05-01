@@ -26,7 +26,7 @@ export const slice = createSlice({
     },
     setAppRated: (state, action) => {
       state.appRated = action.payload
-      state.lastInteractionTimestamp = +new Date()
+      state.lastInteractionTimestamp = Date.now()
     },
   },
   extraReducers: (builder) => {
