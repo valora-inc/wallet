@@ -416,7 +416,7 @@ describe('SendConfirmation', () => {
           {
             address: mockAccount2,
             e164PhoneNumber: mockE164Number,
-            recipientType: RecipientType.Address,
+            recipientType: RecipientType.PhoneNumber,
           },
           mockFeeInfo,
           false

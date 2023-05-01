@@ -82,7 +82,7 @@ export function useRecipientToSendTo(paramRecipient: Recipient) {
         // Setting the phone number explicitly so Typescript doesn't complain
         e164PhoneNumber: paramRecipient.e164PhoneNumber,
         address: recipientAddress ?? undefined,
-        recipientType: recipientAddress ? RecipientType.Address : RecipientType.PhoneNumber,
+        recipientType: RecipientType.PhoneNumber,
       }
     }
     return paramRecipient

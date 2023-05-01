@@ -136,7 +136,7 @@ export function* handleSendPaymentData(
 export function* handlePaymentDeeplink(deeplink: string) {
   try {
     const paymentData = uriDataFromUrl(deeplink)
-    yield call(handleSendPaymentData, paymentData, false)
+    yield call(handleSendPaymentData, paymentData, true)
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }

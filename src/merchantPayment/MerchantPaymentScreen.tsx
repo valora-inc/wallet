@@ -123,6 +123,8 @@ function MerchantPaymentScreen({ route }: Props) {
             <Text style={styles.description}>{t('merchantMoneyEscrow')}</Text>
             <View style={styles.headerContainer}>
               <ContactCircle
+                // TODO: Change ContactCircle to remove address dependence so that we don't have
+                // this default address hack
                 recipient={{
                   name: businessInformation?.name,
                   thumbnailPath: businessInformation?.imageUrl,
