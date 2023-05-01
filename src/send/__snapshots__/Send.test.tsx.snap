@@ -755,6 +755,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   "score": null,
                   "target": "+14155550000",
                 },
+                "recipientType": "Address",
               },
             ],
             "key": "recent",
@@ -868,6 +869,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   "score": null,
                   "target": "+13105550000",
                 },
+                "recipientType": "Address",
               },
               Object {
                 "addressPrepared": undefined,
@@ -922,6 +924,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   "score": null,
                   "target": "+14163957395",
                 },
+                "recipientType": "PhoneNumber",
               },
             ],
             "key": "contacts",

@@ -5,6 +5,7 @@ import i18n from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { RecipientType } from 'src/recipients/recipient'
 
 const inferCountryCode = () => {
   const localizedCountry = new Countries(i18n.language).getCountryByCodeAlpha2(
@@ -37,6 +38,7 @@ export const currentUserRecipientSelector = createSelector(
       address: account!,
       name: name ?? undefined,
       thumbnailPath: picture ?? contactDetails.thumbnailPath ?? undefined,
+      recipientType: RecipientType.Address,
     }
   }
 )

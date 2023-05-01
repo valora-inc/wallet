@@ -54,6 +54,7 @@ const mockedGetSendFee = getSendFee as jest.Mock
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmationLegacy, {
   transactionData: mockTransactionDataLegacy,
   origin: SendOrigin.AppSendFlow,
+  isFromScan: false,
 })
 
 type ScreenProps = NativeStackScreenProps<

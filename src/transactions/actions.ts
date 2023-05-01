@@ -183,6 +183,13 @@ export const navigateToPaymentTransferReview = (
   })
 }
 
-export const navigateToRequestedPaymentReview = (transactionData: TransactionDataInput) => {
-  navigate(Screens.SendConfirmationLegacy, { transactionData, origin: SendOrigin.AppRequestFlow })
+export const navigateToRequestedPaymentReview = (
+  transactionData: TransactionDataInput,
+  isFromScan: boolean
+) => {
+  navigate(Screens.SendConfirmationLegacy, {
+    transactionData,
+    origin: SendOrigin.AppRequestFlow,
+    isFromScan,
+  })
 }
