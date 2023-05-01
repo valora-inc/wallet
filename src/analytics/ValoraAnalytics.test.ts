@@ -1,4 +1,4 @@
-import Analytics from '@segment/analytics-react-native'
+import { createClient } from '@segment/analytics-react-native'
 import { PincodeType } from 'src/account/reducer'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
@@ -13,19 +13,17 @@ import {
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
-jest.mock('@segment/analytics-react-native', () => ({
+jest.mock('@segment/analytics-react-native')
+jest.mock('@segment/analytics-react-native-legacy', () => ({
   __esModule: true,
   default: {
     setup: jest.fn().mockResolvedValue(undefined),
-    identify: jest.fn().mockResolvedValue(undefined),
-    track: jest.fn().mockResolvedValue(undefined),
-    screen: jest.fn().mockResolvedValue(undefined),
-    getAnonymousId: jest.fn().mockResolvedValue('anonId'),
+    getAnonymousId: jest.fn().mockResolvedValue('legacy-anon-id'),
   },
 }))
-jest.mock('@segment/analytics-react-native-adjust', () => ({}))
-jest.mock('@segment/analytics-react-native-clevertap', () => ({}))
-jest.mock('@segment/analytics-react-native-firebase', () => ({}))
+jest.mock('@segment/analytics-react-native-plugin-adjust')
+jest.mock('@segment/analytics-react-native-plugin-clevertap')
+jest.mock('@segment/analytics-react-native-plugin-firebase')
 jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
@@ -42,7 +40,7 @@ const mockWalletAddress = '0x12AE66CDc592e10B60f9097a7b0D3C59fce29876' // delibe
 
 Date.now = jest.fn(() => 1482363367071)
 
-const mockedAnalytics = mocked(Analytics)
+const mockCreateSegmentClient = mocked(createClient)
 
 const mockStore = mocked(store)
 const state = getMockStoreData({
@@ -152,6 +150,19 @@ const defaultProperties = {
 
 describe('ValoraAnalytics', () => {
   let ValoraAnalytics: typeof ValoraAnalyticsModule
+  const mockSegmentClient = {
+    identify: jest.fn().mockResolvedValue(undefined),
+    track: jest.fn().mockResolvedValue(undefined),
+    screen: jest.fn().mockResolvedValue(undefined),
+    flush: jest.fn().mockResolvedValue(undefined),
+    userInfo: {
+      get: jest.fn().mockReturnValue({ anonymousId: 'anonId' }),
+      set: jest.fn().mockReturnValue(undefined),
+    },
+    reset: jest.fn(),
+    add: jest.fn(),
+  }
+  mockCreateSegmentClient.mockReturnValue(mockSegmentClient as any)
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -170,6 +181,9 @@ describe('ValoraAnalytics', () => {
       })
     )
     await ValoraAnalytics.init()
+    expect(mockSegmentClient.userInfo.set).toHaveBeenCalledWith({
+      anonymousId: 'legacy-anon-id',
+    })
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       { userID: '0x1234abc', custom: { startOnboardingTime: 1234 } },
@@ -200,35 +214,37 @@ describe('ValoraAnalytics', () => {
 
   it('delays identify calls until async init has finished', async () => {
     ValoraAnalytics.identify('0xUSER', { someUserProp: 'testValue' })
-    expect(mockedAnalytics.identify).not.toHaveBeenCalled()
+    expect(mockSegmentClient.identify).not.toHaveBeenCalled()
 
     await ValoraAnalytics.init()
     // Now that init has finished identify should have been called
-    expect(mockedAnalytics.identify).toHaveBeenCalledWith('0xUSER', { someUserProp: 'testValue' })
+    expect(mockSegmentClient.identify).toHaveBeenCalledWith('0xUSER', { someUserProp: 'testValue' })
 
     // And now test that identify calls go trough directly
-    mockedAnalytics.identify.mockClear()
+    mockSegmentClient.identify.mockClear()
     ValoraAnalytics.identify('0xUSER2', { someUserProp: 'testValue2' })
-    expect(mockedAnalytics.identify).toHaveBeenCalledWith('0xUSER2', { someUserProp: 'testValue2' })
+    expect(mockSegmentClient.identify).toHaveBeenCalledWith('0xUSER2', {
+      someUserProp: 'testValue2',
+    })
   })
 
   it('delays track calls until async init has finished', async () => {
     ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere' })
-    expect(mockedAnalytics.track).not.toHaveBeenCalled()
+    expect(mockSegmentClient.track).not.toHaveBeenCalled()
 
     await ValoraAnalytics.init()
     // Now that init has finished track should have been called
-    expect(mockedAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
+    expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
       ...defaultProperties,
       navigateTo: 'somewhere',
     })
 
     // And now test that track calls go trough directly
-    mockedAnalytics.track.mockClear()
+    mockSegmentClient.track.mockClear()
     ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
-    expect(mockedAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
+    expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
       ...defaultProperties,
       navigateTo: 'somewhere else',
     })
@@ -236,22 +252,22 @@ describe('ValoraAnalytics', () => {
 
   it('delays screen calls until async init has finished', async () => {
     ValoraAnalytics.page('Some Page', { someProp: 'testValue' })
-    expect(mockedAnalytics.screen).not.toHaveBeenCalled()
+    expect(mockSegmentClient.screen).not.toHaveBeenCalled()
 
     await ValoraAnalytics.init()
     // Now that init has finished identify should have been called
-    expect(mockedAnalytics.screen).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.screen).toHaveBeenCalledWith('Some Page', {
+    expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.screen).toHaveBeenCalledWith('Some Page', {
       ...defaultProperties,
       sCurrentScreenId: 'Some Page',
       someProp: 'testValue',
     })
 
     // And now test that page calls go trough directly
-    mockedAnalytics.screen.mockClear()
+    mockSegmentClient.screen.mockClear()
     ValoraAnalytics.page('Some Page2', { someProp: 'testValue2' })
-    expect(mockedAnalytics.screen).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.screen).toHaveBeenCalledWith('Some Page2', {
+    expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.screen).toHaveBeenCalledWith('Some Page2', {
       ...defaultProperties,
       sCurrentScreenId: 'Some Page2',
       someProp: 'testValue2',
@@ -262,8 +278,8 @@ describe('ValoraAnalytics', () => {
   it('adds super properties to all tracked events', async () => {
     await ValoraAnalytics.init()
     ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
-    expect(mockedAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
+    expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
       ...defaultProperties,
       navigateTo: 'somewhere else',
     })
@@ -272,8 +288,8 @@ describe('ValoraAnalytics', () => {
   it('adds super properties to all screen events', async () => {
     await ValoraAnalytics.init()
     ValoraAnalytics.page('ScreenA', { someProp: 'someValue' })
-    expect(mockedAnalytics.screen).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.screen).toHaveBeenCalledWith('ScreenA', {
+    expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.screen).toHaveBeenCalledWith('ScreenA', {
       ...defaultProperties,
       someProp: 'someValue',
       sCurrentScreenId: 'ScreenA',
@@ -285,8 +301,8 @@ describe('ValoraAnalytics', () => {
     Date.now = jest.fn(() => timestamp)
     await ValoraAnalytics.init()
     ValoraAnalytics.page('ScreenA')
-    expect(mockedAnalytics.screen).toHaveBeenCalledTimes(1)
-    expect(mockedAnalytics.screen).toHaveBeenCalledWith('ScreenA', {
+    expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
+    expect(mockSegmentClient.screen).toHaveBeenCalledWith('ScreenA', {
       ...defaultProperties,
       sCurrentScreenId: 'ScreenA',
       sessionId: '97250a67361e6d463a59b4baed530010befe1d234ef0446b6197fbe08d5471',

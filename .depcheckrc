@@ -21,5 +21,7 @@ ignores: [
   "ts-node",
   "tslib", # required for importHelpers flag in tsconfig.json
   "typescript-json-schema", # helps manage redux state migrations
+  "@segment/sovran-react-native", # required for react-native-segment
+  "react-native-adjust", # required for @segment/analytics-react-native-plugin-adjust
 ]
 skip-missing: true
