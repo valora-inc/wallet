@@ -29,6 +29,7 @@ function NoResults({ testID, searchTerm }: Props) {
 }
 
 const styles = StyleSheet.create({
+  /* Using a 1:11 flex on two elements will create a pseudo 12 column layout */
   iconContainer: {
     flex: 1,
     alignSelf: 'flex-start',

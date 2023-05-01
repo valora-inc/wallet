@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: Spacing.Regular16,
   },
+  /* Using a 1:11 flex on two elements will create a pseudo 12 column layout */
   iconContainer: {
     flex: 1,
     alignSelf: 'flex-start',
