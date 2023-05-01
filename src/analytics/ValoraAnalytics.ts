@@ -115,7 +115,7 @@ class ValoraAnalytics {
       // This is a temporary workaround for a side effect of upgrading to Segment v2
       // Segment v2 generates a different anonymousId for the user than Segment v1
       // In order to avoid disrupting ongoing onboarding experiments by changing the anonymousId mid-experiment we use the legacy Segment client to get the anonymousId
-      await LegacySegment.setup('n/a', {})
+      await LegacySegment.setup('dummy-key', {}) // not necessary to provide a valid key, but is necessary to call setup.
       const anonymousId = await LegacySegment.getAnonymousId()
       await this.segmentClient.userInfo.set({ anonymousId })
 
