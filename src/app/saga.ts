@@ -57,6 +57,7 @@ import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import {
   appVersionDeprecationChannel,
@@ -336,7 +337,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.CashInSuccess, { provider: cicoSuccessParam.split('/')[0] })
       // Some providers append transaction information to the redirect links so can't check for strict equality
     } else if (rawParams.path.startsWith('/cash-in-failure')) {
-      navigate(Screens.FiatExchange)
+      navigateToFiatExchangeStart()
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.
