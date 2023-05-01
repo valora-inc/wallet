@@ -8,5 +8,6 @@ mockRNDeviceInfo.getUniqueIdSync.mockImplementation(() => 'abc-def-123')
 mockRNDeviceInfo.getDeviceId.mockImplementation(() => 'someDeviceId')
 mockRNDeviceInfo.getBrand.mockImplementation(() => 'someBrand')
 mockRNDeviceInfo.getModel.mockImplementation(() => 'someModel')
+mockRNDeviceInfo.isEmulator.mockImplementation(() => Promise.resolve(false))
 
 export default mockRNDeviceInfo
