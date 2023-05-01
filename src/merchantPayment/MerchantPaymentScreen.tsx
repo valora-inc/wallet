@@ -16,6 +16,7 @@ import { PaymentStatus, useMerchantPayments } from 'src/merchantPayment/hooks'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { RecipientType } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
@@ -122,10 +123,13 @@ function MerchantPaymentScreen({ route }: Props) {
             <Text style={styles.description}>{t('merchantMoneyEscrow')}</Text>
             <View style={styles.headerContainer}>
               <ContactCircle
+                // TODO: Change ContactCircle to remove address dependence so that we don't have
+                // this default address hack
                 recipient={{
                   name: businessInformation?.name,
                   thumbnailPath: businessInformation?.imageUrl,
-                  address: businessInformation?.address?.city || 'Missing address', // TODO: what do we do here
+                  address: '0x0', // Use as default address, only used for Avatar color
+                  recipientType: RecipientType.Merchant,
                 }}
               />
               <View style={styles.recipientInfoContainer}>
