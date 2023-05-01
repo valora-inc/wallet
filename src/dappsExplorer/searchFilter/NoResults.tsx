@@ -78,19 +78,18 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.xsmall,
     textAlignVertical: 'center',
+    flexWrap: 'wrap',
   },
   searchContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: Spacing.Regular16,
-  },
-  /* Using a 1:11 flex on two elements will create a pseudo 12 column layout */
-  iconContainer: {
     flex: 1,
-    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    marginTop: Spacing.Thick24,
+  },
+  iconContainer: {
+    marginRight: Spacing.Smallest8,
   },
   searchTextContainer: {
-    flex: 11,
+    flex: 1,
   },
   filterContainer: {
     flex: 1,

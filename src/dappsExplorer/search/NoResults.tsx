@@ -31,11 +31,10 @@ function NoResults({ testID, searchTerm }: Props) {
 const styles = StyleSheet.create({
   /* Using a 1:11 flex on two elements will create a pseudo 12 column layout */
   iconContainer: {
-    flex: 1,
-    alignSelf: 'flex-start',
+    marginRight: Spacing.Smallest8,
   },
   searchTextContainer: {
-    flex: 11,
+    flex: 1,
   },
   searchedText: {
     color: Colors.dark,
@@ -43,15 +42,12 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.xsmall,
-    flex: 10,
     textAlignVertical: 'center',
+    flexWrap: 'wrap',
   },
   viewContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: Spacing.Thick24,
     marginTop: Spacing.Thick24,
   },
 })
