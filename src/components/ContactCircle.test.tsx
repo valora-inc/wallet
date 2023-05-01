@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Image } from 'react-native'
 import { Provider } from 'react-redux'
 import ContactCircle from 'src/components/ContactCircle'
+import { RecipientType } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 
 const mockAddress = '0x123456'
@@ -19,6 +20,7 @@ describe('ContactCircle', () => {
             size={30}
             recipient={{
               address: mockAddress,
+              recipientType: RecipientType.Address,
             }}
           />
         </Provider>
@@ -37,6 +39,7 @@ describe('ContactCircle', () => {
               name: mockName,
               address: mockAddress,
               thumbnailPath: mockThumbnnailPath,
+              recipientType: RecipientType.Address,
             }}
           />
         </Provider>
@@ -53,6 +56,7 @@ describe('ContactCircle', () => {
             recipient={{
               name: mockName,
               address: mockAddress,
+              recipientType: RecipientType.Address,
             }}
           />
         </Provider>

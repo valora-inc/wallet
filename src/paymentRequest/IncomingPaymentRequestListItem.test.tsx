@@ -100,6 +100,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
       origin: SendOrigin.AppRequestFlow,
       transactionData: mockTransactionData,
+      isFromScan: false,
     })
   })
 
