@@ -74,9 +74,7 @@
                             },
                             "recipientType": {
                                 "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
+                                    "Address"
                                 ],
                                 "type": "string"
                             },
@@ -86,7 +84,8 @@
                         },
                         "required": [
                             "address",
-                            "e164PhoneNumber"
+                            "e164PhoneNumber",
+                            "recipientType"
                         ],
                         "type": "object"
                     },
@@ -110,9 +109,7 @@
                             },
                             "recipientType": {
                                 "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
+                                    "Address"
                                 ],
                                 "type": "string"
                             },
@@ -121,7 +118,8 @@
                             }
                         },
                         "required": [
-                            "address"
+                            "address",
+                            "recipientType"
                         ],
                         "type": "object"
                     }
@@ -1537,12 +1535,7 @@
                                 "type": "string"
                             },
                             "recipientType": {
-                                "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
-                                ],
-                                "type": "string"
+                                "$ref": "#/definitions/RecipientType"
                             },
                             "thumbnailPath": {
                                 "type": "string"
@@ -1551,7 +1544,8 @@
                         "required": [
                             "contactId",
                             "e164PhoneNumber",
-                            "name"
+                            "name",
+                            "recipientType"
                         ],
                         "type": "object"
                     },
@@ -1574,12 +1568,7 @@
                                 "type": "string"
                             },
                             "recipientType": {
-                                "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
-                                ],
-                                "type": "string"
+                                "$ref": "#/definitions/RecipientType"
                             },
                             "thumbnailPath": {
                                 "type": "string"
@@ -1589,7 +1578,8 @@
                             "address",
                             "contactId",
                             "e164PhoneNumber",
-                            "name"
+                            "name",
+                            "recipientType"
                         ],
                         "type": "object"
                     }
@@ -1960,6 +1950,15 @@
                 "type": "string"
             },
             "type": "object"
+        },
+        "RecipientType": {
+            "enum": [
+                "Address",
+                "Merchant",
+                "Nomspace",
+                "PhoneNumber"
+            ],
+            "type": "string"
         },
         "Record<Currency,string>": {
             "additionalProperties": false,
@@ -3777,19 +3776,15 @@
                                         "type": "string"
                                     },
                                     "recipientType": {
-                                        "enum": [
-                                            "Address",
-                                            "Nomspace",
-                                            "PhoneNumber"
-                                        ],
-                                        "type": "string"
+                                        "$ref": "#/definitions/RecipientType"
                                     },
                                     "thumbnailPath": {
                                         "type": "string"
                                     }
                                 },
                                 "required": [
-                                    "e164PhoneNumber"
+                                    "e164PhoneNumber",
+                                    "recipientType"
                                 ],
                                 "type": "object"
                             },
@@ -3812,19 +3807,15 @@
                                         "type": "string"
                                     },
                                     "recipientType": {
-                                        "enum": [
-                                            "Address",
-                                            "Nomspace",
-                                            "PhoneNumber"
-                                        ],
-                                        "type": "string"
+                                        "$ref": "#/definitions/RecipientType"
                                     },
                                     "thumbnailPath": {
                                         "type": "string"
                                     }
                                 },
                                 "required": [
-                                    "address"
+                                    "address",
+                                    "recipientType"
                                 ],
                                 "type": "object"
                             }
