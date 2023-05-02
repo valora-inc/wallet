@@ -2,10 +2,9 @@ import { anonymizedPhone } from '@celo/base/lib/phoneNumbers'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
-import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { numberVerifiedCentrallySelector, sessionIdSelector } from 'src/app/selectors'
@@ -14,15 +13,15 @@ import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Switch from 'src/components/Switch'
 import TextInput from 'src/components/TextInput'
-import { CELO_SUPPORT_EMAIL_ADDRESS, DEFAULT_TESTNET } from 'src/config'
+import { DEFAULT_TESTNET } from 'src/config'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
@@ -56,6 +55,7 @@ function SupportContact({ route }: Props) {
       version: DeviceInfo.getVersion(),
       buildNumber: DeviceInfo.getBuildNumber(),
       apiLevel: DeviceInfo.getApiLevelSync(),
+      os: Platform.OS,
       country,
       region,
       deviceId: DeviceInfo.getDeviceId(),
@@ -67,6 +67,22 @@ function SupportContact({ route }: Props) {
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
+    // const logFiles = attachLogs && await Logger.getLogsToAttach() || []
+    // console.log('logFiles', logFiles)
+    // try {
+    //   await sendSupportRequest({
+    //     message,
+    //     deviceInfo,
+    //     logFiles,
+    //     userEmail: 'jacobrwaterman@gmail.com',
+    //     userName: 'Jacob Waterman',
+    //     subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
+    //   })
+    //   navigateBackAndToast()
+    // } catch (error) {
+    //   Logger.error('SupportContact', 'Error while sending logs to support', error)
+    // }
+    // setTimeout(() => setInProgress(false), 1000)
     const email: Email = {
       subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
       recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
