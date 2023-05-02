@@ -1,3 +1,4 @@
+import Logger from 'src/utils/Logger'
 import { readFileChunked } from 'src/utils/readFile'
 
 const API_TOKEN = '3Cdhp6I3H8qxye9sBH8alCke77no7Tv4kRyXPj5M'
@@ -19,6 +20,8 @@ interface DeviceInfo {
   network: string
 }
 
+const TAG = 'account/zendesk'
+
 // create zendesk request with attachment
 export async function sendSupportRequest({
   message,
@@ -35,6 +38,7 @@ export async function sendSupportRequest({
   userName: string
   subject: string
 }) {
+  Logger.info(TAG, 'Sending support request', message, deviceInfo, logFiles)
   const uploadTokens = await Promise.all(
     logFiles.map((fileInfo) => _uploadFile(fileInfo, userEmail))
   )
@@ -104,53 +108,46 @@ async function _createRequest({
   subject: string
   customFields: { id: number; value: string }[]
 }) {
-  const createRequestResponse = await fetch(
-    `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/requests`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${Buffer.from(`${userEmail}/token:${API_TOKEN}`).toString('base64')}`,
-      },
-      body: JSON.stringify({
-        request: {
-          subject,
-          custom_fields: customFields,
-          comment: {
-            body: message,
-            uploads: uploadTokens,
-          },
-          requester: {
-            email: userEmail,
-            name: userName,
-          },
+  await fetch(`https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/requests`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${Buffer.from(`${userEmail}/token:${API_TOKEN}`).toString('base64')}`,
+    },
+    body: JSON.stringify({
+      request: {
+        subject,
+        custom_fields: customFields,
+        comment: {
+          body: message,
+          uploads: uploadTokens,
         },
-      }),
-    }
-  )
-  console.log(`_createRequest: ${createRequestResponse.status}`)
-  const resp = await createRequestResponse.json()
-  console.log(JSON.stringify(resp))
+        requester: {
+          email: userEmail,
+          name: userName,
+        },
+      },
+    }),
+  })
 }
 
 async function _uploadFile(
-  { path, type, name }: { path: string; type: string; name: string },
+  { path, name }: { path: string; type: string; name: string },
   userEmail: string
 ) {
-  console.log(`_uploadFile: ${path} ${type} ${name}`)
   const blob = await readFileChunked(path)
-  console.log(`_uploadFile: ${path} ${blob}`)
   const uploadFileResponse = await fetch(
     `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=${name}&binary=false`,
     {
       method: 'POST',
       headers: {
-        'Content-Type': type,
+        'Content-Type': 'text/plain',
         Authorization: `Basic ${Buffer.from(`${userEmail}/token:${API_TOKEN}`).toString('base64')}`,
       },
       body: blob,
     }
   )
-  const uploadToken = (await uploadFileResponse.json()).upload?.token
+  const resp = await uploadFileResponse.json()
+  const uploadToken = resp.upload?.token
   return uploadToken
 }

@@ -1,16 +1,17 @@
-import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { store } from 'src/redux/store'
+import { DynamicConfigs, ExperimentConfigs, FeatureGates } from 'src/statsig/constants'
 import {
   getDynamicConfigParams,
   getExperimentParams,
+  getFeatureGate,
   patchUpdateStatsigUser,
 } from 'src/statsig/index'
-import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
+import { EvaluationReason } from 'statsig-js'
 import { Statsig } from 'statsig-react-native'
-import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { EvaluationReason } from 'statsig-js'
 
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
@@ -100,6 +101,27 @@ describe('Statsig helpers', () => {
       expect(getMock).toHaveBeenCalledWith('param1', 'defaultValue1')
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
+    })
+  })
+
+  describe('getFeatureGate', () => {
+    it('returns default values if getting statsig feature gate throws error', () => {
+      ;(Statsig.checkGate as jest.Mock).mockImplementation(() => {
+        throw new Error('mock error')
+      })
+      const output = getFeatureGate({
+        featureGateName: StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT,
+      })
+      expect(Logger.warn).toHaveBeenCalled()
+      expect(output).toEqual(FeatureGates[StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT])
+    })
+    it('returns Statsig values if no error is thrown', () => {
+      ;(Statsig.checkGate as jest.Mock).mockImplementation(() => true)
+      const output = getFeatureGate({
+        featureGateName: StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT,
+      })
+      expect(Logger.warn).not.toHaveBeenCalled()
+      expect(output).toEqual(true)
     })
   })
 
