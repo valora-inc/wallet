@@ -1,7 +1,10 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { FetchMock } from 'jest-fetch-mock/types'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
+import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { InviteEvents } from 'src/analytics/Events'
@@ -14,8 +17,10 @@ import {
   openUrl,
   phoneNumberVerificationMigrated,
   setAppState,
+  setSupportedBiometryType,
 } from 'src/app/actions'
 import {
+  appInit,
   handleDeepLink,
   handleOpenUrl,
   handleSetAppState,
@@ -26,17 +31,25 @@ import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inviterAddressSelector,
+  sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { resolveDynamicLink } from 'src/firebase/firebase'
+import { initI18n } from 'src/i18n'
+import {
+  allowOtaTranslationsSelector,
+  currentLanguageSelector,
+  otaTranslationsAppVersionSelector,
+} from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { initializeSentry } from 'src/sentry/Sentry'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
@@ -53,9 +66,17 @@ import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/sentry/Sentry')
+jest.mock('src/sentry/SentryTransactionHub')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
+
+jest.mock('src/i18n', () => ({
+  ...(jest.requireActual('src/i18n') as any),
+  initI18n: jest.fn().mockResolvedValue(jest.fn()),
+  t: jest.fn(),
+}))
 
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
@@ -508,5 +529,57 @@ describe('runCentralPhoneVerificationMigration', () => {
 
     expect(mockFetch).not.toHaveBeenCalled()
     expect(loggerWarnSpy).toHaveBeenCalled()
+  })
+})
+
+describe('appInit', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [select(allowOtaTranslationsSelector), true],
+    [select(otaTranslationsAppVersionSelector), '1'],
+    [select(currentLanguageSelector), 'nl-NL'],
+    [select(sentryNetworkErrorsSelector), 'network error'],
+  ]
+
+  it('should initialise the correct components, with the stored language', async () => {
+    await expectSaga(appInit)
+      .provide(defaultProviders)
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
+  })
+
+  it('should initialise with the best language', async () => {
+    jest
+      .spyOn(RNLocalize, 'findBestAvailableLanguage')
+      .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
+
+    await expectSaga(appInit)
+      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('de-DE', true, '1')
+  })
+
+  it('should initialise with the app fallback language', async () => {
+    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValue(undefined)
+
+    await expectSaga(appInit)
+      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
   })
 })

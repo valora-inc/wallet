@@ -2,11 +2,15 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
-import { Recipient } from 'src/recipients/recipient'
+import { Recipient, RecipientType } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 
 it('renders correctly with invite rewards disabled', () => {
-  const recipient: Recipient = { name: 'John Doe', address: '0x123000' }
+  const recipient: Recipient = {
+    name: 'John Doe',
+    address: '0x123000',
+    recipientType: RecipientType.Address,
+  }
 
   const tree = render(
     <Provider
@@ -34,7 +38,11 @@ it('renders correctly with invite rewards disabled', () => {
 })
 
 it('renders correctly with invite rewards NFTs', () => {
-  const recipient: Recipient = { name: 'John Doe', address: '0x123000' }
+  const recipient: Recipient = {
+    name: 'John Doe',
+    address: '0x123000',
+    recipientType: RecipientType.Address,
+  }
 
   const tree = render(
     <Provider
@@ -62,7 +70,11 @@ it('renders correctly with invite rewards NFTs', () => {
 })
 
 it('renders correctly with invite rewards cUSD', () => {
-  const recipient: Recipient = { name: 'John Doe', address: '0x123000' }
+  const recipient: Recipient = {
+    name: 'John Doe',
+    address: '0x123000',
+    recipientType: RecipientType.Address,
+  }
 
   const tree = render(
     <Provider

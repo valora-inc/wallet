@@ -39,13 +39,13 @@ function ContactCircle({ size, recipient, style }: Props) {
 
     const fontColor = getAddressForegroundColor(address || '0x0')
     if (recipient.name) {
-      const initials = getNameInitial(recipient.name)
+      const initial = getNameInitial(recipient.name)
       return (
         <Text
           allowFontScaling={false}
           style={[fontStyles.iconText, { fontSize: iconSize / 2.0, color: fontColor }]}
         >
-          {initials.toLocaleUpperCase()}
+          {initial.toLocaleUpperCase()}
         </Text>
       )
     }

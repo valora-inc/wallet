@@ -17,6 +17,7 @@ const store = createMockStore({
 
 const mockScreenProps = getMockStackScreenProps(Screens.PaymentRequestConfirmationLegacy, {
   transactionData: mockTransactionDataLegacy,
+  isFromScan: false,
 })
 
 describe('PaymentRequestConfirmation', () => {
