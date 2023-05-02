@@ -25,14 +25,14 @@ jobs:
   android:
     name: Android
     strategy:
-      max-parallel: 3
+      max-parallel: 2
       fail-fast: false
       matrix:
-        # TODO enable android 21, 23 & 31
+        # TODO if/when more CI machines: enable Android sdk 21, 23, 29 and 31
         # 21 is failing 9 specs
         # 23 is failing ? spec(s)
         # 31 is failing ? spec(s)
-        android-api-level: [24, 29, 30]
+        android-api-level: [24, 30]
     uses: ./.github/workflows/e2e-android.yml
     with:
       android-api-level: ${{ matrix.android-api-level }}
