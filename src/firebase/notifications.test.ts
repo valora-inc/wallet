@@ -10,6 +10,7 @@ import { handleNotification } from 'src/firebase/notifications'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
+import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { Currency } from 'src/utils/currencies'
 import { mockRecipientInfo } from 'test/values'
@@ -93,6 +94,7 @@ describe(handleNotification, () => {
 
   describe('with a payment received notification', () => {
     const message: FirebaseMessagingTypes.RemoteMessage = {
+      fcmOptions: { link: 'https://valoraapp.com' },
       notification: { title: 'My title', body: 'My Body' },
       data: {
         type: NotificationTypes.PAYMENT_RECEIVED,
@@ -168,13 +170,17 @@ describe(handleNotification, () => {
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
+        isFromScan: false,
         origin: SendOrigin.AppRequestFlow,
         transactionData: {
           amount: new BigNumber('10'),
           currency: Currency.Dollar,
           firebasePendingRequestUid: 'abc',
           reason: 'Pizza',
-          recipient: { address: '0xTEST' },
+          recipient: {
+            address: '0xTEST',
+            recipientType: RecipientType.Address,
+          },
           type: 'PAY_REQUEST',
         },
       })

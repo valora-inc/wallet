@@ -2,6 +2,7 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import Avatar from 'src/components/Avatar'
+import { RecipientType } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 
 const mockName = 'mockName'
@@ -18,7 +19,14 @@ describe(Avatar, () => {
   it('renders correctly with number and name', () => {
     const tree = render(
       <Provider store={store}>
-        <Avatar recipient={{ name: mockName, e164PhoneNumber: mockNumber }} iconSize={40} />
+        <Avatar
+          recipient={{
+            name: mockName,
+            e164PhoneNumber: mockNumber,
+            recipientType: RecipientType.PhoneNumber,
+          }}
+          iconSize={40}
+        />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -26,7 +34,10 @@ describe(Avatar, () => {
   it('renders correctly with just number', () => {
     const tree = render(
       <Provider store={store}>
-        <Avatar recipient={{ e164PhoneNumber: mockNumber }} iconSize={40} />
+        <Avatar
+          recipient={{ e164PhoneNumber: mockNumber, recipientType: RecipientType.PhoneNumber }}
+          iconSize={40}
+        />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -34,7 +45,10 @@ describe(Avatar, () => {
   it('renders correctly with address and name but no number', () => {
     const tree = render(
       <Provider store={store}>
-        <Avatar recipient={{ name: mockName, address: mockAccount }} iconSize={40} />
+        <Avatar
+          recipient={{ name: mockName, address: mockAccount, recipientType: RecipientType.Address }}
+          iconSize={40}
+        />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -42,7 +56,10 @@ describe(Avatar, () => {
   it('renders correctly with address but no name nor number', () => {
     const tree = render(
       <Provider store={store}>
-        <Avatar recipient={{ address: mockAccount }} iconSize={40} />
+        <Avatar
+          recipient={{ address: mockAccount, recipientType: RecipientType.Address }}
+          iconSize={40}
+        />
       </Provider>
     )
     expect(tree).toMatchSnapshot()

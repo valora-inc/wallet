@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
-  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
+  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -40,6 +40,7 @@ import {
   MobileRecipient,
   NumberToRecipient,
   RecipientInfo,
+  RecipientType,
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
@@ -152,6 +153,7 @@ export const mockInvitableRecipient: ContactRecipient = {
   displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
   contactId: 'contactId',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockInvitableRecipient2: ContactRecipient = {
@@ -159,6 +161,7 @@ export const mockInvitableRecipient2: ContactRecipient = {
   displayNumber: mockDisplayNumberInvite,
   e164PhoneNumber: mockE164NumberInvite,
   contactId: 'contactId',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockTransactionData = {
@@ -188,10 +191,11 @@ export const mockInvitableRecipient3: ContactRecipient = {
   displayNumber: mockDisplayNumber2Invite,
   e164PhoneNumber: mockE164Number2Invite,
   contactId: 'contactId',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockTokenTransactionData: TransactionDataInput = {
-  recipient: { address: mockAccount },
+  recipient: { address: mockAccount, recipientType: RecipientType.Address },
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
@@ -209,22 +213,26 @@ export const mockTokenInviteTransactionData: TransactionDataInput = {
 export const mockRecipient: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient,
   address: mockAccount,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipient2: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient2,
   address: mockAccountInvite,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipient3: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient3,
   address: mockAccount2Invite,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipient4: ContactRecipient = {
   name: 'Zebra Zone',
   contactId: 'contactId4',
   e164PhoneNumber: '+14163957395',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockE164NumberToInvitableRecipient = {
@@ -250,6 +258,7 @@ export const mockRecipientWithPhoneNumber: MobileRecipient = {
   name: mockName,
   displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
+  recipientType: RecipientType.Address,
 }
 
 export const mockNavigation: NativeStackNavigationProp<StackParamList, any> = {
@@ -415,6 +424,7 @@ export const mockQRCodeRecipient: AddressRecipient = {
   e164PhoneNumber: mockUriData[3].e164PhoneNumber,
   thumbnailPath: undefined,
   contactId: undefined,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipientInfo: RecipientInfo = {
