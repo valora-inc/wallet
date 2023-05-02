@@ -49,22 +49,14 @@ interface SendConfirmationLegacyParams {
   origin: SendOrigin
   transactionData: TransactionDataInputLegacy
   addressJustValidated?: boolean
-  isFromScan?: boolean
+  isFromScan: boolean
   currencyInfo?: CurrencyInfo
 }
 
 interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
-  isFromScan?: boolean
-}
-
-interface SendConfirmationLegacyParams {
-  origin: SendOrigin
-  transactionData: TransactionDataInputLegacy
-  addressJustValidated?: boolean
-  isFromScan?: boolean
-  currencyInfo?: CurrencyInfo
+  isFromScan: boolean
 }
 
 export interface BottomSheetParams {
@@ -236,10 +228,12 @@ export type StackParamList = {
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput
+    isFromScan: boolean
   }
   [Screens.PaymentRequestConfirmationLegacy]: {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
+    isFromScan: boolean
   }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
@@ -298,7 +292,7 @@ export type StackParamList = {
   [Screens.SendAmount]: {
     recipient: Recipient
     isOutgoingPaymentRequest?: boolean
-    isFromScan?: boolean
+    isFromScan: boolean
     origin: SendOrigin
     forceTokenAddress?: boolean
     defaultTokenOverride?: string

@@ -26,6 +26,7 @@ import {
   Recipient,
   recipientHasNumber,
   RecipientInfo,
+  RecipientType,
 } from 'src/recipients/recipient'
 import {
   coinbasePaySendersSelector,
@@ -91,7 +92,7 @@ function getRecipient(
     if (recipient) {
       return { ...recipient }
     } else {
-      recipient = { e164PhoneNumber: phoneNumber }
+      recipient = { e164PhoneNumber: phoneNumber, recipientType: RecipientType.PhoneNumber }
       return recipient
     }
   }
@@ -270,13 +271,21 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
     if (recipient) {
       return { ...recipient, address: transfer.address }
     } else {
-      recipient = { e164PhoneNumber: phoneNumber, address: transfer.address }
+      recipient = {
+        e164PhoneNumber: phoneNumber,
+        address: transfer.address,
+        recipientType: RecipientType.PhoneNumber,
+      }
       return recipient
     }
   }
 
   if (fcTransferDisplayInfo) {
-    return { thumbnailPath: fcTransferDisplayInfo.tokenImageUrl, address: transfer.address }
+    return {
+      thumbnailPath: fcTransferDisplayInfo.tokenImageUrl,
+      address: transfer.address,
+      recipientType: RecipientType.Address,
+    }
   }
 
   recipient = getRecipientFromAddress(

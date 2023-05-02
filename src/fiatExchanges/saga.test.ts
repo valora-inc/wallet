@@ -14,7 +14,7 @@ import {
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { AddressRecipient } from 'src/recipients/recipient'
+import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPaymentFailure, sendPaymentLegacy, sendPaymentSuccess } from 'src/send/actions'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
@@ -33,6 +33,7 @@ describe(watchBidaliPaymentRequests, () => {
     name: 'Bidali',
     thumbnailPath:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media',
+    recipientType: RecipientType.Address,
   }
 
   beforeAll(() => {
@@ -94,6 +95,7 @@ describe(watchBidaliPaymentRequests, () => {
           recipient,
           type: TokenTransactionType.PayPrefill,
         },
+        isFromScan: false,
       })
       expect(onPaymentSent).toHaveBeenCalledTimes(1)
       expect(onCancelled).not.toHaveBeenCalled()
@@ -142,6 +144,7 @@ describe(watchBidaliPaymentRequests, () => {
         recipient,
         type: TokenTransactionType.PayPrefill,
       },
+      isFromScan: false,
     })
     expect(onPaymentSent).not.toHaveBeenCalled()
     expect(onCancelled).toHaveBeenCalled()

@@ -36,7 +36,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
@@ -75,6 +75,7 @@ export function useRecipientToSendTo(paramRecipient: Recipient) {
         // Setting the phone number explicitly so Typescript doesn't complain
         e164PhoneNumber: paramRecipient.e164PhoneNumber,
         address: recipientAddress ?? undefined,
+        recipientType: RecipientType.PhoneNumber,
       }
     }
     return paramRecipient
@@ -208,8 +209,8 @@ function SendConfirmation(props: Props) {
     }
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
-      recipientType: props.route.params.transactionData.recipient.recipientType,
-      isScan: !!props.route.params?.isFromScan,
+      recipientType: recipient.recipientType,
+      isScan: props.route.params.isFromScan,
       localCurrency: localCurrencyCode,
       usdAmount: usdAmount?.toString() ?? null,
       localCurrencyAmount: localAmount?.toString() ?? null,

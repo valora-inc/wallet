@@ -11,7 +11,7 @@ import { getLocalCurrencyCode, localCurrencyToUsdSelector } from 'src/localCurre
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
-import { AddressRecipient, Recipient } from 'src/recipients/recipient'
+import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
@@ -57,9 +57,9 @@ export const getConfirmationInput = (
 
 export function* handleSendPaymentData(
   data: UriData,
+  isFromScan: boolean,
   cachedRecipient?: Recipient,
-  isOutgoingPaymentRequest?: boolean,
-  isFromScan?: boolean
+  isOutgoingPaymentRequest?: boolean
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
@@ -68,6 +68,7 @@ export function* handleSendPaymentData(
     displayNumber: cachedRecipient?.displayNumber,
     thumbnailPath: cachedRecipient?.thumbnailPath,
     contactId: cachedRecipient?.contactId,
+    recipientType: RecipientType.Address,
   }
   yield put(
     updateValoraRecipientCache({
@@ -135,7 +136,7 @@ export function* handleSendPaymentData(
 export function* handlePaymentDeeplink(deeplink: string) {
   try {
     const paymentData = uriDataFromUrl(deeplink)
-    yield call(handleSendPaymentData, paymentData)
+    yield call(handleSendPaymentData, paymentData, true)
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }
