@@ -17,17 +17,22 @@ function NoResults({ testID, searchTerm }: Props) {
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.onboardingBlue} />
       </View>
-      <Text style={styles.text}>
-        <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
-          <Text style={styles.searchedText} />
-        </Trans>
-      </Text>
+      <View style={styles.searchTextContainer}>
+        <Text style={styles.text}>
+          <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
+            <Text style={styles.searchedText} />
+          </Trans>
+        </Text>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   iconContainer: {
+    marginRight: Spacing.Smallest8,
+  },
+  searchTextContainer: {
     flex: 1,
   },
   searchedText: {
@@ -36,15 +41,12 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.xsmall,
-    flex: 10,
     textAlignVertical: 'center',
+    flexWrap: 'wrap',
   },
   viewContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: Spacing.Thick24,
     marginTop: Spacing.Thick24,
   },
 })

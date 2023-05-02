@@ -13,6 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
+import { useDeepLinks } from 'src/app/useDeepLinks'
 import { doingBackupFlowSelector, pastForcedBackupDeadlineSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import {
@@ -64,6 +65,7 @@ export const NavigatorWrapper = () => {
   const dispatch = useDispatch()
 
   useFlipper(navigationRef)
+  useDeepLinks()
 
   const updateRequired = React.useMemo(() => {
     if (!minRequiredVersion) {
