@@ -207,9 +207,6 @@ export function* handleUpdateAccountRegistration() {
     const isEmulator = yield call([DeviceInfo, 'isEmulator'])
     // Emulators can't handle fcm tokens and calling getToken on them will throw an error
     if (!isEmulator) {
-      // `registerDeviceForRemoteMessages` must be called before calling `getToken`
-      // Note: `registerDeviceForRemoteMessages` is really only required for iOS and is a no-op on Android
-      yield call([firebase.app().messaging(), 'registerDeviceForRemoteMessages'])
       fcmToken = yield call([firebase.app().messaging(), 'getToken'])
     }
   } catch (error) {
