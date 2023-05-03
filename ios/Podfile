@@ -44,6 +44,7 @@ target "celo" do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
   use_flipper!()
+  pod 'OpenSSL-Universal', :configurations => ['Debug','Release']
 end
 
 target 'NotificationService' do
