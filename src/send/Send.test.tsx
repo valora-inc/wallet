@@ -137,6 +137,7 @@ describe('Send', () => {
       isOutgoingPaymentRequest: false,
       origin: SendOrigin.AppSendFlow,
       defaultTokenOverride: mockCusdAddress,
+      isFromScan: false,
     })
   })
 
@@ -164,6 +165,7 @@ describe('Send', () => {
       origin: SendOrigin.AppRequestFlow,
       defaultTokenOverride: mockCeloAddress,
       forceTokenAddress: true,
+      isFromScan: false,
     })
   })
 

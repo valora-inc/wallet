@@ -30,12 +30,16 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
     <View testID={testID}>
       {searchTerm !== '' && (
         <View style={styles.searchContainer}>
-          <InfoIcon color={Colors.onboardingBlue} />
-          <Text style={styles.text}>
-            <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
-              <Text style={styles.searchedText} />
-            </Trans>
-          </Text>
+          <View style={styles.iconContainer}>
+            <InfoIcon color={Colors.onboardingBlue} />
+          </View>
+          <View style={styles.searchTextContainer}>
+            <Text style={styles.text}>
+              <Trans i18nKey="dappsScreen.emptyResults.searchMessage" tOptions={{ searchTerm }}>
+                <Text style={styles.searchedText} />
+              </Trans>
+            </Text>
+          </View>
         </View>
       )}
       {filterId !== 'all' && (
@@ -74,11 +78,18 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.xsmall,
     textAlignVertical: 'center',
+    flexWrap: 'wrap',
   },
   searchContainer: {
+    flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: Spacing.Regular16,
+    marginTop: Spacing.Thick24,
+  },
+  iconContainer: {
+    marginRight: Spacing.Smallest8,
+  },
+  searchTextContainer: {
+    flex: 1,
   },
   filterContainer: {
     flex: 1,

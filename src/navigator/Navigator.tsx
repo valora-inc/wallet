@@ -129,14 +129,6 @@ const Stack = createNativeStackNavigator<StackParamList>()
 const ModalStack = createNativeStackNavigator<StackParamList>()
 const RootStack = createBottomSheetNavigator<StackParamList>()
 
-export const modalScreenOptions = () =>
-  Platform.select({
-    // iOS 13 modal presentation
-    ios: {
-      presentation: 'modal',
-    },
-  })
-
 const commonScreens = (Navigator: typeof Stack) => {
   return (
     <>
@@ -166,6 +158,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.SanctionedCountryErrorScreen}
         component={SanctionedCountryErrorScreen}
         options={SanctionedCountryErrorScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.QRNavigator}
+        component={QRNavigator}
+        options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
       />
     </>
   )
@@ -368,6 +365,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       component={BackupIntroduction}
       options={headerWithBackButton}
     />
+    <Navigator.Screen
+      name={Screens.AccountKeyEducation}
+      component={AccountKeyEducation}
+      options={AccountKeyEducation.navigationOptions as NativeStackNavigationOptions}
+    />
   </>
 )
 
@@ -520,6 +522,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={TransactionDetailsScreen}
       options={headerWithBackButton}
     />
+    <Navigator.Screen
+      name={Screens.GoldEducation}
+      component={GoldEducation}
+      options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
+    />
   </>
 )
 
@@ -618,25 +625,10 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       options={PincodeEnter.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
-      name={Screens.QRNavigator}
-      component={QRNavigator}
-      options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.RegulatoryTerms}
       // @ts-expect-error component type in native-stack v6
       component={RegulatoryTerms}
       options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.GoldEducation}
-      component={GoldEducation}
-      options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.AccountKeyEducation}
-      component={AccountKeyEducation}
-      options={AccountKeyEducation.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.LanguageModal}
@@ -662,7 +654,6 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
 )
 
 const mainScreenNavOptions = () => ({
-  ...modalScreenOptions(),
   headerShown: false,
 })
 
@@ -687,7 +678,14 @@ function nativeBottomSheets(
 
 function ModalStackScreen() {
   return (
-    <ModalStack.Navigator>
+    <ModalStack.Navigator
+      screenOptions={Platform.select({
+        // iOS 13 modal presentation
+        ios: {
+          presentation: 'modal',
+        },
+      })}
+    >
       <ModalStack.Screen
         name={Screens.Main}
         component={MainStackScreen}
