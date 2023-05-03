@@ -8,7 +8,6 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SearchInput from 'src/components/SearchInput'
 import i18n from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
-import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import SelectCountryItem from 'src/onboarding/registration/SelectCountryItem'
@@ -73,7 +72,6 @@ export default function SelectCountry({ navigation, route }: Props) {
 }
 
 SelectCountry.navigationOptions = () => ({
-  ...modalScreenOptions(),
   ...headerWithCloseButton,
   headerTitle: i18n.t('selectCountryCode'),
   headerTransparent: false,

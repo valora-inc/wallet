@@ -48,6 +48,7 @@ const keychainMock = {
   getAllGenericPasswordServices: jest.fn(async () => {
     return Array.from(mockedItems.keys())
   }),
+  getSupportedBiometryType: () => Promise.resolve('TouchID'),
 
   // Expose for testing purposes
   mockedItems,

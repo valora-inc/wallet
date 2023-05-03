@@ -16,12 +16,12 @@ import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
+import { AddressRecipient, getDisplayName, RecipientType } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
 import {
-  Actions as TransactionActions,
   NewTransactionsInFeedAction,
+  Actions as TransactionActions,
 } from 'src/transactions/actions'
 import { resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -55,6 +55,7 @@ function* bidaliPaymentRequest({
     name: 'Bidali',
     thumbnailPath:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media',
+    recipientType: RecipientType.Address,
   }
   const transactionData: TransactionDataInput = {
     recipient,
@@ -66,6 +67,7 @@ function* bidaliPaymentRequest({
   navigate(Screens.SendConfirmationLegacyModal, {
     transactionData,
     origin: SendOrigin.Bidali,
+    isFromScan: false,
   })
 
   while (true) {
