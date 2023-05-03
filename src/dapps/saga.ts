@@ -72,6 +72,13 @@ export function* handleFetchDappsList() {
   }
 
   const address = yield select(walletAddressSelector)
+  if (!address) {
+    // the dapplist is fetched on app start, but for a new user who has not yet
+    // created or restored a wallet the request will fail.
+    Logger.debug(TAG, 'Wallet address not found')
+    return
+  }
+
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
   const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
