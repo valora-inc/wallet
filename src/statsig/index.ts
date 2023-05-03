@@ -1,11 +1,17 @@
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
-import Logger from 'src/utils/Logger'
-import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
-import { EvaluationReason } from 'statsig-js'
-import { store } from 'src/redux/store'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { startOnboardingTimeSelector } from 'src/account/selectors'
 import * as _ from 'lodash'
+import { startOnboardingTimeSelector } from 'src/account/selectors'
+import { store } from 'src/redux/store'
+import { FeatureGates } from 'src/statsig/constants'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigParameter,
+} from 'src/statsig/types'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { EvaluationReason } from 'statsig-js'
+import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 
 const TAG = 'Statsig'
 
@@ -75,6 +81,15 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
   } catch (error) {
     Logger.warn(TAG, `Error getting params for dynamic config: ${configName}`, error)
     return defaultValues
+  }
+}
+
+export function getFeatureGate({ featureGateName }: { featureGateName: StatsigFeatureGates }) {
+  try {
+    return Statsig.checkGate(featureGateName)
+  } catch (error) {
+    Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
+    return FeatureGates[featureGateName]
   }
 }
 
