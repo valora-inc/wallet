@@ -27,8 +27,9 @@ export function* setAppReview() {
     !inAppRatingSupported ||
     !initialized ||
     lastInteractionTimestamp > Date.now() - ONE_DAY_IN_MILLIS * 7
-  )
+  ) {
     return
+  }
 
   // Will return true when the in-app review dialog is shown
   const result = yield call(InAppReview.RequestInAppReview)
