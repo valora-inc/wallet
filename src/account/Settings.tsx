@@ -362,6 +362,13 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
+  onPressCloudBackup = () => {
+    // TODO add logic for delete vs set up backup
+    // TODO publish analytics event
+    Logger.info('SettingsItem@onPress', 'Cloud backup pressed')
+    this.props.navigation.navigate(Screens.SetUpKeylessBackup)
+  }
+
   hideConfirmRemovalModal = () => {
     this.props.navigation.setParams({ promptConfirmRemovalModal: false })
   }
@@ -462,6 +469,11 @@ export class Account extends React.Component<Props, State> {
                 testID="RecoveryPhrase"
               />
             )}
+            <SettingsItemTextValue
+              title={t('cloudBackupSettingsTitle')}
+              onPress={this.onPressCloudBackup}
+              testID="CloudBackup"
+            />
             <SettingsItemTextValue
               title={t('changePin')}
               onPress={this.goToChangePin}

@@ -122,6 +122,7 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import SetUpKeylessBackup from 'src/cloudBackup/SetUpKeylessBackup'
 
 const TAG = 'Navigator'
 
@@ -501,6 +502,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={ExchangeQR.navigationOptions}
       name={Screens.ExchangeQR}
       component={ExchangeQR}
+    />
+    <Navigator.Screen
+      name={Screens.SetUpKeylessBackup}
+      options={SetUpKeylessBackup.navigationOptions}
+      component={SetUpKeylessBackup}
     />
   </>
 )
