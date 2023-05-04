@@ -18,6 +18,7 @@ export enum StatsigDynamicConfigs {
 
 export enum StatsigFeatureGates {
   USE_ZENDESK_API_FOR_SUPPORT = 'use_zendesk_api_for_support',
+  APP_REVIEW = 'app_review',
 }
 
 export enum StatsigExperiments {

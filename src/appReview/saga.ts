@@ -3,12 +3,15 @@ import { call, put, select, spawn, takeLatest } from 'redux-saga/effects'
 import { lastInteractionTimestampSelector } from 'src/appReview/selectors'
 import { setLastInteractionTimestamp } from 'src/appReview/slice'
 import { Actions as SendActions } from 'src/send/actions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 export function* setAppReview() {
-  // Quick return if the device does not support in app review
+  // Quick return if the device does not support in app review or app review is not enabled
   if (!InAppReview.isAvailable()) return
+  if (!getFeatureGate({ featureGateName: StatsigFeatureGates.APP_REVIEW })) return
 
   const lastInteractionTimestamp = yield select(lastInteractionTimestampSelector)
   const now = Date.now()
