@@ -5,6 +5,7 @@ import { select } from 'redux-saga/effects'
 import { setAppReview } from 'src/appReview/saga'
 import { lastInteractionTimestampSelector } from 'src/appReview/selectors'
 import { Actions as SendActions } from 'src/send/actions'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const mockIsAvailable = jest.fn()
 jest.mock('react-native-in-app-review', () => ({
@@ -14,16 +15,36 @@ jest.mock('react-native-in-app-review', () => ({
 
 describe(setAppReview, () => {
   it.each`
-    lastInteractionTimestamp                 | shouldShowInAppReview | isAvailable | lastIteration
-    ${null}                                  | ${true}               | ${true}     | ${null}
-    ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${true}               | ${true}     | ${'92 days ago'}
-    ${Date.now() - 1000}                     | ${false}              | ${true}     | ${'1 day ago'}
-    ${null}                                  | ${false}              | ${false}    | ${null}
-    ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${false}              | ${false}    | ${'92 days ago'}
-    ${Date.now() - 1000}                     | ${false}              | ${false}    | ${'1 day ago'}
+    lastInteractionTimestamp                 | lastInteraction
+    ${null}                                  | ${null}
+    ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${'92 days ago'}
   `(
-    `Should Show: $shouldShowInAppReview, Is Available: $isAvailable, Last Interaction: $lastIteration`,
-    async ({ lastInteractionTimestamp, shouldShowInAppReview, isAvailable }) => {
+    `Should show when isAvailable: true and lastInteraction: $lastInteraction`,
+    async ({ lastInteractionTimestamp }) => {
+      jest.clearAllMocks()
+      mockIsAvailable.mockReturnValue(true)
+
+      await expectSaga(setAppReview)
+        .provide([[select(lastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .dispatch({
+          type: SendActions.SEND_PAYMENT_SUCCESS,
+          payload: { amount: new BigNumber('100') },
+        })
+        .run()
+
+      expect(InAppReview.RequestInAppReview).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it.each`
+    lastInteractionTimestamp                 | isAvailable | lastInteraction
+    ${Date.now() - 1000}                     | ${true}     | ${'1 day ago'}
+    ${null}                                  | ${false}    | ${null}
+    ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${false}    | ${'92 days ago'}
+    ${Date.now() - ONE_DAY_IN_MILLIS}        | ${false}    | ${'1 day ago'}
+  `(
+    `Should not show when isAvailable: $isAvailable and Last Interaction: $lastInteraction`,
+    async ({ lastInteractionTimestamp, isAvailable }) => {
       // Clear previous calls
       jest.clearAllMocks()
       mockIsAvailable.mockReturnValue(isAvailable)
@@ -36,11 +57,7 @@ describe(setAppReview, () => {
         })
         .run()
 
-      if (shouldShowInAppReview) {
-        expect(InAppReview.RequestInAppReview).toHaveBeenCalledTimes(1)
-      } else {
-        expect(InAppReview.RequestInAppReview).not.toHaveBeenCalled()
-      }
+      expect(InAppReview.RequestInAppReview).not.toHaveBeenCalled()
     }
   )
 })
