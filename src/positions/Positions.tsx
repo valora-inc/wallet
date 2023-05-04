@@ -53,8 +53,8 @@ function PositionItem({ position }: { position: Position }) {
             />
           ))}
         </View>
-        <View style={styles.tokenLabels}>
-          <Text style={styles.tokenName}>{position.label}</Text>
+        <View style={styles.positionLabels}>
+          <Text style={styles.positionName}>{position.label}</Text>
           <Text style={styles.subtext}>{position.appId}</Text>
         </View>
       </View>
@@ -64,12 +64,12 @@ function PositionItem({ position }: { position: Position }) {
             amount={balanceInDecimal}
             // Hack to display the token balance without having said token in the base token list
             currency={Currency.Celo}
-            style={styles.tokenAmt}
+            style={styles.tokenAmount}
             showLocalAmount={false}
             showSymbol={false}
           />
         )}
-        {!balanceInDecimal && <Text style={styles.tokenAmt}>{'-'}</Text>}
+        {!balanceInDecimal && <Text style={styles.tokenAmount}>{'-'}</Text>}
         {balanceUsd.gt(0) && (
           <View style={styles.fiatContainer}>
             <TokenDisplay
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: variables.contentPadding,
   },
-  tokenLabels: {
+  positionLabels: {
     flexShrink: 1,
     flexDirection: 'column',
   },
@@ -129,14 +129,14 @@ const styles = StyleSheet.create({
     flex: 11,
     flexDirection: 'row',
   },
-  tokenName: {
+  positionName: {
     ...fontStyles.large600,
   },
   subtext: {
     ...fontStyles.small,
     color: Colors.gray4,
   },
-  tokenAmt: {
+  tokenAmount: {
     ...fontStyles.large600,
   },
   fiatContainer: {
