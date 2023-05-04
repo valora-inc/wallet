@@ -253,6 +253,7 @@
     "jest-junit": "^10.0.0",
     "jest-snapshot": "^26.1.0",
     "lokijs": "^1.5.12",
+    "metro-babel-register": "^0.76.3",
     "metro-react-native-babel-preset": "^0.67.0",
     "mocha": "^7.1.1",
     "mockdate": "^3.0.5",
