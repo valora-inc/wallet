@@ -38,7 +38,7 @@ describe(setAppReview, () => {
 
   it.each`
     lastInteractionTimestamp                 | isAvailable | lastInteraction
-    ${Date.now() - 1000}                     | ${true}     | ${'1 day ago'}
+    ${Date.now() - ONE_DAY_IN_MILLIS}        | ${true}     | ${'1 day ago'}
     ${null}                                  | ${false}    | ${null}
     ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${false}    | ${'92 days ago'}
     ${Date.now() - ONE_DAY_IN_MILLIS}        | ${false}    | ${'1 day ago'}
