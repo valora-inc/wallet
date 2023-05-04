@@ -36,6 +36,7 @@ export function* setAppReview() {
 }
 
 export function* watchAppReview() {
+  // TODO: add more actions to trigger app review
   yield takeLeading([Web3Actions.SET_ACCOUNT], safely(initAppReview))
   yield takeLatest([SendActions.SEND_PAYMENT_SUCCESS], safely(setAppReview))
 }
