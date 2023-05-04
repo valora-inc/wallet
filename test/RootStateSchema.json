@@ -3710,12 +3710,6 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
-                "inAppRatingSupported": {
-                    "type": "boolean"
-                },
-                "initialized": {
-                    "type": "boolean"
-                },
                 "lastInteractionTimestamp": {
                     "type": [
                         "null",
@@ -3724,8 +3718,6 @@
                 }
             },
             "required": [
-                "inAppRatingSupported",
-                "initialized",
                 "lastInteractionTimestamp"
             ],
             "type": "object"

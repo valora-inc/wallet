@@ -1113,8 +1113,6 @@ export const migrations = {
   124: (state: any) => ({
     ...state,
     appReview: {
-      inAppRatingSupported: false,
-      initialized: false,
       lastInteractionTimestamp: null,
     },
   }),

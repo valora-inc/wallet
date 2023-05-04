@@ -2204,8 +2204,6 @@ export const v124Schema = {
     version: 124,
   },
   appReview: {
-    inAppRatingSupported: false,
-    initialized: false,
     lastInteractionTimestamp: null,
   },
 }
