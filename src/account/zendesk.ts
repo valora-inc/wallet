@@ -1,10 +1,10 @@
+import { ZENDESK_API_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { readFileChunked } from 'src/utils/readFile'
 
-const API_TOKEN = '3Cdhp6I3H8qxye9sBH8alCke77no7Tv4kRyXPj5M'
-const ZENDESK_PROJECT_NAME = 'valoraapp1648640516'
+const ZENDESK_PROJECT_NAME = 'valoraapp'
 
-interface DeviceInfo {
+export interface DeviceInfo {
   version: string
   buildNumber: string
   apiLevel: number
@@ -22,7 +22,7 @@ interface DeviceInfo {
 
 const TAG = 'account/zendesk'
 
-// create zendesk request with attachment
+// Send zendesk support request and upload attachments
 export async function sendSupportRequest({
   message,
   deviceInfo,
@@ -38,7 +38,7 @@ export async function sendSupportRequest({
   userName: string
   subject: string
 }) {
-  Logger.info(TAG, 'Sending support request', message, deviceInfo, logFiles)
+  Logger.info(TAG, 'Sending support request')
   const uploadTokens = await Promise.all(
     logFiles.map((fileInfo) => _uploadFile(fileInfo, userEmail))
   )
@@ -56,7 +56,9 @@ export async function sendSupportRequest({
   })
 }
 
-function _generateCustomFields(deviceInfo: DeviceInfo) {
+// These custom fields auto-populate fields in zendesk
+// Id's come from https://valoraapp.zendesk.com/admin/objects-rules/tickets/ticket-fields (only admins can view)
+export function _generateCustomFields(deviceInfo: DeviceInfo) {
   return [
     {
       id: 11693576426253,
@@ -79,7 +81,7 @@ function _generateCustomFields(deviceInfo: DeviceInfo) {
       value: deviceInfo.apiLevel.toString(),
     },
     {
-      id: 360043614852,
+      id: 15494972694029,
       value: deviceInfo.version,
     },
     {
@@ -108,11 +110,13 @@ async function _createRequest({
   subject: string
   customFields: { id: number; value: string }[]
 }) {
-  await fetch(`https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/requests`, {
+  const resp = await fetch(`https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/requests`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Basic ${Buffer.from(`${userEmail}/token:${API_TOKEN}`).toString('base64')}`,
+      Authorization: `Basic ${Buffer.from(`${userEmail}/token:${ZENDESK_API_KEY}`).toString(
+        'base64'
+      )}`,
     },
     body: JSON.stringify({
       request: {
@@ -129,6 +133,15 @@ async function _createRequest({
       },
     }),
   })
+  if (resp.status >= 400) {
+    const jsonResponse = await resp.json()
+    Logger.debug(
+      TAG,
+      '_createRequest returned response greater than 400',
+      resp.status,
+      JSON.stringify(jsonResponse)
+    )
+  }
 }
 
 async function _uploadFile(
@@ -142,12 +155,22 @@ async function _uploadFile(
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain',
-        Authorization: `Basic ${Buffer.from(`${userEmail}/token:${API_TOKEN}`).toString('base64')}`,
+        Authorization: `Basic ${Buffer.from(`${userEmail}/token:${ZENDESK_API_KEY}`).toString(
+          'base64'
+        )}`,
       },
       body: blob,
     }
   )
   const resp = await uploadFileResponse.json()
+  if (uploadFileResponse.status >= 400) {
+    Logger.debug(
+      TAG,
+      '_uploadFile returned response greater than 400',
+      uploadFileResponse.status,
+      JSON.stringify(resp)
+    )
+  }
   const uploadToken = resp.upload?.token
   return uploadToken
 }

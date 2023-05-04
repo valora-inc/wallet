@@ -84,7 +84,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
   }
 }
 
-export function getFeatureGate({ featureGateName }: { featureGateName: StatsigFeatureGates }) {
+export function getFeatureGate(featureGateName: StatsigFeatureGates) {
   try {
     return Statsig.checkGate(featureGateName)
   } catch (error) {

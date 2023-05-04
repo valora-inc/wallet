@@ -123,7 +123,7 @@ function SupportContact({ route }: Props) {
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)
     }
-  }, [message, attachLogs, e164PhoneNumber])
+  }, [message, attachLogs, e164PhoneNumber, email, name])
 
   return (
     <View style={styles.container}>
