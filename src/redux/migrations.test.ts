@@ -880,7 +880,7 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.appReview = {
       inAppRatingSupported: false,
-      appRated: false,
+      initialized: false,
       lastInteractionTimestamp: null,
     }
     expect(migratedSchema).toStrictEqual(expectedSchema)

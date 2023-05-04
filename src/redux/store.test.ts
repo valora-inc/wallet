@@ -188,8 +188,8 @@ describe('store state', () => {
           "walletConnectV2Enabled": true,
         },
         "appReview": Object {
-          "appRated": false,
           "inAppRatingSupported": false,
+          "initialized": false,
           "lastInteractionTimestamp": null,
         },
         "dapps": Object {

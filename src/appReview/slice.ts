@@ -4,16 +4,16 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 
 export interface State {
+  initialized: boolean
   inAppRatingSupported: boolean
-  appRated: boolean
   lastInteractionTimestamp: number | null
 }
 
 const initialState: State = {
+  initialized: false,
   // Android version >= 21 and iOS >= 10.3
   // https://github.com/MinaSamir11/react-native-in-app-review#usage
   inAppRatingSupported: !!InAppReview.isAvailable,
-  appRated: false,
   lastInteractionTimestamp: null,
 }
 
@@ -21,12 +21,14 @@ export const slice = createSlice({
   name: 'appReview',
   initialState,
   reducers: {
+    setInitialized: (state, action) => {
+      state.initialized = action.payload
+    },
     inAppRatingSupported: (state, action) => {
       state.inAppRatingSupported = action.payload
     },
-    setAppRated: (state, action) => {
-      state.appRated = action.payload
-      state.lastInteractionTimestamp = Date.now()
+    setLastInteractionTimestamp: (state, action) => {
+      state.lastInteractionTimestamp = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -37,6 +39,6 @@ export const slice = createSlice({
   },
 })
 
-export const { inAppRatingSupported, setAppRated } = slice.actions
+export const { inAppRatingSupported, setLastInteractionTimestamp, setInitialized } = slice.actions
 
 export default slice.reducer

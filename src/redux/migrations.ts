@@ -1114,7 +1114,7 @@ export const migrations = {
     ...state,
     appReview: {
       inAppRatingSupported: false,
-      appRated: false,
+      initialized: false,
       lastInteractionTimestamp: null,
     },
   }),
