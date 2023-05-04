@@ -1,122 +1,95 @@
-import { act, render } from '@testing-library/react-native'
-import { TFunction } from 'i18next'
+import { act, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
-import 'react-native'
 import { Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { appMounted } from 'src/app/actions'
 import AppInitGate from 'src/app/AppInitGate'
-import * as I18n from 'src/i18n'
-import * as I18nActions from 'src/i18n/slice'
+import { setLanguage } from 'src/i18n/slice'
 import { navigateToError } from 'src/navigator/NavigationService'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
+import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
+jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/redux/sagas', () => ({
+  ...(jest.requireActual('src/redux/sagas') as any),
+  waitUntilSagasFinishLoading: jest.fn(),
+}))
+
 jest.mock('src/i18n', () => ({
-  initI18n: jest.fn(),
-  changeLanguage: jest.fn(() => new Promise(setImmediate)),
+  ...(jest.requireActual('src/i18n') as any),
+  changeLanguage: jest.fn().mockResolvedValue(jest.fn()),
   t: jest.fn(),
 }))
 
 jest.mock('src/navigator/NavigationService', () => ({
-  navigateToError: jest.fn().mockReturnValueOnce(undefined),
+  navigateToError: jest.fn(),
 }))
 
-const mockedI18n = I18n as jest.Mocked<typeof I18n>
-const setLanguageSpy = jest.spyOn(I18nActions, 'setLanguage')
+jest.spyOn(Date, 'now').mockImplementation(() => 1682420628)
 
-const renderAppInitGate = (language: string | null) =>
-  render(
-    <Provider store={createMockStore({ i18n: { language } })}>
-      <AppInitGate loading={<Text>Loading component</Text>}>
+const renderAppInitGate = (language: string | null = 'en-US') => {
+  const store = createMockStore({ i18n: { language } })
+  const tree = render(
+    <Provider store={store}>
+      <AppInitGate appStartedMillis={1682415628} reactLoadTime={1682418628}>
         <Text>App</Text>
       </AppInitGate>
     </Provider>
   )
 
+  return { ...tree, store }
+}
+
 describe('AppInitGate', () => {
-  const initI18nPromise = Promise.resolve<TFunction>(jest.fn())
-  mockedI18n.initI18n.mockImplementation(jest.fn(() => initI18nPromise))
-
-  const initAnalyticsPromise = Promise.resolve()
-  mocked(ValoraAnalytics.init).mockImplementation(jest.fn(() => initAnalyticsPromise))
-
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should render the fallback before i18n and analytics is initialised, and the app after initialisation', async () => {
-    const { getByText, queryByText } = renderAppInitGate(null)
+  it('should render the fallback before initialised', async () => {
+    mocked(waitUntilSagasFinishLoading).mockImplementationOnce(
+      () => new Promise((resolve) => setTimeout(resolve, 5000))
+    )
+    const { getByText, queryByText, store } = renderAppInitGate()
+    act(() => jest.advanceTimersByTime(2000))
 
-    expect(getByText('Loading component')).toBeTruthy()
     expect(queryByText('App')).toBeFalsy()
 
-    await act(() => initI18nPromise)
-    await act(() => initAnalyticsPromise)
+    act(() => jest.advanceTimersByTime(5000))
 
-    expect(getByText('App')).toBeTruthy()
-    expect(queryByText('Loading component')).toBeFalsy()
+    await waitFor(() => expect(getByText('App')).toBeTruthy())
+    expect(store.getActions()).toEqual([appMounted()])
+    expect(ValoraAnalytics.startSession).toHaveBeenCalledWith(
+      'app_launched',
+      expect.objectContaining({
+        appLoadDuration: 5,
+        deviceHeight: 1334,
+        deviceWidth: 750,
+        reactLoadDuration: 3,
+      })
+    )
     expect(navigateToError).not.toHaveBeenCalled()
   })
 
-  it('should initialise i18n with the store language if it exists', async () => {
-    renderAppInitGate('pt-BR')
-    await act(() => initI18nPromise)
-    await act(() => initAnalyticsPromise)
-
-    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(mockedI18n.initI18n).toHaveBeenCalledWith('pt-BR', false, '0')
-    expect(setLanguageSpy).not.toHaveBeenCalled()
-    expect(navigateToError).not.toHaveBeenCalled()
-  })
-
-  it('should initialise i18n with the best language available and set the store language', async () => {
+  it('should update the language if none was set', async () => {
     jest
       .spyOn(RNLocalize, 'findBestAvailableLanguage')
-      .mockReturnValue({ languageTag: 'de', isRTL: true })
+      .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
 
-    renderAppInitGate(null)
-    await act(() => initI18nPromise)
-    await act(() => initAnalyticsPromise)
+    const { getByText, store } = renderAppInitGate(null)
 
-    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(mockedI18n.initI18n).toHaveBeenCalledWith('de', false, '0')
-    expect(setLanguageSpy).toHaveBeenCalledWith('de')
-    expect(navigateToError).not.toHaveBeenCalled()
-  })
-
-  it('should initialise i18n with the default fallback language', async () => {
-    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValueOnce(undefined)
-
-    renderAppInitGate(null)
-    await act(() => initI18nPromise)
-    await act(() => initAnalyticsPromise)
-
-    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(mockedI18n.initI18n).toHaveBeenCalledWith('en-US', false, '0')
-    expect(setLanguageSpy).not.toHaveBeenCalled()
+    await waitFor(() => expect(getByText('App')).toBeTruthy())
+    expect(store.getActions()).toEqual([setLanguage('de-DE'), appMounted()])
     expect(navigateToError).not.toHaveBeenCalled()
   })
 
   it('should show error screen in case of failed i18n init', async () => {
-    const initI18nPromise = Promise.reject('some error')
-    mockedI18n.initI18n.mockImplementationOnce(jest.fn(() => initI18nPromise))
-    renderAppInitGate(null)
+    mocked(waitUntilSagasFinishLoading).mockRejectedValueOnce('some error')
+    renderAppInitGate()
 
-    await act(flushMicrotasksQueue)
-
-    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(waitUntilSagasFinishLoading).toHaveBeenCalledTimes(1))
     expect(navigateToError).toHaveBeenCalledWith('appInitFailed', 'some error')
-  })
-
-  it('should show error screen in case of failed analytics init', async () => {
-    mocked(ValoraAnalytics.init).mockRejectedValueOnce('some analytics error')
-    renderAppInitGate(null)
-
-    await act(flushMicrotasksQueue)
-
-    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(navigateToError).toHaveBeenCalledWith('appInitFailed', 'some analytics error')
   })
 })

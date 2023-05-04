@@ -5,6 +5,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
+import { RecipientType } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 const store = createMockStore()
 
@@ -18,6 +19,7 @@ const commonProps = {
     address: '0x91623f625e23ac1400',
     name: '5126608970',
     contact: undefined,
+    recipientType: RecipientType.Address,
   },
   cancelPaymentRequest: noop as typeof cancelPaymentRequest,
   updatePaymentRequestNotified: noop as typeof updatePaymentRequestNotified,

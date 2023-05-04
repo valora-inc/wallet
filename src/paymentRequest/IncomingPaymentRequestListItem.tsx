@@ -82,7 +82,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
 
     const origin = SendOrigin.AppRequestFlow
     if (addressValidationType === AddressValidationType.NONE) {
-      navigate(Screens.SendConfirmationLegacy, { transactionData, origin })
+      navigate(Screens.SendConfirmationLegacy, { transactionData, origin, isFromScan: false })
     } else {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,

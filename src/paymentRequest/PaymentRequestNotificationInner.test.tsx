@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import PaymentRequestNotificationInner from 'src/paymentRequest/PaymentRequestNotificationInner'
-import { AddressRecipient } from 'src/recipients/recipient'
+import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { createMockStore, getMockI18nProps } from 'test/utils'
 import { mockAccount, mockE164Number } from 'test/values'
 
@@ -13,6 +13,7 @@ it('renders correctly', () => {
     name: 'mockDisplayName',
     address: mockAccount,
     e164PhoneNumber: mockE164Number,
+    recipientType: RecipientType.Address,
   }
   const tree = render(
     <Provider store={store}>
