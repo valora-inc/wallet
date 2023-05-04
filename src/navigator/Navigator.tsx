@@ -114,7 +114,6 @@ import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import SwapScreenWithBack from 'src/swap/SwapScreenWithBack'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
-import TransactionReview from 'src/transactions/TransactionReview'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
@@ -511,11 +510,6 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.ChooseYourAdventure}
       component={ChooseYourAdventure}
       options={ChooseYourAdventure.navOptions}
-    />
-    <Navigator.Screen
-      name={Screens.TransactionReview}
-      component={TransactionReview}
-      options={TransactionReview.navOptions}
     />
     <Navigator.Screen
       name={Screens.TransactionDetailsScreen}
