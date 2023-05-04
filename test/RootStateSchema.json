@@ -281,6 +281,86 @@
             ],
             "type": "string"
         },
+        "AppTokenPosition": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "appId": {
+                    "type": "string"
+                },
+                "balance": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "decimals": {
+                    "type": "number"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "pricePerShare": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {},
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "priceUsd": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "supply": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "symbol": {
+                    "type": "string"
+                },
+                "tokens": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/BaseToken"
+                            },
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "app-token"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "appId",
+                "balance",
+                "decimals",
+                "label",
+                "network",
+                "pricePerShare",
+                "priceUsd",
+                "supply",
+                "symbol",
+                "tokens",
+                "type"
+            ],
+            "type": "object"
+        },
         "ApproveTransaction": {
             "additionalProperties": false,
             "properties": {
@@ -306,6 +386,49 @@
                 "from",
                 "gas",
                 "to"
+            ],
+            "type": "object"
+        },
+        "BaseToken": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "decimals": {
+                    "type": "number"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "priceUsd": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "symbol": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "base-token"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "balance",
+                "decimals",
+                "network",
+                "priceUsd",
+                "symbol",
+                "type"
             ],
             "type": "object"
         },
@@ -608,6 +731,57 @@
                 "cUSD"
             ],
             "type": "string"
+        },
+        "ContractPosition": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "appId": {
+                    "type": "string"
+                },
+                "balanceUsd": {
+                    "additionalProperties": false,
+                    "properties": {},
+                    "type": "object"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "tokens": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/BaseToken"
+                            },
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "contract-position"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "appId",
+                "balanceUsd",
+                "label",
+                "network",
+                "tokens",
+                "type"
+            ],
+            "type": "object"
         },
         "CoreTypes.Metadata": {
             "additionalProperties": false,
@@ -3707,6 +3881,38 @@
             ],
             "type": "object"
         },
+        "State_26": {
+            "additionalProperties": false,
+            "properties": {
+                "positions": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            },
+                            {
+                                "$ref": "#/definitions/ContractPosition"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "positions",
+                "status"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -5484,6 +5690,9 @@
         "paymentRequest": {
             "$ref": "#/definitions/State_16"
         },
+        "positions": {
+            "$ref": "#/definitions/State_26"
+        },
         "recipients": {
             "$ref": "#/definitions/State_13"
         },
@@ -5527,6 +5736,7 @@
         "localCurrency",
         "networkInfo",
         "paymentRequest",
+        "positions",
         "recipients",
         "send",
         "supercharge",

@@ -17,6 +17,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
+  mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
 
@@ -2197,6 +2198,18 @@ export const v123Schema = {
   dapps: _.omit(v122Schema.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
 }
 
+export const v124Schema = {
+  ...v123Schema,
+  _persist: {
+    ...v123Schema._persist,
+    version: 124,
+  },
+  positions: {
+    positions: mockPositions,
+    status: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v123Schema as Partial<RootState>
+  return v124Schema as Partial<RootState>
 }

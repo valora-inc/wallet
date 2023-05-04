@@ -1,7 +1,5 @@
 // Decimal number serialized as a string
-export type SerializedDecimalNumber = string & {
-  __serializedDecimalNumberBrand: never
-}
+export type SerializedDecimalNumber = string
 
 export interface AbstractPosition {
   address: string // Example: 0x...
