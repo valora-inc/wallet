@@ -71,7 +71,7 @@ function PositionItem({ position }: { position: Position }) {
         )}
         {!balanceInDecimal && <Text style={styles.tokenAmt}>{'-'}</Text>}
         {balanceUsd.gt(0) && (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          <View style={styles.fiatContainer}>
             <TokenDisplay
               amount={balanceUsd}
               currency={Currency.Dollar}
@@ -138,5 +138,10 @@ const styles = StyleSheet.create({
   },
   tokenAmt: {
     ...fontStyles.large600,
+  },
+  fiatContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
 })
