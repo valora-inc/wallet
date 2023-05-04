@@ -34,15 +34,16 @@ function validateEmail(email: string) {
 
 function SupportContact({ route }: Props) {
   const { t } = useTranslation()
+  const cachedName = useSelector(nameSelector)
+
   const [message, setMessage] = useState('')
   const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
+  const [name, setName] = useState(cachedName ?? '')
   const [attachLogs, setAttachLogs] = useState(true)
   const [inProgress, setInProgress] = useState(false)
 
   const useZendeskApi = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
 
-  const cachedName = useSelector(nameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
@@ -123,7 +124,7 @@ function SupportContact({ route }: Props) {
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)
     }
-  }, [message, attachLogs, e164PhoneNumber, email, name])
+  }, [message, attachLogs, e164PhoneNumber, email, name, useZendeskApi])
 
   return (
     <View style={styles.container}>
@@ -154,7 +155,6 @@ function SupportContact({ route }: Props) {
               style={styles.singleLineTextInput}
               showClearButton={false}
               testID={'NameEntry'}
-              defaultValue={cachedName ?? ''}
             />
             <Text style={styles.headerText}>{t('Email')}</Text>
             <TextInput
