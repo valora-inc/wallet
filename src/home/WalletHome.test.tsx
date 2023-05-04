@@ -1,15 +1,16 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { dappSelected } from 'src/dapps/slice'
 import { DappSection } from 'src/dapps/types'
+import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams } from 'src/statsig'
 import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
-import { mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 const mockBalances = {
@@ -54,6 +55,13 @@ const zeroBalances = {
         balance: '0',
         isCoreToken: true,
       },
+      [mockCeloAddress]: {
+        address: mockCeloAddress,
+        symbol: 'CELO',
+        decimals: 18,
+        balance: '0',
+        isCoreToken: true,
+      },
     },
   },
 }
@@ -94,6 +102,12 @@ jest.mock('src/statsig', () => ({
     cashInBottomSheetEnabled: true,
   })),
 }))
+
+jest.mock('src/fiatExchanges/utils', () => ({
+  ...(jest.requireActual('src/fiatExchanges/utils') as any),
+  fetchProviders: jest.fn(),
+}))
+
 describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
 
@@ -223,11 +237,13 @@ describe('WalletHome', () => {
   })
 
   it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
+    mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
     const { getByTestId } = renderScreen({
       ...zeroBalances,
     })
 
-    expect(getByTestId('cashInBtn')).toBeTruthy()
+    await flushMicrotasksQueue()
+    await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
   })
 
   it('Does not render cash in bottom sheet when experiment flag is turned on but balances are not zero', async () => {
