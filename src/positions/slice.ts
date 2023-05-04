@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import { Position } from './types'
 
 export interface State {
@@ -18,7 +17,7 @@ const slice = createSlice({
   name: 'positions',
   initialState,
   reducers: {
-    fetchPositions: (state) => ({
+    fetchPositionsStart: (state) => ({
       ...state,
       status: 'loading',
     }),
@@ -27,7 +26,7 @@ const slice = createSlice({
       positions: action.payload,
       status: 'success',
     }),
-    fetchPositionsFailure: (state) => ({
+    fetchPositionsFailure: (state, action: PayloadAction<Error>) => ({
       ...state,
       status: 'error',
     }),
@@ -38,13 +37,9 @@ const slice = createSlice({
       ...getRehydratePayload(action, 'positions'),
       status: 'idle',
     }))
-    builder.addCase(fetchTokenBalances.type, (state) => ({
-      ...state,
-      status: 'loading',
-    }))
   },
 })
 
-export const { fetchPositions, fetchPositionsSuccess, fetchPositionsFailure } = slice.actions
+export const { fetchPositionsStart, fetchPositionsSuccess, fetchPositionsFailure } = slice.actions
 
 export default slice.reducer

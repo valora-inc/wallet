@@ -1,5 +1,9 @@
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
-import { fetchPositions, fetchPositionsFailure, fetchPositionsSuccess } from 'src/positions/slice'
+import {
+  fetchPositionsFailure,
+  fetchPositionsStart,
+  fetchPositionsSuccess,
+} from 'src/positions/slice'
 import { Position } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
@@ -15,7 +19,7 @@ const TAG = 'positions/saga'
 
 const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
-async function doFetchPositions(walletAddress: string) {
+async function fetchPositions(walletAddress: string) {
   const response = await fetchWithTimeout(
     // TODO: Use the final API URL once it's ready
     'https://plugins-api-oaxbpxoaha-uc.a.run.app/balances?' +
@@ -41,21 +45,22 @@ export function* fetchPositionsSaga() {
       return
     }
 
+    yield put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
-    const positions = yield call(doFetchPositions, address)
-    yield put(fetchPositionsSuccess(positions))
+    const positions = yield call(fetchPositions, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
+    yield put(fetchPositionsSuccess(positions))
   } catch (error) {
-    yield put(fetchPositionsFailure())
+    yield put(fetchPositionsFailure(error))
     Logger.error(TAG, 'Unable to fetch positions', error)
   }
 }
 
-export function* watchFetchBalanceOrPositions() {
-  // Refresh positions when fetching token balances, or when explicitly requested
-  yield takeLeading([fetchTokenBalances.type, fetchPositions.type], safely(fetchPositionsSaga))
+export function* watchFetchBalances() {
+  // Refresh positions when fetching token balances
+  yield takeLeading(fetchTokenBalances.type, safely(fetchPositionsSaga))
 }
 
 export function* positionsSaga() {
-  yield spawn(watchFetchBalanceOrPositions)
+  yield spawn(watchFetchBalances)
 }
