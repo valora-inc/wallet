@@ -291,9 +291,7 @@
                     "type": "string"
                 },
                 "balance": {
-                    "additionalProperties": false,
-                    "properties": {},
-                    "type": "object"
+                    "type": "string"
                 },
                 "decimals": {
                     "type": "number"
@@ -306,21 +304,15 @@
                 },
                 "pricePerShare": {
                     "items": {
-                        "additionalProperties": false,
-                        "properties": {},
-                        "type": "object"
+                        "type": "string"
                     },
                     "type": "array"
                 },
                 "priceUsd": {
-                    "additionalProperties": false,
-                    "properties": {},
-                    "type": "object"
+                    "type": "string"
                 },
                 "supply": {
-                    "additionalProperties": false,
-                    "properties": {},
-                    "type": "object"
+                    "type": "string"
                 },
                 "symbol": {
                     "type": "string"
@@ -396,9 +388,7 @@
                     "type": "string"
                 },
                 "balance": {
-                    "additionalProperties": false,
-                    "properties": {},
-                    "type": "object"
+                    "type": "string"
                 },
                 "decimals": {
                     "type": "number"
@@ -407,9 +397,7 @@
                     "type": "string"
                 },
                 "priceUsd": {
-                    "additionalProperties": false,
-                    "properties": {},
-                    "type": "object"
+                    "type": "string"
                 },
                 "symbol": {
                     "type": "string"
@@ -742,9 +730,7 @@
                     "type": "string"
                 },
                 "balanceUsd": {
-                    "additionalProperties": false,
-                    "properties": {},
-                    "type": "object"
+                    "type": "string"
                 },
                 "label": {
                     "type": "string"
