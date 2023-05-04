@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import InAppReview from 'react-native-in-app-review'
-import { REHYDRATE, RehydrateAction } from 'redux-persist'
-import { getRehydratePayload } from 'src/redux/persist-helper'
 
 export interface State {
   initialized: boolean
@@ -30,12 +28,6 @@ export const slice = createSlice({
     setLastInteractionTimestamp: (state, action) => {
       state.lastInteractionTimestamp = action.payload
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
-      ...state,
-      ...getRehydratePayload(action, 'appReview'),
-    }))
   },
 })
 
