@@ -105,6 +105,7 @@ export const Account = ({ route }: Props) => {
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
+  const currentLanguage = useSelector(currentLanguageSelector)
 
   const walletConnectEnabled = v1 || v2
   const connectedApplications = walletConnectV1Sessions.length + walletConnectV2Sessions.length
@@ -364,8 +365,6 @@ export const Account = ({ route }: Props) => {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
     }
   }
-
-  const currentLanguage = useSelector(currentLanguageSelector)
 
   return (
     <SafeAreaView style={styles.container}>
