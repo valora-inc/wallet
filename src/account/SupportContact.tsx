@@ -96,8 +96,6 @@ function SupportContact({ route }: Props) {
           (emailInfo.body ? '<br/><br/>' : '') + '<b>Support logs are attached...</b>'
       }
     }
-    // Used to prevent flickering of the activity indicator on quick uploads
-    setTimeout(() => setInProgress(false), 1000)
     try {
       if (useZendeskApi) {
         await sendSupportRequest({
@@ -120,6 +118,8 @@ function SupportContact({ route }: Props) {
             : false
         )
       }
+      // Used to prevent flickering of the activity indicator on quick uploads
+      setTimeout(() => setInProgress(false), 1000)
       navigateBackAndToast()
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)
