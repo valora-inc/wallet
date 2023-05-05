@@ -79,13 +79,14 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   authFactorsContainer: {
-    paddingVertical: variables.contentPadding,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray2,
+    paddingBottom: variables.contentPadding,
+    marginHorizontal: 16,
   },
   authFactorText: {
     ...fontStyles.regular500,
-    padding: variables.contentPadding,
+    paddingVertical: variables.contentPadding,
   },
   reminderPrefix: {
     ...fontStyles.small600,
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     textAlign: 'center',
     padding: variables.contentPadding,
+    marginTop: 16,
   },
   scrollContainer: {
     padding: 24,
