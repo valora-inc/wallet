@@ -5,10 +5,13 @@ import { inAppReviewCalled } from 'src/appReview/slice'
 import { Actions as SendActions } from 'src/send/actions'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 export function* requestInAppReview() {
-  // Quick return if the device does not support in app review
-  if (!InAppReview.isAvailable()) return
+  const walletAddress = yield select(walletAddressSelector)
+  console.log('walletAddress', walletAddress)
+  // Quick return if no wallet address or the device does not support in app review
+  if (!walletAddress || !InAppReview.isAvailable()) return
 
   const lastInteractionTimestamp = yield select(lastInteractionTimestampSelector)
   const now = Date.now()
