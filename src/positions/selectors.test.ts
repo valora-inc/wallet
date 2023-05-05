@@ -4,7 +4,7 @@ import { mockPositions } from 'test/values'
 
 describe(totalPositionsBalanceUsdSelector, () => {
   it('returns the total balance of all positions', () => {
-    const state = {
+    const state: any = {
       positions: {
         positions: mockPositions,
       },
@@ -14,7 +14,7 @@ describe(totalPositionsBalanceUsdSelector, () => {
   })
 
   it('returns null if there are no positions', () => {
-    const state = {
+    const state: any = {
       positions: {
         positions: [],
       },
