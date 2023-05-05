@@ -108,6 +108,8 @@ const TAG = 'app/saga'
 //    (which will put an app into `background` state until dialog disappears).
 const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 
+const STATSIG_REFRESH_PERIOD = 10000 // 10 sec for testing. TODO change to 1h
+
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
@@ -420,9 +422,9 @@ export function* handleSetAppState(action: SetAppState) {
 
   const statsigLoadTime = yield select(statsigLoadTimeSelector)
   const now = Date.now()
-  if (isAppActive && now - statsigLoadTime > 10000) {
-    // 10s for test
+  if (isAppActive && now - statsigLoadTime > STATSIG_REFRESH_PERIOD) {
     yield put(setStatsigLoadTime(now))
+    // Force a statsig refresh by updating the user object
     yield call(patchUpdateStatsigUser, { custom: { loadTime: now } })
   }
 }

@@ -123,6 +123,8 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        // don't use persisted value since statsig would've just loaded
+        statsigLoadTime: initialState.statsigLoadTime,
       }
     }
     case Actions.SET_APP_STATE:
