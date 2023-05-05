@@ -43,12 +43,6 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
-    Logger.debug(
-      TAG,
-      `getExperimentParams: ${experimentName}`,
-      experiment.getEvaluationDetails(),
-      experiment.value
-    )
     if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
       Logger.warn(
         TAG,
@@ -114,7 +108,10 @@ export function getDefaultStatsigUser(): StatsigUser {
  * Updates the current Statsig user. If no argument is given, a default StatsigUser
  * object is used to update the user, based on values from the redux store. If a StatsigUser
  * object is provided as a parameter, the provided object will be deep merged with the default
- * object from redux, with the provided object overriding fields in the default object.
+ * object from redux, with the provided object overriding fields in the default
+ * object. The default object also includes a `loadTime` field which is set to
+ * current time, so calling this method with no args will always force a refresh
+ * since `loadTime` will change.
  *
  * If the update fails for whatever reason, an error will be logged.
  *
