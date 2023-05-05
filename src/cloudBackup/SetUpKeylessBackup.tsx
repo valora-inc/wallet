@@ -31,10 +31,14 @@ function SetUpKeylessBackup() {
         <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
           <View style={styles.authFactorsContainer}>
             {/* TODO add email and phone icons */}
-            <EnvelopeIcon />
-            <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
-            <SmartphoneIcon />
-            <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
+            <View style={styles.authFactorLine}>
+              <EnvelopeIcon style={styles.authFactorIcon} />
+              <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
+            </View>
+            <View style={styles.authFactorLine}>
+              <SmartphoneIcon style={styles.authFactorIcon} />
+              <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
+            </View>
           </View>
 
           <Text style={styles.reminderText}>
@@ -88,9 +92,16 @@ const styles = StyleSheet.create({
     paddingBottom: variables.contentPadding,
     marginHorizontal: 16,
   },
+  authFactorLine: {
+    flexDirection: 'row',
+    padding: variables.contentPadding,
+  },
+  authFactorIcon: {
+    alignSelf: 'center',
+  },
   authFactorText: {
     ...fontStyles.regular500,
-    paddingVertical: variables.contentPadding,
+    paddingLeft: 16,
   },
   reminderPrefix: {
     ...fontStyles.small600,
