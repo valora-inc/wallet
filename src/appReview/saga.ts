@@ -7,6 +7,8 @@ import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { walletAddressSelector } from 'src/web3/selectors'
 
+const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 91
+
 export function* requestInAppReview() {
   const walletAddress = yield select(walletAddressSelector)
   console.log('walletAddress', walletAddress)
@@ -17,7 +19,7 @@ export function* requestInAppReview() {
   const now = Date.now()
 
   // If the last interaction was less than a quarter year ago or null
-  if (lastInteractionTimestamp <= now - ONE_DAY_IN_MILLIS * 91) {
+  if (now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
     const result = yield call(InAppReview.RequestInAppReview)
     // If the in app review was shown, update the last interaction timestamp
     if (result) yield put(inAppReviewCalled(now))
