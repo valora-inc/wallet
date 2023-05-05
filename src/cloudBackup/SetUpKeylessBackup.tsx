@@ -19,7 +19,6 @@ function SetUpKeylessBackup() {
   const { t } = useTranslation()
   return (
     <SafeAreaView style={styles.container}>
-      {/* TODO x button */}
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>{t('setUpKeylessBackup.title')}</Text>
         <Text style={styles.subtitle}>{t('setUpKeylessBackup.subtitle')}</Text>
@@ -37,7 +36,13 @@ function SetUpKeylessBackup() {
 
 SetUpKeylessBackup.navigationOptions = () => ({
   ...emptyHeader,
-  headerLeft: () => <TopBarIconButton icon={<Times height={24} />} onPress={navigateBack} />, // TODO need more left padding on the X button
+  headerLeft: () => (
+    <TopBarIconButton
+      style={styles.cancelButton}
+      icon={<Times height={24} />}
+      onPress={navigateBack}
+    />
+  ),
 })
 
 export default SetUpKeylessBackup
@@ -47,17 +52,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexGrow: 1,
   },
-  // cancelButton: {
-  //   padding: 60,
-  //   fontWeight: 'bold',
-  // },
+  cancelButton: {
+    marginLeft: 16,
+  },
   scrollContainer: {
     padding: 24,
     paddingTop: 40,
   },
   title: {
     textAlign: 'center',
-    marginTop: 50,
+    marginTop: 16,
+    fontWeight: 'bold',
     ...fontStyles.h1,
   },
   subtitle: {
