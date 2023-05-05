@@ -569,6 +569,11 @@ export enum TokenBottomSheetEvents {
   search_token = 'search_token', // When a user searches a token using the token bottom sheet search box
 }
 
+export enum AppReviewEvents {
+  app_review_impression = 'app_review_impression', // User sees an in-app review request
+  app_review_error = 'app_review_error', // Error while attempting to display in-app review
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -597,3 +602,4 @@ export type AnalyticsEventType =
   | SwapEvents
   | CeloNewsEvents
   | TokenBottomSheetEvents
+  | AppReviewEvents

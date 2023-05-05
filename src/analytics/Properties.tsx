@@ -8,6 +8,7 @@ import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
+  AppReviewEvents,
   AuthenticationEvents,
   CICOEvents,
   CeloExchangeEvents,
@@ -1211,6 +1212,13 @@ interface TokenBottomSheetEventsProperties {
   }
 }
 
+interface AppReviewEventsProperties {
+  [AppReviewEvents.app_review_impression]: undefined
+  [AppReviewEvents.app_review_error]: {
+    error: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1240,4 +1248,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
-  TokenBottomSheetEventsProperties
+  TokenBottomSheetEventsProperties &
+  AppReviewEventsProperties
