@@ -16,7 +16,12 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearStoredAccount, devModeTriggerClicked, setPincodeSuccess } from 'src/account/actions'
+import {
+  clearStoredAccount,
+  devModeTriggerClicked,
+  setPincodeSuccess,
+  toggleBackupState,
+} from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import {
   devModeSelector,
@@ -158,7 +163,7 @@ export const Account = ({ route }: Props) => {
     dispatch(revokeVerification())
   }
 
-  const toggleBackupState = () => {
+  const handleToggleBackupState = () => {
     dispatch(toggleBackupState())
   }
 
@@ -207,7 +212,7 @@ export const Account = ({ route }: Props) => {
           </View>
 
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={toggleBackupState}>
+            <TouchableOpacity onPress={handleToggleBackupState}>
               <Text>Toggle backup state</Text>
             </TouchableOpacity>
           </View>
