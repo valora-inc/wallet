@@ -6,6 +6,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Hamburger from 'src/icons/Hamburger'
 import colors from 'src/styles/colors'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
@@ -35,6 +36,7 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
     // Dismiss keyboard if it's open
     Keyboard.dismiss()
     ValoraAnalytics.track(HomeEvents.hamburger_tapped)
+    vibrateInformative()
     // @ts-ignore Only used in a drawer
     return navigation.toggleDrawer()
   }
