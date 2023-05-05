@@ -1,7 +1,7 @@
 import InAppReview from 'react-native-in-app-review'
 import { call, put, select, spawn, takeLatest } from 'redux-saga/effects'
 import { lastInteractionTimestampSelector } from 'src/appReview/selectors'
-import { setLastInteractionTimestamp } from 'src/appReview/slice'
+import { inAppReviewCalled } from 'src/appReview/slice'
 import { Actions as SendActions } from 'src/send/actions'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -17,7 +17,7 @@ export function* setAppReview() {
   if (lastInteractionTimestamp <= now - ONE_DAY_IN_MILLIS * 91) {
     const result = yield call(InAppReview.RequestInAppReview)
     // If the in app review was shown, update the last interaction timestamp
-    if (result) yield put(setLastInteractionTimestamp(now))
+    if (result) yield put(inAppReviewCalled(now))
   }
 }
 
