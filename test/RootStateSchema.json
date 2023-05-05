@@ -2265,7 +2265,6 @@
                 "Sync",
                 "TokenBalances",
                 "TransactionDetailsScreen",
-                "TransactionReview",
                 "TransakScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",

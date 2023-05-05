@@ -23,7 +23,6 @@ const onMessageMock = jest.fn(() => null)
 const onNotificationOpenedAppMock = jest.fn(() => null)
 const getInitialNotificationMock = jest.fn(() => null)
 const setBackgroundMessageHandler = jest.fn(() => null)
-const registerDeviceForRemoteMessagesMock = jest.fn(() => null)
 
 const mockFcmToken = 'token'
 
@@ -37,7 +36,6 @@ const app: any = {
     onMessage: onMessageMock,
     onNotificationOpenedApp: onNotificationOpenedAppMock,
     getInitialNotification: getInitialNotificationMock,
-    registerDeviceForRemoteMessages: registerDeviceForRemoteMessagesMock,
   }),
 }
 
@@ -96,7 +94,6 @@ describe(initializeCloudMessaging, () => {
           call([app.messaging(), 'hasPermission']),
           firebase.messaging.AuthorizationStatus.AUTHORIZED,
         ],
-        [call([app.messaging(), 'registerDeviceForRemoteMessages']), mockFcmToken],
         [call([app.messaging(), 'getToken']), mockFcmToken],
         [call(handleUpdateAccountRegistration), null],
         [
@@ -121,7 +118,6 @@ describe(initializeCloudMessaging, () => {
           call([app.messaging(), 'hasPermission']),
           firebase.messaging.AuthorizationStatus.NOT_DETERMINED,
         ],
-        [call([app.messaging(), 'registerDeviceForRemoteMessages']), mockFcmToken],
         [call([app.messaging(), 'getToken']), mockFcmToken],
       ])
       .put(pushNotificationsPermissionChanged(true))
