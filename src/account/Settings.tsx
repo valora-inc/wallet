@@ -363,7 +363,7 @@ export class Account extends React.Component<Props, State> {
   }
 
   onPressSetUpKeylessBackup = () => {
-    ValoraAnalytics.track(SettingsEvents.set_up_keyless_backup)
+    ValoraAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
     this.props.navigation.navigate(Screens.SetUpKeylessBackup)
   }
 

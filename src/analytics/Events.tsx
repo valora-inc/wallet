@@ -70,7 +70,7 @@ export enum SettingsEvents {
   settings_recovery_phrase = 'settings_recovery_phrase',
   settings_haptic_feedback = 'settings_haptic_feedback',
 
-  set_up_keyless_backup = 'set_up_keyless_backup',
+  settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
 }
 
 export enum KeylessBackupEvents {
