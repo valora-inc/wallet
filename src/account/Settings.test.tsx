@@ -194,6 +194,18 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  it('does not show keyless backup', () => {
+    // TODO(ACT-771): update this test to verify that keyless onboarding is shown when Statsig says it should be.
+    //  for now it should be sealed off for everyone.
+    const store = createMockStore()
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(queryByTestId('KeylessBackup')).toBeNull()
+  })
+
   it('can trigger the action to revoke the phone number', async () => {
     const store = createMockStore({ account: { devModeActive: true } })
 
