@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 124,
+          "version": 125,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -297,6 +297,10 @@ describe('store state', () => {
         "paymentRequest": Object {
           "incomingPaymentRequests": Array [],
           "outgoingPaymentRequests": Array [],
+        },
+        "positions": Object {
+          "positions": Array [],
+          "status": "idle",
         },
         "recipients": Object {
           "coinbasePaySenders": Array [],

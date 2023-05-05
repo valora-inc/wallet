@@ -188,7 +188,6 @@ export function DAppsExplorerScreenSearchFilter() {
                     style={styles.dappFilterScrollView}
                     contentContainerStyle={styles.dappsFilteringScrollViewContentContainer}
                     showsHorizontalScrollIndicator={false}
-                    bounces={false}
                     ref={horizontalScrollView}
                   >
                     {/* Category Filter Chips */}

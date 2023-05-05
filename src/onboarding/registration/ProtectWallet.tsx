@@ -10,7 +10,7 @@ import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import OnboardingCard from 'src/components/OnboardingCard'
 import GuideKeyIcon from 'src/icons/GuideKeyIcon'
@@ -165,7 +165,7 @@ function ProtectWallet({ navigation }: Props) {
         </View>
         <View style={styles.cardSection}>{getCardSection()}</View>
       </ScrollView>
-      <BottomSheet
+      <BottomSheetLegacy
         testID="protectWalletBottomSheet"
         isVisible={showBottomSheet}
         onBackgroundPress={onPressDismissBottomSheet}
@@ -190,7 +190,7 @@ function ProtectWallet({ navigation }: Props) {
             testID={'protectWalletBottomSheetContinue'}
           />
         </View>
-      </BottomSheet>
+      </BottomSheetLegacy>
     </SafeAreaView>
   )
 }

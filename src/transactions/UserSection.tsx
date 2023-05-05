@@ -80,7 +80,7 @@ export default function UserSection({
           )}
           <View style={styles.accountBox}>
             <Text style={styles.accountLabel}>{t('accountAddressLabel')}</Text>
-            <AccountNumber address={address} location={Screens.TransactionReview} />
+            <AccountNumber address={address} location={Screens.TransactionDetailsScreen} />
           </View>
         </View>
       )}

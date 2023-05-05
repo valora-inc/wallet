@@ -17,6 +17,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
+  mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
 
@@ -2203,11 +2204,23 @@ export const v124Schema = {
     ...v123Schema._persist,
     version: 124,
   },
+  positions: {
+    positions: mockPositions,
+    status: 'idle',
+  },
+}
+
+export const v125Schema = {
+  ...v124Schema,
+  _persist: {
+    ...v124Schema._persist,
+    version: 125,
+  },
   appReview: {
     lastInteractionTimestamp: null,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v124Schema as Partial<RootState>
+  return v125Schema as Partial<RootState>
 }
