@@ -102,13 +102,13 @@ const styles = StyleSheet.create({
   },
   authFactorsContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray2,
+    borderBottomColor: colors.gray7,
     paddingBottom: variables.contentPadding,
     marginHorizontal: 16,
   },
   authFactorLine: {
     flexDirection: 'row',
-    paddingVertical: variables.contentPadding,
+    paddingVertical: 12,
   },
   smartphoneIcon: {
     alignSelf: 'center',
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: variables.contentPadding,
     paddingHorizontal: 8,
-    marginTop: 16,
+    marginTop: 12,
   },
   button: {
     padding: 24,

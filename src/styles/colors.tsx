@@ -14,6 +14,7 @@ export enum Colors {
   warning = '#EA6042',
   informational = '#0768AE',
   dark = '#2E3338',
+  gray7 = '#2E333833',
   gray6 = '#DFDBCE',
   gray5 = '#505050',
   gray4 = '#666666',
