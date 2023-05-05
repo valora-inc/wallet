@@ -362,10 +362,8 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  onPressCloudBackup = () => {
-    // TODO add logic for delete vs set up backup
-    // TODO publish analytics event
-    Logger.info('SettingsItem@onPress', 'Cloud backup pressed')
+  onPressSetUpKeylessBackup = () => {
+    ValoraAnalytics.track(SettingsEvents.set_up_keyless_backup)
     this.props.navigation.navigate(Screens.SetUpKeylessBackup)
   }
 
@@ -416,6 +414,11 @@ export class Account extends React.Component<Props, State> {
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
     }
+  }
+
+  showKeylessBackup = () => {
+    // TODO(ACT-771): get from Statsig
+    return false
   }
 
   render() {
@@ -469,11 +472,13 @@ export class Account extends React.Component<Props, State> {
                 testID="RecoveryPhrase"
               />
             )}
-            <SettingsItemTextValue
-              title={t('cloudBackupSettingsTitle')}
-              onPress={this.onPressCloudBackup}
-              testID="CloudBackup"
-            />
+            {this.showKeylessBackup() && ( // TODO(ACT-765): update to match designs (red/green text buttons and onPress behavior)
+              <SettingsItemTextValue
+                title={t('cloudBackupSettingsTitle')}
+                onPress={this.onPressSetUpKeylessBackup}
+                testID="CloudBackup"
+              />
+            )}
             <SettingsItemTextValue
               title={t('changePin')}
               onPress={this.goToChangePin}

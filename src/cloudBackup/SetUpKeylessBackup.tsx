@@ -13,12 +13,12 @@ import variables from 'src/styles/variables'
 import colors from 'src/styles/colors'
 import EnvelopeIcon from 'src/cloudBackup/EnvelopeIcon'
 import SmartphoneIcon from 'src/cloudBackup/SmartphoneIcon'
-
-// const TAG = 'cloudBackup/SetUpKeylessBackup'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 
 function onPressContinue() {
-  // TODO analytics track event
-  // TODO navigate
+  ValoraAnalytics.track(KeylessBackupEvents.set_up_keyless_backup_screen_continue)
+  // TODO(ACT-743) navigate to next screen
 }
 
 function SetUpKeylessBackup() {
@@ -30,7 +30,6 @@ function SetUpKeylessBackup() {
         <Text style={styles.subtitle}>{t('setUpKeylessBackup.subtitle')}</Text>
         <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
           <View style={styles.authFactorsContainer}>
-            {/* TODO add email and phone icons */}
             <View style={styles.authFactorLine}>
               <EnvelopeIcon style={styles.envelopeIcon} />
               <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
