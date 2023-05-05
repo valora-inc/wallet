@@ -11,7 +11,7 @@ export const totalPositionsBalanceUsdSelector = createSelector([positionsSelecto
   }
 
   let totalBalanceUsd = new BigNumber(0)
-  for (let position of positions) {
+  for (const position of positions) {
     let balanceUsd
     if (position.type === 'app-token') {
       const balance = new BigNumber(position.balance)
