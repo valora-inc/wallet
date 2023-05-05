@@ -79,8 +79,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexGrow: 1,
   },
+  scrollContainer: {
+    padding: 24,
+    paddingTop: 48,
+  },
   cancelButton: {
     marginLeft: 16,
+  },
+  title: {
+    ...fontStyles.h1,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    ...fontStyles.large,
+    textAlign: 'center',
+    paddingVertical: 8,
   },
   authFactorsCard: {
     backgroundColor: Colors.onboardingBackground,
@@ -94,7 +108,7 @@ const styles = StyleSheet.create({
   },
   authFactorLine: {
     flexDirection: 'row',
-    padding: variables.contentPadding,
+    paddingVertical: variables.contentPadding,
   },
   authFactorIcon: {
     alignSelf: 'center',
@@ -109,23 +123,9 @@ const styles = StyleSheet.create({
   reminderText: {
     ...fontStyles.small,
     textAlign: 'center',
-    padding: variables.contentPadding,
+    paddingVertical: variables.contentPadding,
+    paddingHorizontal: 8,
     marginTop: 16,
-  },
-  scrollContainer: {
-    padding: 24,
-    paddingTop: 64,
-  },
-  title: {
-    ...fontStyles.h1,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    ...fontStyles.large,
-    textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 8,
   },
   button: {
     padding: 24,
