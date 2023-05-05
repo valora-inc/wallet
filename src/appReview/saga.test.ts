@@ -7,6 +7,7 @@ import { setAppReview } from 'src/appReview/saga'
 import { lastInteractionTimestampSelector } from 'src/appReview/selectors'
 import { Actions as SendActions } from 'src/send/actions'
 import { getFeatureGate } from 'src/statsig'
+import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { mocked } from 'ts-jest/utils'
 
@@ -19,6 +20,7 @@ jest.mock('react-native-in-app-review', () => ({
 
 const mockIsAvailable = jest.fn()
 const mockRequestInAppReview = jest.fn()
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 describe(setAppReview, () => {
   it.each`
@@ -97,5 +99,10 @@ describe(setAppReview, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppReviewEvents.app_review_error, {
       error: '🤖💥',
     })
+    expect(loggerErrorSpy).toHaveBeenLastCalledWith(
+      'appReview/saga',
+      'Error while calling InAppReview.RequestInAppReview',
+      new Error('🤖💥')
+    )
   })
 })
