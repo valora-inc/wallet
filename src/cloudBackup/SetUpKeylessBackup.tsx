@@ -28,6 +28,7 @@ function SetUpKeylessBackup() {
         <Text style={styles.subtitle}>{t('setUpKeylessBackup.subtitle')}</Text>
         <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
           <View style={styles.authFactorsContainer}>
+            {/* TODO add email and phone icons */}
             <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
             <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
           </View>
@@ -39,14 +40,15 @@ function SetUpKeylessBackup() {
             </Trans>
           </Text>
         </Card>
-        <Button
-          testID="SetUpKeylessBackup/Continue"
-          onPress={onPressContinue}
-          text={t('continue')}
-          size={BtnSizes.FULL}
-          type={BtnTypes.ONBOARDING}
-        />
       </ScrollView>
+      <Button
+        testID="SetUpKeylessBackup/Continue"
+        onPress={onPressContinue}
+        text={t('continue')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.ONBOARDING}
+        style={styles.button}
+      />
     </SafeAreaView>
   )
 }
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
     paddingVertical: variables.contentPadding,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray2,
-    // marginLeft: variables.contentPadding,
   },
   authFactorText: {
     ...fontStyles.regular500,
@@ -109,8 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 8,
   },
-  // bottomButtonContainer: {
-  //   padding: Spacing.Thick24,
-  //   alignItems: 'center',
-  // },
+  button: {
+    padding: 24,
+  },
 })
