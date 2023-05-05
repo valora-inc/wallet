@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
-import { statsigLoadTimeSelector } from 'src/app/selectors'
 import { store } from 'src/redux/store'
 import { FeatureGates } from 'src/statsig/constants'
 import {
@@ -106,7 +105,7 @@ export function getDefaultStatsigUser(): StatsigUser {
     userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
-      loadTime: statsigLoadTimeSelector(state),
+      loadTime: Date.now(),
     },
   }
 }

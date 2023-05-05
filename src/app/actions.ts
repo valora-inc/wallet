@@ -36,7 +36,6 @@ export enum Actions {
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
-  SET_STATSIG_LOAD_TIME = 'APP/SET_STATSIG_LOAD_TIME',
 }
 
 export interface SetAppState {
@@ -158,11 +157,6 @@ export interface PushNotificationsPermissionChanged {
   enabled: boolean
 }
 
-export interface SetStatsigLoadTime {
-  type: Actions.SET_STATSIG_LOAD_TIME
-  time: number
-}
-
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -188,7 +182,6 @@ export type ActionTypes =
   | InviteLinkConsumed
   | HapticFeedbackSet
   | PushNotificationsPermissionChanged
-  | SetStatsigLoadTime
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -336,12 +329,5 @@ export const pushNotificationsPermissionChanged = (
   return {
     type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED,
     enabled,
-  }
-}
-
-export const setStatsigLoadTime = (time: number): SetStatsigLoadTime => {
-  return {
-    type: Actions.SET_STATSIG_LOAD_TIME,
-    time,
   }
 }

@@ -56,7 +56,6 @@ export interface State {
   hapticFeedbackEnabled: boolean
   decentralizedVerificationEnabled: boolean
   pushNotificationsEnabled: boolean
-  statsigLoadTime: number
 }
 
 const initialState = {
@@ -106,7 +105,6 @@ const initialState = {
   hapticFeedbackEnabled: true,
   decentralizedVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.decentralizedVerificationEnabled,
   pushNotificationsEnabled: false,
-  statsigLoadTime: Date.now(),
 }
 
 export const appReducer = (
@@ -123,8 +121,6 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
-        // don't use persisted value since statsig would've just loaded
-        statsigLoadTime: initialState.statsigLoadTime,
       }
     }
     case Actions.SET_APP_STATE:
@@ -266,11 +262,6 @@ export const appReducer = (
       return {
         ...state,
         pushNotificationsEnabled: action.enabled,
-      }
-    case Actions.SET_STATSIG_LOAD_TIME:
-      return {
-        ...state,
-        statsigLoadTime: action.time,
       }
     default:
       return state
