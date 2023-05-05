@@ -32,11 +32,11 @@ function SetUpKeylessBackup() {
           <View style={styles.authFactorsContainer}>
             {/* TODO add email and phone icons */}
             <View style={styles.authFactorLine}>
-              <EnvelopeIcon style={styles.authFactorIcon} />
+              <EnvelopeIcon style={styles.envelopeIcon} />
               <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
             </View>
             <View style={styles.authFactorLine}>
-              <SmartphoneIcon style={styles.authFactorIcon} />
+              <SmartphoneIcon style={styles.smartphoneIcon} />
               <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
             </View>
           </View>
@@ -110,7 +110,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: variables.contentPadding,
   },
-  authFactorIcon: {
+  smartphoneIcon: {
+    alignSelf: 'center',
+    marginLeft: 3,
+    marginRight: 3,
+  },
+  envelopeIcon: {
     alignSelf: 'center',
   },
   authFactorText: {
