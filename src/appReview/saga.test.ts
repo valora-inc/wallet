@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import InAppReview from 'react-native-in-app-review'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
-import { setAppReview } from 'src/appReview/saga'
+import { requestInAppReview } from 'src/appReview/saga'
 import { lastInteractionTimestampSelector } from 'src/appReview/selectors'
 import { Actions as SendActions } from 'src/send/actions'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -13,7 +13,7 @@ jest.mock('react-native-in-app-review', () => ({
   isAvailable: () => mockIsAvailable(),
 }))
 
-describe(setAppReview, () => {
+describe(requestInAppReview, () => {
   it.each`
     lastInteractionTimestamp                 | lastInteraction
     ${null}                                  | ${null}
@@ -24,7 +24,7 @@ describe(setAppReview, () => {
       jest.clearAllMocks()
       mockIsAvailable.mockReturnValue(true)
 
-      await expectSaga(setAppReview)
+      await expectSaga(requestInAppReview)
         .provide([[select(lastInteractionTimestampSelector), lastInteractionTimestamp]])
         .dispatch({
           type: SendActions.SEND_PAYMENT_SUCCESS,
@@ -49,7 +49,7 @@ describe(setAppReview, () => {
       jest.clearAllMocks()
       mockIsAvailable.mockReturnValue(isAvailable)
 
-      await expectSaga(setAppReview)
+      await expectSaga(requestInAppReview)
         .provide([[select(lastInteractionTimestampSelector), lastInteractionTimestamp]])
         .dispatch({
           type: SendActions.SEND_PAYMENT_SUCCESS,

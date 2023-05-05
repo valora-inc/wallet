@@ -6,7 +6,7 @@ import { Actions as SendActions } from 'src/send/actions'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
-export function* setAppReview() {
+export function* requestInAppReview() {
   // Quick return if the device does not support in app review
   if (!InAppReview.isAvailable()) return
 
@@ -23,7 +23,7 @@ export function* setAppReview() {
 
 export function* watchAppReview() {
   // TODO: add more actions to trigger app review
-  yield takeLatest([SendActions.SEND_PAYMENT_SUCCESS], safely(setAppReview))
+  yield takeLatest([SendActions.SEND_PAYMENT_SUCCESS], safely(requestInAppReview))
 }
 
 export function* appReviewSaga() {
