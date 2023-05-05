@@ -11,6 +11,8 @@ import Card from 'src/components/Card'
 import Colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import colors from 'src/styles/colors'
+import EnvelopeIcon from 'src/cloudBackup/EnvelopeIcon'
+import SmartphoneIcon from 'src/cloudBackup/SmartphoneIcon'
 
 // const TAG = 'cloudBackup/SetUpKeylessBackup'
 
@@ -29,7 +31,9 @@ function SetUpKeylessBackup() {
         <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
           <View style={styles.authFactorsContainer}>
             {/* TODO add email and phone icons */}
+            <EnvelopeIcon />
             <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
+            <SmartphoneIcon />
             <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
           </View>
 
