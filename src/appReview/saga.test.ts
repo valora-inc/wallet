@@ -6,6 +6,7 @@ import { requestInAppReview } from 'src/appReview/saga'
 import { lastInteractionTimestampSelector } from 'src/appReview/selectors'
 import { Actions as SendActions } from 'src/send/actions'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { createMockStore } from 'test/utils'
 
 const mockIsAvailable = jest.fn()
 jest.mock('react-native-in-app-review', () => ({
@@ -13,18 +14,25 @@ jest.mock('react-native-in-app-review', () => ({
   isAvailable: () => mockIsAvailable(),
 }))
 
+const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
+const oneQuarterAgo = Date.now() - ONE_DAY_IN_MILLIS * 92
+
 describe(requestInAppReview, () => {
   it.each`
-    lastInteractionTimestamp                 | lastInteraction
-    ${null}                                  | ${null}
-    ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${'92 days ago'}
+    lastInteractionTimestamp | lastInteraction
+    ${null}                  | ${null}
+    ${oneQuarterAgo}         | ${'92 days ago'}
   `(
-    `Should show when isAvailable: true and lastInteraction: $lastInteraction`,
+    `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
     async ({ lastInteractionTimestamp }) => {
       jest.clearAllMocks()
       mockIsAvailable.mockReturnValue(true)
-
       await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: '0xTest' },
+          }).getState()
+        )
         .provide([[select(lastInteractionTimestampSelector), lastInteractionTimestamp]])
         .dispatch({
           type: SendActions.SEND_PAYMENT_SUCCESS,
@@ -37,19 +45,28 @@ describe(requestInAppReview, () => {
   )
 
   it.each`
-    lastInteractionTimestamp                 | isAvailable | lastInteraction
-    ${Date.now() - ONE_DAY_IN_MILLIS}        | ${true}     | ${'1 day ago'}
-    ${null}                                  | ${false}    | ${null}
-    ${Date.now() - 1000 * 60 * 60 * 24 * 92} | ${false}    | ${'92 days ago'}
-    ${Date.now() - ONE_DAY_IN_MILLIS}        | ${false}    | ${'1 day ago'}
+    lastInteractionTimestamp | isAvailable | lastInteraction  | walletAddress
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${'0xTest'}
+    ${null}                  | ${false}    | ${null}          | ${'0xTest'}
+    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${'0xTest'}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${null}
+    ${null}                  | ${false}    | ${null}          | ${null}
+    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${null}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${null}
   `(
-    `Should not show when isAvailable: $isAvailable and Last Interaction: $lastInteraction`,
-    async ({ lastInteractionTimestamp, isAvailable }) => {
+    `Should not show when isAvailable: $isAvailable, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
+    async ({ lastInteractionTimestamp, isAvailable, walletAddress }) => {
       // Clear previous calls
       jest.clearAllMocks()
       mockIsAvailable.mockReturnValue(isAvailable)
 
       await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: walletAddress },
+          }).getState()
+        )
         .provide([[select(lastInteractionTimestampSelector), lastInteractionTimestamp]])
         .dispatch({
           type: SendActions.SEND_PAYMENT_SUCCESS,
