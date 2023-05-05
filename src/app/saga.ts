@@ -35,7 +35,7 @@ import {
   openDeepLink,
   phoneNumberVerificationMigrated,
   setAppState,
-  setStatsigRefreshTime,
+  setStatsigLoadTime,
   setSupportedBiometryType,
   updateRemoteConfigValues,
 } from 'src/app/actions'
@@ -422,7 +422,7 @@ export function* handleSetAppState(action: SetAppState) {
   const now = Date.now()
   if (isAppActive && now - statsigLoadTime > 10000) {
     // 10s for test
-    yield put(setStatsigRefreshTime(now))
+    yield put(setStatsigLoadTime(now))
     yield call(patchUpdateStatsigUser, { custom: { loadTime: now } })
   }
 }

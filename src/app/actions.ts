@@ -339,7 +339,7 @@ export const pushNotificationsPermissionChanged = (
   }
 }
 
-export const setStatsigRefreshTime = (time: number): SetStatsigLoadTime => {
+export const setStatsigLoadTime = (time: number): SetStatsigLoadTime => {
   return {
     type: Actions.SET_STATSIG_LOAD_TIME,
     time,
