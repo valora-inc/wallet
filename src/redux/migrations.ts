@@ -1110,7 +1110,8 @@ export const migrations = {
     ...state,
     dapps: _.omit(state.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
   }),
-  124: (state: any) => ({
+  124: (state: any) => state,
+  125: (state: any) => ({
     ...state,
     appReview: {
       lastInteractionTimestamp: null,

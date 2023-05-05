@@ -1,26 +1,26 @@
-import { TokenTransactionType } from 'src/apollo/types'
-import { FeedItem } from 'src/transactions/TransactionFeed'
-import { TransactionStatus } from 'src/transactions/types'
+import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-import { Currency } from 'src/utils/currencies'
+import { mockCusdAddress } from 'test/values'
 
-const mockFeedItem = (timestamp: number, comment: string): FeedItem => {
+const mockFeedItem = (timestamp: number, comment: string): FeedTokenTransaction => {
   return {
-    __typename: 'TokenTransfer',
-    type: TokenTransactionType.Sent,
-    hash: 'any_value',
+    __typename: 'TokenTransferV2',
+    type: TokenTransactionTypeV2.Sent,
+    block: '8648978',
+    transactionHash: 'any_value',
     amount: {
       value: '5.05',
-      currencyCode: Currency.Dollar,
-      localAmount: null,
+      tokenAddress: mockCusdAddress,
+      localAmount: undefined,
     },
+    fees: [],
     timestamp,
     address: '0xanything',
-    account: '',
-    comment,
     status: TransactionStatus.Complete,
-    defaultImage: null,
-    defaultName: null,
+    metadata: {
+      comment,
+    },
   }
 }
 

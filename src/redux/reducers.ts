@@ -19,6 +19,7 @@ import { reducer as imports, State as ImportState } from 'src/import/reducer'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
+import positionsReducer, { State as PositionsState } from 'src/positions/slice'
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import swapReducer, { State as SwapState } from 'src/swap/slice'
@@ -52,6 +53,7 @@ const appReducer = combineReducers({
   dapps: dappsReducer,
   fiatConnect: fiatConnectReducer,
   swap: swapReducer,
+  positions: positionsReducer,
   appReview: appReviewReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
@@ -100,6 +102,7 @@ export interface RootState {
   dapps: DappsState
   fiatConnect: FiatConnectState
   swap: SwapState
+  positions: PositionsState
   appReview: AppReviewState
 }
 
