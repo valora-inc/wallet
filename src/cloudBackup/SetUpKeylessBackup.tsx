@@ -1,5 +1,5 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import fontStyles from 'src/styles/fonts'
 import React from 'react'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -28,10 +28,10 @@ function SetUpKeylessBackup() {
           <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
           <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
           <Text style={styles.reminderText}>
-            <Text style={styles.reminderPrefix}>
-              {t('setupKeylessBackup.reminderPrefix') + ', '}
-            </Text>
-            {t('setUpKeylessBackup.reminder')}
+            <Trans i18nKey="setupKeylessBackupReminder">
+              {/* namespaced keys did not work for this */}
+              <Text style={styles.reminderPrefix} /> {/* prefix string gets injected here */}
+            </Trans>
           </Text>
         </Card>
         <Button
