@@ -13,7 +13,7 @@ import BackupPhraseContainer, {
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
 import { useAccountKey } from 'src/backup/utils'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import CopyIcon from 'src/icons/CopyIcon'
@@ -120,7 +120,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
         </View>
       </ScrollView>
 
-      <BottomSheet
+      <BottomSheetLegacy
         testID="OnboardingRecoveryPhraseBottomSheet"
         isVisible={showBottomSheet}
         onBackgroundPress={onPressDismissBottomSheet}
@@ -141,7 +141,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
             {t('dismiss')}
           </TextButton>
         </View>
-      </BottomSheet>
+      </BottomSheetLegacy>
     </SafeAreaView>
   )
 }
