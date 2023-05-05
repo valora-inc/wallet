@@ -25,6 +25,7 @@ import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
+import positionsReducer, { State as PositionsState } from 'src/positions/slice'
 
 const appReducer = combineReducers({
   app,
@@ -51,6 +52,7 @@ const appReducer = combineReducers({
   dapps: dappsReducer,
   fiatConnect: fiatConnectReducer,
   swap: swapReducer,
+  positions: positionsReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -98,6 +100,7 @@ export interface RootState {
   dapps: DappsState
   fiatConnect: FiatConnectState
   swap: SwapState
+  positions: PositionsState
 }
 
 export interface PersistedRootState {
