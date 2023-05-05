@@ -31,6 +31,7 @@ import {
 } from 'src/consumerIncentives/types'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { TokenBalances } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
@@ -99,6 +100,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     yield put(fetchAvailableRewards({ forceRefresh: true }))
     yield put(claimRewardsSuccess())
     yield put(showMessage(i18n.t('superchargeClaimSuccess')))
+    vibrateSuccess()
     navigateHome()
   } catch (error) {
     yield put(claimRewardsFailure())

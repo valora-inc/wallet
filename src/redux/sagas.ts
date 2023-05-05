@@ -34,6 +34,7 @@ import { importSaga } from 'src/import/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
+import { positionsSaga } from 'src/positions/saga'
 import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
 import { sendSaga } from 'src/send/saga'
@@ -116,6 +117,7 @@ export function* rootSaga() {
     yield spawn(accountSaga)
     yield spawn(firebaseSaga)
     yield spawn(tokensSaga)
+    yield spawn(positionsSaga)
     yield spawn(localCurrencySaga)
     yield spawn(transactionSaga)
     yield spawn(homeSaga)

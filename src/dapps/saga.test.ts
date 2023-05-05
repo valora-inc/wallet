@@ -179,6 +179,17 @@ describe('Dapps saga', () => {
       mockFetch.resetMocks()
     })
 
+    it('does not fetch the dapps list if the wallet is not yet initialized', async () => {
+      await expectSaga(handleFetchDappsList)
+        .provide([
+          [select(dappsListApiUrlSelector), 'http://some.url'],
+          [select(walletAddressSelector), null],
+        ])
+        .run()
+
+      expect(mockFetch).not.toHaveBeenCalled()
+    })
+
     it('saves the dapps and categories', async () => {
       const dapp1 = {
         categories: ['finance-tools'],

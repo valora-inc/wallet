@@ -35,7 +35,6 @@ jest.mock('src/utils/Logger', () => ({
 
 describe('PictureInputScreen', () => {
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
   })
 
@@ -51,13 +50,14 @@ describe('PictureInputScreen', () => {
 
   it('calls onPhotoChosen callback when a picture is selected', async () => {
     const store = createMockStore()
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Provider store={store}>
         <PictureInput {...mockProps} />
       </Provider>
     )
 
-    await fireEvent.press(getByText('chooseFromLibrary'))
+    fireEvent.press(getByTestId('PictureInput'))
+    fireEvent.press(getByText('chooseFromLibrary'))
     // Transition time for the modal to close
     jest.advanceTimersByTime(500)
 
@@ -81,13 +81,14 @@ describe('PictureInputScreen', () => {
     ImagePicker.openPicker = jest.fn(() =>
       Promise.reject(new Error('User cancelled image selection'))
     )
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Provider store={store}>
         <PictureInput {...mockProps} />
       </Provider>
     )
 
-    await fireEvent.press(getByText('chooseFromLibrary'))
+    fireEvent.press(getByTestId('PictureInput'))
+    fireEvent.press(getByText('chooseFromLibrary'))
     // Transition time for the modal to close
     jest.advanceTimersByTime(500)
     await waitFor(() =>

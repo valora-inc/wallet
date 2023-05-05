@@ -9,6 +9,7 @@ import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
 import {
   swapApprove,
   swapError,
@@ -96,6 +97,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       'Swap/Execute'
     )
     yield put(swapSuccess())
+    vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       toToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
       fromToken: action.payload.unvalidatedSwapTransaction.sellTokenAddress,
@@ -109,6 +111,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       error: error.message,
     })
     yield put(swapError())
+    vibrateError()
   }
 }
 
