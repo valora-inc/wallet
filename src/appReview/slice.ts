@@ -12,12 +12,12 @@ export const slice = createSlice({
   name: 'appReview',
   initialState,
   reducers: {
-    setLastInteractionTimestamp: (state, action) => {
+    inAppReviewCalled: (state, action) => {
       state.lastInteractionTimestamp = action.payload
     },
   },
 })
 
-export const { setLastInteractionTimestamp } = slice.actions
+export const { inAppReviewCalled } = slice.actions
 
 export default slice.reducer

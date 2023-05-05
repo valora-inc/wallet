@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -166,7 +166,7 @@ function TokenBottomSheet({
   )
 
   return (
-    <BottomSheet
+    <BottomSheetLegacy
       isVisible={isVisible}
       onBackgroundPress={onCloseBottomSheet}
       stickyHeader={searchEnabled ? stickyHeader : titleComponent}
@@ -188,7 +188,7 @@ function TokenBottomSheet({
           })
         )}
       </View>
-    </BottomSheet>
+    </BottomSheetLegacy>
   )
 }
 

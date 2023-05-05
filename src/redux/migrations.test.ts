@@ -11,7 +11,7 @@ import {
   v106Schema,
   v112Schema,
   v115Schema,
-  v123Schema,
+  v124Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -874,9 +874,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from v123 to v124', () => {
-    const oldSchema = v123Schema
-    const migratedSchema = migrations[124](oldSchema)
+  it('works from v124 to v125', () => {
+    const oldSchema = v124Schema
+    const migratedSchema = migrations[125](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.appReview = {
       lastInteractionTimestamp: null,

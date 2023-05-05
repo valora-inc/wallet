@@ -8,6 +8,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesSelector } from 'src/transactions/reducer'
@@ -122,6 +123,7 @@ export function useFetchTransactions(): QueryHookResult {
             dispatch(updateTransactions(nonEmptyTransactions))
             dispatch(fetchTokenBalances({ showLoading: false }))
           })
+          vibrateSuccess()
         }
       }
     }

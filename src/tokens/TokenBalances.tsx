@@ -18,6 +18,7 @@ import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import Positions from 'src/positions/Positions'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -158,6 +159,8 @@ function TokenBalancesScreen({ navigation }: Props) {
         scrollIndicatorInsets={{ top: 0.01 }}
       >
         {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
+        {/* Temporary until we have finalized designs */}
+        <Positions />
       </ScrollView>
     </>
   )
