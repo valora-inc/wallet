@@ -4,12 +4,7 @@ import { TFunction } from 'i18next'
 import * as _ from 'lodash'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  ExchangeItemFragment,
-  TokenTransactionType,
-  TransferItemFragment,
-  UserTransactionsQuery,
-} from 'src/apollo/types'
+import { TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
 import { CELO_LOGO_URL, DEFAULT_TESTNET, SUPERCHARGE_LOGO_URL } from 'src/config'
 import { FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY } from 'src/fiatconnect/consts'
 import {
@@ -31,6 +26,7 @@ import {
   Recipient,
   recipientHasNumber,
   RecipientInfo,
+  RecipientType,
 } from 'src/recipients/recipient'
 import {
   coinbasePaySendersSelector,
@@ -96,7 +92,7 @@ function getRecipient(
     if (recipient) {
       return { ...recipient }
     } else {
-      recipient = { e164PhoneNumber: phoneNumber }
+      recipient = { e164PhoneNumber: phoneNumber, recipientType: RecipientType.PhoneNumber }
       return recipient
     }
   }
@@ -275,13 +271,21 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
     if (recipient) {
       return { ...recipient, address: transfer.address }
     } else {
-      recipient = { e164PhoneNumber: phoneNumber, address: transfer.address }
+      recipient = {
+        e164PhoneNumber: phoneNumber,
+        address: transfer.address,
+        recipientType: RecipientType.PhoneNumber,
+      }
       return recipient
     }
   }
 
   if (fcTransferDisplayInfo) {
-    return { thumbnailPath: fcTransferDisplayInfo.tokenImageUrl, address: transfer.address }
+    return {
+      thumbnailPath: fcTransferDisplayInfo.tokenImageUrl,
+      address: transfer.address,
+      recipientType: RecipientType.Address,
+    }
   }
 
   recipient = getRecipientFromAddress(
@@ -419,12 +423,6 @@ export function getNewTxsFromUserTxQuery(
 
 export function isTokenTxTypeSent(type: TokenTransactionType | TokenTransactionTypeV2) {
   return type === TokenTransactionType.Sent || type === TokenTransactionType.EscrowSent
-}
-
-export function isTransferTransaction(
-  tx: TransferItemFragment | ExchangeItemFragment
-): tx is TransferItemFragment {
-  return (tx as TransferItemFragment).address !== undefined
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts

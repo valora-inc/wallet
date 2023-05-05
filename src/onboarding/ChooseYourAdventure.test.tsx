@@ -2,14 +2,15 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import { AdventureCardName } from 'src/onboarding/types'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2 } from 'test/values'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { OnboardingEvents } from 'src/analytics/Events'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -77,8 +78,9 @@ describe('ChooseYourAdventure', () => {
     ]
 
     fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.add'))
-    expect(navigateHome).toHaveBeenLastCalledWith({
-      params: { initialScreen: Screens.FiatExchange },
+    expect(navigateHome).toHaveBeenLastCalledWith()
+    expect(navigate).toHaveBeenLastCalledWith(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
     })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 1,

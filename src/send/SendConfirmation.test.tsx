@@ -9,6 +9,7 @@ import { AddressValidationType, E164NumberToAddressType } from 'src/identity/red
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { RecipientType } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { sendPayment } from 'src/send/actions'
 import SendConfirmation from 'src/send/SendConfirmation'
@@ -49,11 +50,13 @@ jest.mock('src/web3/dataEncryptionKey', () => ({
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: mockTokenTransactionData,
   origin: SendOrigin.AppSendFlow,
+  isFromScan: false,
 })
 
 const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: mockTokenInviteTransactionData,
   origin: SendOrigin.AppSendFlow,
+  isFromScan: false,
 })
 
 type ScreenProps = NativeStackScreenProps<
@@ -285,6 +288,7 @@ describe('SendConfirmation', () => {
           tokenAddress: mockCeloAddress,
         },
         origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
       })
     )
 
@@ -300,6 +304,7 @@ describe('SendConfirmation', () => {
           tokenAddress: mockTestTokenAddress,
         },
         origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
       })
     )
 
@@ -389,9 +394,10 @@ describe('SendConfirmation', () => {
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
           ...mockTokenTransactionData,
-          recipient: { e164PhoneNumber: mockE164Number },
+          recipient: { e164PhoneNumber: mockE164Number, recipientType: RecipientType.PhoneNumber },
         },
         origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
       })
     )
 
@@ -407,7 +413,11 @@ describe('SendConfirmation', () => {
           tokenAddress,
           inputAmount,
           '',
-          { address: mockAccount2, e164PhoneNumber: mockE164Number },
+          {
+            address: mockAccount2,
+            e164PhoneNumber: mockE164Number,
+            recipientType: RecipientType.PhoneNumber,
+          },
           mockFeeInfo,
           false
         ),

@@ -24,15 +24,20 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { firebaseSignOut } from 'src/firebase/firebase'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { navigateClearingStack, navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import {
+  Actions as OnboardingActions,
+  UpdateStatsigAndNavigateAction,
+} from 'src/onboarding/actions'
 import {
   removeAccountLocally,
   retrieveSignedMessage,
   storeSignedMessage,
 } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -40,15 +45,8 @@ import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
-import { getOrCreateAccount, unlockAccount } from 'src/web3/saga'
+import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { patchUpdateStatsigUser } from 'src/statsig'
-import { navigateHome } from 'src/navigator/NavigationService'
-import { getWalletAddress } from 'src/web3/saga'
-import {
-  Actions as OnboardingActions,
-  UpdateStatsigAndNavigateAction,
-} from 'src/onboarding/actions'
 
 const TAG = 'account/saga'
 
@@ -206,7 +204,11 @@ export function* handleUpdateAccountRegistration() {
 
   let fcmToken
   try {
-    fcmToken = yield call([firebase.app().messaging(), 'getToken'])
+    const isEmulator = yield call([DeviceInfo, 'isEmulator'])
+    // Emulators can't handle fcm tokens and calling getToken on them will throw an error
+    if (!isEmulator) {
+      fcmToken = yield call([firebase.app().messaging(), 'getToken'])
+    }
   } catch (error) {
     Logger.error(`${TAG}@handleUpdateAccountRegistration`, 'Could not get fcm token', error)
   }

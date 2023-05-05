@@ -101,46 +101,6 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
-  function tokenExchange({
-    inAmount = {
-      value: 10,
-      tokenAddress: mockCusdAddress,
-      localAmount: {
-        currencyCode: 'EUR',
-        exchangeRate: '0.4',
-        value: '4',
-      },
-    },
-    outAmount = {
-      value: 3,
-      tokenAddress: mockCeloAddress,
-      localAmount: {
-        currencyCode: 'EUR',
-        exchangeRate: '1.33',
-        value: '4',
-      },
-    },
-    metadata = {},
-    fees = [],
-  }: {
-    inAmount?: TokenAmount
-    outAmount?: TokenAmount
-    metadata?: TokenExchangeMetadata
-    fees?: Fee[]
-  }): TokenExchange {
-    return {
-      __typename: 'TokenExchangeV2',
-      type: TokenTransactionTypeV2.Exchange,
-      transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
-      timestamp: 1542306118,
-      block: '8648978',
-      inAmount,
-      outAmount,
-      metadata,
-      fees,
-    }
-  }
-
   function swapTransaction({
     inAmount = {
       value: 34,
@@ -242,84 +202,6 @@ describe('TransactionDetailsScreen', () => {
 
     const totalComponent = getByTestId('TotalLineItem/Total')
     expect(getElementText(totalComponent)).toEqual('€4.00')
-  })
-
-  it('renders correctly for CELO purchases', async () => {
-    const { getByTestId } = renderScreen({
-      transaction: tokenExchange({
-        fees: [
-          {
-            type: FeeType.SecurityFee,
-            amount: {
-              value: 0.1,
-              tokenAddress: mockCusdAddress,
-              localAmount: {
-                value: '0.4',
-                currencyCode: 'EUR',
-                exchangeRate: '4',
-              },
-            },
-          },
-        ],
-      }),
-      storeOverrides: {},
-    })
-
-    const celoAmount = getByTestId('CeloAmount')
-    expect(getElementText(celoAmount)).toEqual('3.00')
-
-    const fiatAmount = getByTestId('FiatAmount')
-    expect(getElementText(fiatAmount)).toEqual('€4.00')
-
-    const totalFee = getByTestId('feeDrawer/CeloExchangeContent/totalFee/value')
-    // Note that the fee display still uses the local exchange rate. In practice it should never not match,
-    // but we need to fix that.
-    expect(getElementText(totalFee)).toEqual('₱0.133')
-
-    // Includes the fee
-    const total = getByTestId('TotalLineItem/Total')
-    expect(getElementText(total)).toEqual('€4.40')
-
-    const subtotal = getByTestId('TotalLineItem/Subtotal')
-    expect(getElementText(subtotal)).toEqual('10.10 cUSD')
-  })
-
-  it('renders correctly for selling CELO', async () => {
-    const { getByTestId } = renderScreen({
-      transaction: tokenExchange({
-        fees: [
-          {
-            type: FeeType.SecurityFee,
-            amount: {
-              value: 0.1,
-              tokenAddress: mockCusdAddress,
-              localAmount: {
-                value: '0.4',
-                currencyCode: 'EUR',
-                exchangeRate: '4',
-              },
-            },
-          },
-        ],
-      }),
-      storeOverrides: {},
-    })
-
-    const celoAmount = getByTestId('CeloAmount')
-    expect(getElementText(celoAmount)).toEqual('3.00')
-
-    const fiatAmount = getByTestId('FiatAmount')
-    expect(getElementText(fiatAmount)).toEqual('€4.00')
-
-    const totalFee = getByTestId('feeDrawer/CeloExchangeContent/totalFee/value')
-    expect(getElementText(totalFee)).toEqual('₱0.133')
-
-    // Includes the fee
-    const total = getByTestId('TotalLineItem/Total')
-    expect(getElementText(total)).toEqual('€4.40')
-
-    const subtotal = getByTestId('TotalLineItem/Subtotal')
-    expect(getElementText(subtotal)).toEqual('10.10 cUSD')
   })
 
   it('renders correctly for cUSD to cEUR swap', async () => {

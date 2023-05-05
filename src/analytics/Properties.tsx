@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -52,7 +52,6 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
-import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { HomeActionName } from 'src/home/types'
@@ -492,8 +491,8 @@ interface EscrowEventsProperties {
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
-    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
+    recipientType: RecipientType
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
@@ -509,7 +508,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
-        recipientType?: RecipientType
+        recipientType: RecipientType
         isScan: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
@@ -533,7 +532,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
-        recipientType?: RecipientType
+        recipientType: RecipientType
         isScan: boolean
         localCurrency: LocalCurrencyCode
         usdAmount: string | null
@@ -606,8 +605,8 @@ interface RequestEventsProperties {
   [RequestEvents.request_cancel]: undefined
   [RequestEvents.request_scan]: undefined
   [RequestEvents.request_select_recipient]: {
-    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
+    recipientType: RecipientType
   }
   [RequestEvents.request_amount_continue]:
     | {
@@ -633,6 +632,8 @@ interface RequestEventsProperties {
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
+    recipientType: RecipientType
+    isScan: boolean
   }
   [RequestEvents.request_error]: {
     error: string
@@ -692,58 +693,6 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-  [CeloExchangeEvents.celo_home_buy]: undefined
-  [CeloExchangeEvents.celo_home_sell]: undefined
-  [CeloExchangeEvents.celo_home_withdraw]: undefined
-  [CeloExchangeEvents.celo_transaction_select]: undefined
-  [CeloExchangeEvents.celo_transaction_back]: undefined
-
-  [CeloExchangeEvents.celo_toggle_input_currency]: {
-    to: InputToken
-  }
-  [CeloExchangeEvents.celo_buy_continue]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_buy_confirm]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    stableAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_buy_cancel]: undefined
-  [CeloExchangeEvents.celo_buy_edit]: undefined
-  [CeloExchangeEvents.celo_buy_error]: {
-    error: string
-  }
-  [CeloExchangeEvents.celo_sell_continue]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_sell_confirm]: {
-    localCurrencyAmount: string | null
-    goldAmount: string
-    stableAmount: string
-    inputToken: Currency
-  }
-  [CeloExchangeEvents.celo_sell_cancel]: undefined
-  [CeloExchangeEvents.celo_sell_edit]: undefined
-  [CeloExchangeEvents.celo_sell_error]: {
-    error: string
-  }
-
-  [CeloExchangeEvents.celo_exchange_start]: undefined
-  [CeloExchangeEvents.celo_exchange_complete]: {
-    txId: string
-    currency: string
-    amount: string
-  }
-  [CeloExchangeEvents.celo_exchange_error]: {
-    error: string
-  }
-
   [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
   [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
     currency: StableCurrency

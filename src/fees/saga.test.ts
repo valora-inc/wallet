@@ -8,7 +8,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createReclaimTransaction } from 'src/escrow/saga'
 import { feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
-import { calculateFee, estimateFeeSaga } from 'src/fees/saga'
+import { calculateFee, estimateFeeSaga, SWAP_FEE_ESTIMATE_MULTIPLIER } from 'src/fees/saga'
 import { buildSendTx } from 'src/send/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
@@ -97,7 +97,11 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(5 * GAS_AMOUNT), mockCusdAddress),
+          call(
+            calculateFee,
+            new BigNumber(SWAP_FEE_ESTIMATE_MULTIPLIER * GAS_AMOUNT),
+            mockCusdAddress
+          ),
           { fee: new BigNumber(4e16), feeCurrency: mockCusdAddress },
         ],
       ])

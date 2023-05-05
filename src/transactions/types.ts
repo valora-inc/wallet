@@ -4,19 +4,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
-export interface ExchangeStandbyLegacy {
-  context: TransactionContext
-  type: TokenTransactionType.Exchange
-  status: TransactionStatus
-  inValue: string
-  inCurrency: Currency
-  outValue: string
-  outCurrency: Currency
-  timestamp: number
-  hash?: string
-}
-
-export interface TransferStandbyLegacy {
+export interface StandbyTransactionLegacy {
   context: TransactionContext
   type: TransferTransactionType
   status: TransactionStatus
@@ -27,22 +15,7 @@ export interface TransferStandbyLegacy {
   address: Address
   hash?: string
 }
-
-export type StandbyTransactionLegacy = ExchangeStandbyLegacy | TransferStandbyLegacy
-
-export interface ExchangeStandby {
-  context: TransactionContext
-  type: TokenTransactionTypeV2.Exchange
-  status: TransactionStatus
-  inValue: string
-  inTokenAddress: string
-  outValue: string
-  outTokenAddress: string
-  timestamp: number
-  hash?: string
-}
-
-export interface TransferStandby {
+export interface StandbyTransaction {
   context: TransactionContext
   type: TokenTransferTypeV2
   status: TransactionStatus
@@ -53,8 +26,6 @@ export interface TransferStandby {
   address: Address
   hash?: string
 }
-
-export type StandbyTransaction = ExchangeStandby | TransferStandby
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {

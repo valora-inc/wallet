@@ -210,7 +210,7 @@
     "dismiss": "Dismiss"
   },
   "superchargingTitle": "App update required",
-  "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards",
+  "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards.",
   "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
   "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
@@ -953,13 +953,13 @@
   "stableBalance": "{{token}} Balance",
   "selectToken": "Select Asset",
   "verificationCta": {
-    "header": "Sending to a friend?",
-    "body": "Connect your phone and sync your contacts to quickly send to your friends.",
-    "cta": "Connect Phone Number"
+    "header": "Send crypto like a text!",
+    "body": "Link your phone number to your wallet address so you can send & receive payments with friends.",
+    "cta": "Link Phone number"
   },
   "importContactsCta": {
-    "header": "Import Contacts",
-    "body": "Please enable Contacts in your phone’s Settings to find your friends by name.",
+    "header": "Enable Contacts",
+    "body": "Enable Contacts in your phone’s Settings to easily send and request payments.",
     "cta": "Settings"
   },
   "contactSyncProgress": {
@@ -1558,18 +1558,19 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Review",
-    "swapFrom": "From",
-    "swapTo": "To",
+    "swapFrom": "FROM",
+    "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
     "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>",
-    "swapFromTokenSelection": "Swap From",
-    "swapToTokenSelection": "Swap To",
+    "swapFromTokenSelection": "SWAP FROM",
+    "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
       "learnMore": "Learn more"
-    }
+    },
+    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",

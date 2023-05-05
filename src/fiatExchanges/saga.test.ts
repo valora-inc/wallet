@@ -14,7 +14,7 @@ import {
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { AddressRecipient } from 'src/recipients/recipient'
+import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPaymentFailure, sendPaymentLegacy, sendPaymentSuccess } from 'src/send/actions'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
@@ -33,6 +33,7 @@ describe(watchBidaliPaymentRequests, () => {
     name: 'Bidali',
     thumbnailPath:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media',
+    recipientType: RecipientType.Address,
   }
 
   beforeAll(() => {
@@ -94,6 +95,7 @@ describe(watchBidaliPaymentRequests, () => {
           recipient,
           type: TokenTransactionType.PayPrefill,
         },
+        isFromScan: false,
       })
       expect(onPaymentSent).toHaveBeenCalledTimes(1)
       expect(onCancelled).not.toHaveBeenCalled()
@@ -142,6 +144,7 @@ describe(watchBidaliPaymentRequests, () => {
         recipient,
         type: TokenTransactionType.PayPrefill,
       },
+      isFromScan: false,
     })
     expect(onPaymentSent).not.toHaveBeenCalled()
     expect(onCancelled).toHaveBeenCalled()
@@ -190,7 +193,7 @@ describe(tagTxsWithProviderInfo, () => {
   }
 
   const providerTransferHash = '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353'
-  const exchangeHash = '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852'
+  const sentHash = '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852'
   const nonProviderTransferHash =
     '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa'
   const mockProviderAccount = '0x30d5ca2a263e0c0d11e7a668ccf30b38f1482251'
@@ -205,9 +208,9 @@ describe(tagTxsWithProviderInfo, () => {
       address: mockProviderAccount,
     },
     {
-      __typename: 'TokenExchange',
-      type: TokenTransactionType.Exchange,
-      hash: exchangeHash,
+      __typename: 'TokenTransfer',
+      type: TokenTransactionType.Sent,
+      hash: sentHash,
     } as any,
     {
       __typename: 'TokenTransfer',

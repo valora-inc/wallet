@@ -5,17 +5,27 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import SegmentedControl from 'src/components/SegmentedControl'
+import BackChevron from 'src/icons/BackChevron'
 import Share from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import { shareQRCode, SVG } from 'src/send/actions'
+import { CloseIcon } from 'src/navigator/types'
+import { SVG, shareQRCode } from 'src/send/actions'
 import colors from 'src/styles/colors'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
+  closeIcon: CloseIcon
 }
 
-export default function QRTabBar({ state, descriptors, navigation, position, qrSvgRef }: Props) {
+export default function QRTabBar({
+  state,
+  descriptors,
+  navigation,
+  position,
+  qrSvgRef,
+  closeIcon,
+}: Props) {
   const dispatch = useDispatch()
 
   const values = useMemo(
@@ -68,7 +78,16 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.leftContainer}>
-        <TopBarIconButton icon={<Times color={color} />} onPress={onPressClose} />
+        <TopBarIconButton
+          icon={
+            closeIcon === CloseIcon.BackChevron ? (
+              <BackChevron color={color} />
+            ) : (
+              <Times color={color} />
+            )
+          }
+          onPress={onPressClose}
+        />
       </View>
       <SegmentedControl
         values={values}

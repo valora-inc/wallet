@@ -4,12 +4,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
-import {
-  getDisplayDetail,
-  getDisplayName,
-  Recipient,
-  RecipientType,
-} from 'src/recipients/recipient'
+import { Recipient, getDisplayDetail, getDisplayName } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -21,23 +16,11 @@ interface Props {
   loading: boolean
 }
 
-function getRecipientType(recipient: Recipient) {
-  if (recipient.e164PhoneNumber && !recipient.address) {
-    return RecipientType.PhoneNumber
-  } else if (recipient.address) {
-    return RecipientType.Address
-  }
-  return undefined
-}
-
 function RecipientItem({ recipient, onSelectRecipient, loading }: Props) {
   const { t } = useTranslation()
 
   const onPress = () => {
-    onSelectRecipient({
-      ...recipient,
-      recipientType: recipient.recipientType ?? getRecipientType(recipient),
-    })
+    onSelectRecipient(recipient)
   }
 
   return (

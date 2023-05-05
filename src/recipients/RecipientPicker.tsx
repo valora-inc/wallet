@@ -1,6 +1,7 @@
 import { parsePhoneNumber } from '@celo/phone-utils'
 import { isValidAddress } from '@celo/utils/lib/address'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
+import { debounce } from 'lodash'
 import * as React from 'react'
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -20,15 +21,15 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SectionHead from 'src/components/SectionHead'
 import { RecipientVerificationStatus } from 'src/identity/types'
+import RecipientItem from 'src/recipients/RecipientItem'
 import {
-  getRecipientFromAddress,
   MobileRecipient,
   Recipient,
+  RecipientType,
+  getRecipientFromAddress,
   recipientHasContact,
   recipientHasNumber,
-  RecipientType,
 } from 'src/recipients/recipient'
-import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import SendToAddressWarning from 'src/send/SendToAddressWarning'
@@ -56,6 +57,22 @@ interface RecipientProps {
   recipientVerificationStatus: RecipientVerificationStatus
 }
 
+const TYPING_DEBOUNCE_MILLSECONDS = 300
+
+async function resolveId(id: string) {
+  const resolveIdUrl = networkConfig.resolveId
+  try {
+    const response = await fetch(`${resolveIdUrl}?id=${id}`)
+    if (response.ok) {
+      return await response.json()
+    }
+    Logger.warn(TAG, `Unexpected result from resolving '${id}'`)
+  } catch (error) {
+    Logger.warn(TAG, `Error resolving '${id}'`, error)
+  }
+  return null
+}
+
 function RecipientPicker(props: RecipientProps) {
   const recipientInfo = useSelector(recipientInfoSelector)
   const showSendToAddressWarning = useSelector(
@@ -66,21 +83,27 @@ function RecipientPicker(props: RecipientProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
-  const { result: resolveAddressResult } = useAsync(
-    async (id: string) => {
-      try {
-        const response = await fetch(`${networkConfig.resolveId}?id=${id}`)
-        if (response.ok) {
-          return await response.json()
-        }
-        Logger.warn(TAG, `Unexpected result from resolving '${id}'`)
-      } catch (error) {
-        Logger.warn(TAG, `Error resolving '${id}'`, error)
-      }
-      return null
-    },
-    [props.searchQuery]
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(props.searchQuery)
+
+  const debounceSearchQuery = React.useCallback(
+    debounce((query: string) => {
+      setDebouncedSearchQuery(query)
+    }, TYPING_DEBOUNCE_MILLSECONDS),
+    []
   )
+  React.useEffect(() => {
+    const parsedPhoneNumber = parsePhoneNumber(
+      props.searchQuery,
+      props.defaultCountryCode ? props.defaultCountryCode : undefined
+    )
+
+    if (parsedPhoneNumber) {
+      debounceSearchQuery(parsedPhoneNumber.e164Number)
+    } else {
+      debounceSearchQuery(props.searchQuery)
+    }
+  }, [props.searchQuery, props.defaultCountryCode])
+  const { result: resolveAddressResult } = useAsync(resolveId, [debouncedSearchQuery])
 
   const onToggleKeyboard = (visible: boolean) => {
     setKeyboardVisible(visible)
@@ -171,6 +194,7 @@ function RecipientPicker(props: RecipientProps) {
       displayNumber,
       name: t('requestFromMobileNumber'),
       e164PhoneNumber,
+      recipientType: RecipientType.PhoneNumber,
     }
     return (
       <>
@@ -266,7 +290,10 @@ function RecipientPicker(props: RecipientProps) {
           closeWarning={onCancelWarning}
           onSelectRecipient={props.onSelectRecipient}
           isVisible={isSendToAddressWarningVisible}
-          recipient={{ address: props.searchQuery.toLowerCase() }}
+          recipient={{
+            address: props.searchQuery.toLowerCase(),
+            recipientType: RecipientType.Address,
+          }}
         />
       )}
       <SafeAreaInsetsContext.Consumer>

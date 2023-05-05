@@ -21,7 +21,7 @@ import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { CloseIcon, StackParamList } from 'src/navigator/types'
 import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -45,6 +45,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
+  const closeIcon = route.params?.closeIcon ?? CloseIcon.TimesSymbol
   const forceTokenAddress = route.params?.forceTokenAddress
   const defaultTokenOverride = route.params?.defaultTokenOverride
   const { t } = useTranslation()
@@ -131,6 +132,7 @@ function Send({ route }: Props) {
     // and only if the user is permitted to change tokens.
     if (defaultTokenOverride) {
       navigate(Screens.SendAmount, {
+        isFromScan: false,
         defaultTokenOverride,
         forceTokenAddress,
         recipient,
@@ -152,6 +154,7 @@ function Send({ route }: Props) {
           : SendEvents.send_select_recipient,
         {
           usedSearchBar: searchQuery.length > 0,
+          recipientType: recipient.recipientType,
         }
       )
       setSelectedRecipient(recipient)
@@ -166,6 +169,7 @@ function Send({ route }: Props) {
     }
 
     navigate(Screens.SendAmount, {
+      isFromScan: false,
       defaultTokenOverride: token,
       recipient,
       isOutgoingPaymentRequest,
@@ -228,7 +232,7 @@ function Send({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
-      <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
+      <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} closeIcon={closeIcon} />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
       {inviteRewardsActive && hasGivenContactPermission && <InviteRewardsBanner />}

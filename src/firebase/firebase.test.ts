@@ -8,16 +8,15 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { pushNotificationsEnabledSelector } from 'src/app/selectors'
+import { Actions } from 'src/firebase/actions'
 import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/firebase'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount } from 'test/values'
-import { Actions } from 'src/firebase/actions'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
 const hasPermissionMock = jest.fn(() => null)
 const requestPermissionMock = jest.fn(() => null)
-const registerDeviceForRemoteMessagesMock = jest.fn(() => null)
 const getTokenMock = jest.fn(() => null)
 const onTokenRefreshMock = jest.fn(() => null)
 const onMessageMock = jest.fn(() => null)
@@ -31,7 +30,6 @@ const app: any = {
   messaging: () => ({
     hasPermission: hasPermissionMock,
     requestPermission: requestPermissionMock,
-    registerDeviceForRemoteMessages: registerDeviceForRemoteMessagesMock,
     getToken: getTokenMock,
     onTokenRefresh: onTokenRefreshMock,
     setBackgroundMessageHandler,

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
 import { AddressValidationType } from 'src/identity/reducer'
 import { Screens } from 'src/navigator/Screens'
+import { RecipientType } from 'src/recipients/recipient'
 import TransactionReview from 'src/transactions/TransactionReview'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockAccount2, mockE164NumberInvite } from 'test/values'
@@ -32,6 +33,7 @@ describe('TransactionReview', () => {
         recipient: {
           address: mockAccount,
           e164PhoneNumber: mockE164NumberInvite,
+          recipientType: RecipientType.Address,
         },
       },
       reviewProps: {

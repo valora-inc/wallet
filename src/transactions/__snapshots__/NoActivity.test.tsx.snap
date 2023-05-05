@@ -1,34 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders exchange 1`] = `
-<View
-  style={
-    Object {
-      "alignItems": "center",
-      "flex": 1,
-      "justifyContent": "center",
-      "marginTop": 32,
-      "paddingHorizontal": 16,
-    }
-  }
->
-  <Text
-    style={
-      Object {
-        "color": "#757575",
-        "fontFamily": "Inter-Regular",
-        "fontSize": 18,
-        "lineHeight": 24,
-      }
-    }
-  >
-    noExchangeActivity
-     
-  </Text>
-</View>
-`;
-
-exports[`renders home 1`] = `
+exports[`renders correctly 1`] = `
 <View
   style={
     Object {

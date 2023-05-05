@@ -1,5 +1,4 @@
 import { TokenTransactionType } from 'src/apollo/types'
-import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import i18n from 'src/i18n'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
@@ -40,12 +39,6 @@ export function groupFeedItemsInSections<T extends { timestamp: number }>(items:
       title: key,
       data: value.data,
     }))
-}
-
-export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCardProps) => {
-  const { makerAmount } = confirmationProps
-  const isSold = makerAmount.currencyCode === Currency.Celo
-  return isSold ? i18n.t('soldGold') : i18n.t('purchasedGold')
 }
 
 export const transferReviewHeader = (

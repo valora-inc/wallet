@@ -1,21 +1,22 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
+import { Provider } from 'react-redux'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
 import QRNavigator, {
-  getExperimentParams,
   QRCodePicker,
   QRCodeProps,
+  getExperimentParams,
 } from 'src/navigator/QRNavigator'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
-import { Provider } from 'react-redux'
+import { CloseIcon } from 'src/navigator/types'
+import QRCode from 'src/qrcode/QRGen'
+import StyledQRCode from 'src/qrcode/StyledQRGen'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
-import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
-import { mockExchanges } from 'test/values'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { Statsig } from 'statsig-react-native'
 import MockedNavigator from 'test/MockedNavigator'
-import StyledQRCode from 'src/qrcode/StyledQRGen'
-import QRCode from 'src/qrcode/QRGen'
+import { createMockStore } from 'test/utils'
+import { mockExchanges } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('react-native-permissions', () => jest.fn())
 
@@ -105,13 +106,24 @@ describe('QRNavigator', () => {
   })
   describe('QRNavigator component', () => {
     it('renders tabs for scan and my code', () => {
-      const { queryByText } = render(
+      const { queryByText, queryByTestId } = render(
         <Provider store={mockStore}>
           <MockedNavigator component={QRNavigator} />
         </Provider>
       )
+
+      expect(queryByTestId('Times')).toBeTruthy()
       expect(queryByText('myCode')).toBeTruthy()
       expect(queryByText('scanCode')).toBeTruthy()
+    })
+    it('renders back button when parameter is set', () => {
+      const { queryByTestId } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={QRNavigator} params={{ closeIcon: CloseIcon.BackChevron }} />
+        </Provider>
+      )
+
+      expect(queryByTestId('BackChevron')).toBeTruthy()
     })
     describe('integration tests for usage of experiment parameters', () => {
       it('user with Address data type, New style gets styled qr code with address', async () => {

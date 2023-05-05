@@ -163,7 +163,7 @@ function SendAmount(props: Props) {
     inputIsInLocalCurrency: showInputInLocalAmount,
     transferTokenAddress,
     origin,
-    isFromScan: !!props.route.params?.isFromScan,
+    isFromScan: props.route.params.isFromScan,
   })
 
   useEffect(() => {
