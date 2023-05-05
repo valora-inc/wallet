@@ -7,6 +7,8 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
+import Card from 'src/components/Card'
+import Colors from 'src/styles/colors'
 
 // const TAG = 'cloudBackup/SetUpKeylessBackup'
 
@@ -22,6 +24,16 @@ function SetUpKeylessBackup() {
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>{t('setUpKeylessBackup.title')}</Text>
         <Text style={styles.subtitle}>{t('setUpKeylessBackup.subtitle')}</Text>
+        <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
+          <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
+          <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
+          <Text style={styles.reminderText}>
+            <Text style={styles.reminderPrefix}>
+              {t('setupKeylessBackup.reminderPrefix') + ', '}
+            </Text>
+            {t('setUpKeylessBackup.reminder')}
+          </Text>
+        </Card>
         <Button
           testID="SetUpKeylessBackup/Continue"
           onPress={onPressContinue}
@@ -55,21 +67,33 @@ const styles = StyleSheet.create({
   cancelButton: {
     marginLeft: 16,
   },
+  authFactorsCard: {
+    backgroundColor: Colors.onboardingBackground,
+  },
+  authFactorText: {
+    ...fontStyles.regular500,
+  },
+  reminderPrefix: {
+    ...fontStyles.small600,
+  },
+  reminderText: {
+    ...fontStyles.small,
+  },
   scrollContainer: {
     padding: 24,
     paddingTop: 40,
   },
   title: {
+    ...fontStyles.h1,
     textAlign: 'center',
     marginTop: 16,
     fontWeight: 'bold',
-    ...fontStyles.h1,
   },
   subtitle: {
+    ...fontStyles.large,
     textAlign: 'center',
     marginTop: 8,
     marginBottom: 8,
-    ...fontStyles.regular,
   },
   // bottomButtonContainer: {
   //   padding: Spacing.Thick24,

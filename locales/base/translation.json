@@ -80,7 +80,11 @@
   },
   "setUpKeylessBackup": {
     "title": "Set up Keyless Backup",
-    "subtitle": "You'll use the following to set up backup:"
+    "subtitle": "You'll use the following to set up backup:",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "reminderPrefix": "Remember",
+    "reminder": "this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!"
   },
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
