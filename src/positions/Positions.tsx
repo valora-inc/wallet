@@ -44,11 +44,11 @@ function PositionItem({ position }: { position: Position }) {
   return (
     <View style={styles.tokenContainer}>
       <View style={styles.row}>
-        <View style={{ flexDirection: 'row-reverse' }}>
+        <View style={styles.imagesContainer}>
           {baseTokenImages.reverse().map((image, index) => (
             <Image
               source={{ uri: image }}
-              style={[styles.tokenImg, { marginRight: index > 0 ? -20 : 12 }]}
+              style={[styles.tokenImage, { marginRight: index > 0 ? -20 : 12 }]}
               key={index}
             />
           ))}
@@ -107,7 +107,10 @@ export default function Positions() {
 }
 
 const styles = StyleSheet.create({
-  tokenImg: {
+  imagesContainer: {
+    flexDirection: 'row-reverse',
+  },
+  tokenImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
