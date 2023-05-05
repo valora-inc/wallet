@@ -474,9 +474,9 @@ export class Account extends React.Component<Props, State> {
             )}
             {this.showKeylessBackup() && ( // TODO(ACT-765): update to match designs (red/green text buttons and onPress behavior)
               <SettingsItemTextValue
-                title={t('cloudBackupSettingsTitle')}
+                title={t('keylessBackupSettingsTitle')}
                 onPress={this.onPressSetUpKeylessBackup}
-                testID="CloudBackup"
+                testID="KeylessBackup"
               />
             )}
             <SettingsItemTextValue

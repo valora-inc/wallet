@@ -21,7 +21,7 @@
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
-  "cloudBackupSettingsTitle": "Keyless Backup",
+  "keylessBackupSettingsTitle": "Keyless Backup",
   "restartModalSwitchOff": {
     "header": "Restart To Switch Off Data Saver",
     "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
