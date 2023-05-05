@@ -11,7 +11,6 @@ const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 91
 
 export function* requestInAppReview() {
   const walletAddress = yield select(walletAddressSelector)
-  console.log('walletAddress', walletAddress)
   // Quick return if no wallet address or the device does not support in app review
   if (!walletAddress || !InAppReview.isAvailable()) return
 
