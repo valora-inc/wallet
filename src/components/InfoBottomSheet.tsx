@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -16,7 +16,7 @@ interface Props {
 export default function InfoBottomSheet({ isVisible, onDismiss, title, body, testID }: Props) {
   const { t } = useTranslation()
   return (
-    <BottomSheet
+    <BottomSheetLegacy
       testID={testID}
       isVisible={isVisible}
       onBackgroundPress={onDismiss}
@@ -30,7 +30,7 @@ export default function InfoBottomSheet({ isVisible, onDismiss, title, body, tes
           {t('dismiss')}
         </TextButton>
       </View>
-    </BottomSheet>
+    </BottomSheetLegacy>
   )
 }
 
