@@ -2,6 +2,7 @@ import { isE164NumberStrict } from '@celo/phone-utils'
 import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
+import locales from 'locales'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -382,7 +383,7 @@ export const Account = ({ route }: Props) => {
           <SettingsItemTextValue
             title={t('languageSettings')}
             testID="ChangeLanguage"
-            value={currentLanguage ?? t('unknown')}
+            value={locales[currentLanguage ?? '']?.name ?? t('unknown')}
             onPress={goToLanguageSetting}
           />
           <SettingsItemTextValue
