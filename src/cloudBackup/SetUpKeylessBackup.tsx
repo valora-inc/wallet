@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import fontStyles from 'src/styles/fonts'
 import React from 'react'
@@ -9,6 +9,8 @@ import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import Card from 'src/components/Card'
 import Colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
+import colors from 'src/styles/colors'
 
 // const TAG = 'cloudBackup/SetUpKeylessBackup'
 
@@ -25,8 +27,11 @@ function SetUpKeylessBackup() {
         <Text style={styles.title}>{t('setUpKeylessBackup.title')}</Text>
         <Text style={styles.subtitle}>{t('setUpKeylessBackup.subtitle')}</Text>
         <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
-          <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
-          <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
+          <View style={styles.authFactorsContainer}>
+            <Text style={styles.authFactorText}>{t('setUpKeylessBackup.emailAddress')}</Text>
+            <Text style={styles.authFactorText}>{t('setUpKeylessBackup.phoneNumber')}</Text>
+          </View>
+
           <Text style={styles.reminderText}>
             <Trans i18nKey="setupKeylessBackupReminder">
               {/* namespaced keys did not work for this */}
@@ -69,24 +74,33 @@ const styles = StyleSheet.create({
   },
   authFactorsCard: {
     backgroundColor: Colors.onboardingBackground,
+    marginTop: 16,
+  },
+  authFactorsContainer: {
+    paddingVertical: variables.contentPadding,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray2,
+    // marginLeft: variables.contentPadding,
   },
   authFactorText: {
     ...fontStyles.regular500,
+    padding: variables.contentPadding,
   },
   reminderPrefix: {
     ...fontStyles.small600,
   },
   reminderText: {
     ...fontStyles.small,
+    textAlign: 'center',
+    padding: variables.contentPadding,
   },
   scrollContainer: {
     padding: 24,
-    paddingTop: 40,
+    paddingTop: 64,
   },
   title: {
     ...fontStyles.h1,
     textAlign: 'center',
-    marginTop: 16,
     fontWeight: 'bold',
   },
   subtitle: {
