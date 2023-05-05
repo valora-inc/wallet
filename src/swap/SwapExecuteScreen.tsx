@@ -14,7 +14,6 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { swapStateSelector } from 'src/swap/selectors'
@@ -35,14 +34,6 @@ export function SwapExecuteScreen() {
   const navigateToSupport = () => {
     navigate(Screens.SupportContact)
   }
-
-  useEffect(() => {
-    if (swapState === SwapState.COMPLETE) {
-      vibrateSuccess()
-    } else if (swapState === SwapState.ERROR) {
-      vibrateError()
-    }
-  }, [swapState])
 
   const navigationButtons = useMemo(() => {
     switch (swapState) {
