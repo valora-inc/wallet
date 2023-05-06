@@ -548,58 +548,7 @@ describe('runCentralPhoneVerificationMigration', () => {
   })
 })
 
-describe('appInit', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [select(allowOtaTranslationsSelector), true],
-    [select(otaTranslationsAppVersionSelector), '1'],
-    [select(currentLanguageSelector), 'nl-NL'],
-    [select(sentryNetworkErrorsSelector), 'network error'],
-  ]
-
-  it('should initialise the correct components, with the stored language', async () => {
-    await expectSaga(appInit)
-      .provide(defaultProviders)
-      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
-      .run()
-
-    expect(initializeSentry).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
-    expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
-  })
-
-  it('should initialise with the best language', async () => {
-    jest
-      .spyOn(RNLocalize, 'findBestAvailableLanguage')
-      .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
-
-    await expectSaga(appInit)
-      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
-      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
-      .run()
-
-    expect(initializeSentry).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
-    expect(initI18n).toHaveBeenCalledWith('de-DE', true, '1')
-  })
-
-  it('should initialise with the app fallback language', async () => {
-    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValue(undefined)
-
-    await expectSaga(appInit)
-      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
-      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
-      .run()
-
-    expect(initializeSentry).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
-    expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
-  })
-})
-
+// Keep this test before the app init test otherwise the error spec will fail
 describe(requestInAppReview, () => {
   const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
   const oneQuarterAgo = Date.now() - ONE_DAY_IN_MILLIS * 92
@@ -681,7 +630,7 @@ describe(requestInAppReview, () => {
     }
   )
 
-  it.skip('Should handle error from react-native-in-app-review', async () => {
+  it('Should handle error from react-native-in-app-review', async () => {
     mocked(getFeatureGate).mockReturnValue(true)
     mockIsAvailable.mockReturnValue(true)
     mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
@@ -708,5 +657,57 @@ describe(requestInAppReview, () => {
       'Error while calling InAppReview.RequestInAppReview',
       new Error('🤖💥')
     )
+  })
+})
+
+describe('appInit', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [select(allowOtaTranslationsSelector), true],
+    [select(otaTranslationsAppVersionSelector), '1'],
+    [select(currentLanguageSelector), 'nl-NL'],
+    [select(sentryNetworkErrorsSelector), 'network error'],
+  ]
+
+  it('should initialise the correct components, with the stored language', async () => {
+    await expectSaga(appInit)
+      .provide(defaultProviders)
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
+  })
+
+  it('should initialise with the best language', async () => {
+    jest
+      .spyOn(RNLocalize, 'findBestAvailableLanguage')
+      .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
+
+    await expectSaga(appInit)
+      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('de-DE', true, '1')
+  })
+
+  it('should initialise with the app fallback language', async () => {
+    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValue(undefined)
+
+    await expectSaga(appInit)
+      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
   })
 })
