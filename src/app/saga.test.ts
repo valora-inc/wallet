@@ -1,7 +1,6 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
-import InAppReview from 'react-native-in-app-review'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
@@ -9,7 +8,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
-import { InviteEvents } from 'src/analytics/Events'
+import { InAppReviewEvents, InviteEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -78,10 +77,11 @@ jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('react-native-in-app-review', () => ({
-  RequestInAppReview: jest.fn(),
+  RequestInAppReview: () => mockRequestInAppReview(),
   isAvailable: () => mockIsAvailable(),
 }))
 
+const mockRequestInAppReview = jest.fn()
 const mockIsAvailable = jest.fn()
 
 const mockFetch = fetch as FetchMock
@@ -97,6 +97,7 @@ const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 const loggerWarnSpy = jest.spyOn(Logger, 'warn')
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
@@ -613,9 +614,10 @@ describe(requestInAppReview, () => {
   `(
     `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
     async ({ lastInteractionTimestamp }) => {
-      jest.clearAllMocks()
       mocked(getFeatureGate).mockReturnValue(true)
       mockIsAvailable.mockReturnValue(true)
+      mockRequestInAppReview.mockResolvedValue(true)
+
       await expectSaga(requestInAppReview)
         .withState(
           createMockStore({
@@ -629,7 +631,9 @@ describe(requestInAppReview, () => {
         })
         .run()
 
-      expect(InAppReview.RequestInAppReview).toHaveBeenCalledTimes(1)
+      expect(mockRequestInAppReview).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_impression)
     }
   )
 
@@ -655,9 +659,9 @@ describe(requestInAppReview, () => {
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
       // Clear previous calls
-      jest.clearAllMocks()
       mocked(getFeatureGate).mockReturnValue(featureGate)
       mockIsAvailable.mockReturnValue(isAvailable)
+      mockRequestInAppReview.mockResolvedValue(true)
 
       await expectSaga(requestInAppReview)
         .withState(
@@ -672,7 +676,37 @@ describe(requestInAppReview, () => {
         })
         .run()
 
-      expect(InAppReview.RequestInAppReview).not.toHaveBeenCalled()
+      expect(mockRequestInAppReview).not.toHaveBeenCalled()
+      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
     }
   )
+
+  it.skip('Should handle error from react-native-in-app-review', async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    mockIsAvailable.mockReturnValue(true)
+    mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
+
+    await expectSaga(requestInAppReview)
+      .withState(
+        createMockStore({
+          web3: { account: '0xTest' },
+        }).getState()
+      )
+      .provide([[select(inAppReviewLastInteractionTimestampSelector), null]])
+      .dispatch({
+        type: SendActions.SEND_PAYMENT_SUCCESS,
+        payload: { amount: new BigNumber('100') },
+      })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_error, {
+      error: '🤖💥',
+    })
+    expect(loggerErrorSpy).toHaveBeenLastCalledWith(
+      'app/saga',
+      'Error while calling InAppReview.RequestInAppReview',
+      new Error('🤖💥')
+    )
+  })
 })
