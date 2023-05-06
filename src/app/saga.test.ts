@@ -603,6 +603,7 @@ describe('appInit', () => {
 describe(requestInAppReview, () => {
   const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
   const oneQuarterAgo = Date.now() - ONE_DAY_IN_MILLIS * 92
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -658,7 +659,6 @@ describe(requestInAppReview, () => {
   `(
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
-      // Clear previous calls
       mocked(getFeatureGate).mockReturnValue(featureGate)
       mockIsAvailable.mockReturnValue(isAvailable)
       mockRequestInAppReview.mockResolvedValue(true)
