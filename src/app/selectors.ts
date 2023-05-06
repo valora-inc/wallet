@@ -121,3 +121,6 @@ export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hap
 
 export const pushNotificationsEnabledSelector = (state: RootState) =>
   state.app.pushNotificationsEnabled
+
+export const inAppReviewLastInteractionTimestampSelector = (state: RootState) =>
+  state.app.inAppReviewLastInteractionTimestamp

@@ -2216,8 +2216,9 @@ export const v125Schema = {
     ...v124Schema._persist,
     version: 125,
   },
-  appReview: {
-    lastInteractionTimestamp: null,
+  app: {
+    ...v124Schema.app,
+    inAppReviewLastInteractionTimestamp: null,
   },
 }
 

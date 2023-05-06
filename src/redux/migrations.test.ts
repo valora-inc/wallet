@@ -878,9 +878,7 @@ describe('Redux persist migrations', () => {
     const oldSchema = v124Schema
     const migratedSchema = migrations[125](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.appReview = {
-      lastInteractionTimestamp: null,
-    }
+    expectedSchema.app.inAppReviewLastInteractionTimestamp = null
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

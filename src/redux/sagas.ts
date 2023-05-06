@@ -15,7 +15,6 @@ import {
   appVersionSaga,
   checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
-import { appReviewSaga } from 'src/appReview/saga'
 import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { dappsSaga } from 'src/dapps/saga'
@@ -141,7 +140,6 @@ export function* rootSaga() {
     yield spawn(dappsSaga)
     yield spawn(fiatConnectSaga)
     yield spawn(swapSaga)
-    yield spawn(appReviewSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

@@ -148,6 +148,7 @@ describe('store state', () => {
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
           "huaweiMobileServicesAvailable": undefined,
+          "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,
@@ -186,9 +187,6 @@ describe('store state', () => {
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,
-        },
-        "appReview": Object {
-          "lastInteractionTimestamp": null,
         },
         "dapps": Object {
           "activeDapp": null,
