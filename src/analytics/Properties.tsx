@@ -8,7 +8,6 @@ import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
-  AppReviewEvents,
   AuthenticationEvents,
   CICOEvents,
   CeloExchangeEvents,
@@ -38,6 +37,7 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
+  InAppReviewEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -1212,9 +1212,9 @@ interface TokenBottomSheetEventsProperties {
   }
 }
 
-interface AppReviewEventsProperties {
-  [AppReviewEvents.app_review_impression]: undefined
-  [AppReviewEvents.app_review_error]: {
+interface InAppReviewEventsProperties {
+  [InAppReviewEvents.in_app_review_impression]: undefined
+  [InAppReviewEvents.in_app_review_error]: {
     error: string
   }
 }
@@ -1249,4 +1249,4 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
   TokenBottomSheetEventsProperties &
-  AppReviewEventsProperties
+  InAppReviewEventsProperties
