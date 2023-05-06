@@ -56,6 +56,7 @@ export interface State {
   hapticFeedbackEnabled: boolean
   decentralizedVerificationEnabled: boolean
   pushNotificationsEnabled: boolean
+  inAppReviewLastInteractionTimestamp: number | null
 }
 
 const initialState = {
@@ -105,6 +106,7 @@ const initialState = {
   hapticFeedbackEnabled: true,
   decentralizedVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.decentralizedVerificationEnabled,
   pushNotificationsEnabled: false,
+  inAppReviewLastInteractionTimestamp: null,
 }
 
 export const appReducer = (

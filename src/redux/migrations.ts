@@ -1113,8 +1113,9 @@ export const migrations = {
   124: (state: any) => state,
   125: (state: any) => ({
     ...state,
-    appReview: {
-      lastInteractionTimestamp: null,
+    app: {
+      ...state.app,
+      inAppReviewLastInteractionTimestamp: null,
     },
   }),
 }

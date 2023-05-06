@@ -2596,6 +2596,12 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inAppReviewLastInteractionTimestamp": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
                 "inviterAddress": {
                     "type": [
                         "null",
@@ -2725,6 +2731,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
@@ -3895,21 +3902,6 @@
             "required": [
                 "positions",
                 "status"
-            ],
-            "type": "object"
-        },
-        "State_27": {
-            "additionalProperties": false,
-            "properties": {
-                "lastInteractionTimestamp": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "lastInteractionTimestamp"
             ],
             "type": "object"
         },
@@ -5651,9 +5643,6 @@
         "app": {
             "$ref": "#/definitions/State"
         },
-        "appReview": {
-            "$ref": "#/definitions/State_27"
-        },
         "dapps": {
             "$ref": "#/definitions/State_23"
         },
@@ -5726,7 +5715,6 @@
         "account",
         "alert",
         "app",
-        "appReview",
         "dapps",
         "escrow",
         "exchange",

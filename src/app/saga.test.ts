@@ -1,5 +1,7 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
+import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
+import InAppReview from 'react-native-in-app-review'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
@@ -24,12 +26,14 @@ import {
   handleDeepLink,
   handleOpenUrl,
   handleSetAppState,
+  requestInAppReview,
   runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
   getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  inAppReviewLastInteractionTimestampSelector,
   inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
@@ -48,10 +52,13 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
+import { Actions as SendActions } from 'src/send/actions'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
+import { getFeatureGate } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -62,12 +69,20 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
+import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
+jest.mock('src/statsig')
+jest.mock('react-native-in-app-review', () => ({
+  RequestInAppReview: jest.fn(),
+  isAvailable: () => mockIsAvailable(),
+}))
+
+const mockIsAvailable = jest.fn()
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
@@ -582,4 +597,82 @@ describe('appInit', () => {
     expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
   })
+})
+
+describe(requestInAppReview, () => {
+  const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
+  const oneQuarterAgo = Date.now() - ONE_DAY_IN_MILLIS * 92
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it.each`
+    lastInteractionTimestamp | lastInteraction
+    ${null}                  | ${null}
+    ${oneQuarterAgo}         | ${'92 days ago'}
+  `(
+    `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
+    async ({ lastInteractionTimestamp }) => {
+      jest.clearAllMocks()
+      mocked(getFeatureGate).mockReturnValue(true)
+      mockIsAvailable.mockReturnValue(true)
+      await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: '0xTest' },
+          }).getState()
+        )
+        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .dispatch({
+          type: SendActions.SEND_PAYMENT_SUCCESS,
+          payload: { amount: new BigNumber('100') },
+        })
+        .run()
+
+      expect(InAppReview.RequestInAppReview).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it.each`
+    lastInteractionTimestamp | isAvailable | lastInteraction  | featureGate | walletAddress
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${true}     | ${'0xTest'}
+    ${null}                  | ${false}    | ${null}          | ${true}     | ${'0xTest'}
+    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${true}     | ${'0xTest'}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${true}     | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${false}    | ${'0xTest'}
+    ${null}                  | ${false}    | ${null}          | ${false}    | ${'0xTest'}
+    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${false}    | ${'0xTest'}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${false}    | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${true}     | ${null}
+    ${null}                  | ${false}    | ${null}          | ${true}     | ${null}
+    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${true}     | ${null}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${true}     | ${null}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${false}    | ${null}
+    ${null}                  | ${false}    | ${null}          | ${false}    | ${null}
+    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${false}    | ${null}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${false}    | ${null}
+  `(
+    `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
+    async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
+      // Clear previous calls
+      jest.clearAllMocks()
+      mocked(getFeatureGate).mockReturnValue(featureGate)
+      mockIsAvailable.mockReturnValue(isAvailable)
+
+      await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: walletAddress },
+          }).getState()
+        )
+        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .dispatch({
+          type: SendActions.SEND_PAYMENT_SUCCESS,
+          payload: { amount: new BigNumber('100') },
+        })
+        .run()
+
+      expect(InAppReview.RequestInAppReview).not.toHaveBeenCalled()
+    }
+  )
 })
