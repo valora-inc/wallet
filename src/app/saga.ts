@@ -512,7 +512,7 @@ export function* requestInAppReview() {
   if (
     !walletAddress ||
     !InAppReview.isAvailable() ||
-    !getFeatureGate({ featureGateName: StatsigFeatureGates.APP_REVIEW })
+    !getFeatureGate(StatsigFeatureGates.APP_REVIEW)
   )
     return
 
