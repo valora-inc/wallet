@@ -69,6 +69,7 @@ export enum SettingsEvents {
   // to avoid tracking through omission
   settings_recovery_phrase = 'settings_recovery_phrase',
   settings_haptic_feedback = 'settings_haptic_feedback',
+  settings_analytics = 'settings_analytics',
 }
 
 export enum OnboardingEvents {

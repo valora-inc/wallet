@@ -14,6 +14,10 @@ export const getAppLocked = (state: RootState) => {
   return state.app.locked
 }
 
+export const analyticsEnabledSelector = (state: RootState) => {
+  return state.app.analyticsEnabled
+}
+
 export const getLastTimeBackgrounded = (state: RootState) => {
   return state.app.lastTimeBackgrounded
 }
