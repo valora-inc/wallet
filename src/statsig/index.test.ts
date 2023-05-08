@@ -109,17 +109,13 @@ describe('Statsig helpers', () => {
       mocked(Statsig.checkGate).mockImplementation(() => {
         throw new Error('mock error')
       })
-      const output = getFeatureGate({
-        featureGateName: StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT,
-      })
+      const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
       expect(Logger.warn).toHaveBeenCalled()
       expect(output).toEqual(FeatureGates[StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT])
     })
     it('returns Statsig values if no error is thrown', () => {
       mocked(Statsig.checkGate).mockImplementation(() => true)
-      const output = getFeatureGate({
-        featureGateName: StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT,
-      })
+      const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual(true)
     })
@@ -184,6 +180,16 @@ describe('Statsig helpers', () => {
     })
   })
   describe('patchUpdateStatsigUser', () => {
+    let mockDateNow: jest.SpyInstance
+
+    beforeEach(() => {
+      mockDateNow = jest.spyOn(Date, 'now').mockReturnValue(1234)
+    })
+
+    afterEach(() => {
+      mockDateNow.mockReset()
+    })
+
     it('logs an error if statsig throws', async () => {
       mocked(Statsig.updateUser).mockRejectedValue(new Error())
       await patchUpdateStatsigUser()
@@ -192,6 +198,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          loadTime: 1234,
         },
       })
       expect(Logger.error).toHaveBeenCalledTimes(1)
@@ -203,6 +210,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          loadTime: 1234,
         },
       })
     })
@@ -211,6 +219,7 @@ describe('Statsig helpers', () => {
         custom: {
           startOnboardingTime: 1680563880,
           otherCustomProperty: 'foo',
+          loadTime: 12345,
         },
       }
       await patchUpdateStatsigUser(statsigUser)
@@ -226,6 +235,7 @@ describe('Statsig helpers', () => {
         custom: {
           startOnboardingTime: 1680563880,
           otherCustomProperty: 'foo',
+          loadTime: 12345,
         },
       }
       await patchUpdateStatsigUser(statsigUser)
@@ -246,6 +256,7 @@ describe('Statsig helpers', () => {
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
           ...statsigUser.custom,
+          loadTime: 1234,
         },
       })
     })
