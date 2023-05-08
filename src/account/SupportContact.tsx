@@ -28,7 +28,7 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
-function validateEmail(email: string) {
+export function validateEmail(email: string) {
   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
 }
 
@@ -119,6 +119,7 @@ function SupportContact({ route }: Props) {
         )
       }
       // Used to prevent flickering of the activity indicator on quick uploads
+      // Also navigateBackAndToast is a bit slow, so the timeout helps ensure that the loadingSpinner stays until the user is redirected
       setTimeout(() => setInProgress(false), 1000)
       navigateBackAndToast()
     } catch (error) {

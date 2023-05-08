@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import Mailer from 'react-native-mail'
 import { Provider } from 'react-redux'
-import SupportContact from 'src/account/SupportContact'
+import SupportContact, { validateEmail } from 'src/account/SupportContact'
 import { sendSupportRequest } from 'src/account/zendesk'
 import { APP_NAME, CELO_SUPPORT_EMAIL_ADDRESS } from 'src/brandingConfig'
 import i18n from 'src/i18n'
@@ -18,6 +18,20 @@ jest.mock('src/account/zendesk')
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
 }))
+
+describe('validateEmail', () => {
+  it.each([
+    ['bar', false],
+    ['bar@', false],
+    ['bar@foo', false],
+    ['bar@foo.', false],
+    ['bar@foo.c', false],
+    ['bar@foo.co', true],
+  ])('validates email %s', (email, expected) => {
+    expect(validateEmail(email)).toBe(expected)
+  })
+})
+
 describe('Contact', () => {
   beforeEach(() => {
     jest.clearAllMocks()

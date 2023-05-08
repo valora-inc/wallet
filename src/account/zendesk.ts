@@ -135,11 +135,10 @@ async function _createRequest({
   })
   if (resp.status >= 400) {
     const jsonResponse = await resp.json()
-    Logger.debug(
+    Logger.error(
       TAG,
       '_createRequest returned response greater than 400',
-      resp.status,
-      JSON.stringify(jsonResponse)
+      new Error(JSON.stringify(jsonResponse))
     )
   }
 }
@@ -164,13 +163,11 @@ async function _uploadFile(
   )
   const resp = await uploadFileResponse.json()
   if (uploadFileResponse.status >= 400) {
-    Logger.debug(
+    Logger.error(
       TAG,
       '_uploadFile returned response greater than 400',
-      uploadFileResponse.status,
-      JSON.stringify(resp)
+      new Error(JSON.stringify(resp))
     )
   }
-  const uploadToken = resp.upload?.token
-  return uploadToken
+  return resp.upload?.token
 }
