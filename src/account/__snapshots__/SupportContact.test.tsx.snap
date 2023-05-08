@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Contact renders correctly 1`] = `
+exports[`Contact withEmail renders correctly 1`] = `
 <View
   style={
     Object {
@@ -62,7 +62,7 @@ exports[`Contact renders correctly 1`] = `
               "fontSize": 16,
               "height": 80,
               "lineHeight": 22,
-              "marginBottom": 4,
+              "marginBottom": 16,
               "marginTop": 8,
               "maxHeight": 150,
               "paddingHorizontal": 12,
