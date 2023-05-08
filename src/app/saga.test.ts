@@ -13,6 +13,7 @@ import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
+  inAppReviewRequested,
   inviteLinkConsumed,
   openDeepLink,
   openUrl,
@@ -602,8 +603,9 @@ describe('appInit', () => {
 })
 
 describe(requestInAppReview, () => {
-  const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
-  const fourMonthsAndADayAgo = Date.now() - ONE_DAY_IN_MILLIS * 121
+  const now = Date.now()
+  const oneDayAgo = now - ONE_DAY_IN_MILLIS
+  const fourMonthsAndADayAgo = now - ONE_DAY_IN_MILLIS * 121
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -617,7 +619,7 @@ describe(requestInAppReview, () => {
     async ({ lastInteractionTimestamp }) => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockIsInAppReviewAvailable.mockReturnValue(true)
-      await expectSaga(requestInAppReview)
+      await expectSaga(requestInAppReview, inAppReviewRequested(now))
         .withState(
           createMockStore({
             web3: { account: '0xTest' },
