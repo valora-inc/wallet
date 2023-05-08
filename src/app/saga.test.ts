@@ -79,10 +79,10 @@ jest.mock('src/i18n', () => ({
   t: jest.fn(),
 }))
 
+jest.mock('src/utils/Logger')
+
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
-
-const loggerWarnSpy = jest.spyOn(Logger, 'warn')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
@@ -490,7 +490,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
   })
 
   it('should not run if migration conditions are not met', async () => {
@@ -534,7 +534,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .run()
 
     expect(mockFetch).not.toHaveBeenCalled()
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
   })
 })
 
@@ -547,7 +547,7 @@ describe('appInit', () => {
     [select(allowOtaTranslationsSelector), true],
     [select(otaTranslationsAppVersionSelector), '1'],
     [select(currentLanguageSelector), 'nl-NL'],
-    [select(sentryNetworkErrorsSelector), 'network error'],
+    [select(sentryNetworkErrorsSelector), ['network error']],
   ]
 
   it('should initialise the correct components, with the stored language', async () => {
