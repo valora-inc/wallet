@@ -78,6 +78,8 @@ jest.mock('src/i18n', () => ({
   t: jest.fn(),
 }))
 
+jest.mock('src/utils/Logger')
+
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
