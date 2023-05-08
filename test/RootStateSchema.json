@@ -699,16 +699,10 @@
         "CeloNewsConfig": {
             "additionalProperties": false,
             "properties": {
-                "enabled": {
-                    "type": "boolean"
-                },
                 "readMoreUrl": {
                     "type": "string"
                 }
             },
-            "required": [
-                "enabled"
-            ],
             "type": "object"
         },
         "CiCoCurrency": {
