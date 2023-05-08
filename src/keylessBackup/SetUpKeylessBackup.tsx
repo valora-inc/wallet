@@ -65,7 +65,7 @@ SetUpKeylessBackup.navigationOptions = () => ({
   headerLeft: () => (
     <TopBarIconButton
       style={styles.cancelButton}
-      icon={<Times height={24} />}
+      icon={<Times height={16} />}
       onPress={navigateBack}
     />
   ),
@@ -80,18 +80,18 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: 24,
-    paddingTop: 48,
+    paddingTop: 36,
   },
   cancelButton: {
     marginLeft: 16,
   },
   title: {
-    ...fontStyles.h1,
+    ...fontStyles.h2,
     textAlign: 'center',
     fontWeight: 'bold',
   },
   subtitle: {
-    ...fontStyles.large,
+    ...fontStyles.regular,
     textAlign: 'center',
     paddingVertical: 8,
   },
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   authFactorsContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray7,
+    borderBottomColor: colors.dark_0_2,
     paddingBottom: variables.contentPadding,
     marginHorizontal: 16,
   },
