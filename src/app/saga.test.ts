@@ -29,7 +29,6 @@ import {
   runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
-  getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inAppReviewLastInteractionTimestampSelector,
@@ -53,7 +52,7 @@ import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -388,47 +387,52 @@ describe('handleOpenUrl', () => {
 })
 
 describe('handleSetAppState', () => {
-  it('handles setting app state', async () => {
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .put(appLock())
-      .run()
+  describe('on app active', () => {
+    it('refreshes statsig and requires pin if pin required on app opened and do not lock period has passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), true],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if pin not required on app open', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), false],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), Date.now()],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if do not lock period has not passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), Date.now()],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
+  })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), false],
-      ])
-      .run()
-
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+  describe('on app inactive', () => {
+    it('does nothing', async () => {
+      await expectSaga(handleSetAppState, setAppState('inactive'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .not.call(patchUpdateStatsigUser)
+        .run()
+    })
   })
 })
 

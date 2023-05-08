@@ -85,7 +85,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -424,6 +424,11 @@ export function* handleSetAppState(action: SetAppState) {
 
   if (requirePinOnAppOpen && isPassedDoNotLockPeriod && isAppActive) {
     yield put(appLock())
+  }
+
+  if (isAppActive) {
+    // Force a statsig refresh by updating the user object
+    yield call(patchUpdateStatsigUser)
   }
 }
 
