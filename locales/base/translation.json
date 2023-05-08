@@ -26,6 +26,15 @@
     "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
     "restart": "Restart to Switch"
   },
+  "revokePhoneNumber": {
+    "title": "Unlink Phone Number",
+    "bottomSheetTitle": "Unlink phone number",
+    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
+    "confirmButton": "Unlink now",
+    "revokeSuccess": "Your phone number has been unlinked",
+    "revokeError": "Could not unlink phone number, please try again later.",
+    "addNewNumberButton": "Add phone number"
+  },
   "promptFornoModal": {
     "header": "Switch Connection Mode?",
     "body": "We’ve noticed you’re having some trouble connecting. We recommend enabling Data Saver mode to allow you to keep using {{appName}} with intermittent connection.",

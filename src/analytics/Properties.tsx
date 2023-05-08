@@ -192,6 +192,9 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_recovery_phrase]: undefined
   [SettingsEvents.settings_haptic_feedback]: { enabled: boolean }
   [SettingsEvents.settings_analytics]: { enabled: boolean }
+
+  [SettingsEvents.settings_revoke_phone_number]: undefined
+  [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -415,6 +418,9 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
   [PhoneVerificationEvents.phone_verification_resend_message]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_start]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_success]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_error]: undefined
 }
 
 interface IdentityEventsProperties {
