@@ -613,7 +613,6 @@ describe(requestInAppReview, () => {
   `(
     `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
     async ({ lastInteractionTimestamp }) => {
-      jest.clearAllMocks()
       mocked(getFeatureGate).mockReturnValue(true)
       mockIsInAppReviewAvailable.mockReturnValue(true)
       await expectSaga(requestInAppReview)
@@ -655,7 +654,6 @@ describe(requestInAppReview, () => {
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
       // Clear previous calls
-      jest.clearAllMocks()
       mocked(getFeatureGate).mockReturnValue(featureGate)
       mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
 
