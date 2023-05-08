@@ -2220,10 +2220,9 @@ export const v125Schema = {
     ...v124Schema.app,
     celoNews: {
       ..._.omit(v124Schema.app.celoNews, 'enabled'),
-    }
+    },
   },
 }
-
 
 export function getLatestSchema(): Partial<RootState> {
   return v125Schema as Partial<RootState>
