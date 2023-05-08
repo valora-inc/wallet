@@ -77,15 +77,15 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
-export const Account = ({ route }: Props) => {
+export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
   const revokeNumberAsync = useRevokeCurrentPhoneNumber()
 
   const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
   const [showRevokeModal, setShowRevokeModal] = useState(false)
-  const [showAccountResetModal, setShowAccountResetModal] = useState(false)
 
   const sessionId = useSelector(sessionIdSelector)
   const account = useSelector(walletAddressSelector)
@@ -318,7 +318,7 @@ export const Account = ({ route }: Props) => {
   }
 
   const hideConfirmRemovalModal = () => {
-    setShowAccountResetModal(false)
+    navigation.setParams({ promptConfirmRemovalModal: false })
   }
 
   const wipeReduxStore = () => {
@@ -473,7 +473,7 @@ export const Account = ({ route }: Props) => {
           {t('accountKeyModal.body2')}
         </Dialog>
         <Dialog
-          isVisible={showAccountResetModal}
+          isVisible={!!promptConfirmRemovalModal}
           title={t('promptConfirmRemovalModal.header')}
           actionText={t('promptConfirmRemovalModal.resetNow')}
           actionPress={confirmAccountRemoval}
