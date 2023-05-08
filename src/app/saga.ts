@@ -28,7 +28,7 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
-  inAppReviewCalled,
+  inAppReviewRequested,
   inviteLinkConsumed,
   minAppVersionDetermined,
   OpenDeepLink,
@@ -518,7 +518,7 @@ export function* requestInAppReview() {
   if (now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
     const result = yield call(InAppReview.RequestInAppReview)
     // If the in app review was shown, update the last interaction timestamp
-    if (result) yield put(inAppReviewCalled(now))
+    if (result) yield put(inAppReviewRequested(now))
   }
 }
 
