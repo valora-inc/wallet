@@ -159,7 +159,7 @@ export interface PushNotificationsPermissionChanged {
 }
 
 export interface inAppReviewRequested {
-  type: Actions.IN_APP_REVIEW_CALLED
+  type: Actions.IN_APP_REVIEW_REQUESTED
   inAppReviewLastInteractionTimestamp: number | null
 }
 
