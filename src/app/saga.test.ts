@@ -601,7 +601,7 @@ describe('appInit', () => {
 
 describe(requestInAppReview, () => {
   const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
-  const oneQuarterAgo = Date.now() - ONE_DAY_IN_MILLIS * 92
+  const fourMonthsAndADayAgo = Date.now() - ONE_DAY_IN_MILLIS * 121
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -609,7 +609,7 @@ describe(requestInAppReview, () => {
   it.each`
     lastInteractionTimestamp | lastInteraction
     ${null}                  | ${null}
-    ${oneQuarterAgo}         | ${'92 days ago'}
+    ${fourMonthsAndADayAgo}  | ${'121 days ago'}
   `(
     `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
     async ({ lastInteractionTimestamp }) => {
@@ -633,23 +633,23 @@ describe(requestInAppReview, () => {
   )
 
   it.each`
-    lastInteractionTimestamp | isAvailable | lastInteraction  | featureGate | walletAddress
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${true}     | ${'0xTest'}
-    ${null}                  | ${false}    | ${null}          | ${true}     | ${'0xTest'}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${true}     | ${'0xTest'}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${true}     | ${'0xTest'}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${false}    | ${'0xTest'}
-    ${null}                  | ${false}    | ${null}          | ${false}    | ${'0xTest'}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${false}    | ${'0xTest'}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${false}    | ${'0xTest'}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${true}     | ${null}
-    ${null}                  | ${false}    | ${null}          | ${true}     | ${null}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${true}     | ${null}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${true}     | ${null}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${false}    | ${null}
-    ${null}                  | ${false}    | ${null}          | ${false}    | ${null}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${false}    | ${null}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${false}    | ${null}
+    lastInteractionTimestamp | isAvailable | lastInteraction   | featureGate | walletAddress
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${'0xTest'}
+    ${null}                  | ${false}    | ${null}           | ${true}     | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${true}     | ${'0xTest'}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${true}     | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${false}    | ${'0xTest'}
+    ${null}                  | ${false}    | ${null}           | ${false}    | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${false}    | ${'0xTest'}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${false}    | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${null}
+    ${null}                  | ${false}    | ${null}           | ${true}     | ${null}
+    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${true}     | ${null}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${true}     | ${null}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${false}    | ${null}
+    ${null}                  | ${false}    | ${null}           | ${false}    | ${null}
+    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${false}    | ${null}
+    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${false}    | ${null}
   `(
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {

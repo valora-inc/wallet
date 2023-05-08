@@ -114,7 +114,7 @@ const TAG = 'app/saga'
 const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 
 // REVIEW_INTERVAL is the time between app review prompts
-const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 91 // 91 days
+const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 120 // 120 days
 
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
