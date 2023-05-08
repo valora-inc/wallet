@@ -1,5 +1,4 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import InAppReview from 'react-native-in-app-review'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
@@ -52,7 +51,6 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
-import { Actions as SendActions } from 'src/send/actions'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getFeatureGate } from 'src/statsig'
@@ -622,10 +620,6 @@ describe(requestInAppReview, () => {
           }).getState()
         )
         .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
-        .dispatch({
-          type: SendActions.SEND_PAYMENT_SUCCESS,
-          payload: { amount: new BigNumber('100') },
-        })
         .run()
 
       expect(InAppReview.RequestInAppReview).toHaveBeenCalledTimes(1)
@@ -664,10 +658,6 @@ describe(requestInAppReview, () => {
           }).getState()
         )
         .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
-        .dispatch({
-          type: SendActions.SEND_PAYMENT_SUCCESS,
-          payload: { amount: new BigNumber('100') },
-        })
         .run()
 
       expect(InAppReview.RequestInAppReview).not.toHaveBeenCalled()
