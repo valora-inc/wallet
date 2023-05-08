@@ -79,10 +79,10 @@ jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: jest.fn(),
-  isAvailable: () => mockIsAvailable(),
+  isAvailable: () => mockIsInAppReviewAvailable(),
 }))
 
-const mockIsAvailable = jest.fn()
+const mockIsInAppReviewAvailable = jest.fn()
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
@@ -615,7 +615,7 @@ describe(requestInAppReview, () => {
     async ({ lastInteractionTimestamp }) => {
       jest.clearAllMocks()
       mocked(getFeatureGate).mockReturnValue(true)
-      mockIsAvailable.mockReturnValue(true)
+      mockIsInAppReviewAvailable.mockReturnValue(true)
       await expectSaga(requestInAppReview)
         .withState(
           createMockStore({
@@ -657,7 +657,7 @@ describe(requestInAppReview, () => {
       // Clear previous calls
       jest.clearAllMocks()
       mocked(getFeatureGate).mockReturnValue(featureGate)
-      mockIsAvailable.mockReturnValue(isAvailable)
+      mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
 
       await expectSaga(requestInAppReview)
         .withState(
