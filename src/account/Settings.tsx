@@ -3,8 +3,8 @@ import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
-import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Platform,
   ScrollView,
@@ -14,9 +14,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   clearStoredAccount,
   devModeTriggerClicked,
@@ -25,6 +24,8 @@ import {
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import {
+  devModeSelector,
+  e164NumberSelector,
   pincodeTypeSelector,
   shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
@@ -39,7 +40,9 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
+  analyticsEnabledSelector,
   decentralizedVerificationEnabledSelector,
+  getRequirePinOnAppOpen,
   hapticFeedbackEnabledSelector,
   phoneNumberVerifiedSelector,
   sessionIdSelector,
@@ -55,176 +58,125 @@ import {
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
-import { withTranslation } from 'src/i18n'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { revokeVerification } from 'src/identity/actions'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { RevokePhoneNumber } from 'src/verify/RevokePhoneNumber'
+import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
+import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
+import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
-interface DispatchProps {
-  revokeVerification: typeof revokeVerification
-  setNumberVerified: typeof setNumberVerified
-  resetAppOpenedState: typeof resetAppOpenedState
-  setAnalyticsEnabled: typeof setAnalyticsEnabled
-  toggleBackupState: typeof toggleBackupState
-  devModeTriggerClicked: typeof devModeTriggerClicked
-  setRequirePinOnAppOpen: typeof setRequirePinOnAppOpen
-  setPincodeSuccess: typeof setPincodeSuccess
-  setSessionId: typeof setSessionId
-  clearStoredAccount: typeof clearStoredAccount
-  hapticFeedbackSet: typeof hapticFeedbackSet
-}
+type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
-interface StateProps {
-  account: string | null
-  e164PhoneNumber: string | null
-  devModeActive: boolean
-  analyticsEnabled: boolean
-  numberVerified: boolean
-  pincodeType: PincodeType
-  backupCompleted: boolean
-  requirePinOnAppOpen: boolean
-  preferredCurrencyCode: LocalCurrencyCode
-  sessionId: string
-  connectedApplications: number
-  walletConnectEnabled: boolean
-  supportedBiometryType: BIOMETRY_TYPE | null
-  shouldShowRecoveryPhraseInSettings: boolean
-  hapticFeedbackEnabled: boolean
-  decentralizedVerificationEnabled: boolean
-}
+export const Account = ({ navigation, route }: Props) => {
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
-type OwnProps = NativeStackScreenProps<StackParamList, Screens.Settings>
+  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
 
-type Props = StateProps & DispatchProps & WithTranslation & OwnProps
+  const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
+  const [showRevokeModal, setShowRevokeModal] = useState(false)
 
-const mapStateToProps = (state: RootState): StateProps => {
-  const { v1 } = walletConnectEnabledSelector(state)
-  return {
-    backupCompleted: state.account.backupCompleted,
-    account: state.web3.account,
-    devModeActive: state.account.devModeActive || false,
-    e164PhoneNumber: state.account.e164PhoneNumber,
-    analyticsEnabled: state.app.analyticsEnabled,
-    numberVerified: phoneNumberVerifiedSelector(state),
-    pincodeType: pincodeTypeSelector(state),
-    requirePinOnAppOpen: state.app.requirePinOnAppOpen,
-    preferredCurrencyCode: getLocalCurrencyCode(state),
-    sessionId: sessionIdSelector(state),
-    connectedApplications:
-      state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
-    walletConnectEnabled: v1,
-    supportedBiometryType: supportedBiometryTypeSelector(state),
-    shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
-    hapticFeedbackEnabled: hapticFeedbackEnabledSelector(state),
-    decentralizedVerificationEnabled: decentralizedVerificationEnabledSelector(state),
-  }
-}
+  const sessionId = useSelector(sessionIdSelector)
+  const account = useSelector(walletAddressSelector)
+  const devModeActive = useSelector(devModeSelector)
+  const e164PhoneNumber = useSelector(e164NumberSelector)
+  const analyticsEnabled = useSelector(analyticsEnabledSelector)
+  const numberVerified = useSelector(phoneNumberVerifiedSelector)
+  const pincodeType = useSelector(pincodeTypeSelector)
+  const requirePinOnAppOpen = useSelector(getRequirePinOnAppOpen)
+  const preferredCurrencyCode = useSelector(getLocalCurrencyCode)
 
-const mapDispatchToProps = {
-  revokeVerification,
-  setNumberVerified,
-  resetAppOpenedState,
-  setAnalyticsEnabled,
-  toggleBackupState,
-  devModeTriggerClicked,
-  setRequirePinOnAppOpen,
-  setPincodeSuccess,
-  setSessionId,
-  clearStoredAccount,
-  hapticFeedbackSet,
-}
+  const { sessions: walletConnectV1Sessions } = useSelector(selectSessionsV1)
+  const { sessions: walletConnectV2Sessions } = useSelector(selectSessionsV2)
 
-interface State {
-  showAccountKeyModal: boolean
-  showRevokeModal: boolean
-}
+  const { v1, v2 } = useSelector(walletConnectEnabledSelector)
+  const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
+  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
+  const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
+  const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
+  const currentLanguage = useSelector(currentLanguageSelector)
 
-export class Account extends React.Component<Props, State> {
-  componentDidMount = () => {
-    const sessionId = ValoraAnalytics.getSessionId()
-    if (sessionId !== this.props.sessionId) {
-      this.props.setSessionId(sessionId)
+  const walletConnectEnabled = v1 || v2
+  const connectedApplications = walletConnectV1Sessions.length + walletConnectV2Sessions.length
+
+  useEffect(() => {
+    if (ValoraAnalytics.getSessionId() !== sessionId) {
+      dispatch(setSessionId(sessionId))
     }
-  }
+  }, [])
 
-  goToProfile = () => {
+  const goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
-    this.props.navigation.navigate(Screens.Profile)
+    navigate(Screens.Profile)
   }
 
-  goToConfirmNumber = () => {
+  const goToConfirmNumber = () => {
     ValoraAnalytics.track(SettingsEvents.settings_verify_number)
-    this.props.navigation.navigate(Screens.VerificationStartScreen, {
+    navigate(Screens.VerificationStartScreen, {
       hideOnboardingStep: true,
     })
   }
 
-  goToLanguageSetting = () => {
-    this.props.navigation.navigate(Screens.Language, { nextScreen: this.props.route.name })
+  const goToLanguageSetting = () => {
+    navigate(Screens.Language, { nextScreen: route.name })
   }
 
-  goToLocalCurrencySetting = () => {
-    this.props.navigation.navigate(Screens.SelectLocalCurrency)
+  const goToLocalCurrencySetting = () => {
+    navigate(Screens.SelectLocalCurrency)
   }
 
-  goToConnectedApplications = () => {
-    this.props.navigation.navigate(Screens.WalletConnectSessions)
+  const goToConnectedApplications = () => {
+    navigate(Screens.WalletConnectSessions)
   }
 
-  goToLicenses = () => {
-    this.props.navigation.navigate(Screens.Licenses)
+  const goToLicenses = () => {
     ValoraAnalytics.track(SettingsEvents.licenses_view)
+    navigate(Screens.Licenses)
   }
 
-  goToSupport = () => {
-    this.props.navigation.navigate(Screens.Support)
-  }
-
-  resetAppOpenedState = () => {
-    this.props.resetAppOpenedState()
+  const handleResetAppOpenedState = () => {
     Logger.showMessage('App onboarding state reset.')
+    dispatch(resetAppOpenedState())
   }
 
-  toggleNumberVerified = () => {
-    this.props.setNumberVerified(!this.props.numberVerified)
+  const toggleNumberVerified = () => {
+    dispatch(setNumberVerified(numberVerified))
   }
 
-  revokeNumberVerification = () => {
-    this.hideConfirmRevokeModal()
-    if (this.props.e164PhoneNumber && !isE164NumberStrict(this.props.e164PhoneNumber)) {
+  const revokeNumberVerification = () => {
+    hideConfirmRevokeModal()
+    if (e164PhoneNumber && !isE164NumberStrict(e164PhoneNumber)) {
       Logger.showError('Cannot revoke verificaton: number invalid')
       return
     }
     Logger.showMessage('Revoking verification')
-    this.props.revokeVerification()
+    dispatch(revokeVerification())
   }
 
-  toggleBackupState = () => {
-    this.props.toggleBackupState()
+  const handleToggleBackupState = () => {
+    dispatch(toggleBackupState())
   }
 
-  showDebugScreen = () => {
-    this.props.navigation.navigate(Screens.Debug)
+  const showDebugScreen = () => {
+    navigate(Screens.Debug)
   }
 
-  onDevSettingsTriggerPress = () => {
-    this.props.devModeTriggerClicked()
+  const onDevSettingsTriggerPress = () => {
+    dispatch(devModeTriggerClicked())
   }
 
-  getDevSettingsComp() {
-    const { devModeActive } = this.props
-
+  const getDevSettingsComp = () => {
     if (!devModeActive) {
       return null
     } else {
@@ -232,45 +184,41 @@ export class Account extends React.Component<Props, State> {
         <View style={styles.devSettings}>
           <View style={styles.devSettingsItem}>
             <Text style={fontStyles.label}>Session ID</Text>
-            <SessionId sessionId={this.props.sessionId || ''} />
+            <SessionId sessionId={sessionId || ''} />
           </View>
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.toggleNumberVerified}>
+            <TouchableOpacity onPress={toggleNumberVerified}>
               <Text>Toggle verification done</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
-            <RevokePhoneNumber>
-              {(revokePhoneNumber) => (
-                <TouchableOpacity
-                  onPress={revokePhoneNumber.execute}
-                  disabled={revokePhoneNumber.loading}
-                >
-                  <Text>Revoke Number Verification (centralized)</Text>
-                </TouchableOpacity>
-              )}
-            </RevokePhoneNumber>
+            <TouchableOpacity
+              onPress={revokeNumberAsync.execute}
+              disabled={revokeNumberAsync.loading}
+            >
+              <Text>Revoke Number Verification (centralized)</Text>
+            </TouchableOpacity>
           </View>
-          {this.props.decentralizedVerificationEnabled && (
+          {decentralizedVerificationEnabled && (
             <View style={styles.devSettingsItem}>
-              <TouchableOpacity onPress={this.showConfirmRevokeModal}>
+              <TouchableOpacity onPress={showConfirmRevokeModal}>
                 <Text>Revoke Number Verification (on-chain)</Text>
               </TouchableOpacity>
             </View>
           )}
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.resetAppOpenedState}>
+            <TouchableOpacity onPress={handleResetAppOpenedState}>
               <Text>Reset app opened state</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.toggleBackupState}>
+            <TouchableOpacity onPress={handleToggleBackupState}>
               <Text>Toggle backup state</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.showDebugScreen}>
+            <TouchableOpacity onPress={showDebugScreen}>
               <Text>Show Debug Screen</Text>
             </TouchableOpacity>
           </View>
@@ -280,12 +228,12 @@ export class Account extends React.Component<Props, State> {
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.wipeReduxStore}>
+            <TouchableOpacity onPress={wipeReduxStore}>
               <Text>Wipe Redux Store</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={this.confirmAccountRemoval}>
+            <TouchableOpacity onPress={confirmAccountRemoval}>
               <Text>Valora Quick Reset</Text>
             </TouchableOpacity>
           </View>
@@ -294,17 +242,17 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  handleUseBiometryToggle = async (turnBiometryOn: boolean) => {
+  const handleUseBiometryToggle = async (turnBiometryOn: boolean) => {
     try {
       if (turnBiometryOn) {
         ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_enable)
         await setPincodeWithBiometry()
-        this.props.setPincodeSuccess(PincodeType.PhoneAuth)
+        dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
         ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_complete)
       } else {
         ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_disable)
         await removeStoredPin()
-        this.props.setPincodeSuccess(PincodeType.CustomPin)
+        dispatch(setPincodeSuccess(PincodeType.CustomPin))
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'Toggle use biometry error', error)
@@ -312,40 +260,47 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  handleRequirePinToggle = (value: boolean) => {
-    this.props.setRequirePinOnAppOpen(value)
+  const handleRequirePinToggle = (value: boolean) => {
+    dispatch(setRequirePinOnAppOpen(value))
     ValoraAnalytics.track(SettingsEvents.pin_require_on_load, {
       enabled: value,
     })
   }
 
-  handleHapticFeedbackToggle = (value: boolean) => {
-    this.props.hapticFeedbackSet(value)
+  const handleHapticFeedbackToggle = (value: boolean) => {
+    dispatch(hapticFeedbackSet(value))
     ValoraAnalytics.track(SettingsEvents.settings_haptic_feedback, {
       enabled: value,
     })
   }
 
-  onTermsPress() {
+  const handleToggleAnalytics = (value: boolean) => {
+    dispatch(setAnalyticsEnabled(value))
+    ValoraAnalytics.track(SettingsEvents.settings_analytics, {
+      enabled: value,
+    })
+  }
+
+  const onTermsPress = () => {
     navigateToURI(TOS_LINK)
     ValoraAnalytics.track(SettingsEvents.tos_view)
   }
 
-  onPrivacyPolicyPress() {
+  const onPrivacyPolicyPress = () => {
     navigateToURI(PRIVACY_LINK)
   }
 
-  onRemoveAccountPress = () => {
-    this.setState({ showAccountKeyModal: true })
+  const onRemoveAccountPress = () => {
+    setShowAccountKeyModal(true)
   }
 
-  hideRemoveAccountModal = () => {
-    this.setState({ showAccountKeyModal: false })
+  const hideRemoveAccountModal = () => {
+    setShowAccountKeyModal(false)
   }
 
-  onPressContinueWithAccountRemoval = async () => {
+  const onPressContinueWithAccountRemoval = async () => {
     try {
-      this.setState({ showAccountKeyModal: false })
+      setShowAccountKeyModal(false)
       // Ugly hack to wait for the modal to close,
       // otherwise the native modal PIN entry will not show up
       // TODO: stop using ReactNative modals and switch to react-navigation modals
@@ -362,28 +317,28 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  hideConfirmRemovalModal = () => {
-    this.props.navigation.setParams({ promptConfirmRemovalModal: false })
+  const hideConfirmRemovalModal = () => {
+    navigation.setParams({ promptConfirmRemovalModal: false })
   }
 
-  wipeReduxStore = () => {
-    this.props.clearStoredAccount(this.props.account || '', true)
+  const wipeReduxStore = () => {
+    dispatch(clearStoredAccount(account ?? '', true))
   }
 
-  confirmAccountRemoval = () => {
+  const confirmAccountRemoval = () => {
     ValoraAnalytics.track(SettingsEvents.completed_account_removal)
-    this.props.clearStoredAccount(this.props.account || '')
+    dispatch(clearStoredAccount(account ?? ''))
   }
 
-  showConfirmRevokeModal = () => {
-    this.setState({ showRevokeModal: true })
+  const showConfirmRevokeModal = () => {
+    setShowRevokeModal(true)
   }
 
-  hideConfirmRevokeModal = () => {
-    this.setState({ showRevokeModal: false })
+  const hideConfirmRevokeModal = () => {
+    setShowRevokeModal(false)
   }
 
-  goToChangePin = async () => {
+  const goToChangePin = async () => {
     try {
       ValoraAnalytics.track(SettingsEvents.change_pin_start)
       const pinIsCorrect = await ensurePincode()
@@ -399,7 +354,7 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  goToRecoveryPhrase = async () => {
+  const goToRecoveryPhrase = async () => {
     try {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
@@ -411,143 +366,137 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  render() {
-    const { t, i18n, numberVerified } = this.props
-    const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
-    const currentLanguage = locales[i18n.language]
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <DrawerTopBar />
-        <ScrollView testID="SettingsScrollView">
-          <TouchableWithoutFeedback onPress={this.onDevSettingsTriggerPress}>
-            <Text style={styles.title} testID={'SettingsTitle'}>
-              {t('settings')}
-            </Text>
-          </TouchableWithoutFeedback>
-          <View style={styles.containerList}>
+  return (
+    <SafeAreaView style={styles.container}>
+      <DrawerTopBar />
+      <ScrollView testID="SettingsScrollView">
+        <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
+          <Text style={styles.title} testID={'SettingsTitle'}>
+            {t('settings')}
+          </Text>
+        </TouchableWithoutFeedback>
+        <View style={styles.containerList}>
+          <SettingsItemTextValue
+            testID="EditProfile"
+            title={t('editProfile')}
+            onPress={goToProfile}
+          />
+          {!numberVerified && (
+            <SettingsItemTextValue title={t('confirmNumber')} onPress={goToConfirmNumber} />
+          )}
+          <SettingsItemTextValue
+            title={t('languageSettings')}
+            testID="ChangeLanguage"
+            value={locales[currentLanguage ?? '']?.name ?? t('unknown')}
+            onPress={goToLanguageSetting}
+          />
+          <SettingsItemTextValue
+            title={t('localCurrencySetting')}
+            testID="ChangeCurrency"
+            value={preferredCurrencyCode}
+            onPress={goToLocalCurrencySetting}
+          />
+          {walletConnectEnabled && (
             <SettingsItemTextValue
-              testID="EditProfile"
-              title={t('editProfile')}
-              onPress={this.goToProfile}
+              title={t('connectedApplications')}
+              value={connectedApplications.toString()}
+              onPress={goToConnectedApplications}
+              testID="ConnectedApplications"
             />
-            {!numberVerified && (
-              <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
-            )}
+          )}
+          <SectionHead text={t('security')} style={styles.sectionTitle} />
+          {shouldShowRecoveryPhraseInSettings && (
             <SettingsItemTextValue
-              title={t('languageSettings')}
-              testID="ChangeLanguage"
-              value={currentLanguage?.name ?? t('unknown')}
-              onPress={this.goToLanguageSetting}
+              title={t('accountKey')}
+              onPress={goToRecoveryPhrase}
+              testID="RecoveryPhrase"
             />
-            <SettingsItemTextValue
-              title={t('localCurrencySetting')}
-              testID="ChangeCurrency"
-              value={this.props.preferredCurrencyCode}
-              onPress={this.goToLocalCurrencySetting}
-            />
-            {this.props.walletConnectEnabled && (
-              <SettingsItemTextValue
-                title={t('connectedApplications')}
-                value={this.props.connectedApplications.toString()}
-                onPress={this.goToConnectedApplications}
-                testID="ConnectedApplications"
-              />
-            )}
-            <SectionHead text={t('security')} style={styles.sectionTitle} />
-            {this.props.shouldShowRecoveryPhraseInSettings && (
-              <SettingsItemTextValue
-                title={t('accountKey')}
-                onPress={this.goToRecoveryPhrase}
-                testID="RecoveryPhrase"
-              />
-            )}
-            <SettingsItemTextValue
-              title={t('changePin')}
-              onPress={this.goToChangePin}
-              testID="ChangePIN"
-            />
-            {this.props.supportedBiometryType && (
-              <SettingsItemSwitch
-                title={t('useBiometryType', {
-                  biometryType: t(`biometryType.${this.props.supportedBiometryType}`),
-                })}
-                value={this.props.pincodeType === PincodeType.PhoneAuth}
-                onValueChange={this.handleUseBiometryToggle}
-                testID="useBiometryToggle"
-              />
-            )}
+          )}
+          <SettingsItemTextValue
+            title={t('changePin')}
+            onPress={goToChangePin}
+            testID="ChangePIN"
+          />
+          {supportedBiometryType && (
             <SettingsItemSwitch
-              title={t('requirePinOnAppOpen')}
-              value={this.props.requirePinOnAppOpen}
-              onValueChange={this.handleRequirePinToggle}
-              testID="requirePinOnAppOpenToggle"
+              title={t('useBiometryType', {
+                biometryType: t(`biometryType.${supportedBiometryType}`),
+              })}
+              value={pincodeType === PincodeType.PhoneAuth}
+              onValueChange={handleUseBiometryToggle}
+              testID="useBiometryToggle"
             />
-            <SectionHead text={t('appPreferences')} style={styles.sectionTitle} />
-            <SettingsItemSwitch
-              title={t('hapticFeedback')}
-              value={this.props.hapticFeedbackEnabled}
-              onValueChange={this.handleHapticFeedbackToggle}
-            />
-            <SectionHead text={t('data')} style={styles.sectionTitle} />
-            <SettingsItemSwitch
-              title={t('shareAnalytics')}
-              value={this.props.analyticsEnabled}
-              onValueChange={this.props.setAnalyticsEnabled}
-              details={t('shareAnalytics_detail')}
-            />
-            <SectionHead text={t('legal')} style={styles.sectionTitle} />
-            <SettingsItemTextValue title={t('licenses')} onPress={this.goToLicenses} />
-            <SettingsItemTextValue title={t('termsOfServiceLink')} onPress={this.onTermsPress} />
-            <SettingsItemTextValue title={t('privacyPolicy')} onPress={this.onPrivacyPolicyPress} />
-            <SectionHead text={''} style={styles.sectionTitle} />
-            <SettingsExpandedItem
-              title={t('removeAccountTitle')}
-              details={t('removeAccountDetails')}
-              onPress={this.onRemoveAccountPress}
-              testID="ResetAccount"
-            />
-          </View>
-          {this.getDevSettingsComp()}
-          <Dialog
-            isVisible={this.state?.showAccountKeyModal}
-            title={t('accountKeyModal.header')}
-            actionText={t('continue')}
-            actionPress={this.onPressContinueWithAccountRemoval}
-            secondaryActionText={t('cancel')}
-            secondaryActionPress={this.hideRemoveAccountModal}
-            testID="RemoveAccountModal"
-          >
-            {t('accountKeyModal.body1')}
-            {'\n\n'}
-            {t('accountKeyModal.body2')}
-          </Dialog>
-          <Dialog
-            isVisible={promptConfirmRemovalModal}
-            title={t('promptConfirmRemovalModal.header')}
-            actionText={t('promptConfirmRemovalModal.resetNow')}
-            actionPress={this.confirmAccountRemoval}
-            secondaryActionText={t('cancel')}
-            secondaryActionPress={this.hideConfirmRemovalModal}
-            testID="ConfirmAccountRemovalModal"
-          >
-            {t('promptConfirmRemovalModal.body')}
-          </Dialog>
-          <Dialog
-            isVisible={this.state?.showRevokeModal}
-            title={t('promptConfirmRevokeModal.header')}
-            actionText={t('promptConfirmRevokeModal.revoke')}
-            actionPress={this.revokeNumberVerification}
-            secondaryActionText={t('cancel')}
-            secondaryActionPress={this.hideConfirmRevokeModal}
-            testID="ConfirmAccountRevokeModal"
-          >
-            {t('promptConfirmRevokeModal.body')}
-          </Dialog>
-        </ScrollView>
-      </SafeAreaView>
-    )
-  }
+          )}
+          <SettingsItemSwitch
+            title={t('requirePinOnAppOpen')}
+            value={requirePinOnAppOpen}
+            onValueChange={handleRequirePinToggle}
+            testID="requirePinOnAppOpenToggle"
+          />
+          <SectionHead text={t('appPreferences')} style={styles.sectionTitle} />
+          <SettingsItemSwitch
+            title={t('hapticFeedback')}
+            value={hapticFeedbackEnabled}
+            onValueChange={handleHapticFeedbackToggle}
+          />
+          <SectionHead text={t('data')} style={styles.sectionTitle} />
+          <SettingsItemSwitch
+            title={t('shareAnalytics')}
+            value={analyticsEnabled}
+            onValueChange={handleToggleAnalytics}
+            details={t('shareAnalytics_detail')}
+          />
+          <SectionHead text={t('legal')} style={styles.sectionTitle} />
+          <SettingsItemTextValue title={t('licenses')} onPress={goToLicenses} />
+          <SettingsItemTextValue title={t('termsOfServiceLink')} onPress={onTermsPress} />
+          <SettingsItemTextValue title={t('privacyPolicy')} onPress={onPrivacyPolicyPress} />
+          <SectionHead text={''} style={styles.sectionTitle} />
+          <SettingsExpandedItem
+            title={t('removeAccountTitle')}
+            details={t('removeAccountDetails')}
+            onPress={onRemoveAccountPress}
+            testID="ResetAccount"
+          />
+        </View>
+        {getDevSettingsComp()}
+        <Dialog
+          isVisible={showAccountKeyModal}
+          title={t('accountKeyModal.header')}
+          actionText={t('continue')}
+          actionPress={onPressContinueWithAccountRemoval}
+          secondaryActionText={t('cancel')}
+          secondaryActionPress={hideRemoveAccountModal}
+          testID="RemoveAccountModal"
+        >
+          {t('accountKeyModal.body1')}
+          {'\n\n'}
+          {t('accountKeyModal.body2')}
+        </Dialog>
+        <Dialog
+          isVisible={!!promptConfirmRemovalModal}
+          title={t('promptConfirmRemovalModal.header')}
+          actionText={t('promptConfirmRemovalModal.resetNow')}
+          actionPress={confirmAccountRemoval}
+          secondaryActionText={t('cancel')}
+          secondaryActionPress={hideConfirmRemovalModal}
+          testID="ConfirmAccountRemovalModal"
+        >
+          {t('promptConfirmRemovalModal.body')}
+        </Dialog>
+        <Dialog
+          isVisible={showRevokeModal}
+          title={t('promptConfirmRevokeModal.header')}
+          actionText={t('promptConfirmRevokeModal.revoke')}
+          actionPress={revokeNumberVerification}
+          secondaryActionText={t('cancel')}
+          secondaryActionPress={hideConfirmRevokeModal}
+          testID="ConfirmAccountRevokeModal"
+        >
+          {t('promptConfirmRevokeModal.body')}
+        </Dialog>
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -579,7 +528,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect<StateProps, DispatchProps, OwnProps, RootState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation<Props>()(Account))
+export default Account
