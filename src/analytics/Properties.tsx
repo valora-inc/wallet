@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -191,6 +191,7 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
   [SettingsEvents.settings_recovery_phrase]: undefined
   [SettingsEvents.settings_haptic_feedback]: { enabled: boolean }
+  [SettingsEvents.settings_analytics]: { enabled: boolean }
 }
 
 interface OnboardingEventsProperties {
