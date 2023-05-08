@@ -31,14 +31,6 @@ describe('Account', () => {
     jest.clearAllMocks()
   })
 
-  beforeAll(() => {
-    jest.useFakeTimers()
-  })
-
-  afterAll(() => {
-    jest.useRealTimers()
-  })
-
   it('renders correctly', () => {
     const tree = render(
       <Provider
