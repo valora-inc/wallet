@@ -1568,7 +1568,7 @@
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Hoán đổi được cung cấp bởi các đối tác trên Celo. <0> Tìm hiểu thêm. </0>",
+    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "maxSwapAmountWarning": {
