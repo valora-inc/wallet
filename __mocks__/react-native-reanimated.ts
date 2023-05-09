@@ -11,4 +11,5 @@ module.exports = {
   withTiming: jest.fn(),
   makeMutable: jest.fn(),
   useWorkletCallback: jest.fn(),
+  runOnUI: () => jest.fn(),
 }

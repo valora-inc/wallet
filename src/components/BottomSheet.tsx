@@ -16,10 +16,13 @@ interface Props {
   buttonLabel: string
   buttonOnPress: () => void
   buttonType?: BtnTypes
+  buttonLoading?: boolean
   description?: string
   children?: React.ReactNode
   testId: string
 }
+
+export type BottomSheetRefType = GorhomBottomSheet
 
 const BottomSheet = ({
   forwardedRef,
@@ -27,6 +30,7 @@ const BottomSheet = ({
   buttonLabel,
   buttonOnPress,
   buttonType = BtnTypes.PRIMARY,
+  buttonLoading = false,
   description,
   children,
   testId,
@@ -67,6 +71,7 @@ const BottomSheet = ({
           onPress={buttonOnPress}
           size={BtnSizes.FULL}
           type={buttonType}
+          showLoading={buttonLoading}
           testID={`${testId}/PrimaryAction`}
         />
       </View>
@@ -76,7 +81,8 @@ const BottomSheet = ({
 
 const styles = StyleSheet.create({
   handle: {
-    backgroundColor: Colors.gray3,
+    backgroundColor: Colors.gray6,
+    width: 40,
   },
   container: {
     paddingHorizontal: Spacing.Thick24,

@@ -13,6 +13,7 @@ interface Props {
   title?: string
   message: string | React.ReactElement
   labelCTA: string
+  ctaAlignment?: 'bottom' | 'right'
   onPress(): void
 }
 
@@ -20,7 +21,14 @@ interface Props {
 const TOAST_HEIGHT = 100
 
 // for now, this Toast component is launched from the bottom of the screen only
-const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) => {
+const ToastWithCTA = ({
+  showToast,
+  onPress,
+  message,
+  labelCTA,
+  title,
+  ctaAlignment = 'right',
+}: Props) => {
   const [isVisible, setIsVisible] = useState(showToast)
 
   const progress = useSharedValue(0)
@@ -47,13 +55,17 @@ const ToastWithCTA = ({ showToast, onPress, message, labelCTA, title }: Props) =
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <View style={styles.toast}>
+      <View style={[styles.toast, ctaAlignment === 'right' ? styles.toastCtaAlignRight : {}]}>
         <View style={styles.contentContainer}>
           {!!title && <Text style={styles.title}>{title}</Text>}
           <Text style={styles.message}>{message}</Text>
         </View>
         <Touchable onPress={onPress} hitSlop={variables.iconHitslop}>
-          <Text style={styles.labelCTA}>{labelCTA}</Text>
+          <Text
+            style={[styles.labelCta, ctaAlignment === 'right' ? {} : styles.labelCtaAlignBottom]}
+          >
+            {labelCTA}
+          </Text>
         </Touchable>
       </View>
     </Animated.View>
@@ -71,6 +83,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: Spacing.Regular16,
     padding: Spacing.Regular16,
+  },
+  toastCtaAlignRight: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -87,9 +101,13 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: Colors.light,
   },
-  labelCTA: {
+  labelCta: {
     ...fontStyles.small600,
     color: Colors.greenFaint,
+  },
+  labelCtaAlignBottom: {
+    alignSelf: 'flex-end',
+    marginTop: Spacing.Regular16,
   },
 })
 
