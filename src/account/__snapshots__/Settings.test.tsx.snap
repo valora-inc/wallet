@@ -1638,12 +1638,17 @@ exports[`Account renders correctly 1`] = `
               </Text>
               <Text
                 style={
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Medium",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                  }
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    },
+                    Object {
+                      "color": "#666666",
+                    },
+                  ]
                 }
               >
                 +1 415-555-0000
@@ -3771,12 +3776,17 @@ exports[`Account renders correctly when dev mode active 1`] = `
               </Text>
               <Text
                 style={
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Medium",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                  }
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    },
+                    Object {
+                      "color": "#666666",
+                    },
+                  ]
                 }
               >
                 +1 415-555-0000
