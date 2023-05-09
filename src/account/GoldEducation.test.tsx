@@ -14,26 +14,12 @@ it('renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-describe('when first time (!account.celoEducationCompleted)', () => {
-  it('does not show the close button', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ account: { celoEducationCompleted: false } })}>
-        <GoldEducation />
-      </Provider>
-    )
+it('show the close button', () => {
+  const { getByTestId } = render(
+    <Provider store={createMockStore({ account: { celoEducationCompleted: false } })}>
+      <GoldEducation />
+    </Provider>
+  )
 
-    expect(getByTestId('DrawerTopBar')).toBeTruthy()
-  })
-})
-
-describe('when not first time (account.celoEducationCompleted)', () => {
-  it('shows the close button', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ account: { celoEducationCompleted: true } })}>
-        <GoldEducation />
-      </Provider>
-    )
-
-    expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
-  })
+  expect(getByTestId('DrawerTopBar')).toBeTruthy()
 })
