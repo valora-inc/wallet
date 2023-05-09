@@ -1,6 +1,5 @@
 import { isE164NumberStrict } from '@celo/phone-utils'
 import { sleep } from '@celo/utils/lib/async'
-import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
@@ -51,7 +50,7 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import SectionHead from 'src/components/SectionHead'
@@ -91,7 +90,7 @@ export const Account = ({ navigation, route }: Props) => {
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
-  const revokeBottomSheetRef = useRef<GorhomBottomSheet>(null)
+  const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const revokeNumberAsync = useRevokeCurrentPhoneNumber()
 
@@ -138,7 +137,7 @@ export const Account = ({ navigation, route }: Props) => {
       Logger.showError(t('revokePhoneNumber.revokeError'))
     }
 
-    const timeout = setTimeout(() => setShowRevokeSuccess(false), TOAST_DISMISS_TIMEOUT)
+    const timeout = setTimeout(() => setShowRevokeSuccess(false), TOAST_DISMISS_TIMEOUT_MS)
     return () => {
       clearTimeout(timeout)
     }
