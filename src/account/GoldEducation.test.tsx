@@ -14,7 +14,7 @@ it('renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-it('shows the close button', () => {
+it('shows the close button when celoEducationCompleted is false', () => {
   const { getByTestId } = render(
     <Provider store={createMockStore({ account: { celoEducationCompleted: false } })}>
       <GoldEducation />
@@ -24,7 +24,7 @@ it('shows the close button', () => {
   expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
 })
 
-it('shows the close button', () => {
+it('shows the close button when celoEducationCompleted is true', () => {
   const { getByTestId } = render(
     <Provider store={createMockStore({ account: { celoEducationCompleted: true } })}>
       <GoldEducation />
