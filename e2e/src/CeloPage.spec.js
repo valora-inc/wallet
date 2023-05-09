@@ -9,7 +9,6 @@ describe('Celo page', () => {
     await quickOnboarding()
     await waitForElementByIdAndTap('Hamburger')
     await waitForElementByIdAndTap('CELO')
-    await celoEducation()
   })
 
   describe('celo education', CeloEducation)

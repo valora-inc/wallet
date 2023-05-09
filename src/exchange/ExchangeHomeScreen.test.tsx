@@ -35,7 +35,6 @@ const store = createMockStore({
     exchangeRates,
     history: exchangePriceHistory,
   },
-  app: { celoNews: { enabled: true } },
 })
 
 describe('ExchangeHomeScreen', () => {
