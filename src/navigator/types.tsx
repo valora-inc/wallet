@@ -334,7 +334,6 @@ export type StackParamList = {
   }
   [Screens.VerificationStartScreen]:
     | {
-        showSkipDialog?: boolean
         hideOnboardingStep?: boolean
         selectedCountryCodeAlpha2?: string
         choseToRestoreAccount?: boolean
