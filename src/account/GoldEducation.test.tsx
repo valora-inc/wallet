@@ -23,3 +23,13 @@ it('show the close button', () => {
 
   expect(getByTestId('DrawerTopBar')).toBeTruthy()
 })
+
+it('shows the close button', () => {
+  const { getByTestId } = render(
+    <Provider store={createMockStore({ account: { celoEducationCompleted: true } })}>
+      <GoldEducation />
+    </Provider>
+  )
+
+  expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
+})
