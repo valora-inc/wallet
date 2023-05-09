@@ -12,12 +12,14 @@ import { isE2EEnv } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
+import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import {
   getLocalCurrencySymbol,
   localCurrencyExchangeRateErrorSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -34,10 +36,16 @@ import {
 function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalBalance = useSelector(totalTokenBalanceSelector)
+  const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector)
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokensAreStale = useSelector(stalePriceSelector)
+  const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
+  const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
+  const totalBalanceLocal =
+    totalTokenBalanceLocal || totalPositionsBalanceLocal
+      ? new BigNumber(totalTokenBalanceLocal ?? 0).plus(totalPositionsBalanceLocal ?? 0)
+      : undefined
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
@@ -47,7 +55,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
         {'-'}
       </Text>
     )
-  } else if (tokensWithUsdValue.length === 1) {
+  } else if (tokensWithUsdValue.length === 1 && !totalPositionsBalanceLocal?.isGreaterThan(0)) {
     const tokenBalance = tokensWithUsdValue[0].balance
     return (
       <View style={styles.oneBalance}>
@@ -55,7 +63,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
         <View style={styles.column}>
           <Text style={style} testID={'TotalTokenBalance'}>
             {localCurrencySymbol}
-            {totalBalance?.toFormat(2) ?? '-'}
+            {totalTokenBalanceLocal?.toFormat(2) ?? '-'}
           </Text>
           <Text style={styles.tokenBalance}>
             {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
@@ -67,7 +75,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {totalBalance?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
+        {totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
