@@ -27,6 +27,15 @@
     "body": "Per attivare e disattivare ripetutamente Risparmio dati, devi riavviare l’app e tornare a questa schermata.",
     "restart": "Riavvia per attivare/disattivare"
   },
+  "revokePhoneNumber": {
+    "title": "Numero di telefono Unlink",
+    "bottomSheetTitle": "Numero di telefono non collegato",
+    "description": "Lo scollegamento rimuoverà il numero di telefono collegato al tuo portafoglio. Potrai aggiungere un nuovo numero di telefono in seguito.",
+    "confirmButton": "Sblocca ora il link",
+    "revokeSuccess": "Il tuo numero di telefono è stato scollegato",
+    "revokeError": "Non è stato possibile scollegare il numero di telefono, riprova più tardi.",
+    "addNewNumberButton": "Aggiungi il numero di telefono"
+  },
   "promptFornoModal": {
     "header": "Cambiare la modalità di connessione?",
     "body": "Abbiamo notato che hai problemi di connessione. Consigliamo di abilitare la modalità Risparmio dati per continuare a usare {{appName}} con una connessione intermittente.",
