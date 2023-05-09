@@ -69,6 +69,13 @@ export enum SettingsEvents {
   // to avoid tracking through omission
   settings_recovery_phrase = 'settings_recovery_phrase',
   settings_haptic_feedback = 'settings_haptic_feedback',
+  settings_analytics = 'settings_analytics',
+
+  settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
+}
+
+export enum KeylessBackupEvents {
+  set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
 }
 
 export enum OnboardingEvents {
@@ -573,6 +580,7 @@ export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
   | SettingsEvents
+  | KeylessBackupEvents
   | OnboardingEvents
   | VerificationEvents
   | IdentityEvents
