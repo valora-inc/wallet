@@ -14,7 +14,7 @@ it('renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-it('show the close button', () => {
+it('shows the close button', () => {
   const { getByTestId } = render(
     <Provider store={createMockStore({ account: { celoEducationCompleted: false } })}>
       <GoldEducation />
