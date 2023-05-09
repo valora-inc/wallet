@@ -22,6 +22,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  KeylessBackupEvents,
   NavigationEvents,
   OnboardingEvents,
   PerformanceEvents,
@@ -191,6 +192,14 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
   [SettingsEvents.settings_recovery_phrase]: undefined
   [SettingsEvents.settings_haptic_feedback]: { enabled: boolean }
+  [SettingsEvents.settings_analytics]: { enabled: boolean }
+  [SettingsEvents.settings_revoke_phone_number]: undefined
+  [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
+  [SettingsEvents.settings_set_up_keyless_backup]: undefined
+}
+
+interface KeylessBackupEventsProperties {
+  [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -414,6 +423,9 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
   [PhoneVerificationEvents.phone_verification_resend_message]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_start]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_success]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_error]: undefined
 }
 
 interface IdentityEventsProperties {
@@ -491,8 +503,8 @@ interface EscrowEventsProperties {
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
-    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
+    recipientType: RecipientType
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
@@ -508,7 +520,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
-        recipientType?: RecipientType
+        recipientType: RecipientType
         isScan: boolean
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
@@ -532,7 +544,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
-        recipientType?: RecipientType
+        recipientType: RecipientType
         isScan: boolean
         localCurrency: LocalCurrencyCode
         usdAmount: string | null
@@ -605,8 +617,8 @@ interface RequestEventsProperties {
   [RequestEvents.request_cancel]: undefined
   [RequestEvents.request_scan]: undefined
   [RequestEvents.request_select_recipient]: {
-    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
+    recipientType: RecipientType
   }
   [RequestEvents.request_amount_continue]:
     | {
@@ -632,6 +644,8 @@ interface RequestEventsProperties {
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
+    recipientType: RecipientType
+    isScan: boolean
   }
   [RequestEvents.request_error]: {
     error: string
@@ -1212,6 +1226,7 @@ interface TokenBottomSheetEventsProperties {
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
+  KeylessBackupEventsProperties &
   OnboardingEventsProperties &
   VerificationEventsProperties &
   PhoneVerificationEventsProperties &

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import Button from 'src/components/Button'
 import { DappV1, DappV2 } from 'src/dapps/types'
 import QuitIcon from 'src/icons/QuitIcon'
@@ -20,7 +20,7 @@ export function DAppsBottomSheet({ selectedDapp, isVisible, onClose, onConfirmOp
   const { t } = useTranslation()
 
   return (
-    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose}>
+    <BottomSheetLegacy isVisible={isVisible} onBackgroundPress={onClose}>
       <View>
         <TopBarIconButton
           icon={<QuitIcon />}
@@ -40,7 +40,7 @@ export function DAppsBottomSheet({ selectedDapp, isVisible, onClose, onConfirmOp
           />
         </View>
       </View>
-    </BottomSheet>
+    </BottomSheetLegacy>
   )
 }
 

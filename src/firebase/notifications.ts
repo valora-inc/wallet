@@ -37,14 +37,17 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
   const info: RecipientInfo = yield select(recipientInfoSelector)
   const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
-  navigateToRequestedPaymentReview({
-    firebasePendingRequestUid: paymentRequest.uid,
-    recipient: targetRecipient,
-    amount: new BigNumber(paymentRequest.amount),
-    currency: Currency.Dollar,
-    reason: paymentRequest.comment,
-    type: TokenTransactionType.PayRequest,
-  })
+  navigateToRequestedPaymentReview(
+    {
+      firebasePendingRequestUid: paymentRequest.uid,
+      recipient: targetRecipient,
+      amount: new BigNumber(paymentRequest.amount),
+      currency: Currency.Dollar,
+      reason: paymentRequest.comment,
+      type: TokenTransactionType.PayRequest,
+    },
+    false
+  )
 }
 
 function* handlePaymentReceived(transferNotification: TransferNotificationData) {

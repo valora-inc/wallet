@@ -1,16 +1,17 @@
-import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { store } from 'src/redux/store'
+import { DynamicConfigs, ExperimentConfigs, FeatureGates } from 'src/statsig/constants'
 import {
   getDynamicConfigParams,
   getExperimentParams,
+  getFeatureGate,
   patchUpdateStatsigUser,
 } from 'src/statsig/index'
-import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
+import { EvaluationReason } from 'statsig-js'
 import { Statsig } from 'statsig-react-native'
-import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { EvaluationReason } from 'statsig-js'
 
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
@@ -103,6 +104,23 @@ describe('Statsig helpers', () => {
     })
   })
 
+  describe('getFeatureGate', () => {
+    it('returns default values if getting statsig feature gate throws error', () => {
+      mocked(Statsig.checkGate).mockImplementation(() => {
+        throw new Error('mock error')
+      })
+      const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
+      expect(Logger.warn).toHaveBeenCalled()
+      expect(output).toEqual(FeatureGates[StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT])
+    })
+    it('returns Statsig values if no error is thrown', () => {
+      mocked(Statsig.checkGate).mockImplementation(() => true)
+      const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
+      expect(Logger.warn).not.toHaveBeenCalled()
+      expect(output).toEqual(true)
+    })
+  })
+
   describe('getDynamicConfigParams', () => {
     it('returns default values if getting statsig dynamic config throws error', () => {
       ;(Statsig.getConfig as jest.Mock).mockImplementation(() => {
@@ -162,6 +180,16 @@ describe('Statsig helpers', () => {
     })
   })
   describe('patchUpdateStatsigUser', () => {
+    let mockDateNow: jest.SpyInstance
+
+    beforeEach(() => {
+      mockDateNow = jest.spyOn(Date, 'now').mockReturnValue(1234)
+    })
+
+    afterEach(() => {
+      mockDateNow.mockReset()
+    })
+
     it('logs an error if statsig throws', async () => {
       mocked(Statsig.updateUser).mockRejectedValue(new Error())
       await patchUpdateStatsigUser()
@@ -170,6 +198,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          loadTime: 1234,
         },
       })
       expect(Logger.error).toHaveBeenCalledTimes(1)
@@ -181,6 +210,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          loadTime: 1234,
         },
       })
     })
@@ -189,6 +219,7 @@ describe('Statsig helpers', () => {
         custom: {
           startOnboardingTime: 1680563880,
           otherCustomProperty: 'foo',
+          loadTime: 12345,
         },
       }
       await patchUpdateStatsigUser(statsigUser)
@@ -204,6 +235,7 @@ describe('Statsig helpers', () => {
         custom: {
           startOnboardingTime: 1680563880,
           otherCustomProperty: 'foo',
+          loadTime: 12345,
         },
       }
       await patchUpdateStatsigUser(statsigUser)
@@ -224,6 +256,7 @@ describe('Statsig helpers', () => {
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
           ...statsigUser.custom,
+          loadTime: 1234,
         },
       })
     })

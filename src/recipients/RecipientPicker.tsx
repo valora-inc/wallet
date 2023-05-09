@@ -1,6 +1,7 @@
 import { parsePhoneNumber } from '@celo/phone-utils'
 import { isValidAddress } from '@celo/utils/lib/address'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
+import { debounce } from 'lodash'
 import * as React from 'react'
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -20,15 +21,15 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SectionHead from 'src/components/SectionHead'
 import { RecipientVerificationStatus } from 'src/identity/types'
+import RecipientItem from 'src/recipients/RecipientItem'
 import {
-  getRecipientFromAddress,
   MobileRecipient,
   Recipient,
+  RecipientType,
+  getRecipientFromAddress,
   recipientHasContact,
   recipientHasNumber,
-  RecipientType,
 } from 'src/recipients/recipient'
-import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import SendToAddressWarning from 'src/send/SendToAddressWarning'
@@ -36,7 +37,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { debounce } from 'lodash'
 
 export interface Section {
   key: string
@@ -92,8 +92,17 @@ function RecipientPicker(props: RecipientProps) {
     []
   )
   React.useEffect(() => {
-    debounceSearchQuery(props.searchQuery)
-  }, [props.searchQuery])
+    const parsedPhoneNumber = parsePhoneNumber(
+      props.searchQuery,
+      props.defaultCountryCode ? props.defaultCountryCode : undefined
+    )
+
+    if (parsedPhoneNumber) {
+      debounceSearchQuery(parsedPhoneNumber.e164Number)
+    } else {
+      debounceSearchQuery(props.searchQuery)
+    }
+  }, [props.searchQuery, props.defaultCountryCode])
   const { result: resolveAddressResult } = useAsync(resolveId, [debouncedSearchQuery])
 
   const onToggleKeyboard = (visible: boolean) => {
@@ -185,6 +194,7 @@ function RecipientPicker(props: RecipientProps) {
       displayNumber,
       name: t('requestFromMobileNumber'),
       e164PhoneNumber,
+      recipientType: RecipientType.PhoneNumber,
     }
     return (
       <>
@@ -280,7 +290,10 @@ function RecipientPicker(props: RecipientProps) {
           closeWarning={onCancelWarning}
           onSelectRecipient={props.onSelectRecipient}
           isVisible={isSendToAddressWarningVisible}
-          recipient={{ address: props.searchQuery.toLowerCase() }}
+          recipient={{
+            address: props.searchQuery.toLowerCase(),
+            recipientType: RecipientType.Address,
+          }}
         />
       )}
       <SafeAreaInsetsContext.Consumer>

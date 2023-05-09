@@ -21,6 +21,7 @@
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
+  "keylessBackupSettingsTitle": "Respaldo sin llave",
   "restartModalSwitchOff": {
     "header": "Reinicia la app para desactivar el modo de Ahorro de datos",
     "body": "Para activar y desactivar el modo Ahorro de datos, tendrás que reiniciar la aplicación y volver a esta pantalla.",
@@ -77,6 +78,13 @@
       "phraseLocation": "El mejor lugar para guardarla es junto a otra documentación importante, de modo que no se pierda o te la roben fácilmente. ¡Tú eliges!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Configurar la copia de seguridad sin llave",
+    "subtitle": "Utilizarás lo siguiente para configurar la copia de seguridad:",
+    "emailAddress": "Dirección de correo electrónico",
+    "phoneNumber": "Número de Teléfono"
+  },
+  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu monedero si pierdes o te roban el dispositivo. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -953,13 +961,13 @@
   "stableBalance": "Saldo en {{token}}",
   "selectToken": "Seleccionar activo",
   "verificationCta": {
-    "header": "¡Envía criptomonedas como un texto!",
-    "body": "Vincula tu número de teléfono a la dirección de tu monedero para poder enviar y recibir pagos con tus amigos.",
-    "cta": "Enlace Número de teléfono"
+    "header": "¡Envía cripto en un mensaje!",
+    "body": "Conecta tu número de teléfono a tu dirección de wallet para enviar y recibir cripto entre tus contactos.",
+    "cta": "Conecta tu número"
   },
   "importContactsCta": {
-    "header": "Activar Contactos",
-    "body": "Activa Contactos en los Ajustes de tu teléfono para enviar y solicitar pagos fácilmente.",
+    "header": "Habilita el acceso a contactos",
+    "body": "Habilita el acceso a tus contactos en la configuración de tu teléfono para encontrar a tus personas preferidas por nombre.",
     "cta": "Configuración"
   },
   "contactSyncProgress": {

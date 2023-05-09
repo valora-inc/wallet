@@ -1,5 +1,4 @@
 export interface CeloNewsConfig {
-  enabled: boolean
   readMoreUrl?: string
 }
 export interface CeloNewsArticles {

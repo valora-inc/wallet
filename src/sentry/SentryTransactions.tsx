@@ -7,6 +7,7 @@ export enum SentryTransaction {
   dappkit_connection = 'DAppKitConnection',
   dappkit_transaction = 'DAppKitTransaction',
   fetch_balances = 'FetchBalances',
+  fetch_positions = 'FetchPositions',
   import_contacts = 'ImportContacts',
   pincode_enter = 'PincodeEnter',
   pincode_set = 'PincodeSet',
@@ -14,6 +15,7 @@ export enum SentryTransaction {
   send_payment_legacy = 'SendPaymentLegacy',
   wallet_connect_connection = 'WalletConnectConnection',
   wallet_connect_transaction = 'WalletConnectTransaction',
+  app_init_saga = 'AppInitSaga',
 }
 
 type values = typeof SentryTransaction[keyof typeof SentryTransaction]
@@ -30,6 +32,10 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   FetchBalances: {
     name: 'Fetch Balances',
     op: 'fetch_balances',
+  },
+  FetchPositions: {
+    name: 'Fetch Positions',
+    op: 'fetch_positions',
   },
   ImportContacts: {
     name: 'Import Contacts',
@@ -58,5 +64,9 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   WalletConnectTransaction: {
     name: 'Wallet Connect Transaction',
     op: 'wallet_connect_transaction',
+  },
+  AppInitSaga: {
+    name: 'App Init Saga',
+    op: 'app_init_saga',
   },
 }

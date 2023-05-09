@@ -21,10 +21,20 @@
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
+  "keylessBackupSettingsTitle": "Keyless Backup",
   "restartModalSwitchOff": {
     "header": "Restart To Switch Off Data Saver",
     "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
     "restart": "Restart to Switch"
+  },
+  "revokePhoneNumber": {
+    "title": "Unlink Phone Number",
+    "bottomSheetTitle": "Unlink phone number",
+    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
+    "confirmButton": "Unlink now",
+    "revokeSuccess": "Your phone number has been unlinked",
+    "revokeError": "Could not unlink phone number, please try again later.",
+    "addNewNumberButton": "Add phone number"
   },
   "promptFornoModal": {
     "header": "Switch Connection Mode?",
@@ -77,6 +87,13 @@
       "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Set up Keyless Backup",
+    "subtitle": "You'll use the following to set up backup:",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number"
+  },
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
@@ -1564,7 +1581,7 @@
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn More.</0>",
+    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {

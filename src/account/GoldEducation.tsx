@@ -40,7 +40,7 @@ export default function GoldEducation() {
 
   return (
     <Education
-      embeddedNavBar={isCeloEducationComplete ? EmbeddedNavBar.Close : EmbeddedNavBar.Drawer}
+      embeddedNavBar={EmbeddedNavBar.Close}
       stepInfo={stepInfo}
       onFinish={onFinish}
       finalButtonType={BtnTypes.TERTIARY}

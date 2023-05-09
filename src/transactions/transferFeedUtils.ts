@@ -1,19 +1,16 @@
 import { FiatAccountType, TransferType } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { TFunction } from 'i18next'
 import * as _ from 'lodash'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
-import { CELO_LOGO_URL, DEFAULT_TESTNET, SUPERCHARGE_LOGO_URL } from 'src/config'
+import { CELO_LOGO_URL, SUPERCHARGE_LOGO_URL } from 'src/config'
 import { FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY } from 'src/fiatconnect/consts'
 import {
   cachedFiatAccountUsesSelector,
   getCachedFiatConnectTransferSelector,
 } from 'src/fiatconnect/selectors'
-import { ProviderFeedInfo, txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
+import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
-import { AddressToE164NumberType } from 'src/identity/reducer'
 import {
   addressToDisplayNameSelector,
   addressToE164NumberSelector,
@@ -22,10 +19,9 @@ import {
 import {
   getDisplayName,
   getRecipientFromAddress,
-  NumberToRecipient,
   Recipient,
-  recipientHasNumber,
   RecipientInfo,
+  RecipientType,
 } from 'src/recipients/recipient'
 import {
   coinbasePaySendersSelector,
@@ -39,7 +35,6 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
   inviteTransactionsSelector,
-  KnownFeedTransactionsType,
   recentTxRecipientsCacheSelector,
 } from 'src/transactions/reducer'
 import {
@@ -49,7 +44,6 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { isPresent } from 'src/utils/typescript'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'transferFeedUtils'
@@ -57,193 +51,10 @@ const TAG = 'transferFeedUtils'
 export function getDecryptedTransferFeedComment(
   comment: string | null,
   commentKey: string | null,
-  type: TokenTransactionType | TokenTransactionTypeV2
+  type: TokenTransactionTypeV2
 ) {
   const { comment: decryptedComment } = decryptComment(comment, commentKey, isTokenTxTypeSent(type))
   return decryptedComment
-}
-
-function getRecipient(
-  type: TokenTransactionType,
-  e164PhoneNumber: string | null,
-  recipientCache: NumberToRecipient,
-  recentTxRecipientsCache: NumberToRecipient,
-  txTimestamp: number,
-  address: string,
-  recipientInfo: RecipientInfo,
-  providerInfo: ProviderFeedInfo | undefined,
-  defaultName?: string,
-  defaultImage?: string
-): Recipient {
-  const phoneNumber = e164PhoneNumber
-  let recipient: Recipient
-
-  if (type === TokenTransactionType.EscrowSent) {
-    // TODO: Fetch the data from the invite somehow
-  }
-
-  if (phoneNumber) {
-    // Use the recentTxRecipientCache until the full cache is populated
-    recipient = Object.keys(recipientCache).length
-      ? recipientCache[phoneNumber]
-      : recentTxRecipientsCache[phoneNumber]
-
-    if (recipient) {
-      return { ...recipient }
-    } else {
-      recipient = { e164PhoneNumber: phoneNumber }
-      return recipient
-    }
-  }
-
-  recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
-
-  if (providerInfo) {
-    Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
-  }
-  return recipient
-}
-
-export function getTransferFeedParams(
-  type: TokenTransactionType,
-  t: TFunction,
-  phoneRecipientCache: NumberToRecipient,
-  recentTxRecipientsCache: NumberToRecipient,
-  address: string,
-  addressToE164Number: AddressToE164NumberType,
-  rawComment: string | null,
-  commentKey: string | null,
-  timestamp: number,
-  recipientInfo: RecipientInfo,
-  isCeloRewardSender: boolean,
-  isRewardSender: boolean,
-  isInviteRewardSender: boolean,
-  providerInfo: ProviderFeedInfo | undefined,
-  currency: string,
-  defaultName?: string,
-  defaultImage?: string
-) {
-  const e164PhoneNumber = addressToE164Number[address]
-  const recipient = getRecipient(
-    type,
-    e164PhoneNumber,
-    phoneRecipientCache,
-    recentTxRecipientsCache,
-    timestamp,
-    address,
-    recipientInfo,
-    providerInfo,
-    defaultName,
-    defaultImage
-  )
-  Object.assign(recipient, { address })
-  const nameOrNumber =
-    recipient?.name || (recipientHasNumber(recipient) ? recipient.e164PhoneNumber : e164PhoneNumber)
-  const displayName = getDisplayName(recipient, t)
-  const comment = getDecryptedTransferFeedComment(rawComment, commentKey, type)
-
-  let title, info
-
-  switch (type) {
-    case TokenTransactionType.VerificationFee: {
-      title = t('feedItemVerificationFeeTitle')
-      info = t('feedItemVerificationFeeInfo')
-      break
-    }
-    case TokenTransactionType.NetworkFee: {
-      title = t('feedItemNetworkFeeTitle')
-      info = t('feedItemNetworkFeeInfo')
-      break
-    }
-    case TokenTransactionType.VerificationReward: {
-      title = t('feedItemVerificationRewardTitle')
-      info = t('feedItemVerificationRewardInfo')
-      break
-    }
-    case TokenTransactionType.Faucet: {
-      title = t('feedItemFaucetTitle')
-      info = t('feedItemFaucetInfo', {
-        context: !DEFAULT_TESTNET ? 'noTestnet' : null,
-        faucet: DEFAULT_TESTNET ? _.startCase(DEFAULT_TESTNET) : null,
-      })
-      break
-    }
-    case TokenTransactionType.InviteSent: {
-      title = t('feedItemInviteSentTitle')
-      info = t('feedItemInviteSentInfo', {
-        context: !nameOrNumber ? 'noInviteeDetails' : null,
-        nameOrNumber,
-      })
-      break
-    }
-    case TokenTransactionType.InviteReceived: {
-      title = t('feedItemInviteReceivedTitle')
-      info = t('feedItemInviteReceivedInfo')
-      break
-    }
-    case TokenTransactionType.Sent: {
-      title = t('feedItemSentTitle', { displayName })
-      info = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
-      break
-    }
-    case TokenTransactionType.Received: {
-      if (isCeloRewardSender) {
-        title = t('feedItemCeloRewardReceivedTitle')
-        info = t('feedItemRewardReceivedInfo')
-      } else if (isRewardSender) {
-        title = t('feedItemRewardReceivedTitle')
-        info = t('feedItemRewardReceivedInfo')
-        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
-      } else if (isInviteRewardSender) {
-        title = t('feedItemInviteRewardReceivedTitle')
-        info = t('feedItemInviteRewardReceivedInfo')
-        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
-      } else if (providerInfo) {
-        title = t('feedItemReceivedTitle', { displayName })
-        switch (currency.toLowerCase()) {
-          case 'cusd':
-            info = t('cUsdDeposit')
-            break
-          case 'ceur':
-            info = t('cEurDeposit')
-            break
-          default:
-            info = t('celoDeposit')
-            break
-        }
-      } else {
-        title = t('feedItemReceivedTitle', { displayName })
-        info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
-      }
-      break
-    }
-    case TokenTransactionType.EscrowSent: {
-      title = t('feedItemEscrowSentTitle', {
-        context: !nameOrNumber ? 'noReceiverDetails' : null,
-        nameOrNumber,
-      })
-      info = t('feedItemEscrowSentInfo', { context: !comment ? 'noComment' : null, comment })
-      break
-    }
-    case TokenTransactionType.EscrowReceived: {
-      title = t('feedItemEscrowReceivedTitle', {
-        context: !nameOrNumber ? 'noSenderDetails' : null,
-        nameOrNumber,
-      })
-      info = t('feedItemEscrowReceivedInfo', { context: !comment ? 'noComment' : null, comment })
-      break
-    }
-    default: {
-      title = t('feedItemGenericTitle', {
-        context: !nameOrNumber ? 'noRecipientDetails' : null,
-        nameOrNumber,
-      })
-      // Fallback to just using the type
-      info = comment || _.capitalize(t(_.camelCase(type)))
-      break
-    }
-  }
-  return { title, info, recipient }
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
@@ -270,13 +81,21 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
     if (recipient) {
       return { ...recipient, address: transfer.address }
     } else {
-      recipient = { e164PhoneNumber: phoneNumber, address: transfer.address }
+      recipient = {
+        e164PhoneNumber: phoneNumber,
+        address: transfer.address,
+        recipientType: RecipientType.PhoneNumber,
+      }
       return recipient
     }
   }
 
   if (fcTransferDisplayInfo) {
-    return { thumbnailPath: fcTransferDisplayInfo.tokenImageUrl, address: transfer.address }
+    return {
+      thumbnailPath: fcTransferDisplayInfo.tokenImageUrl,
+      address: transfer.address,
+      recipientType: RecipientType.Address,
+    }
   }
 
   recipient = getRecipientFromAddress(
@@ -400,20 +219,8 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   return { title, subtitle, recipient, customLocalAmount }
 }
 
-export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
-  return data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
-}
-
-export function getNewTxsFromUserTxQuery(
-  data: UserTransactionsQuery | undefined,
-  knownFeedTxs: KnownFeedTransactionsType
-) {
-  const txFragments = getTxsFromUserTxQuery(data)
-  return txFragments.filter((tx) => !knownFeedTxs[tx.hash])
-}
-
-export function isTokenTxTypeSent(type: TokenTransactionType | TokenTransactionTypeV2) {
-  return type === TokenTransactionType.Sent || type === TokenTransactionType.EscrowSent
+export function isTokenTxTypeSent(type: TokenTransactionTypeV2) {
+  return type === TokenTransactionTypeV2.Sent
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts

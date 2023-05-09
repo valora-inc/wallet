@@ -67,11 +67,18 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
 export function* handleFetchDappsList() {
   const dappsListApiUrl = yield select(dappsListApiUrlSelector)
   if (!dappsListApiUrl) {
-    Logger.warn(TAG, 'dappsListApiUrl not found')
+    Logger.warn(TAG, 'dappsListApiUrl not found, skipping dapps list fetch')
     return
   }
 
   const address = yield select(walletAddressSelector)
+  if (!address) {
+    // the dapplist is fetched on app start, but for a new user who has not yet
+    // created or restored a wallet the request will fail.
+    Logger.debug(TAG, 'Wallet address not found, skipping dapps list fetch')
+    return
+  }
+
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
   const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(

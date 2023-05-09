@@ -1,11 +1,14 @@
 import { compressedPubKey } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { hexToBuffer } from '@celo/utils/lib/address'
+import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import * as Keychain from 'react-native-keychain'
+import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import {
+  all,
   call,
   cancelled,
   delay,
@@ -22,15 +25,15 @@ import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
+  OpenDeepLink,
+  OpenUrlAction,
+  SetAppState,
   androidMobileServicesAvailabilityChecked,
   appLock,
   inviteLinkConsumed,
   minAppVersionDetermined,
-  OpenDeepLink,
   openDeepLink,
-  OpenUrlAction,
   phoneNumberVerificationMigrated,
-  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -44,18 +47,29 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FETCH_TIMEOUT_DURATION } from 'src/config'
+import {
+  DEFAULT_APP_LANGUAGE,
+  DYNAMIC_LINK_DOMAIN_URI_PREFIX,
+  FETCH_TIMEOUT_DURATION,
+} from 'src/config'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import {
   appVersionDeprecationChannel,
   fetchRemoteConfigValues,
   resolveDynamicLink,
 } from 'src/firebase/firebase'
+import { initI18n } from 'src/i18n'
+import {
+  allowOtaTranslationsSelector,
+  currentLanguageSelector,
+  otaTranslationsAppVersionSelector,
+} from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -65,8 +79,11 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { isDeepLink, navigateToURI } from 'src/utils/linking'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import Logger from 'src/utils/Logger'
+import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import { safely } from 'src/utils/safely'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
@@ -93,14 +110,33 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
-  yield call(initializeSentry)
-  // This step is important if the user if offline and unable to fetch remote
+  SentryTransactionHub.startTransaction(SentryTransaction.app_init_saga)
+
+  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+  const otaTranslationsAppVersion = yield select(otaTranslationsAppVersionSelector)
+  const language = yield select(currentLanguageSelector)
+  const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
+
+  yield all([
+    call(initializeSentry),
+    call(ValoraAnalytics.init),
+    call(
+      initI18n,
+      language || bestLanguage || DEFAULT_APP_LANGUAGE,
+      allowOtaTranslations,
+      otaTranslationsAppVersion
+    ),
+  ])
+
+  // This step is important if the user is offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
   const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
   Logger.setNetworkErrors(sentryNetworkErrors)
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
+
+  SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
 
 export function* appVersionSaga() {
@@ -302,7 +338,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.CashInSuccess, { provider: cicoSuccessParam.split('/')[0] })
       // Some providers append transaction information to the redirect links so can't check for strict equality
     } else if (rawParams.path.startsWith('/cash-in-failure')) {
-      navigate(Screens.FiatExchange)
+      navigateToFiatExchangeStart()
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.
@@ -379,6 +415,11 @@ export function* handleSetAppState(action: SetAppState) {
 
   if (requirePinOnAppOpen && isPassedDoNotLockPeriod && isAppActive) {
     yield put(appLock())
+  }
+
+  if (isAppActive) {
+    // Force a statsig refresh by updating the user object
+    yield call(patchUpdateStatsigUser)
   }
 }
 

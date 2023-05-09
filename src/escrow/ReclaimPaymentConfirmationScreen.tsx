@@ -26,6 +26,7 @@ import colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { RecipientType } from 'src/recipients/recipient'
 
 const TAG = 'escrow/ReclaimPaymentConfirmationScreen'
 
@@ -124,6 +125,7 @@ export default function ReclaimPaymentConfirmationScreen({ navigation, route }: 
           recipientContact={
             {
               e164PhoneNumber: payment.recipientPhone,
+              recipientType: RecipientType.PhoneNumber,
             } /* TODO get recipient contact details from recipient cache*/
           }
           amount={new BigNumber(amount)}

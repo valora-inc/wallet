@@ -16,6 +16,7 @@ import fontStyles from 'src/styles/fonts'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import { TokenTransfer } from 'src/transactions/types'
 import UserSection from 'src/transactions/UserSection'
+import { RecipientType } from 'src/recipients/recipient'
 
 // Note that this is tested from TransactionDetailsScreen.test.tsx
 function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
@@ -26,6 +27,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
     address,
     name: metadata.title ?? t('feedItemRewardReceivedTitle'),
     thumbnailPath: metadata.image ?? CELO_LOGO_URL,
+    recipientType: RecipientType.Address,
   }
 
   const openLearnMore = () => {

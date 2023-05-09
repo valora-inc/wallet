@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -40,7 +40,7 @@ function ExchangesBottomSheet({ isVisible, onClose, onExchangeSelected, exchange
   }
 
   return (
-    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose}>
+    <BottomSheetLegacy isVisible={isVisible} onBackgroundPress={onClose}>
       <>
         <Text style={styles.title}>{t('fiatExchangeFlow.exchange.bottomSheetTitle')}</Text>
         <Text style={styles.info}>{t('fiatExchangeFlow.exchange.bottomSheetInfo')}</Text>
@@ -53,7 +53,7 @@ function ExchangesBottomSheet({ isVisible, onClose, onExchangeSelected, exchange
           )
         })}
       </>
-    </BottomSheet>
+    </BottomSheetLegacy>
   )
 }
 
