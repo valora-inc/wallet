@@ -27,7 +27,6 @@ import {
   runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
-  getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inviterAddressSelector,
@@ -50,6 +49,7 @@ import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
@@ -68,6 +68,7 @@ jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
+jest.mock('src/statsig')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
@@ -78,10 +79,10 @@ jest.mock('src/i18n', () => ({
   t: jest.fn(),
 }))
 
+jest.mock('src/utils/Logger')
+
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
-
-const loggerWarnSpy = jest.spyOn(Logger, 'warn')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
@@ -375,47 +376,52 @@ describe('handleOpenUrl', () => {
 })
 
 describe('handleSetAppState', () => {
-  it('handles setting app state', async () => {
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .put(appLock())
-      .run()
+  describe('on app active', () => {
+    it('refreshes statsig and requires pin if pin required on app opened and do not lock period has passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), true],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if pin not required on app open', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), false],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), Date.now()],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if do not lock period has not passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), Date.now()],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
+  })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), false],
-      ])
-      .run()
-
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+  describe('on app inactive', () => {
+    it('does nothing', async () => {
+      await expectSaga(handleSetAppState, setAppState('inactive'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .not.call(patchUpdateStatsigUser)
+        .run()
+    })
   })
 })
 
@@ -484,7 +490,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
   })
 
   it('should not run if migration conditions are not met', async () => {
@@ -528,7 +534,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .run()
 
     expect(mockFetch).not.toHaveBeenCalled()
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
   })
 })
 
@@ -541,7 +547,7 @@ describe('appInit', () => {
     [select(allowOtaTranslationsSelector), true],
     [select(otaTranslationsAppVersionSelector), '1'],
     [select(currentLanguageSelector), 'nl-NL'],
-    [select(sentryNetworkErrorsSelector), 'network error'],
+    [select(sentryNetworkErrorsSelector), ['network error']],
   ]
 
   it('should initialise the correct components, with the stored language', async () => {

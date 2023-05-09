@@ -73,6 +73,12 @@ export enum SettingsEvents {
 
   settings_revoke_phone_number = 'settings_revoke_phone_number',
   settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
+
+  settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
+}
+
+export enum KeylessBackupEvents {
+  set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
 }
 
 export enum OnboardingEvents {
@@ -581,6 +587,7 @@ export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
   | SettingsEvents
+  | KeylessBackupEvents
   | OnboardingEvents
   | VerificationEvents
   | IdentityEvents

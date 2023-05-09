@@ -341,6 +341,11 @@ export const Account = ({ navigation, route }: Props) => {
     navigation.setParams({ promptConfirmRemovalModal: false })
   }
 
+  const onPressSetUpKeylessBackup = () => {
+    ValoraAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
+    navigate(Screens.SetUpKeylessBackup)
+  }
+
   const wipeReduxStore = () => {
     dispatch(clearStoredAccount(account ?? '', true))
   }
@@ -402,6 +407,11 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
+  const showKeylessBackup = () => {
+    // TODO(ACT-771): get from Statsig
+    return false
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar />
@@ -446,6 +456,13 @@ export const Account = ({ navigation, route }: Props) => {
               title={t('accountKey')}
               onPress={goToRecoveryPhrase}
               testID="RecoveryPhrase"
+            />
+          )}
+          {showKeylessBackup() && ( // TODO(ACT-765): update to match designs (red/green text buttons and onPress behavior)
+            <SettingsItemTextValue
+              title={t('keylessBackupSettingsTitle')}
+              onPress={onPressSetUpKeylessBackup}
+              testID="KeylessBackup"
             />
           )}
           <SettingsItemTextValue
