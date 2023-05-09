@@ -250,12 +250,12 @@ export function useRevokeCurrentPhoneNumber() {
         'Initiating request to revoke phone number verification',
         { address, e164Number }
       )
+      ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_start)
 
       if (!address || !e164Number) {
         throw new Error('No phone number in the store')
       }
 
-      Logger.showMessage('Revoking phone number')
       const signedMessage = await retrieveSignedMessage()
       const response = await fetch(networkConfig.revokePhoneNumberUrl, {
         method: 'POST',
@@ -278,12 +278,12 @@ export function useRevokeCurrentPhoneNumber() {
     },
     {
       onSuccess: (e164Number) => {
+        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_success)
         dispatch(phoneNumberRevoked(e164Number))
-        Logger.showMessage('Phone number revoke was successful')
       },
       onError: (error: Error) => {
+        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_error)
         Logger.warn(`${TAG}/revokeVerification`, 'Error revoking verification', error)
-        Logger.showError('Failed to revoke phone number')
       },
     }
   )

@@ -138,9 +138,7 @@ describe('store state', () => {
           "appState": "Active",
           "celoEducationUri": null,
           "celoEuroEnabled": true,
-          "celoNews": Object {
-            "enabled": false,
-          },
+          "celoNews": Object {},
           "coinbasePayEnabled": false,
           "decentralizedVerificationEnabled": true,
           "fiatConnectCashInEnabled": false,
