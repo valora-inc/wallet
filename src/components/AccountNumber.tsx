@@ -31,7 +31,7 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
       ValoraAnalytics.track(HomeEvents.drawer_address_copy)
     }
 
-    if (location === Screens.TransactionReview) {
+    if (location === Screens.TransactionDetailsScreen) {
       ValoraAnalytics.track(HomeEvents.transaction_feed_address_copy)
     }
 

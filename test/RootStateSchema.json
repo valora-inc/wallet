@@ -74,9 +74,7 @@
                             },
                             "recipientType": {
                                 "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
+                                    "Address"
                                 ],
                                 "type": "string"
                             },
@@ -86,7 +84,8 @@
                         },
                         "required": [
                             "address",
-                            "e164PhoneNumber"
+                            "e164PhoneNumber",
+                            "recipientType"
                         ],
                         "type": "object"
                     },
@@ -110,9 +109,7 @@
                             },
                             "recipientType": {
                                 "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
+                                    "Address"
                                 ],
                                 "type": "string"
                             },
@@ -121,7 +118,8 @@
                             }
                         },
                         "required": [
-                            "address"
+                            "address",
+                            "recipientType"
                         ],
                         "type": "object"
                     }
@@ -283,6 +281,78 @@
             ],
             "type": "string"
         },
+        "AppTokenPosition": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "appId": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "string"
+                },
+                "decimals": {
+                    "type": "number"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "pricePerShare": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "priceUsd": {
+                    "type": "string"
+                },
+                "supply": {
+                    "type": "string"
+                },
+                "symbol": {
+                    "type": "string"
+                },
+                "tokens": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/BaseToken"
+                            },
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "app-token"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "appId",
+                "balance",
+                "decimals",
+                "label",
+                "network",
+                "pricePerShare",
+                "priceUsd",
+                "supply",
+                "symbol",
+                "tokens",
+                "type"
+            ],
+            "type": "object"
+        },
         "ApproveTransaction": {
             "additionalProperties": false,
             "properties": {
@@ -308,6 +378,45 @@
                 "from",
                 "gas",
                 "to"
+            ],
+            "type": "object"
+        },
+        "BaseToken": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "string"
+                },
+                "decimals": {
+                    "type": "number"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "priceUsd": {
+                    "type": "string"
+                },
+                "symbol": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "base-token"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "balance",
+                "decimals",
+                "network",
+                "priceUsd",
+                "symbol",
+                "type"
             ],
             "type": "object"
         },
@@ -610,6 +719,55 @@
                 "cUSD"
             ],
             "type": "string"
+        },
+        "ContractPosition": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "appId": {
+                    "type": "string"
+                },
+                "balanceUsd": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "tokens": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/BaseToken"
+                            },
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "contract-position"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "appId",
+                "balanceUsd",
+                "label",
+                "network",
+                "tokens",
+                "type"
+            ],
+            "type": "object"
         },
         "CoreTypes.Metadata": {
             "additionalProperties": false,
@@ -1537,12 +1695,7 @@
                                 "type": "string"
                             },
                             "recipientType": {
-                                "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
-                                ],
-                                "type": "string"
+                                "$ref": "#/definitions/RecipientType"
                             },
                             "thumbnailPath": {
                                 "type": "string"
@@ -1551,7 +1704,8 @@
                         "required": [
                             "contactId",
                             "e164PhoneNumber",
-                            "name"
+                            "name",
+                            "recipientType"
                         ],
                         "type": "object"
                     },
@@ -1574,12 +1728,7 @@
                                 "type": "string"
                             },
                             "recipientType": {
-                                "enum": [
-                                    "Address",
-                                    "Nomspace",
-                                    "PhoneNumber"
-                                ],
-                                "type": "string"
+                                "$ref": "#/definitions/RecipientType"
                             },
                             "thumbnailPath": {
                                 "type": "string"
@@ -1589,7 +1738,8 @@
                             "address",
                             "contactId",
                             "e164PhoneNumber",
-                            "name"
+                            "name",
+                            "recipientType"
                         ],
                         "type": "object"
                     }
@@ -1961,6 +2111,15 @@
             },
             "type": "object"
         },
+        "RecipientType": {
+            "enum": [
+                "Address",
+                "Merchant",
+                "Nomspace",
+                "PhoneNumber"
+            ],
+            "type": "string"
+        },
         "Record<Currency,string>": {
             "additionalProperties": false,
             "properties": {
@@ -2093,6 +2252,7 @@
                 "SendConfirmationLegacyModal",
                 "SendConfirmationModal",
                 "SetClock",
+                "SetUpKeylessBackup",
                 "Settings",
                 "Simplex",
                 "Spend",
@@ -2106,7 +2266,6 @@
                 "Sync",
                 "TokenBalances",
                 "TransactionDetailsScreen",
-                "TransactionReview",
                 "TransakScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
@@ -3708,6 +3867,38 @@
             ],
             "type": "object"
         },
+        "State_26": {
+            "additionalProperties": false,
+            "properties": {
+                "positions": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            },
+                            {
+                                "$ref": "#/definitions/ContractPosition"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "positions",
+                "status"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -3754,19 +3945,15 @@
                                         "type": "string"
                                     },
                                     "recipientType": {
-                                        "enum": [
-                                            "Address",
-                                            "Nomspace",
-                                            "PhoneNumber"
-                                        ],
-                                        "type": "string"
+                                        "$ref": "#/definitions/RecipientType"
                                     },
                                     "thumbnailPath": {
                                         "type": "string"
                                     }
                                 },
                                 "required": [
-                                    "e164PhoneNumber"
+                                    "e164PhoneNumber",
+                                    "recipientType"
                                 ],
                                 "type": "object"
                             },
@@ -3789,19 +3976,15 @@
                                         "type": "string"
                                     },
                                     "recipientType": {
-                                        "enum": [
-                                            "Address",
-                                            "Nomspace",
-                                            "PhoneNumber"
-                                        ],
-                                        "type": "string"
+                                        "$ref": "#/definitions/RecipientType"
                                     },
                                     "thumbnailPath": {
                                         "type": "string"
                                     }
                                 },
                                 "required": [
-                                    "address"
+                                    "address",
+                                    "recipientType"
                                 ],
                                 "type": "object"
                             }
@@ -5493,6 +5676,9 @@
         "paymentRequest": {
             "$ref": "#/definitions/State_16"
         },
+        "positions": {
+            "$ref": "#/definitions/State_26"
+        },
         "recipients": {
             "$ref": "#/definitions/State_13"
         },
@@ -5536,6 +5722,7 @@
         "localCurrency",
         "networkInfo",
         "paymentRequest",
+        "positions",
         "recipients",
         "send",
         "supercharge",

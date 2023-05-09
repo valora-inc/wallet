@@ -4,6 +4,7 @@ import {
   QRCodeStyle,
   StatsigDynamicConfigs,
   StatsigExperiments,
+  StatsigFeatureGates,
   StatsigLayers,
 } from 'src/statsig/types'
 
@@ -19,6 +20,11 @@ export const LayerParams = {
       defaultValue: QRCodeDataType.ValoraDeepLink,
     },
   },
+}
+
+export const FeatureGates = {
+  [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
+  [StatsigFeatureGates.SHOW_POSITIONS]: false,
 }
 
 export const ExperimentConfigs = {

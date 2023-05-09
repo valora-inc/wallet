@@ -32,6 +32,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
+import { Position } from 'src/positions/types'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -40,6 +41,7 @@ import {
   MobileRecipient,
   NumberToRecipient,
   RecipientInfo,
+  RecipientType,
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
@@ -152,6 +154,7 @@ export const mockInvitableRecipient: ContactRecipient = {
   displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
   contactId: 'contactId',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockInvitableRecipient2: ContactRecipient = {
@@ -159,6 +162,7 @@ export const mockInvitableRecipient2: ContactRecipient = {
   displayNumber: mockDisplayNumberInvite,
   e164PhoneNumber: mockE164NumberInvite,
   contactId: 'contactId',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockTransactionData = {
@@ -188,10 +192,11 @@ export const mockInvitableRecipient3: ContactRecipient = {
   displayNumber: mockDisplayNumber2Invite,
   e164PhoneNumber: mockE164Number2Invite,
   contactId: 'contactId',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockTokenTransactionData: TransactionDataInput = {
-  recipient: { address: mockAccount },
+  recipient: { address: mockAccount, recipientType: RecipientType.Address },
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
@@ -209,22 +214,26 @@ export const mockTokenInviteTransactionData: TransactionDataInput = {
 export const mockRecipient: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient,
   address: mockAccount,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipient2: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient2,
   address: mockAccountInvite,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipient3: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient3,
   address: mockAccount2Invite,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipient4: ContactRecipient = {
   name: 'Zebra Zone',
   contactId: 'contactId4',
   e164PhoneNumber: '+14163957395',
+  recipientType: RecipientType.PhoneNumber,
 }
 
 export const mockE164NumberToInvitableRecipient = {
@@ -250,6 +259,7 @@ export const mockRecipientWithPhoneNumber: MobileRecipient = {
   name: mockName,
   displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
+  recipientType: RecipientType.Address,
 }
 
 export const mockNavigation: NativeStackNavigationProp<StackParamList, any> = {
@@ -415,6 +425,7 @@ export const mockQRCodeRecipient: AddressRecipient = {
   e164PhoneNumber: mockUriData[3].e164PhoneNumber,
   thumbnailPath: undefined,
   contactId: undefined,
+  recipientType: RecipientType.Address,
 }
 
 export const mockRecipientInfo: RecipientInfo = {
@@ -1078,3 +1089,115 @@ export const exchangePriceHistory = {
   lastTimeUpdated: endDate,
   range: 30 * 24 * 60 * 60 * 1000, // 30 days
 }
+
+export const mockPositions: Position[] = [
+  {
+    type: 'app-token',
+    network: 'celo',
+    address: '0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00',
+    appId: 'ubeswap',
+    symbol: 'ULP',
+    decimals: 18,
+    label: 'Pool: MOO / CELO',
+    tokens: [
+      {
+        type: 'base-token',
+        network: 'celo',
+        address: '0x17700282592d6917f6a73d0bf8accf4d578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        priceUsd: '0.006945061569050171',
+        balance: '180.868419020792201216',
+      },
+      {
+        type: 'base-token',
+        network: 'celo',
+        address: '0x471ece3750da237f93b8e339c536989b8978a438',
+        symbol: 'CELO',
+        decimals: 18,
+        priceUsd: '0.6959536890241361',
+        balance: '1.801458498251141632',
+      },
+    ],
+    pricePerShare: ['15.203387577266431', '0.15142650055521278'],
+    priceUsd: '0.21097429445966362',
+    balance: '11.896586737763895000',
+    supply: '29726.018516587721136286',
+  },
+  {
+    type: 'app-token',
+    network: 'celo',
+    address: '0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf',
+    appId: 'ubeswap',
+    symbol: 'ULP',
+    decimals: 18,
+    label: 'Pool: G$ / cUSD',
+    tokens: [
+      {
+        type: 'base-token',
+        network: 'celo',
+        address: '0x62b8b11039fcfe5ab0c56e502b1c372a3d2a9c7a',
+        symbol: 'G$',
+        decimals: 18,
+        priceUsd: '0.00016235559507324788',
+        balance: '12400.197092864986',
+      },
+      {
+        type: 'base-token',
+        network: 'celo',
+        address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+        symbol: 'cUSD',
+        decimals: 18,
+        priceUsd: '1',
+        balance: '2.066998331535406848',
+      },
+    ],
+    pricePerShare: ['77.49807502864574', '0.012918213362397938'],
+    priceUsd: '0.025500459450704928',
+    balance: '160.006517430032700000',
+    supply: '232.413684885485035933',
+  },
+  {
+    type: 'contract-position',
+    network: 'celo',
+    address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
+    appId: 'ubeswap',
+    label: 'Farm: Pool: CELO / cUSD',
+    tokens: [
+      {
+        type: 'app-token',
+        network: 'celo',
+        address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
+        appId: 'ubeswap',
+        symbol: 'ULP',
+        decimals: 18,
+        label: 'Pool: CELO / cUSD',
+        tokens: [
+          {
+            type: 'base-token',
+            network: 'celo',
+            address: '0x471ece3750da237f93b8e339c536989b8978a438',
+            symbol: 'CELO',
+            decimals: 18,
+            priceUsd: '0.6959536890241361',
+            balance: '0.950545800159603456',
+          },
+          {
+            type: 'base-token',
+            network: 'celo',
+            address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+            symbol: 'cUSD',
+            decimals: 18,
+            priceUsd: '1',
+            balance: '0.659223169268731392',
+          },
+        ],
+        pricePerShare: ['2.827719585853931', '1.961082008754231'],
+        priceUsd: '3.9290438860550765',
+        balance: '0.336152780111169400',
+        supply: '42744.727037884449180591',
+      },
+    ],
+    balanceUsd: '1.3207590254762067',
+  },
+]

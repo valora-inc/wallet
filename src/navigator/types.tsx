@@ -21,8 +21,6 @@ import {
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
-import { ReviewProps } from 'src/transactions/TransactionReview'
-import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
@@ -49,22 +47,14 @@ interface SendConfirmationLegacyParams {
   origin: SendOrigin
   transactionData: TransactionDataInputLegacy
   addressJustValidated?: boolean
-  isFromScan?: boolean
+  isFromScan: boolean
   currencyInfo?: CurrencyInfo
 }
 
 interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
-  isFromScan?: boolean
-}
-
-interface SendConfirmationLegacyParams {
-  origin: SendOrigin
-  transactionData: TransactionDataInputLegacy
-  addressJustValidated?: boolean
-  isFromScan?: boolean
-  currencyInfo?: CurrencyInfo
+  isFromScan: boolean
 }
 
 export interface BottomSheetParams {
@@ -236,10 +226,12 @@ export type StackParamList = {
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput
+    isFromScan: boolean
   }
   [Screens.PaymentRequestConfirmationLegacy]: {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
+    isFromScan: boolean
   }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
@@ -298,7 +290,7 @@ export type StackParamList = {
   [Screens.SendAmount]: {
     recipient: Recipient
     isOutgoingPaymentRequest?: boolean
-    isFromScan?: boolean
+    isFromScan: boolean
     origin: SendOrigin
     forceTokenAddress?: boolean
     defaultTokenOverride?: string
@@ -308,6 +300,7 @@ export type StackParamList = {
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
   [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.SetUpKeylessBackup]: undefined
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
@@ -323,10 +316,6 @@ export type StackParamList = {
   [Screens.SwapScreenWithBack]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
-  }
-  [Screens.TransactionReview]: {
-    reviewProps: ReviewProps
-    confirmationProps: TransferConfirmationCardProps
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {

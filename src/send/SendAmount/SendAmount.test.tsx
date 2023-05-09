@@ -91,6 +91,7 @@ const mockScreenProps = ({
   forceTokenAddress?: boolean
 }) =>
   getMockStackScreenProps(Screens.SendAmount, {
+    isFromScan: false,
     defaultTokenOverride,
     recipient: mockTransactionData.recipient,
     isOutgoingPaymentRequest,

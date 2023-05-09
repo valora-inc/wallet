@@ -13,6 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
+import { useDeepLinks } from 'src/app/useDeepLinks'
 import { doingBackupFlowSelector, pastForcedBackupDeadlineSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import {
@@ -26,13 +27,13 @@ import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import appTheme from 'src/styles/appTheme'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode
@@ -64,6 +65,7 @@ export const NavigatorWrapper = () => {
   const dispatch = useDispatch()
 
   useFlipper(navigationRef)
+  useDeepLinks()
 
   const updateRequired = React.useMemo(() => {
     if (!minRequiredVersion) {
@@ -153,8 +155,6 @@ export const NavigatorWrapper = () => {
     const currentRouteName = getActiveRouteName(state)
 
     if (previousRouteName !== currentRouteName) {
-      // The line below uses the @react-native-firebase/analytics tracker
-      // Change this line to use another Mobile analytics SDK
       ValoraAnalytics.page(currentRouteName, {
         previousScreen: previousRouteName,
         currentScreen: currentRouteName,

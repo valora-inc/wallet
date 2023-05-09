@@ -34,10 +34,9 @@ import {
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
-import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
@@ -57,13 +56,7 @@ type OwnProps = NativeStackScreenProps<
 >
 type Props = OwnProps
 
-export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
-  navOptions.route.name === Screens.SendConfirmationModal
-    ? {
-        ...noHeader,
-        ...modalScreenOptions(),
-      }
-    : noHeader
+export const sendConfirmationScreenNavOptions = noHeader
 
 export function useRecipientToSendTo(paramRecipient: Recipient) {
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
@@ -82,6 +75,7 @@ export function useRecipientToSendTo(paramRecipient: Recipient) {
         // Setting the phone number explicitly so Typescript doesn't complain
         e164PhoneNumber: paramRecipient.e164PhoneNumber,
         address: recipientAddress ?? undefined,
+        recipientType: RecipientType.PhoneNumber,
       }
     }
     return paramRecipient
@@ -215,8 +209,8 @@ function SendConfirmation(props: Props) {
     }
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
-      recipientType: props.route.params.transactionData.recipient.recipientType,
-      isScan: !!props.route.params?.isFromScan,
+      recipientType: recipient.recipientType,
+      isScan: props.route.params.isFromScan,
       localCurrency: localCurrencyCode,
       usdAmount: usdAmount?.toString() ?? null,
       localCurrencyAmount: localAmount?.toString() ?? null,

@@ -1,11 +1,17 @@
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
-import Logger from 'src/utils/Logger'
-import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
-import { EvaluationReason } from 'statsig-js'
-import { store } from 'src/redux/store'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { startOnboardingTimeSelector } from 'src/account/selectors'
 import * as _ from 'lodash'
+import { startOnboardingTimeSelector } from 'src/account/selectors'
+import { store } from 'src/redux/store'
+import { FeatureGates } from 'src/statsig/constants'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigParameter,
+} from 'src/statsig/types'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { EvaluationReason } from 'statsig-js'
+import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 
 const TAG = 'Statsig'
 
@@ -78,12 +84,22 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
   }
 }
 
+export function getFeatureGate(featureGateName: StatsigFeatureGates) {
+  try {
+    return Statsig.checkGate(featureGateName)
+  } catch (error) {
+    Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
+    return FeatureGates[featureGateName]
+  }
+}
+
 export function getDefaultStatsigUser(): StatsigUser {
   const state = store.getState()
   return {
     userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
+      loadTime: Date.now(),
     },
   }
 }
@@ -92,7 +108,10 @@ export function getDefaultStatsigUser(): StatsigUser {
  * Updates the current Statsig user. If no argument is given, a default StatsigUser
  * object is used to update the user, based on values from the redux store. If a StatsigUser
  * object is provided as a parameter, the provided object will be deep merged with the default
- * object from redux, with the provided object overriding fields in the default object.
+ * object from redux, with the provided object overriding fields in the default
+ * object. The default object also includes a `loadTime` field which is set to
+ * current time, so calling this method with no args will always force a refresh
+ * since `loadTime` will change.
  *
  * If the update fails for whatever reason, an error will be logged.
  *

@@ -1,7 +1,10 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { FetchMock } from 'jest-fetch-mock/types'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
+import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { InviteEvents } from 'src/analytics/Events'
@@ -14,29 +17,39 @@ import {
   openUrl,
   phoneNumberVerificationMigrated,
   setAppState,
+  setSupportedBiometryType,
 } from 'src/app/actions'
 import {
+  appInit,
   handleDeepLink,
   handleOpenUrl,
   handleSetAppState,
   runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
-  getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inviterAddressSelector,
+  sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { resolveDynamicLink } from 'src/firebase/firebase'
+import { initI18n } from 'src/i18n'
+import {
+  allowOtaTranslationsSelector,
+  currentLanguageSelector,
+  otaTranslationsAppVersionSelector,
+} from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { initializeSentry } from 'src/sentry/Sentry'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
@@ -53,14 +66,23 @@ import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/sentry/Sentry')
+jest.mock('src/sentry/SentryTransactionHub')
+jest.mock('src/statsig')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
 
+jest.mock('src/i18n', () => ({
+  ...(jest.requireActual('src/i18n') as any),
+  initI18n: jest.fn().mockResolvedValue(jest.fn()),
+  t: jest.fn(),
+}))
+
+jest.mock('src/utils/Logger')
+
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
-
-const loggerWarnSpy = jest.spyOn(Logger, 'warn')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
@@ -354,47 +376,52 @@ describe('handleOpenUrl', () => {
 })
 
 describe('handleSetAppState', () => {
-  it('handles setting app state', async () => {
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .put(appLock())
-      .run()
+  describe('on app active', () => {
+    it('refreshes statsig and requires pin if pin required on app opened and do not lock period has passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), true],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if pin not required on app open', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), false],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), Date.now()],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if do not lock period has not passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), Date.now()],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
+  })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), false],
-      ])
-      .run()
-
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+  describe('on app inactive', () => {
+    it('does nothing', async () => {
+      await expectSaga(handleSetAppState, setAppState('inactive'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .not.call(patchUpdateStatsigUser)
+        .run()
+    })
   })
 })
 
@@ -463,7 +490,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
   })
 
   it('should not run if migration conditions are not met', async () => {
@@ -507,6 +534,58 @@ describe('runCentralPhoneVerificationMigration', () => {
       .run()
 
     expect(mockFetch).not.toHaveBeenCalled()
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
+  })
+})
+
+describe('appInit', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [select(allowOtaTranslationsSelector), true],
+    [select(otaTranslationsAppVersionSelector), '1'],
+    [select(currentLanguageSelector), 'nl-NL'],
+    [select(sentryNetworkErrorsSelector), ['network error']],
+  ]
+
+  it('should initialise the correct components, with the stored language', async () => {
+    await expectSaga(appInit)
+      .provide(defaultProviders)
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
+  })
+
+  it('should initialise with the best language', async () => {
+    jest
+      .spyOn(RNLocalize, 'findBestAvailableLanguage')
+      .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
+
+    await expectSaga(appInit)
+      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('de-DE', true, '1')
+  })
+
+  it('should initialise with the app fallback language', async () => {
+    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValue(undefined)
+
+    await expectSaga(appInit)
+      .provide([[select(currentLanguageSelector), null], ...defaultProviders])
+      .put(setSupportedBiometryType(BIOMETRY_TYPE.TOUCH_ID))
+      .run()
+
+    expect(initializeSentry).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
   })
 })

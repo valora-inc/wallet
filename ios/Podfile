@@ -44,6 +44,10 @@ target "celo" do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
   use_flipper!()
+
+  # import OpenSSL after use_flipper! to avoid OpenSSL only being enabled for debug configurations
+  # Flipper-Folly (2.6.7) requires this specific version of OpenSSL, so declaring it here to avoid duplicate versions in the podfile.lock.
+  pod 'OpenSSL-Universal', '1.1.180', :configurations => ['Debug','Release']
 end
 
 target 'NotificationService' do
