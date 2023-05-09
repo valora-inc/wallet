@@ -21,6 +21,7 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo-Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
+  "keylessBackupSettingsTitle": "Schlüssellose Sicherung",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
     "body": "Um Datensparmodus immer wieder ein- und auszuschalten, musst du die App neu starten und zu diesem Bildschirm zurückkehren.",
@@ -77,6 +78,13 @@
       "phraseLocation": "Ein idealer Ort könnte dort sein, wo du andere wichtige Dokumente und Unterlagen aufbewahrst, die nicht leicht gestohlen werden sollen. Es liegt an dir!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Schlüsselloses Backup einrichten",
+    "subtitle": "Mit den folgenden Schritten richtest du das Backup ein:",
+    "emailAddress": "E-Mail Adresse",
+    "phoneNumber": "Telefonnummer"
+  },
+  "setupKeylessBackupReminder": "<0>Denke daran</0>, dass diese Informationen die einzige Möglichkeit sind, auf dein Portemonnaie zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Bewahre es sicher auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",

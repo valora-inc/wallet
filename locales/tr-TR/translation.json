@@ -21,6 +21,7 @@
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla Celo Ağı ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
+  "keylessBackupSettingsTitle": "Anahtarsız Yedekleme",
   "restartModalSwitchOff": {
     "header": "Veri Tasarrufunu Kapatmak İçin Uygulamayı Tekrar Başlatın",
     "body": "Veri Tasarrufu'nu açmak veya kapatmak için uygulamayı yeniden başlatmanız ve bu ekrana geri dönmeniz gerekecektir.",
@@ -77,6 +78,13 @@
       "phraseLocation": "Kolayca çalınamayacağı ve tekrar ulaşılması kolay olan, diğer önemli belgeleri ve malzemeleri sakladığınız yer ideal bir yer olabilir. Karar sizin!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Anahtarsız Yedeklemeyi Ayarlama",
+    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız:",
+    "emailAddress": "E-posta Adresi",
+    "phoneNumber": "Telefon Numarası"
+  },
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Onu güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
