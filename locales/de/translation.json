@@ -27,6 +27,15 @@
     "body": "Um Datensparmodus immer wieder ein- und auszuschalten, musst du die App neu starten und zu diesem Bildschirm zurückkehren.",
     "restart": "Neustart zum Wechseln"
   },
+  "revokePhoneNumber": {
+    "title": "Unlink-Telefonnummer",
+    "bottomSheetTitle": "Rufnummer entkoppeln",
+    "description": "Wenn du die Verknüpfung aufhebst, wird die mit deiner Brieftasche verknüpfte Telefonnummer entfernt. Du kannst später eine neue Telefonnummer hinzufügen.",
+    "confirmButton": "Jetzt entkoppeln",
+    "revokeSuccess": "Deine Telefonnummer wurde entkoppelt",
+    "revokeError": "Die Verknüpfung der Telefonnummer konnte nicht aufgehoben werden, bitte versuche es später noch einmal.",
+    "addNewNumberButton": "Rufnummer hinzufügen"
+  },
   "promptFornoModal": {
     "header": "Verbindungsmodus wechseln?",
     "body": "Uns ist aufgefallen, dass du Probleme bei der Verbindung hast. Wir empfehlen dir, den Data Saver Modus zu aktivieren, damit du {{appName}} weiterhin mit intermittierender Verbindung verwenden kannst.",
