@@ -27,6 +27,15 @@
     "body": "หากต้องการปิดและเปิดโหมดประหยัดข้อมูลซ้ำ คุณจะต้องรีสตาร์ทแอปแล้วกลับมาที่หน้าจอนี้",
     "restart": "รีสตาร์ทเพื่อเปลี่ยน"
   },
+  "revokePhoneNumber": {
+    "title": "Unlink Phone Number",
+    "bottomSheetTitle": "Unlink phone number",
+    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
+    "confirmButton": "Unlink now",
+    "revokeSuccess": "Your phone number has been unlinked",
+    "revokeError": "Could not unlink phone number, please try again later.",
+    "addNewNumberButton": "Add phone number"
+  },
   "promptFornoModal": {
     "header": "เปลี่ยนโหมดการเชื่อมต่อหรือไม่",
     "body": "เราพบว่าคุณประสบปัญหาในการเชื่อมต่อ ขอแนะนำให้เปิดใช้งานโหมดประหยัดข้อมูลเพื่อช่วยให้คุณสามารถใช้ {{appName}} ได้อย่างต่อเนื่องด้วยการเชื่อมต่อที่ไม่มีสะดุด",
@@ -1568,7 +1577,7 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
+    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "maxSwapAmountWarning": {
