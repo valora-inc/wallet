@@ -1568,7 +1568,7 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "Celo 朋友发起的交换。<0>了解更多。</0>",
+    "disclaimer": "由Celo上的合作伙伴提供的互换。 \n<0>了解更多。</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "maxSwapAmountWarning": {
