@@ -27,6 +27,15 @@
     "body": "Para activar y desactivar el modo Ahorro de datos, tendrás que reiniciar la aplicación y volver a esta pantalla.",
     "restart": "Reiniciar"
   },
+  "revokePhoneNumber": {
+    "title": "Desvincular número de teléfono",
+    "bottomSheetTitle": "Desvincular número de teléfono",
+    "description": "La desvinculación eliminará el número de teléfono vinculado a tu monedero. Puedes añadir un nuevo número de teléfono más adelante.",
+    "confirmButton": "Desvincular ahora",
+    "revokeSuccess": "Tu número de teléfono ha sido desvinculado",
+    "revokeError": "No se ha podido desvincular el número de teléfono, inténtalo más tarde.",
+    "addNewNumberButton": "Añadir número de teléfono"
+  },
   "promptFornoModal": {
     "header": "¿Cambiar el modo de conexión?",
     "body": "Notamos que tienes problemas para conectarte. Te recomendamos habilitar la opción Ahorrar datos para seguir usando {{appName}} con conexión intermitente.",
@@ -1570,7 +1579,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "disclaimer": "Intercambios impulsados por socios en Celo. \n<0>Más información.</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {

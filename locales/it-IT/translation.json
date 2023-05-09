@@ -27,6 +27,15 @@
     "body": "Per attivare e disattivare ripetutamente Risparmio dati, devi riavviare l’app e tornare a questa schermata.",
     "restart": "Riavvia per attivare/disattivare"
   },
+  "revokePhoneNumber": {
+    "title": "Numero di telefono Unlink",
+    "bottomSheetTitle": "Numero di telefono non collegato",
+    "description": "Lo scollegamento rimuoverà il numero di telefono collegato al tuo portafoglio. Potrai aggiungere un nuovo numero di telefono in seguito.",
+    "confirmButton": "Sblocca ora il link",
+    "revokeSuccess": "Il tuo numero di telefono è stato scollegato",
+    "revokeError": "Non è stato possibile scollegare il numero di telefono, riprova più tardi.",
+    "addNewNumberButton": "Aggiungi il numero di telefono"
+  },
   "promptFornoModal": {
     "header": "Cambiare la modalità di connessione?",
     "body": "Abbiamo notato che hai problemi di connessione. Consigliamo di abilitare la modalità Risparmio dati per continuare a usare {{appName}} con una connessione intermittente.",
@@ -1570,7 +1579,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
+    "disclaimer": "Scambi alimentati da partner su Celo. \n<0>Per saperne di più.</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "maxSwapAmountWarning": {
