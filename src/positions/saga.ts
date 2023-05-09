@@ -41,7 +41,7 @@ export function* fetchPositionsSaga() {
       Logger.debug(TAG, 'Skipping fetching positions since no address was found')
       return
     }
-    if (!getFeatureGate({ featureGateName: StatsigFeatureGates.SHOW_POSITIONS })) {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)) {
       return
     }
 

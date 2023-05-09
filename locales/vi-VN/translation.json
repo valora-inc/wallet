@@ -21,6 +21,7 @@
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với Celo Network qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
+  "keylessBackupSettingsTitle": "Keyless Backup",
   "restartModalSwitchOff": {
     "header": "Khởi động lại để tắt chế độ Tiết kiệm dữ liệu",
     "body": "Để bật và tắt chế độ Tiết kiệm dữ liệu liên tục, bạn cần khởi động lại ứng dụng và quay lại màn hình này.",
@@ -77,6 +78,13 @@
       "phraseLocation": "Nơi lý tưởng có thể là nơi bạn thường cất giữ các giấy tờ và tài liệu quan trọng khác mà người khác không dễ đánh cắp hay lấy đi. Cái đó tùy bạn quyết định!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Set up Keyless Backup",
+    "subtitle": "You'll use the following to set up backup:",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Số điện thoại"
+  },
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
