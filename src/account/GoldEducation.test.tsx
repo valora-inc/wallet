@@ -21,7 +21,7 @@ it('show the close button', () => {
     </Provider>
   )
 
-  expect(getByTestId('DrawerTopBar')).toBeTruthy()
+  expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
 })
 
 it('shows the close button', () => {
