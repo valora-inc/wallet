@@ -653,7 +653,6 @@ describe(requestInAppReview, () => {
   `(
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
-      // Clear previous calls
       mocked(getFeatureGate).mockReturnValue(featureGate)
       mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
 
