@@ -11,6 +11,7 @@ import {
   v106Schema,
   v112Schema,
   v115Schema,
+  v124Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -870,6 +871,14 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[116](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.startOnboardingTime = undefined
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v124 to v125', () => {
+    const oldSchema = v124Schema
+    const migratedSchema = migrations[125](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.celoNews.enabled
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
