@@ -5,12 +5,13 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
+import { getERC20TokenContract } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockContract } from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -36,6 +37,7 @@ const mockSwapTransaction = {
   guaranteedPrice: '1.02',
   from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
   gas: '460533',
+  allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
 }
 
 const mockSwap = {
@@ -65,6 +67,10 @@ describe(swapSubmitSaga, () => {
         [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
+        [
+          call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
+          mockContract,
+        ],
       ])
       .put(swapApprove())
       .put(swapExecute())
@@ -92,6 +98,10 @@ describe(swapSubmitSaga, () => {
         [select(walletAddressSelector), mockAccount],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
+        [
+          call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
+          mockContract,
+        ],
       ])
       .put(swapApprove())
       .put(swapError())
