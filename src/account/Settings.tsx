@@ -84,7 +84,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
-const TOAST_DISMISS_TIMEOUT = 5_000
+const TOAST_DISMISS_TIMEOUT_MS = 5_000
 
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
