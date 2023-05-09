@@ -27,6 +27,15 @@
     "body": "Để bật và tắt chế độ Tiết kiệm dữ liệu liên tục, bạn cần khởi động lại ứng dụng và quay lại màn hình này.",
     "restart": "Khởi động lại để chuyển đổi"
   },
+  "revokePhoneNumber": {
+    "title": "Unlink Phone Number",
+    "bottomSheetTitle": "Unlink phone number",
+    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
+    "confirmButton": "Unlink now",
+    "revokeSuccess": "Your phone number has been unlinked",
+    "revokeError": "Could not unlink phone number, please try again later.",
+    "addNewNumberButton": "Add phone number"
+  },
   "promptFornoModal": {
     "header": "Bạn muốn chuyển đổi chế độ kết nối?",
     "body": "Chúng tôi nhận thấy bạn đang gặp một số sự cố khi kết nối. Bạn nên bật chế độ Tiết kiệm dữ liệu để tiếp tục sử dụng {{appName}} khi kết nối bị gián đoạn.",
