@@ -14,26 +14,22 @@ it('renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-describe('when first time (!account.celoEducationCompleted)', () => {
-  it('does not show the close button', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ account: { celoEducationCompleted: false } })}>
-        <GoldEducation />
-      </Provider>
-    )
+it('shows the close button when celoEducationCompleted is false', () => {
+  const { getByTestId } = render(
+    <Provider store={createMockStore({ account: { celoEducationCompleted: false } })}>
+      <GoldEducation />
+    </Provider>
+  )
 
-    expect(getByTestId('DrawerTopBar')).toBeTruthy()
-  })
+  expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
 })
 
-describe('when not first time (account.celoEducationCompleted)', () => {
-  it('shows the close button', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ account: { celoEducationCompleted: true } })}>
-        <GoldEducation />
-      </Provider>
-    )
+it('shows the close button when celoEducationCompleted is true', () => {
+  const { getByTestId } = render(
+    <Provider store={createMockStore({ account: { celoEducationCompleted: true } })}>
+      <GoldEducation />
+    </Provider>
+  )
 
-    expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
-  })
+  expect(getByTestId('Education/top').findByProps({ testID: 'Education/CloseIcon' })).toBeTruthy()
 })

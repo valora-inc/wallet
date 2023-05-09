@@ -7,7 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { celoNewsConfigSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
@@ -73,7 +72,6 @@ function ExchangeHomeScreen() {
 
   const { t } = useTranslation()
 
-  const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
@@ -163,7 +161,7 @@ function ExchangeHomeScreen() {
           </View>
 
           <CeloGoldHistoryChart testID="PriceChart" />
-          {isCeloNewsEnabled && <CeloNewsFeed />}
+          <CeloNewsFeed />
         </SafeAreaView>
       </Animated.ScrollView>
     </SafeAreaView>

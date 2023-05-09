@@ -71,6 +71,9 @@ export enum SettingsEvents {
   settings_haptic_feedback = 'settings_haptic_feedback',
   settings_analytics = 'settings_analytics',
 
+  settings_revoke_phone_number = 'settings_revoke_phone_number',
+  settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
+
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
 }
 
@@ -199,6 +202,10 @@ export enum PhoneVerificationEvents {
   phone_verification_input_help_continue = 'phone_verification_input_help_continue', // when the user presses continue on the help dialog to continue verification
 
   phone_verification_resend_message = 'phone_verification_resend_message', // when the user triggers a resend of the sms code
+
+  phone_verification_revoke_start = 'phone_verification_revoke_start', // when the revoke endpoint is called
+  phone_verification_revoke_success = 'phone_verification_revoke_success', // when the revoke endpoint returns successfully
+  phone_verification_revoke_error = 'phone_verification_revoke_error', // when the revoke endpoint returns an error
 }
 
 export enum IdentityEvents {

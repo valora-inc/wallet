@@ -3,7 +3,7 @@ import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -49,6 +49,7 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
@@ -66,11 +67,11 @@ import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
+import RevokePhoneNumber from 'src/RevokePhoneNumber'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
 import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -82,7 +83,7 @@ export const Account = ({ navigation, route }: Props) => {
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
-  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
+  const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
   const [showRevokeModal, setShowRevokeModal] = useState(false)
@@ -189,14 +190,6 @@ export const Account = ({ navigation, route }: Props) => {
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={toggleNumberVerified}>
               <Text>Toggle verification done</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity
-              onPress={revokeNumberAsync.execute}
-              disabled={revokeNumberAsync.loading}
-            >
-              <Text>Revoke Number Verification (centralized)</Text>
             </TouchableOpacity>
           </View>
           {decentralizedVerificationEnabled && (
@@ -343,6 +336,11 @@ export const Account = ({ navigation, route }: Props) => {
     setShowRevokeModal(false)
   }
 
+  const handleShowConfirmRevoke = () => {
+    ValoraAnalytics.track(SettingsEvents.settings_revoke_phone_number)
+    revokeBottomSheetRef.current?.snapToIndex(0)
+  }
+
   const goToChangePin = async () => {
     try {
       ValoraAnalytics.track(SettingsEvents.change_pin_start)
@@ -467,7 +465,16 @@ export const Account = ({ navigation, route }: Props) => {
           <SettingsItemTextValue title={t('licenses')} onPress={goToLicenses} />
           <SettingsItemTextValue title={t('termsOfServiceLink')} onPress={onTermsPress} />
           <SettingsItemTextValue title={t('privacyPolicy')} onPress={onPrivacyPolicyPress} />
-          <SectionHead text={''} style={styles.sectionTitle} />
+
+          <View style={styles.spacer} />
+          {numberVerified && (
+            <SettingsExpandedItem
+              title={t('revokePhoneNumber.title')}
+              details={t('revokePhoneNumber.description')}
+              onPress={handleShowConfirmRevoke}
+              testID="RevokePhoneNumber"
+            />
+          )}
           <SettingsExpandedItem
             title={t('removeAccountTitle')}
             details={t('removeAccountDetails')}
@@ -512,6 +519,8 @@ export const Account = ({ navigation, route }: Props) => {
           {t('promptConfirmRevokeModal.body')}
         </Dialog>
       </ScrollView>
+
+      <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
     </SafeAreaView>
   )
 }
@@ -542,6 +551,9 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     borderBottomColor: colors.gray2,
     borderBottomWidth: 1,
+  },
+  spacer: {
+    height: 80,
   },
 })
 
