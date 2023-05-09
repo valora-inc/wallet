@@ -126,17 +126,12 @@ exports[`QRCode renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Array [
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 14,
-              "lineHeight": 18,
-            },
-            Object {
-              "color": "#666666",
-            },
-          ]
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Medium",
+            "fontSize": 14,
+            "lineHeight": 18,
+          }
         }
       >
         +1 415-555-6666
@@ -296,17 +291,12 @@ exports[`QRCode renders correctly 2`] = `
       </Text>
       <Text
         style={
-          Array [
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 14,
-              "lineHeight": 18,
-            },
-            Object {
-              "color": "#666666",
-            },
-          ]
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Medium",
+            "fontSize": 14,
+            "lineHeight": 18,
+          }
         }
       >
         +1 415-555-6666
