@@ -27,6 +27,15 @@
     "body": "Aby wielokrotnie włączać i wyłączać oszczędzanie danych, musisz ponownie uruchomić aplikację i wrócić do tego ekranu.",
     "restart": "Uruchom ponownie, aby przełączyć"
   },
+  "revokePhoneNumber": {
+    "title": "Numer telefonu do odłączenia",
+    "bottomSheetTitle": "Odłącz numer telefonu",
+    "description": "Odblokowanie usunie numer telefonu powiązany z Twoim portfelem. Nowy numer telefonu możesz dodać później.",
+    "confirmButton": "Odłącz teraz",
+    "revokeSuccess": "Twój numer telefonu został odłączony",
+    "revokeError": "Nie można odłączyć numeru telefonu, spróbuj ponownie później.",
+    "addNewNumberButton": "Dodaj numer telefonu"
+  },
   "promptFornoModal": {
     "header": "Zmienić tryb połączenia?",
     "body": "Zauważyliśmy, że masz problemy z połączeniem. Zalecamy włączenie trybu oszczędzania danych, który pozwoli Ci na dalsze korzystanie z {{appName}} w przypadku problemów z połączeniem.",
