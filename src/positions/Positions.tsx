@@ -89,7 +89,7 @@ export default function Positions() {
   const positions = useSelector(positionsSelector)
   const status = useSelector(positionsStatusSelector)
 
-  if (!getFeatureGate({ featureGateName: StatsigFeatureGates.SHOW_POSITIONS })) {
+  if (!getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)) {
     return null
   }
 

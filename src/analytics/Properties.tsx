@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -37,6 +37,7 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
+  KeylessBackupEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -191,6 +192,12 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
   [SettingsEvents.settings_recovery_phrase]: undefined
   [SettingsEvents.settings_haptic_feedback]: { enabled: boolean }
+  [SettingsEvents.settings_analytics]: { enabled: boolean }
+  [SettingsEvents.settings_set_up_keyless_backup]: undefined
+}
+
+interface KeylessBackupEventsProperties {
+  [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -1214,6 +1221,7 @@ interface TokenBottomSheetEventsProperties {
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
+  KeylessBackupEventsProperties &
   OnboardingEventsProperties &
   VerificationEventsProperties &
   PhoneVerificationEventsProperties &

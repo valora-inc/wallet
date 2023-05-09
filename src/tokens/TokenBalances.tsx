@@ -13,12 +13,14 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
+import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Positions from 'src/positions/Positions'
+import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -40,7 +42,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalBalance = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
+  const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
   const tokensAreStale = useSelector(stalePriceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
@@ -49,19 +51,23 @@ function TokenBalancesScreen({ navigation }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
 
+  const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
+  const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
+  const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
+
   useLayoutEffect(() => {
     const subTitle =
-      !tokensAreStale && totalBalance.gte(0)
+      !tokensAreStale && totalBalanceLocal.gte(0)
         ? t('totalBalanceWithLocalCurrencySymbol', {
             localCurrencySymbol,
-            totalBalance: totalBalance.toFormat(2),
+            totalBalance: totalBalanceLocal.toFormat(2),
           })
         : `${localCurrencySymbol} -`
 
     navigation.setOptions({
       headerTitle: () => <HeaderTitleWithSubtitle title={t('balances')} subTitle={subTitle} />,
     })
-  }, [navigation, totalBalance, localCurrencySymbol])
+  }, [navigation, totalBalanceLocal, localCurrencySymbol])
 
   function isHistoricalPriceUpdated(token: TokenBalance) {
     return (

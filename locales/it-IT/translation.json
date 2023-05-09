@@ -21,6 +21,7 @@
   "dataSaver": "Risparmio dati",
   "enableDataSaver": "Abilita Risparmio dati",
   "dataSaverDetail": "La modalità Risparmio dati ti consente di comunicare con la rete Celo attraverso un nodo attendibile. Puoi sempre selezionare un’altra modalità dalle impostazioni dell’app.",
+  "keylessBackupSettingsTitle": "Backup senza chiave",
   "restartModalSwitchOff": {
     "header": "Riavvia per disabilitare Risparmio dati",
     "body": "Per attivare e disattivare ripetutamente Risparmio dati, devi riavviare l’app e tornare a questa schermata.",
@@ -77,6 +78,13 @@
       "phraseLocation": "Un luogo ideale potrebbe essere lo stesso in cui si memorizzano altri documenti e materiali importanti per la custodia, difficile da rubare e facile da recuperare. Sta a te!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Imposta il backup senza chiave",
+    "subtitle": "Per impostare il backup dovrai utilizzare le seguenti istruzioni:",
+    "emailAddress": "Indirizzo e-mail",
+    "phoneNumber": "Numero telefonico"
+  },
+  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Tienilo al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
