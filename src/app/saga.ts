@@ -521,9 +521,16 @@ export function* requestInAppReview() {
 
   // If the last interaction was less than a quarter year ago or null
   if (now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
-    const result = yield call(InAppReview.RequestInAppReview)
-    // If the in app review was shown, update the last interaction timestamp
-    if (result) yield put(inAppReviewRequested(now))
+    try {
+      // If we call InAppReview.RequestInAppReview and there wasn't an error
+      // Update the last interaction timestamp and send analytics
+      yield call(InAppReview.RequestInAppReview)
+      yield put(inAppReviewRequested(now))
+      ValoraAnalytics.track(AppEvents.in_app_review_impression)
+    } catch (error) {
+      Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
+      ValoraAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
+    }
   }
 }
 
