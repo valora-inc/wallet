@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 125,
+          "version": 126,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -146,6 +146,7 @@ describe('store state', () => {
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
           "huaweiMobileServicesAvailable": undefined,
+          "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,
