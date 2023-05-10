@@ -75,7 +75,7 @@ jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
-jest.mock('src/jumpstart/utils')
+jest.mock('src/jumpstart/jumpstartLinkHandler')
 jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: () => mockRequestInAppReview(),
   isAvailable: () => mockIsInAppReviewAvailable(),
