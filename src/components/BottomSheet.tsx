@@ -22,6 +22,8 @@ interface Props {
   testId: string
 }
 
+export type BottomSheetRefType = GorhomBottomSheet
+
 const BottomSheet = ({
   forwardedRef,
   title,

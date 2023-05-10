@@ -60,7 +60,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxSwapSlippagePercentage: 2,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,
-  celoNews: JSON.stringify({ enabled: false } as RemoteConfigValues['celoNews']),
+  celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
   twelveWordMnemonicEnabled: true,
   dappsMinimalDisclaimerEnabled: false,
   guaranteedSwapPriceEnabled: false,

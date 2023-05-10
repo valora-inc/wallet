@@ -27,6 +27,15 @@
     "body": "Pour activer et désactiver l'Économiseur de données, vous devrez redémarrer l'appli et revenir sur cet écran.",
     "restart": "Redémarrer pour basculer"
   },
+  "revokePhoneNumber": {
+    "title": "Numéro de téléphone Unlink",
+    "bottomSheetTitle": "Déconnecte le numéro de téléphone",
+    "description": "La déliaison supprimera le numéro de téléphone lié à ton portefeuille. Tu pourras ajouter un nouveau numéro de téléphone plus tard.",
+    "confirmButton": "Déconnecte-toi maintenant",
+    "revokeSuccess": "Ton numéro de téléphone a été dissocié",
+    "revokeError": "Impossible de dissocier le numéro de téléphone, réessaie plus tard.",
+    "addNewNumberButton": "Ajoute un numéro de téléphone"
+  },
   "promptFornoModal": {
     "header": "Basculer le mode de connexion ?",
     "body": "Nous avons remarqué que vous rencontrez quelques problèmes de connexion. Nous vous recommandons d'activer le mode Économiseur de données pour vous permettre de continuer à utiliser {{appName}} quand votre connexion n'est pas stable.",
@@ -1570,7 +1579,7 @@
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Des échanges propulsés par des partenaires sur Celo. <0>En savoir plus</0>",
+    "disclaimer": "Swaps alimentés par des partenaires sur Celo. \n<0>En savoir plus.</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "maxSwapAmountWarning": {

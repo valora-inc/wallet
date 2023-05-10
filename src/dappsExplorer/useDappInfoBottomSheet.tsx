@@ -1,10 +1,9 @@
-import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheet from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import { BtnTypes } from 'src/components/Button'
 import { DAPPS_LEARN_MORE } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,7 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 const useDappInfoBottomSheet = () => {
   const { t } = useTranslation()
 
-  const bottomSheetRef = useRef<GorhomBottomSheet>(null)
+  const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressMore = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open_more_info)

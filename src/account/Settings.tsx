@@ -1,6 +1,5 @@
 import { isE164NumberStrict } from '@celo/phone-utils'
 import { sleep } from '@celo/utils/lib/async'
-import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
@@ -25,7 +24,6 @@ import {
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import {
-  defaultCountryCodeSelector,
   devModeSelector,
   e164NumberSelector,
   pincodeTypeSelector,
@@ -51,9 +49,8 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
-import BottomSheet from 'src/components/BottomSheet'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
-import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
 import {
@@ -61,10 +58,8 @@ import {
   SettingsItemSwitch,
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
-import ToastWithCTA from 'src/components/ToastWithCTA'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import AttentionIcon from 'src/icons/Attention'
 import { revokeVerification } from 'src/identity/actions'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -72,32 +67,26 @@ import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import colors, { Colors } from 'src/styles/colors'
+import RevokePhoneNumber from 'src/RevokePhoneNumber'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
 import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
-const TOAST_DISMISS_TIMEOUT = 5_000
-
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
-  const revokeBottomSheetRef = useRef<GorhomBottomSheet>(null)
-
-  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
+  const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
   const [showRevokeModal, setShowRevokeModal] = useState(false)
-  const [showRevokeSuccess, setShowRevokeSuccess] = useState(false)
 
   const sessionId = useSelector(sessionIdSelector)
   const account = useSelector(walletAddressSelector)
@@ -108,7 +97,6 @@ export const Account = ({ navigation, route }: Props) => {
   const pincodeType = useSelector(pincodeTypeSelector)
   const requirePinOnAppOpen = useSelector(getRequirePinOnAppOpen)
   const preferredCurrencyCode = useSelector(getLocalCurrencyCode)
-  const defaultCountryCode = useSelector(defaultCountryCodeSelector)
 
   const { sessions: walletConnectV1Sessions } = useSelector(selectSessionsV1)
   const { sessions: walletConnectV2Sessions } = useSelector(selectSessionsV2)
@@ -128,21 +116,6 @@ export const Account = ({ navigation, route }: Props) => {
       dispatch(setSessionId(sessionId))
     }
   }, [])
-
-  useEffect(() => {
-    if (revokeNumberAsync.status === 'success') {
-      revokeBottomSheetRef.current?.close()
-      setShowRevokeSuccess(true)
-    } else if (revokeNumberAsync.status === 'error') {
-      revokeBottomSheetRef.current?.close()
-      Logger.showError(t('revokePhoneNumber.revokeError'))
-    }
-
-    const timeout = setTimeout(() => setShowRevokeSuccess(false), TOAST_DISMISS_TIMEOUT)
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [revokeNumberAsync.status])
 
   const goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
@@ -368,17 +341,6 @@ export const Account = ({ navigation, route }: Props) => {
     revokeBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const handleNavigateToVerifiedNumber = () => {
-    navigate(Screens.VerificationStartScreen, {
-      hideOnboardingStep: true,
-    })
-  }
-
-  const handleRevokePhoneNumber = async () => {
-    ValoraAnalytics.track(SettingsEvents.settings_revoke_phone_number_confirm)
-    await revokeNumberAsync.execute()
-  }
-
   const goToChangePin = async () => {
     try {
       ValoraAnalytics.track(SettingsEvents.change_pin_start)
@@ -558,32 +520,7 @@ export const Account = ({ navigation, route }: Props) => {
         </Dialog>
       </ScrollView>
 
-      <BottomSheet
-        forwardedRef={revokeBottomSheetRef}
-        title={t('revokePhoneNumber.bottomSheetTitle')}
-        buttonLabel={t('revokePhoneNumber.confirmButton')}
-        buttonOnPress={handleRevokePhoneNumber}
-        buttonLoading={revokeNumberAsync.loading}
-        testId="RevokePhoneNumberBottomSheet"
-      >
-        {e164PhoneNumber && (
-          <PhoneNumberWithFlag
-            e164PhoneNumber={e164PhoneNumber}
-            defaultCountryCode={defaultCountryCode ?? undefined}
-          />
-        )}
-        <View style={styles.revokeNumberWarningContainer}>
-          <AttentionIcon />
-          <Text style={styles.revokeNumberWarningText}>{t('revokePhoneNumber.description')}</Text>
-        </View>
-      </BottomSheet>
-      <ToastWithCTA
-        showToast={showRevokeSuccess}
-        message={t('revokePhoneNumber.revokeSuccess')}
-        labelCTA={t('revokePhoneNumber.addNewNumberButton')}
-        ctaAlignment="bottom"
-        onPress={handleNavigateToVerifiedNumber}
-      />
+      <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
     </SafeAreaView>
   )
 }
@@ -617,20 +554,6 @@ const styles = StyleSheet.create({
   },
   spacer: {
     height: 80,
-  },
-  revokeNumberWarningContainer: {
-    flexDirection: 'row',
-    backgroundColor: Colors.yellowFaint,
-    borderRadius: 4,
-    marginTop: Spacing.Regular16,
-    marginBottom: Spacing.Thick24,
-    padding: Spacing.Regular16,
-  },
-  revokeNumberWarningText: {
-    ...fontStyles.xsmall,
-    flex: 1,
-    flexWrap: 'wrap',
-    marginLeft: Spacing.Small12,
   },
 })
 

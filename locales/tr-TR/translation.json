@@ -27,6 +27,15 @@
     "body": "Veri Tasarrufu'nu açmak veya kapatmak için uygulamayı yeniden başlatmanız ve bu ekrana geri dönmeniz gerekecektir.",
     "restart": "Değiştir-Yeniden başlat"
   },
+  "revokePhoneNumber": {
+    "title": "Unlink Telefon Numarası",
+    "bottomSheetTitle": "Telefon numarasının bağlantısını kaldır",
+    "description": "Bağlantıyı kaldırmak, cüzdanınıza bağlı telefon numarasını kaldıracaktır. Daha sonra yeni bir telefon numarası ekleyebilirsiniz.",
+    "confirmButton": "Şimdi bağlantıyı kaldır",
+    "revokeSuccess": "Telefon numaranızın bağlantısı kaldırıldı",
+    "revokeError": "Telefon numarasının bağlantısı kaldırılamadı, lütfen daha sonra tekrar deneyin.",
+    "addNewNumberButton": "Telefon numarası ekle"
+  },
   "promptFornoModal": {
     "header": "Bağlantı Modunu değiştirmek istediğinizden emin misiniz?",
     "body": "Bağlantı sorunları yaşadığınızı fark ettik. {{appName}} ürününü kesintili bağlantıyla kullanmaya devam edebilmeniz için Veri Tasarrufu modunu etkinleştirmenizi öneririz.",
@@ -1570,7 +1579,7 @@
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortakların desteklediği takaslar. <0>Daha Fazla Bilgi Edinin.</0>",
+    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. \n<0>Daha fazla bilgi edinin.</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "maxSwapAmountWarning": {
