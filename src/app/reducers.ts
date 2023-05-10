@@ -265,6 +265,11 @@ export const appReducer = (
         ...state,
         pushNotificationsEnabled: action.enabled,
       }
+    case Actions.IN_APP_REVIEW_REQUESTED:
+      return {
+        ...state,
+        inAppReviewLastInteractionTimestamp: action.inAppReviewLastInteractionTimestamp,
+      }
     default:
       return state
   }
