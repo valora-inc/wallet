@@ -76,9 +76,12 @@ jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('react-native-in-app-review', () => ({
-  RequestInAppReview: jest.fn(),
+  RequestInAppReview: jest.fn().mockResolvedValue(true),
   isAvailable: () => mockIsInAppReviewAvailable(),
 }))
+
+const now = 1482363367071
+Date.now = jest.fn(() => now)
 
 const mockIsInAppReviewAvailable = jest.fn()
 
@@ -603,9 +606,9 @@ describe('appInit', () => {
 })
 
 describe(requestInAppReview, () => {
-  const now = Date.now()
   const oneDayAgo = now - ONE_DAY_IN_MILLIS
   const fourMonthsAndADayAgo = now - ONE_DAY_IN_MILLIS * 121
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -619,13 +622,14 @@ describe(requestInAppReview, () => {
     async ({ lastInteractionTimestamp }) => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockIsInAppReviewAvailable.mockReturnValue(true)
-      await expectSaga(requestInAppReview, inAppReviewRequested(now))
+      await expectSaga(requestInAppReview)
         .withState(
           createMockStore({
             web3: { account: '0xTest' },
           }).getState()
         )
         .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .put(inAppReviewRequested(now))
         .run()
 
       expect(InAppReview.RequestInAppReview).toHaveBeenCalledTimes(1)
@@ -663,6 +667,7 @@ describe(requestInAppReview, () => {
           }).getState()
         )
         .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .not.put(inAppReviewRequested(expect.anything()))
         .run()
 
       expect(InAppReview.RequestInAppReview).not.toHaveBeenCalled()
