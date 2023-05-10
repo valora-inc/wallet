@@ -130,6 +130,10 @@ interface AppEventsProperties {
   }
   [AppEvents.account_funded]: undefined
   [AppEvents.account_liquidated]: undefined
+  [AppEvents.in_app_review_impression]: undefined
+  [AppEvents.in_app_review_error]: {
+    error: string
+  }
 }
 
 interface HomeEventsProperties {
