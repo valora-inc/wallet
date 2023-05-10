@@ -193,6 +193,7 @@ export enum PhoneVerificationEvents {
   phone_verification_start = 'phone_verification_start', // when the start button is pressed in the phone number input screen
 
   phone_verification_code_request_success = 'phone_verification_code_request_success', // when the verifyPhoneNumber endpoint returns successfully
+  phone_verification_restore_success = 'phone_verification_restore_success', // when the verifyPhoneNumber endpoint returns that the user is already verified (restore wallet flow)
   phone_verification_code_verify_start = 'phone_verification_code_verify_start', // when the user has entered the sms code and we start to validate on the backend
   phone_verification_code_verify_success = 'phone_verification_code_verify_success', // when the backend confirms that the sms code is successfully validated
   phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code cannot be validated
