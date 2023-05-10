@@ -7,7 +7,6 @@ import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
-import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
@@ -48,7 +47,6 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
-  const preferredFeeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
   yield call(
     sendTransaction,
     txo,
@@ -56,7 +54,7 @@ function* handleSendSwapTransaction(
     newTransactionContext(TAG, tagDescription),
     undefined,
     undefined,
-    preferredFeeCurrency
+    undefined
   )
 }
 
@@ -145,7 +143,7 @@ export function* sendApproveTx(tokenAddress: string, amount: string, recipientAd
     kit.connection,
     contract.methods.approve(recipientAddress, amount)
   )
-  const preferredFeeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+
   yield call(
     sendTransaction,
     tx.txo,
@@ -153,6 +151,6 @@ export function* sendApproveTx(tokenAddress: string, amount: string, recipientAd
     newTransactionContext(TAG, 'Swap/Approve'),
     undefined,
     undefined,
-    preferredFeeCurrency
+    undefined
   )
 }
