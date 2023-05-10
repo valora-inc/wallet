@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
@@ -51,6 +51,7 @@ function WalletHome() {
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
+  const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
 
@@ -178,15 +179,22 @@ function WalletHome() {
   })
 
   return (
-    <SafeAreaView testID="WalletHome" style={styles.container}>
+    <SafeAreaView
+      testID="WalletHome"
+      style={styles.container}
+      edges={!showHomeNavBar ? ['top'] : undefined}
+    >
       <DrawerTopBar middleElement={<Logo />} scrollPosition={scrollPosition} />
       <AnimatedSectionList
+        // Workaround iOS setting an incorrect automatic inset at the top
+        scrollIndicatorInsets={{ top: 0.01 }}
         scrollEventThrottle={16}
         onScroll={onScroll}
         refreshControl={refresh}
         onRefresh={onRefresh}
         refreshing={isLoading}
         style={styles.container}
+        contentContainerStyle={!showHomeNavBar ? { paddingBottom: insets.bottom } : undefined}
         sections={sections}
         keyExtractor={keyExtractor}
         testID="WalletHome/SectionList"

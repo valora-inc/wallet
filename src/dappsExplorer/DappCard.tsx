@@ -57,8 +57,9 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
       ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
       dispatch(favoriteDapp({ dappId: dapp.id }))
       onFavoriteDapp?.(dapp)
-      vibrateSuccess()
     }
+
+    vibrateSuccess()
   }
 
   return (

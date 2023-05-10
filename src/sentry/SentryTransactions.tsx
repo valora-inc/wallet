@@ -7,6 +7,7 @@ export enum SentryTransaction {
   dappkit_connection = 'DAppKitConnection',
   dappkit_transaction = 'DAppKitTransaction',
   fetch_balances = 'FetchBalances',
+  fetch_positions = 'FetchPositions',
   import_contacts = 'ImportContacts',
   pincode_enter = 'PincodeEnter',
   pincode_set = 'PincodeSet',
@@ -31,6 +32,10 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   FetchBalances: {
     name: 'Fetch Balances',
     op: 'fetch_balances',
+  },
+  FetchPositions: {
+    name: 'Fetch Positions',
+    op: 'fetch_positions',
   },
   ImportContacts: {
     name: 'Import Contacts',

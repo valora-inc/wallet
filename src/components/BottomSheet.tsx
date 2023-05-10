@@ -1,150 +1,100 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Dimensions,
-  Keyboard,
-  LayoutChangeEvent,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import GorhomBottomSheet, {
+  BottomSheetBackdrop,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet'
+import React, { useCallback, useMemo } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
-import colors from 'src/styles/colors'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
-  isVisible: boolean
-  onBackgroundPress?: () => void
-  children?: JSX.Element
-  testID?: string
-  opacity?: number
-  backgroundColor?: string
-  stickyHeader?: React.ReactNode
-  fullHeight?: boolean
+  forwardedRef: React.RefObject<GorhomBottomSheet>
+  title: string
+  buttonLabel: string
+  buttonOnPress: () => void
+  buttonType?: BtnTypes
+  buttonLoading?: boolean
+  description?: string
+  children?: React.ReactNode
+  testId: string
 }
 
-const MIN_EMPTY_SPACE = 100
+export type BottomSheetRefType = GorhomBottomSheet
 
-/**
- * @deprecated use https://www.npmjs.com/package/@gorhom/bottom-sheet instead, see example here https://github.com/valora-inc/wallet/blob/09c4d4ce98181480f1ed0a299709070d535221ad/src/dappsExplorer/useDappInfoBottomSheet.tsx#L47
- */
-function BottomSheet({
+const BottomSheet = ({
+  forwardedRef,
+  title,
+  buttonLabel,
+  buttonOnPress,
+  buttonType = BtnTypes.PRIMARY,
+  buttonLoading = false,
+  description,
   children,
-  isVisible,
-  onBackgroundPress,
-  testID = 'BottomSheetContainer',
-  opacity = 0.5,
-  backgroundColor = colors.modalBackdrop,
-  stickyHeader,
-  fullHeight = false,
-}: Props) {
-  const [showingOptions, setOptionsVisible] = useState(isVisible)
-  const [pickerHeight, setPickerHeight] = useState(0)
-  const safeAreaInsets = useSafeAreaInsets()
+  testId,
+}: Props) => {
+  const insets = useSafeAreaInsets()
+  const paddingBottom = Math.max(insets.bottom, Spacing.Thick24)
 
-  useEffect(() => {
-    if (isVisible) Keyboard.dismiss()
-  }, [isVisible])
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], [])
+  const { animatedHandleHeight, animatedSnapPoints, animatedContentHeight, handleContentLayout } =
+    useBottomSheetDynamicSnapPoints(initialSnapPoints)
 
-  const progress = useSharedValue(0)
-  const animatedPickerPosition = useAnimatedStyle(
-    () => ({
-      transform: [{ translateY: (1 - progress.value) * pickerHeight }],
-      // Hide until we have the height of the picker,
-      // otherwise there's a 1 frame flicker with the fully visible picker
-      opacity: pickerHeight > 0 ? 1 : 0,
-    }),
-    [pickerHeight]
+  const renderBackdrop = useCallback(
+    (props) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+    []
   )
-  const animatedOpacity = useAnimatedStyle(() => ({
-    opacity: opacity * progress.value,
-    backgroundColor,
-  }))
-
-  useShowOrHideAnimation(
-    progress,
-    isVisible,
-    () => setOptionsVisible(true),
-    () => {
-      setPickerHeight(0)
-      setOptionsVisible(false)
-    }
-  )
-
-  if (!showingOptions) {
-    return null
-  }
-
-  const onLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout
-    setPickerHeight(height)
-  }
-
-  const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
-  const minHeight = fullHeight ? maxHeight : undefined
-  const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
 
   return (
-    <View style={styles.container} testID={testID}>
-      <TouchableWithoutFeedback onPress={onBackgroundPress} testID={'BackgroundTouchable'}>
-        <Animated.View style={[styles.background, animatedOpacity]} />
-      </TouchableWithoutFeedback>
-
-      <Animated.View
-        style={[
-          styles.contentContainer,
-          { paddingBottom, maxHeight: maxHeight, minHeight },
-          animatedPickerPosition,
-        ]}
-        onLayout={onLayout}
+    <GorhomBottomSheet
+      ref={forwardedRef}
+      index={-1}
+      snapPoints={animatedSnapPoints}
+      handleHeight={animatedHandleHeight}
+      contentHeight={animatedContentHeight}
+      enablePanDownToClose
+      backdropComponent={renderBackdrop}
+      handleIndicatorStyle={styles.handle}
+    >
+      <View
+        style={[styles.container, { paddingBottom }]}
+        onLayout={handleContentLayout}
+        testID={testId}
       >
-        <View style={styles.stickyHeader}>{stickyHeader}</View>
-
-        <Animated.ScrollView
-          keyboardDismissMode="on-drag"
-          keyboardShouldPersistTaps="always"
-          contentContainerStyle={styles.scrollViewContent}
-        >
-          {children}
-        </Animated.ScrollView>
-      </Animated.View>
-    </View>
+        <Text style={styles.title}>{title}</Text>
+        {description && <Text style={styles.description}>{description}</Text>}
+        {children}
+        <Button
+          text={buttonLabel}
+          onPress={buttonOnPress}
+          size={BtnSizes.FULL}
+          type={buttonType}
+          showLoading={buttonLoading}
+          testID={`${testId}/PrimaryAction`}
+        />
+      </View>
+    </GorhomBottomSheet>
   )
 }
 
 const styles = StyleSheet.create({
+  handle: {
+    backgroundColor: Colors.gray6,
+    width: 40,
+  },
   container: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'flex-end',
-    zIndex: 1,
+    paddingHorizontal: Spacing.Thick24,
+    paddingVertical: Spacing.Regular16,
   },
-  background: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+  title: {
+    ...fontStyles.h2,
+    marginBottom: Spacing.Regular16,
   },
-  contentContainer: {
-    position: 'absolute',
-    bottom: 0,
-    opacity: 1,
-    width: '100%',
-    backgroundColor: colors.light,
-    borderTopRightRadius: Spacing.Regular16,
-    borderTopLeftRadius: Spacing.Regular16,
-  },
-  scrollViewContent: {
-    width: '100%',
-    paddingHorizontal: Spacing.Regular16,
-    paddingBottom: Spacing.Regular16,
-  },
-  stickyHeader: {
-    padding: Spacing.Regular16,
-    marginTop: Spacing.Regular16,
+  description: {
+    ...fontStyles.small,
+    marginBottom: Spacing.Large32,
   },
 })
 

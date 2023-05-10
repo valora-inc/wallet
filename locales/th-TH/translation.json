@@ -21,10 +21,20 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณเชื่อมต่อกับเครือข่าย Celo ผ่านวิธีการที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในการตั้งค่าแอป",
+  "keylessBackupSettingsTitle": "Keyless Backup",
   "restartModalSwitchOff": {
     "header": "รีสตาร์ทเพื่อปิดโหมดประหยัดข้อมูล",
     "body": "หากต้องการปิดและเปิดโหมดประหยัดข้อมูลซ้ำ คุณจะต้องรีสตาร์ทแอปแล้วกลับมาที่หน้าจอนี้",
     "restart": "รีสตาร์ทเพื่อเปลี่ยน"
+  },
+  "revokePhoneNumber": {
+    "title": "Unlink Phone Number",
+    "bottomSheetTitle": "Unlink phone number",
+    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
+    "confirmButton": "Unlink now",
+    "revokeSuccess": "Your phone number has been unlinked",
+    "revokeError": "Could not unlink phone number, please try again later.",
+    "addNewNumberButton": "Add phone number"
   },
   "promptFornoModal": {
     "header": "เปลี่ยนโหมดการเชื่อมต่อหรือไม่",
@@ -77,6 +87,13 @@
       "phraseLocation": "สถานที่ที่เหมาะสมอาจจะเป็นสถานที่ปลอยภัยที่คุณจัดเก็บเอกสารและวัสดุที่สำคัญอื่นๆ ซึ่งยากต่อการถูกขโมยและสามารถเรียกดูได้ง่าย ขึ้นอยู่กับความต้องการของคุณ"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Set up Keyless Backup",
+    "subtitle": "You'll use the following to set up backup:",
+    "emailAddress": "Email Address",
+    "phoneNumber": "หมายเลขโทรศัพท์"
+  },
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
   "privacyPolicy": "นโยบายความเป็นส่วนตัว",
@@ -1560,7 +1577,7 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "แลกเปลี่ยนกับพันธมิตรใน Celo <0> เรียนรู้เพิ่มเติม </0>",
+    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "maxSwapAmountWarning": {

@@ -23,17 +23,13 @@ exports[`renders correctly 1`] = `
   <View
     style={
       Object {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "borderBottomColor": 0,
-        "borderBottomWidth": 1,
         "flexDirection": "row",
-        "flexShrink": 1,
-        "justifyContent": "center",
-        "minHeight": 56,
+        "paddingLeft": 24,
+        "paddingVertical": 16,
+        "width": "100%",
       }
     }
-    testID="DrawerTopBar"
+    testID="Education/top"
   >
     <View
       accessible={true}
@@ -46,6 +42,13 @@ exports[`renders correctly 1`] = `
           "top": 10,
         }
       }
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackgroundBorderless",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -53,54 +56,31 @@ exports[`renders correctly 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
-      style={
-        Array [
-          Object {
-            "left": 0,
-            "marginBottom": 0,
-            "marginLeft": 16,
-            "padding": 0,
-            "position": "absolute",
-          },
-          Object {
-            "opacity": 1,
-          },
-        ]
-      }
+      testID="Education/CloseIcon"
     >
       <svg
-        fill="none"
-        height="32"
-        testID="Hamburger"
-        viewBox="0 0 32 32"
-        width="32"
+        height={16}
+        style={Object {}}
+        testID="Times"
+        viewBox="0 0 16 16"
+        width={16}
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <line
+        <path
+          d="M13.9999 2.00146L1.99994 14.0015"
           stroke="#2E3338"
           strokeLinecap="round"
-          strokeWidth="2.5"
-          x1="7.25"
-          x2="24.75"
-          y1="9.75"
-          y2="9.75"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          style={Object {}}
         />
-        <line
+        <path
+          d="M1.99994 2.00146L13.9999 14.0015"
           stroke="#2E3338"
           strokeLinecap="round"
-          strokeWidth="2.5"
-          x1="7.25"
-          x2="24.75"
-          y1="15.75"
-          y2="15.75"
-        />
-        <line
-          stroke="#2E3338"
-          strokeLinecap="round"
-          strokeWidth="2.5"
-          x1="7.25"
-          x2="24.75"
-          y1="21.75"
-          y2="21.75"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          style={Object {}}
         />
       </svg>
     </View>

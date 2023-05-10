@@ -21,8 +21,6 @@ import {
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
-import { ReviewProps } from 'src/transactions/TransactionReview'
-import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
@@ -302,6 +300,7 @@ export type StackParamList = {
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
   [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.SetUpKeylessBackup]: undefined
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
@@ -317,10 +316,6 @@ export type StackParamList = {
   [Screens.SwapScreenWithBack]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
-  }
-  [Screens.TransactionReview]: {
-    reviewProps: ReviewProps
-    confirmationProps: TransferConfirmationCardProps
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
@@ -339,7 +334,6 @@ export type StackParamList = {
   }
   [Screens.VerificationStartScreen]:
     | {
-        showSkipDialog?: boolean
         hideOnboardingStep?: boolean
         selectedCountryCodeAlpha2?: string
         choseToRestoreAccount?: boolean

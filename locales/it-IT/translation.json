@@ -21,10 +21,20 @@
   "dataSaver": "Risparmio dati",
   "enableDataSaver": "Abilita Risparmio dati",
   "dataSaverDetail": "La modalità Risparmio dati ti consente di comunicare con la rete Celo attraverso un nodo attendibile. Puoi sempre selezionare un’altra modalità dalle impostazioni dell’app.",
+  "keylessBackupSettingsTitle": "Backup senza chiave",
   "restartModalSwitchOff": {
     "header": "Riavvia per disabilitare Risparmio dati",
     "body": "Per attivare e disattivare ripetutamente Risparmio dati, devi riavviare l’app e tornare a questa schermata.",
     "restart": "Riavvia per attivare/disattivare"
+  },
+  "revokePhoneNumber": {
+    "title": "Numero di telefono Unlink",
+    "bottomSheetTitle": "Numero di telefono non collegato",
+    "description": "Lo scollegamento rimuoverà il numero di telefono collegato al tuo portafoglio. Potrai aggiungere un nuovo numero di telefono in seguito.",
+    "confirmButton": "Sblocca ora il link",
+    "revokeSuccess": "Il tuo numero di telefono è stato scollegato",
+    "revokeError": "Non è stato possibile scollegare il numero di telefono, riprova più tardi.",
+    "addNewNumberButton": "Aggiungi il numero di telefono"
   },
   "promptFornoModal": {
     "header": "Cambiare la modalità di connessione?",
@@ -77,6 +87,13 @@
       "phraseLocation": "Un luogo ideale potrebbe essere lo stesso in cui si memorizzano altri documenti e materiali importanti per la custodia, difficile da rubare e facile da recuperare. Sta a te!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Imposta il backup senza chiave",
+    "subtitle": "Per impostare il backup dovrai utilizzare le seguenti istruzioni:",
+    "emailAddress": "Indirizzo e-mail",
+    "phoneNumber": "Numero telefonico"
+  },
+  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Tienilo al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
@@ -1562,7 +1579,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi alimentati da partner su Celo. <0>Scopri di più</0>",
+    "disclaimer": "Scambi alimentati da partner su Celo. \n<0>Per saperne di più.</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "maxSwapAmountWarning": {

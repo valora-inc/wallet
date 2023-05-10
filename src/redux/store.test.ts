@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 123,
+          "version": 125,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -138,9 +138,7 @@ describe('store state', () => {
           "appState": "Active",
           "celoEducationUri": null,
           "celoEuroEnabled": true,
-          "celoNews": Object {
-            "enabled": false,
-          },
+          "celoNews": Object {},
           "coinbasePayEnabled": false,
           "decentralizedVerificationEnabled": true,
           "fiatConnectCashInEnabled": false,
@@ -294,6 +292,10 @@ describe('store state', () => {
         "paymentRequest": Object {
           "incomingPaymentRequests": Array [],
           "outgoingPaymentRequests": Array [],
+        },
+        "positions": Object {
+          "positions": Array [],
+          "status": "idle",
         },
         "recipients": Object {
           "coinbasePaySenders": Array [],
