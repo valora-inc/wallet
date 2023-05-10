@@ -10,6 +10,7 @@ import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
+  getFeatureGate: jest.fn().mockReturnValue(false),
 }))
 
 // TODO avoid rendering WalletHome as we're mostly interested in testing the menu here
