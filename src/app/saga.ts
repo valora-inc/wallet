@@ -4,6 +4,7 @@ import { hexToBuffer } from '@celo/utils/lib/address'
 import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import InAppReview from 'react-native-in-app-review'
 import * as Keychain from 'react-native-keychain'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
@@ -27,6 +28,7 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
+  inAppReviewRequested,
   inviteLinkConsumed,
   minAppVersionDetermined,
   OpenDeepLink,
@@ -43,6 +45,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  inAppReviewLastInteractionTimestampSelector,
   inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
@@ -78,14 +81,17 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
+import { Actions as SendActions } from 'src/send/actions'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { patchUpdateStatsigUser } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
   handleWalletConnectDeepLink,
@@ -107,6 +113,9 @@ const TAG = 'app/saga'
 // case 2: User gets a permission request dialog
 //    (which will put an app into `background` state until dialog disappears).
 const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
+
+// REVIEW_INTERVAL is the time between app review prompts
+const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 120 // 120 days
 
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
@@ -502,6 +511,40 @@ export function* runCentralPhoneVerificationMigration() {
   }
 }
 
+export function* requestInAppReview() {
+  const walletAddress = yield select(walletAddressSelector)
+  // Quick return if no wallet address or the device does not support in app review
+  if (
+    !walletAddress ||
+    !InAppReview.isAvailable() ||
+    !getFeatureGate(StatsigFeatureGates.APP_REVIEW)
+  )
+    return
+
+  const lastInteractionTimestamp = yield select(inAppReviewLastInteractionTimestampSelector)
+  const now = Date.now()
+
+  // If the last interaction was less than a quarter year ago or null
+  if (now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
+    try {
+      // If we call InAppReview.RequestInAppReview and there wasn't an error
+      // Update the last interaction timestamp and send analytics
+      yield call(InAppReview.RequestInAppReview)
+      yield put(inAppReviewRequested(now))
+      ValoraAnalytics.track(AppEvents.in_app_review_impression)
+    } catch (error) {
+      Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
+      ValoraAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
+    }
+  }
+}
+
+export function* watchAppReview() {
+  // TODO: add more actions to trigger app review
+  // non liquidating transaction (to include dapp tx, sends, cash ins, celo buy/sell, swap) and/or supercharge claim
+  yield takeLatest([SendActions.SEND_PAYMENT_SUCCESS], safely(requestInAppReview))
+}
+
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
@@ -512,4 +555,5 @@ export function* appSaga() {
     safely(runCentralPhoneVerificationMigration)
   )
   yield takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
+  yield spawn(watchAppReview)
 }
