@@ -25,15 +25,15 @@ import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
-  OpenDeepLink,
-  OpenUrlAction,
-  SetAppState,
   androidMobileServicesAvailabilityChecked,
   appLock,
   inviteLinkConsumed,
   minAppVersionDetermined,
+  OpenDeepLink,
   openDeepLink,
+  OpenUrlAction,
   phoneNumberVerificationMigrated,
+  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -56,9 +56,9 @@ import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import {
   appVersionDeprecationChannel,
   fetchRemoteConfigValues,
@@ -71,6 +71,7 @@ import {
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { jumpstartLinkHandler } from 'src/jumpstart/utils'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -82,8 +83,8 @@ import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { patchUpdateStatsigUser } from 'src/statsig'
-import Logger from 'src/utils/Logger'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
@@ -350,6 +351,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
         inviterAddress,
       })
+    } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
+      const privateKey = pathParts[2]
+      const walletAddress: string = yield select(walletAddressSelector)
+      yield call(jumpstartLinkHandler, privateKey, walletAddress)
     }
   }
 }
