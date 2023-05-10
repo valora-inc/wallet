@@ -1,19 +1,16 @@
 import { Contract } from '@celo/connect'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import jumpstartAbi from 'src/abis/WalletJumpStart.json'
-import { DEFAULT_FORNO_URL } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { getWeb3Async } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { getHttpProvider } from 'src/web3/providers'
 import { getContract } from 'src/web3/utils'
-import Web3 from 'web3'
 
 const TAG = 'WalletJumpstart'
 
 export async function jumpstartLinkHandler(privateKey: string, userAddress: string) {
-  const kit = newKitFromWeb3(new Web3(getHttpProvider(DEFAULT_FORNO_URL)))
-
+  const kit = newKitFromWeb3(await getWeb3Async())
   kit.connection.addAccount(privateKey)
   const accounts: string[] = await kit.connection.getAccounts()
   const publicKey = accounts[0]
@@ -24,7 +21,7 @@ export async function jumpstartLinkHandler(privateKey: string, userAddress: stri
   await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey)
 }
 
-async function executeClaims(
+export async function executeClaims(
   kit: ContractKit,
   jumpstart: Contract,
   beneficiary: string,
@@ -81,7 +78,7 @@ async function executeClaims(
   }
 }
 
-interface RewardInfo {
+export interface RewardInfo {
   index: string
   beneficiary: string
   signature: string
@@ -89,7 +86,7 @@ interface RewardInfo {
   assetType: 'erc20' | 'erc721'
 }
 
-async function claimReward(rewardInfo: RewardInfo) {
+export async function claimReward(rewardInfo: RewardInfo) {
   const queryParams = new URLSearchParams({ ...rewardInfo }).toString()
   const requestUrl = `${networkConfig.walletJumpstartUrl}?${queryParams}`
   const response = await fetchWithTimeout(requestUrl, { method: 'POST' }, 60_000)
