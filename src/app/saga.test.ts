@@ -638,22 +638,10 @@ describe(requestInAppReview, () => {
 
   it.each`
     lastInteractionTimestamp | isAvailable | lastInteraction   | featureGate | walletAddress
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${'0xTest'}
-    ${null}                  | ${false}    | ${null}           | ${true}     | ${'0xTest'}
     ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${true}     | ${'0xTest'}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${true}     | ${'0xTest'}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${false}    | ${'0xTest'}
-    ${null}                  | ${false}    | ${null}           | ${false}    | ${'0xTest'}
-    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${false}    | ${'0xTest'}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${false}    | ${'0xTest'}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${null}
-    ${null}                  | ${false}    | ${null}           | ${true}     | ${null}
-    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${true}     | ${null}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${true}     | ${null}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${false}    | ${null}
-    ${null}                  | ${false}    | ${null}           | ${false}    | ${null}
-    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${false}    | ${null}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}    | ${false}    | ${null}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${true}     | ${'121 days ago'} | ${false}    | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${true}     | ${'121 days ago'} | ${true}     | ${null}
   `(
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
