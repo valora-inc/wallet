@@ -3,6 +3,7 @@ import { PincodeType } from 'src/account/reducer'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
+import { getDefaultStatsigUser } from 'src/statsig'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 import {
@@ -33,6 +34,7 @@ jest.mock('src/config', () => ({
   STATSIG_API_KEY: 'statsig-key',
 }))
 jest.mock('statsig-react-native')
+jest.mock('src/statsig')
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
@@ -173,42 +175,16 @@ describe('ValoraAnalytics', () => {
     mockStore.getState.mockImplementation(() => state)
   })
 
-  it('creates statsig client on initialization with wallet address as user id', async () => {
-    mockStore.getState.mockImplementation(() =>
-      getMockStoreData({
-        web3: { account: '0x1234ABC', mtwAddress: '0x0000' },
-        account: { startOnboardingTime: 1234 },
-      })
-    )
+  it('creates statsig client on initialization with default statsig user', async () => {
+    mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
     await ValoraAnalytics.init()
     expect(mockSegmentClient.userInfo.set).toHaveBeenCalledWith({
       anonymousId: 'legacy-anon-id',
     })
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
-      { userID: '0x1234abc', custom: { startOnboardingTime: 1234 } },
+      { userID: 'someUserId' },
       { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
-    )
-  })
-
-  it('creates statsig client on initialization with null as user id if wallet address is not set', async () => {
-    mockStore.getState.mockImplementation(() =>
-      getMockStoreData({ web3: { account: undefined }, account: { startOnboardingTime: 1234 } })
-    )
-    await ValoraAnalytics.init()
-    expect(Statsig.initialize).toHaveBeenCalledWith(
-      'statsig-key',
-      {
-        userID: undefined,
-        custom: {
-          startOnboardingTime: 1234,
-        },
-      },
-      {
-        environment: { tier: 'development' },
-        overrideStableID: 'anonId',
-        localMode: false,
-      }
     )
   })
 

@@ -1,5 +1,4 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
@@ -13,6 +12,7 @@ import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
+  inAppReviewRequested,
   inviteLinkConsumed,
   openDeepLink,
   openUrl,
@@ -29,7 +29,6 @@ import {
   runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
-  getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inAppReviewLastInteractionTimestampSelector,
@@ -51,10 +50,9 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
-import { Actions as SendActions } from 'src/send/actions'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -78,11 +76,14 @@ jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: () => mockRequestInAppReview(),
-  isAvailable: () => mockIsAvailable(),
+  isAvailable: () => mockIsInAppReviewAvailable(),
 }))
 
+const now = 1482363367071
+Date.now = jest.fn(() => now)
+
 const mockRequestInAppReview = jest.fn()
-const mockIsAvailable = jest.fn()
+const mockIsInAppReviewAvailable = jest.fn()
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
@@ -93,11 +94,10 @@ jest.mock('src/i18n', () => ({
   t: jest.fn(),
 }))
 
+jest.mock('src/utils/Logger')
+
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
-
-const loggerWarnSpy = jest.spyOn(Logger, 'warn')
-const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
@@ -391,47 +391,52 @@ describe('handleOpenUrl', () => {
 })
 
 describe('handleSetAppState', () => {
-  it('handles setting app state', async () => {
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .put(appLock())
-      .run()
+  describe('on app active', () => {
+    it('refreshes statsig and requires pin if pin required on app opened and do not lock period has passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), true],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if pin not required on app open', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), false],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), Date.now()],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+    it('refreshes statsig and does not require pin if do not lock period has not passed', async () => {
+      await expectSaga(handleSetAppState, setAppState('active'))
+        .provide([
+          [select(getLastTimeBackgrounded), Date.now()],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .call(patchUpdateStatsigUser)
+        .run()
+    })
+  })
 
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), false],
-      ])
-      .run()
-
-    await expectSaga(handleSetAppState, setAppState('active'))
-      .provide([
-        [select(getAppLocked), false],
-        [select(getLastTimeBackgrounded), 0],
-        [select(getRequirePinOnAppOpen), true],
-      ])
-      .run()
+  describe('on app inactive', () => {
+    it('does nothing', async () => {
+      await expectSaga(handleSetAppState, setAppState('inactive'))
+        .provide([
+          [select(getLastTimeBackgrounded), 0],
+          [select(getRequirePinOnAppOpen), true],
+        ])
+        .not.put(appLock())
+        .not.call(patchUpdateStatsigUser)
+        .run()
+    })
   })
 })
 
@@ -500,7 +505,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
-    expect(loggerWarnSpy).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
   })
 
   it('should not run if migration conditions are not met', async () => {
@@ -544,119 +549,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       .run()
 
     expect(mockFetch).not.toHaveBeenCalled()
-    expect(loggerWarnSpy).toHaveBeenCalled()
-  })
-})
-
-// Keep this test before the app init test otherwise the error spec will fail
-describe(requestInAppReview, () => {
-  const oneDayAgo = Date.now() - ONE_DAY_IN_MILLIS
-  const oneQuarterAgo = Date.now() - ONE_DAY_IN_MILLIS * 92
-
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  it.each`
-    lastInteractionTimestamp | lastInteraction
-    ${null}                  | ${null}
-    ${oneQuarterAgo}         | ${'92 days ago'}
-  `(
-    `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
-    async ({ lastInteractionTimestamp }) => {
-      mocked(getFeatureGate).mockReturnValue(true)
-      mockIsAvailable.mockReturnValue(true)
-      mockRequestInAppReview.mockResolvedValue(true)
-
-      await expectSaga(requestInAppReview)
-        .withState(
-          createMockStore({
-            web3: { account: '0xTest' },
-          }).getState()
-        )
-        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
-        .dispatch({
-          type: SendActions.SEND_PAYMENT_SUCCESS,
-          payload: { amount: new BigNumber('100') },
-        })
-        .run()
-
-      expect(mockRequestInAppReview).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_impression)
-    }
-  )
-
-  it.each`
-    lastInteractionTimestamp | isAvailable | lastInteraction  | featureGate | walletAddress
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${true}     | ${'0xTest'}
-    ${null}                  | ${false}    | ${null}          | ${true}     | ${'0xTest'}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${true}     | ${'0xTest'}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${true}     | ${'0xTest'}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${false}    | ${'0xTest'}
-    ${null}                  | ${false}    | ${null}          | ${false}    | ${'0xTest'}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${false}    | ${'0xTest'}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${false}    | ${'0xTest'}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${true}     | ${null}
-    ${null}                  | ${false}    | ${null}          | ${true}     | ${null}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${true}     | ${null}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${true}     | ${null}
-    ${oneDayAgo}             | ${true}     | ${'1 day ago'}   | ${false}    | ${null}
-    ${null}                  | ${false}    | ${null}          | ${false}    | ${null}
-    ${oneQuarterAgo}         | ${false}    | ${'92 days ago'} | ${false}    | ${null}
-    ${oneDayAgo}             | ${false}    | ${'1 day ago'}   | ${false}    | ${null}
-  `(
-    `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
-    async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
-      mocked(getFeatureGate).mockReturnValue(featureGate)
-      mockIsAvailable.mockReturnValue(isAvailable)
-      mockRequestInAppReview.mockResolvedValue(true)
-
-      await expectSaga(requestInAppReview)
-        .withState(
-          createMockStore({
-            web3: { account: walletAddress },
-          }).getState()
-        )
-        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
-        .dispatch({
-          type: SendActions.SEND_PAYMENT_SUCCESS,
-          payload: { amount: new BigNumber('100') },
-        })
-        .run()
-
-      expect(mockRequestInAppReview).not.toHaveBeenCalled()
-      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
-    }
-  )
-
-  it('Should handle error from react-native-in-app-review', async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
-    mockIsAvailable.mockReturnValue(true)
-    mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
-
-    await expectSaga(requestInAppReview)
-      .withState(
-        createMockStore({
-          web3: { account: '0xTest' },
-        }).getState()
-      )
-      .provide([[select(inAppReviewLastInteractionTimestampSelector), null]])
-      .dispatch({
-        type: SendActions.SEND_PAYMENT_SUCCESS,
-        payload: { amount: new BigNumber('100') },
-      })
-      .run()
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_error, {
-      error: '🤖💥',
-    })
-    expect(loggerErrorSpy).toHaveBeenLastCalledWith(
-      'app/saga',
-      'Error while calling InAppReview.RequestInAppReview',
-      new Error('🤖💥')
-    )
+    expect(Logger.warn).toHaveBeenCalled()
   })
 })
 
@@ -669,7 +562,7 @@ describe('appInit', () => {
     [select(allowOtaTranslationsSelector), true],
     [select(otaTranslationsAppVersionSelector), '1'],
     [select(currentLanguageSelector), 'nl-NL'],
-    [select(sentryNetworkErrorsSelector), 'network error'],
+    [select(sentryNetworkErrorsSelector), ['network error']],
   ]
 
   it('should initialise the correct components, with the stored language', async () => {
@@ -709,5 +602,95 @@ describe('appInit', () => {
     expect(initializeSentry).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
+  })
+})
+
+describe(requestInAppReview, () => {
+  const oneDayAgo = now - ONE_DAY_IN_MILLIS
+  const fourMonthsAndADayAgo = now - ONE_DAY_IN_MILLIS * 121
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it.each`
+    lastInteractionTimestamp | lastInteraction
+    ${null}                  | ${null}
+    ${fourMonthsAndADayAgo}  | ${'121 days ago'}
+  `(
+    `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
+    async ({ lastInteractionTimestamp }) => {
+      mocked(getFeatureGate).mockReturnValue(true)
+      mockIsInAppReviewAvailable.mockReturnValue(true)
+      mockRequestInAppReview.mockResolvedValue(true)
+
+      await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: '0xTest' },
+          }).getState()
+        )
+        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .put(inAppReviewRequested(now))
+        .run()
+
+      expect(mockRequestInAppReview).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_impression)
+    }
+  )
+
+  it.each`
+    lastInteractionTimestamp | isAvailable | lastInteraction   | featureGate | walletAddress
+    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${true}     | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${true}     | ${'121 days ago'} | ${false}    | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${true}     | ${'121 days ago'} | ${true}     | ${null}
+  `(
+    `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
+    async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
+      mocked(getFeatureGate).mockReturnValue(featureGate)
+      mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
+      mockRequestInAppReview.mockResolvedValue(true)
+
+      await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: walletAddress },
+          }).getState()
+        )
+        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .not.put(inAppReviewRequested(expect.anything()))
+        .run()
+
+      expect(mockRequestInAppReview).not.toHaveBeenCalled()
+      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+    }
+  )
+
+  it('Should handle error from react-native-in-app-review', async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    mockIsInAppReviewAvailable.mockReturnValue(true)
+    mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
+
+    await expectSaga(requestInAppReview)
+      .withState(
+        createMockStore({
+          web3: { account: '0xTest' },
+        }).getState()
+      )
+      .provide([[select(inAppReviewLastInteractionTimestampSelector), null]])
+      .not.put(inAppReviewRequested(expect.anything()))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_error, {
+      error: '🤖💥',
+    })
+    expect(Logger.error).toHaveBeenLastCalledWith(
+      'app/saga',
+      'Error while calling InAppReview.RequestInAppReview',
+      new Error('🤖💥')
+    )
   })
 })

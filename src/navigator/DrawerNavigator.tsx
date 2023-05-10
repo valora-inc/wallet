@@ -22,10 +22,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import FiatExchange from 'src/account/FiatExchange'
-import GoldEducation from 'src/account/GoldEducation'
 import {
   backupCompletedSelector,
-  celoEducationCompletedSelector,
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
@@ -35,7 +33,7 @@ import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { celoNewsConfigSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -208,7 +206,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.DrawerNavigator>
 export default function DrawerNavigator({ route }: Props) {
   const { t } = useTranslation()
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
-  const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
@@ -216,7 +213,6 @@ export default function DrawerNavigator({ route }: Props) {
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
-  const isCeloNewsEnabled = useSelector(celoNewsConfigSelector).enabled
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
@@ -227,26 +223,14 @@ export default function DrawerNavigator({ route }: Props) {
 
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
-  // Show ExchangeHomeScreen if the user has completed the Celo education
-  // or if the Celo News feature is enabled
-  // Otherwise, show the Celo education screen
-  const celoMenuItem =
-    isCeloEducationComplete || isCeloNewsEnabled ? (
-      <Drawer.Screen
-        name={Screens.ExchangeHomeScreen}
-        component={ExchangeHomeScreen}
-        options={{ title: t('celoGold'), drawerIcon: Gold }}
-      />
-    ) : (
-      <Drawer.Screen
-        name={Screens.GoldEducation}
-        component={GoldEducation}
-        options={{
-          title: t('celoGold'),
-          drawerIcon: Gold,
-        }}
-      />
-    )
+  // ExchangeHomeScreen
+  const celoMenuItem = (
+    <Drawer.Screen
+      name={Screens.ExchangeHomeScreen}
+      component={ExchangeHomeScreen}
+      options={{ title: t('celoGold'), drawerIcon: Gold }}
+    />
+  )
 
   return (
     <Drawer.Navigator

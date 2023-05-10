@@ -21,10 +21,20 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia łączenie się z Celo Network za pośrednictwem zaufanego węzła. Możesz włączyć lub wyłączyć ten tryb w każdej chwili w ustawieniach aplikacji.",
+  "keylessBackupSettingsTitle": "Bezkluczykowy backup",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
     "body": "Aby wielokrotnie włączać i wyłączać oszczędzanie danych, musisz ponownie uruchomić aplikację i wrócić do tego ekranu.",
     "restart": "Uruchom ponownie, aby przełączyć"
+  },
+  "revokePhoneNumber": {
+    "title": "Numer telefonu do odłączenia",
+    "bottomSheetTitle": "Odłącz numer telefonu",
+    "description": "Odblokowanie usunie numer telefonu powiązany z Twoim portfelem. Nowy numer telefonu możesz dodać później.",
+    "confirmButton": "Odłącz teraz",
+    "revokeSuccess": "Twój numer telefonu został odłączony",
+    "revokeError": "Nie można odłączyć numeru telefonu, spróbuj ponownie później.",
+    "addNewNumberButton": "Dodaj numer telefonu"
   },
   "promptFornoModal": {
     "header": "Zmienić tryb połączenia?",
@@ -77,6 +87,13 @@
       "phraseLocation": "Idealne miejsce może być tam, gdzie przechowujesz dla bezpieczeństwa inne ważne dokumenty i materiały, których nie można łatwo ukraść i łatwo odnaleźć. Wszystko zależy od Ciebie!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Ustawienie funkcji Keyless Backup",
+    "subtitle": "Aby skonfigurować kopię zapasową, użyjesz następujących elementów:",
+    "emailAddress": "Adres e-mail",
+    "phoneNumber": "Numer telefonu"
+  },
+  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
@@ -1566,7 +1583,7 @@
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Swapy wspierane przez partnerów na Celo. <0>Dowiedz się więcej.</0>",
+    "disclaimer": "Swapy zasilane przez partnerów na Celo. \n<0>Dowiedz się więcej.</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "maxSwapAmountWarning": {

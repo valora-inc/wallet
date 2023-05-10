@@ -6,7 +6,6 @@ import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { phoneNumberRevoked } from 'src/app/actions'
 import Touchable from 'src/components/Touchable'
-import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
@@ -21,9 +20,6 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   service: 'some service',
   storage: 'some string',
 })
-
-const spyLoggerShowMessage = jest.spyOn(Logger, 'showMessage')
-const spyLoggerShowError = jest.spyOn(Logger, 'showError')
 
 function TestComponent() {
   const revokePhoneNumber = useRevokeCurrentPhoneNumber()
@@ -61,9 +57,6 @@ describe('useRevokeCurrentPhoneNumber', () => {
       body: '{"phoneNumber":"+14155556666","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
     expect(store.getActions()).toEqual([phoneNumberRevoked('+14155556666')])
-    expect(spyLoggerShowMessage).toHaveBeenCalledWith('Revoking phone number')
-    expect(spyLoggerShowMessage).toHaveBeenCalledWith('Phone number revoke was successful')
-    expect(spyLoggerShowError).not.toHaveBeenCalled()
   })
 
   it('shows an error when the request fails', async () => {
@@ -91,7 +84,5 @@ describe('useRevokeCurrentPhoneNumber', () => {
       body: '{"phoneNumber":"+14155556666","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
     expect(store.getActions()).toEqual([])
-    expect(spyLoggerShowMessage).toHaveBeenCalledWith('Revoking phone number')
-    expect(spyLoggerShowError).toHaveBeenCalledWith('Failed to revoke phone number')
   })
 })

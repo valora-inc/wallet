@@ -1,4 +1,5 @@
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { DEFAULT_TESTNET } from 'src/config'
 import {
   fetchPositionsFailure,
   fetchPositionsStart,
@@ -13,6 +14,7 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'positions/saga'
@@ -21,9 +23,11 @@ const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 async function fetchPositions(walletAddress: string) {
   const response = await fetchWithTimeout(
-    // TODO: Use the final API URL once it's ready
-    'https://plugins-api-oaxbpxoaha-uc.a.run.app/balances?' +
-      new URLSearchParams({ network: 'celo', address: walletAddress }),
+    `${networkConfig.getPositionsUrl}?` +
+      new URLSearchParams({
+        network: DEFAULT_TESTNET === 'mainnet' ? 'celo' : 'celoAlfajores',
+        address: walletAddress,
+      }),
     null,
     POSITIONS_FETCH_TIMEOUT
   )
@@ -41,7 +45,7 @@ export function* fetchPositionsSaga() {
       Logger.debug(TAG, 'Skipping fetching positions since no address was found')
       return
     }
-    if (!getFeatureGate({ featureGateName: StatsigFeatureGates.SHOW_POSITIONS })) {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)) {
       return
     }
 

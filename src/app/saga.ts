@@ -28,7 +28,7 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
-  inAppReviewCalled,
+  inAppReviewRequested,
   inviteLinkConsumed,
   minAppVersionDetermined,
   OpenDeepLink,
@@ -85,7 +85,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -114,7 +114,7 @@ const TAG = 'app/saga'
 const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 
 // REVIEW_INTERVAL is the time between app review prompts
-const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 91 // 91 days
+const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 120 // 120 days
 
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
@@ -425,6 +425,11 @@ export function* handleSetAppState(action: SetAppState) {
   if (requirePinOnAppOpen && isPassedDoNotLockPeriod && isAppActive) {
     yield put(appLock())
   }
+
+  if (isAppActive) {
+    // Force a statsig refresh by updating the user object
+    yield call(patchUpdateStatsigUser)
+  }
 }
 
 export function* runCentralPhoneVerificationMigration() {
@@ -507,7 +512,7 @@ export function* requestInAppReview() {
   if (
     !walletAddress ||
     !InAppReview.isAvailable() ||
-    !getFeatureGate({ featureGateName: StatsigFeatureGates.APP_REVIEW })
+    !getFeatureGate(StatsigFeatureGates.APP_REVIEW)
   )
     return
 
@@ -520,7 +525,7 @@ export function* requestInAppReview() {
       // If we call InAppReview.RequestInAppReview and there wasn't an error
       // Update the last interaction timestamp and send analytics
       yield call(InAppReview.RequestInAppReview)
-      yield put(inAppReviewCalled(now))
+      yield put(inAppReviewRequested(now))
       ValoraAnalytics.track(InAppReviewEvents.in_app_review_impression)
     } catch (error) {
       Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
