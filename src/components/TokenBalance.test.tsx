@@ -5,10 +5,14 @@ import { FiatExchangeTokenBalance, HomeTokenBalance } from 'src/components/Token
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockPositions, mockTokenBalances } from 'test/values'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/statsig')
 
 const defaultStore = {
   tokens: {
@@ -27,6 +31,8 @@ const defaultStore = {
     },
   },
 }
+
+mocked(getFeatureGate).mockReturnValue(true)
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
