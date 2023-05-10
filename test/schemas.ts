@@ -2231,6 +2231,7 @@ export const v126Schema = {
     version: 126,
   },
   app: {
+    ...v125Schema.app,
     inAppReviewLastInteractionTimestamp: null,
   },
 }
