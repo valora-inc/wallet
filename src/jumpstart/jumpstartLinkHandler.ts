@@ -3,6 +3,7 @@ import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import jumpstartAbi from 'src/abis/WalletJumpStart.json'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import Logger from 'src/utils/Logger'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { getHttpProvider } from 'src/web3/providers'
 import { getContract } from 'src/web3/utils'
@@ -39,13 +40,13 @@ async function executeClaims(
           ? await jumpstart.methods.erc20Claims(beneficiary, index).call()
           : await jumpstart.methods.erc721Claims(beneficiary, index).call()
       if (info.claimed) {
-        throw new Error('Already claimed')
+        continue
       }
 
       const messageHash = kit.web3.utils.soliditySha3(
         { type: 'address', value: beneficiary },
         { type: 'address', value: userAddress },
-        { type: 'uint256', value: '0' }
+        { type: 'uint256', value: index.toString() }
       )
 
       if (!messageHash) {
@@ -62,10 +63,6 @@ async function executeClaims(
         assetType,
       })
     } catch (error: any) {
-      if (error.message === 'Already claimed') {
-        continue
-      }
-
       if (error.message === 'execution reverted') {
         // This happens when using an index that doesn't exist.
         // For example, index 0 if there are no rewards or index 1 if there's only one.
@@ -95,7 +92,7 @@ interface RewardInfo {
 async function claimReward(rewardInfo: RewardInfo) {
   const queryParams = new URLSearchParams({ ...rewardInfo }).toString()
   const requestUrl = `${networkConfig.walletJumpstartUrl}?${queryParams}`
-  const response = await fetch(requestUrl, { method: 'POST' })
+  const response = await fetchWithTimeout(requestUrl, { method: 'POST' }, 60_000)
   if (!response.ok) {
     throw new Error(
       `Failure response claiming wallet jumpstart reward. ${response.status}  ${response.statusText}`

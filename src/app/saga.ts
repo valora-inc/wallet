@@ -71,7 +71,7 @@ import {
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { jumpstartLinkHandler } from 'src/jumpstart/utils'
+import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
