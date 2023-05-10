@@ -38,7 +38,6 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
-  InAppReviewEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -131,6 +130,10 @@ interface AppEventsProperties {
   }
   [AppEvents.account_funded]: undefined
   [AppEvents.account_liquidated]: undefined
+  [AppEvents.in_app_review_impression]: undefined
+  [AppEvents.in_app_review_error]: {
+    error: string
+  }
 }
 
 interface HomeEventsProperties {
@@ -1226,13 +1229,6 @@ interface TokenBottomSheetEventsProperties {
   }
 }
 
-interface InAppReviewEventsProperties {
-  [InAppReviewEvents.in_app_review_impression]: undefined
-  [InAppReviewEvents.in_app_review_error]: {
-    error: string
-  }
-}
-
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1263,5 +1259,4 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
-  TokenBottomSheetEventsProperties &
-  InAppReviewEventsProperties
+  TokenBottomSheetEventsProperties

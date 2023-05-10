@@ -22,7 +22,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
-import { AppEvents, InAppReviewEvents, InviteEvents } from 'src/analytics/Events'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
@@ -526,10 +526,10 @@ export function* requestInAppReview() {
       // Update the last interaction timestamp and send analytics
       yield call(InAppReview.RequestInAppReview)
       yield put(inAppReviewRequested(now))
-      ValoraAnalytics.track(InAppReviewEvents.in_app_review_impression)
+      ValoraAnalytics.track(AppEvents.in_app_review_impression)
     } catch (error) {
       Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
-      ValoraAnalytics.track(InAppReviewEvents.in_app_review_error, { error: error.message })
+      ValoraAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
     }
   }
 }

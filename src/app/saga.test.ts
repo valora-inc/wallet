@@ -7,7 +7,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
-import { InAppReviewEvents, InviteEvents } from 'src/analytics/Events'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -636,7 +636,7 @@ describe(requestInAppReview, () => {
 
       expect(mockRequestInAppReview).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_impression)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_impression)
     }
   )
 
@@ -684,7 +684,7 @@ describe(requestInAppReview, () => {
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InAppReviewEvents.in_app_review_error, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_error, {
       error: '🤖💥',
     })
     expect(Logger.error).toHaveBeenLastCalledWith(
