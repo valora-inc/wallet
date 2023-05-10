@@ -74,6 +74,7 @@ import {
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -359,6 +360,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
         inviterAddress,
       })
+    } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
+      const privateKey = pathParts[2]
+      const walletAddress: string = yield select(walletAddressSelector)
+      yield call(jumpstartLinkHandler, privateKey, walletAddress)
     }
   }
 }
