@@ -1,18 +1,26 @@
+import * as Sentry from '@sentry/react-native'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
-import 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
-import { setPincodeSuccess } from 'src/account/actions'
+import { clearStoredAccount, setPincodeSuccess, toggleBackupState } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import {
+  hapticFeedbackSet,
+  resetAppOpenedState,
+  setAnalyticsEnabled,
+  setNumberVerified,
+} from 'src/app/actions'
+import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
+import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
@@ -37,8 +45,8 @@ describe('Account', () => {
     jest.clearAllMocks()
   })
 
-  it('renders correctly', () => {
-    const tree = render(
+  it('renders the correct settings items', () => {
+    const { getByText, getByTestId } = render(
       <Provider
         store={createMockStore({
           account: {
@@ -51,25 +59,115 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    expect(tree).toMatchSnapshot()
+
+    expect(getByText('settings')).toBeTruthy()
+    expect(getByTestId('EditProfile')).toBeTruthy()
+    expect(getByText('confirmNumber')).toBeTruthy()
+
+    expect(getByText('languageSettings')).toBeTruthy()
+    expect(getByTestId('ChangeLanguage')).toHaveTextContent('Español')
+
+    expect(getByText('localCurrencySetting')).toBeTruthy()
+    expect(getByTestId('ChangeCurrency')).toHaveTextContent('PHP')
+
+    expect(getByText('connectedApplications')).toBeTruthy()
+    expect(getByTestId('ConnectedApplications')).toHaveTextContent('0')
+
+    expect(getByText('changePin')).toBeTruthy()
+    expect(getByText('requirePinOnAppOpen')).toBeTruthy()
+    expect(getByText('hapticFeedback')).toBeTruthy()
+    expect(getByText('shareAnalytics')).toBeTruthy()
+
+    expect(getByText('licenses')).toBeTruthy()
+    expect(getByText('termsOfServiceLink')).toBeTruthy()
+    expect(getByText('privacyPolicy')).toBeTruthy()
+
+    expect(getByText('removeAccountTitle')).toBeTruthy()
   })
 
-  it('renders correctly when dev mode active', () => {
-    const tree = render(
-      <Provider
-        store={createMockStore({
-          identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          tokens: mockTokenBalances,
-          account: {
-            devModeActive: true,
-            e164PhoneNumber: mockE164Number,
-          },
-        })}
-      >
+  it('triggers the correct actions on change app preferences', () => {
+    const store = createMockStore({})
+    const { getByText } = render(
+      <Provider store={store}>
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    expect(tree).toMatchSnapshot()
+
+    store.clearActions()
+    fireEvent(getByText('hapticFeedback'), 'valueChange', true)
+
+    expect(store.getActions()).toEqual([hapticFeedbackSet(true)])
+  })
+
+  it('triggers the correct actions on change data preferences', () => {
+    const store = createMockStore({})
+    const { getByText } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    store.clearActions()
+    fireEvent(getByText('shareAnalytics'), 'valueChange', false)
+
+    expect(store.getActions()).toEqual([setAnalyticsEnabled(false)])
+  })
+
+  it('triggers the correct actions on press legal items', () => {
+    const { getByText } = render(
+      <Provider store={createMockStore({})}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('licenses'))
+    fireEvent.press(getByText('termsOfServiceLink'))
+    fireEvent.press(getByText('privacyPolicy'))
+
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.Licenses)
+    expect(navigateToURI).toHaveBeenNthCalledWith(1, TOS_LINK)
+    expect(navigateToURI).toHaveBeenNthCalledWith(2, PRIVACY_LINK)
+  })
+
+  it('renders the dev mode menu', () => {
+    const mockAddress = '0x0000000000000000000000000000000000007e57'
+    const store = createMockStore({
+      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
+      tokens: mockTokenBalances,
+      account: {
+        devModeActive: true,
+        e164PhoneNumber: mockE164Number,
+      },
+      web3: {
+        account: mockAddress,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    store.clearActions()
+    fireEvent.press(getByText('Toggle verification done'))
+    fireEvent.press(getByText('Reset app opened state'))
+    fireEvent.press(getByText('Toggle backup state'))
+    fireEvent.press(getByText('Wipe Redux Store'))
+    fireEvent.press(getByText('Valora Quick Reset'))
+
+    expect(store.getActions()).toEqual([
+      setNumberVerified(false),
+      resetAppOpenedState(),
+      toggleBackupState(),
+      clearStoredAccount(mockAddress, true),
+      clearStoredAccount(mockAddress),
+    ])
+
+    fireEvent.press(getByText('Show Debug Screen'))
+    expect(navigate).toHaveBeenCalledWith(Screens.Debug)
+
+    fireEvent.press(getByText('Trigger a crash'))
+    expect(Sentry.nativeCrash).toHaveBeenCalled()
   })
 
   it('navigates to PincodeSet screen if entered PIN is correct', async () => {
