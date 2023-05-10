@@ -23,7 +23,7 @@ const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 async function fetchPositions(walletAddress: string) {
   const response = await fetchWithTimeout(
-    `${networkConfig.cloudFunctionsUrl}/hooks-api/getPositions?` +
+    `${networkConfig.getPositionsUrl}?` +
       new URLSearchParams({
         network: DEFAULT_TESTNET === 'mainnet' ? 'celo' : 'celoAlfajores',
         address: walletAddress,
