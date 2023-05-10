@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 124,
+          "version": 126,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -138,9 +138,7 @@ describe('store state', () => {
           "appState": "Active",
           "celoEducationUri": null,
           "celoEuroEnabled": true,
-          "celoNews": Object {
-            "enabled": false,
-          },
+          "celoNews": Object {},
           "coinbasePayEnabled": false,
           "decentralizedVerificationEnabled": true,
           "fiatConnectCashInEnabled": false,
@@ -148,6 +146,7 @@ describe('store state', () => {
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
           "huaweiMobileServicesAvailable": undefined,
+          "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,

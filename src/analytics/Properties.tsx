@@ -22,6 +22,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  KeylessBackupEvents,
   NavigationEvents,
   OnboardingEvents,
   PerformanceEvents,
@@ -37,7 +38,6 @@ import {
   VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
-  KeylessBackupEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -130,6 +130,10 @@ interface AppEventsProperties {
   }
   [AppEvents.account_funded]: undefined
   [AppEvents.account_liquidated]: undefined
+  [AppEvents.in_app_review_impression]: undefined
+  [AppEvents.in_app_review_error]: {
+    error: string
+  }
 }
 
 interface HomeEventsProperties {
@@ -193,6 +197,8 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_recovery_phrase]: undefined
   [SettingsEvents.settings_haptic_feedback]: { enabled: boolean }
   [SettingsEvents.settings_analytics]: { enabled: boolean }
+  [SettingsEvents.settings_revoke_phone_number]: undefined
+  [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
   [SettingsEvents.settings_set_up_keyless_backup]: undefined
 }
 
@@ -415,12 +421,17 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_success]: {
     phoneNumberHash: string
+    inviterAddress: string | null
   }
+  [PhoneVerificationEvents.phone_verification_restore_success]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
   [PhoneVerificationEvents.phone_verification_resend_message]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_start]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_success]: undefined
+  [PhoneVerificationEvents.phone_verification_revoke_error]: undefined
 }
 
 interface IdentityEventsProperties {

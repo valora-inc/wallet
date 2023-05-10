@@ -36,6 +36,7 @@ export enum Actions {
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
+  IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
 }
 
 export interface SetAppState {
@@ -157,6 +158,11 @@ export interface PushNotificationsPermissionChanged {
   enabled: boolean
 }
 
+export interface inAppReviewRequested {
+  type: Actions.IN_APP_REVIEW_REQUESTED
+  inAppReviewLastInteractionTimestamp: number | null
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -182,6 +188,7 @@ export type ActionTypes =
   | InviteLinkConsumed
   | HapticFeedbackSet
   | PushNotificationsPermissionChanged
+  | inAppReviewRequested
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -329,5 +336,14 @@ export const pushNotificationsPermissionChanged = (
   return {
     type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED,
     enabled,
+  }
+}
+
+export const inAppReviewRequested = (
+  inAppReviewLastInteractionTimestamp: number
+): inAppReviewRequested => {
+  return {
+    type: Actions.IN_APP_REVIEW_REQUESTED,
+    inAppReviewLastInteractionTimestamp,
   }
 }

@@ -161,6 +161,12 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     }
   }, [fromToken, toToken, parsedSwapAmount])
 
+  useEffect(() => {
+    if (showMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
+      setShowMaxSwapAmountWarning(false)
+    }
+  }, [fromToken, showMaxSwapAmountWarning])
+
   useEffect(
     () => {
       setSwapAmount((prev) => {
@@ -258,7 +264,10 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         [fieldType]: value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev[fieldType],
       }))
     }
-    setShowMaxSwapAmountWarning(false)
+
+    if (fieldType === Field.FROM) {
+      setShowMaxSwapAmountWarning(false)
+    }
   }
 
   const handleSetMaxFromAmount = () => {
@@ -353,12 +362,9 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
           </SwapAmountInput>
           {showMaxSwapAmountWarning && <MaxAmountWarning />}
         </View>
-        <Text style={[styles.disclaimerWrapper, fontStyles.regular, styles.disclaimerText]}>
+        <Text style={styles.disclaimerText}>
           <Trans i18nKey="swapScreen.disclaimer">
-            <Text
-              style={[fontStyles.regular600, styles.disclaimerLink]}
-              onPress={onPressLearnMore}
-            ></Text>
+            <Text style={styles.disclaimerLink} onPress={onPressLearnMore}></Text>
           </Trans>
         </Text>
         <Button
@@ -410,19 +416,16 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
   },
-  disclaimerWrapper: {
-    paddingBottom: Spacing.Thick24,
-    justifyContent: 'flex-end',
-    flexWrap: 'wrap',
-  },
   disclaimerText: {
+    ...fontStyles.xsmall,
+    paddingBottom: Spacing.Thick24,
+    flexWrap: 'wrap',
     color: colors.gray5,
     textAlign: 'center',
   },
   disclaimerLink: {
     textDecorationLine: 'underline',
     color: colors.greenUI,
-    flexWrap: 'wrap',
   },
   exchangeRateText: {
     ...fontStyles.xsmall,

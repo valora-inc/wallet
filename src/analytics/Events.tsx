@@ -22,6 +22,9 @@ export enum AppEvents {
 
   account_funded = 'account_funded',
   account_liquidated = 'account_liquidated',
+
+  in_app_review_impression = 'in_app_review_impression', // User sees an in-app review request
+  in_app_review_error = 'in_app_review_error', // Error while attempting to display in-app review
 }
 
 export enum HomeEvents {
@@ -70,6 +73,9 @@ export enum SettingsEvents {
   settings_recovery_phrase = 'settings_recovery_phrase',
   settings_haptic_feedback = 'settings_haptic_feedback',
   settings_analytics = 'settings_analytics',
+
+  settings_revoke_phone_number = 'settings_revoke_phone_number',
+  settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
 
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
 }
@@ -190,6 +196,7 @@ export enum PhoneVerificationEvents {
   phone_verification_start = 'phone_verification_start', // when the start button is pressed in the phone number input screen
 
   phone_verification_code_request_success = 'phone_verification_code_request_success', // when the verifyPhoneNumber endpoint returns successfully
+  phone_verification_restore_success = 'phone_verification_restore_success', // when the verifyPhoneNumber endpoint returns that the user is already verified (restore wallet flow)
   phone_verification_code_verify_start = 'phone_verification_code_verify_start', // when the user has entered the sms code and we start to validate on the backend
   phone_verification_code_verify_success = 'phone_verification_code_verify_success', // when the backend confirms that the sms code is successfully validated
   phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code cannot be validated
@@ -199,6 +206,10 @@ export enum PhoneVerificationEvents {
   phone_verification_input_help_continue = 'phone_verification_input_help_continue', // when the user presses continue on the help dialog to continue verification
 
   phone_verification_resend_message = 'phone_verification_resend_message', // when the user triggers a resend of the sms code
+
+  phone_verification_revoke_start = 'phone_verification_revoke_start', // when the revoke endpoint is called
+  phone_verification_revoke_success = 'phone_verification_revoke_success', // when the revoke endpoint returns successfully
+  phone_verification_revoke_error = 'phone_verification_revoke_error', // when the revoke endpoint returns an error
 }
 
 export enum IdentityEvents {

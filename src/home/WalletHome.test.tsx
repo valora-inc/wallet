@@ -101,6 +101,7 @@ jest.mock('src/statsig', () => ({
     showHomeActions: false,
     cashInBottomSheetEnabled: true,
   })),
+  getFeatureGate: jest.fn().mockReturnValue(false),
 }))
 
 jest.mock('src/fiatExchanges/utils', () => ({

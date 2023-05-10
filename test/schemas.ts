@@ -2210,6 +2210,32 @@ export const v124Schema = {
   },
 }
 
+export const v125Schema = {
+  ...v124Schema,
+  _persist: {
+    ...v124Schema._persist,
+    version: 125,
+  },
+  app: {
+    ...v124Schema.app,
+    celoNews: {
+      ..._.omit(v124Schema.app.celoNews, 'enabled'),
+    },
+  },
+}
+
+export const v126Schema = {
+  ...v125Schema,
+  _persist: {
+    ...v125Schema._persist,
+    version: 126,
+  },
+  app: {
+    ...v125Schema.app,
+    inAppReviewLastInteractionTimestamp: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v124Schema as Partial<RootState>
+  return v126Schema as Partial<RootState>
 }

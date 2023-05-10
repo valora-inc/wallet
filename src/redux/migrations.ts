@@ -1111,4 +1111,18 @@ export const migrations = {
     dapps: _.omit(state.dapps, 'dappsFilterEnabled', 'dappsSearchEnabled'),
   }),
   124: (state: any) => state,
+  125: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      celoNews: _.omit(state.app.celoNews, 'enabled'),
+    },
+  }),
+  126: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      inAppReviewLastInteractionTimestamp: null,
+    },
+  }),
 }

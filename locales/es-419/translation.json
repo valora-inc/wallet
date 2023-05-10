@@ -21,10 +21,20 @@
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
+  "keylessBackupSettingsTitle": "Respaldo sin llave",
   "restartModalSwitchOff": {
     "header": "Reinicia la app para desactivar el modo de Ahorro de datos",
     "body": "Para activar y desactivar el modo Ahorro de datos, tendrás que reiniciar la aplicación y volver a esta pantalla.",
     "restart": "Reiniciar"
+  },
+  "revokePhoneNumber": {
+    "title": "Desvincular número de teléfono",
+    "bottomSheetTitle": "Desvincular número de teléfono",
+    "description": "La desvinculación eliminará el número de teléfono vinculado a tu monedero. Puedes añadir un nuevo número de teléfono más adelante.",
+    "confirmButton": "Desvincular ahora",
+    "revokeSuccess": "Tu número de teléfono ha sido desvinculado",
+    "revokeError": "No se ha podido desvincular el número de teléfono, inténtalo más tarde.",
+    "addNewNumberButton": "Añadir número de teléfono"
   },
   "promptFornoModal": {
     "header": "¿Cambiar el modo de conexión?",
@@ -77,6 +87,13 @@
       "phraseLocation": "El mejor lugar para guardarla es junto a otra documentación importante, de modo que no se pierda o te la roben fácilmente. ¡Tú eliges!"
     }
   },
+  "setUpKeylessBackup": {
+    "title": "Configurar la copia de seguridad sin llave",
+    "subtitle": "Utilizarás lo siguiente para configurar la copia de seguridad:",
+    "emailAddress": "Dirección de correo electrónico",
+    "phoneNumber": "Número de Teléfono"
+  },
+  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu monedero si pierdes o te roban el dispositivo. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -1562,7 +1579,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Los intercambios se realizan mediante socios de Celo. <0>Más información</0>",
+    "disclaimer": "Intercambios impulsados por socios en Celo. \n<0>Más información.</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {
