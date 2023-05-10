@@ -417,7 +417,9 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_success]: {
     phoneNumberHash: string
+    inviterAddress: string | null
   }
+  [PhoneVerificationEvents.phone_verification_restore_success]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
