@@ -75,9 +75,12 @@ const connection = {
   estimateGas: jest.fn().mockResolvedValue(1000000),
   estimateGasWithInflationFactor: jest.fn().mockResolvedValue(1000000),
   gasPrice: jest.fn().mockResolvedValue('3'),
+  addAccount: jest.fn(),
+  getAccounts: jest.fn(() => ['0x0000000000000000000000000000000000007E57']),
 }
 
 const kit = {
+  web3,
   contracts: {
     getGasPriceMinimum: jest.fn(async () => GasPriceMinimum),
     getStableToken: jest.fn(async (token: StableToken) => stableTokens[token]),
