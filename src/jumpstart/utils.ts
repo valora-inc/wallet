@@ -101,6 +101,4 @@ async function claimReward(rewardInfo: RewardInfo) {
       `Failure response claiming wallet jumpstart reward. ${response.status}  ${response.statusText}`
     )
   }
-  const json: { transactionHash: string } = await response.json()
-  console.log({ json })
 }

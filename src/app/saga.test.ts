@@ -44,6 +44,7 @@ import {
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { jumpstartLinkHandler } from 'src/jumpstart/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -69,6 +70,7 @@ jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
+jest.mock('src/jumpstart/utils')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
@@ -174,6 +176,15 @@ describe('handleDeepLink', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
       inviterAddress: 'abc123',
     })
+  })
+
+  it('Handles jumpstart links', async () => {
+    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), '0xwallet']])
+      .run()
+
+    expect(jumpstartLinkHandler).toHaveBeenCalledWith('0xPrivateKey', '0xwallet')
   })
 })
 
