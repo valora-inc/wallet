@@ -17,6 +17,11 @@ function onPressGoogle() {
   // TODO: start google sign-in
 }
 
+function onPressCancel() {
+  ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_email_screen_cancel)
+  navigateHome({ params: { initialScreen: Screens.Settings } })
+}
+
 function SignInWithEmail() {
   const { t } = useTranslation()
   return (
@@ -46,9 +51,7 @@ SignInWithEmail.navigationOptions = () => ({
     <TopBarIconButton
       style={styles.cancelButton}
       icon={<Times height={16} />}
-      onPress={() => {
-        navigateHome({ params: { initialScreen: Screens.Settings } })
-      }}
+      onPress={onPressCancel}
     />
   ),
 })

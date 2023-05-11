@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -205,6 +205,7 @@ interface SettingsEventsProperties {
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
   [KeylessBackupEvents.sign_in_with_google]: undefined
+  [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
 }
 
 interface OnboardingEventsProperties {
