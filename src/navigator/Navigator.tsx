@@ -152,7 +152,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.TokenBalances}
         component={TokenBalancesScreen}
-        options={TokenBalancesScreen.navigationOptions}
+        options={headerWithBackButton}
       />
       <Navigator.Screen
         name={Screens.SanctionedCountryErrorScreen}

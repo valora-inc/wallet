@@ -15,16 +15,19 @@ import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
-import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Positions from 'src/positions/Positions'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import AssetBalancesScreen from 'src/tokens/AssetBalances'
 import {
   stalePriceSelector,
   tokensWithTokenBalanceSelector,
@@ -38,6 +41,15 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
+
+const TokenBalances = (props: Props) => {
+  if (getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)) {
+    return <AssetBalancesScreen {...props} />
+  }
+
+  return <TokenBalancesScreen {...props} />
+}
+
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
@@ -172,10 +184,6 @@ function TokenBalancesScreen({ navigation }: Props) {
   )
 }
 
-TokenBalancesScreen.navigationOptions = {
-  ...headerWithBackButton,
-}
-
 const styles = StyleSheet.create({
   scrollContainer: {
     paddingHorizontal: variables.contentPadding,
@@ -241,4 +249,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TokenBalancesScreen
+export default TokenBalances
