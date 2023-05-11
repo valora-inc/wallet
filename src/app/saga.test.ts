@@ -7,11 +7,12 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
-import { InviteEvents } from 'src/analytics/Events'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
+  inAppReviewRequested,
   inviteLinkConsumed,
   openDeepLink,
   openUrl,
@@ -24,11 +25,13 @@ import {
   handleDeepLink,
   handleOpenUrl,
   handleSetAppState,
+  requestInAppReview,
   runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  inAppReviewLastInteractionTimestampSelector,
   inviterAddressSelector,
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
@@ -44,14 +47,16 @@ import {
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { patchUpdateStatsigUser } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -62,6 +67,7 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
+import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/dappkit/dappkit')
@@ -69,6 +75,17 @@ jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
+jest.mock('src/jumpstart/jumpstartLinkHandler')
+jest.mock('react-native-in-app-review', () => ({
+  RequestInAppReview: () => mockRequestInAppReview(),
+  isAvailable: () => mockIsInAppReviewAvailable(),
+}))
+
+const now = 1482363367071
+Date.now = jest.fn(() => now)
+
+const mockRequestInAppReview = jest.fn()
+const mockIsInAppReviewAvailable = jest.fn()
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
@@ -174,6 +191,15 @@ describe('handleDeepLink', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
       inviterAddress: 'abc123',
     })
+  })
+
+  it('Handles jumpstart links', async () => {
+    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), '0xwallet']])
+      .run()
+
+    expect(jumpstartLinkHandler).toHaveBeenCalledWith('0xPrivateKey', '0xwallet')
   })
 })
 
@@ -587,5 +613,95 @@ describe('appInit', () => {
     expect(initializeSentry).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
+  })
+})
+
+describe(requestInAppReview, () => {
+  const oneDayAgo = now - ONE_DAY_IN_MILLIS
+  const fourMonthsAndADayAgo = now - ONE_DAY_IN_MILLIS * 121
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it.each`
+    lastInteractionTimestamp | lastInteraction
+    ${null}                  | ${null}
+    ${fourMonthsAndADayAgo}  | ${'121 days ago'}
+  `(
+    `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
+    async ({ lastInteractionTimestamp }) => {
+      mocked(getFeatureGate).mockReturnValue(true)
+      mockIsInAppReviewAvailable.mockReturnValue(true)
+      mockRequestInAppReview.mockResolvedValue(true)
+
+      await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: '0xTest' },
+          }).getState()
+        )
+        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .put(inAppReviewRequested(now))
+        .run()
+
+      expect(mockRequestInAppReview).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_impression)
+    }
+  )
+
+  it.each`
+    lastInteractionTimestamp | isAvailable | lastInteraction   | featureGate | walletAddress
+    ${fourMonthsAndADayAgo}  | ${false}    | ${'121 days ago'} | ${true}     | ${'0xTest'}
+    ${oneDayAgo}             | ${true}     | ${'1 day ago'}    | ${true}     | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${true}     | ${'121 days ago'} | ${false}    | ${'0xTest'}
+    ${fourMonthsAndADayAgo}  | ${true}     | ${'121 days ago'} | ${true}     | ${null}
+  `(
+    `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
+    async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
+      mocked(getFeatureGate).mockReturnValue(featureGate)
+      mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
+      mockRequestInAppReview.mockResolvedValue(true)
+
+      await expectSaga(requestInAppReview)
+        .withState(
+          createMockStore({
+            web3: { account: walletAddress },
+          }).getState()
+        )
+        .provide([[select(inAppReviewLastInteractionTimestampSelector), lastInteractionTimestamp]])
+        .not.put(inAppReviewRequested(expect.anything()))
+        .run()
+
+      expect(mockRequestInAppReview).not.toHaveBeenCalled()
+      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+    }
+  )
+
+  it('Should handle error from react-native-in-app-review', async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    mockIsInAppReviewAvailable.mockReturnValue(true)
+    mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
+
+    await expectSaga(requestInAppReview)
+      .withState(
+        createMockStore({
+          web3: { account: '0xTest' },
+        }).getState()
+      )
+      .provide([[select(inAppReviewLastInteractionTimestampSelector), null]])
+      .not.put(inAppReviewRequested(expect.anything()))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_error, {
+      error: '🤖💥',
+    })
+    expect(Logger.error).toHaveBeenLastCalledWith(
+      'app/saga',
+      'Error while calling InAppReview.RequestInAppReview',
+      new Error('🤖💥')
+    )
   })
 })

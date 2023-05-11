@@ -2591,6 +2591,12 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inAppReviewLastInteractionTimestamp": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
                 "inviterAddress": {
                     "type": [
                         "null",
@@ -2720,6 +2726,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",

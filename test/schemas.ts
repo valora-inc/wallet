@@ -2224,6 +2224,18 @@ export const v125Schema = {
   },
 }
 
+export const v126Schema = {
+  ...v125Schema,
+  _persist: {
+    ...v125Schema._persist,
+    version: 126,
+  },
+  app: {
+    ...v125Schema.app,
+    inAppReviewLastInteractionTimestamp: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v125Schema as Partial<RootState>
+  return v126Schema as Partial<RootState>
 }

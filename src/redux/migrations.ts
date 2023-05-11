@@ -1118,4 +1118,11 @@ export const migrations = {
       celoNews: _.omit(state.app.celoNews, 'enabled'),
     },
   }),
+  126: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      inAppReviewLastInteractionTimestamp: null,
+    },
+  }),
 }

@@ -51,6 +51,7 @@ export default class {
         address: '0x0000000000000000000000000000000000007E57',
         privateKey: '0x1129eb2fbccdc663f4923a6495c35b096249812b589f7c4cd1dba01e1edaf724',
       }),
+      sign: jest.fn(() => ({ signature: '0xweb3-signature' })),
     },
     personal: {
       importRawKey: () => '0x1129eb2fbccdc663f4923a6495c35b096249812b589f7c4cd1dba01e1edaf724',
@@ -59,5 +60,9 @@ export default class {
     sendTransaction: async () => {},
     isSyncing: jest.fn(() => ({ startingBlock: 0, currentBlock: 10, highestBlock: 100 })),
     sign: jest.fn(() => true),
+  }
+
+  utils = {
+    soliditySha3: () => '0xkeccack-hash',
   }
 }

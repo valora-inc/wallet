@@ -18,6 +18,7 @@ import { reducer as imports, State as ImportState } from 'src/import/reducer'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
+import positionsReducer, { State as PositionsState } from 'src/positions/slice'
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import swapReducer, { State as SwapState } from 'src/swap/slice'
@@ -25,7 +26,6 @@ import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
-import positionsReducer, { State as PositionsState } from 'src/positions/slice'
 
 const appReducer = combineReducers({
   app,
