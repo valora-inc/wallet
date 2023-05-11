@@ -195,9 +195,9 @@ function TokenBalancesScreen({ navigation }: Props) {
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
-        data={[...tokens.sort(sortByUsdBalance), ...tokens.sort(sortByUsdBalance)]}
+        data={tokens.sort(sortByUsdBalance)}
         renderItem={getTokenDisplay}
-        keyExtractor={(item, index) => `${item.address}-${index}`}
+        keyExtractor={(item) => item.address}
         ListHeaderComponent={<AssetBalanceFiat onLayout={handleMeasureBalanceHeight} />}
         onScroll={handleScroll}
       />
