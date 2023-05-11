@@ -24,6 +24,7 @@ require_relative "../node_modules/react-native/scripts/react_native_pods"
 require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
 
 platform :ios, '12.4'
+# install! 'cocoapods', :deterministic_uuids => false
 use_frameworks!
 
 target "celo" do
@@ -37,17 +38,39 @@ target "celo" do
   end
 
   config = use_native_modules!
-  use_react_native!(:path => config[:reactNativePath])
+
+  # Flags change depending on the env values.
+  flags = get_default_flags()
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :hermes_enabled => flags[:hermes_enabled],
+    :fabric_enabled => flags[:fabric_enabled],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
 
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!()
+  # 
+  # Note from Valora engineering:
+  # We're making use_frameworks! work with Flipper by using the following workaround:
+  # building all Flipper related pods as static libraries, linked against the main app.
+  # See $static_framework above
+  use_flipper!({ 
+    # Use a specific version of Flipper-Glog which doesn't vendor glog as a dynamic library
+    # otherwise the main app fails to link (likely due to the 2 dynamic libraries with the same name)
+    # Flipper-Glog >= 0.3.7 uses a vendored dynamic library
+    # See https://github.com/CocoaPods/Specs/blob/86d45638f249b0cb766c8e674a98b1b504b1ac0e/Specs/2/7/2/Flipper-Glog/0.3.7/Flipper-Glog.podspec.json#L21
+    'Flipper-Glog' => '0.3.5' 
+  })
 
   # import OpenSSL after use_flipper! to avoid OpenSSL only being enabled for debug configurations
-  # Flipper-Folly (2.6.7) requires this specific version of OpenSSL, so declaring it here to avoid duplicate versions in the podfile.lock.
-  pod 'OpenSSL-Universal', '1.1.180', :configurations => ['Debug','Release']
+  # Flipper-Folly requires this specific version of OpenSSL, so declaring it here to avoid duplicate versions in the podfile.lock.
+  pod 'OpenSSL-Universal', '1.1.1100', :configurations => ['Debug','Release']
 end
 
 target 'NotificationService' do

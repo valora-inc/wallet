@@ -22,6 +22,7 @@ ignores: [
   "tslib", # required for importHelpers flag in tsconfig.json
   "typescript-json-schema", # helps manage redux state migrations
   "@segment/sovran-react-native", # required for react-native-segment
+  "metro-babel-register", # required for jest tests to run after upgrade to RN 68
   "react-native-adjust", # required for @segment/analytics-react-native-plugin-adjust
 ]
 skip-missing: true
