@@ -93,6 +93,11 @@
     "emailAddress": "E-Mail Adresse",
     "phoneNumber": "Telefonnummer"
   },
+  "signInWithEmail": {
+    "title": "Mit E-Mail anmelden",
+    "subtitle": "Melde dich mit deiner E-Mail an, um sie als Backup einzurichten.\n\nWenn du dein Portemonnaie verlierst, wirst du aufgefordert, dich erneut anzumelden.",
+    "google": "Mit Google anmelden"
+  },
   "setupKeylessBackupReminder": "<0>Denke daran</0>, dass diese Informationen die einzige Möglichkeit sind, auf dein Portemonnaie zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Bewahre es sicher auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
