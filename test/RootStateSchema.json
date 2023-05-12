@@ -70,7 +70,10 @@
                                 "type": "string"
                             },
                             "name": {
-                                "type": "string"
+                                "type": [
+                                    "null",
+                                    "string"
+                                ]
                             },
                             "recipientType": {
                                 "enum": [
@@ -105,7 +108,10 @@
                                 "type": "string"
                             },
                             "name": {
-                                "type": "string"
+                                "type": [
+                                    "null",
+                                    "string"
+                                ]
                             },
                             "recipientType": {
                                 "enum": [
@@ -3944,7 +3950,10 @@
                                         "type": "string"
                                     },
                                     "name": {
-                                        "type": "string"
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
                                     },
                                     "recipientType": {
                                         "$ref": "#/definitions/RecipientType"
@@ -3975,7 +3984,10 @@
                                         "type": "string"
                                     },
                                     "name": {
-                                        "type": "string"
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
                                     },
                                     "recipientType": {
                                         "$ref": "#/definitions/RecipientType"
