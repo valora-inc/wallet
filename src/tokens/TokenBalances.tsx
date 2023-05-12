@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import { debounce } from 'lodash'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FlatList,
@@ -13,6 +12,7 @@ import {
   Text,
   View,
 } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -48,8 +48,6 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
 
-const HEADER_UPDATE_DEBOUNCE_TIME_MS = 100
-
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
@@ -68,7 +66,12 @@ function TokenBalancesScreen({ navigation }: Props) {
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
   const balanceHeightRef = useRef(0)
-  const [showBalanceInHeader, setShowBalanceInHeader] = useState(false)
+  const headerOpacity = useSharedValue(0)
+  const animatedHeaderOpacity = useAnimatedStyle(() => {
+    return {
+      opacity: headerOpacity.value,
+    }
+  })
 
   useLayoutEffect(() => {
     const subTitle =
@@ -80,13 +83,13 @@ function TokenBalancesScreen({ navigation }: Props) {
         : `${localCurrencySymbol} -`
 
     navigation.setOptions({
-      title: '',
-      headerTitle: () =>
-        showBalanceInHeader ? (
+      headerTitle: () => (
+        <Animated.View style={animatedHeaderOpacity}>
           <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
-        ) : null,
+        </Animated.View>
+      ),
     })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, showBalanceInHeader])
+  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderOpacity])
 
   function isHistoricalPriceUpdated(token: TokenBalance) {
     return (
@@ -150,12 +153,9 @@ function TokenBalancesScreen({ navigation }: Props) {
     balanceHeightRef.current = event.nativeEvent.layout.height
   }
 
-  const debouncedUpdateHeader = debounce((scrollOffset: number) => {
-    setShowBalanceInHeader(scrollOffset > balanceHeightRef.current)
-  }, HEADER_UPDATE_DEBOUNCE_TIME_MS)
-
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
-    debouncedUpdateHeader(event.nativeEvent.contentOffset.y)
+    const opacityValue = event.nativeEvent.contentOffset.y > balanceHeightRef.current ? 1 : 0
+    headerOpacity.value = withTiming(opacityValue)
   }
 
   return (
