@@ -93,6 +93,11 @@
     "emailAddress": "Email Address",
     "phoneNumber": "หมายเลขโทรศัพท์"
   },
+  "signInWithEmail": {
+    "title": "Sign in with email",
+    "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
+    "google": "Sign in with Google"
+  },
   "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
