@@ -162,7 +162,7 @@ export function DAppsExplorerScreenSearch() {
                   multiline={false}
                   placeholderTextColor={colors.gray4}
                   underlineColorAndroid="transparent"
-                  placeholder={t('dappsScreen.searchPlaceHolder')}
+                  placeholder={t('dappsScreen.searchPlaceHolder') ?? undefined}
                   showClearButton={true}
                   allowFontScaling={false}
                 />

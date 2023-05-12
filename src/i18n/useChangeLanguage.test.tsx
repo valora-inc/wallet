@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import i18n from 'src/i18n'

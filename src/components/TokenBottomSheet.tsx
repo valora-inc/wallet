@@ -142,7 +142,7 @@ function TokenBottomSheet({
 
   const searchInput = (
     <SearchInput
-      placeholder={t('tokenBottomSheet.searchAssets')}
+      placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
       value={searchTerm}
       onChangeText={(text) => {
         setSearchTerm(text)

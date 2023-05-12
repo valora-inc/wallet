@@ -14,7 +14,7 @@ import Logger from 'src/utils/Logger'
 const TAG = 'recipients/recipient'
 
 export type Recipient = {
-  name?: string
+  name?: string | null
   contactId?: string // unique ID given by phone OS
   thumbnailPath?: string
   displayNumber?: string

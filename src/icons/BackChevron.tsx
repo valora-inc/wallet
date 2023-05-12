@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Animated from 'react-native-reanimated'
 import Svg, { Path } from 'react-native-svg'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 
 const AnimatedPath = Animated.createAnimatedComponent(Path)
 
 export interface Props {
   height?: number
-  color?: string | Animated.Node<number | string>
+  color?: Colors | Animated.Node<Colors>
 }
 
 function BackChevron({ color, height }: Props) {
@@ -25,7 +25,7 @@ function BackChevron({ color, height }: Props) {
 
 BackChevron.defaultProps = {
   height: 16,
-  color: colors.dark,
+  color: Colors.dark,
 }
 
 export default BackChevron

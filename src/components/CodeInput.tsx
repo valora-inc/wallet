@@ -29,7 +29,7 @@ export enum CodeInputStatus {
 }
 
 export interface Props {
-  label?: string
+  label?: string | null
   status: CodeInputStatus
   inputValue: string
   inputPlaceholder: string

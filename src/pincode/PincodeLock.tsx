@@ -22,7 +22,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 function PincodeLock() {
   const [pin, setPin] = useState('')
-  const [errorText, setErrorText] = useState<string | undefined>(undefined)
+  const [errorText, setErrorText] = useState<string | null>(null)
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)

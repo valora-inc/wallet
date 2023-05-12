@@ -117,7 +117,7 @@ export function decryptPaymentRequest(
         `${TAG}@decryptPaymentRequest`,
         'Comment appears to be ciphertext, hiding comment'
       )
-      decryptedPaymentRequest.comment = i18n.t('commentUnavailable')
+      decryptedPaymentRequest.comment = i18n.t('commentUnavailable') ?? undefined
     }
   }
 

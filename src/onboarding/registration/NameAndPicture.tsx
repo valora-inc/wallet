@@ -102,7 +102,7 @@ function NameAndPicture({ navigation, route }: Props) {
           onChangeText={setNameInput}
           value={nameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={t('namePlaceholder')}
+          placeholder={t('namePlaceholder') ?? undefined}
           testID={'NameEntry'}
           multiline={false}
         />
