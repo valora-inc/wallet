@@ -24,8 +24,10 @@ require_relative "../node_modules/react-native/scripts/react_native_pods"
 require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
 
 platform :ios, '12.4'
-# install! 'cocoapods', :deterministic_uuids => false
+install! 'cocoapods', :deterministic_uuids => false
 use_frameworks!
+
+production = ENV["PRODUCTION"] == "1"
 
 target "celo" do
   # RNPermissions
@@ -45,28 +47,22 @@ target "celo" do
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
+    :production => production,
     :hermes_enabled => flags[:hermes_enabled],
     :fabric_enabled => flags[:fabric_enabled],
+    :flipper_configuration => FlipperConfiguration.enabled(
+      ["Debug"], 
+      { 
+        # Use a specific version of Flipper-Glog which doesn't vendor glog as a dynamic library
+        # otherwise the main app fails to link (likely due to the 2 dynamic libraries with the same name)
+        # Flipper-Glog >= 0.3.7 uses a vendored dynamic library
+        # See https://github.com/CocoaPods/Specs/blob/86d45638f249b0cb766c8e674a98b1b504b1ac0e/Specs/2/7/2/Flipper-Glog/0.3.7/Flipper-Glog.podspec.json#L21
+        'Flipper-Glog' => '0.3.5' 
+      }
+    ),
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable these next few lines.
-  # 
-  # Note from Valora engineering:
-  # We're making use_frameworks! work with Flipper by using the following workaround:
-  # building all Flipper related pods as static libraries, linked against the main app.
-  # See $static_framework above
-  use_flipper!({ 
-    # Use a specific version of Flipper-Glog which doesn't vendor glog as a dynamic library
-    # otherwise the main app fails to link (likely due to the 2 dynamic libraries with the same name)
-    # Flipper-Glog >= 0.3.7 uses a vendored dynamic library
-    # See https://github.com/CocoaPods/Specs/blob/86d45638f249b0cb766c8e674a98b1b504b1ac0e/Specs/2/7/2/Flipper-Glog/0.3.7/Flipper-Glog.podspec.json#L21
-    'Flipper-Glog' => '0.3.5' 
-  })
 
   # import OpenSSL after use_flipper! to avoid OpenSSL only being enabled for debug configurations
   # Flipper-Folly requires this specific version of OpenSSL, so declaring it here to avoid duplicate versions in the podfile.lock.
