@@ -371,7 +371,7 @@ export const Account = ({ navigation, route }: Props) => {
 
   const showKeylessBackup = () => {
     // TODO(ACT-771): get from Statsig
-    return false
+    return true // TODO: revert
   }
 
   return (

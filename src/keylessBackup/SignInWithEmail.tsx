@@ -1,3 +1,4 @@
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
@@ -13,6 +14,21 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import fontStyles from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'SignInWithEmail'
+
+async function onPressGoogle() {
+  GoogleSignin.configure()
+  ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google)
+  try {
+    await GoogleSignin.hasPlayServices()
+    const userInfo = await GoogleSignin.signIn()
+    Logger.debug(TAG, 'userInfo:', userInfo)
+  } catch (err) {
+    Logger.warn(TAG, 'google sign in failed', err)
+  }
+}
 
 function onPressCancel() {
   ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_email_screen_cancel)
