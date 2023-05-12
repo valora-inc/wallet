@@ -154,7 +154,7 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
   })
 
-  it('renders and behaves correctly when the search is enabled', () => {
+  it('renders and behaves correctly when the search is enabled', async () => {
     const { getByPlaceholderText, queryByTestId } = renderPicker(true, true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
@@ -163,7 +163,7 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeTruthy()
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(searchInput, 'Celo')
       // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
@@ -179,7 +179,7 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeNull()
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(searchInput, 'Test')
       // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
@@ -195,7 +195,7 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeNull()
     expect(queryByTestId('TTTouchable')).toBeTruthy()
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(searchInput, 'Usd')
       // Wait for the analytics debounce
       jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
@@ -212,11 +212,11 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('TTTouchable')).toBeNull()
   })
 
-  it('does not send events for temporary search inputs', () => {
+  it('does not send events for temporary search inputs', async () => {
     const { getByPlaceholderText } = renderPicker(true, true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(searchInput, 'TemporaryInput')
       fireEvent.changeText(searchInput, 'FinalInput')
       // Wait for the analytics debounce

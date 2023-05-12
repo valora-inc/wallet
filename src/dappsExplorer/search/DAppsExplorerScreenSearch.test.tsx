@@ -354,7 +354,7 @@ describe(DAppsExplorerScreenSearch, () => {
       expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
     })
 
-    it('triggers events when searching', () => {
+    it('triggers events when searching', async () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
@@ -374,7 +374,7 @@ describe(DAppsExplorerScreenSearch, () => {
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      act(() => {
+      await act(() => {
         fireEvent.changeText(getByTestId('SearchInput'), 'swap')
         // Will trigger the debounced analytics event
         jest.advanceTimersByTime(1500)
