@@ -216,7 +216,7 @@
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.136",
     "@types/qrcode": "^1.5.0",
-    "@types/react": "^17.0.38",
+    "@types/react": "^18.0.28",
     "@types/react-native": "^0.69.6",
     "@types/react-native-fs": "^2.13.0",
     "@types/react-redux": "^7.1.7",
