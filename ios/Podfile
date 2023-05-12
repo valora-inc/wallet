@@ -50,6 +50,10 @@ target "celo" do
     :production => production,
     :hermes_enabled => flags[:hermes_enabled],
     :fabric_enabled => flags[:fabric_enabled],
+    # Note from Valora engineering:
+    # We're making use_frameworks! work with Flipper by using the following workaround:
+    # building all Flipper related pods as static libraries, linked against the main app.
+    # See $static_framework above
     :flipper_configuration => FlipperConfiguration.enabled(
       ["Debug"], 
       { 
