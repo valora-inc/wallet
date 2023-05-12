@@ -8,7 +8,8 @@
     "paths": {
       "locales/*": ["locales/*"],
       "src/*": ["src/*"],
-      "test/*": ["test/*"]
+      "test/*": ["test/*"],
+      "react": ["./node_modules/@types/react"]
     },
     "importHelpers": true,
     "jsx": "react",
