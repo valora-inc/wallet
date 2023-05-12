@@ -41,17 +41,20 @@ exports[`Button when type is SECONDARY renders 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#F1F0EB",
-          "flexDirection": "row",
-          "height": 48,
-          "justifyContent": "center",
-          "minWidth": 120,
-          "opacity": undefined,
-          "paddingHorizontal": 24,
-          "paddingVertical": 5,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#F1F0EB",
+            "flexDirection": "row",
+            "height": 48,
+            "justifyContent": "center",
+            "minWidth": 120,
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          },
+          undefined,
+        ]
       }
     >
       <Text
@@ -115,17 +118,20 @@ exports[`Button when type is TERTIARY renders 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#EEB93C",
-          "flexDirection": "row",
-          "height": 48,
-          "justifyContent": "center",
-          "minWidth": 120,
-          "opacity": undefined,
-          "paddingHorizontal": 24,
-          "paddingVertical": 5,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#EEB93C",
+            "flexDirection": "row",
+            "height": 48,
+            "justifyContent": "center",
+            "minWidth": 120,
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          },
+          undefined,
+        ]
       }
     >
       <Text
@@ -189,17 +195,20 @@ exports[`Button when type not given defaults to primary 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#1AB775",
-          "flexDirection": "row",
-          "height": 48,
-          "justifyContent": "center",
-          "minWidth": 120,
-          "opacity": undefined,
-          "paddingHorizontal": 24,
-          "paddingVertical": 5,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#1AB775",
+            "flexDirection": "row",
+            "height": 48,
+            "justifyContent": "center",
+            "minWidth": 120,
+            "opacity": undefined,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          },
+          undefined,
+        ]
       }
     >
       <Text

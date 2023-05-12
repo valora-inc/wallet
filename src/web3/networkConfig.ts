@@ -34,6 +34,8 @@ interface NetworkConfig {
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
   approveSwapUrl: string
+  walletJumpstartUrl: string
+  walletJumpstartAddress: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   getPublicDEKUrl: string
@@ -44,6 +46,7 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewards: string
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
+  getPositionsUrl: string
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -125,6 +128,15 @@ const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
 
+const GET_POSITIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getPositions`
+const GET_POSITIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getPositions`
+
+const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
+const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
+
+const JUMPSTART_ADDRESS_ALFAJORES = '0x40f9dab737B79A26bE70dc10aBEa69d4356cF786'
+const JUMPSTART_ADDRESS_MAINNET = '0x37b4ffe2886d60ae7c86adcefcaf7e54e83773b2'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -157,6 +169,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
     approveSwapUrl: APPROVE_SWAP_URL,
+    walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
+    walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
@@ -167,6 +181,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
+    getPositionsUrl: GET_POSITIONS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -198,6 +213,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
     approveSwapUrl: APPROVE_SWAP_URL,
+    walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
+    walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
@@ -208,6 +225,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
+    getPositionsUrl: GET_POSITIONS_MAINNET,
   },
 }
 

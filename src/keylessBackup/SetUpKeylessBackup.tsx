@@ -6,7 +6,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { emptyHeader } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import Times from 'src/icons/Times'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import Card from 'src/components/Card'
 import Colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
@@ -15,10 +15,11 @@ import EnvelopeIcon from 'src/keylessBackup/EnvelopeIcon'
 import SmartphoneIcon from 'src/keylessBackup/SmartphoneIcon'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { KeylessBackupEvents } from 'src/analytics/Events'
+import { Screens } from 'src/navigator/Screens'
 
 function onPressContinue() {
   ValoraAnalytics.track(KeylessBackupEvents.set_up_keyless_backup_screen_continue)
-  // TODO(ACT-743) navigate to next screen
+  navigate(Screens.SignInWithEmail)
 }
 
 function SetUpKeylessBackup() {

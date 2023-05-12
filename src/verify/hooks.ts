@@ -77,7 +77,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
     setShouldResendSms(false)
     verificationCodeRequested.current = true
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
+    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_restore_success)
 
     setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
     dispatch(phoneNumberVerificationCompleted(phoneNumber, countryCallingCode))
@@ -199,6 +199,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
         ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success, {
           phoneNumberHash: getPhoneHash(phoneNumber),
+          inviterAddress,
         })
         Logger.debug(`${TAG}/validateVerificationCode`, 'Successfully verified phone number')
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)

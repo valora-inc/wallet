@@ -2248,6 +2248,7 @@
                 "SetClock",
                 "SetUpKeylessBackup",
                 "Settings",
+                "SignInWithEmail",
                 "Simplex",
                 "Spend",
                 "StoreWipeRecoveryScreen",
@@ -2591,6 +2592,12 @@
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
+                "inAppReviewLastInteractionTimestamp": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
                 "inviterAddress": {
                     "type": [
                         "null",
@@ -2720,6 +2727,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",

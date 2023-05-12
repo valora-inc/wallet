@@ -9,9 +9,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -130,6 +130,10 @@ interface AppEventsProperties {
   }
   [AppEvents.account_funded]: undefined
   [AppEvents.account_liquidated]: undefined
+  [AppEvents.in_app_review_impression]: undefined
+  [AppEvents.in_app_review_error]: {
+    error: string
+  }
 }
 
 interface HomeEventsProperties {
@@ -200,6 +204,8 @@ interface SettingsEventsProperties {
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
+  [KeylessBackupEvents.sign_in_with_google]: undefined
+  [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -417,7 +423,9 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_code_verify_start]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_success]: {
     phoneNumberHash: string
+    inviterAddress: string | null
   }
+  [PhoneVerificationEvents.phone_verification_restore_success]: undefined
   [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
