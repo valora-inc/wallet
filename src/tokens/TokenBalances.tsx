@@ -19,6 +19,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import PercentageIndicator from 'src/components/PercentageIndicator'
+import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
@@ -33,7 +34,6 @@ import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import AssetBalanceFiat from 'src/tokens/AssetBalanceFiat'
 import {
   stalePriceSelector,
   tokensWithTokenBalanceSelector,
@@ -198,7 +198,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         data={tokens.sort(sortByUsdBalance)}
         renderItem={getTokenDisplay}
         keyExtractor={(item) => item.address}
-        ListHeaderComponent={<AssetBalanceFiat onLayout={handleMeasureBalanceHeight} />}
+        ListHeaderComponent={<AssetsTokenBalance onLayout={handleMeasureBalanceHeight} />}
         onScroll={handleScroll}
       />
     </>
