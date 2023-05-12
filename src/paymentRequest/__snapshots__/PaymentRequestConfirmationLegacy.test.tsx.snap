@@ -334,17 +334,20 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "flexDirection": "row",
-                "flexGrow": 1,
-                "height": 48,
-                "justifyContent": "center",
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#1AB775",
+                  "flexDirection": "row",
+                  "flexGrow": 1,
+                  "height": 48,
+                  "justifyContent": "center",
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+                undefined,
+              ]
             }
             testID="ConfirmButton"
           >

@@ -12,6 +12,8 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <React/RCTAppSetupUtils.h>
+
 #import <React/RCTLinkingManager.h>
 #import <React/RCTHTTPRequestHandler.h>
 
@@ -22,6 +24,10 @@
 
 #import <segment_analytics_react_native-Swift.h>
 
+#import <UserNotifications/UserNotifications.h>
+#import <CleverTapSDK/CleverTap.h>
+#import <CleverTapReact/CleverTapReactManager.h>
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -30,20 +36,36 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
-#import <UserNotifications/UserNotifications.h>
-
-#import <CleverTapSDK/CleverTap.h>
-#import <CleverTapReact/CleverTapReactManager.h>
-
-static void InitializeFlipper(UIApplication *application) {
+static void InitializeFlipper(UIApplication *application)
+{
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
-  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
+  [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application
+                                                withDescriptorMapper:layoutDescriptorMapper]];
   [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
   [client addPlugin:[FlipperKitReactPlugin new]];
   [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
   [client start];
 }
+#endif
+
+#if RCT_NEW_ARCH_ENABLED
+#import <React/CoreModulesPlugins.h>
+#import <React/RCTCxxBridgeDelegate.h>
+#import <React/RCTFabricSurfaceHostingProxyRootView.h>
+#import <React/RCTSurfacePresenter.h>
+#import <React/RCTSurfacePresenterBridgeAdapter.h>
+#import <ReactCommon/RCTTurboModuleManager.h>
+
+#import <react/config/ReactNativeConfig.h>
+
+@interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
+  RCTTurboModuleManager *_turboModuleManager;
+  RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+  std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+  facebook::react::ContextContainer::Shared _contextContainer;
+}
+@end
 #endif
 
 // Use same key as react-native-secure-key-store
@@ -75,10 +97,12 @@ static void SetCustomNSURLSessionConfiguration() {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
 #ifdef FB_SONARKIT_ENABLED
-    InitializeFlipper(application);
+  InitializeFlipper(application);
 #endif
+
+  RCTAppSetupPrepareApp(application);
+  
   // Reset keychain on first run to clear existing Firebase credentials
   // Note: react-native-secure-key-store also does that but is run too late
   // and hence can't clear Firebase credentials
@@ -106,17 +130,23 @@ static void SetCustomNSURLSessionConfiguration() {
   }
   
   SetCustomNSURLSessionConfiguration();
-  
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+#if RCT_NEW_ARCH_ENABLED
+  _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
+  _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
+  _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+  _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc] initWithBridge:bridge contextContainer:_contextContainer];
+  bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
+#endif
+   
 
   NSDate *now = [NSDate date];
   NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
   long long nowEpochMs = (long long)(nowEpochSeconds * 1000);
   NSDictionary *props = @{@"appStartedMillis" : @(nowEpochMs)};
 
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"celo"
-                                            initialProperties:props];
+  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"celo", props);
   
   [RNSplashScreen showSplash:@"LaunchScreen" inRootView:rootView];
   if (@available(iOS 13.0, *)) {
@@ -137,7 +167,7 @@ static void SetCustomNSURLSessionConfiguration() {
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
@@ -224,4 +254,44 @@ static void SetCustomNSURLSessionConfiguration() {
          ];
 }
 
+#if RCT_NEW_ARCH_ENABLED
+
+#pragma mark - RCTCxxBridgeDelegate
+
+- (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+{
+  _turboModuleManager = [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                                             delegate:self
+                                                            jsInvoker:bridge.jsCallInvoker];
+  return RCTAppSetupDefaultJsExecutorFactory(bridge, _turboModuleManager);
+}
+
+#pragma mark RCTTurboModuleManagerDelegate
+
+- (Class)getModuleClassFromName:(const char *)name
+{
+  return RCTCoreModulesClassProvider(name);
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
+                                                      jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
+{
+  return nullptr;
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
+                                                     initParams:
+                                                         (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+  return nullptr;
+}
+
+- (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+{
+  return RCTAppSetupDefaultModuleFromClass(moduleClass);
+}
+
+#endif
+
 @end
+

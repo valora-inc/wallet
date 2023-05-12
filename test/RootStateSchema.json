@@ -2248,6 +2248,7 @@
                 "SetClock",
                 "SetUpKeylessBackup",
                 "Settings",
+                "SignInWithEmail",
                 "Simplex",
                 "Spend",
                 "StoreWipeRecoveryScreen",

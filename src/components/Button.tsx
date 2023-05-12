@@ -40,6 +40,8 @@ export interface ButtonProps {
   disabled?: boolean
   size?: BtnSizes
   testID?: string
+  touchableStyle?: StyleProp<ViewStyle>
+  iconMargin?: number
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -56,6 +58,8 @@ export default React.memo(function Button(props: ButtonProps) {
     style,
     showLoading,
     loadingColor,
+    touchableStyle,
+    iconMargin = 4,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -83,7 +87,7 @@ export default React.memo(function Button(props: ButtonProps) {
         <Touchable
           onPress={debouncedOnPress}
           disabled={disabled}
-          style={getStyle(size, backgroundColor, opacity, iconPositionLeft)}
+          style={[getStyle(size, backgroundColor, opacity, iconPositionLeft), touchableStyle]}
           testID={testID}
         >
           {showLoading ? (
@@ -101,8 +105,8 @@ export default React.memo(function Button(props: ButtonProps) {
                 style={{
                   ...fontStyles.regular600,
                   color: textColor,
-                  marginLeft: icon && iconPositionLeft ? 4 : 0,
-                  marginRight: icon && !iconPositionLeft ? 4 : 0,
+                  marginLeft: icon && iconPositionLeft ? iconMargin : 0,
+                  marginRight: icon && !iconPositionLeft ? iconMargin : 0,
                 }}
               >
                 {text}
