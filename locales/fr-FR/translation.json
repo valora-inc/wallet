@@ -93,6 +93,11 @@
     "emailAddress": "Adresse électronique",
     "phoneNumber": "Numéro de téléphone"
   },
+  "signInWithEmail": {
+    "title": "Inscris-toi avec ton courriel",
+    "subtitle": "Connecte-toi avec ton e-mail pour le configurer en tant que sauvegarde.\n\nTu seras invité à te connecter à nouveau si tu perds ton portefeuille.",
+    "google": "Connecte-toi avec Google"
+  },
   "setupKeylessBackupReminder": "<0>N'oublie pas</0> que ces informations sont le seul moyen d'accéder à ton portefeuille si ton appareil est perdu ou volé. Garde-le en sécurité !",
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",

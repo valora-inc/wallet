@@ -93,6 +93,11 @@
     "emailAddress": "Adres e-mail",
     "phoneNumber": "Numer telefonu"
   },
+  "signInWithEmail": {
+    "title": "Zaloguj się, używając adresu e-mail",
+    "subtitle": "Zaloguj się za pomocą swojego adresu e-mail, aby ustawić go jako kopię zapasową.\n\nW przypadku utraty portfela zostaniesz poproszony o ponowne zalogowanie się.",
+    "google": "Zaloguj się w Google"
+  },
   "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",

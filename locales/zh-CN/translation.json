@@ -93,6 +93,11 @@
     "emailAddress": "电子邮件地址",
     "phoneNumber": "手机号码"
   },
+  "signInWithEmail": {
+    "title": "用电子邮件登录",
+    "subtitle": "用你的电子邮件登录，将其设置为备份。\n\n如果你的钱包丢失，会提示你再次登录。",
+    "google": "用谷歌登录"
+  },
   "setupKeylessBackupReminder": "<0>记住</0>，如果你的设备丢失或被盗，这些信息是访问你的钱包的唯一途径。保持安全!",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",

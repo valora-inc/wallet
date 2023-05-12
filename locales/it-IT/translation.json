@@ -93,6 +93,11 @@
     "emailAddress": "Indirizzo e-mail",
     "phoneNumber": "Numero telefonico"
   },
+  "signInWithEmail": {
+    "title": "Accedi con l'email",
+    "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup.\n\nTi verrà richiesto di accedere nuovamente se dovessi perdere il tuo portafoglio.",
+    "google": "Accedi con Google"
+  },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Tienilo al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
