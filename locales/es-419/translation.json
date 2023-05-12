@@ -93,6 +93,11 @@
     "emailAddress": "Dirección de correo electrónico",
     "phoneNumber": "Número de Teléfono"
   },
+  "signInWithEmail": {
+    "title": "Iniciar sesión con correo electrónico",
+    "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como copia de seguridad.\n\nSe te pedirá que inicies sesión de nuevo si pierdes tu monedero.",
+    "google": "Iniciar sesión con Google"
+  },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu monedero si pierdes o te roban el dispositivo. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
