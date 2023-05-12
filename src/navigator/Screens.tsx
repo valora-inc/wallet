@@ -81,6 +81,7 @@ export enum Screens {
   SetClock = 'SetClock',
   Settings = 'Settings',
   SetUpKeylessBackup = 'SetUpKeylessBackup',
+  SignInWithEmail = 'SignInWithEmail',
   Simplex = 'Simplex',
   Spend = 'Spend',
   StoreWipeRecoveryScreen = 'StoreWipeRecoveryScreen',
