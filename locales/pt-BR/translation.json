@@ -93,6 +93,11 @@
     "emailAddress": "Endereço de correio electrónico",
     "phoneNumber": "Número de celular"
   },
+  "signInWithEmail": {
+    "title": "Iniciar sessão com o correio electrónico",
+    "subtitle": "Inicie sessão com o seu e-mail para o configurar como uma cópia de segurança.\n\nSer-lhe-á pedido que inicie sessão novamente se perder a sua carteira.",
+    "google": "Iniciar sessão com o Google"
+  },
   "setupKeylessBackupReminder": "<0>Lembre-se de que</0> esta informação é a única forma de aceder à sua carteira em caso de perda ou roubo do seu dispositivo. Mantenha-o seguro!",
   "testFaqLink": "Perguntas frequentes da {{appName}}",
   "termsOfServiceLink": "Termos de Serviço",
