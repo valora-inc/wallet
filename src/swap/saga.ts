@@ -1,12 +1,12 @@
-import { CeloTx } from '@celo/connect'
+import { CeloTransactionObject, CeloTx, Contract, toTransactionObject } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
+import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
-import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
@@ -19,6 +19,7 @@ import {
   swapSuccess,
 } from 'src/swap/slice'
 import { ApproveTransaction, Field, SwapInfo, SwapTransaction } from 'src/swap/types'
+import { getERC20TokenContract } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -46,7 +47,6 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
-  const preferredFeeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
   yield call(
     sendTransaction,
     txo,
@@ -54,7 +54,7 @@ function* handleSendSwapTransaction(
     newTransactionContext(TAG, tagDescription),
     undefined,
     undefined,
-    preferredFeeCurrency
+    undefined
   )
 }
 
@@ -65,8 +65,15 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
-    const { price, guaranteedPrice, buyTokenAddress, sellTokenAddress } =
-      action.payload.unvalidatedSwapTransaction
+    const {
+      price,
+      guaranteedPrice,
+      buyTokenAddress,
+      sellTokenAddress,
+      buyAmount,
+      sellAmount,
+      allowanceTarget,
+    } = action.payload.unvalidatedSwapTransaction
     const priceDiff: number = yield call(getPercentageDifference, +price, +guaranteedPrice)
     if (priceDiff >= maxSlippagePercent) {
       yield put(swapPriceChange())
@@ -83,10 +90,18 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     const amountType =
       action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
 
+    const amountToApprove =
+      amountType === 'buyAmount'
+        ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
+        : sellAmount
+
     // Approve transaction
     yield put(swapApprove())
-    Logger.debug(TAG, `Starting to swap approval for address: ${walletAddress}`)
-    yield call(handleSendSwapTransaction, { ...action.payload.approveTransaction }, 'Swap/Approve')
+    Logger.debug(
+      TAG,
+      `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
+    )
+    yield call(sendApproveTx, sellTokenAddress, amountToApprove, allowanceTarget)
 
     // Execute transaction
     yield put(swapExecute())
@@ -117,4 +132,25 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
 export function* swapSaga() {
   yield takeLatest(swapStart.type, safely(swapSubmitSaga))
+}
+
+export function* sendApproveTx(tokenAddress: string, amount: string, recipientAddress: string) {
+  const kit: ContractKit = yield call(getContractKit)
+  const contract: Contract = yield call(getERC20TokenContract, tokenAddress)
+  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+
+  const tx: CeloTransactionObject<boolean> = toTransactionObject(
+    kit.connection,
+    contract.methods.approve(recipientAddress, amount)
+  )
+
+  yield call(
+    sendTransaction,
+    tx.txo,
+    walletAddress,
+    newTransactionContext(TAG, 'Swap/Approve'),
+    undefined,
+    undefined,
+    undefined
+  )
 }
