@@ -21,16 +21,16 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia łączenie się z Celo Network za pośrednictwem zaufanego węzła. Możesz włączyć lub wyłączyć ten tryb w każdej chwili w ustawieniach aplikacji.",
-  "keylessBackupSettingsTitle": "Bezkluczykowy backup",
+  "keylessBackupSettingsTitle": "Kopia zapasowa bez klucza",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
     "body": "Aby wielokrotnie włączać i wyłączać oszczędzanie danych, musisz ponownie uruchomić aplikację i wrócić do tego ekranu.",
     "restart": "Uruchom ponownie, aby przełączyć"
   },
   "revokePhoneNumber": {
-    "title": "Numer telefonu do odłączenia",
+    "title": "Odłącz numer telefonu",
     "bottomSheetTitle": "Odłącz numer telefonu",
-    "description": "Odblokowanie usunie numer telefonu powiązany z Twoim portfelem. Nowy numer telefonu możesz dodać później.",
+    "description": "Odłączenie usunie numer telefonu powiązany z Twoim portfelem. Nowy numer telefonu możesz dodać później.",
     "confirmButton": "Odłącz teraz",
     "revokeSuccess": "Twój numer telefonu został odłączony",
     "revokeError": "Nie można odłączyć numeru telefonu, spróbuj ponownie później.",
@@ -88,15 +88,15 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Ustawienie funkcji Keyless Backup",
-    "subtitle": "Aby skonfigurować kopię zapasową, użyjesz następujących elementów:",
+    "title": "Skonfiguruj tworzenie kopii zapasowej bez klucza",
+    "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje:",
     "emailAddress": "Adres e-mail",
     "phoneNumber": "Numer telefonu"
   },
   "signInWithEmail": {
-    "title": "Zaloguj się, używając adresu e-mail",
-    "subtitle": "Zaloguj się za pomocą swojego adresu e-mail, aby ustawić go jako kopię zapasową.\n\nW przypadku utraty portfela zostaniesz poproszony o ponowne zalogowanie się.",
-    "google": "Zaloguj się w Google"
+    "title": "Zaloguj się za pomocą adresu e-mail",
+    "subtitle": "Zaloguj się za pomocą swojego adresu e-mail, aby wykorzystać go do tworzenia kopii zapasowych.\n\nW przypadku utraty portfela zostaniesz poproszony(-a) o ponowne zalogowanie się.",
+    "google": "Zaloguj się przez Google"
   },
   "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
@@ -979,13 +979,13 @@
   "stableBalance": "Saldo {{token}}",
   "selectToken": "Wybierz aktywa",
   "verificationCta": {
-    "header": "Wysyłaj kryptowaluty jak tekst!",
+    "header": "Wysyłaj kryptowaluty jak wiadomości tekstowe!",
     "body": "Połącz swój numer telefonu z adresem portfela, aby móc wysyłać i otrzymywać płatności od znajomych.",
-    "cta": "Link Numer telefonu"
+    "cta": "Połącz numer telefonu"
   },
   "importContactsCta": {
     "header": "Włącz kontakty",
-    "body": "Włącz opcję Kontakty w ustawieniach telefonu, aby łatwo wysyłać i żądać płatności.",
+    "body": "Włącz kontakty w ustawieniach telefonu, aby łatwo wysyłać i żądać płatności.",
     "cta": "Ustawienia"
   },
   "contactSyncProgress": {
@@ -1588,7 +1588,7 @@
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Swapy zasilane przez partnerów na Celo. \n<0>Dowiedz się więcej.</0>",
+    "disclaimer": "Zamiany wspierane przez partnerów na Celo. \n<0>Dowiedz się więcej.</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "maxSwapAmountWarning": {
