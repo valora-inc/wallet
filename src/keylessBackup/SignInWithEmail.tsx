@@ -19,8 +19,14 @@ import Logger from 'src/utils/Logger'
 const TAG = 'SignInWithEmail'
 
 async function onPressGoogle() {
-  GoogleSignin.configure()
   ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google)
+  // TODO(satish): move this to a saga
+  GoogleSignin.configure({
+    webClientId: '<client id from google-services.json>',
+  })
+  // sign out first so any saved session is not used, which skips asking for the
+  // account to use
+  await GoogleSignin.signOut()
   try {
     await GoogleSignin.hasPlayServices()
     const userInfo = await GoogleSignin.signIn()

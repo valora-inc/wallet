@@ -195,10 +195,10 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleSignIn (7.0.0):
+  - GoogleSignIn (6.2.4):
     - AppAuth (~> 1.5)
-    - GTMAppAuth (< 3.0, >= 1.3)
-    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
+    - GTMAppAuth (~> 1.3)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
   - GoogleUtilities/AppDelegateSwizzler (7.11.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -218,10 +218,10 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.11.1):
     - GoogleUtilities/Logger
-  - GTMAppAuth (2.0.0):
+  - GTMAppAuth (1.3.1):
     - AppAuth/Core (~> 1.6)
-    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
-  - GTMSessionFetcher/Core (3.1.0)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
+  - GTMSessionFetcher/Core (2.3.0)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
   - lottie-ios (3.4.4)
@@ -615,7 +615,7 @@ PODS:
   - RNGestureHandler (2.9.0):
     - React-Core
   - RNGoogleSignin (9.0.2):
-    - GoogleSignIn (~> 7.0)
+    - GoogleSignIn (~> 6.2)
     - React-Core
   - RNImageCropPicker (0.35.2):
     - React-Core
@@ -1067,10 +1067,10 @@ SPEC CHECKSUMS:
   glog: 3d02b25ca00c2d456734d0bcff864cbc62f6ae1a
   GoogleAppMeasurement: fe17c92a32207dd5cdd4e8d742767f2da74857f6
   GoogleDataTransport: 8378d1fa8ac49753ea6ce70d65a7cb70ce5f66e6
-  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
+  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
-  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
-  GTMSessionFetcher: c9e714f7eec91a55641e2bab9f45fd83a219b882
+  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
+  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
@@ -1141,7 +1141,7 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 2c7889df00b594b10c20090f33741af0d5d59e67
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
-  RNGoogleSignin: 9f1c4738bc39eb04c92c792b456d65919ce1429f
+  RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
