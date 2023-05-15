@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     margin: variables.contentPadding,
   },
   assetsContainer: {
-    paddingVertical: Spacing.Thick24,
+    marginVertical: Spacing.Thick24,
   },
   totalAssets: {
     ...fontStyles.regular600,

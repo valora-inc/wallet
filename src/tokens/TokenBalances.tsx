@@ -1,18 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  FlatList,
-  Image,
-  LayoutChangeEvent,
-  NativeScrollEvent,
-  PixelRatio,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { Image, LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import Animated, {
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -65,13 +61,21 @@ function TokenBalancesScreen({ navigation }: Props) {
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
-  const balanceHeightRef = useRef(0)
+  const [assetsComponentHeight, setAssetsComponentHeight] = useState(0)
   const headerOpacity = useSharedValue(0)
   const animatedHeaderOpacity = useAnimatedStyle(() => {
     return {
       opacity: headerOpacity.value,
     }
   })
+
+  const scrollHandler = useAnimatedScrollHandler(
+    (event) => {
+      const opacityValue = event.contentOffset.y > assetsComponentHeight ? 1 : 0
+      headerOpacity.value = withTiming(opacityValue)
+    },
+    [assetsComponentHeight]
+  )
 
   useLayoutEffect(() => {
     const subTitle =
@@ -149,13 +153,8 @@ function TokenBalancesScreen({ navigation }: Props) {
     })
   }
 
-  const handleMeasureBalanceHeight = (event: LayoutChangeEvent) => {
-    balanceHeightRef.current = event.nativeEvent.layout.height
-  }
-
-  const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
-    const opacityValue = event.nativeEvent.contentOffset.y > balanceHeightRef.current ? 1 : 0
-    headerOpacity.value = withTiming(opacityValue)
+  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
+    setAssetsComponentHeight(event.nativeEvent.layout.height)
   }
 
   return (
@@ -188,7 +187,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         </View>
       )}
 
-      <FlatList
+      <Animated.FlatList
         style={styles.flatListContainer}
         contentContainerStyle={{
           paddingBottom: insets.bottom,
@@ -198,8 +197,8 @@ function TokenBalancesScreen({ navigation }: Props) {
         data={tokens.sort(sortByUsdBalance)}
         renderItem={renderTokenBalance}
         keyExtractor={(item) => item.address}
-        ListHeaderComponent={<AssetsTokenBalance onLayout={handleMeasureBalanceHeight} />}
-        onScroll={handleScroll}
+        ListHeaderComponent={<AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />}
+        onScroll={scrollHandler}
       />
     </>
   )
