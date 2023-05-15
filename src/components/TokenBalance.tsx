@@ -137,7 +137,7 @@ export function AssetsTokenBalance({
   const { t } = useTranslation()
 
   return (
-    <View style={styles.assetsContainer} onLayout={onLayout}>
+    <View style={styles.assetsContainer} onLayout={onLayout} testID="AssetsTokenBalance">
       <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
       <TokenBalance singleTokenViewEnabled={false} />
     </View>
