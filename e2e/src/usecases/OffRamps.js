@@ -21,9 +21,9 @@ export default offRamps = () => {
     it('Then should display total balance and navigate back', async () => {
       await waitForElementId('ViewBalances')
       await element(by.id('ViewBalances')).tap()
-      await expect(element(by.text('Assets'))).toBeVisible()
+      await expect(element(by.text('My Assets'))).toBeVisible()
       await element(by.id('BackChevron')).tap()
-      await expect(element(by.text('Assets'))).not.toBeVisible()
+      await expect(element(by.text('My Assets'))).not.toBeVisible()
       await waitForElementId('ViewBalances')
     })
   })
