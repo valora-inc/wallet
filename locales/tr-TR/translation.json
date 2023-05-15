@@ -93,6 +93,11 @@
     "emailAddress": "E-posta Adresi",
     "phoneNumber": "Telefon Numarası"
   },
+  "signInWithEmail": {
+    "title": "E-posta ile oturum açın",
+    "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
+    "google": "Google ile oturum açın"
+  },
   "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Onu güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",

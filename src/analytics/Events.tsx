@@ -82,6 +82,8 @@ export enum SettingsEvents {
 
 export enum KeylessBackupEvents {
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
+  sign_in_with_google = 'sign_in_with_google',
+  sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
 }
 
 export enum OnboardingEvents {
