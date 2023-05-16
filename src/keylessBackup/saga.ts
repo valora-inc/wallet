@@ -1,4 +1,5 @@
-import { put, spawn, takeLeading } from 'redux-saga/effects'
+import { GoogleSignin, User } from '@react-native-google-signin/google-signin'
+import { call, put, spawn, takeLeading } from 'redux-saga/effects'
 import {
   googleSignInCompleted,
   googleSignInFailed,
@@ -10,8 +11,18 @@ const TAG = 'keylessBackupSaga'
 
 export function* handleGoogleSignInStarted() {
   try {
-    // TODO: start sign in with google flow
-    yield put(googleSignInCompleted({ idToken: 'dummy' }))
+    GoogleSignin.configure({
+      webClientId: '<value from google-services.json>',
+    })
+    yield call([GoogleSignin, 'signOut'])
+    yield call([GoogleSignin, 'hasPlayServices'])
+    const { idToken }: User = yield call([GoogleSignin, 'signIn'])
+
+    if (!idToken) {
+      throw new Error('got null idToken from GoogleSignIn')
+    }
+
+    yield put(googleSignInCompleted({ idToken }))
   } catch (err) {
     Logger.warn(TAG, 'Sign in with google failed', err)
     yield put(googleSignInFailed())
