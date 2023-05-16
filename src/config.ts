@@ -171,3 +171,5 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
+
+export const GOOGLE_OAUTH_CLIENT_ID = Config.GOOGLE_OAUTH_CLIENT_ID

@@ -123,6 +123,9 @@ e2e/test-results/*
 # keys
 secrets.json
 !__mocks__/secrets.json
+.env.alfajores*
+.env.mainnet*
+!.env.*.enc
 
 # Branding
 # See scripts/sync_branding.sh

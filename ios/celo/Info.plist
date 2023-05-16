@@ -41,7 +41,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>"REVERSED_CLIENT_ID from GoogleServices-Info.plist"</string>
+				<string>$(IOS_GOOGLE_REVERSED_CLIENT_ID)</string>
 			</array>
 		</dict>
 	</array>
