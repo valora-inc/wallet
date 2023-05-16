@@ -17,6 +17,7 @@ export function* handleGoogleSignInStarted() {
     // otherwise this just succeeds with a screen flash and doesn't ask for the
     // Google account to be used
     yield call([GoogleSignin, 'signOut'])
+    // Ensures play services is available on Android: https://github.com/react-native-google-signin/google-signin#hasplayservicesoptions
     yield call([GoogleSignin, 'hasPlayServices'])
     const { idToken }: User = yield call([GoogleSignin, 'signIn'])
 
