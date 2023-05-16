@@ -2236,6 +2236,21 @@ export const v126Schema = {
   },
 }
 
+export const v127Schema = {
+  ...v126Schema,
+  _persist: {
+    ...v126Schema._persist,
+    version: 127,
+  },
+  keylessBackup: {
+    google: {
+      error: null,
+      idToken: null,
+      loading: false,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v126Schema as Partial<RootState>
+  return v127Schema as Partial<RootState>
 }
