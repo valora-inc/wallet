@@ -1,14 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
-import Animated, {
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -26,10 +21,13 @@ import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
   stalePriceSelector,
   tokensWithTokenBalanceSelector,
@@ -37,12 +35,16 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { sortByUsdBalance } from 'src/tokens/utils'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
+
+enum ViewType {
+  WalletAssets = 0,
+  Positions = 1,
+}
 
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
@@ -57,24 +59,62 @@ function TokenBalancesScreen({ navigation }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
 
+  const positions = useSelector(positionsSelector)
+  const showPostions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
+  const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
   const [assetsComponentHeight, setAssetsComponentHeight] = useState(0)
-  const headerOpacity = useSharedValue(0)
-  const animatedHeaderOpacity = useAnimatedStyle(() => {
-    return {
-      opacity: headerOpacity.value,
-    }
-  })
 
-  const scrollHandler = useAnimatedScrollHandler(
-    (event) => {
-      const opacityValue = event.contentOffset.y > assetsComponentHeight ? 1 : 0
-      headerOpacity.value = withTiming(opacityValue)
+  const totalHeaderHeight = assetsComponentHeight + 48 + 32 + 24
+  const scrollPosition = useRef(new Animated.Value(0)).current
+  const onScroll = Animated.event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: scrollPosition,
+        },
+      },
     },
+  ])
+  const headerOpacity = useMemo(
+    () => ({
+      opacity: scrollPosition.interpolate({
+        inputRange: [assetsComponentHeight, assetsComponentHeight + 24],
+        outputRange: [0, 1],
+        extrapolate: Animated.Extrapolate.CLAMP,
+      }),
+    }),
     [assetsComponentHeight]
+  )
+
+  // const headerStyles = useMemo(
+  //   () => ({
+  //     height: scrollPosition.interpolate({
+  //       inputRange: [0, assetsComponentHeight + 48],
+  //       outputRange: [totalHeaderHeight, totalHeaderHeight - (assetsComponentHeight + 48)],
+  //       extrapolate: Animated.Extrapolate.CLAMP,
+  //     }),
+  //   }),
+  //   [assetsComponentHeight, totalHeaderHeight]
+  // )
+
+  const balanceStyles = useMemo(
+    () => ({
+      transform: [
+        {
+          translateY: scrollPosition.interpolate({
+            inputRange: [0, assetsComponentHeight + 48],
+            outputRange: [0, -(assetsComponentHeight + 48)],
+            extrapolate: Animated.Extrapolate.CLAMP,
+          }),
+        },
+      ],
+    }),
+    [assetsComponentHeight, totalHeaderHeight]
   )
 
   useLayoutEffect(() => {
@@ -88,12 +128,12 @@ function TokenBalancesScreen({ navigation }: Props) {
 
     navigation.setOptions({
       headerTitle: () => (
-        <Animated.View style={animatedHeaderOpacity}>
+        <Animated.View style={headerOpacity}>
           <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
         </Animated.View>
       ),
     })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderOpacity])
+  }, [navigation, totalBalanceLocal, localCurrencySymbol, headerOpacity])
 
   function isHistoricalPriceUpdated(token: TokenBalance) {
     return (
@@ -157,6 +197,8 @@ function TokenBalancesScreen({ navigation }: Props) {
     setAssetsComponentHeight(event.nativeEvent.layout.height)
   }
 
+  const test = activeView === ViewType.WalletAssets ? tokens : tokens.slice().reverse()
+
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
@@ -194,11 +236,29 @@ function TokenBalancesScreen({ navigation }: Props) {
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
-        data={tokens.sort(sortByUsdBalance)}
+        data={[...test, ...test]}
         renderItem={renderTokenBalance}
         keyExtractor={(item) => item.address}
-        ListHeaderComponent={<AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />}
-        onScroll={scrollHandler}
+        onScroll={onScroll}
+        ListHeaderComponent={() => (
+          <Animated.View style={[{ borderWidth: 1, overflow: 'hidden' }]}>
+            <Animated.View style={balanceStyles}>
+              <AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />
+              {showPostions && positions.length > 0 && (
+                <View style={{ paddingBottom: 24, backgroundColor: 'white' }}>
+                  <SegmentedControl
+                    values={['wallet assets', 'dapp positions']}
+                    selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+                    onChange={(_, index) => {
+                      setActiveView(index)
+                    }}
+                  />
+                </View>
+              )}
+            </Animated.View>
+          </Animated.View>
+        )}
+        stickyHeaderIndices={[0]}
       />
     </>
   )
@@ -266,6 +326,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.gray1,
     flexDirection: 'row',
+    height: 32,
   },
   bannerText: {
     ...fontStyles.small500,
