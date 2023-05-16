@@ -43,10 +43,20 @@ export default function QRTabBar({
     outputRange: [1, 0],
   })
 
-  const color = Animated.interpolateColors(position, {
+  const animatedColor = Animated.interpolateColors(position, {
     inputRange: [0.9, 1],
     outputColorRange: [colors.dark, colors.light],
   })
+
+  // using `animatedColor` with animated svg causes android crash since
+  // upgrading react-native-svg to v13. there are some suggested solutions
+  // linked below, but none that i could get to work after many attempts. since
+  // this is a relatively low impact feature, i'm going to leave it as is for
+  // now.
+  // https://github.com/software-mansion/react-native-svg/issues/1976
+  // https://github.com/software-mansion/react-native-reanimated/issues/3775
+  const color =
+    Platform.OS === 'ios' ? animatedColor : state.index === 0 ? colors.dark : colors.light
 
   const onPressClose = () => {
     navigation.getParent()?.goBack()
