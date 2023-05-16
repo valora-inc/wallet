@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -89,15 +89,9 @@ const onTokenSelectedMock = jest.fn()
 const onCloseMock = jest.fn()
 
 describe('TokenBottomSheet', () => {
-  beforeAll(() => {
-    // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
-    global.__reanimatedWorkletInit = jest.fn()
-  })
-
   beforeEach(() => {
     // see: https://stackoverflow.com/questions/52695553/testing-debounced-function-in-react-component-with-jest-and-enzyme/64336022#64336022
     jest.useFakeTimers('modern')
-    jest.runAllTimers()
     jest.clearAllMocks()
   })
 
@@ -154,7 +148,7 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
   })
 
-  it('renders and behaves correctly when the search is enabled', async () => {
+  it('renders and behaves correctly when the search is enabled', () => {
     const { getByPlaceholderText, queryByTestId } = renderPicker(true, true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
@@ -163,11 +157,9 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeTruthy()
 
-    await act(() => {
-      fireEvent.changeText(searchInput, 'Celo')
-      // Wait for the analytics debounce
-      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
-    })
+    fireEvent.changeText(searchInput, 'Celo')
+    // Wait for the analytics debounce
+    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -179,11 +171,9 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeNull()
 
-    await act(() => {
-      fireEvent.changeText(searchInput, 'Test')
-      // Wait for the analytics debounce
-      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
-    })
+    fireEvent.changeText(searchInput, 'Test')
+    // Wait for the analytics debounce
+    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(2)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -195,11 +185,9 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('cEURTouchable')).toBeNull()
     expect(queryByTestId('TTTouchable')).toBeTruthy()
 
-    await act(() => {
-      fireEvent.changeText(searchInput, 'Usd')
-      // Wait for the analytics debounce
-      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
-    })
+    fireEvent.changeText(searchInput, 'Usd')
+    // Wait for the analytics debounce
+    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(3)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -212,16 +200,14 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('TTTouchable')).toBeNull()
   })
 
-  it('does not send events for temporary search inputs', async () => {
+  it('does not send events for temporary search inputs', () => {
     const { getByPlaceholderText } = renderPicker(true, true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
 
-    await act(() => {
-      fireEvent.changeText(searchInput, 'TemporaryInput')
-      fireEvent.changeText(searchInput, 'FinalInput')
-      // Wait for the analytics debounce
-      jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
-    })
+    fireEvent.changeText(searchInput, 'TemporaryInput')
+    fireEvent.changeText(searchInput, 'FinalInput')
+    // Wait for the analytics debounce
+    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(1)
     // We don't send events for intermediate search inputs

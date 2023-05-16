@@ -1,4 +1,4 @@
-import { act, fireEvent, render, within } from '@testing-library/react-native'
+import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -257,6 +257,10 @@ describe(DAppsExplorerScreenSearch, () => {
   })
 
   describe('searching dapps', () => {
+    beforeAll(() => {
+      jest.useFakeTimers('modern')
+    })
+
     it('renders correctly when there are no search results', () => {
       const store = createMockStore({
         dapps: {
@@ -354,7 +358,7 @@ describe(DAppsExplorerScreenSearch, () => {
       expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
     })
 
-    it('triggers events when searching', async () => {
+    it('triggers events when searching', () => {
       const store = createMockStore({
         dapps: {
           dappListApiUrl: 'http://url.com',
@@ -374,11 +378,8 @@ describe(DAppsExplorerScreenSearch, () => {
       // don't include events dispatched on screen load
       jest.clearAllMocks()
 
-      await act(() => {
-        fireEvent.changeText(getByTestId('SearchInput'), 'swap')
-        // Will trigger the debounced analytics event
-        jest.advanceTimersByTime(1500)
-      })
+      fireEvent.changeText(getByTestId('SearchInput'), 'swap')
+      jest.advanceTimersByTime(1500)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_search, {
