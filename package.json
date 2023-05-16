@@ -518,8 +518,5 @@
       "selfieAnimationAssetWidth": null,
       "selfieAnimationAssetHeight": null
     }
-  },
-  "jest": {
-    "preset": "react-native"
   }
 }

@@ -44,4 +44,5 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(@celo/)?@?react-native|@react-navigation|@react-native-community|@react-native-firebase|react-navigation|redux-persist|date-fns|victory-*|@walletconnect/react-native-compat)',
   ],
+  preset: 'react-native',
 }
