@@ -31,6 +31,7 @@ import { i18nSaga } from 'src/i18n/saga'
 import { identitySaga } from 'src/identity/saga'
 import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
+import { keylessBackupSaga } from 'src/keylessBackup/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
@@ -140,6 +141,7 @@ export function* rootSaga() {
     yield spawn(dappsSaga)
     yield spawn(fiatConnectSaga)
     yield spawn(swapSaga)
+    yield spawn(keylessBackupSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

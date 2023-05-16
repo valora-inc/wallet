@@ -1,21 +1,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import GoogleIcon from 'src/icons/Google'
 import Times from 'src/icons/Times'
+import { googleSignInStarted } from 'src/keylessBackup/slice'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import fontStyles from 'src/styles/fonts'
-
-function onPressGoogle() {
-  ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google)
-  // TODO: start google sign-in
-}
 
 function onPressCancel() {
   ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_email_screen_cancel)
@@ -24,6 +21,13 @@ function onPressCancel() {
 
 function SignInWithEmail() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+
+  const onPressGoogle = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google)
+    dispatch(googleSignInStarted())
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>

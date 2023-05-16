@@ -3901,6 +3901,41 @@
             ],
             "type": "object"
         },
+        "State_27": {
+            "additionalProperties": false,
+            "properties": {
+                "google": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "error": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "idToken": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "loading": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "error",
+                        "idToken",
+                        "loading"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "google"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -5669,6 +5704,9 @@
         "imports": {
             "$ref": "#/definitions/State_15"
         },
+        "keylessBackup": {
+            "$ref": "#/definitions/State_27"
+        },
         "localCurrency": {
             "$ref": "#/definitions/State_14"
         },
@@ -5721,6 +5759,7 @@
         "i18n",
         "identity",
         "imports",
+        "keylessBackup",
         "localCurrency",
         "networkInfo",
         "paymentRequest",
