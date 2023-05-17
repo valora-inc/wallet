@@ -30,11 +30,11 @@
   "revokePhoneNumber": {
     "title": "Desvincular número de teléfono",
     "bottomSheetTitle": "Desvincular número de teléfono",
-    "description": "La desvinculación eliminará el número de teléfono vinculado a tu monedero. Puedes añadir un nuevo número de teléfono más adelante.",
-    "confirmButton": "Desvincular ahora",
+    "description": "Se eliminará tu número de teléfono asociado a esta wallet. Puedes conectar otro número de teléfono en cualquier momento.",
+    "confirmButton": "Desvincular",
     "revokeSuccess": "Tu número de teléfono ha sido desvinculado",
-    "revokeError": "No se ha podido desvincular el número de teléfono, inténtalo más tarde.",
-    "addNewNumberButton": "Añadir número de teléfono"
+    "revokeError": "No fue posible desvincular el número de teléfono. Vuelve a intentarlo más tarde.",
+    "addNewNumberButton": "Conectar otro número de teléfono"
   },
   "promptFornoModal": {
     "header": "¿Cambiar el modo de conexión?",
@@ -88,10 +88,10 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Configurar la copia de seguridad sin llave",
-    "subtitle": "Utilizarás lo siguiente para configurar la copia de seguridad:",
+    "title": "Configurar el respaldo sin llave",
+    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente:",
     "emailAddress": "Dirección de correo electrónico",
-    "phoneNumber": "Número de Teléfono"
+    "phoneNumber": "Número de teléfono"
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con correo electrónico",
