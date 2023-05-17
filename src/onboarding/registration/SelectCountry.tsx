@@ -19,7 +19,8 @@ const keyExtractor = (item: LocalizedCountry) => item.alpha2
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectCountry>
 
 export default function SelectCountry({ navigation, route }: Props) {
-  const { countries, selectedCountryCodeAlpha2, hideOnboardingStep } = route.params
+  const { countries, selectedCountryCodeAlpha2, hideOnboardingStep, keylessBackupFlow } =
+    route.params
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
 
@@ -32,10 +33,17 @@ export default function SelectCountry({ navigation, route }: Props) {
   )
 
   function onSelect(country: LocalizedCountry) {
-    navigation.navigate(Screens.VerificationStartScreen, {
-      selectedCountryCodeAlpha2: country.alpha2,
-      hideOnboardingStep,
-    })
+    if (keylessBackupFlow) {
+      navigation.navigate(Screens.PhoneBackupInput, {
+        selectedCountryCodeAlpha2: country.alpha2,
+        keylessBackupFlow,
+      })
+    } else {
+      navigation.navigate(Screens.VerificationStartScreen, {
+        selectedCountryCodeAlpha2: country.alpha2,
+        hideOnboardingStep,
+      })
+    }
   }
 
   const renderItem = useCallback(

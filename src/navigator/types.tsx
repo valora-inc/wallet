@@ -12,6 +12,7 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
+import { KeyLessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
@@ -252,6 +253,10 @@ export type StackParamList = {
     onBuy: () => void
     onSkip: () => void
   }
+  [Screens.PhoneBackupInput]: {
+    keylessBackupFlow: KeyLessBackupFlow
+    selectedCountryCodeAlpha2?: string
+  }
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
   [Screens.ProtectWallet]: undefined
@@ -268,6 +273,7 @@ export type StackParamList = {
     hideOnboardingStep: boolean
     countries: Countries
     selectedCountryCodeAlpha2: string
+    keylessBackupFlow?: KeyLessBackupFlow
   }
   [Screens.SelectLocalCurrency]: undefined
   [Screens.SelectProvider]: {

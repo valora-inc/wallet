@@ -38,7 +38,7 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-function getPhoneNumberState(
+export function getPhoneNumberState(
   phoneNumber: string,
   countryCallingCode: string,
   countryCodeAlpha2: string
