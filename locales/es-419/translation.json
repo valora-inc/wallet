@@ -90,15 +90,15 @@
   "setUpKeylessBackup": {
     "title": "Configurar el respaldo sin llave",
     "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente:",
-    "emailAddress": "Dirección de correo electrónico",
+    "emailAddress": "Dirección de email",
     "phoneNumber": "Número de teléfono"
   },
   "signInWithEmail": {
-    "title": "Iniciar sesión con correo electrónico",
-    "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como copia de seguridad.\n\nSe te pedirá que inicies sesión de nuevo si pierdes tu monedero.",
+    "title": "Iniciar sesión con email",
+    "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como respaldo.\n\nSi pierdes acceso a tu wallet, se te pedirá que inicies sesión de esta forma.",
     "google": "Iniciar sesión con Google"
   },
-  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu monedero si pierdes o te roban el dispositivo. ¡Mantenlo a salvo!",
+  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -1585,7 +1585,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Intercambios impulsados por socios en Celo. \n<0>Más información.</0>",
+    "disclaimer": "Intercambios impulsados por socios en Celo. \n<0>Más información</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {
