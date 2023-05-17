@@ -324,7 +324,7 @@ describe('Account', () => {
     expect(tree.getByText('revokePhoneNumber.bottomSheetTitle')).toBeTruthy()
     expect(tree.getByText('+1 415-555-0000')).toBeTruthy()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(tree.getByText('revokePhoneNumber.confirmButton'))
     })
 
@@ -357,7 +357,7 @@ describe('Account', () => {
     )
 
     fireEvent.press(tree.getByText('revokePhoneNumber.title'))
-    act(() => {
+    await act(() => {
       fireEvent.press(tree.getByText('revokePhoneNumber.confirmButton'))
     })
 

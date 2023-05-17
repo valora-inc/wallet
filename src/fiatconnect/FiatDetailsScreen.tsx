@@ -338,7 +338,7 @@ function FormField({
             label: item,
             value: item,
           }))}
-          doneText={t('fiatDetailsScreen.selectDone')}
+          doneText={t('fiatDetailsScreen.selectDone') ?? undefined}
         />
       ) : (
         <TextInput

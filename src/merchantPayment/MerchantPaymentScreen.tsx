@@ -39,27 +39,24 @@ function MerchantPaymentScreen({ route }: Props) {
   const { abort, amount, businessInformation, loading, submit, paymentStatus, chargeError } =
     useMerchantPayments(routeParams.apiBase, routeParams.referenceId)
 
-  const abortSubscriptionHandler = useCallback(
-    (e) => {
-      if (loading) return
+  const abortSubscriptionHandler = useCallback(() => {
+    if (loading) return
 
-      switch (paymentStatus) {
-        case PaymentStatus.Initial:
-          void abort(AbortCodes.CUSTOMER_DECLINED)
-          break
+    switch (paymentStatus) {
+      case PaymentStatus.Initial:
+        void abort(AbortCodes.CUSTOMER_DECLINED)
+        break
 
-        case PaymentStatus.Errored:
-          void abort(AbortCodes.GENERAL)
-          break
+      case PaymentStatus.Errored:
+        void abort(AbortCodes.GENERAL)
+        break
 
-        case PaymentStatus.Pending:
-        case PaymentStatus.Done:
-        default:
-          break
-      }
-    },
-    [loading, paymentStatus]
-  )
+      case PaymentStatus.Pending:
+      case PaymentStatus.Done:
+      default:
+        break
+    }
+  }, [loading, paymentStatus])
 
   // Abort the charge on "back" action (hardware back button, swipe, or normal navigate back)
   useEffect(() => {
@@ -92,10 +89,7 @@ function MerchantPaymentScreen({ route }: Props) {
     }
   }, [submit])
 
-  const FooterComponent = useCallback(
-    (...props) => <FeeContainer amount={amount} {...props} />,
-    [amount]
-  )
+  const FooterComponent = useCallback(() => <FeeContainer amount={amount} />, [amount])
 
   if (!tokenAddress) {
     Logger.error(LOG_TAG, "Couldn't grab the cUSD address")

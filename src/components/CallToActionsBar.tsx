@@ -5,7 +5,7 @@ import colors from 'src/styles/colors'
 
 export interface CallToAction {
   onPress: () => unknown
-  text: string | JSX.Element
+  text: string | React.ReactNode
   dim?: boolean
   isSecondary?: boolean
 }

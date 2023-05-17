@@ -22,7 +22,7 @@ interface Props {
   onDeny(): void
   dappImageUrl?: string
   title: string
-  description?: string
+  description: string | null
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
   dappName: string

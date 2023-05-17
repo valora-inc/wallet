@@ -106,7 +106,7 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
     })
 
@@ -136,7 +136,7 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
-    act(async () => {
+    await act(async () => {
       // enter the verification code before the verifyPhoneNumber fetch has resolved
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
       // handle the verification code, and then increment the timer to resolve
@@ -173,7 +173,7 @@ describe('VerificationCodeInputScreen', () => {
 
     const smsListener = mockedSmsRetriever.addSmsListener.mock.calls[0][0]
 
-    act(() => {
+    await act(() => {
       // Simulate the SMS code being received
       smsListener({ message: 'Your verification code for Valora is: 123456 5yaJvJcZt2P' })
     })
@@ -223,7 +223,7 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
-    act(() => {
+    await act(() => {
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
     })
 
@@ -250,7 +250,7 @@ describe('VerificationCodeInputScreen', () => {
     MockDate.set(dateNow)
     const { getByTestId } = renderComponent()
 
-    act(() => {
+    await act(() => {
       MockDate.set(dateNow + 30000) // 30 seconds, matching default resend delay time in ResendButtonWithDelay component
       jest.advanceTimersByTime(1000) // 1 second, to update the timer
     })
@@ -273,7 +273,7 @@ describe('VerificationCodeInputScreen', () => {
   it('shows the help dialog', async () => {
     const { getByTestId, getByText } = renderComponent()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('phoneVerificationInput.help'))
     })
     await waitFor(() => expect(getByTestId('PhoneVerificationInputHelpDialog')))

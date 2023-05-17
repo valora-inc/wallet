@@ -88,7 +88,6 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
               }
               testID="undefined/value"
             >
-              
               ₱
               266,000.00
             </Text>
@@ -346,7 +345,6 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
               }
               testID="undefined/value"
             >
-              
               ₱
               266,000.00
             </Text>

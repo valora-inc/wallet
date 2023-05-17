@@ -222,7 +222,6 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
           <Text
             testID="EscrowedPaymentListItem/amount"
           >
-            
             ₱
             9.31
           </Text>

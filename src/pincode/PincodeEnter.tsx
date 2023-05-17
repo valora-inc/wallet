@@ -25,7 +25,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.PincodeEnter>
 export const PincodeEnter = ({ route }: Props) => {
   const { t } = useTranslation()
   const [pin, setPin] = useState('')
-  const [errorText, setErrorText] = useState(undefined)
+  const [errorText, setErrorText] = useState<string | null>(null)
   const [pinIsCorrect, setPinIsCorrect] = useState(false)
   const currentAccount = useSelector(currentAccountSelector)
 
@@ -42,7 +42,7 @@ export const PincodeEnter = ({ route }: Props) => {
 
   const onChangePin = (pin: string) => {
     setPin(pin)
-    setErrorText(undefined)
+    setErrorText(null)
   }
 
   const onCorrectPin = (pin: string) => {

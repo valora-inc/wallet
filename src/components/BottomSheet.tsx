@@ -2,6 +2,7 @@ import GorhomBottomSheet, {
   BottomSheetBackdrop,
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet'
+import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import React, { useCallback, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -17,7 +18,7 @@ interface Props {
   buttonOnPress: () => void
   buttonType?: BtnTypes
   buttonLoading?: boolean
-  description?: string
+  description?: string | null
   children?: React.ReactNode
   testId: string
 }
@@ -43,7 +44,9 @@ const BottomSheet = ({
     useBottomSheetDynamicSnapPoints(initialSnapPoints)
 
   const renderBackdrop = useCallback(
-    (props) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+    (props: BottomSheetDefaultBackdropProps) => (
+      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
+    ),
     []
   )
 

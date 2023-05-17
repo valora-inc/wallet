@@ -3,7 +3,7 @@ import { KeyboardType } from 'react-native'
 
 export interface FormFieldParam {
   name: string
-  label?: string
+  label?: string | null
   infoDialog?: {
     title: string
     actionText: string

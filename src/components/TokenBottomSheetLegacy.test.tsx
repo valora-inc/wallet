@@ -13,11 +13,6 @@ const onCurrencySelectedMock = jest.fn()
 const onCloseMock = jest.fn()
 
 describe('TokenBottomSheetLegacy', () => {
-  beforeAll(() => {
-    // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
-    global.__reanimatedWorkletInit = jest.fn()
-  })
-
   beforeEach(() => {
     jest.clearAllMocks()
   })

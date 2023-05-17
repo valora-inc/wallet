@@ -1215,6 +1215,7 @@
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
+  "totalAssets": "Varlıklarım",
   "open": "Aç",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {

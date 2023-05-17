@@ -149,7 +149,6 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                       testID="undefined/value"
                     >
-                      
                       ₱
                       26.60
                     </Text>
@@ -393,7 +392,6 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                       testID="undefined/value"
                     >
-                      
                       ₱
                       135.66
                     </Text>
@@ -637,7 +635,6 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                       testID="undefined/value"
                     >
-                      
                       ₱
                       1.33
                     </Text>
