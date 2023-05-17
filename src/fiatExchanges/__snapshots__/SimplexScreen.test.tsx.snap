@@ -141,7 +141,6 @@ exports[`SimplexScreen renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
             25.00
           </Text>
         </Text>
@@ -209,7 +208,6 @@ exports[`SimplexScreen renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
             $
             0.76
           </Text>
@@ -280,7 +278,6 @@ exports[`SimplexScreen renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
             $
             19.00
           </Text>
@@ -403,7 +400,6 @@ exports[`SimplexScreen renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
             $
             7.00
           </Text>
@@ -481,7 +477,6 @@ exports[`SimplexScreen renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
             $
             26.00
           </Text>
@@ -704,7 +699,6 @@ exports[`SimplexScreen renders correctly 2`] = `
             }
             testID="undefined/value"
           >
-            
             25.00
           </Text>
         </Text>
@@ -772,7 +766,6 @@ exports[`SimplexScreen renders correctly 2`] = `
             }
             testID="undefined/value"
           >
-            
             $
             0.76
           </Text>
@@ -843,7 +836,6 @@ exports[`SimplexScreen renders correctly 2`] = `
             }
             testID="undefined/value"
           >
-            
             $
             19.00
           </Text>
@@ -966,7 +958,6 @@ exports[`SimplexScreen renders correctly 2`] = `
             }
             testID="undefined/value"
           >
-            
             $
             7.00
           </Text>
@@ -1044,7 +1035,6 @@ exports[`SimplexScreen renders correctly 2`] = `
             }
             testID="undefined/value"
           >
-            
             $
             26.00
           </Text>

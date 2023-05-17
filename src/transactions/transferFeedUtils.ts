@@ -207,7 +207,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
         nameOrNumber,
       })
       // Fallback to just using the type
-      subtitle = comment || _.capitalize(t(_.camelCase(type)))
+      subtitle = comment || _.capitalize(t(_.camelCase(type)) ?? undefined)
       break
     }
   }

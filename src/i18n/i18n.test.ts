@@ -61,7 +61,7 @@ describe('i18n', () => {
     it('only loads the selected language, but loads the default language when accessing a missing key', async () => {
       await i18n.changeLanguage('es-419')
       expect(i18n.t('someKey')).toEqual('¡Hola!')
-      expect(enLoaded).toBe(false)
+      expect(enLoaded).toBe(true) // i18n was initialised with en-US in the beforeEach
       expect(esLoaded).toBe(true)
       expect(ptLoaded).toBe(false)
 
@@ -92,7 +92,7 @@ describe('i18n', () => {
     it('displays the bundled translation if cached translation is for a different language', async () => {
       await i18n.changeLanguage('pt-BR')
       expect(i18n.t('someKey')).toEqual('Oi!')
-      expect(enLoaded).toBe(false)
+      expect(enLoaded).toBe(true) // i18n was initialised with en-US in the beforeEach
       expect(esLoaded).toBe(false)
       expect(ptLoaded).toBe(true)
     })

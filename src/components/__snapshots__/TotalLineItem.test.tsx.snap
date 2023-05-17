@@ -76,7 +76,6 @@ Array [
         }
         testID="TotalLineItem/Total/value"
       >
-        
         ₱
         0.10
       </Text>
@@ -170,7 +169,6 @@ Array [
               }
               testID="TotalLineItem/ExchangeRate/value"
             >
-              
               $
               100.00
             </Text>
@@ -208,7 +206,6 @@ Array [
         }
         testID="TotalLineItem/Subtotal/value"
       >
-        
         $
         10.00
       </Text>

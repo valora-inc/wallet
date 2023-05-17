@@ -34,7 +34,8 @@ it('renders correctly with invite rewards disabled', () => {
       />
     </Provider>
   )
-  expect(tree.getByTestId('InviteModalStyledDescription')).toBeTruthy()
+
+  expect(tree.getByTestId('InviteModalStyledDescription')).toHaveTextContent('inviteModal.body')
 })
 
 it('renders correctly with invite rewards NFTs', () => {
@@ -66,7 +67,9 @@ it('renders correctly with invite rewards NFTs', () => {
       />
     </Provider>
   )
-  expect(tree.getByTestId('InviteModalStyledDescription')).toBeTruthy()
+  expect(tree.getByTestId('InviteModalStyledDescription')).toHaveTextContent(
+    'inviteModal.rewardsActive.body, {"contactName":"John Doe"}'
+  )
 })
 
 it('renders correctly with invite rewards cUSD', () => {
@@ -98,5 +101,7 @@ it('renders correctly with invite rewards cUSD', () => {
       />
     </Provider>
   )
-  expect(tree.getByTestId('InviteModalStyledDescription')).toBeTruthy()
+  expect(tree.getByTestId('InviteModalStyledDescription')).toHaveTextContent(
+    'inviteModal.rewardsActiveCUSD.body, {"contactName":"John Doe"}'
+  )
 })

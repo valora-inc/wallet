@@ -11,7 +11,7 @@ import variables from 'src/styles/variables'
 interface Props {
   showToast: boolean
   title?: string
-  message: string | React.ReactElement
+  message: string | React.ReactNode
   labelCTA: string
   ctaAlignment?: 'bottom' | 'right'
   onPress(): void

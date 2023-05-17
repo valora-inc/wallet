@@ -8,8 +8,8 @@ const TAG = 'utils/permissions.android'
 export async function requestContactsPermission() {
   return requestPermission(
     PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-    i18n.t('accessContacts.disclosure.title'),
-    i18n.t('accessContacts.disclosure.body', { privacyLink: PRIVACY_LINK })
+    i18n.t('accessContacts.disclosure.title') ?? undefined,
+    i18n.t('accessContacts.disclosure.body', { privacyLink: PRIVACY_LINK }) ?? undefined
   )
 }
 
@@ -25,8 +25,8 @@ async function requestPermission(permission: Permission, title?: string, message
         ? {
             title,
             message,
-            buttonPositive: i18n.t('continue'),
-            buttonNegative: i18n.t('notNow'),
+            buttonPositive: i18n.t('continue') ?? undefined,
+            buttonNegative: i18n.t('notNow') ?? undefined,
           }
         : undefined
     )

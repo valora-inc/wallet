@@ -112,7 +112,7 @@ export const headerWithCloseButton: NativeStackNavigationOptions = {
 }
 
 interface Props {
-  title: string | JSX.Element
+  title: string | React.ReactNode
   token: Currency
   switchTitleAndSubtitle?: boolean
   displayCrypto?: boolean
@@ -166,7 +166,7 @@ export function HeaderTitleWithTokenBalance({
   showLocalAmount,
   tokenInfo,
 }: {
-  title: string | JSX.Element
+  title: string | React.ReactNode
   tokenInfo: TokenBalance | undefined
   showLocalAmount: boolean
 }) {
@@ -191,8 +191,8 @@ export function HeaderTitleWithSubtitle({
   subTitle,
   testID,
 }: {
-  title: string | JSX.Element
-  subTitle?: string | JSX.Element
+  title: string | React.ReactNode
+  subTitle?: string | React.ReactNode
   testID?: string
 }) {
   return (

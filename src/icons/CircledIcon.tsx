@@ -6,6 +6,7 @@ interface Props {
   backgroundColor?: string
   radius?: number
   style?: StyleProp<ViewStyle>
+  children?: React.ReactNode
 }
 
 export default class CircledIcon extends React.PureComponent<Props> {

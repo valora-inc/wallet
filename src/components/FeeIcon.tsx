@@ -7,8 +7,8 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
-  title: string | React.ReactElement
-  description: string | React.ReactElement
+  title: string | React.ReactNode
+  description: string | React.ReactNode
   dismissText: string
 }
 

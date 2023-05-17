@@ -46,10 +46,10 @@ describe('AlertBanner', () => {
           <AlertBanner />
         </Provider>
       )
-      const banner = within(getByTestId('infoBanner'))
+      const banner = getByTestId('infoBanner')
 
-      expect(banner.getByText('Declaration')).toBeTruthy()
-      expect(banner.getByText('This is your shadow speaking')).toBeTruthy()
+      expect(banner).toHaveTextContent('Declaration')
+      expect(banner).toHaveTextContent('This is your shadow speaking')
     })
   })
 

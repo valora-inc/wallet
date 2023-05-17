@@ -87,7 +87,6 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
             ₱
             31.92
           </Text>

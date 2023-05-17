@@ -104,7 +104,7 @@ function WithdrawCeloScreen({ route }: Props) {
       <Button
         onPress={onConfirm}
         text={t(`review`)}
-        accessibilityLabel={t('continue')}
+        accessibilityLabel={t('continue') ?? undefined}
         disabled={!readyToReview}
         type={BtnTypes.SECONDARY}
         size={BtnSizes.FULL}

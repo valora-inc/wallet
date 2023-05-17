@@ -13,9 +13,9 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
-  title?: string // shown as H1
-  subtitle?: string // shown as regular text
-  errorText?: string
+  title?: string | null // shown as H1
+  subtitle?: string | null // shown as regular text
+  errorText?: string | null
   maxLength?: number
   pin: string
   onChangePin: (pin: string) => void

@@ -172,7 +172,7 @@ function KycAgreement(props: {
         </Text>
       </View>
       <Persona
-        text={t('fiatConnectKycLandingScreen.button')}
+        text={t('fiatConnectKycLandingScreen.button') ?? undefined}
         kycStatus={personaKycStatus}
         disabled={disabled || !agreementChecked}
         onPress={() => {

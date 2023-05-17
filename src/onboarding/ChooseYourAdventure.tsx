@@ -35,7 +35,7 @@ const AdventureCard = ({
   onPress: () => void
   text: string
   index: number
-  icon: React.ElementType
+  icon: React.ReactNode
 }) => (
   <Card
     key={index}
