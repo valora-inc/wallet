@@ -1,4 +1,4 @@
-export enum KeyLessBackupFlow {
+export enum KeylessBackupFlow {
   Setup = 'setup',
   Restore = 'restore',
 }

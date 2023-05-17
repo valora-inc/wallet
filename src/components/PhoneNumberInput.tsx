@@ -30,6 +30,7 @@ async function requestPhoneNumber() {
 
 interface Props {
   label: string
+  countryFlagStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
   country: LocalizedCountry | undefined
   internationalPhoneNumber: string
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export default function PhoneNumberInput({
+  countryFlagStyle,
   label,
   style,
   country,
@@ -52,7 +54,7 @@ export default function PhoneNumberInput({
   const flagEmoji = country?.emoji
   const countryCallingCode = country?.countryCallingCode ?? ''
   const numberPlaceholder = country?.countryPhonePlaceholder.national ?? ''
-  console.debug(TAG, 'render', country, internationalPhoneNumber)
+
   async function onPressCountryInternal() {
     const handled = await requestPhoneNumberIfNecessary()
     if (handled || !onPressCountry) {
@@ -95,7 +97,7 @@ export default function PhoneNumberInput({
       <View style={styles.phoneNumberContainer}>
         <Touchable
           onPress={onPressCountryInternal}
-          style={styles.countryCodeContainer}
+          style={[styles.countryCodeContainer, countryFlagStyle]}
           testID="CountrySelectionButton"
           disabled={!editable}
         >

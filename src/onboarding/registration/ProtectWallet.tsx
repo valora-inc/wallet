@@ -14,7 +14,6 @@ import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import OnboardingCard from 'src/components/OnboardingCard'
 import GuideKeyIcon from 'src/icons/GuideKeyIcon'
-import { KeyLessBackupFlow } from 'src/keylessBackup/types'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -94,9 +93,7 @@ function ProtectWallet({ navigation }: Props) {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_recovery, {
       position: showCloudBackupFakeDoor ? 1 - cloudBackupIndex : undefined,
     })
-    navigate(Screens.PhoneBackupInput, {
-      keylessBackupFlow: KeyLessBackupFlow.Restore,
-    })
+    navigateToRecoveryPhrase()
   }
   const onPressCloudBackup = () => {
     ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_cloud, {

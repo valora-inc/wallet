@@ -12,25 +12,24 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import i18n from 'src/i18n'
 import Times from 'src/icons/Times'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getPhoneNumberState } from 'src/verify/VerificationStartScreen'
-
-function onPressContinue() {
-  ValoraAnalytics.track(KeylessBackupEvents.set_up_keyless_backup_screen_continue)
-  navigate(Screens.SignInWithEmail)
-}
 
 function PhoneBackupInput({
   route,
 }: NativeStackScreenProps<StackParamList, Screens.PhoneBackupInput>) {
   const { t } = useTranslation()
   const { selectedCountryCodeAlpha2, keylessBackupFlow } = route.params
-  console.debug('PhoneBackupInput', selectedCountryCodeAlpha2, keylessBackupFlow)
+  const cachedNumber = useSelector(e164NumberSelector)
+  const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
+  const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberState(
       cachedNumber || '',
@@ -38,9 +37,6 @@ function PhoneBackupInput({
       selectedCountryCodeAlpha2 || RNLocalize.getCountry()
     )
   )
-  const cachedNumber = useSelector(e164NumberSelector)
-  const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
-  const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const country = phoneNumberInfo.countryCodeAlpha2
     ? countries.getCountryByCodeAlpha2(phoneNumberInfo.countryCodeAlpha2)
     : undefined
@@ -81,13 +77,29 @@ function PhoneBackupInput({
     })
   }
 
+  const onPressContinue = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.enter_phone_number_continue, {
+      keylessBackupFlow,
+    })
+    // TODO: handle the rest of the phone backup flow
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <Text style={styles.title}>{t('signInWithPhone.title')}</Text>
-        <Text style={styles.subtitle}>{t('signInWithPhone.subtitle')}</Text>
+        <Text style={styles.title}>
+          {keylessBackupFlow === KeylessBackupFlow.Setup
+            ? t('signInWithPhone.title')
+            : t('signInWithPhone.titleRestore')}
+        </Text>
+        <Text style={styles.subtitle}>
+          {keylessBackupFlow === KeylessBackupFlow.Setup
+            ? t('signInWithPhone.subtitle')
+            : t('signInWithPhone.subtitleRestore')}
+        </Text>
         <PhoneNumberInput
-          label={t('phoneNumber')}
+          countryFlagStyle={styles.countryFlagStyle}
+          label={''}
           country={country}
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}
           onPressCountry={onPressCountry}
@@ -95,12 +107,13 @@ function PhoneBackupInput({
         />
       </ScrollView>
       <Button
-        testID="SetUpKeylessBackup/Continue"
+        testID="PhoneBackupInput/Continue"
         onPress={onPressContinue}
-        text={t('continue')}
+        text={keylessBackupFlow === KeylessBackupFlow.Setup ? t('continue') : t('next')}
         size={BtnSizes.FULL}
         type={BtnTypes.ONBOARDING}
         style={styles.button}
+        disabled={!phoneNumberInfo.isValidNumber}
       />
     </SafeAreaView>
   )
@@ -143,5 +156,9 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 24,
+  },
+  countryFlagStyle: {
+    backgroundColor: Colors.beige,
+    marginRight: 8,
   },
 })

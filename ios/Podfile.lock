@@ -1035,7 +1035,7 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: cbdee19bdd4e7f05472a66ce290f1b729ba3cb86
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  glog: 476ee3e89abb49e07f822b48323c51c57124b572
+  glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleAppMeasurement: fe17c92a32207dd5cdd4e8d742767f2da74857f6
   GoogleDataTransport: 8378d1fa8ac49753ea6ce70d65a7cb70ce5f66e6
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
@@ -1050,7 +1050,7 @@ SPEC CHECKSUMS:
   Permission-Camera: 6abdb054620b2f6b3bf9e0b3842db246424d4d48
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
-  RCT-Folly: 4d8508a426467c48885f1151029bc15fa5d7b3b8
+  RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
   RCTRequired: 530916cd48c5f7cf1fc16966ad5ea01638ca4799
   RCTTypeSafety: 5fb4cb3080efd582e5563c3e9a0e459fc51396c5
   React: 097b19fbc7aecb3bd23de54b462d2051d7ca8a38
