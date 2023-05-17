@@ -9,7 +9,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -24,7 +23,6 @@ import {
 } from 'test/utils'
 import {
   mockAccount2Invite,
-  mockAccountInvite,
   mockCusdAddress,
   mockE164NumberInvite,
   mockTransactionDataLegacy,
