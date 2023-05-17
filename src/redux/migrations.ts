@@ -1125,4 +1125,5 @@ export const migrations = {
       inAppReviewLastInteractionTimestamp: null,
     },
   }),
+  127: (state: any) => state,
 }

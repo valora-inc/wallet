@@ -1,17 +1,15 @@
 import * as React from 'react'
-import colors from 'src/styles/colors'
 import Svg, { Path } from 'react-native-svg'
+import colors from 'src/styles/colors'
 
 interface Props {
   color?: colors
 }
 
 const OpenLinkIcon = ({ color = colors.white }: Props) => (
-  <Svg width={24} height={24} fill={color}>
+  <Svg width={12} height={12} fill="none">
     <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M3.75 8.25a4.5 4.5 0 0 1 4.5-4.5h7.5a4.5 4.5 0 0 1 4.5 4.5v7.5a4.5 4.5 0 0 1-4.5 4.5h-7.5a4.5 4.5 0 0 1-4.5-4.5v-7.5Zm4.5-3a3 3 0 0 0-3 3v7.5a3 3 0 0 0 3 3h7.5a3 3 0 0 0 3-3v-7.5a3 3 0 0 0-3-3h-7.5Zm1.886 3.621a.75.75 0 0 1 .75-.75h4.242a.75.75 0 0 1 .75.75v4.243a.75.75 0 0 1-1.5 0v-2.432l-5.614 5.614a.75.75 0 0 1-1.06-1.06l5.614-5.615h-2.432a.75.75 0 0 1-.75-.75Z"
+      d="M10.148 10.148H1.852V1.852H6V.667H1.852C1.194.667.667 1.2.667 1.852v8.296c0 .652.527 1.185 1.185 1.185h8.296c.652 0 1.185-.533 1.185-1.185V6h-1.185v4.148ZM7.185.667v1.185h2.127L3.487 7.677l.836.836 5.825-5.826v2.128h1.185V.667H7.185Z"
       fill={color}
     />
   </Svg>

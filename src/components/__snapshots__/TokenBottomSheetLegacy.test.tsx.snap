@@ -137,7 +137,6 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
             }
             testID="LocalcUSDBalance/value"
           >
-            
             ₱
             13.30
           </Text>
@@ -157,7 +156,6 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
             }
             testID="cUSDBalance/value"
           >
-            
             10.00
              cUSD
           </Text>
@@ -237,7 +235,6 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
             }
             testID="LocalcEURBalance/value"
           >
-            
             ₱
             40.00
           </Text>
@@ -257,7 +254,6 @@ exports[`TokenBottomSheetLegacy renders correctly 1`] = `
             }
             testID="cEURBalance/value"
           >
-            
             20.00
              cEUR
           </Text>

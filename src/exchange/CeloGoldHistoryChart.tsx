@@ -184,7 +184,8 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   )
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const dollarsToLocal = useCallback(
-    (amount) => convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),
+    (amount: BigNumber.Value | null) =>
+      convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),
     [localExchangeRate]
   )
   const exchangeHistory = useSelector(exchangeHistorySelector)

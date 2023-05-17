@@ -364,7 +364,7 @@ function ExchangesSection({
 
   let header: string
   let text: string
-  let rightText: string | undefined
+  let rightText: string | null = null
 
   if (exchangesText === SelectProviderExchangesText.DepositFrom) {
     header = t('selectProviderScreen.depositFrom')

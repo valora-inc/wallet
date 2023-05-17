@@ -1213,6 +1213,7 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} 总计",
   "totalValue": "总余额",
   "viewBalances": "查看资产",
+  "totalAssets": "我的资产",
   "open": "打开",
   "nftViewer": "NFT 查看器",
   "whatTotalValue": {

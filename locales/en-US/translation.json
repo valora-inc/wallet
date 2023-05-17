@@ -1215,6 +1215,7 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
+  "totalAssets": "My Assets",
   "open": "Open",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {

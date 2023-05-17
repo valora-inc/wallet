@@ -13,6 +13,7 @@ interface ButtonProps {
   style?: ViewStyle
   textStyle?: TextStyle
   testID?: string
+  children?: React.ReactNode
 }
 
 const TOUCH_OVERFLOW = 7

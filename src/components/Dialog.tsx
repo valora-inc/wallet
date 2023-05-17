@@ -17,10 +17,10 @@ interface Props {
   image?: ImageSourcePropType
   title?: string | React.ReactNode
   children: React.ReactNode
-  actionText?: string
+  actionText?: string | null
   isActionHighlighted?: boolean
   actionPress?: () => void
-  secondaryActionText?: string
+  secondaryActionText?: string | null
   secondaryActionDisabled?: boolean
   secondaryActionPress?: () => void
   isVisible: boolean

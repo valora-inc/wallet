@@ -276,13 +276,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.IncomingPaymentRequestListScreen}
-      // @ts-expect-error component type in native-stack v6
       component={IncomingPaymentRequestListScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.OutgoingPaymentRequestListScreen}
-      // @ts-expect-error component type in native-stack v6
       component={OutgoingPaymentRequestListScreen}
       options={headerWithBackButton}
     />

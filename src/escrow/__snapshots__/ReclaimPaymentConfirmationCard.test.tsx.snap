@@ -194,7 +194,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       testID="LineItemRow/ReclaimAmount"
     >
       <Text>
-        
         ₱
         13.30
       </Text>
@@ -336,7 +335,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       <Text
         testID="ReclaimFee"
       >
-        
         ₱
         0.013
       </Text>
@@ -420,7 +418,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       <Text
         testID="TotalLineItem/Total"
       >
-        
         ₱
         13.29
       </Text>
@@ -482,7 +479,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         >
           tokenExchanteRate, {"symbol":"cUSD"}
           <Text>
-            
             ₱
             1.33
           </Text>
@@ -511,7 +507,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       <Text
         testID="TotalLineItem/Subtotal"
       >
-        
         9.99
          cUSD
       </Text>

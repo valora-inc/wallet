@@ -157,7 +157,6 @@ exports[`TransferFeedItem renders correctly 1`] = `
         }
         testID="TransferFeedItem/tokenAmount"
       >
-        
         10.00
          cUSD
       </Text>

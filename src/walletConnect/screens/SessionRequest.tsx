@@ -80,7 +80,7 @@ function SessionRequest(props: Props) {
           ? t('connectToWallet', { dappName })
           : t('confirmTransaction', { dappName })
       }
-      description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : undefined}
+      description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : null}
       requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"
     />

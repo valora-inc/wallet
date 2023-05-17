@@ -15,6 +15,7 @@ import { homeReducer as home, State as HomeState } from 'src/home/reducers'
 import i18nReducer, { State as I18nState } from 'src/i18n/slice'
 import { reducer as identity, State as IdentityState } from 'src/identity/reducer'
 import { reducer as imports, State as ImportState } from 'src/import/reducer'
+import keylessBackupReducer, { State as KeylessBackupState } from 'src/keylessBackup/slice'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
@@ -53,6 +54,7 @@ const appReducer = combineReducers({
   fiatConnect: fiatConnectReducer,
   swap: swapReducer,
   positions: positionsReducer,
+  keylessBackup: keylessBackupReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -101,6 +103,7 @@ export interface RootState {
   fiatConnect: FiatConnectState
   swap: SwapState
   positions: PositionsState
+  keylessBackup: KeylessBackupState
 }
 
 export interface PersistedRootState {

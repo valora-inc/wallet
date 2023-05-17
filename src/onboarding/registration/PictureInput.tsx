@@ -34,8 +34,8 @@ function PictureInput({ picture, onPhotoChosen }: Props) {
         cropping: true,
         includeBase64: true,
         cropperCircleOverlay: true,
-        cropperChooseText: t('choose'),
-        cropperCancelText: t('cancel'),
+        cropperChooseText: t('choose') ?? undefined,
+        cropperCancelText: t('cancel') ?? undefined,
       })
       if (image) {
         // @ts-ignore
