@@ -18,8 +18,6 @@ import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
 import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
-import ShortenedAddress from 'src/components/ShortenedAddress'
-import TextButton from 'src/components/TextButton'
 import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import TotalLineItem from 'src/components/TotalLineItem'
 import Touchable from 'src/components/Touchable'
@@ -32,7 +30,6 @@ import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
   e164NumberToAddressSelector,
@@ -120,15 +117,6 @@ function SendConfirmationLegacy(props: Props) {
   const [amount, setAmount] = useState(originalAmount)
   const [currency, setCurrency] = useState(originalCurrency)
 
-  const addressValidationType = getAddressValidationType(
-    transactionData.recipient,
-    secureSendPhoneNumberMapping
-  )
-  // Undefined or null means no addresses ever validated through secure send
-  const validatedRecipientAddress = getSecureSendAddress(
-    transactionData.recipient,
-    secureSendPhoneNumberMapping
-  )
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
   // Only load the balance once to prevent race conditions with transactions updating balance
@@ -209,15 +197,6 @@ function SendConfirmationLegacy(props: Props) {
         fromModal
       )
     )
-  }
-
-  const onEditAddressClick = () => {
-    ValoraAnalytics.track(SendEvents.send_secure_edit)
-    navigate(Screens.ValidateRecipientIntro, {
-      transactionData,
-      addressValidationType,
-      origin: props.route.params.origin,
-    })
   }
 
   const onBlur = () => {
@@ -381,18 +360,6 @@ function SendConfirmationLegacy(props: Props) {
                   {t('sending')}
                 </Text>
                 <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
-                {validatedRecipientAddress && (
-                  <View style={styles.editContainer}>
-                    <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
-                    <TextButton
-                      style={styles.editButton}
-                      testID={'accountEditButton'}
-                      onPress={onEditAddressClick}
-                    >
-                      {t('edit')}
-                    </TextButton>
-                  </View>
-                )}
               </View>
             </View>
             <CurrencyDisplay

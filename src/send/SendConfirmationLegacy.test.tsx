@@ -192,26 +192,6 @@ describe('SendConfirmationLegacy', () => {
     ])
   })
 
-  it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
-    }
-
-    const { getByTestId } = renderScreen({
-      identity: {
-        e164NumberToAddress: mockE164NumberToAddress,
-        secureSendPhoneNumberMapping: {
-          [mockE164NumberInvite]: {
-            addressValidationType: AddressValidationType.FULL,
-            address: mockAccount2Invite,
-          },
-        },
-      },
-    })
-
-    expect(getByTestId('accountEditButton')).toBeTruthy()
-  })
-
   it('updates the comment/reason', () => {
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
@@ -229,32 +209,6 @@ describe('SendConfirmationLegacy', () => {
     const comment = 'A comment!'
     fireEvent.changeText(input, comment)
     expect(queryAllByDisplayValue(comment)).toHaveLength(1)
-  })
-
-  it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
-    }
-    const mockAddressValidationType = AddressValidationType.PARTIAL
-
-    const { getByTestId } = renderScreen({
-      identity: {
-        e164NumberToAddress: mockE164NumberToAddress,
-        secureSendPhoneNumberMapping: {
-          [mockE164NumberInvite]: {
-            addressValidationType: mockAddressValidationType,
-            address: mockAccount2Invite,
-          },
-        },
-      },
-    })
-
-    fireEvent.press(getByTestId('accountEditButton'))
-    expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
-      origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionDataLegacy,
-      addressValidationType: mockAddressValidationType,
-    })
   })
 
   it('does nothing when trying to press "edit" when user has not gone through Secure Send', async () => {
