@@ -2244,9 +2244,8 @@ export const v127Schema = {
   },
   keylessBackup: {
     google: {
-      error: null,
+      status: 'idle',
       idToken: null,
-      loading: false,
     },
   },
 }

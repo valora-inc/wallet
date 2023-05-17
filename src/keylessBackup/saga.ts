@@ -14,7 +14,7 @@ export function* handleGoogleSignInStarted() {
     yield put(googleSignInCompleted({ idToken: 'dummy' }))
   } catch (err) {
     Logger.warn(TAG, 'Sign in with google failed', err)
-    yield put(googleSignInFailed({ error: 'Sign in with google failed' }))
+    yield put(googleSignInFailed())
   }
 }
 

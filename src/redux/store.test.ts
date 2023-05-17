@@ -272,9 +272,8 @@ describe('store state', () => {
         },
         "keylessBackup": Object {
           "google": Object {
-            "error": null,
             "idToken": null,
-            "loading": false,
+            "status": "idle",
           },
         },
         "localCurrency": Object {

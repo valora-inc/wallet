@@ -2,17 +2,15 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface State {
   google: {
-    loading: boolean
+    status: 'idle' | 'loading' | 'success' | 'error'
     idToken: string | null
-    error: string | null
   }
 }
 
 export const initialState: State = {
   google: {
-    loading: false,
+    status: 'idle',
     idToken: null,
-    error: null,
   },
 }
 
@@ -21,17 +19,15 @@ export const slice = createSlice({
   initialState,
   reducers: {
     googleSignInStarted: (state) => {
-      state.google.loading = true
-      state.google.error = null
+      state.google.status = 'loading'
       state.google.idToken = null
     },
     googleSignInCompleted: (state, action: PayloadAction<{ idToken: string }>) => {
-      state.google.loading = false
+      state.google.status = 'success'
       state.google.idToken = action.payload.idToken
     },
-    googleSignInFailed: (state, action: PayloadAction<{ error: string }>) => {
-      state.google.loading = false
-      state.google.error = action.payload.error
+    googleSignInFailed: (state) => {
+      state.google.status = 'error'
     },
   },
 })

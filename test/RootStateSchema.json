@@ -3907,26 +3907,25 @@
                 "google": {
                     "additionalProperties": false,
                     "properties": {
-                        "error": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
                         "idToken": {
                             "type": [
                                 "null",
                                 "string"
                             ]
                         },
-                        "loading": {
-                            "type": "boolean"
+                        "status": {
+                            "enum": [
+                                "error",
+                                "idle",
+                                "loading",
+                                "success"
+                            ],
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "error",
                         "idToken",
-                        "loading"
+                        "status"
                     ],
                     "type": "object"
                 }
