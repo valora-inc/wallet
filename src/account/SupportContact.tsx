@@ -142,7 +142,7 @@ function SupportContact({ route }: Props) {
           placeholderTextColor={colors.gray4}
           underlineColorAndroid="transparent"
           numberOfLines={10}
-          placeholder={t('contactMessagePlaceholder')}
+          placeholder={t('contactMessagePlaceholder') ?? undefined}
           showClearButton={false}
           testID={'MessageEntry'}
         />
@@ -167,7 +167,7 @@ function SupportContact({ route }: Props) {
               value={email}
               style={styles.singleLineTextInput}
               placeholderTextColor={colors.gray4}
-              placeholder={t('Email')}
+              placeholder={t('Email') ?? undefined}
               showClearButton={false}
               testID={'EmailEntry'}
             />

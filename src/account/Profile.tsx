@@ -89,7 +89,7 @@ function Profile({ navigation, route }: Props) {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            placeholder={t('profileScreen.namePlaceholder', { exampleName })}
+            placeholder={t('profileScreen.namePlaceholder', { exampleName }) ?? undefined}
             testID="ProfileEditName"
             onChangeText={updateName}
             value={newName ?? t('unknown')}

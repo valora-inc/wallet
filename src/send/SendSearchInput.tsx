@@ -21,7 +21,7 @@ export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
     <View testID="SendSearchInput" style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
-        placeholder={t('namePhoneAddress')}
+        placeholder={t('namePhoneAddress') ?? undefined}
         value={input}
         onChangeText={onChangeText}
         leftIcon={<Text style={styles.leftIcon}>{t('to')}</Text>}

@@ -280,7 +280,7 @@ function FiatExchangeAmount({ route }: Props) {
         showLoading={exchangeRates[Currency.Dollar] === null || attemptReturnUserFlowLoading}
         text={t('next')}
         type={BtnTypes.PRIMARY}
-        accessibilityLabel={t('next')}
+        accessibilityLabel={t('next') ?? undefined}
         disabled={!isNextButtonValid()}
         size={BtnSizes.FULL}
         style={styles.reviewBtn}
@@ -323,7 +323,7 @@ function FiatExchangeAmountHeader({
   currency,
   showLocalAmount,
 }: {
-  title: string | JSX.Element
+  title: string | React.ReactNode
   currency: CiCoCurrency
   showLocalAmount: boolean
 }) {

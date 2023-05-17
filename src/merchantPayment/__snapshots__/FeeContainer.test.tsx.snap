@@ -121,9 +121,7 @@ exports[`FeeContainer renders correctly 1`] = `
                 ]
               }
               testID="LineItemRowTitle/undefined"
-            >
-              
-            </Text>
+            />
           </View>
           <Text
             style={
@@ -150,7 +148,6 @@ exports[`FeeContainer renders correctly 1`] = `
               }
               testID="feeDrawer/SendConfirmation/totalFee/value"
             >
-              
               ₱
               0.0266
             </Text>
@@ -225,7 +222,6 @@ exports[`FeeContainer renders correctly 1`] = `
       <Text
         testID="TotalLineItem/Total"
       >
-        
         ₱
         1,778.24
       </Text>
@@ -287,7 +283,6 @@ exports[`FeeContainer renders correctly 1`] = `
         >
           tokenExchanteRate, {"symbol":"cUSD"}
           <Text>
-            
             ₱
             1.33
           </Text>
@@ -316,7 +311,6 @@ exports[`FeeContainer renders correctly 1`] = `
       <Text
         testID="TotalLineItem/Subtotal"
       >
-        
         1,337.00
          cUSD
       </Text>

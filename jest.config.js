@@ -39,7 +39,6 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e'],
   transform: {
     ...tsjPreset.transform,
-    '\\.js$': './node_modules/react-native/jest/preprocessor.js',
     '^.+\\.(txt)$': require.resolve('./node_modules/react-native/jest/assetFileTransformer.js'),
   },
   transformIgnorePatterns: [

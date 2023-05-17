@@ -10,7 +10,8 @@ export interface Props {
   title: string
   CTAText: string
   CTAHandler: () => void
-  subtitle?: string
+  subtitle?: string | null
+  children?: React.ReactNode
 }
 
 class FullscreenCTA extends React.PureComponent<Props> {

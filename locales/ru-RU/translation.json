@@ -1219,6 +1219,7 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Всего",
   "totalValue": "Общий остаток",
   "viewBalances": "Просмотр Активы",
+  "totalAssets": "Мои активы",
   "open": "Открыть",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {

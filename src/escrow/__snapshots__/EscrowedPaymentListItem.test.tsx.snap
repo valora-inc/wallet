@@ -79,7 +79,6 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
           <Text
             testID="EscrowedPaymentListItem/amount"
           >
-            
             ₱
             13.30
           </Text>

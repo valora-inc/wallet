@@ -150,7 +150,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 }
               }
             >
-              
               ₱
               1.33
             </Text>
@@ -258,7 +257,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           <Text
             testID="TotalLineItem/Total"
           >
-            
             ₱
             1.33
           </Text>
@@ -320,7 +318,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             >
               tokenExchanteRate, {"symbol":"cUSD"}
               <Text>
-                
                 ₱
                 1.33
               </Text>
@@ -349,7 +346,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           <Text
             testID="TotalLineItem/Subtotal"
           >
-            
             1.00
              cUSD
           </Text>

@@ -131,7 +131,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
             <PhraseInput
               style={[styles.phraseInputText]}
               value={words || ''}
-              placeholder={t('backupPhrasePlaceholder')}
+              placeholder={t('backupPhrasePlaceholder') ?? undefined}
               onChangeText={this.onPhraseInputChange}
               shouldShowClipboard={isValidBackupPhrase}
               underlineColorAndroid="transparent"

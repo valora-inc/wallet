@@ -12,7 +12,7 @@ interface Props {
   onPress(): void
   buttonLabel: string
   onPressSecondary?(): void
-  secondaryButtonLabel?: string
+  secondaryButtonLabel?: string | null
 }
 
 function AccountErrorScreen({

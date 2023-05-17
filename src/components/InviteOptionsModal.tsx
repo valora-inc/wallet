@@ -1,6 +1,6 @@
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import * as React from 'react'
-import { TransProps, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import { useSelector } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
@@ -39,7 +39,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   }
 
   let title = t('inviteModal.title', { contactName: getDisplayName(recipient, t) })
-  const descriptionProps: TransProps = { i18nKey: 'inviteModal.body' }
+  let descriptionI18nKey = 'inviteModal.body'
   let message = t('inviteModal.shareMessage', { link })
   let helpLink = ''
 
@@ -47,8 +47,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
     switch (inviteRewardsType) {
       case InviteRewardsType.NFT:
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
-        descriptionProps.i18nKey = 'inviteModal.rewardsActive.body'
-        descriptionProps.values = { contactName: getDisplayName(recipient, t) }
+        descriptionI18nKey = 'inviteModal.rewardsActive.body'
         message = t('inviteWithRewards', { link })
         helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         break
@@ -56,8 +55,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         title = t('inviteModal.rewardsActiveCUSD.title', {
           contactName: getDisplayName(recipient, t),
         })
-        descriptionProps.i18nKey = 'inviteModal.rewardsActiveCUSD.body'
-        descriptionProps.values = { contactName: getDisplayName(recipient, t) }
+        descriptionI18nKey = 'inviteModal.rewardsActiveCUSD.body'
         message = t('inviteWithRewardsCUSD', { link })
         helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
@@ -67,7 +65,8 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   return (
     <InviteModal
       title={title}
-      descriptionProps={descriptionProps}
+      descriptionI18nKey={descriptionI18nKey}
+      contactName={getDisplayName(recipient, t)}
       buttonLabel={t('inviteModal.sendInviteButtonLabel')}
       imageSource={inviteModal}
       disabled={!link}

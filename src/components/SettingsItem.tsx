@@ -29,7 +29,7 @@ type BaseProps = {
 } & Omit<WrapperProps, 'children'>
 
 type SettingsItemTextValueProps = {
-  value?: string
+  value?: string | null
   showChevron?: boolean
   isValueActionable?: boolean
 } & BaseProps
@@ -67,7 +67,7 @@ export function SettingsItemTextValue({
 type SettingsItemSwitchProps = {
   value: boolean
   onValueChange: (value: boolean) => void
-  details?: string
+  details?: string | null
 } & Omit<BaseProps, 'onPress'>
 
 export function SettingsItemSwitch({
@@ -93,7 +93,7 @@ export function SettingsItemSwitch({
 }
 
 type SettingsExpandedItemProps = {
-  details?: string
+  details?: string | null
 } & BaseProps
 
 export function SettingsExpandedItem({

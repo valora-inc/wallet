@@ -228,7 +228,7 @@ export default function DrawerNavigator({ route }: Props) {
     <Drawer.Screen
       name={Screens.ExchangeHomeScreen}
       component={ExchangeHomeScreen}
-      options={{ title: t('celoGold'), drawerIcon: Gold }}
+      options={{ title: t('celoGold') ?? undefined, drawerIcon: Gold }}
     />
   )
 
@@ -252,13 +252,13 @@ export default function DrawerNavigator({ route }: Props) {
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
+        options={{ title: t('home') ?? undefined, drawerIcon: Home, unmountOnBlur: false }}
       />
       {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
           name={Screens.SwapScreen}
           component={SwapScreen}
-          options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
+          options={{ title: t('swapScreen.title') ?? undefined, drawerIcon: Swap }}
         />
       ) : (
         celoMenuItem
@@ -277,7 +277,7 @@ export default function DrawerNavigator({ route }: Props) {
               : DAppsExplorerScreenLegacy
           }
           options={{
-            title: t('dappsScreen.title'),
+            title: t('dappsScreen.title') ?? undefined,
             drawerIcon: DappsExplorer,
             // Special case for the Dapps explorer,
             // so it reloads the list when the user comes back to it
@@ -306,8 +306,8 @@ export default function DrawerNavigator({ route }: Props) {
                       </View>
                     </View>
                   )
-                : t('accountKey'),
-            title: t('accountKey'),
+                : t('accountKey') ?? undefined,
+            title: t('accountKey') ?? undefined,
             drawerIcon: AccountKey,
           }}
           initialParams={{ showDrawerTopBar: true }}
@@ -317,13 +317,13 @@ export default function DrawerNavigator({ route }: Props) {
         <Drawer.Screen
           name={Screens.FiatExchange}
           component={FiatExchange}
-          options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
+          options={{ title: t('addAndWithdraw') ?? undefined, drawerIcon: AddWithdraw }}
         />
       )}
       <Drawer.Screen
         name={Screens.Invite}
         component={Invite}
-        options={{ title: t('invite'), drawerIcon: InviteIcon }}
+        options={{ title: t('invite') ?? undefined, drawerIcon: InviteIcon }}
       />
 
       {
@@ -334,12 +334,12 @@ export default function DrawerNavigator({ route }: Props) {
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}
-        options={{ title: t('settings'), drawerIcon: Settings }}
+        options={{ title: t('settings') ?? undefined, drawerIcon: Settings }}
       />
       <Drawer.Screen
         name={Screens.Support}
         component={Support}
-        options={{ title: t('help'), drawerIcon: Help }}
+        options={{ title: t('help') ?? undefined, drawerIcon: Help }}
       />
     </Drawer.Navigator>
   )
