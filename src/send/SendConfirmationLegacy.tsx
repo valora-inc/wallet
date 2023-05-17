@@ -455,19 +455,6 @@ const styles = StyleSheet.create({
   displayName: {
     ...fontStyles.regular500,
   },
-  editContainer: {
-    flexDirection: 'row',
-  },
-  address: {
-    ...fontStyles.small,
-    color: colors.gray5,
-    paddingRight: 4,
-  },
-  editButton: {
-    ...fontStyles.small,
-    color: colors.gray5,
-    textDecorationLine: 'underline',
-  },
   amount: {
     paddingVertical: 8,
     ...fontStyles.largeNumber,
