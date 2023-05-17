@@ -5,15 +5,6 @@ import { call } from 'redux-saga/effects'
 import { handleGoogleSignInStarted } from 'src/keylessBackup/saga'
 import { googleSignInCompleted, googleSignInFailed } from 'src/keylessBackup/slice'
 
-jest.mock('@react-native-google-signin/google-signin', () => ({
-  GoogleSignin: {
-    configure: jest.fn(),
-    signOut: jest.fn(),
-    hasPlayServices: jest.fn(),
-    signIn: jest.fn(),
-  },
-}))
-
 jest.mock('src/config', () => ({
   GOOGLE_OAUTH_CLIENT_ID: 'mockClientId',
 }))
@@ -55,7 +46,7 @@ describe('KeylessBackup saga', () => {
         .provide([
           [call([GoogleSignin, 'signOut']), undefined],
           [call([GoogleSignin, 'hasPlayServices']), undefined],
-          [call([GoogleSignin, 'signIn']), null],
+          [call([GoogleSignin, 'signIn']), { idToken: null }],
         ])
         .call([GoogleSignin, 'signOut'])
         .call([GoogleSignin, 'hasPlayServices'])
