@@ -54,14 +54,21 @@ function PercentageIndicator({ comparedValue, currentValue, testID }: Props) {
   )
 
   return (
-    <View style={{ flexDirection: 'row' }} testID={testID}>
-      <View style={{ justifyContent: 'center' }}>{indicator}</View>
+    <View style={styles.container} testID={testID}>
+      <View style={styles.indicator}>{indicator}</View>
       <Text style={style}>{percentageString}</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+  },
+  indicator: {
+    justifyContent: 'center',
+    marginRight: 4,
+  },
   increasedText: {
     ...fontStyles.small,
     color: Colors.greenUI,
