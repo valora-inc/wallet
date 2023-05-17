@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   values: string[]
@@ -21,11 +22,13 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
         <Touchable
           style={[
             styles.button,
-            index === selectedIndex ? { backgroundColor: Colors.greenUI } : {},
+            { backgroundColor: index === selectedIndex ? Colors.greenUI : Colors.gray1 },
           ]}
           onPress={handleSelectOption(value, index)}
         >
-          <Text style={[styles.text, index === selectedIndex ? { color: Colors.light } : {}]}>
+          <Text
+            style={[styles.text, { color: index === selectedIndex ? Colors.light : Colors.gray4 }]}
+          >
             {value}
           </Text>
         </Touchable>
@@ -39,17 +42,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 100,
     backgroundColor: Colors.gray1,
-    height: 32,
   },
   button: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 100,
+    paddingVertical: Spacing.Smallest8,
   },
   text: {
     ...fontStyles.small600,
-    color: Colors.gray4,
   },
 })
 

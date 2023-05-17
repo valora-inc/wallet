@@ -70,9 +70,8 @@ function TokenBalancesScreen({ navigation }: Props) {
   const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
   const [assetsComponentHeight, setAssetsComponentHeight] = useState(0)
 
-  const totalHeaderHeight = assetsComponentHeight + 48 + 32 + 24
   const scrollPosition = useRef(new Animated.Value(0)).current
-  const onScroll = Animated.event([
+  const handleScroll = Animated.event([
     {
       nativeEvent: {
         contentOffset: {
@@ -81,10 +80,13 @@ function TokenBalancesScreen({ navigation }: Props) {
       },
     },
   ])
-  const animatedHeaderStyles = useMemo(
+
+  const animatedScreenHeaderStyles = useMemo(
     () => ({
       opacity: scrollPosition.interpolate({
-        inputRange: [assetsComponentHeight, assetsComponentHeight + 24],
+        // start animating the screen header opacity 24pt before the assets
+        // component is fully scrolled out of view.
+        inputRange: [assetsComponentHeight - 24, assetsComponentHeight],
         outputRange: [0, 1],
         extrapolate: Animated.Extrapolate.CLAMP,
       }),
@@ -92,19 +94,19 @@ function TokenBalancesScreen({ navigation }: Props) {
     [assetsComponentHeight]
   )
 
-  const balanceStyles = useMemo(
+  const animatedListHeaderStyles = useMemo(
     () => ({
       transform: [
         {
           translateY: scrollPosition.interpolate({
-            inputRange: [0, assetsComponentHeight + 48],
-            outputRange: [0, -(assetsComponentHeight + 48)],
+            inputRange: [0, assetsComponentHeight],
+            outputRange: [0, -assetsComponentHeight],
             extrapolate: Animated.Extrapolate.CLAMP,
           }),
         },
       ],
     }),
-    [assetsComponentHeight, totalHeaderHeight]
+    [assetsComponentHeight]
   )
 
   useLayoutEffect(() => {
@@ -118,12 +120,12 @@ function TokenBalancesScreen({ navigation }: Props) {
 
     navigation.setOptions({
       headerTitle: () => (
-        <Animated.View style={animatedHeaderStyles}>
+        <Animated.View style={animatedScreenHeaderStyles}>
           <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
         </Animated.View>
       ),
     })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderStyles])
+  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedScreenHeaderStyles])
 
   function isHistoricalPriceUpdated(token: TokenBalance) {
     return (
@@ -187,6 +189,30 @@ function TokenBalancesScreen({ navigation }: Props) {
     setAssetsComponentHeight(event.nativeEvent.layout.height)
   }
 
+  const segmentedControlValues = useMemo(
+    () => [t('assetsSegmentedControl.walletAssets'), t('assetsSegmentedControl.dappPositions')],
+    [t]
+  )
+
+  const renderListHeader = () => (
+    <Animated.View style={[styles.listHeaderContainer, animatedListHeaderStyles]}>
+      <View style={styles.assetBalanceContainer} onLayout={handleMeasureHeaderHeight}>
+        <AssetsTokenBalance />
+      </View>
+      {showPostions && positions.length > 0 && (
+        <View style={styles.segmentedControlContainer}>
+          <SegmentedControl
+            values={segmentedControlValues}
+            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+            onChange={(_, index) => {
+              setActiveView(index)
+            }}
+          />
+        </View>
+      )}
+    </Animated.View>
+  )
+
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
@@ -227,25 +253,8 @@ function TokenBalancesScreen({ navigation }: Props) {
         data={tokens.sort(sortByUsdBalance)}
         renderItem={renderTokenBalance}
         keyExtractor={(item) => item.address}
-        onScroll={onScroll}
-        ListHeaderComponent={() => (
-          <View style={[{ overflow: 'hidden' }]}>
-            <Animated.View style={balanceStyles}>
-              <AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />
-              {showPostions && positions.length > 0 && (
-                <View style={{ paddingBottom: 24, backgroundColor: 'white' }}>
-                  <SegmentedControl
-                    values={['wallet assets', 'dapp positions']}
-                    selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
-                    onChange={(_, index) => {
-                      setActiveView(index)
-                    }}
-                  />
-                </View>
-              )}
-            </Animated.View>
-          </View>
-        )}
+        onScroll={handleScroll}
+        ListHeaderComponent={renderListHeader}
         stickyHeaderIndices={[0]}
       />
     </>
@@ -314,7 +323,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.gray1,
     flexDirection: 'row',
-    height: 32,
   },
   bannerText: {
     ...fontStyles.small500,
@@ -324,6 +332,16 @@ const styles = StyleSheet.create({
   rightInnerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  listHeaderContainer: {
+    paddingBottom: Spacing.Thick24,
+  },
+  assetBalanceContainer: {
+    paddingTop: Spacing.Thick24,
+  },
+  segmentedControlContainer: {
+    backgroundColor: Colors.light,
+    paddingTop: Spacing.Thick24,
   },
 })
 

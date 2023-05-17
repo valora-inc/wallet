@@ -1,16 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Image,
-  LayoutChangeEvent,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
@@ -31,7 +22,6 @@ import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
   stalePriceSelector,
@@ -129,15 +119,11 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
-export function AssetsTokenBalance({
-  onLayout,
-}: {
-  onLayout?: (event: LayoutChangeEvent) => void
-}) {
+export function AssetsTokenBalance() {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.assetsContainer} onLayout={onLayout} testID="AssetsTokenBalance">
+    <View testID="AssetsTokenBalance">
       <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
       <TokenBalance singleTokenViewEnabled={false} />
     </View>
@@ -231,9 +217,6 @@ export function FiatExchangeTokenBalance() {
 const styles = StyleSheet.create({
   container: {
     margin: variables.contentPadding,
-  },
-  assetsContainer: {
-    marginVertical: Spacing.Thick24,
   },
   totalAssets: {
     ...fontStyles.regular600,

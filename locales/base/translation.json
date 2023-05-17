@@ -1218,6 +1218,10 @@
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
   "totalAssets": "My Assets",
+  "assetsSegmentedControl": {
+    "walletAssets": "Wallet assets",
+    "dappPositions": "Dapp positions"
+  },
   "open": "Open",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
