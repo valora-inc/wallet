@@ -320,7 +320,7 @@ export async function getPincodeWithBiometry() {
       // only displayed on Android - would be displayed on iOS too if we allow
       // device pincode fallback
       authenticationPrompt: {
-        title: i18n.t('unlockWithBiometryPrompt'),
+        title: i18n.t('unlockWithBiometryPrompt') ?? undefined,
       },
     })
     if (retrievedPin) {
@@ -450,7 +450,9 @@ export async function ensureCorrectPassword(
     return result
   } catch (error) {
     Logger.error(TAG, 'Error attempting to unlock wallet', error, true)
-    Logger.showError(i18n.t(ErrorMessages.ACCOUNT_UNLOCK_FAILED))
+    Logger.showError(
+      i18n.t(ErrorMessages.ACCOUNT_UNLOCK_FAILED) ?? new Error('Error attempting to unlock wallet')
+    )
     return false
   }
 }

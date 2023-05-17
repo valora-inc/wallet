@@ -54,7 +54,7 @@ describe('VerificationStartScreen', () => {
     })
     const { getByText, getByTestId } = renderComponent()
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(5000)
     })
 
@@ -66,11 +66,11 @@ describe('VerificationStartScreen', () => {
     expect(getByText('phoneVerificationScreen.learnMore.buttonLabel')).toBeTruthy()
   })
 
-  it('does not allow starting CPV when signed message is not yet available', () => {
+  it('does not allow starting CPV when signed message is not yet available', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue(false)
     const { queryByText, getByTestId } = renderComponent()
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(5000)
       // enter a valid phone number
       fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
@@ -84,7 +84,7 @@ describe('VerificationStartScreen', () => {
   it('shows the learn more dialog', async () => {
     const { getByTestId, getByText } = renderComponent()
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('phoneVerificationScreen.learnMore.buttonLabel'))
     })
     await waitFor(() => expect(getByTestId('PhoneVerificationLearnMoreDialog')).toBeTruthy())
@@ -95,10 +95,10 @@ describe('VerificationStartScreen', () => {
     expect(within(LearnMoreDialog).getByText('phoneVerificationScreen.learnMore.body')).toBeTruthy()
   })
 
-  it('skip button works', () => {
+  it('skip button works', async () => {
     const { getByText } = renderComponent({ hideOnboardingStep: false })
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('skip'))
     })
 
@@ -117,7 +117,7 @@ describe('VerificationStartScreen', () => {
     })
     const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
 
-    act(() => {
+    await act(() => {
       jest.advanceTimersByTime(5000)
       fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
     })

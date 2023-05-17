@@ -187,8 +187,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             }
             testID="undefined/value"
           >
-            
-            
             5.001
           </Text>
         </Text>
@@ -305,9 +303,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                     ]
                   }
                   testID="LineItemRowTitle/undefined"
-                >
-                  
-                </Text>
+                />
               </View>
               <Text
                 style={
@@ -334,8 +330,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   }
                   testID="feeDrawer/WithdrawCelo/totalFee/value"
                 >
-                  
-                  
                   1
                 </Text>
               </Text>
@@ -417,8 +411,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             }
             testID="TotalLineItem/Total/value"
           >
-            
-            
             5.001
           </Text>
         </Text>
@@ -511,7 +503,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   }
                   testID="TotalLineItem/ExchangeRate/value"
                 >
-                  
                   $
                   3.00
                 </Text>
@@ -549,7 +540,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             }
             testID="TotalLineItem/Subtotal/value"
           >
-            
             ₱
             15.00
           </Text>

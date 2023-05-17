@@ -7,7 +7,7 @@ interface Props<T> {
   detailsI18nKey: string
   icon: React.ReactNode
   onReview: () => void
-  itemRenderer: (item: T, key: number) => React.ReactNode
+  itemRenderer: (item: T, key: number) => React.ReactElement
   items: T[]
 }
 

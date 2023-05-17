@@ -242,7 +242,7 @@ export default function QRNavigator({ route }: Props) {
       sceneContainerStyle={styles.sceneContainerStyle}
       initialLayout={initialLayout}
     >
-      <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') }}>
+      <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') ?? undefined }}>
         {({ route, navigation }) => (
           <QRCodePicker
             navigation={navigation}
@@ -254,7 +254,7 @@ export default function QRNavigator({ route }: Props) {
           />
         )}
       </Tab.Screen>
-      <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') }}>
+      <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
         {(props) => <AnimatedScannerScene {...props} position={position} />}
       </Tab.Screen>
     </Tab.Navigator>

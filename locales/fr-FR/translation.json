@@ -1215,6 +1215,7 @@
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
+  "totalAssets": "Mes atouts",
   "open": "Ouvrir",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {

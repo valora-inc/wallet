@@ -38,7 +38,9 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
       setShowRevokeSuccess(true)
     } else if (revokeNumberAsync.status === 'error') {
       forwardedRef.current?.close()
-      Logger.showError(t('revokePhoneNumber.revokeError'))
+      Logger.showError(
+        t('revokePhoneNumber.revokeError') ?? new Error('Could not unlink phone number')
+      )
     }
 
     const timeout = setTimeout(() => setShowRevokeSuccess(false), TOAST_DISMISS_TIMEOUT_MS)

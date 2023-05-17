@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Trans, TransProps } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import { InviteEvents } from 'src/analytics/Events'
@@ -18,7 +18,8 @@ import variables from 'src/styles/variables'
 interface Props {
   title: string
   description?: string
-  descriptionProps?: TransProps
+  descriptionI18nKey?: string
+  contactName?: string
   buttonLabel: string
   disabled: boolean
   imageSource: ImageSourcePropType
@@ -30,7 +31,8 @@ interface Props {
 const InviteModal = ({
   title,
   description,
-  descriptionProps,
+  descriptionI18nKey,
+  contactName,
   buttonLabel,
   disabled,
   imageSource,
@@ -61,9 +63,12 @@ const InviteModal = ({
         <Image style={styles.imageContainer} source={imageSource} resizeMode="contain" />
         <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
         {description ? <Text style={[fontStyles.regular, styles.text]}>{description}</Text> : null}
-        {descriptionProps ? (
+        {descriptionI18nKey ? (
           <Text style={[fontStyles.regular, styles.text]} testID="InviteModalStyledDescription">
-            <Trans {...descriptionProps} key={descriptionProps.i18nKey}>
+            <Trans
+              i18nKey={descriptionI18nKey}
+              tOptions={contactName ? { contactName } : undefined}
+            >
               <Text style={styles.textBold} />
             </Trans>
           </Text>

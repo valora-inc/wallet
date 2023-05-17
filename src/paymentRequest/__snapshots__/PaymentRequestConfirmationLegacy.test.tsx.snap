@@ -156,7 +156,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               }
               testID="undefined/value"
             >
-              
               ₱
               1.33
             </Text>
@@ -272,7 +271,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             }
             testID="TotalLineItem/Total/value"
           >
-            
             ₱
             1.33
           </Text>

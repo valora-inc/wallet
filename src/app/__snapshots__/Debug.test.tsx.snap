@@ -99,9 +99,7 @@ exports[`Debug renders correctly 1`] = `
               "fontSize": 10,
             }
           }
-        >
-          
-        </Text>
+        />
       </View>
     </RCTScrollView>
   </View>

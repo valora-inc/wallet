@@ -261,7 +261,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
       navigation.setOptions({
         ...emptyHeader,
         headerLeft: () => <View />,
-        headerTitle: t('fiatConnectStatusScreen.success.header'),
+        headerTitle: t('fiatConnectStatusScreen.success.header') ?? undefined,
       })
     // intentionally falls thru since TxProcessing and Completed use the same component
     case SendingTransferStatus.TxProcessing:

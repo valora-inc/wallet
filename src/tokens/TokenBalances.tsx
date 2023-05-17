@@ -35,6 +35,7 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { sortByUsdBalance } from 'src/tokens/utils'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -80,7 +81,7 @@ function TokenBalancesScreen({ navigation }: Props) {
       },
     },
   ])
-  const headerOpacity = useMemo(
+  const animatedHeaderStyles = useMemo(
     () => ({
       opacity: scrollPosition.interpolate({
         inputRange: [assetsComponentHeight, assetsComponentHeight + 24],
@@ -90,17 +91,6 @@ function TokenBalancesScreen({ navigation }: Props) {
     }),
     [assetsComponentHeight]
   )
-
-  // const headerStyles = useMemo(
-  //   () => ({
-  //     height: scrollPosition.interpolate({
-  //       inputRange: [0, assetsComponentHeight + 48],
-  //       outputRange: [totalHeaderHeight, totalHeaderHeight - (assetsComponentHeight + 48)],
-  //       extrapolate: Animated.Extrapolate.CLAMP,
-  //     }),
-  //   }),
-  //   [assetsComponentHeight, totalHeaderHeight]
-  // )
 
   const balanceStyles = useMemo(
     () => ({
@@ -128,12 +118,12 @@ function TokenBalancesScreen({ navigation }: Props) {
 
     navigation.setOptions({
       headerTitle: () => (
-        <Animated.View style={headerOpacity}>
+        <Animated.View style={animatedHeaderStyles}>
           <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
         </Animated.View>
       ),
     })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, headerOpacity])
+  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderStyles])
 
   function isHistoricalPriceUpdated(token: TokenBalance) {
     return (
@@ -197,8 +187,6 @@ function TokenBalancesScreen({ navigation }: Props) {
     setAssetsComponentHeight(event.nativeEvent.layout.height)
   }
 
-  const test = activeView === ViewType.WalletAssets ? tokens : tokens.slice().reverse()
-
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
@@ -236,12 +224,12 @@ function TokenBalancesScreen({ navigation }: Props) {
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
-        data={[...test, ...test]}
+        data={tokens.sort(sortByUsdBalance)}
         renderItem={renderTokenBalance}
         keyExtractor={(item) => item.address}
         onScroll={onScroll}
         ListHeaderComponent={() => (
-          <Animated.View style={[{ borderWidth: 1, overflow: 'hidden' }]}>
+          <View style={[{ overflow: 'hidden' }]}>
             <Animated.View style={balanceStyles}>
               <AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />
               {showPostions && positions.length > 0 && (
@@ -256,7 +244,7 @@ function TokenBalancesScreen({ navigation }: Props) {
                 </View>
               )}
             </Animated.View>
-          </Animated.View>
+          </View>
         )}
         stickyHeaderIndices={[0]}
       />
