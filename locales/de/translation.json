@@ -28,13 +28,13 @@
     "restart": "Neustart zum Wechseln"
   },
   "revokePhoneNumber": {
-    "title": "Unlink-Telefonnummer",
-    "bottomSheetTitle": "Rufnummer entkoppeln",
-    "description": "Wenn du die Verknüpfung aufhebst, wird die mit deiner Brieftasche verknüpfte Telefonnummer entfernt. Du kannst später eine neue Telefonnummer hinzufügen.",
-    "confirmButton": "Jetzt entkoppeln",
-    "revokeSuccess": "Deine Telefonnummer wurde entkoppelt",
-    "revokeError": "Die Verknüpfung der Telefonnummer konnte nicht aufgehoben werden, bitte versuche es später noch einmal.",
-    "addNewNumberButton": "Rufnummer hinzufügen"
+    "title": "Verknüpfung der Telefonnummer trennen",
+    "bottomSheetTitle": "Verknüpfung der Telefonnummer trennen",
+    "description": "Durch das Trennen der Verknüpfung wird die mit deiner Wallet verknüpfte Telefonnummer entfernt. Du kannst später eine andere Telefonnummer hinzufügen.",
+    "confirmButton": "Verknüpfung jetzt trennen",
+    "revokeSuccess": "Die Verknüpfung deiner Telefonnummer wurde getrennt",
+    "revokeError": "Trennen der Telefonnummer fehlgeschlagen, bitte versuche es später nochmal.",
+    "addNewNumberButton": "Telefonnummer hinzufügen"
   },
   "promptFornoModal": {
     "header": "Verbindungsmodus wechseln?",
@@ -88,17 +88,17 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Schlüsselloses Backup einrichten",
-    "subtitle": "Mit den folgenden Schritten richtest du das Backup ein:",
-    "emailAddress": "E-Mail Adresse",
+    "title": "Schlüssellose Sicherung einrichten",
+    "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet:",
+    "emailAddress": "E-Mail-Adresse",
     "phoneNumber": "Telefonnummer"
   },
   "signInWithEmail": {
-    "title": "Mit E-Mail anmelden",
-    "subtitle": "Melde dich mit deiner E-Mail an, um sie als Backup einzurichten.\n\nWenn du dein Portemonnaie verlierst, wirst du aufgefordert, dich erneut anzumelden.",
+    "title": "Mit der E-Mail-Adresse anmelden",
+    "subtitle": "Melde dich mit deiner E-Mail-Adresse an, um diese als Sicherung einzurichten.\nDu wirst aufgefordert, dich erneut anzumelden, wenn du jemals deine Wallet verlierst.",
     "google": "Mit Google anmelden"
   },
-  "setupKeylessBackupReminder": "<0>Denke daran</0>, dass diese Informationen die einzige Möglichkeit sind, auf dein Portemonnaie zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Bewahre es sicher auf!",
+  "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
@@ -975,13 +975,13 @@
   "stableBalance": "{{token}} Guthaben",
   "selectToken": "Vermögen auswählen",
   "verificationCta": {
-    "header": "Sende Krypto wie eine SMS!",
-    "body": "Verbinde deine Telefonnummer mit deiner Brieftaschenadresse, damit du Zahlungen an Freunde senden und empfangen kannst.",
-    "cta": "Link Telefonnummer"
+    "header": "Sende Krypto so einfach wie eine Textnachricht!",
+    "body": "Verknüpfe deine Telefonnummer mit deiner Wallet-Adresse, damit du Zahlungen an und von Freunde(n) senden und empfangen kannst.",
+    "cta": "Telefonnummer verknüpfen"
   },
   "importContactsCta": {
     "header": "Kontakte aktivieren",
-    "body": "Aktiviere die Kontakte in den Einstellungen deines Telefons, um ganz einfach Zahlungen zu senden und anzufordern.",
+    "body": "Aktiviere Kontakte in deinen Telefoneinstellungen, um Zahlen ganz einfach zu versenden oder zu erhalten.",
     "cta": "Einstellungen"
   },
   "contactSyncProgress": {
@@ -1215,7 +1215,7 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Gesamt",
   "totalValue": "Gesamtguthaben",
   "viewBalances": "Vermögen ansehen",
-  "totalAssets": "Mein Vermögen",
+  "totalAssets": "Assets",
   "open": "Öffnen",
   "nftViewer": "NFT-Viewer",
   "whatTotalValue": {
@@ -1585,7 +1585,7 @@
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Swaps powered by Partner auf Celo. \n<0>Erfahre mehr.</0>",
+    "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "maxSwapAmountWarning": {
