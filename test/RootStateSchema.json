@@ -2228,6 +2228,7 @@
                 "OutgoingPaymentRequestListScreen",
                 "PaymentRequestConfirmation",
                 "PaymentRequestConfirmationLegacy",
+                "PhoneBackupInput",
                 "PhoneNumberLookupQuota",
                 "PhotosEducation",
                 "PhotosNUX",
