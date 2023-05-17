@@ -22,44 +22,47 @@ describe('KeylessBackup saga', () => {
   describe('handleGoogleSignInStarted', () => {
     it('puts completed action with idToken on successful signin', async () => {
       await expectSaga(handleGoogleSignInStarted)
-        .provide([[call([GoogleSignin, 'configure']), undefined]])
-        .provide([[call([GoogleSignin, 'signOut']), undefined]])
-        .provide([[call([GoogleSignin, 'hasPlayServices']), undefined]])
-        .provide([[call([GoogleSignin, 'signIn']), { idToken: 'googleToken' }]])
+        .provide([
+          [call([GoogleSignin, 'signOut']), undefined],
+          [call([GoogleSignin, 'hasPlayServices']), undefined],
+          [call([GoogleSignin, 'signIn']), { idToken: 'googleToken' }],
+        ])
+        .call([GoogleSignin, 'signOut'])
+        .call([GoogleSignin, 'hasPlayServices'])
+        .call([GoogleSignin, 'signIn'])
         .put(googleSignInCompleted({ idToken: 'googleToken' }))
         .run()
       expect(GoogleSignin.configure).toHaveBeenCalledWith({ webClientId: 'mockClientId' })
-      expect(GoogleSignin.signOut).toHaveBeenCalledWith()
-      expect(GoogleSignin.hasPlayServices).toHaveBeenCalledWith()
-      // expect(GoogleSignin.signIn).toHaveBeenCalledWith() // this alone fails, despite the put behind called
     })
 
     it('puts failed action with error on failed signin', async () => {
       await expectSaga(handleGoogleSignInStarted)
-        .provide([[call([GoogleSignin, 'configure']), undefined]])
-        .provide([[call([GoogleSignin, 'signOut']), undefined]])
-        .provide([[call([GoogleSignin, 'hasPlayServices']), undefined]])
-        .provide([[call([GoogleSignin, 'signIn']), throwError(new Error('sign in failed'))]])
+        .provide([
+          [call([GoogleSignin, 'signOut']), undefined],
+          [call([GoogleSignin, 'hasPlayServices']), undefined],
+          [call([GoogleSignin, 'signIn']), throwError(new Error('sign in failed'))],
+        ])
+        .call([GoogleSignin, 'signOut'])
+        .call([GoogleSignin, 'hasPlayServices'])
+        .call([GoogleSignin, 'signIn'])
         .put(googleSignInFailed({ error: 'Sign in with google failed' }))
         .run()
       expect(GoogleSignin.configure).toHaveBeenCalledWith({ webClientId: 'mockClientId' })
-      expect(GoogleSignin.signOut).toHaveBeenCalledWith()
-      expect(GoogleSignin.hasPlayServices).toHaveBeenCalledWith()
-      // expect(GoogleSignin.signIn).toHaveBeenCalledWith() // this alone fails, despite the put behind called
     })
 
     it('puts failed action if signin returns null token', async () => {
       await expectSaga(handleGoogleSignInStarted)
-        .provide([[call([GoogleSignin, 'configure']), undefined]])
-        .provide([[call([GoogleSignin, 'signOut']), undefined]])
-        .provide([[call([GoogleSignin, 'hasPlayServices']), undefined]])
-        .provide([[call([GoogleSignin, 'signIn']), { idToken: null }]])
+        .provide([
+          [call([GoogleSignin, 'signOut']), undefined],
+          [call([GoogleSignin, 'hasPlayServices']), undefined],
+          [call([GoogleSignin, 'signIn']), null],
+        ])
+        .call([GoogleSignin, 'signOut'])
+        .call([GoogleSignin, 'hasPlayServices'])
+        .call([GoogleSignin, 'signIn'])
         .put(googleSignInFailed({ error: 'Sign in with google failed' }))
         .run()
       expect(GoogleSignin.configure).toHaveBeenCalledWith({ webClientId: 'mockClientId' })
-      expect(GoogleSignin.signOut).toHaveBeenCalledWith()
-      expect(GoogleSignin.hasPlayServices).toHaveBeenCalledWith()
-      // expect(GoogleSignin.signIn).toHaveBeenCalledWith() // this alone fails, despite the put behind called
     })
   })
 })
