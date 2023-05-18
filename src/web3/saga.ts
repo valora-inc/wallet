@@ -26,6 +26,7 @@ import { navigate, navigateToError } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
   CANCELLED_PIN_INPUT,
+  getPassword,
   getPasswordSaga,
   retrieveSignedMessage,
 } from 'src/pincode/authentication'
@@ -250,8 +251,9 @@ export function* createAndAssignCapsuleAccount() {
     try {
       yield call([wallet, wallet.initSessionManagement])
       account = yield call([wallet, wallet.createAccount], transmitRecoveryKeyshare)
-      const passcode: string = yield call(getPasswordSaga, account, false, true)
-      if (!passcode) {
+      try {
+        yield call(getPasswordSaga, account, false, true)
+      } catch (error) {
         yield take(AccountActions.SET_PINCODE_SUCCESS)
       }
       const userKeyshare: string = yield call([wallet, wallet.getKeyshare], account)
