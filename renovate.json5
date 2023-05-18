@@ -1,5 +1,5 @@
 {
-  extends: ['config:base'],
+  extends: ['config:base', ':disableDigestUpdates'],
   // Bump version ranges instead of pinning since we use lock files
   rangeStrategy: 'bump',
   // Set a status check pending for 3 days from release timestamp to guard against unpublishing
