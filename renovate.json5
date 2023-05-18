@@ -15,7 +15,7 @@
   // Dependabot is handling them instead because Renovate is not yet able to update transitive dependencies
   // See https://github.com/renovatebot/renovate/issues/3080
   vulnerabilityAlerts: {
-    enabled: false
+    enabled: false,
   },
   // The order of objects in the packageRules array does matter,
   // in the sense that rules declared later (towards the end of the array)
@@ -26,32 +26,32 @@
       matchDepTypes: ['devDependencies'],
       groupName: 'devDependencies',
       // But exclude some specific packages from this group
-      excludePackageNames: ['typescript']
+      excludePackageNames: ['typescript'],
     },
     {
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
-      groupName: 'celo'
+      groupName: 'celo',
     },
     {
       // Group updates for @testing-library packages
       matchPackagePatterns: ['^@testing-library/'],
-      groupName: 'testing-library'
+      groupName: 'testing-library',
     },
     {
       // Group updates for @react-native-firebase packages
       matchPackagePatterns: ['^@react-native-firebase/'],
-      groupName: 'react-native-firebase'
+      groupName: 'react-native-firebase',
     },
     {
       // Group updates for @segment packages
       matchPackagePatterns: ['^@segment/'],
-      groupName: 'segment'
+      groupName: 'segment',
     },
     {
       // Group updates for prettier packages
       matchPackagePatterns: ['^prettier'],
-      groupName: 'prettier'
-    }
-  ]
+      groupName: 'prettier',
+    },
+  ],
 }
