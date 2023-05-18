@@ -53,11 +53,15 @@ describe('AppInitGate', () => {
       () => new Promise((resolve) => setTimeout(resolve, 5000))
     )
     const { getByText, queryByText, store } = renderAppInitGate()
-    act(() => jest.advanceTimersByTime(2000))
+    await act(() => {
+      jest.advanceTimersByTime(2000)
+    })
 
     expect(queryByText('App')).toBeFalsy()
 
-    act(() => jest.advanceTimersByTime(5000))
+    await act(() => {
+      jest.advanceTimersByTime(5000)
+    })
 
     await waitFor(() => expect(getByText('App')).toBeTruthy())
     expect(store.getActions()).toEqual([appMounted()])

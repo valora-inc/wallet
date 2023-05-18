@@ -63,7 +63,7 @@ interface State {
   oldPin: string
   pin1: string
   pin2: string
-  errorText: string | undefined
+  errorText: string | null
   blocklist: PinBlocklist | undefined
   isVerifying: boolean
 }
@@ -115,7 +115,7 @@ export class PincodeSet extends React.Component<Props, State> {
     oldPin: '',
     pin1: '',
     pin2: '',
-    errorText: undefined,
+    errorText: null,
     blocklist: undefined,
     isVerifying: false,
   }
@@ -163,7 +163,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   onChangePin1 = (pin1: string) => {
-    this.setState({ pin1, errorText: undefined })
+    this.setState({ pin1, errorText: null })
   }
 
   onChangePin2 = (pin2: string) => {

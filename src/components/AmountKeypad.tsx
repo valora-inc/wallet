@@ -20,7 +20,7 @@ function AmountKeypad({ amount, maxDecimals, onAmountChange }: Props) {
   }, [amount, maxDecimals, decimalSeparator])
 
   const onDigitPress = useCallback(
-    (digit) => {
+    (digit: number) => {
       if ((amount === '' && digit === 0) || (maxLength && amount.length + 1 > maxLength)) {
         return
       }

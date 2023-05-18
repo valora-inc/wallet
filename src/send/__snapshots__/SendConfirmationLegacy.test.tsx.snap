@@ -240,7 +240,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               }
               testID="undefined/value"
             >
-              
               ₱
               1.33
             </Text>
@@ -421,9 +420,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                     ]
                   }
                   testID="LineItemRowTitle/undefined"
-                >
-                  
-                </Text>
+                />
               </View>
             </View>
           </View>
@@ -503,7 +500,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             }
             testID="TotalLineItem/Total/value"
           >
-            
             ₱
             1.33
           </Text>
@@ -597,7 +593,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                   }
                   testID="TotalLineItem/ExchangeRate/value"
                 >
-                  
                   $
                   0.75
                 </Text>
@@ -635,7 +630,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             }
             testID="TotalLineItem/Subtotal/value"
           >
-            
             $
             1.00
           </Text>

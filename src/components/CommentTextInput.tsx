@@ -25,7 +25,7 @@ export default function CommentTextInput({ testID, onCommentChange, comment, onB
       maxLength={MAX_COMMENT_LENGTH}
       onChangeText={onCommentChange}
       value={comment}
-      placeholder={t('addDescription')}
+      placeholder={t('addDescription') ?? undefined}
       placeholderTextColor={colors.greenUI}
       returnKeyType={'done'}
       onBlur={onBlur}

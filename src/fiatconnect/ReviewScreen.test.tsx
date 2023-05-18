@@ -151,14 +151,14 @@ describe('ReviewScreen', () => {
       )
 
       expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
-      expect(queryByTestId('receive-amount')?.children).toEqual(['', '100.00', ' cEUR'])
+      expect(queryByTestId('receive-amount')?.children).toEqual(['100.00', ' cEUR'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')).toBeTruthy()
-      expect(queryByTestId('txDetails-total/value')?.children).toEqual(['', '$', '100.00'])
-      expect(queryByTestId('txDetails-converted/value')?.children).toEqual(['', '$', '99.15'])
-      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.84'])
-      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '0.9915'])
-      expect(queryByTestId('txDetails-receive')?.children).toEqual(['', '100.00', ' cEUR'])
+      expect(queryByTestId('txDetails-total/value')?.children).toEqual(['$', '100.00'])
+      expect(queryByTestId('txDetails-converted/value')?.children).toEqual(['$', '99.15'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['$', '0.84'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['$', '0.9915'])
+      expect(queryByTestId('txDetails-receive')?.children).toEqual(['100.00', ' cEUR'])
       expect(queryByText('fiatConnectReviewScreen.cashIn.paymentMethodHeader')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
@@ -199,7 +199,7 @@ describe('ReviewScreen', () => {
           <FiatConnectReviewScreen {...props} />
         </Provider>
       )
-      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.70'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['$', '0.70'])
     })
     it('shows the fees even if feeEstimate has an error', () => {
       const props = getProps(CICOFlow.CashIn, true, CryptoType.cUSD)
@@ -217,7 +217,7 @@ describe('ReviewScreen', () => {
           <FiatConnectReviewScreen {...props} />
         </Provider>
       )
-      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['', '$', '0.70'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['$', '0.70'])
     })
   })
 
@@ -230,14 +230,14 @@ describe('ReviewScreen', () => {
       )
 
       expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
-      expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('receive-amount/value')?.children).toEqual(['$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
-      expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.02', ' cEUR'])
-      expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '99.47', ' cEUR'])
-      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.55', ' cEUR'])
-      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1.0053'])
-      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('txDetails-total')?.children).toEqual(['100.02', ' cEUR'])
+      expect(queryByTestId('txDetails-converted')?.children).toEqual(['99.47', ' cEUR'])
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['0.55', ' cEUR'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['$', '1.0053'])
+      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
@@ -306,14 +306,14 @@ describe('ReviewScreen', () => {
         </Provider>
       )
 
-      expect(queryByTestId('receive-amount/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('receive-amount/value')?.children).toEqual(['$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
-      expect(queryByTestId('txDetails-total')?.children).toEqual(['', '100.02', ' cUSD'])
-      expect(queryByTestId('txDetails-converted')?.children).toEqual(['', '100.00', ' cUSD'])
-      expect(queryByTestId('txDetails-fee')?.children).toEqual(['', '0.015', ' cUSD'])
-      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['', '$', '1'])
-      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['', '$', '100.00'])
+      expect(queryByTestId('txDetails-total')?.children).toEqual(['100.02', ' cUSD'])
+      expect(queryByTestId('txDetails-converted')?.children).toEqual(['100.00', ' cUSD'])
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['0.015', ' cUSD'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['$', '1'])
+      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['$', '100.00'])
       expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([

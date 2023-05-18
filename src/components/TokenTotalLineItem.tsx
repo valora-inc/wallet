@@ -16,7 +16,7 @@ interface Props {
   localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
   hideSign?: boolean
-  title?: string
+  title?: string | null
 }
 
 export default function TokenTotalLineItem({

@@ -28,6 +28,8 @@
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapReact/CleverTapReactManager.h>
 
+static NSString *const kRNConcurrentRoot = @"concurrentRoot";
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -140,13 +142,8 @@ static void SetCustomNSURLSessionConfiguration() {
   bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
    
-
-  NSDate *now = [NSDate date];
-  NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
-  long long nowEpochMs = (long long)(nowEpochSeconds * 1000);
-  NSDictionary *props = @{@"appStartedMillis" : @(nowEpochMs)};
-
-  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"celo", props);
+  NSDictionary *initProps = [self prepareInitialProps];
+  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"celo", initProps);
   
   [RNSplashScreen showSplash:@"LaunchScreen" inRootView:rootView];
   if (@available(iOS 13.0, *)) {
@@ -162,6 +159,31 @@ static void SetCustomNSURLSessionConfiguration() {
   [self.window makeKeyAndVisible];
 
   return YES;
+}
+
+/// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
+///
+/// @see: https://reactjs.org/blog/2022/03/29/react-v18.html
+/// @note: This requires to be rendering on Fabric (i.e. on the New Architecture).
+/// @return: `true` if the `concurrentRoot` feture is enabled. Otherwise, it returns `false`.
+- (BOOL)concurrentRootEnabled
+{
+  // Switch this bool to turn on and off the concurrent root
+  return true;
+}
+- (NSDictionary *)prepareInitialProps
+{
+  NSMutableDictionary *initProps = [NSMutableDictionary new];
+
+  NSDate *now = [NSDate date];
+  NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
+  long long nowEpochMs = (long long)(nowEpochSeconds * 1000);
+  initProps[@"appStartedMillis"] = @(nowEpochMs);
+
+#ifdef RCT_NEW_ARCH_ENABLED
+  initProps[kRNConcurrentRoot] = @([self concurrentRootEnabled]);
+#endif
+  return initProps;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
