@@ -28,13 +28,13 @@
     "restart": "Redémarrer pour basculer"
   },
   "revokePhoneNumber": {
-    "title": "Numéro de téléphone Unlink",
-    "bottomSheetTitle": "Déconnecte le numéro de téléphone",
-    "description": "La déliaison supprimera le numéro de téléphone lié à ton portefeuille. Tu pourras ajouter un nouveau numéro de téléphone plus tard.",
-    "confirmButton": "Déconnecte-toi maintenant",
-    "revokeSuccess": "Ton numéro de téléphone a été dissocié",
-    "revokeError": "Impossible de dissocier le numéro de téléphone, réessaie plus tard.",
-    "addNewNumberButton": "Ajoute un numéro de téléphone"
+    "title": "Dissocier le numéro de téléphone",
+    "bottomSheetTitle": "Dissocier le numéro de téléphone",
+    "description": "Dissocier le téléphone supprimera le numéro lié à votre portefeuille. Vous pourrez ajouter un nouveau numéro de téléphone ultérieurement.",
+    "confirmButton": "Dissocier maintenant",
+    "revokeSuccess": "Votre numéro de téléphone a bien été dissocié",
+    "revokeError": "Impossible de dissocier le numéro de téléphone, veuillez réessayer plus tard.",
+    "addNewNumberButton": "Ajouter un numéro de téléphone"
   },
   "promptFornoModal": {
     "header": "Basculer le mode de connexion ?",
@@ -88,17 +88,17 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Configurer la sauvegarde sans clé",
-    "subtitle": "Tu utiliseras les éléments suivants pour mettre en place la sauvegarde :",
-    "emailAddress": "Adresse électronique",
+    "title": "Configurer une sauvegarde sans clé",
+    "subtitle": "Vous utiliserez les éléments suivants pour configurer la sauvegarde :",
+    "emailAddress": "Adresse e-mail",
     "phoneNumber": "Numéro de téléphone"
   },
   "signInWithEmail": {
-    "title": "Inscris-toi avec ton courriel",
-    "subtitle": "Connecte-toi avec ton e-mail pour le configurer en tant que sauvegarde.\n\nTu seras invité à te connecter à nouveau si tu perds ton portefeuille.",
-    "google": "Connecte-toi avec Google"
+    "title": "Se connecter avec un e-mail",
+    "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde.\n\nSi vous perdez votre portefeuille, vous serez invité à vous reconnecter.",
+    "google": "Se connecter avec Google"
   },
-  "setupKeylessBackupReminder": "<0>N'oublie pas</0> que ces informations sont le seul moyen d'accéder à ton portefeuille si ton appareil est perdu ou volé. Garde-le en sécurité !",
+  "setupKeylessBackupReminder": "<0>Souvenez-vous</0>, ces informations sont votre seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Gardez-les en sécurité !",
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",
   "privacyPolicy": "Politique de confidentialité",
@@ -975,13 +975,13 @@
   "stableBalance": "Solde de {{token}}",
   "selectToken": "Sélectionner l'actif",
   "verificationCta": {
-    "header": "Envoie de la crypto comme un texte !",
-    "body": "Relie ton numéro de téléphone à l'adresse de ton portefeuille pour pouvoir envoyer et recevoir des paiements avec tes amis.",
-    "cta": "Lien Numéro de téléphone"
+    "header": "Envoyez des crypto aussi facilement qu'un SMS !",
+    "body": "Associez votre numéro de téléphone à l'adresse de votre portefeuille pour envoyer et recevoir des paiements avec vos amis.",
+    "cta": "Associer un numéro de téléphone"
   },
   "importContactsCta": {
     "header": "Activer les contacts",
-    "body": "Active les contacts dans les paramètres de ton téléphone pour envoyer et demander facilement des paiements.",
+    "body": "Activez les contacts dans les paramètres de votre téléphone pour envoyer et demander facilement des paiements.",
     "cta": "Paramètres"
   },
   "contactSyncProgress": {
@@ -1215,7 +1215,7 @@
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
-  "totalAssets": "Mes atouts",
+  "totalAssets": "Actifs",
   "open": "Ouvrir",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
@@ -1585,7 +1585,7 @@
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Swaps alimentés par des partenaires sur Celo. \n<0>En savoir plus.</0>",
+    "disclaimer": "Des échanges propulsés par des partenaires sur Celo. \n<0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "maxSwapAmountWarning": {

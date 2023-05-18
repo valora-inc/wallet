@@ -20,6 +20,12 @@ files=(
   "ios/sentry.properties:celo-mobile-alfajores"
   "secrets.json:celo-mobile-alfajores"
   "e2e/.env:celo-mobile-alfajores"
+  ".env.alfajores:celo-mobile-alfajores"
+  ".env.alfajoresdev:celo-mobile-alfajores"
+  ".env.alfajoresnightly:celo-mobile-alfajores"
+  ".env.mainnet:celo-mobile-mainnet"
+  ".env.mainnetdev:celo-mobile-mainnet"
+  ".env.mainnetnightly:celo-mobile-mainnet"
 )
 
 if [[ -z "$1" ]]; then

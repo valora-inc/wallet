@@ -21,20 +21,20 @@
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với Celo Network qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
-  "keylessBackupSettingsTitle": "Keyless Backup",
+  "keylessBackupSettingsTitle": "Sao lưu không dùng mã khóa",
   "restartModalSwitchOff": {
     "header": "Khởi động lại để tắt chế độ Tiết kiệm dữ liệu",
     "body": "Để bật và tắt chế độ Tiết kiệm dữ liệu liên tục, bạn cần khởi động lại ứng dụng và quay lại màn hình này.",
     "restart": "Khởi động lại để chuyển đổi"
   },
   "revokePhoneNumber": {
-    "title": "Unlink Phone Number",
-    "bottomSheetTitle": "Unlink phone number",
-    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
-    "confirmButton": "Unlink now",
-    "revokeSuccess": "Your phone number has been unlinked",
-    "revokeError": "Could not unlink phone number, please try again later.",
-    "addNewNumberButton": "Add phone number"
+    "title": "Hủy liên kết số điện thoại",
+    "bottomSheetTitle": "Hủy liên kết số điện thoại",
+    "description": "Khi hủy liên kết, số điện thoại đã liên kết với ví của bạn sẽ bị loại bỏ. Bạn có thể thêm một số điện thoại mới vào sau.",
+    "confirmButton": "Hủy liên kết ngay",
+    "revokeSuccess": "Số điện thoại của bạn đã được hủy liên kết",
+    "revokeError": "Không thể hủy liên kết số điện thoại, vui lòng thử lại sau.",
+    "addNewNumberButton": "Thêm số điện thoại"
   },
   "promptFornoModal": {
     "header": "Bạn muốn chuyển đổi chế độ kết nối?",
@@ -88,17 +88,17 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Set up Keyless Backup",
-    "subtitle": "You'll use the following to set up backup:",
-    "emailAddress": "Email Address",
+    "title": "Thiết lập chức năng sao lưu không dùng mã khóa",
+    "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu:",
+    "emailAddress": "Địa chỉ email",
     "phoneNumber": "Số điện thoại"
   },
   "signInWithEmail": {
-    "title": "Sign in with email",
-    "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
-    "google": "Sign in with Google"
+    "title": "Đăng nhập bằng email",
+    "subtitle": "Đăng nhập bằng email của bạn để thiết lập thành email sao lưu.\n\nBạn sẽ được nhắc đăng nhập lại nếu chẳng may bị mất ví.",
+    "google": "Đăng nhập bằng Google"
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
@@ -1583,7 +1583,7 @@
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
+    "disclaimer": "Giao dịch hoán đổi được cung cấp bởi các đối tác trên Celo. \n<0>Tìm hiểu thêm.</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "maxSwapAmountWarning": {
