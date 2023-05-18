@@ -63,7 +63,7 @@ import KycPending from 'src/fiatconnect/kyc/KycPending'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
-import PhoneBackupInput from 'src/keylessBackup/PhoneBackupInput'
+import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
 import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import Language from 'src/language/Language'
@@ -513,9 +513,9 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={SignInWithEmail}
     />
     <Navigator.Screen
-      name={Screens.PhoneBackupInput}
-      options={PhoneBackupInput.navigationOptions}
-      component={PhoneBackupInput}
+      name={Screens.KeylessBackupPhoneInput}
+      options={KeylessBackupPhoneInput.navigationOptions}
+      component={KeylessBackupPhoneInput}
     />
   </>
 )

@@ -253,7 +253,7 @@ export type StackParamList = {
     onBuy: () => void
     onSkip: () => void
   }
-  [Screens.PhoneBackupInput]: {
+  [Screens.KeylessBackupPhoneInput]: {
     keylessBackupFlow: KeylessBackupFlow
     selectedCountryCodeAlpha2?: string
   }
@@ -270,10 +270,9 @@ export type StackParamList = {
   [Screens.RegulatoryTerms]: undefined
   [Screens.SanctionedCountryErrorScreen]: undefined
   [Screens.SelectCountry]: {
-    hideOnboardingStep: boolean
     countries: Countries
     selectedCountryCodeAlpha2: string
-    keylessBackupFlow?: KeylessBackupFlow
+    onSelectCountry(countryCode: string): void
   }
   [Screens.SelectLocalCurrency]: undefined
   [Screens.SelectProvider]: {

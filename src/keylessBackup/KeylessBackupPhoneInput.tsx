@@ -6,6 +6,7 @@ import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { useSelector } from 'react-redux'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
+import { getPhoneNumberState } from 'src/account/utils'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -20,11 +21,10 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { getPhoneNumberState } from 'src/verify/VerificationStartScreen'
 
-function PhoneBackupInput({
+function KeylessBackupPhoneInput({
   route,
-}: NativeStackScreenProps<StackParamList, Screens.PhoneBackupInput>) {
+}: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneInput>) {
   const { t } = useTranslation()
   const { selectedCountryCodeAlpha2, keylessBackupFlow } = route.params
   const cachedNumber = useSelector(e164NumberSelector)
@@ -72,8 +72,12 @@ function PhoneBackupInput({
     navigate(Screens.SelectCountry, {
       countries,
       selectedCountryCodeAlpha2: phoneNumberInfo.countryCodeAlpha2,
-      hideOnboardingStep: true,
-      keylessBackupFlow,
+      onSelectCountry: (countryCodeAlpha2: string) => {
+        navigate(Screens.KeylessBackupPhoneInput, {
+          keylessBackupFlow,
+          selectedCountryCodeAlpha2: countryCodeAlpha2,
+        })
+      },
     })
   }
 
@@ -89,13 +93,13 @@ function PhoneBackupInput({
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>
           {keylessBackupFlow === KeylessBackupFlow.Setup
-            ? t('signInWithPhone.title')
-            : t('signInWithPhone.titleRestore')}
+            ? t('keylessBackupPhoneInput.setup.title')
+            : t('keylessBackupPhoneInput.restore.title')}
         </Text>
         <Text style={styles.subtitle}>
           {keylessBackupFlow === KeylessBackupFlow.Setup
-            ? t('signInWithPhone.subtitle')
-            : t('signInWithPhone.subtitleRestore')}
+            ? t('keylessBackupPhoneInput.setup.subtitle')
+            : t('keylessBackupPhoneInput.restore.subtitle')}
         </Text>
         <PhoneNumberInput
           countryFlagStyle={styles.countryFlagStyle}
@@ -107,7 +111,7 @@ function PhoneBackupInput({
         />
       </ScrollView>
       <Button
-        testID="PhoneBackupInput/Continue"
+        testID="KeylessBackupPhoneInput/Continue"
         onPress={onPressContinue}
         text={keylessBackupFlow === KeylessBackupFlow.Setup ? t('continue') : t('next')}
         size={BtnSizes.FULL}
@@ -119,18 +123,18 @@ function PhoneBackupInput({
   )
 }
 
-PhoneBackupInput.navigationOptions = () => ({
+KeylessBackupPhoneInput.navigationOptions = () => ({
   ...emptyHeader,
   headerLeft: () => (
     <TopBarIconButton
       style={styles.cancelButton}
       icon={<Times height={16} />}
-      onPress={navigateBack}
+      onPress={navigateBack} // TODO: handle in ACT-770
     />
   ),
 })
 
-export default PhoneBackupInput
+export default KeylessBackupPhoneInput
 
 const styles = StyleSheet.create({
   container: {

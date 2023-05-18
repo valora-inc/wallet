@@ -1,4 +1,4 @@
-import { Countries, parsePhoneNumber } from '@celo/phone-utils'
+import { Countries } from '@celo/phone-utils'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
+import { getPhoneNumberState } from 'src/account/utils'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -37,31 +38,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { walletAddressSelector } from 'src/web3/selectors'
-
-export function getPhoneNumberState(
-  phoneNumber: string,
-  countryCallingCode: string,
-  countryCodeAlpha2: string
-) {
-  const phoneDetails = parsePhoneNumber(phoneNumber, countryCallingCode)
-
-  if (phoneDetails) {
-    return {
-      // Show international display number to avoid confusion
-      internationalPhoneNumber: phoneDetails.displayNumberInternational,
-      e164Number: phoneDetails.e164Number,
-      isValidNumber: true,
-      countryCodeAlpha2: phoneDetails.regionCode!,
-    }
-  } else {
-    return {
-      internationalPhoneNumber: phoneNumber,
-      e164Number: '',
-      isValidNumber: false,
-      countryCodeAlpha2,
-    }
-  }
-}
 
 function VerificationStartScreen({
   route,
@@ -202,7 +178,12 @@ function VerificationStartScreen({
     navigate(Screens.SelectCountry, {
       countries,
       selectedCountryCodeAlpha2: phoneNumberInfo.countryCodeAlpha2,
-      hideOnboardingStep: !!route.params?.hideOnboardingStep,
+      onSelectCountry: (countryCodeAlpha2: string) => {
+        navigate(Screens.VerificationStartScreen, {
+          hideOnboardingStep: !!route.params?.hideOnboardingStep,
+          selectedCountryCodeAlpha2: countryCodeAlpha2,
+        })
+      },
     })
   }
 
