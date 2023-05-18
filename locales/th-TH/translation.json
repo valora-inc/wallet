@@ -21,20 +21,20 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณเชื่อมต่อกับเครือข่าย Celo ผ่านวิธีการที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในการตั้งค่าแอป",
-  "keylessBackupSettingsTitle": "Keyless Backup",
+  "keylessBackupSettingsTitle": "การสำรองข้อมูลแบบไร้กุญแจ",
   "restartModalSwitchOff": {
     "header": "รีสตาร์ทเพื่อปิดโหมดประหยัดข้อมูล",
     "body": "หากต้องการปิดและเปิดโหมดประหยัดข้อมูลซ้ำ คุณจะต้องรีสตาร์ทแอปแล้วกลับมาที่หน้าจอนี้",
     "restart": "รีสตาร์ทเพื่อเปลี่ยน"
   },
   "revokePhoneNumber": {
-    "title": "Unlink Phone Number",
-    "bottomSheetTitle": "Unlink phone number",
-    "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
-    "confirmButton": "Unlink now",
-    "revokeSuccess": "Your phone number has been unlinked",
-    "revokeError": "Could not unlink phone number, please try again later.",
-    "addNewNumberButton": "Add phone number"
+    "title": "ยกเลิกการเชื่อมต่อหมายเลขโทรศัพท์",
+    "bottomSheetTitle": "ยกเลิกการเชื่อมต่อหมายเลขโทรศัพท์",
+    "description": "การยกเลิกการเชื่อมต่อจะลบหมายเลขโทรศัพท์ที่เชื่อมโยงกับกระเป๋าเงินของคุณ คุณสามารถเพิ่มหมายเลขโทรศัพท์ใหม่ได้ในภายหลัง",
+    "confirmButton": "ยกเลิกเลย",
+    "revokeSuccess": "ยกเลิกการเชื่อมต่อหมายเลขโทรศัพท์ของคุณแล้ว",
+    "revokeError": "ไม่สามารถยกเลิกการเชื่อมต่อหมายเลขโทรศัพท์ โปรดลองอีกครั้งภายหลัง",
+    "addNewNumberButton": "เพิ่มหมายเลขโทรศัพท์"
   },
   "promptFornoModal": {
     "header": "เปลี่ยนโหมดการเชื่อมต่อหรือไม่",
@@ -88,17 +88,17 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Set up Keyless Backup",
-    "subtitle": "You'll use the following to set up backup:",
-    "emailAddress": "Email Address",
+    "title": "ตั้งค่าการสำรองข้อมูลแบบไร้กุญแจ",
+    "subtitle": "โปรดตั้งค่าการสำรองข้อมูลโดยใช้สิ่งต่อไปนี้",
+    "emailAddress": "อีเมล",
     "phoneNumber": "หมายเลขโทรศัพท์"
   },
   "signInWithEmail": {
-    "title": "Sign in with email",
-    "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
-    "google": "Sign in with Google"
+    "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
+    "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง\n\nคุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
+    "google": "ลงชื่อเข้าใช้ด้วย Google"
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ โปรดเก็บให้ปลอดภัย",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
   "privacyPolicy": "นโยบายความเป็นส่วนตัว",
@@ -1583,7 +1583,7 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
+    "disclaimer": "สว็อปดำเนินการโดยพันธมิตรบน Celo\n<0>ดูข้อมูลเพิ่มเติม</0>",
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "maxSwapAmountWarning": {

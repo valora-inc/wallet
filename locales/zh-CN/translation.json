@@ -21,20 +21,20 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过信任节点与 Celo 网络通信。您可以随时在应用程序设置中更改此模式。",
-  "keylessBackupSettingsTitle": "无钥匙备份",
+  "keylessBackupSettingsTitle": "免密钥备份",
   "restartModalSwitchOff": {
     "header": "重新启动以关闭数据保护模式",
     "body": "若要反复开启或关闭数据保护模式，您将需要重新启动应用程序并返回此屏幕。",
     "restart": "重新启动以切换"
   },
   "revokePhoneNumber": {
-    "title": "解除联系的电话号码",
-    "bottomSheetTitle": "解除联系的电话号码",
-    "description": "解除链接将删除链接到你的钱包的电话号码。你以后可以添加一个新的电话号码。",
-    "confirmButton": "现在解除链接",
-    "revokeSuccess": "您的电话号码已被取消链接",
-    "revokeError": "无法解除电话号码的链接，请稍后再试。",
-    "addNewNumberButton": "添加电话号码"
+    "title": "解绑手机号码",
+    "bottomSheetTitle": "解绑手机号码",
+    "description": "解绑将删除与您钱包关联的手机号码。您可以稍后添加新手机号码。",
+    "confirmButton": "立即解绑",
+    "revokeSuccess": "您的手机号码已解绑",
+    "revokeError": "无法解绑手机号码，请稍后再试。",
+    "addNewNumberButton": "添加手机号码"
   },
   "promptFornoModal": {
     "header": "切换连接模式？",
@@ -88,17 +88,17 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "设置无钥匙备份",
-    "subtitle": "你将使用以下方法来设置备份：",
+    "title": "设置免密钥备份",
+    "subtitle": "设置备份需要使用以下信息：",
     "emailAddress": "电子邮件地址",
     "phoneNumber": "手机号码"
   },
   "signInWithEmail": {
-    "title": "用电子邮件登录",
-    "subtitle": "用你的电子邮件登录，将其设置为备份。\n\n如果你的钱包丢失，会提示你再次登录。",
-    "google": "用谷歌登录"
+    "title": "使用电子邮件登录",
+    "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
+    "google": "使用 Google 登录"
   },
-  "setupKeylessBackupReminder": "<0>记住</0>，如果你的设备丢失或被盗，这些信息是访问你的钱包的唯一途径。保持安全!",
+  "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
@@ -973,13 +973,13 @@
   "stableBalance": "{{token}} 余额",
   "selectToken": "选择资产",
   "verificationCta": {
-    "header": "像发短信一样发送加密货币!",
-    "body": "将你的电话号码与你的钱包地址联系起来，这样你就可以与朋友一起发送和接收付款。",
-    "cta": "链接电话"
+    "header": "像发短信一样发送加密货币！",
+    "body": "将您的手机号码绑定钱包地址，以便与朋友进行收付款。",
+    "cta": "绑定手机号码"
   },
   "importContactsCta": {
     "header": "启用联系人",
-    "body": "在你的手机设置中启用联系人，以方便发送和请求付款。",
+    "body": "在您的手机设置中启用通讯录，以便转账或请求付款。",
     "cta": "设置"
   },
   "contactSyncProgress": {
@@ -1213,7 +1213,7 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} 总计",
   "totalValue": "总余额",
   "viewBalances": "查看资产",
-  "totalAssets": "我的资产",
+  "totalAssets": "资产",
   "open": "打开",
   "nftViewer": "NFT 查看器",
   "whatTotalValue": {
@@ -1583,7 +1583,7 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "由Celo上的合作伙伴提供的互换。 \n<0>了解更多。</0>",
+    "disclaimer": "Celo 朋友发起的交换。\n<0>了解更多。</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "maxSwapAmountWarning": {

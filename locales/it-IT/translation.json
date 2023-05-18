@@ -28,13 +28,13 @@
     "restart": "Riavvia per attivare/disattivare"
   },
   "revokePhoneNumber": {
-    "title": "Numero di telefono Unlink",
-    "bottomSheetTitle": "Numero di telefono non collegato",
-    "description": "Lo scollegamento rimuoverà il numero di telefono collegato al tuo portafoglio. Potrai aggiungere un nuovo numero di telefono in seguito.",
-    "confirmButton": "Sblocca ora il link",
-    "revokeSuccess": "Il tuo numero di telefono è stato scollegato",
-    "revokeError": "Non è stato possibile scollegare il numero di telefono, riprova più tardi.",
-    "addNewNumberButton": "Aggiungi il numero di telefono"
+    "title": "Scollega numero telefonico",
+    "bottomSheetTitle": "Scollega numero telefonico",
+    "description": "Lo scollegamento rimuoverà il numero telefonico collegato al tuo portafoglio. Potrai aggiungere un nuovo numero telefonico in seguito.",
+    "confirmButton": "Scollega ora",
+    "revokeSuccess": "Il tuo numero telefonico è stato scollegato",
+    "revokeError": "Non è possibile scollegare il numero telefonico, riprova più tardi.",
+    "addNewNumberButton": "Aggiungi numero telefonico"
   },
   "promptFornoModal": {
     "header": "Cambiare la modalità di connessione?",
@@ -89,16 +89,16 @@
   },
   "setUpKeylessBackup": {
     "title": "Imposta il backup senza chiave",
-    "subtitle": "Per impostare il backup dovrai utilizzare le seguenti istruzioni:",
+    "subtitle": "Per configurare il backup dovrai utilizzare quanto segue:",
     "emailAddress": "Indirizzo e-mail",
     "phoneNumber": "Numero telefonico"
   },
   "signInWithEmail": {
-    "title": "Accedi con l'email",
-    "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup.\n\nTi verrà richiesto di accedere nuovamente se dovessi perdere il tuo portafoglio.",
+    "title": "Accedi con l'indirizzo e-mail",
+    "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup.\n\nTi verrà richiesto di accedere nuovamente in caso di smarrimento del tuo portafoglio.",
     "google": "Accedi con Google"
   },
-  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Tienilo al sicuro!",
+  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del tuo dispositivo. Tienile al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
@@ -975,13 +975,13 @@
   "stableBalance": "Saldo {{token}}",
   "selectToken": "Seleziona asset",
   "verificationCta": {
-    "header": "Invia criptovalute come un messaggio!",
-    "body": "Collega il tuo numero di telefono all'indirizzo del tuo portafoglio per poter inviare e ricevere pagamenti con gli amici.",
-    "cta": "Link Numero di telefono"
+    "header": "Invia criptovalute come messaggio di testo!",
+    "body": "Collega il tuo numero telefonico all'indirizzo del tuo portafoglio per poter inviare e ricevere pagamenti con gli amici.",
+    "cta": "Collega numero telefonico"
   },
   "importContactsCta": {
-    "header": "Abilita i contatti",
-    "body": "Attiva i Contatti nelle Impostazioni del telefono per inviare e richiedere facilmente i pagamenti.",
+    "header": "Abilita i Contatti",
+    "body": "Abilita i Contatti nelle Impostazioni del telefono per inviare e richiedere facilmente i pagamenti.",
     "cta": "Impostazioni"
   },
   "contactSyncProgress": {
@@ -1215,7 +1215,7 @@
   "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
-  "totalAssets": "I miei beni",
+  "totalAssets": "Asset",
   "open": "Apri",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
@@ -1585,7 +1585,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi alimentati da partner su Celo. \n<0>Per saperne di più.</0>",
+    "disclaimer": "Scambi supportati dai partner su Celo. \n<0>Altre informazioni.</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "maxSwapAmountWarning": {

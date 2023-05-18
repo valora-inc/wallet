@@ -1219,7 +1219,7 @@
   "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
-  "totalAssets": "Moje aktywa",
+  "totalAssets": "Aktywa",
   "open": "Otwórz",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
