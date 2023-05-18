@@ -16346,9 +16346,8 @@ react-native-screens@^3.18.2:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-securerandom@1.0.0, react-native-securerandom@^1.0.1, "react-native-securerandom@git+https://x-access-token:ghs_XHrO9WKZy5EPBCoTMDIF6EitoE1euo0GHL9O@github.com/robhogan/react-native-securerandom#d60ec22":
+react-native-securerandom@1.0.0, react-native-securerandom@^1.0.1:
   version "1.0.1"
-  uid d60ec2258a50cab3be509fc89e26c0c1c720aa94
   resolved "git+https://x-access-token:ghs_XHrO9WKZy5EPBCoTMDIF6EitoE1euo0GHL9O@github.com/robhogan/react-native-securerandom#d60ec2258a50cab3be509fc89e26c0c1c720aa94"
   dependencies:
     base64-js "*"
