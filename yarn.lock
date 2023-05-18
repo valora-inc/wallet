@@ -16169,9 +16169,10 @@ react-native-flipper@^0.127.0, react-native-flipper@^0.34.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"
   integrity sha512-qloUyUOs9MoMVncIDDWeOxAPbomWJ3e4y0SgyCgq8joJEOXC7RvPWeEfUXp0EPyNhHGQV9a4RwzF6BWKFCR3Kg==
 
-react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
+react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://x-access-token:ghs_4N3YmJc42GFr7CUmpeE3TqFDuAXduJ4M5R0B@github.com/celo-org/react-native-fs#04669ac":
   version "2.16.6"
-  resolved "git+https://github.com/celo-org/react-native-fs#aa6db0f1d9b82bfdf58ebf72450c28311414f45f"
+  uid "04669ac9de33ff9e8c266cec4443f88229d740e0"
+  resolved "git+https://x-access-token:ghs_4N3YmJc42GFr7CUmpeE3TqFDuAXduJ4M5R0B@github.com/celo-org/react-native-fs#04669ac9de33ff9e8c266cec4443f88229d740e0"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
