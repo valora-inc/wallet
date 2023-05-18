@@ -16346,16 +16346,10 @@ react-native-screens@^3.18.2:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-securerandom@1.0.0, "react-native-securerandom@git+https://github.com/robhogan/react-native-securerandom#7c01efd":
-  version "1.0.0"
-  resolved "git+https://github.com/robhogan/react-native-securerandom#7c01efd9a5f65e29b769c2efb90cd4ffc6cf3895"
-  dependencies:
-    base64-js "*"
-
-react-native-securerandom@^1.0.1:
+react-native-securerandom@1.0.0, react-native-securerandom@^1.0.1, "react-native-securerandom@git+https://x-access-token:ghs_XHrO9WKZy5EPBCoTMDIF6EitoE1euo0GHL9O@github.com/robhogan/react-native-securerandom#d60ec22":
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-securerandom/-/react-native-securerandom-1.0.1.tgz#dc983cce980c80d1af62406e2ef2917ed0ada55f"
-  integrity sha512-ibuDnd3xi17HyD5CkilOXGPFpS9Z1oifjyHFwUl8NMzcQcpruM0ZX8ytr3A4rCeAsaBHjz69r78Xgd6vUswv1Q==
+  uid d60ec2258a50cab3be509fc89e26c0c1c720aa94
+  resolved "git+https://x-access-token:ghs_XHrO9WKZy5EPBCoTMDIF6EitoE1euo0GHL9O@github.com/robhogan/react-native-securerandom#d60ec2258a50cab3be509fc89e26c0c1c720aa94"
   dependencies:
     base64-js "*"
 
