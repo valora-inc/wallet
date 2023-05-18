@@ -98,35 +98,26 @@ function navigateToConfirmationScreen(
   origin: SendOrigin
 ) {
   const isLegacy = isLegacyTransactionData(transactionData)
-  if (isLegacy) {
-    if (isOutgoingPaymentRequest) {
+  if (isOutgoingPaymentRequest) {
+    if (isLegacy) {
       navigate(Screens.PaymentRequestConfirmationLegacy, {
         transactionData: transactionData as TransactionDataInputLegacy,
         addressJustValidated: true,
         isFromScan: false,
       })
     } else {
-      navigate(Screens.SendConfirmationLegacy, {
-        transactionData: transactionData as TransactionDataInputLegacy,
-        addressJustValidated: true,
-        origin,
-        isFromScan: false,
-      })
-    }
-  } else {
-    if (isOutgoingPaymentRequest) {
       Logger.showMessage(i18n.t('addressConfirmed'))
       navigate(Screens.PaymentRequestConfirmation, {
         transactionData: transactionData as TransactionDataInput,
         isFromScan: false,
       })
-    } else {
-      navigate(Screens.SendConfirmation, {
-        transactionData: transactionData as TransactionDataInput,
-        origin,
-        isFromScan: false,
-      })
     }
+  } else {
+    navigate(Screens.SendConfirmation, {
+      transactionData: transactionData as TransactionDataInput,
+      origin,
+      isFromScan: false,
+    })
   }
 }
 
