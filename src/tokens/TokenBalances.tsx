@@ -1,14 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
-import Animated, {
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -23,10 +18,13 @@ import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
   stalePriceSelector,
   tokensWithTokenBalanceSelector,
@@ -41,6 +39,11 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
 
+enum ViewType {
+  WalletAssets = 0,
+  Positions = 1,
+}
+
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
@@ -54,24 +57,53 @@ function TokenBalancesScreen({ navigation }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
 
+  const positions = useSelector(positionsSelector)
+  const showPostions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
-  const [assetsComponentHeight, setAssetsComponentHeight] = useState(0)
-  const headerOpacity = useSharedValue(0)
-  const animatedHeaderOpacity = useAnimatedStyle(() => {
-    return {
-      opacity: headerOpacity.value,
-    }
-  })
+  const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
+  const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
 
-  const scrollHandler = useAnimatedScrollHandler(
-    (event) => {
-      const opacityValue = event.contentOffset.y > assetsComponentHeight ? 1 : 0
-      headerOpacity.value = withTiming(opacityValue)
+  const scrollPosition = useRef<Animated.Value<number>>(new Animated.Value(0)).current
+  const handleScroll = Animated.event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: scrollPosition,
+        },
+      },
     },
-    [assetsComponentHeight]
+  ])
+
+  const animatedScreenHeaderStyles = useMemo(
+    () => ({
+      opacity: scrollPosition.interpolate({
+        // start animating the screen header opacity 24pt before the assets
+        // component is fully scrolled out of view.
+        inputRange: [nonStickyHeaderHeight - 24, nonStickyHeaderHeight],
+        outputRange: [0, 1],
+        extrapolate: Animated.Extrapolate.CLAMP,
+      }),
+    }),
+    [nonStickyHeaderHeight]
+  )
+
+  const animatedListHeaderStyles = useMemo(
+    () => ({
+      transform: [
+        {
+          translateY: scrollPosition.interpolate({
+            inputRange: [0, nonStickyHeaderHeight],
+            outputRange: [0, -nonStickyHeaderHeight],
+            extrapolate: Animated.Extrapolate.CLAMP,
+          }),
+        },
+      ],
+    }),
+    [nonStickyHeaderHeight]
   )
 
   useLayoutEffect(() => {
@@ -85,12 +117,12 @@ function TokenBalancesScreen({ navigation }: Props) {
 
     navigation.setOptions({
       headerTitle: () => (
-        <Animated.View style={animatedHeaderOpacity}>
+        <Animated.View style={animatedScreenHeaderStyles}>
           <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
         </Animated.View>
       ),
     })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderOpacity])
+  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedScreenHeaderStyles])
 
   function renderTokenBalance({ item: token }: { item: TokenBalance }) {
     return (
@@ -108,54 +140,71 @@ function TokenBalancesScreen({ navigation }: Props) {
     })
   }
 
-  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
-    setAssetsComponentHeight(event.nativeEvent.layout.height)
+  const handleMeasureNonStickyHeaderHeight = (event: LayoutChangeEvent) => {
+    setNonStickyHeaderHeight(event.nativeEvent.layout.height)
   }
 
-  return (
-    <>
-      {shouldVisualizeNFTsInHomeAssetsPage && (
-        <Touchable
-          style={
-            // For larger fonts we need different marginTop for nft banner
-            PixelRatio.getFontScale() > 1.5
-              ? { marginTop: Spacing.Small12 }
-              : PixelRatio.getFontScale() > 1.25
-              ? { marginTop: Spacing.Smallest8 }
-              : null
-          }
-          testID={'NftViewerBanner'}
-          onPress={onPressNFTsBanner}
-        >
-          <View style={styles.bannerContainer}>
-            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
-            <View style={styles.rightInnerContainer}>
-              <Text style={styles.bannerText}>{t('open')}</Text>
-              <OpenLinkIcon color={Colors.greenUI} />
+  const segmentedControlValues = useMemo(
+    () => [t('assetsSegmentedControl.walletAssets'), t('assetsSegmentedControl.dappPositions')],
+    [t]
+  )
+
+  const renderListHeader = () => (
+    <Animated.View style={[styles.listHeaderContainer, animatedListHeaderStyles]}>
+      <View style={styles.nonStickyHeaderContainer} onLayout={handleMeasureNonStickyHeaderHeight}>
+        {shouldVisualizeNFTsInHomeAssetsPage && (
+          <Touchable
+            style={
+              // For larger fonts we need different marginTop for nft banner
+              PixelRatio.getFontScale() > 1.5
+                ? { marginTop: Spacing.Small12 }
+                : PixelRatio.getFontScale() > 1.25
+                ? { marginTop: Spacing.Smallest8 }
+                : null
+            }
+            testID={'NftViewerBanner'}
+            onPress={onPressNFTsBanner}
+          >
+            <View style={styles.nftBannerContainer}>
+              <Text style={styles.nftBannerText}>{t('nftViewer')}</Text>
+              <View style={styles.nftBannerCtaContainer}>
+                <Text style={styles.nftBannerText}>{t('open')}</Text>
+                <OpenLinkIcon color={Colors.greenUI} />
+              </View>
             </View>
-          </View>
-        </Touchable>
-      )}
-      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
-        <View style={styles.lastDayLabel}>
-          <Text style={styles.lastDayText}>{t('lastDay')}</Text>
+          </Touchable>
+        )}
+        <AssetsTokenBalance />
+      </View>
+      {showPostions && positions.length > 0 && (
+        <View style={styles.segmentedControlContainer}>
+          <SegmentedControl
+            values={segmentedControlValues}
+            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+            onChange={(_, index) => {
+              setActiveView(index)
+            }}
+          />
         </View>
       )}
+    </Animated.View>
+  )
 
-      <Animated.FlatList
-        style={styles.flatListContainer}
-        contentContainerStyle={{
-          paddingBottom: insets.bottom,
-        }}
-        // Workaround iOS setting an incorrect automatic inset at the top
-        scrollIndicatorInsets={{ top: 0.01 }}
-        data={tokens.sort(sortByUsdBalance)}
-        renderItem={renderTokenBalance}
-        keyExtractor={(item) => item.address}
-        ListHeaderComponent={<AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />}
-        onScroll={scrollHandler}
-      />
-    </>
+  return (
+    <Animated.FlatList
+      style={styles.flatListContainer}
+      contentContainerStyle={{
+        paddingBottom: insets.bottom,
+      }}
+      // Workaround iOS setting an incorrect automatic inset at the top
+      scrollIndicatorInsets={{ top: 0.01 }}
+      data={tokens.sort(sortByUsdBalance)}
+      renderItem={renderTokenBalance}
+      keyExtractor={(item) => item.address}
+      onScroll={handleScroll}
+      ListHeaderComponent={renderListHeader}
+      stickyHeaderIndices={[0]}
+    />
   )
 }
 
@@ -167,34 +216,45 @@ const styles = StyleSheet.create({
   flatListContainer: {
     paddingHorizontal: Spacing.Thick24,
   },
-  lastDayText: {
-    ...fontStyles.small500,
-    color: Colors.gray4,
-    marginHorizontal: Spacing.Regular16,
-  },
-  lastDayLabel: {
-    marginTop: Spacing.Regular16,
-    flexDirection: 'row-reverse',
-  },
-  bannerContainer: {
-    marginTop: Spacing.Smallest8,
+  nftBannerContainer: {
+    marginHorizontal: -Spacing.Thick24,
+    marginBottom: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
     paddingVertical: 4,
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    width: '100%',
     alignItems: 'center',
     backgroundColor: Colors.gray1,
     flexDirection: 'row',
   },
-  bannerText: {
+  nftBannerText: {
     ...fontStyles.small500,
     color: Colors.greenUI,
     marginRight: 4,
   },
-  rightInnerContainer: {
+  nftBannerCtaContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  listHeaderContainer: {
+    marginHorizontal: -Spacing.Thick24,
+    padding: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
+    backgroundColor: Colors.light,
+    elevation: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    shadowOpacity: 1,
+  },
+  nonStickyHeaderContainer: {
+    // note that this 20pt paddingBottom is combined with the marginTop of
+    // segmentedControlContainer to create 24pt spacing between components,
+    // with a 4pt marginTop on the segmented control when sticky
+    paddingBottom: 20,
+  },
+  segmentedControlContainer: {
+    backgroundColor: Colors.light,
+    marginTop: 4,
   },
 })
 
