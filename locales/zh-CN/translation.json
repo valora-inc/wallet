@@ -98,6 +98,16 @@
     "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
     "google": "使用 Google 登录"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "接下来，添加你的电话号码",
+      "subtitle": "如果你的钱包丢失，你需要用这个电话号码来恢复。\n\n我们会给你发送一个代码，以验证这个号码是你的。"
+    },
+    "restore": {
+      "title": "验证您的电话号码",
+      "subtitle": "输入你以前用来设置备份的电话号码。\n\n我们会给你发送一个代码，以验证这个号码是你的。"
+    }
+  },
   "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",

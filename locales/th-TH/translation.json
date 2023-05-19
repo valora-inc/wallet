@@ -98,6 +98,16 @@
     "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง\n\nคุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
     "google": "ลงชื่อเข้าใช้ด้วย Google"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "Next, add your phone number",
+      "subtitle": "You’ll need to use this phone number to restore if you ever lose your wallet.\n\nWe’ll send you a code to verify that this number is yours."
+    },
+    "restore": {
+      "title": "Verify your phone number",
+      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+    }
+  },
   "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ โปรดเก็บให้ปลอดภัย",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
