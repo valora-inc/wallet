@@ -5,7 +5,7 @@ export const isAddressFormat = (content: string): boolean => {
   return content.startsWith('0x') && content.length === ADDRESS_LENGTH
 }
 
-export function getPhoneNumberState(
+export function getPhoneNumberDetails(
   phoneNumber: string,
   countryCallingCode: string,
   countryCodeAlpha2: string

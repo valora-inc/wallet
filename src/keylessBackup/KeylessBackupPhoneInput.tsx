@@ -6,7 +6,7 @@ import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { useSelector } from 'react-redux'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import { getPhoneNumberState } from 'src/account/utils'
+import { getPhoneNumberDetails } from 'src/account/utils'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -31,7 +31,7 @@ function KeylessBackupPhoneInput({
   const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
-    getPhoneNumberState(
+    getPhoneNumberDetails(
       cachedNumber || '',
       cachedCountryCallingCode || '',
       selectedCountryCodeAlpha2 || RNLocalize.getCountry()
@@ -47,7 +47,7 @@ function KeylessBackupPhoneInput({
       const countryCallingCode =
         countries.getCountryByCodeAlpha2(newCountryAlpha2)?.countryCallingCode ?? ''
       setPhoneNumberInfo(
-        getPhoneNumberState(
+        getPhoneNumberDetails(
           phoneNumberInfo.internationalPhoneNumber,
           countryCallingCode,
           newCountryAlpha2
@@ -61,7 +61,7 @@ function KeylessBackupPhoneInput({
     countryCallingCode: string
   ) => {
     setPhoneNumberInfo(
-      getPhoneNumberState(
+      getPhoneNumberDetails(
         internationalPhoneNumber,
         countryCallingCode,
         phoneNumberInfo.countryCodeAlpha2

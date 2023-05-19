@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import { getPhoneNumberState } from 'src/account/utils'
+import { getPhoneNumberDetails } from 'src/account/utils'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -45,7 +45,7 @@ function VerificationStartScreen({
 }: NativeStackScreenProps<StackParamList, Screens.VerificationStartScreen>) {
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
-    getPhoneNumberState(
+    getPhoneNumberDetails(
       cachedNumber || '',
       cachedCountryCallingCode || '',
       route.params?.selectedCountryCodeAlpha2 || RNLocalize.getCountry()
@@ -146,7 +146,7 @@ function VerificationStartScreen({
       const countryCallingCode =
         countries.getCountryByCodeAlpha2(newCountryAlpha2)?.countryCallingCode ?? ''
       setPhoneNumberInfo(
-        getPhoneNumberState(
+        getPhoneNumberDetails(
           phoneNumberInfo.internationalPhoneNumber,
           countryCallingCode,
           newCountryAlpha2
@@ -192,7 +192,7 @@ function VerificationStartScreen({
     countryCallingCode: string
   ) => {
     setPhoneNumberInfo(
-      getPhoneNumberState(
+      getPhoneNumberDetails(
         internationalPhoneNumber,
         countryCallingCode,
         phoneNumberInfo.countryCodeAlpha2
