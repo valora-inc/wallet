@@ -98,6 +98,16 @@
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "google": "Google ile oturum açın"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "Ardından, telefon numaranızı ekleyin",
+      "subtitle": "Cüzdanınızı kaybetmeniz durumunda geri yüklemek için bu telefon numarasını kullanmanız gerekecektir.\n\nBu numaranın size ait olduğunu doğrulamak için size bir kod göndereceğiz."
+    },
+    "restore": {
+      "title": "Telefon numaranızı doğrulayın",
+      "subtitle": "Yedeklemeyi ayarlamak için daha önce kullandığınız telefon numarasını girin.\n\nBu numaranın size ait olduğunu doğrulamak için size bir kod göndereceğiz."
+    }
+  },
   "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Onu güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
