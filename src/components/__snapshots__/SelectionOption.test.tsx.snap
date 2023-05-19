@@ -39,6 +39,7 @@ exports[`renders selected correctly 1`] = `
       }
     >
       <svg
+        fill="none"
         height={20}
         style={Object {}}
         viewBox="0 0 20 20"
@@ -120,6 +121,7 @@ exports[`renders unselected correctly 1`] = `
       }
     >
       <svg
+        fill="none"
         height={20}
         style={Object {}}
         viewBox="0 0 20 20"
