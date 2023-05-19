@@ -1,9 +1,15 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import Animated, {
+  interpolateColor,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -23,7 +29,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
+import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
 import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
   stalePriceSelector,
@@ -67,44 +73,46 @@ function TokenBalancesScreen({ navigation }: Props) {
   const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
 
-  const scrollPosition = useRef<Animated.Value<number>>(new Animated.Value(0)).current
-  const handleScroll = Animated.event([
-    {
-      nativeEvent: {
-        contentOffset: {
-          y: scrollPosition,
-        },
-      },
+  const scrollPosition = useSharedValue(0)
+  const handleScroll = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollPosition.value = event.contentOffset.y
     },
-  ])
+  })
 
-  const animatedScreenHeaderStyles = useMemo(
-    () => ({
-      opacity: scrollPosition.interpolate({
-        // start animating the screen header opacity 24pt before the assets
-        // component is fully scrolled out of view.
-        inputRange: [nonStickyHeaderHeight - 24, nonStickyHeaderHeight],
-        outputRange: [0, 1],
-        extrapolate: Animated.Extrapolate.CLAMP,
-      }),
-    }),
-    [nonStickyHeaderHeight]
-  )
+  const animatedHeaderOpacity = useDerivedValue(() => {
+    const startAnimationPosition = nonStickyHeaderHeight - 44
+    const endAnimationPosition = nonStickyHeaderHeight - 20
+    const totalAnimationDistance = endAnimationPosition - startAnimationPosition
+    const animatedValue = (scrollPosition.value - startAnimationPosition) / totalAnimationDistance
 
-  const animatedListHeaderStyles = useMemo(
-    () => ({
+    // return only values between 0 and 1
+    return animatedValue <= 0 ? 0 : animatedValue >= 1 ? 1 : animatedValue
+  }, [scrollPosition.value, nonStickyHeaderHeight])
+
+  const animatedScreenHeaderStyles = useAnimatedStyle(() => {
+    return {
+      opacity: animatedHeaderOpacity.value,
+    }
+  })
+
+  const animatedListHeaderStyles = useAnimatedStyle(() => {
+    return {
       transform: [
         {
-          translateY: scrollPosition.interpolate({
-            inputRange: [0, nonStickyHeaderHeight],
-            outputRange: [0, -nonStickyHeaderHeight],
-            extrapolate: Animated.Extrapolate.CLAMP,
-          }),
+          translateY:
+            scrollPosition.value > nonStickyHeaderHeight
+              ? -nonStickyHeaderHeight
+              : -scrollPosition.value,
         },
       ],
-    }),
-    [nonStickyHeaderHeight]
-  )
+      shadowColor: interpolateColor(
+        scrollPosition.value,
+        [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
+        ['transparent', 'rgba(48, 46, 37, 0.15)']
+      ),
+    }
+  })
 
   useLayoutEffect(() => {
     const subTitle =
@@ -237,14 +245,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listHeaderContainer: {
+    ...getShadowStyle(Shadow.SoftLight),
     marginHorizontal: -Spacing.Thick24,
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
     backgroundColor: Colors.light,
-    elevation: 5,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    shadowOpacity: 1,
   },
   nonStickyHeaderContainer: {
     // note that this 20pt paddingBottom is combined with the marginTop of
