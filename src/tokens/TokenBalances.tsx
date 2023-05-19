@@ -64,7 +64,8 @@ function TokenBalancesScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
 
   const positions = useSelector(positionsSelector)
-  const showPostions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+  const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+  const displayPositions = showPositions && positions.length > 0
 
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
@@ -81,17 +82,18 @@ function TokenBalancesScreen({ navigation }: Props) {
   })
 
   const animatedHeaderOpacity = useDerivedValue(() => {
+    if (nonStickyHeaderHeight === 0) {
+      // initial render
+      return 0
+    }
+
     const startAnimationPosition = nonStickyHeaderHeight - 44
     const endAnimationPosition = nonStickyHeaderHeight - 20
     const totalAnimationDistance = endAnimationPosition - startAnimationPosition
     const animatedValue = (scrollPosition.value - startAnimationPosition) / totalAnimationDistance
 
     // return only values between 0 and 1
-    return animatedValue <= 0 || nonStickyHeaderHeight === 0
-      ? 0
-      : animatedValue >= 1
-      ? 1
-      : animatedValue
+    return Math.max(0, Math.min(1, animatedValue))
   }, [scrollPosition.value, nonStickyHeaderHeight])
 
   const animatedScreenHeaderStyles = useAnimatedStyle(() => {
@@ -101,25 +103,28 @@ function TokenBalancesScreen({ navigation }: Props) {
   }, [animatedHeaderOpacity.value])
 
   const animatedListHeaderStyles = useAnimatedStyle(() => {
+    if (nonStickyHeaderHeight === 0 || !displayPositions) {
+      return {
+        shadowColor: 'transparent',
+      }
+    }
+
     return {
       transform: [
         {
           translateY:
             scrollPosition.value > nonStickyHeaderHeight
               ? -nonStickyHeaderHeight
-              : -scrollPosition.value,
+              : -Math.max(scrollPosition.value, 0),
         },
       ],
-      shadowColor:
-        nonStickyHeaderHeight > 0
-          ? interpolateColor(
-              scrollPosition.value,
-              [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
-              ['transparent', 'rgba(48, 46, 37, 0.15)']
-            )
-          : 'transparent',
+      shadowColor: interpolateColor(
+        scrollPosition.value,
+        [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
+        ['transparent', 'rgba(48, 46, 37, 0.15)']
+      ),
     }
-  }, [nonStickyHeaderHeight])
+  }, [scrollPosition.value, nonStickyHeaderHeight, displayPositions])
 
   useLayoutEffect(() => {
     const subTitle =
@@ -166,7 +171,10 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   const renderListHeader = () => (
     <Animated.View style={[styles.listHeaderContainer, animatedListHeaderStyles]}>
-      <View style={styles.nonStickyHeaderContainer} onLayout={handleMeasureNonStickyHeaderHeight}>
+      <View
+        style={{ paddingBottom: displayPositions ? Spacing.Thick24 : 0 }}
+        onLayout={handleMeasureNonStickyHeaderHeight}
+      >
         {shouldVisualizeNFTsInHomeAssetsPage && (
           <Touchable
             style={
@@ -191,7 +199,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         )}
         <AssetsTokenBalance />
       </View>
-      {showPostions && positions.length > 0 && (
+      {displayPositions && (
         <View style={styles.segmentedControlContainer}>
           <SegmentedControl
             values={segmentedControlValues}
@@ -217,7 +225,7 @@ function TokenBalancesScreen({ navigation }: Props) {
       keyExtractor={(item) => item.address}
       onScroll={handleScroll}
       ListHeaderComponent={renderListHeader}
-      stickyHeaderIndices={[0]}
+      stickyHeaderIndices={displayPositions ? [0] : undefined}
     />
   )
 }
@@ -252,9 +260,6 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
     backgroundColor: Colors.light,
-  },
-  nonStickyHeaderContainer: {
-    paddingBottom: Spacing.Thick24,
   },
   segmentedControlContainer: {
     // backgroundColor: Colors.light,
