@@ -2211,6 +2211,7 @@
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",
                 "Invite",
+                "KeylessBackupPhoneInput",
                 "KycDenied",
                 "KycExpired",
                 "KycLanding",

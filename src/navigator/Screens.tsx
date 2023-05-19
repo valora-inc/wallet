@@ -56,6 +56,7 @@ export enum Screens {
   PaymentRequestConfirmation = 'PaymentRequestConfirmation',
   PaymentRequestConfirmationLegacy = 'PaymentRequestConfirmationLegacy',
   PhoneNumberLookupQuota = 'PhoneNumberLookupQuota',
+  KeylessBackupPhoneInput = 'KeylessBackupPhoneInput',
   PhotosEducation = 'PhotosEducation',
   PhotosNUX = 'PhotosNUX',
   PincodeEnter = 'PincodeEnter',

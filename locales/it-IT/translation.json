@@ -98,6 +98,16 @@
     "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup.\n\nTi verrà richiesto di accedere nuovamente in caso di smarrimento del tuo portafoglio.",
     "google": "Accedi con Google"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "Successivamente, aggiungi il tuo numero di telefono",
+      "subtitle": "Dovrai utilizzare questo numero di telefono per ripristinare il tuo portafoglio in caso di smarrimento.\n\nTi invieremo un codice per verificare che questo numero sia tuo."
+    },
+    "restore": {
+      "title": "Verifica il tuo numero di telefono",
+      "subtitle": "Inserisci il numero di telefono che hai usato in precedenza per impostare il backup.\n\nTi invieremo un codice per verificare che il numero sia tuo."
+    }
+  },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del tuo dispositivo. Tienile al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",

@@ -8,10 +8,12 @@ import { Screens } from 'src/navigator/Screens'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+const onSelectCountry = jest.fn()
+
 const mockScreenProps = getMockStackScreenProps(Screens.SelectCountry, {
   countries: new Countries(i18n.language),
   selectedCountryCodeAlpha2: 'DE',
-  hideOnboardingStep: false,
+  onSelectCountry,
 })
 
 describe('SelectCountry', () => {
@@ -33,5 +35,17 @@ describe('SelectCountry', () => {
     // North Korea does not
     fireEvent.changeText(tree.getByTestId('SearchInput'), 'North Korea')
     expect(tree.queryByText('North Korea')).toBeNull()
+  })
+  it('tapping a country calls onSelectCountry', () => {
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <SelectCountry {...mockScreenProps} />
+      </Provider>
+    )
+    // Germany shows up
+    fireEvent.changeText(tree.getByTestId('SearchInput'), 'Germany')
+    expect(tree.queryByText('Germany')).not.toBeNull()
+    fireEvent.press(tree.getByText('Germany'))
+    expect(onSelectCountry).toHaveBeenCalledWith('DE')
   })
 })

@@ -98,6 +98,16 @@
     "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como respaldo.\n\nSi pierdes acceso a tu wallet, se te pedirá que inicies sesión de esta forma.",
     "google": "Iniciar sesión con Google"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "A continuación, añade tu número de teléfono",
+      "subtitle": "Necesitarás utilizar este número de teléfono para restaurar si alguna vez pierdes tu monedero.\n\nTe enviaremos un código para verificar que este número es tuyo."
+    },
+    "restore": {
+      "title": "Verifica tu número de teléfono",
+      "subtitle": "Introduce el número de teléfono que utilizaste anteriormente para configurar la copia de seguridad.\n\nTe enviaremos un código para verificar que ese número es tuyo."
+    }
+  },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
