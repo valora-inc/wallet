@@ -56,6 +56,7 @@ import { DappSection } from 'src/dapps/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { HomeActionName } from 'src/home/types'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
@@ -206,6 +207,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
   [KeylessBackupEvents.sign_in_with_google]: undefined
   [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
+  [KeylessBackupEvents.enter_phone_number_continue]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
 }
 
 interface OnboardingEventsProperties {
