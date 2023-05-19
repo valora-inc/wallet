@@ -34,6 +34,7 @@ export default class RadioButton extends React.PureComponent<Props> {
         height={this.props.height}
         width={this.props.height}
         viewBox="0 0 20 20"
+        fill="none"
       >
         <Circle cx="10" cy="10" r="9" stroke={stroke} strokeWidth={2} />
         <Circle cx="10" cy="10" r="6" fill={fill} />

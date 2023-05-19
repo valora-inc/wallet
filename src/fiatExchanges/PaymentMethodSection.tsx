@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 'auto',
     flexDirection: 'row',
-    width: 65,
+    width: 'auto',
   },
   newLabelText: {
     ...fontStyles.label,

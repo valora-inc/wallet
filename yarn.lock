@@ -5453,10 +5453,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/prettier@^2.0.0", "@types/prettier@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.7.1.tgz#dfd20e2dc35f027cdd6c1908e80a5ddc7499670e"
-  integrity sha512-ri0UmynRRvZiiUJdiz38MmIblKK+oH30MztdBVR95dv/Ubw6neWSb8u1XpRb72L4qsZOhz+L+z9JD40SJmfWow==
+"@types/prettier@^2.0.0", "@types/prettier@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.7.2.tgz#6c2324641cc4ba050a8c710b2b251b377581fbf0"
+  integrity sha512-KufADq8uQqo1pYKVIYzfKbJfBAc0sOeXqGbFaSpv8MRmC/zXgowNZmFcbngndGk922QDmOASEXUZCaY48gs4cg==
 
 "@types/prop-types@*":
   version "15.5.6"
@@ -16346,16 +16346,9 @@ react-native-screens@^3.18.2:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
-react-native-securerandom@1.0.0, "react-native-securerandom@git+https://github.com/robhogan/react-native-securerandom#7c01efd":
-  version "1.0.0"
-  resolved "git+https://github.com/robhogan/react-native-securerandom#7c01efd9a5f65e29b769c2efb90cd4ffc6cf3895"
-  dependencies:
-    base64-js "*"
-
-react-native-securerandom@^1.0.1:
+react-native-securerandom@1.0.0, react-native-securerandom@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-securerandom/-/react-native-securerandom-1.0.1.tgz#dc983cce980c80d1af62406e2ef2917ed0ada55f"
-  integrity sha512-ibuDnd3xi17HyD5CkilOXGPFpS9Z1oifjyHFwUl8NMzcQcpruM0ZX8ytr3A4rCeAsaBHjz69r78Xgd6vUswv1Q==
+  resolved "git+https://x-access-token:ghs_XHrO9WKZy5EPBCoTMDIF6EitoE1euo0GHL9O@github.com/robhogan/react-native-securerandom#d60ec2258a50cab3be509fc89e26c0c1c720aa94"
   dependencies:
     base64-js "*"
 
