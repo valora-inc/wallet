@@ -1,7 +1,11 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { FiatExchangeTokenBalance, HomeTokenBalance } from 'src/components/TokenBalance'
+import {
+  AssetsTokenBalance,
+  FiatExchangeTokenBalance,
+  HomeTokenBalance,
+} from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -536,5 +540,22 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       ]
     `)
+  })
+})
+
+describe('AssetsTokenBalance', () => {
+  it('should show info on tap', () => {
+    const { getByText, getByTestId, queryByText } = render(
+      <Provider store={createMockStore()}>
+        <AssetsTokenBalance showInfo />
+      </Provider>
+    )
+
+    expect(getByText('totalAssets')).toBeTruthy()
+    expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
+    expect(queryByText('totalAssetsInfo')).toBeFalsy()
+
+    fireEvent.press(getByTestId('AssetsTokenBalance/Info'))
+    expect(getByText('totalAssetsInfo')).toBeTruthy()
   })
 })

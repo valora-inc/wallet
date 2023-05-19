@@ -133,7 +133,11 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
       <View style={styles.row}>
         <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
         {showInfo && (
-          <TouchableOpacity onPress={toggleInfoVisible} hitSlop={variables.iconHitslop}>
+          <TouchableOpacity
+            onPress={toggleInfoVisible}
+            hitSlop={variables.iconHitslop}
+            testID="AssetsTokenBalance/Info"
+          >
             <InfoIcon color={Colors.greenUI} />
           </TouchableOpacity>
         )}
