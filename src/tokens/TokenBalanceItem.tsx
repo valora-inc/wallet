@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
+    paddingHorizontal: Spacing.Thick24,
     paddingBottom: Spacing.Large32,
     justifyContent: 'space-between',
     alignItems: 'center',

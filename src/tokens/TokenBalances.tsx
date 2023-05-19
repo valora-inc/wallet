@@ -87,14 +87,18 @@ function TokenBalancesScreen({ navigation }: Props) {
     const animatedValue = (scrollPosition.value - startAnimationPosition) / totalAnimationDistance
 
     // return only values between 0 and 1
-    return animatedValue <= 0 ? 0 : animatedValue >= 1 ? 1 : animatedValue
+    return animatedValue <= 0 || nonStickyHeaderHeight === 0
+      ? 0
+      : animatedValue >= 1
+      ? 1
+      : animatedValue
   }, [scrollPosition.value, nonStickyHeaderHeight])
 
   const animatedScreenHeaderStyles = useAnimatedStyle(() => {
     return {
       opacity: animatedHeaderOpacity.value,
     }
-  })
+  }, [animatedHeaderOpacity.value])
 
   const animatedListHeaderStyles = useAnimatedStyle(() => {
     return {
@@ -106,13 +110,16 @@ function TokenBalancesScreen({ navigation }: Props) {
               : -scrollPosition.value,
         },
       ],
-      shadowColor: interpolateColor(
-        scrollPosition.value,
-        [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
-        ['transparent', 'rgba(48, 46, 37, 0.15)']
-      ),
+      shadowColor:
+        nonStickyHeaderHeight > 0
+          ? interpolateColor(
+              scrollPosition.value,
+              [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
+              ['transparent', 'rgba(48, 46, 37, 0.15)']
+            )
+          : 'transparent',
     }
-  })
+  }, [nonStickyHeaderHeight])
 
   useLayoutEffect(() => {
     const subTitle =
@@ -200,7 +207,6 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   return (
     <Animated.FlatList
-      style={styles.flatListContainer}
       contentContainerStyle={{
         paddingBottom: insets.bottom,
       }}
@@ -221,9 +227,6 @@ TokenBalancesScreen.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  flatListContainer: {
-    paddingHorizontal: Spacing.Thick24,
-  },
   nftBannerContainer: {
     marginHorizontal: -Spacing.Thick24,
     marginBottom: Spacing.Thick24,
@@ -246,20 +249,15 @@ const styles = StyleSheet.create({
   },
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
-    marginHorizontal: -Spacing.Thick24,
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
     backgroundColor: Colors.light,
   },
   nonStickyHeaderContainer: {
-    // note that this 20pt paddingBottom is combined with the marginTop of
-    // segmentedControlContainer to create 24pt spacing between components,
-    // with a 4pt marginTop on the segmented control when sticky
-    paddingBottom: 20,
+    paddingBottom: Spacing.Thick24,
   },
   segmentedControlContainer: {
-    backgroundColor: Colors.light,
-    marginTop: 4,
+    // backgroundColor: Colors.light,
   },
 })
 
