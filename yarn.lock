@@ -7178,10 +7178,10 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.1.0, bl@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.0.tgz#1f10c18a3289d412053add35cca09019075cff2d"
-  integrity sha512-Ik9BVIMdcWzSOCpzDv2XpQ4rJ4oZBuk3ck6MgiOv0EopdgtohN2uSCrrLlkH1Jf0KnpZZMBA3D0bUMbCdj/jgA==
+bl@^4.1.0, bl@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.1.tgz#f35547d073b5f920512943a3fe0ec9ad5854fcb7"
+  integrity sha512-zk1P1eAEBHhhB+4NfGxqmuV6NgwECnIoRgsOq2ObdEsmoFVIYzJ/Jjcgaj7JOY/8ekH27bIHSV4Si2T+evqu+Q==
   dependencies:
     buffer "^6.0.3"
     inherits "^2.0.4"
