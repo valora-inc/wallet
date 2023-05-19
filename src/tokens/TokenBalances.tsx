@@ -200,15 +200,13 @@ function TokenBalancesScreen({ navigation }: Props) {
         <AssetsTokenBalance />
       </View>
       {displayPositions && (
-        <View style={styles.segmentedControlContainer}>
-          <SegmentedControl
-            values={segmentedControlValues}
-            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
-            onChange={(_, index) => {
-              setActiveView(index)
-            }}
-          />
-        </View>
+        <SegmentedControl
+          values={segmentedControlValues}
+          selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+          onChange={(_, index) => {
+            setActiveView(index)
+          }}
+        />
       )}
     </Animated.View>
   )
@@ -260,9 +258,6 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
     backgroundColor: Colors.light,
-  },
-  segmentedControlContainer: {
-    // backgroundColor: Colors.light,
   },
 })
 
