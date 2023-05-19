@@ -7,19 +7,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TokenTransactionType } from 'src/apollo/types'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType, SecureSendDetails } from 'src/identity/reducer'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
+import { TransactionDataInput } from 'src/send/SendAmount'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -42,7 +41,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   const secureSendDetails: SecureSendDetails | undefined = useSelector(
     (state: RootState) => state.identity.secureSendPhoneNumberMapping[e164PhoneNumber || '']
   )
-
+  const cUSDToken = useSelector(tokensByCurrencySelector)[Currency.Dollar]!
   const onPayButtonPressed = () => {
     setPayButtonPressed(true)
     if (e164PhoneNumber) {
@@ -69,20 +68,46 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
 
   const navigateToNextScreen = () => {
     const transactionData: TransactionDataInput = {
-      reason: comment,
+      comment,
       recipient: requester,
-      amount: new BigNumber(amount),
-      currency: Currency.Dollar,
-      type: TokenTransactionType.PayRequest,
-      firebasePendingRequestUid: id,
+      tokenAmount: new BigNumber(amount),
+      tokenAddress: cUSDToken?.address,
+      inputAmount: new BigNumber(amount),
+      amountIsInLocalCurrency: false,
     }
 
     const addressValidationType =
       secureSendDetails?.addressValidationType || AddressValidationType.NONE
 
     const origin = SendOrigin.AppRequestFlow
-    if (addressValidationType === AddressValidationType.NONE) {
-      navigate(Screens.SendConfirmationLegacy, { transactionData, origin, isFromScan: false })
+
+    // make this work
+    // if (addressValidationType === AddressValidationType.NONE) {
+    //   const currency: LocalCurrencyCode = data.currencyCode
+    //   ? (data.currencyCode as LocalCurrencyCode)
+    //   : yield select(getLocalCurrencyCode)
+    // const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
+    // const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
+    // const localCurrencyExchangeRate: string | null = yield select(localCurrencyToUsdSelector)
+    // const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
+    // const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
+    // if (!inputAmount || !tokenAmount) {
+    //   Logger.warn(TAG, '@handleSendPaymentData null amount')
+    //   return
+    // }
+    // const transactionData: TransactionDataInput = {
+    //   recipient,
+    //   inputAmount,
+    //   amountIsInLocalCurrency: true,
+    //   tokenAddress: tokenInfo.address,
+    //   tokenAmount,
+    //   comment: data.comment,
+    // }
+    // navigate(Screens.SendConfirmation, {
+    //   transactionData,
+    //   isFromScan,
+    //   origin: SendOrigin.AppSendFlow,
+    // })
     } else {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,
