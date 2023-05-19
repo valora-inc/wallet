@@ -22,6 +22,7 @@ import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
   stalePriceSelector,
@@ -119,13 +120,31 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
-export function AssetsTokenBalance() {
+export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   const { t } = useTranslation()
+  const [infoVisible, setInfoVisible] = useState(false)
+
+  const toggleInfoVisible = () => {
+    setInfoVisible((prev) => !prev)
+  }
 
   return (
     <View testID="AssetsTokenBalance">
-      <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+      <View style={styles.row}>
+        <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+        {showInfo && (
+          <TouchableOpacity onPress={toggleInfoVisible} hitSlop={variables.iconHitslop}>
+            <InfoIcon color={Colors.greenUI} />
+          </TouchableOpacity>
+        )}
+      </View>
       <TokenBalance singleTokenViewEnabled={false} />
+
+      {infoVisible && (
+        <View style={styles.totalAssetsInfoContainer}>
+          <Text style={styles.totalAssetsInfoText}>{t('totalAssetsInfo')}</Text>
+        </View>
+      )}
     </View>
   )
 }
@@ -221,6 +240,21 @@ const styles = StyleSheet.create({
   totalAssets: {
     ...fontStyles.regular600,
     color: Colors.gray5,
+    marginRight: 4,
+  },
+  totalAssetsInfoContainer: {
+    position: 'absolute',
+    top: 24,
+    width: 190,
+    paddingVertical: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Regular16,
+    backgroundColor: Colors.dark,
+    borderRadius: 8,
+  },
+  totalAssetsInfoText: {
+    ...fontStyles.small,
+    color: Colors.light,
+    textAlign: 'center',
   },
   title: {
     flexDirection: 'row',
@@ -234,6 +268,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   totalValue: {
     ...fontStyles.sectionHeader,

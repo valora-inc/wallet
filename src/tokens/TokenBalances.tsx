@@ -172,7 +172,12 @@ function TokenBalancesScreen({ navigation }: Props) {
   const renderListHeader = () => (
     <Animated.View style={[styles.listHeaderContainer, animatedListHeaderStyles]}>
       <View
-        style={{ paddingBottom: displayPositions ? Spacing.Thick24 : 0 }}
+        style={[
+          styles.nonStickyHeaderContainer,
+          {
+            paddingBottom: displayPositions ? Spacing.Thick24 : 0,
+          },
+        ]}
         onLayout={handleMeasureNonStickyHeaderHeight}
       >
         {shouldVisualizeNFTsInHomeAssetsPage && (
@@ -197,7 +202,7 @@ function TokenBalancesScreen({ navigation }: Props) {
             </View>
           </Touchable>
         )}
-        <AssetsTokenBalance />
+        <AssetsTokenBalance showInfo={displayPositions} />
       </View>
       {displayPositions && (
         <SegmentedControl
@@ -258,6 +263,9 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
     backgroundColor: Colors.light,
+  },
+  nonStickyHeaderContainer: {
+    zIndex: 1, // above siblings to enable overflow of absolutely positioned tooltip
   },
 })
 
