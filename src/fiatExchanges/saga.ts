@@ -18,7 +18,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName, RecipientType } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
-import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
+import { TransactionDataInput } from 'src/send/SendAmount'
+import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import {
   NewTransactionsInFeedAction,
   Actions as TransactionActions,
@@ -50,6 +51,14 @@ function* bidaliPaymentRequest({
     throw new Error(`Unsupported payment currency from Bidali: ${currencyString}`)
   }
 
+  const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+  const tokenAddress = tokens[currency]?.address
+
+  if (!tokenAddress) {
+    // This is not supposed to happen in production
+    throw new Error(`No token address found for currency: ${currency}`)
+  }
+
   const recipient: AddressRecipient = {
     address,
     name: 'Bidali',
@@ -59,12 +68,13 @@ function* bidaliPaymentRequest({
   }
   const transactionData: TransactionDataInput = {
     recipient,
-    amount: new BigNumber(amount),
-    currency,
-    reason: `${description} (${chargeId})`,
-    type: TokenTransactionType.PayPrefill,
+    inputAmount: new BigNumber(amount),
+    amountIsInLocalCurrency: false,
+    tokenAddress,
+    tokenAmount: new BigNumber(amount),
+    comment: `${description} (${chargeId})`,
   }
-  navigate(Screens.SendConfirmationLegacyModal, {
+  navigate(Screens.SendConfirmationModal, {
     transactionData,
     origin: SendOrigin.Bidali,
     isFromScan: false,
@@ -72,7 +82,7 @@ function* bidaliPaymentRequest({
 
   while (true) {
     const { cancel } = yield race({
-      sendStart: take(SendActions.SEND_PAYMENT_LEGACY),
+      sendStart: take(SendActions.SEND_PAYMENT),
       cancel: take(
         ((action: AppActionTypes) =>
           action.type === AppActions.ACTIVE_SCREEN_CHANGED &&

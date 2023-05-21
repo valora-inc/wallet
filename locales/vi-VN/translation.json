@@ -98,6 +98,16 @@
     "subtitle": "Đăng nhập bằng email của bạn để thiết lập thành email sao lưu.\n\nBạn sẽ được nhắc đăng nhập lại nếu chẳng may bị mất ví.",
     "google": "Đăng nhập bằng Google"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "Next, add your phone number",
+      "subtitle": "You’ll need to use this phone number to restore if you ever lose your wallet.\n\nWe’ll send you a code to verify that this number is yours."
+    },
+    "restore": {
+      "title": "Verify your phone number",
+      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+    }
+  },
   "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
