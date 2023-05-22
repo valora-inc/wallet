@@ -170,6 +170,10 @@ function TokenBalancesScreen({ navigation }: Props) {
     setNonStickyHeaderHeight(event.nativeEvent.layout.height)
   }
 
+  const handleMeasureListHeaderHeight = (event: LayoutChangeEvent) => {
+    setListHeaderHeight(event.nativeEvent.layout.height)
+  }
+
   const segmentedControlValues = useMemo(
     () => [t('assetsSegmentedControl.walletAssets'), t('assetsSegmentedControl.dappPositions')],
     [t]
@@ -179,9 +183,7 @@ function TokenBalancesScreen({ navigation }: Props) {
     <>
       <Animated.View
         style={[styles.listHeaderContainer, animatedListHeaderStyles]}
-        onLayout={(event) => {
-          setListHeaderHeight(event.nativeEvent.layout.height)
-        }}
+        onLayout={handleMeasureListHeaderHeight}
       >
         <View
           style={{
