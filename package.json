@@ -296,7 +296,7 @@
     "@types/prettier": "^2.7.2",
     "eslint-utils": "^1.4.3",
     "set-value": "^4.1.0",
-    "https-proxy-agent": "^5.0.0",
+    "https-proxy-agent": "^5.0.1",
     "mixin-deep": "^2.0.1",
     "js-yaml": "^3.13.1",
     "logkitty": "^0.7.1",
