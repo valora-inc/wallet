@@ -10,18 +10,21 @@ set -euo pipefail
 # -e (Optional): Name of the env to run
 # -r (Optional): Use release build (by default uses debug). Note: on Android the release keystore needs to be present and the password in the env variable for this to work.
 # -s (Optional): Name of the simulator to run (iOS only)
+# -d (Optional): Name of the Device to run (iOS only)
 
 PLATFORM=""
 ENV_NAME="alfajoresdev"
 RELEASE=false
 SIMULATOR=""
+DEVICE=""
 PROFILING_ENABLED=false
 
-while getopts 'p:e:s:rt' flag; do
+while getopts 'p:e:s:d:rt' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     e) ENV_NAME="$OPTARG" ;;
     s) SIMULATOR="$OPTARG" ;;
+    d) DEVICE="$OPTARG" ;;
     r) RELEASE=true ;;
     t) PROFILING_ENABLED=true ;;
     *) error "Unexpected option ${flag}" ;;
@@ -123,7 +126,11 @@ elif [ "$PLATFORM" = "ios" ]; then
   if [ -n "$SIMULATOR" ]; then
     simulator_param="--simulator=$SIMULATOR"
   fi
-  yarn react-native run-ios --scheme "celo-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager "${simulator_param}"
+  device_param=""
+  if [ -n "$DEVICE" ]; then
+    device_param="--device=$DEVICE"
+  fi 
+  yarn react-native run-ios --scheme "celo-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager "${simulator_param}" "${device_param}"
 
 else
   echo "Invalid value for platform, must be 'android' or 'ios'"
