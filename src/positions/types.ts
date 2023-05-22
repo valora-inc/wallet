@@ -7,6 +7,7 @@ export interface AbstractPosition {
   appId: string // Example: ubeswap
   label: string // Example: Pool
   tokens: Token[]
+  imageUrl: string
 }
 
 // There's an opportunity to combine with the types in src/tokens/slice.ts

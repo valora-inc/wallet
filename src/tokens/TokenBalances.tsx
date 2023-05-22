@@ -2,7 +2,16 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import {
+  LayoutChangeEvent,
+  PixelRatio,
+  SectionList,
+  SectionListData,
+  SectionListProps,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import Animated, {
   interpolateColor,
   useAnimatedScrollHandler,
@@ -17,6 +26,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
+import { dappNamesByIdSelector } from 'src/dapps/selectors'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -25,11 +35,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { Position } from 'src/positions/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
+import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
   stalePriceSelector,
@@ -38,17 +50,27 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import TokenBalanceItem from 'src/tokens/TokenBalanceItem'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
+interface SectionData {
+  appId?: string
+}
+
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
+    SectionList
+  )
 
 enum ViewType {
   WalletAssets = 0,
   Positions = 1,
 }
+
+const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
+  'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
@@ -67,6 +89,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
 
+  const dappNamesById = useSelector(dappNamesByIdSelector)
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
@@ -150,15 +173,6 @@ function TokenBalancesScreen({ navigation }: Props) {
     })
   }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedScreenHeaderStyles])
 
-  function renderTokenBalance({ item: token }: { item: TokenBalance }) {
-    return (
-      <TokenBalanceItem
-        token={token}
-        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
-      />
-    )
-  }
-
   const onPressNFTsBanner = () => {
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
     navigate(Screens.WebViewScreen, {
@@ -178,6 +192,68 @@ function TokenBalancesScreen({ navigation }: Props) {
     () => [t('assetsSegmentedControl.walletAssets'), t('assetsSegmentedControl.dappPositions')],
     [t]
   )
+
+  const tokenItems = useMemo(() => tokens.sort(sortByUsdBalance), [tokens])
+  const positionSections = useMemo(() => {
+    const positionsByDapp = new Map<string, Position[]>()
+    positions.forEach((position) => {
+      const dappName = dappNamesById[position.appId]
+
+      if (!dappName) {
+        // ignore position for unsupported dapps
+        return
+      }
+
+      if (positionsByDapp.has(dappName)) {
+        positionsByDapp.get(dappName)?.push(position)
+      } else {
+        positionsByDapp.set(dappName, [position])
+      }
+    })
+
+    const sections: SectionListData<Position>[] = []
+    positionsByDapp.forEach((positions, appId) => {
+      sections.push({
+        data: positions,
+        appId,
+      })
+    })
+    return sections
+  }, [positions])
+
+  const sections =
+    listHeaderHeight > 0
+      ? activeView === ViewType.WalletAssets
+        ? [{ data: tokenItems }]
+        : positionSections
+      : []
+
+  const renderSectionHeader = ({
+    section,
+  }: {
+    section: SectionListData<TokenBalance | Position>
+  }) => {
+    if (section.appId) {
+      return (
+        <View style={styles.positionSectionHeaderContainer}>
+          <Text style={styles.positionSectionHeaderText}>{section.appId}</Text>
+        </View>
+      )
+    }
+    return null
+  }
+
+  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
+    if (assetIsPosition(item)) {
+      return <PositionItem position={item} />
+    }
+    return (
+      <TokenBalanceItem
+        token={item}
+        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
+      />
+    )
+  }
 
   return (
     <>
@@ -225,14 +301,16 @@ function TokenBalancesScreen({ navigation }: Props) {
           />
         )}
       </Animated.View>
-      <Animated.FlatList
+      <AnimatedSectionList
         contentContainerStyle={{
           paddingBottom: insets.bottom,
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
-        data={listHeaderHeight > 0 ? tokens.sort(sortByUsdBalance) : []}
-        renderItem={renderTokenBalance}
+        // @ts-ignore can't get the SectionList to accept a union type :(
+        sections={sections}
+        renderItem={renderAssetItem}
+        renderSectionHeader={renderSectionHeader}
         keyExtractor={(item) => item.address}
         onScroll={handleScroll}
         scrollEventThrottle={16}
@@ -275,6 +353,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: 1,
+  },
+  positionSectionHeaderContainer: {
+    padding: Spacing.Thick24,
+    paddingTop: Spacing.Regular16,
+  },
+  positionSectionHeaderText: {
+    ...fontStyles.xsmall600,
+    color: Colors.gray5,
   },
 })
 
