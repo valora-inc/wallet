@@ -210,6 +210,7 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.enter_phone_number_continue]: {
     keylessBackupFlow: KeylessBackupFlow
   }
+  [KeylessBackupEvents.sign_in_with_google_completed]: undefined
 }
 
 interface OnboardingEventsProperties {

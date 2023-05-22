@@ -7,6 +7,8 @@ import {
   googleSignInStarted,
 } from 'src/keylessBackup/slice'
 import Logger from 'src/utils/Logger'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 
 const TAG = 'keylessBackupSaga'
 
@@ -36,6 +38,17 @@ function* watchGoogleSignInStarted() {
   yield takeLeading(googleSignInStarted.type, handleGoogleSignInStarted)
 }
 
+function* watchGoogleSignInCompleted() {
+  ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google_completed)
+
+  // TODO navigate to next step in cloud backup/recovery flow
+
+  // TODO exchange google id token for Torus pk
+
+  // TODO store Torus pk in wallet
+}
+
 export function* keylessBackupSaga() {
   yield spawn(watchGoogleSignInStarted)
+  yield spawn(watchGoogleSignInCompleted)
 }
