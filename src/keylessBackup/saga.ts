@@ -38,7 +38,7 @@ function* watchGoogleSignInStarted() {
   yield takeLeading(googleSignInStarted.type, handleGoogleSignInStarted)
 }
 
-function* watchGoogleSignInCompleted() {
+function* handleGoogleSignInCompleted() {
   ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google_completed)
 
   // TODO navigate to next step in cloud backup/recovery flow
@@ -46,6 +46,10 @@ function* watchGoogleSignInCompleted() {
   // TODO exchange google id token for Torus pk
 
   // TODO store Torus pk in wallet
+}
+
+function* watchGoogleSignInCompleted() {
+  yield takeLeading(googleSignInCompleted.type, handleGoogleSignInCompleted)
 }
 
 export function* keylessBackupSaga() {
