@@ -37,7 +37,6 @@ import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
-import { walletAddressSelector } from 'src/web3/selectors'
 
 const SEARCH_THROTTLE_TIME = 100
 
@@ -54,7 +53,6 @@ function Send({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
-  const walletAddress = useSelector(walletAddressSelector)!
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
@@ -65,7 +63,7 @@ function Send({ route }: Props) {
   const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
 
-  const [searchQuery, setSearchQuery] = useState(walletAddress)
+  const [searchQuery, setSearchQuery] = useState('')
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
@@ -94,7 +92,7 @@ function Send({ route }: Props) {
 
   useEffect(() => {
     // Clear search when recipients change to avoid tricky states
-    throttledSearch(walletAddress)
+    throttledSearch('')
   }, [recentRecipientsFilter, allRecipientsFilter])
 
   const { result } = useAsync(async () => {
@@ -231,7 +229,7 @@ function Send({ route }: Props) {
   const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
     sortFirstStableThenCeloThenOthersByUsdBalance
   )
-  console.log('searchQuery', searchQuery)
+
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} closeIcon={closeIcon} />

@@ -43,6 +43,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
 
   const e164PhoneNumber = requester.e164PhoneNumber
   const requesterAddress = requester.address
+  const paymentRequestId = paymentRequest.uid || ''
 
   const secureSendDetails: SecureSendDetails | undefined = useSelector(
     (state: RootState) => state.identity.secureSendPhoneNumberMapping[e164PhoneNumber || '']
@@ -68,7 +69,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
     })
-    dispatch(declinePaymentRequest(paymentRequest.uid || ''))
+    dispatch(declinePaymentRequest(paymentRequestId))
     Logger.showMessage(t('requestDeclined'))
   }
 
@@ -84,14 +85,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     // Else, throw up an error banner
     let transactionData: TransactionDataInput
     const usdRequested = new BigNumber(paymentRequest.amount)
-    console.debug(
-      'usdRequested',
-      usdRequested.toString(),
-      'cUsdTokenInfo.balance',
-      cUsdTokenInfo.balance.toString(),
-      'cEurTokenInfo.balance',
-      cEurTokenInfo.balance.toString()
-    )
+
     if (usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance)) {
       transactionData = {
         comment: paymentRequest.comment,
@@ -100,6 +94,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
         tokenAmount: new BigNumber(paymentRequest.amount),
         amountIsInLocalCurrency: false,
         tokenAddress: cUsdTokenInfo.address,
+        paymentRequestId,
       }
     } else if (
       cEurTokenInfo.usdPrice &&
@@ -112,6 +107,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
         tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
         amountIsInLocalCurrency: false,
         tokenAddress: cEurTokenInfo.address,
+        paymentRequestId,
       }
     } else {
       dispatch(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
@@ -168,7 +164,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   return (
     <View style={styles.container}>
       <RequestMessagingCard
-        testID={`IncomingPaymentRequestNotification/${paymentRequest.uid}`}
+        testID={`IncomingPaymentRequestNotification/${paymentRequestId}`}
         title={t('incomingPaymentRequestNotificationTitle', { name: requester.name })}
         details={paymentRequest.comment}
         amount={

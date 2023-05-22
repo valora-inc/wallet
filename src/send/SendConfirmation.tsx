@@ -94,6 +94,7 @@ function SendConfirmation(props: Props) {
       amountIsInLocalCurrency,
       tokenAddress,
       comment: commentFromParams,
+      paymentRequestId,
     },
   } = props.route.params
 
@@ -138,7 +139,7 @@ function SendConfirmation(props: Props) {
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
-  console.debug('Fee estimate', feeEstimate)
+
   useEffect(() => {
     if (!feeEstimate) {
       dispatch(estimateFee({ feeType, tokenAddress }))
@@ -228,7 +229,8 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         feeEstimate.feeInfo,
-        fromModal
+        fromModal,
+        paymentRequestId
       )
     )
   }

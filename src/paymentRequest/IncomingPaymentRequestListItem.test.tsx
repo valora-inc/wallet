@@ -45,6 +45,7 @@ const expectedTransactionData: TransactionDataInput = {
   tokenAmount: new BigNumber(mockPaymentRequest.amount),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
+  paymentRequestId: mockPaymentRequest.uid,
 }
 
 const identityLoading = {
