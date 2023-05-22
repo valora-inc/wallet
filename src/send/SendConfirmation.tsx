@@ -138,7 +138,7 @@ function SendConfirmation(props: Props) {
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
-
+  console.debug('Fee estimate', feeEstimate)
   useEffect(() => {
     if (!feeEstimate) {
       dispatch(estimateFee({ feeType, tokenAddress }))

@@ -10,7 +10,20 @@ export enum Actions {
   UPDATE_OUTGOING_REQUESTS = 'PAYMENT_REQUEST/UPDATE_OUTGOING_REQUESTS',
   UPDATE_REQUEST_STATUS = 'PAYMENT_REQUEST/UPDATE_REQUEST_STATUS',
   UPDATE_REQUEST_NOTIFIED = 'PAYMENT_REQUEST/UPDATE_REQUEST_NOTIFIED',
+  PROCESS_PAYMENT_REQUEST = 'PAYMENT_REQUEST/PROCESS_PAYMENT_REQUEST',
 }
+
+export interface ProcessPaymentRequestAction {
+  type: Actions.PROCESS_PAYMENT_REQUEST
+  paymentRequest: PaymentRequest
+}
+
+export const processPaymentRequest = (
+  paymentRequest: PaymentRequest
+): ProcessPaymentRequestAction => ({
+  type: Actions.PROCESS_PAYMENT_REQUEST,
+  paymentRequest,
+})
 
 export interface WritePaymentRequestAction {
   type: Actions.WRITE_PAYMENT_REQUEST

@@ -4,36 +4,42 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { HomeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType, SecureSendDetails } from 'src/identity/reducer'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
-import { Recipient } from 'src/recipients/recipient'
+import { PaymentRequest } from 'src/paymentRequest/types'
+import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { stablecoinsSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 interface Props {
-  id: string
-  requester: Recipient
-  amount: string
-  comment?: string
+  paymentRequest: PaymentRequest
 }
 
-export default function IncomingPaymentRequestListItem({ id, amount, comment, requester }: Props) {
+export default function IncomingPaymentRequestListItem({ paymentRequest }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
   const [addressesFetched, setAddressesFetched] = useState(false)
+
+  const stableTokens = useSelector(stablecoinsSelector)
+  const recipientInfo = useSelector(recipientInfoSelector)
+  const requester = getRecipientFromAddress(paymentRequest.requesterAddress, recipientInfo)
 
   const e164PhoneNumber = requester.e164PhoneNumber
   const requesterAddress = requester.address
@@ -41,7 +47,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   const secureSendDetails: SecureSendDetails | undefined = useSelector(
     (state: RootState) => state.identity.secureSendPhoneNumberMapping[e164PhoneNumber || '']
   )
-  const cUSDToken = useSelector(tokensByCurrencySelector)[Currency.Dollar]!
+
   const onPayButtonPressed = () => {
     setPayButtonPressed(true)
     if (e164PhoneNumber) {
@@ -62,52 +68,62 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
     })
-    dispatch(declinePaymentRequest(id))
+    dispatch(declinePaymentRequest(paymentRequest.uid || ''))
     Logger.showMessage(t('requestDeclined'))
   }
 
   const navigateToNextScreen = () => {
-    const transactionData: TransactionDataInput = {
-      comment,
-      recipient: requester,
-      tokenAmount: new BigNumber(amount),
-      tokenAddress: cUSDToken?.address,
-      inputAmount: new BigNumber(amount),
-      amountIsInLocalCurrency: false,
+    const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
+    const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
+    if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
+      // Should never happen in producton
+      throw new Error('No token address found for cUSD')
+    }
+    // If the user has enough cUSD balance, pay with cUSD
+    // Else, try with cEUR
+    // Else, throw up an error banner
+    let transactionData: TransactionDataInput
+    const usdRequested = new BigNumber(paymentRequest.amount)
+    console.debug(
+      'usdRequested',
+      usdRequested.toString(),
+      'cUsdTokenInfo.balance',
+      cUsdTokenInfo.balance.toString(),
+      'cEurTokenInfo.balance',
+      cEurTokenInfo.balance.toString()
+    )
+    if (usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance)) {
+      transactionData = {
+        comment: paymentRequest.comment,
+        recipient: requester,
+        inputAmount: new BigNumber(paymentRequest.amount),
+        tokenAmount: new BigNumber(paymentRequest.amount),
+        amountIsInLocalCurrency: false,
+        tokenAddress: cUsdTokenInfo.address,
+      }
+    } else if (
+      cEurTokenInfo.usdPrice &&
+      usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.usdPrice))
+    ) {
+      transactionData = {
+        comment: paymentRequest.comment,
+        recipient: requester,
+        inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+        tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+        amountIsInLocalCurrency: false,
+        tokenAddress: cEurTokenInfo.address,
+      }
+    } else {
+      dispatch(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
+      return
     }
 
     const addressValidationType =
       secureSendDetails?.addressValidationType || AddressValidationType.NONE
 
     const origin = SendOrigin.AppRequestFlow
-
-    // make this work
-    // if (addressValidationType === AddressValidationType.NONE) {
-    //   const currency: LocalCurrencyCode = data.currencyCode
-    //   ? (data.currencyCode as LocalCurrencyCode)
-    //   : yield select(getLocalCurrencyCode)
-    // const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
-    // const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-    // const localCurrencyExchangeRate: string | null = yield select(localCurrencyToUsdSelector)
-    // const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
-    // const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
-    // if (!inputAmount || !tokenAmount) {
-    //   Logger.warn(TAG, '@handleSendPaymentData null amount')
-    //   return
-    // }
-    // const transactionData: TransactionDataInput = {
-    //   recipient,
-    //   inputAmount,
-    //   amountIsInLocalCurrency: true,
-    //   tokenAddress: tokenInfo.address,
-    //   tokenAmount,
-    //   comment: data.comment,
-    // }
-    // navigate(Screens.SendConfirmation, {
-    //   transactionData,
-    //   isFromScan,
-    //   origin: SendOrigin.AppSendFlow,
-    // })
+    if (addressValidationType === AddressValidationType.NONE) {
+      navigate(Screens.SendConfirmation, { transactionData, origin, isFromScan: false })
     } else {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,
@@ -152,13 +168,13 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   return (
     <View style={styles.container}>
       <RequestMessagingCard
-        testID={`IncomingPaymentRequestNotification/${id}`}
+        testID={`IncomingPaymentRequestNotification/${paymentRequest.uid}`}
         title={t('incomingPaymentRequestNotificationTitle', { name: requester.name })}
-        details={comment}
+        details={paymentRequest.comment}
         amount={
           <CurrencyDisplay
             amount={{
-              value: amount,
+              value: paymentRequest.amount,
               currencyCode: Currency.Dollar,
             }}
           />

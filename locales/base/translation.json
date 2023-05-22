@@ -566,6 +566,7 @@
   "dismiss": "Dismiss",
   "review": "Review",
   "insufficientBalance": "Your balance is too low to make this transaction",
+  "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
   "amount": "Amount",
   "currentBalance": "Current Balance (cUSD)",
   "restore": "Restore",
