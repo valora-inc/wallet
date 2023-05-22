@@ -221,12 +221,7 @@ function TokenBalancesScreen({ navigation }: Props) {
     return sections
   }, [positions])
 
-  const sections =
-    listHeaderHeight > 0
-      ? activeView === ViewType.WalletAssets
-        ? [{ data: tokenItems }]
-        : positionSections
-      : []
+  const sections = activeView === ViewType.WalletAssets ? [{ data: tokenItems }] : positionSections
 
   const renderSectionHeader = ({
     section,
