@@ -98,6 +98,16 @@
     "subtitle": "Melde dich mit deiner E-Mail-Adresse an, um diese als Sicherung einzurichten.\nDu wirst aufgefordert, dich erneut anzumelden, wenn du jemals deine Wallet verlierst.",
     "google": "Mit Google anmelden"
   },
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "Als nächstes fügst du deine Telefonnummer hinzu",
+      "subtitle": "Du musst diese Telefonnummer verwenden, um dein Portemonnaie wiederherzustellen, falls du es einmal verlierst.\n\nWir schicken dir einen Code, mit dem du überprüfen kannst, ob diese Nummer dir gehört."
+    },
+    "restore": {
+      "title": "Überprüfe deine Rufnummer",
+      "subtitle": "Gib die Telefonnummer ein, die du für die Einrichtung des Backups verwendet hast.\n\nWir schicken dir einen Code, mit dem du überprüfen kannst, ob es deine Nummer ist."
+    }
+  },
   "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",

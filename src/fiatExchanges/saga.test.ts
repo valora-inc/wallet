@@ -15,7 +15,8 @@ import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/a
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
-import { sendPaymentFailure, sendPaymentLegacy, sendPaymentSuccess } from 'src/send/actions'
+import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -45,16 +46,22 @@ describe(watchBidaliPaymentRequests, () => {
   })
 
   it.each`
-    currencyCode | expectedCurrency
-    ${'cUSD'}    | ${Currency.Dollar}
-    ${'cEUR'}    | ${Currency.Euro}
+    currencyCode | expectedCurrency   | expectedTokenAddress
+    ${'cUSD'}    | ${Currency.Dollar} | ${'mockCusdAddress'}
+    ${'cEUR'}    | ${Currency.Euro}   | ${'mockCeurAddress'}
   `(
     'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
-    async ({ currencyCode, expectedCurrency }) => {
+    async ({ currencyCode, expectedCurrency, expectedTokenAddress }) => {
       const onPaymentSent = jest.fn()
       const onCancelled = jest.fn()
 
       await expectSaga(watchBidaliPaymentRequests)
+        .provide([
+          [
+            select(tokensByCurrencySelector),
+            { [expectedCurrency]: { address: expectedTokenAddress } },
+          ],
+        ])
         .put(
           updateKnownAddresses({
             '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
@@ -72,28 +79,33 @@ describe(watchBidaliPaymentRequests, () => {
           )
         )
         .dispatch(
-          sendPaymentLegacy(
+          sendPayment(
             amount,
-            expectedCurrency,
+            expectedTokenAddress,
+            new BigNumber('20'),
             'Some description (TEST_CHARGE_ID)',
             recipient,
-            '0xTEST',
-            undefined,
-            undefined,
+            {
+              fee: new BigNumber('0.01'),
+              gas: new BigNumber('0.01'),
+              gasPrice: new BigNumber('0.01'),
+              feeCurrency: expectedCurrency,
+            },
             true
           )
         )
         .dispatch(sendPaymentSuccess(amount))
         .run()
 
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
         origin: SendOrigin.Bidali,
         transactionData: {
-          amount,
-          currency: expectedCurrency,
-          reason: 'Some description (TEST_CHARGE_ID)',
+          inputAmount: amount,
+          comment: 'Some description (TEST_CHARGE_ID)',
           recipient,
-          type: TokenTransactionType.PayPrefill,
+          amountIsInLocalCurrency: false,
+          tokenAddress: expectedTokenAddress,
+          tokenAmount: amount,
         },
         isFromScan: false,
       })
@@ -107,6 +119,9 @@ describe(watchBidaliPaymentRequests, () => {
     const onCancelled = jest.fn()
 
     await expectSaga(watchBidaliPaymentRequests)
+      .provide([
+        [select(tokensByCurrencySelector), { [Currency.Dollar]: { address: 'mockCusdAddress' } }],
+      ])
       .not.put.actionType(IdentityActions.UPDATE_KNOWN_ADDRESSES)
       .dispatch(
         bidaliPaymentRequested(
@@ -120,14 +135,18 @@ describe(watchBidaliPaymentRequests, () => {
         )
       )
       .dispatch(
-        sendPaymentLegacy(
+        sendPayment(
           amount,
-          Currency.Dollar,
+          'mockCusdAddress',
+          new BigNumber('20'),
           'Some description (TEST_CHARGE_ID)',
           recipient,
-          '0xTEST',
-          undefined,
-          undefined,
+          {
+            fee: new BigNumber('0.01'),
+            gas: new BigNumber('0.01'),
+            gasPrice: new BigNumber('0.01'),
+            feeCurrency: Currency.Dollar,
+          },
           true
         )
       )
@@ -135,14 +154,15 @@ describe(watchBidaliPaymentRequests, () => {
       .dispatch(activeScreenChanged(Screens.BidaliScreen))
       .run()
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
       origin: SendOrigin.Bidali,
       transactionData: {
-        amount,
-        currency: Currency.Dollar,
-        reason: 'Some description (TEST_CHARGE_ID)',
+        inputAmount: amount,
+        comment: 'Some description (TEST_CHARGE_ID)',
         recipient,
-        type: TokenTransactionType.PayPrefill,
+        amountIsInLocalCurrency: false,
+        tokenAddress: 'mockCusdAddress',
+        tokenAmount: amount,
       },
       isFromScan: false,
     })

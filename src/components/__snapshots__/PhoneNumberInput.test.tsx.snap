@@ -57,13 +57,16 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "alignItems": "stretch",
-          "backgroundColor": "#FFFFFF",
-          "borderRadius": 8,
-          "paddingHorizontal": 12,
-          "width": 80,
-        }
+        Array [
+          Object {
+            "alignItems": "stretch",
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": 8,
+            "paddingHorizontal": 12,
+            "width": 80,
+          },
+          undefined,
+        ]
       }
       testID="CountrySelectionButton"
     >
