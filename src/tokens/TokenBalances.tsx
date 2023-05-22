@@ -231,7 +231,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
-        data={listHeaderHeight > 0 ? tokens.sort(sortByUsdBalance) : []}
+        data={tokens.sort(sortByUsdBalance)}
         renderItem={renderTokenBalance}
         keyExtractor={(item) => item.address}
         onScroll={handleScroll}
