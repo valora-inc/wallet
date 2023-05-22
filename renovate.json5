@@ -1,22 +1,18 @@
 {
-  extends: ['config:base', ':disableDigestUpdates'],
-  // Bump version ranges instead of pinning since we use lock files
-  rangeStrategy: 'bump',
-  // Set a status check pending for 3 days from release timestamp to guard against unpublishing
-  stabilityDays: 3,
+  extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
+
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
   prConcurrentLimit: 2,
 
-  // Do not require manual approval from within the Dependency Dashboard issue before opening a PR.
-  // An alternative would be to require manual approval again, or to use specific packageRules
-  dependencyDashboardApproval: false,
+  // timezone for automerge schedule
+  timezone: 'America/Los_Angeles',
 
-  // Disable vulnerability updates for now
-  // Dependabot is handling them instead because Renovate is not yet able to update transitive dependencies
-  // See https://github.com/renovatebot/renovate/issues/3080
-  vulnerabilityAlerts: {
-    enabled: false,
-  },
+  // Only automerge when the team is mostly offline
+  automergeSchedule: [
+    'after 5pm and before 12am every day', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
+    'on saturday',
+  ],
+
   // The order of objects in the packageRules array does matter,
   // in the sense that rules declared later (towards the end of the array)
   // overwrite values of an also-matching rule declared earlier.

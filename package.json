@@ -294,7 +294,7 @@
     "bignumber.js": "^9.1.1",
     "prettier": "2.7.1",
     "@types/prettier": "^2.7.2",
-    "eslint-utils": "^1.4.1",
+    "eslint-utils": "^1.4.3",
     "set-value": "^4.1.0",
     "https-proxy-agent": "^5.0.0",
     "mixin-deep": "^2.0.1",

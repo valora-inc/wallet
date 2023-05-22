@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -14,11 +14,8 @@ import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
-import PercentageIndicator from 'src/components/PercentageIndicator'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -37,8 +34,8 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import TokenBalanceItem from 'src/tokens/TokenBalanceItem'
 import { sortByUsdBalance } from 'src/tokens/utils'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -95,54 +92,12 @@ function TokenBalancesScreen({ navigation }: Props) {
     })
   }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderOpacity])
 
-  function isHistoricalPriceUpdated(token: TokenBalance) {
-    return (
-      token.historicalUsdPrices?.lastDay &&
-      TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES >
-        Math.abs(token.historicalUsdPrices.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
-    )
-  }
-
   function renderTokenBalance({ item: token }: { item: TokenBalance }) {
     return (
-      <View key={`Token${token.address}`} style={styles.tokenContainer}>
-        <View style={styles.row}>
-          <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
-          <View style={styles.tokenLabels}>
-            <Text style={styles.tokenName}>{token.symbol}</Text>
-            <Text style={styles.subtext}>{token.name}</Text>
-          </View>
-        </View>
-        <View style={styles.balances}>
-          <TokenDisplay
-            amount={new BigNumber(token.balance!)}
-            tokenAddress={token.address}
-            style={styles.tokenAmt}
-            showLocalAmount={false}
-            showSymbol={false}
-            testID={`tokenBalance:${token.symbol}`}
-          />
-          {token.usdPrice?.gt(0) && (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-              {showPriceChangeIndicatorInBalances &&
-                token.historicalUsdPrices &&
-                isHistoricalPriceUpdated(token) && (
-                  <PercentageIndicator
-                    testID={`percentageIndicator:${token.symbol}`}
-                    comparedValue={token.historicalUsdPrices.lastDay.price}
-                    currentValue={token.usdPrice}
-                  />
-                )}
-              <TokenDisplay
-                amount={new BigNumber(token.balance!)}
-                tokenAddress={token.address}
-                style={{ ...styles.subtext, marginLeft: 8 }}
-                testID={`tokenLocalBalance:${token.symbol}`}
-              />
-            </View>
-          )}
-        </View>
-      </View>
+      <TokenBalanceItem
+        token={token}
+        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
+      />
     )
   }
 
@@ -209,43 +164,8 @@ TokenBalancesScreen.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  tokenImg: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
-    marginRight: Spacing.Regular16,
-  },
-  tokenContainer: {
-    flexDirection: 'row',
-    paddingBottom: Spacing.Large32,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  tokenLabels: {
-    flexShrink: 1,
-    flexDirection: 'column',
-  },
-  balances: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   flatListContainer: {
     paddingHorizontal: Spacing.Thick24,
-  },
-  tokenName: {
-    ...fontStyles.large600,
-  },
-  subtext: {
-    ...fontStyles.small,
-    color: Colors.gray4,
-  },
-  tokenAmt: {
-    ...fontStyles.large600,
   },
   lastDayText: {
     ...fontStyles.small500,
