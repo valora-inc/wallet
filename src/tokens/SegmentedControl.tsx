@@ -22,6 +22,7 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
     <View style={styles.container}>
       {values.map((value, index) => (
         <Touchable
+          key={value}
           style={[
             styles.button,
             { backgroundColor: index === selectedIndex ? Colors.greenUI : Colors.gray1 },
