@@ -66,7 +66,7 @@ const AnimatedSectionList =
 const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
-enum ViewType {
+export enum AssetViewType {
   WalletAssets = 0,
   Positions = 1,
 }
@@ -77,8 +77,11 @@ const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
 // distance in points over which the screen header opacity animation is applied
 const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
-function TokenBalancesScreen({ navigation }: Props) {
+function TokenBalancesScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
+
+  const activeView = route.params?.activeView ?? AssetViewType.WalletAssets
+
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
@@ -98,7 +101,6 @@ function TokenBalancesScreen({ navigation }: Props) {
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
-  const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
 
@@ -212,7 +214,8 @@ function TokenBalancesScreen({ navigation }: Props) {
     return sections
   }, [positions])
 
-  const sections = activeView === ViewType.WalletAssets ? [{ data: tokenItems }] : positionSections
+  const sections =
+    activeView === AssetViewType.WalletAssets ? [{ data: tokenItems }] : positionSections
 
   const renderSectionHeader = ({
     section,
@@ -288,9 +291,9 @@ function TokenBalancesScreen({ navigation }: Props) {
         {displayPositions && (
           <SegmentedControl
             values={segmentedControlValues}
-            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+            selectedIndex={activeView === AssetViewType.WalletAssets ? 0 : 1}
             onChange={(_, index) => {
-              setActiveView(index)
+              navigation.setParams({ activeView: index })
             }}
           />
         )}
