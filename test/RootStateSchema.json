@@ -218,6 +218,7 @@
                                 "importContactsFailed",
                                 "incorrectPin",
                                 "insufficientBalance",
+                                "insufficientBalanceStable",
                                 "invalidAmount",
                                 "invalidBackupPhrase",
                                 "invalidPhone",
