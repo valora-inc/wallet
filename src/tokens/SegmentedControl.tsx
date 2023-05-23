@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 function SegmentedControl({ values, selectedIndex, onChange }: Props) {
   const handleSelectOption = (value: string, index: number) => () => {
     onChange(value, index)
+    vibrateInformative()
   }
 
   return (
