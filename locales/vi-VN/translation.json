@@ -1224,6 +1224,7 @@
   "totalValue": "Tổng số dư",
   "viewBalances": "Xem tài sản",
   "totalAssets": "My assets",
+  "totalAssetsInfo": "Includes estimated total of wallet assets and dapp positions",
   "assetsSegmentedControl": {
     "walletAssets": "Wallet assets",
     "dappPositions": "Dapp positions"
