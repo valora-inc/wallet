@@ -1,13 +1,24 @@
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { isE2EEnv } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -122,34 +133,60 @@ function useErrorMessageWithRefresh() {
 
 export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   const { t } = useTranslation()
+
   const [infoVisible, setInfoVisible] = useState(false)
+  const [shouldRenderInfoComponent, setShouldRenderInfoComponent] = useState(false)
+  const infoOpacity = useSharedValue(0)
+
+  useShowOrHideAnimation(
+    infoOpacity,
+    infoVisible,
+    () => {
+      setShouldRenderInfoComponent(true)
+    },
+    () => {
+      setShouldRenderInfoComponent(false)
+    }
+  )
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: infoOpacity.value,
+    }
+  })
 
   const toggleInfoVisible = () => {
     setInfoVisible((prev) => !prev)
   }
 
+  const handleDismissInfo = () => {
+    setInfoVisible(false)
+  }
+
   return (
-    <View testID="AssetsTokenBalance">
-      <View style={styles.row}>
-        <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
-        {showInfo && (
-          <TouchableOpacity
-            onPress={toggleInfoVisible}
-            hitSlop={variables.iconHitslop}
-            testID="AssetsTokenBalance/Info"
-          >
-            <InfoIcon color={Colors.greenUI} />
-          </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={handleDismissInfo}>
+      <View testID="AssetsTokenBalance">
+        <View style={styles.row}>
+          <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+          {showInfo && (
+            <TouchableOpacity
+              onPress={toggleInfoVisible}
+              hitSlop={variables.iconHitslop}
+              testID="AssetsTokenBalance/Info"
+            >
+              <InfoIcon color={Colors.greenUI} />
+            </TouchableOpacity>
+          )}
+        </View>
+        <TokenBalance singleTokenViewEnabled={false} />
+
+        {shouldRenderInfoComponent && (
+          <Animated.View style={[styles.totalAssetsInfoContainer, animatedStyles]}>
+            <Text style={styles.totalAssetsInfoText}>{t('totalAssetsInfo')}</Text>
+          </Animated.View>
         )}
       </View>
-      <TokenBalance singleTokenViewEnabled={false} />
-
-      {infoVisible && (
-        <View style={styles.totalAssetsInfoContainer}>
-          <Text style={styles.totalAssetsInfoText}>{t('totalAssetsInfo')}</Text>
-        </View>
-      )}
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -248,7 +285,7 @@ const styles = StyleSheet.create({
   },
   totalAssetsInfoContainer: {
     position: 'absolute',
-    top: 24,
+    top: 32,
     width: 190,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
