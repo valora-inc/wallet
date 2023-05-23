@@ -1230,6 +1230,7 @@
   "totalValue": "Загальний баланс",
   "viewBalances": "Переглянути активи",
   "totalAssets": "Мої активи",
+  "totalAssetsInfo": "Включає оціночну суму активів гаманця та позицій dapp",
   "assetsSegmentedControl": {
     "walletAssets": "Активи гаманця",
     "dappPositions": "Позиції Dapp"
