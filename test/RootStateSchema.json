@@ -2052,7 +2052,7 @@
                 "description": {
                     "type": "string"
                 },
-                "iconUrl": {
+                "imageUrl": {
                     "type": "string"
                 },
                 "title": {
@@ -2061,7 +2061,7 @@
             },
             "required": [
                 "description",
-                "iconUrl",
+                "imageUrl",
                 "title"
             ],
             "type": "object"
