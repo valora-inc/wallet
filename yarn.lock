@@ -5474,7 +5474,7 @@ buffer@^4.3.0, buffer@^4.9.1:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.0.5, buffer@^5.0.6, buffer@^5.0.8, buffer@^5.2.1, buffer@^5.4.3, buffer@^5.5.0, buffer@^5.6.0:
+buffer@^5.0.5, buffer@^5.0.8, buffer@^5.2.1, buffer@^5.4.3, buffer@^5.5.0, buffer@^5.6.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
   integrity sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
@@ -11949,15 +11949,15 @@ node-libs-browser@^2.0.0:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-libs-react-native@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/node-libs-react-native/-/node-libs-react-native-1.2.0.tgz#e9eb419742f09166562d88008f439e3045c88097"
-  integrity sha512-D+g8Mj9OfsOYYFWZoSz4bmr/8g/QWOwUgDmi3Ux0EPU9Q41OvGsdzAzr0IGJmtuSAfyOTfnKx1XRQR9id8/EEw==
+node-libs-react-native@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/node-libs-react-native/-/node-libs-react-native-1.2.1.tgz#c9fd1d1b2cd2573d3e75633cea8bccd53b334f24"
+  integrity sha512-2LkPntNVa5MInMxtP7fW9F/uGo7KZCURI5/YoNn9/qOGIQpxEqnsndQWAPipsw8+ZVrIxPGkKEgJ2sSdvz0NKQ==
   dependencies:
     assert "^1.4.1"
     base-64 "^0.1.0"
     browserify-zlib "^0.2.0"
-    buffer "^5.0.6"
+    buffer "^6.0.3"
     console-browserify "^1.1.0"
     constants-browserify "^1.0.0"
     domain-browser "^1.1.1"
