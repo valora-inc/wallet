@@ -1223,7 +1223,11 @@
   "totalBalanceWithLocalCurrencySymbol": "ยอดรวม {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "ยอดคงเหลือรวม",
   "viewBalances": "ดูสินทรัพย์",
-  "totalAssets": "My Assets",
+  "totalAssets": "My assets",
+  "assetsSegmentedControl": {
+    "walletAssets": "Wallet assets",
+    "dappPositions": "Dapp positions"
+  },
   "open": "เปิด",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
