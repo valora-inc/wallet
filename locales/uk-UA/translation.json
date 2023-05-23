@@ -1229,7 +1229,11 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Усього",
   "totalValue": "Загальний баланс",
   "viewBalances": "Переглянути активи",
-  "totalAssets": "Активи",
+  "totalAssets": "Мої активи",
+  "assetsSegmentedControl": {
+    "walletAssets": "Активи гаманця",
+    "dappPositions": "Позиції Dapp"
+  },
   "open": "Відкрити",
   "nftViewer": "Переглядач NFT",
   "whatTotalValue": {
