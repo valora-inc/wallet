@@ -1225,7 +1225,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
-  "totalAssets": "Actifs",
+  "totalAssets": "Mes atouts",
+  "assetsSegmentedControl": {
+    "walletAssets": "Actifs du portefeuille",
+    "dappPositions": "Positions de Dapp"
+  },
   "open": "Ouvrir",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
