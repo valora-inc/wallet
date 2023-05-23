@@ -113,6 +113,11 @@ export const WALLET_CONNECT_PROJECT_ID =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WALLET_CONNECT_PROJECT_ID') ??
   // valora-e2e-client project in the WC project dashboard
   '8f6f2517f4485c013849d38717ec90d1'
+export const GOOGLE_OAUTH_CLIENT_ID = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'GOOGLE_OAUTH_CLIENT_ID'
+)
 
 export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
   {
@@ -171,5 +176,3 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
-
-export const GOOGLE_OAUTH_CLIENT_ID = Config.GOOGLE_OAUTH_CLIENT_ID

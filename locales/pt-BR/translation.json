@@ -28,13 +28,13 @@
     "restart": "Reiniciar para alternar"
   },
   "revokePhoneNumber": {
-    "title": "Número de telefone Unlink",
-    "bottomSheetTitle": "Desvincular o número de telefone",
-    "description": "A desvinculação removerá o número de telefone associado à sua carteira. Pode adicionar um novo número de telefone mais tarde.",
-    "confirmButton": "Desligar agora",
-    "revokeSuccess": "O seu número de telefone foi desvinculado",
-    "revokeError": "Não foi possível desvincular o número de telefone, tente novamente mais tarde.",
-    "addNewNumberButton": "Adicionar número de telefone"
+    "title": "Desvincular número de celular",
+    "bottomSheetTitle": "Desvincular número de celular",
+    "description": "A desvinculação removerá o número de celular associado à sua carteira. Você pode adicionar um novo número de celular depois.",
+    "confirmButton": "Desvincular agora",
+    "revokeSuccess": "Seu número de celular foi desvinculado",
+    "revokeError": "Não foi possível desvincular o número de celular, tente novamente mais tarde.",
+    "addNewNumberButton": "Adicionar número de celular"
   },
   "promptFornoModal": {
     "header": "Alternar modo de conexão?",
@@ -88,17 +88,27 @@
     }
   },
   "setUpKeylessBackup": {
-    "title": "Configurar a cópia de segurança sem chave",
-    "subtitle": "Utilizará o seguinte para configurar a cópia de segurança:",
-    "emailAddress": "Endereço de correio electrónico",
+    "title": "Configurar o backup sem chave",
+    "subtitle": "Você vai usar os seguintes itens para configurar o backup:",
+    "emailAddress": "E-mail",
     "phoneNumber": "Número de celular"
   },
   "signInWithEmail": {
-    "title": "Iniciar sessão com o correio electrónico",
-    "subtitle": "Inicie sessão com o seu e-mail para o configurar como uma cópia de segurança.\n\nSer-lhe-á pedido que inicie sessão novamente se perder a sua carteira.",
-    "google": "Iniciar sessão com o Google"
+    "title": "Entrar com e-mail",
+    "subtitle": "Entre com seu e-mail para configurá-lo como um backup.\n\nSerá solicitado que você entre novamente se perder sua carteira.",
+    "google": "Entrar com o Google"
   },
-  "setupKeylessBackupReminder": "<0>Lembre-se de que</0> esta informação é a única forma de aceder à sua carteira em caso de perda ou roubo do seu dispositivo. Mantenha-o seguro!",
+  "keylessBackupPhoneInput": {
+    "setup": {
+      "title": "Em seguida, adicione o seu número de telefone",
+      "subtitle": "Terá de utilizar este número de telefone para efectuar o restauro se perder a sua carteira.\n\nEnviar-lhe-emos um código para verificar se este número é seu."
+    },
+    "restore": {
+      "title": "Verificar o seu número de telefone",
+      "subtitle": "Introduza o número de telefone que utilizou anteriormente para configurar a cópia de segurança.\n\nEnviar-lhe-emos um código para verificar se este número é seu."
+    }
+  },
+  "setupKeylessBackupReminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. Você deve protegê-las!",
   "testFaqLink": "Perguntas frequentes da {{appName}}",
   "termsOfServiceLink": "Termos de Serviço",
   "privacyPolicy": "Política de Privacidade",
@@ -975,13 +985,13 @@
   "stableBalance": "Saldo de {{token}}",
   "selectToken": "Selecionar ativo",
   "verificationCta": {
-    "header": "Envie criptomoedas como se fossem mensagens de texto!",
-    "body": "Ligue o seu número de telefone ao endereço da sua carteira para poder enviar e receber pagamentos com amigos.",
-    "cta": "Ligação Número de telefone"
+    "header": "Envie cripto tão fácil quanto enviar mensagens!",
+    "body": "Vincule o seu número de celular ao seu endereço de carteira para que possa enviar e receber pagamentos de amigos.",
+    "cta": "Vincular número de celular"
   },
   "importContactsCta": {
-    "header": "Activar contactos",
-    "body": "Active os Contactos nas Definições do seu telemóvel para enviar e pedir pagamentos facilmente.",
+    "header": "Habilitar contatos",
+    "body": "Habilite os contatos nas configurações do seu celular para enviar e solicitar pagamentos com facilidade.",
     "cta": "Configurações"
   },
   "contactSyncProgress": {
@@ -1215,7 +1225,7 @@
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo total",
   "viewBalances": "Ver ativos",
-  "totalAssets": "Os meus activos",
+  "totalAssets": "Ativos",
   "open": "Abrir",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
@@ -1585,7 +1595,7 @@
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
-    "disclaimer": "Swaps fornecidos por parceiros no Celo. \n<0>Saiba mais.</0>",
+    "disclaimer": "Trocas fornecidas por parceiros no Celo. \n<0>Saiba mais.</0>",
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "maxSwapAmountWarning": {
