@@ -111,6 +111,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
       }
     } else {
       dispatch(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
+      setPayButtonPressed(false)
       return
     }
 

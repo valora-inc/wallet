@@ -23,12 +23,12 @@ import {
   CancelPaymentRequestAction,
   CompletePaymentRequestAction,
   DeclinePaymentRequestAction,
+  updateIncomingPaymentRequests,
   UpdateIncomingPaymentRequestsAction,
+  updateOutgoingPaymentRequests,
   UpdateOutgoingPaymentRequestsAction,
   UpdatePaymentRequestNotifiedAction,
   WritePaymentRequestAction,
-  updateIncomingPaymentRequests,
-  updateOutgoingPaymentRequests,
 } from 'src/paymentRequest/actions'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
