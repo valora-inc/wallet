@@ -191,9 +191,12 @@ function TokenBalancesScreen({ navigation }: Props) {
         onLayout={handleMeasureListHeaderHeight}
       >
         <View
-          style={{
-            paddingBottom: displayPositions ? Spacing.Thick24 : 0,
-          }}
+          style={[
+            styles.nonStickyHeaderContainer,
+            {
+              paddingBottom: displayPositions ? Spacing.Thick24 : 0,
+            },
+          ]}
           onLayout={handleMeasureNonStickyHeaderHeight}
         >
           {shouldVisualizeNFTsInHomeAssetsPage && (
@@ -218,7 +221,7 @@ function TokenBalancesScreen({ navigation }: Props) {
               </View>
             </Touchable>
           )}
-          <AssetsTokenBalance />
+          <AssetsTokenBalance showInfo={displayPositions} />
         </View>
         {displayPositions && (
           <SegmentedControl
@@ -279,6 +282,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light,
     position: 'absolute',
     width: '100%',
+    zIndex: 1,
+  },
+  nonStickyHeaderContainer: {
     zIndex: 1,
   },
 })
