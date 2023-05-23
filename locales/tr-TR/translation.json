@@ -1226,6 +1226,7 @@
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
   "totalAssets": "Mal varlığım",
+  "totalAssetsInfo": "Cüzdan varlıkları ve uygulama pozisyonlarının tahmini toplamını içerir",
   "assetsSegmentedControl": {
     "walletAssets": "Cüzdan varlıkları",
     "dappPositions": "Dapp pozisyonları"
