@@ -1223,7 +1223,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Tổng {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Tổng số dư",
   "viewBalances": "Xem tài sản",
-  "totalAssets": "Tài sản",
+  "totalAssets": "My assets",
+  "assetsSegmentedControl": {
+    "walletAssets": "Wallet assets",
+    "dappPositions": "Dapp positions"
+  },
   "open": "Mở",
   "nftViewer": "Trình xem NFT",
   "whatTotalValue": {
