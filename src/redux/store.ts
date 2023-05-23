@@ -123,6 +123,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'goldToken',
           'stableToken',
           'send',
+          'positions',
           'home',
           // "exchange",
           // "tokens",

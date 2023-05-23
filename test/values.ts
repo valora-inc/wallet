@@ -1102,7 +1102,7 @@ export const mockPositions: Position[] = [
     displayProps: {
       title: 'MOO / CELO',
       description: 'Pool',
-      iconUrl: '',
+      imageUrl: '',
     },
     tokens: [
       {
@@ -1140,7 +1140,7 @@ export const mockPositions: Position[] = [
     displayProps: {
       title: 'G$ / cUSD',
       description: 'Pool',
-      iconUrl: '',
+      imageUrl: '',
     },
     tokens: [
       {
@@ -1176,7 +1176,7 @@ export const mockPositions: Position[] = [
     displayProps: {
       title: 'CELO / cUSD',
       description: 'Farm',
-      iconUrl: '',
+      imageUrl: '',
     },
     tokens: [
       {
@@ -1190,7 +1190,7 @@ export const mockPositions: Position[] = [
         displayProps: {
           title: 'CELO / cUSD',
           description: 'Pool',
-          iconUrl: '',
+          imageUrl: '',
         },
         tokens: [
           {

@@ -4,7 +4,7 @@ export type SerializedDecimalNumber = string
 export interface PositionDisplayProps {
   title: string
   description: string
-  iconUrl: string
+  imageUrl: string
 }
 
 export interface AbstractPosition {

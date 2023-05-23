@@ -23,7 +23,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
   return (
     <View style={styles.positionsContainer}>
       <View style={styles.row}>
-        <Image source={{ uri: position.displayProps.iconUrl }} style={styles.tokenImg} />
+        <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName} numberOfLines={1}>
             {position.displayProps.title}
