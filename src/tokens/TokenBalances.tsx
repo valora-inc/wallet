@@ -50,6 +50,12 @@ enum ViewType {
   Positions = 1,
 }
 
+// offset relative to the bottom of the non sticky header component, where the
+// screen header opacity animation starts
+const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
+// distance in points over which the screen header opacity animation is applied
+const HEADER_OPACITY_ANIMATION_DISTANCE = 20
+
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
@@ -73,6 +79,7 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
+  const [listHeaderHeight, setListHeaderHeight] = useState(0)
 
   const scrollPosition = useSharedValue(0)
   const handleScroll = useAnimatedScrollHandler({
@@ -81,16 +88,15 @@ function TokenBalancesScreen({ navigation }: Props) {
     },
   })
 
-  const animatedHeaderOpacity = useDerivedValue(() => {
+  const animatedScreenHeaderOpacity = useDerivedValue(() => {
     if (nonStickyHeaderHeight === 0) {
       // initial render
       return 0
     }
 
-    const startAnimationPosition = nonStickyHeaderHeight - 44
-    const endAnimationPosition = nonStickyHeaderHeight - 20
-    const totalAnimationDistance = endAnimationPosition - startAnimationPosition
-    const animatedValue = (scrollPosition.value - startAnimationPosition) / totalAnimationDistance
+    const startAnimationPosition = nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET
+    const animatedValue =
+      (scrollPosition.value - startAnimationPosition) / HEADER_OPACITY_ANIMATION_DISTANCE
 
     // return only values between 0 and 1
     return Math.max(0, Math.min(1, animatedValue))
@@ -98,14 +104,19 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   const animatedScreenHeaderStyles = useAnimatedStyle(() => {
     return {
-      opacity: animatedHeaderOpacity.value,
+      opacity: animatedScreenHeaderOpacity.value,
     }
-  }, [animatedHeaderOpacity.value])
+  }, [animatedScreenHeaderOpacity.value])
 
   const animatedListHeaderStyles = useAnimatedStyle(() => {
     if (nonStickyHeaderHeight === 0 || !displayPositions) {
       return {
         shadowColor: 'transparent',
+        transform: [
+          {
+            translateY: -scrollPosition.value,
+          },
+        ],
       }
     }
 
@@ -115,7 +126,7 @@ function TokenBalancesScreen({ navigation }: Props) {
           translateY:
             scrollPosition.value > nonStickyHeaderHeight
               ? -nonStickyHeaderHeight
-              : -Math.max(scrollPosition.value, 0),
+              : -scrollPosition.value,
         },
       ],
       shadowColor: interpolateColor(
@@ -164,72 +175,75 @@ function TokenBalancesScreen({ navigation }: Props) {
     setNonStickyHeaderHeight(event.nativeEvent.layout.height)
   }
 
+  const handleMeasureListHeaderHeight = (event: LayoutChangeEvent) => {
+    setListHeaderHeight(event.nativeEvent.layout.height)
+  }
+
   const segmentedControlValues = useMemo(
     () => [t('assetsSegmentedControl.walletAssets'), t('assetsSegmentedControl.dappPositions')],
     [t]
   )
 
-  const renderListHeader = () => (
-    <Animated.View style={[styles.listHeaderContainer, animatedListHeaderStyles]}>
-      <View
-        style={[
-          styles.nonStickyHeaderContainer,
-          {
-            paddingBottom: displayPositions ? Spacing.Thick24 : 0,
-          },
-        ]}
-        onLayout={handleMeasureNonStickyHeaderHeight}
-      >
-        {shouldVisualizeNFTsInHomeAssetsPage && (
-          <Touchable
-            style={
-              // For larger fonts we need different marginTop for nft banner
-              PixelRatio.getFontScale() > 1.5
-                ? { marginTop: Spacing.Small12 }
-                : PixelRatio.getFontScale() > 1.25
-                ? { marginTop: Spacing.Smallest8 }
-                : null
-            }
-            testID={'NftViewerBanner'}
-            onPress={onPressNFTsBanner}
-          >
-            <View style={styles.nftBannerContainer}>
-              <Text style={styles.nftBannerText}>{t('nftViewer')}</Text>
-              <View style={styles.nftBannerCtaContainer}>
-                <Text style={styles.nftBannerText}>{t('open')}</Text>
-                <OpenLinkIcon color={Colors.greenUI} />
-              </View>
-            </View>
-          </Touchable>
-        )}
-        <AssetsTokenBalance showInfo={displayPositions} />
-      </View>
-      {displayPositions && (
-        <SegmentedControl
-          values={segmentedControlValues}
-          selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
-          onChange={(_, index) => {
-            setActiveView(index)
-          }}
-        />
-      )}
-    </Animated.View>
-  )
-
   return (
-    <Animated.FlatList
-      contentContainerStyle={{
-        paddingBottom: insets.bottom,
-      }}
-      // Workaround iOS setting an incorrect automatic inset at the top
-      scrollIndicatorInsets={{ top: 0.01 }}
-      data={tokens.sort(sortByUsdBalance)}
-      renderItem={renderTokenBalance}
-      keyExtractor={(item) => item.address}
-      onScroll={handleScroll}
-      ListHeaderComponent={renderListHeader}
-      stickyHeaderIndices={displayPositions ? [0] : undefined}
-    />
+    <>
+      <Animated.View
+        style={[styles.listHeaderContainer, animatedListHeaderStyles]}
+        onLayout={handleMeasureListHeaderHeight}
+      >
+        <View
+          style={{
+            paddingBottom: displayPositions ? Spacing.Thick24 : 0,
+          }}
+          onLayout={handleMeasureNonStickyHeaderHeight}
+        >
+          {shouldVisualizeNFTsInHomeAssetsPage && (
+            <Touchable
+              style={
+                // For larger fonts we need different marginTop for nft banner
+                PixelRatio.getFontScale() > 1.5
+                  ? { marginTop: Spacing.Small12 }
+                  : PixelRatio.getFontScale() > 1.25
+                  ? { marginTop: Spacing.Smallest8 }
+                  : null
+              }
+              testID={'NftViewerBanner'}
+              onPress={onPressNFTsBanner}
+            >
+              <View style={styles.nftBannerContainer}>
+                <Text style={styles.nftBannerText}>{t('nftViewer')}</Text>
+                <View style={styles.nftBannerCtaContainer}>
+                  <Text style={styles.nftBannerText}>{t('open')}</Text>
+                  <OpenLinkIcon color={Colors.greenUI} />
+                </View>
+              </View>
+            </Touchable>
+          )}
+          <AssetsTokenBalance showInfo={displayPositions} />
+        </View>
+        {displayPositions && (
+          <SegmentedControl
+            values={segmentedControlValues}
+            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+            onChange={(_, index) => {
+              setActiveView(index)
+            }}
+          />
+        )}
+      </Animated.View>
+      <Animated.FlatList
+        contentContainerStyle={{
+          paddingBottom: insets.bottom,
+        }}
+        // Workaround iOS setting an incorrect automatic inset at the top
+        scrollIndicatorInsets={{ top: 0.01 }}
+        data={tokens.sort(sortByUsdBalance)}
+        renderItem={renderTokenBalance}
+        keyExtractor={(item) => item.address}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
+      />
+    </>
   )
 }
 
@@ -263,9 +277,9 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
     backgroundColor: Colors.light,
-  },
-  nonStickyHeaderContainer: {
-    zIndex: 1, // above siblings to enable overflow of absolutely positioned tooltip
+    position: 'absolute',
+    width: '100%',
+    zIndex: 1,
   },
 })
 
