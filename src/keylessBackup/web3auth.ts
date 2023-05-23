@@ -24,7 +24,7 @@ const SIGNER_MAP: Record<TORUS_NETWORK_TYPE, string> = {
 
 const TAG = 'keylessBackup/web3auth'
 
-// TODO consider getting network from statsig dynamic config
+// TODO consider getting network from statsig dynamic config (need to make sure the keys are the same for different networks first though)
 
 /**
  * Get a Torus private key from a JWT.
