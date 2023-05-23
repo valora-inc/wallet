@@ -50,6 +50,12 @@ enum ViewType {
   Positions = 1,
 }
 
+// offset relative to the bottom of the non sticky header component, where the
+// screen header opacity animation starts
+const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
+// distance in points over which the screen header opacity animation is applied
+const HEADER_OPACITY_ANIMATION_DISTANCE = 20
+
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const tokens = useSelector(tokensWithTokenBalanceSelector)
@@ -88,10 +94,9 @@ function TokenBalancesScreen({ navigation }: Props) {
       return 0
     }
 
-    const startAnimationPosition = nonStickyHeaderHeight - 44
-    const endAnimationPosition = nonStickyHeaderHeight - 20
-    const totalAnimationDistance = endAnimationPosition - startAnimationPosition
-    const animatedValue = (scrollPosition.value - startAnimationPosition) / totalAnimationDistance
+    const startAnimationPosition = nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET
+    const animatedValue =
+      (scrollPosition.value - startAnimationPosition) / HEADER_OPACITY_ANIMATION_DISTANCE
 
     // return only values between 0 and 1
     return Math.max(0, Math.min(1, animatedValue))
