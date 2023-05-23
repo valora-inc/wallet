@@ -1224,6 +1224,7 @@
   "totalValue": "总余额",
   "viewBalances": "查看资产",
   "totalAssets": "我的资产",
+  "totalAssetsInfo": "包括钱包资产和dapp头寸的估计总数",
   "assetsSegmentedControl": {
     "walletAssets": "钱包资产",
     "dappPositions": "Dapp职位"
