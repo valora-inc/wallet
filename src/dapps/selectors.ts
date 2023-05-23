@@ -147,11 +147,3 @@ export const dappListWithCategoryNamesSelector = createSelector(
   dappsCategoriesSelector,
   (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )
-
-export const dappNamesByIdSelector = createSelector(dappsListSelector, (dapps) => {
-  const dappNamesMap: Record<string, string> = {}
-  dapps.forEach((dapp) => {
-    dappNamesMap[dapp.id] = dapp.name
-  })
-  return dappNamesMap
-})

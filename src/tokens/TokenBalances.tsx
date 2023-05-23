@@ -26,7 +26,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
-import { dappNamesByIdSelector } from 'src/dapps/selectors'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -95,7 +94,6 @@ function TokenBalancesScreen({ navigation }: Props) {
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
 
-  const dappNamesById = useSelector(dappNamesByIdSelector)
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
@@ -197,17 +195,10 @@ function TokenBalancesScreen({ navigation }: Props) {
   const positionSections = useMemo(() => {
     const positionsByDapp = new Map<string, Position[]>()
     positions.forEach((position) => {
-      const dappName = dappNamesById[position.appId]
-
-      if (!dappName) {
-        // ignore position for unsupported dapps
-        return
-      }
-
-      if (positionsByDapp.has(dappName)) {
-        positionsByDapp.get(dappName)?.push(position)
+      if (positionsByDapp.has(position.appId)) {
+        positionsByDapp.get(position.appId)?.push(position)
       } else {
-        positionsByDapp.set(dappName, [position])
+        positionsByDapp.set(position.appId, [position])
       }
     })
 
