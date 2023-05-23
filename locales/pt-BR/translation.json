@@ -1226,6 +1226,7 @@
   "totalValue": "Saldo total",
   "viewBalances": "Ver ativos",
   "totalAssets": "Os meus activos",
+  "totalAssetsInfo": "Inclui o total estimado de activos de carteira e posições de dapp",
   "assetsSegmentedControl": {
     "walletAssets": "Activos da carteira",
     "dappPositions": "Posições Dapp"
