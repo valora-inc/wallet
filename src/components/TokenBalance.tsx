@@ -14,7 +14,7 @@ import {
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
-import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
+import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -156,6 +156,9 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   })
 
   const toggleInfoVisible = () => {
+    if (!infoVisible) {
+      ValoraAnalytics.track(AssetsEvents.show_asset_balance_info)
+    }
     setInfoVisible((prev) => !prev)
   }
 
