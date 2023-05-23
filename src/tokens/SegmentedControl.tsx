@@ -19,7 +19,7 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="TokenBalances/SegmentedControl">
       {values.map((value, index) => (
         <Touchable
           key={value}

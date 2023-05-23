@@ -21,7 +21,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
       : new BigNumber(position.balance).multipliedBy(position.priceUsd)
 
   return (
-    <View style={styles.positionsContainer}>
+    <View testID="PositionItem" style={styles.positionsContainer}>
       <View style={styles.row}>
         <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
@@ -66,7 +66,7 @@ export const TokenBalanceItem = ({
   }
 
   return (
-    <View key={`Token${token.address}`} style={styles.container}>
+    <View testID="TokenBalanceItem" key={`Token${token.address}`} style={styles.container}>
       <View style={styles.row}>
         <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
