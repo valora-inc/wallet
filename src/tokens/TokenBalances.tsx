@@ -55,7 +55,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
 interface SectionData {
-  appId?: string
+  appName?: string
 }
 
 const AnimatedSectionList =
@@ -195,18 +195,18 @@ function TokenBalancesScreen({ navigation }: Props) {
   const positionSections = useMemo(() => {
     const positionsByDapp = new Map<string, Position[]>()
     positions.forEach((position) => {
-      if (positionsByDapp.has(position.appId)) {
-        positionsByDapp.get(position.appId)?.push(position)
+      if (positionsByDapp.has(position.appName)) {
+        positionsByDapp.get(position.appName)?.push(position)
       } else {
-        positionsByDapp.set(position.appId, [position])
+        positionsByDapp.set(position.appName, [position])
       }
     })
 
     const sections: SectionListData<Position>[] = []
-    positionsByDapp.forEach((positions, appId) => {
+    positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
-        appId,
+        appName,
       })
     })
     return sections
@@ -219,10 +219,10 @@ function TokenBalancesScreen({ navigation }: Props) {
   }: {
     section: SectionListData<TokenBalance | Position>
   }) => {
-    if (section.appId) {
+    if (section.appName) {
       return (
         <View style={styles.positionSectionHeaderContainer}>
-          <Text style={styles.positionSectionHeaderText}>{section.appId}</Text>
+          <Text style={styles.positionSectionHeaderText}>{section.appName}</Text>
         </View>
       )
     }

@@ -23,14 +23,12 @@ export const PositionItem = ({ position }: { position: Position }) => {
   return (
     <View style={styles.positionsContainer}>
       <View style={styles.row}>
-        <Image source={{ uri: position.imageUrl }} style={styles.tokenImg} />
+        <Image source={{ uri: position.displayProps.iconUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName} numberOfLines={1}>
-            {position.label}
+            {position.displayProps.title}
           </Text>
-          <Text style={styles.subtext}>
-            {position.tokens.map((token) => token.symbol).join(' / ')}
-          </Text>
+          <Text style={styles.subtext}>{position.displayProps.description}</Text>
         </View>
       </View>
       <View style={styles.balances}>

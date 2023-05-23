@@ -1098,7 +1098,12 @@ export const mockPositions: Position[] = [
     appId: 'ubeswap',
     symbol: 'ULP',
     decimals: 18,
-    label: 'Pool: MOO / CELO',
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'MOO / CELO',
+      description: 'Pool',
+      iconUrl: '',
+    },
     tokens: [
       {
         type: 'base-token',
@@ -1131,7 +1136,12 @@ export const mockPositions: Position[] = [
     appId: 'ubeswap',
     symbol: 'ULP',
     decimals: 18,
-    label: 'Pool: G$ / cUSD',
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'G$ / cUSD',
+      description: 'Pool',
+      iconUrl: '',
+    },
     tokens: [
       {
         type: 'base-token',
@@ -1162,7 +1172,12 @@ export const mockPositions: Position[] = [
     network: 'celo',
     address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
     appId: 'ubeswap',
-    label: 'Farm: Pool: CELO / cUSD',
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'CELO / cUSD',
+      description: 'Farm',
+      iconUrl: '',
+    },
     tokens: [
       {
         type: 'app-token',
@@ -1171,7 +1186,12 @@ export const mockPositions: Position[] = [
         appId: 'ubeswap',
         symbol: 'ULP',
         decimals: 18,
-        label: 'Pool: CELO / cUSD',
+        appName: 'Ubeswap',
+        displayProps: {
+          title: 'CELO / cUSD',
+          description: 'Pool',
+          iconUrl: '',
+        },
         tokens: [
           {
             type: 'base-token',

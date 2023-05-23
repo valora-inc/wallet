@@ -1,13 +1,19 @@
 // Decimal number serialized as a string
 export type SerializedDecimalNumber = string
 
+export interface PositionDisplayProps {
+  title: string
+  description: string
+  iconUrl: string
+}
+
 export interface AbstractPosition {
   address: string // Example: 0x...
   network: string // Example: celo
   appId: string // Example: ubeswap
-  label: string // Example: Pool
+  appName: string
   tokens: Token[]
-  imageUrl: string
+  displayProps: PositionDisplayProps
 }
 
 // There's an opportunity to combine with the types in src/tokens/slice.ts
