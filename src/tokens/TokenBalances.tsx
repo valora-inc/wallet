@@ -1,24 +1,22 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
 import Animated, {
+  interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
-import PercentageIndicator from 'src/components/PercentageIndicator'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -26,10 +24,13 @@ import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
+import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
+import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
   stalePriceSelector,
   tokensWithTokenBalanceSelector,
@@ -37,12 +38,23 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import TokenBalanceItem from 'src/tokens/TokenBalanceItem'
 import { sortByUsdBalance } from 'src/tokens/utils'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
+
+enum ViewType {
+  WalletAssets = 0,
+  Positions = 1,
+}
+
+// offset relative to the bottom of the non sticky header component, where the
+// screen header opacity animation starts
+const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
+// distance in points over which the screen header opacity animation is applied
+const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
@@ -57,25 +69,73 @@ function TokenBalancesScreen({ navigation }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
 
+  const positions = useSelector(positionsSelector)
+  const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+  const displayPositions = showPositions && positions.length > 0
+
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
-  const [assetsComponentHeight, setAssetsComponentHeight] = useState(0)
-  const headerOpacity = useSharedValue(0)
-  const animatedHeaderOpacity = useAnimatedStyle(() => {
-    return {
-      opacity: headerOpacity.value,
-    }
+  const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
+  const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
+  const [listHeaderHeight, setListHeaderHeight] = useState(0)
+
+  const scrollPosition = useSharedValue(0)
+  const handleScroll = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollPosition.value = event.contentOffset.y
+    },
   })
 
-  const scrollHandler = useAnimatedScrollHandler(
-    (event) => {
-      const opacityValue = event.contentOffset.y > assetsComponentHeight ? 1 : 0
-      headerOpacity.value = withTiming(opacityValue)
-    },
-    [assetsComponentHeight]
-  )
+  const animatedScreenHeaderOpacity = useDerivedValue(() => {
+    if (nonStickyHeaderHeight === 0) {
+      // initial render
+      return 0
+    }
+
+    const startAnimationPosition = nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET
+    const animatedValue =
+      (scrollPosition.value - startAnimationPosition) / HEADER_OPACITY_ANIMATION_DISTANCE
+
+    // return only values between 0 and 1
+    return Math.max(0, Math.min(1, animatedValue))
+  }, [scrollPosition.value, nonStickyHeaderHeight])
+
+  const animatedScreenHeaderStyles = useAnimatedStyle(() => {
+    return {
+      opacity: animatedScreenHeaderOpacity.value,
+    }
+  }, [animatedScreenHeaderOpacity.value])
+
+  const animatedListHeaderStyles = useAnimatedStyle(() => {
+    if (nonStickyHeaderHeight === 0 || !displayPositions) {
+      return {
+        shadowColor: 'transparent',
+        transform: [
+          {
+            translateY: -scrollPosition.value,
+          },
+        ],
+      }
+    }
+
+    return {
+      transform: [
+        {
+          translateY:
+            scrollPosition.value > nonStickyHeaderHeight
+              ? -nonStickyHeaderHeight
+              : -scrollPosition.value,
+        },
+      ],
+      shadowColor: interpolateColor(
+        scrollPosition.value,
+        [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
+        ['transparent', 'rgba(48, 46, 37, 0.15)']
+      ),
+    }
+  }, [scrollPosition.value, nonStickyHeaderHeight, displayPositions])
 
   useLayoutEffect(() => {
     const subTitle =
@@ -88,61 +148,19 @@ function TokenBalancesScreen({ navigation }: Props) {
 
     navigation.setOptions({
       headerTitle: () => (
-        <Animated.View style={animatedHeaderOpacity}>
+        <Animated.View style={animatedScreenHeaderStyles}>
           <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
         </Animated.View>
       ),
     })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedHeaderOpacity])
-
-  function isHistoricalPriceUpdated(token: TokenBalance) {
-    return (
-      token.historicalUsdPrices?.lastDay &&
-      TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES >
-        Math.abs(token.historicalUsdPrices.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
-    )
-  }
+  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedScreenHeaderStyles])
 
   function renderTokenBalance({ item: token }: { item: TokenBalance }) {
     return (
-      <View key={`Token${token.address}`} style={styles.tokenContainer}>
-        <View style={styles.row}>
-          <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
-          <View style={styles.tokenLabels}>
-            <Text style={styles.tokenName}>{token.symbol}</Text>
-            <Text style={styles.subtext}>{token.name}</Text>
-          </View>
-        </View>
-        <View style={styles.balances}>
-          <TokenDisplay
-            amount={new BigNumber(token.balance!)}
-            tokenAddress={token.address}
-            style={styles.tokenAmt}
-            showLocalAmount={false}
-            showSymbol={false}
-            testID={`tokenBalance:${token.symbol}`}
-          />
-          {token.usdPrice?.gt(0) && (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-              {showPriceChangeIndicatorInBalances &&
-                token.historicalUsdPrices &&
-                isHistoricalPriceUpdated(token) && (
-                  <PercentageIndicator
-                    testID={`percentageIndicator:${token.symbol}`}
-                    comparedValue={token.historicalUsdPrices.lastDay.price}
-                    currentValue={token.usdPrice}
-                  />
-                )}
-              <TokenDisplay
-                amount={new BigNumber(token.balance!)}
-                tokenAddress={token.address}
-                style={{ ...styles.subtext, marginLeft: 8 }}
-                testID={`tokenLocalBalance:${token.symbol}`}
-              />
-            </View>
-          )}
-        </View>
-      </View>
+      <TokenBalanceItem
+        token={token}
+        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
+      />
     )
   }
 
@@ -153,42 +171,69 @@ function TokenBalancesScreen({ navigation }: Props) {
     })
   }
 
-  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
-    setAssetsComponentHeight(event.nativeEvent.layout.height)
+  const handleMeasureNonStickyHeaderHeight = (event: LayoutChangeEvent) => {
+    setNonStickyHeaderHeight(event.nativeEvent.layout.height)
   }
+
+  const handleMeasureListHeaderHeight = (event: LayoutChangeEvent) => {
+    setListHeaderHeight(event.nativeEvent.layout.height)
+  }
+
+  const segmentedControlValues = useMemo(
+    () => [t('assetsSegmentedControl.walletAssets'), t('assetsSegmentedControl.dappPositions')],
+    [t]
+  )
 
   return (
     <>
-      {shouldVisualizeNFTsInHomeAssetsPage && (
-        <Touchable
-          style={
-            // For larger fonts we need different marginTop for nft banner
-            PixelRatio.getFontScale() > 1.5
-              ? { marginTop: Spacing.Small12 }
-              : PixelRatio.getFontScale() > 1.25
-              ? { marginTop: Spacing.Smallest8 }
-              : null
-          }
-          testID={'NftViewerBanner'}
-          onPress={onPressNFTsBanner}
+      <Animated.View
+        style={[styles.listHeaderContainer, animatedListHeaderStyles]}
+        onLayout={handleMeasureListHeaderHeight}
+      >
+        <View
+          style={[
+            styles.nonStickyHeaderContainer,
+            {
+              paddingBottom: displayPositions ? Spacing.Thick24 : 0,
+            },
+          ]}
+          onLayout={handleMeasureNonStickyHeaderHeight}
         >
-          <View style={styles.bannerContainer}>
-            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
-            <View style={styles.rightInnerContainer}>
-              <Text style={styles.bannerText}>{t('open')}</Text>
-              <OpenLinkIcon color={Colors.greenUI} />
-            </View>
-          </View>
-        </Touchable>
-      )}
-      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
-        <View style={styles.lastDayLabel}>
-          <Text style={styles.lastDayText}>{t('lastDay')}</Text>
+          {shouldVisualizeNFTsInHomeAssetsPage && (
+            <Touchable
+              style={
+                // For larger fonts we need different marginTop for nft banner
+                PixelRatio.getFontScale() > 1.5
+                  ? { marginTop: Spacing.Small12 }
+                  : PixelRatio.getFontScale() > 1.25
+                  ? { marginTop: Spacing.Smallest8 }
+                  : null
+              }
+              testID={'NftViewerBanner'}
+              onPress={onPressNFTsBanner}
+            >
+              <View style={styles.nftBannerContainer}>
+                <Text style={styles.nftBannerText}>{t('nftViewer')}</Text>
+                <View style={styles.nftBannerCtaContainer}>
+                  <Text style={styles.nftBannerText}>{t('open')}</Text>
+                  <OpenLinkIcon color={Colors.greenUI} />
+                </View>
+              </View>
+            </Touchable>
+          )}
+          <AssetsTokenBalance showInfo={displayPositions} />
         </View>
-      )}
-
+        {displayPositions && (
+          <SegmentedControl
+            values={segmentedControlValues}
+            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
+            onChange={(_, index) => {
+              setActiveView(index)
+            }}
+          />
+        )}
+      </Animated.View>
       <Animated.FlatList
-        style={styles.flatListContainer}
         contentContainerStyle={{
           paddingBottom: insets.bottom,
         }}
@@ -197,8 +242,9 @@ function TokenBalancesScreen({ navigation }: Props) {
         data={tokens.sort(sortByUsdBalance)}
         renderItem={renderTokenBalance}
         keyExtractor={(item) => item.address}
-        ListHeaderComponent={<AssetsTokenBalance onLayout={handleMeasureHeaderHeight} />}
-        onScroll={scrollHandler}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
       />
     </>
   )
@@ -209,72 +255,37 @@ TokenBalancesScreen.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  tokenImg: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
-    marginRight: Spacing.Regular16,
-  },
-  tokenContainer: {
-    flexDirection: 'row',
-    paddingBottom: Spacing.Large32,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  tokenLabels: {
-    flexShrink: 1,
-    flexDirection: 'column',
-  },
-  balances: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  flatListContainer: {
-    paddingHorizontal: Spacing.Thick24,
-  },
-  tokenName: {
-    ...fontStyles.large600,
-  },
-  subtext: {
-    ...fontStyles.small,
-    color: Colors.gray4,
-  },
-  tokenAmt: {
-    ...fontStyles.large600,
-  },
-  lastDayText: {
-    ...fontStyles.small500,
-    color: Colors.gray4,
-    marginHorizontal: Spacing.Regular16,
-  },
-  lastDayLabel: {
-    marginTop: Spacing.Regular16,
-    flexDirection: 'row-reverse',
-  },
-  bannerContainer: {
-    marginTop: Spacing.Smallest8,
+  nftBannerContainer: {
+    marginHorizontal: -Spacing.Thick24,
+    marginBottom: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
     paddingVertical: 4,
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    width: '100%',
     alignItems: 'center',
     backgroundColor: Colors.gray1,
     flexDirection: 'row',
   },
-  bannerText: {
+  nftBannerText: {
     ...fontStyles.small500,
     color: Colors.greenUI,
     marginRight: 4,
   },
-  rightInnerContainer: {
+  nftBannerCtaContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  listHeaderContainer: {
+    ...getShadowStyle(Shadow.SoftLight),
+    padding: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
+    backgroundColor: Colors.light,
+    position: 'absolute',
+    width: '100%',
+    zIndex: 1,
+  },
+  nonStickyHeaderContainer: {
+    zIndex: 1,
   },
 })
 

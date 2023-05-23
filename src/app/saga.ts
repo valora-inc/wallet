@@ -55,6 +55,7 @@ import {
   DYNAMIC_LINK_DOMAIN_URI_PREFIX,
   FETCH_TIMEOUT_DURATION,
 } from 'src/config'
+import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
@@ -88,6 +89,7 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { swapSuccess } from 'src/swap/slice'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -540,9 +542,11 @@ export function* requestInAppReview() {
 }
 
 export function* watchAppReview() {
-  // TODO: add more actions to trigger app review
-  // non liquidating transaction (to include dapp tx, sends, cash ins, celo buy/sell, swap) and/or supercharge claim
-  yield takeLatest([SendActions.SEND_PAYMENT_SUCCESS], safely(requestInAppReview))
+  // Triggers on successful payment, swap, or rewards claim
+  yield takeLatest(
+    [SendActions.SEND_PAYMENT_SUCCESS, swapSuccess, claimRewardsSuccess],
+    safely(requestInAppReview)
+  )
 }
 
 export function* appSaga() {
