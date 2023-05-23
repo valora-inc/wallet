@@ -9,7 +9,7 @@
 
   // Only automerge when the team is mostly offline
   automergeSchedule: [
-    'after 5pm and before 12am every day', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
+    'after 5pm', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
     'on saturday',
   ],
 
