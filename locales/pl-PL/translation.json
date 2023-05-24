@@ -1229,7 +1229,12 @@
   "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
-  "totalAssets": "Aktywa",
+  "totalAssets": "Moje aktywa",
+  "totalAssetsInfo": "Obejmuje szacunkową sumę aktywów portfela i pozycji aplikacji.",
+  "assetsSegmentedControl": {
+    "walletAssets": "Zasoby portfela",
+    "dappPositions": "Pozycje aplikacji"
+  },
   "open": "Otwórz",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
