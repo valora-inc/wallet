@@ -4,13 +4,53 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
+import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
+import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
-const TokenBalanceItem = ({
+export const PositionItem = ({ position }: { position: Position }) => {
+  const balanceInDecimal =
+    position.type === 'contract-position' ? undefined : new BigNumber(position.balance)
+  const balanceUsd =
+    position.type === 'contract-position'
+      ? new BigNumber(position.balanceUsd)
+      : new BigNumber(position.balance).multipliedBy(position.priceUsd)
+
+  return (
+    <View testID="PositionItem" style={styles.positionsContainer}>
+      <View style={styles.row}>
+        <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
+        <View style={styles.tokenLabels}>
+          <Text style={styles.tokenName} numberOfLines={1}>
+            {position.displayProps.title}
+          </Text>
+          <Text style={styles.subtext}>{position.displayProps.description}</Text>
+        </View>
+      </View>
+      <View style={styles.balances}>
+        {balanceUsd.gt(0) && (
+          <TokenDisplay amount={balanceUsd} currency={Currency.Dollar} style={styles.tokenAmt} />
+        )}
+        {balanceInDecimal && (
+          <TokenDisplay
+            amount={balanceInDecimal}
+            // Hack to display the token balance without having said token in the base token list
+            currency={Currency.Celo}
+            style={styles.subtext}
+            showLocalAmount={false}
+            showSymbol={false}
+          />
+        )}
+      </View>
+    </View>
+  )
+}
+
+export const TokenBalanceItem = ({
   token,
   showPriceChangeIndicatorInBalances,
 }: {
@@ -26,7 +66,7 @@ const TokenBalanceItem = ({
   }
 
   return (
-    <View key={`Token${token.address}`} style={styles.container}>
+    <View testID="TokenBalanceItem" key={`Token${token.address}`} style={styles.container}>
       <View style={styles.row}>
         <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
@@ -79,7 +119,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Thick24,
     paddingBottom: Spacing.Large32,
     justifyContent: 'space-between',
-    alignItems: 'center',
+  },
+  positionsContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: Spacing.Thick24,
+    paddingBottom: Spacing.Thick24,
+    justifyContent: 'space-between',
   },
   tokenContainer: {
     flexDirection: 'row',
@@ -91,13 +136,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   balances: {
-    flex: 1,
     alignItems: 'flex-end',
   },
   row: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: Spacing.Small12,
   },
   tokenName: {
     ...fontStyles.large600,
@@ -110,5 +155,3 @@ const styles = StyleSheet.create({
     ...fontStyles.large600,
   },
 })
-
-export default TokenBalanceItem
