@@ -6,6 +6,7 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
@@ -14,7 +15,12 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockFiatConnectProviderInfo, mockFiatConnectQuotes } from 'test/values'
+import {
+  mockCusdAddress,
+  mockFiatConnectProviderInfo,
+  mockFiatConnectQuotes,
+  mockProviderSelectionAnalyticsData,
+} from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/contracts', () => ({
@@ -243,14 +249,82 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.onPress', () => {
-    it('returns a function that calls ValoraAnalytics', () => {
+    it('returns a function that calls ValoraAnalytics with right properties for quote with lowest fee', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
-      expect(ValoraAnalytics.track).toHaveBeenCalled()
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        '1.00'
+      )()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_quote_selected,
+        {
+          flow: CICOFlow.CashIn,
+          paymentMethod: PaymentMethod.Bank,
+          provider: mockFiatConnectQuotes[1].provider.id,
+          feeCryptoAmount: '1.00',
+          kycRequired: false,
+          isLowestFee: true,
+          ...mockProviderSelectionAnalyticsData,
+        }
+      )
+    })
+
+    it('returns a function that calls ValoraAnalytics with right properties for quote with higher fee', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        '2.00'
+      )()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_quote_selected,
+        {
+          flow: CICOFlow.CashIn,
+          paymentMethod: PaymentMethod.Bank,
+          provider: mockFiatConnectQuotes[1].provider.id,
+          feeCryptoAmount: '2.00',
+          kycRequired: false,
+          isLowestFee: false,
+          ...mockProviderSelectionAnalyticsData,
+        }
+      )
+    })
+
+    it('returns a function that calls ValoraAnalytics with right properties for quote with no fee', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        undefined
+      )()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_quote_selected,
+        {
+          flow: CICOFlow.CashIn,
+          paymentMethod: PaymentMethod.Bank,
+          provider: mockFiatConnectQuotes[1].provider.id,
+          feeCryptoAmount: undefined,
+          kycRequired: false,
+          isLowestFee: undefined,
+          ...mockProviderSelectionAnalyticsData,
+        }
+      )
     })
   })
 
