@@ -90,8 +90,9 @@ function ActionsCarousel() {
       contentContainerStyle={styles.carouselContainer}
       testID={'HomeActionsCarousel'}
     >
-      {actions.map(({ name, title, icon, onPress, hidden }) =>
-        hidden ? undefined : (
+      {actions
+        .filter(({ hidden }) => !hidden)
+        .map(({ name, title, icon, onPress }) => (
           <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
             <Touchable
               onPress={() => {
@@ -109,8 +110,7 @@ function ActionsCarousel() {
               </>
             </Touchable>
           </Card>
-        )
-      )}
+        ))}
     </ScrollView>
   )
 }
