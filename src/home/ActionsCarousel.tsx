@@ -18,9 +18,13 @@ import { Screens } from 'src/navigator/Screens'
 import { CloseIcon } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { useSelector } from 'react-redux'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 
 function ActionsCarousel() {
   const { t } = useTranslation()
+
+  const shouldShowSwapAction = useSelector(isAppSwapsEnabledSelector)
 
   const actions = [
     {
@@ -59,6 +63,7 @@ function ActionsCarousel() {
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
+      hidden: !shouldShowSwapAction,
     },
     {
       name: HomeActionName.Request,
@@ -85,25 +90,27 @@ function ActionsCarousel() {
       contentContainerStyle={styles.carouselContainer}
       testID={'HomeActionsCarousel'}
     >
-      {actions.map(({ name, title, icon, onPress }) => (
-        <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
-          <Touchable
-            onPress={() => {
-              ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
-              onPress()
-            }}
-            style={styles.touchable}
-            testID={`HomeAction-${name}`}
-          >
-            <>
-              {icon}
-              <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
-                {title}
-              </Text>
-            </>
-          </Touchable>
-        </Card>
-      ))}
+      {actions.map(({ name, title, icon, onPress, hidden }) =>
+        hidden ? undefined : (
+          <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
+            <Touchable
+              onPress={() => {
+                ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+                onPress()
+              }}
+              style={styles.touchable}
+              testID={`HomeAction-${name}`}
+            >
+              <>
+                {icon}
+                <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
+                  {title}
+                </Text>
+              </>
+            </Touchable>
+          </Card>
+        )
+      )}
     </ScrollView>
   )
 }
