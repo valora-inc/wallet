@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Ensuite, ajoute ton numéro de téléphone",
-      "subtitle": "Tu devras utiliser ce numéro de téléphone pour restaurer si jamais tu perds ton portefeuille.\n\nNous t'enverrons un code pour vérifier que ce numéro est bien le tien."
+      "title": "Ensuite, ajoutez votre numéro de téléphone",
+      "subtitle": "Vous devrez utiliser ce numéro de téléphone pour restaurer votre portefeuille.\n\nNous vous enverrons un code pour vérifier que ce numéro est le vôtre."
     },
     "restore": {
-      "title": "Vérifie ton numéro de téléphone",
-      "subtitle": "Saisis le numéro de téléphone que tu as utilisé précédemment pour mettre en place la sauvegarde.\n\nNous t'enverrons un code pour vérifier que ce numéro est bien le tien."
+      "title": "Confirmez votre numéro de téléphone",
+      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
     }
   },
   "setupKeylessBackupReminder": "<0>Souvenez-vous</0>, ces informations sont votre seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Gardez-les en sécurité !",
