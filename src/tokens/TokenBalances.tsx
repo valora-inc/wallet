@@ -157,6 +157,8 @@ function TokenBalancesScreen({ navigation, route }: Props) {
         [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
         ['transparent', 'rgba(48, 46, 37, 0.15)']
       ),
+      backgroundColor: scrollPosition.value > nonStickyHeaderHeight ? Colors.light : 'transparent',
+      zIndex: scrollPosition.value < 0 ? 0 : 1, // on ios overscoll, ensure scrollbar is above the header
     }
   }, [scrollPosition.value, nonStickyHeaderHeight, displayPositions])
 
@@ -355,7 +357,6 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
-    backgroundColor: Colors.light,
     position: 'absolute',
     width: '100%',
     zIndex: 1,
