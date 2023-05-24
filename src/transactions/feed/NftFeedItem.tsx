@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
@@ -12,8 +11,6 @@ import { Screens } from 'src/navigator/Screens'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
   transaction: NftTransfer
@@ -21,12 +18,10 @@ interface Props {
 
 function NftFeedItem({ transaction }: Props) {
   const { t } = useTranslation()
-  const walletAddress = useSelector(walletAddressSelector)
+  const { nfts } = transaction
 
   const openNftTransactionDetails = () => {
-    navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
-    })
+    navigate(Screens.NftInfoCarousel, { nfts })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
