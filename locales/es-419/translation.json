@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "A continuación, añade tu número de teléfono",
-      "subtitle": "Necesitarás utilizar este número de teléfono para restaurar si alguna vez pierdes tu monedero.\n\nTe enviaremos un código para verificar que este número es tuyo."
+      "title": "Agrega tu número de teléfono",
+      "subtitle": "Necesitarás utilizar este número de teléfono para restaurar tu wallet.\n\nTe enviaremos un código para verificar que este número es tuyo."
     },
     "restore": {
       "title": "Verifica tu número de teléfono",
-      "subtitle": "Introduce el número de teléfono que utilizaste anteriormente para configurar la copia de seguridad.\n\nTe enviaremos un código para verificar que ese número es tuyo."
+      "subtitle": "Ingresa el número de teléfono que utilizaste para configurar la copia de seguridad.\n\nTe enviaremos un código para verificar que este número es tuyo."
     }
   },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
@@ -1226,10 +1226,10 @@
   "totalValue": "Saldo total",
   "viewBalances": "Ver activos",
   "totalAssets": "Mis activos",
-  "totalAssetsInfo": "Incluye el total estimado de activos de monedero y posiciones de dapp",
+  "totalAssetsInfo": "Total estimado de activos en tu wallet y posiciones DeFi",
   "assetsSegmentedControl": {
-    "walletAssets": "Activos del monedero",
-    "dappPositions": "Puestos de dapp"
+    "walletAssets": "Activos de wallet",
+    "dappPositions": "Posiciones DeFi"
   },
   "open": "Abrir",
   "nftViewer": "NFT Viewer",
