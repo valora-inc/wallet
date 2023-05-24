@@ -1226,6 +1226,11 @@
   "totalValue": "Saldo total",
   "viewBalances": "Ver activos",
   "totalAssets": "Mis activos",
+  "totalAssetsInfo": "Incluye el total estimado de activos de monedero y posiciones de dapp",
+  "assetsSegmentedControl": {
+    "walletAssets": "Activos del monedero",
+    "dappPositions": "Puestos de dapp"
+  },
   "open": "Abrir",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
