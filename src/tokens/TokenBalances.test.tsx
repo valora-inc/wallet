@@ -9,6 +9,7 @@ import { getFeatureGate } from 'src/statsig'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeurAddress,
@@ -177,7 +178,7 @@ describe('TokenBalancesScreen', () => {
 
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
-        <TokenBalancesScreen {...mockScreenProps} />
+        <MockedNavigator component={TokenBalancesScreen} />
       </Provider>
     )
 
@@ -197,7 +198,7 @@ describe('TokenBalancesScreen', () => {
 
     const { getAllByTestId, getByText } = render(
       <Provider store={store}>
-        <TokenBalancesScreen {...mockScreenProps} />
+        <MockedNavigator component={TokenBalancesScreen} />
       </Provider>
     )
 
