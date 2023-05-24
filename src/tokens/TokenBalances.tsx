@@ -213,7 +213,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<Position>[] = []
+    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -229,12 +229,14 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalance | Position>
+    section: SectionListData<TokenBalance | Position, SectionData>
   }) => {
     if (section.appName) {
       return (
         <View style={styles.positionSectionHeaderContainer}>
-          <Text style={styles.positionSectionHeaderText}>{section.appName}</Text>
+          <Text style={styles.positionSectionHeaderText}>
+            {section.appName.toLocaleUpperCase()}
+          </Text>
         </View>
       )
     }
