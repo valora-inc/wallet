@@ -30,7 +30,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
         ],
       ]
     }
-    testID="IncomingPaymentRequestNotification/1"
+    testID="IncomingPaymentRequestNotification/FAKE_ID_2"
   >
     <View
       style={
@@ -59,7 +59,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
               "marginBottom": 4,
             }
           }
-          testID="IncomingPaymentRequestNotification/1/Title"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_2/Title"
         >
           incomingPaymentRequestNotificationTitle, {"name":"John Doe"}
         </Text>
@@ -74,7 +74,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
               "marginBottom": 2,
             }
           }
-          testID="IncomingPaymentRequestNotification/1/Amount"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_2/Amount"
         >
           <Text
             style={
@@ -88,7 +88,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
             testID="undefined/value"
           >
             ₱
-            31.92
+            240.58
           </Text>
         </Text>
         <Text
@@ -100,9 +100,9 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
               "lineHeight": 18,
             }
           }
-          testID="IncomingPaymentRequestNotification/1/Details"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_2/Details"
         >
-          Hey thanks for the loan, Ill pay you back ASAP. LOVE YOU
+          My Birthday Present. :) Am I not the best? Celebration. Bam!
         </Text>
       </View>
       <View
@@ -166,7 +166,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
           "justifyContent": "flex-start",
         }
       }
-      testID="IncomingPaymentRequestNotification/1/CallToActions"
+      testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions"
     >
       <View
         accessible={true}
@@ -185,7 +185,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        testID="IncomingPaymentRequestNotification/1/CallToActions/send/Button"
+        testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/send/Button"
       >
         <Text
           style={
@@ -226,7 +226,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        testID="IncomingPaymentRequestNotification/1/CallToActions/decline/Button"
+        testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/decline/Button"
       >
         <Text
           style={

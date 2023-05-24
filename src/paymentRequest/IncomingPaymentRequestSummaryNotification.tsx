@@ -13,7 +13,7 @@ import SummaryNotification from 'src/notifications/SummaryNotification'
 import { listItemRenderer } from 'src/paymentRequest/IncomingPaymentRequestListScreen'
 import PaymentRequestNotificationInner from 'src/paymentRequest/PaymentRequestNotificationInner'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
+import { RecipientInfo, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 
@@ -53,12 +53,10 @@ export class IncomingPaymentRequestSummaryNotification extends React.Component<P
   }
 
   render() {
-    const { recipientInfo, requests, t } = this.props
+    const { requests, t } = this.props
 
     return requests.length === 1 ? (
-      listItemRenderer({
-        recipientInfo,
-      })(requests[0])
+      listItemRenderer()(requests[0])
     ) : (
       <SummaryNotification<PaymentRequest>
         items={requests}
