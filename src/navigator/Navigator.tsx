@@ -81,6 +81,7 @@ import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
+import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
@@ -560,6 +561,17 @@ const swapScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const nftScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.NftInfoCarousel}
+      component={NftsInfoCarousel}
+      options={noHeader}
+    />
+  </>
+)
+
+
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
@@ -623,6 +635,7 @@ export function MainStackScreen() {
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
       {swapScreens(Stack)}
+      {nftScreens(Stack)}
     </Stack.Navigator>
   )
 }
