@@ -8,9 +8,18 @@
   timezone: 'America/Los_Angeles',
 
   // Only automerge when the team is mostly offline
+  //  NOTE: base config uses platformAutomerge: true, so this only takes effect after the PR is updated.
+  //        To make sure GitHub-managed automerges only take place during the schedule, we also set "schedule"
   automergeSchedule: [
     'after 5pm', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
-    'on saturday',
+    'every weekend',
+  ],
+
+  // Only open PRs and rebase branches when the team is mostly offline
+  // See note above about platform automerge.
+  schedule: [
+    'after 5pm', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
+    'every weekend',
   ],
 
   // The order of objects in the packageRules array does matter,
