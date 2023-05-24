@@ -1126,4 +1126,11 @@ export const migrations = {
     },
   }),
   127: (state: any) => state,
+  128: (state: any) => ({
+    ...state,
+    positions: {
+      ...state.positions,
+      positions: [],
+    },
+  }),
 }

@@ -22,6 +22,7 @@ import {
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
+import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
@@ -389,7 +390,11 @@ export type StackParamList = {
     recipientAddress?: string
   }
   [Screens.WithdrawSpend]: undefined
-  [Screens.TokenBalances]: undefined
+  [Screens.TokenBalances]:
+    | {
+        activeView: AssetViewType
+      }
+    | undefined
 }
 
 export type QRTabParamList = {

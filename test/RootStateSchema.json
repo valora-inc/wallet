@@ -218,6 +218,7 @@
                                 "importContactsFailed",
                                 "incorrectPin",
                                 "insufficientBalance",
+                                "insufficientBalanceStable",
                                 "invalidAmount",
                                 "invalidBackupPhrase",
                                 "invalidPhone",
@@ -296,14 +297,17 @@
                 "appId": {
                     "type": "string"
                 },
+                "appName": {
+                    "type": "string"
+                },
                 "balance": {
                     "type": "string"
                 },
                 "decimals": {
                     "type": "number"
                 },
-                "label": {
-                    "type": "string"
+                "displayProps": {
+                    "$ref": "#/definitions/PositionDisplayProps"
                 },
                 "network": {
                     "type": "string"
@@ -346,9 +350,10 @@
             "required": [
                 "address",
                 "appId",
+                "appName",
                 "balance",
                 "decimals",
-                "label",
+                "displayProps",
                 "network",
                 "pricePerShare",
                 "priceUsd",
@@ -729,11 +734,14 @@
                 "appId": {
                     "type": "string"
                 },
+                "appName": {
+                    "type": "string"
+                },
                 "balanceUsd": {
                     "type": "string"
                 },
-                "label": {
-                    "type": "string"
+                "displayProps": {
+                    "$ref": "#/definitions/PositionDisplayProps"
                 },
                 "network": {
                     "type": "string"
@@ -761,8 +769,9 @@
             "required": [
                 "address",
                 "appId",
+                "appName",
                 "balanceUsd",
-                "label",
+                "displayProps",
                 "network",
                 "tokens",
                 "type"
@@ -2037,6 +2046,26 @@
                 "Unset"
             ],
             "type": "string"
+        },
+        "PositionDisplayProps": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "imageUrl",
+                "title"
+            ],
+            "type": "object"
         },
         "ProposalTypes.RequiredNamespaces": {
             "additionalProperties": false,
