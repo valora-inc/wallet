@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Em seguida, adicione o seu número de telefone",
-      "subtitle": "Terá de utilizar este número de telefone para efectuar o restauro se perder a sua carteira.\n\nEnviar-lhe-emos um código para verificar se este número é seu."
+      "title": "Adicione o seu número de celular",
+      "subtitle": "Terá de utilizar este número de celular para restaurar a sua carteira.\n\nEnviaremos um código para verificar se este número é seu."
     },
     "restore": {
-      "title": "Verificar o seu número de telefone",
-      "subtitle": "Introduza o número de telefone que utilizou anteriormente para configurar a cópia de segurança.\n\nEnviar-lhe-emos um código para verificar se este número é seu."
+      "title": "Confirme o número de celular",
+      "subtitle": "Insira o número de celular que utilizou para configurar a cópia de segurança.\n\nTerá de utilizar este número de celular para restaurar a sua carteira."
     }
   },
   "setupKeylessBackupReminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. Você deve protegê-las!",
@@ -1225,11 +1225,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo total",
   "viewBalances": "Ver ativos",
-  "totalAssets": "Os meus activos",
-  "totalAssetsInfo": "Inclui o total estimado de activos de carteira e posições de dapp",
+  "totalAssets": "Ativos",
+  "totalAssetsInfo": "O total estimado de ativos da carteira e posições DeFi",
   "assetsSegmentedControl": {
-    "walletAssets": "Activos da carteira",
-    "dappPositions": "Posições Dapp"
+    "walletAssets": "Ativos da carteira",
+    "dappPositions": "Posições DeFi"
   },
   "open": "Abrir",
   "nftViewer": "NFT Viewer",
