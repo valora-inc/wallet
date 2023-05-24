@@ -77,8 +77,8 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
     const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
     if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
-      // Should never happen in producton
-      throw new Error('No token address found for cUSD')
+      // Should never happen in production
+      throw new Error('No token address found for cUSD or cEUR')
     }
     // If the user has enough cUSD balance, pay with cUSD
     // Else, try with cEUR
@@ -86,7 +86,10 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     let transactionData: TransactionDataInput
     const usdRequested = new BigNumber(paymentRequest.amount)
 
-    if (usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance)) {
+    if (
+      cUsdTokenInfo.usdPrice &&
+      usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.usdPrice))
+    ) {
       transactionData = {
         comment: paymentRequest.comment,
         recipient: requester,
