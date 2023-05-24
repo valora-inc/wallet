@@ -21,7 +21,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
-import { HomeEvents } from 'src/analytics/Events'
+import { AssetsEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
@@ -193,6 +193,15 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     setListHeaderHeight(event.nativeEvent.layout.height)
   }
 
+  const handleChangeActiveView = (_: string, index: number) => {
+    navigation.setParams({ activeView: index })
+    ValoraAnalytics.track(
+      index === AssetViewType.WalletAssets
+        ? AssetsEvents.view_wallet_assets
+        : AssetsEvents.view_dapp_positions
+    )
+  }
+
   const tokenItems = useMemo(() => tokens.sort(sortByUsdBalance), [tokens])
   const positionSections = useMemo(() => {
     const positionsByDapp = new Map<string, Position[]>()
@@ -294,9 +303,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
           <SegmentedControl
             values={segmentedControlValues}
             selectedIndex={activeView === AssetViewType.WalletAssets ? 0 : 1}
-            onChange={(_, index) => {
-              navigation.setParams({ activeView: index })
-            }}
+            onChange={handleChangeActiveView}
           />
         )}
       </Animated.View>

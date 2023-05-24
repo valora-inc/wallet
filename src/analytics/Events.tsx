@@ -590,6 +590,12 @@ export enum TokenBottomSheetEvents {
   search_token = 'search_token', // When a user searches a token using the token bottom sheet search box
 }
 
+export enum AssetsEvents {
+  show_asset_balance_info = 'show_asset_balance_info', // When a user taps on the info icon
+  view_wallet_assets = 'view_wallet_assets', // When a user taps on the "Wallet Assets" segmented control
+  view_dapp_positions = 'view_dapp_positions', // When a user taps on the "Dapp Positions" segmented control
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -619,3 +625,4 @@ export type AnalyticsEventType =
   | SwapEvents
   | CeloNewsEvents
   | TokenBottomSheetEvents
+  | AssetsEvents
