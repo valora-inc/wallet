@@ -23,7 +23,7 @@ const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
-  version: 127,
+  version: 128,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['networkInfo', 'alert', 'imports', 'swap', 'keylessBackup'],
@@ -123,6 +123,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'goldToken',
           'stableToken',
           'send',
+          'positions',
           'home',
           // "exchange",
           // "tokens",

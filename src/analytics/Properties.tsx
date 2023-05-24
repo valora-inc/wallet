@@ -8,10 +8,11 @@ import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
+  AssetsEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1235,6 +1236,12 @@ interface TokenBottomSheetEventsProperties {
   }
 }
 
+interface AssetsEventsProperties {
+  [AssetsEvents.show_asset_balance_info]: undefined
+  [AssetsEvents.view_wallet_assets]: undefined
+  [AssetsEvents.view_dapp_positions]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1265,4 +1272,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
-  TokenBottomSheetEventsProperties
+  TokenBottomSheetEventsProperties &
+  AssetsEventsProperties

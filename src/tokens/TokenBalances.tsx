@@ -2,7 +2,16 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import {
+  LayoutChangeEvent,
+  PixelRatio,
+  SectionList,
+  SectionListData,
+  SectionListProps,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import Animated, {
   interpolateColor,
   useAnimatedScrollHandler,
@@ -12,7 +21,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
-import { HomeEvents } from 'src/analytics/Events'
+import { AssetsEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
@@ -25,11 +34,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { Position } from 'src/positions/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
+import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
   stalePriceSelector,
@@ -38,14 +49,24 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import TokenBalanceItem from 'src/tokens/TokenBalanceItem'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
+interface SectionData {
+  appName?: string
+}
 
-enum ViewType {
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
+    SectionList
+  )
+
+const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
+  'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
+
+export enum AssetViewType {
   WalletAssets = 0,
   Positions = 1,
 }
@@ -56,8 +77,11 @@ const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
 // distance in points over which the screen header opacity animation is applied
 const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
-function TokenBalancesScreen({ navigation }: Props) {
+function TokenBalancesScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
+
+  const activeView = route.params?.activeView ?? AssetViewType.WalletAssets
+
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
@@ -77,7 +101,6 @@ function TokenBalancesScreen({ navigation }: Props) {
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
-  const [activeView, setActiveView] = useState<ViewType>(ViewType.WalletAssets)
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
 
@@ -155,15 +178,6 @@ function TokenBalancesScreen({ navigation }: Props) {
     })
   }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedScreenHeaderStyles])
 
-  function renderTokenBalance({ item: token }: { item: TokenBalance }) {
-    return (
-      <TokenBalanceItem
-        token={token}
-        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
-      />
-    )
-  }
-
   const onPressNFTsBanner = () => {
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
     navigate(Screens.WebViewScreen, {
@@ -177,6 +191,68 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   const handleMeasureListHeaderHeight = (event: LayoutChangeEvent) => {
     setListHeaderHeight(event.nativeEvent.layout.height)
+  }
+
+  const handleChangeActiveView = (_: string, index: number) => {
+    navigation.setParams({ activeView: index })
+    ValoraAnalytics.track(
+      index === AssetViewType.WalletAssets
+        ? AssetsEvents.view_wallet_assets
+        : AssetsEvents.view_dapp_positions
+    )
+  }
+
+  const tokenItems = useMemo(() => tokens.sort(sortByUsdBalance), [tokens])
+  const positionSections = useMemo(() => {
+    const positionsByDapp = new Map<string, Position[]>()
+    positions.forEach((position) => {
+      if (positionsByDapp.has(position.appName)) {
+        positionsByDapp.get(position.appName)?.push(position)
+      } else {
+        positionsByDapp.set(position.appName, [position])
+      }
+    })
+
+    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
+    positionsByDapp.forEach((positions, appName) => {
+      sections.push({
+        data: positions,
+        appName,
+      })
+    })
+    return sections
+  }, [positions])
+
+  const sections =
+    activeView === AssetViewType.WalletAssets ? [{ data: tokenItems }] : positionSections
+
+  const renderSectionHeader = ({
+    section,
+  }: {
+    section: SectionListData<TokenBalance | Position, SectionData>
+  }) => {
+    if (section.appName) {
+      return (
+        <View style={styles.positionSectionHeaderContainer}>
+          <Text style={styles.positionSectionHeaderText}>
+            {section.appName.toLocaleUpperCase()}
+          </Text>
+        </View>
+      )
+    }
+    return null
+  }
+
+  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
+    if (assetIsPosition(item)) {
+      return <PositionItem position={item} />
+    }
+    return (
+      <TokenBalanceItem
+        token={item}
+        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
+      />
+    )
   }
 
   const segmentedControlValues = useMemo(
@@ -226,21 +302,21 @@ function TokenBalancesScreen({ navigation }: Props) {
         {displayPositions && (
           <SegmentedControl
             values={segmentedControlValues}
-            selectedIndex={activeView === ViewType.WalletAssets ? 0 : 1}
-            onChange={(_, index) => {
-              setActiveView(index)
-            }}
+            selectedIndex={activeView === AssetViewType.WalletAssets ? 0 : 1}
+            onChange={handleChangeActiveView}
           />
         )}
       </Animated.View>
-      <Animated.FlatList
+      <AnimatedSectionList
         contentContainerStyle={{
           paddingBottom: insets.bottom,
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
-        data={tokens.sort(sortByUsdBalance)}
-        renderItem={renderTokenBalance}
+        // @ts-ignore can't get the SectionList to accept a union type :(
+        sections={sections}
+        renderItem={renderAssetItem}
+        renderSectionHeader={renderSectionHeader}
         keyExtractor={(item) => item.address}
         onScroll={handleScroll}
         scrollEventThrottle={16}
@@ -283,6 +359,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     zIndex: 1,
+  },
+  positionSectionHeaderContainer: {
+    padding: Spacing.Thick24,
+    paddingTop: Spacing.Regular16,
+  },
+  positionSectionHeaderText: {
+    ...fontStyles.xsmall600,
+    color: Colors.gray5,
   },
   nonStickyHeaderContainer: {
     zIndex: 1,
