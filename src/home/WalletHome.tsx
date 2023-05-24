@@ -187,7 +187,7 @@ function WalletHome() {
       edges={!showHomeNavBar ? ['top'] : undefined}
     >
       <DrawerTopBar
-        middleElement={showQrScanner ? undefined : <Logo testID={'WalletHome/Logo'} />}
+        middleElement={showQrScanner ? undefined : <Logo testID="WalletHome/Logo" />}
         rightElement={
           showQrScanner ? (
             <QrScanButton testID={'WalletHome/QRScanButton'} fromScreen={Screens.WalletHome} />
