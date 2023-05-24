@@ -65,6 +65,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
+import { Screens } from 'src/navigator/Screens'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
 
@@ -975,6 +976,9 @@ interface QrScreenProperties {
   [QrScreenEvents.qr_screen_bottom_sheet_close]: undefined
   [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
     exchange: string
+  }
+  [QrScreenEvents.qr_scanner_open]: {
+    fromScreen: Screens
   }
 }
 interface FiatConnectKycProperties {

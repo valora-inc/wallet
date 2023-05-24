@@ -37,6 +37,8 @@ import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
+import QrScanButton from 'src/components/QrScanButton'
+import { Screens } from 'src/navigator/Screens'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -59,7 +61,7 @@ function WalletHome() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
-  const { showHomeActions, showHomeNavBar } = getExperimentParams(
+  const { showHomeActions, showHomeNavBar, showQrScanner } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
 
@@ -184,7 +186,15 @@ function WalletHome() {
       style={styles.container}
       edges={!showHomeNavBar ? ['top'] : undefined}
     >
-      <DrawerTopBar middleElement={<Logo />} scrollPosition={scrollPosition} />
+      <DrawerTopBar
+        middleElement={showQrScanner ? undefined : <Logo testID={'WalletHome/Logo'} />}
+        rightElement={
+          showQrScanner ? (
+            <QrScanButton testID={'WalletHome/QRScanButton'} fromScreen={Screens.WalletHome} />
+          ) : undefined
+        }
+        scrollPosition={scrollPosition}
+      />
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
