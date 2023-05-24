@@ -3,30 +3,73 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
-import { TokenTransactionType } from 'src/apollo/types'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddressValidationType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
-import { Currency } from 'src/utils/currencies'
+import { TransactionDataInput } from 'src/send/SendAmount'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockInvitableRecipient } from 'test/values'
+import {
+  mockCeurAddress,
+  mockCusdAddress,
+  mockE164Number,
+  mockPaymentRequests,
+  mockRecipient,
+  mockTokenBalances,
+} from 'test/values'
 
-const props = {
-  id: '1',
-  amount: '24',
-  comment: 'Hey thanks for the loan, Ill pay you back ASAP. LOVE YOU',
-  requester: mockInvitableRecipient,
+jest.mock('src/recipients/recipient', () => ({
+  ...(jest.requireActual('src/recipients/recipient') as any),
+  getRecipientFromAddress: jest.fn(() => mockRecipient),
+}))
+
+const mockPaymentRequest = mockPaymentRequests[1]
+
+const balances = {
+  tokenBalances: {
+    ...mockTokenBalances,
+    [mockCusdAddress]: {
+      ...mockTokenBalances[mockCusdAddress],
+      balance: '200',
+    },
+  },
 }
 
-const mockTransactionData = {
-  recipient: props.requester,
-  amount: new BigNumber(props.amount),
-  currency: Currency.Dollar,
-  reason: props.comment,
-  type: TokenTransactionType.PayRequest,
-  firebasePendingRequestUid: props.id,
+const expectedTransactionData: TransactionDataInput = {
+  comment: mockPaymentRequest.comment,
+  recipient: mockRecipient,
+  inputAmount: new BigNumber(mockPaymentRequest.amount),
+  tokenAmount: new BigNumber(mockPaymentRequest.amount),
+  amountIsInLocalCurrency: false,
+  tokenAddress: mockCusdAddress,
+  paymentRequestId: mockPaymentRequest.uid,
+}
+
+const identityLoading = {
+  secureSendPhoneNumberMapping: {
+    [mockE164Number]: {
+      addressValidationType: AddressValidationType.NONE,
+      isFetchingAddresses: true,
+      lastFetchSuccessful: true,
+    },
+  },
+}
+
+const identityLoaded = {
+  secureSendPhoneNumberMapping: {
+    [mockE164Number]: {
+      addressValidationType: AddressValidationType.NONE,
+      isFetchingAddresses: false,
+      lastFetchSuccessful: true,
+    },
+  },
+}
+
+const props = {
+  paymentRequest: mockPaymentRequest,
 }
 
 describe('IncomingPaymentRequestListItem', () => {
@@ -60,12 +103,45 @@ describe('IncomingPaymentRequestListItem', () => {
 
   it('navigates to send confirmation if there is no validation needed', () => {
     const store = createMockStore({
-      identity: {
-        secureSendPhoneNumberMapping: {
-          [mockE164Number]: {
-            addressValidationType: AddressValidationType.NONE,
-            isFetchingAddresses: true,
-            lastFetchSuccessful: true,
+      identity: identityLoading,
+      tokens: balances,
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <IncomingPaymentRequestListItem {...props} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByText('send'))
+
+    const updatedStore = createMockStore({
+      identity: identityLoaded,
+      tokens: balances,
+    })
+
+    tree.rerender(
+      <Provider store={updatedStore}>
+        <IncomingPaymentRequestListItem {...props} />
+      </Provider>
+    )
+
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      origin: SendOrigin.AppRequestFlow,
+      transactionData: expectedTransactionData,
+      isFromScan: false,
+    })
+  })
+
+  it('uses cEUR if the cUSD balance is too low', () => {
+    const store = createMockStore({
+      identity: identityLoading,
+      tokens: {
+        tokenBalances: {
+          ...mockTokenBalances,
+          [mockCeurAddress]: {
+            ...mockTokenBalances[mockCeurAddress],
+            balance: '200',
           },
         },
       },
@@ -80,12 +156,13 @@ describe('IncomingPaymentRequestListItem', () => {
     fireEvent.press(tree.getByText('send'))
 
     const updatedStore = createMockStore({
-      identity: {
-        secureSendPhoneNumberMapping: {
-          [mockE164Number]: {
-            addressValidationType: AddressValidationType.NONE,
-            isFetchingAddresses: false,
-            lastFetchSuccessful: true,
+      identity: identityLoaded,
+      tokens: {
+        tokenBalances: {
+          ...mockTokenBalances,
+          [mockCeurAddress]: {
+            ...mockTokenBalances[mockCeurAddress],
+            balance: '200',
           },
         },
       },
@@ -97,24 +174,58 @@ describe('IncomingPaymentRequestListItem', () => {
       </Provider>
     )
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppRequestFlow,
-      transactionData: mockTransactionData,
+      transactionData: {
+        ...expectedTransactionData,
+        tokenAddress: mockCeurAddress,
+        tokenAmount: new BigNumber('155.93965517241379310345'),
+        inputAmount: new BigNumber('155.93965517241379310345'),
+      },
       isFromScan: false,
     })
   })
 
+  it('errors if cUSD and cEUR balance are too low', () => {
+    const store = createMockStore({
+      identity: identityLoading,
+      tokens: {
+        tokenBalances: mockTokenBalances,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <IncomingPaymentRequestListItem {...props} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByText('send'))
+
+    const updatedStore = createMockStore({
+      identity: identityLoaded,
+      tokens: {
+        tokenBalances: mockTokenBalances,
+      },
+    })
+    updatedStore.dispatch = jest.fn()
+
+    tree.rerender(
+      <Provider store={updatedStore}>
+        <IncomingPaymentRequestListItem {...props} />
+      </Provider>
+    )
+
+    expect(navigate).not.toHaveBeenCalled()
+    expect(updatedStore.dispatch).toHaveBeenCalledWith(
+      showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE)
+    )
+  })
+
   it('navigates to secure send if there is validation needed', () => {
     const store = createMockStore({
-      identity: {
-        secureSendPhoneNumberMapping: {
-          [mockE164Number]: {
-            addressValidationType: AddressValidationType.NONE,
-            isFetchingAddresses: true,
-            lastFetchSuccessful: true,
-          },
-        },
-      },
+      identity: identityLoading,
+      tokens: balances,
     })
 
     const tree = render(
@@ -135,6 +246,7 @@ describe('IncomingPaymentRequestListItem', () => {
           },
         },
       },
+      tokens: balances,
     })
 
     tree.rerender(
@@ -145,22 +257,16 @@ describe('IncomingPaymentRequestListItem', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
       origin: SendOrigin.AppRequestFlow,
-      transactionData: mockTransactionData,
+      transactionData: expectedTransactionData,
       addressValidationType: AddressValidationType.PARTIAL,
+      requesterAddress: mockRecipient.address,
     })
   })
 
   it('does not navigate when address fetch is unsuccessful', () => {
     const store = createMockStore({
-      identity: {
-        secureSendPhoneNumberMapping: {
-          [mockE164Number]: {
-            addressValidationType: AddressValidationType.NONE,
-            isFetchingAddresses: true,
-            lastFetchSuccessful: false,
-          },
-        },
-      },
+      identity: identityLoading,
+      tokens: balances,
     })
 
     const tree = render(
@@ -181,6 +287,7 @@ describe('IncomingPaymentRequestListItem', () => {
           },
         },
       },
+      tokens: balances,
     })
 
     tree.rerender(
