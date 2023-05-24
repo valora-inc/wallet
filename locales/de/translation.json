@@ -1225,7 +1225,12 @@
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Gesamt",
   "totalValue": "Gesamtguthaben",
   "viewBalances": "Vermögen ansehen",
-  "totalAssets": "Assets",
+  "totalAssets": "Mein Vermögen",
+  "totalAssetsInfo": "Beinhaltet die geschätzte Gesamtsumme des Wallet-Vermögens und der Dapp-Positionen",
+  "assetsSegmentedControl": {
+    "walletAssets": "Geldbeutel-Vermögen",
+    "dappPositions": "Dapp-Positionen"
+  },
   "open": "Öffnen",
   "nftViewer": "NFT-Viewer",
   "whatTotalValue": {
