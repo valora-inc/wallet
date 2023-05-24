@@ -176,3 +176,7 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
+
+export const CHAIN_ID = DEFAULT_TESTNET === 'mainnet' ? '42220' : '44787'
+
+export const DEFAULT_TORUS_NETWORK = DEFAULT_TESTNET === 'mainnet' ? 'cyan' : 'testnet'

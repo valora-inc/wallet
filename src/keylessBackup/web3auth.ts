@@ -1,12 +1,13 @@
-import NodeDetailManager from '@toruslabs/fetch-node-details'
-import { TORUS_SAPPHIRE_NETWORK_TYPE } from '@toruslabs/constants'
-import Torus from '@toruslabs/torus.js'
+import Web3Auth from '@web3auth/node-sdk'
+import { CHAIN_ID, DEFAULT_FORNO_URL, DEFAULT_TORUS_NETWORK } from 'src/config'
 import jwtDecode from 'jwt-decode'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/web3auth'
 
 // TODO consider getting network from statsig dynamic config (need to make sure the keys are the same for different networks first though)
+
+let web3auth: Web3Auth | undefined = undefined
 
 /**
  * Get a Torus private key from a JWT.
@@ -19,50 +20,31 @@ const TAG = 'keylessBackup/web3auth'
  * @param jwt - idToken from Sign in with Google flow works. must have issuer expected by the verifier
  * @param network - web3auth network to use
  */
-export async function getTorusPrivateKey({
-  verifier,
-  jwt,
-  network,
-}: {
-  verifier: string
-  jwt: string
-  network: TORUS_SAPPHIRE_NETWORK_TYPE
-}) {
-  // largely copied from CustomAuth triggerLogin
-  Logger.debug(TAG, `decoding jwt ${jwt}`)
-  const sub = jwtDecode<{ sub: string }>(jwt).sub
-  const nodeDetailManager = new NodeDetailManager({
-    network,
-  })
-  const torus = new Torus({
-    enableOneKey: false, // same as default from CustomAuth
-    network,
-    clientId: 'web3auth-project-client-id', // TODO get from web3auth dashboard (see plug and play section)
-  })
-  Logger.debug(TAG, `getting node details for verifier ${verifier} and sub ${sub}`)
-  const { torusNodeEndpoints } = await nodeDetailManager.getNodeDetails({
-    verifier,
-    verifierId: sub,
-  })
-  Logger.debug(
-    TAG,
-    `getting public address with torusNodeEndpoints ${JSON.stringify(torusNodeEndpoints)}`
-  )
-  const torusPubKey = await torus.getPublicAddress(torusNodeEndpoints, {
-    verifier,
-    verifierId: sub,
-  })
-  Logger.debug(TAG, `getting shares with torusPubKey ${JSON.stringify(torusPubKey)}`)
-  // if (typeof torusPubKey === 'string') throw new Error('must use extended pub key')  // todo check if this error is needed. CustomAuth has it, unclear why. While testing it got thrown. But ignoring it seems to work fine...
-  const shares = await torus.retrieveShares(torusNodeEndpoints, verifier, { verifier_id: sub }, jwt)
-  Logger.debug(TAG, `got shares ${JSON.stringify(shares)}`)
-  const sharesEthAddressLower = shares.ethAddress.toLowerCase()
-  if (
-    typeof torusPubKey === 'string'
-      ? sharesEthAddressLower !== torusPubKey.toLowerCase()
-      : sharesEthAddressLower !== torusPubKey.address.toLowerCase()
-  ) {
-    throw new Error('sharesEthAddressLower does not match torusPubKey')
+export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; jwt: string }) {
+  try {
+    if (!web3auth) {
+      web3auth = new Web3Auth({
+        web3AuthNetwork: DEFAULT_TORUS_NETWORK, // TODO get from statsig dynamic config instead? need to see if different networks return different keys first
+        clientId: 'TODO', // TODO get from web3auth dashboard (then pass thru config.ts)
+        chainConfig: {
+          chainNamespace: 'eip155',
+          chainId: CHAIN_ID,
+          rpcTarget: DEFAULT_FORNO_URL,
+        },
+      })
+      web3auth.init()
+    }
+    const { sub: verifierId } = jwtDecode<{ sub: string }>(jwt)
+    const provider = await web3auth.connect({
+      verifier: 'verifier-name', // TODO get from config
+      verifierId,
+      idToken: jwt,
+    })
+    if (!provider) {
+      throw new Error('Unable to connect to web3auth provider')
+    }
+    return await provider.request({ method: 'eth_private_key' })
+  } catch (error) {
+    Logger.error(TAG, 'Error getting private key from web3auth', error)
   }
-  return shares.privKey.toString()
 }
