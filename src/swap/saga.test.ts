@@ -38,6 +38,7 @@ const mockSwapTransaction = {
   from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
   gas: '460533',
   allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+  estimatedPriceImpact: '0.1',
 }
 
 const mockSwap = {
@@ -51,6 +52,9 @@ const mockSwap = {
     },
     unvalidatedSwapTransaction: {
       ...mockSwapTransaction,
+    },
+    details: {
+      swapProvider: '0x',
     },
   },
 }
@@ -85,6 +89,9 @@ describe(swapSubmitSaga, () => {
       amount: '10000000000000000',
       amountType: 'buyAmount',
       price: '1',
+      allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+      estimatedPriceImpact: '0.1',
+      provider: '0x',
     })
   })
 
@@ -109,6 +116,14 @@ describe(swapSubmitSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
+      toToken: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
+      fromToken: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+      amount: '10000000000000000',
+      amountType: 'buyAmount',
+      price: '1',
+      allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+      estimatedPriceImpact: '0.1',
+      provider: '0x',
     })
   })
 
