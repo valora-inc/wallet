@@ -8,34 +8,25 @@ import { NotificationList } from 'src/notifications/NotificationList'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
 import { getIncomingPaymentRequests } from 'src/paymentRequest/selectors'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 
 interface StateProps {
   paymentRequests: PaymentRequest[]
-  recipientInfo: RecipientInfo
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
   paymentRequests: getIncomingPaymentRequests(state),
-  recipientInfo: recipientInfoSelector(state),
 })
 
 type Props = WithTranslation & StateProps
 
 export const listItemRenderer =
-  (props: { recipientInfo: RecipientInfo }) =>
+  () =>
   (request: PaymentRequest, key: number | undefined = undefined) =>
     (
       <View key={key}>
-        <IncomingPaymentRequestListItem
-          id={request.uid || ''}
-          amount={request.amount}
-          requester={getRecipientFromAddress(request.requesterAddress, props.recipientInfo)}
-          comment={request.comment}
-        />
+        <IncomingPaymentRequestListItem paymentRequest={request} />
       </View>
     )
 
@@ -48,10 +39,7 @@ class IncomingPaymentRequestListScreen extends React.Component<Props> {
 
   render = () => {
     return (
-      <NotificationList
-        items={this.props.paymentRequests}
-        listItemRenderer={listItemRenderer(this.props)}
-      />
+      <NotificationList items={this.props.paymentRequests} listItemRenderer={listItemRenderer()} />
     )
   }
 }

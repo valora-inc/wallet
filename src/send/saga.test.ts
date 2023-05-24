@@ -12,6 +12,7 @@ import { E164NumberToAddressType } from 'src/identity/reducer'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { urlFromUriData } from 'src/qrcode/schema'
 import { BarcodeTypes } from 'src/qrcode/utils'
 import { RecipientType } from 'src/recipients/recipient'
@@ -335,6 +336,7 @@ describe(sendPaymentSaga, () => {
     recipient: mockQRCodeRecipient,
     fromModal: false,
     feeInfo: mockFeeInfo,
+    paymentRequestId: '123',
   }
 
   beforeAll(() => {
@@ -362,6 +364,7 @@ describe(sendPaymentSaga, () => {
           address: mockQRCodeRecipient.address,
         })
       )
+      .put(completePaymentRequest('123'))
       .call.fn(sendAndMonitorTransaction)
       .run()
 

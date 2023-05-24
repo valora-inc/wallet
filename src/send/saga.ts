@@ -421,6 +421,7 @@ export function* sendPaymentSaga({
   recipient,
   feeInfo,
   fromModal,
+  paymentRequestId,
 }: SendPaymentAction) {
   try {
     yield call(getConnectedUnlockedAccount)
@@ -443,6 +444,9 @@ export function* sendPaymentSaga({
       navigateHome()
     }
 
+    if (paymentRequestId) {
+      yield put(completePaymentRequest(paymentRequestId))
+    }
     yield put(sendPaymentSuccess(amount))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
