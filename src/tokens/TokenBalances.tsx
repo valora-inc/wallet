@@ -312,6 +312,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
       <AnimatedSectionList
         contentContainerStyle={{
           paddingBottom: insets.bottom,
+          opacity: listHeaderHeight > 0 ? 1 : 0,
         }}
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
