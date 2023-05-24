@@ -1225,7 +1225,12 @@
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
-  "totalAssets": "Varlıklarım",
+  "totalAssets": "Mal varlığım",
+  "totalAssetsInfo": "Cüzdan varlıkları ve uygulama pozisyonlarının tahmini toplamını içerir",
+  "assetsSegmentedControl": {
+    "walletAssets": "Cüzdan varlıkları",
+    "dappPositions": "Dapp pozisyonları"
+  },
   "open": "Aç",
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
