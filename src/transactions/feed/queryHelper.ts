@@ -293,6 +293,24 @@ export const TRANSACTIONS_QUERY = `
     transactionHash
     timestamp
     block
+    nfts {
+      tokenId
+      contractAddress
+      tokenUri
+      ownerAddress
+      metadata {
+        name
+        description
+        image
+        id
+        dna
+        date
+        attributes {
+          trait_type
+          value
+        }
+      }
+    }
   }
 
   fragment TokenExchangeItemV2 on TokenExchangeV2 {
