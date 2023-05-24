@@ -105,7 +105,7 @@
     },
     "restore": {
       "title": "Confirmez votre numéro de téléphone",
-      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+      "subtitle": "Saisissez le numéro de téléphone que vous avez utilisé pour configurer la sauvegarde.\n\nNous vous enverrons un code pour vérifier que ce numéro est le vôtre."
     }
   },
   "setupKeylessBackupReminder": "<0>Souvenez-vous</0>, ces informations sont votre seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Gardez-les en sécurité !",
@@ -1225,11 +1225,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
-  "totalAssets": "Mes atouts",
-  "totalAssetsInfo": "Comprend le total estimé des actifs des portefeuilles et des positions des dapps.",
+  "totalAssets": "Mes actifs",
+  "totalAssetsInfo": "Le total estimé des actifs dans votre portefeuille et des positions des dapps",
   "assetsSegmentedControl": {
-    "walletAssets": "Actifs du portefeuille",
-    "dappPositions": "Positions de Dapp"
+    "walletAssets": "Actifs du wallet",
+    "dappPositions": "Positions des dapps"
   },
   "open": "Ouvrir",
   "nftViewer": "NFT Viewer",
