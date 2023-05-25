@@ -20,6 +20,8 @@ import {
 } from 'src/swap/slice'
 import { ApproveTransaction, Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
+import { swappableTokensSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -71,6 +73,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   } = action.payload.unvalidatedSwapTransaction
   const amountType = action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
+
+  const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
+  const fromTokenBalance =
+    tokenBalances.find((token) => token.address === sellTokenAddress)?.balance.toString() ?? ''
 
   try {
     // Navigate to swap pending screen
@@ -125,6 +131,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       allowanceTarget,
       estimatedPriceImpact,
       provider: action.payload.details.swapProvider,
+      fromTokenBalance,
     })
   } catch (error) {
     Logger.error(TAG, 'Error while swapping', error)
@@ -138,6 +145,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       allowanceTarget,
       estimatedPriceImpact,
       provider: action.payload.details.swapProvider,
+      fromTokenBalance,
     })
     yield put(swapError())
     vibrateError()

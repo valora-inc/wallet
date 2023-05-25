@@ -1217,9 +1217,12 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
+    fromTokenBalance: string
+  }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
+    fromTokenBalance: string
   }
   [SwapEvents.swap_learn_more]: undefined
 }
