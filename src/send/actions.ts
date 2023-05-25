@@ -59,6 +59,7 @@ export interface SendPaymentAction {
   recipient: Recipient
   feeInfo: FeeInfo
   fromModal: boolean
+  paymentRequestId?: string
 }
 
 export interface SendPaymentSuccessAction {
@@ -138,7 +139,8 @@ export const sendPayment = (
   comment: string,
   recipient: Recipient,
   feeInfo: FeeInfo,
-  fromModal: boolean
+  fromModal: boolean,
+  paymentRequestId?: string
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
@@ -148,6 +150,7 @@ export const sendPayment = (
   recipient,
   feeInfo,
   fromModal,
+  paymentRequestId,
 })
 
 export const sendPaymentSuccess = (amount: BigNumber): SendPaymentSuccessAction => ({

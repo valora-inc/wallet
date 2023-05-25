@@ -576,6 +576,7 @@
   "dismiss": "Odrzuć",
   "review": "Analizuj",
   "insufficientBalance": "Twoje saldo jest zbyt niskie, aby dokonać tej transakcji",
+  "insufficientBalanceStable": "Nie masz wystarczającej ilości cUSD lub cEUR, aby zrealizować tę transakcję",
   "amount": "Kwota",
   "currentBalance": "Saldo bieżące (cUSD)",
   "restore": "Przywróć",

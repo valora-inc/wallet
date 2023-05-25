@@ -26,7 +26,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
-import { Field, ZeroExResponse } from 'src/swap/types'
+import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
@@ -58,7 +58,7 @@ export function SwapReviewScreen() {
   const [shouldFetch, setShouldFetch] = useState(true)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
-  const [swapResponse, setSwapResponse] = useState<ZeroExResponse | null>(null)
+  const [swapResponse, setSwapResponse] = useState<FetchQuoteResponse | null>(null)
   const [fetchError, setFetchError] = useState(false)
   const tokensByAddress = useSelector(tokensByAddressSelector)
   const walletAddress = useSelector(walletAddressSelector)
@@ -138,7 +138,7 @@ export function SwapReviewScreen() {
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
         )
       }
-      const json: ZeroExResponse = await response.json()
+      const json: FetchQuoteResponse = await response.json()
       setSwapResponse(json)
       setShouldFetch(false)
       setFetchError(false)
@@ -162,6 +162,8 @@ export function SwapReviewScreen() {
       return
     }
 
+    const { estimatedPriceImpact, price, allowanceTarget } = swapResponse.unvalidatedSwapTransaction
+
     // Analytics for swap submission
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken,
@@ -171,6 +173,10 @@ export function SwapReviewScreen() {
       usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction[swapAmountParam]).multipliedBy(
         swapResponse.unvalidatedSwapTransaction.price
       ),
+      allowanceTarget,
+      estimatedPriceImpact,
+      price,
+      provider: swapResponse.details.swapProvider,
     })
     // Dispatch swap submission
     if (userInput !== null) {

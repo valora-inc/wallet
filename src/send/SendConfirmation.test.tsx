@@ -48,7 +48,10 @@ jest.mock('src/web3/dataEncryptionKey', () => ({
 }))
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-  transactionData: mockTokenTransactionData,
+  transactionData: {
+    ...mockTokenTransactionData,
+    paymentRequestId: '123',
+  },
   origin: SendOrigin.AppSendFlow,
   isFromScan: false,
 })
@@ -370,7 +373,16 @@ describe('SendConfirmation', () => {
     const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPayment(inputAmount, tokenAddress, inputAmount, '', recipient, mockFeeInfo, false),
+        sendPayment(
+          inputAmount,
+          tokenAddress,
+          inputAmount,
+          '',
+          recipient,
+          mockFeeInfo,
+          false,
+          '123'
+        ),
       ])
     )
   })

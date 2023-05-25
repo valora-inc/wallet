@@ -576,6 +576,7 @@
   "dismiss": "忽略",
   "review": "查看",
   "insufficientBalance": "您的余额过低，无法进行此交易",
+  "insufficientBalanceStable": "你没有足够的美元或欧元来完成这项交易",
   "amount": "金额",
   "currentBalance": "当前余额 (cUSD)",
   "restore": "恢复",
