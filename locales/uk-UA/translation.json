@@ -576,6 +576,7 @@
   "dismiss": "Відхилити",
   "review": "Перегляд",
   "insufficientBalance": "Ваш залишок занадто малий, щоб здійснити цю операцію",
+  "insufficientBalanceStable": "У вас недостатньо cUSD або cEUR для завершення цієї транзакції",
   "amount": "Сума",
   "currentBalance": "Поточний баланс (cUSD)",
   "restore": "Відновити",

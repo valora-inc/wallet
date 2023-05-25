@@ -576,6 +576,7 @@
   "dismiss": "Закрыть",
   "review": "Проверить",
   "insufficientBalance": "Осталось слишком мало средств для выполнения этой транзакции",
+  "insufficientBalanceStable": "У тебя недостаточно cUSD или cEUR для завершения этой транзакции",
   "amount": "Сумма",
   "currentBalance": "Текущий остаток (cUSD)",
   "restore": "Восстановить",
