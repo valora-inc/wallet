@@ -320,13 +320,8 @@ export function resolveCloudFunctionDigitalAsset(
 /**
  * Get analytics data for provider selection.
  *
- * Used for cico_providers_quote_selected and cico_providers_exchanges_selected analytics events.
- *
- * @param normalizedQuotes
- * @param exchangeRates
- * @param legacyMobileMoneyProviders
- * @param centralizedExchanges
- * @param transferCryptoAmount
+ * Used for cico_providers_quote_selected, cico_providers_exchanges_selected and
+ * coinbase_pay_flow_start analytics events.
  */
 export function getProviderSelectionAnalyticsData({
   normalizedQuotes,
