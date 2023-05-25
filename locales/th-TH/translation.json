@@ -576,6 +576,7 @@
   "dismiss": "ปิด",
   "review": "ตรวจสอบ",
   "insufficientBalance": "ยอดคงเหลือของคุณต่ำเกินกว่าที่จะทำธุรกรรมนี้ได้",
+  "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
   "amount": "จำนวนเงิน",
   "currentBalance": "ยอดคงเหลือปัจจุบัน (cUSD)",
   "restore": "กู้คืน",
