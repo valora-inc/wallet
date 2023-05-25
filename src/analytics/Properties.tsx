@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1185,6 +1185,13 @@ interface SwapEvent {
   amountType: 'buyAmount' | 'sellAmount'
 }
 
+type SwapQuoteEvent = SwapEvent & {
+  allowanceTarget: string
+  estimatedPriceImpact?: string
+  price: string
+  provider: string
+}
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1201,7 +1208,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_screen_review_swap]: undefined
   [SwapEvents.swap_feed_detail_view_tx]: undefined
   [SwapEvents.swap_review_screen_open]: SwapEvent
-  [SwapEvents.swap_review_submit]: SwapEvent & {
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent & {
     usdTotal: number
   }
   [SwapEvents.swap_execute_price_change]: {
@@ -1210,10 +1217,8 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapEvent & {
-    price: string
-  }
-  [SwapEvents.swap_execute_error]: {
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent
+  [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
   }
   [SwapEvents.swap_learn_more]: undefined
