@@ -356,9 +356,9 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
+    backgroundColor: Colors.light,
     position: 'absolute',
     width: '100%',
-    backgroundColor: Colors.light,
     zIndex: 1,
   },
   positionSectionHeaderContainer: {
