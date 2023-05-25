@@ -576,6 +576,7 @@
   "dismiss": "Verwerfen",
   "review": "Überprüfen",
   "insufficientBalance": "Dein Guthaben ist zu niedrig, um diese Transaktion durchzuführen",
+  "insufficientBalanceStable": "Du hast nicht genug cUSD oder cEUR, um diese Transaktion abzuschließen",
   "amount": "Betrag",
   "currentBalance": "Aktueller Guthaben (cUSD)",
   "restore": "Wiederherstellen",
