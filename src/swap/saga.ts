@@ -59,21 +59,26 @@ function* handleSendSwapTransaction(
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
+  const {
+    price,
+    guaranteedPrice,
+    buyTokenAddress,
+    sellTokenAddress,
+    buyAmount,
+    sellAmount,
+    allowanceTarget,
+    estimatedPriceImpact,
+  } = action.payload.unvalidatedSwapTransaction
+  const amountType = action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
+  const amount = action.payload.unvalidatedSwapTransaction[amountType]
+
   try {
     // Navigate to swap pending screen
     yield call(navigate, Screens.SwapExecuteScreen)
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
     const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
-    const {
-      price,
-      guaranteedPrice,
-      buyTokenAddress,
-      sellTokenAddress,
-      buyAmount,
-      sellAmount,
-      allowanceTarget,
-    } = action.payload.unvalidatedSwapTransaction
+
     const priceDiff: number = yield call(getPercentageDifference, +price, +guaranteedPrice)
     if (priceDiff >= maxSlippagePercent) {
       yield put(swapPriceChange())
@@ -87,8 +92,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     const walletAddress: string = yield select(walletAddressSelector)
-    const amountType =
-      action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
 
     const amountToApprove =
       amountType === 'buyAmount'
@@ -114,16 +117,27 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     yield put(swapSuccess())
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
-      toToken: action.payload.unvalidatedSwapTransaction.buyTokenAddress,
-      fromToken: action.payload.unvalidatedSwapTransaction.sellTokenAddress,
-      amount: action.payload.unvalidatedSwapTransaction[amountType],
-      amountType: amountType,
-      price: action.payload.unvalidatedSwapTransaction.price,
+      toToken: buyTokenAddress,
+      fromToken: sellTokenAddress,
+      amount,
+      amountType,
+      price,
+      allowanceTarget,
+      estimatedPriceImpact,
+      provider: action.payload.details.swapProvider,
     })
   } catch (error) {
-    Logger.debug(TAG, 'Error while swapping', error)
+    Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       error: error.message,
+      toToken: buyTokenAddress,
+      fromToken: sellTokenAddress,
+      amount,
+      amountType,
+      price,
+      allowanceTarget,
+      estimatedPriceImpact,
+      provider: action.payload.details.swapProvider,
     })
     yield put(swapError())
     vibrateError()
