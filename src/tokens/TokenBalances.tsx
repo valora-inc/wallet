@@ -157,8 +157,6 @@ function TokenBalancesScreen({ navigation, route }: Props) {
         [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
         ['transparent', 'rgba(48, 46, 37, 0.15)']
       ),
-      backgroundColor: scrollPosition.value > nonStickyHeaderHeight ? Colors.light : 'transparent',
-      zIndex: scrollPosition.value < 0 ? 0 : 1, // on ios overscoll, ensure scrollbar is above the header
     }
   }, [scrollPosition.value, nonStickyHeaderHeight, displayPositions])
 
@@ -314,8 +312,8 @@ function TokenBalancesScreen({ navigation, route }: Props) {
           paddingBottom: insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
         }}
-        // Workaround iOS setting an incorrect automatic inset at the top
-        scrollIndicatorInsets={{ top: 0.01 }}
+        // on ios overscoll, ensure scrollbar is above the header
+        scrollIndicatorInsets={{ top: listHeaderHeight }}
         // @ts-ignore can't get the SectionList to accept a union type :(
         sections={sections}
         renderItem={renderAssetItem}
@@ -360,6 +358,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Smallest8,
     position: 'absolute',
     width: '100%',
+    backgroundColor: Colors.light,
     zIndex: 1,
   },
   positionSectionHeaderContainer: {
