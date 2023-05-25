@@ -312,7 +312,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
           paddingBottom: insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
         }}
-        // on ios overscoll, ensure scrollbar is above the header
+        // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
         // @ts-ignore can't get the SectionList to accept a union type :(
         sections={sections}
