@@ -26,7 +26,6 @@ import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
-import { WEI_DECIMALS } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -71,11 +70,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
 
   const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
-  const fromTokenBalance =
-    tokenBalances
-      .find((token) => token.address === sellTokenAddress)
-      ?.balance.shiftedBy(WEI_DECIMALS)
-      .toString() ?? ''
+  const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
+  const fromTokenBalance = fromToken
+    ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
+    : ''
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
