@@ -1238,10 +1238,10 @@ export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData 
     [PaymentMethod.MobileMoney]: true,
     [PaymentMethod.FiatConnectMobileMoney]: false,
   },
-  transferCryptoAmount: '10.00',
+  transferCryptoAmount: 10.0,
   cryptoType: CiCoCurrency.cUSD,
   lowestFeeKycRequired: false,
-  lowestFeeCryptoAmount: '1.00',
+  lowestFeeCryptoAmount: 1.0,
   lowestFeeProvider: 'mock-provider-1',
   lowestFeePaymentMethod: PaymentMethod.Bank,
 }

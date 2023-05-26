@@ -33,16 +33,16 @@ export default abstract class NormalizedQuote {
     analyticsData: ProviderSelectionAnalyticsData,
     feeCryptoAmount?: BigNumber | null
   ) {
-    const feeCryptoAmountString = feeCryptoAmount?.toFixed(2)
+    const feeCryptoAmountNumber = feeCryptoAmount?.toNumber()
     return () => {
       ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
         flow,
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderId(),
-        feeCryptoAmount: feeCryptoAmountString,
+        feeCryptoAmount: feeCryptoAmountNumber,
         kycRequired: !!this.getKycInfo(),
         isLowestFee: feeCryptoAmount
-          ? feeCryptoAmountString === analyticsData.lowestFeeCryptoAmount
+          ? feeCryptoAmountNumber === analyticsData.lowestFeeCryptoAmount
           : undefined,
         ...analyticsData,
       })

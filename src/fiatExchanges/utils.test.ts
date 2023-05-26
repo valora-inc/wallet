@@ -73,12 +73,12 @@ describe('fiatExchanges utils', () => {
       })
 
       expect(analyticsOutput).toStrictEqual({
-        transferCryptoAmount: '10.00',
+        transferCryptoAmount,
         centralizedExchangesAvailable: true,
         coinbasePayAvailable: true,
         cryptoType: CiCoCurrency.cUSD,
         totalOptions: 6, // centralized exchanges counts as 1, plus 1 legacy mobile money provider, 1 coinbase pay and 3 normalized quotes
-        lowestFeeCryptoAmount: '1.00',
+        lowestFeeCryptoAmount: 1.0,
         lowestFeeKycRequired: true,
         lowestFeePaymentMethod: 'Card',
         lowestFeeProvider: 'mock-provider-1',
@@ -110,7 +110,7 @@ describe('fiatExchanges utils', () => {
       })
 
       expect(analyticsOutput).toStrictEqual({
-        transferCryptoAmount: '10.00',
+        transferCryptoAmount,
         centralizedExchangesAvailable: false,
         coinbasePayAvailable: false,
         cryptoType: CiCoCurrency.cUSD,

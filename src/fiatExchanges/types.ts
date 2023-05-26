@@ -16,10 +16,10 @@ export interface ProviderSelectionAnalyticsData {
   coinbasePayAvailable: boolean
   totalOptions: number
   paymentMethodsAvailable: Record<PaymentMethod, boolean>
-  transferCryptoAmount: string
+  transferCryptoAmount: number
   cryptoType: CiCoCurrency
   lowestFeeKycRequired: boolean | undefined
-  lowestFeeCryptoAmount: string | undefined
+  lowestFeeCryptoAmount: number | undefined
   lowestFeeProvider: string | undefined
   lowestFeePaymentMethod: PaymentMethod | undefined
 }

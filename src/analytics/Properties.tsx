@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -814,7 +814,7 @@ interface FiatExchangeEventsProperties {
     paymentMethod: PaymentMethod
     provider: string
     flow: CICOFlow
-    feeCryptoAmount: string | undefined
+    feeCryptoAmount: number | undefined
     kycRequired: boolean
     isLowestFee: boolean | undefined
   } & ProviderSelectionAnalyticsData

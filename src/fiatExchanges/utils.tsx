@@ -370,7 +370,7 @@ export function getProviderSelectionAnalyticsData({
   }
 
   return {
-    transferCryptoAmount: transferCryptoAmount.toFixed(2),
+    transferCryptoAmount,
     cryptoType,
     paymentMethodsAvailable,
     lowestFeePaymentMethod,
@@ -378,7 +378,7 @@ export function getProviderSelectionAnalyticsData({
     lowestFeeKycRequired,
     centralizedExchangesAvailable,
     coinbasePayAvailable,
-    lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toFixed(2),
+    lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toNumber(),
     // counts centralized exchanges as single option, since that's how they appear on the Select Providers screen
     totalOptions:
       (centralizedExchangesAvailable ? 1 : 0) +

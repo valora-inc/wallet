@@ -259,7 +259,7 @@ describe('FiatConnectQuote', () => {
         CICOFlow.CashIn,
         createMockStore().dispatch,
         mockProviderSelectionAnalyticsData,
-        new BigNumber('1.00123')
+        new BigNumber('1')
       )()
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_quote_selected,
@@ -267,7 +267,7 @@ describe('FiatConnectQuote', () => {
           flow: CICOFlow.CashIn,
           paymentMethod: PaymentMethod.Bank,
           provider: mockFiatConnectQuotes[1].provider.id,
-          feeCryptoAmount: '1.00',
+          feeCryptoAmount: 1.0,
           kycRequired: false,
           isLowestFee: true,
           ...mockProviderSelectionAnalyticsData,
@@ -293,7 +293,7 @@ describe('FiatConnectQuote', () => {
           flow: CICOFlow.CashIn,
           paymentMethod: PaymentMethod.Bank,
           provider: mockFiatConnectQuotes[1].provider.id,
-          feeCryptoAmount: '2.00',
+          feeCryptoAmount: 2.0,
           kycRequired: false,
           isLowestFee: false,
           ...mockProviderSelectionAnalyticsData,
