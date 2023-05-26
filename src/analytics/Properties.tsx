@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1223,6 +1223,8 @@ interface SwapEventsProperties {
   [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
     fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
   }
   [SwapEvents.swap_learn_more]: undefined
 }

@@ -18,14 +18,15 @@ import {
   swapStart,
   swapSuccess,
 } from 'src/swap/slice'
-import { ApproveTransaction, Field, SwapInfo, SwapTransaction } from 'src/swap/types'
+import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
-import { newTransactionContext } from 'src/transactions/types'
+import { newTransactionContext, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { WEI_DECIMALS } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -38,8 +39,8 @@ function getPercentageDifference(price1: number, price2: number) {
 }
 
 function* handleSendSwapTransaction(
-  rawTx: ApproveTransaction | SwapTransaction,
-  tagDescription: string
+  rawTx: SwapTransaction,
+  transactionContext: TransactionContext
 ) {
   const kit: ContractKit = yield call(getContractKit)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
@@ -49,15 +50,7 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
-  yield call(
-    sendTransaction,
-    txo,
-    walletAddress,
-    newTransactionContext(TAG, tagDescription),
-    undefined,
-    undefined,
-    undefined
-  )
+  yield call(sendTransaction, txo, walletAddress, transactionContext)
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
@@ -72,11 +65,15 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     estimatedPriceImpact,
   } = action.payload.unvalidatedSwapTransaction
   const amountType = action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
-  const amount = action.payload.unvalidatedSwapTransaction[amountType]
+  const amountInWei = action.payload.unvalidatedSwapTransaction[amountType]
+  const amount = valueToBigNumber(amountInWei).shiftedBy(-WEI_DECIMALS).toString()
 
   const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
   const fromTokenBalance =
     tokenBalances.find((token) => token.address === sellTokenAddress)?.balance.toString() ?? ''
+
+  const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
+  const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
 
   try {
     // Navigate to swap pending screen
@@ -110,15 +107,22 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
     )
-    yield call(sendApproveTx, sellTokenAddress, amountToApprove, allowanceTarget)
+    yield call(
+      sendApproveTx,
+      sellTokenAddress,
+      amountToApprove,
+      allowanceTarget,
+      swapApproveContext
+    )
 
     // Execute transaction
     yield put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
+
     yield call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
-      'Swap/Execute'
+      swapExecuteContext
     )
     yield put(swapSuccess())
     vibrateSuccess()
@@ -146,6 +150,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       estimatedPriceImpact,
       provider: action.payload.details.swapProvider,
       fromTokenBalance,
+      swapExecuteTxId: swapExecuteContext.id,
+      swapApproveTxId: swapApproveContext.id,
     })
     yield put(swapError())
     vibrateError()
@@ -156,7 +162,12 @@ export function* swapSaga() {
   yield takeLatest(swapStart.type, safely(swapSubmitSaga))
 }
 
-export function* sendApproveTx(tokenAddress: string, amount: string, recipientAddress: string) {
+export function* sendApproveTx(
+  tokenAddress: string,
+  amount: string,
+  recipientAddress: string,
+  transactionContext: TransactionContext
+) {
   const kit: ContractKit = yield call(getContractKit)
   const contract: Contract = yield call(getERC20TokenContract, tokenAddress)
   const walletAddress: string = yield call(getConnectedUnlockedAccount)
@@ -166,13 +177,5 @@ export function* sendApproveTx(tokenAddress: string, amount: string, recipientAd
     contract.methods.approve(recipientAddress, amount)
   )
 
-  yield call(
-    sendTransaction,
-    tx.txo,
-    walletAddress,
-    newTransactionContext(TAG, 'Swap/Approve'),
-    undefined,
-    undefined,
-    undefined
-  )
+  yield call(sendTransaction, tx.txo, walletAddress, transactionContext)
 }
