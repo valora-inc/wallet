@@ -73,10 +73,11 @@ interface EstimatedGas {
   type: SendTransactionLogEventType.EstimatedGas
   gas: number
   prefilled: boolean
+  gasTokenAddress: string | undefined
 }
 
-function EstimatedGas(gas: number, prefilled: boolean): EstimatedGas {
-  return { type: SendTransactionLogEventType.EstimatedGas, gas, prefilled }
+function EstimatedGas(gas: number, prefilled: boolean, gasTokenAddress?: string): EstimatedGas {
+  return { type: SendTransactionLogEventType.EstimatedGas, gas, prefilled, gasTokenAddress }
 }
 
 interface ReceiptReceived {
@@ -109,10 +110,11 @@ function Failed(error: Error): Failed {
 interface Exception {
   type: SendTransactionLogEventType.Exception
   error: Error
+  gasTokenAddress?: string
 }
 
-function Exception(error: Error): Exception {
-  return { type: SendTransactionLogEventType.Exception, error }
+function Exception(error: Error, gasTokenAddress?: string): Exception {
+  return { type: SendTransactionLogEventType.Exception, error, gasTokenAddress }
 }
 
 /**
@@ -208,9 +210,9 @@ export async function sendTransactionAsync<T>(
 
     if (gas === undefined) {
       gas = (await estimateGas(tx, txParams)).toNumber()
-      logger(EstimatedGas(gas, false))
+      logger(EstimatedGas(gas, false, feeCurrencyAddress))
     } else {
-      logger(EstimatedGas(gas, true))
+      logger(EstimatedGas(gas, true, feeCurrencyAddress))
     }
 
     emitter = tx.send({ ...txParams, gas })
@@ -244,7 +246,7 @@ export async function sendTransactionAsync<T>(
         }
       })
   } catch (error) {
-    logger(Exception(error))
+    logger(Exception(error, feeCurrencyAddress))
     rejectAll(error)
   }
 

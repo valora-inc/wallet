@@ -65,6 +65,7 @@ const getLogger = (context: TransactionContext) => {
           txId,
           estimatedGas: event.gas,
           prefilled: event.prefilled,
+          gasTokenAddress: event.gasTokenAddress,
         })
         break
       case SendTransactionLogEventType.TransactionHashReceived:
@@ -97,6 +98,7 @@ const getLogger = (context: TransactionContext) => {
         ValoraAnalytics.track(TransactionEvents.transaction_exception, {
           txId,
           error: event.error.message,
+          gasTokenAddress: event.gasTokenAddress,
         })
         break
       default:
