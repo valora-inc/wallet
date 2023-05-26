@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -695,6 +695,7 @@ interface TransactionEventsProperties {
     txId: string
     estimatedGas: number
     prefilled: boolean
+    feeCurrencyAddress?: string
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -713,6 +714,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_exception]: {
     txId: string
     error: string
+    feeCurrencyAddress?: string
   }
 }
 
@@ -1217,9 +1219,16 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
+    fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
+  }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
+    fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
   }
   [SwapEvents.swap_learn_more]: undefined
 }
