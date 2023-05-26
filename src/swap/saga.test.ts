@@ -113,6 +113,8 @@ describe(swapSubmitSaga, () => {
       estimatedPriceImpact: '0.1',
       provider: '0x',
       fromTokenBalance: '10000000000000000000',
+      swapApproveTxId: 'a uuid',
+      swapExecuteTxId: 'a uuid',
     })
   })
 

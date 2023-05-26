@@ -64,7 +64,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     allowanceTarget,
     estimatedPriceImpact,
   } = action.payload.unvalidatedSwapTransaction
-  const amountType = action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
+  const amountType =
+    action.payload.userInput.updatedField === Field.TO
+      ? ('buyAmount' as const)
+      : ('sellAmount' as const)
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
 
   const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
@@ -76,6 +79,20 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
+
+  const defaultSwapExecuteProps = {
+    toToken: buyTokenAddress,
+    fromToken: sellTokenAddress,
+    amount,
+    amountType,
+    price,
+    allowanceTarget,
+    estimatedPriceImpact,
+    provider: action.payload.details.swapProvider,
+    fromTokenBalance,
+    swapExecuteTxId: swapExecuteContext.id,
+    swapApproveTxId: swapApproveContext.id,
+  }
 
   try {
     // Navigate to swap pending screen
@@ -128,32 +145,12 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     )
     yield put(swapSuccess())
     vibrateSuccess()
-    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
-      toToken: buyTokenAddress,
-      fromToken: sellTokenAddress,
-      amount,
-      amountType,
-      price,
-      allowanceTarget,
-      estimatedPriceImpact,
-      provider: action.payload.details.swapProvider,
-      fromTokenBalance,
-    })
+    ValoraAnalytics.track(SwapEvents.swap_execute_success, defaultSwapExecuteProps)
   } catch (error) {
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
+      ...defaultSwapExecuteProps,
       error: error.message,
-      toToken: buyTokenAddress,
-      fromToken: sellTokenAddress,
-      amount,
-      amountType,
-      price,
-      allowanceTarget,
-      estimatedPriceImpact,
-      provider: action.payload.details.swapProvider,
-      fromTokenBalance,
-      swapExecuteTxId: swapExecuteContext.id,
-      swapApproveTxId: swapApproveContext.id,
     })
     yield put(swapError())
     vibrateError()

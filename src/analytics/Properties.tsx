@@ -1219,6 +1219,8 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
     fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
   }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
