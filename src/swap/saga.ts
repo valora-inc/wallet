@@ -65,12 +65,14 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     estimatedPriceImpact,
   } = action.payload.unvalidatedSwapTransaction
   const amountType = action.payload.userInput.updatedField === Field.TO ? 'buyAmount' : 'sellAmount'
-  const amountInWei = action.payload.unvalidatedSwapTransaction[amountType]
-  const amount = valueToBigNumber(amountInWei).shiftedBy(-WEI_DECIMALS).toString()
+  const amount = action.payload.unvalidatedSwapTransaction[amountType]
 
   const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
   const fromTokenBalance =
-    tokenBalances.find((token) => token.address === sellTokenAddress)?.balance.toString() ?? ''
+    tokenBalances
+      .find((token) => token.address === sellTokenAddress)
+      ?.balance.shiftedBy(WEI_DECIMALS)
+      .toString() ?? ''
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
