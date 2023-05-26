@@ -24,7 +24,7 @@ class MockNormalizedQuote extends NormalizedQuote {
 }
 
 describe('fiatExchanges utils', () => {
-  const transferCryptoAmount = '10.00'
+  const transferCryptoAmount = 10.0
   const mockNormalizedQuote1 = new MockNormalizedQuote()
   const mockNormalizedQuote2 = new MockNormalizedQuote()
   const mockNormalizedQuote3 = new MockNormalizedQuote()
@@ -73,7 +73,7 @@ describe('fiatExchanges utils', () => {
       })
 
       expect(analyticsOutput).toStrictEqual({
-        transferCryptoAmount,
+        transferCryptoAmount: '10.00',
         centralizedExchangesAvailable: true,
         coinbasePayAvailable: true,
         cryptoType: CiCoCurrency.cUSD,
@@ -110,7 +110,7 @@ describe('fiatExchanges utils', () => {
       })
 
       expect(analyticsOutput).toStrictEqual({
-        transferCryptoAmount,
+        transferCryptoAmount: '10.00',
         centralizedExchangesAvailable: false,
         coinbasePayAvailable: false,
         cryptoType: CiCoCurrency.cUSD,
