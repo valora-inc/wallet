@@ -73,11 +73,11 @@ interface EstimatedGas {
   type: SendTransactionLogEventType.EstimatedGas
   gas: number
   prefilled: boolean
-  gasTokenAddress: string | undefined
+  feeCurrencyAddress: string | undefined
 }
 
-function EstimatedGas(gas: number, prefilled: boolean, gasTokenAddress?: string): EstimatedGas {
-  return { type: SendTransactionLogEventType.EstimatedGas, gas, prefilled, gasTokenAddress }
+function EstimatedGas(gas: number, prefilled: boolean, feeCurrencyAddress?: string): EstimatedGas {
+  return { type: SendTransactionLogEventType.EstimatedGas, gas, prefilled, feeCurrencyAddress }
 }
 
 interface ReceiptReceived {
@@ -110,11 +110,11 @@ function Failed(error: Error): Failed {
 interface Exception {
   type: SendTransactionLogEventType.Exception
   error: Error
-  gasTokenAddress?: string
+  feeCurrencyAddress?: string
 }
 
-function Exception(error: Error, gasTokenAddress?: string): Exception {
-  return { type: SendTransactionLogEventType.Exception, error, gasTokenAddress }
+function Exception(error: Error, feeCurrencyAddress?: string): Exception {
+  return { type: SendTransactionLogEventType.Exception, error, feeCurrencyAddress }
 }
 
 /**

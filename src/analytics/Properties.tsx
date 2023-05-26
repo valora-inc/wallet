@@ -695,7 +695,7 @@ interface TransactionEventsProperties {
     txId: string
     estimatedGas: number
     prefilled: boolean
-    gasTokenAddress?: string
+    feeCurrencyAddress?: string
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -714,7 +714,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_exception]: {
     txId: string
     error: string
-    gasTokenAddress?: string
+    feeCurrencyAddress?: string
   }
 }
 
