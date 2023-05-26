@@ -259,7 +259,7 @@ describe('FiatConnectQuote', () => {
         CICOFlow.CashIn,
         createMockStore().dispatch,
         mockProviderSelectionAnalyticsData,
-        '1.00'
+        new BigNumber('1.00123')
       )()
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_quote_selected,
@@ -285,7 +285,7 @@ describe('FiatConnectQuote', () => {
         CICOFlow.CashIn,
         createMockStore().dispatch,
         mockProviderSelectionAnalyticsData,
-        '2.00'
+        new BigNumber('2')
       )()
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_quote_selected,

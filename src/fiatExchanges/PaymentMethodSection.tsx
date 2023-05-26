@@ -209,7 +209,7 @@ export function PaymentMethodSection({
                 flow,
                 dispatch,
                 analyticsData,
-                tokenInfo && sectionQuotes[0].getFeeInCrypto(exchangeRates, tokenInfo)?.toFixed(2)
+                tokenInfo && sectionQuotes[0].getFeeInCrypto(exchangeRates, tokenInfo)
               )
         }
       >
@@ -237,7 +237,7 @@ export function PaymentMethodSection({
                 flow,
                 dispatch,
                 analyticsData,
-                tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)?.toFixed(2)
+                tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
               )}
             >
               <View style={styles.expandedContainer}>

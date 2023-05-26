@@ -183,7 +183,7 @@ describe('ExternalQuote', () => {
         CICOFlow.CashIn,
         createMockStore().dispatch,
         mockProviderSelectionAnalyticsData,
-        '0.01'
+        null
       )()
       expect(ValoraAnalytics.track).toHaveBeenCalled()
     })

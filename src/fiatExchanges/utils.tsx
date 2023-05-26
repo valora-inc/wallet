@@ -339,7 +339,7 @@ export function getProviderSelectionAnalyticsData({
   legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
   centralizedExchanges?: ExternalExchangeProvider[]
   coinbasePayAvailable: boolean
-  transferCryptoAmount: string
+  transferCryptoAmount: number
   cryptoType: CiCoCurrency
 }): ProviderSelectionAnalyticsData {
   let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
@@ -370,7 +370,7 @@ export function getProviderSelectionAnalyticsData({
   }
 
   return {
-    transferCryptoAmount,
+    transferCryptoAmount: transferCryptoAmount.toFixed(2),
     cryptoType,
     paymentMethodsAvailable,
     lowestFeePaymentMethod,

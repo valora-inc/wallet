@@ -248,7 +248,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     tokenInfo,
     centralizedExchanges: exchanges,
     coinbasePayAvailable: coinbasePayVisible,
-    transferCryptoAmount: cryptoAmount.toFixed(2),
+    transferCryptoAmount: cryptoAmount,
     cryptoType: digitalAsset,
   })
 
