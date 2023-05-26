@@ -1,6 +1,6 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -43,7 +43,12 @@ export default function QRTabBar({
     outputRange: [1, 0],
   })
 
-  const color = state.index === 0 ? colors.dark : colors.light
+  const animatedColor = Animated.interpolateColors(position, {
+    inputRange: [0.9, 1],
+    outputColorRange: [colors.dark, colors.light],
+  })
+
+  const defaultColor = state.index === 0 ? colors.dark : colors.light
 
   const onPressClose = () => {
     navigation.getParent()?.goBack()
@@ -78,9 +83,17 @@ export default function QRTabBar({
         <TopBarIconButton
           icon={
             closeIcon === CloseIcon.BackChevron ? (
-              <BackChevron color={color} />
+              // BackChevron doesn't support Animated color
+              <BackChevron color={defaultColor} />
             ) : (
-              <Times color={color} />
+              // using `animatedColor` with animated svg causes android crash since
+              // upgrading react-native-svg to v13. there are some suggested solutions
+              // linked below, but none that i could get to work after many attempts. since
+              // this is a relatively low impact feature, i'm going to leave it as is for
+              // now.
+              // https://github.com/software-mansion/react-native-svg/issues/1976
+              // https://github.com/software-mansion/react-native-reanimated/issues/3775
+              <Times color={Platform.OS === 'ios' ? animatedColor : defaultColor} />
             )
           }
           onPress={onPressClose}
