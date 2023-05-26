@@ -115,7 +115,7 @@ describe('fiatExchanges utils', () => {
         coinbasePayAvailable: false,
         cryptoType: CiCoCurrency.cUSD,
         totalOptions: 3, // 3 normalized quotes only
-        lowestFeeCryptoAmount: '1.00',
+        lowestFeeCryptoAmount: 1.0,
         lowestFeeKycRequired: true,
         lowestFeePaymentMethod: 'Card',
         lowestFeeProvider: 'mock-provider-1',
