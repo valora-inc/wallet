@@ -571,7 +571,6 @@ const nftScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
