@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useState } from 'react'
 import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -30,11 +30,11 @@ const scaleImageHeight = (originalWidth: number, originalHeight: number, targetW
 
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
-  const [activeNft, setActiveNft] = React.useState((nfts && nfts[0]) ?? null)
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [activeNft, setActiveNft] = useState((nfts && nfts[0]) ?? null)
+  const [isLoading, setIsLoading] = useState(true)
   // @ts-expect-error wip
-  const [shareBottomSheetVisible, setShareBottomSheetVisible] = React.useState(false)
-  const [scaledHeight, setScaledHeight] = React.useState(360)
+  const [shareBottomSheetVisible, setShareBottomSheetVisible] = useState(false)
+  const [scaledHeight, setScaledHeight] = useState(360)
 
   // Some components that require parent state defined here
   const TopBarButtons = () => {
