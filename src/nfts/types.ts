@@ -1,3 +1,13 @@
+interface NftMetaDataAttribute {
+  trait_type: string
+  value: string
+}
+
+interface NftMedia {
+  raw: string
+  gateway: string
+}
+
 export interface Nft {
   tokenId: string
   contractAddress: string
@@ -7,22 +17,10 @@ export interface Nft {
     name: string
     description: string
     image: string
-    dna?: string
-    id?: number
-    date?: number
-    attributes?: [
-      {
-        trait_type: string
-        value: string
-      }
-    ]
+    dna?: string | null
+    id?: number | null
+    date?: number | null
+    attributes?: NftMetaDataAttribute[] | null
   } | null
-  media:
-    | [
-        {
-          raw: string
-          gateway: string
-        }
-      ]
-    | []
+  media: NftMedia[]
 }
