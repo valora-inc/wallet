@@ -87,6 +87,14 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   const NftImageCarousel = () => {
+    const [loadingStates, setLoadingStates] = useState(Array(nfts.length).fill(true))
+
+    const handleImageLoadEnd = (index: number) => {
+      const updatedLoadingStates = [...loadingStates]
+      updatedLoadingStates[index] = false
+      setLoadingStates(updatedLoadingStates)
+    }
+
     return (
       <View style={styles.NftImageCarouselContainer}>
         <ScrollView
@@ -99,8 +107,8 @@ export default function NftsInfoCarousel({ route }: Props) {
           }}
           style={styles.NftImageCarousel}
         >
-          {nfts.map((nft) => {
-            let loading = true
+          {nfts.map((nft, index) => {
+            const isLoading = loadingStates[index]
             return (
               <Touchable key={nft.metadata?.image} onPress={() => setActiveNft(nft)}>
                 <FastImage
@@ -113,15 +121,13 @@ export default function NftsInfoCarousel({ route }: Props) {
                   source={{
                     uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
                   }}
-                  onLoad={(e) => {
-                    loading = false
-                  }}
+                  onLoadEnd={() => handleImageLoadEnd(index)}
                   onError={() => {
                     Logger.error(TAG, 'Error loading Nft preview image')
                   }}
                   resizeMode={FastImage.resizeMode.cover}
                 >
-                  {loading && <ThumbnailImagePlaceholder />}
+                  {isLoading && <ThumbnailImagePlaceholder />}
                 </FastImage>
               </Touchable>
             )
