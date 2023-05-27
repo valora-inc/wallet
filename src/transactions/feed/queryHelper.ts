@@ -310,6 +310,10 @@ export const TRANSACTIONS_QUERY = `
           value
         }
       }
+      media {
+        raw
+        gateway
+      }
     }
   }
 

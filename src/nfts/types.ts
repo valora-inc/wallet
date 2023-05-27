@@ -17,4 +17,12 @@ export interface Nft {
       }
     ]
   } | null
+  media:
+    | [
+        {
+          raw: string
+          gateway: string
+        }
+      ]
+    | []
 }
