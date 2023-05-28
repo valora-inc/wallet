@@ -12,7 +12,7 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
-import { mockProviders } from 'test/values'
+import { mockProviderSelectionAnalyticsData, mockProviders } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 const FAKE_APP_ID = 'fake app id'
@@ -36,6 +36,7 @@ describe('CoinbasePaymentSection', () => {
         quote.paymentMethods.includes(PaymentMethod.Coinbase)
       )!,
       appId: FAKE_APP_ID,
+      analyticsData: mockProviderSelectionAnalyticsData,
     }
     mockStore = createMockStore()
   })
@@ -50,7 +51,10 @@ describe('CoinbasePaymentSection', () => {
     await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
     fireEvent.press(getByTestId('coinbasePayCard'))
     await waitFor(() => {
-      expect(ValoraAnalytics.track).toBeCalledWith(CoinbasePayEvents.coinbase_pay_flow_start)
+      expect(ValoraAnalytics.track).toBeCalledWith(
+        CoinbasePayEvents.coinbase_pay_flow_start,
+        mockProviderSelectionAnalyticsData
+      )
       expect(navigate).toBeCalled()
     })
   })
