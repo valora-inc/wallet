@@ -9,17 +9,14 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StyleProp, ViewStyle } from 'react-native'
 
 interface Props {
-  fromScreen: Screens
   style?: StyleProp<ViewStyle>
   size?: number
   testID?: string
 }
 
-export default function QrScanButton({ fromScreen, style, size, testID }: Props) {
+export default function QrScanButton({ style, size, testID }: Props) {
   const onPress = () => {
-    ValoraAnalytics.track(QrScreenEvents.qr_scanner_open, {
-      fromScreen,
-    })
+    ValoraAnalytics.track(QrScreenEvents.qr_scanner_open)
     navigate(Screens.QRNavigator, {
       screen: Screens.QRScanner,
       closeIcon: CloseIcon.BackChevron,

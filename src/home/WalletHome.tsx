@@ -38,7 +38,6 @@ import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
 import QrScanButton from 'src/components/QrScanButton'
-import { Screens } from 'src/navigator/Screens'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -187,11 +186,9 @@ function WalletHome() {
       edges={!showHomeNavBar ? ['top'] : undefined}
     >
       <DrawerTopBar
-        middleElement={showQrScanner ? undefined : <Logo testID="WalletHome/Logo" />}
+        middleElement={showHomeActions ? undefined : <Logo testID="WalletHome/Logo" />}
         rightElement={
-          showQrScanner ? (
-            <QrScanButton testID={'WalletHome/QRScanButton'} fromScreen={Screens.WalletHome} />
-          ) : undefined
+          showQrScanner ? <QrScanButton testID={'WalletHome/QRScanButton'} /> : undefined
         }
         scrollPosition={scrollPosition}
       />

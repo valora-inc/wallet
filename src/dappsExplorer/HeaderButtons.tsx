@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import QrScanButton from 'src/components/QrScanButton'
-import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
@@ -23,11 +22,7 @@ export default function HeaderButtons({ onPressHelp, testID, helpIconColor }: Pr
   return (
     <View style={styles.headerButtons}>
       {showQrScanner && (
-        <QrScanButton
-          style={styles.qrScanButton}
-          fromScreen={Screens.DAppsExplorerScreen}
-          testID={`${testID}/QRScanButton`}
-        />
+        <QrScanButton style={styles.qrScanButton} testID={`${testID}/QRScanButton`} />
       )}
       <TopBarIconButton
         testID={`${testID}/HelpIcon`}
