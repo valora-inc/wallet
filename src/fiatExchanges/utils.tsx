@@ -1,9 +1,13 @@
 import firebase from '@react-native-firebase/app'
+import BigNumber from 'bignumber.js'
 import { default as DeviceInfo } from 'react-native-device-info'
 import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
+import { TokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
@@ -311,4 +315,75 @@ export function resolveCloudFunctionDigitalAsset(
     [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
   }
   return mapping[currency]
+}
+
+/**
+ * Get analytics data for provider selection.
+ *
+ * Used for cico_providers_quote_selected, cico_providers_exchanges_selected and
+ * coinbase_pay_flow_start analytics events.
+ */
+export function getProviderSelectionAnalyticsData({
+  normalizedQuotes,
+  exchangeRates,
+  tokenInfo,
+  legacyMobileMoneyProviders,
+  centralizedExchanges,
+  coinbasePayAvailable,
+  transferCryptoAmount,
+  cryptoType,
+}: {
+  normalizedQuotes: NormalizedQuote[]
+  exchangeRates: { [token in Currency]: string | null }
+  tokenInfo?: TokenBalance
+  legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
+  centralizedExchanges?: ExternalExchangeProvider[]
+  coinbasePayAvailable: boolean
+  transferCryptoAmount: number
+  cryptoType: CiCoCurrency
+}): ProviderSelectionAnalyticsData {
+  let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
+  let lowestFeeProvider: string | undefined = undefined
+  let lowestFeeCryptoAmount: BigNumber | null = null
+  let lowestFeeKycRequired: boolean | undefined = undefined
+  const centralizedExchangesAvailable = !!centralizedExchanges && centralizedExchanges?.length > 0
+  const paymentMethodsAvailable: Record<PaymentMethod, boolean> = {
+    [PaymentMethod.Bank]: false,
+    [PaymentMethod.Card]: false,
+    [PaymentMethod.FiatConnectMobileMoney]: false,
+    [PaymentMethod.Coinbase]: coinbasePayAvailable,
+    [PaymentMethod.MobileMoney]:
+      !!legacyMobileMoneyProviders && legacyMobileMoneyProviders.length > 0,
+  }
+
+  for (const quote of normalizedQuotes) {
+    paymentMethodsAvailable[quote.getPaymentMethod()] = true
+    if (tokenInfo) {
+      const fee = quote.getFeeInCrypto(exchangeRates, tokenInfo)
+      if (fee && (lowestFeeCryptoAmount === null || fee.isLessThan(lowestFeeCryptoAmount))) {
+        lowestFeeCryptoAmount = fee
+        lowestFeePaymentMethod = quote.getPaymentMethod()
+        lowestFeeProvider = quote.getProviderId()
+        lowestFeeKycRequired = !!quote.getKycInfo()
+      }
+    }
+  }
+
+  return {
+    transferCryptoAmount,
+    cryptoType,
+    paymentMethodsAvailable,
+    lowestFeePaymentMethod,
+    lowestFeeProvider,
+    lowestFeeKycRequired,
+    centralizedExchangesAvailable,
+    coinbasePayAvailable,
+    lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toNumber(),
+    // counts centralized exchanges as single option, since that's how they appear on the Select Providers screen
+    totalOptions:
+      (centralizedExchangesAvailable ? 1 : 0) +
+      (coinbasePayAvailable ? 1 : 0) +
+      (legacyMobileMoneyProviders?.length ?? 0) +
+      normalizedQuotes.length,
+  }
 }
