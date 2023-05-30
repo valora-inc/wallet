@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
@@ -35,6 +36,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   // @ts-expect-error wip
   const [shareBottomSheetVisible, setShareBottomSheetVisible] = useState(false)
   const [scaledHeight, setScaledHeight] = useState(360)
+  const { t } = useTranslation()
 
   // Some components that require parent state defined here
   const TopBarButtons = () => {
@@ -141,7 +143,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   if (nfts.length === 0) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Error Loading Nfts</Text>
+        <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
       </SafeAreaView>
     )
   }
@@ -178,12 +180,12 @@ export default function NftsInfoCarousel({ route }: Props) {
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
         <View style={styles.sectionContainer}>
-          <Text style={styles.subSectionTitle}>Description</Text>
+          <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
           <Text style={styles.text}>{activeNft.metadata?.description}</Text>
         </View>
         {activeNft.metadata?.attributes && (
           <View style={styles.sectionContainer}>
-            <Text style={styles.subSectionTitle}>Properties</Text>
+            <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.attributes')}</Text>
             {activeNft.metadata?.attributes.map((attribute, index) => (
               <View key={index} style={styles.attributesContainer}>
                 <Text style={[styles.attributeTitle, { color: colors.gray3 }]}>
@@ -204,8 +206,8 @@ export default function NftsInfoCarousel({ route }: Props) {
             }
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.explorerLink}>View on Celo Explorer</Text>
-              <OpenLinkIcon color={colors.gray4} />
+              <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
+              <OpenLinkIcon color={colors.onboardingGreen} />
             </View>
           </Touchable>
         </View>

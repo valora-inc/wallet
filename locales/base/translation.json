@@ -1722,5 +1722,11 @@
     "send": "Send",
     "swap": "Swap",
     "withdraw": "Withdraw"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "View on Celo Explorer",
+    "attributes": "Attributes",
+    "description": "Description",
+    "noNftsFound": "No NFTs found"
   }
 }
