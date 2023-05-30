@@ -310,9 +310,10 @@ function TokenBalancesScreen({ navigation, route }: Props) {
       <AnimatedSectionList
         contentContainerStyle={{
           paddingBottom: insets.bottom,
+          opacity: listHeaderHeight > 0 ? 1 : 0,
         }}
-        // Workaround iOS setting an incorrect automatic inset at the top
-        scrollIndicatorInsets={{ top: 0.01 }}
+        // ensure header is above the scrollbar on ios overscroll
+        scrollIndicatorInsets={{ top: listHeaderHeight }}
         // @ts-ignore can't get the SectionList to accept a union type :(
         sections={sections}
         renderItem={renderAssetItem}

@@ -90,13 +90,14 @@ export interface ApproveTransaction {
   to: string
 }
 
-export interface SwapInfo {
-  approveTransaction: ApproveTransaction
-  unvalidatedSwapTransaction: SwapTransaction
+export type SwapInfo = FetchQuoteResponse & {
   userInput: SwapUserInput
 }
 
-export interface ZeroExResponse {
+export interface FetchQuoteResponse {
   approveTransaction: ApproveTransaction
   unvalidatedSwapTransaction: SwapTransaction
+  details: {
+    swapProvider: string
+  }
 }
