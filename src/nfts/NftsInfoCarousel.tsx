@@ -137,32 +137,38 @@ export default function NftsInfoCarousel({ route }: Props) {
             flexGrow: 1,
             justifyContent: 'center',
             alignItems: 'center',
+            marginLeft: Spacing.Regular16,
           }}
           style={styles.NftImageCarousel}
         >
           {nfts.map((nft, index) => {
             const isLoading = loadingStates[index]
             return (
-              <Touchable key={nft.metadata?.image} onPress={() => setActiveNft(nft)}>
-                <FastImage
-                  style={[
-                    styles.NftPreviewImageShared,
-                    activeNft.tokenUri === nft.tokenUri
-                      ? styles.NftPreviewImageSelected
-                      : styles.NftPreviewImageUnSelected,
-                  ]}
-                  source={{
-                    uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
-                  }}
-                  onLoadEnd={() => handleImageLoadEnd(index)}
-                  onError={() => {
-                    Logger.error(TAG, 'Error loading Nft preview image')
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
-                >
-                  {isLoading && <ThumbnailImagePlaceholder />}
-                </FastImage>
-              </Touchable>
+              <View
+                key={nft.metadata?.image}
+                style={{ overflow: 'hidden', borderRadius: 8, marginRight: 8 }}
+              >
+                <Touchable borderless={false} onPress={() => setActiveNft(nft)}>
+                  <FastImage
+                    style={[
+                      styles.NftPreviewImageShared,
+                      activeNft.tokenUri === nft.tokenUri
+                        ? styles.NftPreviewImageSelected
+                        : styles.NftPreviewImageUnSelected,
+                    ]}
+                    source={{
+                      uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
+                    }}
+                    onLoadEnd={() => handleImageLoadEnd(index)}
+                    onError={() => {
+                      Logger.error(TAG, 'Error loading Nft preview image')
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  >
+                    {isLoading && <ThumbnailImagePlaceholder />}
+                  </FastImage>
+                </Touchable>
+              </View>
             )
           })}
         </ScrollView>
@@ -306,7 +312,6 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Smallest8,
   },
   NftPreviewImageShared: {
-    marginLeft: Spacing.Smallest8,
     borderRadius: 8,
   },
   NftPreviewImageSelected: {
