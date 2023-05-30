@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -54,6 +54,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { HomeActionName } from 'src/home/types'
@@ -813,9 +814,14 @@ interface FiatExchangeEventsProperties {
     paymentMethod: PaymentMethod
     provider: string
     flow: CICOFlow
-  }
+    feeCryptoAmount: number | undefined
+    kycRequired: boolean
+    isLowestFee: boolean | undefined
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
-  [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_exchanges_selected]: {
+    flow: CICOFlow
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_new_info_opened]: {
@@ -1176,7 +1182,7 @@ interface WebViewEventsProperties {
 }
 
 interface CoinbasePayEventsProperties {
-  [CoinbasePayEvents.coinbase_pay_flow_start]: undefined
+  [CoinbasePayEvents.coinbase_pay_flow_start]: ProviderSelectionAnalyticsData
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 

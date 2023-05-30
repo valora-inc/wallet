@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { CoinbasePayEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,12 +19,14 @@ export interface CoinbasePaymentSectionProps {
   cryptoAmount: number
   coinbaseProvider: FetchProvidersOutput
   appId: string
+  analyticsData: ProviderSelectionAnalyticsData
 }
 
 export function CoinbasePaymentSection({
   cryptoAmount,
   coinbaseProvider,
   appId,
+  analyticsData,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)!
@@ -36,7 +39,7 @@ export function CoinbasePaymentSection({
   })
 
   const navigateCoinbasePayFlow = () => {
-    ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start)
+    ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start, analyticsData)
     navigate(Screens.CoinbasePayScreen, { uri: coinbasePayURL })
   }
 
