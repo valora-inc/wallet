@@ -1,12 +1,11 @@
 import React from 'react'
-import ScanIcon from 'src/icons/ScanIcon'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate } from 'src/navigator/NavigationService'
-import { QrScreenEvents } from 'src/analytics/Events'
-import { Screens } from 'src/navigator/Screens'
-import { CloseIcon } from 'src/navigator/types'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StyleProp, ViewStyle } from 'react-native'
+import { QrScreenEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import ScanIcon from 'src/icons/ScanIcon'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -17,10 +16,7 @@ interface Props {
 export default function QrScanButton({ style, size, testID }: Props) {
   const onPress = () => {
     ValoraAnalytics.track(QrScreenEvents.qr_scanner_open)
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-      closeIcon: CloseIcon.BackChevron,
-    })
+    navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
   }
 
   return (
