@@ -1,5 +1,7 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
+import { Provider } from 'react-redux'
+import { MockStoreEnhanced } from 'redux-mock-store'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -7,11 +9,8 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CloseIcon } from 'src/navigator/types'
-import { mocked } from 'ts-jest/utils'
-import { MockStoreEnhanced } from 'redux-mock-store'
 import { createMockStore } from 'test/utils'
-import { Provider } from 'react-redux'
+import { mocked } from 'ts-jest/utils'
 
 function getStore(shouldShowSwapAction: boolean) {
   return createMockStore({
@@ -53,21 +52,11 @@ describe('ActionsCarousel', () => {
     expect(queryByTestId(`HomeAction/Title-Swap`)).toBeFalsy()
   })
   it.each([
-    [HomeActionName.Send, 'send', Screens.Send, { closeIcon: CloseIcon.BackChevron }],
-    [
-      HomeActionName.Receive,
-      'receive',
-      Screens.QRNavigator,
-      { screen: Screens.QRCode, closeIcon: CloseIcon.BackChevron },
-    ],
+    [HomeActionName.Send, 'send', Screens.Send, undefined],
+    [HomeActionName.Receive, 'receive', Screens.QRNavigator, { screen: Screens.QRCode }],
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
-    [
-      HomeActionName.Request,
-      'request',
-      Screens.Send,
-      { isOutgoingPaymentRequest: true, closeIcon: CloseIcon.BackChevron },
-    ],
+    [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(
     'renders title and navigates to appropriate screen for %s',
