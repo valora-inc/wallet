@@ -4,10 +4,12 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import { Fee, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 const MOCK_ADDRESS = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'.toLowerCase()
@@ -36,6 +38,8 @@ const MOCK_NFT = {
   tokenId: '333670',
   tokenUri: 'https://arweave.net/43bofqhlE-8Es0QjTOKvekV29dofxP-nlXOspkz8cO0',
 }
+
+jest.mock('src/statsig')
 
 describe('NftFeedItem', () => {
   function renderScreen({
@@ -76,16 +80,18 @@ describe('NftFeedItem', () => {
   }
 
   it('opens NFT Info Carousel correctly when NFT transaction item is clicked', () => {
+    mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen({})
 
     fireEvent.press(tree.getByTestId('NftFeedItem'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.NftInfoCarousel, {
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
       nfts: [MOCK_NFT],
     })
   })
 
-  it.skip('opens NFT Viewer correctly when NFT transaction item is clicked and viewer is disabled in Statsig', () => {
+  it('opens NFT Viewer correctly when NFT transaction item is clicked and viewer is disabled in Statsig', () => {
+    mocked(getFeatureGate).mockReturnValue(false)
     const tree = renderScreen({})
 
     fireEvent.press(tree.getByTestId('NftFeedItem'))

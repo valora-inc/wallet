@@ -30,8 +30,8 @@ function NftFeedItem({ transaction }: Props) {
     getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER)
       ? navigate(Screens.NftsInfoCarousel, { nfts })
       : navigate(Screens.WebViewScreen, {
-        uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
-      })
+          uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+        })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
