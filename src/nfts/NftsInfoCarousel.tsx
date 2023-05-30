@@ -177,6 +177,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   // TODO: Proper Error screen for failure loading Nfts
+  // TODO: Breakout Errors loading NFTs and state when the wallet has no Nfts
   if (nfts.length === 0) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
