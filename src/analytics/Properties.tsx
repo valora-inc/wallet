@@ -8,6 +8,7 @@ import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
+  AssetsEvents,
   AuthenticationEvents,
   CICOEvents,
   CeloExchangeEvents,
@@ -53,6 +54,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { HomeActionName } from 'src/home/types'
@@ -695,6 +697,7 @@ interface TransactionEventsProperties {
     txId: string
     estimatedGas: number
     prefilled: boolean
+    feeCurrencyAddress?: string
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -713,6 +716,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_exception]: {
     txId: string
     error: string
+    feeCurrencyAddress?: string
   }
 }
 
@@ -811,9 +815,14 @@ interface FiatExchangeEventsProperties {
     paymentMethod: PaymentMethod
     provider: string
     flow: CICOFlow
-  }
+    feeCryptoAmount: number | undefined
+    kycRequired: boolean
+    isLowestFee: boolean | undefined
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
-  [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_exchanges_selected]: {
+    flow: CICOFlow
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_new_info_opened]: {
@@ -1174,7 +1183,7 @@ interface WebViewEventsProperties {
 }
 
 interface CoinbasePayEventsProperties {
-  [CoinbasePayEvents.coinbase_pay_flow_start]: undefined
+  [CoinbasePayEvents.coinbase_pay_flow_start]: ProviderSelectionAnalyticsData
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 
@@ -1183,6 +1192,13 @@ interface SwapEvent {
   fromToken: string
   amount: string | null
   amountType: 'buyAmount' | 'sellAmount'
+}
+
+type SwapQuoteEvent = SwapEvent & {
+  allowanceTarget: string
+  estimatedPriceImpact?: string
+  price: string
+  provider: string
 }
 
 interface SwapEventsProperties {
@@ -1201,7 +1217,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_screen_review_swap]: undefined
   [SwapEvents.swap_feed_detail_view_tx]: undefined
   [SwapEvents.swap_review_screen_open]: SwapEvent
-  [SwapEvents.swap_review_submit]: SwapEvent & {
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent & {
     usdTotal: number
   }
   [SwapEvents.swap_execute_price_change]: {
@@ -1210,11 +1226,16 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapEvent & {
-    price: string
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
+    fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
   }
-  [SwapEvents.swap_execute_error]: {
+  [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
+    fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
   }
   [SwapEvents.swap_learn_more]: undefined
 }
@@ -1234,6 +1255,12 @@ interface TokenBottomSheetEventsProperties {
     origin: TokenPickerOrigin
     searchInput: string
   }
+}
+
+interface AssetsEventsProperties {
+  [AssetsEvents.show_asset_balance_info]: undefined
+  [AssetsEvents.view_wallet_assets]: undefined
+  [AssetsEvents.view_dapp_positions]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
@@ -1266,4 +1293,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SwapEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
-  TokenBottomSheetEventsProperties
+  TokenBottomSheetEventsProperties &
+  AssetsEventsProperties

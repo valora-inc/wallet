@@ -576,6 +576,7 @@
   "dismiss": "Bỏ qua",
   "review": "Xem lại",
   "insufficientBalance": "Số dư của bạn quá thấp nên không thể thực hiện được giao dịch này",
+  "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
   "amount": "Số tiền",
   "currentBalance": "Số dư hiện tại (cUSD)",
   "restore": "Khôi phục",

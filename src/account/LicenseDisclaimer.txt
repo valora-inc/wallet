@@ -25057,7 +25057,7 @@ SOFTWARE.
 
 The following software may be included in this product: underscore. A copy of the source code may be downloaded from git://github.com/jashkenas/underscore.git. This software contains the following license and notice below:
 
-Copyright (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
+Copyright (c) 2009-2022 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

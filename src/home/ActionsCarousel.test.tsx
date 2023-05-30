@@ -9,18 +9,49 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CloseIcon } from 'src/navigator/types'
 import { mocked } from 'ts-jest/utils'
+import { MockStoreEnhanced } from 'redux-mock-store'
+import { createMockStore } from 'test/utils'
+import { Provider } from 'react-redux'
+
+function getStore(shouldShowSwapAction: boolean) {
+  return createMockStore({
+    app: {
+      showSwapMenuInDrawerMenu: shouldShowSwapAction,
+    },
+  })
+}
 
 describe('ActionsCarousel', () => {
+  let store: MockStoreEnhanced<{}>
+  beforeEach(() => {
+    store = getStore(true)
+  })
+
   afterEach(() => {
     jest.clearAllMocks()
   })
 
   it('renders all actions', () => {
-    const { getAllByTestId } = render(<ActionsCarousel />)
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <ActionsCarousel />
+      </Provider>
+    )
 
     expect(getAllByTestId(/HomeAction-/)).toHaveLength(6)
   })
 
+  it('does not render swap action when disabled', () => {
+    store = getStore(false)
+    const { queryByTestId, getAllByTestId } = render(
+      <Provider store={store}>
+        <ActionsCarousel />
+      </Provider>
+    )
+
+    expect(getAllByTestId(/HomeAction-/)).toHaveLength(5)
+    expect(queryByTestId(`HomeAction/Title-Swap`)).toBeFalsy()
+  })
   it.each([
     [HomeActionName.Send, 'send', Screens.Send, { closeIcon: CloseIcon.BackChevron }],
     [
@@ -41,7 +72,12 @@ describe('ActionsCarousel', () => {
   ])(
     'renders title and navigates to appropriate screen for %s',
     (name, title, screen, screenOptions) => {
-      const { getByTestId } = render(<ActionsCarousel />)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <ActionsCarousel />
+        </Provider>
+      )
+
       expect(
         within(getByTestId(`HomeAction/Title-${name}`)).getByText(`homeActions.${title}`)
       ).toBeTruthy()
