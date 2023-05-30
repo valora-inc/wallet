@@ -21,7 +21,7 @@ function NftFeedItem({ transaction }: Props) {
   const { nfts } = transaction
 
   const openNftTransactionDetails = () => {
-    navigate(Screens.NftInfoCarousel, { nfts })
+    navigate(Screens.NftsInfoCarousel, { nfts })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
