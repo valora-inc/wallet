@@ -22,7 +22,7 @@ import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'nfts/NftsInfoCarousel'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.NftInfoCarousel>
+type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 
 const scaleImageHeight = (originalWidth: number, originalHeight: number, targetWidth: number) => {
   const aspectRatio = originalWidth / originalHeight
