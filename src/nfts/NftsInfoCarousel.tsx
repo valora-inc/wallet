@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
-import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
@@ -38,22 +38,53 @@ export default function NftsInfoCarousel({ route }: Props) {
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
-  // Some components that require parent state defined here
-  const TopBarButtons = () => {
-    return (
-      <View style={styles.overlay}>
-        <TopBarIconButton
-          onPress={() => navigateBack()}
-          icon={<BackChevronStatic />}
-          style={styles.button}
-        />
-        <TopBarIconButton
-          onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-          icon={<TripleDotHorizontal />}
-          style={styles.button}
-        />
-      </View>
-    )
+  const android_ripple = {
+    color: colors.gray2,
+    foreground: true,
+    borderless: true,
+  }
+
+  // Some components that require parent state defined
+  const PlatformSpecificTopBarButtons = () => {
+    if (Platform.OS === 'ios') {
+      return (
+        <View style={styles.topBarButtonsContainer}>
+          <TopBarIconButton
+            onPress={() => navigateBack()}
+            icon={<BackChevronStatic />}
+            style={[styles.button, { marginTop: Spacing.Thick24 }]}
+          />
+          <TopBarIconButton
+            onPress={() => setShareBottomSheetVisible((prev) => !prev)}
+            icon={<TripleDotHorizontal />}
+            style={[styles.button, { marginTop: Spacing.Thick24 }]}
+          />
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.topBarButtonsContainer}>
+          <View>
+            <Pressable
+              android_ripple={android_ripple}
+              onPress={() => navigateBack()}
+              style={styles.button}
+            >
+              <BackChevronStatic />
+            </Pressable>
+          </View>
+          <View>
+            <Pressable
+              android_ripple={android_ripple}
+              onPress={() => setShareBottomSheetVisible((prev) => !prev)}
+              style={styles.button}
+            >
+              <TripleDotHorizontal />
+            </Pressable>
+          </View>
+        </View>
+      )
+    }
   }
 
   const ThumbnailImagePlaceholder = () => {
@@ -150,7 +181,7 @@ export default function NftsInfoCarousel({ route }: Props) {
 
   return (
     <SafeAreaView>
-      <TopBarButtons />
+      <PlatformSpecificTopBarButtons />
       <ScrollView style={{ height: '100%' }}>
         <FastImage
           style={[
@@ -196,7 +227,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             ))}
           </View>
         )}
-        <View style={[styles.sectionContainer, { marginTop: 0 }]}>
+        <View style={styles.sectionContainer}>
           {/* This should be dynamic based on Network in the future */}
           <Touchable
             onPress={() =>
@@ -237,7 +268,7 @@ const styles = StyleSheet.create({
   attributeTitle: {
     ...fontStyles.small500,
   },
-  overlay: {
+  topBarButtonsContainer: {
     padding: Spacing.Regular16,
     marginTop: Spacing.Regular16,
     position: 'absolute',
@@ -245,20 +276,27 @@ const styles = StyleSheet.create({
     left: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 40,
     zIndex: 1,
     width: '100%',
   },
   button: {
     backgroundColor: colors.white,
-    borderColor: colors.gray2,
-    borderWidth: 1,
+    borderColor: colors.dark,
     borderRadius: 100,
     width: 32,
     height: 32,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: colors.dark,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4, // For Android shadow
   },
+
   NftImageCarouselContainer: {
     flex: 1,
   },
