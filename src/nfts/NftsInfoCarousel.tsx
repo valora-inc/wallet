@@ -327,5 +327,6 @@ const styles = StyleSheet.create({
   explorerLink: {
     ...fontStyles.small500,
     paddingRight: Spacing.Smallest8,
+    color: colors.onboardingGreen,
   },
 })
