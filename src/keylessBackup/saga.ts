@@ -9,6 +9,7 @@ import {
 import Logger from 'src/utils/Logger'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { KeylessBackupEvents } from 'src/analytics/Events'
+import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 
 const TAG = 'keylessBackupSaga'
 
@@ -38,12 +39,21 @@ function* watchGoogleSignInStarted() {
   yield takeLeading(googleSignInStarted.type, handleGoogleSignInStarted)
 }
 
-function* handleGoogleSignInCompleted() {
+function* handleGoogleSignInCompleted({
+  payload: { idToken: jwt },
+}: ReturnType<typeof googleSignInCompleted>) {
+  Logger.debug(TAG, 'handleGoogleSignInCompleted called with jwt', jwt)
   ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google_completed)
 
   // TODO navigate to next step in cloud backup/recovery flow
 
-  // TODO exchange google id token for Torus pk
+  Logger.debug(TAG, 'Exchanging Google id token for Torus private key')
+  const torusPrivateKey = yield call(getTorusPrivateKey, {
+    verifier: 'valora-google-verifier',
+    jwt,
+  })
+
+  Logger.debug(TAG, 'Torus private key', torusPrivateKey)
 
   // TODO store Torus pk in wallet
 }

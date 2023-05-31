@@ -179,4 +179,11 @@ export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
 
 export const CHAIN_ID = DEFAULT_TESTNET === 'mainnet' ? '42220' : '44787'
 
-export const DEFAULT_TORUS_NETWORK = DEFAULT_TESTNET === 'mainnet' ? 'cyan' : 'testnet'
+export const WEB3AUTH_CONFIG: {
+  clientId: string
+  network: 'testnet' | 'cyan'
+} = {
+  clientId:
+    'BDmvH-WIJ0vFMRhJD9OnjAxQAb5Kq05h_oEO3EbWebzEUYxEegc4qC6SnBNmm3EGeIUrHyr1KHf621_0HSITWsU',
+  network: 'testnet',
+} // todo handle mainnet/cyan case

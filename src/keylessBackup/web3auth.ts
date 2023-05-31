@@ -1,5 +1,5 @@
 import Web3Auth from '@web3auth/node-sdk'
-import { CHAIN_ID, DEFAULT_FORNO_URL, DEFAULT_TORUS_NETWORK } from 'src/config'
+import { CHAIN_ID, DEFAULT_FORNO_URL, WEB3AUTH_CONFIG } from 'src/config'
 import jwtDecode from 'jwt-decode'
 import Logger from 'src/utils/Logger'
 
@@ -20,12 +20,18 @@ let web3auth: Web3Auth | undefined = undefined
  * @param jwt - idToken from Sign in with Google flow works. must have issuer expected by the verifier
  * @param network - web3auth network to use
  */
-export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; jwt: string }) {
+export async function getTorusPrivateKey({
+  verifier,
+  jwt,
+}: {
+  verifier: 'valora-google-verifier'
+  jwt: string
+}) {
   try {
     if (!web3auth) {
       web3auth = new Web3Auth({
-        web3AuthNetwork: DEFAULT_TORUS_NETWORK, // TODO get from statsig dynamic config instead? need to see if different networks return different keys first
-        clientId: 'TODO', // TODO get from web3auth dashboard (then pass thru config.ts)
+        web3AuthNetwork: WEB3AUTH_CONFIG.network, // TODO get from statsig dynamic config instead? need to see if different networks return different keys first
+        clientId: WEB3AUTH_CONFIG.clientId,
         chainConfig: {
           chainNamespace: 'eip155',
           chainId: CHAIN_ID,
@@ -36,7 +42,7 @@ export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; 
     }
     const { sub: verifierId } = jwtDecode<{ sub: string }>(jwt)
     const provider = await web3auth.connect({
-      verifier: 'verifier-name', // TODO get from config
+      verifier,
       verifierId,
       idToken: jwt,
     })
