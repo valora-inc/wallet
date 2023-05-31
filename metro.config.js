@@ -7,7 +7,7 @@ const isE2E = process.env.CELO_TEST_CONFIG === 'e2e'
 const root = path.resolve(__dirname)
 const escapedRoot = escapeStringRegexp(root)
 const blist = []
-const defaultSourceExts = require('metro-config/src/defaults/defaults').sourceExts
+const defaultSourceExts = require('metro-config/src/defaults/defaults').sourceExts.concat('cjs')
 const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
 
 module.exports = {
