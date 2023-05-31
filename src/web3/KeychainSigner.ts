@@ -173,18 +173,14 @@ export async function clearStoredAccounts() {
   await Promise.all(accounts.map((account) => removeStoredItem(accountStorageKey(account))))
 }
 
-/**
- * Implements the signer interface on top of the OS keychain
- */
-export class KeychainSigner implements Signer {
-  protected unlockedLocalSigner: LocalSigner | null = null
+export class KeychainLock {
   // Timestamp in milliseconds when the signer was last unlocked
   protected unlockTime?: number
   // Number of seconds that the signer was last unlocked for
   protected unlockDuration?: number
 
   /**
-   * Construct a new instance of the Keychain signer
+   * Construct a new instance of the Keychain Lock
    *
    * @param account Account address derived from the private key to be called in init
    */
@@ -193,6 +189,36 @@ export class KeychainSigner implements Signer {
   async init(privateKey: string, passphrase: string) {
     await storePrivateKey(privateKey, this.account, passphrase)
   }
+
+  async unlock(passphrase: string, duration: number): Promise<boolean> {
+    const privateKey = await getStoredPrivateKey(this.account, passphrase)
+    if (!privateKey) {
+      return false
+    }
+
+    this.unlockTime = Date.now()
+    this.unlockDuration = duration
+    return true
+  }
+
+  isUnlocked(): boolean {
+    if (this.unlockDuration === undefined || this.unlockTime === undefined) {
+      return false
+    }
+
+    if (this.unlockDuration === 0) {
+      return true
+    }
+
+    return this.unlockTime + this.unlockDuration * 1000 > Date.now()
+  }
+}
+
+/**
+ * Implements the signer interface on top of the OS keychain
+ */
+export class KeychainSigner extends KeychainLock implements Signer {
+  protected unlockedLocalSigner: LocalSigner | null = null
 
   async signTransaction(
     addToV: number,
@@ -229,23 +255,10 @@ export class KeychainSigner implements Signer {
     if (!privateKey) {
       return false
     }
-
     this.unlockedLocalSigner = new LocalSigner(privateKey)
     this.unlockTime = Date.now()
     this.unlockDuration = duration
     return true
-  }
-
-  isUnlocked(): boolean {
-    if (this.unlockDuration === undefined || this.unlockTime === undefined) {
-      return false
-    }
-
-    if (this.unlockDuration === 0) {
-      return true
-    }
-
-    return this.unlockTime + this.unlockDuration * 1000 > Date.now()
   }
 
   /**
