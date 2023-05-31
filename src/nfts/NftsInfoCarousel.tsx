@@ -13,6 +13,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { Nft } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -27,6 +28,50 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftInfoCarousel>
 const scaleImageHeight = (originalWidth: number, originalHeight: number, targetWidth: number) => {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
+}
+
+const ThumbnailImagePlaceholder = () => {
+  return (
+    <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
+      <View style={styles.skeletonImageThumbnailPlaceHolder} />
+    </SkeletonPlaceholder>
+  )
+}
+
+const NftThumbnail = ({
+  nft,
+  setActiveNft,
+  activeNft,
+}: {
+  nft: Nft
+  setActiveNft: any
+  activeNft: Nft
+}) => {
+  const [loading, setLoading] = useState(true)
+  return (
+    <Touchable borderless={false} onPress={() => setActiveNft(nft)}>
+      <FastImage
+        style={[
+          styles.nftPreviewImageShared,
+          activeNft.tokenUri === nft.tokenUri
+            ? styles.nftPreviewImageSelected
+            : styles.nftPreviewImageUnSelected,
+        ]}
+        source={{
+          uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
+        }}
+        onError={() => {
+          Logger.error(TAG, 'Error loading Nft preview image')
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+        onLoadEnd={() => {
+          setLoading(false)
+        }}
+      >
+        {loading && <ThumbnailImagePlaceholder />}
+      </FastImage>
+    </Touchable>
+  )
 }
 
 export default function NftsInfoCarousel({ route }: Props) {
@@ -87,14 +132,6 @@ export default function NftsInfoCarousel({ route }: Props) {
     }
   }
 
-  const ThumbnailImagePlaceholder = () => {
-    return (
-      <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
-        <View style={styles.skeletonImageThumbnailPlaceHolder} />
-      </SkeletonPlaceholder>
-    )
-  }
-
   const MainImagePlaceholder = () => {
     return (
       <SkeletonPlaceholder
@@ -114,14 +151,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   const NftImageCarousel = () => {
-    const [loadingStates, setLoadingStates] = useState(Array(nfts.length).fill(true))
-
-    const handleImageLoadEnd = (index: number) => {
-      const updatedLoadingStates = [...loadingStates]
-      updatedLoadingStates[index] = false
-      setLoadingStates(updatedLoadingStates)
-    }
-
     return (
       <View style={styles.nftImageCarouselContainer}>
         <ScrollView
@@ -130,33 +159,19 @@ export default function NftsInfoCarousel({ route }: Props) {
           contentContainerStyle={styles.carouselScrollViewContentContainer}
           style={styles.nftImageCarousel}
         >
-          {nfts.map((nft, index) => {
-            const isLoading = loadingStates[index]
-            return (
-              <View key={nft.metadata?.image} style={styles.nftPreviewImageSharedContainer}>
-                <Touchable borderless={false} onPress={() => setActiveNft(nft)}>
-                  <FastImage
-                    style={[
-                      styles.nftPreviewImageShared,
-                      activeNft.tokenUri === nft.tokenUri
-                        ? styles.nftPreviewImageSelected
-                        : styles.nftPreviewImageUnSelected,
-                    ]}
-                    source={{
-                      uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
-                    }}
-                    onLoadEnd={() => handleImageLoadEnd(index)}
-                    onError={() => {
-                      Logger.error(TAG, 'Error loading Nft preview image')
-                    }}
-                    resizeMode={FastImage.resizeMode.cover}
-                  >
-                    {isLoading && <ThumbnailImagePlaceholder />}
-                  </FastImage>
-                </Touchable>
-              </View>
-            )
-          })}
+          {/* Only display Nfts with metadata */}
+          {nfts
+            .filter((nft) => nft.metadata)
+            .map((nft) => {
+              return (
+                <View
+                  key={`${nft.contractAddress}-${nft.tokenId}`}
+                  style={styles.nftPreviewImageSharedContainer}
+                >
+                  <NftThumbnail nft={nft} setActiveNft={setActiveNft} activeNft={activeNft} />
+                </View>
+              )
+            })}
         </ScrollView>
       </View>
     )
