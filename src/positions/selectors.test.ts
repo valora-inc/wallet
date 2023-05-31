@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
+import { getPositionBalanceUsd } from 'src/positions/getPositionBalanceUsd'
 import {
-  getPositionBalanceUsd,
   positionsByBalanceUsdSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'

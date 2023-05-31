@@ -10,8 +10,8 @@ import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { getPositionBalanceUsd } from 'src/positions/getPositionBalanceUsd'
 import {
-  getPositionBalanceUsd,
   positionsByBalanceUsdSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'

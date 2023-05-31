@@ -4,6 +4,7 @@ import { Position } from 'src/positions/types'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { getPositionBalanceUsd } from './getPositionBalanceUsd'
 
 export const showPositionsSelector = () => getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
 
@@ -11,18 +12,6 @@ export const positionsSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.positions : []
 export const positionsStatusSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.status : 'idle'
-
-export function getPositionBalanceUsd(position: Position): BigNumber {
-  let balanceUsd
-  if (position.type === 'app-token') {
-    const balance = new BigNumber(position.balance)
-    balanceUsd = balance.multipliedBy(position.priceUsd)
-  } else {
-    balanceUsd = new BigNumber(position.balanceUsd)
-  }
-
-  return balanceUsd
-}
 
 export const totalPositionsBalanceUsdSelector = createSelector([positionsSelector], (positions) => {
   if (positions.length === 0) {
