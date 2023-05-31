@@ -41,6 +41,7 @@ const positionsAnalyticsSelector = createSelector(
     return {
       totalPositionsBalanceUsd: totalPositionsBalanceUsd?.toNumber() ?? 0,
       positionsCount: positionsByUsdBalance.length,
+      // Example: "ubeswap-cUSD / CELO:100.00,halofi-Hold CELO:50.00"
       topTenPositions: positionsByUsdBalance
         .slice(0, 10)
         .map(
@@ -53,6 +54,7 @@ const positionsAnalyticsSelector = createSelector(
         )
         .join(','),
       positionsAppsCount: new Set(positionsByUsdBalance.map((position) => position.appId)).size,
+      // Example: "ubeswap:100.00,halofi:50.00"
       positionsTopTenApps: Object.entries(appsByBalanceUsd)
         .sort(([, balanceUsd1], [, balanceUsd2]) => balanceUsd2.comparedTo(balanceUsd1))
         .slice(0, 10)
