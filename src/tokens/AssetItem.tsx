@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { AssetsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
@@ -20,8 +23,24 @@ export const PositionItem = ({ position }: { position: Position }) => {
       ? new BigNumber(position.balanceUsd)
       : new BigNumber(position.balance).multipliedBy(position.priceUsd)
 
+  const onPress = () => {
+    ValoraAnalytics.track(AssetsEvents.tap_asset, {
+      assetType: 'position',
+      network: position.network,
+      appId: position.appId,
+      address: position.address,
+      title: position.displayProps.title,
+      description: position.displayProps.description,
+      balanceUsd: balanceUsd.toNumber(),
+    })
+  }
+
   return (
-    <View testID="PositionItem" style={styles.positionsContainer}>
+    <TouchableWithoutFeedback
+      testID="PositionItem"
+      style={styles.positionsContainer}
+      onPress={onPress}
+    >
       <View style={styles.row}>
         <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
@@ -46,7 +65,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
           />
         )}
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -65,8 +84,23 @@ export const TokenBalanceItem = ({
     )
   }
 
+  const onPress = () => {
+    ValoraAnalytics.track(AssetsEvents.tap_asset, {
+      assetType: 'token',
+      address: token.address,
+      title: token.symbol,
+      description: token.name,
+      balanceUsd: token.balance.multipliedBy(token.usdPrice ?? 0).toNumber(),
+    })
+  }
+
   return (
-    <View testID="TokenBalanceItem" key={`Token${token.address}`} style={styles.container}>
+    <TouchableWithoutFeedback
+      testID="TokenBalanceItem"
+      key={`Token${token.address}`}
+      style={styles.container}
+      onPress={onPress}
+    >
       <View style={styles.row}>
         <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
@@ -103,7 +137,7 @@ export const TokenBalanceItem = ({
           </View>
         )}
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 
