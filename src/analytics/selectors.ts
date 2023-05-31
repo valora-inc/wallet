@@ -10,9 +10,57 @@ import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import {
+  getPositionBalanceUsd,
+  positionsByBalanceUsdSelector,
+  totalPositionsBalanceUsdSelector,
+} from 'src/positions/selectors'
 import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
+
+const tokensSelector = createSelector(
+  [tokensWithTokenBalanceSelector, coreTokensSelector],
+  (tokens, coreTokens) => ({ tokens, coreTokens })
+)
+
+const positionsAnalyticsSelector = createSelector(
+  [positionsByBalanceUsdSelector, totalPositionsBalanceUsdSelector],
+  (positionsByUsdBalance, totalPositionsBalanceUsd) => {
+    const appsByBalanceUsd: Record<string, BigNumber> = {}
+    for (const position of positionsByUsdBalance) {
+      const appId = position.appId
+      const positionBalanceUsd = getPositionBalanceUsd(position)
+      if (appsByBalanceUsd[appId]) {
+        appsByBalanceUsd[appId] = appsByBalanceUsd[appId].plus(positionBalanceUsd)
+      } else {
+        appsByBalanceUsd[appId] = positionBalanceUsd
+      }
+    }
+
+    return {
+      totalPositionsBalanceUsd: totalPositionsBalanceUsd?.toNumber() ?? 0,
+      positionsCount: positionsByUsdBalance.length,
+      topTenPositions: positionsByUsdBalance
+        .slice(0, 10)
+        .map(
+          (position) =>
+            // Note: title could be localized and can contain any character
+            // But is best to get a sense of what the position is (without looking up address)
+            `${position.appId}-${position.displayProps.title}:${getPositionBalanceUsd(
+              position
+            ).toFixed(2)}`
+        )
+        .join(','),
+      positionsAppsCount: new Set(positionsByUsdBalance.map((position) => position.appId)).size,
+      positionsTopTenApps: Object.entries(appsByBalanceUsd)
+        .sort(([, balanceUsd1], [, balanceUsd2]) => balanceUsd2.comparedTo(balanceUsd1))
+        .slice(0, 10)
+        .map(([appId, balanceUsd]) => `${appId}:${balanceUsd.toFixed(2)}`)
+        .join(','),
+    }
+  }
+)
 
 export const getCurrentUserTraits = createSelector(
   [
@@ -21,8 +69,8 @@ export const getCurrentUserTraits = createSelector(
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
-    tokensWithTokenBalanceSelector,
-    coreTokensSelector,
+    tokensSelector,
+    positionsAnalyticsSelector,
     getLocalCurrencyCode,
     phoneVerificationStatusSelector,
     backupCompletedSelector,
@@ -35,8 +83,14 @@ export const getCurrentUserTraits = createSelector(
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
-    tokens,
-    coreTokens,
+    { tokens, coreTokens },
+    {
+      totalPositionsBalanceUsd,
+      positionsCount,
+      topTenPositions,
+      positionsAppsCount,
+      positionsTopTenApps,
+    },
     localCurrencyCode,
     { numberVerifiedDecentralized, numberVerifiedCentralized },
     hasCompletedBackup,
@@ -68,7 +122,7 @@ export const getCurrentUserTraits = createSelector(
       countryCodeAlpha2,
       language,
       deviceLanguage: RNLocalize.getLocales()[0]?.languageTag, // Example: "en-GB"
-      totalBalanceUsd: totalBalanceUsd?.toNumber(),
+      totalBalanceUsd: totalBalanceUsd?.toNumber(), // Only tokens (with a USD price), no positions
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
         .filter((token) => !coreTokensAddresses.has(token.address))
@@ -89,6 +143,11 @@ export const getCurrentUserTraits = createSelector(
           token.balance.toNumber(),
         ])
       ),
+      totalPositionsBalanceUsd,
+      positionsCount,
+      topTenPositions,
+      positionsAppsCount,
+      positionsTopTenApps,
       localCurrencyCode,
       hasVerifiedNumber: numberVerifiedDecentralized,
       hasVerifiedNumberCPV: numberVerifiedCentralized,
