@@ -1728,6 +1728,9 @@
     "attributes": "Attributes",
     "description": "Description",
     "noNftsFound": "No NFTs found",
-    "nftImageLoadError": "There is an issue loading this Nft"
+    "nftImageLoadError": "There is an issue loading this Nft",
+    "loadErrorTitle": "There is an issue loading NFTs",
+    "loadErrorSubtitle": "You can check back soon or contact support if you have additional questions.",
+    "contactSupport": "Contact support"
   }
 }

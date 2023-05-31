@@ -9,7 +9,7 @@ import Touchable from 'src/components/Touchable'
 import BackChevronStatic from 'src/icons/BackChevronStatic'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import TripleDotHorizontal from 'src/icons/TripleDotHorizontal'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -33,8 +33,36 @@ const scaleImageHeight = (originalWidth: number, originalHeight: number, targetW
 const NftsLoadErrorScreen = () => {
   const { t } = useTranslation()
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <TopBarIconButton
+        style={{ margin: Spacing.Smallest8 }}
+        icon={<BackChevronStatic />}
+        onPress={navigateBack}
+      />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginHorizontal: Spacing.Thick24,
+        }}
+      >
+        <Text style={[styles.title, { marginBottom: Spacing.Thick24 }]}>
+          {t('nftInfoCarousel.loadErrorTitle')}
+        </Text>
+        <Text style={[styles.subTitle, { marginBottom: Spacing.Regular16, textAlign: 'center' }]}>
+          {t('nftInfoCarousel.loadErrorSubtitle')}
+        </Text>
+        <Touchable onPress={() => navigate(Screens.SupportContact)}>
+          <Text style={[styles.text, styles.contactSupportTouchable]}>
+            {t('nftInfoCarousel.contactSupport')}
+          </Text>
+        </Touchable>
+      </View>
     </SafeAreaView>
   )
 }
@@ -304,6 +332,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: Spacing.Regular16,
   },
+  contactSupportTouchable: {
+    alignItems: 'center',
+    ...fontStyles.large600,
+    color: colors.onboardingGreen,
+    textDecorationLine: 'underline',
+  },
   explorerLink: {
     ...fontStyles.small500,
     color: colors.onboardingGreen,
@@ -360,6 +394,9 @@ const styles = StyleSheet.create({
   subSectionTitle: {
     ...fontStyles.large600,
     marginBottom: Spacing.Regular16,
+  },
+  subTitle: {
+    ...fontStyles.large,
   },
   text: {
     ...fontStyles.regular,
