@@ -195,37 +195,49 @@ export default function NftsInfoCarousel({ route }: Props) {
     <SafeAreaView>
       <PlatformSpecificTopBarButtons />
       <ScrollView>
-        <FastImage
-          style={[
-            {
-              height: scaledHeight,
-              width: variables.width,
-            },
-          ]}
-          source={{
-            uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)?.gateway,
-          }}
-          onLoad={(e) => {
-            setScaledHeight(
-              scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
-            )
-          }}
-          onLoadEnd={() => setIsLoading(false)}
-          onError={() => {
-            Logger.error(TAG, 'Error loading Nft image')
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        >
-          {isLoading && <MainImagePlaceholder />}
-        </FastImage>
+        {activeNft.metadata && (
+          <FastImage
+            style={[
+              {
+                height: scaledHeight,
+                width: variables.width,
+              },
+            ]}
+            source={{
+              uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)
+                ?.gateway,
+            }}
+            onLoad={(e) => {
+              setScaledHeight(
+                scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
+              )
+            }}
+            onLoadEnd={() => setIsLoading(false)}
+            onError={() => {
+              Logger.error(TAG, 'Error loading Nft image')
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          >
+            {isLoading && <MainImagePlaceholder />}
+          </FastImage>
+        )}
+        {/* This could happen if the indexer is experiencing issues with particular nfts */}
+        {!activeNft.metadata && (
+          <View style={styles.nftImageLoadingErrorContainer}>
+            <Text style={{ color: colors.light }}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+          </View>
+        )}
+
         {nfts.length > 1 && <NftImageCarousel />}
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
-          <Text style={styles.text}>{activeNft.metadata?.description}</Text>
-        </View>
+        {activeNft.metadata && (
+          <View style={styles.sectionContainer}>
+            <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
+            <Text style={styles.text}>{activeNft.metadata?.description}</Text>
+          </View>
+        )}
         {activeNft.metadata?.attributes && (
           <View style={styles.sectionContainer}>
             <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.attributes')}</Text>
@@ -237,8 +249,8 @@ export default function NftsInfoCarousel({ route }: Props) {
             ))}
           </View>
         )}
+        {/* This should be dynamic based on Network in the future. Always show as fallback */}
         <View style={styles.sectionContainer}>
-          {/* This should be dynamic based on Network in the future */}
           <Touchable
             onPress={() =>
               Linking.openURL(
@@ -313,6 +325,13 @@ const styles = StyleSheet.create({
   },
   nftImageCarouselContainer: {
     flex: 1,
+  },
+  nftImageLoadingErrorContainer: {
+    width: '100%',
+    height: 360,
+    backgroundColor: colors.dark,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   nftPreviewImageSelected: {
     height: 40,
