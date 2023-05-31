@@ -13,6 +13,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { Nft } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -27,6 +28,59 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 const scaleImageHeight = (originalWidth: number, originalHeight: number, targetWidth: number) => {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
+}
+
+const NftsLoadErrorScreen = () => {
+  const { t } = useTranslation()
+  return (
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
+    </SafeAreaView>
+  )
+}
+
+const ThumbnailImagePlaceholder = () => {
+  return (
+    <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
+      <View style={styles.skeletonImageThumbnailPlaceHolder} />
+    </SkeletonPlaceholder>
+  )
+}
+
+const NftThumbnail = ({
+  nft,
+  setActiveNft,
+  activeNft,
+}: {
+  nft: Nft
+  setActiveNft: any
+  activeNft: Nft
+}) => {
+  const [loading, setLoading] = useState(true)
+  return (
+    <Touchable borderless={false} onPress={() => setActiveNft(nft)}>
+      <FastImage
+        style={[
+          styles.nftPreviewImageShared,
+          activeNft.tokenUri === nft.tokenUri
+            ? styles.nftPreviewImageSelected
+            : styles.nftPreviewImageUnSelected,
+        ]}
+        source={{
+          uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
+        }}
+        onError={() => {
+          Logger.error(TAG, 'Error loading Nft preview image')
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+        onLoadEnd={() => {
+          setLoading(false)
+        }}
+      >
+        {loading && <ThumbnailImagePlaceholder />}
+      </FastImage>
+    </Touchable>
+  )
 }
 
 export default function NftsInfoCarousel({ route }: Props) {
@@ -87,14 +141,6 @@ export default function NftsInfoCarousel({ route }: Props) {
     }
   }
 
-  const ThumbnailImagePlaceholder = () => {
-    return (
-      <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
-        <View style={styles.skeletonImageThumbnailPlaceHolder} />
-      </SkeletonPlaceholder>
-    )
-  }
-
   const MainImagePlaceholder = () => {
     return (
       <SkeletonPlaceholder
@@ -114,14 +160,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   const NftImageCarousel = () => {
-    const [loadingStates, setLoadingStates] = useState(Array(nfts.length).fill(true))
-
-    const handleImageLoadEnd = (index: number) => {
-      const updatedLoadingStates = [...loadingStates]
-      updatedLoadingStates[index] = false
-      setLoadingStates(updatedLoadingStates)
-    }
-
     return (
       <View style={styles.nftImageCarouselContainer}>
         <ScrollView
@@ -130,83 +168,76 @@ export default function NftsInfoCarousel({ route }: Props) {
           contentContainerStyle={styles.carouselScrollViewContentContainer}
           style={styles.nftImageCarousel}
         >
-          {nfts.map((nft, index) => {
-            const isLoading = loadingStates[index]
-            return (
-              <View key={nft.metadata?.image} style={styles.nftPreviewImageSharedContainer}>
-                <Touchable borderless={false} onPress={() => setActiveNft(nft)}>
-                  <FastImage
-                    style={[
-                      styles.nftPreviewImageShared,
-                      activeNft.tokenUri === nft.tokenUri
-                        ? styles.nftPreviewImageSelected
-                        : styles.nftPreviewImageUnSelected,
-                    ]}
-                    source={{
-                      uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
-                    }}
-                    onLoadEnd={() => handleImageLoadEnd(index)}
-                    onError={() => {
-                      Logger.error(TAG, 'Error loading Nft preview image')
-                    }}
-                    resizeMode={FastImage.resizeMode.cover}
-                  >
-                    {isLoading && <ThumbnailImagePlaceholder />}
-                  </FastImage>
-                </Touchable>
-              </View>
-            )
-          })}
+          {/* Only display Nfts with metadata */}
+          {nfts
+            .filter((nft) => nft.metadata)
+            .map((nft) => {
+              return (
+                <View
+                  key={`${nft.contractAddress}-${nft.tokenId}`}
+                  style={styles.nftPreviewImageSharedContainer}
+                >
+                  <NftThumbnail nft={nft} setActiveNft={setActiveNft} activeNft={activeNft} />
+                </View>
+              )
+            })}
         </ScrollView>
       </View>
     )
   }
 
-  // TODO: Proper Error screen for failure loading Nfts
-  // TODO: Breakout Errors loading NFTs and state when the wallet has no Nfts
+  // Display error screen no Nfts provided
   if (nfts.length === 0) {
-    return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
-      </SafeAreaView>
-    )
+    return <NftsLoadErrorScreen />
   }
 
   return (
     <SafeAreaView>
       <PlatformSpecificTopBarButtons />
       <ScrollView>
-        <FastImage
-          style={[
-            {
-              height: scaledHeight,
-              width: variables.width,
-            },
-          ]}
-          source={{
-            uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)?.gateway,
-          }}
-          onLoad={(e) => {
-            setScaledHeight(
-              scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
-            )
-          }}
-          onLoadEnd={() => setIsLoading(false)}
-          onError={() => {
-            Logger.error(TAG, 'Error loading Nft image')
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        >
-          {isLoading && <MainImagePlaceholder />}
-        </FastImage>
+        {activeNft.metadata && (
+          <FastImage
+            style={[
+              {
+                height: scaledHeight,
+                width: variables.width,
+              },
+            ]}
+            source={{
+              uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)
+                ?.gateway,
+            }}
+            onLoad={(e) => {
+              setScaledHeight(
+                scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
+              )
+            }}
+            onLoadEnd={() => setIsLoading(false)}
+            onError={() => {
+              Logger.error(TAG, 'Error loading Nft image')
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          >
+            {isLoading && <MainImagePlaceholder />}
+          </FastImage>
+        )}
+        {/* This could happen if the indexer is experiencing issues with particular nfts */}
+        {!activeNft.metadata && (
+          <View style={styles.nftImageLoadingErrorContainer}>
+            <Text style={{ color: colors.light }}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+          </View>
+        )}
+
         {nfts.length > 1 && <NftImageCarousel />}
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
-          <Text style={styles.text}>{activeNft.metadata?.description}</Text>
-        </View>
+        {activeNft.metadata && (
+          <View style={styles.sectionContainer}>
+            <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
+            <Text style={styles.text}>{activeNft.metadata?.description}</Text>
+          </View>
+        )}
         {activeNft.metadata?.attributes && (
           <View style={styles.sectionContainer}>
             <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.attributes')}</Text>
@@ -218,8 +249,8 @@ export default function NftsInfoCarousel({ route }: Props) {
             ))}
           </View>
         )}
+        {/* This should be dynamic based on Network in the future. Always show as fallback */}
         <View style={styles.sectionContainer}>
-          {/* This should be dynamic based on Network in the future */}
           <Touchable
             onPress={() =>
               Linking.openURL(
@@ -237,8 +268,6 @@ export default function NftsInfoCarousel({ route }: Props) {
     </SafeAreaView>
   )
 }
-
-// 'sectionContainer', 'subSectionTitle', 'text', 'title', 'topBarButtonsContainer']
 
 const styles = StyleSheet.create({
   attributeText: {
@@ -294,6 +323,13 @@ const styles = StyleSheet.create({
   },
   nftImageCarouselContainer: {
     flex: 1,
+  },
+  nftImageLoadingErrorContainer: {
+    width: '100%',
+    height: 360,
+    backgroundColor: colors.dark,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   nftPreviewImageSelected: {
     height: 40,
