@@ -131,7 +131,7 @@ export function* appInit() {
 
   yield all([
     call(initializeSentry),
-    call(ValoraAnalytics.init),
+    call([ValoraAnalytics, 'init']),
     call(
       initI18n,
       language || bestLanguage || DEFAULT_APP_LANGUAGE,
