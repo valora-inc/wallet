@@ -214,7 +214,7 @@ describe('getCurrentUserTraits', () => {
             address: '0xd',
             appId: 'd',
             displayProps: {
-              title: 'Title D',
+              title: 'Title D which is really long and should be truncated',
             },
             balanceUsd: '0.01234',
           },
@@ -256,7 +256,7 @@ describe('getCurrentUserTraits', () => {
       positionsTopTenApps: 'b:71.11,a:10.00,c:2.22,d:0.01',
       tokenCount: 13,
       topTenPositions:
-        'b-Title E:70.00,a-Title A:10.00,c-Title C:2.22,b-Title B:1.11,d-Title D:0.01',
+        'b-Title E:70.00,a-Title A:10.00,c-Title C:2.22,b-Title B:1.11,d-Title D which is rea:0.01',
       totalBalanceUsd: 5681.606783945,
       totalPositionsBalanceUsd: 83.34234,
       walletAddress: '0x0000000000000000000000000000000000007e57',

@@ -48,7 +48,8 @@ const positionsAnalyticsSelector = createSelector(
           (position) =>
             // Note: title could be localized and can contain any character
             // But is best to get a sense of what the position is (without looking up address)
-            `${position.appId}-${position.displayProps.title}:${getPositionBalanceUsd(
+            // Also truncate the title to avoid reaching the 255 chars limit
+            `${position.appId}-${position.displayProps.title.slice(0, 20)}:${getPositionBalanceUsd(
               position
             ).toFixed(2)}`
         )
