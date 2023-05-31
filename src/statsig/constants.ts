@@ -63,6 +63,7 @@ export const ExperimentConfigs = {
       showSwapOnMenu: true,
       showHomeActions: false,
       showHomeNavBar: true,
+      showQrScanner: false,
     },
   },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {

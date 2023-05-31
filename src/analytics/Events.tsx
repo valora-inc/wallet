@@ -311,6 +311,7 @@ export enum QrScreenEvents {
   qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
   qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
+  qr_scanner_open = 'qr_scanner_open', // When unique "QR scanner" button is pressed
 }
 
 export enum RequestEvents {
