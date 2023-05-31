@@ -269,8 +269,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   )
 }
 
-// 'sectionContainer', 'subSectionTitle', 'text', 'title', 'topBarButtonsContainer']
-
 const styles = StyleSheet.create({
   attributeText: {
     ...fontStyles.regular,
