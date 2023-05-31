@@ -40,7 +40,7 @@ export async function getTorusPrivateKey({
       })
       web3auth.init()
     }
-    const { sub: verifierId } = jwtDecode<{ sub: string }>(jwt)
+    const { email: verifierId } = jwtDecode<{ email: string }>(jwt)
     const provider = await web3auth.connect({
       verifier,
       verifierId,
