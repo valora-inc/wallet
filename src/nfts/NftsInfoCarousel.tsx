@@ -30,6 +30,15 @@ const scaleImageHeight = (originalWidth: number, originalHeight: number, targetW
   return targetWidth / aspectRatio
 }
 
+const NftsLoadErrorScreen = () => {
+  const { t } = useTranslation()
+  return (
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
+    </SafeAreaView>
+  )
+}
+
 const ThumbnailImagePlaceholder = () => {
   return (
     <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
@@ -177,14 +186,9 @@ export default function NftsInfoCarousel({ route }: Props) {
     )
   }
 
-  // TODO: Proper Error screen for failure loading Nfts
-  // TODO: Breakout Errors loading NFTs and state when the wallet has no Nfts
+  // Display error screen no Nfts provided
   if (nfts.length === 0) {
-    return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
-      </SafeAreaView>
-    )
+    return <NftsLoadErrorScreen />
   }
 
   return (
