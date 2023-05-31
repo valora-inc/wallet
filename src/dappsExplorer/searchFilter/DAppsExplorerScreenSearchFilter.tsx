@@ -33,12 +33,11 @@ import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
@@ -126,10 +125,10 @@ export function DAppsExplorerScreenSearchFilter() {
     >
       <DrawerTopBar
         rightElement={
-          <TopBarIconButton
-            testID="DAppsExplorerScreenSearchFilter/HelpIcon"
-            icon={<Help color={colors.onboardingGreen} />}
-            onPress={openSheet}
+          <HeaderButtons
+            onPressHelp={openSheet}
+            helpIconColor={colors.onboardingGreen}
+            testID={'DAppsExplorerScreenSearchFilter/HeaderButtons'}
           />
         }
         scrollPosition={scrollPosition}
