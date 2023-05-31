@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
-  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
+  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -26,7 +26,12 @@ import {
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
+import {
+  FetchProvidersOutput,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
+} from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
@@ -45,7 +50,7 @@ import {
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 export const nullAddress = '0x0'
@@ -1221,3 +1226,38 @@ export const mockPositions: Position[] = [
     balanceUsd: '1.3207590254762067',
   },
 ]
+
+export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData = {
+  centralizedExchangesAvailable: true,
+  coinbasePayAvailable: true,
+  totalOptions: 3,
+  paymentMethodsAvailable: {
+    [PaymentMethod.Card]: false,
+    [PaymentMethod.Bank]: true,
+    [PaymentMethod.Coinbase]: true,
+    [PaymentMethod.MobileMoney]: true,
+    [PaymentMethod.FiatConnectMobileMoney]: false,
+  },
+  transferCryptoAmount: 10.0,
+  cryptoType: CiCoCurrency.cUSD,
+  lowestFeeKycRequired: false,
+  lowestFeeCryptoAmount: 1.0,
+  lowestFeeProvider: 'mock-provider-1',
+  lowestFeePaymentMethod: PaymentMethod.Bank,
+}
+
+export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
+  name: 'mock-legacy-mobile-money-1',
+  celo: {
+    cashIn: false,
+    cashOut: false,
+    countries: [],
+    url: 'fake-url-1',
+  },
+  cusd: {
+    cashIn: true,
+    cashOut: true,
+    countries: [],
+    url: 'fake-url-1',
+  },
+}

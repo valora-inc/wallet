@@ -7,7 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockProviders } from 'test/values'
+import { mockCusdAddress, mockProviders, mockProviderSelectionAnalyticsData } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -179,7 +179,12 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        null
+      )()
       expect(ValoraAnalytics.track).toHaveBeenCalled()
     })
   })
