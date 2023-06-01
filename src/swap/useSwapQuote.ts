@@ -17,13 +17,6 @@ interface ExchangeRate {
   price: string
 }
 
-interface QuoteRequestParams {
-  toTokenAddress: string
-  fromTokenAddress: string
-  swapAmount: ParsedSwapAmount
-  updatedField: Field
-}
-
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
