@@ -22,7 +22,10 @@ const useSwapQuote = () => {
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(null)
 
-  const requestUrlRef = useRef('')
+  // refreshQuote requests are generated when the swap input amounts are
+  // changed, but the quote response / updated exchange rate updates the swap
+  // input amounts. this variable prevents duplicated requests in this scenario
+  const requestUrlRef = useRef<string>('')
 
   const refreshQuote = useAsyncCallback(
     async (
