@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
-import { Field, ParsedSwapAmount } from 'src/swap/types'
+import { FetchQuoteResponse, Field, ParsedSwapAmount } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
@@ -68,8 +68,10 @@ const useSwapQuote = () => {
         throw new Error(await response.text())
       }
 
+      const quote: FetchQuoteResponse = await response.json()
+
       return {
-        response,
+        quote,
         requestParams: {
           toTokenAddress: toToken.address,
           fromTokenAddress: fromToken.address,
@@ -81,8 +83,13 @@ const useSwapQuote = () => {
     {
       onSuccess: async (
         result: {
-          response: Response
-          requestParams: any
+          quote: FetchQuoteResponse
+          requestParams: {
+            fromTokenAddress: string
+            toTokenAddress: string
+            swapAmount: ParsedSwapAmount
+            updatedField: Field
+          }
         } | null
       ) => {
         if (!result) {
@@ -90,10 +97,9 @@ const useSwapQuote = () => {
           return
         }
 
-        const { response, requestParams } = result
+        const { quote, requestParams } = result
         const { toTokenAddress, fromTokenAddress, updatedField, swapAmount } = requestParams
 
-        const quote = await response.json()
         const swapPrice = useGuaranteedPrice
           ? quote.unvalidatedSwapTransaction.guaranteedPrice
           : quote.unvalidatedSwapTransaction.price
