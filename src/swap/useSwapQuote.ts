@@ -69,49 +69,28 @@ const useSwapQuote = () => {
       }
 
       const quote: FetchQuoteResponse = await response.json()
-
-      return {
-        quote,
-        requestParams: {
-          toTokenAddress: toToken.address,
-          fromTokenAddress: fromToken.address,
-          updatedField,
-          swapAmount,
-        },
+      const swapPrice = useGuaranteedPrice
+        ? quote.unvalidatedSwapTransaction.guaranteedPrice
+        : quote.unvalidatedSwapTransaction.price
+      const updatedExchangeRate: ExchangeRate = {
+        toTokenAddress: toToken.address,
+        fromTokenAddress: fromToken.address,
+        swapAmount: swapAmount[updatedField],
+        price:
+          updatedField === Field.FROM
+            ? swapPrice
+            : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
       }
+
+      return updatedExchangeRate
     },
     {
-      onSuccess: async (
-        result: {
-          quote: FetchQuoteResponse
-          requestParams: {
-            fromTokenAddress: string
-            toTokenAddress: string
-            swapAmount: ParsedSwapAmount
-            updatedField: Field
-          }
-        } | null
-      ) => {
-        if (!result) {
-          // do nothing if the quote refresh exited early
+      onSuccess: (updatedExchangeRate: ExchangeRate | null) => {
+        if (!updatedExchangeRate) {
+          // do nothing if the promise exited early
           return
         }
-
-        const { quote, requestParams } = result
-        const { toTokenAddress, fromTokenAddress, updatedField, swapAmount } = requestParams
-
-        const swapPrice = useGuaranteedPrice
-          ? quote.unvalidatedSwapTransaction.guaranteedPrice
-          : quote.unvalidatedSwapTransaction.price
-        setExchangeRate({
-          toTokenAddress: toTokenAddress,
-          fromTokenAddress: fromTokenAddress,
-          swapAmount: swapAmount[updatedField],
-          price:
-            updatedField === Field.FROM
-              ? swapPrice
-              : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
-        })
+        setExchangeRate(updatedExchangeRate)
       },
       onError: (error: Error) => {
         setExchangeRate(null)
