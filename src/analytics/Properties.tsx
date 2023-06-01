@@ -984,6 +984,7 @@ interface QrScreenProperties {
   [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
     exchange: string
   }
+  [QrScreenEvents.qr_scanner_open]: undefined
 }
 interface FiatConnectKycProperties {
   provider: string

@@ -14,7 +14,7 @@ PODS:
     - React-Core
   - CleverTap-iOS-SDK (4.2.2):
     - SDWebImage (~> 5.11)
-  - clevertap-react-native (1.0.2):
+  - clevertap-react-native (1.0.3):
     - CleverTap-iOS-SDK (= 4.2.2)
     - React-Core
   - CocoaAsyncSocket (7.6.5)
@@ -226,7 +226,7 @@ PODS:
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
   - lottie-ios (3.4.4)
-  - lottie-react-native (5.1.5):
+  - lottie-react-native (5.1.6):
     - lottie-ios (~> 3.4.0)
     - React-Core
   - nanopb (2.30909.0):
@@ -1061,7 +1061,7 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CleverTap-iOS-SDK: 36c21b8a671d87a0f9c7b389b339d02528bbe4d7
-  clevertap-react-native: 5b73c22b6d6aa384eb4de7cc23fba5437074a5c8
+  clevertap-react-native: f291b28460c0f0ce92aad465f091e205dbb7425d
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CTNotificationService: 43d6e66c78bc338bde3db173d615d8cde5f104f7
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -1100,7 +1100,7 @@ SPEC CHECKSUMS:
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
-  lottie-react-native: 3e722c63015fdb9c27638b0a77969fc412067c18
+  lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-AppTrackingTransparency: 7e4612104f43441744dc472d5b258daee5b71f7b
