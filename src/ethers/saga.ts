@@ -1,44 +1,38 @@
-import { Lock } from '@celo/base/lib/lock'
+import { chain } from 'lodash'
 import { call, select } from 'redux-saga/effects'
+import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getStoredMnemonic } from 'src/backup/utils'
-import { DEFAULT_FORNO_URL } from 'src/config'
 import Wallet from 'src/ethers/Wallet'
 import { Chain } from 'src/ethers/types'
 import { navigateToError } from 'src/navigator/NavigationService'
-import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
+import { KeychainAccount, listStoredAccounts } from 'src/web3/KeychainSigner'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-const wallets = new Map<Chain, Wallet | undefined>()
-
-const initWalletLock = new Lock()
-
-const providerUrlForChain = {
-  [Chain.Celo]: DEFAULT_FORNO_URL,
-}
+let wallet: Wallet | undefined
 
 const TAG = 'ethers/saga'
 
-export function* initWallet(chain: Chain) {
+export function* initWallet() {
   try {
-    if (wallets.get(chain)) {
+    if (wallet) {
       throw new Error('Wallet already initialized')
     }
     const walletAddress: string | null = yield select(walletAddressSelector)
-    if (!walletAddress) {
-      throw new Error('Wallet address not initialized')
+    const accountCreationTime: number = yield select(accountCreationTimeSelector)
+
+    // This is to migrate the existing account that used to be stored in the geth keystore
+    const importMnemonicAccount = {
+      address: walletAddress,
+      createdAt: new Date(accountCreationTime),
     }
-    const password: string = yield call(getPasswordSaga, walletAddress, false, true)
-    const mnemonic: string | null = yield call(getStoredMnemonic, walletAddress, password)
-    if (!mnemonic) {
-      throw new Error('failed to retrieve mnemonic')
-    }
-    const wallet = new Wallet(mnemonic, providerUrlForChain[chain])
-    wallets.set(chain, wallet)
+    const accounts: KeychainAccount[] = yield call(listStoredAccounts, importMnemonicAccount)
+
+    const walletAccount = accounts[0]
+    wallet = new Wallet(walletAccount)
+
     Logger.info(`${TAG}@initWallet`, `Initializing ${chain} wallet ${walletAddress}`)
 
-    yield call([wallet, wallet.init], password)
     return wallet
   } catch (error) {
     Logger.error(`${TAG}@initWallet`, 'Error initializing wallet', error)

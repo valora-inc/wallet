@@ -9,6 +9,7 @@ import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import BigNumber from 'bignumber.js'
 import CryptoJS from 'crypto-js'
+import ethers from 'ethers'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import {
@@ -23,7 +24,7 @@ const TAG = 'web3/KeychainSigner'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
-interface KeychainAccount {
+export interface KeychainAccount {
   address: string
   createdAt: Date
   importFromMnemonic?: boolean
@@ -33,6 +34,16 @@ export interface ImportMnemonicAccount {
   address: string | null
   createdAt: Date
 }
+
+// Map of account address to unlock time and duration
+// This helps keep the locks of the same account in sync across ethers & contractkit wallets
+const KeychainLocks = new Map<
+  string,
+  {
+    unlockTime: number // Timestamp in milliseconds when the lock was last unlocked
+    unlockDuration: number // Number of seconds that the lock was last unlocked for
+  }
+>()
 
 // Produces a storage key that looks like this: "account--2022-05-24T13:55:47.117Z--2d936b3ada6142b4248de1847c14fa2f4c5b63c3"
 function accountStorageKey(account: KeychainAccount) {
@@ -173,11 +184,10 @@ export async function clearStoredAccounts() {
   await Promise.all(accounts.map((account) => removeStoredItem(accountStorageKey(account))))
 }
 
-export class KeychainLock {
-  // Timestamp in milliseconds when the signer was last unlocked
-  protected unlockTime?: number
-  // Number of seconds that the signer was last unlocked for
-  protected unlockDuration?: number
+export abstract class KeychainLock<T extends ethers.Wallet | LocalSigner> {
+  protected unlockedLocalSigner: T | null = null
+
+  abstract newLocalSigner(privateKey: string): T
 
   /**
    * Construct a new instance of the Keychain Lock
@@ -195,30 +205,48 @@ export class KeychainLock {
     if (!privateKey) {
       return false
     }
-
-    this.unlockTime = Date.now()
-    this.unlockDuration = duration
+    this.unlockedLocalSigner = this.newLocalSigner(privateKey)
+    KeychainLocks.set(accountStorageKey(this.account), {
+      unlockTime: Date.now(),
+      unlockDuration: duration,
+    })
     return true
   }
 
   isUnlocked(): boolean {
-    if (this.unlockDuration === undefined || this.unlockTime === undefined) {
+    const lockInfo = KeychainLocks.get(accountStorageKey(this.account))
+    if (!lockInfo) {
       return false
     }
 
-    if (this.unlockDuration === 0) {
+    if (lockInfo.unlockDuration === 0) {
       return true
     }
 
-    return this.unlockTime + this.unlockDuration * 1000 > Date.now()
+    return lockInfo.unlockTime + lockInfo.unlockDuration * 1000 > Date.now()
+  }
+
+  /**
+   * Get the local signer. Throws if not unlocked.
+   */
+  protected get localSigner() {
+    if (!this.isUnlocked()) {
+      this.unlockedLocalSigner = null
+    }
+    if (!this.unlockedLocalSigner) {
+      throw new Error('authentication needed: password or unlock')
+    }
+    return this.unlockedLocalSigner
   }
 }
 
 /**
  * Implements the signer interface on top of the OS keychain
  */
-export class KeychainSigner extends KeychainLock implements Signer {
-  protected unlockedLocalSigner: LocalSigner | null = null
+export class KeychainSigner extends KeychainLock<LocalSigner> implements Signer {
+  newLocalSigner(privateKey: string): LocalSigner {
+    return new LocalSigner(privateKey)
+  }
 
   async signTransaction(
     addToV: number,
@@ -250,17 +278,6 @@ export class KeychainSigner extends KeychainLock implements Signer {
     return this.account.address
   }
 
-  async unlock(passphrase: string, duration: number): Promise<boolean> {
-    const privateKey = await getStoredPrivateKey(this.account, passphrase)
-    if (!privateKey) {
-      return false
-    }
-    this.unlockedLocalSigner = new LocalSigner(privateKey)
-    this.unlockTime = Date.now()
-    this.unlockDuration = duration
-    return true
-  }
-
   /**
    * Updates the passphrase of an account
    * @param oldPassphrase - the passphrase currently associated with the account
@@ -282,18 +299,5 @@ export class KeychainSigner extends KeychainLock implements Signer {
 
   async computeSharedSecret(publicKey: string): Promise<Buffer> {
     return this.localSigner.computeSharedSecret(publicKey)
-  }
-
-  /**
-   * Get the local signer. Throws if not unlocked.
-   */
-  protected get localSigner(): LocalSigner {
-    if (!this.isUnlocked()) {
-      this.unlockedLocalSigner = null
-    }
-    if (!this.unlockedLocalSigner) {
-      throw new Error('authentication needed: password or unlock')
-    }
-    return this.unlockedLocalSigner
   }
 }

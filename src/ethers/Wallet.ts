@@ -1,42 +1,29 @@
 import ethers from 'ethers'
+import { DEFAULT_FORNO_URL } from 'src/config'
+import { Chain } from 'src/ethers/types'
 import { KeychainLock } from 'src/web3/KeychainSigner'
-import { UNLOCK_DURATION } from 'src/web3/consts'
 
-let keychainLock: KeychainLock | undefined
+const providerUrlForChain = {
+  [Chain.Celo]: DEFAULT_FORNO_URL,
+}
 
-export default class Wallet {
-  private wallet: ethers.Wallet
-  private lock: KeychainLock
+export class LockableEthersWallet extends KeychainLock<ethers.Wallet> {
+  newLocalSigner(privateKey: string): ethers.ethers.Wallet {
+    return new ethers.Wallet(privateKey)
+  }
+}
 
-  constructor(privateKey: string, providerUrl: string) {
-    const wallet = new ethers.Wallet(privateKey)
-    const provider = new ethers.JsonRpcProvider(providerUrl)
-    const connectedWallet = wallet.connect(provider)
-    // A single lock between all ethers wallets
-    if (!keychainLock) {
-      keychainLock = new KeychainLock({ address: connectedWallet.address, createdAt: new Date() })
-    }
-
-    this.wallet = connectedWallet
-    this.lock = keychainLock
+export default class Wallet extends LockableEthersWallet {
+  private get wallet() {
+    return this.localSigner
   }
 
-  get address(): string {
-    return this.wallet.address
+  getConnectedWallet(chain: Chain): ethers.Wallet {
+    return this.wallet.connect(new ethers.JsonRpcProvider(providerUrlForChain[chain]))
   }
 
-  // Lock Methods
-
-  async init(password: string) {
-    await this.lock.init(this.wallet.privateKey, password)
-  }
-
-  async unlock(password: string) {
-    await this.lock.unlock(password, UNLOCK_DURATION)
-  }
-
-  isUnlocked() {
-    return this.lock.isUnlocked()
+  get address() {
+    return this.account.address
   }
 
   // Signer Methods
