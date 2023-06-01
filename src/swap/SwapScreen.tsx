@@ -10,6 +10,7 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -27,12 +28,12 @@ import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import MaxAmountWarning from 'src/swap/MaxAmountWarning'
 import { swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
+import Warning from 'src/swap/Warning'
 import {
   coreTokensSelector,
   swappableTokensSelector,
@@ -265,9 +266,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       }))
     }
 
-    if (fieldType === Field.FROM) {
-      setShowMaxSwapAmountWarning(false)
-    }
+    setShowMaxSwapAmountWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -296,6 +295,11 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const onPressLearnMore = () => {
     ValoraAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
+  }
+
+  const onPressLearnMoreFees = () => {
+    ValoraAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
+    navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
   const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
@@ -360,7 +364,14 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
               )}
             </Text>
           </SwapAmountInput>
-          {showMaxSwapAmountWarning && <MaxAmountWarning />}
+          {showMaxSwapAmountWarning && (
+            <Warning
+              title={t('swapScreen.maxSwapAmountWarning.title')}
+              description={t('swapScreen.maxSwapAmountWarning.body')}
+              ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
+              onPressCta={onPressLearnMoreFees}
+            />
+          )}
         </View>
         <Text style={styles.disclaimerText}>
           <Trans i18nKey="swapScreen.disclaimer">
