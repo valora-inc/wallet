@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { Field, ParsedSwapAmount } from 'src/swap/types'
@@ -16,92 +17,106 @@ interface ExchangeRate {
   price: string
 }
 
+interface QuoteRequestParams {
+  toTokenAddress: string
+  fromTokenAddress: string
+  swapAmount: ParsedSwapAmount
+  updatedField: Field
+}
+
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(null)
-  const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
-  const [fetchingSwapQuote, setFetchingSwapQuote] = useState(false)
 
-  useEffect(() => {
-    setFetchingSwapQuote(false)
-  }, [exchangeRate])
+  const requestUrlRef = useRef('')
 
-  // refreshQuote requests are generated when the swap input amounts are
-  // changed, but the quote response / updated exchange rate updates the swap
-  // input amounts. this variable prevents duplicated requests in this scenario
-  const requestUrlRef = useRef<string>('')
+  const refreshQuote = useAsyncCallback(
+    async (
+      fromToken: TokenBalance,
+      toToken: TokenBalance,
+      swapAmount: ParsedSwapAmount,
+      updatedField: Field
+    ) => {
+      if (!swapAmount[updatedField].gt(0)) {
+        setExchangeRate(null)
+        return null
+      }
 
-  const refreshQuote = async (
-    fromToken: TokenBalance,
-    toToken: TokenBalance,
-    swapAmount: ParsedSwapAmount,
-    updatedField: Field
-  ) => {
-    setFetchSwapQuoteError(false)
+      // This only works for tokens with 18 decimals
+      // TODO: make this work for tokens with different decimals
+      const swapAmountInWei = multiplyByWei(swapAmount[updatedField])
+      if (swapAmountInWei.lte(0)) {
+        setExchangeRate(null)
+        return null
+      }
 
-    if (!swapAmount[updatedField].gt(0)) {
-      setExchangeRate(null)
-      return
-    }
+      const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
+      const params = {
+        buyToken: toToken.address,
+        sellToken: fromToken.address,
+        [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
+        userAddress: walletAddress ?? '',
+      }
+      const queryParams = new URLSearchParams({ ...params }).toString()
+      const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
+      if (requestUrl === requestUrlRef.current) {
+        // do nothing if the previous request url is the same as the current
+        return null
+      }
 
-    // This only works for tokens with 18 decimals
-    // TODO: make this work for tokens with different decimals
-    const swapAmountInWei = multiplyByWei(swapAmount[updatedField])
-    if (swapAmountInWei.lte(0)) {
-      setExchangeRate(null)
-      return
-    }
+      requestUrlRef.current = requestUrl
+      const response = await fetch(requestUrl)
 
-    const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const params = {
-      buyToken: toToken.address,
-      sellToken: fromToken.address,
-      [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
-      userAddress: walletAddress ?? '',
-    }
-    const queryParams = new URLSearchParams({ ...params }).toString()
-    const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
-    if (requestUrl === requestUrlRef.current) {
-      // do nothing if the previous request url is the same as the current
-      return
-    }
+      if (!response.ok) {
+        throw new Error(await response.text())
+      }
 
-    requestUrlRef.current = requestUrl
+      return {
+        response,
+        requestParams: {
+          toTokenAddress: toToken.address,
+          fromTokenAddress: fromToken.address,
+          updatedField,
+          swapAmount,
+        },
+      }
+    },
+    {
+      onSuccess: async (
+        result: {
+          response: Response
+          requestParams: any
+        } | null
+      ) => {
+        if (!result) {
+          // do nothing if the quote refresh exited early
+          return
+        }
 
-    try {
-      setFetchingSwapQuote(true)
-      const quoteResponse = await fetch(requestUrlRef.current)
+        const { response, requestParams } = result
+        const { toTokenAddress, fromTokenAddress, updatedField, swapAmount } = requestParams
 
-      if (quoteResponse.ok) {
-        const quote = await quoteResponse.json()
+        const quote = await response.json()
         const swapPrice = useGuaranteedPrice
           ? quote.unvalidatedSwapTransaction.guaranteedPrice
           : quote.unvalidatedSwapTransaction.price
         setExchangeRate({
-          toTokenAddress: toToken.address,
-          fromTokenAddress: fromToken.address,
+          toTokenAddress: toTokenAddress,
+          fromTokenAddress: fromTokenAddress,
           swapAmount: swapAmount[updatedField],
           price:
             updatedField === Field.FROM
               ? swapPrice
               : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
         })
-      } else {
-        setFetchSwapQuoteError(true)
+      },
+      onError: (error: Error) => {
         setExchangeRate(null)
-        Logger.warn(
-          'SwapScreen@useSwapQuote',
-          'error from approve swap url',
-          await quoteResponse.text()
-        )
-      }
-    } catch (error) {
-      setFetchSwapQuoteError(true)
-      setExchangeRate(null)
-      Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
+        Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
+      },
     }
-  }
+  )
 
   const clearQuote = () => {
     requestUrlRef.current = ''
@@ -110,8 +125,8 @@ const useSwapQuote = () => {
   return {
     exchangeRate,
     refreshQuote,
-    fetchSwapQuoteError,
-    fetchingSwapQuote,
+    fetchSwapQuoteError: refreshQuote.status === 'error',
+    fetchingSwapQuote: refreshQuote.loading,
     clearQuote,
   }
 }
