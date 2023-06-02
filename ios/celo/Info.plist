@@ -49,20 +49,28 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
-		<string>https://vlra.app</string>
+	  <string>https://vlra.app</string>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>message</string>
-		<string>readdle-spark</string>
-		<string>airmail</string>
-		<string>ms-outlook</string>
-		<string>googlegmail</string>
-		<string>inbox-gmail</string>
-		<string>ymail</string>
-		<string>superhuman</string>
+    <string>airmail</string>
+    <string>facebook-stories</string>
+    <string>fb</string>
+    <string>googlegmail</string>
+    <string>inbox-gmail</string>
+    <string>instagram</string>
+    <string>instagram-stories</string>
+    <string>mailto</string>
+    <string>message</string>
+    <string>ms-outlook</string>
+    <string>readdle-spark</string>
+    <string>superhuman</string>
+    <string>telegram</string>
+    <string>twitter</string>
+    <string>whatsapp</string>
+    <string>ymail</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
