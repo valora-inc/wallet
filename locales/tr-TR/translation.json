@@ -1601,7 +1601,7 @@
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortakların desteklediği takaslar. \n<0>Daha Fazla Bilgi Edinin.</0>",
+    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar \n<0>Daha fazla</0> bilgi edinin",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "maxSwapAmountWarning": {
