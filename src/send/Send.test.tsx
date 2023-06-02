@@ -5,7 +5,6 @@ import { SendOrigin } from 'src/analytics/types'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CloseIcon } from 'src/navigator/types'
 import Send from 'src/send/Send'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
@@ -24,7 +23,6 @@ const mockScreenProps = (params: {
   skipContactsImport?: boolean
   forceTokenAddress?: boolean
   defaultTokenOverride?: string
-  closeIcon?: CloseIcon
 }) => getMockStackScreenProps(Screens.Send, params)
 
 const defaultStore = {
@@ -195,15 +193,5 @@ describe('Send', () => {
 
     await waitFor(() => expect(getByText('inviteModal.sendInviteButtonLabel')).toBeTruthy())
     expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('shows back button when parameter is set', () => {
-    const { queryByTestId } = render(
-      <Provider store={createMockStore(defaultStore)}>
-        <Send {...mockScreenProps({ closeIcon: CloseIcon.BackChevron })} />
-      </Provider>
-    )
-
-    expect(queryByTestId('BackChevron')).toBeTruthy()
   })
 })

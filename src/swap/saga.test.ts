@@ -1,4 +1,6 @@
+import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -6,12 +8,19 @@ import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { getERC20TokenContract } from 'src/tokens/saga'
+import { swappableTokensSelector } from 'src/tokens/selectors'
 import { sendTransaction } from 'src/transactions/send'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockContract } from 'test/values'
+import {
+  mockAccount,
+  mockCeloAddress,
+  mockCeurAddress,
+  mockContract,
+  mockTokenBalances,
+} from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -31,13 +40,14 @@ jest.mock('src/transactions/send', () => ({
 
 const mockSwapTransaction = {
   buyAmount: '10000000000000000',
-  buyTokenAddress: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
-  sellTokenAddress: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+  buyTokenAddress: mockCeloAddress,
+  sellTokenAddress: mockCeurAddress,
   price: '1',
   guaranteedPrice: '1.02',
   from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
   gas: '460533',
   allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+  estimatedPriceImpact: '0.1',
 }
 
 const mockSwap = {
@@ -52,6 +62,9 @@ const mockSwap = {
     unvalidatedSwapTransaction: {
       ...mockSwapTransaction,
     },
+    details: {
+      swapProvider: '0x',
+    },
   },
 }
 
@@ -60,18 +73,29 @@ describe(swapSubmitSaga, () => {
     jest.clearAllMocks()
   })
 
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [select(walletAddressSelector), mockAccount],
+    [call(getContractKit), contractKit],
+    [call(getConnectedUnlockedAccount), mockAccount],
+    [
+      select(swappableTokensSelector),
+      [
+        {
+          ...mockTokenBalances[mockCeurAddress],
+          balance: new BigNumber('10'),
+        },
+      ],
+    ],
+    [
+      call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
+      mockContract,
+    ],
+  ]
+
   it('should complete swap', async () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
-      .provide([
-        [select(walletAddressSelector), mockAccount],
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [
-          call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
-          mockContract,
-        ],
-      ])
+      .provide(defaultProviders)
       .put(swapApprove())
       .put(swapExecute())
       .run()
@@ -80,11 +104,17 @@ describe(swapSubmitSaga, () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-      toToken: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
-      fromToken: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+      toToken: mockCeloAddress,
+      fromToken: mockCeurAddress,
       amount: '10000000000000000',
       amountType: 'buyAmount',
       price: '1',
+      allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+      estimatedPriceImpact: '0.1',
+      provider: '0x',
+      fromTokenBalance: '10000000000000000000',
+      swapApproveTxId: 'a uuid',
+      swapExecuteTxId: 'a uuid',
     })
   })
 
@@ -94,21 +124,24 @@ describe(swapSubmitSaga, () => {
     })
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
-      .provide([
-        [select(walletAddressSelector), mockAccount],
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [
-          call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
-          mockContract,
-        ],
-      ])
+      .provide(defaultProviders)
       .put(swapApprove())
       .put(swapError())
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
+      toToken: mockCeloAddress,
+      fromToken: mockCeurAddress,
+      amount: '10000000000000000',
+      amountType: 'buyAmount',
+      price: '1',
+      allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+      estimatedPriceImpact: '0.1',
+      provider: '0x',
+      fromTokenBalance: '10000000000000000000',
+      swapApproveTxId: 'a uuid',
+      swapExecuteTxId: 'a uuid',
     })
   })
 
@@ -116,11 +149,7 @@ describe(swapSubmitSaga, () => {
     mockSwap.payload.unvalidatedSwapTransaction.guaranteedPrice = '1.021'
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
-      .provide([
-        [select(walletAddressSelector), mockAccount],
-        [call(getContractKit), contractKit],
-        [call(getConnectedUnlockedAccount), mockAccount],
-      ])
+      .provide(defaultProviders)
       .put(swapPriceChange())
       .run()
 
@@ -128,8 +157,8 @@ describe(swapSubmitSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_price_change, {
       price: '1',
       guaranteedPrice: '1.021',
-      toToken: '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
-      fromToken: '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
+      toToken: mockCeloAddress,
+      fromToken: mockCeurAddress,
     })
   })
 })

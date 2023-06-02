@@ -576,6 +576,7 @@
   "dismiss": "Yoksay",
   "review": "Gözden Geçir",
   "insufficientBalance": "Bakiyeniz bu işlemi yapmak için yeterli değil",
+  "insufficientBalanceStable": "Bu işlemi tamamlamak için yeterli cUSD veya cEUR'unuz yok",
   "amount": "Tutar",
   "currentBalance": "Güncel Bakiye (cUSD)",
   "restore": "Sıfırla",
