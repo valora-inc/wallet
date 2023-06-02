@@ -9,7 +9,7 @@ import {
 import Logger from 'src/utils/Logger'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { getTorusPrivateKey } from 'src/keylessBackup/torus'
 
 const TAG = 'keylessBackupSaga'
 
@@ -49,7 +49,7 @@ function* handleGoogleSignInCompleted({
 
   Logger.debug(TAG, 'Exchanging Google id token for Torus private key')
   const torusPrivateKey = yield call(getTorusPrivateKey, {
-    verifier: 'valora-google-verifier',
+    verifier: 'android-google-verifier', // TODO get from config
     jwt,
   })
 

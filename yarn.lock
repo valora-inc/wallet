@@ -3603,11 +3603,6 @@
     socket.io-client "^4.6.1"
     unload "^2.4.1"
 
-"@toruslabs/constants@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-10.0.0.tgz#6a0cdb8fc59506f7efce40639ee8aeb07522f8dd"
-  integrity sha512-a5HJ8R/Z7cstIqY8qsXZvSVq6zlVSpkxTIOxiU808Qc8kehi9Uzg2B6HCaXSlPFhEKIhOwvEXDltfNkTtCdy9g==
-
 "@toruslabs/eccrypto@^2.0.0", "@toruslabs/eccrypto@^2.1.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@toruslabs/eccrypto/-/eccrypto-2.2.1.tgz#19012cc4e774e8c3df7ceebb2c1a07ecfd784917"
@@ -3615,14 +3610,7 @@
   dependencies:
     elliptic "^6.5.4"
 
-"@toruslabs/eccrypto@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/eccrypto/-/eccrypto-3.0.0.tgz#96df18e9d7320b230492671cf2942e703cd34ae3"
-  integrity sha512-+lFjV+0FZ3S4zH5T/Gnc795HoqpzLLDW28fSkibZRlx1Nx8uwbl3pyJSfya0C0bRHH1/+NTeBogUDijaRJ1NCw==
-  dependencies:
-    elliptic "^6.5.4"
-
-"@toruslabs/fetch-node-details@^8.1.1":
+"@toruslabs/fetch-node-details@^8.1.0", "@toruslabs/fetch-node-details@^8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-8.1.1.tgz#7b74384ce18e7b73af05e03eeee80a947bca255f"
   integrity sha512-fMCuFhp4Fih5LSRA+QEmaPrKdDcqQf50kvuMafLS5MVeKMFXgXnrjBPlf8VfYhWM31/7mA3wtddYy+SipT7ZUg==
@@ -3630,25 +3618,10 @@
     web3-eth-contract "^1.8.2"
     web3-utils "^1.8.2"
 
-"@toruslabs/fnd-base@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-10.0.0.tgz#93d08389fd89ae709e096535e1848ef90f9cde5e"
-  integrity sha512-MEFpTQVNpwMVfDsHka04oazfXU+8UlPQ3IvkWzRT9LScJCCM9TKThyjMUAJ0npVBnWBcvVLNpEdiQYk2B+Tfqw==
-  dependencies:
-    "@toruslabs/constants" "^10.0.0"
-
 "@toruslabs/http-helpers@^3.3.0", "@toruslabs/http-helpers@^3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/http-helpers/-/http-helpers-3.4.0.tgz#6d1da9e6aba094af62e73cf639a69844c82202f3"
   integrity sha512-CoeJSL32mpp0gmYjxv48odu6pfjHk/rbJHDwCtYPcMHAl+qUQ/DTpVOOn9U0fGkD+fYZrQmZbRkXFgLhiT0ajQ==
-  dependencies:
-    lodash.merge "^4.6.2"
-    loglevel "^1.8.1"
-
-"@toruslabs/http-helpers@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/http-helpers/-/http-helpers-4.0.0.tgz#ca3341b7adb5f6795ded54967814850a9ff76d38"
-  integrity sha512-ef/Svevk54JANOn3Kf6UPf8X/vZlYHrusNFt8VV/LLahhVNXCXEcO8goC1bHkecu/u20CUyo9HJa0pn8fHh1sg==
   dependencies:
     lodash.merge "^4.6.2"
     loglevel "^1.8.1"
@@ -3749,21 +3722,6 @@
     keccak "^3.0.3"
     loglevel "^1.8.1"
     web3-utils "^1.8.2"
-
-"@toruslabs/torus.js@^9.1.1":
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-9.1.1.tgz#a88bef8dbffbee0da795572b4b22a0353bb85ca8"
-  integrity sha512-sDzhsH8ZuuDb5qOJBninxb7iULkKQ2+LLjrmnXZRB0iAo0ri5G4X4P/LeWS4gmx3Qu9Dt7iJt5fyDVC0kYOx6A==
-  dependencies:
-    "@toruslabs/constants" "^10.0.0"
-    "@toruslabs/eccrypto" "^3.0.0"
-    "@toruslabs/fnd-base" "^10.0.0"
-    "@toruslabs/http-helpers" "^4.0.0"
-    bn.js "^5.2.1"
-    elliptic "^6.5.4"
-    ethereum-cryptography "^2.0.0"
-    json-stable-stringify "^1.0.2"
-    loglevel "^1.8.1"
 
 "@toruslabs/tweetnacl-js@^1.0.4":
   version "1.0.4"
