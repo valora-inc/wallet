@@ -51,7 +51,7 @@ export const saveRecipientPicture = async (dataUrl: string, address: string): Pr
  * READ_MEDIA_VIDEO is required for Android 13 and above.
  * @returns {Promise<boolean>} true if the permission is granted, false otherwise.
  */
-const hasAndroidPermission = async () => {
+const hasAndroidPermission = async (): Promise<boolean> => {
   const permission =
     Platform.Version >= 33
       ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO
