@@ -72,7 +72,9 @@ describe('NftFeedItem', () => {
     fireEvent.press(tree.getByTestId('NftFeedItem'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: `${networkConfig.nftsValoraAppUrl}?address=${mockAccount.toLowerCase()}&hide-header=true`,
+      uri: `${
+        networkConfig.nftsValoraAppUrl
+      }?address=${mockAccount.toLowerCase()}&hide-header=true`,
     })
   })
 })
