@@ -159,12 +159,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </View>
           {activeNft.metadata && (
             <View>
-              <Pressable
-                android_ripple={android_ripple}
-                // onPress={handleShareAction}
-                onPress={openSheet}
-                style={styles.button}
-              >
+              <Pressable android_ripple={android_ripple} onPress={openSheet} style={styles.button}>
                 <TripleDotHorizontal />
               </Pressable>
             </View>
