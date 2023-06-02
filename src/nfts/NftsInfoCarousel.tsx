@@ -189,6 +189,7 @@ export default function NftsInfoCarousel({ route }: Props) {
                 height: scaledHeight,
                 width: variables.width,
               },
+              isLoading && { borderRadius: 8 },
             ]}
             source={{
               uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)
