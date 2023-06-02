@@ -10,6 +10,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
@@ -32,6 +33,7 @@ export interface PaymentMethodSectionProps {
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
   cryptoType: CiCoCurrency
+  analyticsData: ProviderSelectionAnalyticsData
 }
 
 export function PaymentMethodSection({
@@ -40,6 +42,7 @@ export function PaymentMethodSection({
   setNoPaymentMethods,
   flow,
   cryptoType,
+  analyticsData,
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -218,7 +221,18 @@ export function PaymentMethodSection({
   }
   return (
     <View style={styles.container}>
-      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow, dispatch)}>
+      <Touchable
+        onPress={
+          isExpandable
+            ? toggleExpanded
+            : sectionQuotes[0].onPress(
+                flow,
+                dispatch,
+                analyticsData,
+                tokenInfo && sectionQuotes[0].getFeeInCrypto(exchangeRates, tokenInfo)
+              )
+        }
+      >
         <View>
           <Expandable
             arrowColor={colors.greenUI}
@@ -239,7 +253,12 @@ export function PaymentMethodSection({
             <Touchable
               key={index}
               testID={`${paymentMethod}/provider-${index}`}
-              onPress={normalizedQuote.onPress(flow, dispatch)}
+              onPress={normalizedQuote.onPress(
+                flow,
+                dispatch,
+                analyticsData,
+                tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
+              )}
             >
               <View style={styles.expandedContainer}>
                 <View style={styles.left}>

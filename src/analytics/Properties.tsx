@@ -54,6 +54,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { HomeActionName } from 'src/home/types'
@@ -695,6 +696,7 @@ interface TransactionEventsProperties {
     txId: string
     estimatedGas: number
     prefilled: boolean
+    feeCurrencyAddress?: string
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -713,6 +715,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_exception]: {
     txId: string
     error: string
+    feeCurrencyAddress?: string
   }
 }
 
@@ -811,9 +814,14 @@ interface FiatExchangeEventsProperties {
     paymentMethod: PaymentMethod
     provider: string
     flow: CICOFlow
-  }
+    feeCryptoAmount: number | undefined
+    kycRequired: boolean
+    isLowestFee: boolean | undefined
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
-  [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_exchanges_selected]: {
+    flow: CICOFlow
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_new_info_opened]: {
@@ -976,6 +984,7 @@ interface QrScreenProperties {
   [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
     exchange: string
   }
+  [QrScreenEvents.qr_scanner_open]: undefined
 }
 interface FiatConnectKycProperties {
   provider: string
@@ -1174,7 +1183,7 @@ interface WebViewEventsProperties {
 }
 
 interface CoinbasePayEventsProperties {
-  [CoinbasePayEvents.coinbase_pay_flow_start]: undefined
+  [CoinbasePayEvents.coinbase_pay_flow_start]: ProviderSelectionAnalyticsData
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 
@@ -1217,9 +1226,16 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
+    fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
+  }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
     error: string
+    fromTokenBalance: string
+    swapExecuteTxId: string
+    swapApproveTxId: string
   }
   [SwapEvents.swap_learn_more]: undefined
 }

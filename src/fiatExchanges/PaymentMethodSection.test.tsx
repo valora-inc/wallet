@@ -16,6 +16,7 @@ import {
   mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
+  mockProviderSelectionAnalyticsData,
 } from 'test/values'
 
 const mockStore = createMockStore({
@@ -46,6 +47,7 @@ describe('PaymentMethodSection', () => {
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
       cryptoType: CiCoCurrency.cUSD,
+      analyticsData: mockProviderSelectionAnalyticsData,
     }
   })
   it('shows nothing if there are no available providers', async () => {
