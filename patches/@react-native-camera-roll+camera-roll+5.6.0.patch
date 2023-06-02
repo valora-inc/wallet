@@ -1,0 +1,29 @@
+diff --git a/node_modules/@react-native-camera-roll/camera-roll/lib/commonjs/CameraRollIOSPermission.js b/node_modules/@react-native-camera-roll/camera-roll/lib/commonjs/CameraRollIOSPermission.js
+index 509054f..e4878f7 100644
+--- a/node_modules/@react-native-camera-roll/camera-roll/lib/commonjs/CameraRollIOSPermission.js
++++ b/node_modules/@react-native-camera-roll/camera-roll/lib/commonjs/CameraRollIOSPermission.js
+@@ -9,15 +9,20 @@ var _reactNative = require("react-native");
+ 
+ var _NativeCameraRollPermissionModule = _interopRequireDefault(require("./NativeCameraRollPermissionModule"));
+ 
+-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
++function _interopRequireDefault(obj) {
++  return obj && obj.__esModule ? obj : {
++    "default": obj
++  };
++}
+ 
+ const isIOS = _reactNative.Platform.OS === 'ios'; // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+ 
+-if (isIOS && _NativeCameraRollPermissionModule.default == null) {
+-  console.error("photoLibraryPermissionModule: Native Module 'photoLibraryPermissionModule' was null! Did you run pod install?");
++var nativeModule;
++if (isIOS) {
++  nativeModule = _cameraRollPermissionNativeInterface
+ }
+ 
+-const cameraRollEventEmitter = new _reactNative.NativeEventEmitter(isIOS ? _NativeCameraRollPermissionModule.default : undefined);
++const cameraRollEventEmitter = new _reactNative.NativeEventEmitter(nativeModule);
+ exports.cameraRollEventEmitter = cameraRollEventEmitter;
+ 
+ const iosReadGalleryPermission = accessLevel => {
