@@ -1601,7 +1601,7 @@
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Swaps powered by partners auf Celo \n<0>Mehr erfahren</0>",
+    "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird.\n<0>Mehr erfahren.</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "maxSwapAmountWarning": {
