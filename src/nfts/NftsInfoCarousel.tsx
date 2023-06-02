@@ -32,7 +32,10 @@ const scaleImageHeight = (originalWidth: number, originalHeight: number, targetW
 const NftsLoadErrorScreen = () => {
   const { t } = useTranslation()
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView
+      testID="NftsInfoCarousel/NftsLoadErrorScreen"
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    >
       <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
     </SafeAreaView>
   )
@@ -105,6 +108,7 @@ export default function NftsInfoCarousel({ route }: Props) {
               onPress={() => navigateBack()}
               icon={<BackChevronStatic />}
               style={styles.button}
+              testID="NftsInfoCarousel/BackButton"
             />
           )}
           {Platform.OS === 'android' && (
@@ -112,6 +116,7 @@ export default function NftsInfoCarousel({ route }: Props) {
               android_ripple={android_ripple}
               onPress={() => navigateBack()}
               style={styles.button}
+              testID="NftsInfoCarousel/BackButton"
             >
               <BackChevronStatic />
             </Pressable>
@@ -147,6 +152,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           horizontal={true}
           contentContainerStyle={styles.carouselScrollViewContentContainer}
           style={styles.nftImageCarousel}
+          testID="NftsInfoCarousel/NftImageCarousel"
         >
           {/* Only display Nfts with metadata */}
           {nfts
@@ -156,6 +162,7 @@ export default function NftsInfoCarousel({ route }: Props) {
                 <View
                   key={`${nft.contractAddress}-${nft.tokenId}`}
                   style={styles.nftPreviewImageSharedContainer}
+                  testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
                 >
                   <NftThumbnail nft={nft} setActiveNft={setActiveNft} activeNft={activeNft} />
                 </View>
@@ -172,7 +179,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView testID="NftsInfoCarousel">
       <PlatformSpecificTopBarButtons />
       <ScrollView>
         {activeNft.metadata && (
@@ -237,6 +244,7 @@ export default function NftsInfoCarousel({ route }: Props) {
                 `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`
               )
             }
+            testID="ViewOnExplorer"
           >
             <View style={styles.explorerLinkContainer}>
               <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
