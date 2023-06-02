@@ -208,7 +208,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </View>
         )}
 
-        {nfts.length > 1 && <NftImageCarousel />}
+        {nfts.filter((nft) => nft.metadata).length > 1 && <NftImageCarousel />}
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
