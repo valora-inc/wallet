@@ -17,7 +17,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
-import ContractKitSigner from 'src/web3/ContractkitSigner'
+import ContractKitSigner from 'src/web3/ContractKitSigner'
 import { ImportMnemonicAccount, KeychainAccount } from 'src/web3/types'
 
 const TAG = 'web3/KeychainSigner'

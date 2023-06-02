@@ -22,8 +22,8 @@ describe('getEthersWallet', () => {
     )
   })
   it('errors if walletAddress is undefined', async () => {
-    // @ts-ignore
     mocked(getWallet).mockResolvedValueOnce(
+      // @ts-ignore
       new KeychainWallet({
         createdAt: new Date(),
         address: null,
@@ -37,8 +37,8 @@ describe('getEthersWallet', () => {
     ).rejects.toThrow('Wallet address not set. Should never happen')
   })
   it('errors if the ethers wallet for the given chain and walletAddress is not defined', async () => {
-    // @ts-ignore
     mocked(getWallet).mockResolvedValueOnce(
+      // @ts-ignore
       new KeychainWallet({
         createdAt: new Date(),
         address: mockAccount2,
