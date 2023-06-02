@@ -91,6 +91,9 @@ exports[`NftsInfoCarousel renders correctly with one Nft 1`] = `
                 "height": 360,
                 "width": 750,
               },
+              Object {
+                "borderRadius": 8,
+              },
             ],
           ]
         }
@@ -418,6 +421,9 @@ exports[`NftsInfoCarousel renders correctly with two valid Nfts 1`] = `
               Object {
                 "height": 360,
                 "width": 750,
+              },
+              Object {
+                "borderRadius": 8,
               },
             ],
           ]
