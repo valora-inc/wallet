@@ -13,6 +13,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import useNftShareBottomSheet from 'src/nfts/NftBottomSheet'
 import { Nft } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -115,8 +116,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState((nfts && nfts[0]) ?? null)
   const [isLoading, setIsLoading] = useState(true)
-  // @ts-expect-error wip
-  const [shareBottomSheetVisible, setShareBottomSheetVisible] = useState(false)
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
@@ -126,7 +125,8 @@ export default function NftsInfoCarousel({ route }: Props) {
     borderless: true,
   }
 
-  // Some components that require parent state defined
+  const { openSheet, NftShareBottomSheet } = useNftShareBottomSheet({ nft: activeNft })
+
   const PlatformSpecificTopBarButtons = () => {
     if (Platform.OS === 'ios') {
       return (
@@ -136,11 +136,13 @@ export default function NftsInfoCarousel({ route }: Props) {
             icon={<BackChevronStatic />}
             style={[styles.button, styles.iOSButton]}
           />
-          <TopBarIconButton
-            onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-            icon={<TripleDotHorizontal />}
-            style={[styles.button, styles.iOSButton]}
-          />
+          {activeNft.metadata && (
+            <TopBarIconButton
+              onPress={openSheet}
+              icon={<TripleDotHorizontal />}
+              style={[styles.button, styles.iOSButton]}
+            />
+          )}
         </View>
       )
     } else {
@@ -155,15 +157,18 @@ export default function NftsInfoCarousel({ route }: Props) {
               <BackChevronStatic />
             </Pressable>
           </View>
-          <View>
-            <Pressable
-              android_ripple={android_ripple}
-              onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-              style={styles.button}
-            >
-              <TripleDotHorizontal />
-            </Pressable>
-          </View>
+          {activeNft.metadata && (
+            <View>
+              <Pressable
+                android_ripple={android_ripple}
+                // onPress={handleShareAction}
+                onPress={openSheet}
+                style={styles.button}
+              >
+                <TripleDotHorizontal />
+              </Pressable>
+            </View>
+          )}
         </View>
       )
     }
@@ -220,7 +225,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <PlatformSpecificTopBarButtons />
       <ScrollView>
         {activeNft.metadata && (
@@ -293,6 +298,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </Touchable>
         </View>
       </ScrollView>
+      {NftShareBottomSheet}
     </SafeAreaView>
   )
 }
