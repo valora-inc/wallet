@@ -18,6 +18,16 @@ import { mocked } from 'ts-jest/utils'
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/nameGenerator')
 
+jest.mock('react-native-image-crop-picker', () => ({
+  openPicker: jest.fn(),
+  openCamera: jest.fn(),
+}))
+
+jest.mock('@react-native-camera-roll/camera-roll', () => ({
+  getPhotos: jest.fn(),
+  saveToCameraRoll: jest.fn(),
+}))
+
 describe('Profile', () => {
   let store: MockStoreEnhanced
   beforeEach(() => {
