@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Successivamente, aggiungi il tuo numero di telefono",
-      "subtitle": "Dovrai utilizzare questo numero di telefono per ripristinare il tuo portafoglio in caso di smarrimento.\n\nTi invieremo un codice per verificare che questo numero sia tuo."
+      "title": "Ora aggiungi il tuo numero telefonico",
+      "subtitle": "Dovrai utilizzare questo numero telefonico per ripristinare il tuo portafoglio.\n\nTi invieremo un codice per verificare che questo numero sia tuo."
     },
     "restore": {
-      "title": "Verifica il tuo numero di telefono",
-      "subtitle": "Inserisci il numero di telefono che hai usato in precedenza per impostare il backup.\n\nTi invieremo un codice per verificare che il numero sia tuo."
+      "title": "Verifica il tuo numero telefonico",
+      "subtitle": "Inserisci il numero telefonico che hai usato per impostare il backup.\n\nTi invieremo un codice per verificare che questo numero sia tuo."
     }
   },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del tuo dispositivo. Tienile al sicuro!",
@@ -576,6 +576,7 @@
   "dismiss": "Ignora",
   "review": "Rivedi",
   "insufficientBalance": "Il tuo saldo è insufficiente per eseguire questa transazione.",
+  "insufficientBalanceStable": "Non hai abbastanza cUSD o cEUR per completare questa transazione",
   "amount": "Importo",
   "currentBalance": "Saldo attuale (cUSD)",
   "restore": "Ripristina",
@@ -1225,11 +1226,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
-  "totalAssets": "I miei beni",
-  "totalAssetsInfo": "Include il totale stimato delle attività dei portafogli e delle posizioni delle dapp.",
+  "totalAssets": "Asset",
+  "totalAssetsInfo": "Totale stimato delle asset del portafoglio e di dapp",
   "assetsSegmentedControl": {
-    "walletAssets": "Attività del portafoglio",
-    "dappPositions": "Posizioni dapp"
+    "walletAssets": "Asset del portafoglio",
+    "dappPositions": "Asset di dapp"
   },
   "open": "Apri",
   "nftViewer": "NFT Viewer",

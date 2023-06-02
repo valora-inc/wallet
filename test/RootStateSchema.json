@@ -4012,7 +4012,37 @@
                 "swapInfo": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/SwapInfo"
+                            "additionalProperties": false,
+                            "properties": {
+                                "approveTransaction": {
+                                    "$ref": "#/definitions/ApproveTransaction"
+                                },
+                                "details": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "swapProvider": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "swapProvider"
+                                    ],
+                                    "type": "object"
+                                },
+                                "unvalidatedSwapTransaction": {
+                                    "$ref": "#/definitions/SwapTransaction"
+                                },
+                                "userInput": {
+                                    "$ref": "#/definitions/SwapUserInput"
+                                }
+                            },
+                            "required": [
+                                "approveTransaction",
+                                "details",
+                                "unvalidatedSwapTransaction",
+                                "userInput"
+                            ],
+                            "type": "object"
                         },
                         {
                             "type": "null"
@@ -4623,26 +4653,6 @@
             "required": [
                 "FROM",
                 "TO"
-            ],
-            "type": "object"
-        },
-        "SwapInfo": {
-            "additionalProperties": false,
-            "properties": {
-                "approveTransaction": {
-                    "$ref": "#/definitions/ApproveTransaction"
-                },
-                "unvalidatedSwapTransaction": {
-                    "$ref": "#/definitions/SwapTransaction"
-                },
-                "userInput": {
-                    "$ref": "#/definitions/SwapUserInput"
-                }
-            },
-            "required": [
-                "approveTransaction",
-                "unvalidatedSwapTransaction",
-                "userInput"
             ],
             "type": "object"
         },

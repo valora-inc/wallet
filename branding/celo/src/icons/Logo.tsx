@@ -12,9 +12,10 @@ export enum LogoTypes {
 interface Props {
   height?: number
   type?: LogoTypes
+  testID?: string
 }
 
-export default function Logo({ height = 25, type = LogoTypes.COLOR }: Props) {
+export default function Logo({ height = 25, type = LogoTypes.COLOR, testID }: Props) {
   let mainColor
   switch (type) {
     case LogoTypes.DARK:
@@ -28,7 +29,7 @@ export default function Logo({ height = 25, type = LogoTypes.COLOR }: Props) {
   }
 
   return (
-    <Svg width={height} height={height} viewBox="0 0 25 25" fill="none">
+    <Svg testID={testID} width={height} height={height} viewBox="0 0 25 25" fill="none">
       <Path
         d="M9.86842 22.3684C13.8653 22.3684 17.1053 19.1284 17.1053 15.1316C17.1053 11.1348 13.8653 7.89476 9.86842 7.89476C5.87158 7.89476 2.63158 11.1348 2.63158 15.1316C2.63158 19.1284 5.87158 22.3684 9.86842 22.3684ZM9.86842 25C4.41842 25 0 20.5816 0 15.1316C0 9.6816 4.41842 5.26318 9.86842 5.26318C15.3184 5.26318 19.7368 9.6816 19.7368 15.1316C19.7368 20.5816 15.3184 25 9.86842 25Z"
         fill={type === LogoTypes.COLOR ? colors.goldBrand : mainColor}

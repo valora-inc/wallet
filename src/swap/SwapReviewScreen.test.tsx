@@ -90,6 +90,8 @@ const unvalidatedSwapTransaction = {
   price: '3.00',
   gas: '300000',
   gasPrice: '500000000',
+  allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+  estimatedPriceImpact: '0.1',
 }
 
 const approveTransaction = {
@@ -110,15 +112,17 @@ const userInput = {
   updatedField: Field.FROM,
 }
 
-const mockSwap = {
-  approveTransaction,
-  userInput,
-  unvalidatedSwapTransaction,
-}
-
 const mock0xResponse = {
   unvalidatedSwapTransaction,
   approveTransaction,
+  details: {
+    swapProvider: 'test',
+  },
+}
+
+const mockSwap = {
+  ...mock0xResponse,
+  userInput,
 }
 
 describe('SwapReviewScreen', () => {
@@ -292,6 +296,10 @@ describe('SwapReviewScreen', () => {
       amount: mockSellAmount,
       amountType: 'sellAmount',
       usdTotal: 3,
+      allowanceTarget: mock0xResponse.unvalidatedSwapTransaction.allowanceTarget,
+      estimatedPriceImpact: mock0xResponse.unvalidatedSwapTransaction.estimatedPriceImpact,
+      price: mock0xResponse.unvalidatedSwapTransaction.price,
+      provider: mock0xResponse.details.swapProvider,
     })
   })
 })
