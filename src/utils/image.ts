@@ -63,7 +63,7 @@ const hasAndroidPermission = async () => {
 }
 
 /***
- * Saves an image to the camera roll. 
+ * Saves an image to the camera roll.
  * On iOS we can save the image directly, but on Android we need to save it to temp file first.
  * @param url The url of the image to save.
  * @returns {Promise<void>}
@@ -74,7 +74,7 @@ export const saveRemoteToCameraRoll = async (url: string): Promise<void> => {
   const dataUrl = `data:${mimeType};base64,${data}`
   if (Platform.OS === 'ios') await CameraRoll.save(dataUrl)
   else {
-    if (!await hasAndroidPermission()) return
+    if (!(await hasAndroidPermission())) return
     const tempFile = `${RNFS.DocumentDirectoryPath}/nft-${Date.now()}`
     const fileName = await saveImageDataUrlToFile(dataUrl, tempFile)
     await CameraRoll.save(`file://${fileName}`)
@@ -87,7 +87,9 @@ export const saveRemoteToCameraRoll = async (url: string): Promise<void> => {
  * @param url The url of the image to fetch.
  * @returns {Promise<{data: string, mimeType: string}>}
  */
-export const fetchImageAsBase64 = async (url: string): Promise<{ data: string; mimeType: string }> => {
+export const fetchImageAsBase64 = async (
+  url: string
+): Promise<{ data: string; mimeType: string }> => {
   const imagePath = `${RNFS.DocumentDirectoryPath}/nft-${Date.now()}`
   try {
     let mimeType = null
@@ -95,7 +97,6 @@ export const fetchImageAsBase64 = async (url: string): Promise<{ data: string; m
       fromUrl: url,
       toFile: imagePath,
       begin: (res) => {
-        // get mime type from Content-Type
         mimeType = res.headers['Content-Type'].split(';')[0]
       },
     }).promise
