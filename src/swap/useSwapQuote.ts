@@ -35,7 +35,6 @@ const useSwapQuote = () => {
       updatedField: Field
     ) => {
       if (!swapAmount[updatedField].gt(0)) {
-        setExchangeRate(null)
         return null
       }
 
@@ -43,7 +42,6 @@ const useSwapQuote = () => {
       // TODO: make this work for tokens with different decimals
       const swapAmountInWei = multiplyByWei(swapAmount[updatedField])
       if (swapAmountInWei.lte(0)) {
-        setExchangeRate(null)
         return null
       }
 
@@ -57,8 +55,8 @@ const useSwapQuote = () => {
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
       if (requestUrl === requestUrlRef.current) {
-        // do nothing if the previous request url is the same as the current
-        return null
+        // return the current exchange rate if the request url hasn't changed
+        return exchangeRate
       }
 
       requestUrlRef.current = requestUrl
@@ -86,10 +84,6 @@ const useSwapQuote = () => {
     },
     {
       onSuccess: (updatedExchangeRate: ExchangeRate | null) => {
-        if (!updatedExchangeRate) {
-          // do nothing if the promise exited early
-          return
-        }
         setExchangeRate(updatedExchangeRate)
       },
       onError: (error: Error) => {
@@ -105,7 +99,7 @@ const useSwapQuote = () => {
 
   return {
     exchangeRate,
-    refreshQuote,
+    refreshQuote: refreshQuote.execute,
     fetchSwapQuoteError: refreshQuote.status === 'error',
     fetchingSwapQuote: refreshQuote.loading,
     clearQuote,

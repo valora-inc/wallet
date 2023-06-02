@@ -152,7 +152,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
       if (toToken && fromToken) {
-        void refreshQuote.execute(fromToken, toToken, parsedSwapAmount, updatedField)
+        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
 
