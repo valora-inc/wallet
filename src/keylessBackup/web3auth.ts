@@ -24,7 +24,7 @@ export async function getTorusPrivateKey({
   verifier,
   jwt,
 }: {
-  verifier: 'valora-google-verifier'
+  verifier: 'valora-google-verifier' | 'android-google-verifier'
   jwt: string
 }) {
   try {
