@@ -7,7 +7,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
-jest.mock('src/web3/KeychainSigner')
+jest.mock('src/web3/KeychainAccountManager')
 
 const mockedKeychain = mocked(Keychain)
 

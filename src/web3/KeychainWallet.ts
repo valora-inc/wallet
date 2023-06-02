@@ -4,22 +4,16 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Logger from 'src/utils/Logger'
-import {
-  ImportMnemonicAccount,
-  KeychainAccountManager,
-  KeychainContractKitSigner,
-  listStoredAccounts,
-} from 'src/web3/KeychainAccountManager'
+import ContractKitSigner from 'src/web3/ContractKitSigner'
+import { KeychainAccountManager, listStoredAccounts } from 'src/web3/KeychainAccountManager'
+import { ImportMnemonicAccount } from 'src/web3/types'
 
 const TAG = 'web3/KeychainWallet'
 
 /**
  * A wallet which uses the OS keychain to store private keys
  */
-export class KeychainWallet
-  extends RemoteWallet<KeychainContractKitSigner>
-  implements UnlockableWallet
-{
+export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements UnlockableWallet {
   private keychainAccounts = new Map<string, KeychainAccountManager>()
   /**
    * Construct a new instance of the Keychain wallet
@@ -60,7 +54,7 @@ export class KeychainWallet
     }
   }
 
-  protected getSigner(address: string): KeychainContractKitSigner {
+  protected getSigner(address: string): ContractKitSigner {
     const normalizedAddress = normalizeAddressWith0x(address)
     if (!this.keychainAccounts.has(normalizedAddress)) {
       throw new Error(`Could not find address ${normalizedAddress}`)
@@ -68,16 +62,13 @@ export class KeychainWallet
     return this.keychainAccounts.get(normalizedAddress)!.unlockedContractKitSigner
   }
 
-  async loadAccountSigners(): Promise<Map<string, KeychainContractKitSigner>> {
+  async loadAccountSigners(): Promise<Map<string, ContractKitSigner>> {
     const accounts = await listStoredAccounts(this.importMnemonicAccount)
-    const addressToSigner = new Map<string, KeychainContractKitSigner>()
-
     accounts.forEach((account) => {
       const accountManager = new KeychainAccountManager(account)
-      addressToSigner.set(account.address, accountManager.unlockedContractKitSigner)
       this.keychainAccounts.set(account.address, accountManager)
     })
-    return addressToSigner
+    return new Map<string, ContractKitSigner>()
   }
 
   async addAccount(privateKey: string, passphrase: string): Promise<string> {

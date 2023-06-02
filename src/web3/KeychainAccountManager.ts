@@ -1,17 +1,15 @@
-import { RLPEncodedTx } from '@celo/connect'
 import {
   isValidAddress,
   normalizeAddress,
   normalizeAddressWith0x,
   privateKeyToAddress,
 } from '@celo/utils/lib/address'
-import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
-import { LocalSigner } from '@celo/wallet-local'
-import BigNumber from 'bignumber.js'
 import CryptoJS from 'crypto-js'
-import ethers from 'ethers'
+import { ethers } from 'ethers'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
+import Wallet, { providerUrlForChain } from 'src/ethers/Wallet'
+import { Chain } from 'src/ethers/types'
 import {
   listStoredItems,
   removeStoredItem,
@@ -19,31 +17,12 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import ContractKitSigner from 'src/web3/ContractkitSigner'
+import { ImportMnemonicAccount, KeychainAccount } from 'src/web3/types'
 
 const TAG = 'web3/KeychainSigner'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
-
-export interface KeychainAccount {
-  address: string
-  createdAt: Date
-  importFromMnemonic?: boolean
-}
-
-export interface ImportMnemonicAccount {
-  address: string | null
-  createdAt: Date
-}
-
-// Map of account address to unlock time and duration
-// This helps keep the locks of the same account in sync across ethers & contractkit wallets
-const KeychainLocks = new Map<
-  string,
-  {
-    unlockTime: number // Timestamp in milliseconds when the lock was last unlocked
-    unlockDuration: number // Number of seconds that the lock was last unlocked for
-  }
->()
 
 // Produces a storage key that looks like this: "account--2022-05-24T13:55:47.117Z--2d936b3ada6142b4248de1847c14fa2f4c5b63c3"
 function accountStorageKey(account: KeychainAccount) {
@@ -185,8 +164,13 @@ export async function clearStoredAccounts() {
 }
 
 export class KeychainAccountManager {
-  protected localContractKitSigner: KeychainContractKitSigner | null = null
-  protected localEthersSigner: ethers.Wallet | null = null
+  protected localContractKitSigner: ContractKitSigner | null = null
+  protected localEthersWallets: Map<Chain, Wallet> = new Map()
+
+  // Timestamp in milliseconds when the signer was last unlocked
+  protected unlockTime?: number
+  // Number of seconds that the signer was last unlocked for
+  protected unlockDuration?: number
 
   /**
    * Construct a new instance of the Keychain Lock
@@ -204,26 +188,26 @@ export class KeychainAccountManager {
     if (!privateKey) {
       return false
     }
-    this.localContractKitSigner = new KeychainContractKitSigner(privateKey, this.account)
-    this.localEthersSigner = new ethers.Wallet(privateKey)
-    KeychainLocks.set(accountStorageKey(this.account), {
-      unlockTime: Date.now(),
-      unlockDuration: duration,
-    })
+    this.localContractKitSigner = new ContractKitSigner(privateKey, this.account)
+    this.localEthersWallets.set(
+      Chain.Celo,
+      new Wallet(privateKey, new ethers.JsonRpcProvider(providerUrlForChain[Chain.Celo]))
+    )
+    this.unlockTime = Date.now()
+    this.unlockDuration = duration
     return true
   }
 
   isUnlocked(): boolean {
-    const lockInfo = KeychainLocks.get(accountStorageKey(this.account))
-    if (!lockInfo) {
+    if (this.unlockDuration === undefined || this.unlockTime === undefined) {
       return false
     }
 
-    if (lockInfo.unlockDuration === 0) {
+    if (this.unlockDuration === 0) {
       return true
     }
 
-    return lockInfo.unlockTime + lockInfo.unlockDuration * 1000 > Date.now()
+    return this.unlockTime + this.unlockDuration * 1000 > Date.now()
   }
 
   /**
@@ -242,12 +226,12 @@ export class KeychainAccountManager {
   }
 
   /**
-   * Get the local contractkit signer. Throws if not unlocked.
+   * Get the unlocked contractkit signer. Throws if not unlocked.
    */
   get unlockedContractKitSigner() {
     if (!this.isUnlocked()) {
       this.localContractKitSigner = null
-      this.localEthersSigner = null
+      this.localEthersWallets = new Map()
     }
     if (!this.localContractKitSigner) {
       throw new Error('authentication needed: password or unlock')
@@ -256,55 +240,16 @@ export class KeychainAccountManager {
   }
 
   /**
-   * Get the local contractkit signer. Throws if not unlocked.
+   * Get the unlocked ethers wallet. Throws if not unlocked.
    */
-  get unlockedEthersSigner() {
+  get unlockedEthersWallets() {
     if (!this.isUnlocked()) {
       this.localContractKitSigner = null
-      this.localEthersSigner = null
+      this.localEthersWallets = new Map()
     }
-    if (!this.localEthersSigner) {
+    if (this.localEthersWallets.size === 0) {
       throw new Error('authentication needed: password or unlock')
     }
-    return this.localEthersSigner
-  }
-}
-
-/**
- * Implements the signer interface on top of the OS keychain
- */
-export class KeychainContractKitSigner extends LocalSigner {
-  constructor(privateKey: string, protected account: KeychainAccount) {
-    super(privateKey)
-  }
-
-  async signTransaction(
-    addToV: number,
-    encodedTx: RLPEncodedTx
-  ): Promise<{ v: number; r: Buffer; s: Buffer }> {
-    Logger.info(`${TAG}@signTransaction`, `Signing transaction:`, encodedTx.transaction)
-    const { gasPrice } = encodedTx.transaction
-    const gasPriceBN = new BigNumber((gasPrice || 0).toString())
-    if (gasPriceBN.isNaN() || gasPriceBN.isLessThanOrEqualTo(0)) {
-      // Make sure we don't sign and send transactions with 0 gas price
-      // This resulted in those TXs being stuck in the txpool for nodes running geth < v1.5.0
-      throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
-    }
-
-    return super.signTransaction(addToV, encodedTx)
-  }
-
-  async signPersonalMessage(data: string): Promise<{ v: number; r: Buffer; s: Buffer }> {
-    Logger.info(`${TAG}@signPersonalMessage`, `Signing ${data}`)
-    return super.signPersonalMessage(data)
-  }
-
-  async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
-    Logger.info(`${TAG}@signTypedData`, `Signing typed DATA:`, { address: this.account, typedData })
-    return super.signTypedData(typedData)
-  }
-
-  getNativeKey() {
-    return this.account.address
+    return this.localEthersWallets
   }
 }

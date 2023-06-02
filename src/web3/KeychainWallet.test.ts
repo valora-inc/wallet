@@ -10,8 +10,8 @@ import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
-import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
+import { UNLOCK_DURATION } from 'src/web3/consts'
 import * as mockedKeychain from 'test/mockedKeychain'
 
 // Use real encryption
@@ -247,9 +247,9 @@ describe('KeychainWallet', () => {
       })
 
       it('fails calling computeSharedSecret', async () => {
-        await expect(
-          wallet.computeSharedSecret(knownAddress, ACCOUNT_ADDRESS2)
-        ).rejects.toThrowError('authentication needed: password or unlock')
+        expect(() => wallet.computeSharedSecret(knownAddress, ACCOUNT_ADDRESS2)).toThrowError(
+          'authentication needed: password or unlock'
+        )
       })
     })
 
