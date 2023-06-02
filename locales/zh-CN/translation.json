@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "接下来，添加你的电话号码",
-      "subtitle": "如果你的钱包丢失，你需要用这个电话号码来恢复。\n\n我们会给你发送一个代码，以验证这个号码是你的。"
+      "title": "接下来，添加您的电话号码。",
+      "subtitle": "如果您的钱包丢失，将需要使用这个电话号码来恢复。\n\n我们会向您发送一个代码，以验证这个号码归您所有。"
     },
     "restore": {
-      "title": "验证您的电话号码",
-      "subtitle": "输入你以前用来设置备份的电话号码。\n\n我们会给你发送一个代码，以验证这个号码是你的。"
+      "title": "验证您的电话号码。",
+      "subtitle": "输入您之前用于设置备份的电话号码。\n\n我们会向您发送一个代码，以验证这个号码归您所有。"
     }
   },
   "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
@@ -576,7 +576,7 @@
   "dismiss": "忽略",
   "review": "查看",
   "insufficientBalance": "您的余额过低，无法进行此交易",
-  "insufficientBalanceStable": "你没有足够的美元或欧元来完成这项交易",
+  "insufficientBalanceStable": "您的 cUSD 或 cEUR 不足，无法完成此交易。",
   "amount": "金额",
   "currentBalance": "当前余额 (cUSD)",
   "restore": "恢复",
@@ -1225,10 +1225,10 @@
   "totalValue": "总余额",
   "viewBalances": "查看资产",
   "totalAssets": "我的资产",
-  "totalAssetsInfo": "包括钱包资产和dapp头寸的估计总数",
+  "totalAssetsInfo": "包括钱包资产和 dapp 持仓的估计总额。",
   "assetsSegmentedControl": {
     "walletAssets": "钱包资产",
-    "dappPositions": "Dapp职位"
+    "dappPositions": "Dapp 持仓"
   },
   "open": "打开",
   "nftViewer": "NFT 查看器",
