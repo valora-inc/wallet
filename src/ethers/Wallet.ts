@@ -1,7 +1,7 @@
 import ethers from 'ethers'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { Chain } from 'src/ethers/types'
-import { KeychainLock } from 'src/web3/KeychainSigner'
+import { KeychainLock } from 'src/web3/KeychainAccountManager'
 
 const providerUrlForChain = {
   [Chain.Celo]: DEFAULT_FORNO_URL,

@@ -1,4 +1,4 @@
-import { clearStoredAccounts } from 'src/web3/KeychainSigner'
+import { clearStoredAccounts } from 'src/web3/KeychainAccountManager'
 import * as mockedKeychain from 'test/mockedKeychain'
 
 describe(clearStoredAccounts, () => {

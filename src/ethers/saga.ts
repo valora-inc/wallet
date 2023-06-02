@@ -6,7 +6,7 @@ import Wallet from 'src/ethers/Wallet'
 import { Chain } from 'src/ethers/types'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
-import { KeychainAccount, listStoredAccounts } from 'src/web3/KeychainSigner'
+import { KeychainAccount, listStoredAccounts } from 'src/web3/KeychainAccountManager'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 let wallet: Wallet | undefined

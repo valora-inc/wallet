@@ -1,16 +1,26 @@
+import { Address } from '@celo/connect'
 import { normalizeAddressWith0x, privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Logger from 'src/utils/Logger'
-import { ImportMnemonicAccount, KeychainSigner, listStoredAccounts } from 'src/web3/KeychainSigner'
+import {
+  ImportMnemonicAccount,
+  KeychainAccountManager,
+  KeychainContractKitSigner,
+  listStoredAccounts,
+} from 'src/web3/KeychainAccountManager'
 
 const TAG = 'web3/KeychainWallet'
 
 /**
  * A wallet which uses the OS keychain to store private keys
  */
-export class KeychainWallet extends RemoteWallet<KeychainSigner> implements UnlockableWallet {
+export class KeychainWallet
+  extends RemoteWallet<KeychainContractKitSigner>
+  implements UnlockableWallet
+{
+  private keychainAccounts = new Map<string, KeychainAccountManager>()
   /**
    * Construct a new instance of the Keychain wallet
    * @param importMnemonicAccount ImportMnemonicAccount the existing account to import from the mnemonic, if not already present in the keychain
@@ -19,12 +29,53 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
     super()
   }
 
-  async loadAccountSigners(): Promise<Map<string, KeychainSigner>> {
+  /**
+   * Gets a list of addresses that have been registered
+   */
+  getAccounts(): Address[] {
+    return Array.from(this.keychainAccounts.keys())
+  }
+
+  /**
+   * Gets a single account been registered
+   */
+  getAccount(address: string): KeychainAccountManager {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    if (!this.keychainAccounts.has(normalizedAddress)) {
+      throw new Error(`Could not find address ${normalizedAddress}`)
+    }
+    return this.keychainAccounts.get(normalizedAddress)!
+  }
+
+  /**
+   * Returns true if account has been registered
+   * @param address Account to check
+   */
+  hasAccount(address?: Address): boolean {
+    if (address) {
+      const normalizedAddress = normalizeAddressWith0x(address)
+      return this.keychainAccounts.has(normalizedAddress)
+    } else {
+      return false
+    }
+  }
+
+  protected getSigner(address: string): KeychainContractKitSigner {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    if (!this.keychainAccounts.has(normalizedAddress)) {
+      throw new Error(`Could not find address ${normalizedAddress}`)
+    }
+    return this.keychainAccounts.get(normalizedAddress)!.unlockedContractKitSigner
+  }
+
+  async loadAccountSigners(): Promise<Map<string, KeychainContractKitSigner>> {
     const accounts = await listStoredAccounts(this.importMnemonicAccount)
-    const addressToSigner = new Map<string, KeychainSigner>()
+    const addressToSigner = new Map<string, KeychainContractKitSigner>()
 
     accounts.forEach((account) => {
-      addressToSigner.set(account.address, new KeychainSigner(account))
+      const accountManager = new KeychainAccountManager(account)
+      addressToSigner.set(account.address, accountManager.unlockedContractKitSigner)
+      this.keychainAccounts.set(account.address, accountManager)
     })
     return addressToSigner
   }
@@ -37,22 +88,22 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
     if (this.hasAccount(address)) {
       throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
-    const signer = new KeychainSigner({ address, createdAt: new Date() })
-    await signer.init(normalizedPrivateKey, passphrase)
-    this.addSigner(address, signer)
+    const accountManager = new KeychainAccountManager({ address, createdAt: new Date() })
+    await accountManager.init(normalizedPrivateKey, passphrase)
+    this.keychainAccounts.set(address, accountManager)
     return address
   }
   /**
    * Updates the passphrase of an account
-   * @param account - the account to update
+   * @param address - the account to update
    * @param oldPassphrase - the passphrase currently associated with the account
    * @param newPassphrase - the new passphrase to use with the account
    * @returns whether the update was successful
    */
-  async updateAccount(account: string, oldPassphrase: string, newPassphrase: string) {
-    Logger.info(`${TAG}@updateAccount`, `Updating ${account}`)
-    const signer = this.getSigner(account)
-    return signer.updatePassphrase(oldPassphrase, newPassphrase)
+  async updateAccount(address: string, oldPassphrase: string, newPassphrase: string) {
+    Logger.info(`${TAG}@updateAccount`, `Updating ${address}`)
+    const accountManager = this.getAccount(address)
+    return accountManager.updatePassphrase(oldPassphrase, newPassphrase)
   }
 
   /**
@@ -61,14 +112,14 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
    * @param passphrase String the passphrase of the account
    * @param duration Number the duration of the unlock period in seconds
    */
-  async unlockAccount(account: string, passphrase: string, duration: number) {
-    Logger.info(`${TAG}@unlockAccount`, `Unlocking ${account}`)
-    const signer = this.getSigner(account)
-    return signer.unlock(passphrase, duration)
+  async unlockAccount(address: string, passphrase: string, duration: number) {
+    Logger.info(`${TAG}@unlockAccount`, `Unlocking ${address}`)
+    const accountManager = this.getAccount(address)
+    return accountManager.unlock(passphrase, duration)
   }
 
   isAccountUnlocked(address: string) {
-    const signer = this.getSigner(address)
-    return signer.isUnlocked()
+    const accountManager = this.getAccount(address)
+    return accountManager.isUnlocked()
   }
 }

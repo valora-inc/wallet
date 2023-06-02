@@ -10,7 +10,7 @@ import { RootState } from 'src/redux/reducers'
 import { retrieveStoredItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { getWallet } from 'src/web3/contracts'
-import { clearStoredAccounts } from 'src/web3/KeychainSigner'
+import { clearStoredAccounts } from 'src/web3/KeychainAccountManager'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'utils/accountChecker'

@@ -1,4 +1,4 @@
-import { RLPEncodedTx, Signer } from '@celo/connect'
+import { RLPEncodedTx } from '@celo/connect'
 import {
   isValidAddress,
   normalizeAddress,
@@ -184,10 +184,9 @@ export async function clearStoredAccounts() {
   await Promise.all(accounts.map((account) => removeStoredItem(accountStorageKey(account))))
 }
 
-export abstract class KeychainLock<T extends ethers.Wallet | LocalSigner> {
-  protected unlockedLocalSigner: T | null = null
-
-  abstract newLocalSigner(privateKey: string): T
+export class KeychainAccountManager {
+  protected localContractKitSigner: KeychainContractKitSigner | null = null
+  protected localEthersSigner: ethers.Wallet | null = null
 
   /**
    * Construct a new instance of the Keychain Lock
@@ -205,7 +204,8 @@ export abstract class KeychainLock<T extends ethers.Wallet | LocalSigner> {
     if (!privateKey) {
       return false
     }
-    this.unlockedLocalSigner = this.newLocalSigner(privateKey)
+    this.localContractKitSigner = new KeychainContractKitSigner(privateKey, this.account)
+    this.localEthersSigner = new ethers.Wallet(privateKey)
     KeychainLocks.set(accountStorageKey(this.account), {
       unlockTime: Date.now(),
       unlockDuration: duration,
@@ -227,25 +227,55 @@ export abstract class KeychainLock<T extends ethers.Wallet | LocalSigner> {
   }
 
   /**
-   * Get the local signer. Throws if not unlocked.
+   * Updates the passphrase of an account
+   * @param oldPassphrase - the passphrase currently associated with the account
+   * @param newPassphrase - the new passphrase to use with the account
+   * @returns whether the update was successful
    */
-  protected get localSigner() {
-    if (!this.isUnlocked()) {
-      this.unlockedLocalSigner = null
+  async updatePassphrase(oldPassphrase: string, newPassphrase: string) {
+    const privateKey = await getStoredPrivateKey(this.account, oldPassphrase)
+    if (!privateKey) {
+      return false
     }
-    if (!this.unlockedLocalSigner) {
+    await storePrivateKey(privateKey, this.account, newPassphrase)
+    return true
+  }
+
+  /**
+   * Get the local contractkit signer. Throws if not unlocked.
+   */
+  get unlockedContractKitSigner() {
+    if (!this.isUnlocked()) {
+      this.localContractKitSigner = null
+      this.localEthersSigner = null
+    }
+    if (!this.localContractKitSigner) {
       throw new Error('authentication needed: password or unlock')
     }
-    return this.unlockedLocalSigner
+    return this.localContractKitSigner
+  }
+
+  /**
+   * Get the local contractkit signer. Throws if not unlocked.
+   */
+  get unlockedEthersSigner() {
+    if (!this.isUnlocked()) {
+      this.localContractKitSigner = null
+      this.localEthersSigner = null
+    }
+    if (!this.localEthersSigner) {
+      throw new Error('authentication needed: password or unlock')
+    }
+    return this.localEthersSigner
   }
 }
 
 /**
  * Implements the signer interface on top of the OS keychain
  */
-export class KeychainSigner extends KeychainLock<LocalSigner> implements Signer {
-  newLocalSigner(privateKey: string): LocalSigner {
-    return new LocalSigner(privateKey)
+export class KeychainContractKitSigner extends LocalSigner {
+  constructor(privateKey: string, protected account: KeychainAccount) {
+    super(privateKey)
   }
 
   async signTransaction(
@@ -261,43 +291,20 @@ export class KeychainSigner extends KeychainLock<LocalSigner> implements Signer 
       throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
     }
 
-    return this.localSigner.signTransaction(addToV, encodedTx)
+    return super.signTransaction(addToV, encodedTx)
   }
 
   async signPersonalMessage(data: string): Promise<{ v: number; r: Buffer; s: Buffer }> {
     Logger.info(`${TAG}@signPersonalMessage`, `Signing ${data}`)
-    return this.localSigner.signPersonalMessage(data)
+    return super.signPersonalMessage(data)
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
     Logger.info(`${TAG}@signTypedData`, `Signing typed DATA:`, { address: this.account, typedData })
-    return this.localSigner.signTypedData(typedData)
+    return super.signTypedData(typedData)
   }
 
   getNativeKey() {
     return this.account.address
-  }
-
-  /**
-   * Updates the passphrase of an account
-   * @param oldPassphrase - the passphrase currently associated with the account
-   * @param newPassphrase - the new passphrase to use with the account
-   * @returns whether the update was successful
-   */
-  async updatePassphrase(oldPassphrase: string, newPassphrase: string) {
-    const privateKey = await getStoredPrivateKey(this.account, oldPassphrase)
-    if (!privateKey) {
-      return false
-    }
-    await storePrivateKey(privateKey, this.account, newPassphrase)
-    return true
-  }
-
-  async decrypt(ciphertext: Buffer): Promise<Buffer> {
-    return this.localSigner.decrypt(ciphertext)
-  }
-
-  async computeSharedSecret(publicKey: string): Promise<Buffer> {
-    return this.localSigner.computeSharedSecret(publicKey)
   }
 }
