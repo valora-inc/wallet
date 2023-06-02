@@ -10,7 +10,13 @@ import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
-import { DEFAULT_ALLOWED_VALUES, SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import {
+  DEFAULT_ALLOWED_VALUES,
+  DEFAULT_BANK_SETTLEMENT_ESTIMATION,
+  DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
+  SettlementEstimation,
+  SettlementTime,
+} from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -39,6 +45,8 @@ const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([
   KycSchema.PersonalDataAndDocuments,
   KycSchema.PersonalDataAndDocumentsDetailed,
 ])
+
+const SECONDS_IN_HOUR = 60 * 60
 
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
@@ -152,12 +160,70 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quoteResponseKycSchema?.kycSchema
   }
 
-  // TODO: Dynamically generate time estimation strings
-  getTimeEstimation(): SettlementTime {
-    // payment method can only be bank or fc mobile money
-    return this.getPaymentMethod() === PaymentMethod.Bank
-      ? SettlementTime.ONE_TO_THREE_DAYS
-      : SettlementTime.LESS_THAN_24_HOURS
+  getTimeEstimation(): SettlementEstimation {
+    const fiatAccountInfo = this.quote.fiatAccount[this.getFiatAccountType()]
+    if (!fiatAccountInfo?.settlementTimeUpperBound) {
+      // payment method can only be bank or fc mobile money
+      return this.getPaymentMethod() === PaymentMethod.Bank
+        ? DEFAULT_BANK_SETTLEMENT_ESTIMATION
+        : DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION
+    }
+
+    const daysToSettlementEstimation = (
+      lowerBound: number,
+      upperBound: number
+    ): SettlementEstimation => {
+      if (lowerBound === upperBound || lowerBound === 0) {
+        return {
+          settlementTime: SettlementTime.LESS_THAN_X_DAYS,
+          upperBound,
+        }
+      }
+
+      return {
+        settlementTime: SettlementTime.X_TO_Y_DAYS,
+        lowerBound,
+        upperBound,
+      }
+    }
+
+    const hoursToSettlementEstimation = (
+      lowerBound: number,
+      upperBound: number
+    ): SettlementEstimation => {
+      if (upperBound <= 1) {
+        return {
+          settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
+        }
+      }
+
+      if (lowerBound === upperBound || lowerBound === 0) {
+        return {
+          settlementTime: SettlementTime.LESS_THAN_X_HOURS,
+          upperBound,
+        }
+      }
+
+      return {
+        settlementTime: SettlementTime.X_TO_Y_HOURS,
+        lowerBound,
+        upperBound,
+      }
+    }
+
+    const lowerBound = fiatAccountInfo.settlementTimeLowerBound ?? '0'
+    const lowerBoundInHours = Math.ceil(parseInt(lowerBound) / SECONDS_IN_HOUR)
+    const upperBoundInHours = Math.ceil(
+      parseInt(fiatAccountInfo.settlementTimeUpperBound) / SECONDS_IN_HOUR
+    )
+    if (upperBoundInHours <= 24) {
+      return hoursToSettlementEstimation(lowerBoundInHours, upperBoundInHours)
+    } else {
+      return daysToSettlementEstimation(
+        Math.ceil(lowerBoundInHours / 24),
+        Math.ceil(upperBoundInHours / 24)
+      )
+    }
   }
 
   navigate(dispatch: Dispatch): void {

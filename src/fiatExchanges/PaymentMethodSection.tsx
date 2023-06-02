@@ -8,7 +8,7 @@ import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -20,8 +20,10 @@ import { CiCoCurrency } from 'src/utils/currencies'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
   [SettlementTime.LESS_THAN_ONE_HOUR]: 'selectProviderScreen.oneHour',
-  [SettlementTime.LESS_THAN_24_HOURS]: 'selectProviderScreen.lessThan24Hours',
-  [SettlementTime.ONE_TO_THREE_DAYS]: 'selectProviderScreen.numDays',
+  [SettlementTime.LESS_THAN_X_HOURS]: 'selectProviderScreen.xHours',
+  [SettlementTime.X_TO_Y_HOURS]: 'selectProviderScreen.xToYHours',
+  [SettlementTime.LESS_THAN_X_DAYS]: 'selectProviderScreen.xDays',
+  [SettlementTime.X_TO_Y_DAYS]: 'selectProviderScreen.xToYDays',
 }
 
 export interface PaymentMethodSectionProps {
@@ -169,10 +171,28 @@ export function PaymentMethodSection({
     </>
   )
 
+  const getSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
+    switch (settlementEstimation.settlementTime) {
+      case SettlementTime.LESS_THAN_ONE_HOUR:
+        return t(SETTLEMENT_TIME_STRINGS[SettlementTime.LESS_THAN_ONE_HOUR])
+      case SettlementTime.LESS_THAN_X_HOURS:
+      case SettlementTime.LESS_THAN_X_DAYS:
+        return t(SETTLEMENT_TIME_STRINGS[settlementEstimation.settlementTime], {
+          upperBound: settlementEstimation.upperBound,
+        })
+      case SettlementTime.X_TO_Y_HOURS:
+      case SettlementTime.X_TO_Y_DAYS:
+        return t(SETTLEMENT_TIME_STRINGS[settlementEstimation.settlementTime], {
+          lowerBound: settlementEstimation.lowerBound,
+          upperBound: settlementEstimation.upperBound,
+        })
+    }
+  }
+
   const renderInfoText = (quote: NormalizedQuote) => {
     const kycInfo = quote.getKycInfo()
     const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${t(SETTLEMENT_TIME_STRINGS[quote.getTimeEstimation()])}`
+    return `${kycString}${getSettlementTimeString(quote.getTimeEstimation())}`
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {

@@ -196,7 +196,7 @@ describe('PaymentMethodSection', () => {
     const infoElement = queryByTestId('Bank/provider-0/info')
     expect(infoElement).toBeTruthy()
     expect(infoElement).toHaveTextContent(
-      'selectProviderScreen.idRequired | selectProviderScreen.numDays'
+      'selectProviderScreen.idRequired | selectProviderScreen.xToYDays, {"lowerBound":1,"upperBound":3}'
     )
   })
 
@@ -215,7 +215,9 @@ describe('PaymentMethodSection', () => {
     )
     const infoElement = queryByTestId('Bank/provider-0/info')
     expect(infoElement).toBeTruthy()
-    expect(infoElement).toHaveTextContent('selectProviderScreen.numDays')
+    expect(infoElement).toHaveTextContent(
+      'selectProviderScreen.xToYHours, {"lowerBound":1,"upperBound":2}'
+    )
     expect(infoElement).not.toHaveTextContent('selectProviderScreen.idRequired')
   })
 
@@ -235,7 +237,7 @@ describe('PaymentMethodSection', () => {
         CiCoCurrency.cUSD
       ),
       'bank',
-      'numDays',
+      'xToYHours',
     ],
     [
       PaymentMethod.FiatConnectMobileMoney as const,
@@ -246,7 +248,7 @@ describe('PaymentMethodSection', () => {
         CiCoCurrency.cUSD
       ),
       'mobileMoney',
-      'lessThan24Hours',
+      'xHours',
     ],
   ])('shows appropriate title and settlement time for %s', (paymentMethod, quotes, title, info) => {
     props.normalizedQuotes = quotes

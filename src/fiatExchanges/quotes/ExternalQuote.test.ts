@@ -160,7 +160,11 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getTimeEstimation()).toEqual(SettlementTime.ONE_TO_THREE_DAYS)
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.X_TO_Y_DAYS,
+        lowerBound: 1,
+        upperBound: 3,
+      })
     })
     it('returns oneHour for Card', () => {
       const quote = new ExternalQuote({
@@ -168,7 +172,9 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getTimeEstimation()).toEqual(SettlementTime.LESS_THAN_ONE_HOUR)
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
+      })
     })
   })
 

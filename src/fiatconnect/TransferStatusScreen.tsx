@@ -11,7 +11,7 @@ import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
 import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
@@ -32,12 +32,12 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
 
-// FC quotes don't return <1h
-type SupportedSettlementTimes = Exclude<SettlementTime, SettlementTime.LESS_THAN_ONE_HOUR>
-
-const DESCRIPTION_STRINGS: Record<SupportedSettlementTimes, string> = {
-  [SettlementTime.LESS_THAN_24_HOURS]: 'fiatConnectStatusScreen.success.description24Hours',
-  [SettlementTime.ONE_TO_THREE_DAYS]: 'fiatConnectStatusScreen.success.description1to3Days',
+const DESCRIPTION_STRINGS: Record<SettlementTime, string> = {
+  [SettlementTime.LESS_THAN_ONE_HOUR]: 'fiatConnectStatusScreen.success.descriptionWithin1Hour',
+  [SettlementTime.LESS_THAN_X_HOURS]: 'fiatConnectStatusScreen.success.descriptionWithinXHours',
+  [SettlementTime.X_TO_Y_HOURS]: 'fiatConnectStatusScreen.success.descriptionInXtoYHours',
+  [SettlementTime.LESS_THAN_X_DAYS]: 'fiatConnectStatusScreen.success.descriptionWithinXDays',
+  [SettlementTime.X_TO_Y_DAYS]: 'fiatConnectStatusScreen.success.descriptionXtoYDays',
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
@@ -133,12 +133,31 @@ function SuccessOrProcessingSection({
     | FiatExchangeEvents.cico_fc_transfer_success_view_tx
     | FiatExchangeEvents.cico_fc_transfer_processing_view_tx
 
+  const getSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
+    switch (settlementEstimation.settlementTime) {
+      case SettlementTime.LESS_THAN_ONE_HOUR:
+        return t(DESCRIPTION_STRINGS[SettlementTime.LESS_THAN_ONE_HOUR])
+      case SettlementTime.LESS_THAN_X_HOURS:
+      case SettlementTime.LESS_THAN_X_DAYS:
+        return t(DESCRIPTION_STRINGS[settlementEstimation.settlementTime], {
+          upperBound: settlementEstimation.upperBound,
+        })
+      case SettlementTime.X_TO_Y_HOURS:
+      case SettlementTime.X_TO_Y_DAYS:
+        return t(DESCRIPTION_STRINGS[settlementEstimation.settlementTime], {
+          lowerBound: settlementEstimation.lowerBound,
+          upperBound: settlementEstimation.upperBound,
+        })
+      default:
+        // Should not be reachable
+        return t('fiatConnectStatusScreen.success.baseDescription')
+    }
+  }
+
   if (status === SendingTransferStatus.Completed) {
     icon = <CheckmarkCircle />
     title = t('fiatConnectStatusScreen.success.title')
-    description = t(
-      DESCRIPTION_STRINGS[normalizedQuote.getTimeEstimation() as SupportedSettlementTimes]
-    )
+    description = getSettlementTimeString(normalizedQuote.getTimeEstimation())
     continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_success_view_tx
   } else {
