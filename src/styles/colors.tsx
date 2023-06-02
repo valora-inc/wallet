@@ -1,9 +1,9 @@
 // Designer Created Figma Colors
 export enum Colors {
   greenLight = '#D0F4E1',
-  greenFaint = '#97DFC1', // green disabled
-  greenBrand = '#42D689',
-  greenUI = '#1AB775',
+  greenFaint = '#EDF0FF', // green disabled
+  greenBrand = '#1434CB',
+  greenUI = '#1434CB',
   goldFaint = '#E3C376', // gold disabled
   goldBrand = '#FBCC5C',
   goldUI = '#EEB93C',
@@ -29,12 +29,12 @@ export enum Colors {
   onboardingBlue = '#0768AE',
   onboardingLightBlue = '#D6EAF3',
   onboardingBackground = '#F9F6F0',
-  onboardingGreen = '#178154',
+  onboardingGreen = '#1434CB',
   modalBackdrop = '#1B392F',
 
-  greenBackground = '#DEF8EA',
+  greenBackground = '#EDF0FF',
   greenStrong = '#08CB7A',
-  lightGreen = '#E6F7EC',
+  lightGreen = '#EDF0FF',
 
   white = '#FFFFFF',
 }

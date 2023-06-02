@@ -36,7 +36,7 @@ function TransferFeedItem({ transfer }: Props) {
   const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
   const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
-  const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
+  const colorStyle = new BigNumber(amount.value).isPositive() ? { color: '#1AB775' } : {}
 
   return (
     <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>

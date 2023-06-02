@@ -51,7 +51,7 @@ function SwapFeedItem({ exchange }: Props) {
             showSymbol={true}
             showExplicitPositiveSign={true}
             hideSign={false}
-            style={[styles.amount, { color: colors.greenUI }]}
+            style={[styles.amount, { color: '#1AB775' }]}
             testID={'SwapFeedItem/incomingAmount'}
           />
           <TokenDisplay
