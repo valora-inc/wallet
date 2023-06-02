@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Next, add your phone number",
-      "subtitle": "You’ll need to use this phone number to restore if you ever lose your wallet.\n\nWe’ll send you a code to verify that this number is yours."
+      "title": "Tiếp theo, hãy thêm số điện thoại của bạn",
+      "subtitle": "Bạn sẽ cần sử dụng số điện thoại này để khôi phục nếu bị mất ví.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số điện thoại của bạn."
     },
     "restore": {
-      "title": "Verify your phone number",
-      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+      "title": "Xác minh số điện thoại của bạn",
+      "subtitle": "Nhập số điện thoại mà trước đây bạn đã sử dụng để thiết lập sao lưu.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số của bạn."
     }
   },
   "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
@@ -576,7 +576,7 @@
   "dismiss": "Bỏ qua",
   "review": "Xem lại",
   "insufficientBalance": "Số dư của bạn quá thấp nên không thể thực hiện được giao dịch này",
-  "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
+  "insufficientBalanceStable": "Bạn không có đủ cUSD hoặc cEUR để hoàn tất giao dịch này",
   "amount": "Số tiền",
   "currentBalance": "Số dư hiện tại (cUSD)",
   "restore": "Khôi phục",
@@ -1224,11 +1224,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Tổng {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Tổng số dư",
   "viewBalances": "Xem tài sản",
-  "totalAssets": "My assets",
-  "totalAssetsInfo": "Includes estimated total of wallet assets and dapp positions",
+  "totalAssets": "Tài sản của tôi",
+  "totalAssetsInfo": "Bao gồm ước tính tổng tài sản ví và lệnh giao dịch trên dapp",
   "assetsSegmentedControl": {
-    "walletAssets": "Wallet assets",
-    "dappPositions": "Dapp positions"
+    "walletAssets": "Tài sản ví",
+    "dappPositions": "Lệnh giao dịch trên dapp"
   },
   "open": "Mở",
   "nftViewer": "Trình xem NFT",
