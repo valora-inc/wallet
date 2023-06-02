@@ -20,6 +20,7 @@ export enum StatsigFeatureGates {
   USE_ZENDESK_API_FOR_SUPPORT = 'use_zendesk_api_for_support',
   SHOW_POSITIONS = 'show_positions',
   APP_REVIEW = 'app_review',
+  SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
 }
 
 export enum StatsigExperiments {

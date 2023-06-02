@@ -564,7 +564,7 @@ const swapScreens = (Navigator: typeof Stack) => (
 const nftScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
-      name={Screens.NftInfoCarousel}
+      name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
       options={noHeader}
     />

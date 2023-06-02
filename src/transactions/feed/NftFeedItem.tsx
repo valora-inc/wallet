@@ -8,9 +8,14 @@ import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
   transaction: NftTransfer
@@ -18,10 +23,15 @@ interface Props {
 
 function NftFeedItem({ transaction }: Props) {
   const { t } = useTranslation()
+  const walletAddress = useSelector(walletAddressSelector)
   const { nfts } = transaction
 
   const openNftTransactionDetails = () => {
-    navigate(Screens.NftInfoCarousel, { nfts })
+    getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER)
+      ? navigate(Screens.NftsInfoCarousel, { nfts })
+      : navigate(Screens.WebViewScreen, {
+          uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+        })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
