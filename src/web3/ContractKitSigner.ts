@@ -1,10 +1,11 @@
 import { RLPEncodedTx } from '@celo/connect'
-import { EIP712TypedData } from '@celo/payments-types'
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import BigNumber from 'bignumber.js'
-import { TAG } from 'src/fiatconnect/FiatDetailsScreen'
 import Logger from 'src/utils/Logger'
 import { KeychainAccount } from 'src/web3/types'
+
+const TAG = 'web3/ContractKitSigner'
 
 /**
  * Implements the signer interface on top of the OS keychain

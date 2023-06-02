@@ -12,14 +12,13 @@ import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
-import { Chain } from 'src/ethers/types'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
-import { ImportMnemonicAccount } from 'src/web3/KeychainAccountManager'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { ImportMnemonicAccount } from 'src/web3/types'
 import Web3 from 'web3'
 
 const TAG = 'web3/contracts'
@@ -148,33 +147,6 @@ export function* getWallet() {
     }
   }
   return wallet
-}
-
-export function* getEthersWallet(chain: Chain) {
-  if (!wallet) {
-    yield initContractKitLock.acquire()
-    try {
-      if (!wallet) {
-        yield call(initContractKit)
-      }
-    } finally {
-      initContractKitLock.release()
-    }
-  }
-  if (!wallet) {
-    throw new Error('KeychainWallet not set. Should never happen')
-  }
-  const walletAddress: string | null = yield select(walletAddressSelector)
-
-  if (!walletAddress) {
-    throw new Error('Wallet address not set. Should never happen')
-  }
-
-  const ethersWallet = wallet.getAccount(walletAddress).unlockedEthersWallets.get(chain)
-  if (!ethersWallet) {
-    throw new Error('No ethers wallet found. Should never happen')
-  }
-  return ethersWallet
 }
 
 // Used for cases where the wallet must be access outside of a saga

@@ -12,6 +12,8 @@ const TAG = 'web3/KeychainWallet'
 
 /**
  * A wallet which uses the OS keychain to store private keys
+ * It implements many methods necessary to be an UnlockableWallet so it can be used in ContractKit
+ * Meant to be used as a singleton and helps manage multiple accounts (addresses) stored on the Keychain
  */
 export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements UnlockableWallet {
   private keychainAccounts = new Map<string, KeychainAccountManager>()

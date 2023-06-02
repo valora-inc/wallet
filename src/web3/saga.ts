@@ -107,7 +107,6 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
   try {
     const account = privateKeyToAddress(privateKey)
     const wallet: UnlockableWallet = yield call(getWallet)
-    // TODO: get ethers wallet
     const password: string = yield call(getPasswordSaga, account, false, true)
 
     try {
@@ -124,7 +123,6 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
       }
 
       yield call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
-      // TODO: unlock ethers wallet
     }
 
     Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)

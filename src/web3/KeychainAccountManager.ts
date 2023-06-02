@@ -163,6 +163,11 @@ export async function clearStoredAccounts() {
   await Promise.all(accounts.map((account) => removeStoredItem(accountStorageKey(account))))
 }
 
+/**
+ * Manages a single account (single address) in the keychain
+ * Contains methods for locking/unlocking that account by controlling access to the signer for the account
+ * Instantiates the signers for both contractkit and ethers.js and locks/unlocks them together
+ */
 export class KeychainAccountManager {
   protected localContractKitSigner: ContractKitSigner | null = null
   protected localEthersWallets: Map<Chain, Wallet> = new Map()
