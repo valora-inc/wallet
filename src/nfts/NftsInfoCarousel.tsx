@@ -8,7 +8,6 @@ import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import BackChevronStatic from 'src/icons/BackChevronStatic'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import TripleDotHorizontal from 'src/icons/TripleDotHorizontal'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -87,8 +86,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState((nfts && nfts[0]) ?? null)
   const [isLoading, setIsLoading] = useState(true)
-  // @ts-expect-error wip
-  const [shareBottomSheetVisible, setShareBottomSheetVisible] = useState(false)
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
@@ -100,25 +97,17 @@ export default function NftsInfoCarousel({ route }: Props) {
 
   // Some components that require parent state defined
   const PlatformSpecificTopBarButtons = () => {
-    if (Platform.OS === 'ios') {
-      return (
+    return (
+      <View style={styles.topBarButtonsContainerWrapper}>
         <View style={styles.topBarButtonsContainer}>
-          <TopBarIconButton
-            onPress={() => navigateBack()}
-            icon={<BackChevronStatic />}
-            style={[styles.button, styles.iOSButton]}
-          />
-          <TopBarIconButton
-            onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-            icon={<TripleDotHorizontal />}
-            style={[styles.button, styles.iOSButton]}
-          />
-        </View>
-      )
-    } else {
-      return (
-        <View style={styles.topBarButtonsContainer}>
-          <View>
+          {Platform.OS === 'ios' && (
+            <TopBarIconButton
+              onPress={() => navigateBack()}
+              icon={<BackChevronStatic />}
+              style={styles.button}
+            />
+          )}
+          {Platform.OS === 'android' && (
             <Pressable
               android_ripple={android_ripple}
               onPress={() => navigateBack()}
@@ -126,19 +115,10 @@ export default function NftsInfoCarousel({ route }: Props) {
             >
               <BackChevronStatic />
             </Pressable>
-          </View>
-          <View>
-            <Pressable
-              android_ripple={android_ripple}
-              onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-              style={styles.button}
-            >
-              <TripleDotHorizontal />
-            </Pressable>
-          </View>
+          )}
         </View>
-      )
-    }
+      </View>
+    )
   }
 
   const MainImagePlaceholder = () => {
@@ -313,9 +293,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  iOSButton: {
-    marginTop: Spacing.Thick24,
-  },
   nftImageCarousel: {
     flexDirection: 'row',
     paddingHorizontal: Spacing.Regular16,
@@ -370,12 +347,11 @@ const styles = StyleSheet.create({
   topBarButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    left: 0,
     marginTop: Spacing.Regular16,
-    padding: Spacing.Regular16,
-    position: 'absolute',
-    top: 0,
-    width: '100%',
+    marginHorizontal: Spacing.Regular16,
+  },
+  topBarButtonsContainerWrapper: {
+    flex: 1,
     zIndex: 1,
   },
 })
