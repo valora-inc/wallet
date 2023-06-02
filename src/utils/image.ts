@@ -110,6 +110,6 @@ export const fetchImageAsBase64 = async (
   } catch (error) {
     throw new Error(`Failed to fetch image and convert to base64: ${error.message}`)
   } finally {
-    RNFS.unlink(imagePath)
+    await RNFS.unlink(imagePath)
   }
 }
