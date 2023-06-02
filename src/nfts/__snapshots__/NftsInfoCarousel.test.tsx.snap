@@ -1,0 +1,1110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NftsInfoCarousel renders correctly with one Nft 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  testID="NftsInfoCarousel"
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "zIndex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginHorizontal": 16,
+          "marginTop": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FFFFFF",
+            "borderColor": "#2E3338",
+            "borderRadius": 100,
+            "elevation": 4,
+            "height": 32,
+            "justifyContent": "center",
+            "shadowColor": "#2E3338",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+            "width": 32,
+          }
+        }
+        testID="NftsInfoCarousel/BackButton"
+      >
+        <svg
+          fill="none"
+          height={32}
+          viewBox="0 0 32 32"
+          width={32}
+        >
+          <path
+            d="M19.4303 9.4303L17.9919 8L10 16L18 24L19.4303 22.5697L12.8606 16L19.4303 9.4303Z"
+            fill="#2E3338"
+          />
+        </svg>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView>
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "height": 360,
+                "width": 750,
+              },
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          defaultSource={null}
+          onFastImageError={[Function]}
+          onFastImageLoad={[Function]}
+          onFastImageLoadEnd={[Function]}
+          resizeMode="contain"
+          source={
+            Object {
+              "uri": "https://example.com/1",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "transparent",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "height": 360,
+                    "width": 750,
+                    "zIndex": -1,
+                  },
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Object {
+                      "backgroundColor": "#E6E6E6",
+                    },
+                  ],
+                  Object {
+                    "borderRadius": 8,
+                    "height": 360,
+                    "width": 750,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Jost-Book",
+              "fontSize": 26,
+              "lineHeight": 32,
+            }
+          }
+        >
+          John Doe.fizzBuzz
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "marginBottom": 16,
+            }
+          }
+        >
+          nftInfoCarousel.description
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          This is a fizzBuzz name!
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "marginBottom": 16,
+            }
+          }
+        >
+          nftInfoCarousel.attributes
+        </Text>
+        <View
+          style={
+            Object {
+              "paddingBottom": 24,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#757575",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            Fizz Buzz
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            1
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="ViewOnExplorer"
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#178154",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingRight": 8,
+                }
+              }
+            >
+              nftInfoCarousel.viewOnCeloExplorer
+            </Text>
+            <svg
+              fill="none"
+              height={12}
+              width={12}
+            >
+              <path
+                d="M10.148 10.148H1.852V1.852H6V.667H1.852C1.194.667.667 1.2.667 1.852v8.296c0 .652.527 1.185 1.185 1.185h8.296c.652 0 1.185-.533 1.185-1.185V6h-1.185v4.148ZM7.185.667v1.185h2.127L3.487 7.677l.836.836 5.825-5.826v2.128h1.185V.667H7.185Z"
+                fill="#178154"
+              />
+            </svg>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`NftsInfoCarousel renders correctly with two valid Nfts 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  testID="NftsInfoCarousel"
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "zIndex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginHorizontal": 16,
+          "marginTop": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FFFFFF",
+            "borderColor": "#2E3338",
+            "borderRadius": 100,
+            "elevation": 4,
+            "height": 32,
+            "justifyContent": "center",
+            "shadowColor": "#2E3338",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+            "width": 32,
+          }
+        }
+        testID="NftsInfoCarousel/BackButton"
+      >
+        <svg
+          fill="none"
+          height={32}
+          viewBox="0 0 32 32"
+          width={32}
+        >
+          <path
+            d="M19.4303 9.4303L17.9919 8L10 16L18 24L19.4303 22.5697L12.8606 16L19.4303 9.4303Z"
+            fill="#2E3338"
+          />
+        </svg>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView>
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Array [
+              Object {
+                "height": 360,
+                "width": 750,
+              },
+            ],
+          ]
+        }
+      >
+        <FastImageView
+          defaultSource={null}
+          onFastImageError={[Function]}
+          onFastImageLoad={[Function]}
+          onFastImageLoadEnd={[Function]}
+          resizeMode="contain"
+          source={
+            Object {
+              "uri": "https://example.com/1",
+            }
+          }
+          style={
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "transparent",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "height": 360,
+                    "width": 750,
+                    "zIndex": -1,
+                  },
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Object {
+                      "backgroundColor": "#E6E6E6",
+                    },
+                  ],
+                  Object {
+                    "borderRadius": 8,
+                    "height": 360,
+                    "width": 750,
+                  },
+                ]
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <RCTScrollView
+          contentContainerStyle={
+            Object {
+              "alignItems": "center",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "marginLeft": 16,
+            }
+          }
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={
+            Object {
+              "flexDirection": "row",
+              "paddingHorizontal": 16,
+              "paddingTop": 8,
+            }
+          }
+          testID="NftsInfoCarousel/NftImageCarousel"
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "borderRadius": 8,
+                  "marginRight": 8,
+                  "overflow": "hidden",
+                }
+              }
+              testID="NftsInfoCarousel/NftThumbnail/0x000000000000000000000000000000000000CE10-1"
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                nativeBackgroundAndroid={
+                  Object {
+                    "attribute": "selectableItemBackground",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "overflow": "hidden",
+                      },
+                      Array [
+                        Object {
+                          "borderRadius": 8,
+                        },
+                        Object {
+                          "height": 40,
+                          "width": 40,
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  <FastImageView
+                    defaultSource={null}
+                    onFastImageError={[Function]}
+                    onFastImageLoadEnd={[Function]}
+                    resizeMode="cover"
+                    source={
+                      Object {
+                        "uri": "https://example.com/1",
+                      }
+                    }
+                    style={
+                      Object {
+                        "bottom": 0,
+                        "left": 0,
+                        "position": "absolute",
+                        "right": 0,
+                        "top": 0,
+                      }
+                    }
+                  />
+                  <View
+                    onLayout={[Function]}
+                  >
+                    <View
+                      style={
+                        Object {
+                          "backgroundColor": "transparent",
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "height": 40,
+                              "width": 40,
+                              "zIndex": -1,
+                            },
+                            Array [
+                              Object {
+                                "overflow": "hidden",
+                              },
+                              Object {
+                                "backgroundColor": "#E6E6E6",
+                              },
+                            ],
+                            Object {
+                              "borderRadius": undefined,
+                              "height": 40,
+                              "width": 40,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "borderRadius": 8,
+                  "marginRight": 8,
+                  "overflow": "hidden",
+                }
+              }
+              testID="NftsInfoCarousel/NftThumbnail/0x000000000000000000000000000000000000CE10-3"
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                nativeBackgroundAndroid={
+                  Object {
+                    "attribute": "selectableItemBackground",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "overflow": "hidden",
+                      },
+                      Array [
+                        Object {
+                          "borderRadius": 8,
+                        },
+                        Object {
+                          "height": 32,
+                          "opacity": 0.5,
+                          "width": 32,
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  <FastImageView
+                    defaultSource={null}
+                    onFastImageError={[Function]}
+                    onFastImageLoadEnd={[Function]}
+                    resizeMode="cover"
+                    source={
+                      Object {
+                        "uri": "https://example.com/3",
+                      }
+                    }
+                    style={
+                      Object {
+                        "bottom": 0,
+                        "left": 0,
+                        "position": "absolute",
+                        "right": 0,
+                        "top": 0,
+                      }
+                    }
+                  />
+                  <View
+                    onLayout={[Function]}
+                  >
+                    <View
+                      style={
+                        Object {
+                          "backgroundColor": "transparent",
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "height": 40,
+                              "width": 40,
+                              "zIndex": -1,
+                            },
+                            Array [
+                              Object {
+                                "overflow": "hidden",
+                              },
+                              Object {
+                                "backgroundColor": "#E6E6E6",
+                              },
+                            ],
+                            Object {
+                              "borderRadius": undefined,
+                              "height": 40,
+                              "width": 40,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </RCTScrollView>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Jost-Book",
+              "fontSize": 26,
+              "lineHeight": 32,
+            }
+          }
+        >
+          John Doe.fizzBuzz
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "marginBottom": 16,
+            }
+          }
+        >
+          nftInfoCarousel.description
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          This is a fizzBuzz name!
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "marginBottom": 16,
+            }
+          }
+        >
+          nftInfoCarousel.attributes
+        </Text>
+        <View
+          style={
+            Object {
+              "paddingBottom": 24,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#757575",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            Fizz Buzz
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            1
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="ViewOnExplorer"
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#178154",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingRight": 8,
+                }
+              }
+            >
+              nftInfoCarousel.viewOnCeloExplorer
+            </Text>
+            <svg
+              fill="none"
+              height={12}
+              width={12}
+            >
+              <path
+                d="M10.148 10.148H1.852V1.852H6V.667H1.852C1.194.667.667 1.2.667 1.852v8.296c0 .652.527 1.185 1.185 1.185h8.296c.652 0 1.185-.533 1.185-1.185V6h-1.185v4.148ZM7.185.667v1.185h2.127L3.487 7.677l.836.836 5.825-5.826v2.128h1.185V.667H7.185Z"
+                fill="#178154"
+              />
+            </svg>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`NftsInfoCarousel renders error image state on Nft null metadata 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  testID="NftsInfoCarousel"
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "zIndex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginHorizontal": 16,
+          "marginTop": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FFFFFF",
+            "borderColor": "#2E3338",
+            "borderRadius": 100,
+            "elevation": 4,
+            "height": 32,
+            "justifyContent": "center",
+            "shadowColor": "#2E3338",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+            "width": 32,
+          }
+        }
+        testID="NftsInfoCarousel/BackButton"
+      >
+        <svg
+          fill="none"
+          height={32}
+          viewBox="0 0 32 32"
+          width={32}
+        >
+          <path
+            d="M19.4303 9.4303L17.9919 8L10 16L18 24L19.4303 22.5697L12.8606 16L19.4303 9.4303Z"
+            fill="#2E3338"
+          />
+        </svg>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView>
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#2E3338",
+            "height": 360,
+            "justifyContent": "center",
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#FFFFFF",
+            }
+          }
+        >
+          nftInfoCarousel.nftImageLoadError
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Jost-Book",
+              "fontSize": 26,
+              "lineHeight": 32,
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 24,
+            "marginTop": 16,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="ViewOnExplorer"
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#178154",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingRight": 8,
+                }
+              }
+            >
+              nftInfoCarousel.viewOnCeloExplorer
+            </Text>
+            <svg
+              fill="none"
+              height={12}
+              width={12}
+            >
+              <path
+                d="M10.148 10.148H1.852V1.852H6V.667H1.852C1.194.667.667 1.2.667 1.852v8.296c0 .652.527 1.185 1.185 1.185h8.296c.652 0 1.185-.533 1.185-1.185V6h-1.185v4.148ZM7.185.667v1.185h2.127L3.487 7.677l.836.836 5.825-5.826v2.128h1.185V.667H7.185Z"
+                fill="#178154"
+              />
+            </svg>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`NftsInfoCarousel renders error state when no Nft(s) 1`] = `
+<RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+  testID="NftsInfoCarousel/NftsLoadErrorScreen"
+>
+  <Text>
+    nftInfoCarousel.noNftsFound
+  </Text>
+</RNCSafeAreaView>
+`;
