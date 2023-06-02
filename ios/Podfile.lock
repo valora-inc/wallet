@@ -705,7 +705,7 @@ PODS:
   - RNSentry (4.13.0):
     - React-Core
     - Sentry/HybridSDK (= 7.31.5)
-  - RNShare (7.3.2):
+  - RNShare (8.2.2):
     - React-Core
   - RNSVG (13.9.0):
     - React-Core
