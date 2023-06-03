@@ -6,6 +6,10 @@ export const providerUrlForChain = {
   [Chain.Celo]: DEFAULT_FORNO_URL,
 }
 
+/**
+ * A wallet class for signing, making transactions, etc on the ethers.js platform
+ * One wallet per address per chain
+ */
 export default class Wallet extends ethers.Wallet {
   connect(_provider: ethers.Provider | null): ethers.Wallet {
     throw new Error(

@@ -68,5 +68,4 @@ export enum ErrorMessages {
   SWAP_SUBMIT_FAILED = 'swapScreen.swapSubmitFailed',
   KYC_TRY_AGAIN_FAILED = 'fiatConnectKycStatusScreen.tryAgainFailed',
   INSUFFICIENT_BALANCE_STABLE = 'insufficientBalanceStable',
-  WALLET_INIT_FAILED = 'walletInitFailed',
 }
