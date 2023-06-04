@@ -584,6 +584,10 @@ describe('appInit', () => {
 
     expect(initializeSentry).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    // Ensure the right context is used
+    // Note: switch to mock.contexts[0] when we upgrade to jest >= 28
+    // See https://jestjs.io/docs/mock-function-api/#mockfnmockcontexts
+    expect(mocked(ValoraAnalytics.init).mock.instances[0]).toBe(ValoraAnalytics)
     expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
   })
 
