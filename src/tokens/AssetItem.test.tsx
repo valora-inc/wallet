@@ -33,6 +33,45 @@ describe('PositionItem', () => {
       title: 'MOO / CELO',
     })
   })
+
+  it('shows the correct info for a position', () => {
+    const { getByText, queryByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={mockPositions[0]} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(getByText('₱3.34')).toBeTruthy()
+    expect(getByText('11.90')).toBeTruthy()
+  })
+
+  it('shows the correct info for a position with a negative balance', () => {
+    const { getByText, queryByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={{ ...mockPositions[0], balance: `-${mockPositions[0].balance}` }} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(getByText('-₱3.34')).toBeTruthy()
+    expect(getByText('-11.90')).toBeTruthy()
+  })
+
+  it('shows the correct info for a position with a 0 price', () => {
+    const { getByText, queryByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={{ ...mockPositions[0], priceUsd: '0' }} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(getByText('-')).toBeTruthy()
+    expect(getByText('11.90')).toBeTruthy()
+  })
 })
 
 describe('TokenBalanceItem', () => {

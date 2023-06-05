@@ -51,8 +51,12 @@ export const PositionItem = ({ position }: { position: Position }) => {
         </View>
       </View>
       <View style={styles.balances}>
-        {balanceUsd.gt(0) && (
+        {balanceUsd.gt(0) || balanceUsd.lt(0) ? (
           <TokenDisplay amount={balanceUsd} currency={Currency.Dollar} style={styles.tokenAmt} />
+        ) : (
+          // If the balance is 0 / NaN, display a dash instead
+          // as it means we don't have a price for at least one of the underlying tokens
+          <Text style={styles.tokenAmt}>-</Text>
         )}
         {balanceInDecimal && (
           <TokenDisplay
