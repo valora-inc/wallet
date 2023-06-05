@@ -184,6 +184,7 @@ export default function NftsInfoCarousel({ route }: Props) {
       <ScrollView>
         {activeNft.metadata && (
           <FastImage
+            testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
             style={[
               {
                 height: scaledHeight,
