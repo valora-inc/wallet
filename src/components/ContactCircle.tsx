@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import DefaultAvatar from 'src/icons/DefaultAvatar'
 import { Recipient } from 'src/recipients/recipient'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface Props {
@@ -12,16 +13,16 @@ interface Props {
 
 const DEFAULT_ICON_SIZE = 40
 
-const getAddressBackgroundColor = (address: string) =>
-  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)`
-const getAddressForegroundColor = (address: string) =>
-  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)`
+// const getAddressBackgroundColor = (address: string) =>
+//   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)`
+// const getAddressForegroundColor = (address: string) =>
+//   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)`
 const getNameInitial = (name: string) => name.charAt(0).toLocaleUpperCase()
 
 function ContactCircle({ size, recipient, style }: Props) {
-  const address = recipient.address
+  // const address = recipient.address
   const iconSize = size || DEFAULT_ICON_SIZE
-  const iconBackgroundColor = getAddressBackgroundColor(address || '0x0')
+  const iconBackgroundColor = Colors.greenFaint // getAddressBackgroundColor(address || '0x0')
 
   const renderThumbnail = () => {
     if (recipient.thumbnailPath) {
@@ -37,7 +38,7 @@ function ContactCircle({ size, recipient, style }: Props) {
       )
     }
 
-    const fontColor = getAddressForegroundColor(address || '0x0')
+    const fontColor = Colors.greenBrand // getAddressForegroundColor(address || '0x0')
     if (recipient.name) {
       const initial = getNameInitial(recipient.name)
       return (

@@ -6,7 +6,7 @@ import { rewardsEnabledSelector } from 'src/app/selectors'
 import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import Rings from 'src/icons/Rings'
+import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
@@ -27,7 +27,14 @@ function RewardsPill() {
   if (!showRewardsPill) {
     return null
   }
-  return <Pill text={t('rewards')} icon={<Rings />} onPress={onOpenRewards} testID="EarnRewards" />
+  return (
+    <Pill
+      text={t('rewards')}
+      icon={<Logo height={24} />}
+      onPress={onOpenRewards}
+      testID="EarnRewards"
+    />
+  )
 }
 
 export default RewardsPill
