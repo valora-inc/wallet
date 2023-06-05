@@ -36,6 +36,7 @@ const NftsLoadErrorScreen = () => {
       style={{
         flex: 1,
       }}
+      testID="NftsInfoCarousel/NftsLoadErrorScreen"
     >
       <TopBarIconButton
         style={{ margin: Spacing.Smallest8 }}
