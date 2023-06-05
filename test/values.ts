@@ -35,6 +35,7 @@ import {
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
+import { Nft } from 'src/nfts/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { Position } from 'src/positions/types'
@@ -1260,4 +1261,55 @@ export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
     countries: [],
     url: 'fake-url-1',
   },
+}
+
+export const mockNft: Nft = {
+  contractAddress: mockContractAddress,
+  media: [
+    {
+      gateway: 'https://example.com/1',
+      raw: 'https://example.com/1',
+    },
+  ],
+  metadata: {
+    attributes: [{ trait_type: 'Fizz Buzz', value: '1' }],
+    date: new Date('01/01/2020').getTime(),
+    description: 'This is a fizzBuzz name!',
+    dna: '000001',
+    id: 1,
+    image: 'https://example.com/1',
+    name: `${mockName}.fizzBuzz`,
+  },
+  ownerAddress: mockAccount,
+  tokenId: '1',
+  tokenUri: 'https://example.com/1',
+}
+
+export const mockNft2: Nft = {
+  contractAddress: mockContractAddress,
+  media: [
+    {
+      gateway: 'https://example.com/3',
+      raw: 'https://example.com/3',
+    },
+  ],
+  metadata: {
+    attributes: [{ trait_type: 'Fizz Buzz', value: 'Fizz' }],
+    date: null,
+    description: 'This is a fizzBuzz name!',
+    dna: null,
+    id: null,
+    image: 'https://example.com/3',
+    name: `${mockName}.fizzBuzz`,
+  },
+  ownerAddress: mockAccount,
+  tokenId: '3',
+  tokenUri: 'https://example.com/3',
+}
+
+export const mockNft3: Nft = {
+  contractAddress: mockContractAddress,
+  media: [],
+  metadata: null,
+  tokenId: '4',
 }
