@@ -182,8 +182,8 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER) && walletAddress
       ? navigate(Screens.NftGallery, { walletAddress })
       : navigate(Screens.WebViewScreen, {
-        uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
-      })
+          uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+        })
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
   }
 

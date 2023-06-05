@@ -187,7 +187,6 @@ describe('TokenBalancesScreen', () => {
       </Provider>
     )
 
-
     expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
 
     fireEvent.press(tree.getByTestId('NftViewerBanner'))
@@ -209,7 +208,6 @@ describe('TokenBalancesScreen', () => {
         <TokenBalancesScreen {...mockScreenProps} />
       </Provider>
     )
-
 
     expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
 
