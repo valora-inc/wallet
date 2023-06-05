@@ -8,7 +8,7 @@ set -euo pipefail
 # Flags:
 # -b (Optional): Name of the branding to use: celo or valora (default)
 
-branding=valora
+branding=avant
 while getopts 'b:' flag; do
   case "${flag}" in
     b) branding="$OPTARG" ;;
@@ -21,18 +21,33 @@ echo $mobile_root
 cd "$mobile_root"
 
 # Please update the sha when valora branding updates are needed
-valora_branding_sha=159a84eebf0feb5a02ddf63a40d92461f35334a0
+valora_branding_sha=89f86a0ce54d7d06afe914ea6f4a057affe09024
+avant_branding_sha=046d240ebed8ecb7ed4897cee0fc126564c1bd96
 
 if [[ "$branding" == "valora" ]]; then
   # prevents git from asking credentials
   export GIT_TERMINAL_PROMPT=0
-  if [[ ! -e branding/valora ]] && ! git clone git@github.com:valora-inc/avant-app-branding.git branding/valora ; then
+  if [[ ! -e branding/valora ]] && ! git clone git@github.com:valora-inc/valora-app-branding.git branding/valora ; then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
   else
     pushd "branding/$branding"
     git fetch
     git checkout "$valora_branding_sha"
+    popd
+  fi
+fi
+
+if [[ "$branding" == "avant" ]]; then
+  # prevents git from asking credentials
+  export GIT_TERMINAL_PROMPT=0
+  if [[ ! -e branding/avant ]] && ! git clone git@github.com:valora-inc/avant-app-branding.git branding/avant ; then
+    echo "Couldn't clone private branding. Will use default branding."
+    branding=celo
+  else
+    pushd "branding/$branding"
+    git fetch
+    git checkout "$avant_branding_sha"
     popd
   fi
 fi
