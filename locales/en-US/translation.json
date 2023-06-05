@@ -1601,7 +1601,7 @@
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
-    "disclaimer": "Swaps powered by partners on Celo. \n<0>Learn More.</0>",
+    "disclaimer": "Swaps powered by partners on Celo \n<0>Learn more</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
