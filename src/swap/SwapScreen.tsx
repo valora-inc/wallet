@@ -34,11 +34,7 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import Warning from 'src/swap/Warning'
-import {
-  coreTokensSelector,
-  swappableTokensSelector,
-  tokensByUsdBalanceSelector,
-} from 'src/tokens/selectors'
+import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -75,12 +71,18 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
 
-  const supportedTokens = useSelector(
-    swappingNonNativeTokensEnabled ? swappableTokensSelector : coreTokensSelector
-  )
+  // already sorted by USD balance
+  const supportedTokens = useSelector(swappableTokensSelector)
+  const swappableTokens = useMemo(() => {
+    if (!swappingNonNativeTokensEnabled) {
+      return supportedTokens.filter(
+        (token) => token.isCoreToken && token.usdPrice && token.usdPrice.gt(0)
+      )
+    }
+    return supportedTokens.filter((token) => token.usdPrice && token.usdPrice.gt(0))
+  }, [supportedTokens])
 
   const swapInfo = useSelector(swapInfoSelector)
-  const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
 
   const CELO = useMemo(
     () =>
@@ -91,14 +93,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   )
 
   const defaultFromToken = useMemo(() => {
-    const supportedTokensAddresses = supportedTokens.map((token) => token.address)
-    return (
-      tokensSortedByUsdBalance.find(
-        (token) =>
-          token.balance.gt(0) && token.usdPrice && supportedTokensAddresses.includes(token.address)
-      ) ?? CELO
-    )
-  }, [supportedTokens, tokensSortedByUsdBalance])
+    return swappableTokens[0] ?? CELO
+  }, [supportedTokens, swappableTokens])
 
   const [fromToken, setFromToken] = useState<TokenBalance | undefined>(defaultFromToken)
   const [toToken, setToToken] = useState<TokenBalance | undefined>()
