@@ -131,6 +131,7 @@ const defaultSuperProperties = {
   sHasVerifiedNumberCPV: true,
   sLanguage: 'es-419',
   sLocalCurrencyCode: 'PHP',
+  sNetWorthUsd: 43.910872728527195,
   sOtherTenTokens: 'UBE:1,TT:10',
   sPhoneCountryCallingCode: '+1',
   sPhoneCountryCodeAlpha2: 'US',
