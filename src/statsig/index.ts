@@ -42,6 +42,10 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
   defaultValues: T
 }): T {
   try {
+    if (experimentName === StatsigExperiments.HOME_SCREEN_ACTIONS) {
+      // Force the default values in the avant app
+      return defaultValues
+    }
     const experiment = Statsig.getExperiment(experimentName)
     if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
       Logger.warn(

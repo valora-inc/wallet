@@ -61,9 +61,9 @@ export const ExperimentConfigs = {
     defaultValues: {
       showAddWithdrawOnMenu: true,
       showSwapOnMenu: true,
-      showHomeActions: false,
-      showHomeNavBar: true,
-      showQrScanner: false,
+      showHomeActions: true,
+      showHomeNavBar: false,
+      showQrScanner: true,
     },
   },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {

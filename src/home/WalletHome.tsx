@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -21,7 +22,6 @@ import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
-import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
@@ -37,7 +37,6 @@ import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
-import QrScanButton from 'src/components/QrScanButton'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -152,7 +151,7 @@ function WalletHome() {
 
   const notificationBoxSection = {
     data: [{}],
-    renderItem: () => <NotificationBox key={'NotificationBox'} />,
+    renderItem: () => null, // <NotificationBox key={'NotificationBox'} />,
   }
   const tokenBalanceSection = {
     data: [{}],
@@ -186,7 +185,7 @@ function WalletHome() {
       edges={!showHomeNavBar ? ['top'] : undefined}
     >
       <DrawerTopBar
-        middleElement={showHomeActions ? undefined : <Logo testID="WalletHome/Logo" />}
+        middleElement={<Logo testID="WalletHome/Logo" />}
         rightElement={
           showQrScanner ? <QrScanButton testID={'WalletHome/QRScanButton'} /> : undefined
         }

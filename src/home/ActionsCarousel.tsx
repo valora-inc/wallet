@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     width: 84,
     marginHorizontal: 6,
     padding: 0,
-    backgroundColor: '#E8FCEF',
+    backgroundColor: Colors.greenFaint,
     borderRadius: 10,
   },
   touchable: {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small500,
     lineHeight: 17,
     paddingTop: 8,
-    color: Colors.onboardingGreen,
+    color: Colors.greenBrand,
   },
 })
 
