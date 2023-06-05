@@ -22,7 +22,7 @@ import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'nfts/NftGallery'
 
-// get the size of the thumbnails base on screen sized
+// Get the size of the thumbnails based on screen size
 const imageSize = Math.min(variables.width / 2.5, variables.height / 6)
 
 function useFetchNfts(address: string) {
@@ -82,8 +82,10 @@ export default function NftGallery({ route }: Props) {
   return (
     <ScrollView contentContainerStyle={styles.contentContainer} style={styles.scrollContainer}>
       {loading && <GreenLoadingSpinner />}
+      {/* TODO: Error display */}
       {error && <Text>Error: {error.message}</Text>}
       <View style={styles.galleryContainer}>
+        {/* TODO: No Nfts display */}
         {result &&
           result
             .filter((nft) => nft.metadata)
