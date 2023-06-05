@@ -27,24 +27,16 @@ export enum SettlementTime {
 }
 
 export type SettlementEstimation =
+  // Less than one hour is necessary because the text string uses the word "hour" instead of "hours"
   | {
       settlementTime: SettlementTime.LESS_THAN_ONE_HOUR
     }
   | {
-      settlementTime: SettlementTime.LESS_THAN_X_HOURS
+      settlementTime: SettlementTime.LESS_THAN_X_HOURS | SettlementTime.LESS_THAN_X_DAYS
       upperBound: number
     }
   | {
-      settlementTime: SettlementTime.X_TO_Y_HOURS
-      lowerBound: number
-      upperBound: number
-    }
-  | {
-      settlementTime: SettlementTime.LESS_THAN_X_DAYS
-      upperBound: number
-    }
-  | {
-      settlementTime: SettlementTime.X_TO_Y_DAYS
+      settlementTime: SettlementTime.X_TO_Y_HOURS | SettlementTime.X_TO_Y_DAYS
       lowerBound: number
       upperBound: number
     }

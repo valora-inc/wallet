@@ -189,6 +189,9 @@ export function PaymentMethodSection({
           lowerBound: settlementEstimation.lowerBound,
           upperBound: settlementEstimation.upperBound,
         })
+      default:
+        // this should never happen
+        return t('selectProviderScreen.numDays')
     }
   }
 

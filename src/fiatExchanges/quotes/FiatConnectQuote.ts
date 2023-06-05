@@ -48,6 +48,54 @@ const SUPPORTED_KYC_SCHEMAS = new Set<KycSchema>([
 
 const SECONDS_IN_HOUR = 60 * 60
 
+const hoursToSettlementEstimation = ({
+  lowerBoundInHours,
+  upperBoundInHours,
+}: {
+  lowerBoundInHours: number
+  upperBoundInHours: number
+}): SettlementEstimation => {
+  if (upperBoundInHours <= 1) {
+    return {
+      settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
+    }
+  }
+
+  if (lowerBoundInHours === upperBoundInHours || lowerBoundInHours === 0) {
+    return {
+      settlementTime: SettlementTime.LESS_THAN_X_HOURS,
+      upperBound: upperBoundInHours,
+    }
+  }
+
+  return {
+    settlementTime: SettlementTime.X_TO_Y_HOURS,
+    lowerBound: lowerBoundInHours,
+    upperBound: upperBoundInHours,
+  }
+}
+
+const daysToSettlementEstimation = ({
+  lowerBoundInDays,
+  upperBoundInDays,
+}: {
+  lowerBoundInDays: number
+  upperBoundInDays: number
+}): SettlementEstimation => {
+  if (lowerBoundInDays === upperBoundInDays || lowerBoundInDays === 0) {
+    return {
+      settlementTime: SettlementTime.LESS_THAN_X_DAYS,
+      upperBound: upperBoundInDays,
+    }
+  }
+
+  return {
+    settlementTime: SettlementTime.X_TO_Y_DAYS,
+    lowerBound: lowerBoundInDays,
+    upperBound: upperBoundInDays,
+  }
+}
+
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
   fiatAccountType: FiatAccountType
@@ -162,67 +210,34 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getTimeEstimation(): SettlementEstimation {
     const fiatAccountInfo = this.quote.fiatAccount[this.getFiatAccountType()]
-    if (!fiatAccountInfo?.settlementTimeUpperBound) {
+
+    const lowerBound = fiatAccountInfo?.settlementTimeLowerBound
+      ? parseInt(fiatAccountInfo?.settlementTimeLowerBound)
+      : 0
+    const upperBound = fiatAccountInfo?.settlementTimeUpperBound
+      ? parseInt(fiatAccountInfo?.settlementTimeUpperBound)
+      : 0
+    if (
+      !fiatAccountInfo?.settlementTimeUpperBound ||
+      lowerBound < 0 ||
+      upperBound < 0 ||
+      lowerBound > upperBound
+    ) {
       // payment method can only be bank or fc mobile money
       return this.getPaymentMethod() === PaymentMethod.Bank
         ? DEFAULT_BANK_SETTLEMENT_ESTIMATION
         : DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION
     }
 
-    const daysToSettlementEstimation = (
-      lowerBound: number,
-      upperBound: number
-    ): SettlementEstimation => {
-      if (lowerBound === upperBound || lowerBound === 0) {
-        return {
-          settlementTime: SettlementTime.LESS_THAN_X_DAYS,
-          upperBound,
-        }
-      }
-
-      return {
-        settlementTime: SettlementTime.X_TO_Y_DAYS,
-        lowerBound,
-        upperBound,
-      }
-    }
-
-    const hoursToSettlementEstimation = (
-      lowerBound: number,
-      upperBound: number
-    ): SettlementEstimation => {
-      if (upperBound <= 1) {
-        return {
-          settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
-        }
-      }
-
-      if (lowerBound === upperBound || lowerBound === 0) {
-        return {
-          settlementTime: SettlementTime.LESS_THAN_X_HOURS,
-          upperBound,
-        }
-      }
-
-      return {
-        settlementTime: SettlementTime.X_TO_Y_HOURS,
-        lowerBound,
-        upperBound,
-      }
-    }
-
-    const lowerBound = fiatAccountInfo.settlementTimeLowerBound ?? '0'
-    const lowerBoundInHours = Math.ceil(parseInt(lowerBound) / SECONDS_IN_HOUR)
-    const upperBoundInHours = Math.ceil(
-      parseInt(fiatAccountInfo.settlementTimeUpperBound) / SECONDS_IN_HOUR
-    )
+    const lowerBoundInHours = Math.ceil(lowerBound / SECONDS_IN_HOUR)
+    const upperBoundInHours = Math.ceil(upperBound / SECONDS_IN_HOUR)
     if (upperBoundInHours <= 24) {
-      return hoursToSettlementEstimation(lowerBoundInHours, upperBoundInHours)
+      return hoursToSettlementEstimation({ lowerBoundInHours, upperBoundInHours })
     } else {
-      return daysToSettlementEstimation(
-        Math.ceil(lowerBoundInHours / 24),
-        Math.ceil(upperBoundInHours / 24)
-      )
+      return daysToSettlementEstimation({
+        lowerBoundInDays: Math.ceil(lowerBoundInHours / 24),
+        upperBoundInDays: Math.ceil(upperBoundInHours / 24),
+      })
     }
   }
 
