@@ -81,6 +81,7 @@ import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
+import NftGallery from 'src/nfts/NftGallery'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
@@ -567,6 +568,11 @@ const nftScreens = (Navigator: typeof Stack) => (
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
       options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.NftGallery}
+      component={NftGallery}
+      options={NftGallery.navigationOptions}
     />
   </>
 )

@@ -172,6 +172,54 @@ describe('TokenBalancesScreen', () => {
     expect(tree.queryByTestId('NftViewerBanner')).toBeFalsy()
   })
 
+  it('navigates to Nft Gallery when show_in_app_nft_viewer is true', () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({
+      app: { visualizeNFTsEnabledInHomeAssetsPage: true },
+      web3: {
+        account: mockWalletAddress,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <TokenBalancesScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+
+    expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
+
+    fireEvent.press(tree.getByTestId('NftViewerBanner'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.view_nft_home_assets)
+    expect(navigate).toHaveBeenCalledWith(Screens.NftGallery, { walletAddress: mockWalletAddress })
+  })
+
+  it('navigates to Nft Viewer (external) when show_in_app_nft_viewer is false', () => {
+    mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore({
+      app: { visualizeNFTsEnabledInHomeAssetsPage: true },
+      web3: {
+        account: mockWalletAddress,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <TokenBalancesScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+
+    expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
+
+    fireEvent.press(tree.getByTestId('NftViewerBanner'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.view_nft_home_assets)
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${mockWalletAddress}&hide-header=true`,
+    })
+  })
+
   it('renders the correct components when there are positions', () => {
     mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)

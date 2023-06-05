@@ -220,6 +220,7 @@ export type StackParamList = {
   [Screens.MainModal]: undefined
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
+  [Screens.NftGallery]: { walletAddress: string }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput

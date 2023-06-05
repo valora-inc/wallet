@@ -48,6 +48,7 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
   getPositionsUrl: string
+  getNftsUrl: string
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -141,6 +142,9 @@ const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
 const JUMPSTART_ADDRESS_ALFAJORES = '0x40f9dab737B79A26bE70dc10aBEa69d4356cF786'
 const JUMPSTART_ADDRESS_MAINNET = '0x37b4ffe2886d60ae7c86adcefcaf7e54e83773b2'
 
+const GET_NFTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getNfts`
+const GET_NFTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -170,6 +174,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    getNftsUrl: GET_NFTS_ALFAJORES,
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
@@ -215,6 +220,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    getNftsUrl: GET_NFTS_MAINNET,
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,

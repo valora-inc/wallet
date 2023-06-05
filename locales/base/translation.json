@@ -1729,5 +1729,9 @@
     "description": "Description",
     "noNftsFound": "No NFTs found",
     "nftImageLoadError": "There is an issue loading this Nft"
+  },
+  "nftGallery": {
+    "title": "My NFTs",
+    "noNftsFound": "No NFTs found"
   }
 }
