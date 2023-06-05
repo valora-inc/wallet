@@ -1665,9 +1665,7 @@
                 "contractAddress",
                 "media",
                 "metadata",
-                "ownerAddress",
-                "tokenId",
-                "tokenUri"
+                "tokenId"
             ],
             "type": "object"
         },

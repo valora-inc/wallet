@@ -1,14 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import BackChevronStatic from 'src/icons/BackChevronStatic'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import TripleDotHorizontal from 'src/icons/TripleDotHorizontal'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -115,8 +114,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState((nfts && nfts[0]) ?? null)
   const [isLoading, setIsLoading] = useState(true)
-  // @ts-expect-error wip
-  const [shareBottomSheetVisible, setShareBottomSheetVisible] = useState(false)
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
@@ -128,45 +125,30 @@ export default function NftsInfoCarousel({ route }: Props) {
 
   // Some components that require parent state defined
   const PlatformSpecificTopBarButtons = () => {
-    if (Platform.OS === 'ios') {
-      return (
+    return (
+      <View style={styles.topBarButtonsContainerWrapper}>
         <View style={styles.topBarButtonsContainer}>
-          <TopBarIconButton
-            onPress={() => navigateBack()}
-            icon={<BackChevronStatic />}
-            style={[styles.button, styles.iOSButton]}
-          />
-          <TopBarIconButton
-            onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-            icon={<TripleDotHorizontal />}
-            style={[styles.button, styles.iOSButton]}
-          />
-        </View>
-      )
-    } else {
-      return (
-        <View style={styles.topBarButtonsContainer}>
-          <View>
+          {Platform.OS === 'ios' && (
+            <TopBarIconButton
+              onPress={() => navigateBack()}
+              icon={<BackChevronStatic />}
+              style={styles.button}
+              testID="NftsInfoCarousel/BackButton"
+            />
+          )}
+          {Platform.OS === 'android' && (
             <Pressable
               android_ripple={android_ripple}
               onPress={() => navigateBack()}
               style={styles.button}
+              testID="NftsInfoCarousel/BackButton"
             >
               <BackChevronStatic />
             </Pressable>
-          </View>
-          <View>
-            <Pressable
-              android_ripple={android_ripple}
-              onPress={() => setShareBottomSheetVisible((prev) => !prev)}
-              style={styles.button}
-            >
-              <TripleDotHorizontal />
-            </Pressable>
-          </View>
+          )}
         </View>
-      )
-    }
+      </View>
+    )
   }
 
   const MainImagePlaceholder = () => {
@@ -195,6 +177,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           horizontal={true}
           contentContainerStyle={styles.carouselScrollViewContentContainer}
           style={styles.nftImageCarousel}
+          testID="NftsInfoCarousel/NftImageCarousel"
         >
           {/* Only display Nfts with metadata */}
           {nfts
@@ -204,6 +187,7 @@ export default function NftsInfoCarousel({ route }: Props) {
                 <View
                   key={`${nft.contractAddress}-${nft.tokenId}`}
                   style={styles.nftPreviewImageSharedContainer}
+                  testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
                 >
                   <NftThumbnail nft={nft} setActiveNft={setActiveNft} activeNft={activeNft} />
                 </View>
@@ -220,16 +204,18 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView testID="NftsInfoCarousel">
       <PlatformSpecificTopBarButtons />
       <ScrollView>
         {activeNft.metadata && (
           <FastImage
+            testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
             style={[
               {
                 height: scaledHeight,
                 width: variables.width,
               },
+              isLoading && { borderRadius: 8 },
             ]}
             source={{
               uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)
@@ -256,7 +242,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </View>
         )}
 
-        {nfts.length > 1 && <NftImageCarousel />}
+        {nfts.filter((nft) => nft.metadata).length > 1 && <NftImageCarousel />}
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
@@ -281,10 +267,11 @@ export default function NftsInfoCarousel({ route }: Props) {
         <View style={styles.sectionContainer}>
           <Touchable
             onPress={() =>
-              Linking.openURL(
-                `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`
-              )
+              navigate(Screens.WebViewScreen, {
+                uri: `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
+              })
             }
+            testID="ViewOnExplorer"
           >
             <View style={styles.explorerLinkContainer}>
               <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
@@ -347,9 +334,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  iOSButton: {
-    marginTop: Spacing.Thick24,
-  },
   nftImageCarousel: {
     flexDirection: 'row',
     paddingHorizontal: Spacing.Regular16,
@@ -407,12 +391,11 @@ const styles = StyleSheet.create({
   topBarButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    left: 0,
     marginTop: Spacing.Regular16,
-    padding: Spacing.Regular16,
-    position: 'absolute',
-    top: 0,
-    width: '100%',
+    marginHorizontal: Spacing.Regular16,
+  },
+  topBarButtonsContainerWrapper: {
+    flex: 1,
     zIndex: 1,
   },
 })

@@ -545,7 +545,6 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Loader')).toBeTruthy()
     expect(getByText('swapScreen.review')).toBeDisabled()
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])

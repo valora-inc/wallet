@@ -11,8 +11,8 @@ interface NftMedia {
 export interface Nft {
   tokenId: string
   contractAddress: string
-  tokenUri: string | null
-  ownerAddress: string | null
+  tokenUri?: string | null
+  ownerAddress?: string | null
   metadata: {
     name: string
     description: string
