@@ -12,6 +12,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import NftsLoadErrorScreen from 'src/nfts/NftsLoadErrorScreen'
 import { Nft } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -27,44 +28,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 const scaleImageHeight = (originalWidth: number, originalHeight: number, targetWidth: number) => {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
-}
-
-const NftsLoadErrorScreen = () => {
-  const { t } = useTranslation()
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-      testID="NftsInfoCarousel/NftsLoadErrorScreen"
-    >
-      <TopBarIconButton
-        style={{ margin: Spacing.Smallest8 }}
-        icon={<BackChevronStatic />}
-        onPress={navigateBack}
-      />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: Spacing.Thick24,
-        }}
-      >
-        <Text style={[styles.title, { marginBottom: Spacing.Thick24 }]}>
-          {t('nftInfoCarousel.loadErrorTitle')}
-        </Text>
-        <Text style={[styles.subTitle, { marginBottom: Spacing.Regular16, textAlign: 'center' }]}>
-          {t('nftInfoCarousel.loadErrorSubtitle')}
-        </Text>
-        <Touchable onPress={() => navigate(Screens.SupportContact)}>
-          <Text style={[styles.text, styles.contactSupportTouchable]}>
-            {t('nftInfoCarousel.contactSupport')}
-          </Text>
-        </Touchable>
-      </View>
-    </SafeAreaView>
-  )
 }
 
 const ThumbnailImagePlaceholder = () => {
@@ -199,8 +162,8 @@ export default function NftsInfoCarousel({ route }: Props) {
     )
   }
 
-  // Display error screen no Nfts provided
-  if (nfts.length === 0) {
+  // Catch All Error Screen
+  if (!nfts || nfts.length === 0) {
     return <NftsLoadErrorScreen />
   }
 
@@ -320,12 +283,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: Spacing.Regular16,
   },
-  contactSupportTouchable: {
-    alignItems: 'center',
-    ...fontStyles.large600,
-    color: colors.onboardingGreen,
-    textDecorationLine: 'underline',
-  },
   explorerLink: {
     ...fontStyles.small500,
     color: colors.onboardingGreen,
@@ -379,9 +336,6 @@ const styles = StyleSheet.create({
   subSectionTitle: {
     ...fontStyles.large600,
     marginBottom: Spacing.Regular16,
-  },
-  subTitle: {
-    ...fontStyles.large,
   },
   text: {
     ...fontStyles.regular,
