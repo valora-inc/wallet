@@ -1263,7 +1263,7 @@ export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
   },
 }
 
-export const mockNft: Nft = {
+export const mockNftAllFields: Nft = {
   contractAddress: mockContractAddress,
   media: [
     {
@@ -1285,7 +1285,7 @@ export const mockNft: Nft = {
   tokenUri: 'https://example.com/1',
 }
 
-export const mockNft2: Nft = {
+export const mockNftMinimumFields: Nft = {
   contractAddress: mockContractAddress,
   media: [
     {
@@ -1307,7 +1307,7 @@ export const mockNft2: Nft = {
   tokenUri: 'https://example.com/3',
 }
 
-export const mockNft3: Nft = {
+export const mockNftNullMetadata: Nft = {
   contractAddress: mockContractAddress,
   media: [],
   metadata: null,
