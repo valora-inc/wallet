@@ -7,43 +7,33 @@ import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import Touchable from 'src/components/Touchable'
 import SaveCircle from 'src/icons/SaveCircle'
 import ShareCircle from 'src/icons/ShareCircle'
+import { saveNft, shareNft } from 'src/nfts/actions'
 import { Nft } from 'src/nfts/types'
-import { onSave, onShare } from 'src/nfts/utils'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const useNftShareBottomSheet = ({ nft }: { nft: Nft }) => {
-  const actionRef = useRef<boolean>(false)
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
+  const dispatch = useDispatch()
   const paddingBottom = Math.max(insets.bottom, Spacing.Thick24)
   const bottomSheetRef = useRef<BottomSheet>(null)
 
   // TODO: Move to a saga and dispatch a toast on success or failure
   // Instead of simply closing the sheet
-  const handleShareAction = async () => {
-    if (actionRef.current === true) return
-    try {
-      actionRef.current = true
-      await onShare(nft)
-    } finally {
-      closeSheet()
-      actionRef.current = false
-    }
+  const handleShareAction = () => {
+    dispatch(shareNft(nft))
+    closeSheet()
   }
-  const handleSaveAction = async () => {
-    if (actionRef.current === true) return
-    try {
-      actionRef.current = true
-      await onSave(nft)
-    } finally {
-      closeSheet()
-      actionRef.current = false
-    }
+
+  const handleSaveAction = () => {
+    dispatch(saveNft(nft))
+    closeSheet()
   }
 
   const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], [])
