@@ -1307,7 +1307,8 @@ export const mockNftMinimumFields: Nft = {
   tokenUri: 'https://example.com/3',
 }
 
-export const mockNftNullMetaData: Nft = {
+
+export const mockNftNullMetadata: Nft = {
   contractAddress: mockContractAddress,
   media: [],
   metadata: null,

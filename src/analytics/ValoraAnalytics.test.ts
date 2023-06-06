@@ -3,13 +3,14 @@ import { PincodeType } from 'src/account/reducer'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
-import { getDefaultStatsigUser } from 'src/statsig'
+import { getDefaultStatsigUser, getFeatureGate } from 'src/statsig'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
+  mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -94,6 +95,9 @@ const state = getMockStoreData({
       },
     },
   },
+  positions: {
+    positions: mockPositions,
+  },
   web3: {
     account: mockWalletAddress,
     mtwAddress: null,
@@ -127,13 +131,19 @@ const defaultSuperProperties = {
   sHasVerifiedNumberCPV: true,
   sLanguage: 'es-419',
   sLocalCurrencyCode: 'PHP',
+  sNetWorthUsd: 43.910872728527195,
   sOtherTenTokens: 'UBE:1,TT:10',
   sPhoneCountryCallingCode: '+1',
   sPhoneCountryCodeAlpha2: 'US',
   sPincodeType: 'CustomPin',
+  sPositionsAppsCount: 1,
+  sPositionsCount: 3,
+  sPositionsTopTenApps: 'ubeswap:7.91',
   sPrevScreenId: undefined,
   sTokenCount: 4,
+  sTopTenPositions: 'ubeswap-G$ / cUSD:4.08,ubeswap-MOO / CELO:2.51,ubeswap-CELO / cUSD:1.32',
   sTotalBalanceUsd: 36,
+  sTotalPositionsBalanceUsd: 7.910872728527196,
   sWalletAddress: mockWalletAddress.toLowerCase(), // test for backwards compatibility (this field is lower-cased)
   sSuperchargingAmountInUsd: 24,
   sSuperchargingToken: 'cEUR',
@@ -173,6 +183,7 @@ describe('ValoraAnalytics', () => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
     })
     mockStore.getState.mockImplementation(() => state)
+    mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it('creates statsig client on initialization with default statsig user', async () => {
