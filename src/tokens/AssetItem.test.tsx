@@ -4,6 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { AppTokenPosition } from 'src/positions/types'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockPositions } from 'test/values'
@@ -32,6 +33,47 @@ describe('PositionItem', () => {
       network: 'celo',
       title: 'MOO / CELO',
     })
+  })
+
+  it('shows the correct info for a position', () => {
+    const { getByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={mockPositions[0]} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(getByText('₱3.34')).toBeTruthy()
+    expect(getByText('11.90')).toBeTruthy()
+  })
+
+  it('shows the correct info for a position with a negative balance', () => {
+    const mockPosition = mockPositions[0] as AppTokenPosition
+    const { getByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={{ ...mockPosition, balance: `-${mockPosition.balance}` }} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(getByText('-₱3.34')).toBeTruthy()
+    expect(getByText('-11.90')).toBeTruthy()
+  })
+
+  it('shows the correct info for a position with a 0 price', () => {
+    const mockPosition = mockPositions[0] as AppTokenPosition
+    const { getByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={{ ...mockPosition, priceUsd: '0' }} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(getByText('-')).toBeTruthy()
+    expect(getByText('11.90')).toBeTruthy()
   })
 })
 
