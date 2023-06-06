@@ -174,9 +174,10 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       const fromFiatValue = new BigNumber(swapFromAmount).multipliedBy(fromToken?.usdPrice || 0)
       const toFiatValue = new BigNumber(swapToAmount).multipliedBy(toToken?.usdPrice || 0)
       const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
+      const priceImpactExceedsThreshold = priceImpact.gte(PRICE_IMPACT_THRESHOLD)
+      setShowPriceImpactWarning(priceImpactExceedsThreshold)
 
-      if (priceImpact.gte(PRICE_IMPACT_THRESHOLD) && exchangeRate) {
-        setShowPriceImpactWarning(true)
+      if (priceImpactExceedsThreshold && exchangeRate) {
         ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
           toToken: exchangeRate.toTokenAddress,
           fromToken: exchangeRate.fromTokenAddress,
