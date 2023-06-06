@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { SettlementEstimation } from 'src/fiatExchanges/quotes/constants'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { TokenBalance } from 'src/tokens/slice'
@@ -20,7 +20,7 @@ export default abstract class NormalizedQuote {
   ): BigNumber | null
   abstract getCryptoType(): CiCoCurrency
   abstract getKycInfo(): string | null
-  abstract getTimeEstimation(): SettlementTime
+  abstract getTimeEstimation(): SettlementEstimation
   abstract getProviderName(): string
   abstract getProviderLogo(): string
   abstract getProviderId(): string
