@@ -91,6 +91,12 @@ export default function NftsInfoCarousel({ route }: Props) {
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
+  function pressExplorerLink() {
+    navigate(Screens.WebViewScreen, {
+      uri: `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
+    })
+  }
+
   const MainImagePlaceholder = () => {
     return (
       <SkeletonPlaceholder
@@ -216,14 +222,7 @@ export default function NftsInfoCarousel({ route }: Props) {
         )}
         {/* This should be dynamic based on Network in the future. Always show as fallback */}
         <View style={styles.sectionContainer}>
-          <Touchable
-            onPress={() =>
-              navigate(Screens.WebViewScreen, {
-                uri: `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
-              })
-            }
-            testID="ViewOnExplorer"
-          >
+          <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
             <View style={styles.explorerLinkContainer}>
               <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
               <OpenLinkIcon color={colors.onboardingGreen} />
