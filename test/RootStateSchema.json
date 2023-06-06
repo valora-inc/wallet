@@ -1575,6 +1575,132 @@
             ],
             "type": "object"
         },
+        "Nft": {
+            "additionalProperties": false,
+            "properties": {
+                "contractAddress": {
+                    "type": "string"
+                },
+                "media": {
+                    "items": {
+                        "$ref": "#/definitions/NftMedia"
+                    },
+                    "type": "array"
+                },
+                "metadata": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "attributes": {
+                                    "anyOf": [
+                                        {
+                                            "items": {
+                                                "$ref": "#/definitions/NftMetaDataAttribute"
+                                            },
+                                            "type": "array"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "date": {
+                                    "type": [
+                                        "null",
+                                        "number"
+                                    ]
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "dna": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "id": {
+                                    "type": [
+                                        "null",
+                                        "number"
+                                    ]
+                                },
+                                "image": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "description",
+                                "image",
+                                "name"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "ownerAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "tokenUri": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "contractAddress",
+                "media",
+                "metadata",
+                "tokenId"
+            ],
+            "type": "object"
+        },
+        "NftMedia": {
+            "additionalProperties": false,
+            "properties": {
+                "gateway": {
+                    "type": "string"
+                },
+                "raw": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "gateway",
+                "raw"
+            ],
+            "type": "object"
+        },
+        "NftMetaDataAttribute": {
+            "additionalProperties": false,
+            "properties": {
+                "trait_type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "trait_type",
+                "value"
+            ],
+            "type": "object"
+        },
         "NftTransfer": {
             "additionalProperties": false,
             "properties": {
@@ -1593,6 +1719,12 @@
                     },
                     "type": "array"
                 },
+                "nfts": {
+                    "items": {
+                        "$ref": "#/definitions/Nft"
+                    },
+                    "type": "array"
+                },
                 "timestamp": {
                     "type": "number"
                 },
@@ -1607,6 +1739,7 @@
                 "__typename",
                 "block",
                 "fees",
+                "nfts",
                 "timestamp",
                 "transactionHash",
                 "type"
