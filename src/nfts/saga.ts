@@ -22,9 +22,8 @@ export function* watchNftSave() {
   while (true) {
     const action: SaveNftAction = yield take(Actions.NFT_SAVE)
     try {
-      const result = yield call(onSave, action.nft)
-      // Note: when user cancels the share sheet, result contains {"dismissedAction":true}
-      Logger.info(TAG, 'Save done', result)
+      yield call(onSave, action.nft)
+      Logger.info(TAG, 'Save done')
     } catch (error) {
       Logger.error(TAG, 'Error saving', error)
     }
