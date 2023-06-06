@@ -22,7 +22,7 @@ const TAG = 'nfts/NftsInfoCarousel'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 
-const scaleImageHeight = (originalWidth: number, originalHeight: number, targetWidth: number) => {
+function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
 }
