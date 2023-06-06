@@ -189,7 +189,7 @@ describe(SelectProviderScreen, () => {
     )
     await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
     // Visible because there are no card providers
-    expect(getByText('selectProviderScreen.somePaymentsUnavailableV1_58')).toBeTruthy()
+    expect(getByText('selectProviderScreen.disclaimerWithSomePaymentsUnavailable')).toBeTruthy()
   })
   it('does not show exchange section if no exchanges', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
