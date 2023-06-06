@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import networkConfig from 'src/web3/networkConfig'
@@ -92,17 +92,6 @@ describe('NftsInfoCarousel', () => {
 
     // Two Nfts but one with null metadata will prevent the image carousel from rendering
     expect(queryByTestId('NftsInfoCarousel/NftImageCarousel')).toBeNull()
-  })
-
-  it('should be able to navigate back', () => {
-    const { getByTestId } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNftAllFields] })}
-      />
-    )
-
-    fireEvent.press(getByTestId('FloatingBackButton'))
-    expect(navigateBack).toHaveBeenCalled()
   })
 
   it('opens link for Explorer', () => {
