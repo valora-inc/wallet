@@ -1,16 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
-import BackChevronStatic from 'src/icons/BackChevronStatic'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
 import colors from 'src/styles/colors'
@@ -92,40 +90,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
-  const android_ripple = {
-    color: colors.gray2,
-    foreground: true,
-    borderless: true,
-  }
-
-  // Some components that require parent state defined
-  const PlatformSpecificTopBarButtons = () => {
-    return (
-      <View style={styles.topBarButtonsContainerWrapper}>
-        <View style={styles.topBarButtonsContainer}>
-          {Platform.OS === 'ios' && (
-            <TopBarIconButton
-              onPress={() => navigateBack()}
-              icon={<BackChevronStatic />}
-              style={styles.button}
-              testID="NftsInfoCarousel/BackButton"
-            />
-          )}
-          {Platform.OS === 'android' && (
-            <Pressable
-              android_ripple={android_ripple}
-              onPress={() => navigateBack()}
-              style={styles.button}
-              testID="NftsInfoCarousel/BackButton"
-            >
-              <BackChevronStatic />
-            </Pressable>
-          )}
-        </View>
-      </View>
-    )
-  }
-
   const MainImagePlaceholder = () => {
     return (
       <SkeletonPlaceholder
@@ -180,7 +144,6 @@ export default function NftsInfoCarousel({ route }: Props) {
 
   return (
     <SafeAreaView testID="NftsInfoCarousel">
-      <PlatformSpecificTopBarButtons />
       <ScrollView>
         {activeNft.metadata && (
           <FastImage
@@ -271,23 +234,6 @@ const styles = StyleSheet.create({
   attributesContainer: {
     paddingBottom: Spacing.Thick24,
   },
-  button: {
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderColor: colors.dark,
-    borderRadius: 100,
-    elevation: 4,
-    height: 32,
-    justifyContent: 'center',
-    shadowColor: colors.dark,
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    width: 32,
-  },
   carouselScrollViewContentContainer: {
     alignItems: 'center',
     flexGrow: 1,
@@ -353,15 +299,5 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.h1,
-  },
-  topBarButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: Spacing.Regular16,
-    marginHorizontal: Spacing.Regular16,
-  },
-  topBarButtonsContainerWrapper: {
-    flex: 1,
-    zIndex: 1,
   },
 })

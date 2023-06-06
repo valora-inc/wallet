@@ -72,6 +72,7 @@ import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
+  headerTransparentWithBack,
   headerWithBackButton,
   noHeader,
   noHeaderGestureDisabled,
@@ -566,7 +567,7 @@ const nftScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
-      options={noHeader}
+      options={headerTransparentWithBack}
     />
   </>
 )
