@@ -86,7 +86,7 @@ const NftThumbnail = ({
 
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
-  const [activeNft, setActiveNft] = useState((nfts && nfts[0]) ?? null)
+  const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
   const [isLoading, setIsLoading] = useState(true)
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
