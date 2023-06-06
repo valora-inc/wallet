@@ -4,6 +4,8 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
@@ -144,6 +146,15 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
   }
 }
 
+const defaultQuoteResponse = JSON.stringify({
+  unvalidatedSwapTransaction: {
+    price: '1.2345678',
+  },
+  details: {
+    swapProvider: 'someProvider',
+  },
+})
+
 describe('SwapScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -235,13 +246,7 @@ describe('SwapScreen', () => {
   })
 
   it('should keep the to amount in sync with the exchange rate', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -263,13 +268,7 @@ describe('SwapScreen', () => {
   })
 
   it('should display a loader when initially fetching exchange rate', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -303,6 +302,9 @@ describe('SwapScreen', () => {
         unvalidatedSwapTransaction: {
           price: '0.12345678',
         },
+        details: {
+          swapProvider: 'someProvider',
+        },
       })
     )
     const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
@@ -331,6 +333,68 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
+  it('should show and hide the price impact warning', async () => {
+    // mock usdPrice data: CELO price ~$13, cUSD price = $1
+    const lowPriceImpactPrice = '13.12345' // within 4% price impact
+    const highPriceImpactPrice = '12.44445' // more than 4% price impact
+
+    mockFetch.mockResponseOnce(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: highPriceImpactPrice,
+        },
+        details: {
+          swapProvider: 'someProvider',
+        },
+      })
+    )
+    mockFetch.mockResponseOnce(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: lowPriceImpactPrice,
+        },
+        details: {
+          swapProvider: 'someProvider',
+        },
+      })
+    )
+
+    const { getByTestId, swapFromContainer, swapToContainer, getByText, queryByText } =
+      renderScreen({})
+
+    // select 100000 CELO to cUSD swap
+    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
+    fireEvent.press(getByTestId('cUSDTouchable'))
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 12.44445 cUSD')
+    expect(getByText('swapScreen.priceImpactWarning.title')).toBeTruthy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SwapEvents.swap_price_impact_warning_displayed,
+      {
+        toToken: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+        fromToken: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
+        amount: '100000',
+        amountType: 'sellAmount',
+        priceImpact: '0.04682955694316070516',
+        provider: 'someProvider',
+      }
+    )
+
+    // select 100 CELO to cUSD swap
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 13.12345 cUSD')
+    expect(queryByText('swapScreen.priceImpactWarning.title')).toBeFalsy()
+  })
+
   it('should support from amount with comma as the decimal separator', async () => {
     // This only changes the display format, the input is parsed with getNumberFormatSettings
     BigNumber.config({
@@ -338,13 +402,7 @@ describe('SwapScreen', () => {
         decimalSeparator: ',',
       },
     })
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -384,6 +442,9 @@ describe('SwapScreen', () => {
         unvalidatedSwapTransaction: {
           price: '0.12345678',
         },
+        details: {
+          swapProvider: 'someProvider',
+        },
       })
     )
     const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
@@ -414,13 +475,7 @@ describe('SwapScreen', () => {
   })
 
   it('should set max from value', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -444,13 +499,7 @@ describe('SwapScreen', () => {
   })
 
   it('should show and hide the max warning', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { swapFromContainer, getByText, getByTestId, queryByText } = renderScreen({})
 
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
@@ -466,13 +515,7 @@ describe('SwapScreen', () => {
   })
 
   it('should fetch the quote if the amount is cleared and re-entered', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -552,13 +595,7 @@ describe('SwapScreen', () => {
   })
 
   it('should be able to navigate to swap review screen', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, getByTestId, store, swapToContainer } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
@@ -591,13 +628,7 @@ describe('SwapScreen', () => {
   })
 
   it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        unvalidatedSwapTransaction: {
-          price: '1.2345678',
-        },
-      })
-    )
+    mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, swapToContainer, swapFromContainer, getByText, store } = renderScreen({})
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
