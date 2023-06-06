@@ -51,6 +51,7 @@ import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
@@ -306,11 +307,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       {somePaymentMethodsUnavailable ? (
         <LimitedPaymentMethods flow={flow} />
       ) : (
-        <Text style={styles.disclaimerText}>
-          <Trans i18nKey="selectProviderScreen.disclaimer">
-            <Text style={styles.underline} onPress={handlePressDisclaimer}></Text>
-          </Trans>
-        </Text>
+        <View style={styles.disclaimerContainer}>
+          <Text style={styles.disclaimerText}>
+            <Trans i18nKey="selectProviderScreen.disclaimer">
+              <Text style={styles.underline} onPress={handlePressDisclaimer}></Text>
+            </Trans>
+          </Text>
+        </View>
       )}
     </ScrollView>
   )
@@ -338,7 +341,7 @@ function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
 
   return (
     <>
-      <View style={styles.noQuotesContainer}>
+      <View style={styles.disclaimerContainer}>
         <Text style={styles.disclaimerText}>
           <Trans i18nKey="selectProviderScreen.somePaymentsUnavailableV1_58">
             <Text style={styles.underline} onPress={openDialog}></Text>
@@ -512,7 +515,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray2,
   },
   expandableContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: Spacing.Regular16,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
@@ -525,11 +528,11 @@ const styles = StyleSheet.create({
   switchCurrency: {
     ...fontStyles.large500,
     color: colors.greenUI,
-    padding: 8,
+    padding: Spacing.Smallest8,
   },
   noPaymentMethodsContainer: {
     alignItems: 'center',
-    padding: 24,
+    padding: Spacing.Thick24,
   },
   left: {
     flex: 1,
@@ -549,8 +552,8 @@ const styles = StyleSheet.create({
     ...fontStyles.small500,
     color: colors.gray4,
   },
-  noQuotesContainer: {
-    padding: 16,
+  disclaimerContainer: {
+    padding: Spacing.Regular16,
   },
   disclaimerText: {
     ...fontStyles.small,
@@ -566,7 +569,7 @@ const styles = StyleSheet.create({
   contactSupport: {
     ...fontStyles.large500,
     color: colors.gray4,
-    padding: 8,
+    padding: Spacing.Smallest8,
   },
 })
 SelectProviderScreen.navigationOptions = ({
