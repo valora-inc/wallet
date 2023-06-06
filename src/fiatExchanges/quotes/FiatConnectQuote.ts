@@ -217,13 +217,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
     const upperBound = fiatAccountInfo?.settlementTimeUpperBound
       ? parseInt(fiatAccountInfo?.settlementTimeUpperBound)
       : 0
-    if (
-      !fiatAccountInfo?.settlementTimeUpperBound ||
-      lowerBound < 0 ||
-      upperBound < 0 ||
-      lowerBound > upperBound
-    ) {
+    if (lowerBound < 0 || upperBound <= 0 || lowerBound > upperBound) {
       // payment method can only be bank or fc mobile money
+      // TODO: ensure that this gets updated once more payment types are possible
       return this.getPaymentMethod() === PaymentMethod.Bank
         ? DEFAULT_BANK_SETTLEMENT_ESTIMATION
         : DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION

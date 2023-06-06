@@ -10,6 +10,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -174,31 +175,18 @@ export function PaymentMethodSection({
     </>
   )
 
-  const getSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
-    switch (settlementEstimation.settlementTime) {
-      case SettlementTime.LESS_THAN_ONE_HOUR:
-        return t(SETTLEMENT_TIME_STRINGS[SettlementTime.LESS_THAN_ONE_HOUR])
-      case SettlementTime.LESS_THAN_X_HOURS:
-      case SettlementTime.LESS_THAN_X_DAYS:
-        return t(SETTLEMENT_TIME_STRINGS[settlementEstimation.settlementTime], {
-          upperBound: settlementEstimation.upperBound,
-        })
-      case SettlementTime.X_TO_Y_HOURS:
-      case SettlementTime.X_TO_Y_DAYS:
-        return t(SETTLEMENT_TIME_STRINGS[settlementEstimation.settlementTime], {
-          lowerBound: settlementEstimation.lowerBound,
-          upperBound: settlementEstimation.upperBound,
-        })
-      default:
-        // this should never happen
-        return t('selectProviderScreen.numDays')
-    }
+  const getPaymentMethodSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
+    const { timeString, ...params } = getSettlementTimeString(
+      settlementEstimation,
+      SETTLEMENT_TIME_STRINGS
+    )
+    return timeString ? t(timeString, params) : t('selectProviderScreen.numDays')
   }
 
   const renderInfoText = (quote: NormalizedQuote) => {
     const kycInfo = quote.getKycInfo()
     const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${getSettlementTimeString(quote.getTimeEstimation())}`
+    return `${kycString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {

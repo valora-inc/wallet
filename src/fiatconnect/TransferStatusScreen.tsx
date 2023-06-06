@@ -13,6 +13,7 @@ import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
 import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -133,31 +134,18 @@ function SuccessOrProcessingSection({
     | FiatExchangeEvents.cico_fc_transfer_success_view_tx
     | FiatExchangeEvents.cico_fc_transfer_processing_view_tx
 
-  const getSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
-    switch (settlementEstimation.settlementTime) {
-      case SettlementTime.LESS_THAN_ONE_HOUR:
-        return t(DESCRIPTION_STRINGS[SettlementTime.LESS_THAN_ONE_HOUR])
-      case SettlementTime.LESS_THAN_X_HOURS:
-      case SettlementTime.LESS_THAN_X_DAYS:
-        return t(DESCRIPTION_STRINGS[settlementEstimation.settlementTime], {
-          upperBound: settlementEstimation.upperBound,
-        })
-      case SettlementTime.X_TO_Y_HOURS:
-      case SettlementTime.X_TO_Y_DAYS:
-        return t(DESCRIPTION_STRINGS[settlementEstimation.settlementTime], {
-          lowerBound: settlementEstimation.lowerBound,
-          upperBound: settlementEstimation.upperBound,
-        })
-      default:
-        // Should not be reachable
-        return t('fiatConnectStatusScreen.success.baseDescription')
-    }
+  const getTransferSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
+    const { timeString, ...params } = getSettlementTimeString(
+      settlementEstimation,
+      DESCRIPTION_STRINGS
+    )
+    return timeString ? t(timeString, params) : t('fiatConnectStatusScreen.success.baseDescription')
   }
 
   if (status === SendingTransferStatus.Completed) {
     icon = <CheckmarkCircle />
     title = t('fiatConnectStatusScreen.success.title')
-    description = getSettlementTimeString(normalizedQuote.getTimeEstimation())
+    description = getTransferSettlementTimeString(normalizedQuote.getTimeEstimation())
     continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
     txDetailsEvent = FiatExchangeEvents.cico_fc_transfer_success_view_tx
   } else {

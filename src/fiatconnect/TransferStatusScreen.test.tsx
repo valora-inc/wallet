@@ -104,6 +104,9 @@ describe('TransferStatusScreen', () => {
       )
     })
 
+    const lessThanOneHour: SettlementEstimation = {
+      settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
+    }
     const lessThan24Hours: SettlementEstimation = {
       settlementTime: SettlementTime.LESS_THAN_X_HOURS,
       upperBound: 24,
@@ -114,6 +117,7 @@ describe('TransferStatusScreen', () => {
       upperBound: 3,
     }
     it.each([
+      [lessThanOneHour, 'descriptionWithin1Hour', ''],
       [lessThan24Hours, 'descriptionWithinXHours', '{"upperBound":24}'],
       [oneToThreeDays, 'descriptionXtoYDays', '{"lowerBound":1,"upperBound":3}'],
     ])(
@@ -129,9 +133,12 @@ describe('TransferStatusScreen', () => {
             <TransferStatusScreen {...props} />
           </Provider>
         )
-        expect(
-          getByText(`fiatConnectStatusScreen.success.${stringSuffix}, ${stringArgs}`)
-        ).toBeTruthy()
+
+        const translationKey = `fiatConnectStatusScreen.success.${stringSuffix}`
+        const translationKeyAndArgs = stringArgs
+          ? `${translationKey}, ${stringArgs}`
+          : translationKey
+        expect(getByText(translationKeyAndArgs)).toBeTruthy()
       }
     )
     it('shows TX details on Celo Explorer on success for transfer outs', () => {
