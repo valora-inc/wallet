@@ -23,11 +23,6 @@ jest.mock('react-native-image-crop-picker', () => ({
   openCamera: jest.fn(),
 }))
 
-jest.mock('@react-native-camera-roll/camera-roll', () => ({
-  getPhotos: jest.fn(),
-  saveToCameraRoll: jest.fn(),
-}))
-
 describe('Profile', () => {
   let store: MockStoreEnhanced
   beforeEach(() => {

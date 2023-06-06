@@ -36,5 +36,10 @@ jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
   getFontScale: jest.fn(() => 1),
 }))
 
+jest.mock('@react-native-camera-roll/camera-roll', () => ({
+  getPhotos: jest.fn(),
+  saveToCameraRoll: jest.fn(),
+}))
+
 // @ts-ignore
 global.__reanimatedWorkletInit = jest.fn()
