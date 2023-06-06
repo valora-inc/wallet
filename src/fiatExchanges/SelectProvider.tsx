@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -10,13 +10,13 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
+import { FUNDING_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import {
   ProviderSelectionAnalyticsData,
@@ -31,6 +31,10 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import {
+  PaymentMethodSection,
+  PaymentMethodSectionMethods,
+} from 'src/fiatExchanges/PaymentMethodSection'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
@@ -77,6 +81,12 @@ function getAddFundsCryptoExchangeExperimentParams() {
   )
 }
 
+const paymentMethodSections: PaymentMethodSectionMethods[] = [
+  PaymentMethod.Card,
+  PaymentMethod.Bank,
+  PaymentMethod.FiatConnectMobileMoney,
+]
+
 export default function SelectProviderScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const {
@@ -95,7 +105,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   const tokenInfo = useTokenInfoBySymbol(digitalAsset)
 
-  const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
@@ -186,12 +195,21 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     digitalAsset
   )
 
+  const availablePaymentMethods = normalizedQuotes.map((quote) => quote.getPaymentMethod())
+  const somePaymentMethodsUnavailable = !paymentMethodSections.every((method) =>
+    availablePaymentMethods.includes(method)
+  )
+
   const coinbaseProvider = filterProvidersByPaymentMethod(
     PaymentMethod.Coinbase,
     asyncProviders.result?.externalProviders
   )
 
   const supportOnPress = () => navigate(Screens.SupportContact)
+
+  const handlePressDisclaimer = () => {
+    navigate(Screens.WebViewScreen, { uri: FUNDING_LINK })
+  }
 
   const switchCurrencyOnPress = () =>
     navigate(Screens.FiatExchangeCurrency, {
@@ -254,30 +272,16 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   return (
     <ScrollView>
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.Card}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-        cryptoType={digitalAsset}
-        analyticsData={analyticsData}
-      />
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.Bank}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-        cryptoType={digitalAsset}
-        analyticsData={analyticsData}
-      />
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.FiatConnectMobileMoney}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-        cryptoType={digitalAsset}
-        analyticsData={analyticsData}
-      />
+      {paymentMethodSections.map((paymentMethod) => (
+        <PaymentMethodSection
+          key={paymentMethod}
+          normalizedQuotes={normalizedQuotes}
+          paymentMethod={paymentMethod}
+          flow={flow}
+          cryptoType={digitalAsset}
+          analyticsData={analyticsData}
+        />
+      ))}
       <LegacyMobileMoneySection
         providers={legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
@@ -298,14 +302,24 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         flow={flow}
         analyticsData={analyticsData}
       />
-      <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
+
+      {somePaymentMethodsUnavailable ? (
+        <LimitedPaymentMethods flow={flow} />
+      ) : (
+        <Text style={styles.disclaimerText}>
+          <Trans i18nKey="selectProviderScreen.disclaimer">
+            <Text style={styles.underline} onPress={handlePressDisclaimer}></Text>
+          </Trans>
+        </Text>
+      )}
     </ScrollView>
   )
 }
 
-function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICOFlow }) {
+function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
   const { t } = useTranslation()
   const [isDialogVisible, setIsDialogVisible] = useState(false)
+
   const dismissDialog = () => {
     setIsDialogVisible(false)
   }
@@ -317,24 +331,20 @@ function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICO
   }
 
   useEffect(() => {
-    if (visible) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
-        flow,
-      })
-    }
+    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
+      flow,
+    })
   }, [])
+
   return (
     <>
-      {visible && (
-        <View style={styles.noQuotesContainer}>
-          <Text style={styles.noQuotesText}>
-            {t('selectProviderScreen.somePaymentsUnavailable')}{' '}
-            <Text onPress={openDialog} style={styles.underline}>
-              {t('selectProviderScreen.learnMore')}
-            </Text>
-          </Text>
-        </View>
-      )}
+      <View style={styles.noQuotesContainer}>
+        <Text style={styles.disclaimerText}>
+          <Trans i18nKey="selectProviderScreen.somePaymentsUnavailableV1_58">
+            <Text style={styles.underline} onPress={openDialog}></Text>
+          </Trans>
+        </Text>
+      </View>
       <Dialog
         title={t('selectProviderScreen.whyMissingPayments')}
         isVisible={isDialogVisible}
@@ -542,7 +552,7 @@ const styles = StyleSheet.create({
   noQuotesContainer: {
     padding: 16,
   },
-  noQuotesText: {
+  disclaimerText: {
     ...fontStyles.small,
     color: colors.gray4,
   },

@@ -162,33 +162,34 @@ describe(SelectProviderScreen, () => {
         quotes: [mockFiatConnectQuotes[4]],
       },
     })
-    const { queryByText, getByTestId } = render(
+    const { queryByText, getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
     await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
 
-    expect(queryByText('selectProviderScreen.bank')).toBeTruthy()
-    expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    expect(queryByText('selectProviderScreen.mobileMoney')).toBeTruthy()
+    expect(getByText('selectProviderScreen.bank')).toBeTruthy()
+    expect(getByText('selectProviderScreen.card')).toBeTruthy()
+    expect(getByText('selectProviderScreen.mobileMoney')).toBeTruthy()
     expect(getByTestId('Exchanges')).toBeTruthy()
     expect(getByTestId('LegacyMobileMoneySection')).toBeTruthy()
 
     expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
+    expect(getByText('selectProviderScreen.disclaimer')).toBeTruthy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    const { queryByText } = render(
+    const { getByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
     await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
     // Visible because there are no card providers
-    expect(queryByText('selectProviderScreen.learnMore')).toBeTruthy()
+    expect(getByText('selectProviderScreen.somePaymentsUnavailableV1_58')).toBeTruthy()
   })
   it('does not show exchange section if no exchanges', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
