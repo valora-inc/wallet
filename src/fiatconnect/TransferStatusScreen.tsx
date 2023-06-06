@@ -135,11 +135,11 @@ function SuccessOrProcessingSection({
     | FiatExchangeEvents.cico_fc_transfer_processing_view_tx
 
   const getTransferSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
-    const { timeString, ...params } = getSettlementTimeString(
+    const { timeString, ...args } = getSettlementTimeString(
       settlementEstimation,
       DESCRIPTION_STRINGS
     )
-    return timeString ? t(timeString, params) : t('fiatConnectStatusScreen.success.baseDescription')
+    return timeString ? t(timeString, args) : t('fiatConnectStatusScreen.success.baseDescription')
   }
 
   if (status === SendingTransferStatus.Completed) {

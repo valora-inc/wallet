@@ -176,11 +176,11 @@ export function PaymentMethodSection({
   )
 
   const getPaymentMethodSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
-    const { timeString, ...params } = getSettlementTimeString(
+    const { timeString, ...args } = getSettlementTimeString(
       settlementEstimation,
       SETTLEMENT_TIME_STRINGS
     )
-    return timeString ? t(timeString, params) : t('selectProviderScreen.numDays')
+    return timeString ? t(timeString, args) : t('selectProviderScreen.numDays')
   }
 
   const renderInfoText = (quote: NormalizedQuote) => {
