@@ -49,28 +49,29 @@ const ThumbnailImagePlaceholder = () => {
 
 const NftThumbnail = ({
   nft,
-  setActiveNft,
-  activeNft,
+  isActive,
+  onPress,
 }: {
   nft: Nft
-  setActiveNft: any
-  activeNft: Nft
+  isActive: boolean
+  onPress: () => void
 }) => {
   const [loading, setLoading] = useState(true)
   return (
-    <Touchable borderless={false} onPress={() => setActiveNft(nft)}>
+    <Touchable borderless={false} onPress={onPress}>
       <FastImage
         style={[
-          styles.nftPreviewImageShared,
-          activeNft.tokenUri === nft.tokenUri
-            ? styles.nftPreviewImageSelected
-            : styles.nftPreviewImageUnSelected,
+          styles.nftThumbnailShared,
+          isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
         ]}
         source={{
           uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
         }}
         onError={() => {
-          Logger.error(TAG, 'Error loading Nft preview image')
+          Logger.error(
+            TAG,
+            `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId}`
+          )
         }}
         resizeMode={FastImage.resizeMode.cover}
         onLoadEnd={() => {
@@ -109,6 +110,9 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   const NftImageCarousel = () => {
+    const handleOnPress = (nft: Nft) => () => {
+      setActiveNft(nft)
+    }
     return (
       <View style={styles.nftImageCarouselContainer}>
         <ScrollView
@@ -125,10 +129,18 @@ export default function NftsInfoCarousel({ route }: Props) {
               return (
                 <View
                   key={`${nft.contractAddress}-${nft.tokenId}`}
-                  style={styles.nftPreviewImageSharedContainer}
+                  style={styles.nftThumbnailSharedContainer}
                   testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
                 >
-                  <NftThumbnail nft={nft} setActiveNft={setActiveNft} activeNft={activeNft} />
+                  <NftThumbnail
+                    onPress={handleOnPress(nft)}
+                    // Use contractAddress and tokenId for a unique key
+                    isActive={
+                      `${activeNft.contractAddress}-${activeNft.tokenId}` ===
+                      `${nft.contractAddress}-${nft.tokenId}`
+                    }
+                    nft={nft}
+                  />
                 </View>
               )
             })}
@@ -153,7 +165,8 @@ export default function NftsInfoCarousel({ route }: Props) {
                 height: scaledHeight,
                 width: variables.width,
               },
-              isLoading && { borderRadius: 8 },
+              // Put a border radius on the image when loading to match placeholder
+              isLoading && styles.borderRadius,
             ]}
             source={{
               uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)
@@ -234,6 +247,9 @@ const styles = StyleSheet.create({
   attributesContainer: {
     paddingBottom: Spacing.Thick24,
   },
+  borderRadius: {
+    borderRadius: Spacing.Smallest8,
+  },
   carouselScrollViewContentContainer: {
     alignItems: 'center',
     flexGrow: 1,
@@ -264,19 +280,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  nftPreviewImageSelected: {
+  nftThumbnailSelected: {
     height: 40,
     width: 40,
   },
-  nftPreviewImageShared: {
+  nftThumbnailShared: {
     borderRadius: 8,
   },
-  nftPreviewImageSharedContainer: {
+  nftThumbnailSharedContainer: {
     borderRadius: 8,
     marginRight: 8,
     overflow: 'hidden',
   },
-  nftPreviewImageUnSelected: {
+  nftThumbnailUnSelected: {
     height: 32,
     opacity: 0.5,
     width: 32,
