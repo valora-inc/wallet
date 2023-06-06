@@ -5,7 +5,7 @@ import { Screens } from 'src/navigator/Screens'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import networkConfig from 'src/web3/networkConfig'
 import { getMockStackScreenProps } from 'test/utils'
-import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetaData } from 'test/values'
+import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata } from 'test/values'
 
 describe('NftsInfoCarousel', () => {
   it('renders correctly with one Nft', () => {
@@ -75,7 +75,7 @@ describe('NftsInfoCarousel', () => {
   it('renders error image state on Nft null metadata', () => {
     const { getByText } = render(
       <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNftNullMetaData] })}
+        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNftNullMetadata] })}
       />
     )
     expect(getByText('nftInfoCarousel.nftImageLoadError')).toBeTruthy()
@@ -85,7 +85,7 @@ describe('NftsInfoCarousel', () => {
     const { queryByTestId } = render(
       <NftsInfoCarousel
         {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
-          nfts: [mockNftAllFields, mockNftNullMetaData],
+          nfts: [mockNftAllFields, mockNftNullMetadata],
         })}
       />
     )
