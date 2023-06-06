@@ -1,18 +1,23 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import { Provider } from 'react-redux'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import networkConfig from 'src/web3/networkConfig'
-import { getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNft, mockNft2, mockNft3 } from 'test/values'
 
 describe('NftsInfoCarousel', () => {
   it('renders correctly with one Nft', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { queryByTestId, getByTestId, getByText } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft] })}
-      />
+      <Provider store={store}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft] })}
+        />
+      </Provider>
     )
 
     // Correct Nft Image and name should be rendered
@@ -26,10 +31,14 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('renders correctly with two valid Nfts', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { getByTestId, getByText } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft, mockNft2] })}
-      />
+      <Provider store={store}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft, mockNft2] })}
+        />
+      </Provider>
     )
 
     // Correct Nft Image and name should be rendered
@@ -54,8 +63,12 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('renders full screen error when no Nft(s)', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { getByTestId, queryByTestId } = render(
-      <NftsInfoCarousel {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [] })} />
+      <Provider store={store}>
+        <NftsInfoCarousel {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [] })} />
+      </Provider>
     )
 
     expect(getByTestId('NftsInfoCarousel/NftsLoadErrorScreen')).toBeTruthy()
@@ -63,19 +76,27 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('renders error image state on Nft null metadata', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { getByText } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft3] })}
-      />
+      <Provider store={store}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft3] })}
+        />
+      </Provider>
     )
     expect(getByText('nftInfoCarousel.nftImageLoadError')).toBeTruthy()
   })
 
   it('image carousel should not render Nfts with null metadata', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { queryByTestId } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft, mockNft3] })}
-      />
+      <Provider store={store}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft, mockNft3] })}
+        />
+      </Provider>
     )
 
     // Two Nfts but one with null metadata will prevent the image carousel from rendering
@@ -83,10 +104,14 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('should be able to navigate back', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { getByTestId } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft] })}
-      />
+      <Provider store={store}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft] })}
+        />
+      </Provider>
     )
 
     fireEvent.press(getByTestId('NftsInfoCarousel/BackButton'))
@@ -94,10 +119,14 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('opens link for Explorer', () => {
+    const store = createMockStore({})
+    store.dispatch = jest.fn()
     const { getByTestId } = render(
-      <NftsInfoCarousel
-        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft] })}
-      />
+      <Provider store={store}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNft] })}
+        />
+      </Provider>
     )
 
     fireEvent.press(getByTestId('ViewOnExplorer'))
