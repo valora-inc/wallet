@@ -12,7 +12,7 @@ import SaveCircle from 'src/icons/SaveCircle'
 import ShareCircle from 'src/icons/ShareCircle'
 import { Nft } from 'src/nfts/types'
 import { onSave, onShare } from 'src/nfts/utils'
-import { default as Colors } from 'src/styles/colors'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Large32,
   },
   handle: {
-    backgroundColor: Colors.gray3,
+    backgroundColor: colors.gray3,
   },
   gap: {
     height: Spacing.Thick24,
