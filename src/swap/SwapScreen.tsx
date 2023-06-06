@@ -43,6 +43,7 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
 }
+const PRICE_IMPACT_THRESHOLD = 0.04
 
 function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
   const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
@@ -105,6 +106,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
+  const [showPriceImpactWarning, setShowPriceImpactWarning] = useState(false)
 
   const maxFromAmountUnchecked = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
@@ -166,20 +168,25 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 
   useEffect(
     () => {
-      setSwapAmount((prev) => {
-        const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
-        const newAmount = exchangeRate
-          ? parsedSwapAmount[updatedField]
-              .multipliedBy(
-                new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
-              )
-              .toFormat()
-          : ''
-        return {
-          ...prev,
-          [otherField]: newAmount,
-        }
+      const newAmount = exchangeRate
+        ? parsedSwapAmount[updatedField]
+            .multipliedBy(
+              new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
+            )
+            .toFormat()
+        : ''
+      const swapFromAmount = updatedField === Field.FROM ? swapAmount[Field.FROM] : newAmount
+      const swapToAmount = updatedField === Field.FROM ? newAmount : swapAmount[Field.TO]
+
+      setSwapAmount({
+        [Field.FROM]: swapFromAmount,
+        [Field.TO]: swapToAmount,
       })
+
+      const fromFiatValue = new BigNumber(swapFromAmount).multipliedBy(fromToken?.usdPrice || 0)
+      const toFiatValue = new BigNumber(swapToAmount).multipliedBy(toToken?.usdPrice || 0)
+      const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
+      setShowPriceImpactWarning(priceImpact.gte(PRICE_IMPACT_THRESHOLD))
     },
     // We only want to update the other field when the exchange rate changes
     // that's why we don't include the other dependencies
@@ -361,6 +368,12 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
               description={t('swapScreen.maxSwapAmountWarning.body')}
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
               onPressCta={onPressLearnMoreFees}
+            />
+          )}
+          {showPriceImpactWarning && (
+            <Warning
+              title={t('swapScreen.priceImpactWarning.title')}
+              description={t('swapScreen.priceImpactWarning.body')}
             />
           )}
         </View>
