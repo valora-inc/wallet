@@ -101,7 +101,7 @@ describe('NftsInfoCarousel', () => {
       />
     )
 
-    fireEvent.press(getByTestId('NftsInfoCarousel/BackButton'))
+    fireEvent.press(getByTestId('FloatingBackButton'))
     expect(navigateBack).toHaveBeenCalled()
   })
 
