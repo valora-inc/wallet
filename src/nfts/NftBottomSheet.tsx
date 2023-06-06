@@ -99,7 +99,8 @@ const useNftShareBottomSheet = ({ nft }: { nft: Nft }) => {
       animatedHandleHeight,
       animatedContentHeight,
       handleContentLayout,
-      `${nft.contractAddress}-${nft.tokenId}`,
+      // This is a hack to force the bottom sheet to re-render when the nft changes
+      nft && `${nft.contractAddress}-${nft.tokenId}`,
     ]
   )
 
