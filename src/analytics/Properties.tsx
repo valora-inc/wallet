@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1261,6 +1261,23 @@ interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
   [AssetsEvents.view_dapp_positions]: undefined
+  [AssetsEvents.tap_asset]:
+    | {
+        assetType: 'token'
+        address: string
+        title: string // Example: 'cUSD'
+        description: string
+        balanceUsd: number
+      }
+    | {
+        assetType: 'position'
+        network: string // Example: 'celo'
+        appId: string // Example: 'ubeswap'
+        address: string
+        title: string // Example: MOO / CELO
+        description: string
+        balanceUsd: number
+      }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
