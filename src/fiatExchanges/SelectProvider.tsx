@@ -343,7 +343,7 @@ function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
     <>
       <View style={styles.disclaimerContainer}>
         <Text style={styles.disclaimerText}>
-          <Trans i18nKey="selectProviderScreen.somePaymentsUnavailableV1_58">
+          <Trans i18nKey="selectProviderScreen.disclaimerWithSomePaymentsUnavailable">
             <Text style={styles.underline} onPress={openDialog}></Text>
           </Trans>
         </Text>
