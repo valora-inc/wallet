@@ -15,6 +15,7 @@ interface ExchangeRate {
   fromTokenAddress: string
   swapAmount: BigNumber
   price: string
+  provider: string
 }
 
 const useSwapQuote = () => {
@@ -78,6 +79,7 @@ const useSwapQuote = () => {
           updatedField === Field.FROM
             ? swapPrice
             : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
+        provider: quote.details.swapProvider,
       }
 
       return updatedExchangeRate

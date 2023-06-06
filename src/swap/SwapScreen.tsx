@@ -45,19 +45,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 }
 const PRICE_IMPACT_THRESHOLD = 0.04
 
-function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
-  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
-  if (usdPriceComparison === 0) {
-    const token1Name = token1.name ?? 'ZZ'
-    const token2Name = token2.name ?? 'ZZ'
-    return token1Name.localeCompare(token2Name)
-  } else {
-    return usdPriceComparison
-  }
-}
-
 const { decimalSeparator } = getNumberFormatSettings()
 
 function SwapScreen() {
@@ -72,7 +59,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
 
-  // already sorted by USD balance
+  // sorted by USD balance and then alphabetical
   const supportedTokens = useSelector(swappableTokensSelector)
   const swappableTokens = useMemo(() => {
     const tokensWithUsdPrice = supportedTokens.filter(
@@ -179,15 +166,26 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       const swapFromAmount = updatedField === Field.FROM ? swapAmount[Field.FROM] : newAmount
       const swapToAmount = updatedField === Field.FROM ? newAmount : swapAmount[Field.TO]
 
-      const fromFiatValue = new BigNumber(swapFromAmount).multipliedBy(fromToken?.usdPrice || 0)
-      const toFiatValue = new BigNumber(swapToAmount).multipliedBy(toToken?.usdPrice || 0)
-      const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
-
-      setShowPriceImpactWarning(priceImpact.gte(PRICE_IMPACT_THRESHOLD))
       setSwapAmount({
         [Field.FROM]: swapFromAmount,
         [Field.TO]: swapToAmount,
       })
+
+      const fromFiatValue = new BigNumber(swapFromAmount).multipliedBy(fromToken?.usdPrice || 0)
+      const toFiatValue = new BigNumber(swapToAmount).multipliedBy(toToken?.usdPrice || 0)
+      const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
+
+      if (priceImpact.gte(PRICE_IMPACT_THRESHOLD) && exchangeRate) {
+        setShowPriceImpactWarning(true)
+        ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
+          toToken: exchangeRate.toTokenAddress,
+          fromToken: exchangeRate.fromTokenAddress,
+          amount: parsedSwapAmount[updatedField].toString(),
+          amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
+          priceImpact: priceImpact.toString(),
+          provider: exchangeRate.provider,
+        })
+      }
     },
     // We only want to update the other field when the exchange rate changes
     // that's why we don't include the other dependencies
@@ -266,6 +264,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     }
 
     setShowMaxSwapAmountWarning(false)
+    setShowPriceImpactWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -302,7 +301,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   }
 
   const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
-  const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
   const exchangeRateUpdatePending =
     exchangeRate &&
     (exchangeRate.fromTokenAddress !== fromToken?.address ||
@@ -397,7 +395,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
         searchEnabled={swappingNonNativeTokensEnabled}
-        tokens={sortedTokens}
+        tokens={supportedTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')

@@ -578,6 +578,7 @@ export enum SwapEvents {
   swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
   swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen
+  swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed', // When the price impact warning is displayed
 }
 
 export enum CeloNewsEvents {
