@@ -1362,7 +1362,9 @@
   "merchantWalletUnlockError": "解锁您的钱包时出现问题，请重试",
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "您所在的地区无法使用某些付款方式",
+    "somePaymentsUnavailable": "购买是由我们的合作伙伴供应商提供的。有些付款方式在你的地区无法使用。",
+    "disclaimerWithSomePaymentsUnavailable": "支付是由Celo上的合作伙伴提供的。有些支付方式在你的地区无法使用。<0>了解更多。</0>",
+    "disclaimer": "支付是由Celo上的合作伙伴提供的。<0>了解更多。</0>",
     "learnMore": "了解更多。",
     "whyMissingPayments": "为什么我看不到更多的付款方式？",
     "dismiss": "忽略",
