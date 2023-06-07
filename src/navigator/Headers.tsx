@@ -1,12 +1,13 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
+import BackChevronStatic from 'src/icons/BackChevronStatic'
 import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -26,6 +27,41 @@ export const noHeaderGestureDisabled: NativeStackNavigationOptions = {
   gestureEnabled: false,
 }
 
+const android_ripple = {
+  color: colors.gray2,
+  foreground: true,
+  borderless: true,
+}
+
+export const headerTransparentWithBack: NativeStackNavigationOptions = {
+  headerShown: true,
+  headerTransparent: true,
+  // Needed for Android to truly make the header transparent
+  headerStyle: {
+    backgroundColor: 'transparent',
+  },
+  headerLeft: ({ canGoBack }) =>
+    canGoBack ? (
+      Platform.OS === 'ios' ? (
+        <TopBarIconButton
+          onPress={navigateBack}
+          icon={<BackChevronStatic />}
+          style={styles.floatingButton}
+          testID="FloatingBackButton"
+        />
+      ) : (
+        <Pressable
+          android_ripple={android_ripple}
+          onPress={navigateBack}
+          style={styles.floatingButton}
+          testID="FloatingBackButton"
+        >
+          <BackChevronStatic />
+        </Pressable>
+      )
+    ) : null,
+}
+
 export const styles = StyleSheet.create({
   headerTitle: {
     ...fontStyles.navigationHeader,
@@ -41,6 +77,23 @@ export const styles = StyleSheet.create({
   screenHeader: {
     textAlign: 'center',
     fontWeight: undefined,
+  },
+  floatingButton: {
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderColor: colors.dark,
+    borderRadius: 100,
+    elevation: 4,
+    height: 32,
+    justifyContent: 'center',
+    shadowColor: colors.dark,
+    shadowOffset: {
+      height: 2,
+      width: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    width: 32,
   },
 })
 
