@@ -123,13 +123,7 @@ export default function NftsInfoCarousel({ route }: Props) {
         backgroundColor={colors.gray2}
         highlightColor={colors.white}
       >
-        <View
-          style={{
-            height: scaledHeight,
-            width: variables.width,
-            zIndex: -1,
-          }}
-        />
+        <View style={[styles.mainImagePlaceholder, { height: scaledHeight }]} />
       </SkeletonPlaceholder>
     )
   }
@@ -184,10 +178,8 @@ export default function NftsInfoCarousel({ route }: Props) {
           <FastImage
             testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
             style={[
-              {
-                height: scaledHeight,
-                width: variables.width,
-              },
+              { height: scaledHeight },
+              styles.mainImage,
               // Put a border radius on the image when loading to match placeholder
               isLoading && styles.borderRadius,
             ]}
@@ -317,6 +309,13 @@ const styles = StyleSheet.create({
     height: 32,
     opacity: 0.5,
     width: 32,
+  },
+  mainImage: {
+    width: variables.width,
+  },
+  mainImagePlaceholder: {
+    width: variables.width,
+    zIndex: -1,
   },
   safeAreaView: {
     flex: 1,
