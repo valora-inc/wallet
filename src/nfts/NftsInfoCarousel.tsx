@@ -178,7 +178,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   return (
-    <SafeAreaView testID="NftsInfoCarousel">
+    <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {activeNft.metadata && (
           <FastImage
@@ -238,7 +238,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </View>
         )}
         {/* This should be dynamic based on Network in the future. Always show as fallback */}
-        <View style={styles.sectionContainer}>
+        <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
           <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
             <View style={styles.explorerLinkContainer}>
               <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
@@ -318,9 +318,15 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     width: 32,
   },
+  safeAreaView: {
+    flex: 1,
+  },
   sectionContainer: {
     marginHorizontal: Spacing.Thick24,
     marginTop: Spacing.Regular16,
+  },
+  sectionContainerLast: {
+    marginBottom: Spacing.Large32,
   },
   skeletonImageThumbnailPlaceHolder: {
     height: 40,
