@@ -193,9 +193,12 @@ export default function NftsInfoCarousel({ route }: Props) {
               )
             }}
             onLoadEnd={() => setIsLoading(false)}
-            onError={() => {
-              Logger.error(TAG, 'Error loading Nft image')
-            }}
+            onError={() =>
+              Logger.error(
+                TAG,
+                `Error loading Nft image for Nft contractAddress: ${activeNft.contractAddress} tokenId: ${activeNft.tokenId}`
+              )
+            }
             resizeMode={FastImage.resizeMode.contain}
           >
             {isLoading && <MainImagePlaceholder />}
