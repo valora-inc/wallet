@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
+import InfoShadowedIcon from 'src/icons/InfoShadowedIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -202,14 +203,17 @@ export default function NftsInfoCarousel({ route }: Props) {
         {/* This could happen if the indexer is experiencing issues with particular nfts */}
         {!activeNft.metadata && (
           <View style={styles.nftImageLoadingErrorContainer}>
-            <Text style={{ color: colors.light }}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+            <InfoShadowedIcon />
+            <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
           </View>
         )}
 
         {nfts.length > 1 && <NftImageCarousel />}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.title}>{activeNft.metadata?.name}</Text>
-        </View>
+        {activeNft.metadata?.name && (
+          <View style={styles.sectionContainer}>
+            <Text style={styles.title}>{activeNft.metadata?.name}</Text>
+          </View>
+        )}
         {activeNft.metadata?.description && (
           <View style={styles.sectionContainer}>
             <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
@@ -267,6 +271,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.gray2,
   },
+  errorImageText: {
+    marginTop: Spacing.Regular16,
+    ...fontStyles.regular,
+  },
   explorerLink: {
     ...fontStyles.small500,
     color: colors.onboardingGreen,
@@ -287,9 +295,10 @@ const styles = StyleSheet.create({
   nftImageLoadingErrorContainer: {
     width: '100%',
     height: 360,
-    backgroundColor: colors.dark,
+    backgroundColor: colors.gray1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 8,
   },
   nftThumbnailSelected: {
     height: 40,

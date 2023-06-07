@@ -3,22 +3,20 @@ import Svg, { Path } from 'react-native-svg'
 import colors from 'src/styles/colors'
 
 interface Props {
-  width?: number
-  height?: number
+  size?: number
   testID?: string
   color?: string
   backgroundShapeColor?: string
 }
 
 function InfoShadowedIcon({
-  width = 88,
-  height = 88,
+  size = 88,
   testID = 'InfoShadowedIcon',
-  backgroundShapeColor = colors.pink,
+  backgroundShapeColor = '#FFC8C8',
   color = colors.dark,
 }: Props) {
   return (
-    <Svg width={width} height={height} fill="none" testID={testID}>
+    <Svg width={size} height={size} fill="none" testID={testID}>
       <Path
         fill={backgroundShapeColor}
         fillRule="evenodd"
