@@ -41,6 +41,7 @@ export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements U
     if (!account) {
       throw new Error(`Could not find address ${normalizedAddress}`)
     }
+
     return account
   }
 
