@@ -1362,7 +1362,9 @@
   "merchantWalletUnlockError": "Đã xảy ra lỗi khi mở khóa ví của bạn, vui lòng thử lại",
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Một số phương thức thanh toán không được hỗ trợ ở khu vực của bạn",
+    "somePaymentsUnavailable": "Purchases are powered by our partner providers. Some payment methods are unavailable in your region.",
+    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by partners on Celo. Some payment methods are unavailable in your region. <0>Learn more.</0>",
+    "disclaimer": "Payments are powered by partners on Celo. <0>Learn more.</0>",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
