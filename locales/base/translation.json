@@ -1735,6 +1735,6 @@
     "attributes": "Attributes",
     "description": "Description",
     "noNftsFound": "No NFTs found",
-    "nftImageLoadError": "There is an issue loading this Nft"
+    "nftImageLoadError": "There is an issue loading this NFT"
   }
 }
