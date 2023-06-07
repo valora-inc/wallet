@@ -211,7 +211,6 @@ export class KeychainAccountManager {
     if (this.unlockDuration === 0) {
       return true
     }
-
     return this.unlockTime + this.unlockDuration * 1000 > Date.now()
   }
 
