@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slice'
 import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -103,22 +103,44 @@ describe('TransferStatusScreen', () => {
         }
       )
     })
+
+    const lessThanOneHour: SettlementEstimation = {
+      settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
+    }
+    const lessThan24Hours: SettlementEstimation = {
+      settlementTime: SettlementTime.LESS_THAN_X_HOURS,
+      upperBound: 24,
+    }
+    const oneToThreeDays: SettlementEstimation = {
+      settlementTime: SettlementTime.X_TO_Y_DAYS,
+      lowerBound: 1,
+      upperBound: 3,
+    }
     it.each([
-      [SettlementTime.LESS_THAN_24_HOURS, 'description24Hours'],
-      [SettlementTime.ONE_TO_THREE_DAYS, 'description1to3Days'],
-    ])('shows appropriate description for settlement time %s', (settlementTime, stringSuffix) => {
-      const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })
-      const props = mockScreenProps(CICOFlow.CashOut)
-      jest
-        .spyOn(props.route.params.normalizedQuote, 'getTimeEstimation')
-        .mockReturnValue(settlementTime)
-      const { getByText } = render(
-        <Provider store={store}>
-          <TransferStatusScreen {...props} />
-        </Provider>
-      )
-      expect(getByText(`fiatConnectStatusScreen.success.${stringSuffix}`)).toBeTruthy()
-    })
+      [lessThanOneHour, 'descriptionWithin1Hour', ''],
+      [lessThan24Hours, 'descriptionWithinXHours', '{"upperBound":24}'],
+      [oneToThreeDays, 'descriptionXtoYDays', '{"lowerBound":1,"upperBound":3}'],
+    ])(
+      'shows appropriate description for settlement time %s',
+      (settlementTime, stringSuffix, stringArgs) => {
+        const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })
+        const props = mockScreenProps(CICOFlow.CashOut)
+        jest
+          .spyOn(props.route.params.normalizedQuote, 'getTimeEstimation')
+          .mockReturnValue(settlementTime)
+        const { getByText } = render(
+          <Provider store={store}>
+            <TransferStatusScreen {...props} />
+          </Provider>
+        )
+
+        const translationKey = `fiatConnectStatusScreen.success.${stringSuffix}`
+        const translationKeyAndArgs = stringArgs
+          ? `${translationKey}, ${stringArgs}`
+          : translationKey
+        expect(getByText(translationKeyAndArgs)).toBeTruthy()
+      }
+    )
     it('shows TX details on Celo Explorer on success for transfer outs', () => {
       const store = mockStore({ flow: CICOFlow.CashOut, txHash: mockTxHash })
       const { queryByTestId, getByTestId } = render(
