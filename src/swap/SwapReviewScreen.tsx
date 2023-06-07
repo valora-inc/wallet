@@ -105,12 +105,8 @@ export function SwapReviewScreen() {
   const fromTokenSymbol = tokensByAddress[fromToken]?.symbol
 
   // Decimals
-  const toTokenDecimals = tokensByAddress[toToken]?.decimals
-  const fromTokenDecimals = tokensByAddress[fromToken]?.decimals
-  if (!fromTokenDecimals || !toTokenDecimals) {
-    Logger.error(TAG, 'Decimals not found for token')
-    return null
-  }
+  const toTokenDecimals = tokensByAddress[toToken]?.decimals ?? 0
+  const fromTokenDecimals = tokensByAddress[fromToken]?.decimals ?? 0
   const swapAmountDecimals = updatedField === Field.FROM ? fromTokenDecimals : toTokenDecimals
 
   // BuyAmount or SellAmount
