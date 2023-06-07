@@ -11,9 +11,16 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'NftsLoadErrorScreen'
 
 export default function NftsLoadErrorScreen() {
   const { t } = useTranslation()
+  function handleSupportPress() {
+    Logger.debug(TAG, 'Support Contact pressed')
+    navigate(Screens.SupportContact)
+  }
   return (
     <SafeAreaView style={styles.safeArea} testID="NftsInfoCarousel/NftsLoadErrorScreen">
       <TopBarIconButton
@@ -31,10 +38,7 @@ export default function NftsLoadErrorScreen() {
         </View>
         <Text style={styles.title}>{t('nftsLoadErrorScreen.loadErrorTitle')}</Text>
         <Text style={styles.subTitle}>{t('nftsLoadErrorScreen.loadErrorSubtitle')}</Text>
-        <Touchable
-          testID="NftsLoadErrorScreen/ContactSupport"
-          onPress={() => navigate(Screens.SupportContact)}
-        >
+        <Touchable testID="NftsLoadErrorScreen/ContactSupport" onPress={handleSupportPress}>
           <Text style={styles.contactSupportTouchable}>
             {t('nftsLoadErrorScreen.contactSupport')}
           </Text>
