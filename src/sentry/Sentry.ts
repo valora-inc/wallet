@@ -2,9 +2,9 @@ import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
-import { APP_BUNDLE_ID, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
-import networkConfig from 'src/web3/networkConfig'
+import { APP_BUNDLE_ID, isE2EEnv, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'sentry/Sentry'
@@ -49,12 +49,15 @@ export function* initializeSentry() {
     dsn: SENTRY_CLIENT_URL,
     environment: DeviceInfo.getBundleId(),
     enableAutoSessionTracking: true,
-    integrations: [
-      new Sentry.ReactNativeTracing({
-        routingInstrumentation: sentryRoutingInstrumentation,
-        tracingOrigins,
-      }),
-    ],
+    integrations:
+      [
+        new Sentry.ReactNativeTracing({
+          routingInstrumentation: sentryRoutingInstrumentation,
+          tracingOrigins,
+          // (Sentry will call setTimeout(checkIfStalled, 0) causing Detox to wait forever
+          enableStallTracking: !isE2EEnv,
+        }),
+      ],
     tracesSampleRate,
   })
 
