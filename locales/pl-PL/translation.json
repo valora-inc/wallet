@@ -1368,7 +1368,9 @@
   "merchantWalletUnlockError": "Coś poszło nie tak podczas odblokowywania portfela, spróbuj ponownie",
   "noMoreTransactions": "Nie ma więcej transakcji",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Niektóre metody płatności są niedostępne w Twoim regionie",
+    "somePaymentsUnavailable": "Zakupy są obsługiwane przez naszych partnerów. Niektóre metody płatności są niedostępne w Twoim regionie.",
+    "disclaimerWithSomePaymentsUnavailable": "Płatności są obsługiwane przez partnerów Celo. Niektóre metody płatności są niedostępne w Twoim regionie. <0>Dowiedz się więcej.</0>",
+    "disclaimer": "Płatności są obsługiwane przez partnerów Celo. <0>Dowiedz się więcej.</0>",
     "learnMore": "Dowiedz się więcej.",
     "whyMissingPayments": "Dlaczego nie widzę więcej metod płatności?",
     "dismiss": "Odrzuć",
