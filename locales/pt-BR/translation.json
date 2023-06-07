@@ -1364,7 +1364,9 @@
   "merchantWalletUnlockError": "Algo deu errado ao desbloquear sua carteira, tente novamente",
   "noMoreTransactions": "Não há mais transacções",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Alguns métodos de pagamento não estão disponíveis na sua região",
+    "somePaymentsUnavailable": "As compras são efectuadas pelos nossos fornecedores parceiros. Alguns métodos de pagamento não estão disponíveis na sua região.",
+    "disclaimerWithSomePaymentsUnavailable": "Os pagamentos são efectuados por parceiros da Celo. Alguns métodos de pagamento não estão disponíveis na sua região. <0>Saiba mais.</0>",
+    "disclaimer": "Os pagamentos são efectuados por parceiros no Celo. <0>Saiba mais.</0>",
     "learnMore": "Saiba mais.",
     "whyMissingPayments": "Porque não vejo mais métodos de pagamento?",
     "dismiss": "Ignorar",
