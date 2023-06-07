@@ -100,6 +100,7 @@ jest.mock('src/statsig', () => ({
     showHomeNavBar: true,
     showHomeActions: false,
     cashInBottomSheetEnabled: true,
+    showQrScanner: false,
   })),
   getFeatureGate: jest.fn().mockReturnValue(false),
 }))
@@ -261,21 +262,26 @@ describe('WalletHome', () => {
     expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
 
-  it('Does not render actions when experiment flag is off', () => {
+  it('Does not render actions and scanner when experiment flag is off', () => {
     const { queryByTestId } = renderScreen()
 
     expect(queryByTestId('HomeActionsCarousel')).toBeFalsy()
+    expect(queryByTestId('WalletHome/QRScanButton')).toBeFalsy()
+    expect(queryByTestId('WalletHome/Logo')).toBeTruthy()
   })
 
-  it('Renders actions when experiment flag is on', () => {
+  it('Renders actions, scanner, logo correctly  when experiment flag is on', () => {
     mocked(getExperimentParams).mockReturnValueOnce({
       showHomeNavBar: true,
       showHomeActions: true,
+      showQrScanner: true,
     })
 
     const { queryByTestId } = renderScreen()
 
     expect(queryByTestId('HomeActionsCarousel')).toBeTruthy()
+    expect(queryByTestId('WalletHome/QRScanButton')).toBeTruthy()
+    expect(queryByTestId('WalletHome/Logo')).toBeFalsy()
   })
 
   describe('recently used dapps', () => {

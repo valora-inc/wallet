@@ -246,6 +246,11 @@
         "type": "address"
       },
       {
+        "internalType": "address",
+        "name": "depositor",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
@@ -277,6 +282,11 @@
       {
         "internalType": "contract IERC721",
         "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "depositor",
         "type": "address"
       },
       {

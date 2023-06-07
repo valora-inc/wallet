@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
+import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
@@ -15,11 +16,9 @@ import HomeActionsSwap from 'src/icons/home-actions/Swap'
 import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CloseIcon } from 'src/navigator/types'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useSelector } from 'react-redux'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 
 function ActionsCarousel() {
   const { t } = useTranslation()
@@ -32,7 +31,7 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <HomeActionsSend />,
       onPress: () => {
-        navigate(Screens.Send, { closeIcon: CloseIcon.BackChevron })
+        navigate(Screens.Send)
       },
     },
     {
@@ -42,7 +41,6 @@ function ActionsCarousel() {
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
-          closeIcon: CloseIcon.BackChevron,
         })
       },
     },
@@ -70,7 +68,7 @@ function ActionsCarousel() {
       title: t('homeActions.request'),
       icon: <HomeActionsRequest />,
       onPress: () => {
-        navigate(Screens.Send, { isOutgoingPaymentRequest: true, closeIcon: CloseIcon.BackChevron })
+        navigate(Screens.Send, { isOutgoingPaymentRequest: true })
       },
     },
     {

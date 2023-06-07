@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
-  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
+  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -26,10 +26,16 @@ import {
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
+import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
+import {
+  FetchProvidersOutput,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
+} from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
+import { Nft } from 'src/nfts/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { Position } from 'src/positions/types'
@@ -45,7 +51,7 @@ import {
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 export const nullAddress = '0x0'
@@ -1221,3 +1227,89 @@ export const mockPositions: Position[] = [
     balanceUsd: '1.3207590254762067',
   },
 ]
+
+export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData = {
+  centralizedExchangesAvailable: true,
+  coinbasePayAvailable: true,
+  totalOptions: 3,
+  paymentMethodsAvailable: {
+    [PaymentMethod.Card]: false,
+    [PaymentMethod.Bank]: true,
+    [PaymentMethod.Coinbase]: true,
+    [PaymentMethod.MobileMoney]: true,
+    [PaymentMethod.FiatConnectMobileMoney]: false,
+  },
+  transferCryptoAmount: 10.0,
+  cryptoType: CiCoCurrency.cUSD,
+  lowestFeeKycRequired: false,
+  lowestFeeCryptoAmount: 1.0,
+  lowestFeeProvider: 'mock-provider-1',
+  lowestFeePaymentMethod: PaymentMethod.Bank,
+}
+
+export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
+  name: 'mock-legacy-mobile-money-1',
+  celo: {
+    cashIn: false,
+    cashOut: false,
+    countries: [],
+    url: 'fake-url-1',
+  },
+  cusd: {
+    cashIn: true,
+    cashOut: true,
+    countries: [],
+    url: 'fake-url-1',
+  },
+}
+
+export const mockNftAllFields: Nft = {
+  contractAddress: mockContractAddress,
+  media: [
+    {
+      gateway: 'https://example.com/1',
+      raw: 'https://example.com/1',
+    },
+  ],
+  metadata: {
+    attributes: [{ trait_type: 'Fizz Buzz', value: '1' }],
+    date: new Date('01/01/2020').getTime(),
+    description: 'This is a fizzBuzz name!',
+    dna: '000001',
+    id: 1,
+    image: 'https://example.com/1',
+    name: `${mockName}.fizzBuzz`,
+  },
+  ownerAddress: mockAccount,
+  tokenId: '1',
+  tokenUri: 'https://example.com/1',
+}
+
+export const mockNftMinimumFields: Nft = {
+  contractAddress: mockContractAddress,
+  media: [
+    {
+      gateway: 'https://example.com/3',
+      raw: 'https://example.com/3',
+    },
+  ],
+  metadata: {
+    attributes: [{ trait_type: 'Fizz Buzz', value: 'Fizz' }],
+    date: null,
+    description: 'This is a fizzBuzz name!',
+    dna: null,
+    id: null,
+    image: 'https://example.com/3',
+    name: `${mockName}.fizzBuzz`,
+  },
+  ownerAddress: mockAccount,
+  tokenId: '3',
+  tokenUri: 'https://example.com/3',
+}
+
+export const mockNftNullMetadata: Nft = {
+  contractAddress: mockContractAddress,
+  media: [],
+  metadata: null,
+  tokenId: '4',
+}

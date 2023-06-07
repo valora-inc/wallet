@@ -1601,7 +1601,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi supportati dai partner su Celo. \n<0>Altre informazioni.</0>",
+    "disclaimer": "Scambi supportati dai partner su Celo.\n<0>Altre informazioni</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "maxSwapAmountWarning": {

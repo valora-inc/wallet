@@ -1,6 +1,15 @@
 import { PincodeType } from 'src/account/reducer'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
+import { getFeatureGate } from 'src/statsig'
 import { getMockStoreData } from 'test/utils'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/statsig')
+
+beforeEach(() => {
+  jest.clearAllMocks()
+  mocked(getFeatureGate).mockReturnValue(true)
+})
 
 describe('getCurrentUserTraits', () => {
   it('returns the current user traits', () => {
@@ -167,6 +176,60 @@ describe('getCurrentUserTraits', () => {
           },
         },
       },
+      positions: {
+        positions: [
+          {
+            type: 'contract-position',
+            network: 'celo',
+            address: '0xa',
+            appId: 'a',
+            displayProps: {
+              title: 'Title A',
+            },
+            balanceUsd: '10',
+          },
+          {
+            type: 'contract-position',
+            network: 'celo',
+            address: '0xb',
+            appId: 'b',
+            displayProps: {
+              title: 'Title B',
+            },
+            balanceUsd: '1.11',
+          },
+          {
+            type: 'contract-position',
+            network: 'celo',
+            address: '0xc',
+            appId: 'c',
+            displayProps: {
+              title: 'Title C',
+            },
+            balanceUsd: '2.22',
+          },
+          {
+            type: 'contract-position',
+            network: 'celo',
+            address: '0xd',
+            appId: 'd',
+            displayProps: {
+              title: 'Title D which is really long and should be truncated',
+            },
+            balanceUsd: '0.01234',
+          },
+          {
+            type: 'contract-position',
+            network: 'celo',
+            address: '0xe',
+            appId: 'b',
+            displayProps: {
+              title: 'Title E',
+            },
+            balanceUsd: '70',
+          },
+        ],
+      },
     })
     expect(getCurrentUserTraits(state)).toStrictEqual({
       accountAddress: '0x123',
@@ -184,12 +247,19 @@ describe('getCurrentUserTraits', () => {
       hasVerifiedNumberCPV: true,
       language: 'es-419',
       localCurrencyCode: 'PHP',
+      netWorthUsd: 5764.949123945,
       otherTenTokens: 'I:1000,K:80,0xi:11.003,G:10,H:9.12345,E:7,F:6,B:3,C:2,A:1',
       phoneCountryCallingCode: '+33',
       phoneCountryCodeAlpha2: 'FR',
       pincodeType: 'CustomPin',
+      positionsAppsCount: 4,
+      positionsCount: 5,
+      positionsTopTenApps: 'b:71.11,a:10.00,c:2.22,d:0.01',
       tokenCount: 13,
+      topTenPositions:
+        'b-Title E:70.00,a-Title A:10.00,c-Title C:2.22,b-Title B:1.11,d-Title D which is rea:0.01',
       totalBalanceUsd: 5681.606783945,
+      totalPositionsBalanceUsd: 83.34234,
       walletAddress: '0x0000000000000000000000000000000000007e57',
       superchargingToken: 'cEUR',
       superchargingAmountInUsd: 25.9245,
