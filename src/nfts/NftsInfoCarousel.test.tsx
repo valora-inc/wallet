@@ -81,8 +81,8 @@ describe('NftsInfoCarousel', () => {
     expect(getByText('nftInfoCarousel.nftImageLoadError')).toBeTruthy()
   })
 
-  it('image carousel should not render Nfts with null metadata', () => {
-    const { queryByTestId } = render(
+  it('image carousel should render Nfts with null metadata as red info icon', () => {
+    const { getByTestId, getByText, queryByText } = render(
       <NftsInfoCarousel
         {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
           nfts: [mockNftAllFields, mockNftNullMetadata],
@@ -90,8 +90,16 @@ describe('NftsInfoCarousel', () => {
       />
     )
 
-    // Two Nfts but one with null metadata will prevent the image carousel from rendering
-    expect(queryByTestId('NftsInfoCarousel/NftImageCarousel')).toBeNull()
+    // The Nft with null metadata will render with an error icon in carousel and display error text when selected
+    expect(queryByText('nftInfoCarousel.nftImageLoadError')).toBeNull()
+    expect(getByTestId('NftsInfoCarousel/ErrorIcon')).toBeTruthy()
+    expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
+    fireEvent.press(
+      getByTestId(
+        `NftsInfoCarousel/NftThumbnail/${mockNftNullMetadata.contractAddress}-${mockNftNullMetadata.tokenId}`
+      )
+    )
+    expect(getByText('nftInfoCarousel.nftImageLoadError')).toBeTruthy()
   })
 
   it('opens link for Explorer', () => {

@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
+import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -51,35 +52,53 @@ const NftThumbnail = ({
   nft,
   isActive,
   onPress,
+  error,
 }: {
   nft: Nft
   isActive: boolean
   onPress: () => void
+  error?: boolean
 }) => {
   const [loading, setLoading] = useState(true)
   return (
-    <Touchable borderless={false} onPress={onPress}>
-      <FastImage
-        style={[
-          styles.nftThumbnailShared,
-          isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
-        ]}
-        source={{
-          uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
-        }}
-        onError={() => {
-          Logger.error(
-            TAG,
-            `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId}`
-          )
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-        onLoadEnd={() => {
-          setLoading(false)
-        }}
-      >
-        {loading && <ThumbnailImagePlaceholder />}
-      </FastImage>
+    <Touchable
+      style={[
+        isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
+        error && styles.errorThumbnail,
+      ]}
+      borderless={false}
+      onPress={onPress}
+      testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
+    >
+      {error ? (
+        <InfoIcon
+          size={isActive ? 24 : 20}
+          color={colors.warning}
+          testID="NftsInfoCarousel/ErrorIcon"
+        />
+      ) : (
+        <FastImage
+          style={[
+            styles.nftThumbnailShared,
+            isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
+          ]}
+          source={{
+            uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
+          }}
+          onError={() => {
+            Logger.error(
+              TAG,
+              `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId}`
+            )
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+          onLoadEnd={() => {
+            setLoading(false)
+          }}
+        >
+          {loading && <ThumbnailImagePlaceholder />}
+        </FastImage>
+      )}
     </Touchable>
   )
 }
@@ -128,28 +147,26 @@ export default function NftsInfoCarousel({ route }: Props) {
           style={styles.nftImageCarousel}
           testID="NftsInfoCarousel/NftImageCarousel"
         >
-          {/* Only display Nfts with metadata */}
-          {nfts
-            .filter((nft) => nft.metadata)
-            .map((nft) => {
-              return (
-                <View
-                  key={`${nft.contractAddress}-${nft.tokenId}`}
-                  style={styles.nftThumbnailSharedContainer}
-                  testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
-                >
-                  <NftThumbnail
-                    onPress={handleOnPress(nft)}
-                    // Use contractAddress and tokenId for a unique key
-                    isActive={
-                      `${activeNft.contractAddress}-${activeNft.tokenId}` ===
-                      `${nft.contractAddress}-${nft.tokenId}`
-                    }
-                    nft={nft}
-                  />
-                </View>
-              )
-            })}
+          {nfts.map((nft) => {
+            return (
+              <View
+                key={`${nft.contractAddress}-${nft.tokenId}`}
+                style={styles.nftThumbnailSharedContainer}
+              >
+                <NftThumbnail
+                  onPress={handleOnPress(nft)}
+                  // Use contractAddress and tokenId for a unique key
+                  isActive={
+                    `${activeNft.contractAddress}-${activeNft.tokenId}` ===
+                    `${nft.contractAddress}-${nft.tokenId}`
+                  }
+                  // If there's no nft metadata, show a red info icon instead
+                  error={!nft.metadata}
+                  nft={nft}
+                />
+              </View>
+            )
+          })}
         </ScrollView>
       </View>
     )
@@ -199,7 +216,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </View>
         )}
 
-        {nfts.filter((nft) => nft.metadata).length > 1 && <NftImageCarousel />}
+        {nfts.length > 1 && <NftImageCarousel />}
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
@@ -254,6 +271,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     marginLeft: Spacing.Regular16,
+  },
+  errorThumbnail: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.gray2,
   },
   explorerLink: {
     ...fontStyles.small500,
