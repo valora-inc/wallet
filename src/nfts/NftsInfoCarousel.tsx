@@ -123,7 +123,11 @@ export default function NftsInfoCarousel({ route }: Props) {
         backgroundColor={colors.gray2}
         highlightColor={colors.white}
       >
-        <View style={[styles.mainImagePlaceholder, { height: scaledHeight }]} />
+        <View style={{
+          height: scaledHeight,
+          width: variables.width,
+          zIndex: -1
+        }} />
       </SkeletonPlaceholder>
     )
   }
@@ -315,10 +319,6 @@ const styles = StyleSheet.create({
   },
   mainImage: {
     width: variables.width,
-  },
-  mainImagePlaceholder: {
-    width: variables.width,
-    zIndex: -1,
   },
   safeAreaView: {
     flex: 1,
