@@ -190,7 +190,7 @@
     "seedrandom": "^3.0.5",
     "statsig-react-native": "^4.9.2",
     "svgs": "^4.2.0",
-    "tslib": "^2.4.1",
+    "tslib": "^2.5.3",
     "utf8": "^3.0.0",
     "uuid": "^9.0.0",
     "victory-native": "^36.6.8",
