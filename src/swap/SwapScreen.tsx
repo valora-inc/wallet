@@ -63,7 +63,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const supportedTokens = useSelector(swappableTokensSelector)
   const swappableTokens = useMemo(() => {
     const tokensWithUsdPrice = supportedTokens.filter(
-      (token) => token.isCoreToken && token.usdPrice && token.usdPrice.gt(0)
+      (token) => token.usdPrice && token.usdPrice.gt(0)
     )
     if (!swappingNonNativeTokensEnabled) {
       return tokensWithUsdPrice.filter((token) => token.isCoreToken)
