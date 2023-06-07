@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     ...fontStyles.large,
     marginBottom: Spacing.Regular16,
     textAlign: 'center',
+    color: colors.gray3,
   },
   title: {
     ...fontStyles.h1,

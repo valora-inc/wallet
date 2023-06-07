@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
   errorImageText: {
     marginTop: Spacing.Regular16,
     ...fontStyles.regular,
+    color: colors.gray3,
   },
   explorerLink: {
     ...fontStyles.small500,
