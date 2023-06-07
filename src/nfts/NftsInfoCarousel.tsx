@@ -219,7 +219,7 @@ export default function NftsInfoCarousel({ route }: Props) {
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
-        {activeNft.metadata && (
+        {activeNft.metadata?.description && (
           <View style={styles.sectionContainer}>
             <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
             <Text style={styles.text}>{activeNft.metadata?.description}</Text>
