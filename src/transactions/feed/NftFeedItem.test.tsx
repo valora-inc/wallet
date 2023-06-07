@@ -8,6 +8,7 @@ import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import { Fee, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
+import { mockNftAllFields } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 const MOCK_ADDRESS = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'.toLowerCase()
@@ -38,6 +39,7 @@ describe('NftFeedItem', () => {
             timestamp: 1234,
             block: '2345',
             fees,
+            nfts: [mockNftAllFields],
           }}
         />
       </Provider>

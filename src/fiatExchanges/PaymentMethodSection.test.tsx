@@ -44,7 +44,6 @@ describe('PaymentMethodSection', () => {
       paymentMethod: PaymentMethod.Card,
       // the below creates 4 quotes - 1 Ramp (card), 2 Moonpay (bank, card), 1 Simplex (card)
       normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders, CiCoCurrency.cUSD),
-      setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
       cryptoType: CiCoCurrency.cUSD,
       analyticsData: mockProviderSelectionAnalyticsData,
