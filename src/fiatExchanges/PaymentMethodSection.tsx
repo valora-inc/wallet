@@ -24,10 +24,14 @@ const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
   [SettlementTime.ONE_TO_THREE_DAYS]: 'selectProviderScreen.numDays',
 }
 
+export type PaymentMethodSectionMethods =
+  | PaymentMethod.Bank
+  | PaymentMethod.Card
+  | PaymentMethod.FiatConnectMobileMoney
+
 export interface PaymentMethodSectionProps {
-  paymentMethod: PaymentMethod.Bank | PaymentMethod.Card | PaymentMethod.FiatConnectMobileMoney
+  paymentMethod: PaymentMethodSectionMethods
   normalizedQuotes: NormalizedQuote[]
-  setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
   cryptoType: CiCoCurrency
 }
@@ -35,7 +39,6 @@ export interface PaymentMethodSectionProps {
 export function PaymentMethodSection({
   paymentMethod,
   normalizedQuotes,
-  setNoPaymentMethods,
   flow,
   cryptoType,
 }: PaymentMethodSectionProps) {
@@ -59,8 +62,6 @@ export function PaymentMethodSection({
         quoteCount: sectionQuotes.length,
         providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
-    } else {
-      setNoPaymentMethods(true)
     }
   }, [])
 
