@@ -37,10 +37,11 @@ export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements U
    */
   getAccount(address: string): KeychainAccountManager {
     const normalizedAddress = normalizeAddressWith0x(address)
-    if (!this.keychainAccounts.has(normalizedAddress)) {
+    const account = this.keychainAccounts.get(normalizedAddress)
+    if (!account) {
       throw new Error(`Could not find address ${normalizedAddress}`)
     }
-    return this.keychainAccounts.get(normalizedAddress)!
+    return account
   }
 
   /**
@@ -58,10 +59,11 @@ export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements U
 
   protected getSigner(address: string): ContractKitSigner {
     const normalizedAddress = normalizeAddressWith0x(address)
-    if (!this.keychainAccounts.has(normalizedAddress)) {
+    const signer = this.keychainAccounts.get(normalizedAddress)?.unlockedContractKitSigner
+    if (!signer) {
       throw new Error(`Could not find address ${normalizedAddress}`)
     }
-    return this.keychainAccounts.get(normalizedAddress)!.unlockedContractKitSigner
+    return signer
   }
 
   // This is an abstract function that *must* be implemented
