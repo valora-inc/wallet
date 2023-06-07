@@ -64,6 +64,9 @@ export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements U
     return this.keychainAccounts.get(normalizedAddress)!.unlockedContractKitSigner
   }
 
+  // This is an abstract function that *must* be implemented
+  // The return does not matter since we overrode getSigner
+  // The important part is that it sets the keychainAccounts map
   async loadAccountSigners(): Promise<Map<string, ContractKitSigner>> {
     const accounts = await listStoredAccounts(this.importMnemonicAccount)
     accounts.forEach((account) => {

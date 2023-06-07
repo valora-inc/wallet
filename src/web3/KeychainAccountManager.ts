@@ -172,7 +172,7 @@ export class KeychainAccountManager {
   protected localContractKitSigner: ContractKitSigner | null = null
   protected localEthersWallets: Map<Chain, Wallet> = new Map()
 
-  // Timestamp in milliseconds when the signera were last unlocked
+  // Timestamp in milliseconds when the signers were last unlocked
   protected unlockTime?: number
   // Number of seconds that the signers were last unlocked for
   protected unlockDuration?: number
