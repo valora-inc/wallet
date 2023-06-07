@@ -50,20 +50,21 @@ const NftThumbnail = ({
   error?: boolean
 }) => {
   const [loading, setLoading] = useState(true)
+  const [imageLoadingError, setImageLoadingError] = useState(false)
   return (
     <Touchable
       style={[
         isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
-        error && styles.errorThumbnail,
+        (error || imageLoadingError) && styles.errorThumbnail,
       ]}
       borderless={false}
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      {error ? (
+      {error || imageLoadingError ? (
         <InfoIcon
           size={isActive ? 24 : 20}
-          color={colors.warning}
+          color={colors.dark}
           testID="NftsInfoCarousel/ErrorIcon"
         />
       ) : (
@@ -76,6 +77,7 @@ const NftThumbnail = ({
             uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
           }}
           onError={() => {
+            setImageLoadingError(true)
             Logger.error(
               TAG,
               `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId}`
@@ -97,6 +99,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
   const [scaledHeight, setScaledHeight] = useState(360)
   const { t } = useTranslation()
 
@@ -104,6 +107,14 @@ export default function NftsInfoCarousel({ route }: Props) {
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
     })
+  }
+
+  function onImageLoadError() {
+    setError(true)
+    Logger.error(
+      TAG,
+      `Error loading Nft image for Nft contractAddress: ${activeNft.contractAddress} tokenId: ${activeNft.tokenId}`
+    )
   }
 
   const MainImagePlaceholder = () => {
@@ -163,14 +174,14 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   // Catch All Error Screen
-  if (!nfts || nfts.length === 0) {
+  if (nfts.length === 0) {
     return <NftsLoadErrorScreen />
   }
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
-        {activeNft.metadata && (
+        {activeNft.metadata && !error && (
           <FastImage
             testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
             style={[
@@ -189,19 +200,14 @@ export default function NftsInfoCarousel({ route }: Props) {
               )
             }}
             onLoadEnd={() => setIsLoading(false)}
-            onError={() =>
-              Logger.error(
-                TAG,
-                `Error loading Nft image for Nft contractAddress: ${activeNft.contractAddress} tokenId: ${activeNft.tokenId}`
-              )
-            }
+            onError={onImageLoadError}
             resizeMode={FastImage.resizeMode.contain}
           >
             {isLoading && <MainImagePlaceholder />}
           </FastImage>
         )}
         {/* This could happen if the indexer is experiencing issues with particular nfts */}
-        {!activeNft.metadata && (
+        {(!activeNft.metadata || error) && (
           <View style={styles.nftImageLoadingErrorContainer}>
             <InfoShadowedIcon />
             <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
