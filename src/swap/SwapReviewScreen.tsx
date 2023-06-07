@@ -28,7 +28,7 @@ import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
-import { divideByWei, multiplyByWei } from 'src/utils/formatting'
+import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -104,9 +104,18 @@ export function SwapReviewScreen() {
   const toTokenSymbol = tokensByAddress[toToken]?.symbol
   const fromTokenSymbol = tokensByAddress[fromToken]?.symbol
 
+  // Decimals
+  const toTokenDecimals = tokensByAddress[toToken]?.decimals
+  const fromTokenDecimals = tokensByAddress[fromToken]?.decimals
+  if (!fromTokenDecimals || !toTokenDecimals) {
+    Logger.error(TAG, 'Decimals not found for token')
+    return null
+  }
+  const swapAmountDecimals = updatedField === Field.FROM ? fromTokenDecimals : toTokenDecimals
+
   // BuyAmount or SellAmount
   const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-  const swapAmountInWei = multiplyByWei(swapAmount[updatedField] ?? 0)
+  const swapAmountInWei = new BigNumber(swapAmount[updatedField] ?? 0).shiftedBy(swapAmountDecimals)
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
@@ -170,9 +179,10 @@ export function SwapReviewScreen() {
       fromToken,
       amount: swapAmount[updatedField],
       amountType: swapAmountParam,
-      usdTotal: +divideByWei(swapResponse.unvalidatedSwapTransaction[swapAmountParam]).multipliedBy(
-        swapResponse.unvalidatedSwapTransaction.price
-      ),
+      usdTotal: new BigNumber(swapResponse.unvalidatedSwapTransaction[swapAmountParam])
+        .shiftedBy(swapAmountDecimals)
+        .multipliedBy(swapResponse.unvalidatedSwapTransaction.price)
+        .toNumber(),
       allowanceTarget,
       estimatedPriceImpact,
       price,
@@ -183,6 +193,15 @@ export function SwapReviewScreen() {
       dispatch(swapStart({ ...swapResponse, userInput }))
     }
   }
+
+  const fromAmountInWei = swapResponse
+    ? new BigNumber(swapResponse.unvalidatedSwapTransaction.sellAmount).shiftedBy(
+        -fromTokenDecimals
+      )
+    : 0
+  const toAmountInWei = swapResponse
+    ? new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount).shiftedBy(-toTokenDecimals)
+    : 0
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -212,14 +231,14 @@ export function SwapReviewScreen() {
                 <View style={styles.tokenDisplayView}>
                   <TokenDisplay
                     style={styles.amountText}
-                    amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
+                    amount={fromAmountInWei}
                     tokenAddress={fromToken}
                     showLocalAmount={false}
                     testID={'FromSwapAmountToken'}
                   />
                   <TokenDisplay
                     style={styles.amountSubText}
-                    amount={divideByWei(swapResponse.unvalidatedSwapTransaction.sellAmount)}
+                    amount={fromAmountInWei}
                     tokenAddress={fromToken}
                     showLocalAmount={true}
                     testID={'FromSwapAmountTokenLocal'}
@@ -231,9 +250,7 @@ export function SwapReviewScreen() {
                 <View style={styles.tokenDisplayView}>
                   <TokenDisplay
                     style={[styles.amountText, { color: colors.greenUI }]}
-                    amount={divideByWei(
-                      new BigNumber(swapResponse.unvalidatedSwapTransaction.buyAmount)
-                    )}
+                    amount={toAmountInWei}
                     tokenAddress={toToken}
                     showLocalAmount={false}
                     testID={'ToSwapAmountToken'}
