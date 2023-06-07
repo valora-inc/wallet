@@ -6,15 +6,25 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import {
+  DEFAULT_BANK_SETTLEMENT_ESTIMATION,
+  DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
+  SettlementTime,
+} from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockFiatConnectProviderInfo, mockFiatConnectQuotes } from 'test/values'
+import {
+  mockCusdAddress,
+  mockFiatConnectProviderInfo,
+  mockFiatConnectQuotes,
+  mockProviderSelectionAnalyticsData,
+} from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/contracts', () => ({
@@ -223,34 +233,235 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.getTimeEstimation', () => {
-    it('returns 1-3 days for bank account', () => {
+    it('returns default for bank account when no bounds are present', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: undefined,
+        settlementTimeUpperBound: undefined,
+      }
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
-        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getTimeEstimation()).toEqual(SettlementTime.ONE_TO_THREE_DAYS)
+      expect(quote.getTimeEstimation()).toEqual(DEFAULT_BANK_SETTLEMENT_ESTIMATION)
     })
 
-    it('returns 24 hours for mobile money', () => {
+    it('returns default for mobile money when no bounds are present', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.MobileMoney,
       })
-      expect(quote.getTimeEstimation()).toEqual(SettlementTime.LESS_THAN_24_HOURS)
+      expect(quote.getTimeEstimation()).toEqual(DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION)
+    })
+
+    it('when upper bound is less than one hour, "less than one hour" is shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: '300', // 5 minutes
+        settlementTimeUpperBound: '600', // 10 minutes
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
+      })
+    })
+
+    it('when lower bound is in minutes and upper bound is greater than one hour, "{lowerBound} to {upperBound} hours" is shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: '300', // 5 minutes
+        settlementTimeUpperBound: '7200', // 2 hours
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.X_TO_Y_HOURS,
+        lowerBound: 1,
+        upperBound: 2,
+      })
+    })
+
+    it('when lower bound is not present, "less than {upperBound}" is shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: undefined,
+        settlementTimeUpperBound: '7200', // 2 hours
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.LESS_THAN_X_HOURS,
+        upperBound: 2,
+      })
+    })
+
+    it('when lower bound equals upper bound, "less than {upperBound}" is shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: '7200', // 2 hours
+        settlementTimeUpperBound: '7200', // 2 hours
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.LESS_THAN_X_HOURS,
+        upperBound: 2,
+      })
+    })
+
+    it('when upper bound equals 24 hours, "less than 24 hours" is shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: undefined,
+        settlementTimeUpperBound: '86400', // 1 day
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.LESS_THAN_X_HOURS,
+        upperBound: 24,
+      })
+    })
+
+    it('when upper bound is greater than 24 hours, but lower bound is less than day, "1 to {upperBound} days" shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: '300', // 5 minutes
+        settlementTimeUpperBound: '86401', // over 1 day (rounds up to two days)
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.X_TO_Y_DAYS,
+        lowerBound: 1,
+        upperBound: 2,
+      })
+    })
+
+    it('when upper bound is greater than 24 hours and lower bound equals upper, "less than {upperBound} days" shown', () => {
+      const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quoteData.fiatAccount.BankAccount = {
+        ...quoteData.fiatAccount.BankAccount!,
+        settlementTimeLowerBound: '86401', // over 1 day (rounds up to two days)
+        settlementTimeUpperBound: '86401', // over 1 day (rounds up to two days)
+      }
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: quoteData,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getTimeEstimation()).toEqual({
+        settlementTime: SettlementTime.LESS_THAN_X_DAYS,
+        upperBound: 2,
+      })
     })
   })
 
   describe('.onPress', () => {
-    it('returns a function that calls ValoraAnalytics', () => {
+    it('returns a function that calls ValoraAnalytics with right properties for quote with lowest fee', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
-      expect(ValoraAnalytics.track).toHaveBeenCalled()
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        new BigNumber('1')
+      )()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_quote_selected,
+        {
+          flow: CICOFlow.CashIn,
+          paymentMethod: PaymentMethod.Bank,
+          provider: mockFiatConnectQuotes[1].provider.id,
+          feeCryptoAmount: 1.0,
+          kycRequired: false,
+          isLowestFee: true,
+          ...mockProviderSelectionAnalyticsData,
+        }
+      )
+    })
+
+    it('returns a function that calls ValoraAnalytics with right properties for quote with higher fee', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        new BigNumber('2')
+      )()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_quote_selected,
+        {
+          flow: CICOFlow.CashIn,
+          paymentMethod: PaymentMethod.Bank,
+          provider: mockFiatConnectQuotes[1].provider.id,
+          feeCryptoAmount: 2.0,
+          kycRequired: false,
+          isLowestFee: false,
+          ...mockProviderSelectionAnalyticsData,
+        }
+      )
+    })
+
+    it('returns a function that calls ValoraAnalytics with right properties for quote with no fee', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      quote.onPress(
+        CICOFlow.CashIn,
+        createMockStore().dispatch,
+        mockProviderSelectionAnalyticsData,
+        undefined
+      )()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_quote_selected,
+        {
+          flow: CICOFlow.CashIn,
+          paymentMethod: PaymentMethod.Bank,
+          provider: mockFiatConnectQuotes[1].provider.id,
+          feeCryptoAmount: undefined,
+          kycRequired: false,
+          isLowestFee: undefined,
+          ...mockProviderSelectionAnalyticsData,
+        }
+      )
     })
   })
 

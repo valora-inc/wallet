@@ -2,19 +2,27 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { ExperimentConfigs } from 'src/statsig/constants'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
+import { FUNDING_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
+import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import {
+  ProviderSelectionAnalyticsData,
+  SelectProviderExchangesLink,
+  SelectProviderExchangesText,
+} from 'src/fiatExchanges/types'
 import {
   fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
@@ -23,40 +31,46 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
-import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
-import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
+import {
+  PaymentMethodSection,
+  PaymentMethodSectionMethods,
+} from 'src/fiatExchanges/PaymentMethodSection'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
+  FiatExchangeFlow,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
-  FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
+  getProviderSelectionAnalyticsData,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
-import { StatsigExperiments } from 'src/statsig/types'
-import { getExperimentParams } from 'src/statsig'
 
 const TAG = 'SelectProviderScreen'
 
@@ -68,8 +82,19 @@ function getAddFundsCryptoExchangeExperimentParams() {
   )
 }
 
+const paymentMethodSections: PaymentMethodSectionMethods[] = [
+  PaymentMethod.Card,
+  PaymentMethod.Bank,
+  PaymentMethod.FiatConnectMobileMoney,
+]
+
 export default function SelectProviderScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
+  const {
+    flow,
+    selectedCrypto: digitalAsset,
+    amount: { crypto: cryptoAmount, fiat: fiatAmount },
+  } = route.params
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
@@ -78,9 +103,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const tokenInfo = useTokenInfoBySymbol(digitalAsset)
 
-  const [noPaymentMethods, setNoPaymentMethods] = useState(false)
-  const { flow, selectedCrypto: digitalAsset } = route.params
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
@@ -98,11 +123,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       fetchFiatConnectQuotes({
         flow,
         digitalAsset,
-        cryptoAmount: route.params.amount.crypto,
-        fiatAmount: route.params.amount.fiat,
+        cryptoAmount,
+        fiatAmount,
       })
     )
-  }, [flow, digitalAsset, route.params.amount.crypto, fiatConnectProviders])
+  }, [flow, digitalAsset, cryptoAmount, fiatConnectProviders])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
@@ -112,10 +137,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   const asyncExchanges = useAsync(async () => {
     try {
-      const availableExchanges = await fetchExchanges(
-        userLocation.countryCodeAlpha2,
-        route.params.selectedCrypto
-      )
+      const availableExchanges = await fetchExchanges(userLocation.countryCodeAlpha2, digitalAsset)
 
       return availableExchanges
     } catch (error) {
@@ -136,8 +158,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           walletAddress: account,
           fiatCurrency: localCurrency,
           digitalAsset: resolveCloudFunctionDigitalAsset(digitalAsset),
-          fiatAmount: route.params.amount.fiat,
-          digitalAssetAmount: route.params.amount.crypto,
+          fiatAmount,
+          digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
         }),
         fetchLegacyMobileMoneyProviders(),
@@ -174,6 +196,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     digitalAsset
   )
 
+  const availablePaymentMethods = normalizedQuotes.map((quote) => quote.getPaymentMethod())
+  const somePaymentMethodsUnavailable = !paymentMethodSections.every((method) =>
+    availablePaymentMethods.includes(method)
+  )
+
   const coinbaseProvider = filterProvidersByPaymentMethod(
     PaymentMethod.Coinbase,
     asyncProviders.result?.externalProviders
@@ -181,10 +208,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   const supportOnPress = () => navigate(Screens.SupportContact)
 
+  const handlePressDisclaimer = () => {
+    navigate(Screens.WebViewScreen, { uri: FUNDING_LINK })
+  }
+
   const switchCurrencyOnPress = () =>
     navigate(Screens.FiatExchangeCurrency, {
-      flow:
-        route.params.flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+      flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
     })
 
   const exchanges = asyncExchanges.result ?? []
@@ -230,54 +260,69 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     )
   }
 
+  const analyticsData = getProviderSelectionAnalyticsData({
+    normalizedQuotes,
+    legacyMobileMoneyProviders,
+    exchangeRates,
+    tokenInfo,
+    centralizedExchanges: exchanges,
+    coinbasePayAvailable: coinbasePayVisible,
+    transferCryptoAmount: cryptoAmount,
+    cryptoType: digitalAsset,
+  })
+
   return (
     <ScrollView>
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.Card}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-        cryptoType={digitalAsset}
-      />
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.Bank}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-        cryptoType={digitalAsset}
-      />
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.FiatConnectMobileMoney}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-        cryptoType={digitalAsset}
-      />
+      {paymentMethodSections.map((paymentMethod) => (
+        <PaymentMethodSection
+          key={paymentMethod}
+          normalizedQuotes={normalizedQuotes}
+          paymentMethod={paymentMethod}
+          flow={flow}
+          cryptoType={digitalAsset}
+          analyticsData={analyticsData}
+        />
+      ))}
       <LegacyMobileMoneySection
         providers={legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
         flow={flow}
+        analyticsData={analyticsData}
       />
       {coinbaseProvider && coinbasePayVisible && (
         <CoinbasePaymentSection
-          cryptoAmount={route.params.amount.crypto}
+          cryptoAmount={cryptoAmount}
           coinbaseProvider={coinbaseProvider}
           appId={appId}
+          analyticsData={analyticsData}
         />
       )}
       <ExchangesSection
         exchanges={exchanges}
-        selectedCurrency={route.params.selectedCrypto}
+        selectedCurrency={digitalAsset}
         flow={flow}
+        analyticsData={analyticsData}
       />
-      <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
+
+      {somePaymentMethodsUnavailable ? (
+        <LimitedPaymentMethods flow={flow} />
+      ) : (
+        <View style={styles.disclaimerContainer}>
+          <Text style={styles.disclaimerText}>
+            <Trans i18nKey="selectProviderScreen.disclaimer">
+              <Text style={styles.underline} onPress={handlePressDisclaimer}></Text>
+            </Trans>
+          </Text>
+        </View>
+      )}
     </ScrollView>
   )
 }
 
-function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICOFlow }) {
+function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
   const { t } = useTranslation()
   const [isDialogVisible, setIsDialogVisible] = useState(false)
+
   const dismissDialog = () => {
     setIsDialogVisible(false)
   }
@@ -289,24 +334,20 @@ function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICO
   }
 
   useEffect(() => {
-    if (visible) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
-        flow,
-      })
-    }
+    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
+      flow,
+    })
   }, [])
+
   return (
     <>
-      {visible && (
-        <View style={styles.noQuotesContainer}>
-          <Text style={styles.noQuotesText}>
-            {t('selectProviderScreen.somePaymentsUnavailable')}{' '}
-            <Text onPress={openDialog} style={styles.underline}>
-              {t('selectProviderScreen.learnMore')}
-            </Text>
-          </Text>
-        </View>
-      )}
+      <View style={styles.disclaimerContainer}>
+        <Text style={styles.disclaimerText}>
+          <Trans i18nKey="selectProviderScreen.disclaimerWithSomePaymentsUnavailable">
+            <Text style={styles.underline} onPress={openDialog}></Text>
+          </Trans>
+        </Text>
+      </View>
       <Dialog
         title={t('selectProviderScreen.whyMissingPayments')}
         isVisible={isDialogVisible}
@@ -325,10 +366,12 @@ function ExchangesSection({
   exchanges = [],
   flow,
   selectedCurrency,
+  analyticsData,
 }: {
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: CiCoCurrency
+  analyticsData: ProviderSelectionAnalyticsData
 }) {
   const { t } = useTranslation()
 
@@ -350,6 +393,7 @@ function ExchangesSection({
   const goToExchangesScreen = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
+      ...analyticsData,
     })
     if (exchangesLink === SelectProviderExchangesLink.ExchangeQRScreen) {
       navigate(Screens.ExchangeQR, { flow, exchanges })
@@ -399,10 +443,12 @@ function LegacyMobileMoneySection({
   providers,
   digitalAsset,
   flow,
+  analyticsData,
 }: {
   providers: LegacyMobileMoneyProvider[]
   digitalAsset: CiCoCurrency
   flow: CICOFlow
+  analyticsData: ProviderSelectionAnalyticsData
 }) {
   const { t } = useTranslation()
 
@@ -429,6 +475,10 @@ function LegacyMobileMoneySection({
       flow,
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,
+      feeCryptoAmount: undefined,
+      kycRequired: false,
+      isLowestFee: undefined,
+      ...analyticsData,
     })
     navigateToURI(provider[digitalAsset === CiCoCurrency.cUSD ? 'cusd' : 'celo'].url)
   }
@@ -465,7 +515,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray2,
   },
   expandableContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: Spacing.Regular16,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
@@ -478,11 +528,11 @@ const styles = StyleSheet.create({
   switchCurrency: {
     ...fontStyles.large500,
     color: colors.greenUI,
-    padding: 8,
+    padding: Spacing.Smallest8,
   },
   noPaymentMethodsContainer: {
     alignItems: 'center',
-    padding: 24,
+    padding: Spacing.Thick24,
   },
   left: {
     flex: 1,
@@ -502,10 +552,10 @@ const styles = StyleSheet.create({
     ...fontStyles.small500,
     color: colors.gray4,
   },
-  noQuotesContainer: {
-    padding: 16,
+  disclaimerContainer: {
+    padding: Spacing.Regular16,
   },
-  noQuotesText: {
+  disclaimerText: {
     ...fontStyles.small,
     color: colors.gray4,
   },
@@ -519,7 +569,7 @@ const styles = StyleSheet.create({
   contactSupport: {
     ...fontStyles.large500,
     color: colors.gray4,
-    padding: 8,
+    padding: Spacing.Smallest8,
   },
 })
 SelectProviderScreen.navigationOptions = ({

@@ -28,7 +28,7 @@
     "restart": "Değiştir-Yeniden başlat"
   },
   "revokePhoneNumber": {
-    "title": "Unlink Telefon Numarası",
+    "title": "Telefon Numarasının Bağlantısını Kaldır",
     "bottomSheetTitle": "Telefon numarasının bağlantısını kaldır",
     "description": "Bağlantıyı kaldırmak, cüzdanınıza bağlı telefon numarasını kaldıracaktır. Daha sonra yeni bir telefon numarası ekleyebilirsiniz.",
     "confirmButton": "Şimdi bağlantıyı kaldır",
@@ -94,9 +94,9 @@
     "phoneNumber": "Telefon Numarası"
   },
   "signInWithEmail": {
-    "title": "E-posta ile oturum açın",
+    "title": "E-posta ile oturum aç",
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
-    "google": "Google ile oturum açın"
+    "google": "Google ile oturum aç"
   },
   "keylessBackupPhoneInput": {
     "setup": {
@@ -108,7 +108,7 @@
       "subtitle": "Yedeklemeyi ayarlamak için daha önce kullandığınız telefon numarasını girin.\n\nBu numaranın size ait olduğunu doğrulamak için size bir kod göndereceğiz."
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Onu güvende tutun!",
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -988,7 +988,7 @@
   "verificationCta": {
     "header": "Bir metin gibi kripto gönderin!",
     "body": "Telefon numaranızı cüzdan adresinize bağlayın, böylece arkadaşlarınızla ödeme gönderebilir ve alabilirsiniz.",
-    "cta": "Bağlantı Telefon numarası"
+    "cta": "Telefon Numarasını Bağla"
   },
   "importContactsCta": {
     "header": "Kişileri Etkinleştir",
@@ -1226,8 +1226,8 @@
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
-  "totalAssets": "Mal varlığım",
-  "totalAssetsInfo": "Cüzdan varlıkları ve uygulama pozisyonlarının tahmini toplamını içerir",
+  "totalAssets": "Varlıklarım",
+  "totalAssetsInfo": "Cüzdan varlıkları ve Dapp pozisyonlarının tahmini toplamını içerir",
   "assetsSegmentedControl": {
     "walletAssets": "Cüzdan varlıkları",
     "dappPositions": "Dapp pozisyonları"
@@ -1601,7 +1601,7 @@
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. \n<0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Celo'daki ortakların desteklediği takaslar. \n<0>Daha Fazla Bilgi Edinin</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "maxSwapAmountWarning": {

@@ -101,7 +101,7 @@
   "keylessBackupPhoneInput": {
     "setup": {
       "title": "Następnie dodaj swój numer telefonu",
-      "subtitle": "Będziesz musiał użyć tego numeru telefonu, aby przywrócić konto, jeśli kiedykolwiek zgubisz portfel.\n\nWyślemy Ci kod, aby zweryfikować, czy ten numer należy do Ciebie."
+      "subtitle": "Konieczne będzie użycie tego numeru telefonu, aby przywrócić konto, jeśli kiedykolwiek utracisz swój portfel.\n\nWyślemy Ci kod, aby zweryfikować, czy ten numer należy do Ciebie."
     },
     "restore": {
       "title": "Zweryfikuj swój numer telefonu",
@@ -1231,10 +1231,10 @@
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
   "totalAssets": "Moje aktywa",
-  "totalAssetsInfo": "Obejmuje szacunkową sumę aktywów portfela i pozycji aplikacji.",
+  "totalAssetsInfo": "Obejmuje szacunkową sumę aktywów portfela i pozycji dapp",
   "assetsSegmentedControl": {
-    "walletAssets": "Zasoby portfela",
-    "dappPositions": "Pozycje aplikacji"
+    "walletAssets": "Aktywa portfela",
+    "dappPositions": "Pozycje dapp"
   },
   "open": "Otwórz",
   "nftViewer": "NFT Viewer",
@@ -1605,7 +1605,7 @@
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Zamiany wspierane przez partnerów na Celo. \n<0>Dowiedz się więcej.</0>",
+    "disclaimer": "Zamiany wspierane przez partnerów na Celo.\n<0>Dowiedz się więcej</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "maxSwapAmountWarning": {
