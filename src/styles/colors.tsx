@@ -23,7 +23,6 @@ export enum Colors {
   gray1 = '#F8F9F9',
   light = '#FFFFFF',
   purple = '#D39CFE',
-  pink = '#FFC8C8',
   teal = '#7AD6FE',
   orange = '#FEB45E',
   onboardingBrownLight = '#A49B80',
