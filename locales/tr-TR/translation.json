@@ -1364,7 +1364,9 @@
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Bazı ödeme yöntemleri bölgenizde kullanılamıyor",
+    "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
+    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamaz. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Ödemeler Celo'daki iş ortakları tarafından desteklenmektedir. <0>Daha fazla bilgi edinin.</0>",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
