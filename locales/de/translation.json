@@ -1364,7 +1364,9 @@
   "merchantWalletUnlockError": "Beim Entsperren deines Wallets ist etwas schief gelaufen, bitte versuche es erneut",
   "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Einige der Zahlungsmethoden sind in deiner Region nicht verfügbar",
+    "somePaymentsUnavailable": "Die Einkäufe werden über unsere Partneranbieter abgewickelt. Einige Zahlungsarten sind in deiner Region nicht verfügbar.",
+    "disclaimerWithSomePaymentsUnavailable": "Die Zahlungen werden von Partnern auf Celo durchgeführt. Einige Zahlungsarten sind in deiner Region nicht verfügbar. <0>Erfahre mehr.</0>",
+    "disclaimer": "Zahlungen werden von Partnern auf Celo durchgeführt. <0>Erfahre mehr.</0>",
     "learnMore": "Mehr Infos.",
     "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
