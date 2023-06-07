@@ -180,7 +180,7 @@ export function SwapReviewScreen() {
       amount: swapAmount[updatedField],
       amountType: swapAmountParam,
       usdTotal: new BigNumber(swapResponse.unvalidatedSwapTransaction[swapAmountParam])
-        .shiftedBy(swapAmountDecimals)
+        .shiftedBy(-swapAmountDecimals)
         .multipliedBy(swapResponse.unvalidatedSwapTransaction.price)
         .toNumber(),
       allowanceTarget,

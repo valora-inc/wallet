@@ -59,6 +59,7 @@ const store = {
         address: mockCeloAddress,
         priceFetchedAt: Date.now(),
         isCoreToken: true,
+        decimals: 18,
       },
       [mockCusdAddress]: {
         balance: '10',
@@ -67,6 +68,7 @@ const store = {
         address: mockCusdAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        decimals: 18,
       },
       [mockCeurAddress]: {
         balance: '20',
@@ -75,6 +77,7 @@ const store = {
         address: mockCeurAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        decimals: 18,
       },
     },
   },
