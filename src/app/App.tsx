@@ -45,6 +45,7 @@ BigNumber.config({
   FORMAT: {
     decimalSeparator,
     groupSeparator: groupingSeparator,
+    groupSize: 3,
   },
 })
 
