@@ -48,7 +48,7 @@ target "celo" do
     # By default, Hermes is disabled on Old Architecture, and enabled on New Architecture.
     # You can enable/disable it manually by replacing `flags[:hermes_enabled]` with `true` or `false`.
     # Upcoming versions of React Native may rely on get_default_flags(), but
-    :hermes_enabled => flags[:hermes_enabled],
+    :hermes_enabled => false,
     :fabric_enabled => flags[:fabric_enabled],
     # Note from Valora engineering:
     # We're making use_frameworks! work with Flipper by using the following workaround:
