@@ -28,7 +28,7 @@ import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { swapInfoSelector } from 'src/swap/selectors'
+import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
@@ -43,7 +43,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
 }
-const PRICE_IMPACT_THRESHOLD = 0.04
 
 const { decimalSeparator } = getNumberFormatSettings()
 
@@ -72,6 +71,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   }, [supportedTokens])
 
   const swapInfo = useSelector(swapInfoSelector)
+  const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
   const CELO = useMemo(
     () =>
@@ -174,7 +174,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       const fromFiatValue = new BigNumber(swapFromAmount).multipliedBy(fromToken?.usdPrice || 0)
       const toFiatValue = new BigNumber(swapToAmount).multipliedBy(toToken?.usdPrice || 0)
       const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
-      const priceImpactExceedsThreshold = priceImpact.gte(PRICE_IMPACT_THRESHOLD)
+      const priceImpactExceedsThreshold = priceImpact.gte(priceImpactWarningThreshold)
       setShowPriceImpactWarning(priceImpactExceedsThreshold)
 
       if (priceImpactExceedsThreshold && exchangeRate) {

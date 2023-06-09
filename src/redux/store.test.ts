@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 128,
+          "version": 129,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -333,6 +333,7 @@ describe('store state', () => {
         },
         "swap": Object {
           "guaranteedSwapPriceEnabled": false,
+          "priceImpactWarningThreshold": 0.04,
           "swapInfo": null,
           "swapState": "quote",
           "swapUserInput": null,

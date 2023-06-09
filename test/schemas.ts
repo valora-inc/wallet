@@ -2258,6 +2258,18 @@ export const v128Schema = {
   },
 }
 
+export const v129Schema = {
+  ...v128Schema,
+  _persist: {
+    ...v128Schema._persist,
+    version: 129,
+  },
+  swap: {
+    ...v128Schema.swap,
+    priceImpactWarningThreshold: 0.04,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v128Schema as Partial<RootState>
+  return v129Schema as Partial<RootState>
 }
