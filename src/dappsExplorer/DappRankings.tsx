@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import { mostPopularDappsSelector } from 'src/dapps/selectors'
 import Trophy from 'src/icons/Trophy'
@@ -22,7 +24,7 @@ function DappRankings() {
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
 
   const handleShowRankings = () => {
-    // do somthing
+    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
   }
 
   if (!dappRankingsEnabled || mostPopularDapps.length === 0) {
