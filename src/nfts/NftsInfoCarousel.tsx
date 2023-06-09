@@ -52,25 +52,23 @@ const NftThumbnail = ({
   nft,
   isActive,
   onPress,
-  error,
 }: {
   nft: Nft
   isActive: boolean
   onPress: () => void
-  error?: boolean
 }) => {
   const [loading, setLoading] = useState(true)
   return (
     <Touchable
       style={[
         isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
-        error && styles.errorThumbnail,
+        !nft.metadata && styles.errorThumbnail,
       ]}
       borderless={false}
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      {error ? (
+      {!nft.metadata ? (
         <InfoIcon
           size={isActive ? 24 : 20}
           color={colors.warning}
@@ -161,7 +159,6 @@ export default function NftsInfoCarousel({ route }: Props) {
                     `${nft.contractAddress}-${nft.tokenId}`
                   }
                   // If there's no nft metadata, show a red info icon instead
-                  error={!nft.metadata}
                   nft={nft}
                 />
               </View>
