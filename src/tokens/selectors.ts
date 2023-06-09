@@ -139,7 +139,7 @@ function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2
 
 export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   return tokens
-    .filter((tokenInfo) => tokenInfo.isSwappable)
+    .filter((tokenInfo) => tokenInfo.isSwappable || tokenInfo.isSwappableWithAnyDecimals)
     .sort(tokenCompareByUsdBalanceThenByAlphabetical)
 })
 
