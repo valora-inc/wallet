@@ -157,6 +157,13 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   useEffect(
     () => {
       if (!exchangeRate) {
+        setSwapAmount((prev) => {
+          const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
+          return {
+            ...prev,
+            [otherField]: '',
+          }
+        })
         return
       }
 
@@ -166,7 +173,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 
       const swapFromAmount = updatedField === Field.FROM ? parsedSwapAmount[Field.FROM] : newAmount
       const swapToAmount = updatedField === Field.FROM ? newAmount : parsedSwapAmount[Field.TO]
-
       setSwapAmount({
         [Field.FROM]: swapFromAmount.toString(),
         [Field.TO]: swapToAmount.toString(),

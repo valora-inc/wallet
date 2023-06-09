@@ -38,10 +38,7 @@ const useSwapQuote = () => {
         return null
       }
 
-      // This only works for tokens with 18 decimals
-      // TODO: make this work for tokens with different decimals
       const decimals = updatedField === Field.FROM ? fromToken.decimals : toToken.decimals
-
       const swapAmountInWei = new BigNumber(swapAmount[updatedField]).shiftedBy(decimals)
       if (swapAmountInWei.lte(0)) {
         return null
