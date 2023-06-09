@@ -178,7 +178,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       const priceImpactExceedsThreshold = priceImpact.gte(priceImpactWarningThreshold)
       setShowPriceImpactWarning(priceImpactExceedsThreshold)
 
-      if (priceImpactExceedsThreshold && exchangeRate) {
+      if (priceImpactExceedsThreshold) {
         ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
           toToken: exchangeRate.toTokenAddress,
           fromToken: exchangeRate.fromTokenAddress,
