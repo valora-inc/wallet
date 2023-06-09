@@ -20,6 +20,7 @@ import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'nfts/NftsInfoCarousel'
+const DEFAULT_IMAGE_HEIGHT = 360
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 
@@ -105,7 +106,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
   const [isLoading, setIsLoading] = useState(true)
-  const [scaledHeight, setScaledHeight] = useState(360)
+  const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
   const { t } = useTranslation()
 
   function pressExplorerLink() {
