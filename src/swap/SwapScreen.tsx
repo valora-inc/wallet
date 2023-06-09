@@ -174,8 +174,12 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       const swapFromAmount = updatedField === Field.FROM ? parsedSwapAmount[Field.FROM] : newAmount
       const swapToAmount = updatedField === Field.FROM ? newAmount : parsedSwapAmount[Field.TO]
       setSwapAmount({
-        [Field.FROM]: swapFromAmount.toString(),
-        [Field.TO]: swapToAmount.toString(),
+        [Field.FROM]: swapFromAmount.toFormat({
+          decimalSeparator,
+        }),
+        [Field.TO]: swapToAmount.toFormat({
+          decimalSeparator,
+        }),
       })
 
       const fromFiatValue = swapFromAmount.multipliedBy(fromToken?.usdPrice || 0)
@@ -279,7 +283,9 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
-      [Field.FROM]: maxFromAmount.toString(),
+      [Field.FROM]: maxFromAmount.toFormat({
+        decimalSeparator,
+      }),
     }))
     showMaxCeloSwapWarning()
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
