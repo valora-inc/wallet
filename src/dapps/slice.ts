@@ -101,9 +101,6 @@ export const slice = createSlice({
         (dappId) => dappId !== action.payload.dappId
       )
     },
-    fetchMostPopularDappsSuccess: (state, action: PayloadAction<string[]>) => {
-      state.mostPopularDappIds = action.payload
-    },
   },
   extraReducers: (builder) => {
     builder
