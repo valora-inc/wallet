@@ -16,7 +16,8 @@ interface Props {
 }
 
 export default function SegmentedControl({ position, values, selectedIndex = 0, onChange }: Props) {
-  const [segmentWidth, setSegmentWidth] = React.useState(0)
+  // Set to 0.001 because of https://github.com/facebook/react-native/issues/6278
+  const [segmentWidth, setSegmentWidth] = React.useState(0.001)
 
   const handleChange = (index: number) => {
     onChange?.(values[index], index)
@@ -49,7 +50,7 @@ export default function SegmentedControl({ position, values, selectedIndex = 0, 
       layout: { width },
     },
   }: LayoutChangeEvent) => {
-    const newSegmentWidth = values.length ? width / values.length : 0
+    const newSegmentWidth = values.length ? width / values.length : 0.001
     if (newSegmentWidth !== segmentWidth) {
       setSegmentWidth(newSegmentWidth)
     }
