@@ -1950,10 +1950,10 @@
   dependencies:
     zod "^3.21.4"
 
-"@gorhom/bottom-sheet@^4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.6.tgz#49fa6728f10133de772baaeb67ebe0f63125cf80"
-  integrity sha512-okqJPtFQjfqPZdh6wGDzQKkMevG1IfplQeoWY0VqOFCp3E0p7WHNeW41voK7KXXCVTQaGXibPfd9GNGjXgFNyg==
+"@gorhom/bottom-sheet@^4.4.7":
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz#fc80b3f0b7ebab056ce226f3aa3a89b2db8660dd"
+  integrity sha512-ukTuTqDQi2heo68hAJsBpUQeEkdqP9REBcn47OpuvPKhdPuO1RBOOADjqXJNCnZZRcY+HqbnGPMSLFVc31zylQ==
   dependencies:
     "@gorhom/portal" "1.0.14"
     invariant "^2.2.4"
