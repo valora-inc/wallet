@@ -80,7 +80,7 @@ export const ExperimentConfigs = {
     },
   },
   [StatsigExperiments.DAPP_RANKINGS]: {
-    experimentName: StatsigExperiments.DAPPS_FILTERS_AND_SEARCH,
+    experimentName: StatsigExperiments.DAPP_RANKINGS,
     defaultValues: {
       dappRankingsEnabled: false,
     },
