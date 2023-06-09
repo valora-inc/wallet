@@ -79,6 +79,12 @@ export const ExperimentConfigs = {
       dappsSearchEnabled: false,
     },
   },
+  [StatsigExperiments.DAPP_RANKINGS]: {
+    experimentName: StatsigExperiments.DAPPS_FILTERS_AND_SEARCH,
+    defaultValues: {
+      dappRankingsEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {
