@@ -18,6 +18,7 @@ export interface State {
   dappFavoritesEnabled: boolean
   favoriteDappIds: string[]
   dappsMinimalDisclaimerEnabled: boolean
+  mostPopularDappIds: string[]
 }
 
 const initialState: State = {
@@ -34,6 +35,7 @@ const initialState: State = {
   dappFavoritesEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappFavoritesEnabled,
   favoriteDappIds: [],
   dappsMinimalDisclaimerEnabled: false,
+  mostPopularDappIds: [],
 }
 
 export interface DappSelectedAction {
@@ -43,6 +45,7 @@ export interface DappSelectedAction {
 export interface FetchDappsListCompletedAction {
   dapps: Array<DappV1 | DappV2>
   categories: DappCategory[]
+  mostPopularDappIds: string[]
 }
 
 export interface FetchDappsListErrorAction {
@@ -84,6 +87,7 @@ export const slice = createSlice({
       state.favoriteDappIds = state.favoriteDappIds.filter((favoriteDappId) =>
         dappIds.includes(favoriteDappId)
       )
+      state.mostPopularDappIds = action.payload.mostPopularDappIds
     },
     fetchDappsListFailed: (state, action: PayloadAction<FetchDappsListErrorAction>) => {
       state.dappsListLoading = false
@@ -96,6 +100,9 @@ export const slice = createSlice({
       state.favoriteDappIds = state.favoriteDappIds.filter(
         (dappId) => dappId !== action.payload.dappId
       )
+    },
+    fetchMostPopularDappsSuccess: (state, action: PayloadAction<string[]>) => {
+      state.mostPopularDappIds = action.payload
     },
   },
   extraReducers: (builder) => {

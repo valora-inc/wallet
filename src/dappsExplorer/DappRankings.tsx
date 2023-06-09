@@ -1,7 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import Touchable from 'src/components/Touchable'
+import { mostPopularDappsSelector } from 'src/dapps/selectors'
 import Trophy from 'src/icons/Trophy'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
@@ -17,11 +19,13 @@ function DappRankings() {
     ExperimentConfigs[StatsigExperiments.DAPP_RANKINGS]
   )
 
+  const mostPopularDapps = useSelector(mostPopularDappsSelector)
+
   const handleShowRankings = () => {
     // do somthing
   }
 
-  if (!dappRankingsEnabled) {
+  if (!dappRankingsEnabled || mostPopularDapps.length === 0) {
     return null
   }
 
