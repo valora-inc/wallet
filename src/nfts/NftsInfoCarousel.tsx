@@ -22,14 +22,12 @@ import networkConfig from 'src/web3/networkConfig'
 const TAG = 'nfts/NftsInfoCarousel'
 const DEFAULT_IMAGE_HEIGHT = 360
 
-type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
-
 function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
 }
 
-const NftsLoadErrorScreen = () => {
+function NftsLoadErrorScreen() {
   const { t } = useTranslation()
   return (
     <SafeAreaView
@@ -41,7 +39,7 @@ const NftsLoadErrorScreen = () => {
   )
 }
 
-const ThumbnailImagePlaceholder = () => {
+function ThumbnailImagePlaceholder() {
   return (
     <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
       <View style={styles.skeletonImageThumbnailPlaceHolder} />
@@ -49,15 +47,13 @@ const ThumbnailImagePlaceholder = () => {
   )
 }
 
-const NftThumbnail = ({
-  nft,
-  isActive,
-  onPress,
-}: {
+interface NftThumbnailProps {
   nft: Nft
   isActive: boolean
   onPress: () => void
-}) => {
+}
+
+function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
   const [loading, setLoading] = useState(true)
   return (
     <Touchable
@@ -90,17 +86,78 @@ const NftThumbnail = ({
               `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId}`
             )
           }}
-          resizeMode={FastImage.resizeMode.cover}
           onLoadEnd={() => {
             setLoading(false)
           }}
-        >
-          {loading && <ThumbnailImagePlaceholder />}
-        </FastImage>
+          resizeMode={FastImage.resizeMode.cover}
+        />
       )}
+      {loading && <ThumbnailImagePlaceholder />}
     </Touchable>
   )
 }
+interface MainImagePlaceholderProps {
+  height: number
+}
+
+function MainImagePlaceholder({ height }: MainImagePlaceholderProps) {
+  return (
+    <SkeletonPlaceholder
+      borderRadius={8}
+      backgroundColor={colors.gray2}
+      highlightColor={colors.white}
+    >
+      <View
+        style={{
+          height,
+          width: variables.width,
+          zIndex: -1,
+        }}
+      />
+    </SkeletonPlaceholder>
+  )
+}
+
+interface NftImageCarouselProps {
+  nfts: Nft[]
+  handleOnPress: (nft: Nft) => void
+  activeNft: Nft
+}
+
+function NftImageCarousel({ nfts, handleOnPress, activeNft }: NftImageCarouselProps) {
+  return (
+    <View style={styles.nftImageCarouselContainer}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        contentContainerStyle={styles.carouselScrollViewContentContainer}
+        style={styles.nftImageCarousel}
+        testID="NftsInfoCarousel/NftImageCarousel"
+      >
+        {nfts.map((nft) => {
+          return (
+            <View
+              key={`${nft.contractAddress}-${nft.tokenId}`}
+              style={styles.nftThumbnailSharedContainer}
+            >
+              <NftThumbnail
+                onPress={() => handleOnPress(nft)}
+                // Use contractAddress and tokenId for a unique key
+                isActive={
+                  `${activeNft.contractAddress}-${activeNft.tokenId}` ===
+                  `${nft.contractAddress}-${nft.tokenId}`
+                }
+                nft={nft}
+              />
+            </View>
+          )
+        })}
+      </ScrollView>
+    </View>
+  )
+}
+
+type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
@@ -115,59 +172,8 @@ export default function NftsInfoCarousel({ route }: Props) {
     })
   }
 
-  const MainImagePlaceholder = () => {
-    return (
-      <SkeletonPlaceholder
-        borderRadius={8}
-        backgroundColor={colors.gray2}
-        highlightColor={colors.white}
-      >
-        <View
-          style={{
-            height: scaledHeight,
-            width: variables.width,
-            zIndex: -1,
-          }}
-        />
-      </SkeletonPlaceholder>
-    )
-  }
-
-  const NftImageCarousel = () => {
-    const handleOnPress = (nft: Nft) => () => {
-      setActiveNft(nft)
-    }
-    return (
-      <View style={styles.nftImageCarouselContainer}>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          contentContainerStyle={styles.carouselScrollViewContentContainer}
-          style={styles.nftImageCarousel}
-          testID="NftsInfoCarousel/NftImageCarousel"
-        >
-          {nfts.map((nft) => {
-            return (
-              <View
-                key={`${nft.contractAddress}-${nft.tokenId}`}
-                style={styles.nftThumbnailSharedContainer}
-              >
-                <NftThumbnail
-                  onPress={handleOnPress(nft)}
-                  // Use contractAddress and tokenId for a unique key
-                  isActive={
-                    `${activeNft.contractAddress}-${activeNft.tokenId}` ===
-                    `${nft.contractAddress}-${nft.tokenId}`
-                  }
-                  // If there's no nft metadata, show a red info icon instead
-                  nft={nft}
-                />
-              </View>
-            )
-          })}
-        </ScrollView>
-      </View>
-    )
+  function handleThumbnailPress(nft: Nft) {
+    setActiveNft(nft)
   }
 
   // Display error screen no Nfts provided
@@ -205,7 +211,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             }
             resizeMode={FastImage.resizeMode.contain}
           >
-            {isLoading && <MainImagePlaceholder />}
+            {isLoading && <MainImagePlaceholder height={scaledHeight} />}
           </FastImage>
         )}
         {/* This could happen if the indexer is experiencing issues with particular nfts */}
@@ -215,7 +221,13 @@ export default function NftsInfoCarousel({ route }: Props) {
           </View>
         )}
 
-        {nfts.length > 1 && <NftImageCarousel />}
+        {nfts.length > 1 && (
+          <NftImageCarousel
+            nfts={nfts}
+            activeNft={activeNft}
+            handleOnPress={handleThumbnailPress}
+          />
+        )}
         <View style={styles.sectionContainer}>
           <Text style={styles.title}>{activeNft.metadata?.name}</Text>
         </View>
