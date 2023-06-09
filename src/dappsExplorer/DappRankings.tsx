@@ -32,17 +32,15 @@ function DappRankings() {
   }
 
   return (
-    <View style={styles.card}>
-      <Touchable style={styles.pressableCard} onPress={handleShowRankings} testID="DappRankings">
-        <View style={styles.container}>
-          <Trophy />
-          <View style={styles.contentContainer}>
-            <Text style={styles.title}>{t('dappRankings.title')}</Text>
-            <Text style={styles.subtitle}>{t('dappRankings.description')}</Text>
-          </View>
+    <Touchable style={styles.pressableCard} onPress={handleShowRankings} testID="DappRankings">
+      <View style={styles.container}>
+        <Trophy />
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>{t('dappRankings.title')}</Text>
+          <Text style={styles.subtitle}>{t('dappRankings.description')}</Text>
         </View>
-      </Touchable>
-    </View>
+      </View>
+    </Touchable>
   )
 }
 
@@ -54,13 +52,10 @@ const styles = StyleSheet.create({
   pressableCard: {
     padding: Spacing.Regular16,
     borderRadius: 8,
-  },
-  card: {
     marginTop: Spacing.Smallest8,
     marginBottom: Spacing.Thick24,
     borderWidth: 1,
     borderColor: Colors.gray2,
-    borderRadius: 8,
   },
   container: {
     flexDirection: 'row',
