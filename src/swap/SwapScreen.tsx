@@ -156,23 +156,24 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 
   useEffect(
     () => {
-      const newAmount = exchangeRate
-        ? parsedSwapAmount[updatedField]
-            .multipliedBy(
-              new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
-            )
-            .toFormat()
-        : ''
-      const swapFromAmount = updatedField === Field.FROM ? swapAmount[Field.FROM] : newAmount
-      const swapToAmount = updatedField === Field.FROM ? newAmount : swapAmount[Field.TO]
+      if (!exchangeRate) {
+        return
+      }
+
+      const newAmount = parsedSwapAmount[updatedField].multipliedBy(
+        new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
+      )
+
+      const swapFromAmount = updatedField === Field.FROM ? parsedSwapAmount[Field.FROM] : newAmount
+      const swapToAmount = updatedField === Field.FROM ? newAmount : parsedSwapAmount[Field.TO]
 
       setSwapAmount({
-        [Field.FROM]: swapFromAmount,
-        [Field.TO]: swapToAmount,
+        [Field.FROM]: swapFromAmount.toString(),
+        [Field.TO]: swapToAmount.toString(),
       })
 
-      const fromFiatValue = new BigNumber(swapFromAmount).multipliedBy(fromToken?.usdPrice || 0)
-      const toFiatValue = new BigNumber(swapToAmount).multipliedBy(toToken?.usdPrice || 0)
+      const fromFiatValue = swapFromAmount.multipliedBy(fromToken?.usdPrice || 0)
+      const toFiatValue = swapToAmount.multipliedBy(toToken?.usdPrice || 0)
       const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
       const priceImpactExceedsThreshold = priceImpact.gte(priceImpactWarningThreshold)
       setShowPriceImpactWarning(priceImpactExceedsThreshold)
@@ -272,7 +273,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
-      [Field.FROM]: maxFromAmount.toFormat(),
+      [Field.FROM]: maxFromAmount.toString(),
     }))
     showMaxCeloSwapWarning()
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
