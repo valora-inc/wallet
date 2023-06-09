@@ -212,7 +212,7 @@ export function DAppsExplorerScreenFilter() {
                 testID="DAppsExplorerScreenFilter"
               />
             }
-            ListFooterComponentStyle={styles.ListFooterComponent}
+            ListFooterComponentStyle={styles.listFooterComponent}
           />
         )}
       </>
@@ -251,7 +251,7 @@ function parseResultsIntoAll(
 
 function DescriptionView({ message, title }: { message: string; title: string }) {
   return (
-    <View>
+    <View style={styles.descriptionView}>
       <Text style={styles.pageHeaderText}>{title}</Text>
       <Text style={styles.pageHeaderSubText}>{message}</Text>
     </View>
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dappFilterView: {
-    paddingTop: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
   },
   dappFilterScrollView: {
     marginHorizontal: -Spacing.Thick24,
@@ -307,9 +307,12 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,
   },
-  ListFooterComponent: {
+  listFooterComponent: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  descriptionView: {
+    paddingBottom: Spacing.Regular16,
   },
 })
 
