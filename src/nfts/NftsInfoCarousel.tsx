@@ -90,9 +90,10 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
             setLoading(false)
           }}
           resizeMode={FastImage.resizeMode.cover}
-        />
+        >
+          {loading && <ThumbnailImagePlaceholder />}
+        </FastImage>
       )}
-      {loading && <ThumbnailImagePlaceholder />}
     </Touchable>
   )
 }
