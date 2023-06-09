@@ -124,7 +124,7 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
-function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
+function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
   const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
   const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
   const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
@@ -140,7 +140,7 @@ function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2
 export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   return tokens
     .filter((tokenInfo) => tokenInfo.isSwappable || tokenInfo.isSwappableWithAnyDecimals)
-    .sort(tokenCompareByUsdBalanceThenByAlphabetical)
+    .sort(tokenCompareByUsdBalanceThenByName)
 })
 
 export const tokensByCurrencySelector = createSelector(
