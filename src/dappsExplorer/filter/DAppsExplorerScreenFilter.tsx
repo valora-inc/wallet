@@ -27,6 +27,7 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
+import DappRankings from 'src/dappsExplorer/DappRankings'
 import FavoriteDappsSection from 'src/dappsExplorer/filter/FavoriteDappsSection'
 import { NoResults } from 'src/dappsExplorer/filter/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
@@ -140,7 +141,7 @@ export function DAppsExplorerScreenFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                {/* Dapps Filtering*/}
+                <DappRankings />
                 <View style={styles.dappFilterView}>
                   <ScrollView
                     horizontal={true}
