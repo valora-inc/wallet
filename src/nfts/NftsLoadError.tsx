@@ -86,7 +86,4 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
     textAlign: 'center',
   },
-  topBarButton: {
-    margin: Spacing.Smallest8,
-  },
 })
