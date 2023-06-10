@@ -15,12 +15,10 @@ describe('NftsInfoCarousel', () => {
       />
     )
 
-    // Correct Nft Image and name should be rendered
-    expect(
-      getByTestId(
-        `NftsInfoCarousel/NftImage-${mockNftAllFields.contractAddress}-${mockNftAllFields.tokenId}`
-      )
-    ).toBeTruthy()
+    // Correct image source should be rendered
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
+      uri: mockNftAllFields.media[0].gateway,
+    })
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
 
     // The image carousel should not render if there is only one Nft
@@ -28,6 +26,8 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('renders correctly with two valid Nfts', () => {
+    const nft1Thumbnail = `NftsInfoCarousel/NftThumbnail/${mockNftAllFields.contractAddress}-${mockNftAllFields.tokenId}`
+    const nft2Thumbnail = `NftsInfoCarousel/NftThumbnail/${mockNftMinimumFields.contractAddress}-${mockNftMinimumFields.tokenId}`
     const { getByTestId, getByText } = render(
       <NftsInfoCarousel
         {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
@@ -36,31 +36,28 @@ describe('NftsInfoCarousel', () => {
       />
     )
 
-    // Correct Nft Image and name should be rendered
-    expect(
-      getByTestId(
-        `NftsInfoCarousel/NftImage-${mockNftAllFields.contractAddress}-${mockNftAllFields.tokenId}`
-      )
-    ).toBeTruthy()
-    expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
-
+    // Carousel should be rendered
     expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
 
+    // Correct Nft Image and name should be rendered
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
+      uri: mockNftAllFields.media[0].gateway,
+    })
+    expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
+
     // Toggle to Second Nft
-    fireEvent.press(
-      getByTestId(
-        `NftsInfoCarousel/NftThumbnail/${mockNftMinimumFields.contractAddress}-${mockNftMinimumFields.tokenId}`
-      )
-    )
+    fireEvent.press(getByTestId(nft2Thumbnail))
     expect(getByText(mockNftMinimumFields.metadata!.name)).toBeTruthy()
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
+      uri: mockNftMinimumFields.media[0].gateway,
+    })
 
     // Return to first Nft
-    fireEvent.press(
-      getByTestId(
-        `NftsInfoCarousel/NftThumbnail/${mockNftAllFields.contractAddress}-${mockNftAllFields.tokenId}`
-      )
-    )
+    fireEvent.press(getByTestId(nft1Thumbnail))
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
+      uri: mockNftAllFields.media[0].gateway,
+    })
   })
 
   it('renders full screen error when no Nft(s)', () => {
@@ -100,6 +97,7 @@ describe('NftsInfoCarousel', () => {
       )
     )
     expect(getByText('nftInfoCarousel.nftImageLoadError')).toBeTruthy()
+    expect(getByText('nftInfoCarousel.viewOnCeloExplorer')).toBeTruthy()
   })
 
   it('opens link for Explorer', () => {
@@ -113,5 +111,17 @@ describe('NftsInfoCarousel', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTokenUrl}${mockNftMinimumFields.contractAddress}/instance/${mockNftMinimumFields.tokenId}/metadata`,
     })
+  })
+
+  it('should not render link to explorer if no token id is provided', () => {
+    let noTokenId = mockNftMinimumFields
+    noTokenId.tokenId = null as unknown as string
+    const { queryByTestId } = render(
+      <NftsInfoCarousel
+        {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [noTokenId] })}
+      />
+    )
+
+    expect(queryByTestId('ViewOnExplorer')).toBeNull()
   })
 })

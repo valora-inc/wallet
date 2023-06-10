@@ -188,7 +188,7 @@ export default function NftsInfoCarousel({ route }: Props) {
         {/* Main Nft Image */}
         {activeNft.metadata ? (
           <FastImage
-            testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
+            testID="NftsInfoCarousel/MainImage"
             style={[
               styles.mainImage,
               { height: scaledHeight },
