@@ -185,6 +185,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
+        {/* Main Nft Image */}
         {activeNft.metadata ? (
           <FastImage
             testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
@@ -219,6 +220,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             <Text style={{ color: colors.light }}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
           </View>
         )}
+        {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
           <NftImageCarousel
             nfts={nfts}
@@ -226,6 +228,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             handleOnPress={handleThumbnailPress}
           />
         )}
+        {/* Nft Details */}
         {activeNft.metadata && (
           <>
             {activeNft.metadata?.name && (
@@ -252,8 +255,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             )}
           </>
         )}
-
-        {/* Show if we have a contract address and token id */}
+        {/* Nft Explorer Link - show if we have a contract address and token id */}
         {activeNft.tokenId && activeNft.contractAddress && (
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
