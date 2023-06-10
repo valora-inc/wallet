@@ -188,7 +188,7 @@ export default function NftsInfoCarousel({ route }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {/* Main Nft Image */}
-        {activeNft.metadata || loadError ? (
+        {activeNft.metadata && !loadError ? (
           <FastImage
             testID="NftsInfoCarousel/MainImage"
             style={[
