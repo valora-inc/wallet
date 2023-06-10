@@ -11,8 +11,15 @@ import { swapStart } from 'src/swap/slice'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import { Field } from 'src/swap/types'
 import { Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import {
+  mockAccount,
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockWBTCAddress,
+} from 'test/values'
 
 const mockFetch = fetch as FetchMock
 const mockFeeCurrency = jest.fn()
@@ -44,8 +51,8 @@ const store = {
       toToken: mockCusdAddress,
       fromToken: mockCeloAddress,
       swapAmount: {
-        FROM: mockSellAmount,
-        TO: mockBuyAmount,
+        FROM: '1',
+        TO: '3',
       },
       updatedField: Field.FROM,
     },
@@ -59,6 +66,7 @@ const store = {
         address: mockCeloAddress,
         priceFetchedAt: Date.now(),
         isCoreToken: true,
+        decimals: 18,
       },
       [mockCusdAddress]: {
         balance: '10',
@@ -67,6 +75,7 @@ const store = {
         address: mockCusdAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        decimals: 18,
       },
       [mockCeurAddress]: {
         balance: '20',
@@ -75,6 +84,16 @@ const store = {
         address: mockCeurAddress,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        decimals: 18,
+      },
+      [mockWBTCAddress]: {
+        balance: '0',
+        usdPrice: '20000',
+        symbol: 'WBTC',
+        address: mockWBTCAddress,
+        isCoreToken: false,
+        priceFetchedAt: Date.now(),
+        decimals: 8,
       },
     },
   },
@@ -106,8 +125,8 @@ const userInput = {
   toToken: mockCusdAddress,
   fromToken: mockCeloAddress,
   swapAmount: {
-    FROM: mockSellAmount,
-    TO: mockBuyAmount,
+    FROM: '1',
+    TO: '3',
   },
   updatedField: Field.FROM,
 }
@@ -168,6 +187,12 @@ describe('SwapReviewScreen', () => {
       // Swap Fee
       expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
     })
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1000000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
   })
 
   it('should display correct exchange rate when buyAmount is used', async () => {
@@ -182,8 +207,8 @@ describe('SwapReviewScreen', () => {
           toToken: mockCeloAddress,
           fromToken: mockCusdAddress,
           swapAmount: {
-            FROM: '8200000000000000000',
-            TO: '200000000000000000',
+            FROM: '8.20',
+            TO: '2',
           },
           // This updated field set to To indicates the buy amount is used
           updatedField: Field.TO,
@@ -226,6 +251,75 @@ describe('SwapReviewScreen', () => {
       // Swap Fee
       expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
     })
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockCeloAddress}&sellToken=${mockCusdAddress}&buyAmount=2000000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
+  })
+
+  it('should display correct info when swapping tokens with non-default decimals', async () => {
+    mockFeeCurrency.mockImplementation(() => mockCeloAddress)
+
+    const newStore = {
+      ...store,
+      swap: {
+        ...store.swap,
+        swapUserInput: {
+          ...store.swap.swapUserInput,
+          toToken: mockWBTCAddress,
+          fromToken: mockCusdAddress,
+          swapAmount: {
+            FROM: '200',
+            TO: '0.01',
+          },
+          updatedField: Field.FROM,
+        },
+      },
+    }
+
+    const newMockStore = createMockStore(newStore)
+
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          sellToken: mockCusdAddress,
+          buyToken: mockWBTCAddress,
+          buyAmount: '1000000',
+          sellAmount: '2000000000000000000',
+          price: '0.005',
+          gas: '300000',
+          gasPrice: '500000000',
+        },
+      })
+    )
+
+    const { getByTestId } = render(
+      <Provider store={newMockStore}>
+        <SwapReviewScreen />
+      </Provider>
+    )
+
+    await waitFor(() => {
+      // Swap From
+      expect(getByTestId('FromSwapAmountToken')).toHaveTextContent('2.00 cUSD')
+      expect(getByTestId('FromSwapAmountTokenLocal')).toHaveTextContent('$2.00')
+      // Swap To
+      expect(getByTestId('ToSwapAmountToken')).toHaveTextContent('0.01 WBTC')
+      // Exchange Rate
+      expect(getByTestId('ExchangeRate')).toHaveTextContent('1 cUSD ≈ 0.005 WBTC')
+      // Estimated Gas
+      expect(getByTestId('EstimatedGas')).toHaveTextContent('0.00015 CELO')
+      // Swap Fee
+      expect(getByTestId('SwapFee')).toHaveTextContent('swapReviewScreen.free')
+    })
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${
+        networkConfig.approveSwapUrl
+      }?buyToken=${mockWBTCAddress}&sellToken=${mockCusdAddress}&sellAmount=200000000000000000000&userAddress=${mockAccount.toLowerCase()}`
+    )
   })
 
   it('should display error banner on fetch error', async () => {
@@ -254,7 +348,7 @@ describe('SwapReviewScreen', () => {
     )
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_screen_open, {
-      amount: mockSellAmount,
+      amount: '1',
       fromToken: mockCeloAddress,
       toToken: mockCusdAddress,
       amountType: 'sellAmount',
@@ -293,7 +387,7 @@ describe('SwapReviewScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
       toToken: mockCusdAddress,
       fromToken: mockCeloAddress,
-      amount: mockSellAmount,
+      amount: '1',
       amountType: 'sellAmount',
       usdTotal: 3,
       allowanceTarget: mock0xResponse.unvalidatedSwapTransaction.allowanceTarget,

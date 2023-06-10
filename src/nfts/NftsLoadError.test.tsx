@@ -2,11 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NftsLoadErrorScreen from 'src/nfts/NftsLoadErrorScreen'
+import NftLoadError from 'src/nfts/NftsLoadError'
 
 describe('NftsLoadErrorScreen', () => {
   it('renders correctly', () => {
-    const { getByTestId, getByText } = render(<NftsLoadErrorScreen />)
+    const { getByTestId, getByText } = render(<NftLoadError />)
 
     expect(getByTestId('NftsLoadErrorScreen/Icon')).toBeTruthy()
     expect(getByText('nftsLoadErrorScreen.loadErrorTitle')).toBeTruthy()
@@ -15,14 +15,14 @@ describe('NftsLoadErrorScreen', () => {
   })
 
   it('should be able to navigate back', () => {
-    const { getByTestId } = render(<NftsLoadErrorScreen />)
+    const { getByTestId } = render(<NftLoadError />)
 
     fireEvent.press(getByTestId('NftsLoadErrorScreen/BackButton'))
     expect(navigateBack).toHaveBeenCalled()
   })
 
   it('should be able to navigate to contact support', () => {
-    const { getByTestId } = render(<NftsLoadErrorScreen />)
+    const { getByTestId } = render(<NftLoadError />)
 
     fireEvent.press(getByTestId('NftsLoadErrorScreen/ContactSupport'))
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)

@@ -1,13 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import BackChevronStatic from 'src/icons/BackChevronStatic'
 import InfoShadowedIcon from 'src/icons/InfoShadowedIcon'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -15,7 +12,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'NftsLoadErrorScreen'
 
-export default function NftsLoadErrorScreen() {
+export default function NftsLoadError() {
   const { t } = useTranslation()
   function handleSupportPress() {
     Logger.debug(TAG, 'Support Contact pressed')
@@ -23,12 +20,6 @@ export default function NftsLoadErrorScreen() {
   }
   return (
     <SafeAreaView style={styles.safeArea} testID="NftsInfoCarousel/NftsLoadErrorScreen">
-      <TopBarIconButton
-        style={styles.topBarButton}
-        icon={<BackChevronStatic />}
-        onPress={navigateBack}
-        testID="NftsLoadErrorScreen/BackButton"
-      />
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         style={styles.scrollContainer}
@@ -38,7 +29,11 @@ export default function NftsLoadErrorScreen() {
         </View>
         <Text style={styles.title}>{t('nftsLoadErrorScreen.loadErrorTitle')}</Text>
         <Text style={styles.subTitle}>{t('nftsLoadErrorScreen.loadErrorSubtitle')}</Text>
-        <Touchable testID="NftsLoadErrorScreen/ContactSupport" onPress={handleSupportPress}>
+        <Touchable
+          borderless={true}
+          testID="NftsLoadErrorScreen/ContactSupport"
+          onPress={handleSupportPress}
+        >
           <Text style={styles.contactSupportTouchable}>
             {t('nftsLoadErrorScreen.contactSupport')}
           </Text>
@@ -60,7 +55,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconMargin: {
-    // Same as the marginTop of the icon in SwapExecuteScreen.tsx
     marginTop: '32%',
     marginBottom: Spacing.Thick24,
   },
@@ -68,6 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
+    flex: 1,
     marginHorizontal: Spacing.Thick24,
   },
   subTitle: {

@@ -9,6 +9,7 @@ const Sentry = {
   },
   startTransaction: jest.fn(),
   nativeCrash: jest.fn(),
+  wrap: jest.fn().mockImplementation((x) => x),
 }
 
 module.exports = Sentry
