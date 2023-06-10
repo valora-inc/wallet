@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -40,7 +39,9 @@ const useSwapQuote = () => {
 
       // This only works for tokens with 18 decimals
       // TODO: make this work for tokens with different decimals
-      const swapAmountInWei = multiplyByWei(swapAmount[updatedField])
+      const decimals = updatedField === Field.FROM ? fromToken.decimals : toToken.decimals
+
+      const swapAmountInWei = new BigNumber(swapAmount[updatedField]).shiftedBy(decimals)
       if (swapAmountInWei.lte(0)) {
         return null
       }

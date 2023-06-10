@@ -14,6 +14,7 @@ interface BaseToken {
   // making transfers with a comment.
   isCoreToken?: boolean
   isSwappable?: boolean
+  isSwappableWithAnyDecimals?: boolean
 }
 
 interface HistoricalUsdPrices {
