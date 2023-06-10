@@ -58,7 +58,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
   return (
     <Touchable
       style={[
-        isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
+        isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected,
         !nft.metadata && styles.errorThumbnail,
       ]}
       borderless={false}
@@ -75,7 +75,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
         <FastImage
           style={[
             styles.nftThumbnailShared,
-            isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnSelected,
+            isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected,
           ]}
           source={{
             uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
@@ -185,12 +185,12 @@ export default function NftsInfoCarousel({ route }: Props) {
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
-        {activeNft.metadata && (
+        {activeNft.metadata ? (
           <FastImage
             testID={`NftsInfoCarousel/NftImage-${activeNft.contractAddress}-${activeNft.tokenId}`}
             style={[
-              { height: scaledHeight },
               styles.mainImage,
+              { height: scaledHeight },
               // Put a border radius on the image when loading to match placeholder
               isLoading && styles.borderRadius,
             ]}
@@ -214,14 +214,11 @@ export default function NftsInfoCarousel({ route }: Props) {
           >
             {isLoading && <MainImagePlaceholder height={scaledHeight} />}
           </FastImage>
-        )}
-        {/* This could happen if the indexer is experiencing issues with particular nfts */}
-        {!activeNft.metadata && (
+        ) : (
           <View style={styles.nftImageLoadingErrorContainer}>
             <Text style={{ color: colors.light }}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
           </View>
         )}
-
         {nfts.length > 1 && (
           <NftImageCarousel
             nfts={nfts}
@@ -229,35 +226,44 @@ export default function NftsInfoCarousel({ route }: Props) {
             handleOnPress={handleThumbnailPress}
           />
         )}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.title}>{activeNft.metadata?.name}</Text>
-        </View>
-        {activeNft.metadata?.description && (
-          <View style={styles.sectionContainer}>
-            <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
-            <Text style={styles.text}>{activeNft.metadata?.description}</Text>
-          </View>
-        )}
-        {activeNft.metadata?.attributes && (
-          <View style={styles.sectionContainer}>
-            <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.attributes')}</Text>
-            {activeNft.metadata?.attributes.map((attribute, index) => (
-              <View key={index} style={styles.attributesContainer}>
-                <Text style={styles.attributeTitle}>{attribute.trait_type}</Text>
-                <Text style={styles.attributeText}>{attribute.value}</Text>
+        {activeNft.metadata && (
+          <>
+            {activeNft.metadata?.name && (
+              <View style={styles.sectionContainer}>
+                <Text style={styles.title}>{activeNft.metadata?.name}</Text>
               </View>
-            ))}
+            )}
+            {activeNft.metadata?.description && (
+              <View style={styles.sectionContainer}>
+                <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
+                <Text style={styles.text}>{activeNft.metadata?.description}</Text>
+              </View>
+            )}
+            {activeNft.metadata?.attributes && (
+              <View style={styles.sectionContainer}>
+                <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.attributes')}</Text>
+                {activeNft.metadata?.attributes.map((attribute, index) => (
+                  <View key={index} style={styles.attributesContainer}>
+                    <Text style={styles.attributeTitle}>{attribute.trait_type}</Text>
+                    <Text style={styles.attributeText}>{attribute.value}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </>
+        )}
+
+        {/* Show if we have a contract address and token id */}
+        {activeNft.tokenId && activeNft.contractAddress && (
+          <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
+            <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
+              <View style={styles.explorerLinkContainer}>
+                <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
+                <OpenLinkIcon color={colors.onboardingGreen} />
+              </View>
+            </Touchable>
           </View>
         )}
-        {/* This should be dynamic based on Network in the future. Always show as fallback */}
-        <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
-          <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
-            <View style={styles.explorerLinkContainer}>
-              <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
-              <OpenLinkIcon color={colors.onboardingGreen} />
-            </View>
-          </Touchable>
-        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -308,7 +314,7 @@ const styles = StyleSheet.create({
   },
   nftImageLoadingErrorContainer: {
     width: '100%',
-    height: 360,
+    height: DEFAULT_IMAGE_HEIGHT,
     backgroundColor: colors.dark,
     alignItems: 'center',
     justifyContent: 'center',
@@ -318,14 +324,14 @@ const styles = StyleSheet.create({
     width: 40,
   },
   nftThumbnailShared: {
-    borderRadius: 8,
+    borderRadius: Spacing.Smallest8,
   },
   nftThumbnailSharedContainer: {
-    borderRadius: 8,
-    marginRight: 8,
+    borderRadius: Spacing.Smallest8,
+    marginRight: Spacing.Smallest8,
     overflow: 'hidden',
   },
-  nftThumbnailUnSelected: {
+  nftThumbnailUnselected: {
     height: 32,
     opacity: 0.5,
     width: 32,
