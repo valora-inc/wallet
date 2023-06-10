@@ -114,7 +114,7 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('should not render link to explorer if no token id is provided', () => {
-    let noTokenId = mockNftMinimumFields
+    const noTokenId = mockNftMinimumFields
     noTokenId.tokenId = null as unknown as string
     const { queryByTestId } = render(
       <NftsInfoCarousel
