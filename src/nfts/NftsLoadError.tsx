@@ -29,22 +29,32 @@ export default function NftsLoadError() {
         </View>
         <Text style={styles.title}>{t('nftsLoadErrorScreen.loadErrorTitle')}</Text>
         <Text style={styles.subTitle}>{t('nftsLoadErrorScreen.loadErrorSubtitle')}</Text>
-        <Touchable
-          borderless={true}
-          testID="NftsLoadErrorScreen/ContactSupport"
-          onPress={handleSupportPress}
-        >
-          <Text style={styles.contactSupportTouchable}>
-            {t('nftsLoadErrorScreen.contactSupport')}
-          </Text>
-        </Touchable>
+        <View style={styles.contactSupportTouchableContainer}>
+          <Touchable
+            testID="NftsLoadErrorScreen/ContactSupport"
+            onPress={handleSupportPress}
+            style={styles.contactSupportTouchable}
+          >
+            <Text style={styles.contactSupportTouchableText}>
+              {t('nftsLoadErrorScreen.contactSupport')}
+            </Text>
+          </Touchable>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  // Touchable are wrapped in a view to prevent the ripple effect from overflowing on Android
+  contactSupportTouchableContainer: {
+    borderRadius: Spacing.Large32,
+    overflow: 'hidden',
+  },
   contactSupportTouchable: {
+    padding: Spacing.Regular16,
+  },
+  contactSupportTouchableText: {
     alignItems: 'center',
     ...fontStyles.large600,
     color: colors.onboardingGreen,
