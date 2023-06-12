@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftLoadError from 'src/nfts/NftsLoadError'
 
@@ -12,13 +12,6 @@ describe('NftsLoadErrorScreen', () => {
     expect(getByText('nftsLoadErrorScreen.loadErrorTitle')).toBeTruthy()
     expect(getByText('nftsLoadErrorScreen.loadErrorSubtitle')).toBeTruthy()
     expect(getByText('nftsLoadErrorScreen.contactSupport')).toBeTruthy()
-  })
-
-  it('should be able to navigate back', () => {
-    const { getByTestId } = render(<NftLoadError />)
-
-    fireEvent.press(getByTestId('NftsLoadErrorScreen/BackButton'))
-    expect(navigateBack).toHaveBeenCalled()
   })
 
   it('should be able to navigate to contact support', () => {
