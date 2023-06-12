@@ -4,7 +4,7 @@ import { Keyboard } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { DAPPS_LEARN_MORE } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -32,11 +32,16 @@ const useDappInfoBottomSheet = () => {
         forwardedRef={bottomSheetRef}
         title={t('dappsScreenInfoSheet.title')}
         description={t('dappsScreenInfoSheet.description')}
-        buttonLabel={t('dappsScreenInfoSheet.buttonLabel')}
-        buttonOnPress={onPressMore}
-        buttonType={BtnTypes.SECONDARY}
         testId="DAppsExplorerScreen/InfoBottomSheet"
-      />
+      >
+        <Button
+          text={t('dappsScreenInfoSheet.buttonLabel')}
+          onPress={onPressMore}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          testID="DAppsExplorerScreen/InfoBottomSheet/PrimaryAction"
+        />
+      </BottomSheet>
     ),
     []
   )
