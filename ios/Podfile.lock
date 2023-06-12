@@ -222,7 +222,6 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
-  - hermes-engine (0.70.9)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
   - libwebp (1.2.4):
@@ -261,12 +260,6 @@ PODS:
     - DoubleConversion
     - fmt (~> 6.2.1)
     - glog
-  - RCT-Folly/Futures (2021.07.22.00):
-    - boost
-    - DoubleConversion
-    - fmt (~> 6.2.1)
-    - glog
-    - libevent
   - RCTRequired (0.70.9)
   - RCTTypeSafety (0.70.9):
     - FBLazyVector (= 0.70.9)
@@ -444,17 +437,6 @@ PODS:
     - React-logger (= 0.70.9)
     - React-perflogger (= 0.70.9)
     - React-runtimeexecutor (= 0.70.9)
-  - React-hermes (0.70.9):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2021.07.22.00)
-    - RCT-Folly/Futures (= 2021.07.22.00)
-    - React-cxxreact (= 0.70.9)
-    - React-jsi (= 0.70.9)
-    - React-jsiexecutor (= 0.70.9)
-    - React-jsinspector (= 0.70.9)
-    - React-perflogger (= 0.70.9)
   - React-jsi (0.70.9):
     - boost (= 1.76.0)
     - DoubleConversion
@@ -756,8 +738,6 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.125.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.125.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - hermes-engine (from `../node_modules/react-native/sdks/hermes/hermes-engine.podspec`)
-  - libevent (~> 2.1.12)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - OpenSSL-Universal (= 1.1.1100)
   - Permission-AppTrackingTransparency (from `../node_modules/react-native-permissions/ios/AppTrackingTransparency`)
@@ -774,7 +754,6 @@ DEPENDENCIES:
   - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
   - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
-  - React-hermes (from `../node_modules/react-native/ReactCommon/hermes`)
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
@@ -910,8 +889,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  hermes-engine:
-    :podspec: "../node_modules/react-native/sdks/hermes/hermes-engine.podspec"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   Permission-AppTrackingTransparency:
@@ -938,8 +915,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/CoreModules"
   React-cxxreact:
     :path: "../node_modules/react-native/ReactCommon/cxxreact"
-  React-hermes:
-    :path: "../node_modules/react-native/ReactCommon/hermes"
   React-jsi:
     :path: "../node_modules/react-native/ReactCommon/jsi"
   React-jsiexecutor:
@@ -1117,7 +1092,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
-  hermes-engine: 918ec5addfbc430c9f443376d739f088b6dc96c3
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: f62cb61d0a484ba548448a4bd52aabf150ff6eef
@@ -1139,7 +1113,6 @@ SPEC CHECKSUMS:
   React-Core: b1e6334eedacb3dc3adae163ccdde5e6ca26d18b
   React-CoreModules: 74122da11de87771f2461c757ab0c29defddd4ea
   React-cxxreact: bbca1cdf5165761529edff94ed117b95ccbc877a
-  React-hermes: ee7245fc80f61eee8918a5046ed84b0b740a15f4
   React-jsi: a015cacfe56047914e425d0177133c35409e2462
   React-jsiexecutor: d3f6d9242d4c93e7f0bdb27cb5510003bc98445c
   React-jsinspector: d76d32327f21d4f40dcf696231fdbbca60de4711
@@ -1215,6 +1188,6 @@ SPEC CHECKSUMS:
   Yoga: dc109b79db907f0f589fc423e991b09ec42d2295
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: d526106210b8ff2a1b6c8e9ce34de4faafa039ee
+PODFILE CHECKSUM: f2b17532c87bd562359542e44c3de4574265ae91
 
 COCOAPODS: 1.12.1
