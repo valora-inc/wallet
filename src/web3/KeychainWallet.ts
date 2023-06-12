@@ -50,12 +50,7 @@ export class KeychainWallet extends RemoteWallet<ContractKitSigner> implements U
    * @param address Account to check
    */
   hasAccount(address?: Address): boolean {
-    if (address) {
-      const normalizedAddress = normalizeAddressWith0x(address)
-      return this.keychainAccounts.has(normalizedAddress)
-    } else {
-      return false
-    }
+    return !!address && this.keychainAccounts.has(normalizeAddressWith0x(address))
   }
 
   protected getSigner(address: string): ContractKitSigner {

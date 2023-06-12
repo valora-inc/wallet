@@ -230,13 +230,20 @@ export class KeychainAccountManager {
   }
 
   /**
-   * Get the unlocked contractkit signer. Throws if not unlocked.
+   * Revokes access by resetting signer and wallets if manager is unlocked
    */
-  get unlockedContractKitSigner() {
-    if (!this.isUnlocked()) {
+  protected revokeIfUnlocked() {
+    if (!this.isUnlocked) {
       this.localContractKitSigner = null
       this.localEthersWallets = new Map()
     }
+  }
+
+  /**
+   * Get the unlocked contractkit signer. Throws if not unlocked.
+   */
+  get unlockedContractKitSigner() {
+    this.revokeIfUnlocked()
     if (!this.localContractKitSigner) {
       throw new Error('authentication needed: password or unlock')
     }
@@ -247,10 +254,7 @@ export class KeychainAccountManager {
    * Get the unlocked ethers wallet. Throws if not unlocked.
    */
   get unlockedEthersWallets() {
-    if (!this.isUnlocked()) {
-      this.localContractKitSigner = null
-      this.localEthersWallets = new Map()
-    }
+    this.revokeIfUnlocked()
     if (this.localEthersWallets.size === 0) {
       throw new Error('authentication needed: password or unlock')
     }

@@ -10,13 +10,12 @@ export const providerUrlForChain = {
  * A wallet class for signing, making transactions, etc on the ethers.js platform
  * One wallet per address per chain
  */
-export default class Wallet extends ethers.Wallet {
-  connect(_provider: ethers.Provider | null): ethers.Wallet {
-    throw new Error(
-      'Do not use Wallet.connect, instead create new connnected wallets in KeychainAccountManager'
-    )
-  }
+export default class Wallet {
+  wallet: ethers.Wallet
 
+  constructor(privateKey: string, provider: ethers.Provider) {
+    this.wallet = new ethers.Wallet(privateKey, provider)
+  }
   // Signer Methods
 
   /**
