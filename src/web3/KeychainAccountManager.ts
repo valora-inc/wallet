@@ -233,7 +233,7 @@ export class KeychainAccountManager {
    * Revokes access by resetting signer and wallets if manager is unlocked
    */
   protected revokeIfUnlocked() {
-    if (!this.isUnlocked) {
+    if (!this.isUnlocked()) {
       this.localContractKitSigner = null
       this.localEthersWallets = new Map()
     }
