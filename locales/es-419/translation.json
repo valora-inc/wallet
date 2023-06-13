@@ -1329,6 +1329,10 @@
       "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
     }
   },
+  "dappRankings": {
+    "title": "Clasificación de las apps",
+    "description": "Descubre las dapps más favoritas de otros miembros de la comunidad {{appName}}"
+  },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
     "message": "Las dapps (apps decentralizadas) traen nuevas maneras de usar tus cripto, ganar recompensas y explorar la Web3.\n\nContecta Valora a una dapp para comenzar.",
