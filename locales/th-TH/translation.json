@@ -1327,6 +1327,10 @@
       "searchMessage": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
     }
   },
+  "dappRankings": {
+    "title": "Dapp rankings",
+    "description": "Discover the most favorited dapps by others in the {{appName}} community"
+  },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
     "message": "Dapp (แอปแบบกระจายศูนย์) เป็นวิธีการใหม่ในการใช้คริปโต รับรางวัล และสำรวจ Web3\n\nเชื่อมต่อ Valora กับ Dapp เพื่อเริ่มต้นใช้งาน",
