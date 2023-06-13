@@ -131,8 +131,8 @@ export interface NftTransfer {
   transactionHash: string
   timestamp: number
   block: string
-  fees: Fee[]
-  nfts: Nft[]
+  fees?: Fee[]
+  nfts?: Nft[]
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -144,7 +144,7 @@ export interface TokenExchange {
   block: string
   inAmount: TokenAmount
   outAmount: TokenAmount
-  metadata: TokenExchangeMetadata
+  metadata?: TokenExchangeMetadata
   fees: Fee[]
 }
 
