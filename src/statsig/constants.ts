@@ -85,6 +85,12 @@ export const ExperimentConfigs = {
       dappRankingsEnabled: false,
     },
   },
+  [StatsigExperiments.DAPP_VERBIAGE]: {
+    experimentName: StatsigExperiments.DAPP_VERBIAGE,
+    defaultValues: {
+      dappVerbiageEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {
