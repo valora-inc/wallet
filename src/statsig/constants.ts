@@ -88,7 +88,7 @@ export const ExperimentConfigs = {
   [StatsigExperiments.DAPP_VERBIAGE]: {
     experimentName: StatsigExperiments.DAPP_VERBIAGE,
     defaultValues: {
-      dappVerbiageEnabled: false,
+      dappVerbiageEnabled: true,
     },
   },
 }
