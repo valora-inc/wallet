@@ -1327,6 +1327,10 @@
       "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
     }
   },
+  "dappRankings": {
+    "title": "Dapp排名",
+    "description": "在 {{appName}} 社区中发现其他人最喜欢的dapp。"
+  },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
     "message": "Dapp（去中心化应用程序）为您使用加密货币、赚取奖励和探索 Web3 提供了新方式。\n\n将 Valora 与 dapp 关联，开始新体验吧。",
