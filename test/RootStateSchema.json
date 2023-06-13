@@ -3648,6 +3648,12 @@
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
+                "mostPopularDappIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "recentDappIds": {
                     "items": {
                         "type": "string"
@@ -3668,6 +3674,7 @@
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
+                "mostPopularDappIds",
                 "recentDappIds"
             ],
             "type": "object"

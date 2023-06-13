@@ -19,6 +19,7 @@ import {
 import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
+import DappRankings from 'src/dappsExplorer/DappRankings'
 import FavoriteDappsSection from 'src/dappsExplorer/search/FavoriteDappsSection'
 import NoResultsSearch from 'src/dappsExplorer/search/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
@@ -152,6 +153,7 @@ export function DAppsExplorerScreenSearch() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
+                <DappRankings />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
