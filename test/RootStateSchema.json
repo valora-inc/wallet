@@ -1738,8 +1738,6 @@
             "required": [
                 "__typename",
                 "block",
-                "fees",
-                "nfts",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -4884,7 +4882,6 @@
                 "block",
                 "fees",
                 "inAmount",
-                "metadata",
                 "outAmount",
                 "timestamp",
                 "transactionHash",
