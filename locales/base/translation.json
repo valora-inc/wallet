@@ -1331,6 +1331,10 @@
       "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
     }
   },
+  "dappRankings": {
+    "title": "Dapp rankings",
+    "description": "Discover the most favorited dapps by others in the {{appName}} community"
+  },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
     "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
