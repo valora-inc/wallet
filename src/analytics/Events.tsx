@@ -552,6 +552,7 @@ export enum DappExplorerEvents {
   dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
   dapp_filter = 'dapp_filter', // when a user taps on a filter
   dapp_search = 'dapp_search', // when a user searches on the dapp explorer screen
+  dapp_rankings_open = 'dapp_rankings_open', // when a user taps on the dapp rankings card
 }
 
 export enum WebViewEvents {

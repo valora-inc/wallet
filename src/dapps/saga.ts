@@ -102,6 +102,7 @@ export function* handleFetchDappsList() {
         applications: ApplicationV1[] | ApplicationV2[]
         categories: DappCategory[]
         featured: ApplicationV1
+        mostPopularDapps: string[]
       } = yield call([response, 'json'])
 
       const dappsList: Array<DappV1 | DappV2> = isApplicationV2(result.applications[0])
@@ -128,7 +129,13 @@ export function* handleFetchDappsList() {
             }
           })
 
-      yield put(fetchDappsListCompleted({ dapps: dappsList, categories: result.categories }))
+      yield put(
+        fetchDappsListCompleted({
+          dapps: dappsList,
+          categories: result.categories,
+          mostPopularDappIds: result.mostPopularDapps,
+        })
+      )
     } catch (error) {
       Logger.error(TAG, 'Could not parse dapps response', error)
       yield put(fetchDappsListFailed({ error: 'Could not parse dapps' }))
