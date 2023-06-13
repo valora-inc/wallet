@@ -1333,6 +1333,10 @@
       "searchMessage": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
     }
   },
+  "dappRankings": {
+    "title": "Rankingi aplikacji",
+    "description": "Odkryj najbardziej ulubione dapps przez innych członków społeczności {{appName}} ."
+  },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
     "message": "Dapps (zdecentralizowane aplikacje) zapewniają nowe sposoby wykorzystywania kryptowalut, zdobywania nagród i poznawania środowiska Web3.\n\nPołącz aplikację Valora z dapp, aby zacząć.",
