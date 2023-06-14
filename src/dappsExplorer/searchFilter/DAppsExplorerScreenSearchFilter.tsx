@@ -26,6 +26,8 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
+import DappRankings from 'src/dappsExplorer/DappRankings'
+import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import FavoriteDappsSection from 'src/dappsExplorer/searchFilter/FavoriteDappsSection'
 import NoResults from 'src/dappsExplorer/searchFilter/NoResults'
@@ -37,7 +39,6 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
@@ -133,7 +134,7 @@ export function DAppsExplorerScreenSearchFilter() {
         }
         scrollPosition={scrollPosition}
       />
-      {ConfirmOpenDappBottomSheet}
+
       <>
         {!loading && error && (
           <View style={styles.centerContainer}>
@@ -167,6 +168,7 @@ export function DAppsExplorerScreenSearchFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
+                <DappRankings />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
@@ -256,6 +258,7 @@ export function DAppsExplorerScreenSearchFilter() {
           />
         )}
       </>
+      {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
       {DappInfoBottomSheet}
     </SafeAreaView>

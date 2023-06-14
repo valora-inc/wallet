@@ -2258,6 +2258,33 @@ export const v128Schema = {
   },
 }
 
+export const v129Schema = {
+  ...v128Schema,
+  _persist: {
+    ...v128Schema._persist,
+    version: 129,
+  },
+  // swap: {
+  //   ...v128Schema.swap,
+  //   priceImpactWarningThreshold: 0.04,
+  dapps: {
+    ...v128Schema.dapps,
+    mostPopularDappIds: [],
+  },
+}
+
+export const v130Schema = {
+  ...v129Schema,
+  _persist: {
+    ...v129Schema._persist,
+    version: 130,
+  },
+  swap: {
+    ...v129Schema.swap,
+    priceImpactWarningThreshold: 0.04,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v128Schema as Partial<RootState>
+  return v130Schema as Partial<RootState>
 }

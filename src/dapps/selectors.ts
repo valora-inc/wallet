@@ -6,6 +6,17 @@ export interface CategoryWithDapps extends DappCategory {
   dapps: Array<DappV1 | DappV2>
 }
 
+function getDappsById(dapps: Array<DappV1 | DappV2>, dappIds: string[]) {
+  const matchingDapps: Array<DappV1 | DappV2> = []
+  dappIds.forEach((id) => {
+    const matchedDapp = dapps.find((dapp) => dapp.id === id)
+    if (matchedDapp) {
+      matchingDapps.push(matchedDapp)
+    }
+  })
+  return matchingDapps
+}
+
 export const dappsListApiUrlSelector = (state: RootState) => state.dapps.dappListApiUrl
 
 export const maxNumRecentDappsSelector = (state: RootState) => state.dapps.maxNumRecentDapps
@@ -86,6 +97,16 @@ export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappCon
 
 export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
 
+const mostPopularDappIdsSelector = (state: RootState) => state.dapps.mostPopularDappIds
+
+export const mostPopularDappsSelector = createSelector(
+  dappsListSelector,
+  mostPopularDappIdsSelector,
+  (dapps, mostPopularDappIds) => {
+    return getDappsById(dapps, mostPopularDappIds)
+  }
+)
+
 export const dappsMinimalDisclaimerEnabledSelector = (state: RootState) =>
   state.dapps.dappsMinimalDisclaimerEnabled
 
@@ -93,14 +114,7 @@ export const recentDappsSelector = createSelector(
   dappsListSelector,
   recentDappIdsSelector,
   (dapps, recentDappIds) => {
-    const recentDapps: Array<DappV1 | DappV2> = []
-    recentDappIds.forEach((recentDappId) => {
-      const recentDapp = dapps.find((dapp) => dapp.id === recentDappId)
-      if (recentDapp) {
-        recentDapps.push(recentDapp)
-      }
-    })
-    return recentDapps
+    return getDappsById(dapps, recentDappIds)
   }
 )
 
