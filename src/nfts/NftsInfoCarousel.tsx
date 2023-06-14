@@ -39,10 +39,27 @@ function NftsLoadErrorScreen() {
   )
 }
 
-function ThumbnailImagePlaceholder() {
+interface ImagePlaceHolderProps {
+  height: number
+  width?: number
+  testID?: string
+}
+
+function ImagePlaceholder({ height = 40, width, testID }: ImagePlaceHolderProps) {
   return (
-    <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
-      <View style={styles.skeletonImageThumbnailPlaceHolder} />
+    <SkeletonPlaceholder
+      borderRadius={8}
+      backgroundColor={colors.gray2}
+      highlightColor={colors.white}
+    >
+      <View
+        style={{
+          height,
+          width: width ?? variables.width,
+          zIndex: -1,
+        }}
+        testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
+      />
     </SkeletonPlaceholder>
   )
 }
@@ -91,31 +108,10 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
           }}
           resizeMode={FastImage.resizeMode.cover}
         >
-          {loading && <ThumbnailImagePlaceholder />}
+          {loading && <ImagePlaceholder height={40} width={40} />}
         </FastImage>
       )}
     </Touchable>
-  )
-}
-interface MainImagePlaceholderProps {
-  height: number
-}
-
-function MainImagePlaceholder({ height }: MainImagePlaceholderProps) {
-  return (
-    <SkeletonPlaceholder
-      borderRadius={8}
-      backgroundColor={colors.gray2}
-      highlightColor={colors.white}
-    >
-      <View
-        style={{
-          height,
-          width: variables.width,
-          zIndex: -1,
-        }}
-      />
-    </SkeletonPlaceholder>
   )
 }
 
@@ -213,7 +209,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             }
             resizeMode={FastImage.resizeMode.contain}
           >
-            {isLoading && <MainImagePlaceholder height={scaledHeight} />}
+            {isLoading && <ImagePlaceholder height={scaledHeight} />}
           </FastImage>
         ) : (
           <View style={styles.nftImageLoadingErrorContainer}>
