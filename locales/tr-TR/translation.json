@@ -1622,6 +1622,10 @@
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
     },
+    "priceImpactWarning": {
+      "title": "Değiştirmeden önce",
+      "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
+    },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
