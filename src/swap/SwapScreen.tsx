@@ -44,8 +44,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
-const { decimalSeparator } = getNumberFormatSettings()
-
 function SwapScreen() {
   return <SwapScreenSection showDrawerTopNav={true} />
 }
@@ -53,6 +51,8 @@ function SwapScreen() {
 export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: boolean }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const { decimalSeparator } = getNumberFormatSettings()
 
   const { swappingNonNativeTokensEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]

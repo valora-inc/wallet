@@ -26,13 +26,12 @@ import {
 
 const mockFetch = fetch as FetchMock
 const mockExperimentParams = jest.fn()
+const mockGetNumberFormatSettings = jest.fn()
 
 // Use comma as decimal separator for all tests here
 // Input with "." will still work, but it will also work with ",".
 jest.mock('react-native-localize', () => ({
-  getNumberFormatSettings: () => ({
-    decimalSeparator: ',',
-  }),
+  getNumberFormatSettings: () => mockGetNumberFormatSettings(),
 }))
 
 jest.mock('src/statsig', () => {
@@ -160,6 +159,7 @@ describe('SwapScreen', () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
 
+    mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: '.' })
     BigNumber.config({
       FORMAT: {
         decimalSeparator: '.',
@@ -402,6 +402,7 @@ describe('SwapScreen', () => {
         decimalSeparator: ',',
       },
     })
+    mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
@@ -437,6 +438,7 @@ describe('SwapScreen', () => {
         decimalSeparator: ',',
       },
     })
+    mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(
       JSON.stringify({
         unvalidatedSwapTransaction: {
@@ -628,6 +630,7 @@ describe('SwapScreen', () => {
   })
 
   it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', async () => {
+    mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, swapToContainer, swapFromContainer, getByText, store } = renderScreen({})
 
