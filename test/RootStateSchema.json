@@ -4014,6 +4014,9 @@
                 "guaranteedSwapPriceEnabled": {
                     "type": "boolean"
                 },
+                "priceImpactWarningThreshold": {
+                    "type": "number"
+                },
                 "swapInfo": {
                     "anyOf": [
                         {
@@ -4070,6 +4073,7 @@
             },
             "required": [
                 "guaranteedSwapPriceEnabled",
+                "priceImpactWarningThreshold",
                 "swapInfo",
                 "swapState",
                 "swapUserInput"

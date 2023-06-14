@@ -7,8 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
-import InfoShadowedIcon from 'src/icons/InfoShadowedIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
+import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -29,10 +29,27 @@ function scaleImageHeight(originalWidth: number, originalHeight: number, targetW
   return targetWidth / aspectRatio
 }
 
-function ThumbnailImagePlaceholder() {
+interface ImagePlaceHolderProps {
+  height: number
+  width?: number
+  testID?: string
+}
+
+function ImagePlaceholder({ height = 40, width, testID }: ImagePlaceHolderProps) {
   return (
-    <SkeletonPlaceholder backgroundColor={colors.gray2} highlightColor={colors.white}>
-      <View style={styles.skeletonImageThumbnailPlaceHolder} />
+    <SkeletonPlaceholder
+      borderRadius={8}
+      backgroundColor={colors.gray2}
+      highlightColor={colors.white}
+    >
+      <View
+        style={{
+          height,
+          width: width ?? variables.width,
+          zIndex: -1,
+        }}
+        testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
+      />
     </SkeletonPlaceholder>
   )
 }
@@ -84,31 +101,10 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
           }}
           resizeMode={FastImage.resizeMode.cover}
         >
-          {loading && <ThumbnailImagePlaceholder />}
+          {loading && <ImagePlaceholder height={40} width={40} />}
         </FastImage>
       )}
     </Touchable>
-  )
-}
-interface MainImagePlaceholderProps {
-  height: number
-}
-
-function MainImagePlaceholder({ height }: MainImagePlaceholderProps) {
-  return (
-    <SkeletonPlaceholder
-      borderRadius={Spacing.Smallest8}
-      backgroundColor={colors.gray2}
-      highlightColor={colors.white}
-    >
-      <View
-        style={{
-          height,
-          width: variables.width,
-          zIndex: -1,
-        }}
-      />
-    </SkeletonPlaceholder>
   )
 }
 
@@ -210,11 +206,11 @@ export default function NftsInfoCarousel({ route }: Props) {
             onError={handleLoadError}
             resizeMode={FastImage.resizeMode.contain}
           >
-            {isLoading && <MainImagePlaceholder height={scaledHeight} />}
+            {isLoading && <ImagePlaceholder height={scaledHeight} />}
           </FastImage>
         ) : (
           <View style={styles.nftImageLoadingErrorContainer}>
-            <InfoShadowedIcon />
+            <RedLoadingSpinnerToInfo />
             <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
           </View>
         )}
@@ -354,11 +350,6 @@ const styles = StyleSheet.create({
   },
   sectionContainerLast: {
     marginBottom: Spacing.Large32,
-  },
-  skeletonImageThumbnailPlaceHolder: {
-    height: 40,
-    width: 40,
-    zIndex: -1,
   },
   subSectionTitle: {
     ...fontStyles.large600,

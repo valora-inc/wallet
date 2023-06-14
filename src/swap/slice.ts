@@ -20,6 +20,7 @@ export interface State {
   swapInfo: SwapInfo | null
   swapUserInput: SwapUserInput | null
   guaranteedSwapPriceEnabled: boolean
+  priceImpactWarningThreshold: number
 }
 
 const initialState: State = {
@@ -27,6 +28,7 @@ const initialState: State = {
   swapInfo: null,
   swapUserInput: null,
   guaranteedSwapPriceEnabled: false,
+  priceImpactWarningThreshold: 0.04,
 }
 
 export const slice = createSlice({
@@ -69,11 +71,15 @@ export const slice = createSlice({
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
           state.guaranteedSwapPriceEnabled = action.configValues.guaranteedSwapPriceEnabled
+          state.priceImpactWarningThreshold = action.configValues.priceImpactWarningThreshold
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
         ...state,
         ...getRehydratePayload(action, 'swap'),
+        swapState: SwapState.QUOTE,
+        swapInfo: null,
+        swapUserInput: null,
       }))
   },
 })
