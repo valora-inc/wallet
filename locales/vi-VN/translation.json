@@ -1620,6 +1620,10 @@
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
     },
+    "priceImpactWarning": {
+      "title": "Before you swap",
+      "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+    },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
