@@ -1622,6 +1622,10 @@
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
       "learnMore": "Más información"
     },
+    "priceImpactWarning": {
+      "title": "Antes de cambiar",
+      "body": "Intercambiar estos activos puede dar lugar a un tipo de cambio desfavorable. Si reduces la cantidad, puedes obtener un tipo de cambio mejor."
+    },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
