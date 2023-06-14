@@ -164,40 +164,24 @@ export async function clearStoredAccounts() {
 }
 
 /**
- * Manages a single account (single address) in the keychain
- * Contains methods for locking/unlocking that account by controlling access to the signer for the account
- * Instantiates the signers for both contractkit and ethers.js and locks/unlocks them together
+ * Abstract class implementing locking/unlocking semantics.
+ * Intended to be used for classes whose functionality is
+ * gated behind the keychain being unlocked.
  */
-export class KeychainAccountManager {
-  protected localContractKitSigner: ContractKitSigner | null = null
-  protected localEthersWallets: Map<Chain, Wallet> = new Map()
+export abstract class Unlockable {
+  // Timestamp in milliseconds when class was last unlocked
+  private unlockTime?: number
+  // Number of seconds since the class was last unlocked
+  private unlockDuration?: number
 
-  // Timestamp in milliseconds when the signers were last unlocked
-  protected unlockTime?: number
-  // Number of seconds that the signers were last unlocked for
-  protected unlockDuration?: number
-
-  /**
-   * Construct a new instance of the KeychainAccountManager
-   *
-   * @param account Account address derived from the private key to be called in init
-   */
   constructor(protected account: KeychainAccount) {}
-
-  async init(privateKey: string, passphrase: string) {
-    await storePrivateKey(privateKey, this.account, passphrase)
-  }
 
   async unlock(passphrase: string, duration: number): Promise<boolean> {
     const privateKey = await getStoredPrivateKey(this.account, passphrase)
     if (!privateKey) {
       return false
     }
-    this.localContractKitSigner = new ContractKitSigner(privateKey, this.account)
-    this.localEthersWallets.set(
-      Chain.Celo,
-      new Wallet(privateKey, new ethers.JsonRpcProvider(providerUrlForChain[Chain.Celo]))
-    )
+    await this.onUnlock(privateKey)
     this.unlockTime = Date.now()
     this.unlockDuration = duration
     return true
@@ -212,6 +196,71 @@ export class KeychainAccountManager {
       return true
     }
     return this.unlockTime + this.unlockDuration * 1000 > Date.now()
+  }
+
+  protected abstract onUnlock(privateKey: string): Promise<void>
+  protected abstract onLock(): Promise<void>
+
+  static requiresLock() {
+    return function (_target: any, _key: string, descriptor: PropertyDescriptor) {
+      if (descriptor.get) {
+        const originalImpl = descriptor.get
+        descriptor.get = function () {
+          if (!Unlockable.prototype.isUnlocked.apply(this)) {
+            Unlockable.prototype.onLock.apply(this)
+          }
+          return originalImpl.apply(this)
+        }
+      } else if (descriptor.value) {
+        const originalImpl = descriptor.value
+        descriptor.value = function (...args: any[]) {
+          if (!Unlockable.prototype.isUnlocked.apply(this)) {
+            Unlockable.prototype.onLock.apply(this)
+          }
+          return originalImpl.apply(this, args)
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Manages a single account (single address) in the keychain
+ * Contains methods for locking/unlocking that account by controlling access to the signer for the account
+ * Instantiates the signers for both contractkit and ethers.js and locks/unlocks them together
+ */
+export class KeychainAccountManager extends Unlockable {
+  protected localContractKitSigner: ContractKitSigner | null = null
+  protected localEthersWallets: Map<Chain, Wallet> = new Map()
+
+  /**
+   * Construct a new instance of the KeychainAccountManager
+   *
+   * @param account Account address derived from the private key to be called in init
+   */
+  constructor(protected account: KeychainAccount) {
+    super(account)
+  }
+
+  async init(privateKey: string, passphrase: string) {
+    await storePrivateKey(privateKey, this.account, passphrase)
+  }
+
+  protected async onUnlock(privateKey: string) {
+    this.localContractKitSigner = new ContractKitSigner(privateKey, this.account)
+    this.localEthersWallets.set(
+      Chain.Celo,
+      new Wallet(
+        privateKey,
+        new ethers.JsonRpcProvider(providerUrlForChain[Chain.Celo]),
+        this.account
+      )
+    )
+  }
+
+  protected async onLock() {
+    this.localContractKitSigner = null
+    this.localEthersWallets = new Map()
   }
 
   /**
@@ -230,20 +279,10 @@ export class KeychainAccountManager {
   }
 
   /**
-   * Revokes access by resetting signer and wallets if manager is unlocked
-   */
-  protected revokeIfUnlocked() {
-    if (!this.isUnlocked()) {
-      this.localContractKitSigner = null
-      this.localEthersWallets = new Map()
-    }
-  }
-
-  /**
    * Get the unlocked contractkit signer. Throws if not unlocked.
    */
+  @Unlockable.requiresLock()
   get unlockedContractKitSigner() {
-    this.revokeIfUnlocked()
     if (!this.localContractKitSigner) {
       throw new Error('authentication needed: password or unlock')
     }
@@ -253,8 +292,8 @@ export class KeychainAccountManager {
   /**
    * Get the unlocked ethers wallet. Throws if not unlocked.
    */
+  @Unlockable.requiresLock()
   get unlockedEthersWallets() {
-    this.revokeIfUnlocked()
     if (this.localEthersWallets.size === 0) {
       throw new Error('authentication needed: password or unlock')
     }
