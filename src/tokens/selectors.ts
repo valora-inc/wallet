@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js'
+import deviceInfoModule from 'react-native-device-info'
 import { createSelector } from 'reselect'
+import semver from 'semver'
 import {
   STABLE_TRANSACTION_MIN_AMOUNT,
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
@@ -125,7 +127,13 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
 })
 
 export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.isSwappable || tokenInfo.isSwappableWithAnyDecimals)
+  const appVersion = deviceInfoModule.getVersion()
+
+  return tokens.filter(
+    (tokenInfo) =>
+      tokenInfo.isSwappable ||
+      (tokenInfo.isSwappableFromVersion && semver.gte(appVersion, tokenInfo.isSwappableFromVersion))
+  )
 })
 
 export const tokensByCurrencySelector = createSelector(

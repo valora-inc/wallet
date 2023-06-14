@@ -4506,8 +4506,8 @@
                 "isSwappable": {
                     "type": "boolean"
                 },
-                "isSwappableWithAnyDecimals": {
-                    "type": "boolean"
+                "isSwappableFromVersion": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
