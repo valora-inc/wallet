@@ -216,8 +216,8 @@ export default function DrawerNavigator({ route }: Props) {
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
-  const { dappVerbiageEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.DAPP_VERBIAGE]
+  const { discoverCopyEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.DAPP_MENU_ITEM_COPY]
   )
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
@@ -281,7 +281,7 @@ export default function DrawerNavigator({ route }: Props) {
           }
           options={{
             title:
-              (dappVerbiageEnabled ? t('dappsScreen.title') : t('dappsScreen.titleDiscover')) ??
+              (discoverCopyEnabled ? t('dappsScreen.titleDiscover') : t('dappsScreen.title')) ??
               undefined,
             drawerIcon: DappsExplorer,
             // Special case for the Dapps explorer,

@@ -85,10 +85,10 @@ export const ExperimentConfigs = {
       dappRankingsEnabled: false,
     },
   },
-  [StatsigExperiments.DAPP_VERBIAGE]: {
-    experimentName: StatsigExperiments.DAPP_VERBIAGE,
+  [StatsigExperiments.DAPP_MENU_ITEM_COPY]: {
+    experimentName: StatsigExperiments.DAPP_MENU_ITEM_COPY,
     defaultValues: {
-      dappVerbiageEnabled: true,
+      discoverCopyEnabled: false,
     },
   },
 }

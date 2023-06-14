@@ -20,7 +20,7 @@ describe('DrawerNavigator', () => {
     mocked(getExperimentParams).mockReturnValue({
       showAddWithdrawOnMenu: true,
       showSwapOnMenu: true,
-      dappVerbiageEnabled: true,
+      discoverCopyEnabled: true,
     })
   })
 
