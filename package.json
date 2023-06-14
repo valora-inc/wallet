@@ -298,7 +298,7 @@
     "set-value": "^4.1.0",
     "https-proxy-agent": "^5.0.1",
     "mixin-deep": "^2.0.1",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.1",
     "logkitty": "^0.7.1",
     "minimist": "^1.2.8",
     "websocket-extensions": "^0.1.4",
