@@ -254,6 +254,7 @@ export interface RemoteConfigValues {
   twelveWordMnemonicEnabled: boolean
   dappsMinimalDisclaimerEnabled: boolean
   guaranteedSwapPriceEnabled: boolean
+  priceImpactWarningThreshold: number
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
   superchargeV1Addresses: string[]
