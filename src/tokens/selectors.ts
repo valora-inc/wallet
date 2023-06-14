@@ -126,14 +126,30 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
+function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
+  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
+  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
+  if (usdPriceComparison === 0) {
+    const token1Name = token1.name ?? 'ZZ'
+    const token2Name = token2.name ?? 'ZZ'
+    return token1Name.localeCompare(token2Name)
+  } else {
+    return usdPriceComparison
+  }
+}
+
 export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   const appVersion = deviceInfoModule.getVersion()
 
-  return tokens.filter(
-    (tokenInfo) =>
-      tokenInfo.isSwappable ||
-      (tokenInfo.isSwappableFromVersion && semver.gte(appVersion, tokenInfo.isSwappableFromVersion))
-  )
+  return tokens
+    .filter(
+      (tokenInfo) =>
+        tokenInfo.isSwappable ||
+        (tokenInfo.isSwappableFromVersion &&
+          semver.gte(appVersion, tokenInfo.isSwappableFromVersion))
+    )
+    .sort(tokenCompareByUsdBalanceThenByName)
 })
 
 export const tokensByCurrencySelector = createSelector(
