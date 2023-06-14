@@ -286,7 +286,7 @@
     "ethers": "5.7.2",
     "**/truffle/mocha": "^6.2.3",
     "**/truffle-security/mocha": "^6.2.3",
-    "node-gyp": "5.0.1",
+    "node-gyp": "5.1.1",
     "tar": "4.4.19",
     "lodash": "~4.17.21",
     "**/extend": "^3.0.2",
