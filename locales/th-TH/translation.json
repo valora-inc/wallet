@@ -1620,6 +1620,10 @@
       "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
       "learnMore": "ดูข้อมูลเพิ่มเติม"
     },
+    "priceImpactWarning": {
+      "title": "Before you swap",
+      "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+    },
     "estimatedExchangeRate": "อัตราโดยประมาณ ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
