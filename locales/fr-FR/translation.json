@@ -1622,6 +1622,10 @@
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
       "learnMore": "En savoir plus"
     },
+    "priceImpactWarning": {
+      "title": "Avant d'échanger",
+      "body": "L'échange de ces biens peut entraîner un taux de change défavorable. Si tu diminues le montant, tu peux obtenir un meilleur taux."
+    },
     "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
