@@ -347,11 +347,6 @@ const styles = StyleSheet.create({
   sectionContainerLast: {
     marginBottom: Spacing.Large32,
   },
-  skeletonImageThumbnailPlaceHolder: {
-    height: 40,
-    width: 40,
-    zIndex: -1,
-  },
   subSectionTitle: {
     ...fontStyles.large600,
     marginBottom: Spacing.Regular16,
