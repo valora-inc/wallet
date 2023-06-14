@@ -7,7 +7,7 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
-import BackChevronStatic from 'src/icons/BackChevronStatic'
+import BackChevronCentered from 'src/icons/BackChevronCentered'
 import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -45,7 +45,7 @@ export const headerTransparentWithBack: NativeStackNavigationOptions = {
       Platform.OS === 'ios' ? (
         <TopBarIconButton
           onPress={navigateBack}
-          icon={<BackChevronStatic />}
+          icon={<BackChevronCentered />}
           style={styles.floatingButton}
           testID="FloatingBackButton"
         />
@@ -56,7 +56,7 @@ export const headerTransparentWithBack: NativeStackNavigationOptions = {
           style={styles.floatingButton}
           testID="FloatingBackButton"
         >
-          <BackChevronStatic />
+          <BackChevronCentered />
         </Pressable>
       )
     ) : null,

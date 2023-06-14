@@ -6,6 +6,7 @@ import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/sele
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import ToastWithCTA from 'src/components/ToastWithCTA'
 import AttentionIcon from 'src/icons/Attention'
@@ -65,9 +66,6 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
       <BottomSheet
         forwardedRef={forwardedRef}
         title={t('revokePhoneNumber.bottomSheetTitle')}
-        buttonLabel={t('revokePhoneNumber.confirmButton')}
-        buttonOnPress={handleRevokePhoneNumber}
-        buttonLoading={revokeNumberAsync.loading}
         testId="RevokePhoneNumberBottomSheet"
       >
         {e164PhoneNumber && (
@@ -80,6 +78,14 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
           <AttentionIcon />
           <Text style={styles.warningText}>{t('revokePhoneNumber.description')}</Text>
         </View>
+        <Button
+          text={t('revokePhoneNumber.confirmButton')}
+          onPress={handleRevokePhoneNumber}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          showLoading={revokeNumberAsync.loading}
+          testID="RevokePhoneNumberBottomSheet/PrimaryAction"
+        />
       </BottomSheet>
       <ToastWithCTA
         showToast={showRevokeSuccess}

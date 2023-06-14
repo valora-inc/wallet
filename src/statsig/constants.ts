@@ -80,6 +80,12 @@ export const ExperimentConfigs = {
       dappsSearchEnabled: false,
     },
   },
+  [StatsigExperiments.DAPP_RANKINGS]: {
+    experimentName: StatsigExperiments.DAPP_RANKINGS,
+    defaultValues: {
+      dappRankingsEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {
