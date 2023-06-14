@@ -1,8 +1,8 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import InfoShadowedIcon from 'src/icons/InfoShadowedIcon'
+import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
@@ -24,19 +24,23 @@ export default function NftsLoadError() {
         contentContainerStyle={styles.contentContainerStyle}
         style={styles.scrollContainer}
       >
-        <View style={styles.iconMargin}>
-          <InfoShadowedIcon testID="NftsLoadErrorScreen/Icon" />
+        <View style={styles.center}>
+          <View style={styles.iconMargin}>
+            <RedLoadingSpinnerToInfo />
+          </View>
+          <Text style={styles.title}>{t('nftsLoadErrorScreen.loadErrorTitle')}</Text>
+          <Text style={styles.subTitle}>{t('nftsLoadErrorScreen.loadErrorSubtitle')}</Text>
         </View>
-        <Text style={styles.title}>{t('nftsLoadErrorScreen.loadErrorTitle')}</Text>
-        <Text style={styles.subTitle}>{t('nftsLoadErrorScreen.loadErrorSubtitle')}</Text>
         <View style={styles.contactSupportTouchableContainer}>
           <Touchable
             testID="NftsLoadErrorScreen/ContactSupport"
             onPress={handleSupportPress}
             style={styles.contactSupportTouchable}
           >
-            <Text style={styles.contactSupportTouchableText}>
-              {t('nftsLoadErrorScreen.contactSupport')}
+            <Text style={styles.contactSupportText}>
+              <Trans i18nKey="nftsLoadErrorScreen.contactSupport">
+                <Text style={styles.contactSupportLink} />
+              </Trans>
             </Text>
           </Touchable>
         </View>
@@ -46,6 +50,14 @@ export default function NftsLoadError() {
 }
 
 const styles = StyleSheet.create({
+  center: {
+    alignItems: 'center',
+  },
+  contactSupportText: {
+    ...fontStyles.small,
+    textAlign: 'center',
+    color: colors.gray3,
+  },
   // Touchable are wrapped in a view to prevent the ripple effect from overflowing on Android
   contactSupportTouchableContainer: {
     borderRadius: Spacing.Large32,
@@ -54,15 +66,14 @@ const styles = StyleSheet.create({
   contactSupportTouchable: {
     padding: Spacing.Regular16,
   },
-  contactSupportTouchableText: {
-    alignItems: 'center',
-    ...fontStyles.large600,
-    color: colors.onboardingGreen,
+  contactSupportLink: {
+    color: colors.onboardingBlue,
     textDecorationLine: 'underline',
   },
   contentContainerStyle: {
     flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   iconMargin: {
     marginTop: '32%',
@@ -76,14 +87,13 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Thick24,
   },
   subTitle: {
-    ...fontStyles.large,
-    marginBottom: Spacing.Regular16,
+    ...fontStyles.regular,
     textAlign: 'center',
     color: colors.gray3,
   },
   title: {
-    ...fontStyles.h1,
-    marginBottom: Spacing.Thick24,
+    ...fontStyles.h2,
+    marginBottom: Spacing.Smallest8,
     textAlign: 'center',
   },
 })

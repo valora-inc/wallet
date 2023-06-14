@@ -8,7 +8,7 @@ describe('NftsLoadErrorScreen', () => {
   it('renders correctly', () => {
     const { getByTestId, getByText } = render(<NftLoadError />)
 
-    expect(getByTestId('NftsLoadErrorScreen/Icon')).toBeTruthy()
+    expect(getByTestId('RedLoadingSpinnerToInfo')).toBeTruthy()
     expect(getByText('nftsLoadErrorScreen.loadErrorTitle')).toBeTruthy()
     expect(getByText('nftsLoadErrorScreen.loadErrorSubtitle')).toBeTruthy()
     expect(getByText('nftsLoadErrorScreen.contactSupport')).toBeTruthy()

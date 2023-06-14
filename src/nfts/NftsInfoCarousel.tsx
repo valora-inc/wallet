@@ -6,9 +6,8 @@ import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
-import InfoIcon from 'src/icons/InfoIcon'
+import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -74,11 +73,10 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
       {!nft.metadata || imageLoadingError ? (
-        <InfoIcon
+        <ImageErrorIcon
           // The thumbnails are 20% larger when selected vs unselected
           size={isActive ? 24 : 20}
-          color={colors.dark}
-          testID="NftsInfoCarousel/ErrorIcon"
+          testID="NftsInfoCarousel/ImageErrorIcon"
         />
       ) : (
         <FastImage
@@ -210,7 +208,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </FastImage>
         ) : (
           <View style={styles.nftImageLoadingErrorContainer}>
-            <RedLoadingSpinnerToInfo />
+            <ImageErrorIcon color="#C93717" />
             <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
           </View>
         )}
