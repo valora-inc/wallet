@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, isDappV2 } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import { NoResults } from 'src/dappsExplorer/filter/NoResults'
 import StarIllustration from 'src/icons/StarIllustration'
@@ -16,9 +16,16 @@ interface Props {
   filterName?: string
   filterId?: string
   removeFilter: () => void
+  onUnfavoriteDapp: (dapp: DappV1 | DappV2) => void
 }
 
-export function FavoriteDappsSection({ onPressDapp, filterName, filterId, removeFilter }: Props) {
+export function FavoriteDappsSection({
+  onPressDapp,
+  filterName,
+  filterId,
+  removeFilter,
+  onUnfavoriteDapp,
+}: Props) {
   const { t } = useTranslation()
   const favoriteDapps = useSelector(favoriteDappsSelector)
 
@@ -52,6 +59,7 @@ export function FavoriteDappsSection({ onPressDapp, filterName, filterId, remove
             dapp={favoriteDapp}
             section={DappSection.FavoritesDappScreen}
             onPressDapp={onPressDapp}
+            onUnfavoriteDapp={onUnfavoriteDapp}
           />
         ))}
       </View>

@@ -92,4 +92,59 @@ describe('DappRankings', () => {
       openedFrom: 'mostPopular',
     })
   })
+
+  it('should favorite a dapp', () => {
+    const { getByTestId } = render(
+      <Provider
+        store={createMockStore({
+          dapps: {
+            dappListApiUrl: 'http://url.com',
+            dappsList: mockDappListV2,
+            mostPopularDappIds: ['dapp2'],
+            dappFavoritesEnabled: true,
+          },
+        })}
+      >
+        <DappRankingsBottomSheet onPressDapp={jest.fn()} forwardedRef={{ current: null }} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('Dapp/Favorite/dapp2'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_favorite, {
+      categories: ['2'],
+      categoryId: undefined,
+      dappId: 'dapp2',
+      dappName: 'Dapp 2',
+      section: 'mostPopular',
+    })
+  })
+
+  it('should unfavorite a dapp', () => {
+    const { getByTestId } = render(
+      <Provider
+        store={createMockStore({
+          dapps: {
+            dappListApiUrl: 'http://url.com',
+            dappsList: mockDappListV2,
+            mostPopularDappIds: ['dapp2'],
+            dappFavoritesEnabled: true,
+            favoriteDappIds: ['dapp2'],
+          },
+        })}
+      >
+        <DappRankingsBottomSheet onPressDapp={jest.fn()} forwardedRef={{ current: null }} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('Dapp/Favorite/dapp2'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_unfavorite, {
+      categories: ['2'],
+      categoryId: undefined,
+      dappId: 'dapp2',
+      dappName: 'Dapp 2',
+      section: 'mostPopular',
+    })
+  })
 })

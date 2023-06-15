@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, DappV2 } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import NoResults from 'src/dappsExplorer/search/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
@@ -16,9 +16,15 @@ interface Props {
   onPressDapp: (dapp: ActiveDapp) => void
   searchTerm: string
   onShowSearchResult: (empty: boolean) => void
+  onUnfavoriteDapp: (dapp: DappV1 | DappV2) => void
 }
 
-export function FavoriteDappsSection({ onPressDapp, searchTerm, onShowSearchResult }: Props) {
+export function FavoriteDappsSection({
+  onPressDapp,
+  searchTerm,
+  onShowSearchResult,
+  onUnfavoriteDapp,
+}: Props) {
   const { t } = useTranslation()
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
   const favoriteResults =
@@ -47,6 +53,7 @@ export function FavoriteDappsSection({ onPressDapp, searchTerm, onShowSearchResu
             dapp={favoriteDapp}
             section={DappSection.FavoritesDappScreen}
             onPressDapp={onPressDapp}
+            onUnfavoriteDapp={onUnfavoriteDapp}
           />
         ))}
       </View>

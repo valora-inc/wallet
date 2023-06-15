@@ -214,6 +214,7 @@ describe(DAppsExplorerScreenSearch, () => {
         categories: ['2'],
         dappId: 'dapp2',
         dappName: 'Dapp 2',
+        section: 'all',
       })
       expect(store.getActions()).toEqual([fetchDappsList(), favoriteDapp({ dappId: 'dapp2' })])
     })
@@ -251,6 +252,7 @@ describe(DAppsExplorerScreenSearch, () => {
         categories: ['2'],
         dappId: 'dapp2',
         dappName: 'Dapp 2',
+        section: 'all',
       })
       expect(store.getActions()).toEqual([fetchDappsList(), unfavoriteDapp({ dappId: 'dapp2' })])
     })

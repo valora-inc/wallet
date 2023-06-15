@@ -1,13 +1,11 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { dappFavoritesEnabledSelector, favoriteDappIdsSelector } from 'src/dapps/selectors'
 import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
-import { ActiveDapp, DappSection, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import LinkArrow from 'src/icons/LinkArrow'
 import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
@@ -19,6 +17,7 @@ import { Shadow, Spacing } from 'src/styles/styles'
 interface DappCardContentProps {
   dapp: DappV1 | DappV2
   onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
+  onUnfavoriteDapp?: (dapp: DappV1 | DappV2) => void
 }
 
 interface Props extends DappCardContentProps {
@@ -29,7 +28,7 @@ interface Props extends DappCardContentProps {
 // Since this icon exists within a touchable, make the hitslop bigger than usual
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
-export function DappCardContent({ dapp, onFavoriteDapp }: DappCardContentProps) {
+export function DappCardContent({ dapp, onFavoriteDapp, onUnfavoriteDapp }: DappCardContentProps) {
   const dispatch = useDispatch()
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
@@ -37,23 +36,10 @@ export function DappCardContent({ dapp, onFavoriteDapp }: DappCardContentProps) 
   const isFavorited = favoriteDappIds.includes(dapp.id)
 
   const onPressFavorite = () => {
-    const eventProperties = isDappV2(dapp)
-      ? {
-          categories: dapp.categories,
-          dappId: dapp.id,
-          dappName: dapp.name,
-        }
-      : {
-          categoryId: dapp.categoryId,
-          dappId: dapp.id,
-          dappName: dapp.name,
-        }
-
     if (isFavorited) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
       dispatch(unfavoriteDapp({ dappId: dapp.id }))
+      onUnfavoriteDapp?.(dapp)
     } else {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
       dispatch(favoriteDapp({ dappId: dapp.id }))
       onFavoriteDapp?.(dapp)
     }
@@ -83,7 +69,7 @@ export function DappCardContent({ dapp, onFavoriteDapp }: DappCardContentProps) 
   )
 }
 
-function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
+function DappCard({ dapp, section, onPressDapp, onFavoriteDapp, onUnfavoriteDapp }: Props) {
   const onPress = () => {
     onPressDapp({ ...dapp, openedFrom: section })
   }
@@ -91,7 +77,11 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
   return (
     <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable onPress={onPress} testID={`Dapp/${dapp.id}`}>
-        <DappCardContent dapp={dapp} onFavoriteDapp={onFavoriteDapp} />
+        <DappCardContent
+          dapp={dapp}
+          onFavoriteDapp={onFavoriteDapp}
+          onUnfavoriteDapp={onUnfavoriteDapp}
+        />
       </Touchable>
     </Card>
   )
