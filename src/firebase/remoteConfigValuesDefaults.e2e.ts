@@ -44,7 +44,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',
-  dappListApiUrl: 'api.alfajores.valora.xyz/dappList',
+  dappListApiUrl: 'https://api.alfajores.valora.xyz/dappList',
   maxNumRecentDapps: 4,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,

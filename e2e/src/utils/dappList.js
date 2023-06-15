@@ -51,14 +51,11 @@ export async function scrollToDapp(dappIndex = 0) {
 export async function fetchDappList(userAgent = '') {
   let dappList = null
   try {
-    const response = await fetch(
-      'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList',
-      {
-        headers: {
-          'User-Agent': userAgent,
-        },
-      }
-    )
+    const response = await fetch('https://api.alfajores.valora.xyz/dappList', {
+      headers: {
+        'User-Agent': userAgent,
+      },
+    })
     if (response.status === 200) {
       dappList = await response.json()
     }
