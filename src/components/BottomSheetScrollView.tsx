@@ -1,7 +1,7 @@
 import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
-import { LayoutChangeEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
-import { SafeAreaView, useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BottomSheetParams } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
 
@@ -34,23 +34,21 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, testId, ch
     <RNBottomSheetScrollView
       style={{
         maxHeight: scrollEnabledContentHeight - insets.top,
-        marginTop: scrollEnabled ? insets.top : 0,
       }}
       scrollEnabled={scrollEnabled}
       onLayout={handleLayout}
     >
-      <SafeAreaView
-        edges={['bottom']}
+      <View
         style={[
           styles.container,
-          { paddingTop: scrollEnabled ? 0 : Spacing.Thick24 },
+          { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
           containerStyle,
         ]}
         onLayout={handleScrollEnabled}
         testID={testId}
       >
         {children}
-      </SafeAreaView>
+      </View>
     </RNBottomSheetScrollView>
   )
 }
