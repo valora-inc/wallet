@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
 import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
 import { createMockStore } from 'test/utils'
 import { mockDappListV2 } from 'test/values'
@@ -94,23 +95,23 @@ describe('DappRankings', () => {
   })
 
   it('should favorite a dapp', () => {
+    const store = createMockStore({
+      dapps: {
+        dappListApiUrl: 'http://url.com',
+        dappsList: mockDappListV2,
+        mostPopularDappIds: ['dapp2'],
+        dappFavoritesEnabled: true,
+      },
+    })
     const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          dapps: {
-            dappListApiUrl: 'http://url.com',
-            dappsList: mockDappListV2,
-            mostPopularDappIds: ['dapp2'],
-            dappFavoritesEnabled: true,
-          },
-        })}
-      >
+      <Provider store={store}>
         <DappRankingsBottomSheet onPressDapp={jest.fn()} forwardedRef={{ current: null }} />
       </Provider>
     )
 
     fireEvent.press(getByTestId('Dapp/Favorite/dapp2'))
 
+    expect(store.getActions()).toEqual([favoriteDapp({ dappId: 'dapp2' })])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_favorite, {
       categories: ['2'],
       categoryId: undefined,
@@ -121,24 +122,24 @@ describe('DappRankings', () => {
   })
 
   it('should unfavorite a dapp', () => {
+    const store = createMockStore({
+      dapps: {
+        dappListApiUrl: 'http://url.com',
+        dappsList: mockDappListV2,
+        mostPopularDappIds: ['dapp2'],
+        dappFavoritesEnabled: true,
+        favoriteDappIds: ['dapp2'],
+      },
+    })
     const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          dapps: {
-            dappListApiUrl: 'http://url.com',
-            dappsList: mockDappListV2,
-            mostPopularDappIds: ['dapp2'],
-            dappFavoritesEnabled: true,
-            favoriteDappIds: ['dapp2'],
-          },
-        })}
-      >
+      <Provider store={store}>
         <DappRankingsBottomSheet onPressDapp={jest.fn()} forwardedRef={{ current: null }} />
       </Provider>
     )
 
     fireEvent.press(getByTestId('Dapp/Favorite/dapp2'))
 
+    expect(store.getActions()).toEqual([unfavoriteDapp({ dappId: 'dapp2' })])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_unfavorite, {
       categories: ['2'],
       categoryId: undefined,
