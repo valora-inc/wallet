@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import deviceInfoModule from 'react-native-device-info'
 import { createSelector } from 'reselect'
-import semver from 'semver'
 import {
   STABLE_TRANSACTION_MIN_AMOUNT,
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
@@ -11,6 +10,7 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
+import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
 type TokenBalanceWithUsdPrice = TokenBalance & {
@@ -147,7 +147,7 @@ export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector
       (tokenInfo) =>
         tokenInfo.isSwappable ||
         (tokenInfo.isSwappableFromVersion &&
-          semver.gte(appVersion, tokenInfo.isSwappableFromVersion))
+          isVersionBelowMinimum(appVersion, tokenInfo.isSwappableFromVersion))
     )
     .sort(tokenCompareByUsdBalanceThenByName)
 })
