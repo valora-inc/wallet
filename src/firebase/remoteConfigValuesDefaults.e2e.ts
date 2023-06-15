@@ -44,7 +44,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',
-  dappListApiUrl: 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList',
+  dappListApiUrl: 'api.alfajores.valora.xyz/dappList',
   maxNumRecentDapps: 4,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
