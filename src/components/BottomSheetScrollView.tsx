@@ -7,12 +7,13 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props extends BottomSheetParams {
   containerStyle?: StyleProp<ViewStyle>
+  testId?: string
   children: React.ReactNode
 }
 
 const BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT = 24
 
-function BottomSheetScrollView({ handleContentLayout, containerStyle, children }: Props) {
+function BottomSheetScrollView({ handleContentLayout, containerStyle, testId, children }: Props) {
   const [scrollEnabled, setScrollEnabled] = useState(false)
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
@@ -21,6 +22,9 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
 
   const handleLayout = (event: LayoutChangeEvent) => {
     handleContentLayout(event)
+  }
+
+  const handleScrollEnabled = (event: LayoutChangeEvent) => {
     if (event.nativeEvent.layout.height > scrollEnabledContentHeight) {
       setScrollEnabled(true)
     }
@@ -33,11 +37,17 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
         marginTop: scrollEnabled ? insets.top : 0,
       }}
       scrollEnabled={scrollEnabled}
+      onLayout={handleLayout}
     >
       <SafeAreaView
         edges={['bottom']}
-        style={[styles.container, containerStyle]}
-        onLayout={handleLayout}
+        style={[
+          styles.container,
+          { paddingTop: scrollEnabled ? 0 : Spacing.Thick24 },
+          containerStyle,
+        ]}
+        onLayout={handleScrollEnabled}
+        testID={testId}
       >
         {children}
       </SafeAreaView>
