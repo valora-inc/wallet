@@ -27,6 +27,7 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
+import DappRankings from 'src/dappsExplorer/DappRankings'
 import FavoriteDappsSection from 'src/dappsExplorer/filter/FavoriteDappsSection'
 import { NoResults } from 'src/dappsExplorer/filter/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
@@ -140,7 +141,7 @@ export function DAppsExplorerScreenFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                {/* Dapps Filtering*/}
+                <DappRankings />
                 <View style={styles.dappFilterView}>
                   <ScrollView
                     horizontal={true}
@@ -211,7 +212,7 @@ export function DAppsExplorerScreenFilter() {
                 testID="DAppsExplorerScreenFilter"
               />
             }
-            ListFooterComponentStyle={styles.ListFooterComponent}
+            ListFooterComponentStyle={styles.listFooterComponent}
           />
         )}
       </>
@@ -250,7 +251,7 @@ function parseResultsIntoAll(
 
 function DescriptionView({ message, title }: { message: string; title: string }) {
   return (
-    <View>
+    <View style={styles.descriptionView}>
       <Text style={styles.pageHeaderText}>{title}</Text>
       <Text style={styles.pageHeaderSubText}>{message}</Text>
     </View>
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dappFilterView: {
-    paddingTop: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
   },
   dappFilterScrollView: {
     marginHorizontal: -Spacing.Thick24,
@@ -306,9 +307,12 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,
   },
-  ListFooterComponent: {
+  listFooterComponent: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  descriptionView: {
+    paddingBottom: Spacing.Regular16,
   },
 })
 

@@ -14,6 +14,7 @@ interface ExchangeRate {
   fromTokenAddress: string
   swapAmount: BigNumber
   price: string
+  provider: string
 }
 
 const useSwapQuote = () => {
@@ -37,10 +38,7 @@ const useSwapQuote = () => {
         return null
       }
 
-      // This only works for tokens with 18 decimals
-      // TODO: make this work for tokens with different decimals
       const decimals = updatedField === Field.FROM ? fromToken.decimals : toToken.decimals
-
       const swapAmountInWei = new BigNumber(swapAmount[updatedField]).shiftedBy(decimals)
       if (swapAmountInWei.lte(0)) {
         return null
@@ -79,6 +77,7 @@ const useSwapQuote = () => {
           updatedField === Field.FROM
             ? swapPrice
             : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
+        provider: quote.details.swapProvider,
       }
 
       return updatedExchangeRate
