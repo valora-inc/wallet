@@ -36,14 +36,12 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
   })
 
   const onFavoriteDapp = (dapp: DappV1 | DappV2) => {
-    console.log('====fav')
     setFavoritedDapp(dapp)
     setShowToast(true)
     ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, getEventProperties(dapp))
   }
 
   const onUnfavoriteDapp = (dapp: DappV1 | DappV2) => {
-    console.log('====unfav')
     ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, getEventProperties(dapp))
   }
 
