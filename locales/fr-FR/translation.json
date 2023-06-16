@@ -1329,6 +1329,10 @@
       "searchMessage": "Aucun résultat correspondant à <0>\"{{searchTerm}}\"</0>"
     }
   },
+  "dappRankings": {
+    "title": "Classement des applications",
+    "description": "Découvre les dapps les plus favorisées par les autres membres de la communauté {{appName}} ."
+  },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
     "message": "Les dapps (applications décentralisées) fournissent de nouvelles façons d'utiliser votre crypto, de gagner des récompenses et d'explorer la Web3.\n\nConnectez Valora à une dapp pour commencer.",
@@ -1617,6 +1621,10 @@
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
       "learnMore": "En savoir plus"
+    },
+    "priceImpactWarning": {
+      "title": "Avant d'échanger",
+      "body": "L'échange de ces biens peut entraîner un taux de change défavorable. Si tu diminues le montant, tu peux obtenir un meilleur taux."
     },
     "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>"
   },

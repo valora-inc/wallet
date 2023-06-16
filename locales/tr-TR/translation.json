@@ -1329,6 +1329,10 @@
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
     }
   },
+  "dappRankings": {
+    "title": "Dapp sıralamaları",
+    "description": "{{appName}} topluluğundaki diğer kişiler tarafından en çok tercih edilen dapp'leri keşfedin"
+  },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
     "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için Valora'yı bir dapp'e bağlayın.",
@@ -1617,6 +1621,10 @@
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
+    },
+    "priceImpactWarning": {
+      "title": "Değiştirmeden önce",
+      "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
