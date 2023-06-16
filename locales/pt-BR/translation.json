@@ -1329,6 +1329,10 @@
       "searchMessage": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
     }
   },
+  "dappRankings": {
+    "title": "Classificações Dapp",
+    "description": "Descubra os dapps mais favoritos por outros na comunidade {{appName}}"
+  },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
     "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar suas cripto, ganhar recompensas e explorar a Web3.\n\nConecte Valora a um dapp para começar.",
@@ -1617,6 +1621,10 @@
       "title": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
+    },
+    "priceImpactWarning": {
+      "title": "Antes de trocar",
+      "body": "A troca destes activos pode resultar numa taxa de câmbio desfavorável. Se reduzir o montante, pode obter uma taxa de câmbio mais favorável."
     },
     "estimatedExchangeRate": "Câmbio estimado ≈ <0>0.00</0>"
   },
