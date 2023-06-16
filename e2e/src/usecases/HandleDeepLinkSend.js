@@ -22,8 +22,8 @@ const openDeepLink = async (payUrl) => {
 }
 
 export default HandleDeepLinkSend = () => {
-  describe('When Launching Deeplink - App Closed', () => {
-    it('Then should handle deeplink with all attributes', async () => {
+  describe('Launching Deeplink - App Closed', () => {
+    it('should handle deeplink with all attributes', async () => {
       const PAY_URL = quote(deepLinks.withAll)
       await launchDeepLink(PAY_URL)
       await waitFor(element(by.id('SendAmount')))
@@ -37,14 +37,14 @@ export default HandleDeepLinkSend = () => {
         .withTimeout(10 * 1000)
     })
 
-    it('Then should handle deeplink without amount', async () => {
+    it('should handle deeplink without amount', async () => {
       const PAY_URL = quote(deepLinks.withoutAmount)
       await launchDeepLink(PAY_URL)
       await inputNumberKeypad('0.1')
       await element(by.id('Review')).tap()
     })
 
-    it('Then should error if no address provided', async () => {
+    it('should error if no address provided', async () => {
       // TODO we should maybe throw an error to the user instead of silently failing
       const PAY_URL = quote(deepLinks.withoutAddress)
       await launchDeepLink(PAY_URL)
@@ -52,13 +52,13 @@ export default HandleDeepLinkSend = () => {
     })
   })
 
-  describe(':ios: When Launching Deeplink - App Backgrounded', () => {
+  describe(':ios: Launching Deeplink - App Backgrounded', () => {
     beforeEach(async () => {
       await reloadReactNative()
       await device.sendToHome()
     })
 
-    it('Then should handle deeplink with all attributes', async () => {
+    it('should handle deeplink with all attributes', async () => {
       const PAY_URL = quote(deepLinks.withAll)
       await launchDeepLink(PAY_URL, false)
       await waitFor(element(by.id('SendAmount')))
@@ -72,15 +72,15 @@ export default HandleDeepLinkSend = () => {
         .withTimeout(10 * 1000)
     })
 
-    it('Then should error if no address provided', async () => {
+    it('should error if no address provided', async () => {
       const PAY_URL = quote(deepLinks.withoutAddress)
       await launchDeepLink(PAY_URL, false)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
     })
   })
 
-  describe(':ios: When Opening Deeplink - App in Foreground', () => {
-    it('Then should handle deeplink with all attributes', async () => {
+  describe(':ios: Opening Deeplink - App in Foreground', () => {
+    it('should handle deeplink with all attributes', async () => {
       const PAY_URL = quote(deepLinks.withAll)
       await openDeepLink(PAY_URL)
       await waitFor(element(by.id('SendAmount')))
@@ -94,7 +94,7 @@ export default HandleDeepLinkSend = () => {
         .withTimeout(10 * 1000)
     })
 
-    it('Then should error if no address provided', async () => {
+    it('should error if no address provided', async () => {
       const PAY_URL = quote(deepLinks.withoutAddress)
       await openDeepLink(PAY_URL)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()

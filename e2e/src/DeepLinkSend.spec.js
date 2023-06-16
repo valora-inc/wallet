@@ -1,7 +1,7 @@
 import HandleDeepLinkSend from './usecases/HandleDeepLinkSend'
 import { quickOnboarding } from './utils/utils'
 
-describe('Given', () => {
+describe('Deep Links', () => {
   beforeAll(async () => {
     // Clear redux store ?
     await quickOnboarding()
@@ -14,5 +14,5 @@ describe('Given', () => {
   // also would be great if the deep link survives through an app install
   // similar to the invite links
 
-  describe('Deep Link Send', HandleDeepLinkSend)
+  describe('Send', HandleDeepLinkSend)
 })
