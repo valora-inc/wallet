@@ -299,7 +299,9 @@ export const fiatConnectKycTransferOut = () => {
     )
 
     await element(by.text('Continue')).tap()
-
+    await waitFor(element(by.text('Done')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
     await element(by.text('Done')).tap() // End of Persona flow
 
     // Check that Mock Provider info is defined
