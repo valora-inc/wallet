@@ -1327,6 +1327,10 @@
       "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
     }
   },
+  "dappRankings": {
+    "title": "Dapp排名",
+    "description": "在 {{appName}} 社区中发现其他人最喜欢的dapp。"
+  },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
     "message": "Dapp（去中心化应用程序）为您使用加密货币、赚取奖励和探索 Web3 提供了新方式。\n\n将 Valora 与 dapp 关联，开始新体验吧。",
@@ -1615,6 +1619,10 @@
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
       "learnMore": "了解更多"
+    },
+    "priceImpactWarning": {
+      "title": "在你调换之前",
+      "body": "交换这些资产可能会导致不利的汇率。如果你降低金额，你可能会得到一个更好的汇率。"
     },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
   },
