@@ -552,6 +552,7 @@ export enum DappExplorerEvents {
   dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
   dapp_filter = 'dapp_filter', // when a user taps on a filter
   dapp_search = 'dapp_search', // when a user searches on the dapp explorer screen
+  dapp_rankings_open = 'dapp_rankings_open', // when a user taps on the dapp rankings card
 }
 
 export enum WebViewEvents {
@@ -578,6 +579,7 @@ export enum SwapEvents {
   swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
   swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen
+  swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed', // When the price impact warning is displayed
 }
 
 export enum CeloNewsEvents {

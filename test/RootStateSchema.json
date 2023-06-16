@@ -1738,8 +1738,6 @@
             "required": [
                 "__typename",
                 "block",
-                "fees",
-                "nfts",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -3647,6 +3645,12 @@
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
+                "mostPopularDappIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "recentDappIds": {
                     "items": {
                         "type": "string"
@@ -3667,6 +3671,7 @@
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
+                "mostPopularDappIds",
                 "recentDappIds"
             ],
             "type": "object"
@@ -4006,6 +4011,9 @@
                 "guaranteedSwapPriceEnabled": {
                     "type": "boolean"
                 },
+                "priceImpactWarningThreshold": {
+                    "type": "number"
+                },
                 "swapInfo": {
                     "anyOf": [
                         {
@@ -4062,6 +4070,7 @@
             },
             "required": [
                 "guaranteedSwapPriceEnabled",
+                "priceImpactWarningThreshold",
                 "swapInfo",
                 "swapState",
                 "swapUserInput"
@@ -4877,7 +4886,6 @@
                 "block",
                 "fees",
                 "inAmount",
-                "metadata",
                 "outAmount",
                 "timestamp",
                 "transactionHash",

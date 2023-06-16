@@ -79,6 +79,18 @@ export const ExperimentConfigs = {
       dappsSearchEnabled: false,
     },
   },
+  [StatsigExperiments.DAPP_RANKINGS]: {
+    experimentName: StatsigExperiments.DAPP_RANKINGS,
+    defaultValues: {
+      dappRankingsEnabled: false,
+    },
+  },
+  [StatsigExperiments.DAPP_MENU_ITEM_COPY]: {
+    experimentName: StatsigExperiments.DAPP_MENU_ITEM_COPY,
+    defaultValues: {
+      discoverCopyEnabled: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {

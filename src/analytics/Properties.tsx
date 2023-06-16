@@ -1171,6 +1171,7 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_search]: {
     searchTerm: string
   }
+  [DappExplorerEvents.dapp_rankings_open]: undefined
 }
 
 interface WebViewEventsProperties {
@@ -1238,6 +1239,10 @@ interface SwapEventsProperties {
     swapApproveTxId: string
   }
   [SwapEvents.swap_learn_more]: undefined
+  [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
+    provider: string
+    priceImpact: string
+  }
 }
 
 interface CeloNewsEventsProperties {
