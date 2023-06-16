@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "Scoprire",
     "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
