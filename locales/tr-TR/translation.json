@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp'ler",
+    "titleDiscover": "Keşfedin",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
