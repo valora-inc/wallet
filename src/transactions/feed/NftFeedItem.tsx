@@ -8,6 +8,7 @@ import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Nft } from 'src/nfts/types'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -24,7 +25,7 @@ interface Props {
 function NftFeedItem({ transaction }: Props) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)
-  const { nfts } = transaction
+  const nfts = transaction.nfts ?? ([] as Nft[])
 
   const openNftTransactionDetails = () => {
     getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER)
