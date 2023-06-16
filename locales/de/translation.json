@@ -1329,6 +1329,10 @@
       "searchMessage": "Keine passenden Ergebnisse für <0>\"{{searchTerm}}\"</0> gefunden"
     }
   },
+  "dappRankings": {
+    "title": "Dapp-Ranglisten",
+    "description": "Entdecke die beliebtesten Dapps von anderen in der {{appName}} Community"
+  },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
     "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, dein Krypto zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
@@ -1617,6 +1621,10 @@
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
       "learnMore": "Mehr Infos"
+    },
+    "priceImpactWarning": {
+      "title": "Bevor du tauschst",
+      "body": "Der Tausch dieser Vermögenswerte kann zu einem ungünstigen Wechselkurs führen. Wenn du den Betrag senkst, bekommst du vielleicht einen besseren Kurs."
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
