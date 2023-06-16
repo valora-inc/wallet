@@ -1327,6 +1327,10 @@
       "searchMessage": "Không tìm thấy kết quả phù hợp cho cụm từ tìm kiếm <0>“{{searchTerm}}”</0>"
     }
   },
+  "dappRankings": {
+    "title": "Dapp rankings",
+    "description": "Discover the most favorited dapps by others in the {{appName}} community"
+  },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
     "message": "Dapp (decentralized app – ứng dụng phi tập trung) mang lại những phương thức mới để sử dụng tiền điện tử, kiếm tiền thưởng và khám phá Web3.\n\nKết nối Valora với dapp để bắt đầu.",
@@ -1615,6 +1619,10 @@
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
+    },
+    "priceImpactWarning": {
+      "title": "Before you swap",
+      "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
     },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>"
   },
