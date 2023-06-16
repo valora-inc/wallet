@@ -147,7 +147,7 @@ export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector
       (tokenInfo) =>
         tokenInfo.isSwappable ||
         (tokenInfo.isSwappableFromVersion &&
-          isVersionBelowMinimum(appVersion, tokenInfo.isSwappableFromVersion))
+          !isVersionBelowMinimum(appVersion, tokenInfo.isSwappableFromVersion))
     )
     .sort(tokenCompareByUsdBalanceThenByName)
 })
