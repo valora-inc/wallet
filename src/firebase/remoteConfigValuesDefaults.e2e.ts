@@ -42,7 +42,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
-  sentryTracesSampleRate: 0.2,
+  sentryTracesSampleRate: 0, // Don't send traces in E2E tests
   sentryNetworkErrors: '',
   dappListApiUrl: 'https://api.alfajores.valora.xyz/dappList',
   maxNumRecentDapps: 4,
