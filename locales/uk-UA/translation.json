@@ -1743,6 +1743,18 @@
     "swap": "Обміняти",
     "withdraw": "Зняти"
   },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Переглянути в Celo Explorer",
+    "attributes": "Атрибути",
+    "description": "Опис",
+    "noNftsFound": "NFT не знайдено",
+    "nftImageLoadError": "Не вдається відобразити цей NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Виникла проблема із завантаженням NFT",
+    "loadErrorSubtitle": "Ваші кошти в безпеці. Спробуйте ще раз.",
+    "contactSupport": "Якщо вам потрібна додаткова допомога, ви можете \n<0>Зверніться до служби підтримки</0>"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
