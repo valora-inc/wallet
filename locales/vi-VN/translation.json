@@ -1306,6 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "Discover",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
