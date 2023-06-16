@@ -1312,6 +1312,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Odkryj",
     "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
