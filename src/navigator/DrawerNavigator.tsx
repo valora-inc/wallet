@@ -216,6 +216,9 @@ export default function DrawerNavigator({ route }: Props) {
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
+  const { discoverCopyEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.DAPP_MENU_ITEM_COPY]
+  )
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
     <CustomDrawerContent {...props} />
@@ -277,7 +280,9 @@ export default function DrawerNavigator({ route }: Props) {
               : DAppsExplorerScreenLegacy
           }
           options={{
-            title: t('dappsScreen.title') ?? undefined,
+            title:
+              (discoverCopyEnabled ? t('dappsScreen.titleDiscover') : t('dappsScreen.title')) ??
+              undefined,
             drawerIcon: DappsExplorer,
             // Special case for the Dapps explorer,
             // so it reloads the list when the user comes back to it
