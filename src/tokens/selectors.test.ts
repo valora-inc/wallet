@@ -58,6 +58,7 @@ const state: any = {
         balance: '50',
         isSupercharged: true,
         priceFetchedAt: mockDate,
+        isSwappableFromVersion: '1.10.0',
       },
       ['0x5']: {
         address: '0x5',
@@ -138,6 +139,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x4",
           "balance": "50",
           "isSupercharged": true,
+          "isSwappableFromVersion": "1.10.0",
           "lastKnownUsdPrice": null,
           "priceFetchedAt": 1588200517518,
           "symbol": "TT",
@@ -233,6 +235,16 @@ describe(totalTokenBalanceSelector, () => {
             "priceFetchedAt": 1588200517518,
             "symbol": "cUSD",
             "usdPrice": "1",
+          },
+          Object {
+            "address": "0x4",
+            "balance": "50",
+            "isSupercharged": true,
+            "isSwappableFromVersion": "1.10.0",
+            "lastKnownUsdPrice": null,
+            "priceFetchedAt": 1588200517518,
+            "symbol": "TT",
+            "usdPrice": null,
           },
         ]
       `)
