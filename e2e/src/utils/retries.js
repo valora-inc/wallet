@@ -21,7 +21,12 @@ export const launchApp = async (
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
   ).then(async () => {
-    await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.*'])
+    // This disabled detox sync for the matching network requests
+    await device.setURLBlacklist([
+      '.*blockchain-api-dot-celo-mobile-alfajores.*',
+      '.*api.alfajores.valora.xyz.*',
+      '.*alfajores-forno.celo-testnet.*',
+    ])
   })
 }
 
