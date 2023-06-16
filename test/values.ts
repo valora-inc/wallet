@@ -1268,7 +1268,7 @@ export const mockNftAllFields: Nft = {
   contractAddress: mockContractAddress,
   media: [
     {
-      gateway: 'https://example.com/1',
+      gateway: 'https://example.com/gateway/1',
       raw: 'https://example.com/1',
     },
   ],
@@ -1290,7 +1290,7 @@ export const mockNftMinimumFields: Nft = {
   contractAddress: mockContractAddress,
   media: [
     {
-      gateway: 'https://example.com/3',
+      gateway: 'https://example.com/gateway/3',
       raw: 'https://example.com/3',
     },
   ],
