@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import Svg, { Circle } from 'react-native-svg'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
+import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -12,12 +16,45 @@ import { Nft } from 'src/nfts/types'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
+function NftIconPlaceholder({ testID = 'NftIconPlaceHolder' }: { testID?: string }) {
+  return (
+    <SkeletonPlaceholder>
+      <Svg testID={testID} width={40} height={40}>
+        <Circle cx={20} cy={20} r={20} fill={colors.gray3} />
+      </Svg>
+    </SkeletonPlaceholder>
+  )
+}
+
+function NftIcon({ nft }: { nft: Nft }) {
+  const [loading, setLoading] = useState(true)
+  const [imageLoadingError, setImageLoadingError] = useState(false)
+  return imageLoadingError ? (
+    /* TODO: properly center this error icon */
+    <View style={styles.circleIcon}>
+      <ImageErrorIcon size={24} testID="NftFeedItem/NftIcon" />
+    </View>
+  ) : (
+    <FastImage
+      source={{
+        uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
+      }}
+      style={styles.circleIcon}
+      // TODO: add analytics
+      onLoadEnd={() => setLoading(false)}
+      onError={() => setImageLoadingError(true)}
+    >
+      {loading && <NftIconPlaceholder />}
+    </FastImage>
+  )
+}
 interface Props {
   transaction: NftTransfer
 }
@@ -26,9 +63,10 @@ function NftFeedItem({ transaction }: Props) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)
   const nfts = transaction.nfts ?? ([] as Nft[])
+  const showNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER)
 
   const openNftTransactionDetails = () => {
-    getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER)
+    showNftsInApp
       ? navigate(Screens.NftsInfoCarousel, { nfts })
       : navigate(Screens.WebViewScreen, {
           uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
@@ -39,7 +77,10 @@ function NftFeedItem({ transaction }: Props) {
   return (
     <Touchable testID={'NftFeedItem'} disabled={false} onPress={openNftTransactionDetails}>
       <View style={styles.container}>
-        {transaction.type === TokenTransactionTypeV2.NftReceived ? (
+        {/* If enabled try to show the first image. Otherwise display the default icons */}
+        {showNftsInApp && nfts.length > 0 && nfts[0].metadata?.image ? (
+          <NftIcon nft={nfts[0]} />
+        ) : transaction.type === TokenTransactionTypeV2.NftReceived ? (
           <NftReceivedIcon />
         ) : (
           <NftSentIcon />
@@ -47,7 +88,11 @@ function NftFeedItem({ transaction }: Props) {
         <View style={styles.descriptionContainer}>
           <Text style={styles.title}>
             {transaction.type === TokenTransactionTypeV2.NftReceived
-              ? t('receivedNft')
+              ? nfts.length > 1
+                ? t('receivedNfts')
+                : t('receivedNft')
+              : nfts.length > 1
+              ? t('sentNfts')
               : t('sentNft')}
           </Text>
         </View>
@@ -57,6 +102,11 @@ function NftFeedItem({ transaction }: Props) {
 }
 
 const styles = StyleSheet.create({
+  circleIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
   container: {
     flexDirection: 'row',
     paddingVertical: 12,
