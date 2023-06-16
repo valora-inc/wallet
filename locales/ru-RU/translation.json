@@ -1312,6 +1312,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Открой для себя",
     "message": "Изучите способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
