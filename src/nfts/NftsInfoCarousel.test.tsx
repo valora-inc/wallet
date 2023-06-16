@@ -89,7 +89,7 @@ describe('NftsInfoCarousel', () => {
 
     // The Nft with null metadata will render with an error icon in carousel and display error text when selected
     expect(queryByText('nftInfoCarousel.nftImageLoadError')).toBeNull()
-    expect(getByTestId('NftsInfoCarousel/ErrorIcon')).toBeTruthy()
+    expect(getByTestId('NftsInfoCarousel/ImageErrorIcon')).toBeTruthy()
     expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
     fireEvent.press(
       getByTestId(

@@ -6,11 +6,12 @@ import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
-import InfoIcon from 'src/icons/InfoIcon'
+import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import NftsLoadError from 'src/nfts/NftsLoadError'
 import { Nft } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -25,18 +26,6 @@ const DEFAULT_IMAGE_HEIGHT = 360
 function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
-}
-
-function NftsLoadErrorScreen() {
-  const { t } = useTranslation()
-  return (
-    <SafeAreaView
-      testID="NftsInfoCarousel/NftsLoadErrorScreen"
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-    >
-      <Text>{t('nftInfoCarousel.noNftsFound')}</Text>
-    </SafeAreaView>
-  )
 }
 
 interface ImagePlaceHolderProps {
@@ -72,6 +61,7 @@ interface NftThumbnailProps {
 
 function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
   const [loading, setLoading] = useState(true)
+  const [imageLoadingError, setImageLoadingError] = useState(false)
   return (
     <Touchable
       style={[
@@ -82,11 +72,11 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      {!nft.metadata ? (
-        <InfoIcon
+      {!nft.metadata || imageLoadingError ? (
+        <ImageErrorIcon
+          // The thumbnails are 20% larger when selected vs unselected
           size={isActive ? 24 : 20}
-          color={colors.warning}
-          testID="NftsInfoCarousel/ErrorIcon"
+          testID="NftsInfoCarousel/ImageErrorIcon"
         />
       ) : (
         <FastImage
@@ -98,9 +88,10 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
             uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
           }}
           onError={() => {
+            setImageLoadingError(true)
             Logger.error(
               TAG,
-              `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId}`
+              `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId} url: ${nft.metadata?.image}`
             )
           }}
           onLoadEnd={() => {
@@ -134,12 +125,12 @@ function NftImageCarousel({ nfts, handleOnPress, activeNft }: NftImageCarouselPr
         {nfts.map((nft) => {
           return (
             <View
+              // Use contractAddress and tokenId for a unique key
               key={`${nft.contractAddress}-${nft.tokenId}`}
               style={styles.nftThumbnailSharedContainer}
             >
               <NftThumbnail
                 onPress={() => handleOnPress(nft)}
-                // Use contractAddress and tokenId for a unique key
                 isActive={
                   `${activeNft.contractAddress}-${activeNft.tokenId}` ===
                   `${nft.contractAddress}-${nft.tokenId}`
@@ -160,6 +151,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
   const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
   const { t } = useTranslation()
 
@@ -173,16 +165,24 @@ export default function NftsInfoCarousel({ route }: Props) {
     setActiveNft(nft)
   }
 
-  // Display error screen no Nfts provided
+  function handleLoadError() {
+    Logger.error(
+      TAG,
+      `Error loading Nft image for Nft contractAddress: ${activeNft.contractAddress} tokenId: ${activeNft.tokenId} url: ${activeNft.metadata?.image}`
+    )
+    setLoadError(true)
+  }
+
+  // Full page error screen shown when ntfs === []
   if (nfts.length === 0) {
-    return <NftsLoadErrorScreen />
+    return <NftsLoadError />
   }
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {/* Main Nft Image */}
-        {activeNft.metadata ? (
+        {activeNft.metadata && !loadError ? (
           <FastImage
             testID="NftsInfoCarousel/MainImage"
             style={[
@@ -201,19 +201,15 @@ export default function NftsInfoCarousel({ route }: Props) {
               )
             }}
             onLoadEnd={() => setIsLoading(false)}
-            onError={() =>
-              Logger.error(
-                TAG,
-                `Error loading Nft image for Nft contractAddress: ${activeNft.contractAddress} tokenId: ${activeNft.tokenId}`
-              )
-            }
+            onError={handleLoadError}
             resizeMode={FastImage.resizeMode.contain}
           >
             {isLoading && <ImagePlaceholder height={scaledHeight} />}
           </FastImage>
         ) : (
           <View style={styles.nftImageLoadingErrorContainer}>
-            <Text style={{ color: colors.light }}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+            <ImageErrorIcon color="#C93717" />
+            <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
           </View>
         )}
         {/* Display a carousel selection if multiple images */}
@@ -293,6 +289,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.gray2,
   },
+  errorImageText: {
+    marginTop: Spacing.Regular16,
+    ...fontStyles.regular,
+    color: colors.gray3,
+  },
   explorerLink: {
     ...fontStyles.small500,
     color: colors.onboardingGreen,
@@ -313,9 +314,10 @@ const styles = StyleSheet.create({
   nftImageLoadingErrorContainer: {
     width: '100%',
     height: DEFAULT_IMAGE_HEIGHT,
-    backgroundColor: colors.dark,
+    backgroundColor: colors.gray1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 8,
   },
   nftThumbnailSelected: {
     height: 40,
