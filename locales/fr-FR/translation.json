@@ -1739,6 +1739,18 @@
     "swap": "Échanger",
     "withdraw": "Retirer"
   },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Vue sur Celo Explorer",
+    "attributes": "Attributs",
+    "description": "Description",
+    "noNftsFound": "Aucun NFT n'a été trouvé",
+    "nftImageLoadError": "Impossible d'afficher ce NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Il y a un problème de chargement des NFT",
+    "loadErrorSubtitle": "Tes biens sont en sécurité. Essaie à nouveau.",
+    "contactSupport": "Si tu as besoin d'aide supplémentaire, tu peux \n<0>Contacter l'assistance</0>"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
