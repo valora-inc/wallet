@@ -1329,6 +1329,10 @@
       "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
     }
   },
+  "dappRankings": {
+    "title": "Clasificación de las apps",
+    "description": "Descubre las dapps más favoritas de otros miembros de la comunidad {{appName}}"
+  },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
     "message": "Las dapps (apps decentralizadas) traen nuevas maneras de usar tus cripto, ganar recompensas y explorar la Web3.\n\nContecta Valora a una dapp para comenzar.",
@@ -1365,8 +1369,8 @@
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Algunos métodos de pago no están disponibles en tu región.",
-    "disclaimerWithSomePaymentsUnavailable": "Los pagos los realizan los socios de Celo. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
-    "disclaimer": "Los pagos los realizan los socios de Celo. <0>Más información.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
+    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. <0>Más información.</0>",
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
@@ -1493,11 +1497,11 @@
       "header": "Operación exitosa",
       "title": "¡Tus fondos están en camino!",
       "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
-      "descriptionWithin1Hour": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en 1 hora.",
-      "descriptionWithinXHours": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en un plazo de {{upperBound}} horas.",
-      "descriptionInXtoYHours": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en {{lowerBound}}-{{upperBound}} horas.",
+      "descriptionWithin1Hour": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en el plazo de 1 hora.",
+      "descriptionWithinXHours": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en el plazo de {{upperBound}} horas.",
+      "descriptionInXtoYHours": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en el plazo de {{lowerBound}} a {{upperBound}} horas.",
       "descriptionWithinXDays": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en un plazo de {{upperBound}} días.",
-      "descriptionXtoYDays": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en {{lowerBound}}-{{upperBound}} días.",
+      "descriptionXtoYDays": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en el plazo de {{lowerBound}} a {{upperBound}} días.",
       "baseDescription": "Tu solicitud de transacción ha sido enviada.",
       "txDetails": "Ver en CeloExplorer",
       "continue": "Continuar"
@@ -1617,6 +1621,10 @@
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
       "learnMore": "Más información"
+    },
+    "priceImpactWarning": {
+      "title": "Antes de cambiar",
+      "body": "Intercambiar estos activos puede dar lugar a un tipo de cambio desfavorable. Si reduces la cantidad, puedes obtener un tipo de cambio mejor."
     },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>"
   },
