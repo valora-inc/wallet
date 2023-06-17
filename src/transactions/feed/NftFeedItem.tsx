@@ -39,7 +39,7 @@ function NftIcon({ nft }: { nft: Nft }) {
   return imageLoadingError ? (
     /* TODO: properly center this error icon */
     <View style={styles.circleIcon}>
-      <ImageErrorIcon size={24} testID="NftFeedItem/NftIcon" />
+      <ImageErrorIcon size={24} testID="NftFeedItem/NftErrorIcon" />
     </View>
   ) : (
     <FastImage
@@ -50,6 +50,7 @@ function NftIcon({ nft }: { nft: Nft }) {
       // TODO: add analytics
       onLoadEnd={() => setLoading(false)}
       onError={() => setImageLoadingError(true)}
+      testID="NftFeedItem/NftIcon"
     >
       {loading && <NftIconPlaceholder />}
     </FastImage>
