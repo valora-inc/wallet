@@ -62,6 +62,13 @@ describe('NftFeedItem', () => {
     })
   })
 
+  it('shows default icon when disabled from statsig', () => {
+    mocked(getFeatureGate).mockReturnValue(false)
+    const { getByText, getByTestId } = renderScreen({})
+    expect(getByText('receivedNft')).toBeTruthy()
+    expect(getByTestId('NftReceivedIcon')).toBeTruthy()
+  })
+
   it('opens NFT Info Carousel correctly when NFT transaction item is clicked', () => {
     mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen({})
