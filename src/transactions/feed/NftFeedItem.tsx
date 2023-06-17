@@ -37,9 +37,8 @@ function NftIcon({ nft }: { nft: Nft }) {
   const [loading, setLoading] = useState(true)
   const [imageLoadingError, setImageLoadingError] = useState(false)
   return imageLoadingError ? (
-    /* TODO: properly center this error icon */
-    <View style={styles.circleIcon}>
-      <ImageErrorIcon size={24} testID="NftFeedItem/NftErrorIcon" />
+    <View style={[styles.circleIcon, styles.errorCircleIcon]}>
+      <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
     </View>
   ) : (
     <FastImage
@@ -117,6 +116,10 @@ const styles = StyleSheet.create({
     marginLeft: variables.contentPadding,
     width: '55%',
     justifyContent: 'center',
+  },
+  errorCircleIcon: {
+    backgroundColor: colors.gray2,
+    padding: 5,
   },
   title: {
     ...fontStyles.regular500,
