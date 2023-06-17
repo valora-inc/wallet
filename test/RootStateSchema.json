@@ -2384,6 +2384,7 @@
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
+                "NftsInfoCarousel",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
                 "OutgoingPaymentRequestListScreen",
