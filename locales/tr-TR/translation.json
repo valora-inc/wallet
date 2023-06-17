@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp'ler",
+    "titleDiscover": "Keşfedin",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
@@ -1737,6 +1738,18 @@
     "send": "Gönder",
     "swap": "Swap",
     "withdraw": "Çek"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Celo Explorer'da görüntüle",
+    "attributes": "Nitelikler",
+    "description": "Açıklama",
+    "noNftsFound": "NFT bulunamadı",
+    "nftImageLoadError": "Bu NFT görüntülenemiyor"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "NFT'lerin yüklenmesinde bir sorun var",
+    "loadErrorSubtitle": "Varlıklarınız güvende. Lütfen tekrar deneyin.",
+    "contactSupport": "Ek yardıma ihtiyacınız varsa \n<0>Destek ile iletişime</0> geçin"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

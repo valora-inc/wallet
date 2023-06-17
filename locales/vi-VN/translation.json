@@ -1306,6 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "Discover",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
@@ -1735,6 +1736,18 @@
     "send": "Gửi",
     "swap": "Trao đổi",
     "withdraw": "Rút tiền"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "View on Celo Explorer",
+    "attributes": "Attributes",
+    "description": "Description",
+    "noNftsFound": "No NFTs found",
+    "nftImageLoadError": "Unable to display this NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "There is an issue loading NFTs",
+    "loadErrorSubtitle": "Your assets are safe. Please try again.",
+    "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
