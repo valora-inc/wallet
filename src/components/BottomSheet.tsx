@@ -14,7 +14,7 @@ interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   title: string
   description?: string | null
-  children?: React.ReactNode | React.ReactNode[]
+  children?: React.ReactNode
   testId: string
 }
 
