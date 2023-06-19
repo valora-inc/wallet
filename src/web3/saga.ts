@@ -16,7 +16,7 @@ import {
 } from 'src/pincode/authentication'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import Logger from 'src/utils/Logger'
-import { Actions, setAccount, SetAccountAction, SetMtwAddressAction } from 'src/web3/actions'
+import { Actions, setAccount, SetAccountAction } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
@@ -172,14 +172,6 @@ export function* getWalletAddress() {
   return yield getAddress<SetAccountAction>({
     addressSelector: walletAddressSelector,
     action: Actions.SET_ACCOUNT,
-  })
-}
-
-// wait for MTW to exist and then return it
-export function* getMTWAddress() {
-  return yield getAddress<SetMtwAddressAction>({
-    addressSelector: mtwAddressSelector,
-    action: Actions.SET_MTW_ADDRESS,
   })
 }
 

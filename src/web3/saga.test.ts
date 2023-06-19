@@ -9,21 +9,16 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getPasswordSaga, retrieveSignedMessage } from 'src/pincode/authentication'
-import { setAccount, setDataEncryptionKey, setMtwAddress } from 'src/web3/actions'
+import { setAccount, setDataEncryptionKey } from 'src/web3/actions'
 import {
   getConnectedAccount,
   getConnectedUnlockedAccount,
-  getMTWAddress,
   getOrCreateAccount,
   getWalletAddress,
   unlockAccount,
   UnlockResult,
 } from 'src/web3/saga'
-import {
-  currentAccountSelector,
-  mtwAddressSelector,
-  walletAddressSelector,
-} from 'src/web3/selectors'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
 
@@ -130,36 +125,13 @@ describe('Address getters', () => {
     await expectSaga(getWalletAddress).withState(state).returns(mockAccount.toLowerCase()).run()
   })
 
-  it('getMTWAddress + walletAddressSelector: integration test, case where wallet address is set with dispatched action', async () => {
+  it('getWalletAddress + walletAddressSelector: integration test, case where wallet address is set with dispatched action', async () => {
     const state = createMockStore({
       web3: { account: null },
     }).getState()
     await expectSaga(getWalletAddress)
       .withState(state)
       .dispatch(setAccount(mockAccount3))
-      .returns(mockAccount3.toLowerCase())
-      .run()
-  })
-
-  it('getMTWAddress: unit test', async () => {
-    const EXPECTED_MTW_ADDRESS = '0x123'
-    await expectSaga(getMTWAddress)
-      .withState(state)
-      .provide([[select(mtwAddressSelector), EXPECTED_MTW_ADDRESS]])
-      .returns(EXPECTED_MTW_ADDRESS)
-      .run()
-  })
-
-  it('getMTWAddress + mtwAddressSelector: integration test, case where MTW already set', async () => {
-    await expectSaga(getMTWAddress).withState(state).returns(mockAccount2).run()
-  })
-  it('getMTWAddress + mtwAddressSelector: integration test, case where MTW is set with dispatched action', async () => {
-    const state = createMockStore({
-      web3: { account: mockAccount, mtwAddress: null },
-    }).getState()
-    await expectSaga(getMTWAddress)
-      .withState(state)
-      .dispatch(setMtwAddress(mockAccount3))
       .returns(mockAccount3.toLowerCase())
       .run()
   })
