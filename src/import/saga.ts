@@ -18,7 +18,7 @@ import {
   select,
   spawn,
   takeLeading,
-} from 'redux-saga/effects'
+} from 'typed-redux-saga'
 import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -70,7 +70,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     let checkedBalance = false
     if (!phraseIsValid && !useEmptyWallet) {
       try {
-        const { correctedPhrase, timeout } = yield race({
+        const { correctedPhrase, timeout } = yield* race({
           correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
           timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
         })
@@ -105,19 +105,19 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     if (mnemonic === undefined) {
       Logger.warn(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
       if (invalidWords !== undefined && invalidWords.length > 0) {
-        yield put(
+        yield* put(
           showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
             invalidWords: invalidWords.join(', '),
           })
         )
       } else {
-        yield put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
+        yield* put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
       }
-      yield put(importBackupPhraseFailure())
+      yield* put(importBackupPhraseFailure())
       return
     }
 
-    const { privateKey } = yield call(generateKeysFromMnemonic, mnemonic)
+    const { privateKey } = yield* call(generateKeysFromMnemonic, mnemonic)
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
     }
@@ -126,8 +126,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // is empty, and useEmptyWallet is not true, display a warning to the user before they continue.
     if (!useEmptyWallet && !checkedBalance) {
       const backupAccount = privateKeyToAddress(privateKey)
-      if (!(yield call(walletHasBalance, backupAccount))) {
-        yield put(importBackupPhraseSuccess())
+      if (!(yield* call(walletHasBalance, backupAccount))) {
+        yield* put(importBackupPhraseSuccess())
         ValoraAnalytics.track(OnboardingEvents.wallet_import_zero_balance, {
           account: backupAccount,
         })
@@ -136,35 +136,35 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       }
     }
 
-    const account: string | null = yield call(assignAccountFromPrivateKey, privateKey, mnemonic)
+    const account: string | null = yield* call(assignAccountFromPrivateKey, privateKey, mnemonic)
     if (!account) {
       throw new Error('Failed to assign account from private key')
     }
 
     // Set key in phone's secure store
-    yield call(storeMnemonic, mnemonic, account)
+    yield* call(storeMnemonic, mnemonic, account)
     // Set backup complete so user isn't prompted to do backup flow
-    yield put(setBackupCompleted())
-    yield put(refreshAllBalances())
+    yield* put(setBackupCompleted())
+    yield* put(refreshAllBalances())
 
-    const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
+    const recoveringFromStoreWipe = yield* select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {
       ValoraAnalytics.track(AppEvents.redux_store_recovery_success, { account })
     }
     ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
-    yield call(initializeAccountSaga)
+    yield* call(initializeAccountSaga)
 
-    const onboardingProps = yield select(onboardingPropsSelector)
-    yield call(goToNextOnboardingScreen, {
+    const onboardingProps = yield* select(onboardingPropsSelector)
+    yield* call(goToNextOnboardingScreen, {
       firstScreenInCurrentStep: Screens.ImportWallet,
       onboardingProps,
     })
 
-    yield put(importBackupPhraseSuccess())
+    yield* put(importBackupPhraseSuccess())
   } catch (error) {
     Logger.error(TAG + '@importBackupPhraseSaga', 'Error importing backup phrase', error)
-    yield put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
-    yield put(importBackupPhraseFailure())
+    yield* put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
+    yield* put(importBackupPhraseFailure())
     ValoraAnalytics.track(OnboardingEvents.wallet_import_error, { error: error.message })
   }
 }
@@ -185,7 +185,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       TAG + '@attemptBackupPhraseCorrection',
       `Checking account balance on suggestion #${++counter}`
     )
-    const { privateKey } = yield call(generateKeysFromMnemonic, suggestion)
+    const { privateKey } = yield* call(generateKeysFromMnemonic, suggestion)
     if (!privateKey) {
       Logger.error(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')
       continue
@@ -196,11 +196,11 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
     tasks.push({
       index: counter,
       suggestion,
-      task: yield fork(walletHasBalance, privateKeyToAddress(privateKey)),
+      task: yield* fork(walletHasBalance, privateKeyToAddress(privateKey)),
       done: false,
     })
     if (tasks.length >= MAX_BALANCE_CHECK_TASKS) {
-      yield race(tasks.map(({ task }) => join(task)))
+      yield* race(tasks.map(({ task }) => join(task)))
     }
 
     // Check the results of any balance check tasks. Prune any that have finished, and leave those
@@ -238,12 +238,12 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
   let requests = [
-    yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Euro, address),
-    yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, address),
-    yield fork(fetchTokenBalanceInWeiWithRetry, Currency.Celo, address),
+    yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Euro, address),
+    yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, address),
+    yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Celo, address),
   ]
   while (requests.length > 0) {
-    const balances = yield race(requests.map((req) => join(req)))
+    const balances = yield* race(requests.map((req) => join(req)))
     for (const balance of balances) {
       if (balance?.isGreaterThan(0)) {
         // Cancel any remaining requests.
@@ -258,9 +258,9 @@ function* walletHasBalance(address: string) {
 }
 
 export function* watchImportBackupPhrase() {
-  yield takeLeading(Actions.IMPORT_BACKUP_PHRASE, safely(importBackupPhraseSaga))
+  yield* takeLeading(Actions.IMPORT_BACKUP_PHRASE, safely(importBackupPhraseSaga))
 }
 
 export function* importSaga() {
-  yield spawn(watchImportBackupPhrase)
+  yield* spawn(watchImportBackupPhrase)
 }

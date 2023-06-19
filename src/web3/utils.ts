@@ -1,7 +1,7 @@
 import { CeloTx, CeloTxObject, CeloTxReceipt, PromiEvent } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { GAS_INFLATION_FACTOR } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync, getWeb3, getWeb3Async } from 'src/web3/contracts'
@@ -49,9 +49,9 @@ export async function getLatestBlockNumber() {
 // parallel txs are being sent
 export function* getLatestNonce(address: string) {
   Logger.debug(TAG, 'Fetching latest nonce (incl. pending)')
-  const web3 = yield call(getWeb3)
+  const web3 = yield* call(getWeb3)
   // Note tx count is 1-indexed but nonces are 0-indexed
-  const nonce = (yield call(web3.eth.getTransactionCount, address, 'pending')) - 1
+  const nonce = (yield* call(web3.eth.getTransactionCount, address, 'pending')) - 1
   Logger.debug(TAG, `Latest nonce found: ${nonce}`)
   return nonce
 }

@@ -1,6 +1,6 @@
 import { initializeFirebase } from 'src/firebase/saga'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { getAccount } from 'src/web3/saga'
 import { initializeAuth, initializeCloudMessaging } from 'src/firebase/firebase'
 import firebase from '@react-native-firebase/app'

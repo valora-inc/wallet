@@ -1,5 +1,5 @@
 import { UnlockableWallet } from '@celo/wallet-base'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -16,18 +16,18 @@ import { walletAddressSelector } from 'src/web3/selectors'
 const TAG = 'utils/accountChecker'
 
 export function* checkAccountExistenceSaga() {
-  const wallet: UnlockableWallet = yield call(getWallet)
+  const wallet: UnlockableWallet = yield* call(getWallet)
   if (!wallet) {
     return
   }
   const keychainAccounts: string[] = yield wallet.getAccounts()
-  const walletAddress: string = yield select(walletAddressSelector)
+  const walletAddress: string = yield* select(walletAddressSelector)
   if (!walletAddress && keychainAccounts.length > 0) {
     const account = keychainAccounts[0]
     ValoraAnalytics.track(AppEvents.redux_keychain_mismatch, {
       account,
     })
-    const language: string | undefined = yield select(currentLanguageSelector)
+    const language: string | undefined = yield* select(currentLanguageSelector)
     if (!language) {
       navigateClearingStack(Screens.Language, { nextScreen: Screens.StoreWipeRecoveryScreen })
     } else {

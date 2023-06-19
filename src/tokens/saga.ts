@@ -5,7 +5,7 @@ import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWr
 import { retryAsync } from '@celo/utils/lib/async'
 import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
 import * as erc20 from 'src/abis/IERC20.json'
 import * as stableToken from 'src/abis/StableToken.json'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -53,8 +53,8 @@ const contractWeiPerUnit: Record<Currency, BigNumber> = {
 function* getWeiPerUnit(token: Currency) {
   let weiPerUnit = contractWeiPerUnit[token]
   if (!weiPerUnit) {
-    const contract: GoldTokenWrapper | StableTokenWrapper = yield call(getTokenContract, token)
-    const decimals: number = yield call(contract.decimals)
+    const contract: GoldTokenWrapper | StableTokenWrapper = yield* call(getTokenContract, token)
+    const decimals: number = yield* call(contract.decimals)
     weiPerUnit = new BigNumber(10).pow(decimals)
     contractWeiPerUnit[token] = weiPerUnit
   }
@@ -62,12 +62,12 @@ function* getWeiPerUnit(token: Currency) {
 }
 
 export function* convertFromContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit: BigNumber = yield call(getWeiPerUnit, token)
+  const weiPerUnit: BigNumber = yield* call(getWeiPerUnit, token)
   return value.dividedBy(weiPerUnit)
 }
 
 export function* convertToContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit: BigNumber = yield call(getWeiPerUnit, token)
+  const weiPerUnit: BigNumber = yield* call(getWeiPerUnit, token)
   return weiPerUnit.multipliedBy(value)
 }
 
@@ -158,7 +158,7 @@ export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: 
 export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) {
   return function* () {
     while (true) {
-      const transferAction: TokenTransferAction = yield take(actionName)
+      const transferAction: TokenTransferAction = yield* take(actionName)
       const { recipientAddress, amount, currency, comment, feeInfo, context } = transferAction
 
       Logger.debug(
@@ -171,7 +171,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
         feeInfo
       )
 
-      yield put(
+      yield* put(
         addStandbyTransactionLegacy({
           context,
           type: TokenTransactionType.Sent,
@@ -185,10 +185,10 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
       )
 
       try {
-        const account: string = yield call(getConnectedUnlockedAccount)
+        const account: string = yield* call(getConnectedUnlockedAccount)
 
-        const currencyAddress: string = yield call(getCurrencyAddress, currency)
-        const tx: CeloTransactionObject<boolean> = yield call(
+        const currencyAddress: string = yield* call(getCurrencyAddress, currency)
+        const tx: CeloTransactionObject<boolean> = yield* call(
           createTokenTransferTransaction,
           currencyAddress,
           {
@@ -198,7 +198,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
           }
         )
 
-        yield call(
+        yield* call(
           sendAndMonitorTransaction,
           tx,
           account,
@@ -209,8 +209,8 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
         )
       } catch (error) {
         Logger.error(tag, 'Error transfering token', error)
-        yield put(removeStandbyTransaction(context.id))
-        yield put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
+        yield* put(removeStandbyTransaction(context.id))
+        yield* put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
       }
     }
   }
@@ -277,7 +277,7 @@ export async function fetchTokenBalancesForAddress(
 
 export function* fetchTokenBalancesSaga() {
   try {
-    const address: string | null = yield select(walletAddressSelector)
+    const address: string | null = yield* select(walletAddressSelector)
     if (!address) {
       Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
       return
@@ -286,8 +286,8 @@ export function* fetchTokenBalancesSaga() {
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
-      : yield call(readOnceFromFirebase, 'tokensInfo')
-    const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
+      : yield* call(readOnceFromFirebase, 'tokensInfo')
+    const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find(
         (t) => t.tokenAddress.toLowerCase() === token.address.toLowerCase()
@@ -300,11 +300,11 @@ export function* fetchTokenBalancesSaga() {
           .toString()
       }
     }
-    yield put(setTokenBalances(tokens))
+    yield* put(setTokenBalances(tokens))
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_balances)
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
-    yield put(fetchTokenBalancesFailure())
+    yield* put(fetchTokenBalancesFailure())
     Logger.error(TAG, 'error fetching user balances', error.message)
     ValoraAnalytics.track(AppEvents.fetch_balance_error, {
       error: error.message,
@@ -313,7 +313,7 @@ export function* fetchTokenBalancesSaga() {
 }
 
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
-  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   if (!tokenInfo) {
     throw Error(`Couldnt find token info for address ${tokenAddress}.`)
@@ -324,13 +324,13 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 export function* getTokenInfo(tokenAddress: string) {
-  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   return tokenInfo
 }
 
 export function* watchFetchBalance() {
-  yield takeEvery(fetchTokenBalances.type, safely(fetchTokenBalancesSaga))
+  yield* takeEvery(fetchTokenBalances.type, safely(fetchTokenBalancesSaga))
 }
 
 export function* watchAccountFundedOrLiquidated() {
@@ -339,7 +339,7 @@ export function* watchAccountFundedOrLiquidated() {
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account
     // funded / liquidated status in this case
-    const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield select(
+    const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield* select(
       lastKnownTokenBalancesSelector
     )
 
@@ -360,11 +360,11 @@ export function* watchAccountFundedOrLiquidated() {
       prevTokenBalance = tokenBalance
     }
 
-    yield take()
+    yield* take()
   }
 }
 
 export function* tokensSaga() {
-  yield spawn(watchFetchBalance)
-  yield spawn(watchAccountFundedOrLiquidated)
+  yield* spawn(watchFetchBalance)
+  yield* spawn(watchAccountFundedOrLiquidated)
 }

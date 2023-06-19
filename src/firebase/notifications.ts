@@ -1,6 +1,6 @@
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'typed-redux-saga'
 import { showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -34,7 +34,7 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
     return
   }
 
-  const info: RecipientInfo = yield select(recipientInfoSelector)
+  const info: RecipientInfo = yield* select(recipientInfoSelector)
   const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
   navigateToRequestedPaymentReview(
@@ -53,7 +53,7 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
 function* handlePaymentReceived(transferNotification: TransferNotificationData) {
   const address = transferNotification.sender.toLowerCase()
 
-  yield call(navigate, Screens.TransactionDetailsScreen, {
+  yield* call(navigate, Screens.TransactionDetailsScreen, {
     transaction: {
       __typename: 'TokenTransferV2',
       type: TokenTransactionTypeV2.Received,
@@ -95,7 +95,7 @@ export function* handleNotification(
   if (notificationState === NotificationReceiveState.AppAlreadyOpen) {
     const { title, body } = message.notification ?? {}
     if (title) {
-      yield put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
+      yield* put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
     }
     return
   }
@@ -103,17 +103,17 @@ export function* handleNotification(
   // Notification was received while app wasn't already open (i.e. tapped to act on it)
   // So directly handle the action if any
   if (openUrlAction) {
-    yield put(openUrlAction)
+    yield* put(openUrlAction)
     return
   }
 
   switch (message.data?.type) {
     case NotificationTypes.PAYMENT_REQUESTED:
-      yield call(handlePaymentRequested, message.data as unknown as PaymentRequest)
+      yield* call(handlePaymentRequested, message.data as unknown as PaymentRequest)
       break
 
     case NotificationTypes.PAYMENT_RECEIVED:
-      yield call(handlePaymentReceived, message.data as unknown as TransferNotificationData)
+      yield* call(handlePaymentReceived, message.data as unknown as TransferNotificationData)
       break
 
     case NotificationTypes.FIAT_CONNECT_KYC_APPROVED:

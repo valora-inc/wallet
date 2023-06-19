@@ -1,5 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { getWallet } from 'src/web3/contracts'

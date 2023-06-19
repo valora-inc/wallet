@@ -1,6 +1,6 @@
 import { Action, Predicate } from '@redux-saga/types'
 import BigNumber from 'bignumber.js'
-import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
@@ -51,7 +51,7 @@ function* bidaliPaymentRequest({
     throw new Error(`Unsupported payment currency from Bidali: ${currencyString}`)
   }
 
-  const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+  const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
   const tokenAddress = tokens[currency]?.address
 
   if (!tokenAddress) {
@@ -81,7 +81,7 @@ function* bidaliPaymentRequest({
   })
 
   while (true) {
-    const { cancel } = yield race({
+    const { cancel } = yield* race({
       sendStart: take(SendActions.SEND_PAYMENT),
       cancel: take(
         ((action: AppActionTypes) =>
@@ -91,21 +91,21 @@ function* bidaliPaymentRequest({
     })
     if (cancel) {
       Logger.debug(`${TAG}@bidaliPaymentRequest`, 'Cancelled')
-      yield call(onCancelled)
+      yield* call(onCancelled)
       return
     }
 
-    const { success } = yield race({
+    const { success } = yield* race({
       success: take(SendActions.SEND_PAYMENT_SUCCESS),
       failure: take(SendActions.SEND_PAYMENT_FAILURE),
     })
 
     if (success) {
       Logger.debug(`${TAG}@bidaliPaymentRequest`, 'Payment Sent')
-      yield call(onPaymentSent)
+      yield* call(onPaymentSent)
 
       // Keep address mapping locally
-      yield put(
+      yield* put(
         updateKnownAddresses({
           [address]: {
             name: getDisplayName(recipient, i18n.t),
@@ -121,7 +121,7 @@ function* bidaliPaymentRequest({
 }
 
 export function* fetchTxHashesToProviderMapping() {
-  const account = yield call(getAccount)
+  const account = yield* call(getAccount)
   const txHashesToProvider: TxHashToProvider = yield readOnceFromFirebase(
     `registrations/${account}/txHashes`
   )
@@ -136,8 +136,8 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
     Logger.debug(`${TAG}@tagTxsWithProviderInfo`, `Checking ${transactions.length} txs`)
 
-    const providerLogos: ProviderLogos = yield select(providerLogosSelector)
-    const txHashesToProvider: TxHashToProvider = yield call(fetchTxHashesToProviderMapping)
+    const providerLogos: ProviderLogos = yield* select(providerLogosSelector)
+    const txHashesToProvider: TxHashToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
@@ -148,7 +148,7 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
       const providerLogo = providerLogos[provider || '']
 
       if (provider && providerLogo) {
-        yield put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
+        yield* put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
       }
     }
 
@@ -160,19 +160,19 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
 export function* importProviderLogos() {
   const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
-  yield put(setProviderLogos(providerLogos))
+  yield* put(setProviderLogos(providerLogos))
 }
 
 export function* watchBidaliPaymentRequests() {
-  yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, safely(bidaliPaymentRequest))
+  yield* takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, safely(bidaliPaymentRequest))
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(tagTxsWithProviderInfo))
+  yield* takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(tagTxsWithProviderInfo))
 }
 
 export function* fiatExchangesSaga() {
-  yield spawn(watchBidaliPaymentRequests)
-  yield spawn(watchNewFeedTransactions)
-  yield spawn(importProviderLogos)
+  yield* spawn(watchBidaliPaymentRequests)
+  yield* spawn(watchNewFeedTransactions)
+  yield* spawn(importProviderLogos)
 }

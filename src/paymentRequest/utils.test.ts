@@ -1,6 +1,6 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'

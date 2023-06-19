@@ -1,6 +1,6 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import { decryptComment, encryptComment } from '@celo/cryptographic-utils'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
@@ -15,7 +15,7 @@ const TAG = 'paymentRequest/utils'
 export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) {
   Logger.debug(`${TAG}@encryptPaymentRequest`, 'Encrypting payment request')
 
-  const fromKey: Buffer | null = yield call(
+  const fromKey: Buffer | null = yield* call(
     doFetchDataEncryptionKey,
     paymentRequest.requesterAddress
   )
@@ -24,7 +24,10 @@ export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) 
     return sanitizePaymentRequest(paymentRequest)
   }
 
-  const toKey: Buffer | null = yield call(doFetchDataEncryptionKey, paymentRequest.requesteeAddress)
+  const toKey: Buffer | null = yield* call(
+    doFetchDataEncryptionKey,
+    paymentRequest.requesteeAddress
+  )
   if (!toKey) {
     Logger.debug(`${TAG}@encryptPaymentRequest`, 'No recipient key found, skipping encryption')
     return sanitizePaymentRequest(paymentRequest)

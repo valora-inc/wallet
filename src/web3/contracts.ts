@@ -6,7 +6,7 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -48,8 +48,8 @@ export function* initContractKit() {
 
     Logger.info(`${TAG}@initContractKit`, `Initializing contractkit`)
 
-    const walletAddress: string | null = yield select(walletAddressSelector)
-    const accountCreationTime: number = yield select(accountCreationTimeSelector)
+    const walletAddress: string | null = yield* select(walletAddressSelector)
+    const accountCreationTime: number = yield* select(accountCreationTimeSelector)
 
     // This is to migrate the existing account that used to be stored in the geth keystore
     const importMnemonicAccount = {
@@ -58,13 +58,13 @@ export function* initContractKit() {
     }
     Logger.info(`${TAG}@initContractKit`, 'Initializing wallet', importMnemonicAccount)
 
-    wallet = yield call(initWallet, importMnemonicAccount)
+    wallet = yield* call(initWallet, importMnemonicAccount)
 
     try {
       // This is to migrate the existing DEK that used to be stored in the geth keystore
       // Note that the DEK is also currently in the redux store, but it should change at some point
       if (walletAddress) {
-        yield call(importDekIfNecessary, wallet)
+        yield* call(importDekIfNecessary, wallet)
       }
     } catch (error) {
       Logger.error(`${TAG}@initContractKit`, `Failed to import data encryption key`, error)
@@ -114,7 +114,7 @@ export function* getContractKit() {
       if (contractKit) {
         return contractKit
       }
-      yield call(initContractKit)
+      yield* call(initContractKit)
     } finally {
       initContractKitLock.release()
     }
@@ -141,7 +141,7 @@ export function* getWallet() {
       if (wallet) {
         return wallet
       }
-      yield call(initContractKit)
+      yield* call(initContractKit)
     } finally {
       initContractKitLock.release()
     }
@@ -167,7 +167,7 @@ export async function getWalletAsync() {
 
 // Convinience util for getting the kit's web3 instance
 export function* getWeb3() {
-  const kit: ContractKit = yield call(getContractKit)
+  const kit: ContractKit = yield* call(getContractKit)
   return kit.connection.web3
 }
 

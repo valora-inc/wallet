@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { Actions, WithdrawCeloAction, withdrawCeloCanceled } from 'src/exchange/actions'
 import { withdrawCelo } from 'src/exchange/saga'
 import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'

@@ -2,7 +2,7 @@ import { CeloTx, CeloTxReceipt, Contract, toTransactionObject } from '@celo/conn
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
@@ -56,9 +56,9 @@ export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
 
 export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimRewards>) {
   try {
-    const kit: ContractKit = yield call(getContractKit)
-    const walletAddress: string = yield call(getConnectedUnlockedAccount)
-    const baseNonce: number = yield call(
+    const kit: ContractKit = yield* call(getContractKit)
+    const walletAddress: string = yield* call(getConnectedUnlockedAccount)
+    const baseNonce: number = yield* call(
       // @ts-ignore I can't figure out the syntax for this, it works but TS complains :'(
       [kit.web3.eth, kit.web3.eth.getTransactionCount],
       walletAddress
@@ -75,14 +75,14 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
 
     if (rewards.length > 0) {
       const claimRewardFn = isSuperchargePendingRewardsV2(rewards) ? claimRewardV2 : claimReward
-      receivedRewards = yield all(
+      receivedRewards = yield* all(
         // @ts-expect-error remove this when upgrading to TS 4.2+ https://github.com/microsoft/TypeScript/issues/36390
         rewards.map((reward, index) => call(claimRewardFn, reward, index, baseNonce))
       )
     }
 
     for (const reward of receivedRewards) {
-      yield put(
+      yield* put(
         addStandbyTransaction({
           context: newTransactionContext('Claim Reward', reward.txHash),
           type: TokenTransactionTypeV2.Received,
@@ -96,37 +96,37 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
         })
       )
     }
-    yield put(setAvailableRewards([]))
-    yield put(fetchAvailableRewards({ forceRefresh: true }))
-    yield put(claimRewardsSuccess())
-    yield put(showMessage(i18n.t('superchargeClaimSuccess')))
+    yield* put(setAvailableRewards([]))
+    yield* put(fetchAvailableRewards({ forceRefresh: true }))
+    yield* put(claimRewardsSuccess())
+    yield* put(showMessage(i18n.t('superchargeClaimSuccess')))
     vibrateSuccess()
     navigateHome()
   } catch (error) {
-    yield put(claimRewardsFailure())
-    yield put(showError(ErrorMessages.SUPERCHARGE_CLAIM_FAILED))
+    yield* put(claimRewardsFailure())
+    yield* put(showError(ErrorMessages.SUPERCHARGE_CLAIM_FAILED))
     Logger.error(TAG, 'Error claiming rewards', error as Error)
   }
 }
 
 function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce: number) {
-  const kit: ContractKit = yield call(getContractKit)
-  const tokens: TokenBalances = yield select(tokensByAddressSelector)
-  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+  const kit: ContractKit = yield* call(getContractKit)
+  const tokens: TokenBalances = yield* select(tokensByAddressSelector)
+  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
 
   Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
-  const merkleContract: Contract = yield call(
+  const merkleContract: Contract = yield* call(
     getContract,
     merkleDistributor.abi,
     reward.contractAddress
   )
-  const fundsSource: string = yield call(async () => merkleContract.methods.fundsSource().call())
+  const fundsSource: string = yield* call(async () => merkleContract.methods.fundsSource().call())
   const tx = toTransactionObject(
     kit.connection,
     merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof ?? [])
   )
 
-  const receipt: CeloTxReceipt = yield call(
+  const receipt: CeloTxReceipt = yield* call(
     sendTransaction,
     tx.txo,
     walletAddress,
@@ -155,8 +155,8 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
 function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseNonce: number) {
   const { transaction, details } = reward
 
-  const superchargeRewardContractAddress = yield select(superchargeRewardContractAddressSelector)
-  const superchargeV1Addresses: string[] = yield select(superchargeV1AddressesSelector)
+  const superchargeRewardContractAddress = yield* select(superchargeRewardContractAddressSelector)
+  const superchargeV1Addresses: string[] = yield* select(superchargeV1AddressesSelector)
   if (
     superchargeRewardContractAddress !== transaction.to &&
     !superchargeV1Addresses.includes(transaction.to)
@@ -166,17 +166,17 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
     )
   }
 
-  const kit: ContractKit = yield call(getContractKit)
-  const tokens: TokenBalances = yield select(tokensByAddressSelector)
-  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+  const kit: ContractKit = yield* call(getContractKit)
+  const tokens: TokenBalances = yield* select(tokensByAddressSelector)
+  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
 
   Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
 
   const normalizer = new TxParamsNormalizer(kit.connection)
-  const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
+  const tx: CeloTx = yield* call([normalizer, 'populate'], transaction)
   const txo = buildTxo(kit, tx)
 
-  const receipt: CeloTxReceipt = yield call(
+  const receipt: CeloTxReceipt = yield* call(
     sendTransaction,
     txo,
     walletAddress,
@@ -203,16 +203,16 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
 }
 
 export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchAvailableRewards>) {
-  const address: string | null = yield select(walletAddressSelector)
+  const address: string | null = yield* select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
     return
   }
 
-  const superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
-  const numberVerifiedCentrally = yield select(numberVerifiedCentrallySelector)
+  const superchargeV2Enabled = yield* select(superchargeV2EnabledSelector)
+  const numberVerifiedCentrally = yield* select(numberVerifiedCentrallySelector)
   if (superchargeV2Enabled && !numberVerifiedCentrally) {
-    yield put(fetchAvailableRewardsSuccess())
+    yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since user is not verified with CPV')
     return
   }
@@ -222,7 +222,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
       ? config.fetchAvailableSuperchargeRewardsV2
       : config.fetchAvailableSuperchargeRewards
 
-    const response: Response = yield call(
+    const response: Response = yield* call(
       fetchWithTimeout,
       `${superchargeRewardsUrl}?address=${address}`,
       payload?.forceRefresh
@@ -235,28 +235,28 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
       SUPERCHARGE_FETCH_TIMEOUT
     )
     const data: { availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] } =
-      yield call([response, 'json'])
+      yield* call([response, 'json'])
     if (!data.availableRewards) {
       throw new Error(
         `No rewards field found in supercharge service response ${JSON.stringify(data)}`
       )
     }
 
-    yield put(setAvailableRewards(data.availableRewards))
-    yield put(fetchAvailableRewardsSuccess())
+    yield* put(setAvailableRewards(data.availableRewards))
+    yield* put(fetchAvailableRewardsSuccess())
   } catch (e) {
-    yield put(fetchAvailableRewardsFailure())
-    yield put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
+    yield* put(fetchAvailableRewardsFailure())
+    yield* put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
     Logger.error(TAG, 'Error fetching supercharge rewards', e as Error)
   }
 }
 
 export function* watchAvailableRewards() {
-  yield takeLatest(fetchAvailableRewards.type, safely(fetchAvailableRewardsSaga))
+  yield* takeLatest(fetchAvailableRewards.type, safely(fetchAvailableRewardsSaga))
 }
 
 export function* watchClaimRewards() {
-  yield takeEvery(claimRewards.type, safely(claimRewardsSaga))
+  yield* takeEvery(claimRewards.type, safely(claimRewardsSaga))
 }
 
 // this saga can be removed after supercharge v2 is rolled out. since
@@ -266,20 +266,20 @@ export function* watchClaimRewards() {
 // responses are not compatible, we should clear any stored rewards and refetch
 // when supercharge v2 is enabled.
 export function* watchSuperchargeV2Enabled() {
-  let superchargeV2Enabled = yield select(superchargeV2EnabledSelector)
+  let superchargeV2Enabled = yield* select(superchargeV2EnabledSelector)
   while (true) {
-    const action = yield take(AppActions.UPDATE_REMOTE_CONFIG_VALUES)
+    const action = yield* take(AppActions.UPDATE_REMOTE_CONFIG_VALUES)
 
     if (superchargeV2Enabled !== action.configValues.superchargeV2Enabled) {
       superchargeV2Enabled = action.configValues.superchargeV2Enabled
-      yield put(setAvailableRewards([]))
-      yield put(fetchAvailableRewards())
+      yield* put(setAvailableRewards([]))
+      yield* put(fetchAvailableRewards())
     }
   }
 }
 
 export function* superchargeSaga() {
-  yield spawn(watchSuperchargeV2Enabled)
-  yield spawn(watchClaimRewards)
-  yield spawn(watchAvailableRewards)
+  yield* spawn(watchSuperchargeV2Enabled)
+  yield* spawn(watchClaimRewards)
+  yield* spawn(watchAvailableRewards)
 }

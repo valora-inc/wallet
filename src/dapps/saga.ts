@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLatest, takeLeading } from 'typed-redux-saga'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
@@ -50,28 +50,28 @@ export const isApplicationV2 = (dapp: ApplicationV1 | ApplicationV2): dapp is Ap
 
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
-  const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
+  const dappsWebViewEnabled = yield* select(dappsWebViewEnabledSelector)
 
   if (dappsWebViewEnabled) {
-    const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
+    const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, dappUrl)
     if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
-      yield call(handleDeepLink, openDeepLink(dappUrl, true))
+      yield* call(handleDeepLink, openDeepLink(dappUrl, true))
     } else {
       navigate(Screens.WebViewScreen, { uri: dappUrl })
     }
   } else {
-    yield call(handleOpenUrl, openUrl(dappUrl, true, true))
+    yield* call(handleOpenUrl, openUrl(dappUrl, true, true))
   }
 }
 
 export function* handleFetchDappsList() {
-  const dappsListApiUrl = yield select(dappsListApiUrlSelector)
+  const dappsListApiUrl = yield* select(dappsListApiUrlSelector)
   if (!dappsListApiUrl) {
     Logger.warn(TAG, 'dappsListApiUrl not found, skipping dapps list fetch')
     return
   }
 
-  const address = yield select(walletAddressSelector)
+  const address = yield* select(walletAddressSelector)
   if (!address) {
     // the dapplist is fetched on app start, but for a new user who has not yet
     // created or restored a wallet the request will fail.
@@ -79,7 +79,7 @@ export function* handleFetchDappsList() {
     return
   }
 
-  const language = yield select(currentLanguageSelector)
+  const language = yield* select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
   const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
@@ -88,7 +88,7 @@ export function* handleFetchDappsList() {
   const dappsListVersion = dappsFilterEnabled || dappsSearchEnabled ? '2' : '1'
   const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=${dappsListVersion}`
 
-  const response = yield call(fetch, url, {
+  const response = yield* call(fetch, url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export function* handleFetchDappsList() {
         categories: DappCategory[]
         featured: ApplicationV1
         mostPopularDapps: string[]
-      } = yield call([response, 'json'])
+      } = yield* call([response, 'json'])
 
       const dappsList: Array<DappV1 | DappV2> = isApplicationV2(result.applications[0])
         ? (result.applications as ApplicationV2[]).map((application) => {
@@ -129,7 +129,7 @@ export function* handleFetchDappsList() {
             }
           })
 
-      yield put(
+      yield* put(
         fetchDappsListCompleted({
           dapps: dappsList,
           categories: result.categories,
@@ -138,23 +138,23 @@ export function* handleFetchDappsList() {
       )
     } catch (error) {
       Logger.error(TAG, 'Could not parse dapps response', error)
-      yield put(fetchDappsListFailed({ error: 'Could not parse dapps' }))
+      yield* put(fetchDappsListFailed({ error: 'Could not parse dapps' }))
     }
   } else {
-    yield put(fetchDappsListFailed({ error: 'Could not fetch dapps' }))
+    yield* put(fetchDappsListFailed({ error: 'Could not fetch dapps' }))
   }
 }
 
 export function* watchDappSelected() {
-  yield takeLatest(dappSelected.type, safely(handleOpenDapp))
+  yield* takeLatest(dappSelected.type, safely(handleOpenDapp))
 }
 
 export function* watchFetchDappsList() {
-  yield takeLeading([fetchDappsList.type, Actions.SET_ACCOUNT], safely(handleFetchDappsList))
+  yield* takeLeading([fetchDappsList.type, Actions.SET_ACCOUNT], safely(handleFetchDappsList))
 }
 
 export function* dappsSaga() {
-  yield spawn(watchDappSelected)
-  yield spawn(watchFetchDappsList)
-  yield put(fetchDappsList())
+  yield* spawn(watchDappSelected)
+  yield* spawn(watchFetchDappsList)
+  yield* put(fetchDappsList())
 }

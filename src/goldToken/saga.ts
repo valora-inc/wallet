@@ -1,4 +1,4 @@
-import { spawn } from 'redux-saga/effects'
+import { spawn } from 'typed-redux-saga'
 import { Actions } from 'src/goldToken/actions'
 import { tokenTransferFactory } from 'src/tokens/saga'
 
@@ -10,5 +10,5 @@ export const goldTransferLegacy = tokenTransferFactory({
 })
 
 export function* goldTokenSaga() {
-  yield spawn(goldTransferLegacy)
+  yield* spawn(goldTransferLegacy)
 }

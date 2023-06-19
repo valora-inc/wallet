@@ -1,6 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { select } from 'typed-redux-saga'
 import { fetchPositionsSaga } from 'src/positions/saga'
 import {
   fetchPositionsFailure,

@@ -1,6 +1,6 @@
 import { EventLog } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { updateInviteTransactions, updateTransactions } from 'src/transactions/actions'
 import { getInviteTransactionsDetails } from 'src/transactions/saga'
 import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'

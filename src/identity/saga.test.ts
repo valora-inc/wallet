@@ -1,5 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { select } from 'typed-redux-saga'
 import { showErrorInline } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {

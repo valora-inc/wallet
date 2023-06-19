@@ -1,5 +1,5 @@
 import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
-import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
+import { all, call, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -60,10 +60,10 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
 
   try {
     ValoraAnalytics.track(EscrowEvents.escrow_reclaim_start)
-    const account = yield call(getConnectedUnlockedAccount)
+    const account = yield* call(getConnectedUnlockedAccount)
 
-    const reclaimTx = yield call(createReclaimTransaction, paymentID)
-    const { cancel } = yield race({
+    const reclaimTx = yield* call(createReclaimTransaction, paymentID)
+    const { cancel } = yield* race({
       success: call(
         sendTransaction,
         reclaimTx,
@@ -78,18 +78,18 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
     }
     Logger.debug(TAG + '@reclaimFromEscrow', 'Done reclaiming escrow')
 
-    yield put(fetchTokenBalances({ showLoading: true }))
-    yield put(reclaimEscrowPaymentSuccess())
+    yield* put(fetchTokenBalances({ showLoading: true }))
+    yield* put(reclaimEscrowPaymentSuccess())
 
-    yield call(navigateHome)
+    yield* call(navigateHome)
     ValoraAnalytics.track(EscrowEvents.escrow_reclaim_complete)
   } catch (e) {
     Logger.error(TAG + '@reclaimFromEscrow', 'Error reclaiming payment from escrow', e)
     ValoraAnalytics.track(EscrowEvents.escrow_reclaim_error, { error: e.message })
-    yield put(showErrorOrFallback(e, ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED))
-    yield put(reclaimEscrowPaymentFailure())
+    yield* put(showErrorOrFallback(e, ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED))
+    yield* put(reclaimEscrowPaymentFailure())
   } finally {
-    yield put(fetchSentEscrowPayments())
+    yield* put(fetchSentEscrowPayments())
   }
 }
 
@@ -110,29 +110,29 @@ function* doFetchSentPayments() {
 
   try {
     ValoraAnalytics.track(EscrowEvents.escrow_fetch_start)
-    const contractKit = yield call(getContractKit)
+    const contractKit = yield* call(getContractKit)
 
-    const escrow: EscrowWrapper = yield call([
+    const escrow: EscrowWrapper = yield* call([
       contractKit.contracts,
       contractKit.contracts.getEscrow,
     ])
-    const account: string = yield call(getConnectedAccount)
+    const account: string = yield* call(getConnectedAccount)
 
-    const sentPaymentIDs: string[] = yield call(escrow.getSentPaymentIds, account) // Note: payment ids are currently temp wallet addresses
+    const sentPaymentIDs: string[] = yield* call(escrow.getSentPaymentIds, account) // Note: payment ids are currently temp wallet addresses
     if (!sentPaymentIDs || !sentPaymentIDs.length) {
       Logger.debug(TAG + '@doFetchSentPayments', 'No payments ids found, clearing stored payments')
-      yield put(storeSentEscrowPayments([]))
+      yield* put(storeSentEscrowPayments([]))
       return
     }
     Logger.debug(
       TAG + '@doFetchSentPayments',
       `Fetching data for ${sentPaymentIDs.length} payments`
     )
-    const sentPaymentsRaw = yield all(
+    const sentPaymentsRaw = yield* all(
       sentPaymentIDs.map((paymentID) => call(getEscrowedPayment, escrow, paymentID))
     )
 
-    const identifierToE164Number = yield select(identifierToE164NumberSelector)
+    const identifierToE164Number = yield* select(identifierToE164NumberSelector)
     const sentPayments: EscrowedPayment[] = []
     for (let i = 0; i < sentPaymentsRaw.length; i++) {
       const address = sentPaymentIDs[i].toLowerCase()
@@ -157,7 +157,7 @@ function* doFetchSentPayments() {
       sentPayments.push(escrowPaymentWithRecipient)
     }
 
-    yield put(storeSentEscrowPayments(sentPayments))
+    yield* put(storeSentEscrowPayments(sentPayments))
     ValoraAnalytics.track(EscrowEvents.escrow_fetch_complete)
   } catch (e) {
     ValoraAnalytics.track(EscrowEvents.escrow_fetch_error, { error: e.message })
@@ -166,14 +166,14 @@ function* doFetchSentPayments() {
 }
 
 export function* watchReclaimPayment() {
-  yield takeLeading(Actions.RECLAIM_PAYMENT, safely(reclaimFromEscrow))
+  yield* takeLeading(Actions.RECLAIM_PAYMENT, safely(reclaimFromEscrow))
 }
 
 export function* watchFetchSentPayments() {
-  yield takeLeading(Actions.FETCH_SENT_PAYMENTS, safely(doFetchSentPayments))
+  yield* takeLeading(Actions.FETCH_SENT_PAYMENTS, safely(doFetchSentPayments))
 }
 
 export function* escrowSaga() {
-  yield spawn(watchReclaimPayment)
-  yield spawn(watchFetchSentPayments)
+  yield* spawn(watchReclaimPayment)
+  yield* spawn(watchFetchSentPayments)
 }

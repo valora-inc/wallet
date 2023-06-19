@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'typed-redux-saga'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
@@ -70,13 +70,13 @@ export function* handleSendPaymentData(
     contactId: cachedRecipient?.contactId,
     recipientType: RecipientType.Address,
   }
-  yield put(
+  yield* put(
     updateValoraRecipientCache({
       [data.address.toLowerCase()]: recipient,
     })
   )
 
-  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
   if (!tokenInfo?.usdPrice) {
@@ -94,10 +94,10 @@ export function* handleSendPaymentData(
   if (data.amount && tokenInfo?.address) {
     const currency: LocalCurrencyCode = data.currencyCode
       ? (data.currencyCode as LocalCurrencyCode)
-      : yield select(getLocalCurrencyCode)
-    const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
+      : yield* select(getLocalCurrencyCode)
+    const exchangeRate: string = yield* call(fetchExchangeRate, Currency.Dollar, currency)
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-    const localCurrencyExchangeRate: string | null = yield select(localCurrencyToUsdSelector)
+    const localCurrencyExchangeRate: string | null = yield* select(localCurrencyToUsdSelector)
     const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
     const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
     if (!inputAmount || !tokenAmount) {
@@ -118,7 +118,7 @@ export function* handleSendPaymentData(
       origin: SendOrigin.AppSendFlow,
     })
   } else {
-    const canSendTokens: boolean = yield select(canSendTokensSelector)
+    const canSendTokens: boolean = yield* select(canSendTokensSelector)
     if (!canSendTokens && !isOutgoingPaymentRequest) {
       throw new Error("Precondition failed: Can't send tokens from payment data")
     }
@@ -136,7 +136,7 @@ export function* handleSendPaymentData(
 export function* handlePaymentDeeplink(deeplink: string) {
   try {
     const paymentData = uriDataFromUrl(deeplink)
-    yield call(handleSendPaymentData, paymentData, true)
+    yield* call(handleSendPaymentData, paymentData, true)
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }

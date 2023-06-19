@@ -1,4 +1,4 @@
-import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 import { DEFAULT_TESTNET } from 'src/config'
 import {
   fetchPositionsFailure,
@@ -40,7 +40,7 @@ async function fetchPositions(walletAddress: string) {
 
 export function* fetchPositionsSaga() {
   try {
-    const address: string | null = yield select(walletAddressSelector)
+    const address: string | null = yield* select(walletAddressSelector)
     if (!address) {
       Logger.debug(TAG, 'Skipping fetching positions since no address was found')
       return
@@ -49,22 +49,22 @@ export function* fetchPositionsSaga() {
       return
     }
 
-    yield put(fetchPositionsStart())
+    yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
-    const positions = yield call(fetchPositions, address)
+    const positions = yield* call(fetchPositions, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess(positions))
   } catch (error) {
-    yield put(fetchPositionsFailure(error))
+    yield* put(fetchPositionsFailure(error))
     Logger.error(TAG, 'Unable to fetch positions', error)
   }
 }
 
 export function* watchFetchBalances() {
   // Refresh positions when fetching token balances
-  yield takeLeading(fetchTokenBalances.type, safely(fetchPositionsSaga))
+  yield* takeLeading(fetchTokenBalances.type, safely(fetchPositionsSaga))
 }
 
 export function* positionsSaga() {
-  yield spawn(watchFetchBalances)
+  yield* spawn(watchFetchBalances)
 }

@@ -2,7 +2,7 @@ import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
@@ -25,9 +25,9 @@ export interface WalletResponseSuccess {
 }
 
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
-  const account: string = yield call(getWalletAddress)
-  const wallet: UnlockableWallet = yield call(getWallet)
-  yield call(unlockAccount, account)
+  const account: string = yield* call(getWalletAddress)
+  const wallet: UnlockableWallet = yield* call(getWallet)
+  yield* call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)
 
@@ -47,7 +47,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
         delete rawTx.__skip_normalization
         tx = rawTx
       } else {
-        const kit: ContractKit = yield call(getContractKit)
+        const kit: ContractKit = yield* call(getContractKit)
         const normalizer = new TxParamsNormalizer(kit.connection)
         // For now if `feeCurrency` is not set, we don't know whether it was stripped by WalletConnect v1 utils or intentionally left out
         // to use CELO to pay for fees
@@ -60,7 +60,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
           }: {
             feeCurrency: string | undefined
             gas?: number
-          } = yield call(
+          } = yield* call(
             chooseTxFeeDetails,
             buildTxo(kit, rawTx),
             rawTx.feeCurrency,
@@ -72,23 +72,23 @@ export function* handleRequest({ method, params }: { method: string; params: any
           rawTx.gas = gas
           rawTx.gasPrice = undefined
         }
-        applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
-        tx = yield call(normalizer.populate.bind(normalizer), rawTx)
+        applyChainIdWorkaround(rawTx, yield* call([kit.connection, 'chainId']))
+        tx = yield* call(normalizer.populate.bind(normalizer), rawTx)
       }
 
-      return (yield call([wallet, 'signTransaction'], tx)) as EncodedTransaction
+      return (yield* call([wallet, 'signTransaction'], tx)) as EncodedTransaction
     }
     case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:
-      return (yield call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
+      return (yield* call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
     case SupportedActions.personal_decrypt:
-      return (yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
+      return (yield* call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
     case SupportedActions.eth_sendTransaction: {
       const rawTx = { ...params[0] }
-      const kit: ContractKit = yield call(getContractKit)
+      const kit: ContractKit = yield* call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
-      applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
-      const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
+      applyChainIdWorkaround(rawTx, yield* call([kit.connection, 'chainId']))
+      const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
 
       // This is a hack to turn the CeloTx into a CeloTxObject
       // so we can use our standard `sendTransaction` helper which takes care of setting the right `feeCurrency`, `gas` and `gasPrice`.
@@ -97,7 +97,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // TODO: bypass this if `feeCurrency` is set
       const txo = buildTxo(kit, tx)
 
-      const receipt: CeloTxReceipt = yield call(
+      const receipt: CeloTxReceipt = yield* call(
         sendTransaction,
         txo,
         tx.from as string,
@@ -106,10 +106,10 @@ export function* handleRequest({ method, params }: { method: string; params: any
       return receipt.transactionHash
     }
     case SupportedActions.personal_sign:
-      return (yield call([wallet, 'signPersonalMessage'], account, params[0])) as string
+      return (yield* call([wallet, 'signPersonalMessage'], account, params[0])) as string
     case SupportedActions.eth_sign:
-      const web3: Web3 = yield call(getWeb3)
-      return (yield call(web3.eth.sign.bind(web3), params[1], account)) as string
+      const web3: Web3 = yield* call(getWeb3)
+      return (yield* call(web3.eth.sign.bind(web3), params[1], account)) as string
     default:
       throw new Error('unsupported RPC method')
   }

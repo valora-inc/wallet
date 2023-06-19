@@ -1,7 +1,7 @@
 import firebase from '@react-native-firebase/app'
 import { expectSaga, SagaType } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { AppEvents } from 'src/analytics/Events'
@@ -45,7 +45,7 @@ describe(takeWithInMemoryCache, () => {
     const testEffect = jest.fn()
     const testSaga = function* () {
       yield takeWithInMemoryCache(testAction as Actions)
-      yield call(testEffect)
+      yield* call(testEffect)
     }
 
     // calls testEffect after action is dispatched

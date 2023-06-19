@@ -1,7 +1,7 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { handleGoogleSignInStarted } from 'src/keylessBackup/saga'
 import { googleSignInCompleted, googleSignInFailed } from 'src/keylessBackup/slice'
 

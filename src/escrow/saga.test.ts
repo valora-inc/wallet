@@ -1,6 +1,6 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions, EscrowReclaimPaymentAction } from 'src/escrow/actions'

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { call } from 'redux-saga/effects'
+import { call } from 'typed-redux-saga'
 import {
   chooseTxFeeDetails,
   isTxPossiblyPending,
@@ -53,7 +53,7 @@ function* wrapperSaga({
   gas?: number
   gasPrice?: BigNumber
 }) {
-  return yield call(chooseTxFeeDetails, tx, feeCurrency, gas, gasPrice)
+  return yield* call(chooseTxFeeDetails, tx, feeCurrency, gas, gasPrice)
 }
 
 describe('isTxPossiblyPending', () => {

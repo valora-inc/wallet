@@ -11,7 +11,7 @@ import {
   take,
   takeEvery,
   takeLeading,
-} from 'redux-saga/effects'
+} from 'typed-redux-saga'
 import { showError } from 'src/alert/actions'
 import { RequestEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -89,13 +89,13 @@ function* subscribeToPaymentRequests(
   ) => UpdateIncomingPaymentRequestsAction | UpdateOutgoingPaymentRequestsAction,
   isOutgoingRequest: boolean
 ) {
-  yield all([call(waitForFirebaseAuth), call(getAccount)])
-  const address = yield select(currentAccountSelector)
-  const dataEncryptionKey: string | null = yield select(dataEncryptionKeySelector)
+  yield* all([call(waitForFirebaseAuth), call(getAccount)])
+  const address = yield* select(currentAccountSelector)
+  const dataEncryptionKey: string | null = yield* select(dataEncryptionKeySelector)
   const paymentRequestChannel = yield createPaymentRequestChannel(address, addressKeyField)
   while (true) {
     try {
-      const paymentRequestsObject: { [key: string]: PaymentRequest } = yield take(
+      const paymentRequestsObject: { [key: string]: PaymentRequest } = yield* take(
         paymentRequestChannel
       )
       Logger.debug(`${TAG}@subscribeToPaymentRequests`, 'New payment request object from channel')
@@ -108,7 +108,7 @@ function* subscribeToPaymentRequests(
         .filter(onlyRequested)
         .map((pr) => decryptPaymentRequest(pr, dataEncryptionKey, isOutgoingRequest))
 
-      yield put(updatePaymentRequestsActionCreator(paymentRequests))
+      yield* put(updatePaymentRequestsActionCreator(paymentRequests))
     } catch (error) {
       Logger.error(
         `${TAG}@subscribeToPaymentRequests`,
@@ -116,7 +116,7 @@ function* subscribeToPaymentRequests(
         error
       )
     } finally {
-      if (yield cancelled()) {
+      if (yield* cancelled()) {
         paymentRequestChannel.close()
       }
     }
@@ -127,29 +127,29 @@ function* paymentRequestWriter({ paymentRequest }: WritePaymentRequestAction) {
   try {
     Logger.info(TAG, `Writing pending request to database`)
 
-    const encryptedPaymentRequest: PaymentRequest = yield call(
+    const encryptedPaymentRequest: PaymentRequest = yield* call(
       encryptPaymentRequest,
       paymentRequest
     )
 
     const pendingRequestRef = firebase.database().ref(`pendingRequests`)
-    yield call(() => pendingRequestRef.push(encryptedPaymentRequest))
+    yield* call(() => pendingRequestRef.push(encryptedPaymentRequest))
 
     navigateHome()
   } catch (error) {
     Logger.error(TAG, 'Failed to write payment request to Firebase DB', error)
     ValoraAnalytics.track(RequestEvents.request_error, { error: error.message })
-    yield put(showError(ErrorMessages.PAYMENT_REQUEST_FAILED))
+    yield* put(showError(ErrorMessages.PAYMENT_REQUEST_FAILED))
   }
 }
 
 function* updatePaymentRequestNotified({ id, notified }: UpdatePaymentRequestNotifiedAction) {
   try {
     Logger.debug(TAG, 'Updating payment request', id, `notified: ${notified}`)
-    yield call(() => firebase.database().ref(`${REQUEST_DB}/${id}`).update({ notified }))
+    yield* call(() => firebase.database().ref(`${REQUEST_DB}/${id}`).update({ notified }))
     Logger.debug(TAG, 'Payment request notified updated', id)
   } catch (error) {
-    yield put(showError(ErrorMessages.PAYMENT_REQUEST_UPDATE_FAILED))
+    yield* put(showError(ErrorMessages.PAYMENT_REQUEST_UPDATE_FAILED))
     Logger.error(TAG, `Error while updating payment request ${id} status`, error)
   }
 }
@@ -160,38 +160,38 @@ function* updatePaymentRequestStatus({
 }: (DeclinePaymentRequestAction | CompletePaymentRequestAction) | CancelPaymentRequestAction) {
   try {
     Logger.debug(TAG, 'Updating payment request', id, `status: ${status}`)
-    yield call(() => firebase.database().ref(`${REQUEST_DB}/${id}`).update({ status }))
+    yield* call(() => firebase.database().ref(`${REQUEST_DB}/${id}`).update({ status }))
     Logger.debug(TAG, 'Payment request status updated', id)
   } catch (error) {
-    yield put(showError(ErrorMessages.PAYMENT_REQUEST_UPDATE_FAILED))
+    yield* put(showError(ErrorMessages.PAYMENT_REQUEST_UPDATE_FAILED))
     Logger.error(TAG, `Error while updating payment request ${id} status`, error)
   }
 }
 
 function* subscribeToIncomingPaymentRequests() {
-  yield call(subscribeToPaymentRequests, REQUESTEE_ADDRESS, updateIncomingPaymentRequests, false)
+  yield* call(subscribeToPaymentRequests, REQUESTEE_ADDRESS, updateIncomingPaymentRequests, false)
 }
 
 function* subscribeToOutgoingPaymentRequests() {
-  yield call(subscribeToPaymentRequests, REQUESTER_ADDRESS, updateOutgoingPaymentRequests, true)
+  yield* call(subscribeToPaymentRequests, REQUESTER_ADDRESS, updateOutgoingPaymentRequests, true)
 }
 
 function* watchPaymentRequestStatusUpdates() {
-  yield takeLeading(Actions.UPDATE_REQUEST_STATUS, safely(updatePaymentRequestStatus))
+  yield* takeLeading(Actions.UPDATE_REQUEST_STATUS, safely(updatePaymentRequestStatus))
 }
 
 function* watchPaymentRequestNotifiedUpdates() {
-  yield takeLeading(Actions.UPDATE_REQUEST_NOTIFIED, safely(updatePaymentRequestNotified))
+  yield* takeLeading(Actions.UPDATE_REQUEST_NOTIFIED, safely(updatePaymentRequestNotified))
 }
 
 function* watchWritePaymentRequest() {
-  yield takeEvery(Actions.WRITE_PAYMENT_REQUEST, safely(paymentRequestWriter))
+  yield* takeEvery(Actions.WRITE_PAYMENT_REQUEST, safely(paymentRequestWriter))
 }
 
 export function* paymentRequestSaga() {
-  yield spawn(subscribeToIncomingPaymentRequests)
-  yield spawn(subscribeToOutgoingPaymentRequests)
-  yield spawn(watchPaymentRequestStatusUpdates)
-  yield spawn(watchPaymentRequestNotifiedUpdates)
-  yield spawn(watchWritePaymentRequest)
+  yield* spawn(subscribeToIncomingPaymentRequests)
+  yield* spawn(subscribeToOutgoingPaymentRequests)
+  yield* spawn(watchPaymentRequestStatusUpdates)
+  yield* spawn(watchPaymentRequestNotifiedUpdates)
+  yield* spawn(watchWritePaymentRequest)
 }

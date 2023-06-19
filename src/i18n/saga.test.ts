@@ -2,7 +2,7 @@ import i18n from 'i18next'
 import DeviceInfo from 'react-native-device-info'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { saveOtaTranslations } from 'src/i18n/otaTranslations'
 import { handleFetchOtaTranslations } from 'src/i18n/saga'
 import {

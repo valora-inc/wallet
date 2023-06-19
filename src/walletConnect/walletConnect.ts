@@ -1,4 +1,4 @@
-import { call, delay, fork, race, select, take } from 'redux-saga/effects'
+import { call, delay, fork, race, select, take } from 'typed-redux-saga'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -43,14 +43,14 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // Show loading screen if there is no pending state
   // Sometimes the WC request is received from the WebSocket before this deeplink
   // handler is called, so it's important we don't display the loading screen on top
-  const hasPendingState: boolean = yield select(selectHasPendingState)
+  const hasPendingState: boolean = yield* select(selectHasPendingState)
   if (!hasPendingState) {
-    yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Deeplink)
+    yield* fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Deeplink)
   }
 
   // connection request
   if (link.includes('?')) {
-    yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
+    yield* call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
   }
 
   // action request, we can do nothing
@@ -63,12 +63,12 @@ export function isWalletConnectDeepLink(deepLink: string) {
 }
 
 export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
-  yield call(navigate, Screens.WalletConnectRequest, {
+  yield* call(navigate, Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Loading,
     origin,
   })
 
-  const { timedOut } = yield race({
+  const { timedOut } = yield* race({
     timedOut: delay(CONNECTION_TIMEOUT),
     sessionRequestReceivedV1: take(ActionsV1.SESSION_V1),
     sessionRequestReceivedV2: take(ActionsV2.SESSION_PROPOSAL_V2),
@@ -76,12 +76,12 @@ export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
   })
 
   if (timedOut) {
-    const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+    const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
       error: 'timed out while waiting for a session',
     })
 
-    yield call(navigate, Screens.WalletConnectRequest, { type: WalletConnectRequestType.TimeOut })
+    yield* call(navigate, Screens.WalletConnectRequest, { type: WalletConnectRequestType.TimeOut })
   }
 }
