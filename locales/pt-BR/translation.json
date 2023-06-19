@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Descobrir",
     "message": "Explore formas de usar seus ativos",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
@@ -1328,6 +1329,10 @@
       "removeFilter": "Remover filtro",
       "searchMessage": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Classificações Dapp",
+    "description": "Descubra os dapps mais favoritos por outros na comunidade {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
@@ -1618,6 +1623,10 @@
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
       "learnMore": "Saiba mais"
     },
+    "priceImpactWarning": {
+      "title": "Antes de trocar",
+      "body": "A troca destes activos pode resultar numa taxa de câmbio desfavorável. Se reduzir o montante, pode obter uma taxa de câmbio mais favorável."
+    },
     "estimatedExchangeRate": "Câmbio estimado ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1729,6 +1738,18 @@
     "send": "Enviar",
     "swap": "Trocar",
     "withdraw": "Sacar"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Ver no Celo Explorer",
+    "attributes": "Atributos",
+    "description": "Descrição",
+    "noNftsFound": "Não foram encontrados NFTs",
+    "nftImageLoadError": "Não é possível apresentar este NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Há um problema com o carregamento de NFTs",
+    "loadErrorSubtitle": "Os seus activos estão seguros. Por favor, tente novamente.",
+    "contactSupport": "Se precisar de ajuda adicional, pode \n<0>Contactar o suporte</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

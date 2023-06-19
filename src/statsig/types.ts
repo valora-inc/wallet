@@ -20,6 +20,7 @@ export enum StatsigFeatureGates {
   USE_ZENDESK_API_FOR_SUPPORT = 'use_zendesk_api_for_support',
   SHOW_POSITIONS = 'show_positions',
   APP_REVIEW = 'app_review',
+  SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
 }
 
 export enum StatsigExperiments {
@@ -30,6 +31,7 @@ export enum StatsigExperiments {
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPPS_FILTERS_AND_SEARCH = 'dapps_filters_and_search',
   DAPP_RANKINGS = 'dapp_rankings',
+  DAPP_MENU_ITEM_COPY = 'dapp_menu_item_copy',
 }
 
 export type StatsigParameter =

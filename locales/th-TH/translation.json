@@ -1306,6 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "Discover",
     "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
@@ -1326,6 +1327,10 @@
       "removeFilter": "ลบตัวกรอง",
       "searchMessage": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Dapp rankings",
+    "description": "Discover the most favorited dapps by others in the {{appName}} community"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
@@ -1616,6 +1621,10 @@
       "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
       "learnMore": "ดูข้อมูลเพิ่มเติม"
     },
+    "priceImpactWarning": {
+      "title": "Before you swap",
+      "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+    },
     "estimatedExchangeRate": "อัตราโดยประมาณ ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1727,6 +1736,18 @@
     "send": "ส่ง",
     "swap": "สว็อป",
     "withdraw": "ถอน"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "View on Celo Explorer",
+    "attributes": "Attributes",
+    "description": "Description",
+    "noNftsFound": "No NFTs found",
+    "nftImageLoadError": "Unable to display this NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "There is an issue loading NFTs",
+    "loadErrorSubtitle": "Your assets are safe. Please try again.",
+    "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp'ler",
+    "titleDiscover": "Keşfedin",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
@@ -1328,6 +1329,10 @@
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
     }
+  },
+  "dappRankings": {
+    "title": "Dapp sıralamaları",
+    "description": "{{appName}} topluluğundaki diğer kişiler tarafından en çok tercih edilen dapp'leri keşfedin"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
@@ -1618,6 +1623,10 @@
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
     },
+    "priceImpactWarning": {
+      "title": "Değiştirmeden önce",
+      "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
+    },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1729,6 +1738,18 @@
     "send": "Gönder",
     "swap": "Swap",
     "withdraw": "Çek"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Celo Explorer'da görüntüle",
+    "attributes": "Nitelikler",
+    "description": "Açıklama",
+    "noNftsFound": "NFT bulunamadı",
+    "nftImageLoadError": "Bu NFT görüntülenemiyor"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "NFT'lerin yüklenmesinde bir sorun var",
+    "loadErrorSubtitle": "Varlıklarınız güvende. Lütfen tekrar deneyin.",
+    "contactSupport": "Ek yardıma ihtiyacınız varsa \n<0>Destek ile iletişime</0> geçin"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
