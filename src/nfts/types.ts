@@ -24,3 +24,14 @@ export interface Nft {
   } | null
   media: NftMedia[]
 }
+
+export enum NftMediaType {
+  Image = 'image',
+  Video = 'video',
+}
+
+export enum NftOrigin {
+  NftsInfoCarouselMain = 'nftsInfoCarouselMain',
+  NftsInfoCarouselThumbnail = 'nftsInfoCarouselThumbnail',
+  TransactionFeed = 'transactionFeed',
+}

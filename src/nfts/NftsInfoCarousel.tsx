@@ -12,22 +12,20 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { Nft } from 'src/nfts/types'
+import { Nft, NftOrigin } from 'src/nfts/types'
+import { onImageLoad } from 'src/nfts/utils'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 
-const TAG = 'nfts/NftsInfoCarousel'
 const DEFAULT_IMAGE_HEIGHT = 360
 
 function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
   const aspectRatio = originalWidth / originalHeight
   return targetWidth / aspectRatio
 }
-
 interface ImagePlaceHolderProps {
   height: number
   width?: number
@@ -62,6 +60,17 @@ interface NftThumbnailProps {
 function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
   const [loading, setLoading] = useState(true)
   const [imageLoadingError, setImageLoadingError] = useState(false)
+
+  function handleLoadError() {
+    onImageLoad(nft, NftOrigin.NftsInfoCarouselThumbnail, true)
+    setImageLoadingError(true)
+  }
+
+  function handleLoadSuccess() {
+    onImageLoad(nft, NftOrigin.NftsInfoCarouselThumbnail, false)
+    setLoading(false)
+  }
+
   return (
     <Touchable
       style={[
@@ -87,16 +96,8 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
           source={{
             uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
           }}
-          onError={() => {
-            setImageLoadingError(true)
-            Logger.error(
-              TAG,
-              `Error loading Nft thumbnail image for Nft contractAddress: ${nft.contractAddress} tokenId: ${nft.tokenId} url: ${nft.metadata?.image}`
-            )
-          }}
-          onLoadEnd={() => {
-            setLoading(false)
-          }}
+          onError={handleLoadError}
+          onLoadEnd={handleLoadSuccess}
           resizeMode={FastImage.resizeMode.cover}
         >
           {loading && <ImagePlaceholder height={40} width={40} />}
@@ -166,11 +167,13 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   function handleLoadError() {
-    Logger.error(
-      TAG,
-      `Error loading Nft image for Nft contractAddress: ${activeNft.contractAddress} tokenId: ${activeNft.tokenId} url: ${activeNft.metadata?.image}`
-    )
+    onImageLoad(activeNft, NftOrigin.NftsInfoCarouselMain, true)
     setLoadError(true)
+  }
+
+  function handleLoadSuccess() {
+    onImageLoad(activeNft, NftOrigin.NftsInfoCarouselMain, false)
+    setIsLoading(false)
   }
 
   // Full page error screen shown when ntfs === []
@@ -200,7 +203,7 @@ export default function NftsInfoCarousel({ route }: Props) {
                 scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
               )
             }}
-            onLoadEnd={() => setIsLoading(false)}
+            onLoadEnd={handleLoadSuccess}
             onError={handleLoadError}
             resizeMode={FastImage.resizeMode.contain}
           >
