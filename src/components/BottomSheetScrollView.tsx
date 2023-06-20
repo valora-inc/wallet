@@ -1,18 +1,19 @@
 import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
-import { LayoutChangeEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
-import { SafeAreaView, useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BottomSheetParams } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
 
 interface Props extends BottomSheetParams {
   containerStyle?: StyleProp<ViewStyle>
+  testId?: string
   children: React.ReactNode
 }
 
 const BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT = 24
 
-function BottomSheetScrollView({ handleContentLayout, containerStyle, children }: Props) {
+function BottomSheetScrollView({ handleContentLayout, containerStyle, testId, children }: Props) {
   const [scrollEnabled, setScrollEnabled] = useState(false)
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
@@ -21,6 +22,9 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
 
   const handleLayout = (event: LayoutChangeEvent) => {
     handleContentLayout(event)
+  }
+
+  const handleScrollEnabled = (event: LayoutChangeEvent) => {
     if (event.nativeEvent.layout.height > scrollEnabledContentHeight) {
       setScrollEnabled(true)
     }
@@ -30,17 +34,21 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, children }
     <RNBottomSheetScrollView
       style={{
         maxHeight: scrollEnabledContentHeight - insets.top,
-        marginTop: scrollEnabled ? insets.top : 0,
       }}
       scrollEnabled={scrollEnabled}
+      onLayout={handleLayout}
     >
-      <SafeAreaView
-        edges={['bottom']}
-        style={[styles.container, containerStyle]}
-        onLayout={handleLayout}
+      <View
+        style={[
+          styles.container,
+          { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
+          containerStyle,
+        ]}
+        onLayout={handleScrollEnabled}
+        testID={testId}
       >
         {children}
-      </SafeAreaView>
+      </View>
     </RNBottomSheetScrollView>
   )
 }

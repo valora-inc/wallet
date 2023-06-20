@@ -1172,6 +1172,7 @@ interface DappExplorerEventsProperties {
     searchTerm: string
   }
   [DappExplorerEvents.dapp_rankings_open]: undefined
+  [DappExplorerEvents.dapp_rankings_impression]: undefined
 }
 
 interface WebViewEventsProperties {

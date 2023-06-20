@@ -14,6 +14,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
 import {
   dappsCategoriesAlphabeticalSelector,
@@ -26,7 +27,7 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
-import DappRankings from 'src/dappsExplorer/DappRankings'
+import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
 import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import FavoriteDappsSection from 'src/dappsExplorer/searchFilter/FavoriteDappsSection'
@@ -55,6 +56,7 @@ export function DAppsExplorerScreenSearchFilter() {
   const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
   const horizontalScrollView = useRef<ScrollView>(null)
+  const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
@@ -83,6 +85,11 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const filterPress = (filterId: string) => {
     selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
+  }
+
+  const handleShowDappRankings = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
+    dappRankingsBottomSheetRef.current?.snapToIndex(0)
   }
 
   useEffect(() => {
@@ -168,7 +175,7 @@ export function DAppsExplorerScreenSearchFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                <DappRankings />
+                <DappRankingsCard onPress={handleShowDappRankings} />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
@@ -261,6 +268,10 @@ export function DAppsExplorerScreenSearchFilter() {
       {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
       {DappInfoBottomSheet}
+      <DappRankingsBottomSheet
+        forwardedRef={dappRankingsBottomSheetRef}
+        onPressDapp={onSelectDapp}
+      />
     </SafeAreaView>
   )
 }
