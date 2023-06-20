@@ -13,9 +13,9 @@ interface BaseToken {
   // This field is for tokens that are part of the core contracts that allow paying for fees and
   // making transfers with a comment.
   isCoreToken?: boolean
-  // Deprecated: This flag enables swapping the token in all the releases, use isSwappableFromVersion instead.
+  // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean
-  isSwappableFromVersion?: string
+  minimumAppVersionToSwap?: string
 }
 
 interface HistoricalUsdPrices {

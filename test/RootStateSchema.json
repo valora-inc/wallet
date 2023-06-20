@@ -4508,7 +4508,7 @@
                 "isSwappable": {
                     "type": "boolean"
                 },
-                "isSwappableFromVersion": {
+                "minimumAppVersionToSwap": {
                     "type": "string"
                 },
                 "name": {
