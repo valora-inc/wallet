@@ -67,8 +67,7 @@ export function DAppsExplorerScreenLegacy() {
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
-  const { onFavoriteDapp, onUnfavoriteDapp, DappFavoritedToast } =
-    useDappFavoritedToast(sectionListRef)
+  const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
   useEffect(() => {
@@ -145,10 +144,7 @@ export function DAppsExplorerScreenLegacy() {
                 {dappFavoritesEnabled && (
                   <>
                     <Text style={styles.sectionTitle}>{t('dappsScreen.favoriteDapps')}</Text>
-                    <FavoriteDappsSection
-                      onPressDapp={onSelectDapp}
-                      onUnfavoriteDapp={onUnfavoriteDapp}
-                    />
+                    <FavoriteDappsSection onPressDapp={onSelectDapp} />
                   </>
                 )}
 
@@ -173,7 +169,6 @@ export function DAppsExplorerScreenLegacy() {
                 section={DappSection.All}
                 onPressDapp={onSelectDapp}
                 onFavoriteDapp={onFavoriteDapp}
-                onUnfavoriteDapp={onUnfavoriteDapp}
               />
             )}
             keyExtractor={(dapp: DappV1) => `${dapp.categoryId}-${dapp.id}`}

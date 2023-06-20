@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import { mostPopularDappsSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
+import { ActiveDapp, DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import { DappCardContent } from 'src/dappsExplorer/DappCard'
 import Trophy from 'src/icons/Trophy'
 import { getExperimentParams } from 'src/statsig'
@@ -61,29 +61,16 @@ export function DappRankingsBottomSheet({
   const { t } = useTranslation()
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
 
-  const getEventProperties = (dapp: DappV1 | DappV2) => ({
-    section: DappSection.MostPopular,
-    dappId: dapp.id,
-    dappName: dapp.name,
-    categories: isDappV2(dapp) ? dapp.categories : undefined,
-    categoryId: !isDappV2(dapp) ? dapp.categoryId : undefined,
-  })
-
   const handleOnPress = (dapp: DappV1 | DappV2) => () => {
     onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular })
   }
 
   const handleFavoriteDapp = (dapp: DappV1 | DappV2) => () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, getEventProperties(dapp))
     Toast.showWithGravity(
       t('dappsScreen.favoritedDappToast.messageWithDappName', { dappName: dapp.name }),
       Toast.SHORT,
       Toast.BOTTOM
     )
-  }
-
-  const handleUnfavoriteDapp = (dapp: DappV1 | DappV2) => () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, getEventProperties(dapp))
   }
 
   return (
@@ -114,7 +101,7 @@ export function DappRankingsBottomSheet({
               <DappCardContent
                 dapp={dapp}
                 onFavoriteDapp={handleFavoriteDapp(dapp)}
-                onUnfavoriteDapp={handleUnfavoriteDapp(dapp)}
+                favoritedFromSection={DappSection.MostPopular}
               />
             </>
           </Touchable>

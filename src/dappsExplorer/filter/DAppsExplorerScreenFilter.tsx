@@ -76,8 +76,7 @@ export function DAppsExplorerScreenFilter() {
   }, [selectedFilter])
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
-  const { onFavoriteDapp, onUnfavoriteDapp, DappFavoritedToast } =
-    useDappFavoritedToast(sectionListRef)
+  const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
   const handleShowDappRankings = () => {
@@ -185,7 +184,6 @@ export function DAppsExplorerScreenFilter() {
                       filterName={selectedFilterName}
                       removeFilter={removeFilter}
                       onPressDapp={onSelectDapp}
-                      onUnfavoriteDapp={onUnfavoriteDapp}
                     />
                     <Text style={styles.sectionTitle}>
                       {selectedFilterName.toLocaleUpperCase(language ?? 'en-US')}
@@ -210,7 +208,6 @@ export function DAppsExplorerScreenFilter() {
                 section={DappSection.All}
                 onPressDapp={onSelectDapp}
                 onFavoriteDapp={onFavoriteDapp}
-                onUnfavoriteDapp={onUnfavoriteDapp}
               />
             )}
             keyExtractor={(dapp: DappV1 | DappV2) => dapp.id}

@@ -66,8 +66,7 @@ export function DAppsExplorerScreenSearch() {
   const [allResultEmpty, setAllResultEmpty] = useState(false)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
-  const { onFavoriteDapp, onUnfavoriteDapp, DappFavoritedToast } =
-    useDappFavoritedToast(sectionListRef)
+  const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
   // Search term debounced to minimize incomplete searches in analytics events
@@ -191,7 +190,6 @@ export function DAppsExplorerScreenSearch() {
                     onPressDapp={onSelectDapp}
                     searchTerm={searchTerm}
                     onShowSearchResult={setFavoriteResultsEmpty}
-                    onUnfavoriteDapp={onUnfavoriteDapp}
                   />
                   {/* If all dapp section isn't empty or favoriteResults isn't empty display add section header */}
                   {(!allResultEmpty || !favoriteResultsEmpty) && (
@@ -218,7 +216,6 @@ export function DAppsExplorerScreenSearch() {
                 section={DappSection.All}
                 onPressDapp={onSelectDapp}
                 onFavoriteDapp={onFavoriteDapp}
-                onUnfavoriteDapp={onUnfavoriteDapp}
               />
             )}
             keyExtractor={(dapp) => dapp.id}
