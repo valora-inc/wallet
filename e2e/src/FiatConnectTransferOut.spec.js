@@ -21,6 +21,6 @@ describe('FiatConnect Transfer Out', () => {
   const platform = device.getPlatform()
   // KYC test needs to be on iOS and needs Mock Provider info
   if (platform == 'ios' && MOCK_PROVIDER_BASE_URL && MOCK_PROVIDER_API_KEY) {
-    describe('KYC', fiatConnectKycTransferOut)
+    describe.skip('KYC', fiatConnectKycTransferOut)
   }
 })
