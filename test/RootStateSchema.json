@@ -851,6 +851,7 @@
                 "favorites dapp screen",
                 "favorites home screen",
                 "featured",
+                "mostPopular",
                 "recently used"
             ],
             "type": "string"
@@ -4509,8 +4510,8 @@
                 "isSwappable": {
                     "type": "boolean"
                 },
-                "isSwappableWithAnyDecimals": {
-                    "type": "boolean"
+                "minimumAppVersionToSwap": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
