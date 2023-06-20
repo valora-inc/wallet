@@ -7,6 +7,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
 import {
   dappListWithCategoryNamesSelector,
@@ -19,7 +20,8 @@ import {
 import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
-import DappRankings from 'src/dappsExplorer/DappRankings'
+import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
+import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import FavoriteDappsSection from 'src/dappsExplorer/search/FavoriteDappsSection'
 import NoResultsSearch from 'src/dappsExplorer/search/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
@@ -31,7 +33,6 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
@@ -47,6 +48,7 @@ export function DAppsExplorerScreenSearch() {
 
   const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
+  const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
@@ -78,6 +80,11 @@ export function DAppsExplorerScreenSearch() {
     }, 1000),
     []
   )
+
+  const handleShowDappRankings = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
+    dappRankingsBottomSheetRef.current?.snapToIndex(0)
+  }
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -153,7 +160,8 @@ export function DAppsExplorerScreenSearch() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                <DappRankings />
+                <DappRankingsCard onPress={handleShowDappRankings} />
+
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
@@ -222,6 +230,10 @@ export function DAppsExplorerScreenSearch() {
       </>
       {DappFavoritedToast}
       {DappInfoBottomSheet}
+      <DappRankingsBottomSheet
+        forwardedRef={dappRankingsBottomSheetRef}
+        onPressDapp={onSelectDapp}
+      />
     </SafeAreaView>
   )
 }

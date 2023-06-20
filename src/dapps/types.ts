@@ -4,6 +4,7 @@ export enum DappSection {
   All = 'all',
   FavoritesDappScreen = 'favorites dapp screen',
   FavoritesHomeScreen = 'favorites home screen',
+  MostPopular = 'mostPopular',
 }
 
 export interface DappV1 {
