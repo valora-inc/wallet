@@ -8,8 +8,6 @@ export function getGatewayUrl(nft: Nft, mediaType = NftMediaType.Image) {
     default:
     case NftMediaType.Image:
       return nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
-    case NftMediaType.Video:
-      return nft.media.find((media) => media.raw === nft.metadata?.animation_url)?.gateway
   }
 }
 
