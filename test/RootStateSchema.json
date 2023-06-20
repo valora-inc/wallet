@@ -1739,8 +1739,6 @@
             "required": [
                 "__typename",
                 "block",
-                "fees",
-                "nfts",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2387,6 +2385,7 @@
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
+                "NftsInfoCarousel",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
                 "OutgoingPaymentRequestListScreen",
@@ -4889,7 +4888,6 @@
                 "block",
                 "fees",
                 "inAmount",
-                "metadata",
                 "outAmount",
                 "timestamp",
                 "transactionHash",

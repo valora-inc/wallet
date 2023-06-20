@@ -1306,6 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "发现",
     "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
@@ -1326,6 +1327,10 @@
       "removeFilter": "移除筛选条件",
       "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
     }
+  },
+  "dappRankings": {
+    "title": "Dapp排名",
+    "description": "在 {{appName}} 社区中发现其他人最喜欢的dapp。"
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
@@ -1616,6 +1621,10 @@
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
       "learnMore": "了解更多"
     },
+    "priceImpactWarning": {
+      "title": "在你调换之前",
+      "body": "交换这些资产可能会导致不利的汇率。如果你降低金额，你可能会得到一个更好的汇率。"
+    },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1727,6 +1736,18 @@
     "send": "发送",
     "swap": "交换",
     "withdraw": "提取"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "在Celo Explorer上查看",
+    "attributes": "属性",
+    "description": "描述",
+    "noNftsFound": "没有发现NFTs",
+    "nftImageLoadError": "无法显示此NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "有一个加载NFT的问题",
+    "loadErrorSubtitle": "您的资产是安全的。请再试一次。",
+    "contactSupport": "如果你需要额外的帮助，你可以 \n，<0>联系支持</0>。"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

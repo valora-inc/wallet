@@ -1312,6 +1312,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Відкрийте для себе",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
@@ -1332,6 +1333,10 @@
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Рейтинг Dapp",
+    "description": "Відкрийте для себе найулюбленіші додатки інших учасників спільноти {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Що таке dapps?",
@@ -1622,6 +1627,10 @@
       "body": "Переконайтеся, що у вашому гаманці є CELO, щоб покрити комісії за газ для подальших транзакцій",
       "learnMore": "Дізнатися більше"
     },
+    "priceImpactWarning": {
+      "title": "Перед тим, як помінятися",
+      "body": "Обмін цих активів може призвести до несприятливого обмінного курсу. Якщо ви зменшите суму, ви можете отримати кращий курс."
+    },
     "estimatedExchangeRate": "Орієнтовний курс ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1733,6 +1742,18 @@
     "send": "Надіслати",
     "swap": "Обміняти",
     "withdraw": "Зняти"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Переглянути в Celo Explorer",
+    "attributes": "Атрибути",
+    "description": "Опис",
+    "noNftsFound": "NFT не знайдено",
+    "nftImageLoadError": "Не вдається відобразити цей NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Виникла проблема із завантаженням NFT",
+    "loadErrorSubtitle": "Ваші кошти в безпеці. Спробуйте ще раз.",
+    "contactSupport": "Якщо вам потрібна додаткова допомога, ви можете \n<0>Зверніться до служби підтримки</0>"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
