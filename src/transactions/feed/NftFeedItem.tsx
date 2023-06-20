@@ -12,7 +12,8 @@ import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Nft } from 'src/nfts/types'
+import { Nft, NftOrigin } from 'src/nfts/types'
+import { getGatewayUrl, onImageLoad } from 'src/nfts/utils'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -36,6 +37,17 @@ function NftIconPlaceholder({ testID = 'NftIconPlaceHolder' }: { testID?: string
 function NftIcon({ nft }: { nft: Nft }) {
   const [loading, setLoading] = useState(true)
   const [imageLoadingError, setImageLoadingError] = useState(false)
+
+  function handleLoadError() {
+    onImageLoad(nft, NftOrigin.TransactionFeed, true)
+    setImageLoadingError(true)
+  }
+
+  function handleLoadSuccess() {
+    onImageLoad(nft, NftOrigin.TransactionFeed, false)
+    setLoading(false)
+  }
+
   return imageLoadingError ? (
     <View style={[styles.circleIcon, styles.errorCircleIcon]}>
       <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
@@ -43,12 +55,11 @@ function NftIcon({ nft }: { nft: Nft }) {
   ) : (
     <FastImage
       source={{
-        uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
+        uri: getGatewayUrl(nft),
       }}
       style={styles.circleIcon}
-      // TODO: add analytics
-      onLoadEnd={() => setLoading(false)}
-      onError={() => setImageLoadingError(true)}
+      onLoadEnd={handleLoadSuccess}
+      onError={handleLoadError}
       testID="NftFeedItem/NftIcon"
     >
       {loading && <NftIconPlaceholder />}
