@@ -1310,6 +1310,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Discover",
     "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
@@ -1740,5 +1741,17 @@
     "send": "Send",
     "swap": "Swap",
     "withdraw": "Withdraw"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "View on Celo Explorer",
+    "attributes": "Attributes",
+    "description": "Description",
+    "noNftsFound": "No NFTs found",
+    "nftImageLoadError": "Unable to display this NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "There is an issue loading NFTs",
+    "loadErrorSubtitle": "Your assets are safe. Please try again.",
+    "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
   }
 }
