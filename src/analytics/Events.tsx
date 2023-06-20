@@ -602,8 +602,8 @@ export enum AssetsEvents {
 }
 
 export enum NftEvents {
-  nft_error_screen_open = 'nft_error_screen_open', // When the screen is mounted
-  nft_image_load = 'nft_details_image_load', // When an NFT attempted to load contains error boolean for success or failure
+  nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
+  nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
 }
 
 export type AnalyticsEventType =
