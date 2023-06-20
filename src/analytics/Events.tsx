@@ -601,6 +601,11 @@ export enum AssetsEvents {
   tap_asset = 'tap_asset', // When a user taps on an asset
 }
 
+export enum NftEvents {
+  nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
+  nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
