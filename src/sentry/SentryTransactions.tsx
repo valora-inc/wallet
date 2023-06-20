@@ -18,7 +18,7 @@ export enum SentryTransaction {
   app_init_saga = 'AppInitSaga',
 }
 
-type values = typeof SentryTransaction[keyof typeof SentryTransaction]
+type values = (typeof SentryTransaction)[keyof typeof SentryTransaction]
 
 export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   DAppKitConnection: {
