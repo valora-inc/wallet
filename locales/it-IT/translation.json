@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "Scoprire",
     "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
@@ -1737,6 +1738,18 @@
     "send": "Invia",
     "swap": "Scambia",
     "withdraw": "Preleva"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Vista su Celo Explorer",
+    "attributes": "Attributi",
+    "description": "Descrizione",
+    "noNftsFound": "Non sono stati trovati NFT",
+    "nftImageLoadError": "Impossibile visualizzare questo NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "C'è un problema di caricamento degli NFT",
+    "loadErrorSubtitle": "I tuoi beni sono al sicuro. Riprova.",
+    "contactSupport": "Se hai bisogno di ulteriore aiuto puoi \n<0>Contatta l'assistenza</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

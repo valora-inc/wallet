@@ -851,6 +851,7 @@
                 "favorites dapp screen",
                 "favorites home screen",
                 "featured",
+                "mostPopular",
                 "recently used"
             ],
             "type": "string"
@@ -2384,6 +2385,7 @@
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
+                "NftsInfoCarousel",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
                 "OutgoingPaymentRequestListScreen",

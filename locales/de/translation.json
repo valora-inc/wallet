@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Entdecke",
     "message": "Finde heraus, wie du dein Vermögen nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
@@ -1737,6 +1738,18 @@
     "send": "Senden",
     "swap": "Tauschen",
     "withdraw": "Abheben"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Blick auf Celo Explorer",
+    "attributes": "Attribute",
+    "description": "Beschreibung",
+    "noNftsFound": "Keine NFTs gefunden",
+    "nftImageLoadError": "Diese NFT kann nicht angezeigt werden"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Es gibt ein Problem beim Laden von NFTs",
+    "loadErrorSubtitle": "Dein Vermögen ist sicher. Bitte versuche es noch einmal.",
+    "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du \n<0>Kontakt zum Support aufnehmen</0>."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
