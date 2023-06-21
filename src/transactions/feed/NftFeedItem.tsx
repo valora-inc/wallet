@@ -11,8 +11,8 @@ import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getGatewayUrl, onImageLoad } from 'src/nfts/NftsInfoCarousel'
 import { Nft, NftOrigin } from 'src/nfts/types'
-import { getGatewayUrl, onImageLoad } from 'src/nfts/utils'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -96,8 +96,8 @@ function NftFeedItem({ transaction }: Props) {
         ) : transaction.type === TokenTransactionTypeV2.NftReceived ? (
           <NftReceivedIcon />
         ) : (
-              <NftSentIcon />
-            )}
+          <NftSentIcon />
+        )}
         <View style={styles.descriptionContainer}>
           <Text style={styles.title}>
             {transaction.type === TokenTransactionTypeV2.NftReceived
