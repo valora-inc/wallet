@@ -28,8 +28,30 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
+// Language agnostic loose regex for email validation
+const tester =
+  /([^\x00-\x7F]+|[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]){1,64}@([^\x00-\x7F.-]|[A-Za-z0-9.-]){1,255}/i
+
+// Validate email function - https://github.com/manishsaraan/email-validator
 export function validateEmail(email: string) {
-  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
+  if (!email) return false
+  if (email.length > 360) return false
+  let emailParts = email.split('@')
+  if (emailParts.length !== 2) return false
+  let account = emailParts[0]
+  let address = emailParts[1]
+  if (account.length > 64) return false
+  else if (address.length > 255) return false
+  let domainParts = address.split('.')
+  if (!domainParts[1] || domainParts[1].length < 2) return false
+  if (
+    domainParts.some((part) => {
+      return part.length > 63
+    })
+  )
+    return false
+
+  return tester.test(email)
 }
 
 function SupportContact({ route }: Props) {
