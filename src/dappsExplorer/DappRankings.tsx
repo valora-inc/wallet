@@ -1,6 +1,7 @@
 import React, { RefObject, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import Toast from 'react-native-simple-toast'
 import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -64,8 +65,12 @@ export function DappRankingsBottomSheet({
     onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular })
   }
 
-  const handleFavoriteDapp = () => {
-    // TODO
+  const handleFavoriteDapp = (dapp: DappV1 | DappV2) => () => {
+    Toast.showWithGravity(
+      t('dappsScreen.favoritedDappToast.messageWithDappName', { dappName: dapp.name }),
+      Toast.SHORT,
+      Toast.BOTTOM
+    )
   }
 
   return (
@@ -93,7 +98,11 @@ export function DappRankingsBottomSheet({
           >
             <>
               <Text style={styles.subtitle}>{index + 1}</Text>
-              <DappCardContent dapp={dapp} onFavoriteDapp={handleFavoriteDapp} />
+              <DappCardContent
+                dapp={dapp}
+                onFavoriteDapp={handleFavoriteDapp(dapp)}
+                favoritedFromSection={DappSection.MostPopular}
+              />
             </>
           </Touchable>
         </View>
