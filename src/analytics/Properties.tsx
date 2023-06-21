@@ -25,6 +25,7 @@ import {
   InviteEvents,
   KeylessBackupEvents,
   NavigationEvents,
+  NftEvents,
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
@@ -60,6 +61,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { HomeActionName } from 'src/home/types'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
@@ -1286,6 +1288,17 @@ interface AssetsEventsProperties {
       }
 }
 
+interface NftsEventsProperties {
+  [NftEvents.nft_error_screen_open]: undefined
+  [NftEvents.nft_image_load]: {
+    tokenId: string
+    contractAddress: string
+    url?: string
+    origin: NftOrigin
+    error: boolean
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1317,4 +1330,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
   TokenBottomSheetEventsProperties &
-  AssetsEventsProperties
+  AssetsEventsProperties &
+  NftsEventsProperties
