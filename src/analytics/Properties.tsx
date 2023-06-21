@@ -1160,8 +1160,8 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_select]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
-  [DappExplorerEvents.dapp_favorite]: DappProperties
-  [DappExplorerEvents.dapp_unfavorite]: DappProperties
+  [DappExplorerEvents.dapp_favorite]: DappEventProperties
+  [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
   [DappExplorerEvents.dapp_open_info]: undefined
   [DappExplorerEvents.dapp_open_more_info]: undefined
   [DappExplorerEvents.dapp_filter]: {
