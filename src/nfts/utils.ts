@@ -12,20 +12,21 @@ export function getGatewayUrl(nft: Nft, mediaType = NftMediaType.Image) {
 }
 
 export function onImageLoad(nft: Nft, origin: NftOrigin, error: boolean) {
+  const { contractAddress, tokenId } = nft
   const url = getGatewayUrl(nft)
   error
     ? Logger.error(
         origin,
-        `ContractAddress=${nft.contractAddress}, TokenId: ${nft.tokenId}, Failed to load image from ${url}`
+        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load image from ${url}`
       )
     : Logger.info(
         origin,
-        `ContractAddress=${nft.contractAddress}, TokenId: ${nft.tokenId}, Loaded image from ${url}`
+        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Loaded image from ${url}`
       )
 
   ValoraAnalytics.track(NftEvents.nft_image_load, {
-    tokenId: nft.tokenId,
-    contractAddress: nft.contractAddress,
+    tokenId,
+    contractAddress,
     url,
     origin,
     error,
