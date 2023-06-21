@@ -1306,7 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "titleDiscover": "发现",
+    "titleDiscover": "探索",
     "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
@@ -1329,8 +1329,8 @@
     }
   },
   "dappRankings": {
-    "title": "Dapp排名",
-    "description": "在 {{appName}} 社区中发现其他人最喜欢的dapp。"
+    "title": "Dapp 排名",
+    "description": "探索 {{appName}} 社区中最受其他人欢迎的 Dapp。"
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
@@ -1622,8 +1622,8 @@
       "learnMore": "了解更多"
     },
     "priceImpactWarning": {
-      "title": "在你调换之前",
-      "body": "交换这些资产可能会导致不利的汇率。如果你降低金额，你可能会得到一个更好的汇率。"
+      "title": "交换之前",
+      "body": "交换这些资产可能导致不利的汇率。如果降低金额，您会获得更好的汇率。"
     },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
   },
@@ -1738,16 +1738,16 @@
     "withdraw": "提取"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "在Celo Explorer上查看",
+    "viewOnCeloExplorer": "在 Celo Explorer 上查看",
     "attributes": "属性",
     "description": "描述",
-    "noNftsFound": "没有发现NFTs",
-    "nftImageLoadError": "无法显示此NFT"
+    "noNftsFound": "未找到 NFT",
+    "nftImageLoadError": "无法显示此 NFT"
   },
   "nftsLoadErrorScreen": {
-    "loadErrorTitle": "有一个加载NFT的问题",
-    "loadErrorSubtitle": "您的资产是安全的。请再试一次。",
-    "contactSupport": "如果你需要额外的帮助，你可以 \n，<0>联系支持</0>。"
+    "loadErrorTitle": "加载 NFT 时出现问题",
+    "loadErrorSubtitle": "您的资产依旧安全。请再试一次。",
+    "contactSupport": "如需额外帮助，您可以 \n<0>联系支持团队</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
