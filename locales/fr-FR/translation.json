@@ -1151,7 +1151,7 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Dépôt reçu",
   "feedItemDepositTitle": "Dépôt",
-  "feedItemFcTransferMobileMoney": "Transfert d'argent mobile",
+  "feedItemFcTransferMobileMoney": "Transfert - Mobile Money",
   "feedItemFcTransferBankAccount": "Transfert de compte bancaire",
   "feedItemFcTransferWithdraw": "Retirer {{crypto}}",
   "feedItemExchangeTitle": "CELO",
@@ -1322,7 +1322,8 @@
     },
     "favoritedDappToast": {
       "message": "Dapp ajoutée à vos favorites",
-      "labelCTA": "Voir mes favorites"
+      "labelCTA": "Voir mes favorites",
+      "messageWithDappName": "{{dappName}} ajouté en tant que favori"
     },
     "emptyResults": {
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
@@ -1412,7 +1413,7 @@
     "mobileMoney": {
       "header": "Configurez Mobile Money",
       "bodyTitle": "Configurez Mobile Money",
-      "description": "Entrez les coordonnées de l'argent mobile pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
+      "description": "Entrez les coordonnées de Mobile Money pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
     "continue": "Continuer"
   },
@@ -1457,7 +1458,7 @@
     "paymentMethodVia": "Connexion du {{providerName}}",
     "receiveAmount": "Vous recevrez",
     "bankFeeDisclaimer": "Votre banque peut facturer des frais supplémentaires pour votre transfert.",
-    "mobileMoneyFeeDisclaimer": "Votre opérateur d'argent mobile peut facturer des frais supplémentaires pour votre transfert.",
+    "mobileMoneyFeeDisclaimer": "Votre opérateur de Mobile Money peut facturer des frais supplémentaires pour votre transfert.",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
@@ -1527,7 +1528,7 @@
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
-      "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
+      "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur Mobile Money.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
       "selectProviderHeader": "Mode de retrait",
@@ -1580,7 +1581,7 @@
       },
       "mobileDialog": {
         "title": "Numéro de téléphone",
-        "body": "Utilisez le numéro de téléphone enregistré auprès de votre fournisseur de monnaie mobile. Il peut s'agir d'un autre numéro de téléphone que celui enregistré pour Valora.\n\nLes numéros de téléphone doivent inclure l'indicatif du pays affiché à côté du numéro de téléphone.",
+        "body": "Utilisez le numéro de téléphone enregistré auprès de votre fournisseur de Mobile Money. Il peut s'agir d'un autre numéro de téléphone que celui enregistré pour Valora.\n\nLes numéros de téléphone doivent inclure l'indicatif du pays affiché à côté du numéro de téléphone.",
         "dismiss": "Ignorer"
       }
     },
