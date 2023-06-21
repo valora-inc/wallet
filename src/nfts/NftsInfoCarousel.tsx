@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { NftEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
@@ -12,15 +14,45 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { Nft, NftOrigin } from 'src/nfts/types'
-import { onImageLoad } from 'src/nfts/utils'
+import { Nft, NftMediaType, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 
 const DEFAULT_IMAGE_HEIGHT = 360
+
+export function getGatewayUrl(nft: Nft, mediaType = NftMediaType.Image) {
+  switch (mediaType) {
+    default:
+    case NftMediaType.Image:
+      return nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
+  }
+}
+
+export function onImageLoad(nft: Nft, origin: NftOrigin, error: boolean) {
+  const { contractAddress, tokenId } = nft
+  const url = getGatewayUrl(nft)
+  error
+    ? Logger.error(
+        origin,
+        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load image from ${url}`
+      )
+    : Logger.info(
+        origin,
+        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Loaded image from ${url}`
+      )
+
+  ValoraAnalytics.track(NftEvents.nft_image_load, {
+    tokenId,
+    contractAddress,
+    url,
+    origin,
+    error,
+  })
+}
 
 function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
   const aspectRatio = originalWidth / originalHeight
