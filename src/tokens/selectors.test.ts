@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenToSendSelector,
+  swappableTokensSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
@@ -14,6 +15,10 @@ import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 const mockDate = 1588200517518
 global.Date.now = jest.fn(() => mockDate)
 
+jest.mock('react-native-device-info', () => ({
+  getVersion: () => '1.10.0',
+}))
+
 const state: any = {
   tokens: {
     tokenBalances: {
@@ -23,6 +28,7 @@ const state: any = {
         usdPrice: '1',
         symbol: 'cUSD',
         priceFetchedAt: mockDate,
+        isSwappable: true,
       },
       ['0xeur']: {
         address: '0xeur',
@@ -31,12 +37,14 @@ const state: any = {
         symbol: 'cEUR',
         isSupercharged: true,
         priceFetchedAt: mockDate,
+        minimumAppVersionToSwap: '1.0.0',
       },
       ['0x1']: {
         address: '0x1',
         balance: '10',
         usdPrice: '10',
         priceFetchedAt: mockDate,
+        minimumAppVersionToSwap: '1.20.0',
       },
       ['0x3']: {
         address: '0x2',
@@ -50,6 +58,7 @@ const state: any = {
         balance: '50',
         isSupercharged: true,
         priceFetchedAt: mockDate,
+        minimumAppVersionToSwap: '1.10.0',
       },
       ['0x5']: {
         address: '0x5',
@@ -103,6 +112,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x1",
           "balance": "10",
           "lastKnownUsdPrice": "10",
+          "minimumAppVersionToSwap": "1.20.0",
           "priceFetchedAt": 1588200517518,
           "usdPrice": "10",
         },
@@ -111,6 +121,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "balance": "50",
           "isSupercharged": true,
           "lastKnownUsdPrice": "0.5",
+          "minimumAppVersionToSwap": "1.0.0",
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
@@ -118,6 +129,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0xusd",
           "balance": "0",
+          "isSwappable": true,
           "lastKnownUsdPrice": "1",
           "priceFetchedAt": 1588200517518,
           "symbol": "cUSD",
@@ -128,6 +140,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "balance": "50",
           "isSupercharged": true,
           "lastKnownUsdPrice": null,
+          "minimumAppVersionToSwap": "1.10.0",
           "priceFetchedAt": 1588200517518,
           "symbol": "TT",
           "usdPrice": null,
@@ -153,6 +166,7 @@ describe('tokensWithUsdValueSelector', () => {
           "address": "0x1",
           "balance": "10",
           "lastKnownUsdPrice": "10",
+          "minimumAppVersionToSwap": "1.20.0",
           "priceFetchedAt": 1588200517518,
           "usdPrice": "10",
         },
@@ -161,6 +175,7 @@ describe('tokensWithUsdValueSelector', () => {
           "balance": "50",
           "isSupercharged": true,
           "lastKnownUsdPrice": "0.5",
+          "minimumAppVersionToSwap": "1.0.0",
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
@@ -195,6 +210,44 @@ describe(totalTokenBalanceSelector, () => {
           },
         } as any)
       ).toBeNull()
+    })
+  })
+
+  describe(swappableTokensSelector, () => {
+    it('should return the tokens that are swappable', () => {
+      expect(swappableTokensSelector(state)).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "address": "0xeur",
+            "balance": "50",
+            "isSupercharged": true,
+            "lastKnownUsdPrice": "0.5",
+            "minimumAppVersionToSwap": "1.0.0",
+            "priceFetchedAt": 1588200517518,
+            "symbol": "cEUR",
+            "usdPrice": "0.5",
+          },
+          Object {
+            "address": "0xusd",
+            "balance": "0",
+            "isSwappable": true,
+            "lastKnownUsdPrice": "1",
+            "priceFetchedAt": 1588200517518,
+            "symbol": "cUSD",
+            "usdPrice": "1",
+          },
+          Object {
+            "address": "0x4",
+            "balance": "50",
+            "isSupercharged": true,
+            "lastKnownUsdPrice": null,
+            "minimumAppVersionToSwap": "1.10.0",
+            "priceFetchedAt": 1588200517518,
+            "symbol": "TT",
+            "usdPrice": null,
+          },
+        ]
+      `)
     })
   })
 })

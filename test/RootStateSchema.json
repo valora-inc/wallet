@@ -4510,8 +4510,8 @@
                 "isSwappable": {
                     "type": "boolean"
                 },
-                "isSwappableWithAnyDecimals": {
-                    "type": "boolean"
+                "minimumAppVersionToSwap": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
