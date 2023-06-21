@@ -1335,8 +1335,8 @@
     }
   },
   "dappRankings": {
-    "title": "Rankingi aplikacji",
-    "description": "Odkryj najbardziej ulubione dapps przez innych członków społeczności {{appName}} ."
+    "title": "Rankingi aplikacji dapp",
+    "description": "Odkryj najpopularniejsze aplikacje dapp w społeczności {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
@@ -1628,8 +1628,8 @@
       "learnMore": "Dowiedz się więcej"
     },
     "priceImpactWarning": {
-      "title": "Zanim dokonasz wymiany",
-      "body": "Zamiana tych aktywów może skutkować niekorzystnym kursem wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
+      "title": "Zanim dokonasz swapu",
+      "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
   },
@@ -1744,7 +1744,7 @@
     "withdraw": "Wycofaj"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "Widok na Celo Explorer",
+    "viewOnCeloExplorer": "Wyświetl w Celo Explorer",
     "attributes": "Atrybuty",
     "description": "Opis",
     "noNftsFound": "Nie znaleziono NFT",
@@ -1753,7 +1753,7 @@
   "nftsLoadErrorScreen": {
     "loadErrorTitle": "Występuje problem z ładowaniem NFT",
     "loadErrorSubtitle": "Twoje aktywa są bezpieczne. Spróbuj ponownie.",
-    "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz \n<0>Skontaktuj się z pomocą techniczną</0>"
+    "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz \n<0>skontaktować się z działem obsługi klienta</0>"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
