@@ -96,17 +96,13 @@ function NftFeedItem({ transaction }: Props) {
         ) : transaction.type === TokenTransactionTypeV2.NftReceived ? (
           <NftReceivedIcon />
         ) : (
-          <NftSentIcon />
-        )}
+              <NftSentIcon />
+            )}
         <View style={styles.descriptionContainer}>
           <Text style={styles.title}>
             {transaction.type === TokenTransactionTypeV2.NftReceived
-              ? nfts.length > 1
-                ? t('receivedNfts')
-                : t('receivedNft')
-              : nfts.length > 1
-              ? t('sentNfts')
-              : t('sentNft')}
+              ? t('receivedNfts', { count: nfts.length ?? 0 })
+              : t('sentNfts', { count: nfts.length ?? 0 })}
           </Text>
         </View>
       </View>
