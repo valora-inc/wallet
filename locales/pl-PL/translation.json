@@ -1326,7 +1326,8 @@
     },
     "favoritedDappToast": {
       "message": "Dodane jako ulubione",
-      "labelCTA": "Zobacz ulubione"
+      "labelCTA": "Zobacz ulubione",
+      "messageWithDappName": "{{dappName}} dodany jako ulubiony"
     },
     "emptyResults": {
       "message": "Zastosowano filtr <0>{{filter}}</0>",
