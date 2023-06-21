@@ -1331,8 +1331,8 @@
     }
   },
   "dappRankings": {
-    "title": "Classificações Dapp",
-    "description": "Descubra os dapps mais favoritos por outros na comunidade {{appName}}"
+    "title": "Ranking de dapps",
+    "description": "Descubra os dapps favoritos de outras pessoas na comunidade {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
@@ -1625,7 +1625,7 @@
     },
     "priceImpactWarning": {
       "title": "Antes de trocar",
-      "body": "A troca destes activos pode resultar numa taxa de câmbio desfavorável. Se reduzir o montante, pode obter uma taxa de câmbio mais favorável."
+      "body": "A troca desses ativos pode resultar em uma taxa de câmbio desfavorável. Se você diminuir a quantia, poderá obter uma taxa melhor."
     },
     "estimatedExchangeRate": "Câmbio estimado ≈ <0>0.00</0>"
   },
@@ -1743,13 +1743,13 @@
     "viewOnCeloExplorer": "Ver no Celo Explorer",
     "attributes": "Atributos",
     "description": "Descrição",
-    "noNftsFound": "Não foram encontrados NFTs",
-    "nftImageLoadError": "Não é possível apresentar este NFT"
+    "noNftsFound": "Nenhum NFT encontrado",
+    "nftImageLoadError": "Não é possível exibir o NFT"
   },
   "nftsLoadErrorScreen": {
-    "loadErrorTitle": "Há um problema com o carregamento de NFTs",
-    "loadErrorSubtitle": "Os seus activos estão seguros. Por favor, tente novamente.",
-    "contactSupport": "Se precisar de ajuda adicional, pode \n<0>Contactar o suporte</0>"
+    "loadErrorTitle": "Ocorreu um erro ao carregar NFTs",
+    "loadErrorSubtitle": "Seus ativos estão seguros. Tente novamente.",
+    "contactSupport": "Se precisar de ajuda adicional, você pode \n<0>Contatar o suporte</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
