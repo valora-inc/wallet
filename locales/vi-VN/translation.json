@@ -1320,7 +1320,8 @@
     },
     "favoritedDappToast": {
       "message": "Dapp được thêm vào mục yêu thích",
-      "labelCTA": "Xem Dapps yêu thích"
+      "labelCTA": "Xem Dapps yêu thích",
+      "messageWithDappName": "{{dappName}} added as a favorite"
     },
     "emptyResults": {
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
