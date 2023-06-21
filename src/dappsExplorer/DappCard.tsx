@@ -19,17 +19,24 @@ import { Shadow, Spacing } from 'src/styles/styles'
 interface DappCardContentProps {
   dapp: DappV1 | DappV2
   onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
+  favoritedFromSection: DappSection
 }
 
-interface Props extends DappCardContentProps {
+interface Props {
   section: DappSection
   onPressDapp: (dapp: ActiveDapp) => void
+  dapp: DappV1 | DappV2
+  onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
-export function DappCardContent({ dapp, onFavoriteDapp }: DappCardContentProps) {
+export function DappCardContent({
+  dapp,
+  onFavoriteDapp,
+  favoritedFromSection,
+}: DappCardContentProps) {
   const dispatch = useDispatch()
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
@@ -37,17 +44,13 @@ export function DappCardContent({ dapp, onFavoriteDapp }: DappCardContentProps) 
   const isFavorited = favoriteDappIds.includes(dapp.id)
 
   const onPressFavorite = () => {
-    const eventProperties = isDappV2(dapp)
-      ? {
-          categories: dapp.categories,
-          dappId: dapp.id,
-          dappName: dapp.name,
-        }
-      : {
-          categoryId: dapp.categoryId,
-          dappId: dapp.id,
-          dappName: dapp.name,
-        }
+    const eventProperties = {
+      categories: isDappV2(dapp) ? dapp.categories : undefined,
+      categoryId: !isDappV2(dapp) ? dapp.categoryId : undefined,
+      dappId: dapp.id,
+      dappName: dapp.name,
+      section: favoritedFromSection,
+    }
 
     if (isFavorited) {
       ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
@@ -91,7 +94,11 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
   return (
     <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable onPress={onPress} testID={`Dapp/${dapp.id}`}>
-        <DappCardContent dapp={dapp} onFavoriteDapp={onFavoriteDapp} />
+        <DappCardContent
+          dapp={dapp}
+          onFavoriteDapp={onFavoriteDapp}
+          favoritedFromSection={DappSection.All}
+        />
       </Touchable>
     </Card>
   )
