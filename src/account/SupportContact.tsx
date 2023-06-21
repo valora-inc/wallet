@@ -29,10 +29,8 @@ import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
 // Language agnostic loose regex for email validation
-// @ts-ignore - no-control-regex
 const tester =
-  /([^\x32-\x7F]+|[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]){1,64}@([^\x32-\x7F.-]|[A-Za-z0-9.-]){1,255}/i
-
+  /^[-!#$%&'*+/0-9=?A-Z^_a-z`{|}~\u0E00-\u0E7F](\.?[-!#$%&'*+/0-9=?A-Z^_a-z`{|}~\u0E00-\u0E7F])*@[A-Za-z0-9\u0E00-\u0E7F](-*\.?[A-Za-z0-9\u0E00-\u0E7F])*\.[A-Za-z\u0E00-\u0E7F](-?[A-Za-z0-9\u0E00-\u0E7F])+$/
 // Validate email function - https://github.com/manishsaraan/email-validator
 export function validateEmail(email: string) {
   if (!email) return false
@@ -49,8 +47,9 @@ export function validateEmail(email: string) {
     domainParts.some((part) => {
       return part.length > 63
     })
-  )
+  ) {
     return false
+  }
 
   return tester.test(email)
 }
