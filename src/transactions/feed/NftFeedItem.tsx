@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import Svg, { Circle } from 'react-native-svg'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
@@ -26,10 +25,13 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 function NftIconPlaceholder({ testID = 'NftIconPlaceHolder' }: { testID?: string }) {
   return (
-    <SkeletonPlaceholder>
-      <Svg testID={testID} width={40} height={40}>
-        <Circle cx={20} cy={20} r={20} fill={colors.gray3} />
-      </Svg>
+    <SkeletonPlaceholder
+      testID={testID}
+      borderRadius={20} // Needs border radius to show on Android
+      backgroundColor={colors.gray2}
+      highlightColor={colors.white}
+    >
+      <View style={styles.circleIcon} />
     </SkeletonPlaceholder>
   )
 }
