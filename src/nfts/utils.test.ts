@@ -1,7 +1,10 @@
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { NftOrigin } from 'src/nfts/types'
 import { getGatewayUrl, onImageLoad } from 'src/nfts/utils'
+import Logger from 'src/utils/Logger'
 import { mockNftAllFields } from 'test/values'
+
+jest.mock('src/utils/Logger')
 
 describe('nfts/utils', () => {
   beforeEach(() => {
@@ -22,6 +25,10 @@ describe('nfts/utils', () => {
       error: false,
     })
     expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(Logger.info).toBeCalledWith(
+      NftOrigin.TransactionFeed,
+      `ContractAddress=${mockNftAllFields.contractAddress}, TokenId: ${mockNftAllFields.tokenId}, Loaded image from ${mockNftAllFields.media[0].gateway}`
+    )
   })
 
   it('onImageLoad error', () => {
@@ -34,5 +41,9 @@ describe('nfts/utils', () => {
       error: true,
     })
     expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(Logger.error).toBeCalledWith(
+      NftOrigin.NftsInfoCarouselMain,
+      `ContractAddress=${mockNftAllFields.contractAddress}, TokenId: ${mockNftAllFields.tokenId}, Failed to load image from ${mockNftAllFields.media[0].gateway}`
+    )
   })
 })
