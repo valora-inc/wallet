@@ -1306,7 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "titleDiscover": "Discover",
+    "titleDiscover": "สำรวจ",
     "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
@@ -1329,8 +1329,8 @@
     }
   },
   "dappRankings": {
-    "title": "Dapp rankings",
-    "description": "Discover the most favorited dapps by others in the {{appName}} community"
+    "title": "อันดับ Dapp",
+    "description": "สำรวจ Dapp ยอดนิยมของสมาชิกในชุมชน {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
@@ -1622,8 +1622,8 @@
       "learnMore": "ดูข้อมูลเพิ่มเติม"
     },
     "priceImpactWarning": {
-      "title": "Before you swap",
-      "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+      "title": "ก่อนที่จะสว็อป",
+      "body": "การสว็อปสินทรัพย์อาจส่งผลให้ได้รับอัตราแลกเปลี่ยนที่ไม่น่าพึงพอใจ หากคุณลดจำนวนเงินลง คุณอาจได้รับอัตราที่ดีขึ้น"
     },
     "estimatedExchangeRate": "อัตราโดยประมาณ ≈ <0>0.00</0>"
   },
@@ -1738,16 +1738,16 @@
     "withdraw": "ถอน"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "View on Celo Explorer",
-    "attributes": "Attributes",
-    "description": "Description",
-    "noNftsFound": "No NFTs found",
-    "nftImageLoadError": "Unable to display this NFT"
+    "viewOnCeloExplorer": "ดูใน Celo Explorer",
+    "attributes": "คุณลักษณะ",
+    "description": "คำอธิบาย",
+    "noNftsFound": "ไม่พบ NFT",
+    "nftImageLoadError": "ไม่สามารถแสดง NFT นี้"
   },
   "nftsLoadErrorScreen": {
-    "loadErrorTitle": "There is an issue loading NFTs",
-    "loadErrorSubtitle": "Your assets are safe. Please try again.",
-    "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
+    "loadErrorTitle": "มีปัญหาในการโหลด NFT",
+    "loadErrorSubtitle": "สินทรัพย์ของคุณปลอดภัย โปรดลองอีกครั้ง",
+    "contactSupport": "หากคุณต้องการความช่วยเหลือเพิ่มเติม โปรด \n<0>ติดต่อฝ่ายบริการลูกค้า</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
