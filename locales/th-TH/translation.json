@@ -1320,7 +1320,8 @@
     },
     "favoritedDappToast": {
       "message": "เพิ่มเป็นรายการโปรด",
-      "labelCTA": "ดูรายการโปรด"
+      "labelCTA": "ดูรายการโปรด",
+      "messageWithDappName": "{{dappName}} added as a favorite"
     },
     "emptyResults": {
       "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
