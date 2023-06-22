@@ -1323,7 +1323,7 @@
     "favoritedDappToast": {
       "message": "Se agregó a tus favoritas",
       "labelCTA": "Ver Mis favoritas",
-      "messageWithDappName": "{{dappName}} añadido como favorito"
+      "messageWithDappName": "Se agregó {{dappName}} a tus favoritas"
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
