@@ -24,10 +24,10 @@ interface ImagePlaceHolderProps {
 
 interface Props extends ImagePlaceHolderProps {
   nft: Nft
-  onImageLoadError(): void
   origin: NftOrigin
   shouldAutoScaleHeight?: boolean
   imageStyles?: StyleProp<ImageStyle>
+  ErrorComponent: JSX.Element
 }
 
 function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: ImagePlaceHolderProps) {
@@ -51,16 +51,17 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
 
 export default function NftImage({
   nft,
-  onImageLoadError,
   height,
   width,
   imageStyles,
   shouldAutoScaleHeight = false,
   borderRadius,
   origin,
+  ErrorComponent,
   testID,
 }: Props) {
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(!nft.metadata)
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
 
   const imageUrl = useMemo(
@@ -88,11 +89,17 @@ export default function NftImage({
 
   function handleLoadError() {
     sendEventWithError(true)
-    onImageLoadError()
+    setError(true)
   }
 
   function handleLoadSuccess() {
+    sendEventWithError(false)
     setIsLoading(false)
+    // setTimeout(() => setIsLoading(false), 2000)
+  }
+
+  if (error) {
+    return ErrorComponent
   }
 
   return (

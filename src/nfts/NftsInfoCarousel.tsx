@@ -27,12 +27,6 @@ interface NftThumbnailProps {
 }
 
 function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
-  const [imageLoadingError, setImageLoadingError] = useState(false)
-
-  function handleLoadError() {
-    setImageLoadingError(true)
-  }
-
   return (
     <Touchable
       style={[
@@ -43,23 +37,21 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      {!nft.metadata || imageLoadingError ? (
-        <ImageErrorIcon
-          // The thumbnails are 20% larger when selected vs unselected
-          size={isActive ? 24 : 20}
-          testID="NftsInfoCarousel/ImageErrorIcon"
-        />
-      ) : (
-        <NftImage
-          nft={nft}
-          onImageLoadError={handleLoadError}
-          height={40}
-          borderRadius={8}
-          imageStyles={isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected}
-          testID="NftsInfoCarousel/ThumbnailImage"
-          origin={NftOrigin.NftsInfoCarouselThumbnail}
-        />
-      )}
+      <NftImage
+        nft={nft}
+        ErrorComponent={
+          <ImageErrorIcon
+            // The thumbnails are 20% larger when selected vs unselected
+            size={isActive ? 24 : 20}
+            testID="NftsInfoCarousel/ImageErrorIcon"
+          />
+        }
+        height={40}
+        borderRadius={8}
+        imageStyles={isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected}
+        testID="NftsInfoCarousel/ThumbnailImage"
+        origin={NftOrigin.NftsInfoCarouselThumbnail}
+      />
     </Touchable>
   )
 }
@@ -108,7 +100,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
-  const [loadError, setLoadError] = useState(false)
   const { t } = useTranslation()
 
   function pressExplorerLink() {
@@ -121,10 +112,6 @@ export default function NftsInfoCarousel({ route }: Props) {
     setActiveNft(nft)
   }
 
-  function handleLoadError() {
-    setLoadError(true)
-  }
-
   // Full page error screen shown when ntfs === []
   if (nfts.length === 0) {
     return <NftsLoadError />
@@ -134,21 +121,19 @@ export default function NftsInfoCarousel({ route }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {/* Main Nft Image */}
-        {activeNft.metadata && !loadError ? (
-          <NftImage
-            nft={activeNft}
-            onImageLoadError={handleLoadError}
-            imageStyles={styles.mainImage}
-            testID="NftsInfoCarousel/MainImage"
-            origin={NftOrigin.NftsInfoCarouselMain}
-            shouldAutoScaleHeight
-          />
-        ) : (
-          <View style={styles.nftImageLoadingErrorContainer}>
-            <ImageErrorIcon color="#C93717" />
-            <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
-          </View>
-        )}
+        <NftImage
+          nft={activeNft}
+          ErrorComponent={
+            <View style={styles.nftImageLoadingErrorContainer}>
+              <ImageErrorIcon color="#C93717" />
+              <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+            </View>
+          }
+          imageStyles={styles.mainImage}
+          testID="NftsInfoCarousel/MainImage"
+          origin={NftOrigin.NftsInfoCarouselMain}
+          shouldAutoScaleHeight
+        />
         {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
           <NftImageCarousel

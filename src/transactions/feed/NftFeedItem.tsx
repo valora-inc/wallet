@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
@@ -22,29 +22,6 @@ import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-function NftIcon({ nft }: { nft: Nft }) {
-  const [imageLoadingError, setImageLoadingError] = useState(false)
-
-  function handleLoadError() {
-    setImageLoadingError(true)
-  }
-
-  return imageLoadingError ? (
-    <View style={[styles.circleIcon, styles.errorCircleIcon]}>
-      <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
-    </View>
-  ) : (
-    <NftImage
-      nft={nft}
-      onImageLoadError={handleLoadError}
-      imageStyles={styles.circleIcon}
-      borderRadius={20}
-      width={40}
-      testID="NftFeedItem/NftIcon"
-      origin={NftOrigin.TransactionFeed}
-    />
-  )
-}
 interface Props {
   transaction: NftTransfer
 }
@@ -69,7 +46,19 @@ function NftFeedItem({ transaction }: Props) {
       <View style={styles.container}>
         {/* If enabled try to show the first image. Otherwise display the default icons */}
         {showNftsInApp && nfts.length > 0 && nfts[0].metadata?.image ? (
-          <NftIcon nft={nfts[0]} />
+          <NftImage
+            nft={nfts[0]}
+            ErrorComponent={
+              <View style={[styles.circleIcon, styles.errorCircleIcon]}>
+                <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
+              </View>
+            }
+            imageStyles={styles.circleIcon}
+            borderRadius={20}
+            width={40}
+            testID="NftFeedItem/NftIcon"
+            origin={NftOrigin.TransactionFeed}
+          />
         ) : transaction.type === TokenTransactionTypeV2.NftReceived ? (
           <NftReceivedIcon />
         ) : (
