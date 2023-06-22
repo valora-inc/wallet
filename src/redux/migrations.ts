@@ -1135,4 +1135,12 @@ export const migrations = {
   }),
   129: (state: any) => state,
   130: (state: any) => state,
+  131: (state: any) => ({
+    ...state,
+    nfts: {
+      myNfts: [],
+      myNftsLoading: false,
+      myNftsError: null,
+    },
+  }),
 }

@@ -2285,6 +2285,19 @@ export const v130Schema = {
   },
 }
 
+export const v131Schema = {
+  ...v130Schema,
+  _persist: {
+    ...v130Schema._persist,
+    version: 131,
+  },
+  nfts: {
+    myNfts: [],
+    myNftsError: null,
+    myNftsLoading: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v130Schema as Partial<RootState>
+  return v131Schema as Partial<RootState>
 }

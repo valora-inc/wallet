@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 130,
+          "version": 131,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -296,6 +296,11 @@ describe('store state', () => {
             "ipAddress": null,
             "region": null,
           },
+        },
+        "nfts": Object {
+          "myNfts": Array [],
+          "myNftsError": null,
+          "myNftsLoading": false,
         },
         "paymentRequest": Object {
           "incomingPaymentRequests": Array [],
