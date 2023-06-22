@@ -15,23 +15,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
+import SearchInput from 'src/components/SearchInput'
 import {
-  dappFavoritesEnabledSelector,
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
   dappsMinimalDisclaimerEnabledSelector,
-  dappsV2ListSelector,
-  favoriteDappIdsSelector,
+  nonFavoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
+import { Dapp, DappSection, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
 import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
-import FavoriteDappsSection from 'src/dappsExplorer/filter/FavoriteDappsSection'
-import { NoResults } from 'src/dappsExplorer/filter/NoResults'
 import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
+import { searchDappList } from 'src/dappsExplorer/searchDappList'
+import FavoriteDappsSection from 'src/dappsExplorer/searchFilter/FavoriteDappsSection'
+import NoResults from 'src/dappsExplorer/searchFilter/NoResults'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
@@ -42,14 +42,14 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<DappV2, SectionData>>(SectionList)
+  Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 interface SectionData {
-  data: DappV2[]
+  data: DappV2WithCategoryNames[]
   category: string
 }
 
-export function DAppsExplorerScreenFilter() {
+export function DAppsExplorerScreenSearchFilter() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
@@ -63,31 +63,19 @@ export function DAppsExplorerScreenFilter() {
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
-  const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
-  const dappList = useSelector(dappsV2ListSelector)
   const language = useSelector(currentLanguageSelector)
-  const favoriteDappsById = useSelector(favoriteDappIdsSelector)
+  const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const [selectedFilter, setSelectedFilter] = useState('all')
 
-  const selectedFilterName = useMemo(() => {
-    const selectedCategory = categories.find((category) => category.id === selectedFilter)
-    return selectedCategory?.name ?? t('dappsScreen.allDapps')
-  }, [selectedFilter])
+  // Some state lifted up from all and favorite sections
+  const [searchTerm, setSearchTerm] = useState('')
+  const [favoriteResultsEmpty, setFavoriteResultsEmpty] = useState(false)
+  const [allResultEmpty, setAllResultEmpty] = useState(false)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
-
-  const handleShowDappRankings = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
-    dappRankingsBottomSheetRef.current?.snapToIndex(0)
-  }
-
-  useEffect(() => {
-    dispatch(fetchDappsList())
-    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
-  }, [])
 
   const removeFilter = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: selectedFilter, remove: true })
@@ -99,9 +87,47 @@ export function DAppsExplorerScreenFilter() {
     selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
   }
 
+  const handleShowDappRankings = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
+    dappRankingsBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  useEffect(() => {
+    dispatch(fetchDappsList())
+    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
+  }, [])
+
+  const selectedFilterName = useMemo(() => {
+    const selectedCategory = categories.find((category) => category.id === selectedFilter)
+    return selectedCategory?.name ?? t('dappsScreen.allDapps')
+  }, [selectedFilter])
+
+  const allSectionResults: SectionData[] = useMemo(() => {
+    const allResultsParsed = parseResultsIntoAll(
+      nonFavoriteDappsWithCategoryNames,
+      searchTerm,
+      selectedFilter
+    )
+    setAllResultEmpty(allResultsParsed.length === 0)
+    return allResultsParsed
+  }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
+
+  const emptyListComponent = useMemo(() => {
+    if (allResultEmpty && favoriteResultsEmpty) return null
+    return (
+      <NoResults
+        filterId={selectedFilter}
+        filterName={selectedFilterName}
+        removeFilter={removeFilter}
+        searchTerm={searchTerm}
+        testID="DAppsExplorerScreenSearchFilter/NoResults"
+      />
+    )
+  }, [allResultEmpty, favoriteResultsEmpty, searchTerm])
+
   return (
     <SafeAreaView
-      testID="DAppsExplorerScreenFilter"
+      testID="DAppsExplorerScreenSearchFilter"
       style={styles.safeAreaContainer}
       edges={['top']}
     >
@@ -110,12 +136,12 @@ export function DAppsExplorerScreenFilter() {
           <HeaderButtons
             onPressHelp={openSheet}
             helpIconColor={colors.onboardingGreen}
-            testID={'DAppsExplorerScreenFilter/HeaderButtons'}
+            testID={'DAppsExplorerScreenSearchFilter/HeaderButtons'}
           />
         }
         scrollPosition={scrollPosition}
       />
-      {ConfirmOpenDappBottomSheet}
+
       <>
         {!loading && error && (
           <View style={styles.centerContainer}>
@@ -133,7 +159,8 @@ export function DAppsExplorerScreenFilter() {
                 onRefresh={() => dispatch(fetchDappsList())}
               />
             }
-            // @ts-ignore TODO: resolve type error
+            // TODO: resolve type error
+            // @ts-expect-error
             ref={sectionListRef}
             ListFooterComponent={
               <>
@@ -149,7 +176,19 @@ export function DAppsExplorerScreenFilter() {
                   message={t('dappsScreen.message')}
                 />
                 <DappRankingsCard onPress={handleShowDappRankings} />
-
+                <SearchInput
+                  onChangeText={(text) => {
+                    setSearchTerm(text)
+                  }}
+                  value={searchTerm}
+                  multiline={false}
+                  placeholderTextColor={colors.gray4}
+                  underlineColorAndroid="transparent"
+                  placeholder={t('dappsScreen.searchPlaceHolder') ?? undefined}
+                  showClearButton={true}
+                  allowFontScaling={false}
+                />
+                {/* Dapps Filtering*/}
                 <View style={styles.dappFilterView}>
                   <ScrollView
                     horizontal={true}
@@ -174,22 +213,28 @@ export function DAppsExplorerScreenFilter() {
                     })}
                   </ScrollView>
                 </View>
-                {dappFavoritesEnabled && (
-                  <>
+                <>
+                  {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
+                  <Text style={styles.sectionTitle}>
+                    {allResultEmpty && favoriteResultsEmpty
+                      ? t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')
+                      : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
+                  </Text>
+                  <FavoriteDappsSection
+                    onPressDapp={onSelectDapp}
+                    filterId={selectedFilter}
+                    filterName={selectedFilterName}
+                    removeFilter={removeFilter}
+                    searchTerm={searchTerm}
+                    setFavoriteResultsEmpty={setFavoriteResultsEmpty}
+                  />
+                  {/* If all dapp section isn't empty or favoriteResults isn't empty display all section header */}
+                  {(!allResultEmpty || !favoriteResultsEmpty) && (
                     <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
+                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
                     </Text>
-                    <FavoriteDappsSection
-                      filterId={selectedFilter}
-                      filterName={selectedFilterName}
-                      removeFilter={removeFilter}
-                      onPressDapp={onSelectDapp}
-                    />
-                    <Text style={styles.sectionTitle}>
-                      {selectedFilterName.toLocaleUpperCase(language ?? 'en-US')}
-                    </Text>
-                  </>
-                )}
+                  )}
+                </>
               </>
             }
             style={styles.sectionList}
@@ -201,7 +246,7 @@ export function DAppsExplorerScreenFilter() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultsIntoAll(dappList, selectedFilter, favoriteDappsById)}
+            sections={allSectionResults}
             renderItem={({ item: dapp }) => (
               <DappCard
                 dapp={dapp}
@@ -210,21 +255,17 @@ export function DAppsExplorerScreenFilter() {
                 onFavoriteDapp={onFavoriteDapp}
               />
             )}
-            keyExtractor={(dapp: DappV1 | DappV2) => dapp.id}
+            keyExtractor={(dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
-            testID="DAppsExplorerScreenFilter/DappsList"
-            ListEmptyComponent={
-              <NoResults
-                filterName={selectedFilterName}
-                removeFilter={removeFilter}
-                testID="DAppsExplorerScreenFilter"
-              />
-            }
+            testID="DAppsExplorerScreenSearchFilter/DappsList"
+            ListEmptyComponent={emptyListComponent}
             ListFooterComponentStyle={styles.listFooterComponent}
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
           />
         )}
       </>
-
+      {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
       {DappInfoBottomSheet}
       <DappRankingsBottomSheet
@@ -235,32 +276,6 @@ export function DAppsExplorerScreenFilter() {
   )
 }
 
-function parseResultsIntoAll(
-  dappList: DappV2[],
-  filterId: string,
-  favoriteDappsById: string[]
-): SectionData[] {
-  // Prevent favorite dapps from showing up in the all dapps section
-  const data =
-    filterId === 'all'
-      ? dappList.filter((dapp) => !favoriteDappsById.includes(dapp.id))
-      : dappList.filter(
-          (dapp) =>
-            !favoriteDappsById.includes(dapp.id) &&
-            dapp.categories &&
-            dapp.categories.includes(filterId)
-        )
-  // Return empty array if no results
-  if (data.length === 0) return []
-  // Else return dapps in all section
-  return [
-    {
-      data,
-      category: filterId,
-    },
-  ]
-}
-
 function DescriptionView({ message, title }: { message: string; title: string }) {
   return (
     <View style={styles.descriptionView}>
@@ -268,6 +283,42 @@ function DescriptionView({ message, title }: { message: string; title: string })
       <Text style={styles.pageHeaderSubText}>{message}</Text>
     </View>
   )
+}
+
+function parseResultsIntoAll(
+  nonFavoriteDapps: DappV2WithCategoryNames[],
+  searchTerm: string,
+  filterId: string
+) {
+  // Dapps in the all section are all the non favorite dapps that match the filter
+  const dappsMatchingFilter =
+    filterId === 'all'
+      ? nonFavoriteDapps
+      : nonFavoriteDapps.filter(
+          (dapp: Dapp) => dapp.categories && dapp.categories.includes(filterId)
+        )
+  // If there are no dapps matching the filter return an empty array
+  if (dappsMatchingFilter.length === 0) return []
+  // If there is no search term return the dapps matching the category filter
+  if (searchTerm === '') {
+    return [
+      {
+        data: dappsMatchingFilter,
+        category: 'all',
+      },
+    ]
+  } else {
+    // Score and sort the dapps matching the category filter
+    const results = searchDappList(dappsMatchingFilter, searchTerm) as DappV2WithCategoryNames[]
+    // If there are no dapps matching search term return an empty array
+    if (results.length === 0) return []
+    return [
+      {
+        data: results,
+        category: 'all',
+      },
+    ]
+  }
 }
 
 const styles = StyleSheet.create({
@@ -280,7 +331,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dappFilterView: {
-    paddingTop: Spacing.Smallest8,
+    paddingTop: Spacing.Regular16,
   },
   dappFilterScrollView: {
     marginHorizontal: -Spacing.Thick24,
@@ -313,8 +364,8 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
   disclaimer: {
-    ...fontStyles.small,
-    color: colors.gray5,
+    ...fontStyles.xsmall,
+    color: colors.gray4,
     textAlign: 'center',
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,
@@ -328,4 +379,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DAppsExplorerScreenFilter
+export default DAppsExplorerScreenSearchFilter

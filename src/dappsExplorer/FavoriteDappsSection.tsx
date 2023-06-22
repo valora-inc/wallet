@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, DappV2 } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import NoResults from 'src/dappsExplorer/searchFilter/NoResults'
@@ -37,7 +37,7 @@ export function FavoriteDappsSection({
   const favoriteResults =
     searchTerm === ''
       ? favoriteResultsFiltered
-      : (searchDappList(favoriteResultsFiltered, searchTerm) as DappV2[])
+      : (searchDappList(favoriteResultsFiltered, searchTerm) as Dapp[])
 
   useEffect(() => {
     setFavoriteResultsEmpty(favoriteResults.length <= 0)

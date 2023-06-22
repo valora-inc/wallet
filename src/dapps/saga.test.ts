@@ -4,7 +4,7 @@ import { select } from 'redux-saga/effects'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
-import { DappSection } from 'src/dapps/types'
+import { Dapp, DappSection } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -16,14 +16,13 @@ jest.mock('src/statsig')
 
 describe('Dapps saga', () => {
   describe('Handles opening a dapp', () => {
-    const baseDapp = {
+    const baseDapp: Dapp = {
       id: 'dapp',
-      categoryId: 'some category',
+      categories: ['some category'],
       iconUrl: 'https://someIcon.url',
       name: 'Dapp',
       description: 'some description',
       dappUrl: 'https://someDapp.url',
-      isFeatured: false,
     }
 
     it('opens a web view', async () => {
@@ -65,7 +64,7 @@ describe('Dapps saga', () => {
 
     it('saves the dapps and categories', async () => {
       const dapp1 = {
-        categoryId: 'finance-tools',
+        categories: ['finance-tools'],
         description: 'Staking CELO made easy',
         id: 'churritofi',
         logoUrl:
@@ -74,7 +73,7 @@ describe('Dapps saga', () => {
         url: 'https://churrito.fi',
       }
       const dapp2 = {
-        categoryId: 'spend',
+        categories: ['spend'],
         description: 'Book flights around the world with cUSD and cEUR',
         id: 'flywallet',
         logoUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
@@ -118,24 +117,22 @@ describe('Dapps saga', () => {
           fetchDappsListCompleted({
             dapps: [
               {
-                categoryId: 'finance-tools',
+                categories: ['finance-tools'],
                 description: 'Staking CELO made easy',
                 id: 'churritofi',
                 iconUrl:
                   'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/churritofi.png',
                 name: 'ChurritoFi',
                 dappUrl: 'https://churrito.fi',
-                isFeatured: true,
               },
               {
-                categoryId: 'spend',
+                categories: ['spend'],
                 description: 'Book flights around the world with cUSD and cEUR',
                 id: 'flywallet',
                 iconUrl:
                   'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
                 name: 'Flywallet',
                 dappUrl: 'https://pro.flywallet.io',
-                isFeatured: false,
               },
             ],
             categories,
@@ -254,7 +251,6 @@ describe('Dapps saga', () => {
                   'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/churritofi.png',
                 name: 'ChurritoFi',
                 dappUrl: 'https://churrito.fi',
-                isFeatured: true,
               },
               {
                 categories: ['spend'],
@@ -264,7 +260,6 @@ describe('Dapps saga', () => {
                   'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
                 name: 'Flywallet',
                 dappUrl: 'https://pro.flywallet.io',
-                isFeatured: false,
               },
             ],
             categories,
