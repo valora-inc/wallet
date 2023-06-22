@@ -4,11 +4,14 @@ import { select } from 'redux-saga/effects'
 import { handleFetchMyNfts } from 'src/nfts/saga'
 import { fetchMyNftsCompleted, fetchMyNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
+import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
+
+const loggerDebugSpy = jest.spyOn(Logger, 'debug')
 
 const nftResponse = JSON.stringify({
   result: {
@@ -16,14 +19,15 @@ const nftResponse = JSON.stringify({
   },
 })
 
-describe('Nfts saga', () => {
-  describe('Handles fetching users Nfts', () => {
+describe('Given Nfts saga', () => {
+  describe('When fetching users Nfts', () => {
     const mockFetch = fetch as FetchMock
     beforeEach(() => {
       mockFetch.resetMocks()
+      jest.clearAllMocks()
     })
 
-    it('fetches the users NFTs', async () => {
+    it("should fetch user's NFTs", async () => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(nftResponse)
 
@@ -45,7 +49,7 @@ describe('Nfts saga', () => {
       )
     })
 
-    it('saves an error', async () => {
+    it('should save error on fetch fail', async () => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockRejectOnce()
 
@@ -53,13 +57,28 @@ describe('Nfts saga', () => {
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
           fetchMyNftsFailed({
-            error: 'Could not fetch nfts',
+            error: 'Could not fetch NFTs',
           })
         )
         .run()
     })
 
-    it('is disabled by feature flag', async () => {
+    it('should not fetch when no wallet address found', async () => {
+      mocked(getFeatureGate).mockReturnValue(true)
+      mockFetch.mockResponse(nftResponse)
+
+      await expectSaga(handleFetchMyNfts)
+        .provide([[select(walletAddressSelector), null]])
+        .not.put(fetchMyNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .run()
+
+      expect(loggerDebugSpy).toHaveBeenCalledWith(
+        'NftsSaga',
+        'Wallet address not found, skipping NFTs list fetch'
+      )
+    })
+
+    it('should be disabled by feature gate', async () => {
       mocked(getFeatureGate).mockReturnValue(false)
       mockFetch.mockResponse(nftResponse)
 
@@ -67,9 +86,14 @@ describe('Nfts saga', () => {
         .provide([[select(walletAddressSelector), '0xabc']])
         .not.put(fetchMyNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
         .run()
+
+      expect(loggerDebugSpy).toHaveBeenCalledWith(
+        'NftsSaga',
+        'Feature gate not enabled, skipping NFTs list fetch'
+      )
     })
 
-    it('is disabled by default', async () => {
+    it('should be disabled by default', async () => {
       mockFetch.mockResponse(nftResponse)
       await expectSaga(handleFetchMyNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
