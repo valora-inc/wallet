@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ImageStyle, StyleProp, View } from 'react-native'
+import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -22,7 +22,6 @@ interface Props extends ImagePlaceHolderProps {
   nft: Nft
   origin: NftOrigin
   shouldAutoScaleHeight?: boolean
-  imageStyles?: StyleProp<ImageStyle>
   ErrorComponent: React.ReactNode
 }
 
@@ -49,7 +48,6 @@ export default function NftImage({
   nft,
   height,
   width,
-  imageStyles,
   shouldAutoScaleHeight,
   borderRadius,
   origin,
@@ -104,11 +102,11 @@ export default function NftImage({
       ) : (
         <FastImage
           testID={testID}
-          style={[
-            { borderRadius, height: shouldAutoScaleHeight ? scaledHeight : height },
-            // @ts-ignore
-            imageStyles,
-          ]}
+          style={{
+            borderRadius,
+            height: shouldAutoScaleHeight ? scaledHeight : height,
+            width,
+          }}
           source={{
             uri: imageUrl,
           }}

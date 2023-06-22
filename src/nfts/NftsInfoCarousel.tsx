@@ -49,7 +49,6 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
         }
         height={40}
         borderRadius={8}
-        imageStyles={isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected}
         testID="NftsInfoCarousel/ThumbnailImage"
         origin={NftOrigin.NftsInfoCarouselThumbnail}
       />
@@ -130,7 +129,6 @@ export default function NftsInfoCarousel({ route }: Props) {
               <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
             </View>
           }
-          imageStyles={styles.mainImage}
           testID="NftsInfoCarousel/MainImage"
           origin={NftOrigin.NftsInfoCarouselMain}
           shouldAutoScaleHeight
@@ -256,9 +254,6 @@ const styles = StyleSheet.create({
     width: 32,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  mainImage: {
-    width: variables.width,
   },
   safeAreaView: {
     flex: 1,

@@ -53,9 +53,9 @@ function NftFeedItem({ transaction }: Props) {
                 <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
               </View>
             }
-            imageStyles={styles.circleIcon}
             borderRadius={20}
             width={40}
+            height={40}
             testID="NftFeedItem/NftIcon"
             origin={NftOrigin.TransactionFeed}
           />
