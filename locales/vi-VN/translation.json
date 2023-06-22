@@ -1306,7 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "titleDiscover": "Discover",
+    "titleDiscover": "Khám phá",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
@@ -1320,7 +1320,8 @@
     },
     "favoritedDappToast": {
       "message": "Dapp được thêm vào mục yêu thích",
-      "labelCTA": "Xem Dapps yêu thích"
+      "labelCTA": "Xem Dapps yêu thích",
+      "messageWithDappName": "{{dappName}} added as a favorite"
     },
     "emptyResults": {
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
@@ -1329,8 +1330,8 @@
     }
   },
   "dappRankings": {
-    "title": "Dapp rankings",
-    "description": "Discover the most favorited dapps by others in the {{appName}} community"
+    "title": "Xếp hạng Dapp",
+    "description": "Khám phá những ứng dụng Dapp được nhiều người yêu thích nhất trong cộng đồng {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
@@ -1622,8 +1623,8 @@
       "learnMore": "Tìm hiểu thêm"
     },
     "priceImpactWarning": {
-      "title": "Before you swap",
-      "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+      "title": "Trước khi trao đổi",
+      "body": "Việc trao đổi các tài sản này có thể dẫn đến bất lợi về tỷ giá quy đổi. Nếu giảm số tiền, bạn có thể nhận được tỷ giá tốt hơn."
     },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>"
   },
@@ -1738,16 +1739,16 @@
     "withdraw": "Rút tiền"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "View on Celo Explorer",
-    "attributes": "Attributes",
-    "description": "Description",
-    "noNftsFound": "No NFTs found",
-    "nftImageLoadError": "Unable to display this NFT"
+    "viewOnCeloExplorer": "Xem trên Celo Explorer",
+    "attributes": "Thuộc tính",
+    "description": "Mô tả",
+    "noNftsFound": "Không tìm thấy NFT",
+    "nftImageLoadError": "Không thể hiển thị NFT này"
   },
   "nftsLoadErrorScreen": {
-    "loadErrorTitle": "There is an issue loading NFTs",
-    "loadErrorSubtitle": "Your assets are safe. Please try again.",
-    "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
+    "loadErrorTitle": "Đã xảy ra sự cố khi tải NFT",
+    "loadErrorSubtitle": "Tài sản của bạn an toàn. Vui lòng thử lại.",
+    "contactSupport": "Nếu cần trợ giúp thêm, bạn có thể \n<0>Liên hệ với bộ phận hỗ trợ</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
