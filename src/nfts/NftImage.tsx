@@ -41,7 +41,6 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
         style={{
           height,
           width: width ?? variables.width,
-          borderRadius,
           zIndex: -1,
         }}
         testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
@@ -69,31 +68,30 @@ export default function NftImage({
     [nft]
   )
 
-  function handleLoadError() {
+  function sendEventWithError(error: boolean) {
     const { contractAddress, tokenId } = nft
-    Logger.error(
-      origin,
-      `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load image from ${imageUrl}`
-    )
     ValoraAnalytics.track(NftEvents.nft_image_load, {
       tokenId,
       contractAddress,
       url: imageUrl,
       origin,
-      error: true,
+      error,
     })
+
+    if (error) {
+      Logger.error(
+        origin,
+        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load image from ${imageUrl}`
+      )
+    }
+  }
+
+  function handleLoadError() {
+    sendEventWithError(true)
     onImageLoadError()
   }
 
   function handleLoadSuccess() {
-    const { contractAddress, tokenId } = nft
-    ValoraAnalytics.track(NftEvents.nft_image_load, {
-      tokenId,
-      contractAddress,
-      url: imageUrl,
-      origin,
-      error: false,
-    })
     setIsLoading(false)
   }
 
