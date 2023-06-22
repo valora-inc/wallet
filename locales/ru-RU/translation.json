@@ -1327,7 +1327,7 @@
     "favoritedDappToast": {
       "message": "Добавлено в избранное",
       "labelCTA": "Посмотреть избранное",
-      "messageWithDappName": "{{dappName}} добавлен в избранное"
+      "messageWithDappName": "{{dappName}} добавлено в избранное"
     },
     "emptyResults": {
       "message": "Применен фильтр <0>{{filter}}</0>",
