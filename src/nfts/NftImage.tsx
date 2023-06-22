@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ImageStyle, StyleProp, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { NftEvents } from 'src/analytics/Events'
@@ -27,7 +27,7 @@ interface Props extends ImagePlaceHolderProps {
   origin: NftOrigin
   shouldAutoScaleHeight?: boolean
   imageStyles?: StyleProp<ImageStyle>
-  ErrorComponent: JSX.Element
+  ErrorComponent: React.ReactNode
 }
 
 function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: ImagePlaceHolderProps) {
@@ -69,6 +69,10 @@ export default function NftImage({
     [nft]
   )
 
+  useEffect(() => {
+    setError(!nft.metadata)
+  }, [nft])
+
   function sendEventWithError(error: boolean) {
     const { contractAddress, tokenId } = nft
     ValoraAnalytics.track(NftEvents.nft_image_load, {
@@ -98,40 +102,42 @@ export default function NftImage({
     // setTimeout(() => setIsLoading(false), 2000)
   }
 
-  if (error) {
-    return ErrorComponent
-  }
-
   return (
-    <FastImage
-      testID={testID}
-      style={[
-        { borderRadius, height: shouldAutoScaleHeight ? scaledHeight : height },
-        // @ts-ignore
-        imageStyles,
-      ]}
-      source={{
-        uri: imageUrl,
-      }}
-      onLoad={(e) => {
-        if (shouldAutoScaleHeight) {
-          setScaledHeight(
-            scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
-          )
-        }
-      }}
-      onLoadEnd={handleLoadSuccess}
-      onError={handleLoadError}
-      resizeMode={FastImage.resizeMode.cover}
-    >
-      {isLoading && (
-        <ImagePlaceholder
-          height={shouldAutoScaleHeight ? scaledHeight : height}
-          width={width}
-          borderRadius={borderRadius}
-          testID={`${testID}/ImagePlaceholder`}
-        />
+    <>
+      {error ? (
+        ErrorComponent
+      ) : (
+        <FastImage
+          testID={testID}
+          style={[
+            { borderRadius, height: shouldAutoScaleHeight ? scaledHeight : height },
+            // @ts-ignore
+            imageStyles,
+          ]}
+          source={{
+            uri: imageUrl,
+          }}
+          onLoad={(e) => {
+            if (shouldAutoScaleHeight) {
+              setScaledHeight(
+                scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
+              )
+            }
+          }}
+          onLoadEnd={handleLoadSuccess}
+          onError={handleLoadError}
+          resizeMode={FastImage.resizeMode.cover}
+        >
+          {isLoading && (
+            <ImagePlaceholder
+              height={shouldAutoScaleHeight ? scaledHeight : height}
+              width={width}
+              borderRadius={borderRadius}
+              testID={`${testID}/ImagePlaceholder`}
+            />
+          )}
+        </FastImage>
       )}
-    </FastImage>
+    </>
   )
 }
