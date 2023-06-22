@@ -13,13 +13,13 @@ const TAG = 'NftsSaga'
 export function* handleFetchMyNfts() {
   const showMyNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
   if (!showMyNftsInApp) {
-    Logger.debug(TAG, 'Feature gate not enabled, skipping my Nfts list fetch')
+    Logger.debug(TAG, 'Feature gate not enabled, skipping NFTs list fetch')
     return
   }
 
   const address = yield select(walletAddressSelector)
   if (!address) {
-    Logger.debug(TAG, 'Wallet address not found, skipping my Nfts list fetch')
+    Logger.debug(TAG, 'Wallet address not found, skipping NFTs list fetch')
     return
   }
 
@@ -38,11 +38,11 @@ export function* handleFetchMyNfts() {
       const { result } = yield call([response, 'json'])
       yield put(fetchMyNftsCompleted(result))
     } catch (error) {
-      Logger.error(TAG, 'Could not parse nfts response', error)
-      yield put(fetchMyNftsFailed({ error: 'Could not parse nfts' }))
+      Logger.error(TAG, 'Could not parse NFTs response', error)
+      yield put(fetchMyNftsFailed({ error: 'Could not parse NFTs' }))
     }
   } else {
-    yield put(fetchMyNftsFailed({ error: 'Could not fetch nfts' }))
+    yield put(fetchMyNftsFailed({ error: 'Could not fetch NFTs' }))
   }
 }
 
