@@ -1,5 +1,7 @@
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { fetchMyNfts, fetchMyNftsCompleted, fetchMyNftsFailed } from 'src/nfts/slice'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { Actions } from 'src/web3/actions'
@@ -9,6 +11,12 @@ import { walletAddressSelector } from 'src/web3/selectors'
 const TAG = 'NftsSaga'
 
 export function* handleFetchMyNfts() {
+  const showMyNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
+  if (!showMyNftsInApp) {
+    Logger.debug(TAG, 'Feature gate not enabled, skipping my Nfts list fetch')
+    return
+  }
+
   const address = yield select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Wallet address not found, skipping my Nfts list fetch')

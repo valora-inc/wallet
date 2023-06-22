@@ -27,6 +27,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
+  [StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY]: false,
 }
 
 export const ExperimentConfigs = {
