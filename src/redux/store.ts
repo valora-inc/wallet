@@ -140,6 +140,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'paymentRequest',
           'fiatConnect',
           'keylessBackup',
+          'nfts',
         ],
       })
     )
