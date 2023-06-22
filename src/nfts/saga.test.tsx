@@ -1,6 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { handleFetchMyNfts } from 'src/nfts/saga'
 import { fetchMyNftsCompleted, fetchMyNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
@@ -12,6 +12,7 @@ import { mocked } from 'ts-jest/utils'
 jest.mock('src/statsig')
 
 const loggerDebugSpy = jest.spyOn(Logger, 'debug')
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 const nftResponse = JSON.stringify({
   result: {
@@ -47,6 +48,25 @@ describe('Given Nfts saga', () => {
           method: 'GET',
         }
       )
+    })
+
+    it('should save error on parse fail', async () => {
+      mocked(getFeatureGate).mockReturnValue(true)
+      mockFetch.mockResponseOnce('invalid json')
+
+      await expectSaga(handleFetchMyNfts)
+        .provide([
+          [select(walletAddressSelector), '0xabc'],
+          [call([JSON, 'parse'], 'invalid json'), new Error('Unable to Parse')],
+        ])
+        .put(
+          fetchMyNftsFailed({
+            error: 'Could not parse NFTs',
+          })
+        )
+        .run()
+
+      expect(loggerErrorSpy).toHaveBeenCalledTimes(1)
     })
 
     it('should save error on fetch fail', async () => {
