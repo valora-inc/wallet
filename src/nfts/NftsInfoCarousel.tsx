@@ -33,6 +33,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
         isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected,
         !nft.metadata && styles.errorThumbnail,
       ]}
+      hitSlop={variables.iconHitslop}
       borderless={false}
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
@@ -241,6 +242,8 @@ const styles = StyleSheet.create({
   nftThumbnailSelected: {
     height: 40,
     width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nftThumbnailSharedContainer: {
     borderRadius: Spacing.Smallest8,
@@ -251,6 +254,8 @@ const styles = StyleSheet.create({
     height: 32,
     opacity: 0.5,
     width: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   mainImage: {
     width: variables.width,
