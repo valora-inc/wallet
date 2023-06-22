@@ -11,10 +11,6 @@ import Logger from 'src/utils/Logger'
 
 const DEFAULT_IMAGE_HEIGHT = 360
 
-function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
-  const aspectRatio = originalWidth / originalHeight
-  return targetWidth / aspectRatio
-}
 interface ImagePlaceHolderProps {
   testID: string
   height?: number
@@ -54,7 +50,7 @@ export default function NftImage({
   height,
   width,
   imageStyles,
-  shouldAutoScaleHeight = false,
+  shouldAutoScaleHeight,
   borderRadius,
   origin,
   ErrorComponent,
@@ -117,16 +113,15 @@ export default function NftImage({
           source={{
             uri: imageUrl,
           }}
-          onLoad={(e) => {
-            if (shouldAutoScaleHeight) {
-              setScaledHeight(
-                scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
-              )
-            }
+          onLoad={({ nativeEvent: { width, height } }) => {
+            const aspectRatio = width / height
+            setScaledHeight(variables.width / aspectRatio)
           }}
           onLoadEnd={handleLoadSuccess}
           onError={handleLoadError}
-          resizeMode={FastImage.resizeMode.cover}
+          resizeMode={
+            shouldAutoScaleHeight ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
+          }
         >
           {isLoading && (
             <ImagePlaceholder
