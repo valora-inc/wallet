@@ -95,7 +95,6 @@ export default function NftImage({
   function handleLoadSuccess() {
     sendEventWithError(false)
     setIsLoading(false)
-    // setTimeout(() => setIsLoading(false), 2000)
   }
 
   return (
