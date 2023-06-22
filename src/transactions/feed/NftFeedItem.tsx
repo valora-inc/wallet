@@ -16,6 +16,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
@@ -37,6 +38,8 @@ function NftIcon({ nft }: { nft: Nft }) {
       nft={nft}
       onImageLoadError={handleLoadError}
       imageStyles={styles.circleIcon}
+      borderRadius={20}
+      width={40}
       testID="NftFeedItem/NftIcon"
       origin={NftOrigin.TransactionFeed}
     />
@@ -92,12 +95,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    paddingVertical: 12,
+    paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
   },
   descriptionContainer: {
     marginLeft: variables.contentPadding,
-    width: '55%',
     justifyContent: 'center',
   },
   errorCircleIcon: {

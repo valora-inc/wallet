@@ -54,6 +54,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
           nft={nft}
           onImageLoadError={handleLoadError}
           height={40}
+          borderRadius={8}
           imageStyles={isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected}
           testID="NftsInfoCarousel/ThumbnailImage"
           origin={NftOrigin.NftsInfoCarouselThumbnail}

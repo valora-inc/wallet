@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from 'react'
-import { ImageStyle, StyleProp, StyleSheet, View } from 'react-native'
+import { ImageStyle, StyleProp, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
-import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 
@@ -17,13 +16,21 @@ function scaleImageHeight(originalWidth: number, originalHeight: number, targetW
   return targetWidth / aspectRatio
 }
 interface ImagePlaceHolderProps {
-  height: number
+  testID: string
+  height?: number
   width?: number
   borderRadius?: number
-  testID?: string
 }
 
-function ImagePlaceholder({ height = 40, width, borderRadius = 8, testID }: ImagePlaceHolderProps) {
+interface Props extends ImagePlaceHolderProps {
+  nft: Nft
+  onImageLoadError(): void
+  origin: NftOrigin
+  shouldAutoScaleHeight?: boolean
+  imageStyles?: StyleProp<ImageStyle>
+}
+
+function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: ImagePlaceHolderProps) {
   return (
     <SkeletonPlaceholder
       borderRadius={borderRadius}
@@ -34,24 +41,13 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 8, testID }: Imag
         style={{
           height,
           width: width ?? variables.width,
-          zIndex: -1,
           borderRadius,
+          zIndex: -1,
         }}
         testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
       />
     </SkeletonPlaceholder>
   )
-}
-
-interface Props {
-  nft: Nft
-  onImageLoadError(): void
-  testID: string
-  origin: NftOrigin
-  height?: number
-  width?: number
-  shouldAutoScaleHeight?: boolean
-  imageStyles?: StyleProp<ImageStyle>
 }
 
 export default function NftImage({
@@ -61,8 +57,9 @@ export default function NftImage({
   width,
   imageStyles,
   shouldAutoScaleHeight = false,
-  testID,
+  borderRadius,
   origin,
+  testID,
 }: Props) {
   const [isLoading, setIsLoading] = useState(true)
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
@@ -104,11 +101,9 @@ export default function NftImage({
     <FastImage
       testID={testID}
       style={[
-        shouldAutoScaleHeight ? { height: scaledHeight } : {},
+        { borderRadius, height: shouldAutoScaleHeight ? scaledHeight : height },
         // @ts-ignore
         imageStyles,
-        // Put a border radius on the image when loading to match placeholder
-        isLoading && styles.loading,
       ]}
       source={{
         uri: imageUrl,
@@ -126,17 +121,12 @@ export default function NftImage({
     >
       {isLoading && (
         <ImagePlaceholder
-          height={height ?? scaledHeight}
+          height={shouldAutoScaleHeight ? scaledHeight : height}
           width={width}
+          borderRadius={borderRadius}
           testID={`${testID}/ImagePlaceholder`}
         />
       )}
     </FastImage>
   )
 }
-
-const styles = StyleSheet.create({
-  loading: {
-    borderRadius: Spacing.Smallest8,
-  },
-})
