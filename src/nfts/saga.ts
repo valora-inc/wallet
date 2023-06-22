@@ -28,7 +28,6 @@ export function* handleFetchMyNfts() {
   if (response.ok) {
     try {
       const { result } = yield call([response, 'json'])
-      console.log('result', result)
       yield put(fetchMyNftsCompleted(result))
     } catch (error) {
       Logger.error(TAG, 'Could not parse nfts response', error)
