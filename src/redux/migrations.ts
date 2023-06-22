@@ -1135,4 +1135,22 @@ export const migrations = {
   }),
   129: (state: any) => state,
   130: (state: any) => state,
+  131: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsList: state.dapps.dappsList.map(
+        (dapp: Dapp | (Omit<Dapp, 'categories'> & { categoryId: string })) => ({
+          ...dapp,
+          categories: 'categories' in dapp ? dapp.categories : [dapp.categoryId],
+        })
+      ),
+      activeDapp: state.dapps.activeDapp
+        ? {
+            ...state.dapps.activeDapp,
+            categories: state.dapps.activeDapp.categories ?? [state.dapps.activeDapp.categoryId],
+          }
+        : null,
+    },
+  }),
 }

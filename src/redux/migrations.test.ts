@@ -13,6 +13,7 @@ import {
   v115Schema,
   v124Schema,
   v125Schema,
+  v130Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -889,5 +890,68 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchmea)
     expectedSchema.app.inAppReviewLastInteractionTimestamp = null
     expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v130 to v131', () => {
+    const oldSchemaWithV1Dapp = {
+      ...v130Schema,
+      dapps: {
+        ...v130Schema.dapps,
+        dappsList: [
+          {
+            name: 'Ubeswap',
+            description: 'Swap any token, enter a pool, or farm your crypto',
+            dappUrl: 'https://app.ubeswap.org/',
+            categoryId: 'exchanges',
+            iconUrl:
+              'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+            isFeatured: false,
+            id: 'ubeswap',
+          },
+        ],
+        activeDapp: {
+          name: 'Ubeswap',
+          description: 'Swap any token, enter a pool, or farm your crypto',
+          dappUrl: 'https://app.ubeswap.org/',
+          categoryId: 'exchanges',
+          iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+          isFeatured: false,
+          id: 'ubeswap',
+          openedFrom: 'featured',
+        },
+      },
+    }
+    const expectedSchemaWithV2Dapp: any = {
+      ...v130Schema,
+      dapps: {
+        ...v130Schema.dapps,
+        dappsList: [
+          {
+            name: 'Ubeswap',
+            description: 'Swap any token, enter a pool, or farm your crypto',
+            dappUrl: 'https://app.ubeswap.org/',
+            categories: ['exchanges'],
+            iconUrl:
+              'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+            id: 'ubeswap',
+          },
+        ],
+        activeDapp: {
+          name: 'Ubeswap',
+          description: 'Swap any token, enter a pool, or farm your crypto',
+          dappUrl: 'https://app.ubeswap.org/',
+          categories: ['exchanges'],
+          iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+          id: 'ubeswap',
+          openedFrom: 'featured',
+        },
+      },
+    }
+
+    const migratedV1Schema = migrations[131](oldSchemaWithV1Dapp)
+    const migratedV2Schema = migrations[131](expectedSchemaWithV2Dapp)
+
+    expect(migratedV1Schema).toMatchObject(expectedSchemaWithV2Dapp)
+    expect(migratedV2Schema).toMatchObject(expectedSchemaWithV2Dapp)
   })
 })
