@@ -41,11 +41,13 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
       <NftImage
         nft={nft}
         ErrorComponent={
-          <ImageErrorIcon
-            // The thumbnails are 20% larger when selected vs unselected
-            size={isActive ? 24 : 20}
-            testID="NftsInfoCarousel/ImageErrorIcon"
-          />
+          <View style={styles.nftImageLoadingErrorContainer}>
+            <ImageErrorIcon
+              // The thumbnails are 20% larger when selected vs unselected
+              size={isActive ? 24 : 20}
+              testID="NftsInfoCarousel/ImageErrorIcon"
+            />
+          </View>
         }
         height={40}
         borderRadius={8}
