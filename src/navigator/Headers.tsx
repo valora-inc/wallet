@@ -94,6 +94,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     width: 32,
+    marginTop: 16,
   },
 })
 

@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getGatewayUrl, onImageLoad } from 'src/nfts/NftsInfoCarousel'
+import NftImage from 'src/nfts/NftImage'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
@@ -23,31 +21,11 @@ import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-function NftIconPlaceholder({ testID = 'NftIconPlaceHolder' }: { testID?: string }) {
-  return (
-    <SkeletonPlaceholder
-      testID={testID}
-      borderRadius={20} // Needs border radius to show on Android
-      backgroundColor={colors.gray2}
-      highlightColor={colors.white}
-    >
-      <View style={styles.circleIcon} />
-    </SkeletonPlaceholder>
-  )
-}
-
 function NftIcon({ nft }: { nft: Nft }) {
-  const [loading, setLoading] = useState(true)
   const [imageLoadingError, setImageLoadingError] = useState(false)
 
   function handleLoadError() {
-    onImageLoad(nft, NftOrigin.TransactionFeed, true)
     setImageLoadingError(true)
-  }
-
-  function handleLoadSuccess() {
-    onImageLoad(nft, NftOrigin.TransactionFeed, false)
-    setLoading(false)
   }
 
   return imageLoadingError ? (
@@ -55,17 +33,13 @@ function NftIcon({ nft }: { nft: Nft }) {
       <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
     </View>
   ) : (
-    <FastImage
-      source={{
-        uri: getGatewayUrl(nft),
-      }}
-      style={styles.circleIcon}
-      onLoadEnd={handleLoadSuccess}
-      onError={handleLoadError}
+    <NftImage
+      nft={nft}
+      onImageLoadError={handleLoadError}
+      imageStyles={styles.circleIcon}
       testID="NftFeedItem/NftIcon"
-    >
-      {loading && <NftIconPlaceholder />}
-    </FastImage>
+      origin={NftOrigin.TransactionFeed}
+    />
   )
 }
 interface Props {
