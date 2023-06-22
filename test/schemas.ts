@@ -6,7 +6,7 @@ import {
 } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { Dapp, DappConnectInfo, DappV1 } from 'src/dapps/types'
+import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -1886,10 +1886,8 @@ export const v99Schema = {
   },
   dapps: {
     ..._.omit(v98Schema.dapps, 'recentDapps', 'favoriteDapps'),
-    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: DappV1 | Dapp) => recentDapp.id),
-    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map(
-      (favoriteDapp: DappV1 | Dapp) => favoriteDapp.id
-    ),
+    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
+    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
   },
 }
 
