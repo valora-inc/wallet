@@ -4145,6 +4145,32 @@
             ],
             "type": "object"
         },
+        "State_28": {
+            "additionalProperties": false,
+            "properties": {
+                "myNfts": {
+                    "items": {
+                        "$ref": "#/definitions/Nft"
+                    },
+                    "type": "array"
+                },
+                "myNftsError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "myNftsLoading": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "myNfts",
+                "myNftsError",
+                "myNftsLoading"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -5910,6 +5936,9 @@
         "networkInfo": {
             "$ref": "#/definitions/State_2"
         },
+        "nfts": {
+            "$ref": "#/definitions/State_28"
+        },
         "paymentRequest": {
             "$ref": "#/definitions/State_16"
         },
@@ -5959,6 +5988,7 @@
         "keylessBackup",
         "localCurrency",
         "networkInfo",
+        "nfts",
         "paymentRequest",
         "positions",
         "recipients",
