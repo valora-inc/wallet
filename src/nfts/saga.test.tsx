@@ -1,8 +1,8 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
-import { handleFetchMyNfts } from 'src/nfts/saga'
-import { fetchMyNftsCompleted, fetchMyNftsFailed } from 'src/nfts/slice'
+import { handleFetchNfts } from 'src/nfts/saga'
+import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -32,10 +32,10 @@ describe('Given Nfts saga', () => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(nftResponse)
 
-      await expectSaga(handleFetchMyNfts)
+      await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
-          fetchMyNftsCompleted({
+          fetchNftsCompleted({
             nfts: [mockNftAllFields, mockNftMinimumFields],
           })
         )
@@ -54,13 +54,13 @@ describe('Given Nfts saga', () => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponseOnce('invalid json')
 
-      await expectSaga(handleFetchMyNfts)
+      await expectSaga(handleFetchNfts)
         .provide([
           [select(walletAddressSelector), '0xabc'],
           [call([JSON, 'parse'], 'invalid json'), new Error('Unable to Parse')],
         ])
         .put(
-          fetchMyNftsFailed({
+          fetchNftsFailed({
             error: 'Could not parse NFTs',
           })
         )
@@ -73,10 +73,10 @@ describe('Given Nfts saga', () => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockRejectOnce()
 
-      await expectSaga(handleFetchMyNfts)
+      await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
-          fetchMyNftsFailed({
+          fetchNftsFailed({
             error: 'Could not fetch NFTs',
           })
         )
@@ -87,9 +87,9 @@ describe('Given Nfts saga', () => {
       mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(nftResponse)
 
-      await expectSaga(handleFetchMyNfts)
+      await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), null]])
-        .not.put(fetchMyNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .not.put(fetchNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
         .run()
 
       expect(loggerDebugSpy).toHaveBeenCalledWith(
@@ -102,9 +102,9 @@ describe('Given Nfts saga', () => {
       mocked(getFeatureGate).mockReturnValue(false)
       mockFetch.mockResponse(nftResponse)
 
-      await expectSaga(handleFetchMyNfts)
+      await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
-        .not.put(fetchMyNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .not.put(fetchNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
         .run()
 
       expect(loggerDebugSpy).toHaveBeenCalledWith(
@@ -115,9 +115,9 @@ describe('Given Nfts saga', () => {
 
     it('should be disabled by default', async () => {
       mockFetch.mockResponse(nftResponse)
-      await expectSaga(handleFetchMyNfts)
+      await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
-        .not.put(fetchMyNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .not.put(fetchNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
         .run()
     })
   })
