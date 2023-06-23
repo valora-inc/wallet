@@ -1,41 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Nft } from 'src/nfts/types'
 
-export interface FetchMyNftsCompleted {
+export interface FetchNftsCompleted {
   nfts: Nft[]
 }
 
 export interface State {
-  myNftsLoading: boolean
-  myNftsError: string | null
-  myNfts: Nft[]
+  nftsLoading: boolean
+  nftsError: string | null
+  nfts: Nft[]
 }
 
 const initialState: State = {
-  myNftsLoading: false,
-  myNftsError: null,
-  myNfts: [],
+  nftsLoading: false,
+  nftsError: null,
+  nfts: [],
 }
 
 export const slice = createSlice({
   name: 'nfts',
   initialState,
   reducers: {
-    fetchMyNfts: (state) => {
-      state.myNftsLoading = true
-      state.myNftsError = null
+    fetchNfts: (state) => {
+      state.nftsLoading = true
+      state.nftsError = null
     },
-    fetchMyNftsCompleted: (state, action) => {
-      state.myNftsLoading = false
-      state.myNfts = action.payload
+    fetchNftsCompleted: (state, action) => {
+      state.nftsLoading = false
+      state.nfts = action.payload
     },
-    fetchMyNftsFailed: (state, action) => {
-      state.myNftsLoading = false
-      state.myNftsError = action.payload.error
+    fetchNftsFailed: (state, action) => {
+      state.nftsLoading = false
+      state.nftsError = action.payload.error
     },
   },
 })
 
-export const { fetchMyNfts, fetchMyNftsCompleted, fetchMyNftsFailed } = slice.actions
+export const { fetchNfts, fetchNftsCompleted, fetchNftsFailed } = slice.actions
 
 export default slice.reducer

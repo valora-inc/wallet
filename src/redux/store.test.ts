@@ -298,9 +298,9 @@ describe('store state', () => {
           },
         },
         "nfts": Object {
-          "myNfts": Array [],
-          "myNftsError": null,
-          "myNftsLoading": false,
+          "nfts": Array [],
+          "nftsError": null,
+          "nftsLoading": false,
         },
         "paymentRequest": Object {
           "incomingPaymentRequests": Array [],

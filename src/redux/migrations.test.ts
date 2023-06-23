@@ -897,9 +897,9 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[131](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.nfts = {
-      myNfts: [],
-      myNftsError: null,
-      myNftsLoading: false,
+      nfts: [],
+      nftsError: null,
+      nftsLoading: false,
     }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

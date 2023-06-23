@@ -1,5 +1,5 @@
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
-import { fetchMyNfts, fetchMyNftsCompleted, fetchMyNftsFailed } from 'src/nfts/slice'
+import { fetchNfts, fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -10,9 +10,9 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'NftsSaga'
 
-export function* handleFetchMyNfts() {
-  const showMyNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
-  if (!showMyNftsInApp) {
+export function* handleFetchNfts() {
+  const showNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
+  if (!showNftsInApp) {
     Logger.debug(TAG, 'Feature gate not enabled, skipping NFTs list fetch')
     return
   }
@@ -25,32 +25,28 @@ export function* handleFetchMyNfts() {
 
   const url = `${networkConfig.getNftsByOwnerAddressUrl}?address=${address}`
 
-  const response = yield call(fetch, url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
-
-  if (response.ok) {
-    try {
-      const { result } = yield call([response, 'json'])
-      yield put(fetchMyNftsCompleted(result))
-    } catch (error) {
-      Logger.error(TAG, 'Could not parse NFTs response', error)
-      yield put(fetchMyNftsFailed({ error: 'Could not parse NFTs' }))
-    }
-  } else {
-    yield put(fetchMyNftsFailed({ error: 'Could not fetch NFTs' }))
+  try {
+    const response = yield call(fetch, url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+    if (!response.ok) yield put(fetchNftsFailed({ error: 'Could not fetch NFTs' }))
+    const { result } = yield call([response, 'json'])
+    yield put(fetchNftsCompleted(result))
+  } catch (error) {
+    Logger.error(TAG, 'Could not parse NFTs response', error)
+    yield put(fetchNftsFailed({ error: 'Could not parse NFTs' }))
   }
 }
 
-export function* watchFetchMyNfts() {
-  yield takeLeading([fetchMyNfts.type, Actions.SET_ACCOUNT], safely(handleFetchMyNfts))
+export function* watchFetchNfts() {
+  yield takeLeading([fetchNfts.type, Actions.SET_ACCOUNT], safely(handleFetchNfts))
 }
 
 export function* nftsSaga() {
-  yield spawn(watchFetchMyNfts)
-  yield put(fetchMyNfts())
+  yield spawn(watchFetchNfts)
+  yield put(fetchNfts())
 }

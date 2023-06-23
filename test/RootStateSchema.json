@@ -4149,26 +4149,26 @@
         "State_28": {
             "additionalProperties": false,
             "properties": {
-                "myNfts": {
+                "nfts": {
                     "items": {
                         "$ref": "#/definitions/Nft"
                     },
                     "type": "array"
                 },
-                "myNftsError": {
+                "nftsError": {
                     "type": [
                         "null",
                         "string"
                     ]
                 },
-                "myNftsLoading": {
+                "nftsLoading": {
                     "type": "boolean"
                 }
             },
             "required": [
-                "myNfts",
-                "myNftsError",
-                "myNftsLoading"
+                "nfts",
+                "nftsError",
+                "nftsLoading"
             ],
             "type": "object"
         },

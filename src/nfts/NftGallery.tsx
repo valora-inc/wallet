@@ -10,8 +10,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftImage from 'src/nfts/NftImage'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { myNftsErrorSelector, myNftsLoadingSelector, myNftsSelector } from 'src/nfts/selectors'
-import { fetchMyNfts } from 'src/nfts/slice'
+import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/selectors'
+import { fetchNfts } from 'src/nfts/slice'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
@@ -47,12 +47,12 @@ function NftTouchable({ nft }: { nft: Nft }) {
 export default function NftGallery() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const loading = useSelector(myNftsLoadingSelector)
-  const error = useSelector(myNftsErrorSelector)
-  const nfts = useSelector(myNftsSelector)
+  const loading = useSelector(nftsLoadingSelector)
+  const error = useSelector(nftsErrorSelector)
+  const nfts = useSelector(nftsSelector)
 
   function onRefresh() {
-    dispatch(fetchMyNfts())
+    dispatch(fetchNfts())
   }
 
   // TODO: add analytics event for page load

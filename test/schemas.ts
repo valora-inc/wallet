@@ -2292,9 +2292,9 @@ export const v131Schema = {
     version: 131,
   },
   nfts: {
-    myNfts: [],
-    myNftsError: null,
-    myNftsLoading: false,
+    nfts: [],
+    nftsError: null,
+    nftsLoading: false,
   },
 }
 

@@ -1,7 +1,7 @@
 import { RootState } from 'src/redux/reducers'
 
-export const myNftsLoadingSelector = (state: RootState) => state.nfts.myNftsLoading
+export const nftsLoadingSelector = (state: RootState) => state.nfts.nftsLoading
 
-export const myNftsErrorSelector = (state: RootState) => state.nfts.myNftsError
+export const nftsErrorSelector = (state: RootState) => state.nfts.nftsError
 
-export const myNftsSelector = (state: RootState) => state.nfts.myNfts
+export const nftsSelector = (state: RootState) => state.nfts.nfts
