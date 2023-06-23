@@ -1321,7 +1321,7 @@
     "favoritedDappToast": {
       "message": "添加为收藏",
       "labelCTA": "查看收藏",
-      "messageWithDappName": "{{dappName}} 添加为最爱"
+      "messageWithDappName": "{{dappName}} 已添加为收藏夹"
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0>已应用筛选条件",
