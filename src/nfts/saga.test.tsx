@@ -71,7 +71,7 @@ describe('Given Nfts saga', () => {
 
     it('should save error on fetch fail', async () => {
       mocked(getFeatureGate).mockReturnValue(true)
-      mockFetch.mockRejectOnce()
+      mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
 
       await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
