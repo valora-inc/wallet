@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { NftEvents } from 'src/analytics/Events'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -12,37 +13,13 @@ import NftImage from 'src/nfts/NftImage'
 import NftsLoadError from 'src/nfts/NftsLoadError'
 import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/selectors'
 import { fetchNfts } from 'src/nfts/slice'
-import { Nft, NftOrigin } from 'src/nfts/types'
+import { NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 // This is used instead of a gap between the images because the gap is not supported in RN yet.
 const imageSize = Math.min(variables.width / 2.5, variables.height / 4)
-
-function NftTouchable({ nft }: { nft: Nft }) {
-  return (
-    <Touchable
-      key={`${nft.contractAddress}-${nft.tokenId}`}
-      onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [nft] })}
-      style={styles.touchableIcon}
-    >
-      <NftImage
-        nft={nft}
-        testID="NftGallery/NftImage"
-        width={imageSize}
-        height={imageSize}
-        ErrorComponent={
-          <View style={styles.errorView}>
-            <ImageErrorIcon color="#C93717" />
-          </View>
-        }
-        origin={NftOrigin.NftGallery}
-        borderRadius={Spacing.Smallest8}
-      />
-    </Touchable>
-  )
-}
 
 export default function NftGallery() {
   const { t } = useTranslation()
@@ -55,16 +32,6 @@ export default function NftGallery() {
     dispatch(fetchNfts())
   }
 
-  // TODO: add analytics event for page load
-
-  if (error) {
-    return (
-      <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
-        <DrawerTopBar middleElement={<Text>{t('nftGallery.title')}</Text>} />
-        <NftsLoadError />
-      </SafeAreaView>
-    )
-  }
 
   return (
     <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
@@ -82,10 +49,30 @@ export default function NftGallery() {
           />
         }
       >
-        {!error && (
+        {error ? (
+          <NftsLoadError />
+        ) : (
           <View style={styles.galleryContainer}>
             {nfts.map((nft) => (
-              <NftTouchable key={`${nft.contractAddress}-${nft.tokenId}`} nft={nft} />
+              <Touchable
+                key={`${nft.contractAddress}-${nft.tokenId}`}
+                onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [nft] })}
+                style={styles.touchableIcon}
+              >
+                <NftImage
+                  nft={nft}
+                  testID="NftGallery/NftImage"
+                  width={imageSize}
+                  height={imageSize}
+                  ErrorComponent={
+                    <View style={styles.errorView}>
+                      <ImageErrorIcon color="#C93717" />
+                    </View>
+                  }
+                  origin={NftOrigin.NftGallery}
+                  borderRadius={Spacing.Smallest8}
+                />
+              </Touchable>
             ))}
           </View>
         )}
