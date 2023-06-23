@@ -1321,7 +1321,7 @@
     "favoritedDappToast": {
       "message": "เพิ่มเป็นรายการโปรด",
       "labelCTA": "ดูรายการโปรด",
-      "messageWithDappName": "{{dappName}} added as a favorite"
+      "messageWithDappName": "{{dappName}} เพิ่มในรายการโปรดแล้ว"
     },
     "emptyResults": {
       "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
