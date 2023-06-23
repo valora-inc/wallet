@@ -114,9 +114,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     paddingTop: Spacing.Regular16,
   },
-  iconMargin: {
-    marginTop: '32%',
-  },
   scrollContainer: {
     flex: 1,
   },
