@@ -2291,25 +2291,22 @@ export const v131Schema = {
   },
   dapps: {
     ...v130Schema.dapps,
-    dapps: {
-      ...v130Schema.dapps,
-      dappsList: v130Schema.dapps.dappsList.map(
-        (dapp: Dapp | (Omit<Dapp, 'categories'> & { categoryId: string })) => {
-          return {
-            ...dapp,
-            categories: 'categories' in dapp ? dapp.categories : [dapp.categoryId],
-          }
+    dappsList: v130Schema.dapps.dappsList.map(
+      (dapp: Dapp | (Omit<Dapp, 'categories'> & { categoryId: string })) => {
+        return {
+          ...dapp,
+          categories: 'categories' in dapp ? dapp.categories : [dapp.categoryId],
         }
-      ),
-      activeDapp: v130Schema.dapps.activeDapp
-        ? {
-            ...v130Schema.dapps.activeDapp,
-            categories: v130Schema.dapps.activeDapp.categories ?? [
-              v130Schema.dapps.activeDapp.categoryId,
-            ],
-          }
-        : null,
-    },
+      }
+    ),
+    activeDapp: v130Schema.dapps.activeDapp
+      ? {
+          ...v130Schema.dapps.activeDapp,
+          categories: v130Schema.dapps.activeDapp.categories ?? [
+            v130Schema.dapps.activeDapp.categoryId,
+          ],
+        }
+      : null,
   },
 }
 
