@@ -293,10 +293,10 @@ export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gr
 export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
 ```
 
-Then install the Android 29 platform:
+Then install the Android 31 platform:
 
 ```bash
-sdkmanager 'platforms;android-29'
+sdkmanager 'platforms;android-31'
 ```
 
 ##### Linux
@@ -326,17 +326,17 @@ Set your `PATH` environment variable and optionally update your shell profile (_
 export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 ```
 
-Install the Android 29 system image and create an Android Virtual Device:
+Install the Android 31 system image and create an Android Virtual Device:
 
 ```bash
-sdkmanager "system-images;android-29;default;x86_64"
-avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --device pixel -k "system-images;android-29;default;x86_64"
+sdkmanager "system-images;android-31;default;x86_64"
+avdmanager create avd --force --name Pixel_API_31_AOSP_x86_64 --device pixel -k "system-images;android-31;default;x86_64"
 ```
 
 Run the emulator with:
 
 ```bash
-emulator -avd Pixel_API_29_AOSP_x86_64
+emulator -avd Pixel_API_31_AOSP_x86_64
 ```
 
 ##### Install Genymotion Emulator Manager
