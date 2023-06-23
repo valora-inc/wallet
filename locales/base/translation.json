@@ -1742,6 +1742,9 @@
     "swap": "Swap",
     "withdraw": "Withdraw"
   },
+  "nftGallery": {
+    "title": "NFT Viewer"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "View on Celo Explorer",
     "attributes": "Attributes",
