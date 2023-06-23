@@ -14,7 +14,11 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'NftsLoadErrorScreen'
 
-export default function NftsLoadError() {
+interface Props {
+  testID?: string
+}
+
+export default function NftsLoadError({ testID }: Props) {
   const { t } = useTranslation()
   function handleSupportPress() {
     Logger.debug(TAG, 'Support Contact pressed')
@@ -27,7 +31,7 @@ export default function NftsLoadError() {
   }, [])
 
   return (
-    <SafeAreaView style={styles.safeArea} testID="NftsInfoCarousel/NftsLoadErrorScreen">
+    <SafeAreaView style={styles.safeArea} testID={testID ?? 'NftsInfoCarousel/NftsLoadErrorScreen'}>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         style={styles.scrollContainer}

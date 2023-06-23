@@ -85,7 +85,7 @@ export default function NftGallery() {
             ))}
           </View>
         ) : (
-          <NftsLoadError />
+          <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />
         )}
       </ScrollView>
     </SafeAreaView>
