@@ -80,7 +80,7 @@ export default function NftGallery() {
           />
         }
       >
-        {!loading && !error && (
+        {!error && (
           <View style={styles.galleryContainer}>
             {nfts.map((nft) => (
               <NftTouchable key={`${nft.contractAddress}-${nft.tokenId}`} nft={nft} />
