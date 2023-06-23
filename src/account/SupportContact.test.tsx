@@ -27,6 +27,10 @@ describe('validateEmail', () => {
     ['bar@foo.', false],
     ['bar@foo.c', false],
     ['bar@foo.co', true],
+    ['bar@foo..co', false],
+    ['อีเมลทดสอบ@ยูเอทดสอบ.ไทย', true],
+    ['อีเมลทดสอบ@ทีเอชนิค.องค์กร.ไทย', true],
+    ['bar@random.foos', true],
   ])('validates email %s', (email, expected) => {
     expect(validateEmail(email)).toBe(expected)
   })
