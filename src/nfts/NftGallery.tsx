@@ -27,7 +27,6 @@ export default function NftGallery() {
   const dispatch = useDispatch()
   const loading = useSelector(nftsLoadingSelector)
   const error = useSelector(nftsErrorSelector)
-  // const temp = useSelector(nftsSelector)
   const nfts = useSelector(nftsSelector)
 
   function onRefresh() {
