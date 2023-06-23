@@ -49,6 +49,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
             />
           </View>
         }
+        width={40}
         height={40}
         borderRadius={8}
         testID="NftsInfoCarousel/ThumbnailImage"

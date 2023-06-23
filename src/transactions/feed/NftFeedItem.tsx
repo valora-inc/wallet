@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginLeft: variables.contentPadding,
     justifyContent: 'center',
+    width: '55%',
   },
   errorCircleIcon: {
     backgroundColor: colors.gray2,
