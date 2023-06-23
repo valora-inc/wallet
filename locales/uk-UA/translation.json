@@ -1327,7 +1327,7 @@
     "favoritedDappToast": {
       "message": "Додано як уподобання",
       "labelCTA": "Переглянути вподобання",
-      "messageWithDappName": "{{dappName}} додано до обраного"
+      "messageWithDappName": "{{dappName}} додано як уподобання"
     },
     "emptyResults": {
       "message": "Фільтр <0>{{filter}}</0> застосовано",
