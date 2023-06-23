@@ -120,23 +120,19 @@ export function DAppsExplorerScreenSearchFilter() {
         filterName={selectedFilterName}
         removeFilter={removeFilter}
         searchTerm={searchTerm}
-        testID="DAppsExplorerScreenSearchFilter/NoResults"
+        testID="DAppsExplorerScreen/NoResults"
       />
     )
   }, [allResultEmpty, favoriteResultsEmpty, searchTerm])
 
   return (
-    <SafeAreaView
-      testID="DAppsExplorerScreenSearchFilter"
-      style={styles.safeAreaContainer}
-      edges={['top']}
-    >
+    <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
         rightElement={
           <HeaderButtons
             onPressHelp={openSheet}
             helpIconColor={colors.onboardingGreen}
-            testID={'DAppsExplorerScreenSearchFilter/HeaderButtons'}
+            testID={'DAppsExplorerScreen/HeaderButtons'}
           />
         }
         scrollPosition={scrollPosition}
@@ -257,7 +253,7 @@ export function DAppsExplorerScreenSearchFilter() {
             )}
             keyExtractor={(dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
-            testID="DAppsExplorerScreenSearchFilter/DappsList"
+            testID="DAppsExplorerScreen/DappsList"
             ListEmptyComponent={emptyListComponent}
             ListFooterComponentStyle={styles.listFooterComponent}
             keyboardShouldPersistTaps="always"

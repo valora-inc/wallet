@@ -46,7 +46,7 @@ export function FavoriteDappsSection({
   // Display favorites matching search and filter
   if (favoriteResults.length > 0) {
     return (
-      <View testID="DAppsExplorerScreenSearchFilter/FavoriteDappsSection">
+      <View testID="DAppsExplorerScreen/FavoriteDappsSection">
         {favoriteResults.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}
