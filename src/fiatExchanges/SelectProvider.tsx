@@ -12,11 +12,17 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import { FUNDING_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import {
+  PaymentMethodSection,
+  PaymentMethodSectionMethods,
+} from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import {
   ProviderSelectionAnalyticsData,
@@ -31,10 +37,6 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
-import {
-  PaymentMethodSection,
-  PaymentMethodSectionMethods,
-} from 'src/fiatExchanges/PaymentMethodSection'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
@@ -46,10 +48,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
-import colors from 'src/styles/colors'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -271,8 +273,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     cryptoType: digitalAsset,
   })
 
+  const showReceiveAmount = getFeatureGate(
+    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_CICO_SELECT_PROVIDER
+  )
+
   return (
     <ScrollView>
+      {showReceiveAmount && <AmountSpentInfo {...route.params} />}
       {paymentMethodSections.map((paymentMethod) => (
         <PaymentMethodSection
           key={paymentMethod}
@@ -316,6 +323,47 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         </View>
       )}
     </ScrollView>
+  )
+}
+
+function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['params']) {
+  const localCurrency = useSelector(getLocalCurrencyCode)
+  const { address } = useTokenInfoBySymbol(selectedCrypto)!
+  return (
+    <View style={styles.amountSpentInfo} testID="AmountSpentInfo">
+      <Text style={styles.amountSpentInfoText}>
+        <Trans
+          i18nKey={
+            flow === CICOFlow.CashIn
+              ? 'selectProviderScreen.cashIn.amountSpentInfo'
+              : 'selectProviderScreen.cashOut.amountSpentInfo'
+          }
+        >
+          {flow === CICOFlow.CashIn ? (
+            <CurrencyDisplay
+              amount={{
+                // The value and currencyCode here doesn't matter since the component will use `localAmount`
+                value: 0,
+                currencyCode: '',
+                localAmount: {
+                  value: amount.fiat,
+                  currencyCode: localCurrency,
+                  exchangeRate: 1,
+                },
+              }}
+              testID={'AmountSpentInfo/Fiat'}
+            />
+          ) : (
+            <TokenDisplay
+              amount={amount.crypto}
+              tokenAddress={address}
+              showLocalAmount={false}
+              testID={'AmountSpentInfo/Crypto'}
+            />
+          )}
+        </Trans>
+      </Text>
+    </View>
   )
 }
 
@@ -570,6 +618,17 @@ const styles = StyleSheet.create({
     ...fontStyles.large500,
     color: colors.gray4,
     padding: Spacing.Smallest8,
+  },
+  amountSpentInfo: {
+    marginHorizontal: 16,
+    marginBottom: 8,
+    padding: 16,
+    backgroundColor: Colors.gray1,
+    borderRadius: 16,
+  },
+  amountSpentInfoText: {
+    textAlign: 'center',
+    ...fontStyles.xsmall600,
   },
 })
 SelectProviderScreen.navigationOptions = ({

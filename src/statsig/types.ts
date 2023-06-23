@@ -21,6 +21,7 @@ export enum StatsigFeatureGates {
   SHOW_POSITIONS = 'show_positions',
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
+  SHOW_RECEIVE_AMOUNT_IN_CICO_SELECT_PROVIDER = 'show_receive_amount_in_cico_select_provider',
 }
 
 export enum StatsigExperiments {
