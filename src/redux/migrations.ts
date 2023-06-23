@@ -1133,4 +1133,6 @@ export const migrations = {
       positions: [],
     },
   }),
+  129: (state: any) => state,
+  130: (state: any) => state,
 }

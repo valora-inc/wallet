@@ -10,9 +10,9 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -25,6 +25,7 @@ import {
   InviteEvents,
   KeylessBackupEvents,
   NavigationEvents,
+  NftEvents,
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
@@ -60,6 +61,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { HomeActionName } from 'src/home/types'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
@@ -984,6 +986,7 @@ interface QrScreenProperties {
   [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
     exchange: string
   }
+  [QrScreenEvents.qr_scanner_open]: undefined
 }
 interface FiatConnectKycProperties {
   provider: string
@@ -1159,8 +1162,8 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_select]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
-  [DappExplorerEvents.dapp_favorite]: DappProperties
-  [DappExplorerEvents.dapp_unfavorite]: DappProperties
+  [DappExplorerEvents.dapp_favorite]: DappEventProperties
+  [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
   [DappExplorerEvents.dapp_open_info]: undefined
   [DappExplorerEvents.dapp_open_more_info]: undefined
   [DappExplorerEvents.dapp_filter]: {
@@ -1170,6 +1173,8 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_search]: {
     searchTerm: string
   }
+  [DappExplorerEvents.dapp_rankings_open]: undefined
+  [DappExplorerEvents.dapp_rankings_impression]: undefined
 }
 
 interface WebViewEventsProperties {
@@ -1237,6 +1242,10 @@ interface SwapEventsProperties {
     swapApproveTxId: string
   }
   [SwapEvents.swap_learn_more]: undefined
+  [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
+    provider: string
+    priceImpact: string
+  }
 }
 
 interface CeloNewsEventsProperties {
@@ -1260,6 +1269,34 @@ interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
   [AssetsEvents.view_dapp_positions]: undefined
+  [AssetsEvents.tap_asset]:
+    | {
+        assetType: 'token'
+        address: string
+        title: string // Example: 'cUSD'
+        description: string
+        balanceUsd: number
+      }
+    | {
+        assetType: 'position'
+        network: string // Example: 'celo'
+        appId: string // Example: 'ubeswap'
+        address: string
+        title: string // Example: MOO / CELO
+        description: string
+        balanceUsd: number
+      }
+}
+
+interface NftsEventsProperties {
+  [NftEvents.nft_error_screen_open]: undefined
+  [NftEvents.nft_image_load]: {
+    tokenId: string
+    contractAddress: string
+    url?: string
+    origin: NftOrigin
+    error: boolean
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
@@ -1293,4 +1330,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CeloNewsEventsProperties &
   QrScreenProperties &
   TokenBottomSheetEventsProperties &
-  AssetsEventsProperties
+  AssetsEventsProperties &
+  NftsEventsProperties

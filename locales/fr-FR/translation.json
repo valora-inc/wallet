@@ -1151,7 +1151,7 @@
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Dépôt reçu",
   "feedItemDepositTitle": "Dépôt",
-  "feedItemFcTransferMobileMoney": "Transfert d'argent mobile",
+  "feedItemFcTransferMobileMoney": "Transfert - Mobile Money",
   "feedItemFcTransferBankAccount": "Transfert de compte bancaire",
   "feedItemFcTransferWithdraw": "Retirer {{crypto}}",
   "feedItemExchangeTitle": "CELO",
@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Découvrir",
     "message": "Découvrez les moyens d'utiliser vos actifs",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
@@ -1321,13 +1322,18 @@
     },
     "favoritedDappToast": {
       "message": "Dapp ajoutée à vos favorites",
-      "labelCTA": "Voir mes favorites"
+      "labelCTA": "Voir mes favorites",
+      "messageWithDappName": "{{dappName}} ajouté en tant que favori"
     },
     "emptyResults": {
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
       "removeFilter": "Supprimer le filtre",
       "searchMessage": "Aucun résultat correspondant à <0>\"{{searchTerm}}\"</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Classements Dapp",
+    "description": "Découvrez les dapps préférés de la communauté {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
@@ -1364,7 +1370,9 @@
   "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre wallet, veuillez réessayer",
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Certaines modes de paiement ne sont pas disponibles dans votre région",
+    "somePaymentsUnavailable": "Les achats sont effectués par nos prestataires partenaires. Certains modes de paiement ne sont pas disponibles dans votre pays.",
+    "disclaimerWithSomePaymentsUnavailable": "Les paiements sont effectués par des partenaires sur Celo. Certains modes de paiement ne sont pas disponibles dans votre pays. <0>En savoir plus.</0>",
+    "disclaimer": "Les paiements sont effectués par des partenaires sur Celo. <0>En savoir plus.</0>",
     "learnMore": "En savoir plus.",
     "whyMissingPayments": "Pourquoi ne vois-je pas plus de modes de paiement ?",
     "dismiss": "Ignorer",
@@ -1376,14 +1384,17 @@
     "cryptoExchangeOrWallet": "Échange de cryptomonnaies ou wallet",
     "card": "Carte de crédit/débit",
     "bank": "Compte bancaire",
-    "mobileMoney": "Argent digital",
+    "mobileMoney": "Mobile Money",
     "minFee": "Frais min",
     "numProviders": "{{count}} prestataires",
     "fee": "Frais",
     "idRequired": "ID requis",
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
-    "lessThan24Hours": "Moins d'une journée",
+    "xHours": "Moins de {{upperBound}} heures",
+    "xToYHours": "{{lowerBound}}-{{upperBound}} heures",
+    "xDays": "Moins de {{upperBound}} jours",
+    "xToYDays": "{{lowerBound}}-{{upperBound}} jours",
     "bestRate": "Meilleur taux",
     "header": "Mode de paiement",
     "newLabel": "NOUVEAUX",
@@ -1400,9 +1411,9 @@
       "description": "Entrez les coordonnées du compte bancaire pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
     "mobileMoney": {
-      "header": "Configurez l'argent mobile",
-      "bodyTitle": "Configurez l'argent mobile",
-      "description": "Entrez les coordonnées de l'argent mobile pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
+      "header": "Configurez Mobile Money",
+      "bodyTitle": "Configurez Mobile Money",
+      "description": "Entrez les coordonnées de Mobile Money pour transférer des fonds. Ces services sont fournis par <0>{{providerName}}</0>. \n\nEn cliquant sur Continuer, vous acceptez leurs <1>Conditions Générales</1> et <2>Politique de confidentialité</2>"
     },
     "continue": "Continuer"
   },
@@ -1447,7 +1458,7 @@
     "paymentMethodVia": "Connexion du {{providerName}}",
     "receiveAmount": "Vous recevrez",
     "bankFeeDisclaimer": "Votre banque peut facturer des frais supplémentaires pour votre transfert.",
-    "mobileMoneyFeeDisclaimer": "Votre opérateur d'argent mobile peut facturer des frais supplémentaires pour votre transfert.",
+    "mobileMoneyFeeDisclaimer": "Votre opérateur de Mobile Money peut facturer des frais supplémentaires pour votre transfert.",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
@@ -1488,8 +1499,12 @@
       "header": "Opération réussie",
       "title": "Vos fonds sont en route !",
       "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
-      "description1to3Days": "Votre demande de transaction a été envoyée et vos fonds arriveront dans 1-3 jours.",
-      "description24Hours": "Votre demande de transaction a été envoyée et vos fonds arriveront dans 24 heures.",
+      "descriptionWithin1Hour": "Votre demande de transaction a été envoyée et vos fonds arriveront dans une heure.",
+      "descriptionWithinXHours": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{upperBound}} heures.",
+      "descriptionInXtoYHours": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{lowerBound}}-{{upperBound}} heures.",
+      "descriptionWithinXDays": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{upperBound}} jours.",
+      "descriptionXtoYDays": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{lowerBound}}-{{upperBound}} jours.",
+      "baseDescription": "Votre demande de transaction a été envoyée.",
       "txDetails": "Voir sur CeloExplorer",
       "continue": "Continuer"
     },
@@ -1513,7 +1528,7 @@
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
-      "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
+      "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur Mobile Money.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
       "selectProviderHeader": "Mode de retrait",
@@ -1566,7 +1581,7 @@
       },
       "mobileDialog": {
         "title": "Numéro de téléphone",
-        "body": "Utilisez le numéro de téléphone enregistré auprès de votre fournisseur de monnaie mobile. Il peut s'agir d'un autre numéro de téléphone que celui enregistré pour Valora.\n\nLes numéros de téléphone doivent inclure l'indicatif du pays affiché à côté du numéro de téléphone.",
+        "body": "Utilisez le numéro de téléphone enregistré auprès de votre fournisseur de Mobile Money. Il peut s'agir d'un autre numéro de téléphone que celui enregistré pour Valora.\n\nLes numéros de téléphone doivent inclure l'indicatif du pays affiché à côté du numéro de téléphone.",
         "dismiss": "Ignorer"
       }
     },
@@ -1601,13 +1616,17 @@
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Des échanges propulsés par des partenaires sur Celo. \n<0>En savoir plus</0>",
+    "disclaimer": "Des échanges propulsés par des partenaires sur Celo.\n<0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
       "learnMore": "En savoir plus"
+    },
+    "priceImpactWarning": {
+      "title": "Avant d'échanger",
+      "body": "Échanger ces actifs peut entraîner un taux de change défavorable. Si vous baissez le montant, vous pourriez obtenir un meilleur taux."
     },
     "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>"
   },
@@ -1720,6 +1739,18 @@
     "send": "Envoyer",
     "swap": "Échanger",
     "withdraw": "Retirer"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Voir sur CeloExplorer",
+    "attributes": "Caractéristiques",
+    "description": "Description",
+    "noNftsFound": "Aucun NFT trouvé",
+    "nftImageLoadError": "Impossible d'afficher ce NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Un problème est survenu lors du chargement des NFT",
+    "loadErrorSubtitle": "Vos actifs sont en sécurité. Veuillez réessayer.",
+    "contactSupport": "Si vous avez besoin d'aide, vous pouvez \n<0>contacter le service client</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

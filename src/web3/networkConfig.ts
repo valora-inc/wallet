@@ -31,6 +31,7 @@ interface NetworkConfig {
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
   nftsValoraAppUrl: string
+  celoExplorerBaseTokenUrl: string
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
   approveSwapUrl: string
@@ -124,6 +125,9 @@ const CELO_EXPLORER_BASE_TX_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/tx/
 const CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/address/`
 const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/address/`
 
+const CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/token/`
+const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/token/`
+
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
@@ -134,8 +138,8 @@ const GET_POSITIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getPositions
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
 
-const JUMPSTART_ADDRESS_ALFAJORES = '0x40f9dab737B79A26bE70dc10aBEa69d4356cF786'
-const JUMPSTART_ADDRESS_MAINNET = '0x37b4ffe2886d60ae7c86adcefcaf7e54e83773b2'
+const JUMPSTART_ADDRESS_ALFAJORES = '0xf25a016E53644EEfe4A167Ff05482213BCd627ED'
+const JUMPSTART_ADDRESS_MAINNET = '0x22Bac00dB51FfD2eb5a02e58974b64726c684BaA'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -166,6 +170,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
     approveSwapUrl: APPROVE_SWAP_URL,
@@ -210,6 +215,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
     approveSwapUrl: APPROVE_SWAP_URL,

@@ -14,6 +14,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
 import {
   dappsCategoriesAlphabeticalSelector,
@@ -26,6 +27,8 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
+import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
+import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import FavoriteDappsSection from 'src/dappsExplorer/searchFilter/FavoriteDappsSection'
 import NoResults from 'src/dappsExplorer/searchFilter/NoResults'
@@ -33,9 +36,7 @@ import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -55,6 +56,7 @@ export function DAppsExplorerScreenSearchFilter() {
   const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
   const horizontalScrollView = useRef<ScrollView>(null)
+  const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
@@ -83,6 +85,11 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const filterPress = (filterId: string) => {
     selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
+  }
+
+  const handleShowDappRankings = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
+    dappRankingsBottomSheetRef.current?.snapToIndex(0)
   }
 
   useEffect(() => {
@@ -126,15 +133,15 @@ export function DAppsExplorerScreenSearchFilter() {
     >
       <DrawerTopBar
         rightElement={
-          <TopBarIconButton
-            testID="DAppsExplorerScreenSearchFilter/HelpIcon"
-            icon={<Help color={colors.onboardingGreen} />}
-            onPress={openSheet}
+          <HeaderButtons
+            onPressHelp={openSheet}
+            helpIconColor={colors.onboardingGreen}
+            testID={'DAppsExplorerScreenSearchFilter/HeaderButtons'}
           />
         }
         scrollPosition={scrollPosition}
       />
-      {ConfirmOpenDappBottomSheet}
+
       <>
         {!loading && error && (
           <View style={styles.centerContainer}>
@@ -168,6 +175,7 @@ export function DAppsExplorerScreenSearchFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
+                <DappRankingsCard onPress={handleShowDappRankings} />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
@@ -257,8 +265,13 @@ export function DAppsExplorerScreenSearchFilter() {
           />
         )}
       </>
+      {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
       {DappInfoBottomSheet}
+      <DappRankingsBottomSheet
+        forwardedRef={dappRankingsBottomSheetRef}
+        onPressDapp={onSelectDapp}
+      />
     </SafeAreaView>
   )
 }

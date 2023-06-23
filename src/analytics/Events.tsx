@@ -310,6 +310,7 @@ export enum QrScreenEvents {
   qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
   qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
+  qr_scanner_open = 'qr_scanner_open', // When unique "QR scanner" button is pressed
 }
 
 export enum RequestEvents {
@@ -551,6 +552,8 @@ export enum DappExplorerEvents {
   dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
   dapp_filter = 'dapp_filter', // when a user taps on a filter
   dapp_search = 'dapp_search', // when a user searches on the dapp explorer screen
+  dapp_rankings_impression = 'dapp_rankings_impression', // when the dapp rankings card shows up
+  dapp_rankings_open = 'dapp_rankings_open', // when a user taps on the dapp rankings card
 }
 
 export enum WebViewEvents {
@@ -577,6 +580,7 @@ export enum SwapEvents {
   swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
   swap_execute_error = 'swap_execute_error', // When the swap returns an error
   swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen
+  swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed', // When the price impact warning is displayed
 }
 
 export enum CeloNewsEvents {
@@ -594,6 +598,12 @@ export enum AssetsEvents {
   show_asset_balance_info = 'show_asset_balance_info', // When a user taps on the info icon
   view_wallet_assets = 'view_wallet_assets', // When a user taps on the "Wallet Assets" segmented control
   view_dapp_positions = 'view_dapp_positions', // When a user taps on the "Dapp Positions" segmented control
+  tap_asset = 'tap_asset', // When a user taps on an asset
+}
+
+export enum NftEvents {
+  nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
+  nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
 }
 
 export type AnalyticsEventType =

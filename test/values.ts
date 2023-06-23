@@ -35,6 +35,7 @@ import {
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
+import { Nft } from 'src/nfts/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { Position } from 'src/positions/types'
@@ -116,6 +117,7 @@ export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLo
 export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLowerCase()
 export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
 export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
+export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -1260,4 +1262,55 @@ export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
     countries: [],
     url: 'fake-url-1',
   },
+}
+
+export const mockNftAllFields: Nft = {
+  contractAddress: mockContractAddress,
+  media: [
+    {
+      gateway: 'https://example.com/gateway/1',
+      raw: 'https://example.com/1',
+    },
+  ],
+  metadata: {
+    attributes: [{ trait_type: 'Fizz Buzz', value: '1' }],
+    date: new Date('01/01/2020').getTime(),
+    description: 'This is a fizzBuzz name!',
+    dna: '000001',
+    id: 1,
+    image: 'https://example.com/1',
+    name: `${mockName}.fizzBuzz`,
+  },
+  ownerAddress: mockAccount,
+  tokenId: '1',
+  tokenUri: 'https://example.com/1',
+}
+
+export const mockNftMinimumFields: Nft = {
+  contractAddress: mockContractAddress,
+  media: [
+    {
+      gateway: 'https://example.com/gateway/3',
+      raw: 'https://example.com/3',
+    },
+  ],
+  metadata: {
+    attributes: [{ trait_type: 'Fizz Buzz', value: 'Fizz' }],
+    date: null,
+    description: 'This is a fizzBuzz name!',
+    dna: null,
+    id: null,
+    image: 'https://example.com/3',
+    name: `${mockName}.fizzBuzz`,
+  },
+  ownerAddress: mockAccount,
+  tokenId: '3',
+  tokenUri: 'https://example.com/3',
+}
+
+export const mockNftNullMetadata: Nft = {
+  contractAddress: mockContractAddress,
+  media: [],
+  metadata: null,
+  tokenId: '4',
 }

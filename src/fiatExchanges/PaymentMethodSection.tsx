@@ -8,8 +8,9 @@ import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
+import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -21,14 +22,20 @@ import { CiCoCurrency } from 'src/utils/currencies'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
   [SettlementTime.LESS_THAN_ONE_HOUR]: 'selectProviderScreen.oneHour',
-  [SettlementTime.LESS_THAN_24_HOURS]: 'selectProviderScreen.lessThan24Hours',
-  [SettlementTime.ONE_TO_THREE_DAYS]: 'selectProviderScreen.numDays',
+  [SettlementTime.LESS_THAN_X_HOURS]: 'selectProviderScreen.xHours',
+  [SettlementTime.X_TO_Y_HOURS]: 'selectProviderScreen.xToYHours',
+  [SettlementTime.LESS_THAN_X_DAYS]: 'selectProviderScreen.xDays',
+  [SettlementTime.X_TO_Y_DAYS]: 'selectProviderScreen.xToYDays',
 }
 
+export type PaymentMethodSectionMethods =
+  | PaymentMethod.Bank
+  | PaymentMethod.Card
+  | PaymentMethod.FiatConnectMobileMoney
+
 export interface PaymentMethodSectionProps {
-  paymentMethod: PaymentMethod.Bank | PaymentMethod.Card | PaymentMethod.FiatConnectMobileMoney
+  paymentMethod: PaymentMethodSectionMethods
   normalizedQuotes: NormalizedQuote[]
-  setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
   cryptoType: CiCoCurrency
   analyticsData: ProviderSelectionAnalyticsData
@@ -37,7 +44,6 @@ export interface PaymentMethodSectionProps {
 export function PaymentMethodSection({
   paymentMethod,
   normalizedQuotes,
-  setNoPaymentMethods,
   flow,
   cryptoType,
   analyticsData,
@@ -62,8 +68,6 @@ export function PaymentMethodSection({
         quoteCount: sectionQuotes.length,
         providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
-    } else {
-      setNoPaymentMethods(true)
     }
   }, [])
 
@@ -172,10 +176,18 @@ export function PaymentMethodSection({
     </>
   )
 
+  const getPaymentMethodSettlementTimeString = (settlementEstimation: SettlementEstimation) => {
+    const { timeString, ...args } = getSettlementTimeString(
+      settlementEstimation,
+      SETTLEMENT_TIME_STRINGS
+    )
+    return timeString ? t(timeString, args) : t('selectProviderScreen.numDays')
+  }
+
   const renderInfoText = (quote: NormalizedQuote) => {
     const kycInfo = quote.getKycInfo()
     const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${t(SETTLEMENT_TIME_STRINGS[quote.getTimeEstimation()])}`
+    return `${kycString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
 
   const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {

@@ -131,7 +131,7 @@ export function* appInit() {
 
   yield all([
     call(initializeSentry),
-    call(ValoraAnalytics.init),
+    call([ValoraAnalytics, 'init']),
     call(
       initI18n,
       language || bestLanguage || DEFAULT_APP_LANGUAGE,
@@ -254,6 +254,7 @@ export interface RemoteConfigValues {
   twelveWordMnemonicEnabled: boolean
   dappsMinimalDisclaimerEnabled: boolean
   guaranteedSwapPriceEnabled: boolean
+  priceImpactWarningThreshold: number
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
   superchargeV1Addresses: string[]

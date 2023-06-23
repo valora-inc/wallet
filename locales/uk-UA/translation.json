@@ -1312,6 +1312,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Дізнатися",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
@@ -1325,13 +1326,18 @@
     },
     "favoritedDappToast": {
       "message": "Додано як уподобання",
-      "labelCTA": "Переглянути вподобання"
+      "labelCTA": "Переглянути вподобання",
+      "messageWithDappName": "{{dappName}} додано до обраного"
     },
     "emptyResults": {
       "message": "Фільтр <0>{{filter}}</0> застосовано",
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Рейтинг застосунків dapp",
+    "description": "Дізнайтеся найулюбленіші застосунки dapp інших учасників спільноти {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Що таке dapps?",
@@ -1368,7 +1374,9 @@
   "merchantWalletUnlockError": "Під час розблокування гаманця сталася помилка, спробуйте ще раз",
   "noMoreTransactions": "Більше немає транзакції",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Деякі методи оплати недоступні у вашому регіоні",
+    "somePaymentsUnavailable": "Купівельні операції здійснюються за підтримки наших партнерів-провайдерів. Деякі способи оплати недоступні у вашому регіоні.",
+    "disclaimerWithSomePaymentsUnavailable": "Платежі здійснюються за підтримки наших партнерів у мережі Celo. Деякі способи оплати недоступні у вашому регіоні. <0>Дізнатися більше.</0>",
+    "disclaimer": "Платежі здійснюються за підтримки партнерів у мережі Celo. <0>Дізнатися більше.</0>",
     "learnMore": "Дізнатися більше.",
     "whyMissingPayments": "Чому я не бачу більше способів оплати?",
     "dismiss": "Відхилити",
@@ -1387,7 +1395,10 @@
     "idRequired": "Потрібен ідентифікатор",
     "numDays": "1—3 дні",
     "oneHour": "Менш як 1 година",
-    "lessThan24Hours": "Менш як 24 години",
+    "xHours": "Менше, ніж {{upperBound}} год",
+    "xToYHours": "{{lowerBound}}-{{upperBound}} год",
+    "xDays": "Менше, ніж {{upperBound}} дн.",
+    "xToYDays": "{{lowerBound}}-{{upperBound}} дн.",
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати",
     "newLabel": "НОВИНКА",
@@ -1492,8 +1503,12 @@
       "header": "Успіх",
       "title": "Ваші кошти вже пройшли!",
       "description": "Ваш запит на транзакцію було відправлено; ваші кошти надійдуть через {{duration}}.",
-      "description1to3Days": "Ваш запит на транзакцію надіслано, кошти надійдуть через 1–3 дні.",
-      "description24Hours": "Ваш запит на транзакцію надіслано, кошти надійдуть через 24 години.",
+      "descriptionWithin1Hour": "Ваш запит на транзакцію надіслано, кошти надійдуть упродовж 1 години.",
+      "descriptionWithinXHours": "Ваш запит на транзакцію надіслано, кошти надійдуть упродовж {{upperBound}} год.",
+      "descriptionInXtoYHours": "Ваш запит на транзакцію надіслано, кошти надійдуть через  {{lowerBound}}-{{upperBound}} год.",
+      "descriptionWithinXDays": "Ваш запит на транзакцію надіслано, кошти надійдуть упродовж {{upperBound}} дн.",
+      "descriptionXtoYDays": "Ваш запит на транзакцію надіслано, кошти надійдуть через {{lowerBound}}-{{upperBound}} дн.",
+      "baseDescription": "Ваш запит на транзакцію надіслано.",
       "txDetails": "Переглянути на CeloExplorer",
       "continue": "Продовжити"
     },
@@ -1605,13 +1620,17 @@
     "swapTo": "НА",
     "insufficientFunds": "{{token}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин.",
-    "disclaimer": "Свопи здійснюються за підтримки партнерів у мережі Celo. \n<0>Дізнатися більше.</0>",
+    "disclaimer": "Свопи здійснюються за підтримки партнерів у мережі Celo. \n<0>Дізнатися більше</0>",
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "maxSwapAmountWarning": {
       "title": "Обмін МАКС. суми",
       "body": "Переконайтеся, що у вашому гаманці є CELO, щоб покрити комісії за газ для подальших транзакцій",
       "learnMore": "Дізнатися більше"
+    },
+    "priceImpactWarning": {
+      "title": "Перед свопом",
+      "body": "Своп цих активів може спричинити несприятливий обмінний курс. Якщо зменшити суму, можна отримати кращий курс."
     },
     "estimatedExchangeRate": "Орієнтовний курс ≈ <0>0.00</0>"
   },
@@ -1724,6 +1743,18 @@
     "send": "Надіслати",
     "swap": "Обміняти",
     "withdraw": "Зняти"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Переглянути на Celo Explorer",
+    "attributes": "Атрибути",
+    "description": "Опис",
+    "noNftsFound": "NFT не знайдено",
+    "nftImageLoadError": "Не вдається відобразити цей NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Сталася помилка під час завантаження NFT",
+    "loadErrorSubtitle": "Ваші активи в безпеці. Спробуйте ще раз.",
+    "contactSupport": "Якщо потрібна додаткова довідка, ви можете \n<0>Звернутися за підтримкою</0>"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

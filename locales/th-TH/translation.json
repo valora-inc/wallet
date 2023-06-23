@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Next, add your phone number",
-      "subtitle": "You’ll need to use this phone number to restore if you ever lose your wallet.\n\nWe’ll send you a code to verify that this number is yours."
+      "title": "จากนั้น เพิ่มหมายเลขโทรศัพท์ของคุณ",
+      "subtitle": "คุณจำเป็นต้องใช้หมายเลขโทรศัพท์นี้เพื่อกู้คืนกระเป๋าเงินหากกระเป๋าเงินของคุณหายไป\n\nเราจะส่งรหัสเพื่อให้คุณยืนยันว่าหมายเลขนี้เป็นหมายเลขของคุณจริง"
     },
     "restore": {
-      "title": "Verify your phone number",
-      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+      "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
+      "subtitle": "กรอกหมายเลขโทรศัพท์เดียวกับที่ใช้ก่อนหน้านี้เพื่อตั้งค่าการสำรองข้อมูล\n\nเราจะส่งรหัสเพื่อให้คุณยืนยันว่าหมายเลขนี้เป็นหมายเลขของคุณจริง"
     }
   },
   "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ โปรดเก็บให้ปลอดภัย",
@@ -576,7 +576,7 @@
   "dismiss": "ปิด",
   "review": "ตรวจสอบ",
   "insufficientBalance": "ยอดคงเหลือของคุณต่ำเกินกว่าที่จะทำธุรกรรมนี้ได้",
-  "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
+  "insufficientBalanceStable": "คุณมี cUSD หรือ cEUR ไม่เพียงพอที่จะทำธุรกรรมนี้",
   "amount": "จำนวนเงิน",
   "currentBalance": "ยอดคงเหลือปัจจุบัน (cUSD)",
   "restore": "กู้คืน",
@@ -1224,11 +1224,11 @@
   "totalBalanceWithLocalCurrencySymbol": "ยอดรวม {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "ยอดคงเหลือรวม",
   "viewBalances": "ดูสินทรัพย์",
-  "totalAssets": "My assets",
-  "totalAssetsInfo": "Includes estimated total of wallet assets and dapp positions",
+  "totalAssets": "สินทรัพย์ของฉัน",
+  "totalAssetsInfo": "ประกอบด้วยจำนวนสินทรัพย์ในกระเป๋าเงินทั้งหมดโดยประมาณและสถานะ Dapp",
   "assetsSegmentedControl": {
-    "walletAssets": "Wallet assets",
-    "dappPositions": "Dapp positions"
+    "walletAssets": "สินทรัพย์ในกระเป๋าเงิน",
+    "dappPositions": "สถานะ Dapp"
   },
   "open": "เปิด",
   "nftViewer": "NFT Viewer",
@@ -1306,6 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "สำรวจ",
     "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
@@ -1319,13 +1320,18 @@
     },
     "favoritedDappToast": {
       "message": "เพิ่มเป็นรายการโปรด",
-      "labelCTA": "ดูรายการโปรด"
+      "labelCTA": "ดูรายการโปรด",
+      "messageWithDappName": "{{dappName}} added as a favorite"
     },
     "emptyResults": {
       "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
       "removeFilter": "ลบตัวกรอง",
       "searchMessage": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
     }
+  },
+  "dappRankings": {
+    "title": "อันดับ Dapp",
+    "description": "สำรวจ Dapp ยอดนิยมของสมาชิกในชุมชน {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
@@ -1362,7 +1368,9 @@
   "merchantWalletUnlockError": "มีบางอย่างผิดปกติเมื่อปลดล็อกกระเป๋าเงินของคุณ โปรดลองอีกครั้ง",
   "noMoreTransactions": "ไม่มีธุรกรรมเพิ่มอีก",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ",
+    "somePaymentsUnavailable": "การซื้อดำเนินการโดยผู้ให้บริการที่เป็นพันธมิตรของเรา วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ",
+    "disclaimerWithSomePaymentsUnavailable": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ <0>ดูข้อมูลเพิ่มเติม</0>",
+    "disclaimer": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo <0>ดูข้อมูลเพิ่มเติม</0>",
     "learnMore": "ดูข้อมูลเพิ่มเติม",
     "whyMissingPayments": "ทำไมฉันจึงเห็นวิธีการชำระเงินเพียงเท่านี้",
     "dismiss": "ปิด",
@@ -1381,7 +1389,10 @@
     "idRequired": "ต้องมี ID",
     "numDays": "1-3 วัน",
     "oneHour": "ไม่เกิน 1 ชั่วโมง",
-    "lessThan24Hours": "ไม่เกิน 24 ชั่วโมง",
+    "xHours": "ไม่เกิน {{upperBound}} ชั่วโมง",
+    "xToYHours": "{{lowerBound}}-{{upperBound}} ชั่วโมง",
+    "xDays": "ไม่เกิน {{upperBound}} วัน",
+    "xToYDays": "{{lowerBound}}-{{upperBound}} วัน",
     "bestRate": "อัตราที่ดีที่สุด",
     "header": "เลือกวิธีการชำระเงิน",
     "newLabel": "ใหม่",
@@ -1486,8 +1497,12 @@
       "header": "สำเร็จ",
       "title": "คุณกำลังจะได้รับเงินเร็วๆ นี้",
       "description": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{duration}}",
-      "description1to3Days": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 1-3 วัน",
-      "description24Hours": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 24 ชั่วโมง",
+      "descriptionWithin1Hour": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน 1 ชั่วโมง",
+      "descriptionWithinXHours": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{upperBound}} ชั่วโมง",
+      "descriptionInXtoYHours": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{lowerBound}}-{{upperBound}} ชั่วโมง",
+      "descriptionWithinXDays": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{upperBound}} วัน",
+      "descriptionXtoYDays": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{lowerBound}}-{{upperBound}} วัน",
+      "baseDescription": "ส่งคำขอธุรกรรมของคุณแล้ว",
       "txDetails": "ดูใน CeloExplorer",
       "continue": "ดำเนินการต่อ"
     },
@@ -1607,6 +1622,10 @@
       "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
       "learnMore": "ดูข้อมูลเพิ่มเติม"
     },
+    "priceImpactWarning": {
+      "title": "ก่อนที่จะสว็อป",
+      "body": "การสว็อปสินทรัพย์อาจส่งผลให้ได้รับอัตราแลกเปลี่ยนที่ไม่น่าพึงพอใจ หากคุณลดจำนวนเงินลง คุณอาจได้รับอัตราที่ดีขึ้น"
+    },
     "estimatedExchangeRate": "อัตราโดยประมาณ ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1718,6 +1737,18 @@
     "send": "ส่ง",
     "swap": "สว็อป",
     "withdraw": "ถอน"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "ดูใน Celo Explorer",
+    "attributes": "คุณลักษณะ",
+    "description": "คำอธิบาย",
+    "noNftsFound": "ไม่พบ NFT",
+    "nftImageLoadError": "ไม่สามารถแสดง NFT นี้"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "มีปัญหาในการโหลด NFT",
+    "loadErrorSubtitle": "สินทรัพย์ของคุณปลอดภัย โปรดลองอีกครั้ง",
+    "contactSupport": "หากคุณต้องการความช่วยเหลือเพิ่มเติม โปรด \n<0>ติดต่อฝ่ายบริการลูกค้า</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

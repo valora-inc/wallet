@@ -1312,6 +1312,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Odkryj",
     "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
@@ -1325,13 +1326,18 @@
     },
     "favoritedDappToast": {
       "message": "Dodane jako ulubione",
-      "labelCTA": "Zobacz ulubione"
+      "labelCTA": "Zobacz ulubione",
+      "messageWithDappName": "{{dappName}} dodany jako ulubiony"
     },
     "emptyResults": {
       "message": "Zastosowano filtr <0>{{filter}}</0>",
       "removeFilter": "Usuń filtr",
       "searchMessage": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Rankingi aplikacji dapp",
+    "description": "Odkryj najpopularniejsze aplikacje dapp w społeczności {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
@@ -1368,7 +1374,9 @@
   "merchantWalletUnlockError": "Coś poszło nie tak podczas odblokowywania portfela, spróbuj ponownie",
   "noMoreTransactions": "Nie ma więcej transakcji",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Niektóre metody płatności są niedostępne w Twoim regionie",
+    "somePaymentsUnavailable": "Zakupy są obsługiwane przez naszych partnerów. Niektóre metody płatności są niedostępne w Twoim regionie.",
+    "disclaimerWithSomePaymentsUnavailable": "Płatności są obsługiwane przez partnerów w Celo. Niektóre metody płatności są niedostępne w Twoim regionie. <0>Dowiedz się więcej.</0>",
+    "disclaimer": "Płatności są obsługiwane przez partnerów w Celo. <0>Dowiedz się więcej.</0>",
     "learnMore": "Dowiedz się więcej.",
     "whyMissingPayments": "Dlaczego nie widzę więcej metod płatności?",
     "dismiss": "Odrzuć",
@@ -1387,7 +1395,10 @@
     "idRequired": "Wymagane ID",
     "numDays": "1–3 dni",
     "oneHour": "Mniej niż 1 godzina",
-    "lessThan24Hours": "Mniej niż 24 godziny",
+    "xHours": "Mniej niż {{upperBound}} godz.",
+    "xToYHours": "{{lowerBound}}–{{upperBound}} godz.",
+    "xDays": "Mniej niż {{upperBound}} dni",
+    "xToYDays": "{{lowerBound}}–{{upperBound}} dni",
     "bestRate": "Najlepsza stawka",
     "header": "Wybierz metodę płatności",
     "newLabel": "NOWI",
@@ -1492,8 +1503,12 @@
       "header": "Sukces",
       "title": "Twoje środki są w drodze!",
       "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{duration}}.",
-      "description1to3Days": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu 1–3 dni.",
-      "description24Hours": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu 24 godzin.",
+      "descriptionWithin1Hour": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu godziny.",
+      "descriptionWithinXHours": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{upperBound}} godzin.",
+      "descriptionInXtoYHours": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{lowerBound}}–{{upperBound}} godzin.",
+      "descriptionWithinXDays": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{upperBound}} dni.",
+      "descriptionXtoYDays": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{lowerBound}}–{{upperBound}} dni.",
+      "baseDescription": "Twoje żądanie transakcji zostało wysłane.",
       "txDetails": "Wyświetl w CeloExplorer",
       "continue": "Kontynuuj"
     },
@@ -1605,13 +1620,17 @@
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Zamiany wspierane przez partnerów na Celo. \n<0>Dowiedz się więcej.</0>",
+    "disclaimer": "Zamiany wspierane przez partnerów na Celo.\n<0>Dowiedz się więcej</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
       "learnMore": "Dowiedz się więcej"
+    },
+    "priceImpactWarning": {
+      "title": "Zanim dokonasz swapu",
+      "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
   },
@@ -1724,6 +1743,18 @@
     "send": "Wysyłaj",
     "swap": "Zamieniaj",
     "withdraw": "Wycofaj"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Wyświetl w Celo Explorer",
+    "attributes": "Atrybuty",
+    "description": "Opis",
+    "noNftsFound": "Nie znaleziono NFT",
+    "nftImageLoadError": "Nie można wyświetlić tego NFT"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Występuje problem z ładowaniem NFT",
+    "loadErrorSubtitle": "Twoje aktywa są bezpieczne. Spróbuj ponownie.",
+    "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz \n<0>skontaktować się z działem obsługi klienta</0>"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

@@ -851,6 +851,7 @@
                 "favorites dapp screen",
                 "favorites home screen",
                 "featured",
+                "mostPopular",
                 "recently used"
             ],
             "type": "string"
@@ -1575,6 +1576,132 @@
             ],
             "type": "object"
         },
+        "Nft": {
+            "additionalProperties": false,
+            "properties": {
+                "contractAddress": {
+                    "type": "string"
+                },
+                "media": {
+                    "items": {
+                        "$ref": "#/definitions/NftMedia"
+                    },
+                    "type": "array"
+                },
+                "metadata": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "attributes": {
+                                    "anyOf": [
+                                        {
+                                            "items": {
+                                                "$ref": "#/definitions/NftMetaDataAttribute"
+                                            },
+                                            "type": "array"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "date": {
+                                    "type": [
+                                        "null",
+                                        "number"
+                                    ]
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "dna": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "id": {
+                                    "type": [
+                                        "null",
+                                        "number"
+                                    ]
+                                },
+                                "image": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "description",
+                                "image",
+                                "name"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "ownerAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "tokenUri": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "contractAddress",
+                "media",
+                "metadata",
+                "tokenId"
+            ],
+            "type": "object"
+        },
+        "NftMedia": {
+            "additionalProperties": false,
+            "properties": {
+                "gateway": {
+                    "type": "string"
+                },
+                "raw": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "gateway",
+                "raw"
+            ],
+            "type": "object"
+        },
+        "NftMetaDataAttribute": {
+            "additionalProperties": false,
+            "properties": {
+                "trait_type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "trait_type",
+                "value"
+            ],
+            "type": "object"
+        },
         "NftTransfer": {
             "additionalProperties": false,
             "properties": {
@@ -1593,6 +1720,12 @@
                     },
                     "type": "array"
                 },
+                "nfts": {
+                    "items": {
+                        "$ref": "#/definitions/Nft"
+                    },
+                    "type": "array"
+                },
                 "timestamp": {
                     "type": "number"
                 },
@@ -1606,7 +1739,6 @@
             "required": [
                 "__typename",
                 "block",
-                "fees",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2253,6 +2385,7 @@
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
+                "NftsInfoCarousel",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
                 "OutgoingPaymentRequestListScreen",
@@ -3514,6 +3647,12 @@
                 "maxNumRecentDapps": {
                     "type": "number"
                 },
+                "mostPopularDappIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "recentDappIds": {
                     "items": {
                         "type": "string"
@@ -3534,6 +3673,7 @@
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
+                "mostPopularDappIds",
                 "recentDappIds"
             ],
             "type": "object"
@@ -3873,6 +4013,9 @@
                 "guaranteedSwapPriceEnabled": {
                     "type": "boolean"
                 },
+                "priceImpactWarningThreshold": {
+                    "type": "number"
+                },
                 "swapInfo": {
                     "anyOf": [
                         {
@@ -3929,6 +4072,7 @@
             },
             "required": [
                 "guaranteedSwapPriceEnabled",
+                "priceImpactWarningThreshold",
                 "swapInfo",
                 "swapState",
                 "swapUserInput"
@@ -4366,6 +4510,9 @@
                 "isSwappable": {
                     "type": "boolean"
                 },
+                "minimumAppVersionToSwap": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -4741,7 +4888,6 @@
                 "block",
                 "fees",
                 "inAmount",
-                "metadata",
                 "outAmount",
                 "timestamp",
                 "transactionHash",

@@ -1,6 +1,7 @@
 import { Address } from '@celo/base'
 import BigNumber from 'bignumber.js'
 import { TokenTransactionType } from 'src/apollo/types'
+import { Nft } from 'src/nfts/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -130,7 +131,8 @@ export interface NftTransfer {
   transactionHash: string
   timestamp: number
   block: string
-  fees: Fee[]
+  fees?: Fee[]
+  nfts?: Nft[]
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -142,7 +144,7 @@ export interface TokenExchange {
   block: string
   inAmount: TokenAmount
   outAmount: TokenAmount
-  metadata: TokenExchangeMetadata
+  metadata?: TokenExchangeMetadata
   fees: Fee[]
 }
 

@@ -27,16 +27,15 @@ import {
 import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV1, isDappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
+import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import FavoriteDappsSection from 'src/dappsExplorer/legacy/FavoriteDappsSection'
 import FeaturedDappCard from 'src/dappsExplorer/legacy/FeaturedDappCard'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import Help from 'src/icons/Help'
 import { dappListLogo } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -97,10 +96,9 @@ export function DAppsExplorerScreenLegacy() {
       <DrawerTopBar
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         rightElement={
-          <TopBarIconButton
-            testID="DAppsExplorerScreenLegacy/HelpIcon"
-            icon={<Help />}
-            onPress={openSheet}
+          <HeaderButtons
+            onPressHelp={openSheet}
+            testID={'DAppsExplorerScreenLegacy/HeaderButtons'}
           />
         }
         scrollPosition={scrollPosition}

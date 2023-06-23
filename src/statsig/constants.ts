@@ -26,6 +26,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
   [StatsigFeatureGates.APP_REVIEW]: false,
+  [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
 }
 
 export const ExperimentConfigs = {
@@ -63,6 +64,7 @@ export const ExperimentConfigs = {
       showSwapOnMenu: true,
       showHomeActions: false,
       showHomeNavBar: true,
+      showQrScanner: false,
     },
   },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {
@@ -76,6 +78,18 @@ export const ExperimentConfigs = {
     defaultValues: {
       dappsFilterEnabled: false,
       dappsSearchEnabled: false,
+    },
+  },
+  [StatsigExperiments.DAPP_RANKINGS]: {
+    experimentName: StatsigExperiments.DAPP_RANKINGS,
+    defaultValues: {
+      dappRankingsEnabled: false,
+    },
+  },
+  [StatsigExperiments.DAPP_MENU_ITEM_COPY]: {
+    experimentName: StatsigExperiments.DAPP_MENU_ITEM_COPY,
+    defaultValues: {
+      discoverCopyEnabled: false,
     },
   },
 }

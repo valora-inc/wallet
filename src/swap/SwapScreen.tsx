@@ -10,6 +10,7 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -27,17 +28,13 @@ import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import MaxAmountWarning from 'src/swap/MaxAmountWarning'
-import { swapInfoSelector } from 'src/swap/selectors'
+import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
-import {
-  coreTokensSelector,
-  swappableTokensSelector,
-  tokensByUsdBalanceSelector,
-} from 'src/tokens/selectors'
+import Warning from 'src/swap/Warning'
+import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -47,21 +44,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
-function tokenCompareByUsdBalanceThenByAlphabetical(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
-  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
-  if (usdPriceComparison === 0) {
-    const token1Name = token1.name ?? 'ZZ'
-    const token2Name = token2.name ?? 'ZZ'
-    return token1Name.localeCompare(token2Name)
-  } else {
-    return usdPriceComparison
-  }
-}
-
-const { decimalSeparator } = getNumberFormatSettings()
-
 function SwapScreen() {
   return <SwapScreenSection showDrawerTopNav={true} />
 }
@@ -70,16 +52,26 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const { decimalSeparator } = getNumberFormatSettings()
+
   const { swappingNonNativeTokensEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
 
-  const supportedTokens = useSelector(
-    swappingNonNativeTokensEnabled ? swappableTokensSelector : coreTokensSelector
-  )
+  // sorted by USD balance and then alphabetical
+  const supportedTokens = useSelector(swappableTokensSelector)
+  const swappableTokens = useMemo(() => {
+    const tokensWithUsdPrice = supportedTokens.filter(
+      (token) => token.usdPrice && token.usdPrice.gt(0)
+    )
+    if (!swappingNonNativeTokensEnabled) {
+      return tokensWithUsdPrice.filter((token) => token.isCoreToken)
+    }
+    return tokensWithUsdPrice
+  }, [supportedTokens])
 
   const swapInfo = useSelector(swapInfoSelector)
-  const tokensSortedByUsdBalance = useSelector(tokensByUsdBalanceSelector)
+  const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
   const CELO = useMemo(
     () =>
@@ -90,14 +82,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   )
 
   const defaultFromToken = useMemo(() => {
-    const supportedTokensAddresses = supportedTokens.map((token) => token.address)
-    return (
-      tokensSortedByUsdBalance.find(
-        (token) =>
-          token.balance.gt(0) && token.usdPrice && supportedTokensAddresses.includes(token.address)
-      ) ?? CELO
-    )
-  }, [supportedTokens, tokensSortedByUsdBalance])
+    return swappableTokens[0] ?? CELO
+  }, [supportedTokens, swappableTokens])
 
   const [fromToken, setFromToken] = useState<TokenBalance | undefined>(defaultFromToken)
   const [toToken, setToToken] = useState<TokenBalance | undefined>()
@@ -108,6 +94,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
+  const [showPriceImpactWarning, setShowPriceImpactWarning] = useState(false)
 
   const maxFromAmountUnchecked = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
@@ -169,20 +156,48 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 
   useEffect(
     () => {
-      setSwapAmount((prev) => {
-        const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
-        const newAmount = exchangeRate
-          ? parsedSwapAmount[updatedField]
-              .multipliedBy(
-                new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
-              )
-              .toFormat()
-          : ''
-        return {
-          ...prev,
-          [otherField]: newAmount,
-        }
+      if (!exchangeRate) {
+        setSwapAmount((prev) => {
+          const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
+          return {
+            ...prev,
+            [otherField]: '',
+          }
+        })
+        return
+      }
+
+      const newAmount = parsedSwapAmount[updatedField].multipliedBy(
+        new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
+      )
+
+      const swapFromAmount = updatedField === Field.FROM ? parsedSwapAmount[Field.FROM] : newAmount
+      const swapToAmount = updatedField === Field.FROM ? newAmount : parsedSwapAmount[Field.TO]
+      setSwapAmount({
+        [Field.FROM]: swapFromAmount.toFormat({
+          decimalSeparator,
+        }),
+        [Field.TO]: swapToAmount.toFormat({
+          decimalSeparator,
+        }),
       })
+
+      const fromFiatValue = swapFromAmount.multipliedBy(fromToken?.usdPrice || 0)
+      const toFiatValue = swapToAmount.multipliedBy(toToken?.usdPrice || 0)
+      const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
+      const priceImpactExceedsThreshold = priceImpact.gte(priceImpactWarningThreshold)
+      setShowPriceImpactWarning(priceImpactExceedsThreshold)
+
+      if (priceImpactExceedsThreshold) {
+        ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
+          toToken: exchangeRate.toTokenAddress,
+          fromToken: exchangeRate.fromTokenAddress,
+          amount: parsedSwapAmount[updatedField].toString(),
+          amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
+          priceImpact: priceImpact.toString(),
+          provider: exchangeRate.provider,
+        })
+      }
     },
     // We only want to update the other field when the exchange rate changes
     // that's why we don't include the other dependencies
@@ -215,12 +230,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
     // ensure that the keyboard is dismissed before animating token bottom sheet
-    Keyboard.addListener('keyboardDidHide', onKeyboardDidHide(fieldType))
     Keyboard.dismiss()
-  }
-
-  const onKeyboardDidHide: any = (fieldType: Field) => {
-    Keyboard.removeListener('keyboardDidHide', onKeyboardDidHide)
     setSelectingToken(fieldType)
   }
 
@@ -265,16 +275,17 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       }))
     }
 
-    if (fieldType === Field.FROM) {
-      setShowMaxSwapAmountWarning(false)
-    }
+    setShowMaxSwapAmountWarning(false)
+    setShowPriceImpactWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
-      [Field.FROM]: maxFromAmount.toFormat(),
+      [Field.FROM]: maxFromAmount.toFormat({
+        decimalSeparator,
+      }),
     }))
     showMaxCeloSwapWarning()
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
@@ -298,8 +309,12 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
+  const onPressLearnMoreFees = () => {
+    ValoraAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
+    navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
+  }
+
   const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
-  const sortedTokens = supportedTokens.sort(tokenCompareByUsdBalanceThenByAlphabetical)
   const exchangeRateUpdatePending =
     exchangeRate &&
     (exchangeRate.fromTokenAddress !== fromToken?.address ||
@@ -360,7 +375,20 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
               )}
             </Text>
           </SwapAmountInput>
-          {showMaxSwapAmountWarning && <MaxAmountWarning />}
+          {showMaxSwapAmountWarning && (
+            <Warning
+              title={t('swapScreen.maxSwapAmountWarning.title')}
+              description={t('swapScreen.maxSwapAmountWarning.body')}
+              ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
+              onPressCta={onPressLearnMoreFees}
+            />
+          )}
+          {showPriceImpactWarning && (
+            <Warning
+              title={t('swapScreen.priceImpactWarning.title')}
+              description={t('swapScreen.priceImpactWarning.body')}
+            />
+          )}
         </View>
         <Text style={styles.disclaimerText}>
           <Trans i18nKey="swapScreen.disclaimer">
@@ -381,7 +409,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
         searchEnabled={swappingNonNativeTokensEnabled}
-        tokens={sortedTokens}
+        tokens={supportedTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')

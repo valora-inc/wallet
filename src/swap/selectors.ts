@@ -8,3 +8,6 @@ export const swapUserInputSelector = (state: RootState) => state.swap.swapUserIn
 
 export const guaranteedSwapPriceEnabledSelector = (state: RootState) =>
   state.swap.guaranteedSwapPriceEnabled
+
+export const priceImpactWarningThresholdSelector = (state: RootState) =>
+  state.swap.priceImpactWarningThreshold

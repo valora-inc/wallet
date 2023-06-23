@@ -28,7 +28,7 @@
     "restart": "Değiştir-Yeniden başlat"
   },
   "revokePhoneNumber": {
-    "title": "Unlink Telefon Numarası",
+    "title": "Telefon Numarasının Bağlantısını Kaldır",
     "bottomSheetTitle": "Telefon numarasının bağlantısını kaldır",
     "description": "Bağlantıyı kaldırmak, cüzdanınıza bağlı telefon numarasını kaldıracaktır. Daha sonra yeni bir telefon numarası ekleyebilirsiniz.",
     "confirmButton": "Şimdi bağlantıyı kaldır",
@@ -94,9 +94,9 @@
     "phoneNumber": "Telefon Numarası"
   },
   "signInWithEmail": {
-    "title": "E-posta ile oturum açın",
+    "title": "E-posta ile oturum aç",
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
-    "google": "Google ile oturum açın"
+    "google": "Google ile oturum aç"
   },
   "keylessBackupPhoneInput": {
     "setup": {
@@ -108,7 +108,7 @@
       "subtitle": "Yedeklemeyi ayarlamak için daha önce kullandığınız telefon numarasını girin.\n\nBu numaranın size ait olduğunu doğrulamak için size bir kod göndereceğiz."
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Onu güvende tutun!",
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -988,7 +988,7 @@
   "verificationCta": {
     "header": "Bir metin gibi kripto gönderin!",
     "body": "Telefon numaranızı cüzdan adresinize bağlayın, böylece arkadaşlarınızla ödeme gönderebilir ve alabilirsiniz.",
-    "cta": "Bağlantı Telefon numarası"
+    "cta": "Telefon Numarasını Bağla"
   },
   "importContactsCta": {
     "header": "Kişileri Etkinleştir",
@@ -1226,8 +1226,8 @@
   "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
-  "totalAssets": "Mal varlığım",
-  "totalAssetsInfo": "Cüzdan varlıkları ve uygulama pozisyonlarının tahmini toplamını içerir",
+  "totalAssets": "Varlıklarım",
+  "totalAssetsInfo": "Cüzdan varlıkları ve Dapp pozisyonlarının tahmini toplamını içerir",
   "assetsSegmentedControl": {
     "walletAssets": "Cüzdan varlıkları",
     "dappPositions": "Dapp pozisyonları"
@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp'ler",
+    "titleDiscover": "Keşfedin",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
@@ -1321,13 +1322,18 @@
     },
     "favoritedDappToast": {
       "message": "Favori olarak eklendi",
-      "labelCTA": "Favorileri Görüntüle"
+      "labelCTA": "Favorileri Görüntüle",
+      "messageWithDappName": "{{dappName}} favori olarak eklendi"
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> filtresi uygulandı",
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
     }
+  },
+  "dappRankings": {
+    "title": "Dapp sıralamaları",
+    "description": "{{appName}} topluluğundaki diğer kullanıcılar tarafından en çok favorilere eklenen dapp'leri keşfedin"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
@@ -1364,7 +1370,9 @@
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Bazı ödeme yöntemleri bölgenizde kullanılamıyor",
+    "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
+    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. <0>Daha fazla bilgi edinin.</0>",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1383,7 +1391,10 @@
     "idRequired": "Kimlik Gerekir",
     "numDays": "1-3 Gün",
     "oneHour": "1 Saatten Az",
-    "lessThan24Hours": "24 Saatten Az",
+    "xHours": "{{upperBound}} Saatten Az",
+    "xToYHours": "{{lowerBound}}-{{upperBound}} Saat",
+    "xDays": "{{upperBound}} Günden Az",
+    "xToYDays": "{{lowerBound}}-{{upperBound}} Gün",
     "bestRate": "En İyi Oran",
     "header": "Ödeme Yöntemi Seç",
     "newLabel": "YENİ",
@@ -1488,8 +1499,12 @@
       "header": "Başarılı",
       "title": "Bakiyen yolda!",
       "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
-      "description1to3Days": "İşlem talebiniz gönderildi ve paranız 1-3 gün içinde ulaşacak.",
-      "description24Hours": "İşlem talebiniz gönderildi ve paranız 24 saat içinde ulaşacak.",
+      "descriptionWithin1Hour": "İşlem talebiniz gönderildi ve paranız 1 saat içinde ulaşacak.",
+      "descriptionWithinXHours": "İşlem talebiniz gönderildi ve paranız {{upperBound}} saat içinde ulaşacak.",
+      "descriptionInXtoYHours": "İşlem talebiniz gönderildi ve paranız {{lowerBound}}-{{upperBound}} saat içinde ulaşacak.",
+      "descriptionWithinXDays": "İşlem talebiniz gönderildi ve paranız {{upperBound}} gün içinde ulaşacak.",
+      "descriptionXtoYDays": "İşlem talebiniz gönderildi ve paranız {{lowerBound}}-{{upperBound}} gün içinde ulaşacak.",
+      "baseDescription": "İşlem talebiniz gönderildi.",
       "txDetails": "CeloExplorer'da görüntüle",
       "continue": "İleri"
     },
@@ -1601,13 +1616,17 @@
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. \n<0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Celo'daki ortakların desteklediği takaslar. \n<0>Daha Fazla Bilgi Edinin</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
+    },
+    "priceImpactWarning": {
+      "title": "Takas yapmadan önce",
+      "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
@@ -1720,6 +1739,18 @@
     "send": "Gönder",
     "swap": "Swap",
     "withdraw": "Çek"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Celo Explorer'da görüntüle",
+    "attributes": "Nitelikler",
+    "description": "Açıklama",
+    "noNftsFound": "NFT bulunamadı",
+    "nftImageLoadError": "Bu NFT görüntülenemiyor"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "NFT'lerin yüklenmesinde bir sorun var",
+    "loadErrorSubtitle": "Varlıklarınız güvende. Lütfen tekrar deneyin.",
+    "contactSupport": "Başka yardım gerekirse \n<0>Destek ile iletişime geçin</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

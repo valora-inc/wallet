@@ -14,6 +14,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import {
   dappFavoritesEnabledSelector,
   dappsCategoriesAlphabeticalSelector,
@@ -27,15 +28,15 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { DappSection, DappV1, DappV2 } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
+import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
 import FavoriteDappsSection from 'src/dappsExplorer/filter/FavoriteDappsSection'
 import { NoResults } from 'src/dappsExplorer/filter/NoResults'
+import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import Help from 'src/icons/Help'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -55,6 +56,7 @@ export function DAppsExplorerScreenFilter() {
   const sectionListRef = useRef<SectionList>(null)
   const scrollPosition = useRef(new Animated.Value(0)).current
   const horizontalScrollView = useRef<ScrollView>(null)
+  const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
@@ -76,6 +78,11 @@ export function DAppsExplorerScreenFilter() {
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
   const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
+
+  const handleShowDappRankings = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
+    dappRankingsBottomSheetRef.current?.snapToIndex(0)
+  }
 
   useEffect(() => {
     dispatch(fetchDappsList())
@@ -100,10 +107,10 @@ export function DAppsExplorerScreenFilter() {
     >
       <DrawerTopBar
         rightElement={
-          <TopBarIconButton
-            testID="DAppsExplorerScreenFilter/HelpIcon"
-            icon={<Help color={colors.onboardingGreen} />}
-            onPress={openSheet}
+          <HeaderButtons
+            onPressHelp={openSheet}
+            helpIconColor={colors.onboardingGreen}
+            testID={'DAppsExplorerScreenFilter/HeaderButtons'}
           />
         }
         scrollPosition={scrollPosition}
@@ -141,7 +148,8 @@ export function DAppsExplorerScreenFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                {/* Dapps Filtering*/}
+                <DappRankingsCard onPress={handleShowDappRankings} />
+
                 <View style={styles.dappFilterView}>
                   <ScrollView
                     horizontal={true}
@@ -212,13 +220,17 @@ export function DAppsExplorerScreenFilter() {
                 testID="DAppsExplorerScreenFilter"
               />
             }
-            ListFooterComponentStyle={styles.ListFooterComponent}
+            ListFooterComponentStyle={styles.listFooterComponent}
           />
         )}
       </>
 
       {DappFavoritedToast}
       {DappInfoBottomSheet}
+      <DappRankingsBottomSheet
+        forwardedRef={dappRankingsBottomSheetRef}
+        onPressDapp={onSelectDapp}
+      />
     </SafeAreaView>
   )
 }
@@ -251,7 +263,7 @@ function parseResultsIntoAll(
 
 function DescriptionView({ message, title }: { message: string; title: string }) {
   return (
-    <View>
+    <View style={styles.descriptionView}>
       <Text style={styles.pageHeaderText}>{title}</Text>
       <Text style={styles.pageHeaderSubText}>{message}</Text>
     </View>
@@ -268,7 +280,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dappFilterView: {
-    paddingTop: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
   },
   dappFilterScrollView: {
     marginHorizontal: -Spacing.Thick24,
@@ -307,9 +319,12 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,
   },
-  ListFooterComponent: {
+  listFooterComponent: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  descriptionView: {
+    paddingBottom: Spacing.Regular16,
   },
 })
 

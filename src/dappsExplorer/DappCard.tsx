@@ -16,39 +16,41 @@ import fontStyles from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Shadow, Spacing } from 'src/styles/styles'
 
-interface Props {
+interface DappCardContentProps {
   dapp: DappV1 | DappV2
+  onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
+  favoritedFromSection: DappSection
+}
+
+interface Props {
   section: DappSection
   onPressDapp: (dapp: ActiveDapp) => void
+  dapp: DappV1 | DappV2
   onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
-function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
+export function DappCardContent({
+  dapp,
+  onFavoriteDapp,
+  favoritedFromSection,
+}: DappCardContentProps) {
   const dispatch = useDispatch()
   const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
 
   const isFavorited = favoriteDappIds.includes(dapp.id)
 
-  const onPress = () => {
-    onPressDapp({ ...dapp, openedFrom: section })
-  }
-
   const onPressFavorite = () => {
-    const eventProperties = isDappV2(dapp)
-      ? {
-          categories: dapp.categories,
-          dappId: dapp.id,
-          dappName: dapp.name,
-        }
-      : {
-          categoryId: dapp.categoryId,
-          dappId: dapp.id,
-          dappName: dapp.name,
-        }
+    const eventProperties = {
+      categories: isDappV2(dapp) ? dapp.categories : undefined,
+      categoryId: !isDappV2(dapp) ? dapp.categoryId : undefined,
+      dappId: dapp.id,
+      dappName: dapp.name,
+      section: favoritedFromSection,
+    }
 
     if (isFavorited) {
       ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
@@ -63,26 +65,40 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
   }
 
   return (
+    <View style={styles.pressableCard}>
+      <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
+      <View style={styles.itemTextContainer}>
+        <Text style={styles.title}>{dapp.name}</Text>
+        <Text style={styles.subtitle}>{dapp.description}</Text>
+      </View>
+      {dappFavoritesEnabled ? (
+        <Touchable
+          onPress={onPressFavorite}
+          hitSlop={favoriteIconHitslop}
+          testID={`Dapp/Favorite/${dapp.id}`}
+        >
+          {isFavorited ? <Star /> : <StarOutline />}
+        </Touchable>
+      ) : (
+        <LinkArrow size={24} />
+      )}
+    </View>
+  )
+}
+
+function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
+  const onPress = () => {
+    onPressDapp({ ...dapp, openedFrom: section })
+  }
+
+  return (
     <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
-      <Touchable style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
-        <>
-          <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
-          <View style={styles.itemTextContainer}>
-            <Text style={styles.title}>{dapp.name}</Text>
-            <Text style={styles.subtitle}>{dapp.description}</Text>
-          </View>
-          {dappFavoritesEnabled ? (
-            <Touchable
-              onPress={onPressFavorite}
-              hitSlop={favoriteIconHitslop}
-              testID={`Dapp/Favorite/${dapp.id}`}
-            >
-              {isFavorited ? <Star /> : <StarOutline />}
-            </Touchable>
-          ) : (
-            <LinkArrow size={24} />
-          )}
-        </>
+      <Touchable onPress={onPress} testID={`Dapp/${dapp.id}`}>
+        <DappCardContent
+          dapp={dapp}
+          onFavoriteDapp={onFavoriteDapp}
+          favoritedFromSection={DappSection.All}
+        />
       </Touchable>
     </Card>
   )
@@ -107,8 +123,6 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: Spacing.Regular16,
-    flex: 1,
-    alignItems: 'center',
     padding: 0,
   },
   title: {

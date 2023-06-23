@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Next, add your phone number",
-      "subtitle": "You’ll need to use this phone number to restore if you ever lose your wallet.\n\nWe’ll send you a code to verify that this number is yours."
+      "title": "Tiếp theo, hãy thêm số điện thoại của bạn",
+      "subtitle": "Bạn sẽ cần sử dụng số điện thoại này để khôi phục nếu bị mất ví.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số điện thoại của bạn."
     },
     "restore": {
-      "title": "Verify your phone number",
-      "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+      "title": "Xác minh số điện thoại của bạn",
+      "subtitle": "Nhập số điện thoại mà trước đây bạn đã sử dụng để thiết lập sao lưu.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số của bạn."
     }
   },
   "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
@@ -576,7 +576,7 @@
   "dismiss": "Bỏ qua",
   "review": "Xem lại",
   "insufficientBalance": "Số dư của bạn quá thấp nên không thể thực hiện được giao dịch này",
-  "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
+  "insufficientBalanceStable": "Bạn không có đủ cUSD hoặc cEUR để hoàn tất giao dịch này",
   "amount": "Số tiền",
   "currentBalance": "Số dư hiện tại (cUSD)",
   "restore": "Khôi phục",
@@ -1224,11 +1224,11 @@
   "totalBalanceWithLocalCurrencySymbol": "Tổng {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Tổng số dư",
   "viewBalances": "Xem tài sản",
-  "totalAssets": "My assets",
-  "totalAssetsInfo": "Includes estimated total of wallet assets and dapp positions",
+  "totalAssets": "Tài sản của tôi",
+  "totalAssetsInfo": "Bao gồm ước tính tổng tài sản ví và lệnh giao dịch trên dapp",
   "assetsSegmentedControl": {
-    "walletAssets": "Wallet assets",
-    "dappPositions": "Dapp positions"
+    "walletAssets": "Tài sản ví",
+    "dappPositions": "Lệnh giao dịch trên dapp"
   },
   "open": "Mở",
   "nftViewer": "Trình xem NFT",
@@ -1306,6 +1306,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
+    "titleDiscover": "Khám phá",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
@@ -1319,13 +1320,18 @@
     },
     "favoritedDappToast": {
       "message": "Dapp được thêm vào mục yêu thích",
-      "labelCTA": "Xem Dapps yêu thích"
+      "labelCTA": "Xem Dapps yêu thích",
+      "messageWithDappName": "{{dappName}} added as a favorite"
     },
     "emptyResults": {
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
       "removeFilter": "Xóa bộ lọc",
       "searchMessage": "Không tìm thấy kết quả phù hợp cho cụm từ tìm kiếm <0>“{{searchTerm}}”</0>"
     }
+  },
+  "dappRankings": {
+    "title": "Xếp hạng Dapp",
+    "description": "Khám phá những ứng dụng Dapp được nhiều người yêu thích nhất trong cộng đồng {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
@@ -1362,7 +1368,9 @@
   "merchantWalletUnlockError": "Đã xảy ra lỗi khi mở khóa ví của bạn, vui lòng thử lại",
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Một số phương thức thanh toán không được hỗ trợ ở khu vực của bạn",
+    "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
+    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
+    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. <0>Tìm hiểu thêm.</0>",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
@@ -1381,7 +1389,10 @@
     "idRequired": "Phải có giấy tờ tùy thân",
     "numDays": "1–3 ngày",
     "oneHour": "Chưa đến 1 giờ",
-    "lessThan24Hours": "Chưa đến 24 giờ",
+    "xHours": "Chưa đến {{upperBound}} giờ",
+    "xToYHours": "{{lowerBound}}-{{upperBound}} giờ",
+    "xDays": "Chưa đến {{upperBound}} ngày",
+    "xToYDays": "{{lowerBound}}-{{upperBound}} ngày",
     "bestRate": "Tỷ giá tốt nhất",
     "header": "Chọn phương thức thanh toán",
     "newLabel": "MỚI",
@@ -1486,8 +1497,12 @@
       "header": "Thành công",
       "title": "Tiền của bạn đang trong quá trình chuyển!",
       "description": "Yêu cầu giao dịch của bạn đã gửi đi và tiền của bạn sẽ đến trong vòng {{duration}}.",
-      "description1to3Days": "Bạn đã gửi yêu cầu giao dịch và tiền của bạn sẽ đến sau 1-3 ngày.",
-      "description24Hours": "Bạn đã gửi cầu giao dịch và tiền của bạn sẽ đến trong vòng 24 giờ.",
+      "descriptionWithin1Hour": "Yêu cầu giao dịch của bạn đã gửi đi và tiền của bạn sẽ đến trong vòng 1 giờ.",
+      "descriptionWithinXHours": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến trong vòng {{upperBound}} giờ.",
+      "descriptionInXtoYHours": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến sau {{lowerBound}}-{{upperBound}} giờ.",
+      "descriptionWithinXDays": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến trong vòng {{upperBound}} ngày.",
+      "descriptionXtoYDays": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến sau {{lowerBound}}-{{upperBound}} ngày.",
+      "baseDescription": "Yêu cầu giao dịch của bạn đã được gửi.",
       "txDetails": "Xem trên CeloExplorer",
       "continue": "Tiếp tục"
     },
@@ -1599,13 +1614,17 @@
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Giao dịch hoán đổi được cung cấp bởi các đối tác trên Celo. \n<0>Tìm hiểu thêm.</0>",
+    "disclaimer": "Giao dịch hoán đổi được cung cấp bởi các đối tác trên Celo. \n<0>Tìm hiểu thêm</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
+    },
+    "priceImpactWarning": {
+      "title": "Trước khi trao đổi",
+      "body": "Việc trao đổi các tài sản này có thể dẫn đến bất lợi về tỷ giá quy đổi. Nếu giảm số tiền, bạn có thể nhận được tỷ giá tốt hơn."
     },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>"
   },
@@ -1718,6 +1737,18 @@
     "send": "Gửi",
     "swap": "Trao đổi",
     "withdraw": "Rút tiền"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Xem trên Celo Explorer",
+    "attributes": "Thuộc tính",
+    "description": "Mô tả",
+    "noNftsFound": "Không tìm thấy NFT",
+    "nftImageLoadError": "Không thể hiển thị NFT này"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Đã xảy ra sự cố khi tải NFT",
+    "loadErrorSubtitle": "Tài sản của bạn an toàn. Vui lòng thử lại.",
+    "contactSupport": "Nếu cần trợ giúp thêm, bạn có thể \n<0>Liên hệ với bộ phận hỗ trợ</0>"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

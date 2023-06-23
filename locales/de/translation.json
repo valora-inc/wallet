@@ -100,12 +100,12 @@
   },
   "keylessBackupPhoneInput": {
     "setup": {
-      "title": "Als nächstes fügst du deine Telefonnummer hinzu",
-      "subtitle": "Du musst diese Telefonnummer verwenden, um dein Portemonnaie wiederherzustellen, falls du es einmal verlierst.\n\nWir schicken dir einen Code, mit dem du überprüfen kannst, ob diese Nummer dir gehört."
+      "title": "Füge als Nächstes deine Telefonnummer hinzu",
+      "subtitle": "Du musst die Telefonnummer verwenden, um deine Wallet wiederherzustellen, falls du sie verlierst.\n\nWir senden die einen Code zu, um zu bestätigen, dass diese Nummer dir gehört."
     },
     "restore": {
-      "title": "Überprüfe deine Rufnummer",
-      "subtitle": "Gib die Telefonnummer ein, die du für die Einrichtung des Backups verwendet hast.\n\nWir schicken dir einen Code, mit dem du überprüfen kannst, ob es deine Nummer ist."
+      "title": "Verifiziere deine Telefonnummer",
+      "subtitle": "Gib die Telefonnummer ein, die du für die Einrichtung der Sicherung verwendet hast.\n\nWir senden dir einen Code zu, um zu verifizieren, dass diese Nummer dir gehört."
     }
   },
   "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Passe gut darauf auf!",
@@ -576,7 +576,7 @@
   "dismiss": "Verwerfen",
   "review": "Überprüfen",
   "insufficientBalance": "Dein Guthaben ist zu niedrig, um diese Transaktion durchzuführen",
-  "insufficientBalanceStable": "Du hast nicht genug cUSD oder cEUR, um diese Transaktion abzuschließen",
+  "insufficientBalanceStable": "Du hast nicht genügend cUSD oder cEUR, um diese Transaktion abzuschließen",
   "amount": "Betrag",
   "currentBalance": "Aktueller Guthaben (cUSD)",
   "restore": "Wiederherstellen",
@@ -1229,7 +1229,7 @@
   "totalAssets": "Mein Vermögen",
   "totalAssetsInfo": "Beinhaltet die geschätzte Gesamtsumme des Wallet-Vermögens und der Dapp-Positionen",
   "assetsSegmentedControl": {
-    "walletAssets": "Geldbeutel-Vermögen",
+    "walletAssets": "Wallet-Vermögen",
     "dappPositions": "Dapp-Positionen"
   },
   "open": "Öffnen",
@@ -1308,6 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
+    "titleDiscover": "Entdecke",
     "message": "Finde heraus, wie du dein Vermögen nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
@@ -1321,13 +1322,18 @@
     },
     "favoritedDappToast": {
       "message": "Als Favorit hinzugefügt",
-      "labelCTA": "Favoriten anzeigen"
+      "labelCTA": "Favoriten anzeigen",
+      "messageWithDappName": "{{dappName}} als Favorit hinzugefügt"
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> Filter angewendet",
       "removeFilter": "Filter entfernen",
       "searchMessage": "Keine passenden Ergebnisse für <0>\"{{searchTerm}}\"</0> gefunden"
     }
+  },
+  "dappRankings": {
+    "title": "Dapp-Ranglisten",
+    "description": "Entdecke die beliebtesten Dapps anderer in der {{appName}}-Community"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1364,7 +1370,9 @@
   "merchantWalletUnlockError": "Beim Entsperren deines Wallets ist etwas schief gelaufen, bitte versuche es erneut",
   "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Einige der Zahlungsmethoden sind in deiner Region nicht verfügbar",
+    "somePaymentsUnavailable": "Die Einkäufe werden über unsere Partneranbieter abgewickelt. Einige Zahlungsarten sind in deiner Region nicht verfügbar.",
+    "disclaimerWithSomePaymentsUnavailable": "Zahlungen werden von Celo-Partnern unterstützt. Einige Zahlungsarten sind in deiner Region nicht verfügbar. <0>Mehr Infos.</0>",
+    "disclaimer": "Zahlungen werden von Celo-Partnern unterstützt. <0>Mehr Infos.</0>",
     "learnMore": "Mehr Infos.",
     "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
@@ -1383,7 +1391,10 @@
     "idRequired": "ID erforderlich",
     "numDays": "1–3 Tage",
     "oneHour": "Weniger als 1 Stunde",
-    "lessThan24Hours": "Weniger als 24 Stunden",
+    "xHours": "Weniger als {{upperBound}} Stunden",
+    "xToYHours": "{{lowerBound}}–{{upperBound}} Stunden",
+    "xDays": "Weniger als {{upperBound}} Tage",
+    "xToYDays": "{{lowerBound}}–{{upperBound}} Tage",
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen",
     "newLabel": "NEU",
@@ -1488,8 +1499,12 @@
       "header": "Erfolg",
       "title": "Dein Guthaben ist unterwegs.",
       "description": "Deine Transaktionsanfrage wurde versendet. Dein Geld wird in {{duration}} eintreffen.",
-      "description1to3Days": "Deine Transaktionsanfrage wurde gesendet. Du erhältst dein Geld in 1–3 Tagen.",
-      "description24Hours": "Deine Transaktionsanfrage wurde gesendet. Du erhältst dein Geld innerhalb von 24 Stunden.",
+      "descriptionWithin1Hour": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben innerhalb von einer Stunde.",
+      "descriptionWithinXHours": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben innerhalb von {{upperBound}} Stunden.",
+      "descriptionInXtoYHours": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben in {{lowerBound}} bis {{upperBound}} Stunden.",
+      "descriptionWithinXDays": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben innerhalb von {{upperBound}} Tagen.",
+      "descriptionXtoYDays": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben in {{lowerBound}} bis {{upperBound}} Tagen.",
+      "baseDescription": "Deine Transaktionsanfrage wurde gesendet.",
       "txDetails": "Auf CeloExplorer anzeigen",
       "continue": "Weiter"
     },
@@ -1601,13 +1616,17 @@
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird. <0>Mehr erfahren.</0>",
+    "disclaimer": "Tausch, der von Celo-Partnern unterstützt wird.\n<0>Mehr erfahren.</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
       "learnMore": "Mehr Infos"
+    },
+    "priceImpactWarning": {
+      "title": "Bevor du tauschst",
+      "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
@@ -1720,6 +1739,18 @@
     "send": "Senden",
     "swap": "Tauschen",
     "withdraw": "Abheben"
+  },
+  "nftInfoCarousel": {
+    "viewOnCeloExplorer": "Auf Celo Explorer ansehen",
+    "attributes": "Eigenschaften",
+    "description": "Beschreibung",
+    "noNftsFound": "Keine NFTs gefunden",
+    "nftImageLoadError": "NFT kann nicht angezeigt werden"
+  },
+  "nftsLoadErrorScreen": {
+    "loadErrorTitle": "Beim Laden von NFTs ist ein Problem aufgetreten",
+    "loadErrorSubtitle": "Dein Vermögen ist sicher. Bitte versuche es noch einmal.",
+    "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du den\n<0>Support kontaktieren</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

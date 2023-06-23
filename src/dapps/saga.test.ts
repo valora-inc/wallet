@@ -100,6 +100,7 @@ describe('Dapps saga', () => {
           applications: [dapp1, dapp2],
           categories,
           featured: dapp1,
+          mostPopularDapps: ['churritofi'],
         })
       )
       mocked(getExperimentParams).mockReturnValue({
@@ -138,6 +139,7 @@ describe('Dapps saga', () => {
               },
             ],
             categories,
+            mostPopularDappIds: ['churritofi'],
           })
         )
         .run()
@@ -227,6 +229,7 @@ describe('Dapps saga', () => {
           applications: [dapp1, dapp2],
           categories,
           featured: dapp1,
+          mostPopularDapps: ['churritofi'],
         })
       )
       mocked(getExperimentParams).mockReturnValue({
@@ -265,6 +268,7 @@ describe('Dapps saga', () => {
               },
             ],
             categories,
+            mostPopularDappIds: ['churritofi'],
           })
         )
         .run()

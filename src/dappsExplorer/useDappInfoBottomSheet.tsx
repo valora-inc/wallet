@@ -1,13 +1,14 @@
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard } from 'react-native'
+import { Keyboard, StyleSheet } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { DAPPS_LEARN_MORE } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Spacing } from 'src/styles/styles'
 
 const useDappInfoBottomSheet = () => {
   const { t } = useTranslation()
@@ -32,11 +33,17 @@ const useDappInfoBottomSheet = () => {
         forwardedRef={bottomSheetRef}
         title={t('dappsScreenInfoSheet.title')}
         description={t('dappsScreenInfoSheet.description')}
-        buttonLabel={t('dappsScreenInfoSheet.buttonLabel')}
-        buttonOnPress={onPressMore}
-        buttonType={BtnTypes.SECONDARY}
         testId="DAppsExplorerScreen/InfoBottomSheet"
-      />
+      >
+        <Button
+          text={t('dappsScreenInfoSheet.buttonLabel')}
+          onPress={onPressMore}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          style={styles.button}
+          testID="DAppsExplorerScreen/InfoBottomSheet/PrimaryAction"
+        />
+      </BottomSheet>
     ),
     []
   )
@@ -46,5 +53,11 @@ const useDappInfoBottomSheet = () => {
     DappInfoBottomSheet,
   }
 }
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: Spacing.Thick24,
+  },
+})
 
 export default useDappInfoBottomSheet
