@@ -55,6 +55,8 @@ export default function NftGallery() {
     dispatch(fetchMyNfts())
   }
 
+  // TODO: add analytics event for page load
+
   if (error) {
     return (
       <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
