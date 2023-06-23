@@ -113,4 +113,3 @@ index 0745247..ce5333d 100644
 +  s.dependency "React-Core"
    s.dependency "OpenSSL-Universal"
  end
- 
