@@ -1297,6 +1297,7 @@ interface NftsEventsProperties {
     origin: NftOrigin
     error: boolean
   }
+  [NftEvents.nft_gallery_screen_open]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

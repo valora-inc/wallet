@@ -4,6 +4,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -32,6 +33,7 @@ export default function NftGallery() {
     dispatch(fetchNfts())
   }
 
+  useEffect(() => ValoraAnalytics.track(NftEvents.nft_gallery_screen_open), [])
 
   return (
     <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
