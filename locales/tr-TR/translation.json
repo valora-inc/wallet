@@ -1323,7 +1323,7 @@
     "favoritedDappToast": {
       "message": "Favori olarak eklendi",
       "labelCTA": "Favorileri Görüntüle",
-      "messageWithDappName": "{{dappName}} favori olarak eklendi"
+      "messageWithDappName": "{{dappName}} favorilere eklendi"
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> filtresi uygulandı",
