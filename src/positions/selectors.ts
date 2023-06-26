@@ -37,3 +37,10 @@ function sortByBalanceUsd(position1: Position, position2: Position) {
 export const positionsByBalanceUsdSelector = createSelector([positionsSelector], (positions) => {
   return [...positions].sort(sortByBalanceUsd)
 })
+
+export const positionsWithClaimableRewardsSelector = createSelector(
+  [positionsSelector],
+  (positions) => {
+    return positions.filter((position) => position.availableShortcutIds.includes('claim-reward'))
+  }
+)
