@@ -630,8 +630,8 @@
     "body": "Depois que seu amigo configurar a carteira dele e conectar o seu número de celular, vocês receberão um NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Convide amigos e receba recompensas",
-    "body": "Depois que seu amigo configurar a carteira {{appName}} dele e conectar o número de celular, vocês dois receberão 1 cUSD."
+    "title": "Convide amigos e seja recompensado",
+    "body": "Assim que a pessoa configurar e financiar a sua carteira {{appName}} , ambos receberão 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -639,14 +639,14 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
-    "help": "Para receber esta recompensa, o convidado deve baixar a {{appName}} através do link de indicação e conectar seu número de celular durante a integração. <0>Ver todos os termos</0>",
+    "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de referência, conectar seu número de telefone e financiar sua carteira {{appName}} com CELO, cUSD, cEUR, cREAL, JMPT ou G$. <0>Ver todas as condições</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "Convide amigos e receba recompensas",
-      "body": "Compartilhe a {{appName}} com amigos e familiares para receberem <0>uma recompensa de 1 cUSD</0>"
+      "title": "Ganhe cUSD com as Recompensas de Referência Valora",
+      "body": "Convide até 25 amigos para se juntarem a {{appName}} e cada um receberá 0,50 cUSD quando eles financiarem a sua nova carteira {{appName}} , enquanto durarem os fundos."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o aplicativo e conectar o seu número de celular — além disso, nós dois receberemos 1 cUSD como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
+  "inviteWithRewardsCUSD": "Olá! 👋 Estou a utilizar {{appName}} como a minha carteira de criptomoedas. É super rápido fazer o download e conectar seu número de telefone. Faça o download através deste link e financie sua nova carteira para obter US $ 0,50 💫 \n\n{{link}} \n\nAja agora, as recompensas de referência são limitadas.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1698,8 +1698,8 @@
       "body": "Parece que {{contactName}} não está no app {{appName}}. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite.\n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Convide {{contactName}} para a {{appName}} e vocês dois receberão uma recompensa",
-      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite.\n\n Depois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão<0> 1 cUSD como recompensa</0>"
+      "title": "Convide {{contactName}} para {{appName}} e receba 0,50 cUSD",
+      "body": "Parece que {{contactName}} não está em Valora. Pode enviar um pagamento se souber o endereço da carteira ou enviar um convite. \n\n Depois de descarregarem Valora, ligarem o seu número de telefone e depositarem fundos na sua carteira pela primeira vez, ambos receberão 0,50 cUSD enquanto durarem os fundos."
     }
   },
   "celoNews": {
