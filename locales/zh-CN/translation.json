@@ -630,8 +630,8 @@
     "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得一个专属 NFT。"
   },
   "inviteRewardsBannerCUSD": {
-    "title": "邀请好友并领取奖励",
-    "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得 1 cUSD。"
+    "title": "邀请朋友并获得奖励",
+    "body": "一旦他们建立并向他们的 {{appName}} 钱包注资，你们都将收到0.50美元。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -639,14 +639,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
-    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载 {{appName}} 并在初次登录时关联其手机号码。<0>查看所有条款</0>",
+    "help": "要领取这个奖励，被邀请者必须通过推荐链接下载，连接他们的电话号码，并用CELO、cUSD、cEUR、cREAL、JMPT或G$向他们的 {{appName}} 钱包充值。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "邀请好友并领取奖励",
-      "body": "与亲朋好友分享 {{appName}} ，即可获得 <0>1cUSD 的奖励</0>"
+      "title": "通过瓦洛拉推荐奖励获得美元奖励",
+      "body": "邀请多达25个朋友加入 {{appName}} ，当他们向新的 {{appName}} 钱包注资时，你们每人将获得0.50美元，额度有限。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -960,7 +960,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得 1 cUSD 的奖励。💫 \n\n请使用此链接下载: {{link}}",
+  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download and connect your phone number. Download through this link and fund your new wallet to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1696,8 +1696,8 @@
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个专属的 NFT。"
     },
     "rewardsActiveCUSD": {
-      "title": "邀请 {{contactName}} 使用 {{appName}}，你们都将获得奖励",
-      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得<0> 1 cUSD 的奖励</0>"
+      "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and fund their wallet for the first time, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
