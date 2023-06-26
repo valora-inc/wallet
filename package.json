@@ -312,7 +312,7 @@
     "react-native-flipper": "^0.200.0",
     "y18n": "5.0.8",
     "normalize-url": "6.1.0",
-    "trim-newlines": "^4.0.2",
+    "trim-newlines": "^4.1.1",
     "glob-parent": "^5.1.2",
     "node-fetch": "^2.6.11",
     "simple-get": "^4.0.1",
