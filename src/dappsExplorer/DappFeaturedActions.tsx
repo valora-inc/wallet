@@ -52,7 +52,7 @@ export function DappFeaturedActions({
 
   const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_DAPP_SHORTCUTS)
   // TODO add check for if there are any shortcuts to show
-  const showDappShortcuts = dappShortcutsEnabled
+  const showClaimRewards = dappShortcutsEnabled
 
   // TODO impression analytics on scroll
 
@@ -60,9 +60,9 @@ export function DappFeaturedActions({
     // TODO
   }
 
-  const scrollEnabled = showDappRankings && showDappShortcuts // more than one item in the view
+  const scrollEnabled = showDappRankings && showClaimRewards // more than one item in the view
 
-  if (!showDappRankings && !showDappShortcuts) {
+  if (!showDappRankings && !showClaimRewards) {
     return null
   }
 
@@ -84,7 +84,7 @@ export function DappFeaturedActions({
         />
       )}
 
-      {showDappShortcuts && (
+      {showClaimRewards && (
         <FeaturedAction
           title={t('dappShortcuts.rewards.title')}
           description={t('dappShortcuts.rewards.description')}
