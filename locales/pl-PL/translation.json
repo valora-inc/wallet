@@ -630,8 +630,8 @@
     "body": "Po założeniu portfela w aplikacji {{appName}} i podłączeniu numeru oboje otrzymacie ekskluzywne NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invite friends and get rewarded",
-    "body": "Once they set up and fund their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "title": "Zaproś znajomych i otrzymuj nagrody",
+    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} oboje otrzymacie 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -639,14 +639,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and fund their {{appName}} wallet with CELO, cUSD, cEUR, cREAL, JMPT, or G$. <0>View all terms</0>",
+    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i zasilić portfel {{appName}} za pomocą CELO, cUSD, cEUR, cREAL, JMPT lub G$. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Get cUSD with Valora Referral Rewards",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they fund their new {{appName}} wallet, while funds last."
+      "title": "Zdobądź cUSD z nagrodami za polecenie Valora",
+      "body": "Zaproś do 25 znajomych, aby dołączyli do {{appName}} , a każdy z nich otrzyma 0,50 cUSD, gdy zasilą swój nowy portfel {{appName}} , do wyczerpania środków."
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -966,7 +966,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download and connect your phone number. Download through this link and fund your new wallet to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "Cześć 👋 Używam {{appName}} jako mojego portfela kryptowalutowego. Pobieranie i podłączanie numeru telefonu jest bardzo szybkie. Pobierz przez ten link i zasil swój nowy portfel, aby otrzymać $0.50 💫 \n\n{{link}} \n\nDziałaj teraz, nagrody za polecenie są ograniczone.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1702,8 +1702,8 @@
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and fund their wallet for the first time, you will both get 0.50 cUSD while funds last."
+      "title": "Zaproś {{contactName}} na {{appName}} i zdobądź 0.50 cUSD",
+      "body": "Wygląda na to, że {{contactName}} nie jest na Valorze. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub zamiast tego wysłać zaproszenie. \n\n Po pobraniu Valory, podłączeniu numeru telefonu i zasileniu portfela po raz pierwszy, oboje otrzymacie 0,50 cUSD do wyczerpania środków."
     }
   },
   "celoNews": {
