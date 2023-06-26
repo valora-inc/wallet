@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import { createMockStore } from 'test/utils'
-import { mockDappList } from 'test/values'
+import { mockDappList, mockPositions } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -12,6 +12,11 @@ jest.mock('src/statsig', () => ({
     dappRankingsEnabled: true,
   })),
   getFeatureGate: jest.fn(() => true),
+}))
+
+const mockPositionsWithClaimableRewards = mockPositions.map((mockPosition, index) => ({
+  ...mockPosition,
+  availableShortcutIds: index === 1 ? ['claim-reward'] : [],
 }))
 
 describe('DappFeaturedActions', () => {
@@ -28,6 +33,9 @@ describe('DappFeaturedActions', () => {
             dappListApiUrl: 'http://url.com',
             dappsList: mockDappList,
             mostPopularDappIds: ['dapp2'],
+          },
+          positions: {
+            positions: mockPositionsWithClaimableRewards,
           },
         })}
       >
@@ -57,6 +65,9 @@ describe('DappFeaturedActions', () => {
             dappsList: mockDappList,
             mostPopularDappIds: [],
           },
+          positions: {
+            positions: mockPositionsWithClaimableRewards,
+          },
         })}
       >
         <DappFeaturedActions onPressShowDappRankings={jest.fn()} />
@@ -66,5 +77,25 @@ describe('DappFeaturedActions', () => {
     expect(getAllByTestId('DappFeaturedAction')).toHaveLength(1)
     expect(queryByText('dappRankings.title')).toBeFalsy()
     expect(getByText('dappShortcuts.rewards.title')).toBeTruthy()
+  })
+
+  it('should not render dapp rewards shortcut if there are no claimable rewards', () => {
+    const { queryByText, getByText, getAllByTestId } = render(
+      <Provider
+        store={createMockStore({
+          dapps: {
+            dappListApiUrl: 'http://url.com',
+            dappsList: mockDappList,
+            mostPopularDappIds: ['dapp2'],
+          },
+        })}
+      >
+        <DappFeaturedActions onPressShowDappRankings={jest.fn()} />
+      </Provider>
+    )
+
+    expect(getAllByTestId('DappFeaturedAction')).toHaveLength(1)
+    expect(queryByText('dappShortcuts.rewards.title')).toBeFalsy()
+    expect(getByText('dappRankings.title')).toBeTruthy()
   })
 })
