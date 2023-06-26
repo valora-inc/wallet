@@ -26,8 +26,9 @@ import {
 import { fetchDappsList } from 'src/dapps/slice'
 import { Dapp, DappSection, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
+import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
-import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
+import { DappRankingsBottomSheet } from 'src/dappsExplorer/DappRankingsBottomSheet'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
 import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import NoResults from 'src/dappsExplorer/NoResults'
@@ -171,7 +172,7 @@ export function DAppsExplorerScreenSearchFilter() {
                   title={t('dappsScreen.title')}
                   message={t('dappsScreen.message')}
                 />
-                <DappRankingsCard onPress={handleShowDappRankings} />
+                <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
