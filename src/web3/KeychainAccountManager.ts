@@ -73,7 +73,9 @@ class KeychainAccountManager {
     await storePrivateKey(privateKey, account, password)
     // After we've stored the key on the keychain, update any wallets to notify them of
     // the new account.
-    await Promise.all(this.addAccountCallbacks)
+    await Promise.all(
+      this.addAccountCallbacks.map((cb) => cb(normalizedPrivateKey, address, account))
+    )
     return address
   }
 
