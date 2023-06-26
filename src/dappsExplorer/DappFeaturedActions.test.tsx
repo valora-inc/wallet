@@ -21,7 +21,7 @@ describe('DappFeaturedActions', () => {
 
   it('should render all featured actions correctly', () => {
     const onPressRankingsSpy = jest.fn()
-    const { getByText, getByTestId } = render(
+    const { getByText, getAllByTestId } = render(
       <Provider
         store={createMockStore({
           dapps: {
@@ -40,7 +40,7 @@ describe('DappFeaturedActions', () => {
     expect(getByText('dappShortcuts.rewards.title')).toBeTruthy()
     expect(getByText('dappShortcuts.rewards.description')).toBeTruthy()
 
-    fireEvent.press(getByTestId('DappRankings'))
+    fireEvent.press(getAllByTestId('DappFeaturedAction')[0])
     expect(onPressRankingsSpy).toHaveBeenCalled()
 
     // TODO add test for press dapp shortcuts card
