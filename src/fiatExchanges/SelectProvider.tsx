@@ -12,10 +12,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import { FUNDING_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -23,6 +21,7 @@ import {
   PaymentMethodSection,
   PaymentMethodSectionMethods,
 } from 'src/fiatExchanges/PaymentMethodSection'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import {
   ProviderSelectionAnalyticsData,
@@ -328,7 +327,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
 function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['params']) {
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const { address } = useTokenInfoBySymbol(selectedCrypto)!
   return (
     <View style={styles.amountSpentInfo} testID="AmountSpentInfo">
       <Text style={styles.amountSpentInfoText}>
@@ -340,25 +338,16 @@ function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['param
           }
         >
           {flow === CICOFlow.CashIn ? (
-            <CurrencyDisplay
-              amount={{
-                // The value and currencyCode here doesn't matter since the component will use `localAmount`
-                value: 0,
-                currencyCode: '',
-                localAmount: {
-                  value: amount.fiat,
-                  currencyCode: localCurrency,
-                  exchangeRate: 1,
-                },
-              }}
-              testID={'AmountSpentInfo/Fiat'}
+            <FiatAmount
+              amount={amount.fiat}
+              currency={localCurrency}
+              testID="AmountSpentInfo/Fiat"
             />
           ) : (
-            <TokenDisplay
+            <CryptoAmount
               amount={amount.crypto}
-              tokenAddress={address}
-              showLocalAmount={false}
-              testID={'AmountSpentInfo/Crypto'}
+              currency={selectedCrypto}
+              testID="AmountSpentInfo/Crypto"
             />
           )}
         </Trans>
