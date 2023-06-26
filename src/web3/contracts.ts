@@ -16,33 +16,35 @@ import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import Web3 from 'web3'
+import WalletManager from 'src/web3/WalletManager'
+import { ValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/contracts'
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 
-let wallet: KeychainWallet | undefined
+let walletManager: WalletManager | undefined
+let wallet: ValoraWallet | undefined
 let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()
 
-async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
+async function initWalletManager(importMnemonicAccount: ImportMnemonicAccount) {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new KeychainWallet(importMnemonicAccount)
+  const newManager = new WalletManager(importMnemonicAccount)
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
-  await newWallet.init()
+  await newManager.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
-  return newWallet
+  return newManager
 }
 
 export function* initContractKit() {
   try {
     ValoraAnalytics.track(ContractKitEvents.init_contractkit_start)
 
-    if (contractKit || wallet) {
+    if (contractKit || wallet || walletManager) {
       throw new Error('Kit not properly destroyed')
     }
 
@@ -58,8 +60,9 @@ export function* initContractKit() {
     }
     Logger.info(`${TAG}@initContractKit`, 'Initializing wallet', importMnemonicAccount)
 
-    wallet = yield call(initWallet, importMnemonicAccount)
-
+    walletManager = yield call(initWalletManager, importMnemonicAccount)
+    const valoraCeloWallet = walletManager?.getContractKitWallet()
+    wallet = valoraCeloWallet
     try {
       // This is to migrate the existing DEK that used to be stored in the geth keystore
       // Note that the DEK is also currently in the redux store, but it should change at some point
@@ -77,7 +80,7 @@ export function* initContractKit() {
       `Initialized wallet with accounts: ${wallet?.getAccounts()}`
     )
 
-    contractKit = newKitFromWeb3(web3, wallet)
+    contractKit = newKitFromWeb3(web3, valoraCeloWallet?.getKeychainWallet())
     Logger.info(`${TAG}@initContractKit`, 'Initialized kit')
     ValoraAnalytics.track(ContractKitEvents.init_contractkit_finish)
     return
@@ -91,6 +94,7 @@ export function destroyContractKit() {
   Logger.debug(`${TAG}@closeContractKit`)
   contractKit = undefined
   wallet = undefined
+  walletManager = undefined
 }
 
 async function waitForContractKit(tries: number) {

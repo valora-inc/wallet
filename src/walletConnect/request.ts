@@ -11,6 +11,7 @@ import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
+import { ValoraWallet } from 'src/web3/types'
 import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
@@ -26,7 +27,7 @@ export interface WalletResponseSuccess {
 
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield call(getWalletAddress)
-  const wallet: UnlockableWallet = yield call(getWallet)
+  const wallet: ValoraWallet = yield call(getWallet)
   yield call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)
@@ -80,9 +81,21 @@ export function* handleRequest({ method, params }: { method: string; params: any
     }
     case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:
-      return (yield call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
+      const typedDataObject = JSON.parse(params[1])
+      return (yield call(
+        [wallet, 'signTypedData'],
+        account,
+        typedDataObject.domain,
+        typedDataObject.types,
+        typedDataObject.message,
+        typedDataObject.primaryType
+      )) as string
     case SupportedActions.personal_decrypt:
-      return (yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
+      return (yield call(
+        wallet.decryptMessage.bind(wallet),
+        account,
+        Buffer.from(params[1])
+      )) as string
     case SupportedActions.eth_sendTransaction: {
       const rawTx = { ...params[0] }
       const kit: ContractKit = yield call(getContractKit)

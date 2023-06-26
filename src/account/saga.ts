@@ -47,6 +47,7 @@ import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { TypedDataDomain, TypedDataField } from 'ethers'
 
 const TAG = 'account/saga'
 
@@ -156,26 +157,31 @@ export function* generateSignedMessage() {
 
     const kit: ContractKit = yield call(getContractKit)
     const chainId = yield call([kit.connection, 'chainId'])
-    const payload: EIP712TypedData = {
-      types: {
-        EIP712Domain: [
-          { name: 'name', type: 'string' },
-          { name: 'version', type: 'string' },
-          { name: 'chainId', type: 'uint256' },
-        ],
-        Message: [{ name: 'content', type: 'string' }],
-      },
-      domain: {
-        name: 'Valora',
-        version: '1',
-        chainId,
-      },
-      message: {
-        content: 'valora auth message',
-      },
-      primaryType: 'Message',
+    const domain: TypedDataDomain = {
+      name: 'Valora',
+      version: '1',
+      chainId,
     }
-    const signedTypedMessage = yield call([wallet, 'signTypedData'], address, payload)
+    const types: Record<string, Array<TypedDataField>> = {
+      EIP712Domain: [
+        { name: 'name', type: 'string' },
+        { name: 'version', type: 'string' },
+        { name: 'chainId', type: 'uint256' },
+      ],
+      Message: [{ name: 'content', type: 'string' }],
+    }
+    const value: Record<string, any> = {
+      content: 'valora auth message',
+    }
+    const primaryType = 'Message'
+    const signedTypedMessage = yield call(
+      [wallet, 'signTypedData'],
+      address,
+      domain,
+      types,
+      value,
+      primaryType
+    )
 
     yield call(storeSignedMessage, signedTypedMessage)
     yield put(saveSignedMessage())

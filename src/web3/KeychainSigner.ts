@@ -18,16 +18,12 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { KeychainAccount } from 'src/web3/types'
+import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 
 const TAG = 'web3/KeychainSigner'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
-
-interface KeychainAccount {
-  address: string
-  createdAt: Date
-  importFromMnemonic?: boolean
-}
 
 export interface ImportMnemonicAccount {
   address: string | null
@@ -59,12 +55,16 @@ async function decryptPrivateKey(encryptedPrivateKey: string, password: string) 
   }
 }
 
-async function storePrivateKey(privateKey: string, account: KeychainAccount, password: string) {
+export async function storePrivateKey(
+  privateKey: string,
+  account: KeychainAccount,
+  password: string
+) {
   const encryptedPrivateKey = await encryptPrivateKey(privateKey, password)
   return storeItem({ key: accountStorageKey(account), value: encryptedPrivateKey })
 }
 
-async function getStoredPrivateKey(
+export async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
 ): Promise<string | null> {
@@ -178,21 +178,16 @@ export async function clearStoredAccounts() {
  */
 export class KeychainSigner implements Signer {
   protected unlockedLocalSigner: LocalSigner | null = null
-  // Timestamp in milliseconds when the signer was last unlocked
-  protected unlockTime?: number
-  // Number of seconds that the signer was last unlocked for
-  protected unlockDuration?: number
 
   /**
    * Construct a new instance of the Keychain signer
    *
    * @param account Account address derived from the private key to be called in init
    */
-  constructor(protected account: KeychainAccount) {}
-
-  async init(privateKey: string, passphrase: string) {
-    await storePrivateKey(privateKey, this.account, passphrase)
-  }
+  constructor(
+    protected account: KeychainAccount,
+    protected keychainAccountManager: KeychainAccountManager
+  ) {}
 
   async signTransaction(
     addToV: number,
@@ -225,27 +220,21 @@ export class KeychainSigner implements Signer {
   }
 
   async unlock(passphrase: string, duration: number): Promise<boolean> {
-    const privateKey = await getStoredPrivateKey(this.account, passphrase)
-    if (!privateKey) {
+    try {
+      const privateKey = await this.keychainAccountManager.unlockAccount(
+        this.account.address,
+        passphrase,
+        duration
+      )
+      this.unlockedLocalSigner = new LocalSigner(privateKey)
+      return true
+    } catch (error) {
       return false
     }
-
-    this.unlockedLocalSigner = new LocalSigner(privateKey)
-    this.unlockTime = Date.now()
-    this.unlockDuration = duration
-    return true
   }
 
   isUnlocked(): boolean {
-    if (this.unlockDuration === undefined || this.unlockTime === undefined) {
-      return false
-    }
-
-    if (this.unlockDuration === 0) {
-      return true
-    }
-
-    return this.unlockTime + this.unlockDuration * 1000 > Date.now()
+    return this.keychainAccountManager.isAccountUnlocked(this.account.address)
   }
 
   /**
@@ -254,13 +243,12 @@ export class KeychainSigner implements Signer {
    * @param newPassphrase - the new passphrase to use with the account
    * @returns whether the update was successful
    */
-  async updatePassphrase(oldPassphrase: string, newPassphrase: string) {
-    const privateKey = await getStoredPrivateKey(this.account, oldPassphrase)
-    if (!privateKey) {
-      return false
-    }
-    await storePrivateKey(privateKey, this.account, newPassphrase)
-    return true
+  async updatePassphrase(oldPassphrase: string, newPassphrase: string): Promise<boolean> {
+    return await this.keychainAccountManager.updateAccount(
+      this.account.address,
+      oldPassphrase,
+      newPassphrase
+    )
   }
 
   async decrypt(ciphertext: Buffer): Promise<Buffer> {
