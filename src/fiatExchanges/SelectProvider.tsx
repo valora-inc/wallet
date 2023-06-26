@@ -274,7 +274,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   })
 
   const showReceiveAmount = getFeatureGate(
-    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_CICO_SELECT_PROVIDER
+    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER
   )
 
   return (
