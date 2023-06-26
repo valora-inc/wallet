@@ -50,7 +50,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import colors, { Colors } from 'src/styles/colors'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -612,7 +612,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 8,
     padding: 16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: colors.gray1,
     borderRadius: 16,
   },
   amountSpentInfoText: {
