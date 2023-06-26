@@ -960,7 +960,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download and connect your phone number. Download through this link and fund your new wallet to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "嗨！👋我正在使用 {{appName}} ，作为我的加密货币钱包。它的下载和连接你的手机号码超级快。通过这个链接下载，并为你的新钱包注资，可以得到0.5美元💫 \n\n{{link}} \n\n，现在就行动，推荐奖励是有限的。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1696,8 +1696,8 @@
       "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载钱包并关联手机号码后，你们都将获得一个专属的 NFT。"
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and fund their wallet for the first time, you will both get 0.50 cUSD while funds last."
+      "title": "邀请 {{contactName}} ， {{appName}} ，并获得0.50美元。",
+      "body": "看起来 {{contactName}} 不在Valora上。如果你知道他们的钱包地址，你仍然可以发送一个付款，或者发送一个邀请。 \n\n 在他们下载Valora，连接他们的电话号码，并首次为他们的钱包充值后，你们都将获得0.50美元，直到资金用完为止。"
     }
   },
   "celoNews": {
