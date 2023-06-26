@@ -646,7 +646,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Consigue cUSD con las Recompensas por recomendación de Valora",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they fund their new {{appName}} wallet, while funds last."
+      "body": "Invita a un máximo de 25 amigos a unirse a {{appName}} y cada uno recibirá 0,50 cUSD cuando financien su nuevo monedero {{appName}} , hasta agotar existencias."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download and connect your phone number. Download through this link and fund your new wallet to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "Hola! 👋 Estoy usando {{appName}} como mi criptobilletera. Es súper rápido de descargar y conectar tu número de teléfono. Descarga a través de este enlace y financia tu nuevo monedero para conseguir 0,50 $ 💫 \n\n{{link}} \n\nActúa ahora, las recompensas por recomendación son limitadas.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1698,8 +1698,8 @@
       "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección de wallet, envíale el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and fund their wallet for the first time, you will both get 0.50 cUSD while funds last."
+      "title": "Invita a {{contactName}} a {{appName}} y consigue 0,50 cUSD",
+      "body": "Parece que {{contactName}} no está en Valora. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Cuando se descargue Valora, conecte su número de teléfono y deposite fondos en su monedero por primera vez, ambos recibiréis 0,50 cUSD hasta agotar fondos."
     }
   },
   "celoNews": {
