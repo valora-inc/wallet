@@ -1,8 +1,8 @@
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
-import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { Actions, ActionTypes } from 'src/send/actions'
+import { Recipient, areRecipientsEquivalent } from 'src/recipients/recipient'
+import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
+import { ActionTypes, Actions } from 'src/send/actions'
 import { Currency } from 'src/utils/currencies'
 import { timeDeltaInHours } from 'src/utils/time'
 
@@ -52,7 +52,6 @@ export const sendReducer = (
       }
     }
     case Actions.SEND_PAYMENT:
-    case Actions.SEND_PAYMENT_LEGACY:
       return {
         ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,

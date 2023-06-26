@@ -6,7 +6,7 @@ import { MoneyAmount } from 'src/apollo/types'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
+import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, RecursivePartial } from 'test/utils'
 

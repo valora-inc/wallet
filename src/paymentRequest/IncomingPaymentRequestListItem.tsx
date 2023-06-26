@@ -19,16 +19,66 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { getRecipientFromAddress, Recipient } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { stablecoinsSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 interface Props {
   paymentRequest: PaymentRequest
+}
+
+export const transactionDataFromPaymentRequest = ({
+  paymentRequest,
+  stableTokens,
+  requester,
+}: {
+  paymentRequest: PaymentRequest
+  stableTokens: TokenBalance[]
+  requester: Recipient
+}): TransactionDataInput | undefined => {
+  const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
+  const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
+  if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
+    // Should never happen in production
+    throw new Error('No token address found for cUSD or cEUR')
+  }
+  // If the user has enough cUSD balance, pay with cUSD
+  // Else, try with cEUR
+  // Else, return undefined and throw up an error banner
+  const usdRequested = new BigNumber(paymentRequest.amount)
+
+  if (
+    cUsdTokenInfo.usdPrice &&
+    usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.usdPrice))
+  ) {
+    return {
+      comment: paymentRequest.comment,
+      recipient: requester,
+      inputAmount: new BigNumber(paymentRequest.amount),
+      tokenAmount: new BigNumber(paymentRequest.amount),
+      amountIsInLocalCurrency: false,
+      tokenAddress: cUsdTokenInfo.address,
+      paymentRequestId: paymentRequest.uid || '',
+    }
+  } else if (
+    cEurTokenInfo.usdPrice &&
+    usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.usdPrice))
+  ) {
+    return {
+      comment: paymentRequest.comment,
+      recipient: requester,
+      inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+      tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+      amountIsInLocalCurrency: false,
+      tokenAddress: cEurTokenInfo.address,
+      paymentRequestId: paymentRequest.uid || '',
+    }
+  }
 }
 
 export default function IncomingPaymentRequestListItem({ paymentRequest }: Props) {
@@ -74,45 +124,12 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   }
 
   const navigateToNextScreen = () => {
-    const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
-    const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
-    if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
-      // Should never happen in production
-      throw new Error('No token address found for cUSD or cEUR')
-    }
-    // If the user has enough cUSD balance, pay with cUSD
-    // Else, try with cEUR
-    // Else, throw up an error banner
-    let transactionData: TransactionDataInput
-    const usdRequested = new BigNumber(paymentRequest.amount)
-
-    if (
-      cUsdTokenInfo.usdPrice &&
-      usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.usdPrice))
-    ) {
-      transactionData = {
-        comment: paymentRequest.comment,
-        recipient: requester,
-        inputAmount: new BigNumber(paymentRequest.amount),
-        tokenAmount: new BigNumber(paymentRequest.amount),
-        amountIsInLocalCurrency: false,
-        tokenAddress: cUsdTokenInfo.address,
-        paymentRequestId,
-      }
-    } else if (
-      cEurTokenInfo.usdPrice &&
-      usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.usdPrice))
-    ) {
-      transactionData = {
-        comment: paymentRequest.comment,
-        recipient: requester,
-        inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
-        tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
-        amountIsInLocalCurrency: false,
-        tokenAddress: cEurTokenInfo.address,
-        paymentRequestId,
-      }
-    } else {
+    const transactionData = transactionDataFromPaymentRequest({
+      paymentRequest,
+      stableTokens,
+      requester,
+    })
+    if (!transactionData) {
       dispatch(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
       setPayButtonPressed(false)
       return

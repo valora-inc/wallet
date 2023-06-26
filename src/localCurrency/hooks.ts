@@ -14,7 +14,7 @@ import {
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
+import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { Currency } from 'src/utils/currencies'
 
 export function useDollarToLocalRate() {
