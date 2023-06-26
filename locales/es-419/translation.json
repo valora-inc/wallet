@@ -1322,7 +1322,8 @@
     },
     "favoritedDappToast": {
       "message": "Se agregó a tus favoritas",
-      "labelCTA": "Ver Mis favoritas"
+      "labelCTA": "Ver Mis favoritas",
+      "messageWithDappName": "{{dappName}} añadido como favorito"
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
