@@ -1,7 +1,6 @@
 import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
-import { UnlockableWallet } from '@celo/wallet-base'
 import { call } from 'redux-saga/effects'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'

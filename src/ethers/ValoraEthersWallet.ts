@@ -24,7 +24,7 @@ class ValoraEthersWallet implements ValoraWallet {
         address: string,
         _account: KeychainAccount
       ): Promise<void> => {
-        this._addAccount(normalizedPrivateKey, address)
+        await this._addAccount(normalizedPrivateKey, address)
       }
     )
   }
