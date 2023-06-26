@@ -1110,6 +1110,7 @@ export const mockPositions: Position[] = [
     priceUsd: '0.21097429445966362',
     balance: '11.896586737763895000',
     supply: '29726.018516587721136286',
+    availableShortcutIds: [],
   },
   {
     type: 'app-token',
@@ -1148,6 +1149,7 @@ export const mockPositions: Position[] = [
     priceUsd: '0.025500459450704928',
     balance: '160.006517430032700000',
     supply: '232.413684885485035933',
+    availableShortcutIds: [],
   },
   {
     type: 'contract-position',
@@ -1198,9 +1200,11 @@ export const mockPositions: Position[] = [
         priceUsd: '3.9290438860550765',
         balance: '0.336152780111169400',
         supply: '42744.727037884449180591',
+        availableShortcutIds: [],
       },
     ],
     balanceUsd: '1.3207590254762067',
+    availableShortcutIds: [],
   },
 ]
 

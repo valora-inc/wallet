@@ -10,6 +10,7 @@ import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -2262,9 +2263,6 @@ export const v129Schema = {
     ...v128Schema._persist,
     version: 129,
   },
-  // swap: {
-  //   ...v128Schema.swap,
-  //   priceImpactWarningThreshold: 0.04,
   dapps: {
     ...v128Schema.dapps,
     mostPopularDappIds: [],
@@ -2310,6 +2308,21 @@ export const v131Schema = {
   },
 }
 
+export const v132Schema = {
+  ...v131Schema,
+  _persist: {
+    ...v131Schema._persist,
+    version: 132,
+  },
+  positions: {
+    ...v131Schema.positions,
+    positions: v131Schema.positions.positions.map((position: Position) => ({
+      ...position,
+      availableShortcutIds: [],
+    })),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v131Schema as Partial<RootState>
+  return v132Schema as Partial<RootState>
 }

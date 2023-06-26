@@ -14,6 +14,7 @@ export interface AbstractPosition {
   appName: string
   tokens: Token[]
   displayProps: PositionDisplayProps
+  availableShortcutIds: string[]
 }
 
 // There's an opportunity to combine with the types in src/tokens/slice.ts

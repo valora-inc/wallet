@@ -300,6 +300,12 @@
                 "appName": {
                     "type": "string"
                 },
+                "availableShortcutIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "balance": {
                     "type": "string"
                 },
@@ -351,6 +357,7 @@
                 "address",
                 "appId",
                 "appName",
+                "availableShortcutIds",
                 "balance",
                 "decimals",
                 "displayProps",
@@ -737,6 +744,12 @@
                 "appName": {
                     "type": "string"
                 },
+                "availableShortcutIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "balanceUsd": {
                     "type": "string"
                 },
@@ -770,6 +783,7 @@
                 "address",
                 "appId",
                 "appName",
+                "availableShortcutIds",
                 "balanceUsd",
                 "displayProps",
                 "network",
