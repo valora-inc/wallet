@@ -31,6 +31,7 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -55,6 +56,11 @@ type OwnProps = NativeStackScreenProps<
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >
 type Props = OwnProps
+
+export interface CurrencyInfo {
+  localCurrencyCode: LocalCurrencyCode
+  localExchangeRate: string | null
+}
 
 export const sendConfirmationScreenNavOptions = noHeader
 
