@@ -31,6 +31,7 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
       borderRadius={borderRadius}
       backgroundColor={colors.gray2}
       highlightColor={colors.white}
+      testID={testID}
     >
       <View
         style={{
@@ -38,7 +39,6 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
           width: width ?? variables.width,
           zIndex: -1,
         }}
-        testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
       />
     </SkeletonPlaceholder>
   )
