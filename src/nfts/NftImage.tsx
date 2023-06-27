@@ -65,10 +65,15 @@ export default function NftImage({
   )
 
   useEffect(() => {
-    setStatus(!nft.metadata ? 'error' : 'loading')
+    if (nft.metadata) {
+      setStatus('loading')
+    } else {
+      sendImageLoadEvent('No nft metadata')
+      setStatus('error')
+    }
   }, [nft])
 
-  function sendEventWithError(error: boolean) {
+  function sendImageLoadEvent(error?: string) {
     const { contractAddress, tokenId } = nft
     ValoraAnalytics.track(NftEvents.nft_image_load, {
       tokenId,
@@ -87,12 +92,12 @@ export default function NftImage({
   }
 
   function handleLoadError() {
-    sendEventWithError(true)
+    sendImageLoadEvent('Failed to load image')
     setStatus('error')
   }
 
   function handleLoadSuccess() {
-    sendEventWithError(false)
+    sendImageLoadEvent()
     setStatus('success')
   }
 
