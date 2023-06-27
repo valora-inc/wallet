@@ -48,6 +48,7 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
   getPositionsUrl: string
+  getPositionsShortcutsUrl: string
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -134,6 +135,8 @@ const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
 
 const GET_POSITIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getPositions`
 const GET_POSITIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getPositions`
+const GET_POSITIONS_SHORTCUTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getShortcuts`
+const GET_POSITIONS_SHORTCUTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getShortcuts`
 
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
@@ -187,6 +190,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
     getPositionsUrl: GET_POSITIONS_ALFAJORES,
+    getPositionsShortcutsUrl: GET_POSITIONS_SHORTCUTS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -232,6 +236,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
     getPositionsUrl: GET_POSITIONS_MAINNET,
+    getPositionsShortcutsUrl: GET_POSITIONS_SHORTCUTS_MAINNET,
   },
 }
 

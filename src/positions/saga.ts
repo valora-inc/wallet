@@ -4,8 +4,9 @@ import {
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
+  fetchShortcutsSuccess,
 } from 'src/positions/slice'
-import { Position } from 'src/positions/types'
+import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
@@ -38,6 +39,26 @@ async function fetchPositions(walletAddress: string) {
   return json.data as Position[]
 }
 
+export function* fetchShortcutsSaga() {
+  try {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_DAPP_SHORTCUTS)) {
+      return
+    }
+
+    const response = yield call(fetchWithTimeout, networkConfig.getPositionsShortcutsUrl)
+    if (!response.ok) {
+      throw new Error(`Unable to fetch shortcuts: ${response.status} ${response.statusText}`)
+    }
+
+    const result: {
+      data: Shortcut[]
+    } = yield call([response, 'json'])
+    yield put(fetchShortcutsSuccess(result.data))
+  } catch (error) {
+    Logger.warn(TAG, 'Unable to fetch shortcuts', error)
+  }
+}
+
 export function* fetchPositionsSaga() {
   try {
     const address: string | null = yield select(walletAddressSelector)
@@ -67,4 +88,5 @@ export function* watchFetchBalances() {
 
 export function* positionsSaga() {
   yield spawn(watchFetchBalances)
+  yield spawn(fetchShortcutsSaga)
 }

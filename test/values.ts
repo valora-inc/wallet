@@ -38,7 +38,7 @@ import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
-import { Position } from 'src/positions/types'
+import { Position, Shortcut } from 'src/positions/types'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -1205,6 +1205,17 @@ export const mockPositions: Position[] = [
     ],
     balanceUsd: '1.3207590254762067',
     availableShortcutIds: [],
+  },
+]
+
+export const mockShortcuts: Shortcut[] = [
+  {
+    category: 'claim',
+    name: 'Claim',
+    networks: ['celo'],
+    description: 'Claim rewards for staked liquidity',
+    id: 'claim-reward',
+    appId: 'ubeswap',
   },
 ]
 
