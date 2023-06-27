@@ -44,6 +44,8 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
   )
 }
 
+type Status = 'loading' | 'error' | 'success'
+
 export default function NftImage({
   nft,
   height,
@@ -54,8 +56,7 @@ export default function NftImage({
   ErrorComponent,
   testID,
 }: Props) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(!nft.metadata)
+  const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
 
   const imageUrl = useMemo(
@@ -64,7 +65,7 @@ export default function NftImage({
   )
 
   useEffect(() => {
-    setError(!nft.metadata)
+    setStatus(!nft.metadata ? 'error' : 'loading')
   }, [nft])
 
   function sendEventWithError(error: boolean) {
@@ -87,17 +88,17 @@ export default function NftImage({
 
   function handleLoadError() {
     sendEventWithError(true)
-    setError(true)
+    setStatus('error')
   }
 
   function handleLoadSuccess() {
     sendEventWithError(false)
-    setIsLoading(false)
+    setStatus('success')
   }
 
   return (
     <>
-      {error ? (
+      {status === 'error' ? (
         ErrorComponent
       ) : (
         <FastImage
@@ -120,7 +121,7 @@ export default function NftImage({
             shouldAutoScaleHeight ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
           }
         >
-          {isLoading && (
+          {status === 'loading' && (
             <ImagePlaceholder
               height={shouldAutoScaleHeight ? scaledHeight : height}
               width={width}
