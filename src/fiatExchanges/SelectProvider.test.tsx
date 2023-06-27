@@ -8,16 +8,19 @@ import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fi
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockExchanges, mockFiatConnectQuotes, mockProviders } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import {
   CICOFlow,
+  LegacyMobileMoneyProvider,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
-  LegacyMobileMoneyProvider,
 } from './utils'
 
 const AMOUNT_TO_CASH_IN = 100
@@ -40,15 +43,7 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
 }))
 
-const mockStatsigGet = jest.fn()
-jest.mock('statsig-react-native', () => ({
-  Statsig: {
-    getExperiment: jest.fn().mockImplementation(() => ({
-      get: mockStatsigGet,
-      getEvaluationDetails: jest.fn().mockReturnValue({ reason: 'network' }),
-    })),
-  },
-}))
+jest.mock('src/statsig')
 
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   {
@@ -113,10 +108,9 @@ describe(SelectProviderScreen, () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
     mockStore = createMockStore(MOCK_STORE_DATA)
-    mockStatsigGet.mockImplementation((paramName) => {
-      return paramName === 'addFundsExchangesText'
-        ? SelectProviderExchangesText.CryptoExchange
-        : SelectProviderExchangesLink.ExternalExchangesScreen
+    mocked(getExperimentParams).mockReturnValue({
+      addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
+      addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
     })
   })
 
@@ -232,10 +226,9 @@ describe(SelectProviderScreen, () => {
     })
 
     it('renders crypto exchange and navigates to exchanges screen regardless of statsig param for cash outs', async () => {
-      mockStatsigGet.mockImplementation((paramName) => {
-        return paramName === 'addFundsExchangesText'
-          ? SelectProviderExchangesText.DepositFrom
-          : SelectProviderExchangesLink.ExchangeQRScreen
+      mocked(getExperimentParams).mockReturnValue({
+        addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
+        addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
       })
       const { queryByText, getByText, getByTestId } = render(
         <Provider store={mockStore}>
@@ -249,7 +242,7 @@ describe(SelectProviderScreen, () => {
       expect(queryByText('selectProviderScreen.viewExchanges')).toBeTruthy()
       expect(queryByText('selectProviderScreen.depositFrom')).toBeFalsy()
       expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeFalsy()
-      expect(mockStatsigGet).not.toHaveBeenCalled()
+      expect(getExperimentParams).not.toHaveBeenCalled()
 
       fireEvent.press(getByText('selectProviderScreen.viewExchanges'))
       expect(navigate).toHaveBeenCalledTimes(1)
@@ -261,10 +254,9 @@ describe(SelectProviderScreen, () => {
     })
 
     it('renders based on params from statsig for cash ins', async () => {
-      mockStatsigGet.mockImplementation((paramName) => {
-        return paramName === 'addFundsExchangesText'
-          ? SelectProviderExchangesText.DepositFrom
-          : SelectProviderExchangesLink.ExchangeQRScreen
+      mocked(getExperimentParams).mockReturnValue({
+        addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
+        addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
       })
       const { queryByText, getByText, getByTestId } = render(
         <Provider store={mockStore}>
@@ -278,16 +270,9 @@ describe(SelectProviderScreen, () => {
       expect(queryByText('selectProviderScreen.viewExchanges')).toBeFalsy()
       expect(queryByText('selectProviderScreen.depositFrom')).toBeTruthy()
       expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeTruthy()
-      expect(mockStatsigGet).toHaveBeenCalledTimes(2)
-      expect(mockStatsigGet).toHaveBeenNthCalledWith(
-        1,
-        'addFundsExchangesText',
-        SelectProviderExchangesText.CryptoExchange
-      )
-      expect(mockStatsigGet).toHaveBeenNthCalledWith(
-        2,
-        'addFundsExchangesLink',
-        SelectProviderExchangesLink.ExternalExchangesScreen
+      expect(getExperimentParams).toHaveBeenCalledTimes(1)
+      expect(getExperimentParams).toHaveBeenCalledWith(
+        ExperimentConfigs[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
       )
 
       fireEvent.press(getByText('selectProviderScreen.cryptoExchangeOrWallet'))
@@ -296,25 +281,6 @@ describe(SelectProviderScreen, () => {
         flow: CICOFlow.CashIn,
         exchanges: mockExchanges,
       })
-    })
-
-    it('renders default params for cash ins if statsig throws', async () => {
-      mockStatsigGet.mockImplementation(() => {
-        throw new Error('foo')
-      })
-      const { queryByText, getByTestId } = render(
-        <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps()} />
-        </Provider>
-      )
-      await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
-      expect(getByTestId('Exchanges')).toBeTruthy()
-      expect(queryByText('selectProviderScreen.cryptoExchange')).toBeTruthy()
-      expect(queryByText('selectProviderScreen.feesVary')).toBeTruthy()
-      expect(queryByText('selectProviderScreen.viewExchanges')).toBeTruthy()
-      expect(queryByText('selectProviderScreen.depositFrom')).toBeFalsy()
-      expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeFalsy()
-      expect(mockStatsigGet).toHaveBeenCalledTimes(1)
     })
   })
 

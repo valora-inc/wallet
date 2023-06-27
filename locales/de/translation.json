@@ -1322,7 +1322,8 @@
     },
     "favoritedDappToast": {
       "message": "Als Favorit hinzugefügt",
-      "labelCTA": "Favoriten anzeigen"
+      "labelCTA": "Favoriten anzeigen",
+      "messageWithDappName": "{{dappName}} als Favorit hinzugefügt"
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> Filter angewendet",
@@ -1332,7 +1333,7 @@
   },
   "dappRankings": {
     "title": "Dapp-Ranglisten",
-    "description": "Entdecke die beliebtesten Dapps von anderen in der {{appName}} Community"
+    "description": "Entdecke die beliebtesten Dapps anderer in der {{appName}}-Community"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1625,7 +1626,7 @@
     },
     "priceImpactWarning": {
       "title": "Bevor du tauschst",
-      "body": "Der Tausch dieser Vermögenswerte kann zu einem ungünstigen Wechselkurs führen. Wenn du den Betrag senkst, bekommst du vielleicht einen besseren Kurs."
+      "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
@@ -1740,16 +1741,16 @@
     "withdraw": "Abheben"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "Blick auf Celo Explorer",
-    "attributes": "Attribute",
+    "viewOnCeloExplorer": "Auf Celo Explorer ansehen",
+    "attributes": "Eigenschaften",
     "description": "Beschreibung",
     "noNftsFound": "Keine NFTs gefunden",
-    "nftImageLoadError": "Diese NFT kann nicht angezeigt werden"
+    "nftImageLoadError": "NFT kann nicht angezeigt werden"
   },
   "nftsLoadErrorScreen": {
-    "loadErrorTitle": "Es gibt ein Problem beim Laden von NFTs",
+    "loadErrorTitle": "Beim Laden von NFTs ist ein Problem aufgetreten",
     "loadErrorSubtitle": "Dein Vermögen ist sicher. Bitte versuche es noch einmal.",
-    "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du \n<0>Kontakt zum Support aufnehmen</0>."
+    "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du den\n<0>Support kontaktieren</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

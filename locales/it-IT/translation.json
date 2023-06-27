@@ -1308,7 +1308,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "titleDiscover": "Scoprire",
+    "titleDiscover": "Scopri",
     "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
@@ -1322,7 +1322,8 @@
     },
     "favoritedDappToast": {
       "message": "Dapp aggiunta ai tuoi preferiti",
-      "labelCTA": "Visualizza le tue preferite"
+      "labelCTA": "Visualizza le tue preferite",
+      "messageWithDappName": "{{dappName}} aggiunto tra i preferiti"
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> applicato",
@@ -1331,8 +1332,8 @@
     }
   },
   "dappRankings": {
-    "title": "Classifiche delle dapp",
-    "description": "Scopri le dapps più favorite dagli altri membri della comunità di {{appName}}"
+    "title": "Classifiche delle Dapp",
+    "description": "Scopri le Dapp più scelte dagli altri membri della comunità di {{appName}}"
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
@@ -1624,8 +1625,8 @@
       "learnMore": "Ulteriori informazioni"
     },
     "priceImpactWarning": {
-      "title": "Prima di scambiare",
-      "body": "Scambiare questi beni può comportare un tasso di cambio sfavorevole. Se abbassi l'importo, potresti ottenere un tasso migliore."
+      "title": "Prima di uno scambio",
+      "body": "Scambiare questi asset può comportare un tasso di cambio sfavorevole. Riducendo l'importo, potresti ottenere un tasso migliore."
     },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>"
   },
@@ -1740,16 +1741,16 @@
     "withdraw": "Preleva"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "Vista su Celo Explorer",
+    "viewOnCeloExplorer": "Visualizza su Celo Explorer",
     "attributes": "Attributi",
     "description": "Descrizione",
     "noNftsFound": "Non sono stati trovati NFT",
     "nftImageLoadError": "Impossibile visualizzare questo NFT"
   },
   "nftsLoadErrorScreen": {
-    "loadErrorTitle": "C'è un problema di caricamento degli NFT",
-    "loadErrorSubtitle": "I tuoi beni sono al sicuro. Riprova.",
-    "contactSupport": "Se hai bisogno di ulteriore aiuto puoi \n<0>Contatta l'assistenza</0>"
+    "loadErrorTitle": "Errore durante il caricamento degli NFT",
+    "loadErrorSubtitle": "I tuoi asset sono al sicuro. Riprova.",
+    "contactSupport": "Se hai bisogno di ulteriore assistenza, \n<0>Contatta il Supporto tecnico</0>"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
