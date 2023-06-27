@@ -13454,10 +13454,10 @@ react-native-flipper@^0.127.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"
   integrity sha512-qloUyUOs9MoMVncIDDWeOxAPbomWJ3e4y0SgyCgq8joJEOXC7RvPWeEfUXp0EPyNhHGQV9a4RwzF6BWKFCR3Kg==
 
-react-native-flipper@^0.198.0, react-native-flipper@^0.34.0:
-  version "0.198.0"
-  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.198.0.tgz#657c49dd844f53b0b59e522e9b13316da8cfcb9e"
-  integrity sha512-rsvXtyg+n6S+N6u+WKaWWaJqeW4q313B0Ov5JNvRGsFxUEJO24el1LWCRIGkXI/sXn2T5M6mFpfFspkxYP82DQ==
+react-native-flipper@^0.200.0, react-native-flipper@^0.34.0:
+  version "0.200.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.200.0.tgz#17af94c56286ba734d5b2f69879e383e24fdfc2c"
+  integrity sha512-P8EDgBN9PEIEfx3SOwsNw2kXVFlnvburaq4tLQ/U+5hHiYRx0mL7c+V1MRKRgtlgoV7IqJVw9WtU/PkfWMWXOA==
 
 react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
   version "2.16.6"
@@ -14782,10 +14782,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
-  integrity sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==
+shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3, shell-quote@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.8.1.tgz#6dbf4db75515ad5bac63b4f1894c3a154c766680"
+  integrity sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==
 
 shelljs@^0.8.5:
   version "0.8.5"
@@ -15720,10 +15720,10 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-trim-newlines@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-4.0.2.tgz#d6aaaf6a0df1b4b536d183879a6b939489808c7c"
-  integrity sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==
+trim-newlines@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-4.1.1.tgz#28c88deb50ed10c7ba6dc2474421904a00139125"
+  integrity sha512-jRKj0n0jXWo6kh62nA5TEh3+4igKDXLvzBJcPpiizP7oOolUrYIxmVBG9TOtHYFHoddUk6YvAkGeGoSVTXfQXQ==
 
 truncate-utf8-bytes@^1.0.0:
   version "1.0.2"
