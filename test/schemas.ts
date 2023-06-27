@@ -2320,6 +2320,7 @@ export const v132Schema = {
       ...position,
       availableShortcutIds: [],
     })),
+    shortcuts: [],
   },
 }
 

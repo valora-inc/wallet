@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { Position } from './types'
+import { Position, Shortcut } from './types'
 
 export interface State {
   positions: Position[]
   status: 'idle' | 'loading' | 'success' | 'error'
+  shortcuts: Shortcut[]
 }
 
 const initialState: State = {
   positions: [],
   status: 'idle',
+  shortcuts: [],
 }
 
 const slice = createSlice({
@@ -30,6 +32,10 @@ const slice = createSlice({
       ...state,
       status: 'error',
     }),
+    fetchShortcutsSuccess: (state, action: PayloadAction<Shortcut[]>) => ({
+      ...state,
+      shortcuts: action.payload,
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -40,6 +46,11 @@ const slice = createSlice({
   },
 })
 
-export const { fetchPositionsStart, fetchPositionsSuccess, fetchPositionsFailure } = slice.actions
+export const {
+  fetchPositionsStart,
+  fetchPositionsSuccess,
+  fetchPositionsFailure,
+  fetchShortcutsSuccess,
+} = slice.actions
 
 export default slice.reducer

@@ -1162,6 +1162,7 @@ export const migrations = {
         ...position,
         availableShortcutIds: [],
       })),
+      shortcuts: [],
     },
   }),
 }

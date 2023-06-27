@@ -303,6 +303,7 @@ describe('store state', () => {
         },
         "positions": Object {
           "positions": Array [],
+          "shortcuts": Array [],
           "status": "idle",
         },
         "recipients": Object {

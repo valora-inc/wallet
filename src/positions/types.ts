@@ -47,3 +47,12 @@ export interface ContractPosition extends AbstractPosition {
 
 export type Token = BaseToken | AppTokenPosition
 export type Position = AppTokenPosition | ContractPosition
+
+export interface Shortcut {
+  id: string
+  appId: string
+  name: string
+  description: string
+  networks: string[]
+  category?: 'claim'
+}

@@ -2544,6 +2544,43 @@
             ],
             "type": "object"
         },
+        "Shortcut": {
+            "additionalProperties": false,
+            "properties": {
+                "appId": {
+                    "type": "string"
+                },
+                "category": {
+                    "enum": [
+                        "claim"
+                    ],
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "networks": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "appId",
+                "description",
+                "id",
+                "name",
+                "networks"
+            ],
+            "type": "object"
+        },
         "SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>": {
             "additionalProperties": false,
             "properties": {
@@ -4018,6 +4055,12 @@
                     },
                     "type": "array"
                 },
+                "shortcuts": {
+                    "items": {
+                        "$ref": "#/definitions/Shortcut"
+                    },
+                    "type": "array"
+                },
                 "status": {
                     "enum": [
                         "error",
@@ -4030,6 +4073,7 @@
             },
             "required": [
                 "positions",
+                "shortcuts",
                 "status"
             ],
             "type": "object"
