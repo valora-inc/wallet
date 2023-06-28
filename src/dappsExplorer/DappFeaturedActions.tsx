@@ -51,7 +51,7 @@ export function DappFeaturedActions({
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
   const showDappRankings = dappRankingsEnabled && mostPopularDapps.length > 0
 
-  const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_DAPP_SHORTCUTS)
+  const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
   const showClaimRewards = dappShortcutsEnabled && positionsWithClaimableRewards.length > 0
 
