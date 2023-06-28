@@ -1333,6 +1333,12 @@
     "title": "Xếp hạng Dapp",
     "description": "Khám phá những ứng dụng Dapp được nhiều người yêu thích nhất trong cộng đồng {{appName}}"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Your rewards",
+      "description": "Claim available rewards from open dapp positions"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
     "message": "Dapp (decentralized app – ứng dụng phi tập trung) mang lại những phương thức mới để sử dụng tiền điện tử, kiếm tiền thưởng và khám phá Web3.\n\nKết nối Valora với dapp để bắt đầu.",
