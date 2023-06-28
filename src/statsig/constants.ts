@@ -25,6 +25,7 @@ export const LayerParams = {
 export const FeatureGates = {
   [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
+  [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: false,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
   [StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER]: false,
@@ -72,13 +73,6 @@ export const ExperimentConfigs = {
     experimentName: StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS,
     defaultValues: {
       swappingNonNativeTokensEnabled: false,
-    },
-  },
-  [StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]: {
-    experimentName: StatsigExperiments.DAPPS_FILTERS_AND_SEARCH,
-    defaultValues: {
-      dappsFilterEnabled: false,
-      dappsSearchEnabled: false,
     },
   },
   [StatsigExperiments.DAPP_RANKINGS]: {

@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { DappV1 } from 'src/dapps/types'
+import { Dapp } from 'src/dapps/types'
 import DappsCarousel from 'src/home/DappsCarousel'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -17,41 +17,37 @@ jest.mock('lodash', () => ({
   debounce: jest.fn((fn) => fn),
 }))
 
-const dappsList: DappV1[] = [
+const dappsList: Dapp[] = [
   {
     name: 'Ubeswap',
     description: 'Swap any token, enter a pool, or farm your crypto',
     dappUrl: 'https://app.ubeswap.org/',
-    categoryId: 'exchanges',
+    categories: ['exchanges'],
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
-    isFeatured: false,
     id: 'ubeswap',
   },
   {
     name: 'Moola',
     description: 'Lend, borrow, or add to a pool to earn rewards',
     dappUrl: 'https://app.moola.market/',
-    categoryId: 'lend',
+    categories: ['lend'],
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
-    isFeatured: false,
     id: 'moola',
   },
   {
     name: 'Mento-Fi',
     description: 'Exchange between Celo native currencies with Mento',
     dappUrl: 'https://mento.finance/',
-    categoryId: 'exchanges',
+    categories: ['exchanges'],
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/mentofi.png',
-    isFeatured: false,
     id: 'mentofi',
   },
   {
     name: 'Poof',
     description: 'Make your transactions untraceable',
     dappUrl: 'https://app.poof.cash/#/account/create',
-    categoryId: 'social',
+    categories: ['social'],
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/poofcash.png',
-    isFeatured: true,
     id: 'poofcash',
   },
 ]
@@ -287,21 +283,21 @@ describe('DappsCarousel', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, 'dapp_impression', {
-        categoryId: 'exchanges',
+        categories: ['exchanges'],
         dappId: 'ubeswap',
         dappName: 'Ubeswap',
         section: 'recently used',
         horizontalPosition: 0,
       })
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_impression', {
-        categoryId: 'lend',
+        categories: ['lend'],
         dappId: 'moola',
         dappName: 'Moola',
         section: 'recently used',
         horizontalPosition: 1,
       })
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(3, 'dapp_impression', {
-        categoryId: 'exchanges',
+        categories: ['exchanges'],
         dappId: 'mentofi',
         dappName: 'Mento-Fi',
         section: 'recently used',
@@ -323,7 +319,7 @@ describe('DappsCarousel', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(4)
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(4, 'dapp_impression', {
-        categoryId: 'social',
+        categories: ['social'],
         dappId: 'poofcash',
         dappName: 'Poof',
         section: 'recently used',
