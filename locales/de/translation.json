@@ -272,7 +272,7 @@
     "signTX": "Transaktion",
     "details": "Details anzeigen"
   },
-  "shareInfo": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse.",
+  "shareInfo": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse und Telefonnummer.",
   "connectWalletInfoDappkit": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse und Telefonnummer.",
   "data": "Daten",
   "firebaseDisabled": "Firebase ist deaktiviert, Benachrichtigung und Log-Upload funktionieren nicht",
@@ -1046,8 +1046,8 @@
     "body": "Bitte vergewissere dich, dass diese Adresse das Vermögen unterstützt, das du senden möchtest. Wenn diese Adresse ungültig ist, kann dein Guthaben möglicherweise nicht wiederhergestellt werden. Sende zunächst eine Testzahlung, um sicherzustellen, dass dies die richtige Adresse ist.",
     "toggle": "Immer erinnern"
   },
-  "loadingFromScan": "Scannen",
-  "loadingFromDeeplink": "Verbindungsaufbau",
+  "loadingFromScan": "Bei einigen Dapps gibt es heute Verbindungsprobleme, bitte schau morgen wieder vorbei.",
+  "loadingFromDeeplink": "Bei einigen Dapps gibt es heute Verbindungsprobleme, bitte schau morgen wieder vorbei.",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion:",
     "askingV1_35": "{{dappName}} verlangt folgende Aktion:",
