@@ -1294,7 +1294,7 @@ interface NftsEventsProperties {
     contractAddress: string
     url?: string
     origin: NftOrigin
-    error: boolean
+    error?: string
   }
 }
 
