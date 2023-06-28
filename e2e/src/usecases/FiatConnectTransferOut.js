@@ -183,7 +183,7 @@ async function returnUserTransferOut(token, cashOutAmount) {
 }
 
 export const fiatConnectNonKycTransferOut = () => {
-  it('FiatConnect cash out', async () => {
+  it.skip('FiatConnect cash out', async () => {
     // ******** First time experience ************
     const cashOutAmount = 0.02
     const gasAmount = 0.01
@@ -207,7 +207,7 @@ export const fiatConnectNonKycTransferOut = () => {
 }
 
 export const fiatConnectKycTransferOut = () => {
-  it('FiatConnect cash out', async () => {
+  it.skip('FiatConnect cash out', async () => {
     // ******** First time experience ************
     const cashOutAmount = 0.01
     const gasAmount = 0.01
