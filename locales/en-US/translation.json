@@ -273,7 +273,7 @@
     "details": "Show details"
   },
   "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
-  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
+  "connectWalletInfoDappkit": "Some dapps are experiencing connection issues today, please check back tomorrow. You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "Data",
   "firebaseDisabled": "Firebase is disabled, notification and log uploading wont work",
   "learnMore": "Learn More",
