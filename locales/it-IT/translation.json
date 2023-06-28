@@ -1046,8 +1046,8 @@
     "body": "Assicurati che questo indirizzo supporti l'asset che stai cercando di inviare. Se l'indirizzo non è valido, potresti perdere i tuoi fondi. Invia prima un pagamento di prova per assicurarti che questo sia l'indirizzo corretto.",
     "toggle": "Ricordamelo sempre"
   },
-  "loadingFromScan": "Scansione in corso",
-  "loadingFromDeeplink": "Connessione in corso",
+  "loadingFromScan": "Alcune dapps hanno problemi di connessione, torna a domani.",
+  "loadingFromDeeplink": "Alcune dapps hanno problemi di connessione, torna a domani.",
   "action": {
     "asking": "Questa applicazione richiede di eseguire la seguente azione:",
     "askingV1_35": "{{dappName}} richiede di eseguire la seguente azione:",
@@ -1337,8 +1337,8 @@
   },
   "dappShortcuts": {
     "rewards": {
-      "title": "I tuoi premi",
-      "description": "Richiedi le ricompense disponibili per le posizioni aperte nella dapp"
+      "title": "Le tue ricompense",
+      "description": "Richiedi le ricompense disponibili per le tue posizioni nella dapp\n"
     }
   },
   "dappsScreenHelpDialog": {
