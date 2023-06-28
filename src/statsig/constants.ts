@@ -25,6 +25,7 @@ export const LayerParams = {
 export const FeatureGates = {
   [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
+  [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: false,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
 }

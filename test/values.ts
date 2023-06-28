@@ -1018,7 +1018,7 @@ export const mockOnboardingProps = {
   cashInBottomSheetEnabled: true,
 }
 
-export const mockDappListV2: Dapp[] = [
+export const mockDappList: Dapp[] = [
   {
     name: 'Dapp 1',
     id: 'dapp1',
