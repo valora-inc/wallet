@@ -272,8 +272,8 @@
     "signTX": "Ký xác nhận giao dịch",
     "details": "Hiển thị chi tiết"
   },
-  "shareInfo": "Bạn phải kết nối ví của mình để phê duyệt các giao dịch trong dapp này. Sau khi kết nối, nó sẽ có quyền truy cập vào địa chỉ ví của bạn.",
-  "connectWalletInfoDappkit": "Bạn phải kết nối ví của mình để phê duyệt các giao dịch trong dapp này. Sau khi kết nối, nó sẽ có quyền truy cập vào địa chỉ ví và số điện thoại của bạn.",
+  "shareInfo": "Bạn phải kết nối ví của mình để phê duyệt các giao dịch trong Dapp này. Sau khi kết nối, ứng dụng sẽ có quyền truy cập vào địa chỉ ví của bạn.",
+  "connectWalletInfoDappkit": "Bạn phải kết nối ví để phê duyệt các giao dịch trong Dapp này. Sau khi kết nối, ứng dụng sẽ có quyền truy cập vào địa chỉ ví và số điện thoại của bạn.",
   "data": "Dữ liệu",
   "firebaseDisabled": "Firebase đang tắt, thông báo và tính năng tải nhật ký lên sẽ không hoạt động",
   "learnMore": "Tìm hiểu thêm",
@@ -1044,8 +1044,8 @@
     "body": "Vui lòng đảm bảo địa chỉ này hỗ trợ tài sản bạn đang muốn gửi. Tiền của bạn có thể sẽ không thu hồi được nếu địa chỉ này không hợp lệ. Trước tiên, hãy gửi thử một khoản thanh toán để đảm bảo địa chỉ chính xác.",
     "toggle": "Luôn nhắc tôi"
   },
-  "loadingFromScan": "Đang quét",
-  "loadingFromDeeplink": "Đang kết nối",
+  "loadingFromScan": "Một số dapp đang gặp sự cố kết nối, vui lòng quay lại vào ngày mai.",
+  "loadingFromDeeplink": "Một số dapp đang gặp sự cố kết nối, vui lòng quay lại vào ngày mai.",
   "action": {
     "asking": "Ứng dụng này đang yêu cầu thực hiện thao tác sau",
     "askingV1_35": "{{dappName}} đang yêu cầu thực hiện những thao tác sau:",
