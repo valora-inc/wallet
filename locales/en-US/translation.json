@@ -273,7 +273,7 @@
     "details": "Show details"
   },
   "shareInfo": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address.",
-  "connectWalletInfoDappkit": "Some dapps are experiencing connection issues today, please check back tomorrow. You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
+  "connectWalletInfoDappkit": "You must connect your wallet to approve transactions in this Dapp. Once connected, it will have access to your wallet address and phone number.",
   "data": "Data",
   "firebaseDisabled": "Firebase is disabled, notification and log uploading wont work",
   "learnMore": "Learn More",
@@ -1046,8 +1046,8 @@
     "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
     "toggle": "Always remind me"
   },
-  "loadingFromScan": "Scanning",
-  "loadingFromDeeplink": "Connecting",
+  "loadingFromScan": "Some dapps are experiencing connection issues today, please check back tomorrow.",
+  "loadingFromDeeplink": "Some dapps are experiencing connection issues today, please check back tomorrow.",
   "action": {
     "asking": "This application is asking to perform the following action",
     "askingV1_35": "{{dappName}} is asking to perform the following:",
