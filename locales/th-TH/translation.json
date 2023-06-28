@@ -1333,6 +1333,12 @@
     "title": "อันดับ Dapp",
     "description": "สำรวจ Dapp ยอดนิยมของสมาชิกในชุมชน {{appName}}"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Your rewards",
+      "description": "Claim available rewards from open dapp positions"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
     "message": "Dapp (แอปแบบกระจายศูนย์) เป็นวิธีการใหม่ในการใช้คริปโต รับรางวัล และสำรวจ Web3\n\nเชื่อมต่อ Valora กับ Dapp เพื่อเริ่มต้นใช้งาน",
