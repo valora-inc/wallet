@@ -7,12 +7,14 @@ export interface PositionDisplayProps {
   imageUrl: string
 }
 
+export type TokenCategory = 'claimable'
+
 export interface AbstractPosition {
   address: string // Example: 0x...
   network: string // Example: celo
   appId: string // Example: ubeswap
   appName: string
-  tokens: Token[]
+  tokens: (Token & { category?: TokenCategory })[]
   displayProps: PositionDisplayProps
   availableShortcutIds: string[]
 }

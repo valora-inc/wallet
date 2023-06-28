@@ -337,10 +337,61 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/definitions/BaseToken"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "balance": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "enum": [
+                                            "claimable"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "decimals": {
+                                        "type": "number"
+                                    },
+                                    "network": {
+                                        "type": "string"
+                                    },
+                                    "priceUsd": {
+                                        "type": "string"
+                                    },
+                                    "symbol": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "enum": [
+                                            "base-token"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "address",
+                                    "balance",
+                                    "decimals",
+                                    "network",
+                                    "priceUsd",
+                                    "symbol",
+                                    "type"
+                                ],
+                                "type": "object"
                             },
                             {
-                                "$ref": "#/definitions/AppTokenPosition"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "category": {
+                                        "enum": [
+                                            "claimable"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         ]
                     },
@@ -396,45 +447,6 @@
                 "from",
                 "gas",
                 "to"
-            ],
-            "type": "object"
-        },
-        "BaseToken": {
-            "additionalProperties": false,
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "balance": {
-                    "type": "string"
-                },
-                "decimals": {
-                    "type": "number"
-                },
-                "network": {
-                    "type": "string"
-                },
-                "priceUsd": {
-                    "type": "string"
-                },
-                "symbol": {
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "base-token"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "balance",
-                "decimals",
-                "network",
-                "priceUsd",
-                "symbol",
-                "type"
             ],
             "type": "object"
         },
@@ -763,10 +775,61 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/definitions/BaseToken"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "balance": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "enum": [
+                                            "claimable"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "decimals": {
+                                        "type": "number"
+                                    },
+                                    "network": {
+                                        "type": "string"
+                                    },
+                                    "priceUsd": {
+                                        "type": "string"
+                                    },
+                                    "symbol": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "enum": [
+                                            "base-token"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "address",
+                                    "balance",
+                                    "decimals",
+                                    "network",
+                                    "priceUsd",
+                                    "symbol",
+                                    "type"
+                                ],
+                                "type": "object"
                             },
                             {
-                                "$ref": "#/definitions/AppTokenPosition"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "category": {
+                                        "enum": [
+                                            "claimable"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         ]
                     },
