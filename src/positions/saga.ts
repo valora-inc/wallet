@@ -41,7 +41,7 @@ async function fetchPositions(walletAddress: string) {
 
 export function* fetchShortcutsSaga() {
   try {
-    if (!getFeatureGate(StatsigFeatureGates.SHOW_DAPP_SHORTCUTS)) {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)) {
       return
     }
 
