@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import { createMockStore } from 'test/utils'
-import { mockDappList, mockPositions } from 'test/values'
+import { mockDappList, mockPositions, mockShortcuts } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -12,11 +12,6 @@ jest.mock('src/statsig', () => ({
     dappRankingsEnabled: true,
   })),
   getFeatureGate: jest.fn(() => true),
-}))
-
-const mockPositionsWithClaimableRewards = mockPositions.map((mockPosition, index) => ({
-  ...mockPosition,
-  availableShortcutIds: index === 1 ? ['claim-reward'] : [],
 }))
 
 describe('DappFeaturedActions', () => {
@@ -35,7 +30,8 @@ describe('DappFeaturedActions', () => {
             mostPopularDappIds: ['dapp2'],
           },
           positions: {
-            positions: mockPositionsWithClaimableRewards,
+            positions: mockPositions,
+            shortcuts: mockShortcuts,
           },
         })}
       >
@@ -66,7 +62,8 @@ describe('DappFeaturedActions', () => {
             mostPopularDappIds: [],
           },
           positions: {
-            positions: mockPositionsWithClaimableRewards,
+            positions: mockPositions,
+            shortcuts: mockShortcuts,
           },
         })}
       >
@@ -87,6 +84,13 @@ describe('DappFeaturedActions', () => {
             dappListApiUrl: 'http://url.com',
             dappsList: mockDappList,
             mostPopularDappIds: ['dapp2'],
+          },
+          positions: {
+            positions: mockPositions.map((position) => ({
+              ...position,
+              availableShortcutIds: [],
+            })),
+            shortcuts: mockShortcuts,
           },
         })}
       >

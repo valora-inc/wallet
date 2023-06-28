@@ -1202,9 +1202,19 @@ export const mockPositions: Position[] = [
         supply: '42744.727037884449180591',
         availableShortcutIds: [],
       },
+      {
+        priceUsd: '0.00904673476946796903',
+        type: 'base-token',
+        category: 'claimable',
+        decimals: 18,
+        network: 'celo',
+        balance: '0.098322815093446616',
+        symbol: 'UBE',
+        address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
+      },
     ],
     balanceUsd: '1.3207590254762067',
-    availableShortcutIds: [],
+    availableShortcutIds: ['claim-reward'],
   },
 ]
 

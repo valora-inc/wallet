@@ -9,12 +9,16 @@ export interface PositionDisplayProps {
 
 export type TokenCategory = 'claimable'
 
+export type TokenWithCategory = Token & {
+  category?: TokenCategory
+}
+
 export interface AbstractPosition {
   address: string // Example: 0x...
   network: string // Example: celo
   appId: string // Example: ubeswap
   appName: string
-  tokens: (Token & { category?: TokenCategory })[]
+  tokens: TokenWithCategory[]
   displayProps: PositionDisplayProps
   availableShortcutIds: string[]
 }
@@ -57,4 +61,9 @@ export interface Shortcut {
   description: string
   networks: string[]
   category?: 'claim'
+}
+
+export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
+  shortcutId: string
+  claimableTokens: TokenWithCategory[]
 }
