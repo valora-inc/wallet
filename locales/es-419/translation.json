@@ -1046,8 +1046,8 @@
     "body": "Asegúrate de que esta dirección sea compatible con el activo que deseas enviar. Si no lo es y completas el envío de todas maneras, perderás los fondos. Te recomendamos realizar una transacción de prueba antes de enviar el monto deseado.",
     "toggle": "Recordármelo siempre"
   },
-  "loadingFromScan": "Escaneando",
-  "loadingFromDeeplink": "Conectando",
+  "loadingFromScan": "Algunas dapps están teniendo problemas de conexión, vuelve mañana.",
+  "loadingFromDeeplink": "Algunas dapps están teniendo problemas de conexión, vuelve mañana.",
   "action": {
     "asking": "Esta aplicación desea realizar la siguiente acción:",
     "askingV1_35": "{{dappName}} desea realizar la siguiente acción:",
@@ -1338,7 +1338,7 @@
   "dappShortcuts": {
     "rewards": {
       "title": "Tus recompensas",
-      "description": "Reclama las recompensas disponibles de los puestos de dapp abiertos"
+      "description": "Reclama las recompensas disponibles en tus posiciones DeFi."
     }
   },
   "dappsScreenHelpDialog": {
