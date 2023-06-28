@@ -15,6 +15,7 @@ jest.mock('src/statsig', () => ({
     dappsFilterEnabled: true,
     dappsSearchEnabled: true,
   }),
+  getFeatureGate: jest.fn(() => true),
 }))
 
 const dappsList = mockDappListWithCategoryNames
