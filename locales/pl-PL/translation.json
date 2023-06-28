@@ -1050,8 +1050,8 @@
     "body": "Upewnij się, że ten adres obsługuje aktywa, które chcesz wysłać. Jeśli adres jest nieprawidłowy, Twoje środki mogą być nie do odzyskania. Wyślij najpierw płatność testową, aby upewnić się, że jest to właściwy adres.",
     "toggle": "Zawsze mi przypominaj"
   },
-  "loadingFromScan": "Skanowanie",
-  "loadingFromDeeplink": "Łączenie",
+  "loadingFromScan": "Niektóre aplikacje mają dziś problemy z połączeniem, sprawdź jutro.",
+  "loadingFromDeeplink": "Niektóre aplikacje mają dziś problemy z połączeniem, sprawdź jutro.",
   "action": {
     "asking": "Ta aplikacja prosi o wykonanie następującej operacji:",
     "askingV1_35": "{{dappName}} prosi o wykonanie następującej operacji:",
