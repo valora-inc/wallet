@@ -1335,6 +1335,12 @@
     "title": "Classifiche delle Dapp",
     "description": "Scopri le Dapp più scelte dagli altri membri della comunità di {{appName}}"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "I tuoi premi",
+      "description": "Richiedi le ricompense disponibili per le posizioni aperte nella dapp"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
     "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una Dapp per iniziare.",
