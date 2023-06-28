@@ -1339,6 +1339,12 @@
     "title": "Rankingi aplikacji dapp",
     "description": "Odkryj najpopularniejsze aplikacje dapp w społeczności {{appName}}"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Twoje nagrody",
+      "description": "Odbierz dostępne nagrody z otwartych pozycji aplikacji"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
     "message": "Dapps (zdecentralizowane aplikacje) zapewniają nowe sposoby wykorzystywania kryptowalut, zdobywania nagród i poznawania środowiska Web3.\n\nPołącz aplikację Valora z dapp, aby zacząć.",
