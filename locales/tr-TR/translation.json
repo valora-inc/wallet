@@ -1335,6 +1335,12 @@
     "title": "Dapp sıralamaları",
     "description": "{{appName}} topluluğundaki diğer kullanıcılar tarafından en çok favorilere eklenen dapp'leri keşfedin"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Ödülleriniz",
+      "description": "Açık dapp pozisyonlarından mevcut ödülleri talep edin"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
     "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için Valora'yı bir dapp'e bağlayın.",
