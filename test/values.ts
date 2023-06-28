@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
+  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
-  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -15,7 +15,7 @@ import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
-import { DappV1, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
+import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
@@ -1018,28 +1018,7 @@ export const mockOnboardingProps = {
   cashInBottomSheetEnabled: true,
 }
 
-export const mockDappListV1: DappV1[] = [
-  {
-    name: 'Dapp 1',
-    id: 'dapp1',
-    categoryId: '1',
-    description: 'Swap tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
-    dappUrl: 'https://app.dapp1.org/',
-    isFeatured: false,
-  },
-  {
-    name: 'Dapp 2',
-    id: 'dapp2',
-    categoryId: '2',
-    description: 'Lend and borrow tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
-    dappUrl: 'celo://wallet/dapp2Screen',
-    isFeatured: false,
-  },
-]
-
-export const mockDappListV2: DappV2[] = [
+export const mockDappListV2: Dapp[] = [
   {
     name: 'Dapp 1',
     id: 'dapp1',
@@ -1047,7 +1026,6 @@ export const mockDappListV2: DappV2[] = [
     description: 'Swap tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
-    isFeatured: false,
   },
   {
     name: 'Dapp 2',
@@ -1056,7 +1034,6 @@ export const mockDappListV2: DappV2[] = [
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
-    isFeatured: false,
   },
 ]
 
@@ -1069,7 +1046,6 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     description: 'Swap tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
-    isFeatured: false,
   },
   {
     name: 'Dapp 2',
@@ -1079,7 +1055,6 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
-    isFeatured: false,
   },
 ]
 

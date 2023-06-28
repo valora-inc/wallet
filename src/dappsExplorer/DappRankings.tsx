@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import { mostPopularDappsSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, DappV1, DappV2 } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import { DappCardContent } from 'src/dappsExplorer/DappCard'
 import Trophy from 'src/icons/Trophy'
 import { getExperimentParams } from 'src/statsig'
@@ -61,11 +61,11 @@ export function DappRankingsBottomSheet({
   const { t } = useTranslation()
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
 
-  const handleOnPress = (dapp: DappV1 | DappV2) => () => {
+  const handleOnPress = (dapp: Dapp) => () => {
     onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular })
   }
 
-  const handleFavoriteDapp = (dapp: DappV1 | DappV2) => () => {
+  const handleFavoriteDapp = (dapp: Dapp) => () => {
     Toast.showWithGravity(
       t('dappsScreen.favoritedDappToast.messageWithDappName', { dappName: dapp.name }),
       Toast.SHORT,

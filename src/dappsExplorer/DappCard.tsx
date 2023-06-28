@@ -7,7 +7,7 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { dappFavoritesEnabledSelector, favoriteDappIdsSelector } from 'src/dapps/selectors'
 import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
-import { ActiveDapp, DappSection, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import LinkArrow from 'src/icons/LinkArrow'
 import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
@@ -17,16 +17,16 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Shadow, Spacing } from 'src/styles/styles'
 
 interface DappCardContentProps {
-  dapp: DappV1 | DappV2
-  onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
+  dapp: Dapp
+  onFavoriteDapp?: (dapp: Dapp) => void
   favoritedFromSection: DappSection
 }
 
 interface Props {
   section: DappSection
   onPressDapp: (dapp: ActiveDapp) => void
-  dapp: DappV1 | DappV2
-  onFavoriteDapp?: (dapp: DappV1 | DappV2) => void
+  dapp: Dapp
+  onFavoriteDapp?: (dapp: Dapp) => void
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
@@ -45,8 +45,7 @@ export function DappCardContent({
 
   const onPressFavorite = () => {
     const eventProperties = {
-      categories: isDappV2(dapp) ? dapp.categories : undefined,
-      categoryId: !isDappV2(dapp) ? dapp.categoryId : undefined,
+      categories: dapp.categories,
       dappId: dapp.id,
       dappName: dapp.name,
       section: favoritedFromSection,

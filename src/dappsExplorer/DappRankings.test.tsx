@@ -114,7 +114,6 @@ describe('DappRankings', () => {
     expect(store.getActions()).toEqual([favoriteDapp({ dappId: 'dapp2' })])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_favorite, {
       categories: ['2'],
-      categoryId: undefined,
       dappId: 'dapp2',
       dappName: 'Dapp 2',
       section: 'mostPopular',
@@ -142,7 +141,6 @@ describe('DappRankings', () => {
     expect(store.getActions()).toEqual([unfavoriteDapp({ dappId: 'dapp2' })])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_unfavorite, {
       categories: ['2'],
-      categoryId: undefined,
       dappId: 'dapp2',
       dappName: 'Dapp 2',
       section: 'mostPopular',
