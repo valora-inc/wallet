@@ -1046,8 +1046,8 @@
     "body": "Veuillez vous assurer que cette adresse prend en charge l'actif que vous souhaitez envoyer. Si l'adresse est invalide, vous ne pourrez pas récupérer vos fonds. Envoyez d'abord un paiement test pour vous assurer que l'adresse est correcte.",
     "toggle": "Toujours me rappeler"
   },
-  "loadingFromScan": "Numérisation en cours",
-  "loadingFromDeeplink": "Connexion",
+  "loadingFromScan": "Certains dapps rencontrent des problèmes de connexion, merci de revenir demain.",
+  "loadingFromDeeplink": "Certains dapps rencontrent des problèmes de connexion, merci de revenir demain.",
   "action": {
     "asking": "Cette appli demande à effectuer l'action suivante :",
     "askingV1_35": "{{dappName}} demande à effectuer l'action suivante :",
@@ -1337,8 +1337,8 @@
   },
   "dappShortcuts": {
     "rewards": {
-      "title": "Tes récompenses",
-      "description": "Réclame les récompenses disponibles pour les postes de dapp ouverts."
+      "title": "Vos récompenses",
+      "description": "Réclamez vos récompenses disponibles pour vos positions de dapps."
     }
   },
   "dappsScreenHelpDialog": {
