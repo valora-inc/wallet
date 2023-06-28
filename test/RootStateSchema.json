@@ -813,6 +813,41 @@
             ],
             "type": "string"
         },
+        "Dapp": {
+            "additionalProperties": false,
+            "properties": {
+                "categories": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "categories",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "name"
+            ],
+            "type": "object"
+        },
         "DappCategory": {
             "additionalProperties": false,
             "properties": {
@@ -855,81 +890,6 @@
                 "recently used"
             ],
             "type": "string"
-        },
-        "DappV1": {
-            "additionalProperties": false,
-            "properties": {
-                "categoryId": {
-                    "type": "string"
-                },
-                "dappUrl": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "iconUrl": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isFeatured": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "categoryId",
-                "dappUrl",
-                "description",
-                "iconUrl",
-                "id",
-                "isFeatured",
-                "name"
-            ],
-            "type": "object"
-        },
-        "DappV2": {
-            "additionalProperties": false,
-            "properties": {
-                "categories": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "dappUrl": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "iconUrl": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isFeatured": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "categories",
-                "dappUrl",
-                "description",
-                "iconUrl",
-                "id",
-                "isFeatured",
-                "name"
-            ],
-            "type": "object"
         },
         "E164NumberToAddressType": {
             "additionalProperties": {
@@ -3507,46 +3467,6 @@
                         {
                             "additionalProperties": false,
                             "properties": {
-                                "categoryId": {
-                                    "type": "string"
-                                },
-                                "dappUrl": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "iconUrl": {
-                                    "type": "string"
-                                },
-                                "id": {
-                                    "type": "string"
-                                },
-                                "isFeatured": {
-                                    "type": "boolean"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "openedFrom": {
-                                    "$ref": "#/definitions/DappSection"
-                                }
-                            },
-                            "required": [
-                                "categoryId",
-                                "dappUrl",
-                                "description",
-                                "iconUrl",
-                                "id",
-                                "isFeatured",
-                                "name",
-                                "openedFrom"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "additionalProperties": false,
-                            "properties": {
                                 "categories": {
                                     "items": {
                                         "type": "string"
@@ -3565,9 +3485,6 @@
                                 "id": {
                                     "type": "string"
                                 },
-                                "isFeatured": {
-                                    "type": "boolean"
-                                },
                                 "name": {
                                     "type": "string"
                                 },
@@ -3581,7 +3498,6 @@
                                 "description",
                                 "iconUrl",
                                 "id",
-                                "isFeatured",
                                 "name",
                                 "openedFrom"
                             ],
@@ -3612,14 +3528,7 @@
                 },
                 "dappsList": {
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/DappV1"
-                            },
-                            {
-                                "$ref": "#/definitions/DappV2"
-                            }
-                        ]
+                        "$ref": "#/definitions/Dapp"
                     },
                     "type": "array"
                 },
