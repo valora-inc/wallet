@@ -50,7 +50,7 @@ export function DappFeaturedActions({
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
   const showDappRankings = dappRankingsEnabled && mostPopularDapps.length > 0
 
-  const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_DAPP_SHORTCUTS)
+  const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)
   // TODO add check for if there are any shortcuts to show
   const showClaimRewards = dappShortcutsEnabled
 
