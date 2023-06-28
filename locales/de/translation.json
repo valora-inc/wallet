@@ -1335,6 +1335,12 @@
     "title": "Dapp-Ranglisten",
     "description": "Entdecke die beliebtesten Dapps anderer in der {{appName}}-Community"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Deine Belohnungen",
+      "description": "Beanspruche verfügbare Rewards aus offenen Dapp-Positionen"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
     "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, dein Krypto zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
