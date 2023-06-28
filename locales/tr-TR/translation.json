@@ -1046,8 +1046,8 @@
     "body": "Lütfen bu adresin göndermeye çalıştığınız varlığı desteklediğinden emin olun. Eğer bu adres geçersizse fonlarınız geri alınamayabilir. Bunun doğru adres olduğundan emin olmak için önce bir test ödemesi gönderin.",
     "toggle": "Her zaman hatırlat"
   },
-  "loadingFromScan": "Taranıyor",
-  "loadingFromDeeplink": "Bağlanıyor",
+  "loadingFromScan": "Bazı dapp'lerde bağlantı sorunları yaşanıyor, lütfen yarın tekrar kontrol edin.",
+  "loadingFromDeeplink": "Bazı dapp'lerde bağlantı sorunları yaşanıyor, lütfen yarın tekrar kontrol edin.",
   "action": {
     "asking": "Bu uygulama aşağıdaki eylemi gerçekleştirmek istiyor",
     "askingV1_35": "{{dappName}} aşağıdaki eylemi gerçekleştirmek istiyor:",
