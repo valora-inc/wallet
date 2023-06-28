@@ -1046,8 +1046,8 @@
     "body": "Certifique-se de que este endereço suporta o ativo que você está tentando enviar. Seus fundos podem não ser recuperáveis se este endereço for inválido. Envie um pagamento teste primeiro para ter certeza de que este é o endereço correto.",
     "toggle": "Lembrar sempre"
   },
-  "loadingFromScan": "Escaneando",
-  "loadingFromDeeplink": "Conectando",
+  "loadingFromScan": "Alguns dapps estão enfrentando problemas de conexão. Verifique novamente amanhã.",
+  "loadingFromDeeplink": "Alguns dapps estão enfrentando problemas de conexão. Verifique novamente amanhã.",
   "action": {
     "asking": "Este aplicativo está pedindo para executar a seguinte ação:",
     "askingV1_35": "{{dappName}} está pedindo para executar a seguinte ação:",
@@ -1338,7 +1338,7 @@
   "dappShortcuts": {
     "rewards": {
       "title": "Suas recompensas",
-      "description": "Reivindicar recompensas disponíveis de posições de dapp abertas"
+      "description": "Resgate as suas recompensas disponíveis de posições de dapp abertas."
     }
   },
   "dappsScreenHelpDialog": {
