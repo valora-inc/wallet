@@ -1335,6 +1335,12 @@
     "title": "Ranking de dapps",
     "description": "Descubre las dapps favoritas de la comunidad {{appName}}"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Tus recompensas",
+      "description": "Reclama las recompensas disponibles de los puestos de dapp abiertos"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
     "message": "Las dapps (apps decentralizadas) traen nuevas maneras de usar tus cripto, ganar recompensas y explorar la Web3.\n\nContecta Valora a una dapp para comenzar.",
