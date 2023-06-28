@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -19,7 +20,7 @@ import {
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
-import CashInBottomSheet from 'src/home/CashInBottomSheet'
+import CashInBottomSheet, { TestSheet } from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
@@ -37,7 +38,6 @@ import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
-import QrScanButton from 'src/components/QrScanButton'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -64,8 +64,14 @@ function WalletHome() {
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
 
+  const refThing = useRef()
+
   useEffect(() => {
     dispatch(visitHome())
+    setTimeout(() => {
+      // @ts-ignore
+      refThing.current?.snapToIndex(0)
+    }, 5000)
   }, [])
 
   const showTestnetBanner = () => {
@@ -208,6 +214,7 @@ function WalletHome() {
       />
       {showHomeNavBar && <SendOrRequestBar />}
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
+      {<TestSheet forwardedRef={refThing} />}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
   )

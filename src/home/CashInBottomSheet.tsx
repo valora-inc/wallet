@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheet from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import {
@@ -170,6 +171,17 @@ function CashInBottomSheet() {
         )}
       </View>
     </Modal>
+  )
+}
+
+export function TestSheet({ forwardedRef }: any) {
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title="something"
+      description="something else"
+      testId="something"
+    />
   )
 }
 
