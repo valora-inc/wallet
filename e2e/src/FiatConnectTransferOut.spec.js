@@ -18,10 +18,13 @@ describe('FiatConnect Transfer Out', () => {
   })
 
   const platform = device.getPlatform()
-  // KYC test needs to be on iOS and needs Mock Provider info, non KYC test
-  // temporarily skipped for android. Should be moved out once root cause is fixed
-  if (platform == 'ios' && MOCK_PROVIDER_BASE_URL && MOCK_PROVIDER_API_KEY) {
+  // disable test for android until we fix the bottom sheet issue
+  if (platform === 'ios') {
     describe('Non KYC', fiatConnectNonKycTransferOut)
+  }
+
+  // KYC test needs to be on iOS and needs Mock Provider info
+  if (platform == 'ios' && MOCK_PROVIDER_BASE_URL && MOCK_PROVIDER_API_KEY) {
     describe('KYC', fiatConnectKycTransferOut)
   }
 })
