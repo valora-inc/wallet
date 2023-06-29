@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { Keyboard } from 'react-native'
 import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
@@ -45,6 +46,7 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
       navigate(Screens.WebViewScreen, { uri: dappUrl })
     }
   } else {
+    Keyboard.dismiss() // Dismiss keyboard before opening dapp
     yield call(handleOpenUrl, openUrl(dappUrl, true, true))
   }
 }
