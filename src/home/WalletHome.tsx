@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -37,12 +39,12 @@ import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
-import QrScanButton from 'src/components/QrScanButton'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 function WalletHome() {
   const { t } = useTranslation()
+  const isFocused = useIsFocused()
 
   const appState = useSelector(appStateSelector)
   const isLoading = useSelector((state) => state.home.loading)
@@ -115,6 +117,9 @@ function WalletHome() {
   }
 
   const shouldShowCashInBottomSheet = () => {
+    if (!isFocused) {
+      return false
+    }
     // If user is in a sanctioned country do not show the cash in bottom sheet
     if (userInSanctionedCountry) {
       return false
