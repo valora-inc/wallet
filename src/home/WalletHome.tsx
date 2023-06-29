@@ -1,6 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
 import _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -116,35 +116,6 @@ function WalletHome() {
     dispatch(refreshAllBalances())
   }
 
-  const shouldShowCashInBottomSheet = () => {
-    if (!isFocused) {
-      return false
-    }
-    // If user is in a sanctioned country do not show the cash in bottom sheet
-    if (userInSanctionedCountry) {
-      return false
-    }
-    // If there are no core tokens then we are either still loading or loading failed.
-    if (!coreTokenBalances.length) {
-      return false
-    }
-    const hasStable = !!coreTokenBalances.find(
-      (token) => token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT) && token.address !== celoAddress
-    )
-
-    const hasCelo =
-      coreTokenBalances
-        .find((token) => token.address === celoAddress)
-        ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
-    const isAccountBalanceZero = hasStable === false && hasCelo === false
-
-    const { cashInBottomSheetEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
-
-    return cashInBottomSheetEnabled && isAccountBalanceZero
-  }
-
   const keyExtractor = (_item: any, index: number) => {
     return index.toString()
   }
@@ -184,6 +155,39 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
+  // Cash In Bottom Sheet
+  const { cashInBottomSheetEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+  )
+  const hasStable = !!coreTokenBalances.find(
+    (token) => token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT) && token.address !== celoAddress
+  )
+  const hasCelo =
+    coreTokenBalances
+      .find((token) => token.address === celoAddress)
+      ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
+  const isAccountBalanceZero = hasStable === false && hasCelo === false
+
+  const WrappedCashInBottomSheet = useMemo(() => {
+    if (!isFocused) {
+      return null
+    }
+
+    if (!coreTokenBalances.length) {
+      return null
+    }
+
+    if (userInSanctionedCountry) {
+      return null
+    }
+
+    if (isAccountBalanceZero) {
+      return <CashInBottomSheet />
+    } else {
+      return null
+    }
+  }, [userInSanctionedCountry, cashInBottomSheetEnabled, isAccountBalanceZero, coreTokenBalances])
+
   return (
     <SafeAreaView
       testID="WalletHome"
@@ -212,7 +216,7 @@ function WalletHome() {
         testID="WalletHome/SectionList"
       />
       {showHomeNavBar && <SendOrRequestBar />}
-      {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
+      {WrappedCashInBottomSheet}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
   )
