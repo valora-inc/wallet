@@ -1408,6 +1408,12 @@
       "title": "Nuevas formas de transferir fondos",
       "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde Valora.\n\nSi ves este mensaje, puedes acceder a esta función en tu región.",
       "dismiss": "Ignorar"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Pagarás <0></0> tasas incluidas"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Retirarás <0></0> incluidas las tasas"
     }
   },
   "fiatConnectLinkAccountScreen": {
