@@ -309,6 +309,12 @@
                 "balance": {
                     "type": "string"
                 },
+                "category": {
+                    "enum": [
+                        "claimable"
+                    ],
+                    "type": "string"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -337,61 +343,10 @@
                     "items": {
                         "anyOf": [
                             {
-                                "additionalProperties": false,
-                                "properties": {
-                                    "address": {
-                                        "type": "string"
-                                    },
-                                    "balance": {
-                                        "type": "string"
-                                    },
-                                    "category": {
-                                        "enum": [
-                                            "claimable"
-                                        ],
-                                        "type": "string"
-                                    },
-                                    "decimals": {
-                                        "type": "number"
-                                    },
-                                    "network": {
-                                        "type": "string"
-                                    },
-                                    "priceUsd": {
-                                        "type": "string"
-                                    },
-                                    "symbol": {
-                                        "type": "string"
-                                    },
-                                    "type": {
-                                        "enum": [
-                                            "base-token"
-                                        ],
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "address",
-                                    "balance",
-                                    "decimals",
-                                    "network",
-                                    "priceUsd",
-                                    "symbol",
-                                    "type"
-                                ],
-                                "type": "object"
+                                "$ref": "#/definitions/BaseToken"
                             },
                             {
-                                "additionalProperties": false,
-                                "properties": {
-                                    "category": {
-                                        "enum": [
-                                            "claimable"
-                                        ],
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/definitions/AppTokenPosition"
                             }
                         ]
                     },
@@ -447,6 +402,51 @@
                 "from",
                 "gas",
                 "to"
+            ],
+            "type": "object"
+        },
+        "BaseToken": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "string"
+                },
+                "category": {
+                    "enum": [
+                        "claimable"
+                    ],
+                    "type": "string"
+                },
+                "decimals": {
+                    "type": "number"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "priceUsd": {
+                    "type": "string"
+                },
+                "symbol": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "base-token"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "balance",
+                "decimals",
+                "network",
+                "priceUsd",
+                "symbol",
+                "type"
             ],
             "type": "object"
         },
@@ -773,7 +773,14 @@
                 },
                 "tokens": {
                     "items": {
-                        "$ref": "#/definitions/TokenWithCategory"
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/BaseToken"
+                            },
+                            {
+                                "$ref": "#/definitions/AppTokenPosition"
+                            }
+                        ]
                     },
                     "type": "array"
                 },
@@ -4977,67 +4984,6 @@
                 "SENT"
             ],
             "type": "string"
-        },
-        "TokenWithCategory": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "type": "string"
-                        },
-                        "balance": {
-                            "type": "string"
-                        },
-                        "category": {
-                            "enum": [
-                                "claimable"
-                            ],
-                            "type": "string"
-                        },
-                        "decimals": {
-                            "type": "number"
-                        },
-                        "network": {
-                            "type": "string"
-                        },
-                        "priceUsd": {
-                            "type": "string"
-                        },
-                        "symbol": {
-                            "type": "string"
-                        },
-                        "type": {
-                            "enum": [
-                                "base-token"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "balance",
-                        "decimals",
-                        "network",
-                        "priceUsd",
-                        "symbol",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "category": {
-                            "enum": [
-                                "claimable"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            ]
         },
         "TransactionContext": {
             "additionalProperties": false,

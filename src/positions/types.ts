@@ -9,16 +9,12 @@ export interface PositionDisplayProps {
 
 export type TokenCategory = 'claimable'
 
-export type TokenWithCategory = Token & {
-  category?: TokenCategory
-}
-
 export interface AbstractPosition {
   address: string // Example: 0x...
   network: string // Example: celo
   appId: string // Example: ubeswap
   appName: string
-  tokens: TokenWithCategory[]
+  tokens: Token[]
   displayProps: PositionDisplayProps
   availableShortcutIds: string[]
 }
@@ -32,6 +28,7 @@ export interface AbstractToken {
   decimals: number // Example: 18
   priceUsd: SerializedDecimalNumber // Example: "1.5"
   balance: SerializedDecimalNumber // Example: "200", would be negative for debt
+  category?: TokenCategory
 }
 
 export interface BaseToken extends AbstractToken {
@@ -64,11 +61,11 @@ export interface Shortcut {
 }
 
 export type ClaimableShortcut = Shortcut & {
-  claimableTokens: TokenWithCategory[]
+  claimableTokens: Token[]
 }
 
 export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
   claimableShortcut: Shortcut & {
-    claimableTokens: TokenWithCategory[]
+    claimableTokens: Token[]
   }
 }

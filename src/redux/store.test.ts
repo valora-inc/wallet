@@ -304,6 +304,7 @@ describe('store state', () => {
         "positions": Object {
           "positions": Array [],
           "shortcuts": Array [],
+          "shortcutsStatus": "idle",
           "status": "idle",
         },
         "recipients": Object {

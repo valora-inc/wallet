@@ -1,11 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
-import {
-  AppTokenPosition,
-  ClaimablePosition,
-  Position,
-  TokenWithCategory,
-} from 'src/positions/types'
+import { AppTokenPosition, ClaimablePosition, Position, Token } from 'src/positions/types'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -51,7 +46,7 @@ export const claimableShortcutSelector = createSelector([shortcutsSelector], (sh
   return shortcuts.filter((shortcut) => shortcut.category === 'claim')
 })
 
-function getAllClaimableTokens(tokens: TokenWithCategory[]): TokenWithCategory[] {
+function getAllClaimableTokens(tokens: Token[]): Token[] {
   const claimableTokens = tokens.filter((token) => token.category === 'claimable')
   const nestedTokens = tokens
     .filter((token): token is AppTokenPosition => 'tokens' in token)
