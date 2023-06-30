@@ -1412,6 +1412,12 @@
       "title": "Nowe sposoby przesyłania środków",
       "body": "Udostępniamy nowe sposoby przesyłania środków na rachunki bankowe i z nich, bezpośrednio z aplikacji Valora.\n\nJeśli widzisz tę informację, oznacza to, że w Twoim regionie jest oferowany dostęp do tej funkcji.",
       "dismiss": "Odrzuć"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Zapłacisz <0></0> wraz z opłatami"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Wypłacisz <0></0> wraz z opłatami"
     }
   },
   "fiatConnectLinkAccountScreen": {
