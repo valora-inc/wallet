@@ -2325,6 +2325,19 @@ export const v132Schema = {
   },
 }
 
+export const v133Schema = {
+  ...v132Schema,
+  _persist: {
+    ...v132Schema._persist,
+    version: 133,
+  },
+  nfts: {
+    nfts: [],
+    nftsError: null,
+    nftsLoading: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v132Schema as Partial<RootState>
+  return v133Schema as Partial<RootState>
 }
