@@ -38,7 +38,7 @@ import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
-import { Position } from 'src/positions/types'
+import { Position, Shortcut } from 'src/positions/types'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -1110,6 +1110,7 @@ export const mockPositions: Position[] = [
     priceUsd: '0.21097429445966362',
     balance: '11.896586737763895000',
     supply: '29726.018516587721136286',
+    availableShortcutIds: [],
   },
   {
     type: 'app-token',
@@ -1148,6 +1149,7 @@ export const mockPositions: Position[] = [
     priceUsd: '0.025500459450704928',
     balance: '160.006517430032700000',
     supply: '232.413684885485035933',
+    availableShortcutIds: [],
   },
   {
     type: 'contract-position',
@@ -1183,6 +1185,7 @@ export const mockPositions: Position[] = [
             decimals: 18,
             priceUsd: '0.6959536890241361',
             balance: '0.950545800159603456',
+            category: 'claimable',
           },
           {
             type: 'base-token',
@@ -1198,9 +1201,32 @@ export const mockPositions: Position[] = [
         priceUsd: '3.9290438860550765',
         balance: '0.336152780111169400',
         supply: '42744.727037884449180591',
+        availableShortcutIds: [],
+      },
+      {
+        priceUsd: '0.00904673476946796903',
+        type: 'base-token',
+        category: 'claimable',
+        decimals: 18,
+        network: 'celo',
+        balance: '0.098322815093446616',
+        symbol: 'UBE',
+        address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
       },
     ],
     balanceUsd: '1.3207590254762067',
+    availableShortcutIds: ['claim-reward'],
+  },
+]
+
+export const mockShortcuts: Shortcut[] = [
+  {
+    category: 'claim',
+    name: 'Claim',
+    networks: ['celo'],
+    description: 'Claim rewards for staked liquidity',
+    id: 'claim-reward',
+    appId: 'ubeswap',
   },
 ]
 
