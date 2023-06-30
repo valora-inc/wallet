@@ -10,8 +10,10 @@ import {
   RawProviderQuote,
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { Currency, CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -26,7 +28,11 @@ export function normalizeQuotes(
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
     ...normalizeExternalProviders(flow, externalProviders, digitalAsset),
-  ].sort(quotesByFeeComparator)
+  ].sort(
+    getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
+      ? quotesByReceiveAmountComparator
+      : quotesByFeeComparator
+  )
 }
 
 export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
@@ -46,6 +52,16 @@ export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: Normalize
     quote2.getFeeInFiat(exchangeRates, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
 
   return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
+}
+
+export const quotesByReceiveAmountComparator = (
+  quote1: NormalizedQuote,
+  quote2: NormalizedQuote
+) => {
+  const receiveAmount1 = quote1.getReceiveAmount() ?? new BigNumber(-1)
+  const receiveAmount2 = quote2.getReceiveAmount() ?? new BigNumber(-1)
+
+  return receiveAmount1.isGreaterThan(receiveAmount2) ? -1 : 1
 }
 
 const quoteHasErrors = (
