@@ -2,10 +2,12 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { fetchPositionsSaga, fetchShortcutsSaga } from 'src/positions/saga'
+import { shortcutsStatusSelector } from 'src/positions/selectors'
 import {
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
+  fetchShortcutsFailure,
   fetchShortcutsSuccess,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
@@ -86,7 +88,20 @@ describe(fetchShortcutsSaga, () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
     mocked(getFeatureGate).mockReturnValue(true)
 
-    await expectSaga(fetchShortcutsSaga).put(fetchShortcutsSuccess(mockShortcuts)).run()
+    await expectSaga(fetchShortcutsSaga)
+      .provide([[select(shortcutsStatusSelector), 'idle']])
+      .put(fetchShortcutsSuccess(mockShortcuts))
+      .run()
+  })
+
+  it('fetches shortcuts if the previous fetch attempt failed', async () => {
+    mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
+    mocked(getFeatureGate).mockReturnValue(true)
+
+    await expectSaga(fetchShortcutsSaga)
+      .provide([[select(shortcutsStatusSelector), 'error']])
+      .put(fetchShortcutsSuccess(mockShortcuts))
+      .run()
   })
 
   it("skips fetching shortcuts if the feature gate isn't enabled", async () => {
@@ -97,11 +112,25 @@ describe(fetchShortcutsSaga, () => {
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
-  it('fails quietly if there is an error', async () => {
+  it("skips fetching shortcuts if they've already been fetched", async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+
+    await expectSaga(fetchShortcutsSaga)
+      .provide([[select(shortcutsStatusSelector), 'success']])
+      .run()
+
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('updates the shortcuts status there is an error', async () => {
     mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
     mocked(getFeatureGate).mockReturnValue(true)
 
-    await expectSaga(fetchShortcutsSaga).not.put(fetchShortcutsSuccess(expect.anything())).run()
+    await expectSaga(fetchShortcutsSaga)
+      .provide([[select(shortcutsStatusSelector), 'idle']])
+      .put.actionType(fetchShortcutsFailure.type)
+      .not.put(fetchShortcutsSuccess(expect.anything()))
+      .run()
 
     expect(mockFetch).toHaveBeenCalled()
     expect(Logger.warn).toHaveBeenCalled()

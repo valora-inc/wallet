@@ -45,6 +45,8 @@ export const positionsByBalanceUsdSelector = createSelector([positionsSelector],
 
 export const shortcutsSelector = (state: RootState) => state.positions.shortcuts
 
+export const shortcutsStatusSelector = (state: RootState) => state.positions.shortcutsStatus
+
 export const claimableShortcutSelector = createSelector([shortcutsSelector], (shortcuts) => {
   return shortcuts.filter((shortcut) => shortcut.category === 'claim')
 })

@@ -2321,6 +2321,7 @@ export const v132Schema = {
       availableShortcutIds: [],
     })),
     shortcuts: [],
+    shortcutsStatus: 'idle',
   },
 }
 

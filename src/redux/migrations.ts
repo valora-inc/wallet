@@ -1163,6 +1163,7 @@ export const migrations = {
         availableShortcutIds: [],
       })),
       shortcuts: [],
+      shortcutsStatus: 'idle',
     },
   }),
 }

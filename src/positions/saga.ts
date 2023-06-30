@@ -1,9 +1,11 @@
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { DEFAULT_TESTNET } from 'src/config'
+import { shortcutsStatusSelector } from 'src/positions/selectors'
 import {
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
+  fetchShortcutsFailure,
   fetchShortcutsSuccess,
 } from 'src/positions/slice'
 import { Position, Shortcut } from 'src/positions/types'
@@ -45,6 +47,12 @@ export function* fetchShortcutsSaga() {
       return
     }
 
+    const shortcutsStatus = yield select(shortcutsStatusSelector)
+    if (shortcutsStatus === 'success') {
+      // no need to fetch shortcuts more than once per session
+      return
+    }
+
     const response = yield call(fetchWithTimeout, networkConfig.getShortcutsUrl)
     if (!response.ok) {
       throw new Error(`Unable to fetch shortcuts: ${response.status} ${response.statusText}`)
@@ -56,6 +64,7 @@ export function* fetchShortcutsSaga() {
     yield put(fetchShortcutsSuccess(result.data))
   } catch (error) {
     Logger.warn(TAG, 'Unable to fetch shortcuts', error)
+    yield put(fetchShortcutsFailure(error))
   }
 }
 
