@@ -33,12 +33,14 @@ export function* handleFetchNfts() {
         Accept: 'application/json',
       },
     })
-    if (!response.ok) yield put(fetchNftsFailed({ error: 'Could not fetch NFTs' }))
+    if (!response.ok) {
+      throw new Error('Could not fetch NFTs')
+    }
     const { result } = yield call([response, 'json'])
     yield put(fetchNftsCompleted(result))
   } catch (error) {
-    Logger.error(TAG, 'Could not parse NFTs response', error)
-    yield put(fetchNftsFailed({ error: 'Could not parse NFTs' }))
+    Logger.error(TAG, '@handleFetchNfts', error)
+    yield put(fetchNftsFailed({ error: error.message }))
   }
 }
 

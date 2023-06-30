@@ -61,7 +61,8 @@ describe('Given Nfts saga', () => {
         ])
         .put(
           fetchNftsFailed({
-            error: 'Could not parse NFTs',
+            error:
+              'invalid json response body at  reason: Unexpected token i in JSON at position 0',
           })
         )
         .run()
