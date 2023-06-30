@@ -28,6 +28,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: false,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
+  [StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY]: false,
 }
 
