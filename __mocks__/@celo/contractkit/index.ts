@@ -77,6 +77,7 @@ const connection = {
   gasPrice: jest.fn().mockResolvedValue('3'),
   addAccount: jest.fn(),
   getAccounts: jest.fn(() => ['0x0000000000000000000000000000000000007E57']),
+  getLocalAccounts: jest.fn(() => ['0x0000000000000000000000000000000000007E57']),
 }
 
 const kit = {

@@ -6,10 +6,11 @@ import {
 } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
+import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -1886,10 +1887,8 @@ export const v99Schema = {
   },
   dapps: {
     ..._.omit(v98Schema.dapps, 'recentDapps', 'favoriteDapps'),
-    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: DappV1 | DappV2) => recentDapp.id),
-    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map(
-      (favoriteDapp: DappV1 | DappV2) => favoriteDapp.id
-    ),
+    recentDappIds: v98Schema.dapps.recentDapps?.map((recentDapp: Dapp) => recentDapp.id),
+    favoriteDappIds: v98Schema.dapps.favoriteDapps?.map((favoriteDapp: Dapp) => favoriteDapp.id),
   },
 }
 
@@ -2264,9 +2263,6 @@ export const v129Schema = {
     ...v128Schema._persist,
     version: 129,
   },
-  // swap: {
-  //   ...v128Schema.swap,
-  //   priceImpactWarningThreshold: 0.04,
   dapps: {
     ...v128Schema.dapps,
     mostPopularDappIds: [],
@@ -2291,6 +2287,50 @@ export const v131Schema = {
     ...v130Schema._persist,
     version: 131,
   },
+  dapps: {
+    ...v130Schema.dapps,
+    dappsList: v130Schema.dapps.dappsList.map(
+      (dapp: Dapp | (Omit<Dapp, 'categories'> & { categoryId: string })) => {
+        return {
+          ...dapp,
+          categories: 'categories' in dapp ? dapp.categories : [dapp.categoryId],
+        }
+      }
+    ),
+    activeDapp: v130Schema.dapps.activeDapp
+      ? {
+          ...v130Schema.dapps.activeDapp,
+          categories: v130Schema.dapps.activeDapp.categories ?? [
+            v130Schema.dapps.activeDapp.categoryId,
+          ],
+        }
+      : null,
+  },
+}
+
+export const v132Schema = {
+  ...v131Schema,
+  _persist: {
+    ...v131Schema._persist,
+    version: 132,
+  },
+  positions: {
+    ...v131Schema.positions,
+    positions: v131Schema.positions.positions.map((position: Position) => ({
+      ...position,
+      availableShortcutIds: [],
+    })),
+    shortcuts: [],
+    shortcutsStatus: 'idle',
+  },
+}
+
+export const v133Schema = {
+  ...v132Schema,
+  _persist: {
+    ...v132Schema._persist,
+    version: 133,
+  },
   nfts: {
     nfts: [],
     nftsError: null,
@@ -2299,5 +2339,5 @@ export const v131Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v131Schema as Partial<RootState>
+  return v133Schema as Partial<RootState>
 }

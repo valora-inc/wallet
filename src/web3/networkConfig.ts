@@ -48,6 +48,7 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
   getPositionsUrl: string
+  getShortcutsUrl: string
   getNftsByOwnerAddressUrl: string
 }
 
@@ -135,6 +136,8 @@ const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
 
 const GET_POSITIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getPositions`
 const GET_POSITIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getPositions`
+const GET_SHORTCUTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getShortcuts`
+const GET_SHORTCUTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getShortcuts`
 
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
@@ -191,6 +194,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
     getPositionsUrl: GET_POSITIONS_ALFAJORES,
+    getShortcutsUrl: GET_SHORTCUTS_ALFAJORES,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
   },
   [Testnets.mainnet]: {
@@ -237,6 +241,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
     getPositionsUrl: GET_POSITIONS_MAINNET,
+    getShortcutsUrl: GET_SHORTCUTS_MAINNET,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
   },
 }

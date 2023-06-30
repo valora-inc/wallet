@@ -318,12 +318,11 @@ describe('ActionRequest with WalletConnect V2', () => {
   describe('displayed dapp name falbacks', () => {
     const activeDapp: ActiveDapp = {
       id: 'someDappId',
-      categoryId: 'someCategory',
+      categories: ['someCategory'],
       iconUrl: '',
       name: 'someDappName',
       description: '',
       dappUrl: 'https://react-app.walletconnect.com',
-      isFeatured: false,
       openedFrom: DappSection.All,
     }
 
