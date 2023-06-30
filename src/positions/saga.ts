@@ -84,9 +84,9 @@ export function* fetchPositionsSaga() {
 export function* watchFetchBalances() {
   // Refresh positions when fetching token balances
   yield takeLeading(fetchTokenBalances.type, safely(fetchPositionsSaga))
+  yield takeLeading(fetchTokenBalances.type, safely(fetchShortcutsSaga))
 }
 
 export function* positionsSaga() {
   yield spawn(watchFetchBalances)
-  yield spawn(fetchShortcutsSaga)
 }
