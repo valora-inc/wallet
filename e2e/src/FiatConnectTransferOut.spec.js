@@ -17,7 +17,6 @@ describe(':ios: FiatConnect Transfer Out', () => {
     })
   })
 
-  const platform = device.getPlatform()
   // disable test for android until we fix the bottom sheet issue
   describe('Non KYC', fiatConnectNonKycTransferOut)
 
