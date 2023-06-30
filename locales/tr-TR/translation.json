@@ -1408,6 +1408,12 @@
       "title": "Fon transferi için yeni yollar",
       "body": "Doğrudan Valora uygulamasından banka hesaplarına ve banka hesaplarından para transfer etmenin yeni yollarını yayınlıyoruz.\n\nBunu görüyorsanız, bölgenizde bu özelliğe erişebildiğiniz anlamına gelir.",
       "dismiss": "Yoksay"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Ücretler dahil <0></0> ödeyeceksiniz"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Ücretler dahil <0></0> adresinden para çekeceksiniz"
     }
   },
   "fiatConnectLinkAccountScreen": {
