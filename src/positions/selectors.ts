@@ -63,17 +63,17 @@ export const positionsWithClaimableRewardsSelector = createSelector(
   (positions, shortcuts) => {
     const claimablePositions: ClaimablePosition[] = []
     positions.forEach((position) => {
-      const appShortcutIds = shortcuts
-        .filter((shortcut) => shortcut.appId === position.appId)
-        .map((shortcut) => shortcut.id)
+      const appShortcuts = shortcuts.filter((shortcut) => shortcut.appId === position.appId)
 
-      appShortcutIds.forEach((shortcutId) => {
+      appShortcuts.forEach((shortcut) => {
         const { availableShortcutIds, tokens, ...rest } = position
-        if (availableShortcutIds.includes(shortcutId)) {
+        if (availableShortcutIds.includes(shortcut.id)) {
           claimablePositions.push({
             ...rest,
-            shortcutId,
-            claimableTokens: getAllClaimableTokens(tokens),
+            claimableShortcut: {
+              ...shortcut,
+              claimableTokens: getAllClaimableTokens(tokens),
+            },
           })
         }
       })

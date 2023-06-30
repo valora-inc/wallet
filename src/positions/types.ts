@@ -63,7 +63,12 @@ export interface Shortcut {
   category?: 'claim'
 }
 
-export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
-  shortcutId: string
+export type ClaimableShortcut = Shortcut & {
   claimableTokens: TokenWithCategory[]
+}
+
+export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
+  claimableShortcut: Shortcut & {
+    claimableTokens: TokenWithCategory[]
+  }
 }
