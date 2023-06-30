@@ -1406,6 +1406,12 @@
       "title": "资金转账的新方式",
       "body": "我们即将发布直接从 Valora 应用程序与银行账户互相转账的新方式。\n\n如果您看到这条信息，则意味着您所在地区能够使用该功能。",
       "dismiss": "忽略"
+    },
+    "cashIn": {
+      "amountSpentInfo": "你将支付<0></0> ，包括费用"
+    },
+    "cashOut": {
+      "amountSpentInfo": "你将提取<0></0> ，包括费用"
     }
   },
   "fiatConnectLinkAccountScreen": {
