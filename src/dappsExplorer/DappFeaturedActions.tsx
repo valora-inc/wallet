@@ -7,6 +7,7 @@ import Touchable from 'src/components/Touchable'
 import { mostPopularDappsSelector } from 'src/dapps/selectors'
 import Trophy from 'src/icons/Trophy'
 import Wallet from 'src/icons/Wallet'
+import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
@@ -51,8 +52,8 @@ export function DappFeaturedActions({
   const showDappRankings = dappRankingsEnabled && mostPopularDapps.length > 0
 
   const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)
-  // TODO add check for if there are any shortcuts to show
-  const showClaimRewards = dappShortcutsEnabled
+  const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
+  const showClaimRewards = dappShortcutsEnabled && positionsWithClaimableRewards.length > 0
 
   // TODO impression analytics on scroll
 
@@ -74,22 +75,22 @@ export function DappFeaturedActions({
       showsHorizontalScrollIndicator={false}
       scrollEnabled={scrollEnabled}
     >
-      {showDappRankings && (
-        <FeaturedAction
-          title={t('dappRankings.title')}
-          description={t('dappRankings.description')}
-          onPress={onPressShowDappRankings}
-          Image={<Trophy />}
-          style={scrollEnabled ? styles.reducedWidthCard : undefined}
-        />
-      )}
-
       {showClaimRewards && (
         <FeaturedAction
           title={t('dappShortcuts.rewards.title')}
           description={t('dappShortcuts.rewards.description')}
           Image={<Wallet />}
           onPress={handleShowRewardsShortcuts}
+          style={scrollEnabled ? styles.reducedWidthCard : undefined}
+        />
+      )}
+
+      {showDappRankings && (
+        <FeaturedAction
+          title={t('dappRankings.title')}
+          description={t('dappRankings.description')}
+          onPress={onPressShowDappRankings}
+          Image={<Trophy />}
           style={
             scrollEnabled
               ? [

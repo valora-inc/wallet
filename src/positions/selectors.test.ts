@@ -2,10 +2,11 @@ import BigNumber from 'bignumber.js'
 import { getPositionBalanceUsd } from 'src/positions/getPositionBalanceUsd'
 import {
   positionsByBalanceUsdSelector,
+  positionsWithClaimableRewardsSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
 import { getFeatureGate } from 'src/statsig'
-import { mockPositions } from 'test/values'
+import { mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
@@ -84,6 +85,58 @@ describe('positionsByBalanceUsdSelector', () => {
           "appId": "ubeswap",
           "balanceUsd": "1.3207590254762067",
           "title": "CELO / cUSD",
+        },
+      ]
+    `)
+  })
+})
+
+describe('positionsWithClaimableRewardsSelector', () => {
+  it('should return positions with claimable rewards', () => {
+    const state: any = {
+      positions: {
+        positions: mockPositions,
+        shortcuts: mockShortcuts,
+      },
+    }
+    const positions = positionsWithClaimableRewardsSelector(state)
+    expect(
+      positions.map((position) => {
+        return position.claimableShortcut
+      })
+    ).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "appId": "ubeswap",
+          "category": "claim",
+          "claimableTokens": Array [
+            Object {
+              "address": "0x00be915b9dcf56a3cbe739d9b9c202ca692409ec",
+              "balance": "0.098322815093446616",
+              "category": "claimable",
+              "decimals": 18,
+              "network": "celo",
+              "priceUsd": "0.00904673476946796903",
+              "symbol": "UBE",
+              "type": "base-token",
+            },
+            Object {
+              "address": "0x471ece3750da237f93b8e339c536989b8978a438",
+              "balance": "0.950545800159603456",
+              "category": "claimable",
+              "decimals": 18,
+              "network": "celo",
+              "priceUsd": "0.6959536890241361",
+              "symbol": "CELO",
+              "type": "base-token",
+            },
+          ],
+          "description": "Claim rewards for staked liquidity",
+          "id": "claim-reward",
+          "name": "Claim",
+          "networks": Array [
+            "celo",
+          ],
         },
       ]
     `)
