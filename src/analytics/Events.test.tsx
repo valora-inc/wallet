@@ -27,11 +27,12 @@ describe('AnalyticsEvents', () => {
   describe.each(Object.keys(AnalyticsEvents))(
     "enum '%s' should have valid values",
     (eventEnumName) => {
-      const eventEnum = AnalyticsEvents[eventEnumName]
+      // @ts-ignore
+      const eventEnum = AnalyticsEvents[eventEnumName] as { [key: string]: string }
 
       it.each(Object.values(eventEnum))(
         `event name '%s' should contain ${FIREBASE_MIN_EVENT_NAME_LENGTH} to ${FIREBASE_MAX_EVENT_NAME_LENGTH} characters`,
-        (value: string) => {
+        (value) => {
           expect(value.length).toBeLessThanOrEqual(FIREBASE_MAX_EVENT_NAME_LENGTH)
           expect(value.length).toBeGreaterThanOrEqual(FIREBASE_MIN_EVENT_NAME_LENGTH)
         }
@@ -39,7 +40,7 @@ describe('AnalyticsEvents', () => {
 
       it.each(Object.values(eventEnum))(
         `event name '%s' should contain alphanumeric characters or underscores`,
-        (value: string) => {
+        (value) => {
           expect(value).toMatch(FIREBASE_EVENT_NAME_REGEX)
         }
       )
