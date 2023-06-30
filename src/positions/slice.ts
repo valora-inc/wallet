@@ -7,12 +7,14 @@ export interface State {
   positions: Position[]
   status: 'idle' | 'loading' | 'success' | 'error'
   shortcuts: Shortcut[]
+  shortcutsStatus: 'idle' | 'success' | 'error'
 }
 
 const initialState: State = {
   positions: [],
   status: 'idle',
   shortcuts: [],
+  shortcutsStatus: 'idle',
 }
 
 const slice = createSlice({
@@ -35,6 +37,11 @@ const slice = createSlice({
     fetchShortcutsSuccess: (state, action: PayloadAction<Shortcut[]>) => ({
       ...state,
       shortcuts: action.payload,
+      shortcutsStatus: 'success',
+    }),
+    fetchShortcutsFailure: (state, action: PayloadAction<Error>) => ({
+      ...state,
+      shortcutsStatus: 'error',
     }),
   },
   extraReducers: (builder) => {
@@ -42,6 +49,7 @@ const slice = createSlice({
       ...state,
       ...getRehydratePayload(action, 'positions'),
       status: 'idle',
+      shortcutsStatus: 'idle',
     }))
   },
 })
@@ -51,6 +59,7 @@ export const {
   fetchPositionsSuccess,
   fetchPositionsFailure,
   fetchShortcutsSuccess,
+  fetchShortcutsFailure,
 } = slice.actions
 
 export default slice.reducer

@@ -4066,6 +4066,14 @@
                     },
                     "type": "array"
                 },
+                "shortcutsStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "status": {
                     "enum": [
                         "error",
@@ -4079,6 +4087,7 @@
             "required": [
                 "positions",
                 "shortcuts",
+                "shortcutsStatus",
                 "status"
             ],
             "type": "object"
