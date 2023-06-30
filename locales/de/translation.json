@@ -1408,6 +1408,12 @@
       "title": "Neue Möglichkeiten, Geld zu überweisen",
       "body": "Wir stellen neue Möglichkeiten vor, Geld an ein und von einem Bankkonto zu überweisen – direkt in der Valora-App.\n\nWenn du diese Nachricht siehst, kannst du in deiner Region auf diese Funktion zugreifen.",
       "dismiss": "Verwerfen"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Du zahlst <0></0> inklusive Gebühren"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Du ziehst <0></0> inklusive Gebühren ab"
     }
   },
   "fiatConnectLinkAccountScreen": {
