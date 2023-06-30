@@ -1408,6 +1408,12 @@
       "title": "Nuove modalità di trasferimento",
       "body": "Stiamo rilasciando nuovi modi per trasferire fondi da e verso i conti bancari, direttamente dall'app Valora.\n\nSe stai vedendo questo messaggio, questa funzione è disponibile nella tua regione.",
       "dismiss": "Ignora"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Pagherai <0></0> comprese le tasse"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Potrai ritirare <0></0> comprese le commissioni"
     }
   },
   "fiatConnectLinkAccountScreen": {
