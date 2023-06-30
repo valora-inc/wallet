@@ -1166,4 +1166,12 @@ export const migrations = {
       shortcutsStatus: 'idle',
     },
   }),
+  133: (state: any) => ({
+    ...state,
+    nfts: {
+      nfts: [],
+      nftsLoading: false,
+      nftsError: null,
+    },
+  }),
 }
