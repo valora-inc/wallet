@@ -75,22 +75,22 @@ export function DappFeaturedActions({
       showsHorizontalScrollIndicator={false}
       scrollEnabled={scrollEnabled}
     >
-      {showDappRankings && (
-        <FeaturedAction
-          title={t('dappRankings.title')}
-          description={t('dappRankings.description')}
-          onPress={onPressShowDappRankings}
-          Image={<Trophy />}
-          style={scrollEnabled ? styles.reducedWidthCard : undefined}
-        />
-      )}
-
       {showClaimRewards && (
         <FeaturedAction
           title={t('dappShortcuts.rewards.title')}
           description={t('dappShortcuts.rewards.description')}
           Image={<Wallet />}
           onPress={handleShowRewardsShortcuts}
+          style={scrollEnabled ? styles.reducedWidthCard : undefined}
+        />
+      )}
+
+      {showDappRankings && (
+        <FeaturedAction
+          title={t('dappRankings.title')}
+          description={t('dappRankings.description')}
+          onPress={onPressShowDappRankings}
+          Image={<Trophy />}
           style={
             scrollEnabled
               ? [
