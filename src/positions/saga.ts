@@ -45,7 +45,7 @@ export function* fetchShortcutsSaga() {
       return
     }
 
-    const response = yield call(fetchWithTimeout, networkConfig.getPositionsShortcutsUrl)
+    const response = yield call(fetchWithTimeout, networkConfig.getShortcutsUrl)
     if (!response.ok) {
       throw new Error(`Unable to fetch shortcuts: ${response.status} ${response.statusText}`)
     }
