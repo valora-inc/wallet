@@ -1406,6 +1406,12 @@
       "title": "วิธีการโอนเงินแบบใหม่",
       "body": "เรากำลังจะใช้วิธีการโอนเงินแบบใหม่ระหว่างบัญชีธนาคารโดยตรงจากแอป Valora\n\nหากคุณเห็นข้อความนี้ แสดงว่าคุณสามารถเข้าใช้งานคุณสมบัตินี้ได้ในภูมิภาคของคุณ",
       "dismiss": "ปิด"
+    },
+    "cashIn": {
+      "amountSpentInfo": "You'll pay <0></0> including fees"
+    },
+    "cashOut": {
+      "amountSpentInfo": "You'll withdraw <0></0> including fees"
     }
   },
   "fiatConnectLinkAccountScreen": {
