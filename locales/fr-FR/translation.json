@@ -1408,6 +1408,12 @@
       "title": "De nouveaux moyens de transférer des fonds",
       "body": "Nous libérons de nouveaux moyens de transférer des fonds vers et depuis des comptes bancaires, directement depuis l'appli Valora.\n\nSi vous voyez ceci, cela signifie que vous avez cette fonctionnalité dans votre région.",
       "dismiss": "Ignorer"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Tu paieras <0></0>, y compris les frais"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Tu retireras <0></0>, frais compris"
     }
   },
   "fiatConnectLinkAccountScreen": {
