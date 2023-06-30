@@ -1406,6 +1406,12 @@
       "title": "Các phương thức chuyển tiền mới",
       "body": "Chúng tôi sẽ phát hành những phương thức mới để chuyển tiền vào và ra khỏi khoản ngân hàng, trực tiếp từ ứng dụng Valora.\n\nNếu bạn thấy điều này, thì có nghĩa là khu vực của bạn có thể truy cập tính năng này.",
       "dismiss": "Bỏ qua"
+    },
+    "cashIn": {
+      "amountSpentInfo": "You'll pay <0></0> including fees"
+    },
+    "cashOut": {
+      "amountSpentInfo": "You'll withdraw <0></0> including fees"
     }
   },
   "fiatConnectLinkAccountScreen": {
