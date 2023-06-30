@@ -78,7 +78,7 @@ describe('Given Nfts saga', () => {
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
           fetchNftsFailed({
-            error: 'Could not fetch NFTs',
+            error: 'Unable to fetch NFTs: 500 Internal Server Error',
           })
         )
         .run()

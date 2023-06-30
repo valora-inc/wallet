@@ -34,7 +34,7 @@ export function* handleFetchNfts() {
       },
     })
     if (!response.ok) {
-      throw new Error('Could not fetch NFTs')
+      throw new Error(`Unable to fetch NFTs: ${response.status} ${response.statusText}`)
     }
     const { result } = yield call([response, 'json'])
     yield put(fetchNftsCompleted(result))
