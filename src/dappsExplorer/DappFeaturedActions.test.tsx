@@ -40,7 +40,7 @@ describe('DappFeaturedActions', () => {
     expect(getByText('dappShortcuts.rewards.title')).toBeTruthy()
     expect(getByText('dappShortcuts.rewards.description')).toBeTruthy()
 
-    fireEvent.press(getAllByTestId('DappFeaturedAction')[0])
+    fireEvent.press(getAllByTestId('DappFeaturedAction')[1])
     expect(onPressRankingsSpy).toHaveBeenCalled()
 
     // TODO add test for press dapp shortcuts card
