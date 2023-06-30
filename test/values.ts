@@ -1185,6 +1185,7 @@ export const mockPositions: Position[] = [
             decimals: 18,
             priceUsd: '0.6959536890241361',
             balance: '0.950545800159603456',
+            category: 'claimable',
           },
           {
             type: 'base-token',
