@@ -3,8 +3,9 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
-import { showMessage } from 'src/alert/actions'
+import { showError, showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { openUrl } from 'src/app/actions'
 import { handleNotification } from 'src/firebase/notifications'
 import { navigate } from 'src/navigator/NavigationService'
@@ -200,6 +201,25 @@ describe(handleNotification, () => {
           tokenAmount: BigNumber(10),
         },
       })
+    })
+
+    it('does not navigate to the send confirmation screen if requested amount is greater than available balance', async () => {
+      const tokenBalances = Object.values(mockTokenBalances).map((tokenBalance) => ({
+        ...tokenBalance,
+        balance: BigNumber(1), // Balance in usd is smaller than requested amount
+        usdPrice: BigNumber(1),
+        lastKnownUsdPrice: null,
+      }))
+
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
+        .provide([
+          [select(recipientInfoSelector), mockRecipientInfo],
+          [select(stablecoinsSelector), tokenBalances],
+        ])
+        .put(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
+        .run()
+
+      expect(navigate).not.toHaveBeenCalled()
     })
   })
 
