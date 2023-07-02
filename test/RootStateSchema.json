@@ -300,7 +300,19 @@
                 "appName": {
                     "type": "string"
                 },
+                "availableShortcutIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "balance": {
+                    "type": "string"
+                },
+                "category": {
+                    "enum": [
+                        "claimable"
+                    ],
                     "type": "string"
                 },
                 "decimals": {
@@ -351,6 +363,7 @@
                 "address",
                 "appId",
                 "appName",
+                "availableShortcutIds",
                 "balance",
                 "decimals",
                 "displayProps",
@@ -399,6 +412,12 @@
                     "type": "string"
                 },
                 "balance": {
+                    "type": "string"
+                },
+                "category": {
+                    "enum": [
+                        "claimable"
+                    ],
                     "type": "string"
                 },
                 "decimals": {
@@ -737,6 +756,12 @@
                 "appName": {
                     "type": "string"
                 },
+                "availableShortcutIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "balanceUsd": {
                     "type": "string"
                 },
@@ -770,6 +795,7 @@
                 "address",
                 "appId",
                 "appName",
+                "availableShortcutIds",
                 "balanceUsd",
                 "displayProps",
                 "network",
@@ -813,6 +839,41 @@
             ],
             "type": "string"
         },
+        "Dapp": {
+            "additionalProperties": false,
+            "properties": {
+                "categories": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "categories",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "name"
+            ],
+            "type": "object"
+        },
         "DappCategory": {
             "additionalProperties": false,
             "properties": {
@@ -855,81 +916,6 @@
                 "recently used"
             ],
             "type": "string"
-        },
-        "DappV1": {
-            "additionalProperties": false,
-            "properties": {
-                "categoryId": {
-                    "type": "string"
-                },
-                "dappUrl": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "iconUrl": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isFeatured": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "categoryId",
-                "dappUrl",
-                "description",
-                "iconUrl",
-                "id",
-                "isFeatured",
-                "name"
-            ],
-            "type": "object"
-        },
-        "DappV2": {
-            "additionalProperties": false,
-            "properties": {
-                "categories": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "dappUrl": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "iconUrl": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isFeatured": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "categories",
-                "dappUrl",
-                "description",
-                "iconUrl",
-                "id",
-                "isFeatured",
-                "name"
-            ],
-            "type": "object"
         },
         "E164NumberToAddressType": {
             "additionalProperties": {
@@ -2567,6 +2553,43 @@
             ],
             "type": "object"
         },
+        "Shortcut": {
+            "additionalProperties": false,
+            "properties": {
+                "appId": {
+                    "type": "string"
+                },
+                "category": {
+                    "enum": [
+                        "claim"
+                    ],
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "networks": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "appId",
+                "description",
+                "id",
+                "name",
+                "networks"
+            ],
+            "type": "object"
+        },
         "SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>": {
             "additionalProperties": false,
             "properties": {
@@ -3504,46 +3527,6 @@
                         {
                             "additionalProperties": false,
                             "properties": {
-                                "categoryId": {
-                                    "type": "string"
-                                },
-                                "dappUrl": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "iconUrl": {
-                                    "type": "string"
-                                },
-                                "id": {
-                                    "type": "string"
-                                },
-                                "isFeatured": {
-                                    "type": "boolean"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "openedFrom": {
-                                    "$ref": "#/definitions/DappSection"
-                                }
-                            },
-                            "required": [
-                                "categoryId",
-                                "dappUrl",
-                                "description",
-                                "iconUrl",
-                                "id",
-                                "isFeatured",
-                                "name",
-                                "openedFrom"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "additionalProperties": false,
-                            "properties": {
                                 "categories": {
                                     "items": {
                                         "type": "string"
@@ -3562,9 +3545,6 @@
                                 "id": {
                                     "type": "string"
                                 },
-                                "isFeatured": {
-                                    "type": "boolean"
-                                },
                                 "name": {
                                     "type": "string"
                                 },
@@ -3578,7 +3558,6 @@
                                 "description",
                                 "iconUrl",
                                 "id",
-                                "isFeatured",
                                 "name",
                                 "openedFrom"
                             ],
@@ -3609,14 +3588,7 @@
                 },
                 "dappsList": {
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/DappV1"
-                            },
-                            {
-                                "$ref": "#/definitions/DappV2"
-                            }
-                        ]
+                        "$ref": "#/definitions/Dapp"
                     },
                     "type": "array"
                 },
@@ -4092,6 +4064,20 @@
                     },
                     "type": "array"
                 },
+                "shortcuts": {
+                    "items": {
+                        "$ref": "#/definitions/Shortcut"
+                    },
+                    "type": "array"
+                },
+                "shortcutsStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "status": {
                     "enum": [
                         "error",
@@ -4104,6 +4090,8 @@
             },
             "required": [
                 "positions",
+                "shortcuts",
+                "shortcutsStatus",
                 "status"
             ],
             "type": "object"
@@ -4139,6 +4127,32 @@
             },
             "required": [
                 "google"
+            ],
+            "type": "object"
+        },
+        "State_28": {
+            "additionalProperties": false,
+            "properties": {
+                "nfts": {
+                    "items": {
+                        "$ref": "#/definitions/Nft"
+                    },
+                    "type": "array"
+                },
+                "nftsError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "nftsLoading": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "nfts",
+                "nftsError",
+                "nftsLoading"
             ],
             "type": "object"
         },
@@ -5907,6 +5921,9 @@
         "networkInfo": {
             "$ref": "#/definitions/State_2"
         },
+        "nfts": {
+            "$ref": "#/definitions/State_28"
+        },
         "paymentRequest": {
             "$ref": "#/definitions/State_16"
         },
@@ -5956,6 +5973,7 @@
         "keylessBackup",
         "localCurrency",
         "networkInfo",
+        "nfts",
         "paymentRequest",
         "positions",
         "recipients",

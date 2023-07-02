@@ -1142,8 +1142,7 @@ interface CICOEventsProperties {
 }
 
 interface DappProperties {
-  categoryId?: string
-  categories?: string[]
+  categories: string[]
   dappId: string
   dappName: string
 }
@@ -1295,7 +1294,7 @@ interface NftsEventsProperties {
     contractAddress: string
     url?: string
     origin: NftOrigin
-    error: boolean
+    error?: string
   }
 }
 

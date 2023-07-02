@@ -5,16 +5,6 @@ import {
 } from 'src/dapps/selectors'
 import { getMockStoreData } from 'test/utils'
 
-const dapp1V1 = {
-  name: 'Ubeswap',
-  id: '1',
-  categoryId: '1',
-  description: 'Swap tokens!',
-  iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png',
-  dappUrl: 'https://app.ubeswap.org/',
-  isFeatured: false,
-}
-
 const dapp1V2 = {
   name: 'Ubeswap',
   id: '1',
@@ -22,17 +12,6 @@ const dapp1V2 = {
   description: 'Swap tokens!',
   iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png',
   dappUrl: 'https://app.ubeswap.org/',
-  isFeatured: false,
-}
-
-const dapp2V1 = {
-  name: 'Moola',
-  id: '2',
-  categoryId: '2',
-  description: 'Lend and borrow tokens!',
-  iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
-  dappUrl: 'celo://wallet/moolaScreen',
-  isFeatured: false,
 }
 
 const dapp2V2 = {
@@ -42,7 +21,6 @@ const dapp2V2 = {
   description: 'Lend and borrow tokens!',
   iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
   dappUrl: 'celo://wallet/moolaScreen',
-  isFeatured: false,
 }
 
 const dappsCategories = [
@@ -61,16 +39,12 @@ const dappsCategories = [
 ]
 
 describe('dappCategoriesSelector', () => {
-  it.each`
-    dappList              | dappVersion
-    ${[dapp1V1, dapp2V1]} | ${'v1'}
-    ${[dapp1V2, dapp2V2]} | ${'v2'}
-  `('should return categories with dapps for $dappVersion', ({ dappList }) => {
+  it('should return categories with dapps for $dappVersion', () => {
     expect(
       dappCategoriesSelector(
         getMockStoreData({
           dapps: {
-            dappsList: dappList,
+            dappsList: [dapp1V2, dapp2V2],
             dappsCategories,
           },
         })
@@ -78,11 +52,11 @@ describe('dappCategoriesSelector', () => {
     ).toEqual([
       {
         ...dappsCategories[0],
-        dapps: [dappList[0]],
+        dapps: [dapp1V2],
       },
       {
         ...dappsCategories[1],
-        dapps: [dappList[1]],
+        dapps: [dapp2V2],
       },
     ])
   })

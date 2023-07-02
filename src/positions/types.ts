@@ -7,6 +7,8 @@ export interface PositionDisplayProps {
   imageUrl: string
 }
 
+export type TokenCategory = 'claimable'
+
 export interface AbstractPosition {
   address: string // Example: 0x...
   network: string // Example: celo
@@ -14,6 +16,7 @@ export interface AbstractPosition {
   appName: string
   tokens: Token[]
   displayProps: PositionDisplayProps
+  availableShortcutIds: string[]
 }
 
 // There's an opportunity to combine with the types in src/tokens/slice.ts
@@ -25,6 +28,7 @@ export interface AbstractToken {
   decimals: number // Example: 18
   priceUsd: SerializedDecimalNumber // Example: "1.5"
   balance: SerializedDecimalNumber // Example: "200", would be negative for debt
+  category?: TokenCategory
 }
 
 export interface BaseToken extends AbstractToken {
@@ -46,3 +50,22 @@ export interface ContractPosition extends AbstractPosition {
 
 export type Token = BaseToken | AppTokenPosition
 export type Position = AppTokenPosition | ContractPosition
+
+export interface Shortcut {
+  id: string
+  appId: string
+  name: string
+  description: string
+  networks: string[]
+  category?: 'claim'
+}
+
+export type ClaimableShortcut = Shortcut & {
+  claimableTokens: Token[]
+}
+
+export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
+  claimableShortcut: Shortcut & {
+    claimableTokens: Token[]
+  }
+}

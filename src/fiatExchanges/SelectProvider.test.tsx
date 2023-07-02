@@ -8,7 +8,7 @@ import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fi
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -112,6 +112,7 @@ describe(SelectProviderScreen, () => {
       addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
       addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
     })
+    mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('calls fetchProviders correctly', async () => {
@@ -156,7 +157,7 @@ describe(SelectProviderScreen, () => {
         quotes: [mockFiatConnectQuotes[4]],
       },
     })
-    const { queryByText, getByTestId, getByText } = render(
+    const { queryByTestId, queryByText, getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
@@ -171,6 +172,55 @@ describe(SelectProviderScreen, () => {
 
     expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
     expect(getByText('selectProviderScreen.disclaimer')).toBeTruthy()
+    expect(queryByTestId('AmountSpentInfo')).toBeFalsy()
+  })
+  it('shows you will pay fiat amount for cash ins if feature flag is true', async () => {
+    mocked(fetchProviders).mockResolvedValue(mockProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    mocked(getFeatureGate).mockReturnValue(true)
+    mockStore = createMockStore({
+      ...MOCK_STORE_DATA,
+      fiatConnect: {
+        quotesError: null,
+        quotesLoading: false,
+        quotes: [mockFiatConnectQuotes[4]],
+      },
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+
+    expect(getByTestId('AmountSpentInfo')).toBeTruthy()
+    expect(getByText(/selectProviderScreen.cashIn.amountSpentInfo/)).toBeTruthy()
+    expect(getByTestId('AmountSpentInfo/Fiat/value')).toBeTruthy()
+  })
+  it('shows you will withdraw crypto amount for cash outs if feature flag is true', async () => {
+    mocked(fetchProviders).mockResolvedValue(mockProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    mocked(getFeatureGate).mockReturnValue(true)
+    mockStore = createMockStore({
+      ...MOCK_STORE_DATA,
+      fiatConnect: {
+        quotesError: null,
+        quotesLoading: false,
+        quotes: [mockFiatConnectQuotes[4]],
+      },
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut)} />
+      </Provider>
+    )
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+
+    expect(getByTestId('AmountSpentInfo')).toBeTruthy()
+    expect(getByText(/selectProviderScreen.cashOut.amountSpentInfo/)).toBeTruthy()
+    expect(getByTestId('AmountSpentInfo/Crypto')).toBeTruthy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])

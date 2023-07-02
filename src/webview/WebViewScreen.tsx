@@ -12,7 +12,6 @@ import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { dappSessionEnded } from 'src/dapps/slice'
-import { isDappV2 } from 'src/dapps/types'
 import BackChevron from 'src/icons/BackChevron'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import Refresh from 'src/icons/Refresh'
@@ -105,21 +104,12 @@ function WebViewScreen({ route, navigation }: Props) {
       // refreshed in the future
       if (activeDapp) {
         dispatch(dappSessionEnded())
-        if (isDappV2(activeDapp)) {
-          ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
-            categories: activeDapp.categories,
-            dappId: activeDapp.id,
-            dappName: activeDapp.name,
-            section: activeDapp.openedFrom,
-          })
-        } else {
-          ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
-            categoryId: activeDapp.categoryId,
-            dappId: activeDapp.id,
-            dappName: activeDapp.name,
-            section: activeDapp.openedFrom,
-          })
-        }
+        ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+          categories: activeDapp.categories,
+          dappId: activeDapp.id,
+          dappName: activeDapp.name,
+          section: activeDapp.openedFrom,
+        })
       }
     }
   }, [])

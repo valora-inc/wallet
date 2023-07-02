@@ -10,13 +10,10 @@ import {
   fetchDappsListCompleted,
   fetchDappsListFailed,
 } from 'src/dapps/slice'
-import { DappCategory, DappV1, DappV2 } from 'src/dapps/types'
+import { DappCategory } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -27,16 +24,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DappsSaga'
 
-interface ApplicationV1 {
-  description: string
-  id: string
-  logoUrl: string
-  name: string
-  url: string
-  categoryId: string
-}
-
-interface ApplicationV2 {
+interface Application {
   description: string
   id: string
   logoUrl: string
@@ -44,9 +32,6 @@ interface ApplicationV2 {
   url: string
   categories: string[]
 }
-
-export const isApplicationV2 = (dapp: ApplicationV1 | ApplicationV2): dapp is ApplicationV2 =>
-  'categories' in dapp
 
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
@@ -81,12 +66,8 @@ export function* handleFetchDappsList() {
 
   const language = yield select(currentLanguageSelector)
   const shortLanguage = language.split('-')[0]
-  const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
-  )
 
-  const dappsListVersion = dappsFilterEnabled || dappsSearchEnabled ? '2' : '1'
-  const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=${dappsListVersion}`
+  const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=2`
 
   const response = yield call(fetch, url, {
     method: 'GET',
@@ -99,35 +80,21 @@ export function* handleFetchDappsList() {
   if (response.ok) {
     try {
       const result: {
-        applications: ApplicationV1[] | ApplicationV2[]
+        applications: Application[]
         categories: DappCategory[]
-        featured: ApplicationV1
         mostPopularDapps: string[]
       } = yield call([response, 'json'])
 
-      const dappsList: Array<DappV1 | DappV2> = isApplicationV2(result.applications[0])
-        ? (result.applications as ApplicationV2[]).map((application) => {
-            return {
-              id: application.id,
-              categories: application.categories,
-              name: application.name,
-              iconUrl: application.logoUrl,
-              description: application.description,
-              dappUrl: application.url.replace('{{address}}', address ?? ''),
-              isFeatured: application.id === result.featured.id,
-            }
-          })
-        : (result.applications as ApplicationV1[]).map((application) => {
-            return {
-              id: application.id,
-              categoryId: application.categoryId,
-              name: application.name,
-              iconUrl: application.logoUrl,
-              description: application.description,
-              dappUrl: application.url.replace('{{address}}', address ?? ''),
-              isFeatured: application.id === result.featured.id,
-            }
-          })
+      const dappsList = result.applications.map((application) => {
+        return {
+          id: application.id,
+          categories: application.categories,
+          name: application.name,
+          iconUrl: application.logoUrl,
+          description: application.description,
+          dappUrl: application.url.replace('{{address}}', address ?? ''),
+        }
+      })
 
       yield put(
         fetchDappsListCompleted({

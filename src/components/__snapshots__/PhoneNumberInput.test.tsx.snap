@@ -175,6 +175,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
             ]
           }
           testID="PhoneNumberField"
+          textContentType="telephoneNumber"
           underlineColorAndroid="transparent"
           validator="phone"
           value=""
