@@ -220,17 +220,16 @@ export class KeychainSigner implements Signer {
   }
 
   async unlock(passphrase: string, duration: number): Promise<boolean> {
-    try {
-      const privateKey = await this.keychainAccountManager.unlockAccount(
-        this.account.address,
-        passphrase,
-        duration
-      )
-      this.unlockedLocalSigner = new LocalSigner(privateKey)
-      return true
-    } catch (error) {
+    const privateKey = await this.keychainAccountManager.unlockAccount(
+      this.account.address,
+      passphrase,
+      duration
+    )
+    if (!privateKey) {
       return false
     }
+    this.unlockedLocalSigner = new LocalSigner(privateKey)
+    return true
   }
 
   isUnlocked(): boolean {

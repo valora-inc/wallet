@@ -1,4 +1,4 @@
-import { normalizeAddressWith0x, privateKeyToAddress } from '@celo/utils/lib/address'
+import { normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { Chain } from 'src/ethers/types'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { ValoraWallet } from 'src/web3/types'
@@ -13,8 +13,18 @@ const providerUrlForChain: Record<Chain, string> = {
   [Chain.Celo]: DEFAULT_FORNO_URL,
 }
 
+/**
+ * This class is entrusted with non-expiring access to a user's private key.
+ * Methods on this class that access/use the user's private key in any way MUST
+ * first check if the account is unlocked via the `isAccountUnlocked` method,
+ * and throw if the account is not unlocked; this effectively means that such
+ * functions require user PIN entry in order to call.
+ *
+ * Ideally, this responsibility would be enforced programatically. The current approach
+ * was opted for out of simplicity and to reduce changes needed on existing critical code.
+ */
 class ValoraEthersWallet implements ValoraWallet {
-  walletMap: Record<string, ethers.Wallet>
+  walletMap: Record<string, ethers.Wallet> // keys are lowercase account addresses
 
   constructor(protected chain: Chain, private keychainAccountManager: KeychainAccountManager) {
     this.walletMap = {}
@@ -24,7 +34,7 @@ class ValoraEthersWallet implements ValoraWallet {
         address: string,
         _account: KeychainAccount
       ): Promise<void> => {
-        await this._addAccount(normalizedPrivateKey, address)
+        this.addAccountCallback.bind(this)(normalizedPrivateKey, address)
       }
     )
   }
@@ -64,14 +74,14 @@ class ValoraEthersWallet implements ValoraWallet {
   }
 
   hasAccount(address?: string): boolean {
-    return address !== undefined && address in this.walletMap
+    return address !== undefined && normalizeAddressWith0x(address) in this.walletMap
   }
 
   getAccounts(): string[] {
     return Object.keys(this.walletMap)
   }
 
-  private async _addAccount(privateKey: string, address: string) {
+  private addAccountCallback(privateKey: string, address: string) {
     if (this.hasAccount(address)) {
       throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
@@ -82,10 +92,7 @@ class ValoraEthersWallet implements ValoraWallet {
   }
 
   async addAccount(privateKey: string, password: string): Promise<string> {
-    const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
-    const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
-    const account = { address, createdAt: new Date() }
-    return await this.keychainAccountManager.addAccount(privateKey, account, password)
+    return await this.keychainAccountManager.addAccount(privateKey, password)
   }
 
   async unlockAccount(address: string, password: string, duration: number): Promise<boolean> {

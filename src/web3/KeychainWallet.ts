@@ -1,4 +1,3 @@
-import { normalizeAddressWith0x, privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
 import { KeychainAccount } from 'src/web3/types'
@@ -28,7 +27,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
         address: string,
         account: KeychainAccount
       ): Promise<void> => {
-        this._addAccount(address, account)
+        this.addAccountCallback.bind(this)(address, account)
       }
     )
   }
@@ -43,7 +42,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
     return addressToSigner
   }
 
-  private _addAccount(address: string, account: KeychainAccount) {
+  private addAccountCallback(address: string, account: KeychainAccount) {
     if (this.hasAccount(address)) {
       throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
@@ -53,10 +52,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
 
   async addAccount(privateKey: string, passphrase: string): Promise<string> {
     // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
-    const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
-    const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
-    const account = { address, createdAt: new Date() }
-    return await this.keychainAccountManager.addAccount(privateKey, account, passphrase)
+    return await this.keychainAccountManager.addAccount(privateKey, passphrase)
   }
   /**
    * Updates the passphrase of an account

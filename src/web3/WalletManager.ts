@@ -11,10 +11,6 @@ class WalletManager {
 
   constructor(private importMnemonicAccount: ImportMnemonicAccount) {
     this.keychainAccountManager = new KeychainAccountManager()
-  }
-
-  async init() {
-    await this.keychainAccountManager.init(this.importMnemonicAccount)
     this.contractKitWallet = new ValoraCeloWallet(
       this.importMnemonicAccount,
       this.keychainAccountManager
@@ -22,6 +18,10 @@ class WalletManager {
     this.ethersWallets = {
       [Chain.Celo]: new ValoraEthersWallet(Chain.Celo, this.keychainAccountManager),
     }
+  }
+
+  async init() {
+    await this.keychainAccountManager.init(this.importMnemonicAccount)
   }
 
   getContractKitWallet(): ValoraCeloWallet {

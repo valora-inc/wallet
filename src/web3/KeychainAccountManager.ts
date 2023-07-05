@@ -59,17 +59,14 @@ class KeychainAccountManager {
     this.addAccountCallbacks.push(cb)
   }
 
-  async addAccount(
-    privateKey: string,
-    account: KeychainAccount,
-    password: string
-  ): Promise<string> {
+  async addAccount(privateKey: string, password: string): Promise<string> {
     const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
     const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
     Logger.info(`${TAG}@addAccount`, `Adding a new account`)
     if (this.hasAccount(address)) {
       throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
+    const account: KeychainAccount = { address, createdAt: new Date() }
     await storePrivateKey(privateKey, account, password)
     // After we've stored the key on the keychain, update any wallets to notify them of
     // the new account.
@@ -80,7 +77,7 @@ class KeychainAccountManager {
   }
 
   hasAccount(address: string): boolean {
-    return address in this.accountInfo
+    return normalizeAddressWith0x(address) in this.accountInfo
   }
 
   async updateAccount(address: string, oldPassword: string, newPassword: string): Promise<boolean> {
@@ -93,14 +90,19 @@ class KeychainAccountManager {
     return true
   }
 
-  async unlockAccount(address: string, password: string, duration: number): Promise<string> {
-    const accountInfo = this.accountInfo?.[address]
+  async unlockAccount(
+    address: string,
+    password: string,
+    duration: number
+  ): Promise<string | undefined> {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    const accountInfo = this.accountInfo?.[normalizedAddress]
     const privateKey = await getStoredPrivateKey(accountInfo, password)
     if (!privateKey) {
-      throw new Error(`Could not unlock account: {account.address}`)
+      return
     }
 
-    this.accountLocks[address] = {
+    this.accountLocks[normalizedAddress] = {
       unlockTime: Date.now(),
       unlockDuration: duration,
     }
@@ -108,7 +110,7 @@ class KeychainAccountManager {
   }
 
   isAccountUnlocked(address: string) {
-    const accountUnlockData = this.accountLocks?.[address]
+    const accountUnlockData = this.accountLocks?.[normalizeAddressWith0x(address)]
     if (
       accountUnlockData === undefined ||
       accountUnlockData?.unlockTime === undefined ||
