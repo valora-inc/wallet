@@ -120,6 +120,7 @@ export default function PhoneNumberInput({
           value={internationalPhoneNumber}
           placeholder={numberPlaceholder}
           keyboardType="phone-pad"
+          textContentType="telephoneNumber"
           testID="PhoneNumberField"
           validator={ValidatorKind.Phone}
           countryCallingCode={countryCallingCode}

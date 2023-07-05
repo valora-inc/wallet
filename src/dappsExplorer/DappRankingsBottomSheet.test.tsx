@@ -4,9 +4,9 @@ import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
-import { DappRankingsBottomSheet, DappRankingsCard } from 'src/dappsExplorer/DappRankings'
+import { DappRankingsBottomSheet } from 'src/dappsExplorer/DappRankingsBottomSheet'
 import { createMockStore } from 'test/utils'
-import { mockDappListV2 } from 'test/values'
+import { mockDappList } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -16,53 +16,9 @@ jest.mock('src/statsig', () => ({
   })),
 }))
 
-describe('DappRankings', () => {
+describe('DappRankingsBottomSheet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-  })
-
-  it('should render correctly', () => {
-    const onPressSpy = jest.fn()
-    const { getByText, getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          dapps: {
-            dappListApiUrl: 'http://url.com',
-            dappsList: mockDappListV2,
-            mostPopularDappIds: ['dapp2'],
-          },
-        })}
-      >
-        <DappRankingsCard onPress={onPressSpy} />
-      </Provider>
-    )
-
-    expect(getByText('dappRankings.title')).toBeTruthy()
-    expect(getByText('dappRankings.description')).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_rankings_impression)
-
-    fireEvent.press(getByTestId('DappRankings'))
-
-    expect(onPressSpy).toHaveBeenCalled()
-  })
-
-  it('should render nothing if there are no popular dapps', () => {
-    const { queryByTestId } = render(
-      <Provider
-        store={createMockStore({
-          dapps: {
-            dappListApiUrl: 'http://url.com',
-            dappsList: mockDappListV2,
-            mostPopularDappIds: [],
-          },
-        })}
-      >
-        <DappRankingsCard onPress={jest.fn()} />
-      </Provider>
-    )
-
-    expect(queryByTestId('DappRankings')).toBeFalsy()
-    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('should render the correct list of ranked dapps', () => {
@@ -72,7 +28,7 @@ describe('DappRankings', () => {
         store={createMockStore({
           dapps: {
             dappListApiUrl: 'http://url.com',
-            dappsList: mockDappListV2,
+            dappsList: mockDappList,
             mostPopularDappIds: ['dapp2'],
           },
         })}
@@ -84,12 +40,12 @@ describe('DappRankings', () => {
     expect(getByText('dappRankings.title')).toBeTruthy()
     expect(getByText('dappRankings.description')).toBeTruthy()
     expect(getAllByTestId('PopularDappCard')).toHaveLength(1)
-    expect(getByText(mockDappListV2[1].name)).toBeTruthy()
+    expect(getByText(mockDappList[1].name)).toBeTruthy()
 
     fireEvent.press(getByTestId('Dapp/dapp2'))
 
     expect(onPressSpy).toHaveBeenCalledWith({
-      ...mockDappListV2[1],
+      ...mockDappList[1],
       openedFrom: 'mostPopular',
     })
   })
@@ -98,7 +54,7 @@ describe('DappRankings', () => {
     const store = createMockStore({
       dapps: {
         dappListApiUrl: 'http://url.com',
-        dappsList: mockDappListV2,
+        dappsList: mockDappList,
         mostPopularDappIds: ['dapp2'],
         dappFavoritesEnabled: true,
       },
@@ -114,7 +70,6 @@ describe('DappRankings', () => {
     expect(store.getActions()).toEqual([favoriteDapp({ dappId: 'dapp2' })])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_favorite, {
       categories: ['2'],
-      categoryId: undefined,
       dappId: 'dapp2',
       dappName: 'Dapp 2',
       section: 'mostPopular',
@@ -125,7 +80,7 @@ describe('DappRankings', () => {
     const store = createMockStore({
       dapps: {
         dappListApiUrl: 'http://url.com',
-        dappsList: mockDappListV2,
+        dappsList: mockDappList,
         mostPopularDappIds: ['dapp2'],
         dappFavoritesEnabled: true,
         favoriteDappIds: ['dapp2'],
@@ -142,7 +97,6 @@ describe('DappRankings', () => {
     expect(store.getActions()).toEqual([unfavoriteDapp({ dappId: 'dapp2' })])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_unfavorite, {
       categories: ['2'],
-      categoryId: undefined,
       dappId: 'dapp2',
       dappName: 'Dapp 2',
       section: 'mostPopular',

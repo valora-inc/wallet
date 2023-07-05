@@ -10,15 +10,9 @@ export default DappListDisplay = () => {
     dappList = await fetchDappList()
   })
 
-  it('should show correct featured dapp', async () => {
-    await navigateToDappList()
-    const featuredDappName = await getElementText('FeaturedDapp/Name')
-    await jestExpect(featuredDappName).toEqual(dappList.featured.name)
-  })
-
   it('should show dapp info icon and subsequent modal', async () => {
-    await waitForElementId('DAppsExplorerScreenLegacy/HeaderButtons/HelpIcon')
-    await element(by.id('DAppsExplorerScreenLegacy/HeaderButtons/HelpIcon')).tap()
+    await waitForElementId('DAppsExplorerScreen/HeaderButtons/HelpIcon')
+    await element(by.id('DAppsExplorerScreen/HeaderButtons/HelpIcon')).tap()
     await waitForElementId('DAppsExplorerScreen/InfoBottomSheet/PrimaryAction')
     await element(by.id('DAppsExplorerScreen/InfoBottomSheet/PrimaryAction')).tap()
 

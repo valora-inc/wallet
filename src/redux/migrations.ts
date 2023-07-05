@@ -2,12 +2,13 @@ import _ from 'lodash'
 import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
-import { DappConnectInfo, DappV1, DappV2 } from 'src/dapps/types'
+import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { Position } from 'src/positions/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
@@ -961,8 +962,8 @@ export const migrations = {
     ...state,
     dapps: {
       ..._.omit(state.dapps, 'recentDapps', 'favoriteDapps'),
-      recentDappIds: state.dapps.recentDapps.map((dapp: DappV1 | DappV2) => dapp.id),
-      favoriteDappIds: state.dapps.favoriteDapps.map((dapp: DappV1 | DappV2) => dapp.id),
+      recentDappIds: state.dapps.recentDapps.map((dapp: Dapp) => dapp.id),
+      favoriteDappIds: state.dapps.favoriteDapps.map((dapp: Dapp) => dapp.id),
     },
   }),
   100: (state: any) => ({
@@ -1136,6 +1137,36 @@ export const migrations = {
   129: (state: any) => state,
   130: (state: any) => state,
   131: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsList: state.dapps.dappsList.map(
+        (dapp: Dapp | (Omit<Dapp, 'categories'> & { categoryId: string })) => ({
+          ...dapp,
+          categories: 'categories' in dapp ? dapp.categories : [dapp.categoryId],
+        })
+      ),
+      activeDapp: state.dapps.activeDapp
+        ? {
+            ...state.dapps.activeDapp,
+            categories: state.dapps.activeDapp.categories ?? [state.dapps.activeDapp.categoryId],
+          }
+        : null,
+    },
+  }),
+  132: (state: any) => ({
+    ...state,
+    positions: {
+      ...state.positions,
+      positions: state.positions.positions.map((position: Position) => ({
+        ...position,
+        availableShortcutIds: [],
+      })),
+      shortcuts: [],
+      shortcutsStatus: 'idle',
+    },
+  }),
+  133: (state: any) => ({
     ...state,
     nfts: {
       nfts: [],

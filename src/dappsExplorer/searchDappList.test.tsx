@@ -8,7 +8,6 @@ const dappV2Ubeswap: DappV2WithCategoryNames = {
   dappUrl: 'https://app.ubeswap.org/',
   categories: ['exchanges', 'earn'],
   iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
-  isFeatured: false,
   id: 'ubeswap',
   categoryNames: ['Cambia', 'Gana'],
 }
@@ -19,7 +18,6 @@ const dappV2Revo: DappV2WithCategoryNames = {
   dappUrl: 'https://revo.market',
   categories: ['earn'],
   iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/revo.png',
-  isFeatured: false,
   id: 'revo',
   categoryNames: ['Gana'],
 }

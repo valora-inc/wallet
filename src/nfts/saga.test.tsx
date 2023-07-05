@@ -61,7 +61,8 @@ describe('Given Nfts saga', () => {
         ])
         .put(
           fetchNftsFailed({
-            error: 'Could not parse NFTs',
+            error:
+              'invalid json response body at  reason: Unexpected token i in JSON at position 0',
           })
         )
         .run()
@@ -77,7 +78,7 @@ describe('Given Nfts saga', () => {
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
           fetchNftsFailed({
-            error: 'Could not fetch NFTs',
+            error: 'Unable to fetch NFTs: 500 Internal Server Error',
           })
         )
         .run()

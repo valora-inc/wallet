@@ -40,10 +40,7 @@ import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { dappsListApiUrlSelector } from 'src/dapps/selectors'
-import DAppsExplorerScreenFilter from 'src/dappsExplorer/filter/DAppsExplorerScreenFilter'
-import DAppsExplorerScreenLegacy from 'src/dappsExplorer/legacy/DAppsExplorerScreenLegacy'
-import DAppsExplorerScreenSearch from 'src/dappsExplorer/search/DAppsExplorerScreenSearch'
-import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/searchFilter/DAppsExplorerScreenSearchFilter'
+import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
@@ -209,9 +206,6 @@ export default function DrawerNavigator({ route }: Props) {
   const { t } = useTranslation()
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const { dappsFilterEnabled, dappsSearchEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.DAPPS_FILTERS_AND_SEARCH]
-  )
 
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
@@ -281,15 +275,7 @@ export default function DrawerNavigator({ route }: Props) {
       {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
-          component={
-            dappsSearchEnabled && dappsFilterEnabled
-              ? DAppsExplorerScreenSearchFilter
-              : dappsSearchEnabled
-              ? DAppsExplorerScreenSearch
-              : dappsFilterEnabled
-              ? DAppsExplorerScreenFilter
-              : DAppsExplorerScreenLegacy
-          }
+          component={DAppsExplorerScreenSearchFilter}
           options={{
             title:
               (discoverCopyEnabled ? t('dappsScreen.titleDiscover') : t('dappsScreen.title')) ??

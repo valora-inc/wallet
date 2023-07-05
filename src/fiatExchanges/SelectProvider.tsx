@@ -17,6 +17,11 @@ import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import {
+  PaymentMethodSection,
+  PaymentMethodSectionMethods,
+} from 'src/fiatExchanges/PaymentMethodSection'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import {
   ProviderSelectionAnalyticsData,
@@ -31,10 +36,6 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
-import {
-  PaymentMethodSection,
-  PaymentMethodSectionMethods,
-} from 'src/fiatExchanges/PaymentMethodSection'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
@@ -46,9 +47,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -271,8 +272,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     cryptoType: digitalAsset,
   })
 
+  const showReceiveAmount = getFeatureGate(
+    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER
+  )
+
   return (
     <ScrollView>
+      {showReceiveAmount && <AmountSpentInfo {...route.params} />}
       {paymentMethodSections.map((paymentMethod) => (
         <PaymentMethodSection
           key={paymentMethod}
@@ -316,6 +322,37 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         </View>
       )}
     </ScrollView>
+  )
+}
+
+function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['params']) {
+  const localCurrency = useSelector(getLocalCurrencyCode)
+  return (
+    <View style={styles.amountSpentInfo} testID="AmountSpentInfo">
+      <Text style={styles.amountSpentInfoText}>
+        <Trans
+          i18nKey={
+            flow === CICOFlow.CashIn
+              ? 'selectProviderScreen.cashIn.amountSpentInfo'
+              : 'selectProviderScreen.cashOut.amountSpentInfo'
+          }
+        >
+          {flow === CICOFlow.CashIn ? (
+            <FiatAmount
+              amount={amount.fiat}
+              currency={localCurrency}
+              testID="AmountSpentInfo/Fiat"
+            />
+          ) : (
+            <CryptoAmount
+              amount={amount.crypto}
+              currency={selectedCrypto}
+              testID="AmountSpentInfo/Crypto"
+            />
+          )}
+        </Trans>
+      </Text>
+    </View>
   )
 }
 
@@ -570,6 +607,17 @@ const styles = StyleSheet.create({
     ...fontStyles.large500,
     color: colors.gray4,
     padding: Spacing.Smallest8,
+  },
+  amountSpentInfo: {
+    marginHorizontal: 16,
+    marginBottom: 8,
+    padding: 16,
+    backgroundColor: colors.gray1,
+    borderRadius: 16,
+  },
+  amountSpentInfoText: {
+    textAlign: 'center',
+    ...fontStyles.xsmall600,
   },
 })
 SelectProviderScreen.navigationOptions = ({

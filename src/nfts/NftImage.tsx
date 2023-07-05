@@ -31,6 +31,7 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
       borderRadius={borderRadius}
       backgroundColor={colors.gray2}
       highlightColor={colors.white}
+      testID={testID}
     >
       <View
         style={{
@@ -38,11 +39,12 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
           width: width ?? variables.width,
           zIndex: -1,
         }}
-        testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
       />
     </SkeletonPlaceholder>
   )
 }
+
+type Status = 'loading' | 'error' | 'success'
 
 export default function NftImage({
   nft,
@@ -54,8 +56,7 @@ export default function NftImage({
   ErrorComponent,
   testID,
 }: Props) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(!nft.metadata)
+  const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
 
   const imageUrl = useMemo(
@@ -64,10 +65,15 @@ export default function NftImage({
   )
 
   useEffect(() => {
-    setError(!nft.metadata)
+    if (nft.metadata) {
+      setStatus('loading')
+    } else {
+      sendImageLoadEvent('No nft metadata')
+      setStatus('error')
+    }
   }, [nft])
 
-  function sendEventWithError(error: boolean) {
+  function sendImageLoadEvent(error?: string) {
     const { contractAddress, tokenId } = nft
     ValoraAnalytics.track(NftEvents.nft_image_load, {
       tokenId,
@@ -86,18 +92,18 @@ export default function NftImage({
   }
 
   function handleLoadError() {
-    sendEventWithError(true)
-    setError(true)
+    sendImageLoadEvent('Failed to load image')
+    setStatus('error')
   }
 
   function handleLoadSuccess() {
-    sendEventWithError(false)
-    setIsLoading(false)
+    sendImageLoadEvent()
+    setStatus('success')
   }
 
   return (
     <>
-      {error ? (
+      {status === 'error' ? (
         ErrorComponent
       ) : (
         <FastImage
@@ -120,7 +126,7 @@ export default function NftImage({
             shouldAutoScaleHeight ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
           }
         >
-          {isLoading && (
+          {status === 'loading' && (
             <ImagePlaceholder
               height={shouldAutoScaleHeight ? scaledHeight : height}
               width={width}
