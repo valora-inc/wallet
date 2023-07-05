@@ -23,6 +23,7 @@ export enum StatsigFeatureGates {
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
   SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',
+  SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
 }
 
 export enum StatsigExperiments {

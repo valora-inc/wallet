@@ -14,6 +14,7 @@ import {
   v124Schema,
   v125Schema,
   v130Schema,
+  v132Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -953,5 +954,17 @@ describe('Redux persist migrations', () => {
 
     expect(migratedV1Schema).toMatchObject(expectedSchemaWithV2Dapp)
     expect(migratedV2Schema).toMatchObject(expectedSchemaWithV2Dapp)
+  })
+
+  it('works from v132 to v133', () => {
+    const oldSchema = v132Schema
+    const migratedSchema = migrations[133](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.nfts = {
+      nfts: [],
+      nftsError: null,
+      nftsLoading: false,
+    }
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
