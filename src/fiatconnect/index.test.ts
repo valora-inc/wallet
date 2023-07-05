@@ -6,7 +6,8 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
+import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
+import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 import networkConfig from 'src/web3/networkConfig'
 import {
   mockAccount,
@@ -39,13 +40,11 @@ jest.mock('src/utils/Logger', () => ({
   },
 }))
 
-jest.mock('src/web3/KeychainWallet', () => {
-  return {
-    KeychainWallet: () => {
-      return jest.fn(() => {
-        return {}
-      })
-    },
+jest.mock('src/web3/ValoraCeloWallet', () => {
+  return () => {
+    return jest.fn(() => {
+      return {}
+    })
   }
 })
 
@@ -193,10 +192,13 @@ describe('FiatConnect helpers', () => {
     })
   })
   describe('loginWithFiatConnectProvider', () => {
-    const wallet = new KeychainWallet({
-      address: 'some address',
-      createdAt: new Date(),
-    })
+    const wallet = new ValoraCeloWallet(
+      {
+        address: 'some address',
+        createdAt: new Date(),
+      },
+      new KeychainAccountManager()
+    )
     const fiatConnectClient = new FiatConnectClient(
       {
         baseUrl: 'some url',
