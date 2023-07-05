@@ -1,9 +1,9 @@
 import { reloadReactNative } from './utils/retries'
 import { quickOnboarding, waitForElementId } from './utils/utils'
 
-// Re-enable when react-native-reanimated is updated to v3
+// Re-enable for android when react-native-reanimated is updated to v3
 // https://linear.app/valora/issue/ENG-76/[wallet]-update-react-native-reanimated-to-v3
-describe.skip('Given QR Scanner', () => {
+describe(':ios: Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
