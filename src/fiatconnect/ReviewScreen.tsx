@@ -11,10 +11,9 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
-import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
+import { FormatType } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
@@ -24,6 +23,7 @@ import {
   fiatConnectQuotesLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -317,50 +317,6 @@ function ReceiveAmount({
         amount={receiveDisplay('receive-amount')}
       />
     </View>
-  )
-}
-
-function CryptoAmount({
-  amount,
-  currency,
-  testID,
-}: {
-  amount: BigNumber.Value
-  currency: CiCoCurrency
-  testID: string
-}) {
-  const { address } = useTokenInfoBySymbol(currency)!
-  return (
-    <TokenDisplay amount={amount} tokenAddress={address} showLocalAmount={false} testID={testID} />
-  )
-}
-
-function FiatAmount({
-  amount,
-  currency,
-  testID,
-  formatType,
-}: {
-  amount: BigNumber.Value
-  currency: string
-  testID: string
-  formatType?: FormatType
-}) {
-  return (
-    <CurrencyDisplay
-      amount={{
-        // The value and currencyCode here doesn't matter since the component will use `localAmount`
-        value: 0,
-        currencyCode: '',
-        localAmount: {
-          value: amount,
-          currencyCode: currency,
-          exchangeRate: 1,
-        },
-      }}
-      formatType={formatType}
-      testID={testID}
-    />
   )
 }
 
