@@ -16,6 +16,7 @@ import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/s
 import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
@@ -48,43 +49,47 @@ export default function NftGallery() {
             tintColor={colors.greenBrand}
             colors={[colors.greenBrand]}
             style={{ backgroundColor: colors.light }}
+            testID="NftGallery/RefreshControl"
           />
         }
       >
-        {!error ? (
+        {error && <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />}
+        {!error && !loading && (
           <View style={styles.galleryContainer}>
-            {nfts.map((nft, idx) => (
-              <Touchable
-                key={`${nft.contractAddress}-${nft.tokenId}`}
-                onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [nft] })}
-                // Styles for two columns with single items aligned to the left
-                style={[
-                  styles.touchableIcon,
-                  idx % 2 === 0
-                    ? { marginRight: Spacing.Smallest8 } &&
-                      idx === nfts.length - 1 &&
-                      styles.lastImage
-                    : { marginLeft: Spacing.Smallest8 },
-                ]}
-              >
-                <NftImage
-                  nft={nft}
-                  testID="NftGallery/NftImage"
-                  width={imageSize}
-                  height={imageSize}
-                  ErrorComponent={
-                    <View style={styles.errorView}>
-                      <ImageErrorIcon color="#C93717" />
-                    </View>
-                  }
-                  origin={NftOrigin.NftGallery}
-                  borderRadius={Spacing.Smallest8}
-                />
-              </Touchable>
-            ))}
+            {nfts.length === 0 ? (
+              <Text style={styles.noNfts}>{t('nftGallery.noNfts')}</Text>
+            ) : (
+              nfts.map((nft, idx) => (
+                <Touchable
+                  key={`${nft.contractAddress}-${nft.tokenId}`}
+                  onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [nft] })}
+                  // Styles for two columns with single items aligned to the left
+                  style={[
+                    styles.touchableIcon,
+                    idx % 2 === 0
+                      ? { marginRight: Spacing.Smallest8 } &&
+                        idx === nfts.length - 1 &&
+                        styles.lastImage
+                      : { marginLeft: Spacing.Smallest8 },
+                  ]}
+                >
+                  <NftImage
+                    nft={nft}
+                    testID="NftGallery/NftImage"
+                    width={imageSize}
+                    height={imageSize}
+                    ErrorComponent={
+                      <View style={styles.errorView}>
+                        <ImageErrorIcon color="#C93717" />
+                      </View>
+                    }
+                    origin={NftOrigin.NftGallery}
+                    borderRadius={Spacing.Smallest8}
+                  />
+                </Touchable>
+              ))
+            )}
           </View>
-        ) : (
-          <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />
         )}
       </ScrollView>
     </SafeAreaView>
@@ -114,6 +119,10 @@ const styles = StyleSheet.create({
   },
   lastImage: {
     marginRight: variables.width / 2 - Spacing.Smallest8,
+  },
+  noNfts: {
+    ...fontStyles.regular,
+    color: colors.gray3,
   },
   scrollContainer: {
     flex: 1,

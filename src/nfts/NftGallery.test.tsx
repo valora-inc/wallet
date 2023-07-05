@@ -62,4 +62,22 @@ describe('NftGallery', () => {
 
     expect(getByTestId('NftGallery/NftsLoadErrorScreen')).toBeTruthy()
   })
+
+  it('shows no NFTs message when no wallet address has no NFTs', () => {
+    const store = createMockStore({
+      ...defaultStore.getState(),
+      nfts: {
+        nfts: [],
+        nftsLoading: false,
+        nftsError: null,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <NftGallery />
+      </Provider>
+    )
+
+    expect(getByText('nftGallery.noNfts')).toBeTruthy()
+  })
 })
