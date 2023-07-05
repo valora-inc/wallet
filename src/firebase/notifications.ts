@@ -4,8 +4,8 @@ import { call, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { openUrl } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { openUrl } from 'src/app/actions'
 import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
@@ -18,9 +18,9 @@ import {
   NotificationTypes,
   TransferNotificationData,
 } from 'src/notifications/types'
-import { transactionDataFromPaymentRequest } from 'src/paymentRequest/IncomingPaymentRequestListItem'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
+import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
+import { RecipientInfo, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'

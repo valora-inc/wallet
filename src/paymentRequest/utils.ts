@@ -1,15 +1,70 @@
-import { hexToBuffer } from '@celo/utils/lib/address'
 import { decryptComment, encryptComment } from '@celo/cryptographic-utils'
+import { isE164NumberStrict } from '@celo/phone-utils'
+import { hexToBuffer } from '@celo/utils/lib/address'
+import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
 import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/types'
+import { Recipient } from 'src/recipients/recipient'
+import { TransactionDataInput } from 'src/send/SendAmount'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
-import { isE164NumberStrict } from '@celo/phone-utils'
 
 const TAG = 'paymentRequest/utils'
+
+// Convert a payment request into a transaction data object if user has enough balance
+export const transactionDataFromPaymentRequest = ({
+  paymentRequest,
+  stableTokens,
+  requester,
+}: {
+  paymentRequest: PaymentRequest
+  stableTokens: TokenBalance[]
+  requester: Recipient
+}): TransactionDataInput | undefined => {
+  const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
+  const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
+  if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
+    // Should never happen in production
+    throw new Error('No token address found for cUSD or cEUR')
+  }
+  // If the user has enough cUSD balance, pay with cUSD
+  // Else, try with cEUR
+  // Else, return undefined which should be used to display an error message
+  const usdRequested = new BigNumber(paymentRequest.amount)
+
+  if (
+    cUsdTokenInfo.usdPrice &&
+    usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.usdPrice))
+  ) {
+    return {
+      comment: paymentRequest.comment,
+      recipient: requester,
+      inputAmount: new BigNumber(paymentRequest.amount),
+      tokenAmount: new BigNumber(paymentRequest.amount),
+      amountIsInLocalCurrency: false,
+      tokenAddress: cUsdTokenInfo.address,
+      paymentRequestId: paymentRequest.uid || '',
+    }
+  } else if (
+    cEurTokenInfo.usdPrice &&
+    usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.usdPrice))
+  ) {
+    return {
+      comment: paymentRequest.comment,
+      recipient: requester,
+      inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+      tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+      amountIsInLocalCurrency: false,
+      tokenAddress: cEurTokenInfo.address,
+      paymentRequestId: paymentRequest.uid || '',
+    }
+  }
+}
 
 // Encrypt sensitive data in the payment request using the recipient and sender DEK
 export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) {
