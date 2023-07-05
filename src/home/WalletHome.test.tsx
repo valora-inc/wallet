@@ -3,7 +3,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { dappSelected } from 'src/dapps/slice'
-import { DappSection } from 'src/dapps/types'
+import { Dapp, DappSection } from 'src/dapps/types'
 import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
@@ -73,23 +73,21 @@ const emptyBalances = {
   },
 }
 
-const dapp = {
+const dapp: Dapp = {
   name: 'Ubeswap',
   description: 'Swap any token, enter a pool, or farm your crypto',
   dappUrl: 'https://app.ubeswap.org/',
-  categoryId: 'exchanges',
+  categories: ['exchanges'],
   iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
-  isFeatured: false,
   id: 'ubeswap',
 }
 
-const deepLinkedDapp = {
+const deepLinkedDapp: Dapp = {
   name: 'Moola',
   description: 'Lend, borrow, or add to a pool to earn rewards',
   dappUrl: 'celo://wallet/moolaScreen',
-  categoryId: 'lend',
+  categories: ['lend'],
   iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
-  isFeatured: false,
   id: 'moola',
 }
 

@@ -2,86 +2,23 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { NftEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import NftImage from 'src/nfts/NftImage'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { Nft, NftMediaType, NftOrigin } from 'src/nfts/types'
+import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 
 const DEFAULT_IMAGE_HEIGHT = 360
-
-export function getGatewayUrl(nft: Nft, mediaType = NftMediaType.Image) {
-  switch (mediaType) {
-    default:
-    case NftMediaType.Image:
-      return nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
-  }
-}
-
-export function onImageLoad(nft: Nft, origin: NftOrigin, error: boolean) {
-  const { contractAddress, tokenId } = nft
-  const url = getGatewayUrl(nft)
-  error
-    ? Logger.error(
-        origin,
-        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load image from ${url}`
-      )
-    : Logger.info(
-        origin,
-        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Loaded image from ${url}`
-      )
-
-  ValoraAnalytics.track(NftEvents.nft_image_load, {
-    tokenId,
-    contractAddress,
-    url,
-    origin,
-    error,
-  })
-}
-
-function scaleImageHeight(originalWidth: number, originalHeight: number, targetWidth: number) {
-  const aspectRatio = originalWidth / originalHeight
-  return targetWidth / aspectRatio
-}
-interface ImagePlaceHolderProps {
-  height: number
-  width?: number
-  testID?: string
-}
-
-function ImagePlaceholder({ height = 40, width, testID }: ImagePlaceHolderProps) {
-  return (
-    <SkeletonPlaceholder
-      borderRadius={8}
-      backgroundColor={colors.gray2}
-      highlightColor={colors.white}
-    >
-      <View
-        style={{
-          height,
-          width: width ?? variables.width,
-          zIndex: -1,
-        }}
-        testID={testID ?? 'NftsInfoCarousel/ImagePlaceholder'}
-      />
-    </SkeletonPlaceholder>
-  )
-}
 
 interface NftThumbnailProps {
   nft: Nft
@@ -90,51 +27,34 @@ interface NftThumbnailProps {
 }
 
 function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
-  const [loading, setLoading] = useState(true)
-  const [imageLoadingError, setImageLoadingError] = useState(false)
-
-  function handleLoadError() {
-    onImageLoad(nft, NftOrigin.NftsInfoCarouselThumbnail, true)
-    setImageLoadingError(true)
-  }
-
-  function handleLoadSuccess() {
-    onImageLoad(nft, NftOrigin.NftsInfoCarouselThumbnail, false)
-    setLoading(false)
-  }
-
   return (
     <Touchable
       style={[
         isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected,
         !nft.metadata && styles.errorThumbnail,
       ]}
+      hitSlop={variables.iconHitslop}
       borderless={false}
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      {!nft.metadata || imageLoadingError ? (
-        <ImageErrorIcon
-          // The thumbnails are 20% larger when selected vs unselected
-          size={isActive ? 24 : 20}
-          testID="NftsInfoCarousel/ImageErrorIcon"
-        />
-      ) : (
-        <FastImage
-          style={[
-            styles.nftThumbnailShared,
-            isActive ? styles.nftThumbnailSelected : styles.nftThumbnailUnselected,
-          ]}
-          source={{
-            uri: nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
-          }}
-          onError={handleLoadError}
-          onLoadEnd={handleLoadSuccess}
-          resizeMode={FastImage.resizeMode.cover}
-        >
-          {loading && <ImagePlaceholder height={40} width={40} />}
-        </FastImage>
-      )}
+      <NftImage
+        nft={nft}
+        ErrorComponent={
+          <View style={styles.nftImageLoadingErrorContainer}>
+            <ImageErrorIcon
+              // The thumbnails are 20% larger when selected vs unselected
+              size={isActive ? 24 : 20}
+              testID="NftsInfoCarousel/ImageErrorIcon"
+            />
+          </View>
+        }
+        width={40}
+        height={40}
+        borderRadius={8}
+        testID="NftsInfoCarousel/ThumbnailImage"
+        origin={NftOrigin.NftsInfoCarouselThumbnail}
+      />
     </Touchable>
   )
 }
@@ -183,9 +103,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [loadError, setLoadError] = useState(false)
-  const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
   const { t } = useTranslation()
 
   function pressExplorerLink() {
@@ -198,16 +115,6 @@ export default function NftsInfoCarousel({ route }: Props) {
     setActiveNft(nft)
   }
 
-  function handleLoadError() {
-    onImageLoad(activeNft, NftOrigin.NftsInfoCarouselMain, true)
-    setLoadError(true)
-  }
-
-  function handleLoadSuccess() {
-    onImageLoad(activeNft, NftOrigin.NftsInfoCarouselMain, false)
-    setIsLoading(false)
-  }
-
   // Full page error screen shown when ntfs === []
   if (nfts.length === 0) {
     return <NftsLoadError />
@@ -217,36 +124,18 @@ export default function NftsInfoCarousel({ route }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {/* Main Nft Image */}
-        {activeNft.metadata && !loadError ? (
-          <FastImage
-            testID="NftsInfoCarousel/MainImage"
-            style={[
-              styles.mainImage,
-              { height: scaledHeight },
-              // Put a border radius on the image when loading to match placeholder
-              isLoading && styles.borderRadius,
-            ]}
-            source={{
-              uri: activeNft.media.find((media) => media.raw === activeNft.metadata?.image)
-                ?.gateway,
-            }}
-            onLoad={(e) => {
-              setScaledHeight(
-                scaleImageHeight(e.nativeEvent.width, e.nativeEvent.height, variables.width)
-              )
-            }}
-            onLoadEnd={handleLoadSuccess}
-            onError={handleLoadError}
-            resizeMode={FastImage.resizeMode.contain}
-          >
-            {isLoading && <ImagePlaceholder height={scaledHeight} />}
-          </FastImage>
-        ) : (
-          <View style={styles.nftImageLoadingErrorContainer}>
-            <ImageErrorIcon color="#C93717" />
-            <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
-          </View>
-        )}
+        <NftImage
+          nft={activeNft}
+          ErrorComponent={
+            <View style={styles.nftImageLoadingErrorContainer}>
+              <ImageErrorIcon color="#C93717" />
+              <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+            </View>
+          }
+          testID="NftsInfoCarousel/MainImage"
+          origin={NftOrigin.NftsInfoCarouselMain}
+          shouldAutoScaleHeight
+        />
         {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
           <NftImageCarousel
@@ -310,9 +199,6 @@ const styles = StyleSheet.create({
   attributesContainer: {
     paddingBottom: Spacing.Thick24,
   },
-  borderRadius: {
-    borderRadius: Spacing.Smallest8,
-  },
   carouselScrollViewContentContainer: {
     alignItems: 'center',
     flexGrow: 1,
@@ -357,9 +243,8 @@ const styles = StyleSheet.create({
   nftThumbnailSelected: {
     height: 40,
     width: 40,
-  },
-  nftThumbnailShared: {
-    borderRadius: Spacing.Smallest8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nftThumbnailSharedContainer: {
     borderRadius: Spacing.Smallest8,
@@ -370,9 +255,8 @@ const styles = StyleSheet.create({
     height: 32,
     opacity: 0.5,
     width: 32,
-  },
-  mainImage: {
-    width: variables.width,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   safeAreaView: {
     flex: 1,

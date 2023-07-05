@@ -4189,7 +4189,7 @@
     pino "7.11.0"
     uint8arrays "3.1.0"
 
-"@walletconnect/core@^1.0.0", "@walletconnect/core@^1.8.0":
+"@walletconnect/core@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/core/-/core-1.8.0.tgz#6b2748b90c999d9d6a70e52e26a8d5e8bfeaa81e"
   integrity sha512-aFTHvEEbXcZ8XdWBw6rpQDte41Rxwnuk3SgTD8/iKGSRTni50gI9S3YEzMj05jozSiOBxQci4pJDMVhIUMtarw==
@@ -4313,24 +4313,6 @@
     pino "7.11.0"
     tslib "1.14.1"
 
-"@walletconnect/node-crypto@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@walletconnect/node-crypto/-/node-crypto-1.0.0.tgz#890f11292d12c62b44d2a6f4c9bdeb97f1b7a2fd"
-  integrity sha512-0Umq6k3aw5AtnOnyAlQITZgSrPsiUVOh5oLy5wxzKXSMlWSzvtx2/9dzV1AROFXYIfhp2HKXblyxb5e4PFvVcA==
-  dependencies:
-    "@walletconnect/types" "^1.0.0"
-    "@walletconnect/utils" "^1.0.0"
-
-"@walletconnect/node@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@walletconnect/node/-/node-1.0.0.tgz#6b981210b1af5cf84b091b66e8bee06b350cd854"
-  integrity sha512-yk5HGMWnysgqp0ePPuTrIbGB85V2Uhikh/+belffQfp03VYPQJnJj/x117KjMnAZXmzQD5lLl5bkvoy1CTKrJQ==
-  dependencies:
-    "@walletconnect/core" "^1.0.0"
-    "@walletconnect/node-crypto" "^1.0.0"
-    "@walletconnect/types" "^1.0.0"
-    "@walletconnect/utils" "^1.0.0"
-
 "@walletconnect/randombytes@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/randombytes/-/randombytes-1.0.2.tgz#95c644251a15e6675f58fbffc9513a01486da49c"
@@ -4425,7 +4407,7 @@
     "@walletconnect/logger" "^2.0.1"
     events "^3.3.0"
 
-"@walletconnect/types@^1.0.0", "@walletconnect/types@^1.8.0":
+"@walletconnect/types@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-1.8.0.tgz#3f5e85b2d6b149337f727ab8a71b8471d8d9a195"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==
@@ -4451,7 +4433,7 @@
     query-string "7.1.1"
     uint8arrays "3.1.0"
 
-"@walletconnect/utils@^1.0.0", "@walletconnect/utils@^1.8.0":
+"@walletconnect/utils@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-1.8.0.tgz#2591a197c1fa7429941fe428876088fda6632060"
   integrity sha512-zExzp8Mj1YiAIBfKNm5u622oNw44WOESzo6hj+Q3apSMIb0Jph9X3GDIdbZmvVZsNPxWDL7uodKgZcCInZv2vA==
@@ -13680,10 +13662,15 @@ react-native-fast-image@^8.6.3:
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz#6edc3f9190092a909d636d93eecbcc54a8822255"
   integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
 
-react-native-flipper@^0.127.0, react-native-flipper@^0.34.0:
+react-native-flipper@^0.127.0:
   version "0.127.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"
   integrity sha512-qloUyUOs9MoMVncIDDWeOxAPbomWJ3e4y0SgyCgq8joJEOXC7RvPWeEfUXp0EPyNhHGQV9a4RwzF6BWKFCR3Kg==
+
+react-native-flipper@^0.200.0, react-native-flipper@^0.34.0:
+  version "0.200.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.200.0.tgz#17af94c56286ba734d5b2f69879e383e24fdfc2c"
+  integrity sha512-P8EDgBN9PEIEfx3SOwsNw2kXVFlnvburaq4tLQ/U+5hHiYRx0mL7c+V1MRKRgtlgoV7IqJVw9WtU/PkfWMWXOA==
 
 react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
   version "2.16.6"
@@ -15008,10 +14995,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
-  integrity sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==
+shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3, shell-quote@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.8.1.tgz#6dbf4db75515ad5bac63b4f1894c3a154c766680"
+  integrity sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==
 
 shelljs@^0.8.5:
   version "0.8.5"
@@ -15946,10 +15933,10 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-trim-newlines@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-4.0.2.tgz#d6aaaf6a0df1b4b536d183879a6b939489808c7c"
-  integrity sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==
+trim-newlines@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-4.1.1.tgz#28c88deb50ed10c7ba6dc2474421904a00139125"
+  integrity sha512-jRKj0n0jXWo6kh62nA5TEh3+4igKDXLvzBJcPpiizP7oOolUrYIxmVBG9TOtHYFHoddUk6YvAkGeGoSVTXfQXQ==
 
 truncate-utf8-bytes@^1.0.0:
   version "1.0.2"

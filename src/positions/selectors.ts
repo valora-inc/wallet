@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
-import { Position } from 'src/positions/types'
+import { AppTokenPosition, ClaimablePosition, Position, Token } from 'src/positions/types'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -37,3 +37,45 @@ function sortByBalanceUsd(position1: Position, position2: Position) {
 export const positionsByBalanceUsdSelector = createSelector([positionsSelector], (positions) => {
   return [...positions].sort(sortByBalanceUsd)
 })
+
+export const shortcutsSelector = (state: RootState) => state.positions.shortcuts
+
+export const shortcutsStatusSelector = (state: RootState) => state.positions.shortcutsStatus
+
+export const claimableShortcutSelector = createSelector([shortcutsSelector], (shortcuts) => {
+  return shortcuts.filter((shortcut) => shortcut.category === 'claim')
+})
+
+function getAllClaimableTokens(tokens: Token[]): Token[] {
+  const claimableTokens = tokens.filter((token) => token.category === 'claimable')
+  const nestedTokens = tokens
+    .filter((token): token is AppTokenPosition => 'tokens' in token)
+    .flatMap((token) => getAllClaimableTokens(token.tokens))
+
+  return [...claimableTokens, ...nestedTokens]
+}
+
+export const positionsWithClaimableRewardsSelector = createSelector(
+  [positionsSelector, claimableShortcutSelector],
+  (positions, shortcuts) => {
+    const claimablePositions: ClaimablePosition[] = []
+    positions.forEach((position) => {
+      const appShortcuts = shortcuts.filter((shortcut) => shortcut.appId === position.appId)
+
+      appShortcuts.forEach((shortcut) => {
+        const { availableShortcutIds, tokens, ...rest } = position
+        if (availableShortcutIds.includes(shortcut.id)) {
+          claimablePositions.push({
+            ...rest,
+            claimableShortcut: {
+              ...shortcut,
+              claimableTokens: getAllClaimableTokens(tokens),
+            },
+          })
+        }
+      })
+    })
+
+    return claimablePositions
+  }
+)

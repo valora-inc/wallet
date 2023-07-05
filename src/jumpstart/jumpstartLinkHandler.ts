@@ -12,7 +12,7 @@ const TAG = 'WalletJumpstart'
 export async function jumpstartLinkHandler(privateKey: string, userAddress: string) {
   const kit = newKitFromWeb3(await getWeb3Async())
   kit.connection.addAccount(privateKey)
-  const accounts: string[] = await kit.connection.getAccounts()
+  const accounts: string[] = kit.connection.getLocalAccounts()
   const publicKey = accounts[0]
 
   const jumpstart: Contract = await getContract(jumpstartAbi, networkConfig.walletJumpstartAddress)

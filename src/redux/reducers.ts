@@ -18,6 +18,7 @@ import { reducer as imports, State as ImportState } from 'src/import/reducer'
 import keylessBackupReducer, { State as KeylessBackupState } from 'src/keylessBackup/slice'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
+import nftsReducer, { State as NFTsState } from 'src/nfts/slice'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
 import positionsReducer, { State as PositionsState } from 'src/positions/slice'
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
@@ -55,6 +56,7 @@ const appReducer = combineReducers({
   swap: swapReducer,
   positions: positionsReducer,
   keylessBackup: keylessBackupReducer,
+  nfts: nftsReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -104,6 +106,7 @@ export interface RootState {
   swap: SwapState
   positions: PositionsState
   keylessBackup: KeylessBackupState
+  nfts: NFTsState
 }
 
 export interface PersistedRootState {

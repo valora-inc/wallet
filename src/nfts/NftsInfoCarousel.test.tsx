@@ -1,11 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NftsInfoCarousel, { getGatewayUrl, onImageLoad } from 'src/nfts/NftsInfoCarousel'
-import { NftOrigin } from 'src/nfts/types'
-import Logger from 'src/utils/Logger'
+import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import networkConfig from 'src/web3/networkConfig'
 import { getMockStackScreenProps } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata } from 'test/values'
@@ -105,6 +102,7 @@ describe('NftsInfoCarousel', () => {
         `NftsInfoCarousel/NftThumbnail/${mockNftNullMetadata.contractAddress}-${mockNftNullMetadata.tokenId}`
       )
     )
+
     expect(getByText('nftInfoCarousel.nftImageLoadError')).toBeTruthy()
     expect(getByText('nftInfoCarousel.viewOnCeloExplorer')).toBeTruthy()
   })
@@ -132,41 +130,5 @@ describe('NftsInfoCarousel', () => {
     )
 
     expect(queryByTestId('ViewOnExplorer')).toBeNull()
-  })
-
-  it('getGatewayUrl', () => {
-    expect(getGatewayUrl(mockNftAllFields)).toEqual(mockNftAllFields.media[0].gateway)
-  })
-
-  it('onImageLoad success', () => {
-    onImageLoad(mockNftAllFields, NftOrigin.TransactionFeed, false)
-    expect(ValoraAnalytics.track).toBeCalledWith('nft_image_load', {
-      tokenId: mockNftAllFields.tokenId,
-      contractAddress: mockNftAllFields.contractAddress,
-      url: mockNftAllFields.media[0].gateway,
-      origin: NftOrigin.TransactionFeed,
-      error: false,
-    })
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
-    expect(Logger.info).toBeCalledWith(
-      NftOrigin.TransactionFeed,
-      `ContractAddress=${mockNftAllFields.contractAddress}, TokenId: ${mockNftAllFields.tokenId}, Loaded image from ${mockNftAllFields.media[0].gateway}`
-    )
-  })
-
-  it('onImageLoad error', () => {
-    onImageLoad(mockNftAllFields, NftOrigin.NftsInfoCarouselMain, true)
-    expect(ValoraAnalytics.track).toBeCalledWith('nft_image_load', {
-      tokenId: mockNftAllFields.tokenId,
-      contractAddress: mockNftAllFields.contractAddress,
-      url: mockNftAllFields.media[0].gateway,
-      origin: NftOrigin.NftsInfoCarouselMain,
-      error: true,
-    })
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
-    expect(Logger.error).toBeCalledWith(
-      NftOrigin.NftsInfoCarouselMain,
-      `ContractAddress=${mockNftAllFields.contractAddress}, TokenId: ${mockNftAllFields.tokenId}, Failed to load image from ${mockNftAllFields.media[0].gateway}`
-    )
   })
 })

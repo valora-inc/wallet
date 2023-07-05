@@ -48,6 +48,8 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
   getPositionsUrl: string
+  getShortcutsUrl: string
+  getNftsByOwnerAddressUrl: string
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -134,12 +136,17 @@ const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
 
 const GET_POSITIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getPositions`
 const GET_POSITIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getPositions`
+const GET_SHORTCUTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getShortcuts`
+const GET_SHORTCUTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getShortcuts`
 
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
 
 const JUMPSTART_ADDRESS_ALFAJORES = '0xf25a016E53644EEfe4A167Ff05482213BCd627ED'
 const JUMPSTART_ADDRESS_MAINNET = '0x22Bac00dB51FfD2eb5a02e58974b64726c684BaA'
+
+const GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getNfts`
+const GET_NFTS_BY_OWNER_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -187,6 +194,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
     getPositionsUrl: GET_POSITIONS_ALFAJORES,
+    getShortcutsUrl: GET_SHORTCUTS_ALFAJORES,
+    getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -232,6 +241,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
     getPositionsUrl: GET_POSITIONS_MAINNET,
+    getShortcutsUrl: GET_SHORTCUTS_MAINNET,
+    getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
   },
 }
 
