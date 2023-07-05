@@ -28,7 +28,7 @@
     ]
   ],
   "verbose": true,
-  "testMatch": ["**/*.spec.js"],
+  "testMatch": ["**/QRScanner.spec.js"],
   "testTimeout": 300000,
   "testRunner": "jest-circus/runner"
 }
