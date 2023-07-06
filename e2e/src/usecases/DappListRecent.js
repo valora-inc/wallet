@@ -28,7 +28,8 @@ export default DappListRecent = () => {
 
     // Scroll to first dapp or next after most recent dapp
     await scrollToDapp(startRecentDappCount + 1)
-    await element(by.id('DappCard')).atIndex(startRecentDappCount).tap()
+    // Tap impact Market as it is the second dapp in the list
+    await element(by.text('impactMarket')).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
