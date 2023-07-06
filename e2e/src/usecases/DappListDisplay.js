@@ -1,13 +1,21 @@
 import { fetchDappList, navigateToDappList } from '../utils/dappList'
 import { reloadReactNative } from '../utils/retries'
-import { getElementText, getElementTextList, sleep, waitForElementId } from '../utils/utils'
+import { getElementTextList, sleep, waitForElementId } from '../utils/utils'
 
 jestExpect = require('expect')
 
 export default DappListDisplay = () => {
   let dappList = null
+  let dappToTest = null
+
   beforeAll(async () => {
     dappList = await fetchDappList()
+    dappToTest = {
+      dapp: dappList.applications.find((dapp) => dapp.id === 'impactmarket'),
+      index: dappList.applications
+        .filter((dapp) => dapp[device.getPlatform() === 'ios' ? 'listOnIos' : 'listOnAndroid'])
+        .findIndex((dapp) => dapp.id === 'impactmarket'),
+    }
   })
 
   it('should show dapp info icon and subsequent modal', async () => {
@@ -32,19 +40,19 @@ export default DappListDisplay = () => {
   })
 
   it('should show dapp bottom sheet when dapp is selected', async () => {
-    await element(by.id('DappCard')).atIndex(0).tap()
+    await element(by.id('DappCard')).atIndex(dappToTest.index).tap()
     await waitForElementId('ConfirmDappButton')
-    await waitFor(element(by.text(`Go to ${dappList.applications[0].name}`)))
+    await waitFor(element(by.text(`Go to ${dappToTest.dapp.name}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
 
   it('should open internal webview with correct dapp when dapp opened', async () => {
     await element(by.id('ConfirmDappButton')).tap()
-    await waitFor(element(by.id(`WebViewScreen/${dappList.applications[0].name}`)))
+    await waitFor(element(by.id(`WebViewScreen/${dappToTest.dapp.name}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
-    const url = new URL(dappList.applications[0].url)
+    const url = new URL(dappToTest.dapp.url)
     // Should show correct hostname in webview
     await waitFor(element(by.text(url.hostname)))
       .toBeVisible()
