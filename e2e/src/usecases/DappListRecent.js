@@ -28,7 +28,8 @@ export default DappListRecent = () => {
 
     // Scroll to first dapp or next after most recent dapp
     await scrollToDapp(startRecentDappCount + 1)
-    // Tap impact Market as it is the second dapp in the list
+    // The E2E test wallet always receives a non-shuffled dapp list which is controlled by Statsig
+    // Unless Bidali or impactMarket are removed impactMarket will always be second in the list
     await element(by.text('impactMarket')).tap()
 
     // Get dapp name in confirmation dialog
