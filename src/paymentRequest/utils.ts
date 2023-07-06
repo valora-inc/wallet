@@ -25,7 +25,7 @@ export const transactionDataFromPaymentRequest = ({
   paymentRequest: PaymentRequest
   stableTokens: TokenBalance[]
   requester: Recipient
-}): TransactionDataInput | undefined => {
+}): TransactionDataInput => {
   const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
   const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
   if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
@@ -34,7 +34,7 @@ export const transactionDataFromPaymentRequest = ({
   }
   // If the user has enough cUSD balance, pay with cUSD
   // Else, try with cEUR
-  // Else, return undefined which should be used to display an error message
+  // Else, throw error
   const usdRequested = new BigNumber(paymentRequest.amount)
 
   if (
@@ -64,6 +64,7 @@ export const transactionDataFromPaymentRequest = ({
       paymentRequestId: paymentRequest.uid || '',
     }
   }
+  throw new Error('Insufficient stablecoin balance')
 }
 
 // Encrypt sensitive data in the payment request using the recipient and sender DEK

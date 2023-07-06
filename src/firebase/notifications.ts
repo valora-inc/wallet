@@ -22,6 +22,7 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
 import { RecipientInfo, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
+import { TransactionDataInput } from 'src/send/SendAmount'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
@@ -40,12 +41,14 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
   const requester = getRecipientFromAddress(paymentRequest.requesterAddress, info)
   const stableTokens: TokenBalance[] = yield select(stablecoinsSelector)
 
-  const transactionData = transactionDataFromPaymentRequest({
-    paymentRequest,
-    stableTokens,
-    requester,
-  })
-  if (!transactionData) {
+  let transactionData: TransactionDataInput
+  try {
+    transactionData = transactionDataFromPaymentRequest({
+      paymentRequest,
+      stableTokens,
+      requester,
+    })
+  } catch (e) {
     yield put(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
     return
   }

@@ -22,6 +22,7 @@ import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
+import { TransactionDataInput } from 'src/send/SendAmount'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -73,12 +74,14 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   }
 
   const navigateToNextScreen = () => {
-    const transactionData = transactionDataFromPaymentRequest({
-      paymentRequest,
-      stableTokens,
-      requester,
-    })
-    if (!transactionData) {
+    let transactionData: TransactionDataInput
+    try {
+      transactionData = transactionDataFromPaymentRequest({
+        paymentRequest,
+        stableTokens,
+        requester,
+      })
+    } catch (e) {
       dispatch(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
       setPayButtonPressed(false)
       return
