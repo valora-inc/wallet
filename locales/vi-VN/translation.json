@@ -1044,8 +1044,8 @@
     "body": "Vui lòng đảm bảo địa chỉ này hỗ trợ tài sản bạn đang muốn gửi. Tiền của bạn có thể sẽ không thu hồi được nếu địa chỉ này không hợp lệ. Trước tiên, hãy gửi thử một khoản thanh toán để đảm bảo địa chỉ chính xác.",
     "toggle": "Luôn nhắc tôi"
   },
-  "loadingFromScan": "Một số dapp đang gặp sự cố kết nối, vui lòng quay lại vào ngày mai.",
-  "loadingFromDeeplink": "Một số dapp đang gặp sự cố kết nối, vui lòng quay lại vào ngày mai.",
+  "loadingFromScan": "Đang quét",
+  "loadingFromDeeplink": "Đang kết nối",
   "action": {
     "asking": "Ứng dụng này đang yêu cầu thực hiện thao tác sau",
     "askingV1_35": "{{dappName}} đang yêu cầu thực hiện những thao tác sau:",
