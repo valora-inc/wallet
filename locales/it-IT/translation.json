@@ -1410,10 +1410,10 @@
       "dismiss": "Ignora"
     },
     "cashIn": {
-      "amountSpentInfo": "Pagherai <0></0> comprese le tasse"
+      "amountSpentInfo": "Pagherai <0></0> tasse incluse"
     },
     "cashOut": {
-      "amountSpentInfo": "Potrai ritirare <0></0> comprese le commissioni"
+      "amountSpentInfo": "Potrai ritirare <0></0> tasse incluse"
     }
   },
   "fiatConnectLinkAccountScreen": {
