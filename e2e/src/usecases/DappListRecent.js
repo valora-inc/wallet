@@ -58,8 +58,8 @@ export default DappListRecent = () => {
     // Navigate to DappList reload and navigate again - ci issue
     await navigateToDappList()
 
-    // Scroll doesn't work well for android so we just tap the first dapp
-    await element(by.id('DappCard')).atIndex(0).tap()
+    // Scroll doesn't work well for android so we just tap the second dapp
+    await element(by.id('DappCard')).atIndex(1).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()
