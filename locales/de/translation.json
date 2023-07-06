@@ -1046,8 +1046,8 @@
     "body": "Bitte vergewissere dich, dass diese Adresse das Vermögen unterstützt, das du senden möchtest. Wenn diese Adresse ungültig ist, kann dein Guthaben möglicherweise nicht wiederhergestellt werden. Sende zunächst eine Testzahlung, um sicherzustellen, dass dies die richtige Adresse ist.",
     "toggle": "Immer erinnern"
   },
-  "loadingFromScan": "Bei einigen Dapps gibt es heute Verbindungsprobleme, bitte schau morgen wieder vorbei.",
-  "loadingFromDeeplink": "Bei einigen Dapps gibt es heute Verbindungsprobleme, bitte schau morgen wieder vorbei.",
+  "loadingFromScan": "Scannen",
+  "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion:",
     "askingV1_35": "{{dappName}} verlangt folgende Aktion:",
