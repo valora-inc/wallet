@@ -1046,8 +1046,8 @@
     "body": "Assicurati che questo indirizzo supporti l'asset che stai cercando di inviare. Se l'indirizzo non è valido, potresti perdere i tuoi fondi. Invia prima un pagamento di prova per assicurarti che questo sia l'indirizzo corretto.",
     "toggle": "Ricordamelo sempre"
   },
-  "loadingFromScan": "Alcune dapps hanno problemi di connessione, torna a domani.",
-  "loadingFromDeeplink": "Alcune dapps hanno problemi di connessione, torna a domani.",
+  "loadingFromScan": "Scansione in corso",
+  "loadingFromDeeplink": "Connessione in corso",
   "action": {
     "asking": "Questa applicazione richiede di eseguire la seguente azione:",
     "askingV1_35": "{{dappName}} richiede di eseguire la seguente azione:",
