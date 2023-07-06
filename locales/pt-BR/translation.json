@@ -1046,8 +1046,8 @@
     "body": "Certifique-se de que este endereço suporta o ativo que você está tentando enviar. Seus fundos podem não ser recuperáveis se este endereço for inválido. Envie um pagamento teste primeiro para ter certeza de que este é o endereço correto.",
     "toggle": "Lembrar sempre"
   },
-  "loadingFromScan": "Alguns dapps estão enfrentando problemas de conexão. Verifique novamente amanhã.",
-  "loadingFromDeeplink": "Alguns dapps estão enfrentando problemas de conexão. Verifique novamente amanhã.",
+  "loadingFromScan": "Escaneando",
+  "loadingFromDeeplink": "Conectando",
   "action": {
     "asking": "Este aplicativo está pedindo para executar a seguinte ação:",
     "askingV1_35": "{{dappName}} está pedindo para executar a seguinte ação:",
