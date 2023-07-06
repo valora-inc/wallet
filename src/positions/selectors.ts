@@ -79,3 +79,5 @@ export const positionsWithClaimableRewardsSelector = createSelector(
     return claimablePositions
   }
 )
+
+export const hooksPreviewApiUrlSelector = (state: RootState) => state.positions.previewApiUrl

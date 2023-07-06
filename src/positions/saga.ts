@@ -1,4 +1,7 @@
+import { Alert } from 'react-native'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
 import { shortcutsStatusSelector } from 'src/positions/selectors'
 import {
@@ -7,6 +10,7 @@ import {
   fetchPositionsSuccess,
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
+  previewModeEnabled,
 } from 'src/positions/slice'
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -87,6 +91,47 @@ export function* fetchPositionsSaga() {
   } catch (error) {
     yield put(fetchPositionsFailure(error))
     Logger.error(TAG, 'Unable to fetch positions', error)
+  }
+}
+
+function confirmEnableHooksPreview() {
+  return new Promise((resolve) => {
+    Alert.alert(
+      'Hooks Preview Mode',
+      "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      [
+        {
+          text: 'Cancel',
+          onPress: () => resolve(false),
+          style: 'cancel',
+        },
+        {
+          text: 'Confirm',
+          onPress: () => {
+            resolve(true)
+          },
+        },
+      ]
+    )
+  })
+}
+
+export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
+  let hooksPreviewApiUrl: string | null = null
+  try {
+    hooksPreviewApiUrl = new URL(deeplink).searchParams.get('hooksApiUrl')
+  } catch (error) {
+    Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
+  }
+
+  if (!hooksPreviewApiUrl) {
+    yield put(showError(ErrorMessages.HOOKS_INVALID_PREVIEW_API_URL))
+    return
+  }
+
+  const confirm = yield call(confirmEnableHooksPreview)
+  if (confirm) {
+    yield put(previewModeEnabled(hooksPreviewApiUrl))
   }
 }
 

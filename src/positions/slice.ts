@@ -8,6 +8,7 @@ export interface State {
   status: 'idle' | 'loading' | 'success' | 'error'
   shortcuts: Shortcut[]
   shortcutsStatus: 'idle' | 'success' | 'error'
+  previewApiUrl: string | null
 }
 
 const initialState: State = {
@@ -15,6 +16,7 @@ const initialState: State = {
   status: 'idle',
   shortcuts: [],
   shortcutsStatus: 'idle',
+  previewApiUrl: null,
 }
 
 const slice = createSlice({
@@ -43,6 +45,14 @@ const slice = createSlice({
       ...state,
       shortcutsStatus: 'error',
     }),
+    previewModeEnabled: (state, action: PayloadAction<string>) => ({
+      ...state,
+      previewApiUrl: action.payload,
+    }),
+    previewModeDisabled: (state) => ({
+      ...state,
+      previewApiUrl: null,
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -60,6 +70,8 @@ export const {
   fetchPositionsFailure,
   fetchShortcutsSuccess,
   fetchShortcutsFailure,
+  previewModeEnabled,
+  previewModeDisabled,
 } = slice.actions
 
 export default slice.reducer
