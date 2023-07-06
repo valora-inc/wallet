@@ -1410,10 +1410,10 @@
       "dismiss": "Ignorer"
     },
     "cashIn": {
-      "amountSpentInfo": "Tu paieras <0></0>, y compris les frais"
+      "amountSpentInfo": "Vous paierez <0></0> frais inclus"
     },
     "cashOut": {
-      "amountSpentInfo": "Tu retireras <0></0>, frais compris"
+      "amountSpentInfo": "Vous retirerez <0></0> frais inclus"
     }
   },
   "fiatConnectLinkAccountScreen": {
