@@ -1410,10 +1410,10 @@
       "dismiss": "Ignorar"
     },
     "cashIn": {
-      "amountSpentInfo": "Pagará <0></0> incluindo taxas"
+      "amountSpentInfo": "Pagará <0></0> incluindo as taxas"
     },
     "cashOut": {
-      "amountSpentInfo": "Levantará <0></0> incluindo taxas"
+      "amountSpentInfo": "Você vai sacar <0></0> incluindo as taxas"
     }
   },
   "fiatConnectLinkAccountScreen": {
