@@ -1046,8 +1046,8 @@
     "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
     "toggle": "Always remind me"
   },
-  "loadingFromScan": "Some dapps are experiencing connection issues today, please check back tomorrow.",
-  "loadingFromDeeplink": "Some dapps are experiencing connection issues today, please check back tomorrow.",
+  "loadingFromScan": "Scanning",
+  "loadingFromDeeplink": "Connecting",
   "action": {
     "asking": "This application is asking to perform the following action",
     "askingV1_35": "{{dappName}} is asking to perform the following:",
