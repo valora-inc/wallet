@@ -1044,8 +1044,8 @@
     "body": "请确保此地址支持您尝试发送的资产。如果地址无效，您的资金可能无法收回。请先发送测试付款以确保地址无误。",
     "toggle": "始终提醒我"
   },
-  "loadingFromScan": "部分 dapp 今天遇到连接问题，请明天再回来查看。",
-  "loadingFromDeeplink": "部分 dapp 今天遇到连接问题，请明天再回来查看。",
+  "loadingFromScan": "正在扫描",
+  "loadingFromDeeplink": "正在关联",
   "action": {
     "asking": "此应用程序正在请求执行以下操作",
     "askingV1_35": "{{dappName}} 正在请求执行以下操作：",
