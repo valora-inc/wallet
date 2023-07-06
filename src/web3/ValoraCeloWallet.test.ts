@@ -40,7 +40,7 @@ jest.mock('src/web3/KeychainWallet')
 // which already has extensive tests, we mock KeychainWallet for these tests.
 describe('ValoraCeloWallet', () => {
   let valoraCeloWallet: ValoraCeloWallet
-  let mockKeychainWallet = {
+  const mockKeychainWallet = {
     isAccountUnlocked: jest.fn(),
     signTypedData: jest.fn(),
     signTransaction: jest.fn(),
