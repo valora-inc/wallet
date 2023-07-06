@@ -1,6 +1,6 @@
 import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom-sheet'
-import React, { useState } from 'react'
-import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Keyboard, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BottomSheetParams } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
@@ -29,6 +29,11 @@ function BottomSheetScrollView({ handleContentLayout, containerStyle, testId, ch
       setScrollEnabled(true)
     }
   }
+
+  // Dismiss keyboard on mount
+  useEffect(() => {
+    Keyboard.dismiss()
+  }, [])
 
   return (
     <RNBottomSheetScrollView
