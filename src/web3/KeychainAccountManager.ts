@@ -67,7 +67,9 @@ class KeychainAccountManager {
       throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
     const account: KeychainAccount = { address, createdAt: new Date() }
+
     await storePrivateKey(privateKey, account, password)
+    this.accountInfo[address] = account
     // After we've stored the key on the keychain, update any wallets to notify them of
     // the new account.
     await Promise.all(
@@ -106,7 +108,7 @@ class KeychainAccountManager {
       unlockTime: Date.now(),
       unlockDuration: duration,
     }
-    return privateKey
+    return normalizeAddressWith0x(privateKey)
   }
 
   isAccountUnlocked(address: string) {
