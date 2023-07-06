@@ -19,6 +19,10 @@ class ValoraCeloWallet implements ValoraWallet {
     )
   }
 
+  async init() {
+    await this.keychainWallet.init()
+  }
+
   async signTypedData(
     address: string,
     domain: TypedDataDomain,

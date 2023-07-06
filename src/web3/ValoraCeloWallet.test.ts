@@ -51,6 +51,7 @@ describe('ValoraCeloWallet', () => {
     addAccount: jest.fn(),
     unlockAccount: jest.fn(),
     updateAccount: jest.fn(),
+    init: jest.fn(),
   }
   beforeEach(() => {
     jest.clearAllMocks()
@@ -198,6 +199,12 @@ describe('ValoraCeloWallet', () => {
       'password',
       'new password'
     )
+  })
+  it('init is proxy to KeychainWallet', async () => {
+    mockKeychainWallet.init.mockResolvedValueOnce(undefined)
+    await expect(valoraCeloWallet.init()).resolves.toEqual(undefined)
+    expect(mockKeychainWallet.init).toHaveBeenCalledTimes(1)
+    expect(mockKeychainWallet.init).toHaveBeenCalledWith()
   })
   it('getKeychainWallet returns KeychainWallet', () => {
     expect(valoraCeloWallet.getKeychainWallet()).toBe(mockKeychainWallet)

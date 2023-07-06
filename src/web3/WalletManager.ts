@@ -19,6 +19,7 @@ class WalletManager {
       this.importMnemonicAccount,
       this.keychainAccountManager
     )
+    await this.contractKitWallet.init()
     this.ethersWallets = {
       [Chain.Celo]: new ValoraEthersWallet(Chain.Celo, this.keychainAccountManager),
     }
