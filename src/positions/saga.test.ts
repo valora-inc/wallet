@@ -2,7 +2,11 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { fetchPositionsSaga, fetchShortcutsSaga } from 'src/positions/saga'
-import { shortcutsStatusSelector } from 'src/positions/selectors'
+import {
+  hooksApiUrlSelector,
+  hooksPreviewApiUrlSelector,
+  shortcutsStatusSelector,
+} from 'src/positions/selectors'
 import {
   fetchPositionsFailure,
   fetchPositionsStart,
@@ -12,6 +16,7 @@ import {
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -43,7 +48,10 @@ describe(fetchPositionsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
-      .provide([[select(walletAddressSelector), mockAccount]])
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchPositionsStart())
       .put(fetchPositionsSuccess(MOCK_RESPONSE.data))
       .run()
@@ -76,7 +84,10 @@ describe(fetchPositionsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
-      .provide([[select(walletAddressSelector), mockAccount]])
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchPositionsStart())
       .put.actionType(fetchPositionsFailure.type)
       .run()
@@ -89,7 +100,11 @@ describe(fetchShortcutsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
-      .provide([[select(shortcutsStatusSelector), 'idle']])
+      .provide([
+        [select(shortcutsStatusSelector), 'idle'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchShortcutsSuccess(mockShortcuts))
       .run()
   })
@@ -99,7 +114,11 @@ describe(fetchShortcutsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
-      .provide([[select(shortcutsStatusSelector), 'error']])
+      .provide([
+        [select(shortcutsStatusSelector), 'error'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchShortcutsSuccess(mockShortcuts))
       .run()
   })
@@ -127,7 +146,11 @@ describe(fetchShortcutsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
-      .provide([[select(shortcutsStatusSelector), 'idle']])
+      .provide([
+        [select(shortcutsStatusSelector), 'idle'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put.actionType(fetchShortcutsFailure.type)
       .not.put(fetchShortcutsSuccess(expect.anything()))
       .run()

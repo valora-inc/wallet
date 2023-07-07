@@ -214,6 +214,7 @@
                                 "firebaseFailed",
                                 "gasPriceUpdateFailed",
                                 "getBankAccountsFail",
+                                "hooksInvalidPreviewApiUrl",
                                 "importBackupFailed",
                                 "importContactsFailed",
                                 "incorrectPin",
@@ -4067,6 +4068,12 @@
                     },
                     "type": "array"
                 },
+                "previewApiUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "shortcuts": {
                     "items": {
                         "$ref": "#/definitions/Shortcut"
@@ -4093,6 +4100,7 @@
             },
             "required": [
                 "positions",
+                "previewApiUrl",
                 "shortcuts",
                 "shortcutsStatus",
                 "status"
