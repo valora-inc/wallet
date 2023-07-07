@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -8,13 +8,19 @@ import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
@@ -55,9 +61,15 @@ export function PaymentMethodSection({
   )
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
   const tokenInfo = useTokenInfoBySymbol(cryptoType)
+  const localCurrency = useSelector(getLocalCurrencyCode)
+
+  const showReceiveAmountFeatureGate = getFeatureGate(
+    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER
+  )
 
   const isExpandable = sectionQuotes.length > 1
-  const [expanded, setExpanded] = useState(false)
+  // default to true if feature gate is true and the section is expandable
+  const [expanded, setExpanded] = useState(showReceiveAmountFeatureGate && isExpandable)
   const [newDialogVisible, setNewDialogVisible] = useState(false)
 
   useEffect(() => {
@@ -109,11 +121,11 @@ export function PaymentMethodSection({
     <>
       <View testID={`${paymentMethod}/section`} style={styles.left}>
         <Text style={styles.category}>{getCategoryTitle()}</Text>
-        {!expanded && (
-          <Text style={styles.fee}>
+        {!expanded && !showReceiveAmountFeatureGate && (
+          <Text testID={`${paymentMethod}/minFee`} style={styles.fee}>
             {
               // quotes assumed to be sorted ascending by fee
-              renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.minFee'))
+              renderAmount(sectionQuotes[0], t('selectProviderScreen.minFee'))
             }
           </Text>
         )}
@@ -165,7 +177,7 @@ export function PaymentMethodSection({
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
         <Text style={styles.category}>{getCategoryTitle()}</Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
-          {renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
+          {renderAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
         </Text>
         <Text testID={`${paymentMethod}/provider-0/info`} style={styles.topInfo}>
           {renderInfoText(sectionQuotes[0])}
@@ -190,7 +202,28 @@ export function PaymentMethodSection({
     return `${kycString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
 
-  const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
+  const renderAmount = (normalizedQuote: NormalizedQuote, feePostFix: string) => {
+    const defaultText = <Text>{t('selectProviderScreen.feesVary')}</Text>
+
+    if (showReceiveAmountFeatureGate) {
+      const receiveAmount = normalizedQuote.getReceiveAmount()
+      if (receiveAmount) {
+        return (
+          <Text>
+            <Trans i18nKey="selectProviderScreen.receiveAmount">
+              {flow === CICOFlow.CashIn ? (
+                <CryptoAmount amount={receiveAmount} currency={cryptoType} />
+              ) : (
+                <FiatAmount amount={receiveAmount} currency={localCurrency} />
+              )}
+            </Trans>
+          </Text>
+        )
+      } else {
+        return defaultText
+      }
+    }
+
     const feeAmount = !!tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
 
     return (
@@ -203,10 +236,10 @@ export function PaymentMethodSection({
               showLocalAmount={flow === CICOFlow.CashIn}
               hideSign={false}
             />{' '}
-            {postFix}
+            {feePostFix}
           </Text>
         ) : (
-          <Text>{t('selectProviderScreen.feesVary')}</Text>
+          defaultText
         )}
       </>
     )
@@ -254,8 +287,8 @@ export function PaymentMethodSection({
             >
               <View style={styles.expandedContainer}>
                 <View style={styles.left}>
-                  <Text style={styles.expandedFee} testID={`${paymentMethod}/fee-${index}`}>
-                    {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
+                  <Text style={styles.expandedFee} testID={`${paymentMethod}/amount-${index}`}>
+                    {renderAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                   </Text>
                   <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
                   {index === 0 &&
@@ -312,7 +345,7 @@ const styles = StyleSheet.create({
     borderTopColor: colors.gray2,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: '#F9FAFA',
+    backgroundColor: '#F1FDF1',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -344,15 +377,15 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   category: {
-    ...fontStyles.small500,
+    ...fontStyles.small,
   },
   fee: {
-    ...fontStyles.regular500,
+    ...fontStyles.small600,
     marginTop: 4,
   },
   providerDropdown: {
     ...fontStyles.small500,
-    color: colors.greenUI,
+    color: colors.gray3,
   },
   expandedInfo: {
     ...fontStyles.small,
@@ -365,7 +398,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   expandedFee: {
-    ...fontStyles.regular500,
+    ...fontStyles.small600,
   },
   expandedTag: {
     ...fontStyles.label,
