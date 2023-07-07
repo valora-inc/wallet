@@ -8,6 +8,8 @@ import networkConfig from 'src/web3/networkConfig'
 import { getPositionBalanceUsd } from './getPositionBalanceUsd'
 
 export const showPositionsSelector = () => getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+export const allowHooksPreviewSelector = () =>
+  getFeatureGate(StatsigFeatureGates.ALLOW_HOOKS_PREVIEW)
 
 export const positionsSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.positions : []
@@ -81,7 +83,8 @@ export const positionsWithClaimableRewardsSelector = createSelector(
   }
 )
 
-export const hooksPreviewApiUrlSelector = (state: RootState) => state.positions.previewApiUrl
+export const hooksPreviewApiUrlSelector = (state: RootState) =>
+  allowHooksPreviewSelector() && state.positions.previewApiUrl
 
 export const hooksApiUrlSelector = (state: RootState) =>
   hooksPreviewApiUrlSelector(state) || networkConfig.hooksApiUrl

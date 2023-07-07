@@ -15,6 +15,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
+import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
@@ -144,7 +145,10 @@ export function* handleBarcode(
     yield call(paymentDeepLinkHandlers[handler], barcode.data)
     return
   }
-  if (barcode.data.startsWith('celo://wallet/hooks')) {
+  if (
+    yield select(allowHooksPreviewSelector) &&
+      barcode.data.startsWith('celo://wallet/hooks/enablePreview')
+  ) {
     yield call(handleEnableHooksPreviewDeepLink, barcode.data)
     return
   }

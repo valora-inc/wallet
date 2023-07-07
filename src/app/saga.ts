@@ -82,6 +82,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
+import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { Actions as SendActions } from 'src/send/actions'
 import { handlePaymentDeeplink } from 'src/send/utils'
@@ -368,7 +369,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
       const privateKey = pathParts[2]
       const walletAddress: string = yield select(walletAddressSelector)
       yield call(jumpstartLinkHandler, privateKey, walletAddress)
-    } else if (rawParams.pathname === '/hooks/enablePreview') {
+    } else if (
+      yield select(allowHooksPreviewSelector) && rawParams.pathname === '/hooks/enablePreview'
+    ) {
       yield call(handleEnableHooksPreviewDeepLink, deepLink)
     }
   }
