@@ -1414,7 +1414,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Ücretler dahil <0></0> adresinden para çekeceksiniz"
-    }
+    },
+    "receiveAmount": "Almak <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
