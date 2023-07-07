@@ -1,6 +1,6 @@
 import { fetchDappList, navigateToDappList } from '../utils/dappList'
 import { reloadReactNative } from '../utils/retries'
-import { getElementTextList, sleep, waitForElementId } from '../utils/utils'
+import { getElementTextList, sleep, scrollIntoView, waitForElementId } from '../utils/utils'
 
 jestExpect = require('expect')
 
@@ -11,10 +11,10 @@ export default DappListDisplay = () => {
   beforeAll(async () => {
     dappList = await fetchDappList()
     dappToTest = {
-      dapp: dappList.applications.find((dapp) => dapp.id === 'impactmarket'),
+      dapp: dappList.applications.find((dapp) => dapp.id === 'nftviewer'),
       index: dappList.applications
         .filter((dapp) => dapp[device.getPlatform() === 'ios' ? 'listOnIos' : 'listOnAndroid'])
-        .findIndex((dapp) => dapp.id === 'impactmarket'),
+        .findIndex((dapp) => dapp.id === 'nftviewer'),
     }
   })
 
@@ -40,7 +40,9 @@ export default DappListDisplay = () => {
   })
 
   it('should show dapp bottom sheet when dapp is selected', async () => {
-    await element(by.id('DappCard')).atIndex(dappToTest.index).tap()
+    await sleep(2000)
+    await scrollIntoView(dappToTest.dapp.name, 'DAppsExplorerScreen/DappsList')
+    await element(by.text(dappToTest.dapp.name)).tap()
     await waitForElementId('ConfirmDappButton')
     await waitFor(element(by.text(`Go to ${dappToTest.dapp.name}`)))
       .toBeVisible()
