@@ -1412,7 +1412,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "你将提取<0></0> ，包括费用"
-    }
+    },
+    "receiveAmount": "接收<0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
