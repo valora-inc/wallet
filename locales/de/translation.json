@@ -1414,7 +1414,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Du ziehst <0></0> inklusive Gebühren ab"
-    }
+    },
+    "receiveAmount": "Empfange <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
