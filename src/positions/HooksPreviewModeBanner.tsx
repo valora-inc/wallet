@@ -21,7 +21,7 @@ export default function HooksPreviewModeBanner() {
         onPress={() => dispatch(previewModeDisabled())}
         hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
       >
-        <Text style={styles.text}>Hooks Preview Enabled, tap to disable</Text>
+        <Text style={styles.text}>Hooks Preview enabled, tap to disable</Text>
       </Touchable>
     </SafeAreaView>
   )

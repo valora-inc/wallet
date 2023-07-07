@@ -48,10 +48,18 @@ const slice = createSlice({
     previewModeEnabled: (state, action: PayloadAction<string>) => ({
       ...state,
       previewApiUrl: action.payload,
+      positions: [],
+      status: 'idle',
+      shortcuts: [],
+      shortcutsStatus: 'idle',
     }),
     previewModeDisabled: (state) => ({
       ...state,
       previewApiUrl: null,
+      positions: [],
+      status: 'idle',
+      shortcuts: [],
+      shortcutsStatus: 'idle',
     }),
   },
   extraReducers: (builder) => {
