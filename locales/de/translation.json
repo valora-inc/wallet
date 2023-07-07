@@ -272,7 +272,7 @@
     "signTX": "Transaktion",
     "details": "Details anzeigen"
   },
-  "shareInfo": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse.",
+  "shareInfo": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse und Telefonnummer.",
   "connectWalletInfoDappkit": "Du musst deine Wallet verbinden, um Transaktionen in dieser Dapp zu genehmigen. Sobald sie verbunden ist, hat sie Zugriff auf deine Wallet-Adresse und Telefonnummer.",
   "data": "Daten",
   "firebaseDisabled": "Firebase ist deaktiviert, Benachrichtigung und Log-Upload funktionieren nicht",
@@ -630,8 +630,8 @@
     "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Freunde einladen und Rewards erhalten",
-    "body": "Sobald sie ihre {{appName}} -Wallet eingerichtet und ihre Nummer verbunden haben, werdet Ihr beide mit 1 cUSD belohnt."
+    "title": "Freunde einladen und belohnt werden",
+    "body": "Sobald sie ihr {{appName}} Wallet einrichten und aufladen, erhaltet ihr beide 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
@@ -639,14 +639,14 @@
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
     "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
-    "help": "Um diesen Reward zu erhalten, müssen Eingeladene {{appName}} über den Empfehlungslink herunterladen und beim Registrieren ihre Telefonnummer verbinden. <0>Alle Bedingungen anzeigen</0>",
+    "help": "Um diese Belohnung zu erhalten, muss der Eingeladene den Download über den Empfehlungslink durchführen, seine Telefonnummer angeben und sein {{appName}} Wallet mit CELO, cUSD, cEUR, cREAL, JMPT oder G$ aufladen. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Freunde einladen und Rewards erhalten",
-      "body": "Teile {{appName}} mit Freunden und Familie und beide werden <0>mit 1 cUSD belohnt</0>"
+      "title": "Hol dir cUSD mit der Valora Empfehlungsprämie",
+      "body": "Lade bis zu 25 Freunde ein, {{appName}} beizutreten, und du bekommst jeweils 0,50 cUSD, wenn sie ihre neue {{appName}} Geldbörse aufladen, solange der Vorrat reicht."
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
-  "inviteWithRewardsCUSD": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide 1 cUSD als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
+  "inviteWithRewardsCUSD": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Brieftasche. Es ist superschnell herunterzuladen und mit deiner Telefonnummer zu verbinden. Lade sie über diesen Link herunter und lade deine neue Wallet auf, um $0,50 zu erhalten 💫 \n\n{{link}} \n\nHandle jetzt, die Empfehlungsprämien sind begrenzt.",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1335,6 +1335,12 @@
     "title": "Dapp-Ranglisten",
     "description": "Entdecke die beliebtesten Dapps anderer in der {{appName}}-Community"
   },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Deine Belohnungen",
+      "description": "Beanspruche verfügbare Rewards aus offenen Dapp-Positionen"
+    }
+  },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
     "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, dein Krypto zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
@@ -1402,6 +1408,12 @@
       "title": "Neue Möglichkeiten, Geld zu überweisen",
       "body": "Wir stellen neue Möglichkeiten vor, Geld an ein und von einem Bankkonto zu überweisen – direkt in der Valora-App.\n\nWenn du diese Nachricht siehst, kannst du in deiner Region auf diese Funktion zugreifen.",
       "dismiss": "Verwerfen"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Du zahlst <0></0> inklusive Gebühren"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Du ziehst <0></0> inklusive Gebühren ab"
     }
   },
   "fiatConnectLinkAccountScreen": {
@@ -1698,8 +1710,8 @@
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Lade {{contactName}} zu {{appName}} ein und ihr beide werdet belohnt",
-      "body": "Scheinbar ist {{contactName}} nicht auf Valora. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\n Nachdem dein Kontakt die Wallet heruntergeladen und seine Telefonnummer verbunden hat, werdet ihr beide <0>mit 1 cUSD belohnt</0>"
+      "title": "Lade {{contactName}} auf {{appName}} ein und erhalte 0,50 cUSD",
+      "body": "Es sieht so aus, als ob {{contactName}} nicht auf Valora ist. Du kannst trotzdem eine Zahlung senden, wenn du ihre Wallet-Adresse kennst, oder stattdessen eine Einladung schicken. \n\n Nachdem sie Valora heruntergeladen, ihre Telefonnummer angegeben und ihr Portemonnaie zum ersten Mal aufgeladen haben, erhaltet ihr beide 0,50 cUSD, solange das Geld reicht."
     }
   },
   "celoNews": {
