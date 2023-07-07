@@ -1,7 +1,12 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
-import { fetchPositionsSaga, fetchShortcutsSaga } from 'src/positions/saga'
+import { call, select } from 'redux-saga/effects'
+import {
+  fetchPositionsSaga,
+  fetchShortcutsSaga,
+  handleEnableHooksPreviewDeepLink,
+  _confirmEnableHooksPreview,
+} from 'src/positions/saga'
 import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
@@ -13,6 +18,7 @@ import {
   fetchPositionsSuccess,
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
+  previewModeEnabled,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
@@ -157,5 +163,30 @@ describe(fetchShortcutsSaga, () => {
 
     expect(mockFetch).toHaveBeenCalled()
     expect(Logger.warn).toHaveBeenCalled()
+  })
+})
+
+describe(handleEnableHooksPreviewDeepLink, () => {
+  const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000'
+
+  it('enables hooks preview if the deep link is valid and the user confirms', async () => {
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+      .provide([[call(_confirmEnableHooksPreview), true]])
+      .put(previewModeEnabled('http://192.168.0.42:18000'))
+      .run()
+  })
+
+  it('does nothing if the deep link is invalid', async () => {
+    await expectSaga(handleEnableHooksPreviewDeepLink, 'invalid-link')
+      .provide([[call(_confirmEnableHooksPreview), true]])
+      .not.put.actionType(previewModeEnabled.type)
+      .run()
+  })
+
+  it("does nothing if the user doesn't confirm", async () => {
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+      .provide([[call(_confirmEnableHooksPreview), false]])
+      .not.put.actionType(previewModeEnabled.type)
+      .run()
   })
 })

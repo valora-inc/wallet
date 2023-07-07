@@ -137,6 +137,9 @@ function confirmEnableHooksPreview() {
   })
 }
 
+// Export for testing
+export const _confirmEnableHooksPreview = confirmEnableHooksPreview
+
 export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
   let hooksPreviewApiUrl: string | null = null
   try {
