@@ -135,6 +135,8 @@ export function* handleBarcode(
   if (/^0x[a-f0-9]{40}$/gi.test(barcode.data)) {
     barcode.data = `celo://wallet/pay?address=${barcode.data}`
   }
+  // TODO there's some duplication with deep links handing
+  // would be nice to refactor this
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
     yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
