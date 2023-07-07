@@ -25,6 +25,7 @@ export default abstract class NormalizedQuote {
   abstract getProviderLogo(): string
   abstract getProviderId(): string
   abstract isProviderNew(): boolean
+  abstract getReceiveAmount(): BigNumber | null
 
   abstract navigate(dispatch: Dispatch): void
   onPress(
