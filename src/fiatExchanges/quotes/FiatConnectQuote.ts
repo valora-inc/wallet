@@ -329,4 +329,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getGuaranteedUntil(): Date {
     return new Date(this.quote.quote.guaranteedUntil)
   }
+
+  getReceiveAmount(): BigNumber {
+    return new BigNumber(
+      this.flow === CICOFlow.CashIn ? this.getCryptoAmount() : this.getFiatAmount()
+    )
+  }
 }

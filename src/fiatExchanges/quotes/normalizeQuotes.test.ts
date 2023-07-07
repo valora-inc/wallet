@@ -4,7 +4,8 @@ import {
   normalizeFiatConnectQuotes,
   normalizeQuotes,
 } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { getFeatureGate } from 'src/statsig'
 import { TokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -13,6 +14,7 @@ import {
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
 } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -22,9 +24,11 @@ jest.mock('src/utils/Logger', () => ({
     warn: jest.fn(),
   },
 }))
+jest.mock('src/statsig')
 
 describe('normalizeQuotes', () => {
-  it('sorts and returns both fiatconnect and external quotes', () => {
+  it('returns both fiatconnect and external quotes sorted by fee if feature gate is false', () => {
+    mocked(getFeatureGate).mockReturnValue(false)
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotes,
@@ -56,7 +60,29 @@ describe('normalizeQuotes', () => {
     ])
   })
 
-  it('sorts FiatConnect quotes with no fee returned at the end of quotes', () => {
+  it('returns both fiatconnect and external quotes sorted by receive amount if feature gate is true', () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    const normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      mockFiatConnectQuotes,
+      mockProviders,
+      CiCoCurrency.cUSD
+    )
+    expect(
+      normalizedQuotes.map((quote) => [quote.getProviderId(), quote.getReceiveAmount()?.toNumber()])
+    ).toEqual([
+      ['provider-two', 100],
+      ['provider-three', 100], //provider-three supports Mobile Money and Bank Account
+      ['provider-three', 100],
+      ['Ramp', 100],
+      ['Moonpay', 95],
+      ['Moonpay', 90],
+      ['Simplex', 25],
+    ])
+  })
+
+  it('sorts FiatConnect quotes with no fee returned at the end of quotes if feature gate is false', () => {
+    mocked(getFeatureGate).mockReturnValue(false)
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotesWithUnknownFees,
@@ -80,6 +106,30 @@ describe('normalizeQuotes', () => {
     ).toEqual([
       ['provider-one', 0.97],
       ['provider-two', undefined],
+    ])
+  })
+
+  it('sorts quotes with no receive amount at the end of quotes if feature gate is true', () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    const normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      [],
+      [
+        mockProviders[0],
+        mockProviders[2],
+        {
+          ...mockProviders[1],
+          quote: [{ paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd' }],
+        },
+      ],
+      CiCoCurrency.cUSD
+    )
+    expect(
+      normalizedQuotes.map((quote) => [quote.getProviderId(), quote.getReceiveAmount()?.toNumber()])
+    ).toEqual([
+      ['Ramp', 100],
+      ['Simplex', 25],
+      ['Moonpay', undefined],
     ])
   })
 })
