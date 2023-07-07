@@ -10,7 +10,7 @@ import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -24,7 +24,11 @@ export function SwapExecuteScreen() {
   const { t } = useTranslation()
 
   const navigateToSwapStart = () => {
-    navigate(Screens.SwapScreen)
+    // Navigate back twice to go back to the swap start screen (SwapScreen) or (SwapScreenWithBack)
+    // Since we do not know which stack was used navigating to a specific screen can produce unexpected results
+    // If we add a screen in the future within the swap flow we will need to update this logic
+    navigateBack()
+    navigateBack()
   }
 
   const navigateToReviewScreen = () => {
