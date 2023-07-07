@@ -1414,7 +1414,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Você vai sacar <0></0> incluindo as taxas"
-    }
+    },
+    "receiveAmount": "Receber <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
