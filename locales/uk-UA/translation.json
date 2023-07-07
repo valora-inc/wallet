@@ -1418,7 +1418,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Ви виведете <0></0> з урахуванням комісій"
-    }
+    },
+    "receiveAmount": "Отримайте <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
