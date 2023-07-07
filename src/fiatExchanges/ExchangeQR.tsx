@@ -25,32 +25,32 @@ export default function ExchangeQR({ route, navigation }: Props) {
   const dispatch = useDispatch()
 
   const onPressShare = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.external_exchange_qr_share, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_share, {
       flow,
     })
     dispatch(shareQRCode(qrSvgRef.current))
   }
 
   const onCloseBottomSheet = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.external_exchange_qr_bottom_sheet_close, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_close, {
       flow,
     })
   }
 
   const onPressCopy = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.external_exchange_qr_copy_address, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_copy_address, {
       flow,
     })
   }
 
   const onPressInfo = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.external_exchange_qr_bottom_sheet_open, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open, {
       flow,
     })
   }
 
   const onPressExchange = (exchange: ExternalExchangeProvider) => {
-    ValoraAnalytics.track(FiatExchangeEvents.external_exchange_qr_bottom_sheet_link_press, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press, {
       flow,
       exchange: exchange.name,
     })
@@ -85,7 +85,7 @@ ExchangeQR.navigationOptions = ({
   ...emptyHeader,
   headerLeft: () => (
     <BackButton
-      eventName={FiatExchangeEvents.external_exchange_qr_back}
+      eventName={FiatExchangeEvents.cico_exchange_qr_back}
       eventProperties={{ flow: route.params.flow }}
     />
   ),

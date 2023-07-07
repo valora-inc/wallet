@@ -67,7 +67,7 @@ describe('ExchangeQR', () => {
     expect(queryByTestId('copyButton')).toBeTruthy()
     await fireEvent.press(getByTestId('copyButton'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      FiatExchangeEvents.external_exchange_qr_copy_address,
+      FiatExchangeEvents.cico_exchange_qr_copy_address,
       {
         flow: CICOFlow.CashIn,
       }
@@ -85,7 +85,7 @@ describe('ExchangeQR', () => {
     expect(queryByTestId('bottomSheetLink')).toBeTruthy()
     await fireEvent.press(getByTestId('bottomSheetLink'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      FiatExchangeEvents.external_exchange_qr_bottom_sheet_open,
+      FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open,
       {
         flow: CICOFlow.CashIn,
       }
@@ -96,7 +96,7 @@ describe('ExchangeQR', () => {
     await fireEvent.press(getByTestId('Coinbase Pro-Touchable'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: 'https://example.com/0' })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      FiatExchangeEvents.external_exchange_qr_bottom_sheet_link_press,
+      FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press,
       {
         flow: CICOFlow.CashIn,
         exchange: 'Coinbase Pro',
