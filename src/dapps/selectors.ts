@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect'
-import { DappCategory, DappV1, DappV2, isDappV2 } from 'src/dapps/types'
+import { Dapp, DappCategory } from 'src/dapps/types'
 import { RootState } from 'src/redux/reducers'
 
 export interface CategoryWithDapps extends DappCategory {
-  dapps: Array<DappV1 | DappV2>
+  dapps: Dapp[]
 }
 
-function getDappsById(dapps: Array<DappV1 | DappV2>, dappIds: string[]) {
-  const matchingDapps: Array<DappV1 | DappV2> = []
+function getDappsById(dapps: Dapp[], dappIds: string[]) {
+  const matchingDapps: Dapp[] = []
   dappIds.forEach((id) => {
     const matchedDapp = dapps.find((dapp) => dapp.id === id)
     if (matchedDapp) {
@@ -32,15 +32,9 @@ export const dappsCategoriesSelector = (state: RootState) => state.dapps.dappsCa
 
 export const dappsListSelector = (state: RootState) => state.dapps.dappsList
 
-export const dappsV2ListSelector = (state: RootState) => state.dapps.dappsList.filter(isDappV2)
-
 export const dappsListLoadingSelector = (state: RootState) => state.dapps.dappsListLoading
 
 export const dappsListErrorSelector = (state: RootState) => state.dapps.dappsListError
-
-export const featuredDappSelector = createSelector(dappsListSelector, (dapps) => {
-  return dapps.find((dapp: DappV1 | DappV2) => dapp.isFeatured)
-})
 
 export const favoriteDappIdsSelector = (state: RootState) => state.dapps.favoriteDappIds
 
@@ -54,8 +48,7 @@ const isCategoryWithDapps = (
 export const dappCategoriesSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
-  favoriteDappIdsSelector,
-  (dapps, categories, favoriteDappIds) => {
+  (dapps, categories) => {
     const mappedCategories: {
       [id: string]: CategoryWithDapps | undefined
     } = {}
@@ -70,18 +63,9 @@ export const dappCategoriesSelector = createSelector(
       }
     })
     dapps.forEach((dapp) => {
-      // favorited dapps live in their own list, remove them from the "all" section in the dapps list
-      // should always have a categoryId
-      if (!isDappV2(dapp) && !favoriteDappIds.includes(dapp.id)) {
-        mappedCategories[dapp.categoryId]?.dapps.push(dapp)
-      }
-      // DappV2 dapps can have multiple categories
-      // And don't need to be removed form the all section as this is handled in DAppsExplorerScreen.tsx
-      if (isDappV2(dapp)) {
-        dapp.categories.forEach((category) => {
-          mappedCategories[category]?.dapps.push(dapp)
-        })
-      }
+      dapp.categories.forEach((category) => {
+        mappedCategories[category]?.dapps.push(dapp)
+      })
     })
 
     return Object.values(mappedCategories).filter(isCategoryWithDapps)
@@ -125,12 +109,12 @@ export const favoriteDappsSelector = createSelector(
 )
 
 const nonFavoriteDappsSelector = createSelector(
-  dappsV2ListSelector,
+  dappsListSelector,
   favoriteDappIdsSelector,
   (dapps, favoriteDappIds) => dapps.filter((dapp) => !favoriteDappIds.includes(dapp.id))
 )
 
-function addCategoryNamesToDapps(dapps: Array<DappV2>, categories: Array<DappCategory>) {
+function addCategoryNamesToDapps(dapps: Array<Dapp>, categories: Array<DappCategory>) {
   const categoryMap: Record<string, string> = {}
 
   categories.forEach((category) => {
@@ -153,11 +137,11 @@ export const nonFavoriteDappsWithCategoryNamesSelector = createSelector(
 export const favoriteDappsWithCategoryNamesSelector = createSelector(
   favoriteDappsSelector,
   dappsCategoriesSelector,
-  (dapps, categories) => addCategoryNamesToDapps(dapps.filter(isDappV2), categories)
+  (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )
 
 export const dappListWithCategoryNamesSelector = createSelector(
-  dappsV2ListSelector,
+  dappsListSelector,
   dappsCategoriesSelector,
   (dapps, categories) => addCategoryNamesToDapps(dapps, categories)
 )

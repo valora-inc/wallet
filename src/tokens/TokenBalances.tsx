@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -16,7 +16,6 @@ import Animated, {
   interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -29,9 +28,10 @@ import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
-import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
+import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
@@ -111,26 +111,6 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     },
   })
 
-  const animatedScreenHeaderOpacity = useDerivedValue(() => {
-    if (nonStickyHeaderHeight === 0) {
-      // initial render
-      return 0
-    }
-
-    const startAnimationPosition = nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET
-    const animatedValue =
-      (scrollPosition.value - startAnimationPosition) / HEADER_OPACITY_ANIMATION_DISTANCE
-
-    // return only values between 0 and 1
-    return Math.max(0, Math.min(1, animatedValue))
-  }, [scrollPosition.value, nonStickyHeaderHeight])
-
-  const animatedScreenHeaderStyles = useAnimatedStyle(() => {
-    return {
-      opacity: animatedScreenHeaderOpacity.value,
-    }
-  }, [animatedScreenHeaderOpacity.value])
-
   const animatedListHeaderStyles = useAnimatedStyle(() => {
     if (nonStickyHeaderHeight === 0 || !displayPositions) {
       return {
@@ -160,23 +140,20 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     }
   }, [scrollPosition.value, nonStickyHeaderHeight, displayPositions])
 
-  useLayoutEffect(() => {
-    const subTitle =
+  useScrollAwareHeader({
+    navigation,
+    title: t('totalAssets'),
+    subtitle:
       !tokensAreStale && totalBalanceLocal.gte(0)
         ? t('totalBalanceWithLocalCurrencySymbol', {
             localCurrencySymbol,
             totalBalance: totalBalanceLocal.toFormat(2),
           })
-        : `${localCurrencySymbol} -`
-
-    navigation.setOptions({
-      headerTitle: () => (
-        <Animated.View style={animatedScreenHeaderStyles}>
-          <HeaderTitleWithSubtitle title={t('totalAssets')} subTitle={subTitle} />
-        </Animated.View>
-      ),
-    })
-  }, [navigation, totalBalanceLocal, localCurrencySymbol, animatedScreenHeaderStyles])
+        : `${localCurrencySymbol} -`,
+    scrollPosition,
+    startFadeInPosition: nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET,
+    animationDistance: HEADER_OPACITY_ANIMATION_DISTANCE,
+  })
 
   const onPressNFTsBanner = () => {
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)

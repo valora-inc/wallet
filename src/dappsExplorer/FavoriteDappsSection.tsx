@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, DappV2 } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
+import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
-import NoResults from 'src/dappsExplorer/searchFilter/NoResults'
 import StarIllustration from 'src/icons/StarIllustration'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -37,7 +37,7 @@ export function FavoriteDappsSection({
   const favoriteResults =
     searchTerm === ''
       ? favoriteResultsFiltered
-      : (searchDappList(favoriteResultsFiltered, searchTerm) as DappV2[])
+      : (searchDappList(favoriteResultsFiltered, searchTerm) as Dapp[])
 
   useEffect(() => {
     setFavoriteResultsEmpty(favoriteResults.length <= 0)
@@ -46,7 +46,7 @@ export function FavoriteDappsSection({
   // Display favorites matching search and filter
   if (favoriteResults.length > 0) {
     return (
-      <View testID="DAppsExplorerScreenSearchFilter/FavoriteDappsSection">
+      <View testID="DAppsExplorerScreen/FavoriteDappsSection">
         {favoriteResults.map((favoriteDapp) => (
           <DappCard
             key={favoriteDapp.id}

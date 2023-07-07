@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
+  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
-  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -15,7 +15,7 @@ import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
-import { DappV1, DappV2, DappV2WithCategoryNames } from 'src/dapps/types'
+import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
@@ -38,7 +38,7 @@ import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
 import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
-import { Position } from 'src/positions/types'
+import { Position, Shortcut } from 'src/positions/types'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -1018,28 +1018,7 @@ export const mockOnboardingProps = {
   cashInBottomSheetEnabled: true,
 }
 
-export const mockDappListV1: DappV1[] = [
-  {
-    name: 'Dapp 1',
-    id: 'dapp1',
-    categoryId: '1',
-    description: 'Swap tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
-    dappUrl: 'https://app.dapp1.org/',
-    isFeatured: false,
-  },
-  {
-    name: 'Dapp 2',
-    id: 'dapp2',
-    categoryId: '2',
-    description: 'Lend and borrow tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
-    dappUrl: 'celo://wallet/dapp2Screen',
-    isFeatured: false,
-  },
-]
-
-export const mockDappListV2: DappV2[] = [
+export const mockDappList: Dapp[] = [
   {
     name: 'Dapp 1',
     id: 'dapp1',
@@ -1047,7 +1026,6 @@ export const mockDappListV2: DappV2[] = [
     description: 'Swap tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
-    isFeatured: false,
   },
   {
     name: 'Dapp 2',
@@ -1056,7 +1034,6 @@ export const mockDappListV2: DappV2[] = [
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
-    isFeatured: false,
   },
 ]
 
@@ -1069,7 +1046,6 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     description: 'Swap tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
-    isFeatured: false,
   },
   {
     name: 'Dapp 2',
@@ -1079,7 +1055,6 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
-    isFeatured: false,
   },
 ]
 
@@ -1135,6 +1110,7 @@ export const mockPositions: Position[] = [
     priceUsd: '0.21097429445966362',
     balance: '11.896586737763895000',
     supply: '29726.018516587721136286',
+    availableShortcutIds: [],
   },
   {
     type: 'app-token',
@@ -1173,6 +1149,7 @@ export const mockPositions: Position[] = [
     priceUsd: '0.025500459450704928',
     balance: '160.006517430032700000',
     supply: '232.413684885485035933',
+    availableShortcutIds: [],
   },
   {
     type: 'contract-position',
@@ -1208,6 +1185,7 @@ export const mockPositions: Position[] = [
             decimals: 18,
             priceUsd: '0.6959536890241361',
             balance: '0.950545800159603456',
+            category: 'claimable',
           },
           {
             type: 'base-token',
@@ -1223,9 +1201,32 @@ export const mockPositions: Position[] = [
         priceUsd: '3.9290438860550765',
         balance: '0.336152780111169400',
         supply: '42744.727037884449180591',
+        availableShortcutIds: [],
+      },
+      {
+        priceUsd: '0.00904673476946796903',
+        type: 'base-token',
+        category: 'claimable',
+        decimals: 18,
+        network: 'celo',
+        balance: '0.098322815093446616',
+        symbol: 'UBE',
+        address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
       },
     ],
     balanceUsd: '1.3207590254762067',
+    availableShortcutIds: ['claim-reward'],
+  },
+]
+
+export const mockShortcuts: Shortcut[] = [
+  {
+    category: 'claim',
+    name: 'Claim',
+    networks: ['celo'],
+    description: 'Claim rewards for staked liquidity',
+    id: 'claim-reward',
+    appId: 'ubeswap',
   },
 ]
 

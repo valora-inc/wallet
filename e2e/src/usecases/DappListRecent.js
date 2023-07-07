@@ -28,7 +28,9 @@ export default DappListRecent = () => {
 
     // Scroll to first dapp or next after most recent dapp
     await scrollToDapp(startRecentDappCount + 1)
-    await element(by.id('DappCard')).atIndex(startRecentDappCount).tap()
+    // The E2E test wallet always receives a non-shuffled dapp list which is controlled by Statsig
+    // Unless Bidali or impactMarket are removed impactMarket will always be second in the list
+    await element(by.text('impactMarket')).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
@@ -57,8 +59,8 @@ export default DappListRecent = () => {
     // Navigate to DappList reload and navigate again - ci issue
     await navigateToDappList()
 
-    // Scroll doesn't work well for android so we just tap the first dapp
-    await element(by.id('DappCard')).atIndex(0).tap()
+    // Scroll doesn't work well for android so we just tap the second dapp
+    await element(by.id('DappCard')).atIndex(1).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()
@@ -117,7 +119,7 @@ export default DappListRecent = () => {
     await element(by.text('All Dapps')).tap()
 
     // Check that DappList screen is open
-    await waitFor(element(by.id('DAppsExplorerScreenLegacy/DappsList')))
+    await waitFor(element(by.id('DAppsExplorerScreen/DappsList')))
       .toExist()
       .withTimeout(10 * 1000)
   })
