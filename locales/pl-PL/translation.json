@@ -1418,7 +1418,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Wypłacisz <0></0> wraz z opłatami"
-    }
+    },
+    "receiveAmount": "Odbierz <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
