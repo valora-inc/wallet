@@ -123,6 +123,8 @@ const styles = StyleSheet.create({
   noNfts: {
     ...fontStyles.regular,
     color: colors.gray3,
+    textAlign: 'center',
+    marginTop: '32%',
   },
   scrollContainer: {
     flex: 1,
