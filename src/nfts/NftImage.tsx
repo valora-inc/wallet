@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { NftEvents } from 'src/analytics/Events'
@@ -59,10 +59,7 @@ export default function NftImage({
   const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
 
-  const imageUrl = useMemo(
-    () => nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway,
-    [nft]
-  )
+  const imageUrl = nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
 
   useEffect(() => {
     if (nft.metadata) {
@@ -71,7 +68,7 @@ export default function NftImage({
       sendImageLoadEvent('No nft metadata')
       setStatus('error')
     }
-  }, [nft])
+  }, [`${nft.contractAddress}-${nft.tokenId}`])
 
   function sendImageLoadEvent(error?: string) {
     const { contractAddress, tokenId } = nft
