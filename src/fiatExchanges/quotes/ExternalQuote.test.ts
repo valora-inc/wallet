@@ -261,4 +261,37 @@ describe('ExternalQuote', () => {
       expect(quote.isProviderNew()).toEqual(false)
     })
   })
+
+  describe('.getReceiveAmount', () => {
+    it('returns amount for simplex quote', () => {
+      const quote = new ExternalQuote({
+        quote: mockProviders[0].quote as SimplexQuote,
+        provider: mockProviders[0],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getReceiveAmount()).toEqual(new BigNumber(25))
+    })
+
+    it('returns amount for other quotes', () => {
+      const quote = new ExternalQuote({
+        quote: {
+          paymentMethod: PaymentMethod.Bank,
+          digitalAsset: CiCoCurrency.CELO,
+          returnedAmount: 20,
+        },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getReceiveAmount()).toEqual(new BigNumber(20))
+    })
+
+    it('returns null if returned amount is not set in quote', () => {
+      const quote = new ExternalQuote({
+        quote: { paymentMethod: PaymentMethod.Bank, digitalAsset: CiCoCurrency.CELO },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+      })
+      expect(quote.getReceiveAmount()).toBeNull()
+    })
+  })
 })
