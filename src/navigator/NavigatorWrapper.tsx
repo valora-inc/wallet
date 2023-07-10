@@ -25,7 +25,6 @@ import {
 import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
-import HooksPreviewModeBanner from 'src/positions/HooksPreviewModeBanner'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
 import { getExperimentParams } from 'src/statsig'
@@ -187,7 +186,6 @@ export const NavigatorWrapper = () => {
     >
       <View style={styles.container}>
         <Navigator />
-        <HooksPreviewModeBanner />
         {(appLocked || updateRequired) && (
           <View style={styles.locked}>{updateRequired ? <UpgradeScreen /> : <PincodeLock />}</View>
         )}
