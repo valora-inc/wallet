@@ -207,7 +207,7 @@ export function* checkAndroidMobileServicesSaga() {
     huaweiIsAvailable !== (yield select(huaweiMobileServicesAvailableSelector))
 
   if (updated) {
-    ValoraAnalytics.track(AppEvents.android_mobile_services_availability_checked, {
+    ValoraAnalytics.track(AppEvents.android_mobile_services_checked, {
       googleIsAvailable,
       huaweiIsAvailable,
     })
