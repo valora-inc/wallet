@@ -1772,6 +1772,7 @@
       "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
       "cancel": "Cancel",
       "confirm": "Confirm"
-    }
+    },
+    "invalidApiUrl": "Invalid hooks preview API URL"
   }
 }
