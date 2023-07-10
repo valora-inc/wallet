@@ -4,6 +4,7 @@ import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
+import i18n from 'src/i18n'
 import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
@@ -118,16 +119,16 @@ export function* fetchPositionsSaga() {
 function confirmEnableHooksPreview() {
   return new Promise((resolve) => {
     Alert.alert(
-      'Hooks Preview Mode',
-      "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      i18n.t('hooksPreview.modal.title'),
+      i18n.t('hooksPreview.modal.message') ?? undefined,
       [
         {
-          text: 'Cancel',
+          text: i18n.t('hooksPreview.modal.cancel') ?? undefined,
           onPress: () => resolve(false),
           style: 'cancel',
         },
         {
-          text: 'Confirm',
+          text: i18n.t('hooksPreview.modal.confirm') ?? undefined,
           onPress: () => {
             resolve(true)
           },

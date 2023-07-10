@@ -1765,5 +1765,13 @@
     "loadErrorTitle": "There is an issue loading NFTs",
     "loadErrorSubtitle": "Your assets are safe. Please try again.",
     "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Hooks Preview Mode",
+      "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
   }
 }
