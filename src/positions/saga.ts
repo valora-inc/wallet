@@ -1,5 +1,6 @@
+import isIP from 'is-ip'
 import path from 'path'
-import { Alert } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -147,6 +148,17 @@ export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
   let hooksPreviewApiUrl: string | null = null
   try {
     hooksPreviewApiUrl = new URL(deeplink).searchParams.get('hooksApiUrl')
+
+    // On Android, if the hooks preview API server hostname is an IP address,
+    // append the sslip.io domain so that it falls under the
+    // Android's cleartext HTTP traffic exceptions we've added
+    if (Platform.OS === 'android' && hooksPreviewApiUrl) {
+      const url = new URL(hooksPreviewApiUrl)
+      if (isIP(url.hostname)) {
+        url.hostname = `${url.hostname}.sslip.io`
+        hooksPreviewApiUrl = url.toString()
+      }
+    }
   } catch (error) {
     Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
   }
@@ -158,6 +170,7 @@ export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
 
   const confirm = yield call(confirmEnableHooksPreview)
   if (confirm) {
+    Logger.info(TAG, `Enabling hooks preview mode with API URL: ${hooksPreviewApiUrl}`)
     yield put(previewModeEnabled(hooksPreviewApiUrl))
   }
 }
