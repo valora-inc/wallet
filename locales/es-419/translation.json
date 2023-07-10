@@ -631,7 +631,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que configure su billetera {{appName}} y conecte su número, ambos recibirán 1 cUSD."
+    "body": "Por cada amigo que cree su wallet y agregue fondos a {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -639,14 +639,14 @@
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
     "share": "¡Hola! Estoy usando la wallet cripto {{appName}}. Es fácil de usar y me gustaría invitarte a probarla con este link: {{shareUrl}}",
-    "help": "Para reclamar la recompensa, el invitado debe descargar {{appName}} desde el enlace de recomendación y conectar su número de teléfono durante el registro. <0>Ver términos y condiciones</0>",
+    "help": "Para reclamar la recompensa, el invitado debe descargar {{appName}} desde el enlace de recomendación, conectar su número de teléfono y agregar CELO, cUSD, cEUR, cREAL, JMPT, or G$. <0>Ver términos y condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Invita a tus amigos y obtén recompensas",
-      "body": "Comparte Valora con amigos y familiares para obtener <0>1 cUSD</0> cada uno."
+      "title": "Gana cUSD con Valora Referral Rewards",
+      "body": "Invita hasta 25 amigos a {{appName}} y recibe 0,50 cUSD cuando agreguen fondos mientras el programa esté activo."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos 1 cUSD como recompensa 💫 \n\nUsa este enlace: {{link}}",
+  "inviteWithRewardsCUSD": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces a través de este link ambos recibiremos 0,50 cUSD 💫 \n\n{{link}}\n\nNo pierdas tiempo, ¡las recomensas son limitadas!",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1323,7 +1323,7 @@
     "favoritedDappToast": {
       "message": "Se agregó a tus favoritas",
       "labelCTA": "Ver Mis favoritas",
-      "messageWithDappName": "{{dappName}} añadido como favorito"
+      "messageWithDappName": "Se agregó {{dappName}} a tus favoritas"
     },
     "emptyResults": {
       "message": "Filtro <0>{{filter}}</0> aplicado",
@@ -1334,6 +1334,12 @@
   "dappRankings": {
     "title": "Ranking de dapps",
     "description": "Descubre las dapps favoritas de la comunidad {{appName}}"
+  },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Tus recompensas",
+      "description": "Reclama las recompensas disponibles en tus posiciones DeFi."
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
@@ -1402,6 +1408,12 @@
       "title": "Nuevas formas de transferir fondos",
       "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde Valora.\n\nSi ves este mensaje, puedes acceder a esta función en tu región.",
       "dismiss": "Ignorar"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Pagarás <0></0> con tasas incluidas"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Retirarás <0></0> con tasas incluidas"
     }
   },
   "fiatConnectLinkAccountScreen": {
@@ -1698,8 +1710,8 @@
       "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección de wallet, envíale el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán una recompensa!",
-      "body": "Parece que {{contactName}} no está en Valora. Si conoces su dirección de wallet, envíale el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un <0>1 cUSD</0>"
+      "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
+      "body": "Parece que {{contactName}} no está en Valora. Si conoces su dirección de wallet, envíale el pago a su cuenta, o bien envíale una invitación. \n\nUna vez de que descargue la app, conecte su número de teléfono y agregue fondos, ambos obtendrán 0,50 cUSD mientras el programa esté activo."
     }
   },
   "celoNews": {
