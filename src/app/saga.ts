@@ -370,7 +370,8 @@ export function* handleDeepLink(action: OpenDeepLink) {
       const walletAddress: string = yield select(walletAddressSelector)
       yield call(jumpstartLinkHandler, privateKey, walletAddress)
     } else if (
-      yield select(allowHooksPreviewSelector) && rawParams.pathname === '/hooks/enablePreview'
+      (yield select(allowHooksPreviewSelector)) &&
+      rawParams.pathname === '/hooks/enablePreview'
     ) {
       yield call(handleEnableHooksPreviewDeepLink, deepLink)
     }

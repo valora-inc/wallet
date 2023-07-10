@@ -148,8 +148,8 @@ export function* handleBarcode(
     return
   }
   if (
-    yield select(allowHooksPreviewSelector) &&
-      barcode.data.startsWith('celo://wallet/hooks/enablePreview')
+    (yield select(allowHooksPreviewSelector)) &&
+    barcode.data.startsWith('celo://wallet/hooks/enablePreview')
   ) {
     yield call(handleEnableHooksPreviewDeepLink, barcode.data)
     return
