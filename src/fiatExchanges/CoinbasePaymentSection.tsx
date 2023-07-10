@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   category: {
-    ...fontStyles.small500,
+    ...fontStyles.small,
   },
   fee: {
-    ...fontStyles.regular500,
+    ...fontStyles.small600,
     marginTop: 4,
   },
 })

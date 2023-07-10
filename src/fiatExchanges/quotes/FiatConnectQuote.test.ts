@@ -651,4 +651,23 @@ describe('FiatConnectQuote', () => {
       expect(quote.isProviderNew()).toEqual(false)
     })
   })
+
+  describe('.getReceiveAmount', () => {
+    it('returns crypto amount for cash ins', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getReceiveAmount()).toEqual(new BigNumber(quote.getCryptoAmount()))
+    })
+    it('returns fiat amount for cash out', () => {
+      const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashOut,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getReceiveAmount()).toEqual(new BigNumber(quote.getFiatAmount()))
+    })
+  })
 })

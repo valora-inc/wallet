@@ -9,6 +9,7 @@ import {
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getFeatureGate } from 'src/statsig'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
@@ -18,6 +19,7 @@ import {
   mockProviders,
   mockProviderSelectionAnalyticsData,
 } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -37,6 +39,8 @@ const mockStore = createMockStore({
   },
 })
 
+jest.mock('src/statsig')
+
 describe('PaymentMethodSection', () => {
   let props: PaymentMethodSectionProps
   beforeEach(() => {
@@ -48,6 +52,7 @@ describe('PaymentMethodSection', () => {
       cryptoType: CiCoCurrency.cUSD,
       analyticsData: mockProviderSelectionAnalyticsData,
     }
+    mocked(getFeatureGate).mockReturnValue(false)
   })
   it('shows nothing if there are no available providers', async () => {
     props.normalizedQuotes = []
@@ -62,7 +67,7 @@ describe('PaymentMethodSection', () => {
     expect(queryByTestId('newDialog')).toBeFalsy()
   })
 
-  it('shows a non-expandable view if there is one provider available', async () => {
+  it('shows a non-expandable view with fees if there is one provider available and feature gate is false', async () => {
     props.normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       [],
@@ -77,6 +82,32 @@ describe('PaymentMethodSection', () => {
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByTestId('image-Ramp')).toBeTruthy()
     expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    // NOTE: this ideally should show fees, but because of mock store, tokenInfo
+    // and exchange rate isn't available, no fees are shown. This isn't too
+    // important to test now since that we're going to roll out received amount
+    // and this will be cleaned up
+    expect(queryByTestId('Card/provider-0')).toHaveTextContent('selectProviderScreen.feesVary')
+  })
+
+  it('shows a non-expandable view with receive amount if there is one provider available and feature gate is true', async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    props.normalizedQuotes = normalizeQuotes(
+      CICOFlow.CashIn,
+      [],
+      [mockProviders[2]],
+      CiCoCurrency.cUSD
+    )
+    const { queryByText, queryByTestId } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+    expect(queryByText('selectProviderScreen.card')).toBeTruthy()
+    expect(queryByTestId('image-Ramp')).toBeTruthy()
+    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    expect(queryByTestId('Card/provider-0')).toHaveTextContent(
+      'selectProviderScreen.receiveAmount100.00 cUSD'
+    )
   })
 
   it('shows new info dialog in non expandable section', async () => {
@@ -104,7 +135,7 @@ describe('PaymentMethodSection', () => {
     await waitFor(() => expect(getByTestId('newDialog')).not.toBeVisible())
   })
 
-  it('shows an expandable view if there is more than one provider available', async () => {
+  it('shows an expandable view with fees if there is more than one provider available and feature gate is false', async () => {
     const { queryByText, queryByTestId, getByText } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />
@@ -113,6 +144,7 @@ describe('PaymentMethodSection', () => {
 
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
+    expect(queryByTestId('Card/minFee')).toBeTruthy()
     expect(queryByTestId('image-Ramp')).toBeFalsy()
     expect(queryByTestId('image-Simplex')).toBeFalsy()
     expect(queryByTestId('image-Moonpay')).toBeFalsy()
@@ -125,6 +157,45 @@ describe('PaymentMethodSection', () => {
     expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
     expect(queryByTestId('newLabel-Simplex')).toBeFalsy()
     expect(queryByTestId('newLabel-Moonpay')).toBeFalsy()
+    expect(queryByTestId('Card/amount-0')).toHaveTextContent('selectProviderScreen.feesVary')
+    expect(queryByTestId('Card/amount-1')).toHaveTextContent('selectProviderScreen.feesVary')
+    expect(queryByTestId('Card/amount-2')).toHaveTextContent('selectProviderScreen.feesVary')
+  })
+
+  it('shows an expanded view with receive amount if there is more than one provider available and feature gate is false', async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    const { queryByText, queryByTestId, getByText, debug } = render(
+      <Provider store={mockStore}>
+        <PaymentMethodSection {...props} />
+      </Provider>
+    )
+
+    debug()
+
+    expect(queryByText('selectProviderScreen.card')).toBeTruthy()
+    expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
+    expect(queryByTestId('Card/minFee')).toBeFalsy()
+    expect(queryByTestId('image-Ramp')).toBeTruthy()
+    expect(queryByTestId('image-Simplex')).toBeTruthy()
+    expect(queryByTestId('image-Moonpay')).toBeTruthy()
+    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    expect(queryByTestId('newLabel-Simplex')).toBeFalsy()
+    expect(queryByTestId('newLabel-Moonpay')).toBeFalsy()
+    expect(queryByTestId('Card/amount-0')).toHaveTextContent(
+      'selectProviderScreen.receiveAmount100.00 cUSD'
+    )
+    expect(queryByTestId('Card/amount-1')).toHaveTextContent(
+      'selectProviderScreen.receiveAmount25.00 cUSD'
+    )
+    expect(queryByTestId('Card/amount-2')).toHaveTextContent(
+      'selectProviderScreen.receiveAmount90.00 cUSD'
+    )
+
+    // Collapse works
+    fireEvent.press(getByText('selectProviderScreen.numProviders, {"count":3}'))
+    expect(queryByTestId('image-Ramp')).toBeFalsy()
+    expect(queryByTestId('image-Simplex')).toBeFalsy()
+    expect(queryByTestId('image-Moonpay')).toBeFalsy()
   })
 
   it('shows new label for multiple providers in expanded view', async () => {
@@ -178,7 +249,7 @@ describe('PaymentMethodSection', () => {
     const expandElement = queryByText('selectProviderScreen.numProviders, {"count":2}')
     expect(expandElement).toBeTruthy()
     fireEvent.press(expandElement!)
-    expect(queryByTestId('Bank/fee-1')).toHaveTextContent('selectProviderScreen.feesVary')
+    expect(queryByTestId('Bank/amount-1')).toHaveTextContent('selectProviderScreen.feesVary')
   })
 
   it('shows "ID required" when KYC is required', async () => {

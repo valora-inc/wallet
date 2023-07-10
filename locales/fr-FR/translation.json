@@ -630,8 +630,8 @@
     "body": "Vous recevrez tous les deux un NFT exclusif une fois que votre ami aura configuré son wallet {{appName}} et connecté son numéro."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invitez des amis et recevez des récompenses",
-    "body": "Vous recevrez tous les deux un (1) cUSD en récompense une fois que votre ami aura configuré son wallet {{appName}} et connecté son numéro."
+    "title": "Invitez des amis pour être récompensé",
+    "body": "Vous recevrez tous les deux 0,50 cUSD une fois son wallet configuré et approvisionné."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -639,14 +639,14 @@
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
     "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}",
-    "help": "Pour récupérer cette récompense, l'invité doit télécharger {{appName}} via le lien de parrainage et connecter son numéro de téléphone au moment de son inscription. <0>Voir toutes les conditions</0>",
+    "help": "Pour collecter cette récompense, l'invité doit télécharger {{appName}} via le lien de parrainage, connecter leur numéro de téléphone et approvisionner {{appName}} avec CELO, cUSD, cEUR, cREAL, JMPT ou G$. <0>Voir toutes les conditions</0>",
     "rewardsActive": {
       "title": "Invitez des amis et collectez des NFTs",
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "Invitez des amis et recevez des récompenses",
-      "body": "Partagez {{appName}} avec vos amis et votre famille pour que chacun reçoive une <0>récompense d'un cUSD</0>"
+      "title": "Obtenez cUSD avec Valora Referral Rewards",
+      "body": "Invitez jusqu'à 25 amis à rejoindre {{appName}} et vous recevrez tous les deux 0,50 cUSD lorsqu'ils financeront leur wallet {{appName}}, jusqu'à épuisement des fonds."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
   "inviteWithRewards": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux un NFT en édition spéciale comme récompense. 💫 \n\nUtilisez ce lien pour télécharger : {{link}}",
-  "inviteWithRewardsCUSD": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux 1 cUSD en récompense. 💫 \n\nUtilise ce lien pour télécharger l'appli : {{link}}",
+  "inviteWithRewardsCUSD": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille crypto. C'est super rapide à télécharger et à connecter ton numéro de téléphone. Télécharge par ce lien et approvisionne ton nouveau wallet pour obtenir 0,50 cUSD 💫 \n\n{{link}} \n\nAgis maintenant, les récompenses sont limitées.",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1047,7 +1047,7 @@
     "toggle": "Toujours me rappeler"
   },
   "loadingFromScan": "Numérisation en cours",
-  "loadingFromDeeplink": "Connexion",
+  "loadingFromDeeplink": "Connexion en cours",
   "action": {
     "asking": "Cette appli demande à effectuer l'action suivante :",
     "askingV1_35": "{{dappName}} demande à effectuer l'action suivante :",
@@ -1323,7 +1323,7 @@
     "favoritedDappToast": {
       "message": "Dapp ajoutée à vos favorites",
       "labelCTA": "Voir mes favorites",
-      "messageWithDappName": "{{dappName}} ajouté en tant que favori"
+      "messageWithDappName": "{{dappName}} ajoutée à vos favorites"
     },
     "emptyResults": {
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
@@ -1334,6 +1334,12 @@
   "dappRankings": {
     "title": "Classements Dapp",
     "description": "Découvrez les dapps préférés de la communauté {{appName}}"
+  },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Vos récompenses",
+      "description": "Réclamez vos récompenses disponibles pour vos positions de dapps."
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
@@ -1402,6 +1408,12 @@
       "title": "De nouveaux moyens de transférer des fonds",
       "body": "Nous libérons de nouveaux moyens de transférer des fonds vers et depuis des comptes bancaires, directement depuis l'appli Valora.\n\nSi vous voyez ceci, cela signifie que vous avez cette fonctionnalité dans votre région.",
       "dismiss": "Ignorer"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Vous paierez <0></0> frais inclus"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Vous retirerez <0></0> frais inclus"
     }
   },
   "fiatConnectLinkAccountScreen": {
@@ -1698,8 +1710,8 @@
       "body": "Il semble que {{contactName}} n'est pas sur {{appName}}. Vous pouvez toujours lui envoyer un paiement direct si vous connaissez l'adresse de son wallet, ou lui faire parvenir une invitation. \n\nDès que votre contact aura téléchargé l'appli et connecté son numéro de téléphone, vous recevrez tous les deux un NFT exclusif."
     },
     "rewardsActiveCUSD": {
-      "title": "Invitez {{contactName}} à {{appName}} et recevez tous les deux une récompense",
-      "body": "Il semble que {{contactName}} n'est pas sur Valora. Vous pouvez toujours lui envoyer un paiement direct si vous connaissez l'adresse de son wallet, ou lui faire parvenir une invitation. \n\nDès que votre contact aura téléchargé l'appli et connecté son numéro de téléphone, vous recevrez tous les deux <0>un cUSD en récompense</0>"
+      "title": "Invitez {{contactName}} à {{appName}} et recevez 0.50 cUSD",
+      "body": "Il semble que {{contactName}} n'est pas sur Valora. Vous pouvez toujours lui envoyer un paiement direct si vous connaissez l'adresse de son wallet, ou lui faire parvenir une invitation. \n\nUne fois son compte configuré, son numéro de téléphone connecté et son wallet approvisionné, vous recevrez tous les deux 0,50 cUSD jusqu'à épuisement des fonds."
     }
   },
   "celoNews": {
