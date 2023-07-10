@@ -214,7 +214,7 @@
                                 "firebaseFailed",
                                 "gasPriceUpdateFailed",
                                 "getBankAccountsFail",
-                                "hooksInvalidPreviewApiUrl",
+                                "hooksPreview.invalidApiUrl",
                                 "importBackupFailed",
                                 "importContactsFailed",
                                 "incorrectPin",
