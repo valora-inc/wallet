@@ -1,4 +1,5 @@
 import { FetchMock } from 'jest-fetch-mock/types'
+import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import {
@@ -43,9 +44,12 @@ const MOCK_SHORTCUTS_RESPONSE = {
 
 const mockFetch = fetch as FetchMock
 
+const originalPlatform = Platform.OS
+
 beforeEach(() => {
   jest.clearAllMocks()
   mockFetch.resetMocks()
+  Platform.OS = originalPlatform
 })
 
 describe(fetchPositionsSaga, () => {
@@ -170,6 +174,15 @@ describe(handleEnableHooksPreviewDeepLink, () => {
   const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000'
 
   it('enables hooks preview if the deep link is valid and the user confirms', async () => {
+    Platform.OS = 'android'
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+      .provide([[call(_confirmEnableHooksPreview), true]])
+      .put(previewModeEnabled('http://192.168.0.42.sslip.io:18000/')) // Uses sslip.io for Android
+      .run()
+  })
+
+  it('uses the direct IP on iOS if the deep link is valid and the user confirms', async () => {
+    Platform.OS = 'ios'
     await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
       .provide([[call(_confirmEnableHooksPreview), true]])
       .put(previewModeEnabled('http://192.168.0.42:18000'))
