@@ -31,6 +31,7 @@ export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is
 export default class ExternalQuote extends NormalizedQuote {
   quote: RawProviderQuote | SimplexQuote
   provider: FetchProvidersOutput
+  flow: CICOFlow
   constructor({
     quote,
     provider,
@@ -57,6 +58,7 @@ export default class ExternalQuote extends NormalizedQuote {
     }
     this.quote = quote
     this.provider = provider
+    this.flow = flow
   }
 
   getPaymentMethod(): PaymentMethod {
@@ -131,5 +133,20 @@ export default class ExternalQuote extends NormalizedQuote {
 
   isProviderNew(): boolean {
     return false
+  }
+
+  getReceiveAmount(): BigNumber | null {
+    if (isSimplexQuote(this.quote)) {
+      if (this.flow === CICOFlow.CashIn) {
+        return new BigNumber(this.quote.digital_money.amount)
+      } else {
+        // simplex is cash in only, this should never be reached
+        return null
+      }
+    }
+
+    return typeof this.quote.returnedAmount !== 'undefined'
+      ? new BigNumber(this.quote.returnedAmount)
+      : null
   }
 }
