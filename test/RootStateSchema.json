@@ -4084,6 +4084,7 @@
                     "enum": [
                         "error",
                         "idle",
+                        "loading",
                         "success"
                     ],
                     "type": "string"

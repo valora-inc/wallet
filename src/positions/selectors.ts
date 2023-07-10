@@ -88,3 +88,22 @@ export const hooksPreviewApiUrlSelector = (state: RootState) =>
 
 export const hooksApiUrlSelector = (state: RootState) =>
   hooksPreviewApiUrlSelector(state) || networkConfig.hooksApiUrl
+
+export const hooksPreviewStatusSelector = (state: RootState) => {
+  const positionsStatus = positionsStatusSelector(state)
+  const shortcutsStatus = shortcutsStatusSelector(state)
+
+  if (positionsStatus === 'loading' || shortcutsStatus === 'loading') {
+    return 'loading'
+  }
+
+  if (positionsStatus === 'error' || shortcutsStatus === 'error') {
+    return 'error'
+  }
+
+  if (positionsStatus === 'success' && shortcutsStatus === 'success') {
+    return 'success'
+  }
+
+  return 'idle'
+}

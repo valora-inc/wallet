@@ -7,7 +7,7 @@ export interface State {
   positions: Position[]
   status: 'idle' | 'loading' | 'success' | 'error'
   shortcuts: Shortcut[]
-  shortcutsStatus: 'idle' | 'success' | 'error'
+  shortcutsStatus: 'idle' | 'loading' | 'success' | 'error'
   previewApiUrl: string | null
 }
 
@@ -35,6 +35,10 @@ const slice = createSlice({
     fetchPositionsFailure: (state, action: PayloadAction<Error>) => ({
       ...state,
       status: 'error',
+    }),
+    fetchShortcutsStart: (state) => ({
+      ...state,
+      shortcutsStatus: 'loading',
     }),
     fetchShortcutsSuccess: (state, action: PayloadAction<Shortcut[]>) => ({
       ...state,
@@ -76,6 +80,7 @@ export const {
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchPositionsFailure,
+  fetchShortcutsStart,
   fetchShortcutsSuccess,
   fetchShortcutsFailure,
   previewModeEnabled,

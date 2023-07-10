@@ -1,26 +1,37 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import Touchable from 'src/components/Touchable'
-import { hooksPreviewApiUrlSelector } from 'src/positions/selectors'
+import { hooksPreviewApiUrlSelector, hooksPreviewStatusSelector } from 'src/positions/selectors'
 import { previewModeDisabled } from 'src/positions/slice'
+import colors from 'src/styles/colors'
+import fonts from 'src/styles/fonts'
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
+
+const STATUS_COLORS = {
+  idle: 'gray',
+  loading: 'gray',
+  success: colors.greenUI,
+  error: '#d01a26',
+}
 
 export default function HooksPreviewModeBanner() {
   const hooksPreviewApiUrl = useSelector(hooksPreviewApiUrlSelector)
   const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const status = useSelector(hooksPreviewStatusSelector)
 
   if (!hooksPreviewApiUrl) {
     return null
   }
 
   return (
-    // <View
     <AnimatedSafeAreaView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: STATUS_COLORS[status] }]}
       edges={['top']}
       entering={SlideInUp}
       exiting={SlideOutUp}
@@ -29,7 +40,9 @@ export default function HooksPreviewModeBanner() {
         onPress={() => dispatch(previewModeDisabled())}
         hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
       >
-        <Text style={styles.text}>Hooks Preview enabled, tap to disable</Text>
+        <Text style={styles.text} numberOfLines={1}>
+          {t('hooksPreview.bannerTitle')}
+        </Text>
       </Touchable>
     </AnimatedSafeAreaView>
   )
@@ -42,13 +55,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'orange',
-    // padding: 10,
   },
   text: {
-    // color: 'white',
-    // color: colors.white,
-    // fontSize: 16,
-    // fontWeight: '500',
+    ...fonts.xsmall500,
+    color: colors.white,
     textAlign: 'center',
+    paddingHorizontal: 10,
   },
 })

@@ -15,6 +15,7 @@ import {
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchShortcutsFailure,
+  fetchShortcutsStart,
   fetchShortcutsSuccess,
   previewModeDisabled,
   previewModeEnabled,
@@ -74,6 +75,7 @@ export function* fetchShortcutsSaga() {
       return
     }
 
+    yield put(fetchShortcutsStart())
     const hooksApiUrl = yield select(hooksApiUrlSelector)
     const response = yield call(
       fetchWithTimeout,
