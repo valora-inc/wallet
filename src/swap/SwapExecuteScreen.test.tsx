@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SwapState } from 'src/swap/slice'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
@@ -201,7 +201,7 @@ describe('SwapExecuteScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.swapAgain'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack)
+    expect(navigateBack).toHaveBeenCalledTimes(2)
   })
 
   it("should be able to navigate home on press of 'Done'", () => {

@@ -21,6 +21,7 @@ class MockNormalizedQuote extends NormalizedQuote {
   getTimeEstimation = jest.fn()
   navigate = jest.fn()
   isProviderNew = jest.fn()
+  getReceiveAmount = jest.fn()
 }
 
 describe('fiatExchanges utils', () => {

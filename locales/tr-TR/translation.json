@@ -630,8 +630,8 @@
     "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Arkadaşlarınızı davet edin ve ödüller toplayın",
-    "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de 1 cUSD ile ödüllendirileceksiniz."
+    "title": "Arkadaşlarınızı davet edin ve ödüllendirilin",
+    "body": "{{appName}} cüzdanlarını kurup para yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -639,14 +639,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
-    "help": "Bu ödülü almak için davet edilen, davet bağlantısıyla {{appName}} uygulamasını indirmeli ve uyum süreci sırasında telefon numarasını bağlamalıdır.<0>Tüm şartları görüntüleyin</0>",
+    "help": "Bu ödülü almak için davetlinin yönlendirme bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanına CELO, cUSD, cEUR, cREAL, JMPT veya G$ ile para yatırması gerekmektedir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "Arkadaşlarınızı davet edin ve ödüller toplayın",
-      "body": "{{appName}} uygulamasını arkadaşlarınız ve ailenizle paylaşın, ikiniz de <0>1 cUSD ödül kazanın</0>"
+      "title": "Valora Tavsiye Ödülleri ile cUSD kazanın",
+      "body": "En fazla 25 arkadaşınızı {{appName}} adresine katılmaya davet edin ve yeni {{appName}} cüzdanlarına para yatırdıklarında her biriniz 0,50 cUSD kazanacaksınız."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak 1 cUSD alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
+  "inviteWithRewardsCUSD": "Merhaba! 👋 Kripto cüzdanım olarak {{appName}} kullanıyorum. Telefon numaranızı indirmek ve bağlamak çok hızlı. Bu bağlantı üzerinden indirin ve 0,50 $ kazanmak için yeni cüzdanınıza para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, tavsiye ödülleri sınırlıdır.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1323,7 +1323,7 @@
     "favoritedDappToast": {
       "message": "Favori olarak eklendi",
       "labelCTA": "Favorileri Görüntüle",
-      "messageWithDappName": "{{dappName}} favori olarak eklendi"
+      "messageWithDappName": "{{dappName}} favorilere eklendi"
     },
     "emptyResults": {
       "message": "<0>{{filter}}</0> filtresi uygulandı",
@@ -1334,6 +1334,12 @@
   "dappRankings": {
     "title": "Dapp sıralamaları",
     "description": "{{appName}} topluluğundaki diğer kullanıcılar tarafından en çok favorilere eklenen dapp'leri keşfedin"
+  },
+  "dappShortcuts": {
+    "rewards": {
+      "title": "Ödülleriniz",
+      "description": "Açık dapp pozisyonlarından mevcut ödülleri talep edin"
+    }
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
@@ -1402,6 +1408,12 @@
       "title": "Fon transferi için yeni yollar",
       "body": "Doğrudan Valora uygulamasından banka hesaplarına ve banka hesaplarından para transfer etmenin yeni yollarını yayınlıyoruz.\n\nBunu görüyorsanız, bölgenizde bu özelliğe erişebildiğiniz anlamına gelir.",
       "dismiss": "Yoksay"
+    },
+    "cashIn": {
+      "amountSpentInfo": "Ücretler dahil <0></0> ödeyeceksiniz"
+    },
+    "cashOut": {
+      "amountSpentInfo": "Ücretler dahil <0></0> adresinden para çekeceksiniz"
     }
   },
   "fiatConnectLinkAccountScreen": {
@@ -1698,8 +1710,8 @@
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     },
     "rewardsActiveCUSD": {
-      "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve ikiniz de ödül alın",
-      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de <0>1 cUSD alacaksınız</0>"
+      "title": "{{contactName}} adresini {{appName}} adresine davet edin ve 0,50 cUSD kazanın",
+      "body": "Görünüşe göre {{contactName}} Valora'da değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Valora'yı indirdikten, telefon numaralarını bağladıktan ve cüzdanlarına ilk kez para yatırdıktan sonra, fonlar devam ettiği sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {

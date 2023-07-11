@@ -579,10 +579,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   categoryHeader: {
-    ...fontStyles.small500,
+    ...fontStyles.small,
   },
   categoryText: {
-    ...fontStyles.regular500,
+    ...fontStyles.small600,
     marginTop: 4,
   },
   linkToOtherScreen: {
