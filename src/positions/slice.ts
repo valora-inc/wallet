@@ -3,11 +3,13 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { Position, Shortcut } from './types'
 
+type Status = 'idle' | 'loading' | 'success' | 'error'
+
 export interface State {
   positions: Position[]
-  status: 'idle' | 'loading' | 'success' | 'error'
+  status: Status
   shortcuts: Shortcut[]
-  shortcutsStatus: 'idle' | 'success' | 'error'
+  shortcutsStatus: Status
   previewApiUrl: string | null
 }
 
@@ -35,6 +37,10 @@ const slice = createSlice({
     fetchPositionsFailure: (state, action: PayloadAction<Error>) => ({
       ...state,
       status: 'error',
+    }),
+    fetchShortcutsStart: (state) => ({
+      ...state,
+      shortcutsStatus: 'loading',
     }),
     fetchShortcutsSuccess: (state, action: PayloadAction<Shortcut[]>) => ({
       ...state,
@@ -76,6 +82,7 @@ export const {
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchPositionsFailure,
+  fetchShortcutsStart,
   fetchShortcutsSuccess,
   fetchShortcutsFailure,
   previewModeEnabled,

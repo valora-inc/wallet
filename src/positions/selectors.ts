@@ -4,10 +4,13 @@ import { AppTokenPosition, ClaimablePosition, Position, Token } from 'src/positi
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { isPresent } from 'src/utils/typescript'
 import networkConfig from 'src/web3/networkConfig'
 import { getPositionBalanceUsd } from './getPositionBalanceUsd'
 
 export const showPositionsSelector = () => getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+export const showClaimShortcutsSelector = () =>
+  getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)
 export const allowHooksPreviewSelector = () =>
   getFeatureGate(StatsigFeatureGates.ALLOW_HOOKS_PREVIEW)
 
@@ -88,3 +91,24 @@ export const hooksPreviewApiUrlSelector = (state: RootState) =>
 
 export const hooksApiUrlSelector = (state: RootState) =>
   hooksPreviewApiUrlSelector(state) || networkConfig.hooksApiUrl
+
+export const hooksPreviewStatusSelector = (state: RootState) => {
+  const statuses = [
+    showPositionsSelector() ? positionsStatusSelector(state) : undefined,
+    showClaimShortcutsSelector() ? shortcutsStatusSelector(state) : undefined,
+  ].filter(isPresent)
+
+  if (statuses.includes('loading')) {
+    return 'loading'
+  }
+
+  if (statuses.includes('error')) {
+    return 'error'
+  }
+
+  if (statuses.every((status) => status === 'success')) {
+    return 'success'
+  }
+
+  return 'idle'
+}

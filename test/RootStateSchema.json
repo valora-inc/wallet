@@ -4081,21 +4081,10 @@
                     "type": "array"
                 },
                 "shortcutsStatus": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status"
                 },
                 "status": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "loading",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status"
                 }
             },
             "required": [
@@ -4504,6 +4493,15 @@
                 "walletToAccountAddress"
             ],
             "type": "object"
+        },
+        "Status": {
+            "enum": [
+                "error",
+                "idle",
+                "loading",
+                "success"
+            ],
+            "type": "string"
         },
         "StoredTokenBalance": {
             "additionalProperties": false,
