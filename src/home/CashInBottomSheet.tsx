@@ -41,7 +41,7 @@ function CashInBottomSheet() {
   const rampCashInButtonExpEnabled = useSelector((state) => state.app.rampCashInButtonExpEnabled)
 
   useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_impression)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_impression)
   }, [])
 
   const onDismissBottomSheet = () => {
@@ -78,7 +78,7 @@ function CashInBottomSheet() {
         if (rampAvailable) {
           // This event can be used as an activation event to limit the experiment
           // analysis to users that have ramp available to them
-          ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_available)
+          ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_ramp_available)
         }
         return {
           rampAvailable,
@@ -104,7 +104,7 @@ function CashInBottomSheet() {
     onDismissBottomSheet()
 
     navigateToURI(rampURL)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_selected)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected)
   }
 
   const goToAddFunds = () => {
@@ -113,7 +113,7 @@ function CashInBottomSheet() {
     navigate(Screens.FiatExchangeCurrency, {
       flow: FiatExchangeFlow.CashIn,
     })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_selected, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_selected, {
       rampAvailable,
     })
   }
