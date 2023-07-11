@@ -1765,6 +1765,15 @@
     "loadErrorSubtitle": "Vos actifs sont en sécurité. Veuillez réessayer.",
     "contactSupport": "Si vous avez besoin d'aide, vous pouvez \n<0>contacter le service client</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Mode de prévisualisation des crochets",
+      "message": "Confirme que tu souhaites activer le mode aperçu pour les crochets.\n\nCette fonctionnalité est uniquement destinée aux développeurs qui construisent des crochets. Si tu n'es pas un développeur ou si tu n'as pas déclenché cette action, NE CONFIRME PAS.",
+      "cancel": "Annuler",
+      "confirm": "Valider"
+    },
+    "invalidApiUrl": "URL de l'API de prévisualisation des crochets invalide"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
