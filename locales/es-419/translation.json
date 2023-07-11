@@ -1772,7 +1772,8 @@
       "cancel": "Cancelar",
       "confirm": "Confirmar"
     },
-    "invalidApiUrl": "URL API de previsualización de ganchos no válida"
+    "invalidApiUrl": "URL API de previsualización de ganchos no válida",
+    "bannerTitle": "Vista previa de ganchos activada, pulsa para desactivarla"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
