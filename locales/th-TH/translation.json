@@ -1763,5 +1763,14 @@
     "loadErrorSubtitle": "สินทรัพย์ของคุณปลอดภัย โปรดลองอีกครั้ง",
     "contactSupport": "หากคุณต้องการความช่วยเหลือเพิ่มเติม โปรด \n<0>ติดต่อฝ่ายบริการลูกค้า</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Hooks Preview Mode",
+      "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      "cancel": "ยกเลิก",
+      "confirm": "ยืนยัน"
+    },
+    "invalidApiUrl": "Invalid hooks preview API URL"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
