@@ -1765,6 +1765,15 @@
     "loadErrorSubtitle": "Seus ativos estão seguros. Tente novamente.",
     "contactSupport": "Se precisar de ajuda adicional, você pode \n<0>Contatar o suporte</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Modo de pré-visualização de ganchos",
+      "message": "Confirme que pretende ativar o modo de pré-visualização para hooks.\n\nEsta funcionalidade destina-se apenas aos programadores que criam hooks. Se não for um programador ou não tiver ativado esta ação, NÃO CONFIRME.",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "invalidApiUrl": "URL da API de pré-visualização de hooks inválido"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
