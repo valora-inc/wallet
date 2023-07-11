@@ -1772,7 +1772,8 @@
       "cancel": "Annuler",
       "confirm": "Valider"
     },
-    "invalidApiUrl": "URL de l'API de prévisualisation des crochets invalide"
+    "invalidApiUrl": "URL de l'API de prévisualisation des crochets invalide",
+    "bannerTitle": "L'aperçu des crochets est activé, touche pour le désactiver."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
