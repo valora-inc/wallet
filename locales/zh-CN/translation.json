@@ -1770,7 +1770,8 @@
       "cancel": "取消",
       "confirm": "确认"
     },
-    "invalidApiUrl": "预览API URL无效"
+    "invalidApiUrl": "预览API URL无效",
+    "bannerTitle": "钩子预览已启用，点击禁用"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
