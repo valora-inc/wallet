@@ -2338,6 +2338,18 @@ export const v133Schema = {
   },
 }
 
+export const v134Schema = {
+  ...v133Schema,
+  _persist: {
+    ...v133Schema._persist,
+    version: 134,
+  },
+  positions: {
+    ...v133Schema.positions,
+    previewApiUrl: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v133Schema as Partial<RootState>
+  return v134Schema as Partial<RootState>
 }

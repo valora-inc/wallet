@@ -4,19 +4,22 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
+import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 import { CICOFlow } from './utils'
 
 jest.mock('src/fees/hooks', () => ({
   useMaxSendAmount: () => mockMaxSendAmount,
 }))
+jest.mock('src/statsig')
 
 const usdExchangeRates = {
   [Currency.Dollar]: '1',
@@ -206,6 +209,7 @@ describe('FiatExchangeAmount cashOut', () => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
+    mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('displays correctly for cUSD when local currency is USD', () => {
@@ -217,6 +221,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(getByText('amount (cUSD)')).toBeTruthy()
     expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('celoDollar @ $1.00')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
+    expect(getByText('disclaimerFiat, {"currency":"celoDollar"}')).toBeTruthy()
   })
 
   it('displays correctly for cEUR when local currency is USD', () => {
@@ -228,6 +233,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(getByText('amount (cEUR)')).toBeTruthy()
     expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('celoEuro @ $1.20')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
+    expect(getByText('disclaimerFiat, {"currency":"celoEuro"}')).toBeTruthy()
   })
 
   it('displays correctly for CELO when local currency is USD', () => {
@@ -239,6 +245,19 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(getByText('amount (CELO)')).toBeTruthy()
     expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $5.00')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
+  })
+
+  it('displays correctly when the SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER feature flag is on', () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    const { getByText, queryByTestId, queryByText } = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByText('amount (cUSD)')).toBeTruthy()
+    expect(queryByTestId('LineItemRowTitle/subtotal')).toBeFalsy()
+    expect(queryByTestId('LineItemRow/subtotal')).toBeFalsy()
+    expect(queryByText('disclaimerFiat, {"currency":"celoDollar"}')).toBeFalsy()
   })
 
   it('disables the next button if the cUSD amount is 0', () => {
