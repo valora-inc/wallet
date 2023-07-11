@@ -1765,6 +1765,15 @@
     "loadErrorSubtitle": "Dein Vermögen ist sicher. Bitte versuche es noch einmal.",
     "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du den\n<0>Support kontaktieren</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Haken Vorschau-Modus",
+      "message": "Bitte bestätige, dass du den Vorschaumodus für Hooks aktivieren möchtest.\n\nDiese Funktion ist nur für Entwickler gedacht, die Hooks erstellen. Wenn du kein Entwickler bist oder diese Aktion nicht ausgelöst hast, BESTÄTIGE NICHT.",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen"
+    },
+    "invalidApiUrl": "Ungültige Hooks Vorschau API URL"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
