@@ -1769,6 +1769,15 @@
     "loadErrorSubtitle": "Twoje aktywa są bezpieczne. Spróbuj ponownie.",
     "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz \n<0>skontaktować się z działem obsługi klienta</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Tryb podglądu haków",
+      "message": "Potwierdź, że chcesz włączyć tryb podglądu dla haków.\n\nTa funkcja jest przeznaczona tylko dla deweloperów tworzących haki. Jeśli nie jesteś deweloperem lub nie uruchomiłeś tej akcji, NIE POTWIERDZAJ.",
+      "cancel": "Anuluj",
+      "confirm": "Potwierdź"
+    },
+    "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
