@@ -1,12 +1,23 @@
+import path from 'path'
+import { Alert } from 'react-native'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
-import { shortcutsStatusSelector } from 'src/positions/selectors'
+import i18n from 'src/i18n'
+import {
+  hooksApiUrlSelector,
+  hooksPreviewApiUrlSelector,
+  shortcutsStatusSelector,
+} from 'src/positions/selectors'
 import {
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
+  previewModeDisabled,
+  previewModeEnabled,
 } from 'src/positions/slice'
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -17,16 +28,24 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'positions/saga'
 
 const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
-async function fetchPositions(walletAddress: string) {
+function getHooksApiFunctionUrl(
+  hooksApiUrl: string,
+  functionName: 'getPositions' | 'getShortcuts'
+) {
+  const url = new URL(hooksApiUrl)
+  url.pathname = path.join(url.pathname, functionName)
+  return url.toString()
+}
+
+async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
   const response = await fetchWithTimeout(
-    `${networkConfig.getPositionsUrl}?` +
+    `${getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')}?` +
       new URLSearchParams({
         network: DEFAULT_TESTNET === 'mainnet' ? 'celo' : 'celoAlfajores',
         address: walletAddress,
@@ -48,12 +67,18 @@ export function* fetchShortcutsSaga() {
     }
 
     const shortcutsStatus = yield select(shortcutsStatusSelector)
-    if (shortcutsStatus === 'success') {
+    const hooksPreviewApiUrl = yield select(hooksPreviewApiUrlSelector)
+    if (shortcutsStatus === 'success' && !hooksPreviewApiUrl) {
       // no need to fetch shortcuts more than once per session
+      // if we're not in preview mode
       return
     }
 
-    const response = yield call(fetchWithTimeout, networkConfig.getShortcutsUrl)
+    const hooksApiUrl = yield select(hooksApiUrlSelector)
+    const response = yield call(
+      fetchWithTimeout,
+      getHooksApiFunctionUrl(hooksApiUrl, 'getShortcuts')
+    )
     if (!response.ok) {
       throw new Error(`Unable to fetch shortcuts: ${response.status} ${response.statusText}`)
     }
@@ -81,7 +106,8 @@ export function* fetchPositionsSaga() {
 
     yield put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
-    const positions = yield call(fetchPositions, address)
+    const hooksApiUrl = yield select(hooksApiUrlSelector)
+    const positions = yield call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
     yield put(fetchPositionsSuccess(positions))
   } catch (error) {
@@ -90,10 +116,61 @@ export function* fetchPositionsSaga() {
   }
 }
 
+function confirmEnableHooksPreview() {
+  return new Promise((resolve) => {
+    Alert.alert(
+      i18n.t('hooksPreview.modal.title'),
+      i18n.t('hooksPreview.modal.message') ?? undefined,
+      [
+        {
+          text: i18n.t('hooksPreview.modal.cancel') ?? undefined,
+          onPress: () => resolve(false),
+          style: 'cancel',
+        },
+        {
+          text: i18n.t('hooksPreview.modal.confirm') ?? undefined,
+          onPress: () => {
+            resolve(true)
+          },
+        },
+      ]
+    )
+  })
+}
+
+// Export for testing
+export const _confirmEnableHooksPreview = confirmEnableHooksPreview
+
+export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
+  let hooksPreviewApiUrl: string | null = null
+  try {
+    hooksPreviewApiUrl = new URL(deeplink).searchParams.get('hooksApiUrl')
+  } catch (error) {
+    Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
+  }
+
+  if (!hooksPreviewApiUrl) {
+    yield put(showError(ErrorMessages.HOOKS_INVALID_PREVIEW_API_URL))
+    return
+  }
+
+  const confirm = yield call(confirmEnableHooksPreview)
+  if (confirm) {
+    yield put(previewModeEnabled(hooksPreviewApiUrl))
+  }
+}
+
 export function* watchFetchBalances() {
-  // Refresh positions when fetching token balances
-  yield takeLeading(fetchTokenBalances.type, safely(fetchPositionsSaga))
-  yield takeLeading(fetchTokenBalances.type, safely(fetchShortcutsSaga))
+  // Refresh positions/shortcuts when fetching token balances
+  // or when preview mode is enabled/disabled
+  yield takeLeading(
+    [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
+    safely(fetchPositionsSaga)
+  )
+  yield takeLeading(
+    [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
+    safely(fetchShortcutsSaga)
+  )
 }
 
 export function* positionsSaga() {

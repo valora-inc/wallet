@@ -4,9 +4,12 @@ import { AppTokenPosition, ClaimablePosition, Position, Token } from 'src/positi
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import networkConfig from 'src/web3/networkConfig'
 import { getPositionBalanceUsd } from './getPositionBalanceUsd'
 
 export const showPositionsSelector = () => getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
+export const allowHooksPreviewSelector = () =>
+  getFeatureGate(StatsigFeatureGates.ALLOW_HOOKS_PREVIEW)
 
 export const positionsSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.positions : []
@@ -79,3 +82,9 @@ export const positionsWithClaimableRewardsSelector = createSelector(
     return claimablePositions
   }
 )
+
+export const hooksPreviewApiUrlSelector = (state: RootState) =>
+  allowHooksPreviewSelector() && state.positions.previewApiUrl
+
+export const hooksApiUrlSelector = (state: RootState) =>
+  hooksPreviewApiUrlSelector(state) || networkConfig.hooksApiUrl

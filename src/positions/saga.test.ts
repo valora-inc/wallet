@@ -1,17 +1,28 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
-import { fetchPositionsSaga, fetchShortcutsSaga } from 'src/positions/saga'
-import { shortcutsStatusSelector } from 'src/positions/selectors'
+import { call, select } from 'redux-saga/effects'
+import {
+  fetchPositionsSaga,
+  fetchShortcutsSaga,
+  handleEnableHooksPreviewDeepLink,
+  _confirmEnableHooksPreview,
+} from 'src/positions/saga'
+import {
+  hooksApiUrlSelector,
+  hooksPreviewApiUrlSelector,
+  shortcutsStatusSelector,
+} from 'src/positions/selectors'
 import {
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
+  previewModeEnabled,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -43,7 +54,10 @@ describe(fetchPositionsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
-      .provide([[select(walletAddressSelector), mockAccount]])
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchPositionsStart())
       .put(fetchPositionsSuccess(MOCK_RESPONSE.data))
       .run()
@@ -76,7 +90,10 @@ describe(fetchPositionsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
-      .provide([[select(walletAddressSelector), mockAccount]])
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchPositionsStart())
       .put.actionType(fetchPositionsFailure.type)
       .run()
@@ -89,7 +106,11 @@ describe(fetchShortcutsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
-      .provide([[select(shortcutsStatusSelector), 'idle']])
+      .provide([
+        [select(shortcutsStatusSelector), 'idle'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchShortcutsSuccess(mockShortcuts))
       .run()
   })
@@ -99,7 +120,11 @@ describe(fetchShortcutsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
-      .provide([[select(shortcutsStatusSelector), 'error']])
+      .provide([
+        [select(shortcutsStatusSelector), 'error'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put(fetchShortcutsSuccess(mockShortcuts))
       .run()
   })
@@ -127,12 +152,41 @@ describe(fetchShortcutsSaga, () => {
     mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
-      .provide([[select(shortcutsStatusSelector), 'idle']])
+      .provide([
+        [select(shortcutsStatusSelector), 'idle'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
       .put.actionType(fetchShortcutsFailure.type)
       .not.put(fetchShortcutsSuccess(expect.anything()))
       .run()
 
     expect(mockFetch).toHaveBeenCalled()
     expect(Logger.warn).toHaveBeenCalled()
+  })
+})
+
+describe(handleEnableHooksPreviewDeepLink, () => {
+  const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000'
+
+  it('enables hooks preview if the deep link is valid and the user confirms', async () => {
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+      .provide([[call(_confirmEnableHooksPreview), true]])
+      .put(previewModeEnabled('http://192.168.0.42:18000'))
+      .run()
+  })
+
+  it('does nothing if the deep link is invalid', async () => {
+    await expectSaga(handleEnableHooksPreviewDeepLink, 'invalid-link')
+      .provide([[call(_confirmEnableHooksPreview), true]])
+      .not.put.actionType(previewModeEnabled.type)
+      .run()
+  })
+
+  it("does nothing if the user doesn't confirm", async () => {
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+      .provide([[call(_confirmEnableHooksPreview), false]])
+      .not.put.actionType(previewModeEnabled.type)
+      .run()
   })
 })

@@ -14,6 +14,8 @@ import { E164NumberToAddressType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
+import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
@@ -133,6 +135,8 @@ export function* handleBarcode(
   if (/^0x[a-f0-9]{40}$/gi.test(barcode.data)) {
     barcode.data = `celo://wallet/pay?address=${barcode.data}`
   }
+  // TODO there's some duplication with deep links handing
+  // would be nice to refactor this
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
     yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
@@ -141,6 +145,13 @@ export function* handleBarcode(
   if (barcode.data.startsWith('celo://wallet/payment')) {
     const handler: PaymentDeepLinkHandler = yield select(paymentDeepLinkHandlerSelector)
     yield call(paymentDeepLinkHandlers[handler], barcode.data)
+    return
+  }
+  if (
+    (yield select(allowHooksPreviewSelector)) &&
+    barcode.data.startsWith('celo://wallet/hooks/enablePreview')
+  ) {
+    yield call(handleEnableHooksPreviewDeepLink, barcode.data)
     return
   }
 
