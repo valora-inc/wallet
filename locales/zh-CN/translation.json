@@ -1763,5 +1763,14 @@
     "loadErrorSubtitle": "您的资产依旧安全。请再试一次。",
     "contactSupport": "如需额外帮助，您可以 \n<0>联系支持团队</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "挂钩预览模式",
+      "message": "请确认您希望为钩子启用预览模式。\n\n此功能仅适用于构建钩子的开发人员。如果您不是开发人员或未触发此操作，请勿确认。",
+      "cancel": "取消",
+      "confirm": "确认"
+    },
+    "invalidApiUrl": "预览API URL无效"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
