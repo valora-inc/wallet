@@ -3,11 +3,13 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { Position, Shortcut } from './types'
 
+type Status = 'idle' | 'loading' | 'success' | 'error'
+
 export interface State {
   positions: Position[]
-  status: 'idle' | 'loading' | 'success' | 'error'
+  status: Status
   shortcuts: Shortcut[]
-  shortcutsStatus: 'idle' | 'loading' | 'success' | 'error'
+  shortcutsStatus: Status
   previewApiUrl: string | null
 }
 

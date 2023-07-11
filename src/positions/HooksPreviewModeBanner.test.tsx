@@ -22,7 +22,7 @@ describe(HooksPreviewModeBanner, () => {
     expect(tree.getByText('hooksPreview.bannerTitle')).toBeTruthy()
   })
 
-  it('should render when hooks preview is disabled', () => {
+  it("shouldn't render when hooks preview is disabled", () => {
     const tree = render(
       <Provider
         store={createMockStore({
