@@ -1765,6 +1765,15 @@
     "loadErrorSubtitle": "I tuoi asset sono al sicuro. Riprova.",
     "contactSupport": "Se hai bisogno di ulteriore assistenza, \n<0>Contatta il Supporto tecnico</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Modalità di anteprima dei ganci",
+      "message": "Conferma di voler abilitare la modalità di anteprima per i ganci.\n\nQuesta funzione è destinata solo agli sviluppatori che creano ganci. Se non sei uno sviluppatore o non hai attivato questa azione, NON CONFERMARE.",
+      "cancel": "Annulla",
+      "confirm": "Conferma"
+    },
+    "invalidApiUrl": "URL API di anteprima dei ganci non valido"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
