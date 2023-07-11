@@ -1776,7 +1776,8 @@
       "cancel": "Отмена",
       "confirm": "Подтвердить"
     },
-    "invalidApiUrl": "Неверный URL API-адрес предварительного просмотра крючков"
+    "invalidApiUrl": "Неверный URL API-адрес предварительного просмотра крючков",
+    "bannerTitle": "Предварительный просмотр крючков включен, нажмите, чтобы отключить"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
