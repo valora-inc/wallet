@@ -214,6 +214,7 @@
                                 "firebaseFailed",
                                 "gasPriceUpdateFailed",
                                 "getBankAccountsFail",
+                                "hooksPreview.invalidApiUrl",
                                 "importBackupFailed",
                                 "importContactsFailed",
                                 "incorrectPin",
@@ -4064,6 +4065,12 @@
                     },
                     "type": "array"
                 },
+                "previewApiUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "shortcuts": {
                     "items": {
                         "$ref": "#/definitions/Shortcut"
@@ -4071,25 +4078,15 @@
                     "type": "array"
                 },
                 "shortcutsStatus": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status"
                 },
                 "status": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "loading",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status"
                 }
             },
             "required": [
                 "positions",
+                "previewApiUrl",
                 "shortcuts",
                 "shortcutsStatus",
                 "status"
@@ -4493,6 +4490,15 @@
                 "walletToAccountAddress"
             ],
             "type": "object"
+        },
+        "Status": {
+            "enum": [
+                "error",
+                "idle",
+                "loading",
+                "success"
+            ],
+            "type": "string"
         },
         "StoredTokenBalance": {
             "additionalProperties": false,
