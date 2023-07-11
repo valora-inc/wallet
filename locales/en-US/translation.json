@@ -1772,7 +1772,8 @@
       "cancel": "Cancel",
       "confirm": "Confirm"
     },
-    "invalidApiUrl": "Invalid hooks preview API URL"
+    "invalidApiUrl": "Invalid hooks preview API URL",
+    "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
