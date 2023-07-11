@@ -1772,7 +1772,8 @@
       "cancel": "Abbrechen",
       "confirm": "Bestätigen"
     },
-    "invalidApiUrl": "Ungültige Hooks Vorschau API URL"
+    "invalidApiUrl": "Ungültige Hooks Vorschau API URL",
+    "bannerTitle": "Hakenvorschau aktiviert, zum Deaktivieren antippen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
