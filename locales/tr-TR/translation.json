@@ -1772,7 +1772,8 @@
       "cancel": "İptal",
       "confirm": "Onayla"
     },
-    "invalidApiUrl": "Geçersiz kanca önizleme API URL'si"
+    "invalidApiUrl": "Geçersiz kanca önizleme API URL'si",
+    "bannerTitle": "Kancalar önizlemesi etkin, devre dışı bırakmak için dokunun"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
