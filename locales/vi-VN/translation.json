@@ -1770,7 +1770,8 @@
       "cancel": "Hủy",
       "confirm": "Xác nhận"
     },
-    "invalidApiUrl": "Invalid hooks preview API URL"
+    "invalidApiUrl": "Invalid hooks preview API URL",
+    "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
