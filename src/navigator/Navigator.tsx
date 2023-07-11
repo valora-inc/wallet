@@ -97,7 +97,6 @@ import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPayment
 import PaymentRequestConfirmation, {
   paymentConfirmationScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestConfirmation'
-import PaymentRequestConfirmationLegacy from 'src/paymentRequest/PaymentRequestConfirmationLegacy'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
@@ -105,9 +104,6 @@ import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
-import SendConfirmationLegacy, {
-  sendConfirmationLegacyScreenNavOptions,
-} from 'src/send/SendConfirmationLegacy'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -252,11 +248,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
-      name={Screens.SendConfirmationLegacy}
-      component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.ValidateRecipientIntro}
       component={ValidateRecipientIntro}
       options={validateRecipientIntroScreenNavOptions}
@@ -269,11 +260,6 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PaymentRequestConfirmation}
       component={PaymentRequestConfirmation}
-      options={paymentConfirmationScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.PaymentRequestConfirmationLegacy}
-      component={PaymentRequestConfirmationLegacy}
       options={paymentConfirmationScreenNavOptions}
     />
     <Navigator.Screen
@@ -667,11 +653,6 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationModal}
       component={SendConfirmation}
       options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.SendConfirmationLegacyModal}
-      component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
     />
   </>
 )

@@ -1,5 +1,4 @@
 import { useFocusEffect } from '@react-navigation/native'
-import BigNumber from 'bignumber.js'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
@@ -19,6 +18,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequest } from 'src/paymentRequest/types'
+import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
@@ -74,45 +74,14 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   }
 
   const navigateToNextScreen = () => {
-    const cUsdTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Dollar)
-    const cEurTokenInfo = stableTokens.find((token) => token?.symbol === Currency.Euro)
-    if (!cUsdTokenInfo?.address || !cEurTokenInfo?.address) {
-      // Should never happen in production
-      throw new Error('No token address found for cUSD or cEUR')
-    }
-    // If the user has enough cUSD balance, pay with cUSD
-    // Else, try with cEUR
-    // Else, throw up an error banner
     let transactionData: TransactionDataInput
-    const usdRequested = new BigNumber(paymentRequest.amount)
-
-    if (
-      cUsdTokenInfo.usdPrice &&
-      usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.usdPrice))
-    ) {
-      transactionData = {
-        comment: paymentRequest.comment,
-        recipient: requester,
-        inputAmount: new BigNumber(paymentRequest.amount),
-        tokenAmount: new BigNumber(paymentRequest.amount),
-        amountIsInLocalCurrency: false,
-        tokenAddress: cUsdTokenInfo.address,
-        paymentRequestId,
-      }
-    } else if (
-      cEurTokenInfo.usdPrice &&
-      usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.usdPrice))
-    ) {
-      transactionData = {
-        comment: paymentRequest.comment,
-        recipient: requester,
-        inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
-        tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
-        amountIsInLocalCurrency: false,
-        tokenAddress: cEurTokenInfo.address,
-        paymentRequestId,
-      }
-    } else {
+    try {
+      transactionData = transactionDataFromPaymentRequest({
+        paymentRequest,
+        stableTokens,
+        requester,
+      })
+    } catch (e) {
       dispatch(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
       setPayButtonPressed(false)
       return
