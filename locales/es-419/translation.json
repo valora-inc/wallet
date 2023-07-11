@@ -1765,6 +1765,15 @@
     "loadErrorSubtitle": "Tus activos están a salvo. Vuelve a intentarlo.",
     "contactSupport": "Si necesitas ayuda, puedes contactar a nuestro equipo de\n<0>soporte técnico<0>."
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Ganchos Modo Vista Previa",
+      "message": "Confirma que deseas activar el modo de vista previa para los ganchos.\n\nEsta función sólo está destinada a los desarrolladores que crean ganchos. Si no eres desarrollador o no has activado esta acción, NO CONFIRMES.",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "invalidApiUrl": "URL API de previsualización de ganchos no válida"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
