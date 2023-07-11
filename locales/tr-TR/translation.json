@@ -1765,6 +1765,15 @@
     "loadErrorSubtitle": "Varlıklarınız güvende. Lütfen tekrar deneyin.",
     "contactSupport": "Başka yardım gerekirse \n<0>Destek ile iletişime geçin</0>"
   },
+  "hooksPreview": {
+    "modal": {
+      "title": "Kancalar Önizleme Modu",
+      "message": "Lütfen kancalar için önizleme modunu etkinleştirmek istediğinizi onaylayın.\n\nBu özellik yalnızca kanca oluşturan geliştiriciler için tasarlanmıştır. Geliştirici değilseniz veya bu eylemi tetiklemediyseniz ONAYLAMAYIN.",
+      "cancel": "İptal",
+      "confirm": "Onayla"
+    },
+    "invalidApiUrl": "Geçersiz kanca önizleme API URL'si"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
