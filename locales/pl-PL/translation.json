@@ -1776,7 +1776,8 @@
       "cancel": "Anuluj",
       "confirm": "Potwierdź"
     },
-    "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków"
+    "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków",
+    "bannerTitle": "Podgląd haków włączony, dotknij, aby wyłączyć"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
