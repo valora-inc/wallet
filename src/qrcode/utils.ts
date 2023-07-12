@@ -4,7 +4,11 @@ import Share from 'react-native-share'
 import { call, fork, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
+import {
+  HooksEnablePreviewOrigin,
+  SendOrigin,
+  WalletConnectPairingOrigin,
+} from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { paymentDeepLinkHandlerSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
@@ -150,7 +154,7 @@ export function* handleBarcode(
     (yield select(allowHooksPreviewSelector)) &&
     barcode.data.startsWith('celo://wallet/hooks/enablePreview')
   ) {
-    yield call(handleEnableHooksPreviewDeepLink, barcode.data)
+    yield call(handleEnableHooksPreviewDeepLink, barcode.data, HooksEnablePreviewOrigin.Scan)
     return
   }
 
