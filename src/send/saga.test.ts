@@ -17,19 +17,12 @@ import { urlFromUriData } from 'src/qrcode/schema'
 import { BarcodeTypes } from 'src/qrcode/utils'
 import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import {
-  Actions,
-  HandleBarcodeDetectedAction,
-  QrCode,
-  SendPaymentAction,
-  SendPaymentActionLegacy,
-} from 'src/send/actions'
-import { sendPaymentSaga, sendPaymentSagaLegacy, watchQrCodeDetections } from 'src/send/saga'
+import { Actions, HandleBarcodeDetectedAction, QrCode, SendPaymentAction } from 'src/send/actions'
+import { sendPaymentSaga, watchQrCodeDetections } from 'src/send/saga'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import {
   UnlockResult,
   getConnectedAccount,
@@ -277,51 +270,6 @@ describe(watchQrCodeDetections, () => {
       .put(showMessage(ErrorMessages.QR_FAILED_INVALID_RECIPIENT))
       .silentRun()
     expect(navigate).not.toHaveBeenCalled()
-  })
-})
-
-describe(sendPaymentSagaLegacy, () => {
-  it('fails if user cancels PIN input', async () => {
-    const account = '0x000123'
-    const sendPaymentAction: SendPaymentActionLegacy = {
-      type: Actions.SEND_PAYMENT_LEGACY,
-      amount: new BigNumber(10),
-      currency: Currency.Dollar,
-      comment: '',
-      recipient: mockQRCodeRecipient,
-      firebasePendingRequestUid: null,
-      fromModal: false,
-    }
-    await expectSaga(sendPaymentSagaLegacy, sendPaymentAction)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [call(getConnectedAccount), account],
-        [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
-      ])
-      .put(showError(ErrorMessages.PIN_INPUT_CANCELED))
-      .run()
-  })
-
-  it('uploads symmetric keys if transaction sent successfully', async () => {
-    const account = '0x000123'
-    const sendPaymentAction: SendPaymentActionLegacy = {
-      type: Actions.SEND_PAYMENT_LEGACY,
-      amount: new BigNumber(10),
-      currency: Currency.Dollar,
-      comment: '',
-      recipient: mockQRCodeRecipient,
-      recipientAddress: mockQRCodeRecipient.address,
-      firebasePendingRequestUid: null,
-      fromModal: false,
-    }
-    await expectSaga(sendPaymentSagaLegacy, sendPaymentAction)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [select(currentAccountSelector), account],
-        [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
-      ])
-      .run()
   })
 })
 

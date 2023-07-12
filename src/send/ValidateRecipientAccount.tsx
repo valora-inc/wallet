@@ -29,8 +29,6 @@ import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
-import { isLegacyTransactionData } from 'src/send/utils'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -40,7 +38,7 @@ const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
 
 interface StateProps {
   recipient: Recipient
-  transactionData: TransactionDataInput | TransactionDataInputLegacy
+  transactionData: TransactionDataInput
   addressValidationType: AddressValidationType
   validationSuccessful: boolean
   isOutgoingPaymentRequest?: true
@@ -93,28 +91,19 @@ export const validateRecipientAccountScreenNavOptions = () => ({
 })
 
 function navigateToConfirmationScreen(
-  transactionData: TransactionDataInput | TransactionDataInputLegacy,
+  transactionData: TransactionDataInput,
   isOutgoingPaymentRequest: boolean,
   origin: SendOrigin
 ) {
-  const isLegacy = isLegacyTransactionData(transactionData)
   if (isOutgoingPaymentRequest) {
-    if (isLegacy) {
-      navigate(Screens.PaymentRequestConfirmationLegacy, {
-        transactionData: transactionData as TransactionDataInputLegacy,
-        addressJustValidated: true,
-        isFromScan: false,
-      })
-    } else {
-      Logger.showMessage(i18n.t('addressConfirmed'))
-      navigate(Screens.PaymentRequestConfirmation, {
-        transactionData: transactionData as TransactionDataInput,
-        isFromScan: false,
-      })
-    }
+    Logger.showMessage(i18n.t('addressConfirmed'))
+    navigate(Screens.PaymentRequestConfirmation, {
+      transactionData,
+      isFromScan: false,
+    })
   } else {
     navigate(Screens.SendConfirmation, {
-      transactionData: transactionData as TransactionDataInput,
+      transactionData,
       origin,
       isFromScan: false,
     })

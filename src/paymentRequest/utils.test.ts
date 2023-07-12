@@ -1,13 +1,21 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
+import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
+import {
+  decryptPaymentRequest,
+  encryptPaymentRequest,
+  transactionDataFromPaymentRequest,
+} from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { TokenBalance } from 'src/tokens/slice'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import {
   mockAccount,
   mockAccount2,
+  mockCeurAddress,
+  mockCusdAddress,
   mockE164Number,
   mockName,
   mockPaymentRequests,
@@ -15,6 +23,7 @@ import {
   mockPublicDEK,
   mockPublicDEK2,
   mockRecipient,
+  mockTokenBalances,
 } from 'test/values'
 
 jest.mock('crypto', () => ({
@@ -121,6 +130,77 @@ const encryptedPaymentReq: PaymentRequest = {
   requesterE164Number:
     'BNFXzyIGjZqqNyq6r35aV2HlMMqUbGnIqboReD77MwAlI5IyzqLQ99WF5B1bsZSVS1K+7trtJtKGhIdI1vbSJSsBAQEBAQEBAQEBAQEBAQEBBhjruDecYg9fsrPNcQbI3AkcvWra1MHIeOZlcycn7Vqtx+UVNR59A3kqdIDbLuGiBNFXzyIGjZqqNyq6r35aV2HlMMqUbGnIqboReD77MwAlI5IyzqLQ99WF5B1bsZSVS1K+7trtJtKGhIdI1vbSJSsBAQEBAQEBAQEBAQEBAQEBCVYJWqi/TZNXbAR9ziyX5MJCtfdulxA1tjlvHR/xpE6WnlC/kyXAfKIMqgKGJXchAQEBAQEBAQEBAQEBAQEBAXV31J+7haU0vKJ0SfJfe8mNaylt8oc5bKobMysx91ue1mBc8aLBawM5KfuZyKDBgckvD43PvjQ5',
 }
+
+describe('transactionDataFromPaymentRequest', () => {
+  const getStableTokens = ({
+    cusdBalance,
+    ceurBalance,
+  }: {
+    cusdBalance: number
+    ceurBalance: number
+  }): TokenBalance[] => {
+    return [
+      {
+        ...mockTokenBalances[mockCusdAddress],
+        balance: BigNumber(cusdBalance),
+        usdPrice: BigNumber(1),
+        lastKnownUsdPrice: null,
+      },
+      {
+        ...mockTokenBalances[mockCeurAddress],
+        balance: BigNumber(ceurBalance),
+        usdPrice: BigNumber(1),
+        lastKnownUsdPrice: null,
+      },
+    ]
+  }
+
+  const paymentRequest = {
+    ...req,
+    amount: '0.5',
+  }
+  it('Uses cUsd by default if there is sufficient cUsd and cEur balance', () => {
+    const transactionData = transactionDataFromPaymentRequest({
+      paymentRequest,
+      stableTokens: getStableTokens({ cusdBalance: 1, ceurBalance: 1 }),
+      requester: mockRecipient,
+    })
+
+    expect(transactionData).toMatchObject({
+      recipient: mockRecipient,
+      inputAmount: BigNumber(0.5),
+      amountIsInLocalCurrency: false,
+      tokenAddress: mockCusdAddress,
+      tokenAmount: BigNumber(0.5),
+    })
+  })
+
+  it('Uses cEur by default if there is not enough cUsd balance', () => {
+    const transactionData = transactionDataFromPaymentRequest({
+      paymentRequest,
+      stableTokens: getStableTokens({ cusdBalance: 0, ceurBalance: 1 }),
+      requester: mockRecipient,
+    })
+
+    expect(transactionData).toMatchObject({
+      recipient: mockRecipient,
+      inputAmount: BigNumber(0.5),
+      amountIsInLocalCurrency: false,
+      tokenAddress: mockCeurAddress,
+      tokenAmount: BigNumber(0.5),
+    })
+  })
+
+  it('Throws error if neither currency has enough balance', () => {
+    expect(() =>
+      transactionDataFromPaymentRequest({
+        paymentRequest,
+        stableTokens: getStableTokens({ cusdBalance: 0, ceurBalance: 0 }),
+        requester: mockRecipient,
+      })
+    ).toThrow()
+  })
+})
 
 describe('Encrypt Payment Request', () => {
   it('Encrypts valid payment request', async () => {
