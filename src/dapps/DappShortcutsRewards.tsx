@@ -56,8 +56,10 @@ function DappShortcutsRewards() {
                 .join(', ')}
             </Text>
             {claimableValueLocalCurrency && (
-              <Text style={styles.rewardAmount}>
-                {`${localCurrencySymbol} ${claimableValueLocalCurrency.toFixed(2)}`}
+              <Text style={styles.rewardFiatAmount}>
+                {`${localCurrencySymbol} ${claimableValueLocalCurrency.toFixed(
+                  claimableValueLocalCurrency.lt(0.01) ? 5 : 2
+                )}`}
               </Text>
             )}
           </View>
@@ -125,6 +127,9 @@ const styles = StyleSheet.create({
     ...fontStyles.large600,
     lineHeight: 28,
     flexWrap: 'wrap',
+  },
+  rewardFiatAmount: {
+    ...fontStyles.small,
   },
   dappInfoContainer: {
     flexDirection: 'row',
