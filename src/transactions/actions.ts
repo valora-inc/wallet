@@ -4,7 +4,7 @@ import { TransactionFeedFragment } from 'src/apollo/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
+import { TransactionDataInput } from 'src/send/SendAmount'
 import { InviteTransactions } from 'src/transactions/reducer'
 import {
   StandbyTransaction,
@@ -172,7 +172,7 @@ export const navigateToRequestedPaymentReview = (
   transactionData: TransactionDataInput,
   isFromScan: boolean
 ) => {
-  navigate(Screens.SendConfirmationLegacy, {
+  navigate(Screens.SendConfirmation, {
     transactionData,
     origin: SendOrigin.AppRequestFlow,
     isFromScan,

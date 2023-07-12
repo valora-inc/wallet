@@ -20,6 +20,7 @@ export enum StatsigFeatureGates {
   USE_ZENDESK_API_FOR_SUPPORT = 'use_zendesk_api_for_support',
   SHOW_POSITIONS = 'show_positions',
   SHOW_CLAIM_SHORTCUTS = 'show_claim_shortcuts',
+  ALLOW_HOOKS_PREVIEW = 'allow_hooks_preview',
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
   SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',

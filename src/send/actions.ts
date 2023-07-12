@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
 
@@ -17,7 +16,6 @@ export enum Actions {
   BARCODE_DETECTED = 'SEND/BARCODE_DETECTED',
   QRCODE_SHARE = 'SEND/QRCODE_SHARE',
   SEND_PAYMENT = 'SEND/SEND_PAYMENT',
-  SEND_PAYMENT_LEGACY = 'SEND/SEND_PAYMENT_LEGACY',
   SEND_PAYMENT_SUCCESS = 'SEND/SEND_PAYMENT_SUCCESS',
   SEND_PAYMENT_FAILURE = 'SEND/SEND_PAYMENT_FAILURE',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
@@ -28,7 +26,7 @@ export interface HandleBarcodeDetectedAction {
   type: Actions.BARCODE_DETECTED
   data: QrCode
   scanIsForSecureSend?: boolean
-  transactionData?: TransactionDataInput | TransactionDataInputLegacy
+  transactionData?: TransactionDataInput
   isOutgoingPaymentRequest?: boolean
   requesterAddress?: string
 }
@@ -36,18 +34,6 @@ export interface HandleBarcodeDetectedAction {
 export interface ShareQRCodeAction {
   type: Actions.QRCODE_SHARE
   qrCodeSvg: SVG
-}
-
-export interface SendPaymentActionLegacy {
-  type: Actions.SEND_PAYMENT_LEGACY
-  amount: BigNumber
-  currency: Currency
-  comment: string
-  recipient: Recipient
-  recipientAddress?: string | null
-  feeInfo?: FeeInfo
-  firebasePendingRequestUid: string | null | undefined
-  fromModal: boolean
 }
 
 export interface SendPaymentAction {
@@ -85,7 +71,6 @@ export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
   | SendPaymentAction
-  | SendPaymentActionLegacy
   | SendPaymentSuccessAction
   | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
@@ -94,7 +79,7 @@ export type ActionTypes =
 export const handleBarcodeDetected = (
   data: QrCode,
   scanIsForSecureSend?: boolean,
-  transactionData?: TransactionDataInput | TransactionDataInputLegacy,
+  transactionData?: TransactionDataInput,
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ): HandleBarcodeDetectedAction => ({
@@ -109,27 +94,6 @@ export const handleBarcodeDetected = (
 export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
   type: Actions.QRCODE_SHARE,
   qrCodeSvg,
-})
-
-export const sendPaymentLegacy = (
-  amount: BigNumber,
-  currency: Currency,
-  comment: string,
-  recipient: Recipient,
-  recipientAddress: string | null | undefined,
-  feeInfo: FeeInfo | undefined,
-  firebasePendingRequestUid: string | null | undefined,
-  fromModal: boolean
-): SendPaymentActionLegacy => ({
-  type: Actions.SEND_PAYMENT_LEGACY,
-  amount,
-  currency,
-  comment,
-  recipient,
-  recipientAddress,
-  feeInfo,
-  firebasePendingRequestUid,
-  fromModal,
 })
 
 export const sendPayment = (

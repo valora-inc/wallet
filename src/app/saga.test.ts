@@ -51,6 +51,8 @@ import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
+import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
+import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
@@ -76,6 +78,7 @@ jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('src/jumpstart/jumpstartLinkHandler')
+jest.mock('src/positions/saga')
 jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: () => mockRequestInAppReview(),
   isAvailable: () => mockIsInAppReviewAvailable(),
@@ -200,6 +203,15 @@ describe('handleDeepLink', () => {
       .run()
 
     expect(jumpstartLinkHandler).toHaveBeenCalledWith('0xPrivateKey', '0xwallet')
+  })
+
+  it('Handles hooks enable preview links', async () => {
+    const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(allowHooksPreviewSelector), true]])
+      .run()
+
+    expect(handleEnableHooksPreviewDeepLink).toHaveBeenCalledWith(deepLink)
   })
 })
 

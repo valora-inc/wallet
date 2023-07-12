@@ -14,6 +14,8 @@ import { E164NumberToAddressType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
+import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
   getRecipientFromAddress,
@@ -22,8 +24,7 @@ import {
 } from 'src/recipients/recipient'
 import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
-import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
+import { handleSendPaymentData } from 'src/send/utils'
 import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -81,7 +82,7 @@ export async function shareSVGImage(svg: SVG) {
 function* handleSecureSend(
   address: string,
   e164NumberToAddress: E164NumberToAddressType,
-  secureSendTxData: TransactionDataInput | TransactionDataInputLegacy,
+  secureSendTxData: TransactionDataInput,
   requesterAddress?: string
 ) {
   if (!recipientHasNumber(secureSendTxData.recipient)) {
@@ -124,7 +125,7 @@ export function* handleBarcode(
   barcode: QrCode,
   e164NumberToAddress: E164NumberToAddressType,
   recipientInfo: RecipientInfo,
-  secureSendTxData?: TransactionDataInput | TransactionDataInputLegacy,
+  secureSendTxData?: TransactionDataInput,
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
@@ -133,6 +134,8 @@ export function* handleBarcode(
   if (/^0x[a-f0-9]{40}$/gi.test(barcode.data)) {
     barcode.data = `celo://wallet/pay?address=${barcode.data}`
   }
+  // TODO there's some duplication with deep links handing
+  // would be nice to refactor this
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
     yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
@@ -141,6 +144,13 @@ export function* handleBarcode(
   if (barcode.data.startsWith('celo://wallet/payment')) {
     const handler: PaymentDeepLinkHandler = yield select(paymentDeepLinkHandlerSelector)
     yield call(paymentDeepLinkHandlers[handler], barcode.data)
+    return
+  }
+  if (
+    (yield select(allowHooksPreviewSelector)) &&
+    barcode.data.startsWith('celo://wallet/hooks/enablePreview')
+  ) {
+    yield call(handleEnableHooksPreviewDeepLink, barcode.data)
     return
   }
 
@@ -164,36 +174,17 @@ export function* handleBarcode(
     if (!success) {
       return
     }
-
-    const isLegacy = isLegacyTransactionData(secureSendTxData)
-    if (isLegacy) {
-      if (isOutgoingPaymentRequest) {
-        navigate(Screens.PaymentRequestConfirmationLegacy, {
-          transactionData: secureSendTxData as TransactionDataInputLegacy,
-          addressJustValidated: true,
-          isFromScan: true,
-        })
-      } else {
-        navigate(Screens.SendConfirmationLegacy, {
-          transactionData: secureSendTxData as TransactionDataInputLegacy,
-          addressJustValidated: true,
-          isFromScan: true,
-          origin: SendOrigin.AppSendFlow,
-        })
-      }
+    if (isOutgoingPaymentRequest) {
+      navigate(Screens.PaymentRequestConfirmation, {
+        transactionData: secureSendTxData,
+        isFromScan: true,
+      })
     } else {
-      if (isOutgoingPaymentRequest) {
-        navigate(Screens.PaymentRequestConfirmation, {
-          transactionData: secureSendTxData as TransactionDataInput,
-          isFromScan: true,
-        })
-      } else {
-        navigate(Screens.SendConfirmation, {
-          transactionData: secureSendTxData as TransactionDataInput,
-          origin: SendOrigin.AppSendFlow,
-          isFromScan: true,
-        })
-      }
+      navigate(Screens.SendConfirmation, {
+        transactionData: secureSendTxData,
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: true,
+      })
     }
     return
   }

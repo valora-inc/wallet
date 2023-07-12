@@ -25,7 +25,6 @@ import { feesSaga } from 'src/fees/saga'
 import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { firebaseSaga } from 'src/firebase/saga'
-import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
 import { i18nSaga } from 'src/i18n/saga'
 import { identitySaga } from 'src/identity/saga'
@@ -127,7 +126,6 @@ export function* rootSaga() {
     yield spawn(recipientsSaga)
     yield spawn(feesSaga)
     yield spawn(stableTokenSaga)
-    yield spawn(goldTokenSaga)
     yield spawn(sendSaga)
     yield spawn(exchangeSaga)
     yield spawn(paymentRequestSaga)
