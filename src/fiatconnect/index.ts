@@ -135,7 +135,7 @@ export async function getFiatConnectQuotes(
   const quoteParams: CreateQuoteParams = {
     fiatType,
     cryptoType,
-    ...(isUserInputCrypto(flow, digitalAsset)
+    ...(isUserInputCrypto(flow)
       ? { cryptoAmount: cryptoAmount.toString() }
       : { fiatAmount: fiatAmount.toString() }),
     country,
