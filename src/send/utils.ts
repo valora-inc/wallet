@@ -1,9 +1,5 @@
-import BigNumber from 'bignumber.js'
 import { call, put, select } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
-import { TokenTransactionType } from 'src/apollo/types'
-import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
-import { E164NumberToAddressType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount, convertLocalAmountToDollars } from 'src/localCurrency/convert'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
@@ -15,45 +11,12 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'send/utils'
-
-export interface ConfirmationInput {
-  recipient: Recipient
-  amount: BigNumber
-  currency: Currency
-  reason?: string
-  recipientAddress: string | null | undefined
-  type: TokenTransactionType
-  firebasePendingRequestUid?: string | null
-}
-
-export const getConfirmationInput = (
-  transactionData: TransactionDataInputLegacy,
-  e164NumberToAddress: E164NumberToAddressType,
-  secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
-): ConfirmationInput => {
-  const { recipient } = transactionData
-  let recipientAddress: string | null | undefined
-
-  if (recipient.address) {
-    recipientAddress = recipient.address
-  } else if (recipient.e164PhoneNumber) {
-    recipientAddress = getAddressFromPhoneNumber(
-      recipient.e164PhoneNumber,
-      e164NumberToAddress,
-      secureSendPhoneNumberMapping,
-      undefined
-    )
-  }
-
-  return { ...transactionData, recipientAddress }
-}
 
 export function* handleSendPaymentData(
   data: UriData,
@@ -140,10 +103,4 @@ export function* handlePaymentDeeplink(deeplink: string) {
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }
-}
-
-export function isLegacyTransactionData(
-  transactionData: TransactionDataInput | TransactionDataInputLegacy
-): transactionData is TransactionDataInputLegacy {
-  return transactionData && 'currency' in transactionData
 }
