@@ -4,8 +4,8 @@ import { FetchMock } from 'jest-fetch-mock'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
-import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency } from 'src/utils/currencies'
 import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
 import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 import networkConfig from 'src/web3/networkConfig'
@@ -16,15 +16,15 @@ import {
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
 import {
-  fetchQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
+  QuotesInput,
+  fetchQuotes,
   getFiatConnectProviders,
   getFiatConnectQuotes,
   getObfuscatedAccountNumber,
   getObfuscatedEmail,
   loginWithFiatConnectProvider,
-  QuotesInput,
 } from './index'
 
 jest.mock('src/pincode/authentication', () => ({
@@ -182,13 +182,13 @@ describe('FiatConnect helpers', () => {
       expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('fiatAmount=100'))
       expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('cryptoAmount=100'))
     })
-    it('calls with cryptoAmount for cash in when crypto is CELO', async () => {
+    it('calls with fiatAmount for cash in when crypto is CELO', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
         status: 200,
       })
       await getFiatConnectQuotes({ ...getQuotesInput, digitalAsset: CiCoCurrency.CELO })
-      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('cryptoAmount=100'))
-      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('fiatAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('cryptoAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('fiatAmount=100'))
     })
   })
   describe('loginWithFiatConnectProvider', () => {
