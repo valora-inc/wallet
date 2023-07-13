@@ -200,6 +200,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
   }
 
+  // TODO: find correct type for pendingAction
   const pendingAction: any = {
     id: 1669810746892321,
     topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
