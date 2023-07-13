@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { hooksApiUrlSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
@@ -69,7 +70,7 @@ function useClaimReward() {
         Logger.debug(`${TAG}/claimReward`, 'Claim reward successful', data.transactions)
       },
       onError: (error: Error) => {
-        dispatch(showError(t('dappShortcuts.claimRewardsScreen.claimFailure')))
+        dispatch(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
         Logger.warn(`${TAG}/claimReward`, 'Failed to claim reward', error)
       },
     }

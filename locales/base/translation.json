@@ -1347,9 +1347,9 @@
       "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
       "claimButton": "Claim",
       "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward",
-      "claimFailure": "There was an error claiming your reward, please try again later"
-    }
+      "claimSuccess": "Success! You claimed a reward"
+    },
+    "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
