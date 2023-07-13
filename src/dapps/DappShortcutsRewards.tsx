@@ -134,6 +134,7 @@ function DappShortcutsRewards() {
             size={BtnSizes.SMALL}
             touchableStyle={styles.claimButton}
             testID="DappShortcutsRewards/ClaimButton"
+            showLoading={claimReward.loading}
           />
         </View>
         <View style={styles.dappInfoContainer}>
