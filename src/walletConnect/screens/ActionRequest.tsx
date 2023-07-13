@@ -1,3 +1,4 @@
+import { SessionTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
@@ -89,10 +90,10 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
   if (!client) {
     throw new Error('WalletConnect client not initialized')
   }
-  const activeSessions = client.getActiveSessions()
-  const activeSession = activeSessions[pendingAction.topic]
 
-  // The sessions stored in redux appear to be null :(
+  // Discussion: should we get from active session or from redux or from the client singleton?
+  const activeSessions = client.getActiveSessions()
+  const activeSession = activeSessions[pendingAction.topic] as SessionTypes.Struct
   // const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
   const isDappListed = useIsDappListed(url)
