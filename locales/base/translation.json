@@ -1346,6 +1346,7 @@
       "title": "Your rewards",
       "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
       "claimButton": "Claim",
+      "claimedLabel": "Claimed",
       "rewardLabel": "Available reward"
     }
   },

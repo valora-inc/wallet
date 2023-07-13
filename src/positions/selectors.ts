@@ -48,6 +48,9 @@ export const shortcutsSelector = (state: RootState) => state.positions.shortcuts
 
 export const shortcutsStatusSelector = (state: RootState) => state.positions.shortcutsStatus
 
+export const triggeredShortcutsStatusSelector = (state: RootState) =>
+  state.positions.triggeredShortcutsStatus
+
 export const claimableShortcutSelector = createSelector([shortcutsSelector], (shortcuts) => {
   return shortcuts.filter((shortcut) => shortcut.category === 'claim')
 })
@@ -62,8 +65,8 @@ function getAllClaimableTokens(tokens: Token[]): Token[] {
 }
 
 export const positionsWithClaimableRewardsSelector = createSelector(
-  [positionsSelector, claimableShortcutSelector],
-  (positions, shortcuts) => {
+  [positionsSelector, claimableShortcutSelector, triggeredShortcutsStatusSelector],
+  (positions, shortcuts, triggeredShortcuts) => {
     const claimablePositions: ClaimablePosition[] = []
     positions.forEach((position) => {
       const appShortcuts = shortcuts.filter((shortcut) => shortcut.appId === position.appId)
@@ -77,6 +80,7 @@ export const positionsWithClaimableRewardsSelector = createSelector(
               ...shortcut,
               claimableTokens: getAllClaimableTokens(tokens),
             },
+            status: triggeredShortcuts[position.address] ?? 'idle',
           })
         }
       })

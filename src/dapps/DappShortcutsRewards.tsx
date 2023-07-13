@@ -1,27 +1,68 @@
 import { BigNumber } from 'bignumber.js'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import { triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 function DappShortcutsRewards() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
+  const dispatch = useDispatch()
 
+  const address = useSelector(walletAddressSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
+  const [rewards, setRewards] = useState(positionsWithClaimableRewards)
+
+  useEffect(() => {
+    setRewards((prev) => {
+      // update the displayed rewards in place, so they do not change order and
+      // claimed rewards can remain on the screen even if the data is refreshed
+      const updatedRewards = prev.map((reward) => ({
+        ...reward,
+        status:
+          positionsWithClaimableRewards.find((position) => position.address === reward.address)
+            ?.status ?? 'success',
+      }))
+
+      // add any new rewards to the end of the list
+      const newClaimablePositions = positionsWithClaimableRewards.filter(
+        (position) => !rewards.find((reward) => reward.address === position.address)
+      )
+
+      return [...updatedRewards, ...newClaimablePositions]
+    })
+  }, [positionsWithClaimableRewards])
+
   const handleClaimReward = (position: ClaimablePosition) => () => {
-    // do something
+    if (!address) {
+      // should never happen
+      Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
+      return
+    }
+
+    dispatch(
+      triggerShortcut({
+        address,
+        appId: position.appId,
+        network: 'celo',
+        positionAddress: position.address,
+        shortcutId: position.claimableShortcut.id,
+      })
+    )
   }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
@@ -64,7 +105,13 @@ function DappShortcutsRewards() {
           </View>
           <Button
             onPress={handleClaimReward(item)}
-            text={t('dappShortcuts.claimRewardsScreen.claimButton')}
+            text={
+              item.status === 'loading'
+                ? t('dappShortcuts.claimRewardsScreen.claimedLabel')
+                : t('dappShortcuts.claimRewardsScreen.claimButton')
+            }
+            showLoading={item.status === 'loading'}
+            disabled={item.status === 'success'}
             size={BtnSizes.SMALL}
             touchableStyle={styles.claimButton}
             testID="DappShortcutsRewards/ClaimButton"
@@ -96,7 +143,7 @@ function DappShortcutsRewards() {
         }}
         scrollEventThrottle={16}
         renderItem={renderItem}
-        data={positionsWithClaimableRewards}
+        data={rewards}
         ListHeaderComponent={renderHeader}
       />
     </>

@@ -68,4 +68,5 @@ export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds'
   claimableShortcut: Shortcut & {
     claimableTokens: Token[]
   }
+  status: 'idle' | 'loading' | 'success' | 'error'
 }
