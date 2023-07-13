@@ -133,17 +133,6 @@ const styles = StyleSheet.create({
   topSection: {
     alignItems: 'center',
   },
-  buttonStyle: {
-    paddingTop: 30,
-  },
-  bottomSheetTitle: {
-    ...fontStyles.h2,
-  },
-  bottomSheetBody: {
-    ...fontStyles.regular,
-    marginTop: 12,
-    paddingBottom: 10,
-  },
   container: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
