@@ -1343,6 +1343,12 @@
     "rewards": {
       "title": "Твои вознаграждения",
       "description": "Претендуй на доступные вознаграждения с открытых позиций в dapp"
+    },
+    "claimRewardsScreen": {
+      "title": "Твои вознаграждения",
+      "description": "Теперь ты можешь требовать вознаграждения с открытых dapp-позиций прямо на сайте {{appName}}!",
+      "claimButton": "Претензия",
+      "rewardLabel": "Доступное вознаграждение"
     }
   },
   "dappsScreenHelpDialog": {
