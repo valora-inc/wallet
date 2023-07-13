@@ -11,7 +11,7 @@ import {
 const isSessionProposalType = (
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ): session is Web3WalletTypes.EventArguments['session_proposal'] => {
-  return 'verifyContext' in session
+  return 'params' in session
 }
 
 export function getDefaultSessionTrackedPropertiesV2(
