@@ -3,7 +3,8 @@ import { getFiatConnectClient, getSiweSigningFunction } from 'src/fiatconnect/cl
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getPassword } from 'src/pincode/authentication'
 import { getWalletAsync } from 'src/web3/contracts'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
+import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
+import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 
 jest.mock('src/web3/contracts', () => ({
   getWalletAsync: jest.fn(() => ({
@@ -14,10 +15,13 @@ jest.mock('src/web3/contracts', () => ({
 jest.mock('src/pincode/authentication')
 
 describe('getSigningFunction', () => {
-  const wallet = new KeychainWallet({
-    address: 'some address',
-    createdAt: new Date(),
-  })
+  const wallet = new ValoraCeloWallet(
+    {
+      address: 'fake-address',
+      createdAt: new Date(),
+    },
+    new KeychainAccountManager()
+  )
   beforeEach(() => {
     wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
     wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)

@@ -8,7 +8,7 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
@@ -211,7 +211,10 @@ describe('handleDeepLink', () => {
       .provide([[select(allowHooksPreviewSelector), true]])
       .run()
 
-    expect(handleEnableHooksPreviewDeepLink).toHaveBeenCalledWith(deepLink)
+    expect(handleEnableHooksPreviewDeepLink).toHaveBeenCalledWith(
+      deepLink,
+      HooksEnablePreviewOrigin.Deeplink
+    )
   })
 })
 
