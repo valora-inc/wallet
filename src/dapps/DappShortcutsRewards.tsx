@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { ClaimablePosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -19,7 +18,6 @@ function DappShortcutsRewards() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
-  const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
   const handleClaimReward = (position: ClaimablePosition) => () => {
