@@ -94,10 +94,7 @@ function* handleInitialiseWalletConnect() {
 // so to avoid crashing the code depending on this, we fix it here
 // Note: this method mutates the session
 function applyIconFixIfNeeded(
-  session:
-    | Web3WalletTypes.EventArguments['session_proposal']
-    | Web3WalletTypes.EventArguments['session_proposal']
-    | SessionTypes.Struct
+  session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
   const peer = 'params' in session ? session.params.proposer : session.peer
   const { icons } = peer?.metadata || {}
