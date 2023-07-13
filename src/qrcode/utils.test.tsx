@@ -4,6 +4,7 @@ import 'react-native'
 import { View } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { urlFromUriData } from 'src/qrcode/schema'
@@ -63,6 +64,9 @@ describe('handleBarcode', () => {
       .provide([[select(allowHooksPreviewSelector), true]])
       .run()
 
-    expect(handleEnableHooksPreviewDeepLink).toHaveBeenCalledWith(link)
+    expect(handleEnableHooksPreviewDeepLink).toHaveBeenCalledWith(
+      link,
+      HooksEnablePreviewOrigin.Scan
+    )
   })
 })

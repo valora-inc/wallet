@@ -129,6 +129,7 @@ const defaultSuperProperties = {
   sHasCompletedBackup: false,
   sHasVerifiedNumber: false,
   sHasVerifiedNumberCPV: true,
+  sHooksPreviewEnabled: false,
   sLanguage: 'es-419',
   sLocalCurrencyCode: 'PHP',
   sNetWorthUsd: 43.910872728527195,
