@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { fireEvent, render, within } from '@testing-library/react-native'
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import * as React from 'react'
 import 'react-native'
@@ -200,7 +200,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
   }
 
-  const pendingAction: SignClientTypes.EventArguments['session_request'] = {
+  const pendingAction: any = {
     id: 1669810746892321,
     topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
     params: {

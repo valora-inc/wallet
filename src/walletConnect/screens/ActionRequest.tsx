@@ -1,5 +1,5 @@
-import { SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,7 +19,7 @@ import {
   acceptRequest as acceptRequestV2,
   denyRequest as denyRequestV2,
 } from 'src/walletConnect/v2/actions'
-import { selectSessionFromTopic } from 'src/walletConnect/v2/selectors'
+import { client } from 'src/walletConnect/v2/saga'
 
 interface PropsV1 {
   version: 1
@@ -28,7 +28,7 @@ interface PropsV1 {
 
 interface PropsV2 {
   version: 2
-  pendingAction: SignClientTypes.EventArguments['session_request']
+  pendingAction: Web3WalletTypes.EventArguments['session_request']
 }
 
 type Props = PropsV1 | PropsV2
@@ -86,7 +86,14 @@ function ActionRequestV2({ pendingAction }: PropsV2) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
+  if (!client) {
+    throw new Error('WalletConnect client not initialized')
+  }
+  const activeSessions = client.getActiveSessions()
+  const activeSession = activeSessions[pendingAction.topic]
+
+  // The sessions stored in redux appear to be null :(
+  // const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
   const isDappListed = useIsDappListed(url)
 

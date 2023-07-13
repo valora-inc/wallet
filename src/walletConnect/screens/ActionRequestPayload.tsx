@@ -1,7 +1,7 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { IWalletConnectSession } from '@walletconnect/legacy-types'
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -34,8 +34,9 @@ type Props =
     }
   | {
       walletConnectVersion: 2
-      session: SessionTypes.Struct
-      request: SignClientTypes.EventArguments['session_request']
+      // TODO: fix Redux sessions and types
+      session: any
+      request: Web3WalletTypes.EventArguments['session_request']
     }
 
 function ActionRequestPayload(props: Props) {

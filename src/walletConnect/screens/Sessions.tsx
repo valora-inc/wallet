@@ -1,4 +1,4 @@
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -30,7 +30,7 @@ const Dapp = ({
   metadata,
   onPress,
 }: {
-  metadata: SignClientTypes.Metadata | null
+  metadata: CoreTypes.Metadata | null
   onPress: () => void
 }) => {
   const icon = metadata?.icons[0] || `${metadata?.url}/favicon.ico`
@@ -55,6 +55,10 @@ function Sessions() {
   const { sessions: sessionsV2 } = useSelector(selectSessionsV2)
   const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
+
+  // TODO: fix Redux sessions
+  // console.log('sessionsV1', sessionsV1)
+  // console.log('sessionsV2', sessionsV2)
 
   const closeModal = () => {
     setHighlighted(null)

@@ -1,4 +1,5 @@
-import { JsonRpcTypes, SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { JsonRpcTypes, SessionTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 
 export enum Actions {
@@ -48,12 +49,12 @@ export interface ClientDestroyed {
  */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION_V2
-  session: SignClientTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal']
 }
 
 export interface DenySession {
   type: Actions.DENY_SESSION_V2
-  session: SignClientTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal']
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V2
@@ -61,16 +62,16 @@ export interface CloseSession {
 }
 export interface ShowRequestDetails {
   type: Actions.SHOW_REQUEST_DETAILS_V2
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
   infoString: string
 }
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST_V2
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST_V2
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
   reason: JsonRpcTypes.Error
 }
 
@@ -87,7 +88,7 @@ export interface InitialisePairing {
 
 export interface SessionProposal {
   type: Actions.SESSION_PROPOSAL_V2
-  session: SignClientTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal']
 }
 export interface SessionCreated {
   type: Actions.SESSION_CREATED_V2
@@ -95,15 +96,16 @@ export interface SessionCreated {
 }
 export interface SessionUpdated {
   type: Actions.SESSION_UPDATED_V2
-  session: SignClientTypes.EventArguments['session_update']
+  session: SessionTypes.Struct
 }
+
 export interface SessionDeleted {
   type: Actions.SESSION_DELETED_V2
-  session: SignClientTypes.EventArguments['session_delete']
+  session: Web3WalletTypes.EventArguments['session_delete']
 }
 export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD_V2
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
 }
 
 export type WalletConnectActions =
@@ -140,14 +142,14 @@ export const initialisePairing = (
 })
 
 export const acceptSession = (
-  session: SignClientTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal']
 ): AcceptSession => ({
   type: Actions.ACCEPT_SESSION_V2,
   session,
 })
 
 export const denySession = (
-  session: SignClientTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal']
 ): DenySession => ({
   type: Actions.DENY_SESSION_V2,
   session,
@@ -159,7 +161,7 @@ export const closeSession = (session: SessionTypes.Struct): CloseSession => ({
 })
 
 export const showRequestDetails = (
-  request: SignClientTypes.EventArguments['session_request'],
+  request: Web3WalletTypes.EventArguments['session_request'],
   infoString: string
 ): ShowRequestDetails => ({
   type: Actions.SHOW_REQUEST_DETAILS_V2,
@@ -168,14 +170,14 @@ export const showRequestDetails = (
 })
 
 export const acceptRequest = (
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
 ): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST_V2,
   request,
 })
 
 export const denyRequest = (
-  request: SignClientTypes.EventArguments['session_request'],
+  request: Web3WalletTypes.EventArguments['session_request'],
   reason: JsonRpcTypes.Error
 ): DenyRequest => ({
   type: Actions.DENY_REQUEST_V2,
@@ -197,7 +199,7 @@ export const clientDestroyed = (): ClientDestroyed => ({
 })
 
 export const sessionProposal = (
-  session: SignClientTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal']
 ): SessionProposal => ({
   type: Actions.SESSION_PROPOSAL_V2,
   session,
@@ -208,22 +210,20 @@ export const sessionCreated = (session: SessionTypes.Struct): SessionCreated => 
   session,
 })
 
-export const sessionUpdated = (
-  session: SignClientTypes.EventArguments['session_update']
-): SessionUpdated => ({
+export const sessionUpdated = (session: SessionTypes.Struct): SessionUpdated => ({
   type: Actions.SESSION_UPDATED_V2,
   session,
 })
 
 export const sessionDeleted = (
-  session: SignClientTypes.EventArguments['session_delete']
+  session: Web3WalletTypes.EventArguments['session_delete']
 ): SessionDeleted => ({
   type: Actions.SESSION_DELETED_V2,
   session,
 })
 
 export const sessionPayload = (
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
 ): SessionPayload => ({
   type: Actions.SESSION_PAYLOAD_V2,
   request,

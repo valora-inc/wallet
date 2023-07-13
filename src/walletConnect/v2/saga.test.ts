@@ -1,4 +1,5 @@
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { DappRequestOrigin } from 'src/analytics/types'
@@ -16,10 +17,11 @@ import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
-  proposerMetadata: SignClientTypes.Metadata
-): SignClientTypes.EventArguments['session_proposal'] {
+  proposerMetadata: Web3WalletTypes.Metadata
+): Web3WalletTypes.EventArguments['session_proposal'] {
   return {
     id: 1669989187506938,
+    // @ts-expect-error optionalNamespaces is required?
     params: {
       expiry: 1669989496,
       proposer: {
@@ -44,7 +46,7 @@ function createSessionProposal(
   }
 }
 
-function createSession(proposerMetadata: SignClientTypes.Metadata): SessionTypes.Struct {
+function createSession(proposerMetadata: Web3WalletTypes.Metadata): SessionTypes.Struct {
   return {
     expiry: 1671006057,
     self: {
@@ -133,7 +135,7 @@ describe('applyIconFixIfNeeded', () => {
     eachMetadata(
       'fixes the `icons` property when the metadata is $metadata',
       async ({ metadata, expected }) => {
-        const sessionProposal = createSessionProposal(metadata as SignClientTypes.Metadata)
+        const sessionProposal = createSessionProposal(metadata as Web3WalletTypes.Metadata)
         _applyIconFixIfNeeded(sessionProposal)
         // eslint-disable-next-line jest/no-standalone-expect
         expect(sessionProposal.params.proposer.metadata?.icons).toStrictEqual(expected)
@@ -145,7 +147,7 @@ describe('applyIconFixIfNeeded', () => {
     eachMetadata(
       'fixes the `icons` property when the metadata is $metadata',
       async ({ metadata, expected }) => {
-        const session = createSession(metadata as SignClientTypes.Metadata)
+        const session = createSession(metadata as Web3WalletTypes.Metadata)
         _applyIconFixIfNeeded(session)
         // eslint-disable-next-line jest/no-standalone-expect
         expect(session.peer.metadata?.icons).toStrictEqual(expected)
