@@ -1343,6 +1343,12 @@
     "rewards": {
       "title": "Ваша винагорода",
       "description": "Отримуйте доступні винагороди з відкритих позицій dapp"
+    },
+    "claimRewardsScreen": {
+      "title": "Ваша винагорода",
+      "description": "Тепер ви можете вимагати винагороду з відкритих dapp-позицій прямо в {{appName}}!",
+      "claimButton": "Претензія",
+      "rewardLabel": "Доступна винагорода"
     }
   },
   "dappsScreenHelpDialog": {
