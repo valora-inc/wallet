@@ -152,7 +152,6 @@ function* createWalletConnectChannel() {
       }
     }
 
-    // TODO: Migrate these events to web3wallet
     client.on('session_proposal', onSessionProposal)
     client.on('session_delete', onSessionDeleted)
     client.on('session_request', onSessionRequest)
@@ -165,7 +164,6 @@ function* createWalletConnectChannel() {
 
       Logger.debug(TAG + '@createWalletConnectChannel', 'clean up')
 
-      // TODO: Migrate these events to web3wallet
       client.off('session_proposal', onSessionProposal)
       client.off('session_delete', onSessionDeleted)
       client.off('session_request', onSessionRequest)
@@ -307,7 +305,7 @@ export function* acceptSession({ session }: AcceptSession) {
     const namespaces: SessionTypes.Namespaces = {}
     Object.keys(requiredNamespaces).forEach((key) => {
       const accounts: string[] = []
-      // @ts-expect-error TODO: fix this
+      // @ts-expect-error Object is possibly 'undefined'
       requiredNamespaces[key].chains.map((chain) => {
         accounts.push(`${chain}:${address}`)
       })
@@ -326,8 +324,7 @@ export function* acceptSession({ session }: AcceptSession) {
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
 
-    // TODO: investigate if this is still needed
-    // the SignClient does not emit any events when a new session value is
+    // the Client does not emit any events when a new session value is
     // available, so if no matching session could be found we can wait and try again.
     const { timedOut, newSession } = yield race({
       timedOut: delay(GET_SESSION_TIMEOUT),
