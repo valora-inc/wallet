@@ -23,6 +23,7 @@ import {
 } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
@@ -373,7 +374,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       (yield select(allowHooksPreviewSelector)) &&
       rawParams.pathname === '/hooks/enablePreview'
     ) {
-      yield call(handleEnableHooksPreviewDeepLink, deepLink)
+      yield call(handleEnableHooksPreviewDeepLink, deepLink, HooksEnablePreviewOrigin.Deeplink)
     }
   }
 }

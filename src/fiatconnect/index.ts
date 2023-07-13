@@ -1,4 +1,4 @@
-import { UnlockableWallet } from '@celo/wallet-base'
+import { ValoraWallet } from 'src/web3/types'
 import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatType, QuoteErrorResponse, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import { WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO } from 'src/fiatconnect/consts'
@@ -69,7 +69,7 @@ export async function getFiatConnectProviders(
  * If the user's wallet is currently locked, will prompt for PIN entry.
  */
 export async function loginWithFiatConnectProvider(
-  wallet: UnlockableWallet,
+  wallet: ValoraWallet,
   fiatConnectClient: FiatConnectApiClient,
   forceLogin: boolean = false
 ): Promise<void> {
@@ -135,7 +135,7 @@ export async function getFiatConnectQuotes(
   const quoteParams: CreateQuoteParams = {
     fiatType,
     cryptoType,
-    ...(isUserInputCrypto(flow, digitalAsset)
+    ...(isUserInputCrypto(flow)
       ? { cryptoAmount: cryptoAmount.toString() }
       : { fiatAmount: fiatAmount.toString() }),
     country,

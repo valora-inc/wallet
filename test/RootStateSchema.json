@@ -2336,6 +2336,7 @@
                 "DAppsExplorerScreen",
                 "DappKitAccountScreen",
                 "DappKitSignTxScreen",
+                "DappShortcutsRewards",
                 "Debug",
                 "DrawerNavigator",
                 "EnableBiometry",

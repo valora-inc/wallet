@@ -302,8 +302,7 @@ export const filterProvidersByPaymentMethod = (
   return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
 }
 
-export const isUserInputCrypto = (flow: CICOFlow, currency: Currency | CiCoCurrency): boolean =>
-  flow === CICOFlow.CashOut || currency === Currency.Celo || currency === CiCoCurrency.CELO
+export const isUserInputCrypto = (flow: CICOFlow): boolean => flow === CICOFlow.CashOut
 
 export function resolveCloudFunctionDigitalAsset(
   currency: CiCoCurrency

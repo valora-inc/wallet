@@ -3,6 +3,9 @@ import path from 'path'
 import { Alert, Platform } from 'react-native'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
+import { BuilderHooksEvents } from 'src/analytics/Events'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
 import i18n from 'src/i18n'
@@ -144,7 +147,11 @@ function confirmEnableHooksPreview() {
 // Export for testing
 export const _confirmEnableHooksPreview = confirmEnableHooksPreview
 
-export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
+export function* handleEnableHooksPreviewDeepLink(
+  deeplink: string,
+  origin: HooksEnablePreviewOrigin
+) {
+  ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_propose, { origin })
   let hooksPreviewApiUrl: string | null = null
   try {
     hooksPreviewApiUrl = new URL(deeplink).searchParams.get('hooksApiUrl')
@@ -161,6 +168,9 @@ export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
     }
   } catch (error) {
     Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
+    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_error, {
+      error: error?.message || error?.toString(),
+    })
   }
 
   if (!hooksPreviewApiUrl) {
@@ -170,8 +180,11 @@ export function* handleEnableHooksPreviewDeepLink(deeplink: string) {
 
   const confirm = yield call(confirmEnableHooksPreview)
   if (confirm) {
+    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
     Logger.info(TAG, `Enabling hooks preview mode with API URL: ${hooksPreviewApiUrl}`)
     yield put(previewModeEnabled(hooksPreviewApiUrl))
+  } else {
+    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
   }
 }
 

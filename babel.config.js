@@ -31,6 +31,9 @@ module.exports = {
     '@babel/plugin-proposal-numeric-separator',
     // Remove @babel/plugin-transform-named-capturing-groups-regex once hermes supports named capture groups (https://github.com/facebook/hermes/issues/696)
     '@babel/plugin-transform-named-capturing-groups-regex',
+    '@babel/plugin-transform-flow-strip-types', // for a bug in FlatList caused by adding @babel/plugin-proposal-class-properties
+    '@babel/plugin-proposal-class-properties', // for ethers
+    '@babel/plugin-transform-private-methods', // for ethers
     ...moduleResolverPluginConfig,
     'react-native-reanimated/plugin',
     // NOTE: Reanimated plugin has to be listed last.

@@ -4,6 +4,8 @@ import { StyleSheet, Text } from 'react-native'
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { BuilderHooksEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import { hooksPreviewApiUrlSelector, hooksPreviewStatusSelector } from 'src/positions/selectors'
 import { previewModeDisabled } from 'src/positions/slice'
@@ -25,6 +27,11 @@ export default function HooksPreviewModeBanner() {
   const { t } = useTranslation()
   const status = useSelector(hooksPreviewStatusSelector)
 
+  function onPress() {
+    ValoraAnalytics.track(BuilderHooksEvents.hooks_disable_preview)
+    dispatch(previewModeDisabled())
+  }
+
   if (!hooksPreviewApiUrl) {
     return null
   }
@@ -36,10 +43,7 @@ export default function HooksPreviewModeBanner() {
       entering={SlideInUp}
       exiting={SlideOutUp}
     >
-      <Touchable
-        onPress={() => dispatch(previewModeDisabled())}
-        hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-      >
+      <Touchable onPress={onPress} hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
         <Text style={styles.text} numberOfLines={1}>
           {t('hooksPreview.bannerTitle')}
         </Text>

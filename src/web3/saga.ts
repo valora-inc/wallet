@@ -1,6 +1,5 @@
 import { generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
-import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
 import { call, delay, put, select, spawn, take } from 'redux-saga/effects'
@@ -27,6 +26,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { RootState } from '../redux/reducers'
+import { ValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/saga'
 
@@ -106,7 +106,7 @@ export function* getOrCreateAccount() {
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
     const account = privateKeyToAddress(privateKey)
-    const wallet: UnlockableWallet = yield call(getWallet)
+    const wallet: ValoraWallet = yield call(getWallet)
     const password: string = yield call(getPasswordSaga, account, false, true)
 
     try {
@@ -188,7 +188,7 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: UnlockableWallet = yield call(getWallet)
+  const wallet: ValoraWallet = yield call(getWallet)
   if (!force && wallet.isAccountUnlocked(account)) {
     return UnlockResult.SUCCESS
   }
