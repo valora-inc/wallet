@@ -1339,6 +1339,12 @@
     "rewards": {
       "title": "Deine Belohnungen",
       "description": "Beanspruche verfügbare Rewards aus offenen Dapp-Positionen"
+    },
+    "claimRewardsScreen": {
+      "title": "Deine Belohnungen",
+      "description": "Jetzt kannst du Belohnungen aus offenen Dapp-Positionen direkt auf {{appName}}einfordern!",
+      "claimButton": "Anspruch",
+      "rewardLabel": "Verfügbare Belohnung"
     }
   },
   "dappsScreenHelpDialog": {
