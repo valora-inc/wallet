@@ -6,11 +6,8 @@ import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import {
-  getLocalCurrencySymbol,
-  localCurrencyExchangeRatesSelector,
-} from 'src/localCurrency/selectors'
+import TokenDisplay from 'src/components/TokenDisplay'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { ClaimablePosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -22,7 +19,6 @@ function DappShortcutsRewards() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
@@ -31,16 +27,12 @@ function DappShortcutsRewards() {
   }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
-    let claimableFiatValue = new BigNumber(0)
+    let claimableValueUsd = new BigNumber(0)
     item.claimableShortcut.claimableTokens.forEach((token) => {
-      claimableFiatValue = claimableFiatValue.plus(
+      claimableValueUsd = claimableValueUsd.plus(
         BigNumber(token.priceUsd).times(BigNumber(token.balance))
       )
     })
-    const claimableValueLocalCurrency = convertDollarsToLocalAmount(
-      claimableFiatValue,
-      localCurrencyExchangeRate[Currency.Dollar]
-    )
 
     return (
       <View style={styles.card} testID="DappShortcutsRewards/Card">
@@ -50,17 +42,26 @@ function DappShortcutsRewards() {
               {t('dappShortcuts.claimRewardsScreen.rewardLabel')}
             </Text>
 
-            <Text style={styles.rewardAmount}>
-              {item.claimableShortcut.claimableTokens
-                .map((token) => `${new BigNumber(token.balance).toFixed(5)} ${token.symbol}`)
-                .join(', ')}
+            <Text style={styles.rewardAmount} testID="DappShortcutsRewards/RewardAmount">
+              {item.claimableShortcut.claimableTokens.map((token, index) => (
+                <React.Fragment key={token.address}>
+                  {index > 0 && ', '}
+                  <TokenDisplay
+                    amount={token.balance}
+                    tokenAddress={token.address}
+                    showLocalAmount={false}
+                  />
+                </React.Fragment>
+              ))}
             </Text>
-            {claimableValueLocalCurrency && (
-              <Text style={styles.rewardFiatAmount}>
-                {`${localCurrencySymbol} ${claimableValueLocalCurrency.toFixed(
-                  claimableValueLocalCurrency.lt(0.01) ? 5 : 2
-                )}`}
-              </Text>
+            {claimableValueUsd && (
+              <TokenDisplay
+                style={styles.rewardFiatAmount}
+                amount={claimableValueUsd}
+                currency={Currency.Dollar}
+                showLocalAmount={true}
+                testID="DappShortcutsRewards/RewardAmountFiat"
+              />
             )}
           </View>
           <Button
