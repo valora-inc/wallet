@@ -44,7 +44,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import {
-  useConvertBetweenTokens,
   useLocalToTokenAmount,
   useTokenInfoBySymbol,
   useTokenToLocalAmount,
@@ -92,7 +91,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
-  const inputIsCrypto = isUserInputCrypto(flow, currency)
+  const inputIsCrypto = isUserInputCrypto(flow)
 
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
@@ -108,19 +107,9 @@ function FiatExchangeAmount({ route }: Props) {
     useTokenToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.address) ||
     new BigNumber(0)
 
-  const currencyMaxAmount =
-    useConvertBetweenTokens(
-      new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-      cUSDToken.address,
-      address
-    ) || new BigNumber(0)
-
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
-    overLocalLimitDisplayString =
-      currency === CiCoCurrency.CELO
-        ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
-        : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
+    overLocalLimitDisplayString = ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
   }
 
   const showExchangeRate = !getFeatureGate(
@@ -278,7 +267,7 @@ function FiatExchangeAmount({ route }: Props) {
           />
         )}
       </KeyboardAwareScrollView>
-      {currency !== CiCoCurrency.CELO && showExchangeRate && (
+      {showExchangeRate && (
         <Text style={styles.disclaimerFiat}>
           {t('disclaimerFiat', { currency: t(displayCurrencyKey) })}
         </Text>
@@ -305,7 +294,7 @@ FiatExchangeAmount.navOptions = ({
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => {
   const { currency, flow } = route.params
-  const inputIsCrypto = isUserInputCrypto(flow, currency)
+  const inputIsCrypto = isUserInputCrypto(flow)
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
