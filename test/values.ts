@@ -1183,7 +1183,7 @@ export const mockPositions: Position[] = [
             symbol: 'CELO',
             decimals: 18,
             priceUsd: '0.6959536890241361',
-            balance: '0.950545800159603456',
+            balance: '0.950545800159603456', // total USD value = priceUsd * balance = $0.66
             category: 'claimable',
           },
           {
@@ -1208,7 +1208,7 @@ export const mockPositions: Position[] = [
         category: 'claimable',
         decimals: 18,
         network: 'celo',
-        balance: '0.098322815093446616',
+        balance: '0.098322815093446616', // total USD value = priceUsd * balance = $0.00009
         symbol: 'UBE',
         address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
       },
