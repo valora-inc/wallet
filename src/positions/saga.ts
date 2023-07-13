@@ -228,7 +228,7 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
     Logger.debug(`${TAG}/triggerShortcutSaga`, 'Starting to claim reward(s)', data.transactions)
 
     for (const transaction of data.transactions) {
-      applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId'], 42220))
+      applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
 
       console.log('=====transaction', transaction)
       const tx: CeloTx = yield call([normalizer, 'populate'], {
