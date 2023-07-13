@@ -1,6 +1,7 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { IWalletConnectSession } from '@walletconnect/legacy-types'
+import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -34,8 +35,7 @@ type Props =
     }
   | {
       walletConnectVersion: 2
-      // TODO: fix Redux sessions and types
-      session: any
+      session: SessionTypes.Struct // TODO: Is this the right type?
       request: Web3WalletTypes.EventArguments['session_request']
     }
 
