@@ -1,4 +1,4 @@
-import { SessionTypes } from '@walletconnect/types'
+import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
@@ -17,7 +17,7 @@ import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
-  proposerMetadata: Web3WalletTypes.Metadata
+  proposerMetadata: CoreTypes.Metadata
 ): Web3WalletTypes.EventArguments['session_proposal'] {
   return {
     id: 1669989187506938,
@@ -46,7 +46,7 @@ function createSessionProposal(
   }
 }
 
-function createSession(proposerMetadata: Web3WalletTypes.Metadata): SessionTypes.Struct {
+function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struct {
   return {
     expiry: 1671006057,
     self: {
