@@ -125,6 +125,7 @@ function* createWalletConnectChannel() {
         description: i18n.t('appDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
+        // TODO: add redirect url for android deep linking
       },
     })
 
@@ -317,14 +318,13 @@ export function* acceptSession({ session }: AcceptSession) {
       }
     })
 
-    const { acknowledged } = yield call([client, 'approveSession'], {
+    yield call([client, 'approveSession'], {
       id: session.id,
       relayProtocol: relays[0].protocol,
       namespaces,
     })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
-    yield call(acknowledged)
 
     // TODO: investigate if this is still needed
     // the SignClient does not emit any events when a new session value is
@@ -357,20 +357,20 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
     throw new Error('missing client')
   }
 
-  // Active Sessions is an object with keys that are uuids
-  // The value we are looking for is the publicKey to match it with our session
   let sessionValue: null | Web3WalletTypes.SessionProposal = null
   while (!sessionValue) {
-    const activeSessions = yield call([client, 'getActiveSessions'])
-    Object.keys(activeSessions).forEach((key) => {
-      if (activeSessions[key].peer.publicKey === session.params.proposer.publicKey) {
-        sessionValue = activeSessions[key]
+    // TODO: add correct type
+    const sessions: any[] = yield call([client, 'getActiveSessions'])
+    Object.values(sessions).forEach((entry) => {
+      if (entry.pairingTopic === session.params.pairingTopic) {
+        sessionValue = entry
       }
     })
     yield delay(500)
   }
 
   applyIconFixIfNeeded(sessionValue)
+  return sessionValue
 }
 
 function* denySession({ session }: DenySession) {

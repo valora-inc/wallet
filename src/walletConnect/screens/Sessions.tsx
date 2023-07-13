@@ -56,10 +56,6 @@ function Sessions() {
   const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
 
-  // TODO: fix Redux sessions
-  // console.log('sessionsV1', sessionsV1)
-  // console.log('sessionsV2', sessionsV2)
-
   const closeModal = () => {
     setHighlighted(null)
   }
