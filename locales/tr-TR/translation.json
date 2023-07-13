@@ -1339,6 +1339,12 @@
     "rewards": {
       "title": "Ödülleriniz",
       "description": "Açık dapp pozisyonlarından mevcut ödülleri talep edin"
+    },
+    "claimRewardsScreen": {
+      "title": "Ödülleriniz",
+      "description": "Artık açık dapp pozisyonlarından ödülleri doğrudan {{appName}}adresinden talep edebilirsiniz!",
+      "claimButton": "İddia",
+      "rewardLabel": "Mevcut ödül"
     }
   },
   "dappsScreenHelpDialog": {
