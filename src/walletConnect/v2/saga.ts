@@ -64,6 +64,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v2/selectors'
+import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
 export let client: IWeb3Wallet | null = null
@@ -111,6 +112,7 @@ function* createWalletConnectChannel() {
     // @ts-expect-error core is not assignable to type ICore
     core = new Core({
       projectId: WALLET_CONNECT_PROJECT_ID,
+      relayUrl: networkConfig.walletConnectEndpoint,
     })
   }
 
