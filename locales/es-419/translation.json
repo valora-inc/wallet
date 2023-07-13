@@ -1339,6 +1339,12 @@
     "rewards": {
       "title": "Tus recompensas",
       "description": "Reclama las recompensas disponibles en tus posiciones DeFi."
+    },
+    "claimRewardsScreen": {
+      "title": "Tus recompensas",
+      "description": "¡Ahora puedes reclamar recompensas de posiciones de dapp abiertas directamente en {{appName}}!",
+      "claimButton": "Reclama",
+      "rewardLabel": "Recompensa disponible"
     }
   },
   "dappsScreenHelpDialog": {
