@@ -2360,5 +2360,5 @@ export const v135Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v134Schema as Partial<RootState>
+  return v135Schema as Partial<RootState>
 }
