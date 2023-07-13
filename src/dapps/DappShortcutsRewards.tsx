@@ -1,27 +1,92 @@
 import { BigNumber } from 'bignumber.js'
 import React from 'react'
+import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import Toast from 'react-native-simple-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import { hooksApiUrlSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { ClaimablePosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
+
+const TAG = 'dapps/DappShortcutsRewards'
+
+function useClaimReward() {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+
+  const address = useSelector(walletAddressSelector)
+  const hooksApiUrl = useSelector(hooksApiUrlSelector)
+
+  const asyncClaimReward = useAsyncCallback(
+    async (position: ClaimablePosition) => {
+      const shortcut = {
+        network: 'celo', // TODO make this dynamic?
+        address,
+        appId: position.appId,
+        shortcutId: position.claimableShortcut.id,
+        positionAddress: position.address,
+      }
+
+      Logger.debug(`${TAG}/claimReward`, 'Initiating request to claim reward', shortcut)
+
+      const response = await fetch(`${hooksApiUrl}/triggerShortcut`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(shortcut),
+      })
+
+      if (!response.ok) {
+        throw new Error(await response.text())
+      }
+
+      return response
+    },
+    {
+      onSuccess: async (response: Response) => {
+        // TODO: the success toast should have a cta to the transaction details
+        // screen but there could be multiple transactions from claiming a
+        // reward
+        Toast.showWithGravity(
+          t('dappShortcuts.claimRewardsScreen.claimSuccess'),
+          Toast.SHORT,
+          Toast.BOTTOM
+        )
+
+        const { data } = await response.json()
+        Logger.debug(`${TAG}/claimReward`, 'Claim reward successful', data.transactions)
+      },
+      onError: (error: Error) => {
+        dispatch(showError(t('dappShortcuts.claimRewardsScreen.claimFailure')))
+        Logger.warn(`${TAG}/claimReward`, 'Failed to claim reward', error)
+      },
+    }
+  )
+
+  return asyncClaimReward
+}
 
 function DappShortcutsRewards() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
+  const claimReward = useClaimReward()
 
-  const handleClaimReward = (position: ClaimablePosition) => () => {
-    // do something
+  const handleClaimReward = (position: ClaimablePosition) => async () => {
+    await claimReward.execute(position)
   }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
