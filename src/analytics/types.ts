@@ -26,3 +26,9 @@ export enum DappRequestOrigin {
   InAppWebView = 'in_app_web_view',
   External = 'external',
 }
+
+// Origin of Hooks enable preview
+export enum HooksEnablePreviewOrigin {
+  Scan = 'scan',
+  Deeplink = 'deeplink',
+}
