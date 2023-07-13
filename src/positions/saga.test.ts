@@ -2,6 +2,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   fetchPositionsSaga,
   fetchShortcutsSaga,
@@ -175,7 +176,7 @@ describe(handleEnableHooksPreviewDeepLink, () => {
 
   it('enables hooks preview if the deep link is valid and the user confirms', async () => {
     Platform.OS = 'android'
-    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink, HooksEnablePreviewOrigin.Deeplink)
       .provide([[call(_confirmEnableHooksPreview), true]])
       .put(previewModeEnabled('http://192.168.0.42.sslip.io:18000/')) // Uses sslip.io for Android
       .run()
@@ -183,21 +184,25 @@ describe(handleEnableHooksPreviewDeepLink, () => {
 
   it('uses the direct IP on iOS if the deep link is valid and the user confirms', async () => {
     Platform.OS = 'ios'
-    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink, HooksEnablePreviewOrigin.Deeplink)
       .provide([[call(_confirmEnableHooksPreview), true]])
       .put(previewModeEnabled('http://192.168.0.42:18000'))
       .run()
   })
 
   it('does nothing if the deep link is invalid', async () => {
-    await expectSaga(handleEnableHooksPreviewDeepLink, 'invalid-link')
+    await expectSaga(
+      handleEnableHooksPreviewDeepLink,
+      'invalid-link',
+      HooksEnablePreviewOrigin.Deeplink
+    )
       .provide([[call(_confirmEnableHooksPreview), true]])
       .not.put.actionType(previewModeEnabled.type)
       .run()
   })
 
   it("does nothing if the user doesn't confirm", async () => {
-    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink)
+    await expectSaga(handleEnableHooksPreviewDeepLink, deepLink, HooksEnablePreviewOrigin.Deeplink)
       .provide([[call(_confirmEnableHooksPreview), false]])
       .not.put.actionType(previewModeEnabled.type)
       .run()

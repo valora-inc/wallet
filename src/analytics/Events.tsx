@@ -606,6 +606,14 @@ export enum NftEvents {
   nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
 }
 
+export enum BuilderHooksEvents {
+  hooks_enable_preview_propose = 'hooks_enable_preview_propose', // When a user scans a QR code or opens a deep link to enable hooks preview
+  hooks_enable_preview_cancel = 'hooks_enable_preview_cancel', // When a user cancels the hooks preview flow
+  hooks_enable_preview_confirm = 'hooks_enable_preview_confirm', // When a user confirms enabling hooks preview
+  hooks_enable_preview_error = 'hooks_enable_preview_error', // When a user encounters an error enabling hooks preview
+  hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -636,3 +644,4 @@ export type AnalyticsEventType =
   | CeloNewsEvents
   | TokenBottomSheetEvents
   | AssetsEvents
+  | BuilderHooksEvents

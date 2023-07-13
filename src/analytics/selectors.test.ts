@@ -245,6 +245,7 @@ describe('getCurrentUserTraits', () => {
       hasCompletedBackup: false,
       hasVerifiedNumber: false,
       hasVerifiedNumberCPV: true,
+      hooksPreviewEnabled: false,
       language: 'es-419',
       localCurrencyCode: 'PHP',
       netWorthUsd: 5764.949123945,
