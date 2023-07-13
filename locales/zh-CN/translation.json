@@ -1337,6 +1337,12 @@
     "rewards": {
       "title": "你的奖励",
       "description": "从开放的dapp职位中索取可用的奖励"
+    },
+    "claimRewardsScreen": {
+      "title": "您的回报",
+      "description": "现在，您可以直接在 {{appName}}中从开放的 dapp 职位中领取奖励！",
+      "claimButton": "索赔",
+      "rewardLabel": "可获得的奖励"
     }
   },
   "dappsScreenHelpDialog": {
