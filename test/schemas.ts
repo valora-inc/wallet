@@ -2350,6 +2350,15 @@ export const v134Schema = {
   },
 }
 
+export const v135Schema = {
+  ...v134Schema,
+  _persist: {
+    ...v134Schema._persist,
+    version: 135,
+  },
+  account: _.omit(v134Schema.account, 'backupRequiredTime'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
   return v134Schema as Partial<RootState>
 }

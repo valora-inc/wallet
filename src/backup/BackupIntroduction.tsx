@@ -19,9 +19,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -91,28 +88,12 @@ interface AccountKeyStartProps {
  */
 function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
   const { t } = useTranslation()
-  const { title, body, primaryAction } = React.useMemo(
-    () =>
-      getExperimentParams(ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING])
-        .useNewBackupFlowCopy
-        ? {
-            title: t('introBackUpPhrase'),
-            body: t('introCompleteQuiz'),
-            primaryAction: t('continue'),
-          }
-        : {
-            title: t('introTitle'),
-            body: t('introBody'),
-            primaryAction: t('introPrimaryAction'),
-          },
-    []
-  )
   return (
     <ScrollView contentContainerStyle={styles.introContainer}>
       <Logo height={32} />
-      <Text style={styles.h1}>{title}</Text>
-      <Text style={styles.body}>{body}</Text>
-      <Button text={primaryAction} onPress={onPrimaryPress} testID="SetUpAccountKey" />
+      <Text style={styles.h1}>{t('introBackUpPhrase')}</Text>
+      <Text style={styles.body}>{t('introCompleteQuiz')}</Text>
+      <Button text={t('continue')} onPress={onPrimaryPress} testID="SetUpAccountKey" />
     </ScrollView>
   )
 }

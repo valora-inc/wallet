@@ -2325,7 +2325,6 @@
                 "AccountKeyEducation",
                 "AppLoading",
                 "BackupComplete",
-                "BackupForceScreen",
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
@@ -2996,12 +2995,6 @@
                 "backupCompleted": {
                     "type": "boolean"
                 },
-                "backupRequiredTime": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
                 "celoEducationCompleted": {
                     "type": "boolean"
                 },
@@ -3079,7 +3072,6 @@
                 "acceptedTerms",
                 "accountCreationTime",
                 "backupCompleted",
-                "backupRequiredTime",
                 "celoEducationCompleted",
                 "contactDetails",
                 "defaultCountryCode",

@@ -18,7 +18,6 @@ export enum Actions {
   INITIALIZE_ACCOUNT_SUCCESS = 'ACCOUNT/INITIALIZE_ACCOUNT_SUCCESS',
   INITIALIZE_ACCOUNT_FAILURE = 'ACCOUNT/INITIALIZE_ACCOUNT_FAILURE',
   SET_BACKUP_COMPLETED = 'ACCOUNT/SET_BACKUP_COMPLETED',
-  SET_BACKUP_DELAYED = 'ACCOUNT/SET_BACKUP_DELAYED',
   TOGGLE_BACKUP_STATE = 'ACCOUNT/TOGGLE_BACKUP_STATE',
   DISMISS_GET_VERIFIED = 'ACCOUNT/DISMISS_GET_VERIFIED',
   DISMISS_GOLD_EDUCATION = 'ACCOUNT/DISMISS_GOLD_EDUCATION',
@@ -112,11 +111,6 @@ export interface SetBackupCompletedAction {
   type: Actions.SET_BACKUP_COMPLETED
 }
 
-export interface SetBackupDelayedAction {
-  type: Actions.SET_BACKUP_DELAYED
-  now: number
-}
-
 export interface ToggleBackupState {
   type: Actions.TOGGLE_BACKUP_STATE
 }
@@ -187,7 +181,6 @@ export type ActionTypes =
   | InitializeAccountSuccessAction
   | SetAccountCreationAction
   | SetBackupCompletedAction
-  | SetBackupDelayedAction
   | ToggleBackupState
   | DismissGetVerifiedAction
   | DismissGoldEducationAction
@@ -299,11 +292,6 @@ export const setAccountCreationTime = (now: number): SetAccountCreationAction =>
 
 export const setBackupCompleted = (): SetBackupCompletedAction => ({
   type: Actions.SET_BACKUP_COMPLETED,
-})
-
-export const setBackupDelayed = (now: number): SetBackupDelayedAction => ({
-  type: Actions.SET_BACKUP_DELAYED,
-  now,
 })
 
 export const toggleBackupState = (): ToggleBackupState => ({

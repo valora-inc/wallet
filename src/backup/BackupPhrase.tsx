@@ -24,9 +24,6 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -111,17 +108,6 @@ class BackupPhrase extends React.Component<Props, State> {
     const { t, backupCompleted } = this.props
     const { mnemonic, isConfirmChecked } = this.state
     const navigatedFromSettings = this.navigatedFromSettings()
-    const { backupSummaryText, scrollContainerStyle } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
-    ).useNewBackupFlowCopy
-      ? {
-          backupSummaryText: t('backupKeyWarning'),
-          scrollContainerStyle: styles.scrollContainerExperimental,
-        }
-      : {
-          backupSummaryText: t('backupKeySummary'),
-          scrollContainerStyle: styles.scrollContainerDefault,
-        }
     return (
       <SafeAreaView style={styles.container}>
         <CustomHeader
@@ -135,13 +121,13 @@ class BackupPhrase extends React.Component<Props, State> {
           }
           right={<HeaderRight />}
         />
-        <ScrollView contentContainerStyle={scrollContainerStyle}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <BackupPhraseContainer
             value={mnemonic}
             mode={BackupPhraseContainerMode.READONLY}
             type={BackupPhraseType.BACKUP_KEY}
           />
-          <Text style={styles.body}>{backupSummaryText}</Text>
+          <Text style={styles.body}>{t('backupKeyWarning')}</Text>
         </ScrollView>
         {(!backupCompleted || navigatedFromSettings) && (
           <>
@@ -189,13 +175,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  scrollContainerDefault: {
-    flexGrow: 1,
-    paddingBottom: 16,
-    justifyContent: 'space-between',
-    padding: variables.contentPadding,
-  },
-  scrollContainerExperimental: {
+  scrollContainer: {
     flexGrow: 1,
     padding: variables.contentPadding,
   },

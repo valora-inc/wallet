@@ -24,7 +24,6 @@ import ErrorScreen from 'src/app/ErrorScreen'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
-import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
@@ -322,11 +321,6 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
 
 const backupScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.BackupForceScreen}
-      component={BackupForceScreen}
-      options={BackupForceScreen.navOptions}
-    />
     <Navigator.Screen
       name={Screens.BackupPhrase}
       component={BackupPhrase}

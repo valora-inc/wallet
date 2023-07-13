@@ -106,7 +106,6 @@ describe('store state', () => {
           "accountCreationTime": 99999999999999,
           "accountToRecoverFromStoreWipe": undefined,
           "backupCompleted": false,
-          "backupRequiredTime": null,
           "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
           "contactDetails": Object {
