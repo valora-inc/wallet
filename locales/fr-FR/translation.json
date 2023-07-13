@@ -1339,6 +1339,12 @@
     "rewards": {
       "title": "Vos récompenses",
       "description": "Réclamez vos récompenses disponibles pour vos positions de dapps."
+    },
+    "claimRewardsScreen": {
+      "title": "Vos récompenses",
+      "description": "Désormais, tu peux réclamer des récompenses pour les postes de dapp ouverts directement sur {{appName}}!",
+      "claimButton": "Réclamation",
+      "rewardLabel": "Récompense disponible"
     }
   },
   "dappsScreenHelpDialog": {
