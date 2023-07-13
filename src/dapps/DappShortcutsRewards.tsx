@@ -43,7 +43,7 @@ function DappShortcutsRewards() {
     )
 
     return (
-      <View style={styles.card}>
+      <View style={styles.card} testID="DappShortcutsRewards/Card">
         <View style={styles.rewardInfoContainer}>
           <View style={styles.rewardAmountContainer}>
             <Text style={styles.rewardLabel}>
@@ -68,6 +68,7 @@ function DappShortcutsRewards() {
             text={t('dappShortcuts.claimRewardsScreen.claimButton')}
             size={BtnSizes.SMALL}
             touchableStyle={styles.claimButton}
+            testID="DappShortcutsRewards/ClaimButton"
           />
         </View>
         <View style={styles.dappInfoContainer}>
