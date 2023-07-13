@@ -1341,6 +1341,12 @@
     "rewards": {
       "title": "Your rewards",
       "description": "Claim available rewards from open dapp positions"
+    },
+    "claimRewardsScreen": {
+      "title": "Your rewards",
+      "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
+      "claimButton": "Claim",
+      "rewardLabel": "Available reward"
     }
   },
   "dappsScreenHelpDialog": {
