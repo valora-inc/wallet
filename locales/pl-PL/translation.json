@@ -1343,6 +1343,12 @@
     "rewards": {
       "title": "Twoje nagrody",
       "description": "Odbierz dostępne nagrody z otwartych pozycji aplikacji"
+    },
+    "claimRewardsScreen": {
+      "title": "Twoje nagrody",
+      "description": "Teraz możesz odbierać nagrody z otwartych pozycji dapp bezpośrednio na {{appName}}!",
+      "claimButton": "Roszczenie",
+      "rewardLabel": "Dostępna nagroda"
     }
   },
   "dappsScreenHelpDialog": {
