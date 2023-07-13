@@ -203,6 +203,7 @@
                                 "contractKitInitFailed",
                                 "corruptedChainDeleted",
                                 "countryNotAvailable",
+                                "dappShortcuts.claimRewardFailure",
                                 "deleteBankAccountFail",
                                 "errorRefreshingRate",
                                 "exchangeFailed",
