@@ -29,19 +29,6 @@ export const reducer = (
         ...state,
         sessions: [...state.sessions, action.session],
       }
-    case Actions.SESSION_UPDATED_V2:
-      return {
-        ...state,
-        sessions: state.sessions.map((session) => {
-          if (session.topic === action.session.topic) {
-            return {
-              ...session,
-              // TODO figure out what the flip is meant to change here?
-            }
-          }
-          return session
-        }),
-      }
     case Actions.ACCEPT_SESSION_V2:
     case Actions.DENY_SESSION_V2:
       return {

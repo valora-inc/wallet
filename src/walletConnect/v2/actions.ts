@@ -29,7 +29,6 @@ export enum Actions {
    */
   SESSION_PROPOSAL_V2 = 'WALLETCONNECT/SESSION_PROPOSAL_V2',
   SESSION_CREATED_V2 = 'WALLETCONNECT/SESSION_CREATED_V2',
-  SESSION_UPDATED_V2 = 'WALLETCONNECT/SESSION_UPDATED_V2',
   SESSION_DELETED_V2 = 'WALLETCONNECT/SESSION_DELETED_V2',
   SESSION_PAYLOAD_V2 = 'WALLETCONNECT/SESSION_PAYLOAD_V2',
 }
@@ -94,10 +93,6 @@ export interface SessionCreated {
   type: Actions.SESSION_CREATED_V2
   session: SessionTypes.Struct
 }
-export interface SessionUpdated {
-  type: Actions.SESSION_UPDATED_V2
-  session: SessionTypes.Struct
-}
 
 export interface SessionDeleted {
   type: Actions.SESSION_DELETED_V2
@@ -111,7 +106,6 @@ export interface SessionPayload {
 export type WalletConnectActions =
   | SessionProposal
   | SessionCreated
-  | SessionUpdated
   | SessionDeleted
   | SessionPayload
 
@@ -207,11 +201,6 @@ export const sessionProposal = (
 
 export const sessionCreated = (session: SessionTypes.Struct): SessionCreated => ({
   type: Actions.SESSION_CREATED_V2,
-  session,
-})
-
-export const sessionUpdated = (session: SessionTypes.Struct): SessionUpdated => ({
-  type: Actions.SESSION_UPDATED_V2,
   session,
 })
 
