@@ -299,8 +299,7 @@ export function* acceptSession({ session }: AcceptSession) {
     const namespaces: SessionTypes.Namespaces = {}
     Object.keys(requiredNamespaces).forEach((key) => {
       const accounts: string[] = []
-      // @ts-expect-error Object is possibly 'undefined'
-      requiredNamespaces[key].chains.map((chain) => {
+      requiredNamespaces[key].chains?.map((chain) => {
         accounts.push(`${chain}:${address}`)
       })
       namespaces[key] = {
