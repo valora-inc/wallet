@@ -403,7 +403,6 @@ function* denySession({ session }: DenySession) {
 }
 
 function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session_request']) {
-  // const { sessions }: { sessions: any } = yield select(selectSessions)
   if (!client) {
     // should not happen
     throw new Error('missing client')
