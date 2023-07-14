@@ -347,16 +347,18 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
     throw new Error('missing client')
   }
 
-  let sessionValue: null | Web3WalletTypes.SessionProposal = null
+  let sessionValue: null | SessionTypes.Struct = null
   while (!sessionValue) {
-    // TODO: add correct type
-    const sessions: any[] = yield call([client, 'getActiveSessions'])
+    const sessions: Record<string, SessionTypes.Struct> = yield call([client, 'getActiveSessions'])
     Object.values(sessions).forEach((entry) => {
       if (entry.pairingTopic === session.params.pairingTopic) {
         sessionValue = entry
       }
     })
-    yield delay(500)
+
+    if (!sessionValue) {
+      yield delay(500)
+    }
   }
 
   applyIconFixIfNeeded(sessionValue)
