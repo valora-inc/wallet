@@ -28,25 +28,26 @@ function DappShortcutsRewards() {
   const address = useSelector(walletAddressSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
-  const [rewards, setRewards] = useState(positionsWithClaimableRewards)
+  const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
 
   useEffect(() => {
-    setRewards((prev) => {
+    setClaimablePositions((prev) => {
       // update the displayed rewards in place, so they do not change order and
-      // claimed rewards can remain on the screen even if the data is refreshed
-      const updatedRewards = prev.map((reward) => ({
+      // claimed rewards can remain on the screen even if the reward disappears
+      // after being claimed on data is refreshed
+      const updatedPositions = prev.map((reward) => ({
         ...reward,
         status:
           positionsWithClaimableRewards.find((position) => position.address === reward.address)
             ?.status ?? 'success',
       }))
 
-      // add any new rewards to the end of the list
+      // add any new claimable positions to the end of the list
       const newClaimablePositions = positionsWithClaimableRewards.filter(
-        (position) => !rewards.find((reward) => reward.address === position.address)
+        (position) => !claimablePositions.find((reward) => reward.address === position.address)
       )
 
-      return [...updatedRewards, ...newClaimablePositions]
+      return [...updatedPositions, ...newClaimablePositions]
     })
   }, [positionsWithClaimableRewards])
 
@@ -147,7 +148,7 @@ function DappShortcutsRewards() {
         }}
         scrollEventThrottle={16}
         renderItem={renderItem}
-        data={rewards}
+        data={claimablePositions}
         ListHeaderComponent={renderHeader}
       />
     </>
