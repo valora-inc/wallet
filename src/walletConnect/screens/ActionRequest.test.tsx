@@ -186,6 +186,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
     acknowledged: true,
     topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
+    pairingTopic: '20eca0383221cb6feb7af40d06d5cdd867965dd885e9ad36fb4540d9cc25267b',
     requiredNamespaces: {
       eip155: {
         methods: [
@@ -199,6 +200,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         events: ['chainChanged', 'accountsChanged'],
       },
     },
+    optionalNamespaces: {},
   }
 
   const pendingAction: Web3WalletTypes.EventArguments['session_request'] = {

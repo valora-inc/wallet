@@ -75,6 +75,7 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
     },
     acknowledged: true,
     topic: '243b33442b6190b97055201b5a8817f4e604e3f37b5376e78ee0b3715cc6211c',
+    pairingTopic: '98339e3d81179f61656592154af78d308ba7f8d01498772320d2d87c90cafb85',
     requiredNamespaces: {
       eip155: {
         events: ['chainChanged', 'accountsChanged'],
@@ -82,6 +83,7 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
         methods: ['eth_sendTransaction', 'eth_signTypedData'],
       },
     },
+    optionalNamespaces: {},
   }
 }
 
