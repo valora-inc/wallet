@@ -56,7 +56,9 @@ export const claimableShortcutSelector = createSelector([shortcutsSelector], (sh
 })
 
 function getAllClaimableTokens(tokens: Token[]): Token[] {
-  const claimableTokens = tokens.filter((token) => token.category === 'claimable')
+  const claimableTokens = tokens.filter(
+    (token) => token.category === 'claimable' && BigNumber(token.balance).gt(0)
+  )
   const nestedTokens = tokens
     .filter((token): token is AppTokenPosition => 'tokens' in token)
     .flatMap((token) => getAllClaimableTokens(token.tokens))
@@ -73,12 +75,13 @@ export const positionsWithClaimableRewardsSelector = createSelector(
 
       appShortcuts.forEach((shortcut) => {
         const { availableShortcutIds, tokens, ...rest } = position
-        if (availableShortcutIds.includes(shortcut.id)) {
+        const claimableTokens = getAllClaimableTokens(tokens)
+        if (availableShortcutIds.includes(shortcut.id) && claimableTokens.length > 0) {
           claimablePositions.push({
             ...rest,
             claimableShortcut: {
               ...shortcut,
-              claimableTokens: getAllClaimableTokens(tokens),
+              claimableTokens,
             },
             status: triggeredShortcuts[position.address] ?? 'idle',
           })

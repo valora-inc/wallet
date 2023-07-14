@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 12,
+    marginBottom: Spacing.Regular16,
   },
   rewardInfoContainer: {
     flexDirection: 'row',
