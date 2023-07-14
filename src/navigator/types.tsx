@@ -89,6 +89,7 @@ export type StackParamList = {
     dappKitRequest: SignTxRequest
   }
   [Screens.DAppsExplorerScreen]: undefined
+  [Screens.DappShortcutsRewards]: undefined
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens

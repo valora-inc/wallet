@@ -12,6 +12,7 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { getPositionBalanceUsd } from 'src/positions/getPositionBalanceUsd'
 import {
+  hooksPreviewApiUrlSelector,
   positionsByBalanceUsdSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
@@ -25,8 +26,8 @@ const tokensSelector = createSelector(
 )
 
 const positionsAnalyticsSelector = createSelector(
-  [positionsByBalanceUsdSelector, totalPositionsBalanceUsdSelector],
-  (positionsByUsdBalance, totalPositionsBalanceUsd) => {
+  [positionsByBalanceUsdSelector, totalPositionsBalanceUsdSelector, hooksPreviewApiUrlSelector],
+  (positionsByUsdBalance, totalPositionsBalanceUsd, hooksPreviewApiUrl) => {
     const appsByBalanceUsd: Record<string, BigNumber> = {}
     for (const position of positionsByUsdBalance) {
       const appId = position.appId
@@ -61,6 +62,7 @@ const positionsAnalyticsSelector = createSelector(
         .slice(0, 10)
         .map(([appId, balanceUsd]) => `${appId}:${balanceUsd.toFixed(2)}`)
         .join(','),
+      hooksPreviewEnabled: !!hooksPreviewApiUrl,
     }
   }
 )
@@ -93,6 +95,7 @@ export const getCurrentUserTraits = createSelector(
       topTenPositions,
       positionsAppsCount,
       positionsTopTenApps,
+      hooksPreviewEnabled,
     },
     localCurrencyCode,
     { numberVerifiedDecentralized, numberVerifiedCentralized },
@@ -152,6 +155,7 @@ export const getCurrentUserTraits = createSelector(
       topTenPositions,
       positionsAppsCount,
       positionsTopTenApps,
+      hooksPreviewEnabled,
       localCurrencyCode,
       hasVerifiedNumber: numberVerifiedDecentralized,
       hasVerifiedNumberCPV: numberVerifiedCentralized,

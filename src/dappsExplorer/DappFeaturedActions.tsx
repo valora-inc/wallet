@@ -7,6 +7,8 @@ import Touchable from 'src/components/Touchable'
 import { mostPopularDappsSelector } from 'src/dapps/selectors'
 import Trophy from 'src/icons/Trophy'
 import Wallet from 'src/icons/Wallet'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
@@ -58,7 +60,7 @@ export function DappFeaturedActions({
   // TODO impression analytics on scroll
 
   const handleShowRewardsShortcuts = () => {
-    // TODO
+    navigate(Screens.DappShortcutsRewards)
   }
 
   const scrollEnabled = showDappRankings && showClaimRewards // more than one item in the view
