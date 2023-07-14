@@ -219,8 +219,6 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
 
     const { data } = yield call([response, 'json'])
 
-    console.log('=====data', data)
-
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
     const normalizer = new TxParamsNormalizer(kit.connection)
@@ -229,18 +227,8 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
 
     for (const transaction of data.transactions) {
       applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
-
-      console.log('=====transaction', transaction)
-      const tx: CeloTx = yield call([normalizer, 'populate'], {
-        to: transaction.to,
-        from: transaction.from,
-        data: transaction.data,
-        chainId: 42220,
-        gas: 112652,
-      })
+      const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
       const txo = buildTxo(kit, tx)
-
-      console.log('=====txo', txo)
 
       const receipt: CeloTxReceipt = yield call(
         sendTransaction,
@@ -249,7 +237,11 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
         newTransactionContext(TAG, 'Trigger shortcut')
       )
 
-      Logger.debug(`${TAG}/triggerShortcutSaga`, 'Claimed reward successful', receipt)
+      Logger.debug(
+        `${TAG}/triggerShortcutSaga`,
+        'Claimed reward successful',
+        receipt.transactionHash
+      )
     }
 
     yield put(triggerShortcutSuccess(payload.id))

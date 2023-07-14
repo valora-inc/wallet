@@ -110,7 +110,7 @@ function DappShortcutsRewards() {
           <Button
             onPress={handleClaimReward(item)}
             text={
-              item.status === 'loading'
+              item.status === 'success'
                 ? t('dappShortcuts.claimRewardsScreen.claimedLabel')
                 : t('dappShortcuts.claimRewardsScreen.claimButton')
             }
