@@ -1,7 +1,7 @@
 import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
-import { ICore, SessionTypes } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
@@ -68,7 +68,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
 export let client: IWeb3Wallet | null = null
-let core: ICore | null = null
 
 const TAG = 'WalletConnect/saga'
 
@@ -108,20 +107,13 @@ function applyIconFixIfNeeded(
 export const _applyIconFixIfNeeded = applyIconFixIfNeeded
 
 function* createWalletConnectChannel() {
-  if (!core) {
-    // @ts-expect-error core is not assignable to type ICore
-    core = new Core({
-      projectId: WALLET_CONNECT_PROJECT_ID,
-      relayUrl: networkConfig.walletConnectEndpoint,
-    })
-  }
-
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
-
-    // @ts-expect-error client is not assignable to type IWeb3Wallet
     client = yield call([Web3Wallet, 'init'], {
-      core, // <- pass the shared `core` instance
+      core: new Core({
+        projectId: WALLET_CONNECT_PROJECT_ID,
+        relayUrl: networkConfig.walletConnectEndpoint,
+      }),
       metadata: {
         name: APP_NAME,
         description: i18n.t('appDescription'),
