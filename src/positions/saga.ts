@@ -12,6 +12,7 @@ import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
+import { refreshAllBalances } from 'src/home/actions'
 import i18n from 'src/i18n'
 import {
   hooksApiUrlSelector,
@@ -250,6 +251,7 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
       Toast.SHORT,
       Toast.BOTTOM
     )
+    yield put(refreshAllBalances())
   } catch (error) {
     yield put(triggerShortcutFailure(payload.id))
     // TODO customise error message when there are more shortcut types
