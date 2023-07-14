@@ -217,10 +217,10 @@ describe('ActionRequest with WalletConnect V2', () => {
     verifyContext: {
       verified: {
         origin: '',
-        validation: "UNKNOWN",
+        validation: 'UNKNOWN',
         verifyUrl: '',
-      }
-    }
+      },
+    },
   }
 
   describe('personal_sign', () => {
