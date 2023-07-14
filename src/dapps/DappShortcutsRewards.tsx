@@ -116,7 +116,7 @@ function DappShortcutsRewards() {
                 : t('dappShortcuts.claimRewardsScreen.claimButton')
             }
             showLoading={item.status === 'loading'}
-            disabled={item.status === 'success'}
+            disabled={item.status === 'success' || item.status === 'loading'}
             size={BtnSizes.SMALL}
             touchableStyle={styles.claimButton}
             testID="DappShortcutsRewards/ClaimButton"

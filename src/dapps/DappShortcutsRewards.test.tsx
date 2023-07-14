@@ -168,6 +168,28 @@ describe('DappShortcutsRewards', () => {
     `)
   })
 
+  it('should show a reward being claimed', () => {
+    const { getByTestId } = render(
+      <Provider
+        store={createMockStore({
+          ...defaultState,
+          positions: {
+            ...defaultState.positions,
+            triggeredShortcutsStatus: {
+              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072':
+                'loading',
+            },
+          },
+        })}
+      >
+        <DappShortcutsRewards />
+      </Provider>
+    )
+
+    expect(getByTestId('DappShortcutsRewards/ClaimButton')).toBeDisabled()
+    expect(getByTestId('Button/Loading')).toBeTruthy()
+  })
+
   it('should show a claimed reward correctly', () => {
     const { getByTestId, getByText, queryByText, rerender } = render(
       <Provider store={mockStore}>
