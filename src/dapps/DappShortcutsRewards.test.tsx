@@ -190,7 +190,7 @@ describe('DappShortcutsRewards', () => {
     expect(getByTestId('Button/Loading')).toBeTruthy()
   })
 
-  it('should show a claimed reward correctly', () => {
+  it('should show a claimed reward when it is no longer claimable in redux', () => {
     const { getByTestId, getByText, queryByText, rerender } = render(
       <Provider store={mockStore}>
         <DappShortcutsRewards />
@@ -201,6 +201,7 @@ describe('DappShortcutsRewards', () => {
     expect(queryByText('dappShortcuts.claimRewardsScreen.claimedLabel')).toBeFalsy()
     expect(getByText('dappShortcuts.claimRewardsScreen.claimButton')).toBeTruthy()
 
+    // simulate data refresh after a successful claim
     const updatedStore = createMockStore({
       ...defaultState,
       positions: {
@@ -230,6 +231,7 @@ describe('DappShortcutsRewards', () => {
     expect(queryByText('dappShortcuts.claimRewardsScreen.claimedLabel')).toBeFalsy()
     expect(getByText('dappShortcuts.claimRewardsScreen.claimButton')).toBeTruthy()
 
+    // simulate data refresh after a successful claim, for a continuously claimable reward
     const updatedStore = createMockStore({
       ...defaultState,
       positions: {
