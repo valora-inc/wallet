@@ -7,7 +7,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import {
+  getClaimableRewardId,
+  positionsWithClaimableRewardsSelector,
+} from 'src/positions/selectors'
 import { triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -56,6 +59,7 @@ function DappShortcutsRewards() {
 
     dispatch(
       triggerShortcut({
+        id: getClaimableRewardId(position.address, position.claimableShortcut),
         address,
         appId: position.appId,
         network: 'celo',

@@ -24,6 +24,7 @@ const initialState: State = {
 }
 
 interface TriggerShortcut {
+  id: string // only used in the app to display the execution status of the shortcut
   network: string
   address: string
   appId: string
@@ -78,7 +79,7 @@ const slice = createSlice({
       shortcutsStatus: 'idle',
     }),
     triggerShortcut: (state, action: PayloadAction<TriggerShortcut>) => {
-      state.triggeredShortcutsStatus[action.payload.positionAddress] = 'loading'
+      state.triggeredShortcutsStatus[action.payload.id] = 'loading'
     },
     triggerShortcutSuccess: (state, action: PayloadAction<string>) => {
       state.triggeredShortcutsStatus[action.payload] = 'success'

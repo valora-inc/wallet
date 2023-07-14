@@ -1,6 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
-import { AppTokenPosition, ClaimablePosition, Position, Token } from 'src/positions/types'
+import {
+  AppTokenPosition,
+  ClaimablePosition,
+  ClaimableShortcut,
+  Position,
+  Token,
+} from 'src/positions/types'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -66,6 +72,21 @@ function getAllClaimableTokens(tokens: Token[]): Token[] {
   return [...claimableTokens, ...nestedTokens]
 }
 
+// we need to uniquely identify a claimable reward to display the reward status
+// correctly. some rewards can be continuously claimed, so upon claim success
+// the reward at the same position address could be updated to a new (lower)
+// value, for this scenario we need to allow the user to claim the reward again
+export function getClaimableRewardId(
+  positionAddress: string,
+  claimableShortcut: ClaimableShortcut
+) {
+  let claimableValue = new BigNumber(0)
+  claimableShortcut.claimableTokens.forEach((token) => {
+    claimableValue = claimableValue.plus(token.balance)
+  })
+  return `${claimableShortcut.id}-${positionAddress}-${claimableValue.toString()}`
+}
+
 export const positionsWithClaimableRewardsSelector = createSelector(
   [positionsSelector, claimableShortcutSelector, triggeredShortcutsStatusSelector],
   (positions, shortcuts, triggeredShortcuts) => {
@@ -77,13 +98,16 @@ export const positionsWithClaimableRewardsSelector = createSelector(
         const { availableShortcutIds, tokens, ...rest } = position
         const claimableTokens = getAllClaimableTokens(tokens)
         if (availableShortcutIds.includes(shortcut.id) && claimableTokens.length > 0) {
+          const claimableShortcut = {
+            ...shortcut,
+            claimableTokens,
+          }
           claimablePositions.push({
             ...rest,
-            claimableShortcut: {
-              ...shortcut,
-              claimableTokens,
-            },
-            status: triggeredShortcuts[position.address] ?? 'idle',
+            claimableShortcut,
+            status:
+              triggeredShortcuts[getClaimableRewardId(position.address, claimableShortcut)] ??
+              'idle',
           })
         }
       })

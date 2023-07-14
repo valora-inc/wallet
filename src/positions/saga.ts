@@ -252,14 +252,14 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
       Logger.debug(`${TAG}/triggerShortcutSaga`, 'Claimed reward successful', receipt)
     }
 
-    yield put(triggerShortcutSuccess(payload.positionAddress))
+    yield put(triggerShortcutSuccess(payload.id))
     Toast.showWithGravity(
       i18n.t('dappShortcuts.claimRewardsScreen.claimSuccess'),
       Toast.SHORT,
       Toast.BOTTOM
     )
   } catch (error) {
-    yield put(triggerShortcutFailure(payload.positionAddress))
+    yield put(triggerShortcutFailure(payload.id))
     // TODO customise error message when there are more shortcut types
     yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/triggerShortcutSaga`, 'Failed to claim reward', error)
