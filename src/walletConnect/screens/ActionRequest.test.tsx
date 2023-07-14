@@ -2,6 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { fireEvent, render, within } from '@testing-library/react-native'
 import { SessionTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
@@ -200,8 +201,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
   }
 
-  // TODO: find correct type for pendingAction
-  const pendingAction: any = {
+  const pendingAction: Partial<Web3WalletTypes.EventArguments['session_request']> = {
     id: 1669810746892321,
     topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
     params: {

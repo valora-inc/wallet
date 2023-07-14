@@ -266,7 +266,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     return
   }
 
-  const session = yield call(getSessionFromRequest, request)
+  const session: SessionTypes.Struct = yield call(getSessionFromRequest, request)
   const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
     getDefaultSessionTrackedProperties,
     session
