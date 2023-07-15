@@ -820,33 +820,6 @@
                 "name": {
                     "type": "string"
                 },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "description",
-                "icons",
-                "name",
-                "url"
-            ],
-            "type": "object"
-        },
-        "CoreTypes.Metadata_1": {
-            "additionalProperties": false,
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "icons": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "type": "string"
-                },
                 "redirect": {
                     "additionalProperties": false,
                     "properties": {
@@ -2220,10 +2193,6 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "ProposalTypes.RequiredNamespaces_1": {
-            "additionalProperties": false,
-            "type": "object"
-        },
         "ProposalTypes.SessionProperties": {
             "additionalProperties": false,
             "type": "object"
@@ -2247,7 +2216,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "metadata": {
-                            "$ref": "#/definitions/CoreTypes.Metadata_1"
+                            "$ref": "#/definitions/CoreTypes.Metadata"
                         },
                         "publicKey": {
                             "type": "string"
@@ -2261,12 +2230,12 @@
                 },
                 "relays": {
                     "items": {
-                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions_1"
+                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
                     },
                     "type": "array"
                 },
                 "requiredNamespaces": {
-                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces_1"
+                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
                 },
                 "sessionProperties": {
                     "$ref": "#/definitions/ProposalTypes.SessionProperties"
@@ -2350,21 +2319,6 @@
             "type": "string"
         },
         "RelayerTypes.ProtocolOptions": {
-            "additionalProperties": false,
-            "properties": {
-                "data": {
-                    "type": "string"
-                },
-                "protocol": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "protocol"
-            ],
-            "type": "object"
-        },
-        "RelayerTypes.ProtocolOptions_1": {
             "additionalProperties": false,
             "properties": {
                 "data": {
@@ -2560,6 +2514,12 @@
                 "namespaces": {
                     "$ref": "#/definitions/SessionTypes.Namespaces"
                 },
+                "optionalNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
+                },
+                "pairingTopic": {
+                    "type": "string"
+                },
                 "peer": {
                     "additionalProperties": false,
                     "properties": {
@@ -2598,6 +2558,9 @@
                     ],
                     "type": "object"
                 },
+                "sessionProperties": {
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
+                },
                 "topic": {
                     "type": "string"
                 }
@@ -2607,6 +2570,8 @@
                 "controller",
                 "expiry",
                 "namespaces",
+                "optionalNamespaces",
+                "pairingTopic",
                 "peer",
                 "relay",
                 "requiredNamespaces",
