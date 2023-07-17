@@ -6,7 +6,7 @@ import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,10 +14,8 @@ import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { useDeepLinks } from 'src/app/useDeepLinks'
-import { doingBackupFlowSelector, pastForcedBackupDeadlineSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import {
-  navigate,
   navigateClearingStack,
   navigationRef,
   navigatorIsReadyRef,
@@ -28,9 +26,6 @@ import PincodeLock from 'src/pincode/PincodeLock'
 import HooksPreviewModeBanner from 'src/positions/HooksPreviewModeBanner'
 import useTypedSelector from 'src/redux/useSelector'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import appTheme from 'src/styles/appTheme'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
@@ -79,18 +74,6 @@ export const NavigatorWrapper = () => {
     )
     return isVersionBelowMinimum(version, minRequiredVersion)
   }, [minRequiredVersion])
-
-  const shouldForceBackup =
-    useSelector(pastForcedBackupDeadlineSelector) &&
-    getExperimentParams(ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING])
-      .enableForcedBackup
-  const doingBackupFlow = useSelector(doingBackupFlowSelector)
-
-  React.useEffect(() => {
-    if (shouldForceBackup && !doingBackupFlow) {
-      navigate(Screens.BackupForceScreen)
-    }
-  }, [shouldForceBackup, doingBackupFlow])
 
   React.useEffect(() => {
     if (inSanctionedCountry) {
