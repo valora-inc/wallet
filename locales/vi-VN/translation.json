@@ -1342,8 +1342,11 @@
       "title": "Your rewards",
       "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
       "claimButton": "Claim",
-      "rewardLabel": "Available reward"
-    }
+      "claimedLabel": "Claimed",
+      "rewardLabel": "Available reward",
+      "claimSuccess": "Success! You claimed a reward"
+    },
+    "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
