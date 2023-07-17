@@ -1348,8 +1348,11 @@
       "title": "Twoje nagrody",
       "description": "Teraz możesz odbierać nagrody z otwartych pozycji dapp bezpośrednio na {{appName}}!",
       "claimButton": "Roszczenie",
-      "rewardLabel": "Dostępna nagroda"
-    }
+      "claimedLabel": "Roszczenie",
+      "rewardLabel": "Dostępna nagroda",
+      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę"
+    },
+    "claimRewardFailure": "Wystąpił błąd podczas odbierania nagrody, spróbuj ponownie później"
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
