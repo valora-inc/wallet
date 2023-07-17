@@ -1342,8 +1342,11 @@
       "title": "您的回报",
       "description": "现在，您可以直接在 {{appName}}中从开放的 dapp 职位中领取奖励！",
       "claimButton": "索赔",
-      "rewardLabel": "可获得的奖励"
-    }
+      "claimedLabel": "已申请",
+      "rewardLabel": "可获得的奖励",
+      "claimSuccess": "成功！您领取了奖励"
+    },
+    "claimRewardFailure": "领取奖励时出现错误，请稍后再试。"
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
