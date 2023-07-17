@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
@@ -39,68 +39,64 @@ export default function NftGallery() {
   return (
     <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar middleElement={<Text>{t('nftGallery.title')}</Text>} />
-      <ScrollView
-        contentContainerStyle={styles.contentContainer}
-        style={styles.scrollContainer}
-        refreshControl={
-          <RefreshControl
-            refreshing={loading}
-            onRefresh={onRefresh}
-            tintColor={colors.greenBrand}
-            colors={[colors.greenBrand]}
-            style={{ backgroundColor: colors.light }}
-            testID="NftGallery/RefreshControl"
-          />
-        }
-      >
-        {error && <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />}
-        {!error && !loading && (
-          <View style={styles.galleryContainer}>
-            {nfts.length === 0 ? (
-              <Text style={styles.noNfts}>{t('nftGallery.noNfts')}</Text>
-            ) : (
-              nfts.map((nft, idx) => (
-                <Touchable
-                  key={`${nft.contractAddress}-${nft.tokenId}`}
-                  onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [nft] })}
-                  // Styles for two columns with single items aligned to the left
-                  style={[
-                    styles.touchableIcon,
-                    idx % 2 === 0
-                      ? { marginRight: Spacing.Smallest8 } &&
-                        idx === nfts.length - 1 &&
-                        styles.lastImage
-                      : { marginLeft: Spacing.Smallest8 },
-                  ]}
-                >
-                  <NftImage
-                    nft={nft}
-                    testID="NftGallery/NftImage"
-                    width={imageSize}
-                    height={imageSize}
-                    ErrorComponent={
-                      <View style={styles.errorView}>
-                        <ImageErrorIcon color="#C93717" />
-                      </View>
-                    }
-                    origin={NftOrigin.NftGallery}
-                    borderRadius={Spacing.Smallest8}
-                  />
-                </Touchable>
-              ))
-            )}
-          </View>
-        )}
-      </ScrollView>
+      {error ? (
+        <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />
+      ) : (
+        <FlatList
+          numColumns={2}
+          data={nfts}
+          refreshing={loading}
+          onRefresh={() => dispatch(fetchNfts())}
+          contentContainerStyle={styles.contentContainer}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              colors={[colors.greenUI]}
+              onRefresh={() => dispatch(fetchNfts())}
+            />
+          }
+          renderItem={({ item, index }) => (
+            <Touchable
+              borderless={false}
+              onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+              style={[
+                styles.touchableIcon,
+                index % 2 === 0
+                  ? { marginRight: Spacing.Regular16 } &&
+                    index === nfts.length - 1 &&
+                    styles.lastImage
+                  : { marginLeft: Spacing.Regular16 },
+              ]}
+            >
+              <NftImage
+                nft={item}
+                testID="NftGallery/NftImage"
+                width={imageSize}
+                height={imageSize}
+                ErrorComponent={
+                  <View style={styles.errorView}>
+                    <ImageErrorIcon color="#C93717" />
+                  </View>
+                }
+                origin={NftOrigin.NftGallery}
+                borderRadius={Spacing.Smallest8}
+              />
+            </Touchable>
+          )}
+          keyExtractor={(item) => `${item.contractAddress}-${item.tokenId}`}
+          ListEmptyComponent={
+            loading ? null : <Text style={styles.noNfts}>{t('nftGallery.noNfts')}</Text>
+          }
+        />
+      )}
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   contentContainer: {
-    flexGrow: 1,
-    padding: Spacing.Regular16,
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    paddingBottom: '12%', // TODO: find a better way to do this
   },
   errorView: {
     width: imageSize,
@@ -125,9 +121,6 @@ const styles = StyleSheet.create({
     color: colors.gray3,
     textAlign: 'center',
     marginTop: '32%',
-  },
-  scrollContainer: {
-    flex: 1,
   },
   safeAreaContainer: {
     flexGrow: 1,
