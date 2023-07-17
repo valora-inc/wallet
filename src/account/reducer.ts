@@ -66,9 +66,9 @@ export enum FinclusiveKycStatus {
 }
 
 export enum RecoveryPhraseInOnboardingStatus {
-  NotStarted = 'NotStarted', // ineligible and control users, and variant users who have not reached the "ProtectWallet" screen
-  InProgress = 'InProgress', // variant users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
-  Completed = 'Completed', // variant users who have clicked "I've saved it"
+  NotStarted = 'NotStarted', // users who have not reached the "ProtectWallet" screen
+  InProgress = 'InProgress', // users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
+  Completed = 'Completed', // users who have clicked "I've saved it"
 }
 
 export const initialState: State = {

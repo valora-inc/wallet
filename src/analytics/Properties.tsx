@@ -248,7 +248,6 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.backup_continue]: undefined
   [OnboardingEvents.backup_complete]: undefined
   [OnboardingEvents.backup_more_info]: undefined
-  [OnboardingEvents.backup_delay]: undefined
   [OnboardingEvents.backup_delay_confirm]: undefined
   [OnboardingEvents.backup_delay_cancel]: undefined
   [OnboardingEvents.backup_cancel]: undefined
