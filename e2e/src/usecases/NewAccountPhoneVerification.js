@@ -12,6 +12,7 @@ import {
   scrollIntoView,
   sleep,
   waitForElementId,
+  completeProtectWalletScreen,
 } from '../utils/utils'
 
 const jestExpect = require('expect')
@@ -39,6 +40,9 @@ export default NewAccountPhoneVerification = () => {
     // Set and verify pin
     await enterPinUi()
     await enterPinUi()
+
+    // Protect Wallet screen
+    await completeProtectWalletScreen()
 
     // Set phone number
     await expect(element(by.id('PhoneNumberField'))).toBeVisible()
