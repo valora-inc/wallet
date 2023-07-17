@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "使用恢复短语",
       "subtitle": "写下您的恢复短语"
-    },
-    "cloudBackup": {
-      "title": "备份至云",
-      "subtitle": "不使用短语恢复钱包",
-      "bottomSheet": {
-        "title": "云备份功能即将上线！",
-        "restoreComingSoon": "云备份是一种无需恢复短语即可恢复钱包的方式。我们正在尽快开发此项功能，一旦该功能投入使用，我们将立即通知您。",
-        "writeDownPhrase": "同时，请写下您的恢复短语，手动备份钱包。",
-        "continue": "继续使用恢复短语"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "恢复短语",
   "introBackUpPhrase": "备份恢复短语",
   "introCompleteQuiz": "完成我们的备份测试，以验证您的钱包是否可以恢复。\n\n如果您写错恢复短语，则无法在您的设备出现问题时访问您的钱包。",
-  "introTitle": "您的恢复短语",
-  "introBody": "您的恢复短语是您账户中最重要的部分。\n\n请找一处私密的地方来设置您的短语。设置过程需要大约 5 分钟时间。",
-  "introPrimaryAction": "设置",
-  "backupSetupTitle": "设置您的恢复短语",
-  "backupSetupBody": "为了保护您的资金，您必须先设置恢复短语才能继续使用 {{appName}}。",
-  "delayBackup": "等待一小时",
   "postSetupTitle": "您的恢复短语",
   "postSetupBody": "如果丢失恢复短语，您将无法访问您的所有 Celo 美元和 CELO。没有恢复短语，任何人都无法帮您恢复账户，包括 {{appName}}。请将恢复短语存放在安全的位置，切勿泄露给他人。",
   "postSetupCTA": "了解您的恢复短语",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "请写下您的短语。",
   "completeEducation": "我了解",
   "yourAccountKey": "您的恢复短语",
-  "backupKeyNotification": "保障您的资金安全。马上设置恢复短语。",
   "backupKeyNotification2": "保障您的资金安全。马上备份恢复短语。",
   "backupKeyCTA": "立即完成备份",
   "backupKeySummary": "找一个私密地方写下您的恢复短语。请将它存放在另一处安全地点。切勿保存在您的手机上。",
