@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
-    },
-    "cloudBackup": {
-      "title": "Kopia zapasowa w chmurze",
-      "subtitle": "Przywróć swój portfel bez frazy",
-      "bottomSheet": {
-        "title": "Kopia zapasowa w chmurze już wkrótce!",
-        "restoreComingSoon": "Kopia zapasowa w chmurze to sposób na przywrócenie portfela bez frazy odzyskiwania. Pracujemy nad tym tak szybko, jak to możliwe, i powiadomimy Cię, gdy ta funkcja będzie dostępna do użycia.",
-        "writeDownPhrase": "W międzyczasie zapisz sobie frazę odzyskiwania, aby ręcznie wykonać kopię zapasową portfela.",
-        "continue": "Przejdź do frazy odzyskiwania"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Fraza odzyskiwania",
   "introBackUpPhrase": "Faza odzyskiwania z kopii zapasowej",
   "introCompleteQuiz": "Ukończ nasz quiz dotyczący kopii zapasowej, aby sprawdzić, czy Twój portfel może zostać odzyskany.\n\nJeśli zapis był niepoprawny, nie będziesz mieć możliwości uzyskania dostępu do swojego portfela, w razie gdyby coś stało się z urządzeniem.",
-  "introTitle": "Twoja fraza odzyskiwania",
-  "introBody": "Twoja fraza odzyskiwania jest najważniejszym elementem konta.\n\nUstaw swoją frazę odzyskiwania tak, aby nikt jej nie widział. Zajmie to około pięciu minut.",
-  "introPrimaryAction": "Ustaw",
-  "backupSetupTitle": "Ustaw frazę odzyskiwania",
-  "backupSetupBody": "Aby móc kontynuować korzystanie z aplikacji {{appName}} i chronić swoje środki, musisz skonfigurować frazę odzyskiwania.",
-  "delayBackup": "Odczekaj godzinę",
   "postSetupTitle": "Twoja fraza odzyskiwania",
   "postSetupBody": "Jeśli stracisz swoją frazę odzyskiwania, stracisz dostęp do wszystkich swoich Celo Dolarów i CELO. Nikt, nawet aplikacja {{appName}}, nie będzie w stanie pomóc Ci odzyskać konta bez Twojej frazy odzyskiwania. Trzymaj ją zapisaną w bezpiecznym miejscu i nikomu jej nie ujawniaj.",
   "postSetupCTA": "Dowiedz się więcej o frazie odzyskiwania",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Zapisz swoją frazę.",
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
-  "backupKeyNotification": "Zadbaj o bezpieczeństwo swoich środków. Ustaw teraz swoją frazę odzyskiwania.",
   "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
