@@ -30,11 +30,10 @@ export default function NftGallery() {
   const error = useSelector(nftsErrorSelector)
   const nfts = useSelector(nftsSelector)
 
-  function onRefresh() {
+  useEffect(() => {
+    ValoraAnalytics.track(NftEvents.nft_gallery_screen_open)
     dispatch(fetchNfts())
-  }
-
-  useEffect(() => ValoraAnalytics.track(NftEvents.nft_gallery_screen_open), [])
+  }, [])
 
   return (
     <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
