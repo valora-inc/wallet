@@ -2350,6 +2350,18 @@ export const v134Schema = {
   },
 }
 
+export const v135Schema = {
+  ...v134Schema,
+  _persist: {
+    ...v134Schema._persist,
+    version: 135,
+  },
+  positions: {
+    ...v134Schema.positions,
+    triggeredShortcutsStatus: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v134Schema as Partial<RootState>
+  return v135Schema as Partial<RootState>
 }
