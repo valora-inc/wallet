@@ -1344,8 +1344,11 @@
       "title": "Vos récompenses",
       "description": "Désormais, tu peux réclamer des récompenses pour les postes de dapp ouverts directement sur {{appName}}!",
       "claimButton": "Réclamation",
-      "rewardLabel": "Récompense disponible"
-    }
+      "claimedLabel": "Réclamé",
+      "rewardLabel": "Récompense disponible",
+      "claimSuccess": "Succès ! Tu as réclamé une récompense"
+    },
+    "claimRewardFailure": "Il y a eu une erreur lors de la réclamation de ta récompense, essaie à nouveau plus tard."
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
