@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Kurtarma İfadesini Kullan",
       "subtitle": "Kurtarma ifadenizi not edin"
-    },
-    "cloudBackup": {
-      "title": "Buluta Yedekle",
-      "subtitle": "İfade kullanmadan cüzdanınızı geri yükleyin",
-      "bottomSheet": {
-        "title": "Bulut Yedekleme yakında!",
-        "restoreComingSoon": "Bulut yedekleme, kurtarma ifadesi olmadan cüzdanınızı geri yüklemenin bir yoludur. Bu konuda elimizden geldiğince hızlı çalışıyoruz ve hazır olduğunda sizi bilgilendireceğiz.",
-        "writeDownPhrase": "Bu sırada cüzdanınızı manuel olarak yedeklemek için lütfen kurtarma ifadenizi not edin.",
-        "continue": "Kurtarma İfadesine Devam Et"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Kurtarma Kelimeleri",
   "introBackUpPhrase": "Kurtarma İfadesini Yedekle",
   "introCompleteQuiz": "Cüzdanınızın kurtarılabileceğini doğrulamak üzere yedekleme testimizi tamamlayın.\n\nYanlış not ettiyseniz cihazınıza bir şey olursa cüzdanınıza erişemezsiniz.",
-  "introTitle": "Kurtarma Kelimeleriniz",
-  "introBody": "Kurtarma Kelimeleriniz, hesabınızın en önemli parçasıdır.\n\nLütfen Kelimelerinizi oluşturmak için yalnız olabileceğiniz bir yer bulun. Bu işlem yaklaşık beş dakika sürer.",
-  "introPrimaryAction": "Oluştur",
-  "backupSetupTitle": "Kurtarma Kelimelerinizi oluşturun",
-  "backupSetupBody": "Fonlarınızı korumak için {{appName}} kullanmaya devam etmeden önce Kurtarma Kelimelerini oluşturmanız gerekir.",
-  "delayBackup": "Bir Saat Bekleyin",
   "postSetupTitle": "Kurtarma Kelimeleriniz",
   "postSetupBody": "Kurtarma Kelimelerinizi kaybederseniz, tüm Celo Dollar ve CELO'nuza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma Kelimelerinizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
   "postSetupCTA": "Kurtarma Kelimeleriniz ile ilgili daha fazla bilgi edinin",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Lütfen ifadenizi not edin.",
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
-  "backupKeyNotification": "Fonlarınızı güvende tutun. Kurtarma Kelimelerinizi şimdi oluşturun.",
   "backupKeyNotification2": "Fonlarınızı güvende tutun. Kurtarma İfadenizi şimdi yedekleyin.",
   "backupKeyCTA": "Yedeklemeyi Şimdi Tamamlayın",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
