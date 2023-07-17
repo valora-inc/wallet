@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Wiederherstellungsphrase verwenden",
       "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
-    },
-    "cloudBackup": {
-      "title": "In der Cloud sichern",
-      "subtitle": "Deine Wallet ohne Wiederherstellungsphrase wiederherstellen",
-      "bottomSheet": {
-        "title": "Das Cloud-Backup kommt demnächst!",
-        "restoreComingSoon": "Das Cloud-Backup ist eine Möglichkeit, deine Wallet ohne Wiederherstellungsphrase wiederherzustellen. Wir arbeiten so schnell wir können und benachrichtigen dich, sobald diese Funktion verfügbar ist.",
-        "writeDownPhrase": "In der Zwischenzeit schreibe dir bitte deine Wiederherstellungsphrase auf, um deine Wallet manuell zu sichern.",
-        "continue": "Mit Wiederherstellungsphrase fortfahren"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Wiederherstellungsphrase",
   "introBackUpPhrase": "Wiederherstellungsphrase sichern",
   "introCompleteQuiz": "Schließe unser Backup-Quiz ab, um zu überprüfen, ob dein Wallet wiederhergestellt werden kann.\n\nWenn du es falsch geschrieben hast, dann hast du keinen Zugang auf dein Wallet, wenn etwas mit deinem Gerät passieren sollte.",
-  "introTitle": "Deine Wiederherstellungsphrase",
-  "introBody": "Deine Wiederherstellungsphrase ist der wichtigste Teil deines Kontos.\n\nBitte finde einen privaten Ort, um deine Phrase einzurichten. Es dauert etwa fünf Minuten.",
-  "introPrimaryAction": "Einrichten",
-  "backupSetupTitle": "Wiederherstellungsphrase einrichten",
-  "backupSetupBody": "Um dein Guthaben zu schützen, musst du deine Wiederherstellungsphrase einrichten, bevor du mit {{appName}} fortfahren kannst.",
-  "delayBackup": "Warte eine Stunde",
   "postSetupTitle": "Deine Wiederherstellungsphrase",
   "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Celo Dollar, Celo Euro und CELO. Niemand, nicht einmal {{appName}}, wird dir helfen können, dein Konto ohne deine Wiederherstellungsphrase wiederherzustellen. Bewahre sie an einem sicheren Ort und teile sie nicht.",
   "postSetupCTA": "Erfahre mehr über deine Wiederherstellungsphrase",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Bitte schreibe deine Phrase auf.",
   "completeEducation": "Ich verstehe",
   "yourAccountKey": "Deine Wiederherstellungsphrase",
-  "backupKeyNotification": "Verwahre dein Guthaben sicher. Richte deine Wiederherstellungsphrase ein.",
   "backupKeyNotification2": "Verwahre dein Guthaben sicher. Sichere jetzt deine Wiederherstellungsphrase.",
   "backupKeyCTA": "Schließe die Sicherung jetzt ab",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
