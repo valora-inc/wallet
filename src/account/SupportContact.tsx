@@ -20,6 +20,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { hooksPreviewApiUrlSelector } from 'src/positions/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -71,6 +72,7 @@ function SupportContact({ route }: Props) {
   const sessionId = useSelector(sessionIdSelector)
   const numberVerifiedCentralized = useSelector(numberVerifiedCentrallySelector)
   const { countryCodeAlpha2: country, region } = useSelector(userLocationDataSelector)
+  const hooksPreviewApiUrl = useSelector(hooksPreviewApiUrlSelector)
   const dispatch = useDispatch()
 
   const prefilledText = route.params?.prefilledText
@@ -100,6 +102,7 @@ function SupportContact({ route }: Props) {
       address: currentAccount,
       sessionId,
       numberVerifiedCentralized,
+      hooksPreviewEnabled: !!hooksPreviewApiUrl,
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')

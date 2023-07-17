@@ -18,10 +18,6 @@ import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import {
-  CurrencyInfo,
-  TransactionDataInput as TransactionDataInputLegacy,
-} from 'src/send/SendConfirmationLegacy'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
@@ -38,14 +34,6 @@ type NestedNavigatorParams<ParamList> = {
     ? { screen: K; params?: ParamList[K] }
     : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
-
-interface SendConfirmationLegacyParams {
-  origin: SendOrigin
-  transactionData: TransactionDataInputLegacy
-  addressJustValidated?: boolean
-  isFromScan: boolean
-  currencyInfo?: CurrencyInfo
-}
 
 interface SendConfirmationParams {
   origin: SendOrigin
@@ -101,6 +89,7 @@ export type StackParamList = {
     dappKitRequest: SignTxRequest
   }
   [Screens.DAppsExplorerScreen]: undefined
+  [Screens.DappShortcutsRewards]: undefined
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
@@ -226,11 +215,6 @@ export type StackParamList = {
     transactionData: TransactionDataInput
     isFromScan: boolean
   }
-  [Screens.PaymentRequestConfirmationLegacy]: {
-    transactionData: TransactionDataInputLegacy
-    addressJustValidated?: boolean
-    isFromScan: boolean
-  }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean
@@ -298,8 +282,6 @@ export type StackParamList = {
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
-  [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
-  [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: undefined
@@ -321,14 +303,14 @@ export type StackParamList = {
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInputLegacy | TransactionDataInput
+    transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInputLegacy | TransactionDataInput
+    transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
@@ -402,7 +384,7 @@ export type QRTabParamList = {
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true
-        transactionData?: TransactionDataInputLegacy | TransactionDataInput
+        transactionData?: TransactionDataInput
         isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }

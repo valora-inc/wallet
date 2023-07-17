@@ -1174,4 +1174,12 @@ export const migrations = {
       nftsError: null,
     },
   }),
+  134: (state: any) => ({
+    ...state,
+    positions: {
+      ...state.positions,
+      previewApiUrl: null,
+    },
+  }),
+  135: (state: any) => state,
 }

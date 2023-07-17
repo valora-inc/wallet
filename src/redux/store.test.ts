@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 133,
+          "version": 135,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -308,9 +308,11 @@ describe('store state', () => {
         },
         "positions": Object {
           "positions": Array [],
+          "previewApiUrl": null,
           "shortcuts": Array [],
           "shortcutsStatus": "idle",
           "status": "idle",
+          "triggeredShortcutsStatus": Object {},
         },
         "recipients": Object {
           "coinbasePaySenders": Array [],

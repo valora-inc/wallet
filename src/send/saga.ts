@@ -7,7 +7,6 @@ import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
-import { transferGoldTokenLegacy } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -19,14 +18,12 @@ import {
   Actions,
   HandleBarcodeDetectedAction,
   SendPaymentAction,
-  SendPaymentActionLegacy,
   sendPaymentFailure,
   sendPaymentSuccess,
   ShareQRCodeAction,
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { transferStableTokenLegacy } from 'src/stableToken/actions'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -36,7 +33,6 @@ import {
   getTokenInfo,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -52,7 +48,6 @@ import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
 import * as utf8 from 'utf8'
 
@@ -155,66 +150,6 @@ export function* watchQrCodeShare() {
     } catch (error) {
       Logger.error(TAG, 'Error sharing qr code', error)
     }
-  }
-}
-
-function* sendPaymentLegacy(
-  recipientAddress: string,
-  amount: BigNumber,
-  comment: string,
-  currency: Currency,
-  feeInfo?: FeeInfo
-) {
-  try {
-    ValoraAnalytics.track(SendEvents.send_tx_start)
-
-    const ownAddress: string = yield select(currentAccountSelector)
-    const encryptedComment = yield call(encryptComment, comment, recipientAddress, ownAddress, true)
-
-    const context = newTransactionContext(TAG, 'Send payment')
-    switch (currency) {
-      case Currency.Celo: {
-        yield put(
-          transferGoldTokenLegacy({
-            recipientAddress,
-            amount: amount.toString(),
-            currency,
-            comment: encryptedComment,
-            feeInfo,
-            context,
-          })
-        )
-        break
-      }
-      case Currency.Dollar:
-      case Currency.Euro: {
-        yield put(
-          transferStableTokenLegacy({
-            recipientAddress,
-            amount: amount.toString(),
-            currency,
-            comment: encryptedComment,
-            feeInfo,
-            context,
-          })
-        )
-        break
-      }
-      default: {
-        throw new Error(`Sending currency ${currency} not yet supported`)
-      }
-    }
-    ValoraAnalytics.track(SendEvents.send_tx_complete, {
-      txId: context.id,
-      recipientAddress,
-      amount: amount.toString(),
-      tokenAddress: currency,
-      usdAmount: '',
-    })
-  } catch (error) {
-    Logger.debug(`${TAG}/sendPaymentLegacy`, 'Could not send payment', error.message)
-    ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
-    throw error
   }
 }
 
@@ -365,54 +300,6 @@ function* sendPayment(
   }
 }
 
-export function* sendPaymentSagaLegacy({
-  amount,
-  currency,
-  comment,
-  recipientAddress,
-  feeInfo,
-  firebasePendingRequestUid,
-  fromModal,
-}: SendPaymentActionLegacy) {
-  try {
-    yield call(getConnectedUnlockedAccount)
-    SentryTransactionHub.startTransaction(SentryTransaction.send_payment_legacy)
-    const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
-      tokensByCurrencySelector
-    )
-    const tokenInfo = tokenByCurrency[currency]
-    if (!tokenInfo) {
-      throw new Error(`No token info found for ${currency}`)
-    }
-
-    if (recipientAddress) {
-      yield call(sendPaymentLegacy, recipientAddress, amount, comment, currency, feeInfo)
-    } else {
-      throw new Error('No address found on recipient')
-    }
-
-    if (firebasePendingRequestUid) {
-      yield put(completePaymentRequest(firebasePendingRequestUid))
-    }
-
-    if (fromModal) {
-      navigateBack()
-    } else {
-      navigateHome()
-    }
-
-    yield put(sendPaymentSuccess(amount))
-    SentryTransactionHub.finishTransaction(SentryTransaction.send_payment_legacy)
-  } catch (e) {
-    yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield put(sendPaymentFailure())
-  }
-}
-
-export function* watchSendPaymentLegacy() {
-  yield takeLeading(Actions.SEND_PAYMENT_LEGACY, safely(sendPaymentSagaLegacy))
-}
-
 export function* sendPaymentSaga({
   amount,
   tokenAddress,
@@ -463,5 +350,4 @@ export function* sendSaga() {
   yield spawn(watchQrCodeDetections)
   yield spawn(watchQrCodeShare)
   yield spawn(watchSendPayment)
-  yield spawn(watchSendPaymentLegacy)
 }

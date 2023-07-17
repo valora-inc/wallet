@@ -13,6 +13,7 @@ interface NetworkConfig {
   networkId: string
   blockchainApiUrl: string
   cloudFunctionsUrl: string
+  hooksApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   sentryTracingUrls: string[]
@@ -47,8 +48,6 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewards: string
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
-  getPositionsUrl: string
-  getShortcutsUrl: string
   getNftsByOwnerAddressUrl: string
 }
 
@@ -134,10 +133,8 @@ const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
 
-const GET_POSITIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getPositions`
-const GET_POSITIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getPositions`
-const GET_SHORTCUTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api/getShortcuts`
-const GET_SHORTCUTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api/getShortcuts`
+const HOOKS_API_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api`
+const HOOKS_API_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api`
 
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
@@ -154,6 +151,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
+    hooksApiUrl: HOOKS_API_URL_ALFAJORES,
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
@@ -193,14 +191,13 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
-    getPositionsUrl: GET_POSITIONS_ALFAJORES,
-    getShortcutsUrl: GET_SHORTCUTS_ALFAJORES,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
+    hooksApiUrl: HOOKS_API_URL_MAINNET,
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
@@ -240,8 +237,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
-    getPositionsUrl: GET_POSITIONS_MAINNET,
-    getShortcutsUrl: GET_SHORTCUTS_MAINNET,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
   },
 }

@@ -10,6 +10,7 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
+  BuilderHooksEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
   CICOEvents,
@@ -44,6 +45,7 @@ import {
 import {
   BackQuizProgress,
   DappRequestOrigin,
+  HooksEnablePreviewOrigin,
   ScrollDirection,
   SendOrigin,
   WalletConnectPairingOrigin,
@@ -1299,6 +1301,18 @@ interface NftsEventsProperties {
   [NftEvents.nft_gallery_screen_open]: undefined
 }
 
+interface BuilderHooksProperties {
+  [BuilderHooksEvents.hooks_enable_preview_propose]: {
+    origin: HooksEnablePreviewOrigin
+  }
+  [BuilderHooksEvents.hooks_enable_preview_confirm]: undefined
+  [BuilderHooksEvents.hooks_enable_preview_cancel]: undefined
+  [BuilderHooksEvents.hooks_enable_preview_error]: {
+    error: string
+  }
+  [BuilderHooksEvents.hooks_disable_preview]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1331,4 +1345,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   QrScreenProperties &
   TokenBottomSheetEventsProperties &
   AssetsEventsProperties &
-  NftsEventsProperties
+  NftsEventsProperties &
+  BuilderHooksProperties
