@@ -12,7 +12,6 @@ import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
-import { refreshAllBalances } from 'src/home/actions'
 import i18n from 'src/i18n'
 import {
   hooksApiUrlSelector,
@@ -54,7 +53,7 @@ const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 function getHooksApiFunctionUrl(
   hooksApiUrl: string,
-  functionName: 'getPositions' | 'getShortcuts'
+  functionName: 'getPositions' | 'getShortcuts' | 'triggerShortcut'
 ) {
   const url = new URL(hooksApiUrl)
   url.pathname = path.join(url.pathname, functionName)
@@ -207,13 +206,17 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
   const hooksApiUrl = yield select(hooksApiUrlSelector)
 
   try {
-    const response = yield call(fetchWithTimeout, `${hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
+    const response = yield call(
+      fetchWithTimeout,
+      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }
+    )
     if (!response.ok) {
       throw new Error(`Unable to trigger shortcut: ${response.status} ${response.statusText}`)
     }
@@ -226,6 +229,7 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
 
     Logger.debug(`${TAG}/triggerShortcutSaga`, 'Starting to claim reward(s)', data.transactions)
 
+    // TODO parallelize the send transactions
     for (const transaction of data.transactions) {
       applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
       const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
@@ -251,7 +255,6 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
       Toast.SHORT,
       Toast.BOTTOM
     )
-    yield put(refreshAllBalances())
   } catch (error) {
     yield put(triggerShortcutFailure(payload.id))
     // TODO customise error message when there are more shortcut types
