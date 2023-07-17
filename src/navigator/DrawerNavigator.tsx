@@ -284,20 +284,16 @@ export default function DrawerNavigator({ route }: Props) {
           // @ts-expect-error component type in native-stack v6
           component={BackupIntroduction}
           options={{
-            drawerLabel:
-              !backupCompleted &&
-              getExperimentParams(
-                ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
-              ).showBackupAlert
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
+            drawerLabel: !backupCompleted
+              ? () => (
+                  <View style={styles.itemStyle}>
+                    <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                    <View style={styles.drawerItemIcon}>
+                      <ExclamationCircleIcon />
                     </View>
-                  )
-                : t('accountKey') ?? undefined,
+                  </View>
+                )
+              : t('accountKey') ?? undefined,
             title: t('accountKey') ?? undefined,
             drawerIcon: AccountKey,
           }}

@@ -7,6 +7,7 @@ import {
   sleep,
   waitForElementId,
   quickOnboarding,
+  completeProtectWalletScreen,
 } from '../utils/utils'
 import { getAddressChunks } from '@celo/utils/lib/address'
 
@@ -39,6 +40,9 @@ export default NewAccountOnboarding = () => {
     // Set & Verify pin
     await enterPinUi()
     await enterPinUi()
+
+    // Protect Wallet screen
+    await completeProtectWalletScreen()
 
     // Skip Phone Number verification
     await element(by.id('PhoneVerificationSkipHeader')).tap()

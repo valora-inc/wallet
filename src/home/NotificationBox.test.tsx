@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
-import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
@@ -17,8 +16,7 @@ import {
 } from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
-const RECENT_BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
-const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
+const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 
 const testNotification = {
   ctaUri: 'https://celo.org',
@@ -36,7 +34,7 @@ const storeDataNotificationsEnabled = {
   account: {
     backupCompleted: false,
     dismissedGetVerified: false,
-    accountCreationTime: EXPIRED_BACKUP_TIME,
+    accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: false,
   },
   paymentRequest: {
@@ -54,7 +52,7 @@ const storeDataNotificationsDisabled = {
     backupCompleted: true,
     dismissedInviteFriends: true,
     dismissedGetVerified: true,
-    accountCreationTime: RECENT_BACKUP_TIME,
+    accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: true,
   },
   paymentRequest: {
@@ -139,22 +137,6 @@ describe('NotificationBox', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
-  })
-
-  it('renders backup when backup is late', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsDisabled,
-      account: {
-        backupCompleted: false,
-        accountCreationTime: EXPIRED_BACKUP_TIME,
-      },
-    })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox />
-      </Provider>
-    )
-    expect(getByTestId('BackupKeyNotification')).toBeTruthy()
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {

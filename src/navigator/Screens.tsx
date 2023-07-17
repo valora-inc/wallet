@@ -3,7 +3,6 @@ export enum Screens {
   AccounSetupFailureScreen = 'AccounSetupFailureScreen',
   AppLoading = 'AppLoading',
   BackupComplete = 'BackupComplete',
-  BackupForceScreen = 'BackupForceScreen',
   BackupIntroduction = 'BackupIntroduction',
   BackupPhrase = 'BackupPhrase',
   BackupQuiz = 'BackupQuiz',
