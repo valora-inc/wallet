@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Usar frase de recuperação",
       "subtitle": "Anote sua frase de recuperação"
-    },
-    "cloudBackup": {
-      "title": "Backup na nuvem",
-      "subtitle": "Restaure sua carteira sem uma frase",
-      "bottomSheet": {
-        "title": "O backup na nuvem está chegando em breve!",
-        "restoreComingSoon": "O backup da nuvem é uma maneira de restaurar sua carteira sem uma frase de recuperação. Estamos trabalhando nisso o mais rápido possível e avisaremos assim que estiver disponível para uso.",
-        "writeDownPhrase": "Enquanto isso, anote a sua frase de recuperação para fazer backup manualmente da sua carteira.",
-        "continue": "Continuar para a frase de recuperação"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Recuperação",
   "introBackUpPhrase": "Fazer backup da frase de recuperação",
   "introCompleteQuiz": "Responda ao nosso questionário de backup para verificar se sua carteira pode ser recuperada.\n\nSe você a escreveu incorretamente, não poderá acessar sua carteira se algo acontecer com seu dispositivo.",
-  "introTitle": "Sua Frase de Recuperação",
-  "introBody": "A sua Frase de Recuperação é a parte mais importante da sua conta.\n\nEncontre um local privado para configurar sua Frase. Leva apenas 5 minutos.",
-  "introPrimaryAction": "Configurar",
-  "backupSetupTitle": "Crie sua Frase de Recuperação",
-  "backupSetupBody": "Para que seus fundos sejam protegidos, é necessário criar a sua Frase de Recuperação antes de continuar usando {{appName}}.",
-  "delayBackup": "Espere uma hora",
   "postSetupTitle": "Sua Frase de Recuperação",
   "postSetupBody": "Se você perder sua Frase de Recuperação, perderá o acesso a todos os seus ativos Celo. Ninguém, nem mesmo a {{appName}}, poderá ajudar você a recuperar sua conta sem a sua Frase. Guarde-a em um local seguro e não a compartilhe.",
   "postSetupCTA": "Saiba mais sobre a Frase de Recuperação",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Escreva sua frase.",
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Frase de Recuperação",
-  "backupKeyNotification": "Proteja seus fundos. Configure sua Frase de Recuperação.",
   "backupKeyNotification2": "Mantenha seus fundos em segurança. Faça o backup da sua frase de recuperação agora.",
   "backupKeyCTA": "Concluir backup agora",
   "backupKeySummary": "Encontre um local privado e anote a sua Frase de Recuperação. Guarde-a em um lugar seguro. Não salve em seu telefone.",
