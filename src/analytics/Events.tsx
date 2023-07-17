@@ -642,4 +642,5 @@ export type AnalyticsEventType =
   | CeloNewsEvents
   | TokenBottomSheetEvents
   | AssetsEvents
+  | NftEvents
   | BuilderHooksEvents
