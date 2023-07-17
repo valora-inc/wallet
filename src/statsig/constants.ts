@@ -42,17 +42,6 @@ export const ExperimentConfigs = {
       addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
     },
   },
-  [StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]: {
-    experimentName: StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING,
-    defaultValues: {
-      enableForcedBackup: true,
-      showRecoveryPhraseInOnboarding: false,
-      showCloudBackupFakeDoor: false,
-      useNewBackupFlowCopy: false,
-      showBackupAlert: false,
-      useNewBackupHomeCard: false,
-    },
-  },
   [StatsigExperiments.CHOOSE_YOUR_ADVENTURE]: {
     experimentName: StatsigExperiments.CHOOSE_YOUR_ADVENTURE,
     defaultValues: {

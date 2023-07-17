@@ -1,11 +1,9 @@
 import { isE164NumberStrict } from '@celo/phone-utils'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
-import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
 
 export interface State {
@@ -20,7 +18,6 @@ export interface State {
   pincodeType: PincodeType
   backupCompleted: boolean
   accountCreationTime: number
-  backupRequiredTime: number | null
   startOnboardingTime: number | undefined
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
@@ -69,9 +66,9 @@ export enum FinclusiveKycStatus {
 }
 
 export enum RecoveryPhraseInOnboardingStatus {
-  NotStarted = 'NotStarted', // ineligible and control users, and variant users who have not reached the "ProtectWallet" screen
-  InProgress = 'InProgress', // variant users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
-  Completed = 'Completed', // variant users who have clicked "I've saved it"
+  NotStarted = 'NotStarted', // users who have not reached the "ProtectWallet" screen
+  InProgress = 'InProgress', // users who have reached the "ProtectWallet" screen, but not clicked "I've saved it"
+  Completed = 'Completed', // users who have clicked "I've saved it"
 }
 
 export const initialState: State = {
@@ -88,7 +85,6 @@ export const initialState: State = {
   photosNUXClicked: false,
   pincodeType: PincodeType.Unset,
   accountCreationTime: 99999999999999,
-  backupRequiredTime: null,
   startOnboardingTime: undefined,
   backupCompleted: false,
   dismissedGetVerified: false,
@@ -215,16 +211,10 @@ export const reducer = (
         ...state,
         backupCompleted: true,
       }
-    case Actions.SET_BACKUP_DELAYED:
-      return {
-        ...state,
-        backupRequiredTime: action.now + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
-      }
     case Actions.TOGGLE_BACKUP_STATE:
       return {
         ...state,
         backupCompleted: !state.backupCompleted,
-        backupRequiredTime: null,
       }
     case Actions.DISMISS_GET_VERIFIED:
       return {

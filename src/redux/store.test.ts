@@ -99,14 +99,13 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 135,
+          "version": 136,
         },
         "account": Object {
           "acceptedTerms": false,
           "accountCreationTime": 99999999999999,
           "accountToRecoverFromStoreWipe": undefined,
           "backupCompleted": false,
-          "backupRequiredTime": null,
           "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
           "contactDetails": Object {

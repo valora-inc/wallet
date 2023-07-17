@@ -109,7 +109,6 @@ export enum OnboardingEvents {
   backup_continue = 'backup_continue', // (count # of taps on “Continue” button in Backup_Phrase)
   backup_complete = 'backup_complete', // (count # of taps on "Cancel" button in Backup_Phrase/BackupQuiz)
   backup_more_info = 'backup_more_info',
-  backup_delay = 'backup_delay', // when a user delays backup seed phrase completion
   backup_delay_confirm = 'backup_delay_confirm', // when a user confirms they want to delay backup
   backup_delay_cancel = 'backup_delay_cancel', // when a user decides to return to backup flow
   backup_cancel = 'backup_cancel', // (count # of taps on "Cancel" button in Backup_Phrase/BackupQuiz)
@@ -166,8 +165,6 @@ export enum OnboardingEvents {
   account_dek_register_complete = 'account_dek_register_complete',
 
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
-  protect_wallet_use_cloud = 'protect_wallet_use_cloud',
-  protect_wallet_use_cloud_bottom_sheet = 'protect_wallet_use_cloud_bottom_sheet',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
   protect_wallet_copy_phrase = 'protect_wallet_copy_phrase',

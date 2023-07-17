@@ -248,7 +248,6 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.backup_continue]: undefined
   [OnboardingEvents.backup_complete]: undefined
   [OnboardingEvents.backup_more_info]: undefined
-  [OnboardingEvents.backup_delay]: undefined
   [OnboardingEvents.backup_delay_confirm]: undefined
   [OnboardingEvents.backup_delay_cancel]: undefined
   [OnboardingEvents.backup_cancel]: undefined
@@ -361,10 +360,6 @@ interface OnboardingEventsProperties {
         position?: number
       }
     | undefined
-  [OnboardingEvents.protect_wallet_use_cloud]: {
-    position?: number
-  }
-  [OnboardingEvents.protect_wallet_use_cloud_bottom_sheet]: undefined
   [OnboardingEvents.protect_wallet_help]: undefined
   [OnboardingEvents.protect_wallet_help_dismiss]: undefined
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
