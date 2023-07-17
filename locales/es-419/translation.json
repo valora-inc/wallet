@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Usar frase de recuperación",
       "subtitle": "Escribe tu frase de recuperación"
-    },
-    "cloudBackup": {
-      "title": "Respaldo en la nube",
-      "subtitle": "Restaura tu wallet sin frase de recuperación",
-      "bottomSheet": {
-        "title": "Próximamente: ¡respaldo en la nube!",
-        "restoreComingSoon": "El respaldo en la nube es una forma de restaurar tu wallet sin la frase de recuperación. Estamos trabajando en esto lo más rápido posible y te notificaremos una vez que la función esté disponible.",
-        "writeDownPhrase": "Mientras tanto, asegúrate de guardar tu frase de recuperación para resguardar tu wallet.",
-        "continue": "Ver frase de recuperación"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Recuperación",
   "introBackUpPhrase": "Respalda tu frase de recuperación",
   "introCompleteQuiz": "Completa la prueba de respaldo para confirmar que podrás restaurar tu wallet si lo necesitas.\n\nSi no la anotaste correctamente, no podrás acceder a tu wallet en caso de que necesites restaurarla.",
-  "introTitle": "Tu Frase de recuperación",
-  "introBody": "Tu Frase de recuperación es la parte más importante de tu cuenta. \n\nBusca un lugar privado donde puedas configurarla. Solo te tomará cinco minutos.",
-  "introPrimaryAction": "Configurar",
-  "backupSetupTitle": "Configura tu Frase de recuperación",
-  "backupSetupBody": "Para proteger tus fondos, debes configurar tu Frase de recuperación antes de seguir usando {{appName}}.",
-  "delayBackup": "Espera una hora por favor",
   "postSetupTitle": "Esta es tu Frase de recuperación",
   "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a tus activos Celo. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa frase. Guárdala en un lugar seguro y no la compartas con nadie.",
   "postSetupCTA": "Conoce más sobre la Frase de recuperación",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Por favor, anota tu frase.",
   "completeEducation": "Entiendo",
   "yourAccountKey": "Esta es tu Frase de recuperación",
-  "backupKeyNotification": "Protege tus fondos. Configura tu Frase de recuperación.",
   "backupKeyNotification2": "Resguarda tus fondos. Respalda tu frase de recuperación.",
   "backupKeyCTA": "Finalizar respaldo",
   "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
