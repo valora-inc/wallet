@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Utiliser la Phrase de récupération",
       "subtitle": "Écrivez votre Phrase de récupération"
-    },
-    "cloudBackup": {
-      "title": "Sauvegarder dans le Cloud",
-      "subtitle": "Restaurer votre portefeuille sans phrase",
-      "bottomSheet": {
-        "title": "La sauvegarde dans le Cloud sera bientôt disponible.",
-        "restoreComingSoon": "Une sauvegarde dans le cloud est un moyen de restaurer votre portefeuille sans phrase de récupération. Nous travaillons sur cette solution et vous ferons savoir le plus vite possible dès que cette fonction sera disponible.",
-        "writeDownPhrase": "En attendant, veuillez écrire votre phrase de récupération pour pouvoir profiter d'une sauvegarde manuelle de votre portefeuille.",
-        "continue": "Continuer avec ma Phrase de récupération"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Phrase de récupération",
   "introBackUpPhrase": "Phrase de récupération de sauvegarde",
   "introCompleteQuiz": "Remplissez notre questionnaire de sauvegarde pour vérifier que votre portefeuille peut être récupéré.\n\nSi vous ne l'avez pas correctement enregistrée, vous ne pourrez pas accéder à votre portefeuille en cas de problème avec votre appareil.",
-  "introTitle": "Votre Phrase de récupération",
-  "introBody": "Votre Phrase de récupération est la partie la plus importante de votre compte.\n\nVeuillez trouver un endroit privé pour configurer votre Phrase. Cela vous prendra environ cinq minutes.",
-  "introPrimaryAction": "Configuration",
-  "backupSetupTitle": "Configurez votre Phrase de récupération",
-  "backupSetupBody": "Pour protéger vos fonds, vous devez configurer votre Phrase de récupération avant de pouvoir continuer à utiliser {{appName}}.",
-  "delayBackup": "Patientez pendant une heure",
   "postSetupTitle": "Votre Phrase de récupération",
   "postSetupBody": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos Dollars Celo et à vos CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre Phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
   "postSetupCTA": "En savoir plus sur votre Phrase de récupération",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Veuillez noter votre phrase.",
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
-  "backupKeyNotification": "Sécurisez vos fonds. Configurez votre Phrase de récupération.",
   "backupKeyNotification2": "Gardez vos fonds en sécurité. Enregistrez votre Phrase de récupération maintenant.",
   "backupKeyCTA": "Terminer la sauvegarde maintenant",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
