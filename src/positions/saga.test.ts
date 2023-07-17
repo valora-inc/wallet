@@ -68,6 +68,7 @@ const contractKit = {
     chainId: jest.fn(() => '42220'),
     nonce: jest.fn(),
     gasPrice: jest.fn(),
+    estimateGas: jest.fn(() => '1234'),
   },
 }
 
@@ -254,7 +255,6 @@ describe(triggerShortcutSaga, () => {
       from: mockAccount,
       to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
       data: '0x4e71d92d',
-      gas: '1234', //check why the tests don't pass without this
     }
     mockFetch.mockResponse(
       JSON.stringify({
