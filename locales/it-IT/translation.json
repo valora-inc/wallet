@@ -1344,8 +1344,11 @@
       "title": "Le tue ricompense",
       "description": "Ora puoi richiedere le ricompense delle posizioni aperte nella dapp direttamente su {{appName}}!",
       "claimButton": "Rivendicazione",
-      "rewardLabel": "Premio disponibile"
-    }
+      "claimedLabel": "Rivendicato",
+      "rewardLabel": "Premio disponibile",
+      "claimSuccess": "Successo! Hai richiesto una ricompensa"
+    },
+    "claimRewardFailure": "Si è verificato un errore nel richiedere la tua ricompensa, riprova più tardi."
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
