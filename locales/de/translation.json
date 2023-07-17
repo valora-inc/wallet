@@ -1344,8 +1344,11 @@
       "title": "Deine Belohnungen",
       "description": "Jetzt kannst du Belohnungen aus offenen Dapp-Positionen direkt auf {{appName}}einfordern!",
       "claimButton": "Anspruch",
-      "rewardLabel": "Verfügbare Belohnung"
-    }
+      "claimedLabel": "Beansprucht",
+      "rewardLabel": "Verfügbare Belohnung",
+      "claimSuccess": "Erfolg! Du hast eine Belohnung beansprucht"
+    },
+    "claimRewardFailure": "Beim Einfordern deiner Belohnung ist ein Fehler aufgetreten, bitte versuche es später noch einmal."
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
