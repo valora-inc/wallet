@@ -18,6 +18,7 @@ import {
   ContractKitEvents,
   DappExplorerEvents,
   DappKitEvents,
+  DappShortcutsEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -66,6 +67,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
+import { ClaimablePosition } from 'src/positions/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
@@ -1312,6 +1314,22 @@ interface BuilderHooksProperties {
   [BuilderHooksEvents.hooks_disable_preview]: undefined
 }
 
+interface DappShortcutsProperties {
+  [DappShortcutsEvents.claim_rewards_open]: {
+    numRewards: number
+    rewards: ClaimablePosition[]
+  }
+  [DappShortcutsEvents.claim_reward_start]: {
+    reward: ClaimablePosition
+  }
+  [DappShortcutsEvents.claim_reward_success]: {
+    reward: ClaimablePosition
+  }
+  [DappShortcutsEvents.claim_reward_error]: {
+    reward: ClaimablePosition
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1345,4 +1363,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   TokenBottomSheetEventsProperties &
   AssetsEventsProperties &
   NftsEventsProperties &
-  BuilderHooksProperties
+  BuilderHooksProperties &
+  DappShortcutsProperties

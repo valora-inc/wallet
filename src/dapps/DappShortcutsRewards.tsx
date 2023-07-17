@@ -5,6 +5,8 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappShortcutsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import {
@@ -29,6 +31,13 @@ function DappShortcutsRewards() {
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
+
+  useEffect(() => {
+    ValoraAnalytics.track(DappShortcutsEvents.claim_rewards_open, {
+      numRewards: positionsWithClaimableRewards.length,
+      rewards: positionsWithClaimableRewards,
+    })
+  }, [])
 
   useEffect(() => {
     setClaimablePositions((prev) => {

@@ -614,6 +614,13 @@ export enum BuilderHooksEvents {
   hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
 }
 
+export enum DappShortcutsEvents {
+  claim_rewards_open = 'claim_rewards_open', // When a user opens the claim rewards screen
+  claim_reward_start = 'claim_reward_start', // When a user initiates a reward claim
+  claim_reward_success = 'claim_reward_success', // When a user successfully claims a reward
+  claim_reward_error = 'claim_reward_error', // When a user fails to claim a reward
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -645,3 +652,4 @@ export type AnalyticsEventType =
   | TokenBottomSheetEvents
   | AssetsEvents
   | BuilderHooksEvents
+  | DappShortcutsEvents
