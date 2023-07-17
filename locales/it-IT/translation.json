@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Usa la Frase di recupero",
       "subtitle": "Annota la tua Frase di recupero"
-    },
-    "cloudBackup": {
-      "title": "Esegui backup nel cloud",
-      "subtitle": "Ripristina il tuo portafoglio senza una frase",
-      "bottomSheet": {
-        "title": "È in arrivo il backup nel cloud!",
-        "restoreComingSoon": "Il backup nel cloud è un modo per ripristinare il tuo portafoglio senza una Frase di recupero. Ci stiamo lavorando il più velocemente possibile e ti avviseremo una volta che sarà disponibile.",
-        "writeDownPhrase": "Nel frattempo, annota la Frase di recupero per eseguire manualmente il backup del portafoglio.",
-        "continue": "Continua alla Frase di recupero"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Frase di recupero",
   "introBackUpPhrase": "Backup della Frase di recupero",
   "introCompleteQuiz": "Completa il quiz sul backup per verificare di poter recuperare il tuo portafoglio.\n\nSe l’hai annotata in modo errato, non sarai in grado di accedere al tuo portafoglio in caso di problemi con il dispositivo.",
-  "introTitle": "La tua Frase di recupero",
-  "introBody": "La tua Frase di recupero è l’elemento più importante del tuo conto.\n\nTrova un luogo privato in cui impostarla. Occorrono circa cinque minuti.",
-  "introPrimaryAction": "Imposta",
-  "backupSetupTitle": "Imposta la tua Frase di recupero",
-  "backupSetupBody": "Per proteggere i tuoi fondi, devi impostare la tua Frase di recupero prima di poter continuare a usare {{appName}}.",
-  "delayBackup": "Attendi un’ora",
   "postSetupTitle": "La tua Frase di recupero",
   "postSetupBody": "Se smarrisci la tua Frase di recupero, non potrai più accedere a tutti i tuoi Celo Dollar e CELO. Nessuno, neanche {{appName}}, potrà aiutarti a recuperare il tuo conto senza la tua Frase di recupero. Conservala in un luogo sicuro e non condividerla.",
   "postSetupCTA": "Maggiori informazioni sulla Frase di recupero",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Annota la tua frase.",
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
-  "backupKeyNotification": "Conserva i tuoi fondi al sicuro. Imposta la tua Frase di recupero.",
   "backupKeyNotification2": "Mantieni i tuoi fondi al sicuro. Esegui ora il backup della Frase di recupero.",
   "backupKeyCTA": "Termina il backup ora",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
