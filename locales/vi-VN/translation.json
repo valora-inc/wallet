@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Sử dụng Cụm từ khôi phục",
       "subtitle": "Viết ra cụm từ khôi phục"
-    },
-    "cloudBackup": {
-      "title": "Sao lưu lên Đám mây",
-      "subtitle": "Khôi phục ví mà không cần cụm từ khôi phục",
-      "bottomSheet": {
-        "title": "Tính năng Sao lưu lên đám mây sẽ sớm ra mắt!",
-        "restoreComingSoon": "Sao lưu lên đám mây là cách khôi phục ví mà không cần cụm từ khôi phục. Chúng tôi đang nỗ lực để ra mắt tính năng này nhanh nhất có thể và sẽ thông báo cho bạn ngay khi có thể sử dụng được tính năng này.",
-        "writeDownPhrase": "Trong thời gian chờ đợi, vui lòng viết ra cụm từ khôi phục để sao lưu ví theo cách thủ công.",
-        "continue": "Tiếp tục với Cụm từ khôi phục"
-      }
     }
   },
   "recoveryPhrase": {
@@ -153,12 +143,6 @@
   "headerTitle": "Cụm từ khôi phục",
   "introBackUpPhrase": "Sao lưu Cụm từ khôi phục",
   "introCompleteQuiz": "Hoàn thành câu hỏi kiểm tra sao lưu của chúng tôi để xác minh đảm bảo ví của bạn có thể được khôi phục.\n\nNếu viết sai cụm từ khôi phục, bạn sẽ không thể truy cập vào ví trong trường hợp xảy bất kỳ sự cố nào với thiết bị.",
-  "introTitle": "Cụm từ khôi phục của bạn",
-  "introBody": "Cụm từ khôi phục là phần quan trọng nhất trong tài khoản.\n\nVui lòng tìm nơi riêng tư để thiết lập Cụm từ khôi phục của bạn. Thời gian thực hiện là khoảng 5 phút.",
-  "introPrimaryAction": "Thiết lập",
-  "backupSetupTitle": "Thiết lập Cụm từ khôi phục của bạn",
-  "backupSetupBody": "Để bảo vệ tiền của mình, bạn bắt buộc phải thiết lập Cụm từ khôi phục trước khi có thể tiếp tục sử dụng {{appName}}.",
-  "delayBackup": "Đợi 1 giờ",
   "postSetupTitle": "Cụm từ khôi phục của bạn",
   "postSetupBody": "Nếu mất Cụm từ khôi phục, bạn sẽ mất quyền truy cập vào tất cả Đô la Celo và CELO của mình. Không ai, kể cả {{appName}}, có thể giúp bạn khôi phục tài khoản khi không có Cụm từ khôi phục. Hãy lưu giữ Cụm từ này ở nơi an toàn và không chia sẻ với bất kỳ ai.",
   "postSetupCTA": "Tìm hiểu về Cụm từ khôi phục",
@@ -168,7 +152,6 @@
   "writeDownKeyExperimental": "Vui lòng viết ra cụm từ của bạn.",
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
-  "backupKeyNotification": "Để bảo vệ tiền, hãy thiết lập Cụm từ khôi phục ngay.",
   "backupKeyNotification2": "Để bảo vệ tiền của bạn, hãy sao lưu Cụm từ khôi phục ngay.",
   "backupKeyCTA": "Hoàn tất quy trình sao lưu ngay",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
