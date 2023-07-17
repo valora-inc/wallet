@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { select } from 'typed-redux-saga'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents } from 'src/analytics/Events'

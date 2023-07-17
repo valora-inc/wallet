@@ -2,7 +2,6 @@ import { decryptComment, encryptComment } from '@celo/cryptographic-utils'
 import { isE164NumberStrict } from '@celo/phone-utils'
 import { hexToBuffer } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
-import { call } from 'redux-saga/effects'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
@@ -13,6 +12,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
+import { call } from 'typed-redux-saga'
 
 const TAG = 'paymentRequest/utils'
 
@@ -71,16 +71,13 @@ export const transactionDataFromPaymentRequest = ({
 export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) {
   Logger.debug(`${TAG}@encryptPaymentRequest`, 'Encrypting payment request')
 
-  const fromKey: Buffer | null = yield call(
-    doFetchDataEncryptionKey,
-    paymentRequest.requesterAddress
-  )
+  const fromKey = yield* call(doFetchDataEncryptionKey, paymentRequest.requesterAddress)
   if (!fromKey) {
     Logger.debug(`${TAG}@encryptPaymentRequest`, 'No sender key found, skipping encryption')
     return sanitizePaymentRequest(paymentRequest)
   }
 
-  const toKey: Buffer | null = yield call(doFetchDataEncryptionKey, paymentRequest.requesteeAddress)
+  const toKey = yield* call(doFetchDataEncryptionKey, paymentRequest.requesteeAddress)
   if (!toKey) {
     Logger.debug(`${TAG}@encryptPaymentRequest`, 'No recipient key found, skipping encryption')
     return sanitizePaymentRequest(paymentRequest)

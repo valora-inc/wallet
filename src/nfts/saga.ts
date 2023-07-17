@@ -1,4 +1,4 @@
-import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 import { fetchNfts, fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -17,7 +17,7 @@ export function* handleFetchNfts() {
     return
   }
 
-  const address = yield select(walletAddressSelector)
+  const address = yield* select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Wallet address not found, skipping NFTs list fetch')
     return
@@ -26,7 +26,7 @@ export function* handleFetchNfts() {
   const url = `${networkConfig.getNftsByOwnerAddressUrl}?address=${address}`
 
   try {
-    const response = yield call(fetch, url, {
+    const response = yield* call(fetch, url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,19 +36,19 @@ export function* handleFetchNfts() {
     if (!response.ok) {
       throw new Error(`Unable to fetch NFTs: ${response.status} ${response.statusText}`)
     }
-    const { result } = yield call([response, 'json'])
-    yield put(fetchNftsCompleted(result))
+    const { result } = yield* call([response, 'json'])
+    yield* put(fetchNftsCompleted(result))
   } catch (error) {
     Logger.error(TAG, '@handleFetchNfts', error)
-    yield put(fetchNftsFailed({ error: error.message }))
+    yield* put(fetchNftsFailed({ error: error.message }))
   }
 }
 
 export function* watchFetchNfts() {
-  yield takeLeading([fetchNfts.type, Actions.SET_ACCOUNT], safely(handleFetchNfts))
+  yield* takeLeading([fetchNfts.type, Actions.SET_ACCOUNT], safely(handleFetchNfts))
 }
 
 export function* nftsSaga() {
-  yield spawn(watchFetchNfts)
-  yield put(fetchNfts())
+  yield* spawn(watchFetchNfts)
+  yield* put(fetchNfts())
 }

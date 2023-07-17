@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'

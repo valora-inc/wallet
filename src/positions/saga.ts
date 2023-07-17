@@ -1,7 +1,7 @@
 import isIP from 'is-ip'
 import path from 'path'
 import { Alert, Platform } from 'react-native'
-import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 import { showError } from 'src/alert/actions'
 import { BuilderHooksEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
@@ -71,17 +71,17 @@ export function* fetchShortcutsSaga() {
       return
     }
 
-    const shortcutsStatus = yield select(shortcutsStatusSelector)
-    const hooksPreviewApiUrl = yield select(hooksPreviewApiUrlSelector)
+    const shortcutsStatus = yield* select(shortcutsStatusSelector)
+    const hooksPreviewApiUrl = yield* select(hooksPreviewApiUrlSelector)
     if (shortcutsStatus === 'success' && !hooksPreviewApiUrl) {
       // no need to fetch shortcuts more than once per session
       // if we're not in preview mode
       return
     }
 
-    yield put(fetchShortcutsStart())
-    const hooksApiUrl = yield select(hooksApiUrlSelector)
-    const response = yield call(
+    yield* put(fetchShortcutsStart())
+    const hooksApiUrl = yield* select(hooksApiUrlSelector)
+    const response = yield* call(
       fetchWithTimeout,
       getHooksApiFunctionUrl(hooksApiUrl, 'getShortcuts')
     )
@@ -91,17 +91,17 @@ export function* fetchShortcutsSaga() {
 
     const result: {
       data: Shortcut[]
-    } = yield call([response, 'json'])
-    yield put(fetchShortcutsSuccess(result.data))
+    } = yield* call([response, 'json'])
+    yield* put(fetchShortcutsSuccess(result.data))
   } catch (error) {
     Logger.warn(TAG, 'Unable to fetch shortcuts', error)
-    yield put(fetchShortcutsFailure(error))
+    yield* put(fetchShortcutsFailure(error))
   }
 }
 
 export function* fetchPositionsSaga() {
   try {
-    const address: string | null = yield select(walletAddressSelector)
+    const address: string | null = yield* select(walletAddressSelector)
     if (!address) {
       Logger.debug(TAG, 'Skipping fetching positions since no address was found')
       return
@@ -110,14 +110,14 @@ export function* fetchPositionsSaga() {
       return
     }
 
-    yield put(fetchPositionsStart())
+    yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
-    const hooksApiUrl = yield select(hooksApiUrlSelector)
-    const positions = yield call(fetchPositions, hooksApiUrl, address)
+    const hooksApiUrl = yield* select(hooksApiUrlSelector)
+    const positions = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess(positions))
   } catch (error) {
-    yield put(fetchPositionsFailure(error))
+    yield* put(fetchPositionsFailure(error))
     Logger.error(TAG, 'Unable to fetch positions', error)
   }
 }
@@ -174,15 +174,15 @@ export function* handleEnableHooksPreviewDeepLink(
   }
 
   if (!hooksPreviewApiUrl) {
-    yield put(showError(ErrorMessages.HOOKS_INVALID_PREVIEW_API_URL))
+    yield* put(showError(ErrorMessages.HOOKS_INVALID_PREVIEW_API_URL))
     return
   }
 
-  const confirm = yield call(confirmEnableHooksPreview)
+  const confirm = yield* call(confirmEnableHooksPreview)
   if (confirm) {
     ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
     Logger.info(TAG, `Enabling hooks preview mode with API URL: ${hooksPreviewApiUrl}`)
-    yield put(previewModeEnabled(hooksPreviewApiUrl))
+    yield* put(previewModeEnabled(hooksPreviewApiUrl))
   } else {
     ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
   }
@@ -191,16 +191,16 @@ export function* handleEnableHooksPreviewDeepLink(
 export function* watchFetchBalances() {
   // Refresh positions/shortcuts when fetching token balances
   // or when preview mode is enabled/disabled
-  yield takeLeading(
+  yield* takeLeading(
     [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
     safely(fetchPositionsSaga)
   )
-  yield takeLeading(
+  yield* takeLeading(
     [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
     safely(fetchShortcutsSaga)
   )
 }
 
 export function* positionsSaga() {
-  yield spawn(watchFetchBalances)
+  yield* spawn(watchFetchBalances)
 }

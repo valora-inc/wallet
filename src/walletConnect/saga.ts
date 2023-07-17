@@ -1,5 +1,5 @@
 import '@walletconnect/react-native-compat'
-import { call, put, select, spawn } from 'redux-saga/effects'
+import { call, put, select, spawn } from 'typed-redux-saga'
 import { showMessage } from 'src/alert/actions'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
@@ -10,12 +10,12 @@ import { initialiseWalletConnectV1, walletConnectV1Saga } from 'src/walletConnec
 import { initialiseWalletConnectV2, walletConnectV2Saga } from 'src/walletConnect/v2/saga'
 
 export function* walletConnectSaga() {
-  yield spawn(walletConnectV1Saga)
-  yield spawn(walletConnectV2Saga)
+  yield* spawn(walletConnectV1Saga)
+  yield* spawn(walletConnectV2Saga)
 }
 
 export function* isWalletConnectEnabled(uri: string) {
-  const { v1, v2 }: { v1: boolean; v2: boolean } = yield select(walletConnectEnabledSelector)
+  const { v1, v2 }: { v1: boolean; v2: boolean } = yield* select(walletConnectEnabledSelector)
   const [, , version] = uri.split(/[:@?]/)
   const versionEnabled: { [version: string]: boolean | undefined } = {
     '1': v1,
@@ -25,7 +25,7 @@ export function* isWalletConnectEnabled(uri: string) {
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
-  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
+  const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, uri)
 
   const [, , version] = uri.split(/[:@?]/)
   if (!walletConnectEnabled) {
@@ -35,10 +35,10 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
 
   switch (version) {
     case '1':
-      yield call(initialiseWalletConnectV1, uri, origin)
+      yield* call(initialiseWalletConnectV1, uri, origin)
       break
     case '2':
-      yield call(initialiseWalletConnectV2, uri, origin)
+      yield* call(initialiseWalletConnectV2, uri, origin)
       break
     default:
       throw new Error(`Unsupported WalletConnect version '${version}'`)
@@ -46,9 +46,9 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
 }
 
 export function* showWalletConnectionSuccessMessage(dappName: string) {
-  const activeDapp = yield select(activeDappSelector)
+  const activeDapp = yield* select(activeDappSelector)
   const successMessage = activeDapp
     ? i18n.t('inAppConnectionSuccess', { dappName })
     : i18n.t('connectionSuccess', { dappName })
-  yield put(showMessage(successMessage))
+  yield* put(showMessage(successMessage))
 }

@@ -2,23 +2,13 @@ import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { eventChannel } from 'redux-saga'
-import {
-  call,
-  cancelled,
-  put,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLatest,
-} from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { showError } from 'src/alert/actions'
-import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { Actions as AppActions } from 'src/app/actions'
 import { FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
-import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
+import { ExchangeRate, MAX_HISTORY_RETENTION, exchangeHistorySelector } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
 import {
   checkInitialNotification,
@@ -31,6 +21,7 @@ import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
+import { call, cancelled, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'firebase/saga'
 const EXCHANGE_RATES = 'exchangeRates'
@@ -42,14 +33,14 @@ export function* waitForFirebaseAuth() {
 }
 
 export function* initializeFirebase() {
-  const address = yield call(getAccount)
+  const address = yield* call(getAccount)
   if (isE2EEnv) {
     // Return early if isE2EEnv === true and don't show banner
     return
   }
   if (!FIREBASE_ENABLED) {
     Logger.info(TAG, 'Firebase disabled')
-    yield put(showError(ErrorMessages.FIREBASE_DISABLED))
+    yield* put(showError(ErrorMessages.FIREBASE_DISABLED))
     return
   }
 
@@ -60,9 +51,9 @@ export function* initializeFirebase() {
         const app = firebase.app()
         Logger.info(TAG, `Attempt ${i + 1} to initialize db ${app.options.databaseURL}`)
 
-        yield call(initializeAuth, firebase, address)
-        yield put(firebaseAuthorized())
-        yield call(initializeCloudMessaging, firebase, address)
+        yield* call(initializeAuth, firebase, address)
+        yield* put(firebaseAuthorized())
+        yield* call(initializeCloudMessaging, firebase, address)
         Logger.info(TAG, `Firebase initialized`)
 
         return
@@ -76,17 +67,17 @@ export function* initializeFirebase() {
     }
   } catch (error) {
     Logger.error(TAG, 'Error while initializing firebase', error)
-    yield put(showError(ErrorMessages.FIREBASE_FAILED))
+    yield* put(showError(ErrorMessages.FIREBASE_FAILED))
   }
 }
 
 export function* syncLanguageSelection() {
-  yield call(waitForFirebaseAuth)
-  yield call(handleUpdateAccountRegistration)
+  yield* call(waitForFirebaseAuth)
+  yield* call(handleUpdateAccountRegistration)
 }
 
 export function* watchLanguage() {
-  yield takeEvery(setLanguage.type, safely(syncLanguageSelection))
+  yield* takeEvery(setLanguage.type, safely(syncLanguageSelection))
 }
 
 function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
@@ -141,14 +132,14 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
 }
 
 export function* subscribeToCeloGoldExchangeRateHistory() {
-  yield call(waitForFirebaseAuth)
-  const history = yield select(exchangeHistorySelector)
-  const channel = yield call(celoGoldExchangeRateHistoryChannel, history.lastTimeUpdated)
+  yield* call(waitForFirebaseAuth)
+  const history = yield* select(exchangeHistorySelector)
+  const channel = yield* call(celoGoldExchangeRateHistoryChannel, history.lastTimeUpdated)
   try {
     while (true) {
-      const exchangeRates = yield take(channel)
+      const exchangeRates = (yield* take(channel)) as ExchangeRate[]
       const now = Date.now()
-      yield put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
+      yield* put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
     }
   } catch (error) {
     Logger.error(
@@ -157,16 +148,16 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
       error
     )
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       channel.close()
     }
   }
 }
 
 export function* firebaseSaga() {
-  yield spawn(initializeFirebase)
-  yield spawn(watchLanguage)
-  yield spawn(subscribeToCeloGoldExchangeRateHistory)
-  yield takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
-  yield takeLatest(AppActions.APP_MOUNTED, safely(checkInitialNotification))
+  yield* spawn(initializeFirebase)
+  yield* spawn(watchLanguage)
+  yield* spawn(subscribeToCeloGoldExchangeRateHistory)
+  yield* takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
+  yield* takeLatest(AppActions.APP_MOUNTED, safely(checkInitialNotification))
 }

@@ -1,5 +1,5 @@
 import Ajv from 'ajv'
-import { spawn, takeEvery } from 'redux-saga/effects'
+import { spawn, takeEvery } from 'typed-redux-saga'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { rootSaga } from 'src/redux/sagas'
@@ -388,8 +388,8 @@ describe('store state', () => {
 describe(setupStore, () => {
   it('reports uncaught errors happening in sagas', async () => {
     mocked(rootSaga).mockImplementationOnce(function* () {
-      yield spawn(function* mySaga() {
-        yield takeEvery('SOME_ACTION', function* someActionHandler() {
+      yield* spawn(function* mySaga() {
+        yield* takeEvery('SOME_ACTION', function* someActionHandler() {
           // do something
         })
         throw new Error('Just a test error')

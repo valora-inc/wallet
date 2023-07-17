@@ -4,15 +4,14 @@
 
 import { Address } from '@celo/base'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
-import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
 import {
   decryptComment as decryptCommentRaw,
   encryptComment as encryptCommentRaw,
 } from '@celo/cryptographic-utils'
+import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
+import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
 import { memoize, values } from 'lodash'
-import { all, call, put, select } from 'redux-saga/effects'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
@@ -34,6 +33,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
+import { all, call, put, select } from 'typed-redux-saga'
 
 const TAG = 'identity/commentKey'
 // A separator to split the comment content from the metadata
@@ -55,13 +55,13 @@ export function* encryptComment(
     return comment
   }
 
-  const fromKey: Buffer | null = yield call(doFetchDataEncryptionKey, fromAddress)
+  const fromKey = yield* call(doFetchDataEncryptionKey, fromAddress)
   if (!fromKey) {
     Logger.debug(TAG + 'encryptComment', 'No sender key found, skipping encryption')
     return comment
   }
 
-  const toKey: Buffer | null = yield call(doFetchDataEncryptionKey, toAddress)
+  const toKey = yield* call(doFetchDataEncryptionKey, toAddress)
   if (!toKey) {
     Logger.debug(TAG + 'encryptComment', 'No recipient key found, skipping encryption')
     return comment
@@ -70,7 +70,7 @@ export function* encryptComment(
   let commentToEncrypt = comment
   if (features.PHONE_NUM_METADATA_IN_TRANSFERS && includePhoneNumMetadata) {
     Logger.debug(TAG + 'encryptComment', 'Including phone number metadata in comment')
-    const selfPhoneDetails: PhoneNumberHashDetails | undefined = yield call(
+    const selfPhoneDetails: PhoneNumberHashDetails | undefined = yield* call(
       getUserSelfPhoneHashDetails
     )
     commentToEncrypt = embedPhoneNumberMetadata(comment, selfPhoneDetails)
@@ -170,7 +170,7 @@ export function* checkTxsForIdentityMetadata({ transactions }: NewTransactionsIn
     }
     Logger.debug(TAG + 'checkTxsForIdentityMetadata', `Checking ${transactions.length} txs`)
 
-    const dataEncryptionKey: string | null = yield select(dataEncryptionKeySelector)
+    const dataEncryptionKey: string | null = yield* select(dataEncryptionKeySelector)
     if (!dataEncryptionKey) {
       Logger.error(TAG + 'checkTxsForIdentityMetadata', 'Missing DEK, should never happen.')
       return
@@ -178,11 +178,11 @@ export function* checkTxsForIdentityMetadata({ transactions }: NewTransactionsIn
 
     const newIdentityData = findIdentityMetadataInComments(transactions, dataEncryptionKey)
 
-    const verifiedMetadata: IdentityMetadataInTx[] = yield call(
+    const verifiedMetadata = (yield* call(
       verifyIdentityMetadata,
       newIdentityData
-    )
-    yield call(updatePhoneNumberMappings, verifiedMetadata)
+    )) as unknown as IdentityMetadataInTx[]
+    yield* call(updatePhoneNumberMappings, verifiedMetadata)
     Logger.debug(TAG + 'checkTxsForIdentityMetadata', 'Done checking txs')
   } catch (error) {
     Logger.error(TAG + 'checkTxsForIdentityMetadata', 'Error checking metadata', error)
@@ -222,8 +222,8 @@ function* verifyIdentityMetadata(data: IdentityMetadataInTx[]) {
   // 2. Some duped phone hashes could be true, others false
   // 3. And a given phoneHash could legitimately have multiple addresses
 
-  const contractKit = yield call(getContractKit)
-  const accountsWrapper: AccountsWrapper = yield call([
+  const contractKit = yield* call(getContractKit)
+  const accountsWrapper: AccountsWrapper = yield* call([
     contractKit.contracts,
     contractKit.contracts.getAccounts,
   ])
@@ -236,10 +236,10 @@ function* verifyIdentityMetadata(data: IdentityMetadataInTx[]) {
   for (const metadata of data) {
     const phoneHash = getPhoneHash(metadata.e164Number, metadata.salt)
     metadata.phoneHash = phoneHash
-    const accountAddresses: Address[] = yield call(lookupAccountAddressesForIdentifier, phoneHash)
+    const accountAddresses: Address[] = yield* call(lookupAccountAddressesForIdentifier, phoneHash)
 
     // Check that there are verified addresses.
-    const verifiedAccountAddresses: Address[] = yield call(
+    const verifiedAccountAddresses: Address[] = yield* call(
       filterNonVerifiedAddresses,
       accountAddresses,
       phoneHash
@@ -251,7 +251,7 @@ function* verifyIdentityMetadata(data: IdentityMetadataInTx[]) {
       )
       continue
     }
-    const walletAddresses: Address[] = yield all(
+    const walletAddresses: Address[] = yield* all(
       verifiedAccountAddresses.map((accountAddress) =>
         call(accountsWrapper.getWalletAddress, accountAddress)
       )
@@ -276,8 +276,8 @@ function* updatePhoneNumberMappings(newIdentityData: IdentityMetadataInTx[]) {
     return
   }
 
-  const e164NumberToSalt: E164NumberToSaltType = yield select(e164NumberToSaltSelector)
-  const e164NumberToAddress: E164NumberToAddressType = yield select(e164NumberToAddressSelector)
+  const e164NumberToSalt: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
+  const e164NumberToAddress: E164NumberToAddressType = yield* select(e164NumberToAddressSelector)
 
   const e164NumberToAddressUpdates: E164NumberToAddressType = {}
   const addressToE164NumberUpdates: AddressToE164NumberType = {}
@@ -304,6 +304,6 @@ function* updatePhoneNumberMappings(newIdentityData: IdentityMetadataInTx[]) {
     addressToE164NumberUpdates[address] = e164Number
   }
 
-  yield put(updateE164PhoneNumberSalts(e164NumberToSaltUpdates))
-  yield put(updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates))
+  yield* put(updateE164PhoneNumberSalts(e164NumberToSaltUpdates))
+  yield* put(updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates))
 }

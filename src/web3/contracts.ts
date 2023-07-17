@@ -6,7 +6,6 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
-import { call, select } from 'redux-saga/effects'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,13 +13,14 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
-import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
+import WalletManager from 'src/web3/WalletManager'
+import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
-import Web3 from 'web3'
-import WalletManager from 'src/web3/WalletManager'
 import { ValoraWallet } from 'src/web3/types'
+import { call, select } from 'typed-redux-saga'
+import Web3 from 'web3'
 
 const TAG = 'web3/contracts'
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
@@ -50,8 +50,8 @@ export function* initContractKit() {
 
     Logger.info(`${TAG}@initContractKit`, `Initializing contractkit`)
 
-    const walletAddress: string | null = yield select(walletAddressSelector)
-    const accountCreationTime: number = yield select(accountCreationTimeSelector)
+    const walletAddress: string | null = yield* select(walletAddressSelector)
+    const accountCreationTime: number = yield* select(accountCreationTimeSelector)
 
     // This is to migrate the existing account that used to be stored in the geth keystore
     const importMnemonicAccount = {
@@ -60,14 +60,14 @@ export function* initContractKit() {
     }
     Logger.info(`${TAG}@initContractKit`, 'Initializing wallet', importMnemonicAccount)
 
-    walletManager = yield call(initWalletManager, importMnemonicAccount)
+    walletManager = yield* call(initWalletManager, importMnemonicAccount)
     const valoraCeloWallet = walletManager?.getContractKitWallet()
     wallet = valoraCeloWallet
     try {
       // This is to migrate the existing DEK that used to be stored in the geth keystore
       // Note that the DEK is also currently in the redux store, but it should change at some point
       if (walletAddress) {
-        yield call(importDekIfNecessary, wallet)
+        yield* call(importDekIfNecessary, wallet)
       }
     } catch (error) {
       Logger.error(`${TAG}@initContractKit`, `Failed to import data encryption key`, error)
@@ -113,18 +113,18 @@ async function waitForContractKit(tries: number) {
 
 export function* getContractKit() {
   if (!contractKit) {
-    yield initContractKitLock.acquire()
+    yield* call([initContractKitLock, initContractKitLock.acquire])
     try {
       if (contractKit) {
         return contractKit
       }
-      yield call(initContractKit)
+      yield* call(initContractKit)
     } finally {
       initContractKitLock.release()
     }
   }
 
-  return contractKit
+  return contractKit as ContractKit
 }
 
 // Used for cases where CK must be access outside of a saga
@@ -140,17 +140,17 @@ export async function getContractKitAsync(): Promise<ContractKit> {
 
 export function* getWallet() {
   if (!wallet) {
-    yield initContractKitLock.acquire()
+    yield* call([initContractKitLock, initContractKitLock.acquire])
     try {
       if (wallet) {
         return wallet
       }
-      yield call(initContractKit)
+      yield* call(initContractKit)
     } finally {
       initContractKitLock.release()
     }
   }
-  return wallet
+  return wallet as ValoraWallet
 }
 
 // Used for cases where the wallet must be access outside of a saga
@@ -171,7 +171,7 @@ export async function getWalletAsync() {
 
 // Convinience util for getting the kit's web3 instance
 export function* getWeb3() {
-  const kit: ContractKit = yield call(getContractKit)
+  const kit = yield* call(getContractKit)
   return kit.connection.web3
 }
 

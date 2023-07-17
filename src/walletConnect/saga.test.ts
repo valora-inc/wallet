@@ -1,5 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'

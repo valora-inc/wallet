@@ -1,5 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'typed-redux-saga'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import { autoRefreshSaga, refreshBalances, watchRefreshBalances, withLoading } from 'src/home/saga'
 import { fetchCurrentRate } from 'src/localCurrency/actions'

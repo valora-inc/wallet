@@ -1,6 +1,5 @@
 import { CeloTxObject, CeloTxReceipt } from '@celo/connect'
 import { BigNumber } from 'bignumber.js'
-import { call, cancel, cancelled, delay, fork, join, race, select } from 'redux-saga/effects'
 import { TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -9,10 +8,9 @@ import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import {
-  sendTransactionAsync,
   SendTransactionLogEvent,
   SendTransactionLogEventType,
-  TxPromises,
+  sendTransactionAsync,
 } from 'src/transactions/contract-utils'
 import { TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -21,6 +19,7 @@ import { WEI_DECIMALS } from 'src/web3/consts'
 import { getGasPrice } from 'src/web3/gas'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
+import { call, cancel, cancelled, delay, fork, join, race, select } from 'typed-redux-saga'
 
 const TAG = 'transactions/send'
 
@@ -118,13 +117,13 @@ export function* chooseTxFeeDetails(
   gas?: number,
   gasPrice?: BigNumber
 ) {
-  const coreTokens: TokenBalance[] = yield select(coreTokensSelector)
+  const coreTokens: TokenBalance[] = yield* select(coreTokensSelector)
   const tokenInfo = coreTokens.find(
     (token) =>
       token.address === preferredFeeCurrency || (token.symbol === 'CELO' && !preferredFeeCurrency)
   )
   if (!tokenInfo || tokenInfo.balance.isZero()) {
-    const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+    const feeCurrency: string | undefined = yield* call(fetchFeeCurrencySaga)
     return {
       feeCurrency,
       // If gas was set and we switched from CELO to a non-CELO fee currency, we add some padding to it
@@ -134,28 +133,28 @@ export function* chooseTxFeeDetails(
       gasPrice: preferredFeeCurrency !== feeCurrency ? undefined : gasPrice,
     }
   }
-  const userAddress: string = yield select(walletAddressSelector)
+  const userAddress = (yield* select(walletAddressSelector))!
   const feeCurrency = tokenInfo.symbol === 'CELO' ? undefined : tokenInfo.address
   if (!gas) {
     gas = (
-      (yield call(estimateGas, tx, {
+      (yield* call(estimateGas, tx, {
         from: userAddress,
         feeCurrency,
       })) as BigNumber
     ).toNumber()
   }
   if (!gasPrice) {
-    gasPrice = yield getGasPrice(feeCurrency)
+    gasPrice = yield* call(getGasPrice, feeCurrency)
   }
   if (new BigNumber(gasPrice!).times(gas!).lte(tokenInfo.balance.shiftedBy(WEI_DECIMALS))) {
     return {
       feeCurrency,
       gas,
-      gasPrice: gasPrice?.toString(),
+      gasPrice,
     }
   } else {
     // Funds are not enough to pay for the fee.
-    const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+    const feeCurrency: string | undefined = yield* call(fetchFeeCurrencySaga)
     return {
       feeCurrency,
       // If gas was set and we switched from CELO to a non-CELO fee currency, we add some padding to it
@@ -188,15 +187,13 @@ export function* sendTransactionPromises(
     `Going to send a transaction with id ${context.id}`
   )
 
-  const {
-    feeCurrency,
-    gas,
-    gasPrice,
-  }: {
-    feeCurrency: string | undefined
-    gas?: number
-    gasPrice?: string
-  } = yield call(chooseTxFeeDetails, tx, preferredFeeCurrency, proposedGas, proposedGasPrice)
+  const { feeCurrency, gas, gasPrice } = yield* call(
+    chooseTxFeeDetails,
+    tx,
+    preferredFeeCurrency,
+    proposedGas,
+    proposedGasPrice
+  )
 
   if (gas || gasPrice) {
     Logger.debug(
@@ -207,14 +204,14 @@ export function* sendTransactionPromises(
 
   Logger.debug(`${TAG}@sendTransactionPromises`, `Sending tx ${context.id}`)
 
-  const transactionPromises: TxPromises = yield call(
+  const transactionPromises = yield* call(
     sendTransactionAsync,
     tx,
     account,
     feeCurrency,
     getLogger(context),
     gas,
-    gasPrice,
+    gasPrice?.toString(),
     nonce
   )
   return transactionPromises
@@ -232,7 +229,7 @@ export function* sendTransaction(
   nonce?: number
 ) {
   const sendTxMethod = function* () {
-    const { receipt } = yield call(
+    const { receipt } = yield* call(
       sendTransactionPromises,
       tx,
       account,
@@ -244,7 +241,13 @@ export function* sendTransaction(
     )
     return (yield receipt) as CeloTxReceipt
   }
-  const receipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+  // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
+  // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
+  const receipt = (yield* call(
+    wrapSendTransactionWithRetry,
+    sendTxMethod,
+    context
+  )) as unknown as CeloTxReceipt
   return receipt
 }
 
@@ -258,8 +261,8 @@ export function* wrapSendTransactionWithRetry(
   for (let i = 1; i <= TX_NUM_TRIES; i++) {
     try {
       // Spin tx send into a Task so that it does not get cancelled automatically on timeout.
-      const task = yield fork(sendTxMethod)
-      let { receipt, timeout } = yield race({
+      const task = yield* fork(sendTxMethod)
+      let { receipt, timeout } = yield* race({
         receipt: join(task),
         timeout: delay(TX_TIMEOUT * i - TX_TIMEOUT_GRACE_PERIOD),
       })
@@ -274,14 +277,14 @@ export function* wrapSendTransactionWithRetry(
           `${TAG}@wrapSendTransactionWithRetry`,
           `tx ${context.id} entering timeout grace period for attempt ${i}`
         )
-        ;({ receipt, timeout } = yield race({
+        ;({ receipt, timeout } = yield* race({
           receipt: join(task),
           timeout: delay(TX_TIMEOUT_GRACE_PERIOD),
         }))
       }
 
       // Cancel the send task if it is still running. If terminated, this is a no-op.
-      yield cancel(task)
+      yield* cancel(task)
 
       if (timeout) {
         Logger.error(
@@ -304,7 +307,7 @@ export function* wrapSendTransactionWithRetry(
       }
 
       if (i + 1 <= TX_NUM_TRIES) {
-        yield delay(TX_RETRY_DELAY)
+        yield* delay(TX_RETRY_DELAY)
         Logger.debug(
           `${TAG}@wrapSendTransactionWithRetry`,
           `Tx ${context.id} retrying attempt ${i + 1}`
@@ -313,7 +316,7 @@ export function* wrapSendTransactionWithRetry(
         throw err
       }
     } finally {
-      if (yield cancelled()) {
+      if (yield* cancelled()) {
         Logger.warn(
           `${TAG}@wrapSendTransactionWithRetry`,
           `tx ${context.id} cancelled on attempt ${i}`

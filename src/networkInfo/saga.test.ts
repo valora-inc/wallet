@@ -1,6 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { select } from 'typed-redux-saga'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { updateUserLocationData } from 'src/networkInfo/actions'
 import { fetchUserLocationData } from 'src/networkInfo/saga'

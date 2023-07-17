@@ -10,7 +10,7 @@ import { sleep } from '@celo/utils/lib/async'
 import { sha256 } from 'ethereumjs-util'
 import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -277,7 +277,7 @@ export async function getPassword(
 }
 
 export function* getPasswordSaga(account: string, withVerification?: boolean, storeHash?: boolean) {
-  const pincodeType = yield select(pincodeTypeSelector)
+  const pincodeType = yield* select(pincodeTypeSelector)
 
   if (pincodeType === PincodeType.Unset) {
     Logger.debug(TAG + '@getPincode', 'Pin has never been set')
@@ -289,7 +289,7 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
     throw new Error(`Unsupported Pincode Type ${pincodeType}`)
   }
 
-  return yield call(getPassword, account, withVerification, storeHash)
+  return yield* call(getPassword, account, withVerification, storeHash)
 }
 
 type PinCallback = (pin: string) => void

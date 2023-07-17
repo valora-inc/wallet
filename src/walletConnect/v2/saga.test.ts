@@ -1,6 +1,6 @@
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { select } from 'typed-redux-saga'
 import { DappRequestOrigin } from 'src/analytics/types'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { navigate } from 'src/navigator/NavigationService'

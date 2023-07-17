@@ -1,7 +1,7 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { doFetchDataEncryptionKey, fetchDEKDecentrally } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'

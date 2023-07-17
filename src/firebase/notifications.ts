@@ -1,6 +1,5 @@
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
-import { call, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -28,6 +27,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'FirebaseNotifications'
 
@@ -37,9 +37,9 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
     return
   }
 
-  const info: RecipientInfo = yield select(recipientInfoSelector)
+  const info: RecipientInfo = yield* select(recipientInfoSelector)
   const requester = getRecipientFromAddress(paymentRequest.requesterAddress, info)
-  const stableTokens: TokenBalance[] = yield select(stablecoinsSelector)
+  const stableTokens: TokenBalance[] = yield* select(stablecoinsSelector)
 
   let transactionData: TransactionDataInput
   try {
@@ -49,17 +49,17 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
       requester,
     })
   } catch (e) {
-    yield put(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
+    yield* put(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
     return
   }
 
   navigateToRequestedPaymentReview(transactionData, false)
 }
 
-function* handlePaymentReceived(transferNotification: TransferNotificationData) {
+function handlePaymentReceived(transferNotification: TransferNotificationData) {
   const address = transferNotification.sender.toLowerCase()
 
-  yield call(navigate, Screens.TransactionDetailsScreen, {
+  navigate(Screens.TransactionDetailsScreen, {
     transaction: {
       __typename: 'TokenTransferV2',
       type: TokenTransactionTypeV2.Received,
@@ -101,7 +101,7 @@ export function* handleNotification(
   if (notificationState === NotificationReceiveState.AppAlreadyOpen) {
     const { title, body } = message.notification ?? {}
     if (title) {
-      yield put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
+      yield* put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
     }
     return
   }
@@ -109,17 +109,17 @@ export function* handleNotification(
   // Notification was received while app wasn't already open (i.e. tapped to act on it)
   // So directly handle the action if any
   if (openUrlAction) {
-    yield put(openUrlAction)
+    yield* put(openUrlAction)
     return
   }
 
   switch (message.data?.type) {
     case NotificationTypes.PAYMENT_REQUESTED:
-      yield call(handlePaymentRequested, message.data as unknown as PaymentRequest)
+      yield* call(handlePaymentRequested, message.data as unknown as PaymentRequest)
       break
 
     case NotificationTypes.PAYMENT_RECEIVED:
-      yield call(handlePaymentReceived, message.data as unknown as TransferNotificationData)
+      handlePaymentReceived(message.data as unknown as TransferNotificationData)
       break
 
     case NotificationTypes.FIAT_CONNECT_KYC_APPROVED:

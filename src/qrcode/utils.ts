@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, fork, put, select } from 'redux-saga/effects'
+import { call, fork, put, select } from 'typed-redux-saga'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import {
@@ -116,12 +116,12 @@ function* handleSecureSend(
       confirmByScan: true,
       error,
     })
-    yield put(showMessage(error))
+    yield* put(showMessage(error))
     return false
   }
 
   ValoraAnalytics.track(SendEvents.send_secure_complete, { confirmByScan: true })
-  yield put(validateRecipientAddressSuccess(e164PhoneNumber, userScannedAddress))
+  yield* put(validateRecipientAddressSuccess(e164PhoneNumber, userScannedAddress))
   return true
 }
 
@@ -133,7 +133,7 @@ export function* handleBarcode(
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
-  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
+  const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, barcode.data)
   // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)
   if (/^0x[a-f0-9]{40}$/gi.test(barcode.data)) {
     barcode.data = `celo://wallet/pay?address=${barcode.data}`
@@ -141,20 +141,20 @@ export function* handleBarcode(
   // TODO there's some duplication with deep links handing
   // would be nice to refactor this
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
-    yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
+    yield* fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
+    yield* call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
   if (barcode.data.startsWith('celo://wallet/payment')) {
-    const handler: PaymentDeepLinkHandler = yield select(paymentDeepLinkHandlerSelector)
-    yield call(paymentDeepLinkHandlers[handler], barcode.data)
+    const handler: PaymentDeepLinkHandler = yield* select(paymentDeepLinkHandlerSelector)
+    yield* call(paymentDeepLinkHandlers[handler], barcode.data)
     return
   }
   if (
-    (yield select(allowHooksPreviewSelector)) &&
+    (yield* select(allowHooksPreviewSelector)) &&
     barcode.data.startsWith('celo://wallet/hooks/enablePreview')
   ) {
-    yield call(handleEnableHooksPreviewDeepLink, barcode.data, HooksEnablePreviewOrigin.Scan)
+    yield* call(handleEnableHooksPreviewDeepLink, barcode.data, HooksEnablePreviewOrigin.Scan)
     return
   }
 
@@ -162,13 +162,13 @@ export function* handleBarcode(
   try {
     qrData = uriDataFromUrl(barcode.data)
   } catch (e) {
-    yield put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+    yield* put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
     Logger.error(TAG, 'qr scan failed', e)
     return
   }
 
   if (secureSendTxData) {
-    const success: boolean = yield call(
+    const success: boolean = yield* call(
       handleSecureSend,
       qrData.address,
       e164NumberToAddress,
@@ -195,7 +195,7 @@ export function* handleBarcode(
 
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
-  yield call(handleSendPaymentData, qrData, true, cachedRecipient, isOutgoingPaymentRequest)
+  yield* call(handleSendPaymentData, qrData, true, cachedRecipient, isOutgoingPaymentRequest)
 }
 type PaymentDeepLinkHandlers = {
   [key in PaymentDeepLinkHandler]: (uri: string) => Generator
@@ -207,12 +207,12 @@ const paymentDeepLinkHandlers: PaymentDeepLinkHandlers = {
 }
 
 function* paymentDeepLinkHandlerDisabled(uri: string) {
-  yield put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+  yield* put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
   Logger.warn('A payment deep link was scanned without a set handler', uri)
 }
 
 export function* paymentDeepLinkHandlerMerchant(uri: string) {
-  const numberVerified = yield select(phoneNumberVerifiedSelector)
+  const numberVerified = yield* select(phoneNumberVerifiedSelector)
   if (numberVerified) {
     const { api_base: apiBase, reference_id: referenceId } = parse(uri, true).query
     if (typeof apiBase === 'string' && typeof referenceId === 'string') {
@@ -221,7 +221,7 @@ export function* paymentDeepLinkHandlerMerchant(uri: string) {
       showError(i18n.t('merchantPaymentSetup'))
     }
   } else {
-    yield put(showMessage(i18n.t('merchantPaymentNumberVerificationMessage')))
+    yield* put(showMessage(i18n.t('merchantPaymentNumberVerificationMessage')))
     navigate(Screens.VerificationStartScreen)
   }
 }

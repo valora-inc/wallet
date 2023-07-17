@@ -1,7 +1,7 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   fetchPositionsSaga,

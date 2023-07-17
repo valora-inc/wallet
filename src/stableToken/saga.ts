@@ -1,4 +1,4 @@
-import { spawn } from 'redux-saga/effects'
+import { spawn } from 'typed-redux-saga'
 import { Actions } from 'src/stableToken/actions'
 import { tokenTransferFactory } from 'src/tokens/saga'
 
@@ -10,5 +10,5 @@ export const stableTokenTransferLegacy = tokenTransferFactory({
 })
 
 export function* stableTokenSaga() {
-  yield spawn(stableTokenTransferLegacy)
+  yield* spawn(stableTokenTransferLegacy)
 }

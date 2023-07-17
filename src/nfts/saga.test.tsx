@@ -1,6 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'typed-redux-saga'
 import { handleFetchNfts } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
