@@ -1344,8 +1344,11 @@
       "title": "Ödülleriniz",
       "description": "Artık açık dapp pozisyonlarından ödülleri doğrudan {{appName}}adresinden talep edebilirsiniz!",
       "claimButton": "İddia",
-      "rewardLabel": "Mevcut ödül"
-    }
+      "claimedLabel": "Talep Edildi",
+      "rewardLabel": "Mevcut ödül",
+      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz"
+    },
+    "claimRewardFailure": "Ödülünüzü talep ederken bir hata oluştu, lütfen daha sonra tekrar deneyin"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
