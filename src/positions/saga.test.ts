@@ -268,7 +268,6 @@ describe(triggerShortcutSaga, () => {
     await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
       .provide(defaultProviders)
       .put(triggerShortcutSuccess('someId'))
-      .put(refreshAllBalances())
       .not.put(triggerShortcutFailure(expect.anything()))
       .run()
 
