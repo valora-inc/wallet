@@ -311,6 +311,7 @@ describe('store state', () => {
           "shortcuts": Array [],
           "shortcutsStatus": "idle",
           "status": "idle",
+          "triggeredShortcutsStatus": Object {},
         },
         "recipients": Object {
           "coinbasePaySenders": Array [],

@@ -203,6 +203,7 @@
                                 "contractKitInitFailed",
                                 "corruptedChainDeleted",
                                 "countryNotAvailable",
+                                "dappShortcuts.claimRewardFailure",
                                 "deleteBankAccountFail",
                                 "errorRefreshingRate",
                                 "exchangeFailed",
@@ -2288,6 +2289,10 @@
             ],
             "type": "object"
         },
+        "Record<string,Status>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -4075,6 +4080,9 @@
                 },
                 "status": {
                     "$ref": "#/definitions/Status"
+                },
+                "triggeredShortcutsStatus": {
+                    "$ref": "#/definitions/Record<string,Status>"
                 }
             },
             "required": [
@@ -4082,7 +4090,8 @@
                 "previewApiUrl",
                 "shortcuts",
                 "shortcutsStatus",
-                "status"
+                "status",
+                "triggeredShortcutsStatus"
             ],
             "type": "object"
         },

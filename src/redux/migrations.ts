@@ -1181,7 +1181,8 @@ export const migrations = {
       previewApiUrl: null,
     },
   }),
-  135: (state: any) => ({
+  135: (state: any) => state,
+  136: (state: any) => ({
     ...state,
     account: _.omit(state.account, 'backupRequiredTime'),
   }),

@@ -11,6 +11,7 @@ export interface State {
   shortcuts: Shortcut[]
   shortcutsStatus: Status
   previewApiUrl: string | null
+  triggeredShortcutsStatus: Record<string, Status>
 }
 
 const initialState: State = {
@@ -19,6 +20,16 @@ const initialState: State = {
   shortcuts: [],
   shortcutsStatus: 'idle',
   previewApiUrl: null,
+  triggeredShortcutsStatus: {},
+}
+
+interface TriggerShortcut {
+  id: string // only used in the app to display the execution status of the shortcut
+  network: string
+  address: string
+  appId: string
+  positionAddress: string
+  shortcutId: string
 }
 
 const slice = createSlice({
@@ -67,6 +78,15 @@ const slice = createSlice({
       shortcuts: [],
       shortcutsStatus: 'idle',
     }),
+    triggerShortcut: (state, action: PayloadAction<TriggerShortcut>) => {
+      state.triggeredShortcutsStatus[action.payload.id] = 'loading'
+    },
+    triggerShortcutSuccess: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload] = 'success'
+    },
+    triggerShortcutFailure: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload] = 'error'
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -74,6 +94,7 @@ const slice = createSlice({
       ...getRehydratePayload(action, 'positions'),
       status: 'idle',
       shortcutsStatus: 'idle',
+      triggeredShortcutsStatus: {},
     }))
   },
 })
@@ -87,6 +108,9 @@ export const {
   fetchShortcutsFailure,
   previewModeEnabled,
   previewModeDisabled,
+  triggerShortcut,
+  triggerShortcutSuccess,
+  triggerShortcutFailure,
 } = slice.actions
 
 export default slice.reducer
