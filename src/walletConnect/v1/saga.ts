@@ -54,7 +54,7 @@ import {
 } from 'src/walletConnect/v1/selectors'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
-import { call, fork, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { call, fork, put, select, spawn, take, takeEvery } from 'typed-redux-saga/macro'
 import { showWalletConnectionSuccessMessage } from '../saga'
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}

@@ -1,11 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'typed-redux-saga'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockWallet } from 'test/values'
+import { call } from 'typed-redux-saga/macro'
 
 const signTransactionRequest = {
   method: SupportedActions.eth_signTransaction,

@@ -1,5 +1,5 @@
-import { call, delay, race, select, take } from 'typed-redux-saga'
 import { RootState } from 'src/redux/reducers'
+import { call, delay, race, select, take } from 'typed-redux-saga/macro'
 
 export function withTimeout<Fn extends (...args: any[]) => any>(
   wait: number,

@@ -1,5 +1,4 @@
 import '@walletconnect/react-native-compat'
-import { call, put, select, spawn } from 'typed-redux-saga'
 import { showMessage } from 'src/alert/actions'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
@@ -8,6 +7,7 @@ import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnectV1, walletConnectV1Saga } from 'src/walletConnect/v1/saga'
 import { initialiseWalletConnectV2, walletConnectV2Saga } from 'src/walletConnect/v2/saga'
+import { call, put, select, spawn } from 'typed-redux-saga/macro'
 
 export function* walletConnectSaga() {
   yield* spawn(walletConnectV1Saga)

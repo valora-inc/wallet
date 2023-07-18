@@ -9,7 +9,7 @@ import {
   rewardsSendersFetched,
 } from 'src/recipients/reducer'
 import Logger from 'src/utils/Logger'
-import { call, cancelled, put, spawn, take } from 'typed-redux-saga'
+import { call, cancelled, put, spawn, take } from 'typed-redux-saga/macro'
 
 const TAG = 'recipientsSaga'
 

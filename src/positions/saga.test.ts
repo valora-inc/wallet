@@ -1,13 +1,12 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'typed-redux-saga'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
+  _confirmEnableHooksPreview,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
-  _confirmEnableHooksPreview,
 } from 'src/positions/saga'
 import {
   hooksApiUrlSelector,
@@ -28,6 +27,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')

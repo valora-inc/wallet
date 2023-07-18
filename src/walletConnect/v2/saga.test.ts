@@ -1,6 +1,5 @@
 import { SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'typed-redux-saga'
 import { DappRequestOrigin } from 'src/analytics/types'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -8,12 +7,13 @@ import { Screens } from 'src/navigator/Screens'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { sessionProposal as sessionProposalAction } from 'src/walletConnect/v2/actions'
 import {
+  _applyIconFixIfNeeded,
   getDefaultSessionTrackedProperties,
   walletConnectV2Saga,
-  _applyIconFixIfNeeded,
 } from 'src/walletConnect/v2/saga'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
+import { select } from 'typed-redux-saga/macro'
 
 function createSessionProposal(
   proposerMetadata: SignClientTypes.Metadata

@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call } from 'typed-redux-saga'
 import { Actions, WithdrawCeloAction, withdrawCeloCanceled } from 'src/exchange/actions'
 import { withdrawCelo } from 'src/exchange/saga'
-import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { UnlockResult, getConnectedAccount, unlockAccount } from 'src/web3/saga'
+import { call } from 'typed-redux-saga/macro'
 
 const account = '0x22c8a9178841ba95a944afd1a1faae517d3f5daa'
 

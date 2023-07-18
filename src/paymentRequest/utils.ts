@@ -12,7 +12,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
-import { call } from 'typed-redux-saga'
+import { call } from 'typed-redux-saga/macro'
 
 const TAG = 'paymentRequest/utils'
 

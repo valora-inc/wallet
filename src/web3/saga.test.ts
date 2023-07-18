@@ -3,7 +3,6 @@ import { isValidChecksumAddress } from '@celo/utils/lib/address'
 import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call, select } from 'typed-redux-saga'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
@@ -21,6 +20,7 @@ import {
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
+import { call, select } from 'typed-redux-saga/macro'
 
 jest.unmock('src/pincode/authentication')
 

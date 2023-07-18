@@ -15,7 +15,7 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
-import { all, call, put, select, spawn, take, takeLatest } from 'typed-redux-saga'
+import { all, call, put, select, spawn, take, takeLatest } from 'typed-redux-saga/macro'
 
 const TAG = 'localCurrency/saga'
 

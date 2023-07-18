@@ -1,11 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, put, select } from 'typed-redux-saga'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import { autoRefreshSaga, refreshBalances, watchRefreshBalances, withLoading } from 'src/home/saga'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { shouldUpdateBalance } from 'src/redux/selectors'
 import { getConnectedAccount } from 'src/web3/saga'
+import { call, put, select } from 'typed-redux-saga/macro'
 
 jest.useRealTimers()
 

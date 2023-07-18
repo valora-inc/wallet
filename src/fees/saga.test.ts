@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call } from 'typed-redux-saga'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createReclaimTransaction } from 'src/escrow/saga'
@@ -14,6 +13,7 @@ import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
+import { call } from 'typed-redux-saga/macro'
 
 const GAS_AMOUNT = 500000
 

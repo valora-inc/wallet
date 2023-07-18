@@ -1,24 +1,11 @@
 import CryptoJS from 'crypto-js'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'typed-redux-saga'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import {
-  CANCELLED_PIN_INPUT,
-  DEFAULT_CACHE_ACCOUNT,
-  getPasswordSaga,
-  getPincode,
-  getPincodeWithBiometry,
-  PinBlocklist,
-  removeStoredPin,
-  retrieveOrGeneratePepper,
-  setPincodeWithBiometry,
-  updatePin,
-} from 'src/pincode/authentication'
 import {
   clearPasswordCaches,
   getCachedPepper,
@@ -26,11 +13,24 @@ import {
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
+import {
+  CANCELLED_PIN_INPUT,
+  DEFAULT_CACHE_ACCOUNT,
+  PinBlocklist,
+  getPasswordSaga,
+  getPincode,
+  getPincodeWithBiometry,
+  removeStoredPin,
+  retrieveOrGeneratePepper,
+  setPincodeWithBiometry,
+  updatePin,
+} from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { select } from 'typed-redux-saga/macro'
 
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))

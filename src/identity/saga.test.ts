@@ -1,5 +1,4 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'typed-redux-saga'
 import { showErrorInline } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -19,6 +18,7 @@ import {
   mockE164NumberToAddress,
   mockInvitableRecipient2,
 } from 'test/values'
+import { select } from 'typed-redux-saga/macro'
 
 describe(watchValidateRecipientAddress, () => {
   beforeAll(() => {

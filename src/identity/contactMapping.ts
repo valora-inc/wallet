@@ -51,7 +51,7 @@ import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { all, call, delay, put, race, select, take } from 'typed-redux-saga'
+import { all, call, delay, put, race, select, take } from 'typed-redux-saga/macro'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute

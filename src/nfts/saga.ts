@@ -1,4 +1,3 @@
-import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 import { fetchNfts, fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -7,6 +6,7 @@ import { safely } from 'src/utils/safely'
 import { Actions } from 'src/web3/actions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { call, put, select, spawn, takeLeading } from 'typed-redux-saga/macro'
 
 const TAG = 'NftsSaga'
 

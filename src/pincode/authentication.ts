@@ -10,7 +10,6 @@ import { sleep } from '@celo/utils/lib/async'
 import { sha256 } from 'ethereumjs-util'
 import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
-import { call, select } from 'typed-redux-saga'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -41,6 +40,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
+import { call, select } from 'typed-redux-saga/macro'
 
 const PIN_BLOCKLIST = require('src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json')
 

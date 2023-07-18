@@ -10,7 +10,7 @@ import Logger from 'src/utils/Logger'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { getWallet } from 'src/web3/contracts'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, select } from 'typed-redux-saga'
+import { call, select } from 'typed-redux-saga/macro'
 
 const TAG = 'utils/accountChecker'
 

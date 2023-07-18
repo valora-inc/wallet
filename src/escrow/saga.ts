@@ -27,7 +27,7 @@ import { safely } from 'src/utils/safely'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
-import { all, call, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import { all, call, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga/macro'
 
 const TAG = 'escrow/saga'
 

@@ -19,7 +19,7 @@ import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { ValoraWallet } from 'src/web3/types'
-import { call, select } from 'typed-redux-saga'
+import { call, select } from 'typed-redux-saga/macro'
 import Web3 from 'web3'
 
 const TAG = 'web3/contracts'

@@ -1,10 +1,10 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'typed-redux-saga'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { initialiseWalletConnectV1 } from 'src/walletConnect/v1/saga'
 import { initialiseWalletConnectV2 } from 'src/walletConnect/v2/saga'
+import { call, select } from 'typed-redux-saga/macro'
 
 const v1ConnectionString =
   'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@1?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'

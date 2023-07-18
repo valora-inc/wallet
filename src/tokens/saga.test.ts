@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic, throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'typed-redux-saga'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
@@ -13,10 +12,10 @@ import {
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
-  fetchTokenBalancesFailure,
-  setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
+  fetchTokenBalancesFailure,
+  setTokenBalances,
 } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -24,9 +23,10 @@ import {
   mockAccount,
   mockCeurAddress,
   mockCusdAddress,
-  mockTokenBalances,
   mockPoofAddress,
+  mockTokenBalances,
 } from 'test/values'
+import { call, select } from 'typed-redux-saga/macro'
 
 const mockFirebaseTokenInfo: StoredTokenBalances = {
   [mockPoofAddress]: {

@@ -3,7 +3,6 @@ import * as React from 'react'
 import 'react-native'
 import { View } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'typed-redux-saga'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
@@ -18,6 +17,7 @@ import {
   mockName,
   mockRecipientInfo,
 } from 'test/values'
+import { select } from 'typed-redux-saga/macro'
 
 jest.mock('src/positions/saga')
 

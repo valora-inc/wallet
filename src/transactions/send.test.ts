@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { call } from 'typed-redux-saga'
 import {
   chooseTxFeeDetails,
   isTxPossiblyPending,
@@ -9,6 +8,7 @@ import {
 } from 'src/transactions/send'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import { call } from 'typed-redux-saga/macro'
 
 const state = (override?: { celoBalance: string }) =>
   createMockStore({

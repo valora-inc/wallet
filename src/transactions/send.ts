@@ -19,7 +19,7 @@ import { WEI_DECIMALS } from 'src/web3/consts'
 import { getGasPrice } from 'src/web3/gas'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
-import { call, cancel, cancelled, delay, fork, join, race, select } from 'typed-redux-saga'
+import { call, cancel, cancelled, delay, fork, join, race, select } from 'typed-redux-saga/macro'
 
 const TAG = 'transactions/send'
 

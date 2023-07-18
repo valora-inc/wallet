@@ -25,7 +25,7 @@ import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
 import { getWalletAddress } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
-import { call, put, select, takeLatest } from 'typed-redux-saga'
+import { call, put, select, takeLatest } from 'typed-redux-saga/macro'
 
 const TAG = 'fees/saga'
 

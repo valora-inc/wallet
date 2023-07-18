@@ -35,7 +35,7 @@ import {
   take,
   takeEvery,
   takeLeading,
-} from 'typed-redux-saga'
+} from 'typed-redux-saga/macro'
 
 const TAG = 'paymentRequests/saga'
 const VALUE_CHANGE_HOOK = 'value'

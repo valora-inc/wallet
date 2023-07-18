@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'typed-redux-saga'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { activeScreenChanged } from 'src/app/actions'
@@ -18,9 +17,10 @@ import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
+import { call, select } from 'typed-redux-saga/macro'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)

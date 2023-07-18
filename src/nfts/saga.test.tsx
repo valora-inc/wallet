@@ -1,6 +1,5 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'typed-redux-saga'
 import { handleFetchNfts } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
@@ -8,6 +7,7 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('src/statsig')
 

@@ -25,7 +25,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { ValoraWallet } from 'src/web3/types'
-import { call, delay, put, select, spawn, take } from 'typed-redux-saga'
+import { call, delay, put, select, spawn, take } from 'typed-redux-saga/macro'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'

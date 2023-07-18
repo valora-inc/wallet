@@ -29,7 +29,7 @@ import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
-import { call, put, select, takeLatest } from 'typed-redux-saga'
+import { call, put, select, takeLatest } from 'typed-redux-saga/macro'
 
 const TAG = 'swap/saga'
 

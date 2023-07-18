@@ -5,8 +5,8 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
-  KycSchema,
   KycStatus as FiatConnectKycStatus,
+  KycSchema,
   TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
@@ -14,7 +14,6 @@ import _ from 'lodash'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'typed-redux-saga'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -24,9 +23,20 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
-import { fetchQuotes, FiatConnectQuoteSuccess, getFiatConnectProviders } from 'src/fiatconnect'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess, fetchQuotes, getFiatConnectProviders } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
+  _checkFiatAccountAndNavigate,
+  _getFiatAccount,
+  _getQuotes,
+  _getSpecificQuote,
+  _initiateSendTxToProvider,
+  _initiateTransferWithProvider,
+  _selectQuoteAndFiatAccount,
+  _selectQuoteMatchingFiatAccount,
   fetchFiatAccountsSaga,
   handleAttemptReturnUserFlow,
   handleCreateFiatConnectTransfer,
@@ -37,14 +47,6 @@ import {
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
   handleSubmitFiatAccount,
-  _checkFiatAccountAndNavigate,
-  _getFiatAccount,
-  _getQuotes,
-  _getSpecificQuote,
-  _initiateSendTxToProvider,
-  _initiateTransferWithProvider,
-  _selectQuoteAndFiatAccount,
-  _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
 import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
@@ -75,9 +77,6 @@ import {
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
 import { FiatConnectTxError } from 'src/fiatconnect/types'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { deleteKyc, getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -87,9 +86,9 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { newTransactionContext, TransactionContext } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockCeloAddress,
@@ -102,6 +101,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { call, select } from 'typed-redux-saga/macro'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/analytics/ValoraAnalytics')

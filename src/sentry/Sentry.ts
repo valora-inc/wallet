@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
-import { select } from 'typed-redux-saga'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
 import { APP_BUNDLE_ID, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
-import networkConfig from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { select } from 'typed-redux-saga/macro'
 
 const TAG = 'sentry/Sentry'
 

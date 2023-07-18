@@ -16,7 +16,7 @@ import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
-import { all, call, put, select } from 'typed-redux-saga'
+import { all, call, put, select } from 'typed-redux-saga/macro'
 
 const TAG = 'identity/revoke'
 

@@ -41,7 +41,7 @@ import {
   select,
   spawn,
   takeLeading,
-} from 'typed-redux-saga'
+} from 'typed-redux-saga/macro'
 
 const TAG = 'import/saga'
 

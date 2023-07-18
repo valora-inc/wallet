@@ -1,7 +1,6 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'typed-redux-saga'
 import { PaymentRequest } from 'src/paymentRequest/types'
 import {
   decryptPaymentRequest,
@@ -25,6 +24,7 @@ import {
   mockRecipient,
   mockTokenBalances,
 } from 'test/values'
+import { call } from 'typed-redux-saga/macro'
 
 jest.mock('crypto', () => ({
   ...(jest.requireActual('crypto') as any),

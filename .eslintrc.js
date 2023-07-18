@@ -9,7 +9,7 @@ module.exports = {
     // Maybe move it to @valora/eslint-config-typescript?
     'jest/valid-title': ['error', { ignoreTypeOfDescribeName: true }],
     'no-console': ['error', { allow: [''] }],
-    '@jambit/typed-redux-saga/use-typed-effects': 'error',
+    '@jambit/typed-redux-saga/use-typed-effects': ['error', 'macro'],
     '@jambit/typed-redux-saga/delegate-effects': 'error',
   },
 }

@@ -19,7 +19,15 @@ import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { fetchDataEncryptionKeyWrapper } from 'src/web3/dataEncryptionKey'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { cancelled, put, select, spawn, takeEvery, takeLatest, takeLeading } from 'typed-redux-saga'
+import {
+  cancelled,
+  put,
+  select,
+  spawn,
+  takeEvery,
+  takeLatest,
+  takeLeading,
+} from 'typed-redux-saga/macro'
 
 const TAG = 'identity/saga'
 

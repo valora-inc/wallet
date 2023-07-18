@@ -1,5 +1,4 @@
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin'
-import { call, put, spawn, takeLeading } from 'typed-redux-saga'
 import { GOOGLE_OAUTH_CLIENT_ID } from 'src/config'
 import {
   googleSignInCompleted,
@@ -7,6 +6,7 @@ import {
   googleSignInStarted,
 } from 'src/keylessBackup/slice'
 import Logger from 'src/utils/Logger'
+import { call, put, spawn, takeLeading } from 'typed-redux-saga/macro'
 
 const TAG = 'keylessBackupSaga'
 

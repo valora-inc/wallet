@@ -1,9 +1,9 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call } from 'typed-redux-saga'
 import { handleGoogleSignInStarted } from 'src/keylessBackup/saga'
 import { googleSignInCompleted, googleSignInFailed } from 'src/keylessBackup/slice'
+import { call } from 'typed-redux-saga/macro'
 
 jest.mock('src/config', () => ({
   GOOGLE_OAUTH_CLIENT_ID: 'mockClientId',

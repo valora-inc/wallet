@@ -1,15 +1,14 @@
 import { useMemo } from 'react'
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, fork, put, select } from 'typed-redux-saga'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   HooksEnablePreviewOrigin,
   SendOrigin,
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { paymentDeepLinkHandlerSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
@@ -22,17 +21,18 @@ import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import {
+  RecipientInfo,
   getRecipientFromAddress,
   recipientHasNumber,
-  RecipientInfo,
 } from 'src/recipients/recipient'
-import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { QrCode, SVG } from 'src/send/actions'
 import { handleSendPaymentData } from 'src/send/utils'
 import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
+import { call, fork, put, select } from 'typed-redux-saga/macro'
 import { parse } from 'url'
 
 export enum BarcodeTypes {

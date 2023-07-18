@@ -107,7 +107,7 @@ import {
   take,
   takeEvery,
   takeLatest,
-} from 'typed-redux-saga'
+} from 'typed-redux-saga/macro'
 import { parse } from 'url'
 
 const TAG = 'app/saga'

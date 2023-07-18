@@ -1,13 +1,13 @@
 import Ajv from 'ajv'
-import { spawn, takeEvery } from 'typed-redux-saga'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { rootSaga } from 'src/redux/sagas'
-import { setupStore, _persistConfig } from 'src/redux/store'
-import * as accountCheckerModule from 'src/utils/accountChecker'
+import { _persistConfig, setupStore } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import * as accountCheckerModule from 'src/utils/accountChecker'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
 import { mocked } from 'ts-jest/utils'
+import { spawn, takeEvery } from 'typed-redux-saga/macro'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({

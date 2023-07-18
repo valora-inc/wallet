@@ -20,7 +20,7 @@ import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { Actions } from 'src/web3/actions'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, takeLatest, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, takeLatest, takeLeading } from 'typed-redux-saga/macro'
 
 const TAG = 'DappsSaga'
 

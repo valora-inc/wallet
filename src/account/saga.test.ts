@@ -4,7 +4,6 @@ import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'typed-redux-saga'
 import {
   generateSignedMessage,
   handleUpdateAccountRegistration,
@@ -19,10 +18,11 @@ import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentic
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { getOrCreateAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { UnlockResult, getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockWallet } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { call, select } from 'typed-redux-saga/macro'
 import { initializeAccountSuccess, saveSignedMessage } from './actions'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
