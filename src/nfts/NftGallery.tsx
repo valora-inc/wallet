@@ -31,7 +31,7 @@ export default function NftGallery() {
   const nfts = useSelector(nftsSelector)
 
   useEffect(() => {
-    ValoraAnalytics.track(NftEvents.nft_gallery_screen_open)
+    ValoraAnalytics.track(NftEvents.nft_gallery_screen_open, { numNfts: nfts.length })
     dispatch(fetchNfts())
   }, [])
 

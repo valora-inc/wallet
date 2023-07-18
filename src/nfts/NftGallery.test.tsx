@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { NftEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import NftGallery from 'src/nfts/NftGallery'
 import { createMockStore } from 'test/utils'
 import {
@@ -9,6 +11,8 @@ import {
   mockNftMinimumFields,
   mockNftNullMetadata,
 } from 'test/values'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const defaultStore = createMockStore({
   web3: {
@@ -79,5 +83,17 @@ describe('NftGallery', () => {
     )
 
     expect(getByText('nftGallery.noNfts')).toBeTruthy()
+  })
+
+  it('sends analytics on screen load', () => {
+    render(
+      <Provider store={defaultStore}>
+        <NftGallery />
+      </Provider>
+    )
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_gallery_screen_open, {
+      numNfts: 3,
+    })
   })
 })
