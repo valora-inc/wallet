@@ -106,12 +106,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
     borderRadius: Spacing.Regular16,
   },
-  galleryContainer: {
-    alignContent: 'space-around',
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
   lastImage: {
     marginRight: variables.width / 2 - Spacing.Smallest8,
   },
