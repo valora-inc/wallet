@@ -60,6 +60,8 @@ export default function NftGallery() {
               onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
               style={[
                 styles.touchableIcon,
+                // For even indexes, add right margin; for odd indexes, add left margin.
+                // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
                 index % 2 === 0
                   ? { marginRight: Spacing.Regular16 } &&
                     index === nfts.length - 1 &&
