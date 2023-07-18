@@ -38,15 +38,14 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, takeLeading, takeEvery } from 'typed-redux-saga/macro'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
+import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga/macro'
 
 const TAG = 'positions/saga'
 
@@ -204,10 +203,10 @@ export function* handleEnableHooksPreviewDeepLink(
 export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShortcut>) {
   Logger.debug(`${TAG}/triggerShortcutSaga`, 'Initiating request to claim reward', payload)
 
-  const hooksApiUrl = yield select(hooksApiUrlSelector)
+  const hooksApiUrl = yield* select(hooksApiUrlSelector)
 
   try {
-    const response = yield call(
+    const response = yield* call(
       fetchWithTimeout,
       getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
       {
@@ -222,21 +221,21 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
       throw new Error(`Unable to trigger shortcut: ${response.status} ${response.statusText}`)
     }
 
-    const { data } = yield call([response, 'json'])
+    const { data } = yield* call([response, 'json'])
 
-    const kit: ContractKit = yield call(getContractKit)
-    const walletAddress: string = yield call(getConnectedUnlockedAccount)
+    const kit: ContractKit = yield* call(getContractKit)
+    const walletAddress: string = yield* call(getConnectedUnlockedAccount)
     const normalizer = new TxParamsNormalizer(kit.connection)
 
     Logger.debug(`${TAG}/triggerShortcutSaga`, 'Starting to claim reward(s)', data.transactions)
 
     // TODO parallelize the send transactions
     for (const transaction of data.transactions) {
-      applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
-      const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
+      applyChainIdWorkaround(transaction, yield* call([kit.connection, 'chainId']))
+      const tx: CeloTx = yield* call([normalizer, 'populate'], transaction)
       const txo = buildTxo(kit, tx)
 
-      const receipt: CeloTxReceipt = yield call(
+      const receipt: CeloTxReceipt = yield* call(
         sendTransaction,
         txo,
         walletAddress,
@@ -250,16 +249,16 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
       )
     }
 
-    yield put(triggerShortcutSuccess(payload.id))
+    yield* put(triggerShortcutSuccess(payload.id))
     Toast.showWithGravity(
       i18n.t('dappShortcuts.claimRewardsScreen.claimSuccess'),
       Toast.SHORT,
       Toast.BOTTOM
     )
   } catch (error) {
-    yield put(triggerShortcutFailure(payload.id))
+    yield* put(triggerShortcutFailure(payload.id))
     // TODO customise error message when there are more shortcut types
-    yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
+    yield* put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/triggerShortcutSaga`, 'Failed to claim reward', error)
   }
 }
@@ -278,7 +277,7 @@ export function* watchFetchBalances() {
 }
 
 export function* watchShortcuts() {
-  yield takeEvery(triggerShortcut, safely(triggerShortcutSaga))
+  yield* takeEvery(triggerShortcut, safely(triggerShortcutSaga))
 }
 
 export function* positionsSaga() {
