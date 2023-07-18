@@ -44,13 +44,13 @@ export default function NftGallery() {
         <FlatList
           numColumns={2}
           data={nfts}
-          refreshing={loading}
-          onRefresh={() => dispatch(fetchNfts())}
           contentContainerStyle={styles.contentContainer}
           refreshControl={
             <RefreshControl
+              tintColor={colors.greenBrand}
+              colors={[colors.greenBrand]}
+              style={{ backgroundColor: colors.light }}
               refreshing={loading}
-              colors={[colors.greenUI]}
               onRefresh={() => dispatch(fetchNfts())}
             />
           }
