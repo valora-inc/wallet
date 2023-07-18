@@ -35,12 +35,17 @@ function DappShortcutsRewards() {
       // update the displayed rewards in place, so they do not change order and
       // claimed rewards can remain on the screen even if the reward disappears
       // after being claimed on data is refreshed
-      const updatedPositions = prev.map((reward) => ({
-        ...reward,
-        status:
-          positionsWithClaimableRewards.find((position) => position.address === reward.address)
-            ?.status ?? 'success',
-      }))
+      const updatedPositions: ClaimablePosition[] = prev.map((reward) => {
+        const updatedReward = positionsWithClaimableRewards.find(
+          (position) => position.address === reward.address
+        )
+        return (
+          updatedReward ?? {
+            ...reward,
+            status: 'success',
+          }
+        )
+      })
 
       // add any new claimable positions to the end of the list
       const newClaimablePositions = positionsWithClaimableRewards.filter(
