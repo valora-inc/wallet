@@ -101,7 +101,7 @@ export default function NftGallery() {
 const styles = StyleSheet.create({
   contentContainer: {
     alignItems: 'center',
-    paddingBottom: '12%', // TODO: find a better way to do this
+    paddingBottom: '12%',
   },
   errorView: {
     width: imageSize,
@@ -117,12 +117,12 @@ const styles = StyleSheet.create({
   },
   noNftsView: {
     padding: Spacing.Regular16,
+    marginTop: '32%',
   },
   noNftsText: {
     ...fontStyles.regular,
     color: colors.gray3,
     textAlign: 'center',
-    marginTop: '32%',
   },
   safeAreaContainer: {
     flexGrow: 1,
