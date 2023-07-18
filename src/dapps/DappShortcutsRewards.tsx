@@ -33,9 +33,9 @@ function DappShortcutsRewards() {
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
 
   useEffect(() => {
-    ValoraAnalytics.track(DappShortcutsEvents.claim_rewards_open, {
-      numRewards: positionsWithClaimableRewards.length,
-      rewards: positionsWithClaimableRewards,
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_screen_open, {
+      numShortcuts: positionsWithClaimableRewards.length,
+      claimablePositions: positionsWithClaimableRewards,
     })
   }, [])
 

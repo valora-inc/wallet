@@ -615,10 +615,10 @@ export enum BuilderHooksEvents {
 }
 
 export enum DappShortcutsEvents {
-  claim_rewards_open = 'claim_rewards_open', // When a user opens the claim rewards screen
-  claim_reward_start = 'claim_reward_start', // When a user initiates a reward claim
-  claim_reward_success = 'claim_reward_success', // When a user successfully claims a reward
-  claim_reward_error = 'claim_reward_error', // When a user fails to claim a reward
+  dapp_shortcuts_screen_open = 'dapp_shortcuts_screen_open', // When a user opens the claim rewards screen
+  trigger_shortcut_start = 'trigger_shortcut_start', // When a user initiates a reward claim
+  trigger_shortcut_success = 'trigger_shortcut_success', // When a user successfully claims a reward
+  trigger_shortcut_error = 'trigger_shortcut_error', // When a user fails to claim a reward
 }
 
 export type AnalyticsEventType =

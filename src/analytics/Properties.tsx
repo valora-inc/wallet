@@ -1315,17 +1315,17 @@ interface BuilderHooksProperties {
 }
 
 interface DappShortcutsProperties {
-  [DappShortcutsEvents.claim_rewards_open]: {
-    numRewards: number
-    rewards: ClaimablePosition[]
+  [DappShortcutsEvents.dapp_shortcuts_screen_open]: {
+    numShortcuts: number
+    claimablePositions: ClaimablePosition[]
   }
-  [DappShortcutsEvents.claim_reward_start]: {
+  [DappShortcutsEvents.trigger_shortcut_start]: {
     reward: ClaimablePosition
   }
-  [DappShortcutsEvents.claim_reward_success]: {
+  [DappShortcutsEvents.trigger_shortcut_success]: {
     reward: ClaimablePosition
   }
-  [DappShortcutsEvents.claim_reward_error]: {
+  [DappShortcutsEvents.trigger_shortcut_error]: {
     reward: ClaimablePosition
   }
 }
