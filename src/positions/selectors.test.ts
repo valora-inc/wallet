@@ -97,6 +97,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
       positions: {
         positions: mockPositions,
         shortcuts: mockShortcuts,
+        triggeredShortcutsStatus: {},
       },
     }
     const positions = positionsWithClaimableRewardsSelector(state)

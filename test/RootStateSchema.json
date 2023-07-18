@@ -203,6 +203,7 @@
                                 "contractKitInitFailed",
                                 "corruptedChainDeleted",
                                 "countryNotAvailable",
+                                "dappShortcuts.claimRewardFailure",
                                 "deleteBankAccountFail",
                                 "errorRefreshingRate",
                                 "exchangeFailed",
@@ -2288,6 +2289,10 @@
             ],
             "type": "object"
         },
+        "Record<string,Status>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -2325,7 +2330,6 @@
                 "AccountKeyEducation",
                 "AppLoading",
                 "BackupComplete",
-                "BackupForceScreen",
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
@@ -2997,12 +3001,6 @@
                 "backupCompleted": {
                     "type": "boolean"
                 },
-                "backupRequiredTime": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
                 "celoEducationCompleted": {
                     "type": "boolean"
                 },
@@ -3080,7 +3078,6 @@
                 "acceptedTerms",
                 "accountCreationTime",
                 "backupCompleted",
-                "backupRequiredTime",
                 "celoEducationCompleted",
                 "contactDetails",
                 "defaultCountryCode",
@@ -4083,6 +4080,9 @@
                 },
                 "status": {
                     "$ref": "#/definitions/Status"
+                },
+                "triggeredShortcutsStatus": {
+                    "$ref": "#/definitions/Record<string,Status>"
                 }
             },
             "required": [
@@ -4090,7 +4090,8 @@
                 "previewApiUrl",
                 "shortcuts",
                 "shortcutsStatus",
-                "status"
+                "status",
+                "triggeredShortcutsStatus"
             ],
             "type": "object"
         },

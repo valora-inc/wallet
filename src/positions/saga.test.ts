@@ -1,12 +1,16 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
+import Toast from 'react-native-simple-toast'
 import { expectSaga } from 'redux-saga-test-plan'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
+import { refreshAllBalances } from 'src/home/actions'
 import {
   _confirmEnableHooksPreview,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
+  triggerShortcutSaga,
 } from 'src/positions/saga'
 import {
   hooksApiUrlSelector,
@@ -20,10 +24,16 @@ import {
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
   previewModeEnabled,
+  triggerShortcut,
+  triggerShortcutFailure,
+  triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
+import { sendTransaction } from 'src/transactions/send'
 import Logger from 'src/utils/Logger'
+import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
+import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -32,6 +42,10 @@ import { call, select } from 'typed-redux-saga/macro'
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('src/utils/Logger')
+jest.mock('src/transactions/send', () => ({
+  sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
+}))
+jest.mock('react-native-simple-toast')
 
 const MOCK_RESPONSE = {
   message: 'OK',
@@ -46,6 +60,17 @@ const MOCK_SHORTCUTS_RESPONSE = {
 const mockFetch = fetch as FetchMock
 
 const originalPlatform = Platform.OS
+
+const contractKit = {
+  getWallet: jest.fn(),
+  getAccounts: jest.fn(),
+  connection: {
+    chainId: jest.fn(() => '42220'),
+    nonce: jest.fn(),
+    gasPrice: jest.fn(),
+    estimateGas: jest.fn(() => '1234'),
+  },
+}
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -206,5 +231,82 @@ describe(handleEnableHooksPreviewDeepLink, () => {
       .provide([[call(_confirmEnableHooksPreview), false]])
       .not.put.actionType(previewModeEnabled.type)
       .run()
+  })
+})
+
+describe(triggerShortcutSaga, () => {
+  const shortcut = {
+    id: 'someId',
+    address: mockAccount,
+    appId: 'gooddollar',
+    network: 'celo',
+    positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
+    shortcutId: 'claim-reward',
+  }
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+    [call(getContractKit), contractKit],
+    [call(getConnectedUnlockedAccount), mockAccount],
+  ]
+
+  it('should successfully trigger a shortcut and send the transaction', async () => {
+    const mockTransaction = {
+      network: 'celo',
+      from: mockAccount,
+      to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
+      data: '0x4e71d92d',
+    }
+    mockFetch.mockResponse(
+      JSON.stringify({
+        message: 'OK',
+        data: {
+          transactions: [mockTransaction],
+        },
+      })
+    )
+
+    await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
+      .provide(defaultProviders)
+      .put(triggerShortcutSuccess('someId'))
+      .not.put(triggerShortcutFailure(expect.anything()))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(shortcut),
+    })
+    // TODO how to check that the transaction was correctly formed?
+    expect(sendTransaction).toHaveBeenCalledWith(expect.anything(), mockAccount, expect.anything())
+    expect(Toast.showWithGravity).toHaveBeenCalledWith(
+      'dappShortcuts.claimRewardsScreen.claimSuccess',
+      undefined,
+      undefined // these values do not matter so much
+    )
+  })
+
+  it('should handle shortcut trigger failure', async () => {
+    mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
+
+    await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
+      .provide(defaultProviders)
+      .not.put(triggerShortcutSuccess(expect.anything()))
+      .not.put(refreshAllBalances())
+      .put(triggerShortcutFailure('someId'))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(shortcut),
+    })
+    expect(sendTransaction).not.toHaveBeenCalled()
+    expect(Toast.showWithGravity).not.toHaveBeenCalled()
   })
 })

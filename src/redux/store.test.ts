@@ -99,14 +99,13 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 134,
+          "version": 136,
         },
         "account": Object {
           "acceptedTerms": false,
           "accountCreationTime": 99999999999999,
           "accountToRecoverFromStoreWipe": undefined,
           "backupCompleted": false,
-          "backupRequiredTime": null,
           "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
           "contactDetails": Object {
@@ -312,6 +311,7 @@ describe('store state', () => {
           "shortcuts": Array [],
           "shortcutsStatus": "idle",
           "status": "idle",
+          "triggeredShortcutsStatus": Object {},
         },
         "recipients": Object {
           "coinbasePaySenders": Array [],

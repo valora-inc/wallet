@@ -45,7 +45,6 @@ export interface OnboardingProps {
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
   chooseAdventureEnabled: boolean
-  showRecoveryPhrase: boolean
   onboardingNameScreenEnabled: boolean
 }
 
@@ -81,9 +80,6 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
   const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
-  const { showRecoveryPhraseInOnboarding: showRecoveryPhrase } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]
-  )
   const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
   )
@@ -95,7 +91,6 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     skipVerification,
     numberAlreadyVerifiedCentrally,
     chooseAdventureEnabled,
-    showRecoveryPhrase,
     onboardingNameScreenEnabled,
   }
 }
@@ -195,14 +190,13 @@ export function goToNextOnboardingScreen({
  * @returns
  */
 export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
-  const { navigate, popToScreen, finishOnboarding, navigateClearingStack } = navigator
+  const { navigate, popToScreen, finishOnboarding } = navigator
   const {
     recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
-    showRecoveryPhrase,
   } = props
 
   const navigateHomeOrChooseAdventure = () => {
@@ -232,18 +226,9 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           } else if (choseToRestoreAccount) {
             popToScreen(Screens.Welcome)
             navigate(Screens.ImportWallet)
-          } else if (showRecoveryPhrase) {
+          } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
-          } else if (skipVerification) {
-            dispatch(initializeAccount())
-            // Tell the app that the user has already seen verification so that it
-            // doesn't prompt for verification after the app is killed. This same function
-            // is called when the user manually skips verification on the verification screen.
-            dispatch(setHasSeenVerificationNux(true))
-            navigateHomeOrChooseAdventure()
-          } else {
-            navigateClearingStack(Screens.VerificationStartScreen)
           }
         },
       }
@@ -252,15 +237,9 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (choseToRestoreAccount) {
             navigate(Screens.ImportWallet)
-          } else if (showRecoveryPhrase) {
+          } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
-          } else if (skipVerification) {
-            dispatch(initializeAccount())
-            dispatch(setHasSeenVerificationNux(true))
-            navigateHomeOrChooseAdventure()
-          } else {
-            navigate(Screens.VerificationStartScreen)
           }
         },
       }
