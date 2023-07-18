@@ -31,7 +31,7 @@ export default function NftsLoadError({ testID }: Props) {
   }, [])
 
   return (
-    <SafeAreaView style={styles.safeArea} testID={testID ?? 'NftsInfoCarousel/NftsLoadErrorScreen'}>
+    <SafeAreaView style={styles.safeArea} testID={testID}>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         style={styles.scrollContainer}
