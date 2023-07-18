@@ -84,7 +84,11 @@ export default function NftGallery() {
           )}
           keyExtractor={(item) => `${item.contractAddress}-${item.tokenId}`}
           ListEmptyComponent={
-            loading ? null : <Text style={styles.noNfts}>{t('nftGallery.noNfts')}</Text>
+            loading ? null : (
+              <View style={styles.noNftsView}>
+                <Text style={styles.noNftsText}>{t('nftGallery.noNfts')}</Text>
+              </View>
+            )
           }
         />
       )}
@@ -109,7 +113,10 @@ const styles = StyleSheet.create({
   lastImage: {
     marginRight: variables.width / 2 - Spacing.Smallest8,
   },
-  noNfts: {
+  noNftsView: {
+    padding: Spacing.Regular16,
+  },
+  noNftsText: {
     ...fontStyles.regular,
     color: colors.gray3,
     textAlign: 'center',
