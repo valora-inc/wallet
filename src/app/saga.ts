@@ -545,7 +545,7 @@ export function* requestInAppReview() {
   const now = Date.now()
 
   // If the last interaction was less than a quarter year ago or null
-  if (lastInteractionTimestamp && now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
+  if (!lastInteractionTimestamp || now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
     try {
       // If we call InAppReview.RequestInAppReview and there wasn't an error
       // Update the last interaction timestamp and send analytics

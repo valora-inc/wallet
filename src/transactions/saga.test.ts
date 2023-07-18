@@ -51,6 +51,9 @@ describe('getInviteTransactionsDetails', () => {
           transactionHash: '0x123',
         },
       ]),
+      eventTypes: {
+        Transfer: 'Transfer',
+      },
     }
 
     await expectSaga(getInviteTransactionsDetails, updateTransactionsAction)
@@ -69,6 +72,9 @@ describe('getInviteTransactionsDetails', () => {
     const updateTransactionsAction = updateTransactions([mockInviteTransaction])
     const mockEscrowWrapper = {
       getPastEvents: jest.fn(() => [mockEscrowPastEvent]),
+      eventTypes: {
+        Transfer: 'Transfer',
+      },
     }
 
     await expectSaga(getInviteTransactionsDetails, updateTransactionsAction)

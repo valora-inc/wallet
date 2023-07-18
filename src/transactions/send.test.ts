@@ -118,7 +118,7 @@ describe('chooseTxFeeDetails', () => {
       .returns({
         feeCurrency: mockCeurAddress,
         gas: 100,
-        gasPrice: '20',
+        gasPrice: new BigNumber(20),
       })
       .run()
   })
@@ -196,7 +196,7 @@ describe('chooseTxFeeDetails', () => {
       .returns({
         feeCurrency: mockCeurAddress,
         gas: 1000000,
-        gasPrice: '50000',
+        gasPrice: new BigNumber(50000),
       })
       .run()
   })

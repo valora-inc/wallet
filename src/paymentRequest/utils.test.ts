@@ -1,4 +1,3 @@
-import { hexToBuffer } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { PaymentRequest } from 'src/paymentRequest/types'
@@ -206,8 +205,8 @@ describe('Encrypt Payment Request', () => {
   it('Encrypts valid payment request', async () => {
     await expectSaga(encryptPaymentRequest, req)
       .provide([
-        [call(doFetchDataEncryptionKey, mockAccount), hexToBuffer(mockPublicDEK)],
-        [call(doFetchDataEncryptionKey, mockAccount2), hexToBuffer(mockPublicDEK2)],
+        [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
+        [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
       ])
       .returns(encryptedPaymentReq)
       .run()
@@ -220,7 +219,7 @@ describe('Encrypt Payment Request', () => {
     }
     await expectSaga(encryptPaymentRequest, req)
       .provide([
-        [call(doFetchDataEncryptionKey, mockAccount), hexToBuffer(mockPublicDEK)],
+        [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
         [call(doFetchDataEncryptionKey, mockAccount2), null],
       ])
       .returns(sanitizedReq)

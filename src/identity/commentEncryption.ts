@@ -76,7 +76,11 @@ export function* encryptComment(
     commentToEncrypt = embedPhoneNumberMetadata(comment, selfPhoneDetails)
   }
 
-  const { comment: encryptedComment, success } = encryptCommentRaw(commentToEncrypt, toKey, fromKey)
+  const { comment: encryptedComment, success } = encryptCommentRaw(
+    commentToEncrypt,
+    hexToBuffer(toKey),
+    hexToBuffer(fromKey)
+  )
 
   if (success) {
     Logger.debug(TAG + 'encryptComment', 'Encryption succeeded')

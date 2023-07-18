@@ -1,6 +1,5 @@
 import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { hexToBuffer } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
@@ -70,8 +69,8 @@ describe('Encrypt Comment', () => {
   it('Handles basic comment', async () => {
     await expectSaga(encryptComment, simpleComment, mockAccount2, mockAccount)
       .provide([
-        [call(doFetchDataEncryptionKey, mockAccount), hexToBuffer(mockPublicDEK)],
-        [call(doFetchDataEncryptionKey, mockAccount2), hexToBuffer(mockPublicDEK2)],
+        [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
+        [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
       ])
       .returns(simpleCommentEnc)
       .run()
@@ -80,8 +79,8 @@ describe('Encrypt Comment', () => {
   it('Handles complex comment', async () => {
     await expectSaga(encryptComment, complexComment, mockAccount2, mockAccount)
       .provide([
-        [call(doFetchDataEncryptionKey, mockAccount), hexToBuffer(mockPublicDEK)],
-        [call(doFetchDataEncryptionKey, mockAccount2), hexToBuffer(mockPublicDEK2)],
+        [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
+        [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
       ])
       .returns(complexCommentEnc)
       .run()
@@ -95,8 +94,8 @@ describe('Encrypt Comment', () => {
     await expectSaga(encryptComment, simpleComment, mockAccount2, mockAccount, true)
       .withState(mockState)
       .provide([
-        [call(doFetchDataEncryptionKey, mockAccount), hexToBuffer(mockPublicDEK)],
-        [call(doFetchDataEncryptionKey, mockAccount2), hexToBuffer(mockPublicDEK2)],
+        [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
+        [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
       ])
       .returns(simpleCommentWithMetadataEnc)
       .run()

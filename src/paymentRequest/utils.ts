@@ -92,8 +92,8 @@ export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) 
     // TODO: Consider renaming this util for clarity
     const { comment: encryptedE164Number, success } = encryptComment(
       paymentRequest.requesterE164Number,
-      toKey,
-      fromKey
+      hexToBuffer(toKey),
+      hexToBuffer(fromKey)
     )
 
     // We intentionally exclude the phone number if we can't encrypt it
@@ -104,7 +104,11 @@ export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) 
 
   const comment = paymentRequest.comment
   if (comment && features.USE_COMMENT_ENCRYPTION) {
-    const { comment: encryptedComment, success } = encryptComment(comment, toKey, fromKey)
+    const { comment: encryptedComment, success } = encryptComment(
+      comment,
+      hexToBuffer(toKey),
+      hexToBuffer(fromKey)
+    )
     encryptedPaymentRequest.comment = success ? encryptedComment : comment
   }
 

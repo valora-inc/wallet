@@ -91,9 +91,7 @@ export function* fetchUserLocationData() {
     userLocationData = { countryCodeAlpha2, region: null, ipAddress }
   }
 
-  yield* isE2EEnv
-    ? put(updateUserLocationData(MOCK_USER_LOCATION))
-    : put(updateUserLocationData(userLocationData))
+  yield* put(updateUserLocationData(isE2EEnv ? MOCK_USER_LOCATION : userLocationData))
 }
 
 export function* networkInfoSaga() {

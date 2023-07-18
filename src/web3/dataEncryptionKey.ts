@@ -78,7 +78,7 @@ export function* fetchDEKDecentrally(walletAddress: string) {
     walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
   const dek: string = yield* call(accountsWrapper.getDataEncryptionKey, accountAddress)
   yield* put(updateAddressDekMap(accountAddress, dek || null))
-  return !dek ? null : hexToBuffer(dek)
+  return dek
 }
 
 export function* doFetchDataEncryptionKey(walletAddress: string) {
@@ -86,7 +86,7 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
   if (walletAddress.toLowerCase() === address.toLowerCase() && privateDataEncryptionKey) {
     // we can generate the user's own public DEK without making any requests
-    return Buffer.from(compressedPubKey(hexToBuffer(privateDataEncryptionKey)), 'utf-8')
+    return compressedPubKey(hexToBuffer(privateDataEncryptionKey))
   }
 
   try {
@@ -110,7 +110,7 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
         response,
         'json',
       ])
-      return Buffer.from(data.publicDataEncryptionKey, 'utf-8')
+      return data.publicDataEncryptionKey
     } else {
       throw new Error(yield* call([response, 'text']))
     }
