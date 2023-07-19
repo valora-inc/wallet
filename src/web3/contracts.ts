@@ -18,10 +18,9 @@ import WalletManager from 'src/web3/WalletManager'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { PrimaryValoraWallet } from 'src/web3/types'
 import { call, select } from 'typed-redux-saga/macro'
 import Web3 from 'web3'
-import WalletManager from 'src/web3/WalletManager'
-import { PrimaryValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/contracts'
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
@@ -151,7 +150,7 @@ export function* getWallet() {
       initContractKitLock.release()
     }
   }
-  return wallet as ValoraWallet
+  return wallet as PrimaryValoraWallet
 }
 
 // Used for cases where the wallet must be access outside of a saga
