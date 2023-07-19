@@ -1,4 +1,4 @@
-import { ValoraWallet } from 'src/web3/types'
+import { ValoraWallet, WalletTxType } from 'src/web3/types'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
 import { TypedDataDomain, TypedDataField } from 'ethers'
@@ -6,7 +6,7 @@ import { omitBy, isNil } from 'lodash'
 import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 import { CeloTx, EncodedTransaction } from '@celo/connect'
 
-class ValoraCeloWallet implements ValoraWallet {
+class ValoraCeloWallet implements ValoraWallet<WalletTxType.ContractKit> {
   private keychainWallet: KeychainWallet
 
   constructor(

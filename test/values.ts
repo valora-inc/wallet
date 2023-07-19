@@ -52,7 +52,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { ValoraWallet } from 'src/web3/types'
+import { PrimaryValoraWallet } from 'src/web3/types'
 
 export const nullAddress = '0x0'
 
@@ -442,7 +442,7 @@ export const mockRecipientInfo: RecipientInfo = {
   addressToDisplayName: {},
 }
 
-export const mockWallet: ValoraWallet = {
+export const mockWallet: PrimaryValoraWallet = {
   unlockAccount: jest.fn(),
   isAccountUnlocked: jest.fn(),
   addAccount: jest.fn(),
