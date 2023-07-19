@@ -2,7 +2,7 @@ import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
 import { SessionTypes } from '@walletconnect/types'
-import { buildApprovedNamespaces, getSdkError } from '@walletconnect/utils'
+import { getSdkError } from '@walletconnect/utils'
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import {
@@ -64,7 +64,6 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v2/selectors'
-import { getWeb3 } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
@@ -296,25 +295,24 @@ export function* acceptSession({ session }: AcceptSession) {
     }
 
     const address: string = yield call(getWalletAddress)
-    const { eth } = yield call(getWeb3)
-    const chainId = yield call([eth, 'getChainId'])
-    const { relays, proposer, id } = session.params
-    const approvedNamespaces = buildApprovedNamespaces({
-      proposal: session.params,
-      supportedNamespaces: {
-        eip155: {
-          chains: ['eip155:42220', 'eip155:44787'],
-          methods: ['eth_sendTransaction', 'personal_sign'],
-          events: ['accountsChanged', 'chainChanged'],
-          accounts: [`eip155:${chainId}:${address}`],
-        },
-      },
+    const { requiredNamespaces, relays, proposer } = session.params
+    const namespaces: SessionTypes.Namespaces = {}
+    Object.keys(requiredNamespaces).forEach((key) => {
+      const accounts: string[] = []
+      requiredNamespaces[key].chains?.map((chain) => {
+        accounts.push(`${chain}:${address}`)
+      })
+      namespaces[key] = {
+        accounts,
+        methods: requiredNamespaces[key].methods,
+        events: requiredNamespaces[key].events,
+      }
     })
 
     yield call([client, 'approveSession'], {
-      id,
+      id: session.id,
       relayProtocol: relays[0].protocol,
-      namespaces: approvedNamespaces,
+      namespaces,
     })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
