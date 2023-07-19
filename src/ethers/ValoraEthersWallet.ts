@@ -1,13 +1,12 @@
 import { normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { Chain } from 'src/ethers/types'
 import { DEFAULT_FORNO_URL } from 'src/config'
-import { ValoraWallet } from 'src/web3/types'
+import { ValoraWallet, WalletTxType } from 'src/web3/types'
 import { TypedDataDomain, TypedDataField } from 'ethers'
 import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 import { KeychainAccount } from 'src/web3/types'
-import { ethers } from 'ethers'
+import { ethers, TransactionRequest } from 'ethers'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CeloTx, EncodedTransaction } from '@celo/connect'
 
 const providerUrlForChain: Record<Chain, string> = {
   [Chain.Celo]: DEFAULT_FORNO_URL,
@@ -23,7 +22,7 @@ const providerUrlForChain: Record<Chain, string> = {
  * Ideally, this responsibility would be enforced programatically. The current approach
  * was opted for out of simplicity and to reduce changes needed on existing critical code.
  */
-class ValoraEthersWallet implements ValoraWallet {
+class ValoraEthersWallet implements ValoraWallet<WalletTxType.Ethers> {
   walletMap: Record<string, ethers.Wallet> // keys are lowercase account addresses
 
   constructor(protected chain: Chain, private keychainAccountManager: KeychainAccountManager) {
@@ -52,7 +51,7 @@ class ValoraEthersWallet implements ValoraWallet {
     throw new Error('Not implemented')
   }
 
-  async signTransaction(tx: CeloTx): Promise<EncodedTransaction> {
+  async signTransaction(tx: TransactionRequest): Promise<string> {
     if (!tx.from || !this.isAccountUnlocked(tx.from.toString())) {
       throw new Error('Authentication needed')
     }
