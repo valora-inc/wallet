@@ -2,7 +2,7 @@ import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
 import { SessionTypes } from '@walletconnect/types'
-import { getSdkError } from '@walletconnect/utils'
+import { buildApprovedNamespaces, getSdkError } from '@walletconnect/utils'
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import {
@@ -295,24 +295,23 @@ export function* acceptSession({ session }: AcceptSession) {
     }
 
     const address: string = yield call(getWalletAddress)
-    const { requiredNamespaces, relays, proposer } = session.params
-    const namespaces: SessionTypes.Namespaces = {}
-    Object.keys(requiredNamespaces).forEach((key) => {
-      const accounts: string[] = []
-      requiredNamespaces[key].chains?.map((chain) => {
-        accounts.push(`${chain}:${address}`)
-      })
-      namespaces[key] = {
-        accounts,
-        methods: requiredNamespaces[key].methods,
-        events: requiredNamespaces[key].events,
-      }
+    const { relays, proposer, id } = session.params
+    const approvedNamespaces = buildApprovedNamespaces({
+      proposal: session.params,
+      supportedNamespaces: {
+        eip155: {
+          chains: ['eip155:42220'],
+          methods: ['eth_sendTransaction', 'personal_sign'],
+          events: ['accountsChanged', 'chainChanged'],
+          accounts: [`eip155:42220:${address}`],
+        },
+      },
     })
 
     yield call([client, 'approveSession'], {
-      id: session.id,
+      id,
       relayProtocol: relays[0].protocol,
-      namespaces,
+      namespaces: approvedNamespaces,
     })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
