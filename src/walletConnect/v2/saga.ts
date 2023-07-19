@@ -64,6 +64,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v2/selectors'
+import { getWeb3 } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
@@ -295,15 +296,17 @@ export function* acceptSession({ session }: AcceptSession) {
     }
 
     const address: string = yield call(getWalletAddress)
+    const { eth } = yield call(getWeb3)
+    const chainId = yield call([eth, 'getChainId'])
     const { relays, proposer, id } = session.params
     const approvedNamespaces = buildApprovedNamespaces({
       proposal: session.params,
       supportedNamespaces: {
         eip155: {
-          chains: ['eip155:42220'],
+          chains: ['eip155:42220', 'eip155:44787'],
           methods: ['eth_sendTransaction', 'personal_sign'],
           events: ['accountsChanged', 'chainChanged'],
-          accounts: [`eip155:42220:${address}`],
+          accounts: [`eip155:${chainId}:${address}`],
         },
       },
     })
