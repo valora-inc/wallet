@@ -1,5 +1,6 @@
 import { ContractKit } from '@celo/contractkit'
 import { parsePhoneNumber } from '@celo/phone-utils'
+import { PrimaryValoraWallet } from 'src/web3/types'
 import firebase from '@react-native-firebase/app'
 import { TypedDataDomain, TypedDataField } from 'ethers'
 import { Platform } from 'react-native'
@@ -150,7 +151,7 @@ function* handlePreviouslyVerifiedPhoneNumber() {
 
 export function* generateSignedMessage() {
   try {
-    const wallet: ValoraWallet = yield* call(getWallet)
+    const wallet: PrimaryValoraWallet = yield* call(getWallet)
     const address = (yield* select(walletAddressSelector))!
     yield* call(unlockAccount, address)
 
