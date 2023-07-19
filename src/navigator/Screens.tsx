@@ -102,6 +102,7 @@ export enum Screens {
   WalletHome = 'WalletHome',
   WalletConnectRequest = 'WalletConnectRequest',
   WalletConnectSessions = 'WalletConnectSessions',
+  WalletSecurityPrimer = 'WalletSecurityPrimer',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
   WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',

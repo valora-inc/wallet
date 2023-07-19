@@ -316,7 +316,7 @@ export const Account = ({ navigation, route }: Props) => {
 
   const onPressSetUpKeylessBackup = () => {
     ValoraAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
-    navigate(Screens.SetUpKeylessBackup)
+    navigate(Screens.WalletSecurityPrimer)
   }
 
   const wipeReduxStore = () => {
@@ -420,7 +420,7 @@ export const Account = ({ navigation, route }: Props) => {
               testID="RecoveryPhrase"
             />
           )}
-          {showKeylessBackup() && ( // TODO(ACT-765): update to match designs (red/green text buttons and onPress behavior)
+          {showKeylessBackup() && ( // TODO(ACT-765): update to match designs (red/green text buttons and name)
             <SettingsItemTextValue
               title={t('keylessBackupSettingsTitle')}
               onPress={onPressSetUpKeylessBackup}

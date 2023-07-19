@@ -232,6 +232,7 @@ export type StackParamList = {
     onBuy: () => void
     onSkip: () => void
   }
+  [Screens.WalletSecurityPrimer]: undefined
   [Screens.KeylessBackupPhoneInput]: {
     keylessBackupFlow: KeylessBackupFlow
     selectedCountryCodeAlpha2?: string
