@@ -1,4 +1,4 @@
-import { ValoraWallet } from 'src/web3/types'
+import { PrimaryValoraWallet } from 'src/web3/types'
 import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatType, QuoteErrorResponse, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import { WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO } from 'src/fiatconnect/consts'
@@ -69,7 +69,7 @@ export async function getFiatConnectProviders(
  * If the user's wallet is currently locked, will prompt for PIN entry.
  */
 export async function loginWithFiatConnectProvider(
-  wallet: ValoraWallet,
+  wallet: PrimaryValoraWallet,
   fiatConnectClient: FiatConnectApiClient,
   forceLogin: boolean = false
 ): Promise<void> {
