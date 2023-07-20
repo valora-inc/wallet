@@ -1,6 +1,5 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { IWalletConnectSession } from '@walletconnect/legacy-types'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
@@ -19,29 +18,18 @@ import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
-  getDefaultRequestTrackedPropertiesV1,
   getDefaultRequestTrackedPropertiesV2,
-  getDefaultSessionTrackedPropertiesV1,
   getDefaultSessionTrackedPropertiesV2,
 } from 'src/walletConnect/analytics'
 import { SupportedActions } from 'src/walletConnect/constants'
-import { WalletConnectPayloadRequest } from 'src/walletConnect/types'
 
-type Props =
-  | {
-      walletConnectVersion: 1
-      session: IWalletConnectSession
-      request: WalletConnectPayloadRequest
-    }
-  | {
-      walletConnectVersion: 2
-      session: SessionTypes.Struct
-      request: Web3WalletTypes.EventArguments['session_request']
-    }
+type Props = {
+  session: SessionTypes.Struct
+  request: Web3WalletTypes.EventArguments['session_request']
+}
 
 function ActionRequestPayload(props: Props) {
-  const { method, params } =
-    props.walletConnectVersion === 1 ? props.request : props.request.params.request
+  const { method, params } = props.request.params.request
 
   const { t } = useTranslation()
   const activeDapp = useSelector(activeDappSelector)
@@ -68,16 +56,11 @@ function ActionRequestPayload(props: Props) {
     Clipboard.setString(moreInfoString)
     vibrateInformative()
 
-    const defaultTrackedProps =
-      props.walletConnectVersion === 1
-        ? {
-            ...getDefaultSessionTrackedPropertiesV1(props.session, activeDapp),
-            ...getDefaultRequestTrackedPropertiesV1(props.request, props.session.chainId),
-          }
-        : {
-            ...getDefaultSessionTrackedPropertiesV2(props.session, activeDapp),
-            ...getDefaultRequestTrackedPropertiesV2(props.request),
-          }
+    const defaultTrackedProps = {
+      ...getDefaultSessionTrackedPropertiesV2(props.session, activeDapp),
+      ...getDefaultRequestTrackedPropertiesV2(props.request),
+    }
+
     ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, defaultTrackedProps)
 
     Toast.showWithGravity(

@@ -6,12 +6,10 @@ import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
-import { initialiseWalletConnectV1, walletConnectV1Saga } from 'src/walletConnect/v1/saga'
-import { initialiseWalletConnectV2, walletConnectV2Saga } from 'src/walletConnect/v2/saga'
+import { initialiseWalletConnect, walletConnectSagaV2 } from 'src/walletConnect/v2/saga'
 
 export function* walletConnectSaga() {
-  yield spawn(walletConnectV1Saga)
-  yield spawn(walletConnectV2Saga)
+  yield spawn(walletConnectSagaV2)
 }
 
 export function* isWalletConnectEnabled(uri: string) {
@@ -24,22 +22,20 @@ export function* isWalletConnectEnabled(uri: string) {
   return versionEnabled[version] ?? false
 }
 
-export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
+export function* shouldInitialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
 
   const [, , version] = uri.split(/[:@?]/)
   if (!walletConnectEnabled) {
-    Logger.debug('initialiseWalletConnect', `v${version} is disabled, ignoring`)
+    Logger.debug('shouldInitialiseWalletConnect', `v${version} is disabled, ignoring`)
     return
   }
 
   switch (version) {
-    case '1':
-      yield call(initialiseWalletConnectV1, uri, origin)
-      break
     case '2':
-      yield call(initialiseWalletConnectV2, uri, origin)
+      yield call(initialiseWalletConnect, uri, origin)
       break
+    case '1':
     default:
       throw new Error(`Unsupported WalletConnect version '${version}'`)
   }

@@ -31,14 +31,6 @@ import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import {
-  getDefaultRequestTrackedPropertiesV2,
-  getDefaultSessionTrackedPropertiesV2,
-} from 'src/walletConnect/analytics'
-import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
-import { handleRequest } from 'src/walletConnect/request'
-import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
-import { WalletConnectRequestType } from 'src/walletConnect/types'
-import {
   AcceptRequest,
   AcceptSession,
   Actions,
@@ -58,12 +50,20 @@ import {
   sessionProposal,
   SessionProposal,
   WalletConnectActions,
-} from 'src/walletConnect/v2/actions'
+} from 'src/walletConnect/actions'
+import {
+  getDefaultRequestTrackedPropertiesV2,
+  getDefaultSessionTrackedPropertiesV2,
+} from 'src/walletConnect/analytics'
+import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
+import { handleRequest } from 'src/walletConnect/request'
+import { showWalletConnectionSuccessMessage } from 'src/walletConnect/saga'
 import {
   selectHasPendingState,
   selectPendingActions,
   selectSessions,
-} from 'src/walletConnect/v2/selectors'
+} from 'src/walletConnect/selectors'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
@@ -558,7 +558,7 @@ function* checkPersistedState() {
   const hasPendingState = yield select(selectHasPendingState)
   if (hasPendingState) {
     yield put(initialiseClient())
-    yield take(Actions.CLIENT_INITIALISED_V2)
+    yield take(Actions.CLIENT_INITIALISED)
     yield call(handlePendingState)
     return
   }
@@ -569,26 +569,26 @@ function* checkPersistedState() {
   }
 }
 
-export function* walletConnectV2Saga() {
-  yield takeLeading(Actions.INITIALISE_CLIENT_V2, safely(handleInitialiseWalletConnect))
-  yield takeEvery(Actions.INITIALISE_PAIRING_V2, safely(handleInitialisePairing))
-  yield takeEvery(Actions.CLOSE_SESSION_V2, safely(closeSession))
+export function* walletConnectSagaV2() {
+  yield takeLeading(Actions.INITIALISE_CLIENT, safely(handleInitialiseWalletConnect))
+  yield takeEvery(Actions.INITIALISE_PAIRING, safely(handleInitialisePairing))
+  yield takeEvery(Actions.CLOSE_SESSION, safely(closeSession))
 
-  yield takeEvery(Actions.SESSION_PROPOSAL_V2, safely(handleIncomingSessionRequest))
-  yield takeEvery(Actions.ACCEPT_SESSION_V2, safely(acceptSession))
-  yield takeEvery(Actions.DENY_SESSION_V2, safely(denySession))
+  yield takeEvery(Actions.SESSION_PROPOSAL, safely(handleIncomingSessionRequest))
+  yield takeEvery(Actions.ACCEPT_SESSION, safely(acceptSession))
+  yield takeEvery(Actions.DENY_SESSION, safely(denySession))
 
-  yield takeEvery(Actions.SESSION_PAYLOAD_V2, safely(handleIncomingActionRequest))
-  yield takeEvery(Actions.ACCEPT_REQUEST_V2, safely(handleAcceptRequest))
-  yield takeEvery(Actions.DENY_REQUEST_V2, safely(handleDenyRequest))
+  yield takeEvery(Actions.SESSION_PAYLOAD, safely(handleIncomingActionRequest))
+  yield takeEvery(Actions.ACCEPT_REQUEST, safely(handleAcceptRequest))
+  yield takeEvery(Actions.DENY_REQUEST, safely(handleDenyRequest))
 
   yield spawn(checkPersistedState)
 }
 
-export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
+export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
   if (!client) {
     yield put(initialiseClient())
-    yield take(Actions.CLIENT_INITIALISED_V2)
+    yield take(Actions.CLIENT_INITIALISED)
   }
   yield put(initialisePairing(uri, origin))
 }

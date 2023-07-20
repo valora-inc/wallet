@@ -59,7 +59,7 @@ import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { shouldInitialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
@@ -273,7 +273,7 @@ describe('WalletConnect deeplinks', () => {
         ])
         .call(handleWalletConnectDeepLink, link)
         .call(
-          initialiseWalletConnect,
+          shouldInitialiseWalletConnect,
           decodeURIComponent(connectionString),
           WalletConnectPairingOrigin.Deeplink
         )
@@ -294,7 +294,7 @@ describe('WalletConnect deeplinks', () => {
         ])
         .call(handleWalletConnectDeepLink, link)
         .call(
-          initialiseWalletConnect,
+          shouldInitialiseWalletConnect,
           decodeURIComponent(connectionString),
           WalletConnectPairingOrigin.Deeplink
         )
@@ -321,7 +321,7 @@ describe('WalletConnect deeplinks', () => {
           },
         ])
         .call(handleWalletConnectDeepLink, link)
-        .not.call(initialiseWalletConnect)
+        .not.call(shouldInitialiseWalletConnect)
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
         type: WalletConnectRequestType.Loading,
@@ -333,7 +333,7 @@ describe('WalletConnect deeplinks', () => {
       await expectSaga(handleDeepLink, openDeepLink(link))
         .provide([[select(selectHasPendingState), true]])
         .call(handleWalletConnectDeepLink, link)
-        .not.call(initialiseWalletConnect)
+        .not.call(shouldInitialiseWalletConnect)
         .run()
       expect(navigate).not.toHaveBeenCalled()
     })
