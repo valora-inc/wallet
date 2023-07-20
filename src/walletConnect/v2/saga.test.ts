@@ -6,11 +6,11 @@ import { DappRequestOrigin } from 'src/analytics/types'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { sessionProposal as sessionProposalAction } from 'src/walletConnect/actions'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { sessionProposal as sessionProposalAction } from 'src/walletConnect/v2/actions'
 import {
   getDefaultSessionTrackedProperties,
-  walletConnectV2Saga,
+  walletConnectSagaV2,
   _applyIconFixIfNeeded,
 } from 'src/walletConnect/v2/saga'
 import { createMockStore } from 'test/utils'
@@ -21,13 +21,13 @@ function createSessionProposal(
 ): Web3WalletTypes.EventArguments['session_proposal'] {
   return {
     id: 1669989187506938,
-    // @ts-expect-error optionalNamespaces is required?
     params: {
       expiry: 1669989496,
       proposer: {
         publicKey: 'f4284dc764da82e9b62d625f4dfea4088142f477c0d7420cdec2a0f49959c233',
         metadata: proposerMetadata,
       },
+      optionalNamespaces: {},
       requiredNamespaces: {
         eip155: {
           events: ['chainChanged', 'accountsChanged'],
@@ -42,6 +42,13 @@ function createSessionProposal(
         },
       ],
       pairingTopic: 'ab7c79764b6838abd24669ab735f6ce40bb26ca4d54cf948daca8e80a2eb6db1',
+    },
+    verifyContext: {
+      verified: {
+        origin: '',
+        validation: 'UNKNOWN',
+        verifyUrl: '',
+      },
     },
   }
 }
@@ -160,7 +167,7 @@ describe('applyIconFixIfNeeded', () => {
 
 // See also our comprehensive E2E tests for WalletConnect
 // The tests here are mainly to check things that are more difficult to cover from the E2E test
-describe(walletConnectV2Saga, () => {
+describe(walletConnectSagaV2, () => {
   beforeAll(() => {
     jest.useRealTimers()
   })
@@ -178,7 +185,7 @@ describe(walletConnectV2Saga, () => {
       throw new Error('An unexpected failure')
     })
     const state = createMockStore({}).getState()
-    await expectSaga(walletConnectV2Saga)
+    await expectSaga(walletConnectSagaV2)
       .withState(state)
       // This one will fail internally
       .dispatch(sessionProposalAction(sessionProposal))

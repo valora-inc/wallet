@@ -22,11 +22,7 @@ import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import {
-  PendingAction,
-  WalletConnectRequestType,
-  WalletConnectSessionRequest,
-} from 'src/walletConnect/types'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -329,16 +325,10 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:
     | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
-    | { type: WalletConnectRequestType.Action; version: 1; pendingAction: PendingAction }
     | {
         type: WalletConnectRequestType.Action
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
-      }
-    | {
-        type: WalletConnectRequestType.Session
-        version: 1
-        pendingSession: WalletConnectSessionRequest
       }
     | {
         type: WalletConnectRequestType.Session

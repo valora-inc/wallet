@@ -7,144 +7,16 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
-import { SupportedActions } from 'src/walletConnect/constants'
-import ActionRequest from 'src/walletConnect/screens/ActionRequest'
-import {
-  acceptRequest as acceptRequestV1,
-  denyRequest as denyRequestV1,
-} from 'src/walletConnect/v1/actions'
 import {
   acceptRequest as acceptRequestV2,
   denyRequest as denyRequestV2,
-} from 'src/walletConnect/v2/actions'
+} from 'src/walletConnect/actions'
+import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { createMockStore } from 'test/utils'
 
 jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),
 }))
-
-describe('ActionRequest with WalletConnect V1', () => {
-  const peerId = 'c49968fd-9607-4a43-ac66-703402400ffa'
-  const store = createMockStore({
-    walletConnect: {
-      v1: {
-        sessions: [
-          {
-            bridge: 'https://t.bridge.walletconnect.org',
-            clientMeta: {
-              url: 'https://valoraapp.com/',
-              name: 'Valora',
-              description: 'A mobile payments wallet that works worldwide',
-              icons: ['https://valoraapp.com//favicon.ico'],
-            },
-            peerId: 'c49968fd-9607-4a43-ac66-703402400ffa',
-            accounts: ['0x4ecadc898984191949aeedafe7248ebc2e276a71'],
-            chainId: 44787,
-            handshakeTopic: '70af5154-38fd-49a3-81b1-41386a0b065f',
-            connected: true,
-            clientId: 'd4c7cb51-5856-4233-afc2-7b70f697101e',
-            key: 'db6d54e8d53fc6fd64a1c15c1dd480449f07c2d435ad0c375cb58f7afab7e83c',
-            handshakeId: 1654504215867825,
-            peerMeta: {
-              url: 'https://celo-walletconnect.vercel.app',
-              icons: ['https://celo-walletconnect.vercel.app/favicon.ico'],
-              description: '',
-              name: 'WalletConnect Example',
-            },
-          },
-        ],
-      },
-    },
-    dapps: {
-      dappsMinimalDisclaimerEnabled: true,
-    },
-  })
-
-  beforeEach(() => {
-    store.clearActions()
-  })
-
-  describe('personal_sign', () => {
-    const action = {
-      id: 1,
-      jsonrpc: '',
-      method: SupportedActions.personal_sign,
-      params: [
-        '0x4d65737361676520746f207369676e', // hex of 'Message to sign'
-        '0xe17becad62a0a1225473bb52e620ae29728b55a0',
-      ],
-    }
-    it('renders the correct elements', () => {
-      const { getByText, getByTestId } = render(
-        <Provider store={store}>
-          <ActionRequest version={1} pendingAction={{ action, peerId }} />
-        </Provider>
-      )
-
-      expect(getByText('confirmTransaction')).toBeTruthy()
-      expect(
-        getByText('walletConnectRequest.signPayload, {"dappName":"WalletConnect Example"}')
-      ).toBeTruthy()
-      expect(getByText('allow')).toBeTruthy()
-      expect(
-        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
-          'Message to sign'
-        )
-      ).toBeTruthy()
-      expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
-    })
-
-    it('shows request details with raw string if message cannot be decoded', () => {
-      action.params[0] = 'invalid hex'
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <ActionRequest version={1} pendingAction={{ action, peerId }} />
-        </Provider>
-      )
-
-      expect(
-        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText('invalid hex')
-      ).toBeTruthy()
-    })
-
-    it('shows request details with empty message', () => {
-      action.params[0] = ''
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <ActionRequest version={1} pendingAction={{ action, peerId }} />
-        </Provider>
-      )
-
-      expect(
-        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
-          'action.emptyMessage'
-        )
-      ).toBeTruthy()
-    })
-
-    it('dispatches the correct action on press allow', () => {
-      const { getByText } = render(
-        <Provider store={store}>
-          <ActionRequest version={1} pendingAction={{ action, peerId }} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('allow'))
-      expect(store.getActions()).toEqual([acceptRequestV1(peerId, action)])
-    })
-
-    it('dispatches the correct action on dismiss bottom sheet', () => {
-      const { unmount } = render(
-        <Provider store={store}>
-          <ActionRequest version={1} pendingAction={{ action, peerId }} />
-        </Provider>
-      )
-
-      unmount()
-      expect(store.getActions()).toEqual([denyRequestV1(peerId, action, 'User denied')])
-    })
-  })
-})
 
 describe('ActionRequest with WalletConnect V2', () => {
   const v2Session: SessionTypes.Struct = {
@@ -228,9 +100,7 @@ describe('ActionRequest with WalletConnect V2', () => {
   describe('personal_sign', () => {
     const store = createMockStore({
       walletConnect: {
-        v2: {
-          sessions: [v2Session],
-        },
+        sessions: [v2Session],
       },
       dapps: {
         dappsMinimalDisclaimerEnabled: true,
@@ -343,22 +213,20 @@ describe('ActionRequest with WalletConnect V2', () => {
           activeDapp,
         },
         walletConnect: {
-          v2: {
-            sessions: [
-              {
-                ...v2Session,
-                peer: {
-                  metadata: {
-                    name: '',
-                    description: '',
-                    icons: [],
-                    url: 'https://react-app.walletconnect.com/somePath',
-                  },
-                  publicKey: '',
+          sessions: [
+            {
+              ...v2Session,
+              peer: {
+                metadata: {
+                  name: '',
+                  description: '',
+                  icons: [],
+                  url: 'https://react-app.walletconnect.com/somePath',
                 },
+                publicKey: '',
               },
-            ],
-          },
+            },
+          ],
         },
       })
 
@@ -381,22 +249,20 @@ describe('ActionRequest with WalletConnect V2', () => {
           activeDapp,
         },
         walletConnect: {
-          v2: {
-            sessions: [
-              {
-                ...v2Session,
-                peer: {
-                  metadata: {
-                    name: '',
-                    description: '',
-                    icons: [],
-                    url: 'https://some.dapp.com',
-                  },
-                  publicKey: '',
+          sessions: [
+            {
+              ...v2Session,
+              peer: {
+                metadata: {
+                  name: '',
+                  description: '',
+                  icons: [],
+                  url: 'https://some.dapp.com',
                 },
+                publicKey: '',
               },
-            ],
-          },
+            },
+          ],
         },
       })
 
@@ -419,22 +285,20 @@ describe('ActionRequest with WalletConnect V2', () => {
           activeDapp,
         },
         walletConnect: {
-          v2: {
-            sessions: [
-              {
-                ...v2Session,
-                peer: {
-                  metadata: {
-                    name: '',
-                    description: '',
-                    icons: [],
-                    url: '',
-                  },
-                  publicKey: '',
+          sessions: [
+            {
+              ...v2Session,
+              peer: {
+                metadata: {
+                  name: '',
+                  description: '',
+                  icons: [],
+                  url: '',
                 },
+                publicKey: '',
               },
-            ],
-          },
+            },
+          ],
         },
       })
 

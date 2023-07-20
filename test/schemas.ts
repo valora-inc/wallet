@@ -2371,6 +2371,19 @@ export const v136Schema = {
   account: _.omit(v135Schema.account, 'backupRequiredTime'),
 }
 
+export const v137Schema = {
+  ...v136Schema,
+  _persist: {
+    ...v136Schema._persist,
+    version: 137,
+  },
+  walletConnect: {
+    sessions: v136Schema.walletConnect.v2.sessions,
+    pendingActions: v136Schema.walletConnect.v2.pendingActions,
+    pendingSessions: v136Schema.walletConnect.v2.pendingSessions,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v136Schema as Partial<RootState>
+  return v137Schema as Partial<RootState>
 }
