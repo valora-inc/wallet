@@ -13472,10 +13472,10 @@ react-native-dotenv@^3.2.0:
   dependencies:
     dotenv "^10.0.0"
 
-react-native-email-link@^1.14.5:
-  version "1.14.5"
-  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.5.tgz#05e13002bd850ebaf98477b4cfbfdfa972a57608"
-  integrity sha512-TNi9OeGcJlw6FXl1dWAKEBGJEgKPBfsiB3v8GaHqqCtzmWnKE+8y1Wfhaaloh37OJb2vqp1cwDpW5m6PiTXazA==
+react-native-email-link@^1.14.6:
+  version "1.14.6"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.6.tgz#f681a48a611d50b25a9b01c2154cc186c6e246b8"
+  integrity sha512-XsWgdSMgxutKrm6WJRLKd1DxQpFt2x6xLuIhmAE5CdMMjNKadsUM5Evub9+otTBhlphSerePAwzSaNoBXpisLg==
 
 react-native-exit-app@^1.1.0:
   version "1.1.0"
