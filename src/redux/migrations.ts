@@ -1188,8 +1188,8 @@ export const migrations = {
   }),
   137: (state: any) => ({
     ...state,
-    // TODO: We need to remove the old v1 and v2 states and migrate the v2 data to the new state
     walletConnect: {
+      ...state.walletConnect,
       sessions: state.walletConnect.v2.sessions,
       pendingActions: state.walletConnect.v2.pendingActions,
       pendingSessions: state.walletConnect.v2.pendingSessions,
