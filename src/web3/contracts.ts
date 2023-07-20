@@ -20,13 +20,13 @@ import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import Web3 from 'web3'
 import WalletManager from 'src/web3/WalletManager'
-import { ValoraWallet } from 'src/web3/types'
+import { PrimaryValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/contracts'
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 
 let walletManager: WalletManager | undefined
-let wallet: ValoraWallet | undefined
+let wallet: PrimaryValoraWallet | undefined
 let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()
