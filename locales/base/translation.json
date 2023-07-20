@@ -79,7 +79,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Keep your wallet safe",
-    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
+    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
     "title": "Set up Keyless Backup",
