@@ -4,8 +4,8 @@ import {
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet'
 import {
-  NativeStackNavigationOptions,
   createNativeStackNavigator,
+  NativeStackNavigationOptions,
 } from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
@@ -24,18 +24,27 @@ import ErrorScreen from 'src/app/ErrorScreen'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
-import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
+import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
+import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import KycExpired from 'src/fiatconnect/kyc/KycExpired'
+import KycPending from 'src/fiatconnect/kyc/KycPending'
+import KycLanding from 'src/fiatconnect/KycLanding'
+import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
+import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -51,15 +60,6 @@ import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
-import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
-import KycLanding from 'src/fiatconnect/KycLanding'
-import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
-import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
-import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
-import KycDenied from 'src/fiatconnect/kyc/KycDenied'
-import KycExpired from 'src/fiatconnect/kyc/KycExpired'
-import KycPending from 'src/fiatconnect/kyc/KycPending'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -78,9 +78,9 @@ import {
   noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
+import { getInitialRoute } from 'src/navigator/initialRoute'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
-import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
@@ -97,7 +97,6 @@ import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPayment
 import PaymentRequestConfirmation, {
   paymentConfirmationScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestConfirmation'
-import PaymentRequestConfirmationLegacy from 'src/paymentRequest/PaymentRequestConfirmationLegacy'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
@@ -105,9 +104,6 @@ import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
-import SendConfirmationLegacy, {
-  sendConfirmationLegacyScreenNavOptions,
-} from 'src/send/SendConfirmationLegacy'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -252,11 +248,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
-      name={Screens.SendConfirmationLegacy}
-      component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.ValidateRecipientIntro}
       component={ValidateRecipientIntro}
       options={validateRecipientIntroScreenNavOptions}
@@ -269,11 +260,6 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PaymentRequestConfirmation}
       component={PaymentRequestConfirmation}
-      options={paymentConfirmationScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.PaymentRequestConfirmationLegacy}
-      component={PaymentRequestConfirmationLegacy}
       options={paymentConfirmationScreenNavOptions}
     />
     <Navigator.Screen
@@ -331,16 +317,16 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
       component={ConsumerIncentivesHomeScreen}
       options={ConsumerIncentivesHomeScreen.navOptions}
     />
+    <Navigator.Screen
+      name={Screens.DappShortcutsRewards}
+      component={DappShortcutsRewards}
+      options={headerWithBackButton}
+    />
   </>
 )
 
 const backupScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.BackupForceScreen}
-      component={BackupForceScreen}
-      options={BackupForceScreen.navOptions}
-    />
     <Navigator.Screen
       name={Screens.BackupPhrase}
       component={BackupPhrase}
@@ -667,11 +653,6 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationModal}
       component={SendConfirmation}
       options={sendConfirmationScreenNavOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.SendConfirmationLegacyModal}
-      component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions as NativeStackNavigationOptions}
     />
   </>
 )

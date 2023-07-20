@@ -10,6 +10,7 @@ import {
   AppEvents,
   AssetsEvents,
   AuthenticationEvents,
+  BuilderHooksEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
   CICOEvents,
@@ -44,6 +45,7 @@ import {
 import {
   BackQuizProgress,
   DappRequestOrigin,
+  HooksEnablePreviewOrigin,
   ScrollDirection,
   SendOrigin,
   WalletConnectPairingOrigin,
@@ -120,7 +122,7 @@ interface AppEventsProperties {
   [AppEvents.push_notifications_permission_changed]: {
     enabled: boolean
   }
-  [AppEvents.android_mobile_services_availability_checked]: {
+  [AppEvents.android_mobile_services_checked]: {
     googleIsAvailable: boolean | undefined
     huaweiIsAvailable: boolean | undefined
   }
@@ -246,7 +248,6 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.backup_continue]: undefined
   [OnboardingEvents.backup_complete]: undefined
   [OnboardingEvents.backup_more_info]: undefined
-  [OnboardingEvents.backup_delay]: undefined
   [OnboardingEvents.backup_delay_confirm]: undefined
   [OnboardingEvents.backup_delay_cancel]: undefined
   [OnboardingEvents.backup_cancel]: undefined
@@ -359,10 +360,6 @@ interface OnboardingEventsProperties {
         position?: number
       }
     | undefined
-  [OnboardingEvents.protect_wallet_use_cloud]: {
-    position?: number
-  }
-  [OnboardingEvents.protect_wallet_use_cloud_bottom_sheet]: undefined
   [OnboardingEvents.protect_wallet_help]: undefined
   [OnboardingEvents.protect_wallet_help_dismiss]: undefined
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
@@ -764,12 +761,12 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cash_in_success]: {
     provider: string | undefined
   }
-  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: {
+  [FiatExchangeEvents.cico_add_bottom_sheet_selected]: {
     rampAvailable: boolean
   }
-  [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
-  [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_selected]: undefined
-  [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_available]: undefined
+  [FiatExchangeEvents.cico_add_bottom_sheet_impression]: undefined
+  [FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected]: undefined
+  [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: undefined
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
@@ -958,23 +955,23 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_fc_kyc_status_close]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_try_again]: FiatConnectKycProperties
   [FiatExchangeEvents.cico_fc_kyc_status_switch_method]: FiatConnectKycProperties
-  [FiatExchangeEvents.external_exchange_qr_bottom_sheet_open]: {
+  [FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open]: {
     flow: CICOFlow
   }
-  [FiatExchangeEvents.external_exchange_qr_bottom_sheet_close]: {
+  [FiatExchangeEvents.cico_exchange_qr_bottom_sheet_close]: {
     flow: CICOFlow
   }
-  [FiatExchangeEvents.external_exchange_qr_bottom_sheet_link_press]: {
+  [FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press]: {
     flow: CICOFlow
     exchange: string
   }
-  [FiatExchangeEvents.external_exchange_qr_back]: {
+  [FiatExchangeEvents.cico_exchange_qr_back]: {
     flow: CICOFlow
   }
-  [FiatExchangeEvents.external_exchange_qr_copy_address]: {
+  [FiatExchangeEvents.cico_exchange_qr_copy_address]: {
     flow: CICOFlow
   }
-  [FiatExchangeEvents.external_exchange_qr_share]: {
+  [FiatExchangeEvents.cico_exchange_qr_share]: {
     flow: CICOFlow
   }
 }
@@ -1298,6 +1295,18 @@ interface NftsEventsProperties {
   }
 }
 
+interface BuilderHooksProperties {
+  [BuilderHooksEvents.hooks_enable_preview_propose]: {
+    origin: HooksEnablePreviewOrigin
+  }
+  [BuilderHooksEvents.hooks_enable_preview_confirm]: undefined
+  [BuilderHooksEvents.hooks_enable_preview_cancel]: undefined
+  [BuilderHooksEvents.hooks_enable_preview_error]: {
+    error: string
+  }
+  [BuilderHooksEvents.hooks_disable_preview]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1330,4 +1339,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   QrScreenProperties &
   TokenBottomSheetEventsProperties &
   AssetsEventsProperties &
-  NftsEventsProperties
+  NftsEventsProperties &
+  BuilderHooksProperties

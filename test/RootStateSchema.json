@@ -203,6 +203,7 @@
                                 "contractKitInitFailed",
                                 "corruptedChainDeleted",
                                 "countryNotAvailable",
+                                "dappShortcuts.claimRewardFailure",
                                 "deleteBankAccountFail",
                                 "errorRefreshingRate",
                                 "exchangeFailed",
@@ -214,6 +215,7 @@
                                 "firebaseFailed",
                                 "gasPriceUpdateFailed",
                                 "getBankAccountsFail",
+                                "hooksPreview.invalidApiUrl",
                                 "importBackupFailed",
                                 "importContactsFailed",
                                 "incorrectPin",
@@ -2287,6 +2289,10 @@
             ],
             "type": "object"
         },
+        "Record<string,Status>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -2324,7 +2330,6 @@
                 "AccountKeyEducation",
                 "AppLoading",
                 "BackupComplete",
-                "BackupForceScreen",
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
@@ -2336,6 +2341,7 @@
                 "DAppsExplorerScreen",
                 "DappKitAccountScreen",
                 "DappKitSignTxScreen",
+                "DappShortcutsRewards",
                 "Debug",
                 "DrawerNavigator",
                 "EnableBiometry",
@@ -2376,7 +2382,6 @@
                 "OnboardingSuccessScreen",
                 "OutgoingPaymentRequestListScreen",
                 "PaymentRequestConfirmation",
-                "PaymentRequestConfirmationLegacy",
                 "PhoneNumberLookupQuota",
                 "PhotosEducation",
                 "PhotosNUX",
@@ -2397,8 +2402,6 @@
                 "Send",
                 "SendAmount",
                 "SendConfirmation",
-                "SendConfirmationLegacy",
-                "SendConfirmationLegacyModal",
                 "SendConfirmationModal",
                 "SetClock",
                 "SetUpKeylessBackup",
@@ -2998,12 +3001,6 @@
                 "backupCompleted": {
                     "type": "boolean"
                 },
-                "backupRequiredTime": {
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
                 "celoEducationCompleted": {
                     "type": "boolean"
                 },
@@ -3081,7 +3078,6 @@
                 "acceptedTerms",
                 "accountCreationTime",
                 "backupCompleted",
-                "backupRequiredTime",
                 "celoEducationCompleted",
                 "contactDetails",
                 "defaultCountryCode",
@@ -4067,6 +4063,12 @@
                     },
                     "type": "array"
                 },
+                "previewApiUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "shortcuts": {
                     "items": {
                         "$ref": "#/definitions/Shortcut"
@@ -4074,28 +4076,22 @@
                     "type": "array"
                 },
                 "shortcutsStatus": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status"
                 },
                 "status": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "loading",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status"
+                },
+                "triggeredShortcutsStatus": {
+                    "$ref": "#/definitions/Record<string,Status>"
                 }
             },
             "required": [
                 "positions",
+                "previewApiUrl",
                 "shortcuts",
                 "shortcutsStatus",
-                "status"
+                "status",
+                "triggeredShortcutsStatus"
             ],
             "type": "object"
         },
@@ -4496,6 +4492,15 @@
                 "walletToAccountAddress"
             ],
             "type": "object"
+        },
+        "Status": {
+            "enum": [
+                "error",
+                "idle",
+                "loading",
+                "success"
+            ],
+            "type": "string"
         },
         "StoredTokenBalance": {
             "additionalProperties": false,

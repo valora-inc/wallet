@@ -12,7 +12,6 @@ export enum SentryTransaction {
   pincode_enter = 'PincodeEnter',
   pincode_set = 'PincodeSet',
   send_payment = 'SendPayment',
-  send_payment_legacy = 'SendPaymentLegacy',
   wallet_connect_connection = 'WalletConnectConnection',
   wallet_connect_transaction = 'WalletConnectTransaction',
   app_init_saga = 'AppInitSaga',
@@ -44,10 +43,6 @@ export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   SendPayment: {
     name: 'Send Payment',
     op: 'send_payment',
-  },
-  SendPaymentLegacy: {
-    name: 'Send Payment (legacy)',
-    op: 'send_payment_legacy',
   },
   PincodeEnter: {
     name: 'Pincode Enter',

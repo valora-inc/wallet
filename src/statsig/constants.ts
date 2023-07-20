@@ -26,6 +26,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
   [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: false,
+  [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
   [StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER]: false,
@@ -39,17 +40,6 @@ export const ExperimentConfigs = {
     defaultValues: {
       addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
       addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
-    },
-  },
-  [StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING]: {
-    experimentName: StatsigExperiments.RECOVERY_PHRASE_IN_ONBOARDING,
-    defaultValues: {
-      enableForcedBackup: true,
-      showRecoveryPhraseInOnboarding: false,
-      showCloudBackupFakeDoor: false,
-      useNewBackupFlowCopy: false,
-      showBackupAlert: false,
-      useNewBackupHomeCard: false,
     },
   },
   [StatsigExperiments.CHOOSE_YOUR_ADVENTURE]: {

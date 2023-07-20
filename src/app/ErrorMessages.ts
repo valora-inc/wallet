@@ -68,4 +68,6 @@ export enum ErrorMessages {
   SWAP_SUBMIT_FAILED = 'swapScreen.swapSubmitFailed',
   KYC_TRY_AGAIN_FAILED = 'fiatConnectKycStatusScreen.tryAgainFailed',
   INSUFFICIENT_BALANCE_STABLE = 'insufficientBalanceStable',
+  HOOKS_INVALID_PREVIEW_API_URL = 'hooksPreview.invalidApiUrl',
+  SHORTCUT_CLAIM_REWARD_FAILED = 'dappShortcuts.claimRewardFailure',
 }

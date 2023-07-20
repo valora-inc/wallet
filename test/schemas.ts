@@ -2338,6 +2338,39 @@ export const v133Schema = {
   },
 }
 
+export const v134Schema = {
+  ...v133Schema,
+  _persist: {
+    ...v133Schema._persist,
+    version: 134,
+  },
+  positions: {
+    ...v133Schema.positions,
+    previewApiUrl: null,
+  },
+}
+
+export const v135Schema = {
+  ...v134Schema,
+  _persist: {
+    ...v134Schema._persist,
+    version: 135,
+  },
+  positions: {
+    ...v134Schema.positions,
+    triggeredShortcutsStatus: {},
+  },
+}
+
+export const v136Schema = {
+  ...v135Schema,
+  _persist: {
+    ...v135Schema._persist,
+    version: 136,
+  },
+  account: _.omit(v135Schema.account, 'backupRequiredTime'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v133Schema as Partial<RootState>
+  return v136Schema as Partial<RootState>
 }

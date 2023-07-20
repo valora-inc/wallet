@@ -342,3 +342,11 @@ export async function getElementTextList(elementId) {
   } catch {}
   return []
 }
+
+export async function completeProtectWalletScreen() {
+  await expect(element(by.id('recoveryPhraseCard'))).toBeVisible()
+  await element(by.id('recoveryPhraseCard')).tap()
+  await enterPinUi()
+  await expect(element(by.id('protectWalletBottomSheetContinue'))).toBeVisible()
+  await element(by.id('protectWalletBottomSheetContinue')).tap()
+}

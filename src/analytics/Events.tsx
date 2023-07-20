@@ -14,7 +14,7 @@ export enum AppEvents {
   redux_no_matching_keychain_account = 'redux_no_matching_keychain_account', // when account in redux has no matching password hash in the keychain
   push_notification_opened = 'push_notification_opened',
   push_notifications_permission_changed = 'push_notifications_permission_changed',
-  android_mobile_services_availability_checked = 'android_mobile_services_availability_checked',
+  android_mobile_services_checked = 'android_mobile_services_checked',
 
   request_tracking_permission_started = 'request_tracking_permission_started',
   request_tracking_permission_declined = 'request_tracking_permission_declined',
@@ -109,7 +109,6 @@ export enum OnboardingEvents {
   backup_continue = 'backup_continue', // (count # of taps on “Continue” button in Backup_Phrase)
   backup_complete = 'backup_complete', // (count # of taps on "Cancel" button in Backup_Phrase/BackupQuiz)
   backup_more_info = 'backup_more_info',
-  backup_delay = 'backup_delay', // when a user delays backup seed phrase completion
   backup_delay_confirm = 'backup_delay_confirm', // when a user confirms they want to delay backup
   backup_delay_cancel = 'backup_delay_cancel', // when a user decides to return to backup flow
   backup_cancel = 'backup_cancel', // (count # of taps on "Cancel" button in Backup_Phrase/BackupQuiz)
@@ -166,8 +165,6 @@ export enum OnboardingEvents {
   account_dek_register_complete = 'account_dek_register_complete',
 
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
-  protect_wallet_use_cloud = 'protect_wallet_use_cloud',
-  protect_wallet_use_cloud_bottom_sheet = 'protect_wallet_use_cloud_bottom_sheet',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
   protect_wallet_copy_phrase = 'protect_wallet_copy_phrase',
@@ -389,10 +386,10 @@ export enum FiatExchangeEvents {
   cash_in_success = 'cash_in_success', // Screen users are (most of the time) redirected to after cash in with external providers
 
   // Add fund flow entered through home screen cash in bottom sheet
-  cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
-  cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
-  cico_add_funds_bottom_sheet_ramp_selected = 'cico_add_funds_bottom_sheet_ramp_selected',
-  cico_add_funds_bottom_sheet_ramp_available = 'cico_add_funds_bottom_sheet_ramp_available',
+  cico_add_bottom_sheet_selected = 'cico_add_bottom_sheet_selected',
+  cico_add_bottom_sheet_impression = 'cico_add_bottom_sheet_impression',
+  cico_add_bottom_sheet_ramp_selected = 'cico_add_bottom_sheet_ramp_selected',
+  cico_add_bottom_sheet_ramp_available = 'cico_add_bottom_sheet_ramp_available',
 
   // Funding Education Dialog Screen
   cico_add_funds_info_support = 'cico_add_funds_info_support',
@@ -405,12 +402,12 @@ export enum FiatExchangeEvents {
   cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 
   // External Exchanges QR Code Screen
-  external_exchange_qr_bottom_sheet_open = 'external_exchange_qr_bottom_sheet_open',
-  external_exchange_qr_bottom_sheet_close = 'external_exchange_qr_bottom_sheet_close',
-  external_exchange_qr_bottom_sheet_link_press = 'external_exchange_qr_bottom_sheet_link_press',
-  external_exchange_qr_back = 'external_exchange_qr_back',
-  external_exchange_qr_copy_address = 'external_exchange_qr_copy_address',
-  external_exchange_qr_share = 'external_exchange_qr_share',
+  cico_exchange_qr_bottom_sheet_open = 'cico_exchange_qr_bottom_sheet_open',
+  cico_exchange_qr_bottom_sheet_close = 'cico_exchange_qr_bottom_sheet_close',
+  cico_exchange_qr_bottom_sheet_link_press = 'cico_exchange_qr_bottom_sheet_link_press',
+  cico_exchange_qr_back = 'cico_exchange_qr_back',
+  cico_exchange_qr_copy_address = 'cico_exchange_qr_copy_address',
+  cico_exchange_qr_share = 'cico_exchange_qr_share',
 
   // Spend Flow
   spend_merchant_link = 'spend_merchant_link',
@@ -606,6 +603,14 @@ export enum NftEvents {
   nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
 }
 
+export enum BuilderHooksEvents {
+  hooks_enable_preview_propose = 'hooks_enable_preview_propose', // When a user scans a QR code or opens a deep link to enable hooks preview
+  hooks_enable_preview_cancel = 'hooks_enable_preview_cancel', // When a user cancels the hooks preview flow
+  hooks_enable_preview_confirm = 'hooks_enable_preview_confirm', // When a user confirms enabling hooks preview
+  hooks_enable_preview_error = 'hooks_enable_preview_error', // When a user encounters an error enabling hooks preview
+  hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -636,3 +641,4 @@ export type AnalyticsEventType =
   | CeloNewsEvents
   | TokenBottomSheetEvents
   | AssetsEvents
+  | BuilderHooksEvents

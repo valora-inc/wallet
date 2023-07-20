@@ -18,7 +18,6 @@ import {
   normalizeAddressWith0x,
   privateKeyToAddress,
 } from '@celo/utils/lib/address'
-import { UnlockableWallet } from '@celo/wallet-base'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
@@ -53,6 +52,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
+import { PrimaryValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
@@ -346,7 +346,7 @@ export function* getAuthSignerForAccount(accountAddress: string, walletAddress: 
   return walletKeySigner
 }
 
-export function* importDekIfNecessary(wallet: UnlockableWallet | undefined) {
+export function* importDekIfNecessary(wallet: PrimaryValoraWallet | undefined) {
   const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
   if (!privateDataKey) {
     throw new Error('No data key in store. Should never happen.')

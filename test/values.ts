@@ -1,5 +1,4 @@
 /* Shared mock values to facilitate testing */
-import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
@@ -53,6 +52,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { PrimaryValoraWallet } from 'src/web3/types'
 
 export const nullAddress = '0x0'
 
@@ -442,18 +442,17 @@ export const mockRecipientInfo: RecipientInfo = {
   addressToDisplayName: {},
 }
 
-export const mockWallet: UnlockableWallet = {
+export const mockWallet: PrimaryValoraWallet = {
   unlockAccount: jest.fn(),
   isAccountUnlocked: jest.fn(),
   addAccount: jest.fn(),
   getAccounts: jest.fn(),
-  removeAccount: jest.fn(),
   hasAccount: jest.fn(),
   signTransaction: jest.fn(),
   signTypedData: jest.fn(),
   signPersonalMessage: jest.fn(),
-  decrypt: jest.fn(),
-  computeSharedSecret: jest.fn(),
+  decryptMessage: jest.fn(),
+  updateAccount: jest.fn(),
 }
 
 export const makeExchangeRates = (
@@ -1184,7 +1183,7 @@ export const mockPositions: Position[] = [
             symbol: 'CELO',
             decimals: 18,
             priceUsd: '0.6959536890241361',
-            balance: '0.950545800159603456',
+            balance: '0.950545800159603456', // total USD value = priceUsd * balance = $0.66
             category: 'claimable',
           },
           {
@@ -1209,7 +1208,7 @@ export const mockPositions: Position[] = [
         category: 'claimable',
         decimals: 18,
         network: 'celo',
-        balance: '0.098322815093446616',
+        balance: '0.098322815093446616', // total USD value = priceUsd * balance = $0.00009
         symbol: 'UBE',
         address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
       },

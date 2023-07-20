@@ -1,10 +1,10 @@
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { call, put, select } from 'redux-saga/effects'
-import { showMessage } from 'src/alert/actions'
+import { showError, showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TokenTransactionType } from 'src/apollo/types'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { openUrl } from 'src/app/actions'
 import {
   RewardsScreenOrigin,
@@ -19,11 +19,14 @@ import {
   TransferNotificationData,
 } from 'src/notifications/types'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
+import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
+import { RecipientInfo, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
+import { TransactionDataInput } from 'src/send/SendAmount'
+import { stablecoinsSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'FirebaseNotifications'
@@ -35,19 +38,22 @@ function* handlePaymentRequested(paymentRequest: PaymentRequest) {
   }
 
   const info: RecipientInfo = yield select(recipientInfoSelector)
-  const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
+  const requester = getRecipientFromAddress(paymentRequest.requesterAddress, info)
+  const stableTokens: TokenBalance[] = yield select(stablecoinsSelector)
 
-  navigateToRequestedPaymentReview(
-    {
-      firebasePendingRequestUid: paymentRequest.uid,
-      recipient: targetRecipient,
-      amount: new BigNumber(paymentRequest.amount),
-      currency: Currency.Dollar,
-      reason: paymentRequest.comment,
-      type: TokenTransactionType.PayRequest,
-    },
-    false
-  )
+  let transactionData: TransactionDataInput
+  try {
+    transactionData = transactionDataFromPaymentRequest({
+      paymentRequest,
+      stableTokens,
+      requester,
+    })
+  } catch (e) {
+    yield put(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
+    return
+  }
+
+  navigateToRequestedPaymentReview(transactionData, false)
 }
 
 function* handlePaymentReceived(transferNotification: TransferNotificationData) {

@@ -4,13 +4,8 @@ import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Linking } from 'react-native'
 import { Provider } from 'react-redux'
-import { pastForcedBackupDeadlineSelector } from 'src/backup/selectors'
-import { navigate } from 'src/navigator/NavigationService'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
-import { Screens } from 'src/navigator/Screens'
-import { getExperimentParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 jest.mock('src/backup/selectors')
@@ -59,29 +54,5 @@ describe('NavigatorWrapper', () => {
     expect(CleverTap.getInitialUrl).toHaveBeenCalled()
     expect(Linking.getInitialURL).toHaveBeenCalled()
     expect(dynamicLinks().getInitialLink).toHaveBeenCalled()
-  })
-
-  it('forces backup when deadline in past and enableForcedBackup is true', () => {
-    mocked(getExperimentParams).mockReturnValue({ enableForcedBackup: true })
-    mocked(pastForcedBackupDeadlineSelector).mockReturnValue(true)
-
-    renderNavigatorWrapper()
-    expect(navigate).toHaveBeenCalledWith(Screens.BackupForceScreen)
-  })
-
-  it('does not force backup when enableForcedBackup is false', () => {
-    mocked(getExperimentParams).mockReturnValue({ enableForcedBackup: false })
-    mocked(pastForcedBackupDeadlineSelector).mockReturnValue(true)
-
-    renderNavigatorWrapper()
-    expect(navigate).not.toHaveBeenCalledWith(Screens.BackupForceScreen)
-  })
-
-  it('does not force backup when deadline in future', () => {
-    mocked(getExperimentParams).mockReturnValue({ enableForcedBackup: true })
-    mocked(pastForcedBackupDeadlineSelector).mockReturnValue(false)
-
-    renderNavigatorWrapper()
-    expect(navigate).not.toHaveBeenCalledWith(Screens.BackupForceScreen)
   })
 })
