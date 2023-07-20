@@ -2,7 +2,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
-import { shouldInitialiseWalletConnect } from 'src/walletConnect/saga'
+import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { initialiseWalletConnectV2 } from 'src/walletConnect/v2/saga'
 
 // TODO: use a real connection string
 const v2ConnectionString =
@@ -13,19 +14,19 @@ describe('WalletConnect saga', () => {
     const origin = WalletConnectPairingOrigin.Deeplink
 
     it('initializes v2 if enabled', async () => {
-      await expectSaga(shouldInitialiseWalletConnect, v2ConnectionString, origin)
+      await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
         .provide([
           [select(walletConnectEnabledSelector), { v1: true, v2: true }],
-          [call(shouldInitialiseWalletConnect, v2ConnectionString, origin), {}],
+          [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
         ])
-        .call(shouldInitialiseWalletConnect, v2ConnectionString, origin)
+        .call(initialiseWalletConnectV2, v2ConnectionString, origin)
         .run()
     })
 
     it('doesnt initialize v2 if disabled', async () => {
-      await expectSaga(shouldInitialiseWalletConnect, v2ConnectionString, origin)
+      await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
         .provide([[select(walletConnectEnabledSelector), { v1: true, v2: false }]])
-        .not.call(shouldInitialiseWalletConnect, v2ConnectionString, origin)
+        .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
         .run()
     })
   })

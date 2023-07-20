@@ -6,7 +6,7 @@ import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
-import { initialiseWalletConnect, walletConnectSagaV2 } from 'src/walletConnect/v2/saga'
+import { initialiseWalletConnectV2, walletConnectSagaV2 } from 'src/walletConnect/v2/saga'
 
 export function* walletConnectSaga() {
   yield spawn(walletConnectSagaV2)
@@ -22,19 +22,19 @@ export function* isWalletConnectEnabled(uri: string) {
   return versionEnabled[version] ?? false
 }
 
-export function* shouldInitialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
+export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
 
   const [, , version] = uri.split(/[:@?]/)
   // DEV - Add false to the if statement below to test on iOS emulator
   if (!walletConnectEnabled) {
-    Logger.debug('shouldInitialiseWalletConnect', `v${version} is disabled, ignoring`)
+    Logger.debug('initialiseWalletConnect', `v${version} is disabled, ignoring`)
     return
   }
 
   switch (version) {
     case '2':
-      yield call(initialiseWalletConnect, uri, origin)
+      yield call(initialiseWalletConnectV2, uri, origin)
       break
     case '1':
     default:

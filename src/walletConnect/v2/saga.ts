@@ -582,7 +582,7 @@ export function* walletConnectSagaV2() {
   yield spawn(checkPersistedState)
 }
 
-export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
+export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
   if (!client) {
     yield put(initialiseClient())
     yield take(Actions.CLIENT_INITIALISED)
