@@ -320,7 +320,7 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.DappShortcutsRewards}
       component={DappShortcutsRewards}
-      options={headerWithBackButton}
+      options={DappShortcutsRewards.navigationOptions}
     />
   </>
 )

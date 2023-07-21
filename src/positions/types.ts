@@ -66,5 +66,5 @@ export type ClaimableShortcut = Shortcut & {
 
 export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
   claimableShortcut: ClaimableShortcut
-  status: 'idle' | 'loading' | 'success' | 'error'
+  status: 'idle' | 'loading' | 'accepting' | 'success' | 'error'
 }
