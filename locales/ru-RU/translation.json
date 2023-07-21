@@ -1749,6 +1749,10 @@
     "swap": "Обменять",
     "withdraw": "Вывести"
   },
+  "nftGallery": {
+    "title": "NFT Viewer",
+    "noNfts": "Твои НФТ будут отображаться здесь, как только у тебя появится один из них в кошельке"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Просмотреть в CeloExplorer",
     "attributes": "Свойства",
