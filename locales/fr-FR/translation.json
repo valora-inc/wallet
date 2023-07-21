@@ -77,6 +77,10 @@
       "phraseLocation": "Un endroit idéal où la garder : là où vous gardez d'autres documents et papiers importants. Vous pourrez ainsi bien la protéger et la retrouver en toute sécurité. C'est à vous de jouer!"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Garde ton portefeuille en sécurité",
+    "description": "Tu es le seul à pouvoir accéder à ton portefeuille. Si ton téléphone est perdu ou volé, Valora ne peut pas le récupérer pour toi.\n\nTu devras mettre en place une méthode pour garder ton portefeuille en sécurité et protéger tes fonds."
+  },
   "setUpKeylessBackup": {
     "title": "Configurer une sauvegarde sans clé",
     "subtitle": "Vous utiliserez les éléments suivants pour configurer la sauvegarde :",
