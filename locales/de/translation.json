@@ -77,6 +77,10 @@
       "phraseLocation": "Ein idealer Ort könnte dort sein, wo du andere wichtige Dokumente und Unterlagen aufbewahrst, die nicht leicht gestohlen werden sollen. Es liegt an dir!"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Bewahre dein Portemonnaie sicher auf",
+    "description": "Nur du kannst auf dein Portemonnaie zugreifen. Wenn dein Telefon verloren geht oder gestohlen wird, kann Valora es nicht für dich wiederherstellen.\n\nDu musst eine Methode einrichten, um dein Portemonnaie sicher aufzubewahren und dein Geld zu schützen."
+  },
   "setUpKeylessBackup": {
     "title": "Schlüssellose Sicherung einrichten",
     "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet:",
