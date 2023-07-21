@@ -12,7 +12,7 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
-  title: string
+  title?: string | null
   description?: string | null
   children?: React.ReactNode | React.ReactNode[]
   onDismiss?: () => void
@@ -52,7 +52,7 @@ const BottomSheet = ({ forwardedRef, title, description, children, onDismiss, te
       onChange={handleChangePosition}
     >
       <BottomSheetScrollView handleContentLayout={handleContentLayout} testId={testId}>
-        <Text style={styles.title}>{title}</Text>
+        {title && <Text style={styles.title}>{title}</Text>}
         {description && <Text style={styles.description}>{description}</Text>}
         {children}
       </BottomSheetScrollView>

@@ -7,7 +7,7 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { headerWithBackButton } from 'src/navigator/Headers'
@@ -31,6 +31,7 @@ import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
+import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'dapps/DappShortcutsRewards'
@@ -55,13 +56,13 @@ function DappShortcutsRewards() {
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
   const triggeredShortcutsStatus = useSelector(triggeredShortcutsStatusSelector)
 
-  const [claimablePositions, setClaimablePositions] = useState<ClaimablePosition[]>(
-    positionsWithClaimableRewards
-  )
+  const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
   // there should only be one claim in progress at a time
-  const [claimInProgress, setClaimInProgress] = useState<{ id: string; appName: string } | null>(
-    null
-  )
+  const [claimInProgress, setClaimInProgress] = useState<{
+    id: string
+    appName: string
+    imageUrl: string
+  } | null>(null)
   const [claimTransactions, setConfirmTransactions] = useState<RawShortcutTransaction[]>([])
 
   useEffect(() => {
@@ -101,12 +102,6 @@ function DappShortcutsRewards() {
     }
   }, [triggeredShortcutsStatus])
 
-  useEffect(() => {
-    return () => {
-      // clear all loading states when unmounting
-    }
-  }, [])
-
   const triggerShortcutAsync = useAsyncCallback(
     async (payload: TriggerShortcutPayload) => {
       Logger.debug(`${TAG}/triggerShortcutSaga`, 'Initiating request to claim reward', payload)
@@ -144,7 +139,11 @@ function DappShortcutsRewards() {
     }
 
     const rewardId = getClaimableRewardId(position.address, position.claimableShortcut)
-    setClaimInProgress({ id: rewardId, appName: position.appName })
+    setClaimInProgress({
+      id: rewardId,
+      appName: position.appName,
+      imageUrl: position.displayProps.imageUrl,
+    })
     dispatch(triggerShortcut(rewardId))
     confirmBottomSheetRef.current?.snapToIndex(0)
     void triggerShortcutAsync.execute({
@@ -266,34 +265,32 @@ function DappShortcutsRewards() {
 
       <BottomSheet
         forwardedRef={confirmBottomSheetRef}
-        title={t('confirmTransaction')}
-        description={t('walletConnectRequest.sendTransaction', {
-          dappName: claimInProgress?.appName,
-        })}
         onDismiss={handleDenyTransaction}
         testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
       >
-        {claimTransactions.length > 0 ? (
-          <DataFieldWithCopy
-            label={t('walletConnectRequest.transactionDataLabel')}
-            value={JSON.stringify(claimTransactions)}
-            testID="WalletConnectRequest/ActionRequestPayload"
-            onCopy={handleTrackCopyTransactionDetails}
-          />
-        ) : (
-          <ActivityIndicator color={colors.greenBrand} style={styles.loader} />
-        )}
-
-        <DappsDisclaimer isDappListed={true} />
-        <Button
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.FULL}
-          text={t('allow')}
-          showLoading={isAccepting}
-          disabled={isAccepting || claimTransactions.length < 1}
-          onPress={handleClaimReward}
-          testID={`DappShortcutsRewards/ConfirmClaimBottomSheet/Allow`}
-        />
+        <RequestContent
+          onAccept={handleClaimReward}
+          onDeny={handleDenyTransaction}
+          dappName={claimInProgress?.appName ?? ''}
+          dappImageUrl={claimInProgress?.imageUrl}
+          title={t('confirmTransaction')}
+          description={t('walletConnectRequest.sendTransaction', {
+            dappName: claimInProgress?.appName,
+          })}
+          testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
+        >
+          {claimTransactions.length > 0 ? (
+            <DataFieldWithCopy
+              label={t('walletConnectRequest.transactionDataLabel')}
+              value={JSON.stringify(claimTransactions)}
+              testID="WalletConnectRequest/ActionRequestPayload"
+              onCopy={handleTrackCopyTransactionDetails}
+            />
+          ) : (
+            <ActivityIndicator color={colors.greenBrand} style={styles.loader} />
+          )}
+          <DappsDisclaimer isDappListed={true} />
+        </RequestContent>
       </BottomSheet>
     </SafeAreaView>
   )
