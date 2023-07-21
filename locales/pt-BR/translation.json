@@ -77,6 +77,10 @@
       "phraseLocation": "Um lugar ideal pode ser onde você guarda outros documentos e materiais importantes para mantê-los em segurança, que não seja facilmente roubado e seja fácil de recuperar. Você é quem decide!"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Mantenha a sua carteira segura",
+    "description": "Só o utilizador pode aceder à sua carteira. Se o seu telemóvel for perdido ou roubado, Valora não pode recuperá-lo por si.\n\nTerá de definir um método para manter a sua carteira segura e proteger os seus fundos."
+  },
   "setUpKeylessBackup": {
     "title": "Configurar o backup sem chave",
     "subtitle": "Você vai usar os seguintes itens para configurar o backup:",
