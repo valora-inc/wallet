@@ -1743,6 +1743,10 @@
     "swap": "สว็อป",
     "withdraw": "ถอน"
   },
+  "nftGallery": {
+    "title": "NFT Viewer",
+    "noNfts": "Your NFTs will display here once you have one in your wallet"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "ดูใน Celo Explorer",
     "attributes": "คุณลักษณะ",
