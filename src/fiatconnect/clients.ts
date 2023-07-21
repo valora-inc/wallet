@@ -1,5 +1,5 @@
 import { ensureLeading0x } from '@celo/utils/lib/address'
-import { ValoraWallet } from 'src/web3/types'
+import { PrimaryValoraWallet } from 'src/web3/types'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { networkTimeoutSecondsSelector } from 'src/app/selectors'
 import { FIATCONNECT_NETWORK } from 'src/config'
@@ -18,7 +18,9 @@ const fiatConnectClients: Record<
  *
  * @param wallet
  */
-export function getSiweSigningFunction(wallet: ValoraWallet): (message: string) => Promise<string> {
+export function getSiweSigningFunction(
+  wallet: PrimaryValoraWallet
+): (message: string) => Promise<string> {
   return async function (message: string): Promise<string> {
     const [account] = wallet.getAccounts()
     if (!wallet.isAccountUnlocked(account)) {
@@ -39,7 +41,7 @@ export async function getFiatConnectClient(
     fiatConnectClients[providerId].url !== providerBaseUrl ||
     fiatConnectClients[providerId].apiKey !== providerApiKey
   ) {
-    const wallet = (await getWalletAsync()) as ValoraWallet
+    const wallet = (await getWalletAsync()) as PrimaryValoraWallet
     const [account] = wallet.getAccounts()
     fiatConnectClients[providerId] = {
       url: providerBaseUrl,

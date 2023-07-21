@@ -26,7 +26,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { RootState } from '../redux/reducers'
-import { ValoraWallet } from 'src/web3/types'
+import { PrimaryValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/saga'
 
@@ -106,7 +106,7 @@ export function* getOrCreateAccount() {
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
     const account = privateKeyToAddress(privateKey)
-    const wallet: ValoraWallet = yield call(getWallet)
+    const wallet: PrimaryValoraWallet = yield call(getWallet)
     const password: string = yield call(getPasswordSaga, account, false, true)
 
     try {
@@ -188,7 +188,7 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: ValoraWallet = yield call(getWallet)
+  const wallet: PrimaryValoraWallet = yield call(getWallet)
   if (!force && wallet.isAccountUnlocked(account)) {
     return UnlockResult.SUCCESS
   }
