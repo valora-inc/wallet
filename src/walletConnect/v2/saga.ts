@@ -67,7 +67,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
-export let client: IWeb3Wallet | null = null
+let client: IWeb3Wallet | null = null
 
 const TAG = 'WalletConnect/saga'
 
@@ -119,7 +119,10 @@ function* createWalletConnectChannel() {
         description: i18n.t('appDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
-        // TODO: add redirect url for android deep linking
+        redirect: {
+          native: 'celo://wallet/wc',
+          universal: 'https://valoraapp.com/wc',
+        },
       },
     })
 

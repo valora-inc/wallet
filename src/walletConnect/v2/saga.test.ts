@@ -35,6 +35,7 @@ function createSessionProposal(
           methods: ['eth_sendTransaction', 'eth_signTypedData'],
         },
       },
+      optionalNamespaces: {},
       id: 1669989187506938,
       relays: [
         {

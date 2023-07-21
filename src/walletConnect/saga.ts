@@ -26,7 +26,6 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
 
   const [, , version] = uri.split(/[:@?]/)
-  // DEV - Add false to the if statement below to test on iOS emulator
   if (!walletConnectEnabled) {
     Logger.debug('initialiseWalletConnect', `v${version} is disabled, ignoring`)
     return
