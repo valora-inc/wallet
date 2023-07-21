@@ -2429,6 +2429,7 @@
                 "WalletConnectRequest",
                 "WalletConnectSessions",
                 "WalletHome",
+                "WalletSecurityPrimer",
                 "WebViewScreen",
                 "Welcome",
                 "WithdrawCeloQrScannerScreen",

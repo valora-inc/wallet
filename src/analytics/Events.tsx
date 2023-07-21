@@ -81,6 +81,7 @@ export enum SettingsEvents {
 }
 
 export enum KeylessBackupEvents {
+  wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
   sign_in_with_google = 'sign_in_with_google',
   sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
