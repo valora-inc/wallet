@@ -115,6 +115,15 @@ const defaultState = {
 }
 const mockStore = createMockStore(defaultState)
 
+// const shortcut = {
+//   id: 'someId',
+//   address: mockAccount,
+//   appId: 'gooddollar',
+//   network: 'celo',
+//   positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
+//   shortcutId: 'claim-reward',
+// }
+
 describe('DappShortcutsRewards', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -154,14 +163,7 @@ describe('DappShortcutsRewards', () => {
     expect(mockStore.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
-          "payload": Object {
-            "address": "0x0000000000000000000000000000000000007e57",
-            "appId": "ubeswap",
-            "id": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072",
-            "network": "celo",
-            "positionAddress": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
-            "shortcutId": "claim-reward",
-          },
+          "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072",
           "type": "positions/triggerShortcut",
         },
       ]

@@ -7,10 +7,10 @@ import { call, select } from 'redux-saga/effects'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { refreshAllBalances } from 'src/home/actions'
 import {
+  executeShortcutsSaga,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
-  triggerShortcutSaga,
   _confirmEnableHooksPreview,
 } from 'src/positions/saga'
 import {
@@ -19,18 +19,17 @@ import {
   shortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
+  executeShortcut,
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
   previewModeEnabled,
-  triggerShortcut,
   triggerShortcutFailure,
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
-import { sendTransaction } from 'src/transactions/send'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -42,8 +41,10 @@ import { mocked } from 'ts-jest/utils'
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('src/utils/Logger')
+
+const mockSendTransaction = jest.fn()
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
+  sendTransaction: () => mockSendTransaction(),
 }))
 jest.mock('react-native-simple-toast')
 
@@ -234,53 +235,30 @@ describe(handleEnableHooksPreviewDeepLink, () => {
   })
 })
 
-describe(triggerShortcutSaga, () => {
-  const shortcut = {
-    id: 'someId',
-    address: mockAccount,
-    appId: 'gooddollar',
+describe(executeShortcutsSaga, () => {
+  const mockTransaction = {
     network: 'celo',
-    positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
-    shortcutId: 'claim-reward',
+    from: mockAccount,
+    to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
+    data: '0x4e71d92d',
   }
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
     [call(getContractKit), contractKit],
     [call(getConnectedUnlockedAccount), mockAccount],
   ]
 
   it('should successfully trigger a shortcut and send the transaction', async () => {
-    const mockTransaction = {
-      network: 'celo',
-      from: mockAccount,
-      to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
-      data: '0x4e71d92d',
-    }
-    mockFetch.mockResponse(
-      JSON.stringify({
-        message: 'OK',
-        data: {
-          transactions: [mockTransaction],
-        },
-      })
-    )
+    mockSendTransaction.mockResolvedValueOnce({ transactionHash: '0x1234' })
 
-    await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
+    await expectSaga(
+      executeShortcutsSaga,
+      executeShortcut({ transactions: [mockTransaction], id: 'someId' })
+    )
       .provide(defaultProviders)
       .put(triggerShortcutSuccess('someId'))
       .not.put(triggerShortcutFailure(expect.anything()))
       .run()
 
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shortcut),
-    })
-    // TODO how to check that the transaction was correctly formed?
-    expect(sendTransaction).toHaveBeenCalledWith(expect.anything(), mockAccount, expect.anything())
     expect(Toast.showWithGravity).toHaveBeenCalledWith(
       'dappShortcuts.claimRewardsScreen.claimSuccess',
       undefined,
@@ -289,24 +267,18 @@ describe(triggerShortcutSaga, () => {
   })
 
   it('should handle shortcut trigger failure', async () => {
-    mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
+    mockSendTransaction.mockRejectedValueOnce('some error')
 
-    await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
+    await expectSaga(
+      executeShortcutsSaga,
+      executeShortcut({ transactions: [mockTransaction], id: 'someId' })
+    )
       .provide(defaultProviders)
       .not.put(triggerShortcutSuccess(expect.anything()))
       .not.put(refreshAllBalances())
       .put(triggerShortcutFailure('someId'))
       .run()
 
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shortcut),
-    })
-    expect(sendTransaction).not.toHaveBeenCalled()
     expect(Toast.showWithGravity).not.toHaveBeenCalled()
   })
 })
