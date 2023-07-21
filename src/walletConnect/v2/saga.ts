@@ -67,7 +67,7 @@ import {
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 
-export let client: IWeb3Wallet | null = null
+let client: IWeb3Wallet | null = null
 
 const TAG = 'WalletConnect/saga'
 
