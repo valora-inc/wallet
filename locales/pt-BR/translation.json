@@ -1745,6 +1745,10 @@
     "swap": "Trocar",
     "withdraw": "Sacar"
   },
+  "nftGallery": {
+    "title": "Visualizador de NFTs",
+    "noNfts": "Os seus NFTs serão apresentados aqui quando tiver um na sua carteira"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Ver no Celo Explorer",
     "attributes": "Atributos",
