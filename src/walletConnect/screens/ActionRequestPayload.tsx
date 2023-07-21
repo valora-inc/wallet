@@ -35,7 +35,7 @@ type Props =
     }
   | {
       walletConnectVersion: 2
-      session: SessionTypes.Struct // TODO: Is this the right type?
+      session: SessionTypes.Struct
       request: Web3WalletTypes.EventArguments['session_request']
     }
 
