@@ -77,6 +77,10 @@
       "phraseLocation": "สถานที่ที่เหมาะสมอาจจะเป็นสถานที่ปลอยภัยที่คุณจัดเก็บเอกสารและวัสดุที่สำคัญอื่นๆ ซึ่งยากต่อการถูกขโมยและสามารถเรียกดูได้ง่าย ขึ้นอยู่กับความต้องการของคุณ"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Keep your wallet safe",
+    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
+  },
   "setUpKeylessBackup": {
     "title": "ตั้งค่าการสำรองข้อมูลแบบไร้กุญแจ",
     "subtitle": "โปรดตั้งค่าการสำรองข้อมูลโดยใช้สิ่งต่อไปนี้",
