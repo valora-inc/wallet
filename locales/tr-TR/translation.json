@@ -77,6 +77,10 @@
       "phraseLocation": "Kolayca çalınamayacağı ve tekrar ulaşılması kolay olan, diğer önemli belgeleri ve malzemeleri sakladığınız yer ideal bir yer olabilir. Karar sizin!"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Cüzdanınızı güvende tutun",
+    "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
+  },
   "setUpKeylessBackup": {
     "title": "Anahtarsız Yedeklemeyi Ayarlama",
     "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız:",
