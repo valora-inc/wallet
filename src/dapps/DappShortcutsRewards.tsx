@@ -288,7 +288,7 @@ function DappShortcutsRewards() {
             <DataFieldWithCopy
               label={t('walletConnectRequest.transactionDataLabel')}
               value={JSON.stringify(claimTransactions)}
-              testID="WalletConnectRequest/ActionRequestPayload"
+              testID="DappShortcutsRewards/RewardTransactionData"
               onCopy={handleTrackCopyTransactionDetails}
             />
             <DappsDisclaimer isDappListed={true} />
