@@ -73,6 +73,7 @@ export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
     sessionRequestReceivedV1: take(ActionsV1.SESSION_V1),
     sessionRequestReceivedV2: take(ActionsV2.SESSION_PROPOSAL_V2),
     actionRequestReceived: take(ActionsV1.PAYLOAD_V1),
+    actionRequestReceivedV2: take(ActionsV2.SESSION_PAYLOAD_V2),
   })
 
   if (timedOut) {
