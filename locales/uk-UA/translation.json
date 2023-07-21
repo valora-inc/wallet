@@ -1749,6 +1749,10 @@
     "swap": "Обміняти",
     "withdraw": "Зняти"
   },
+  "nftGallery": {
+    "title": "Переглядач NFT",
+    "noNfts": "Ваші NFT відображатимуться тут, як тільки ви отримаєте їх у свій гаманець"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Переглянути на Celo Explorer",
     "attributes": "Атрибути",
