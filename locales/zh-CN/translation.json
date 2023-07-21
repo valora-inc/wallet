@@ -1743,6 +1743,10 @@
     "swap": "交换",
     "withdraw": "提取"
   },
+  "nftGallery": {
+    "title": "NFT 查看器",
+    "noNfts": "一旦您的钱包里有一个 NFT，您的 NFT 就会显示在这里"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "在 Celo Explorer 上查看",
     "attributes": "属性",
