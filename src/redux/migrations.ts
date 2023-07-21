@@ -1189,7 +1189,7 @@ export const migrations = {
   137: (state: any) => ({
     ...state,
     walletConnect: {
-      ...state.walletConnect,
+      ..._.omit(state.walletConnect, 'v1', 'v2'),
       sessions: state.walletConnect.v2.sessions,
       pendingActions: state.walletConnect.v2.pendingActions,
       pendingSessions: state.walletConnect.v2.pendingSessions,
