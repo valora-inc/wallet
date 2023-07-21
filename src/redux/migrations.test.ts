@@ -985,6 +985,8 @@ describe('Redux persist migrations', () => {
     expectedSchema.walletConnect.sessions = oldSchema.walletConnect.v2.sessions
     expectedSchema.walletConnect.pendingActions = oldSchema.walletConnect.v2.pendingActions
     expectedSchema.walletConnect.pendingSessions = oldSchema.walletConnect.v2.pendingSessions
+    delete expectedSchema.walletConnect.v1
+    delete expectedSchema.walletConnect.v2
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
