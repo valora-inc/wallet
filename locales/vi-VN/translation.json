@@ -1743,6 +1743,10 @@
     "swap": "Trao đổi",
     "withdraw": "Rút tiền"
   },
+  "nftGallery": {
+    "title": "Trình xem NFT",
+    "noNfts": "Your NFTs will display here once you have one in your wallet"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Xem trên Celo Explorer",
     "attributes": "Thuộc tính",
