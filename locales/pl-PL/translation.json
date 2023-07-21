@@ -77,6 +77,10 @@
       "phraseLocation": "Idealne miejsce może być tam, gdzie przechowujesz dla bezpieczeństwa inne ważne dokumenty i materiały, których nie można łatwo ukraść i łatwo odnaleźć. Wszystko zależy od Ciebie!"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Zadbaj o bezpieczeństwo swojego portfela",
+    "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie może go dla Ciebie odzyskać.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
+  },
   "setUpKeylessBackup": {
     "title": "Skonfiguruj tworzenie kopii zapasowej bez klucza",
     "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje:",
