@@ -1745,6 +1745,10 @@
     "swap": "Échanger",
     "withdraw": "Retirer"
   },
+  "nftGallery": {
+    "title": "Visionneuse NFT",
+    "noNfts": "Tes NFT s'afficheront ici une fois que tu en auras un dans ton portefeuille."
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Voir sur CeloExplorer",
     "attributes": "Caractéristiques",
