@@ -1745,6 +1745,10 @@
     "swap": "Tauschen",
     "withdraw": "Abheben"
   },
+  "nftGallery": {
+    "title": "NFT-Viewer",
+    "noNfts": "Deine NFTs werden hier angezeigt, sobald du eine in deinem Portemonnaie hast"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Auf Celo Explorer ansehen",
     "attributes": "Eigenschaften",
