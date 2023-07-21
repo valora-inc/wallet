@@ -6,6 +6,8 @@ import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
@@ -19,6 +21,7 @@ import {
   triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
+  denyExecuteShortcut,
   executeShortcut,
   RawShortcutTransaction,
   triggerShortcut,
@@ -126,10 +129,16 @@ function DappShortcutsRewards() {
       },
       onError: (error: Error) => {
         Logger.warn(`${TAG}/triggerShortcutSaga`, 'Error triggering shortcut', error)
-        dispatch(triggerShortcutFailure(claimInProgress?.id ?? ''))
+        dispatch(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
       },
     }
   )
+
+  useEffect(() => {
+    if (triggerShortcutAsync.error && claimInProgress) {
+      dispatch(triggerShortcutFailure(claimInProgress.id))
+    }
+  }, [triggerShortcutAsync.error])
 
   const handleConfirmClaimReward = (position: ClaimablePosition) => () => {
     if (!address) {
@@ -241,14 +250,10 @@ function DappShortcutsRewards() {
   }
 
   const handleDenyTransaction = () => {
-    if (claimInProgress && !isAccepting) {
-      dispatch(triggerShortcutFailure(claimInProgress.id))
+    if (claimInProgress && triggeredShortcutsStatus[claimInProgress.id] === 'accepting') {
+      dispatch(denyExecuteShortcut(claimInProgress.id))
     }
   }
-
-  const isAccepting = claimInProgress
-    ? triggeredShortcutsStatus[claimInProgress.id] === 'accepting'
-    : false
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -268,29 +273,29 @@ function DappShortcutsRewards() {
         onDismiss={handleDenyTransaction}
         testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
       >
-        <RequestContent
-          onAccept={handleClaimReward}
-          onDeny={handleDenyTransaction}
-          dappName={claimInProgress?.appName ?? ''}
-          dappImageUrl={claimInProgress?.imageUrl}
-          title={t('confirmTransaction')}
-          description={t('walletConnectRequest.sendTransaction', {
-            dappName: claimInProgress?.appName,
-          })}
-          testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
-        >
-          {claimTransactions.length > 0 ? (
+        {claimTransactions.length > 0 ? (
+          <RequestContent
+            onAccept={handleClaimReward}
+            onDeny={handleDenyTransaction}
+            dappName={claimInProgress?.appName ?? ''}
+            dappImageUrl={claimInProgress?.imageUrl}
+            title={t('confirmTransaction')}
+            description={t('walletConnectRequest.sendTransaction', {
+              dappName: claimInProgress?.appName,
+            })}
+            testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
+          >
             <DataFieldWithCopy
               label={t('walletConnectRequest.transactionDataLabel')}
               value={JSON.stringify(claimTransactions)}
               testID="WalletConnectRequest/ActionRequestPayload"
               onCopy={handleTrackCopyTransactionDetails}
             />
-          ) : (
-            <ActivityIndicator color={colors.greenBrand} style={styles.loader} />
-          )}
-          <DappsDisclaimer isDappListed={true} />
-        </RequestContent>
+            <DappsDisclaimer isDappListed={true} />
+          </RequestContent>
+        ) : (
+          <ActivityIndicator color={colors.greenBrand} style={styles.loader} />
+        )}
       </BottomSheet>
     </SafeAreaView>
   )

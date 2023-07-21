@@ -87,6 +87,9 @@ const slice = createSlice({
     executeShortcut: (state, action: PayloadAction<TriggerShortcut>) => {
       state.triggeredShortcutsStatus[action.payload.id] = 'accepting'
     },
+    denyExecuteShortcut: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload] = 'idle'
+    },
     triggerShortcutSuccess: (state, action: PayloadAction<string>) => {
       state.triggeredShortcutsStatus[action.payload] = 'success'
     },
@@ -116,6 +119,7 @@ export const {
   previewModeDisabled,
   triggerShortcut,
   executeShortcut,
+  denyExecuteShortcut,
   triggerShortcutSuccess,
   triggerShortcutFailure,
 } = slice.actions

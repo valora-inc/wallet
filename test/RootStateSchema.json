@@ -4495,6 +4495,7 @@
         },
         "Status": {
             "enum": [
+                "accepting",
                 "error",
                 "idle",
                 "loading",
