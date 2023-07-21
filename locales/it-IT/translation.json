@@ -77,6 +77,10 @@
       "phraseLocation": "Un luogo ideale potrebbe essere lo stesso in cui si memorizzano altri documenti e materiali importanti per la custodia, difficile da rubare e facile da recuperare. Sta a te!"
     }
   },
+  "walletSecurityPrimer": {
+    "title": "Tieni al sicuro il tuo portafoglio",
+    "description": "Solo tu puoi accedere al tuo portafoglio. Se il tuo telefono viene perso o rubato, Valora non può recuperarlo per te.\n\nDovrai impostare un metodo per tenere al sicuro il tuo portafoglio e proteggere i tuoi fondi."
+  },
   "setUpKeylessBackup": {
     "title": "Imposta il backup senza chiave",
     "subtitle": "Per configurare il backup dovrai utilizzare quanto segue:",
