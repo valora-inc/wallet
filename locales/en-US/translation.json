@@ -557,6 +557,7 @@
   "close": "Close",
   "home": "Home",
   "accountKey": "Recovery Phrase",
+  "walletSecurity": "Wallet Security",
   "addAndWithdraw": "Add & Withdraw",
   "settings": "Settings",
   "help": "Help",
