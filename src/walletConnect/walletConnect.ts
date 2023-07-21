@@ -69,7 +69,10 @@ export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
-    sessionRequestReceivedV2: take(Actions.SESSION_PROPOSAL),
+    sessionRequestReceivedV1: take(ActionsV1.SESSION_V1),
+    sessionRequestReceivedV2: take(ActionsV2.SESSION_PROPOSAL_V2),
+    actionRequestReceived: take(ActionsV1.PAYLOAD_V1),
+    actionRequestReceivedV2: take(ActionsV2.SESSION_PAYLOAD_V2),
   })
 
   if (timedOut) {
