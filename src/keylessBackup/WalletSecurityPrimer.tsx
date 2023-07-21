@@ -1,15 +1,19 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import BackChevron from 'src/icons/BackChevron'
 import Chain from 'src/icons/Chain'
+import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 
 function onPressContinue() {
@@ -17,10 +21,16 @@ function onPressContinue() {
   navigate(Screens.SetUpKeylessBackup)
 }
 
-function WalletSecurityPrimer() {
+type Props =
+  | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimer>
+  | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimerDrawer>
+
+function WalletSecurityPrimer({ route }: Props) {
   const { t } = useTranslation()
+  const showDrawerTopBar = route.params?.showDrawerTopBar
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={showDrawerTopBar ? undefined : ['bottom']}>
+      {showDrawerTopBar && <DrawerTopBar testID="WalletSecurityPrimer/DrawerTopBar" />}
       <ScrollView style={styles.scrollContainer}>
         <Chain style={styles.chainIcon} />
         <Text style={styles.title}>{t('walletSecurityPrimer.title')}</Text>

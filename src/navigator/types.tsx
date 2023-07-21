@@ -350,6 +350,7 @@ export type StackParamList = {
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined
   [Screens.WalletSecurityPrimer]: undefined
+  [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawCeloQrScannerScreen]: {
