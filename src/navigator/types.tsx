@@ -207,6 +207,7 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
+  [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
@@ -348,6 +349,7 @@ export type StackParamList = {
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined
+  [Screens.WalletSecurityPrimer]: undefined
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawCeloQrScannerScreen]: {
