@@ -1745,6 +1745,10 @@
     "swap": "Swap",
     "withdraw": "Çek"
   },
+  "nftGallery": {
+    "title": "NFT Görüntüleyici",
+    "noNfts": "Cüzdanınızda bir tane olduğunda NFT'leriniz burada görüntülenecektir"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Celo Explorer'da görüntüle",
     "attributes": "Nitelikler",
