@@ -242,13 +242,9 @@ function DappShortcutsRewards() {
   }
 
   const handleDenyTransaction = () => {
-    if (!claimInProgress) {
-      // should never happen
-      Logger.error('dapps/DappShortcutsRewards', 'No reward id found when denying transaction')
-      return
+    if (claimInProgress && !isAccepting) {
+      dispatch(triggerShortcutFailure(claimInProgress.id))
     }
-
-    dispatch(triggerShortcutFailure(claimInProgress.id))
   }
 
   const isAccepting = claimInProgress
