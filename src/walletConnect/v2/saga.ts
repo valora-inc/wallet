@@ -119,7 +119,10 @@ function* createWalletConnectChannel() {
         description: i18n.t('appDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
-        // TODO: add redirect url for android deep linking
+        redirect: {
+          native: 'celo://wallet/wc',
+          universal: 'https://valoraapp.com/wc',
+        },
       },
     })
 
