@@ -21,7 +21,6 @@ function createSessionProposal(
 ): Web3WalletTypes.EventArguments['session_proposal'] {
   return {
     id: 1669989187506938,
-    // @ts-expect-error optionalNamespaces is required?
     params: {
       expiry: 1669989496,
       proposer: {
@@ -35,6 +34,7 @@ function createSessionProposal(
           methods: ['eth_sendTransaction', 'eth_signTypedData'],
         },
       },
+      optionalNamespaces: {},
       id: 1669989187506938,
       relays: [
         {
@@ -42,6 +42,13 @@ function createSessionProposal(
         },
       ],
       pairingTopic: 'ab7c79764b6838abd24669ab735f6ce40bb26ca4d54cf948daca8e80a2eb6db1',
+    },
+    verifyContext: {
+      verified: {
+        origin: '',
+        validation: 'UNKNOWN',
+        verifyUrl: '',
+      },
     },
   }
 }
