@@ -52,6 +52,7 @@ import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
+import { NFT } from 'src/icons/navigator/NFT'
 import { Settings } from 'src/icons/navigator/Settings'
 import { Swap } from 'src/icons/navigator/Swap'
 import Invite from 'src/invite/Invite'
@@ -62,10 +63,11 @@ import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import SwapScreen from 'src/swap/SwapScreen'
@@ -220,6 +222,8 @@ export default function DrawerNavigator({ route }: Props) {
 
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
+  const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
+
   // ExchangeHomeScreen
   const celoMenuItem = (
     <Drawer.Screen
@@ -251,6 +255,13 @@ export default function DrawerNavigator({ route }: Props) {
         component={WalletHome}
         options={{ title: t('home') ?? undefined, drawerIcon: Home, unmountOnBlur: false }}
       />
+      {shouldShowNftGallery && (
+        <Drawer.Screen
+          name={Screens.NftGallery}
+          component={NftGallery}
+          options={{ title: t('nftGallery.title') ?? undefined, drawerIcon: NFT }}
+        />
+      )}
       {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
           name={Screens.SwapScreen}

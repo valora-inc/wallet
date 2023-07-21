@@ -33,4 +33,5 @@ export enum NftOrigin {
   NftsInfoCarouselMain = 'nftsInfoCarouselMain',
   NftsInfoCarouselThumbnail = 'nftsInfoCarouselThumbnail',
   TransactionFeed = 'transactionFeed',
+  NftGallery = 'nftGallery',
 }

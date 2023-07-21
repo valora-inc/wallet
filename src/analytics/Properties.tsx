@@ -1294,6 +1294,9 @@ interface NftsEventsProperties {
     origin: NftOrigin
     error?: string
   }
+  [NftEvents.nft_gallery_screen_open]: {
+    numNfts: number
+  }
 }
 
 interface BuilderHooksProperties {
