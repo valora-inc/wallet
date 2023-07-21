@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -210,6 +210,7 @@ interface SettingsEventsProperties {
 }
 
 interface KeylessBackupEventsProperties {
+  [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
   [KeylessBackupEvents.sign_in_with_google]: undefined
   [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
@@ -1292,6 +1293,9 @@ interface NftsEventsProperties {
     url?: string
     origin: NftOrigin
     error?: string
+  }
+  [NftEvents.nft_gallery_screen_open]: {
+    numNfts: number
   }
 }
 

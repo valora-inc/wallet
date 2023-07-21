@@ -81,6 +81,7 @@ export enum SettingsEvents {
 }
 
 export enum KeylessBackupEvents {
+  wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
   sign_in_with_google = 'sign_in_with_google',
   sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
@@ -601,6 +602,7 @@ export enum AssetsEvents {
 export enum NftEvents {
   nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
   nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
+  nft_gallery_screen_open = 'nft_gallery_screen_open', // When the gallery screen is mounted
 }
 
 export enum BuilderHooksEvents {
@@ -641,4 +643,5 @@ export type AnalyticsEventType =
   | CeloNewsEvents
   | TokenBottomSheetEvents
   | AssetsEvents
+  | NftEvents
   | BuilderHooksEvents
