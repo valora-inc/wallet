@@ -17,7 +17,7 @@ import {
 } from 'src/positions/selectors'
 import { denyExecuteShortcut, executeShortcut, triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
-import { default as colors, default as Colors } from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
@@ -70,7 +70,7 @@ function DappShortcutsRewards() {
     }
   }, [pendingAcceptShortcut])
 
-  const handleConfirmClaimReward = (position: ClaimablePosition) => () => {
+  const createConfirmClaimRewardHandler = (position: ClaimablePosition) => () => {
     if (!address) {
       // should never happen
       Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
@@ -147,7 +147,7 @@ function DappShortcutsRewards() {
             )}
           </View>
           <Button
-            onPress={handleConfirmClaimReward(item)}
+            onPress={createConfirmClaimRewardHandler(item)}
             text={
               item.status === 'success'
                 ? t('dappShortcuts.claimRewardsScreen.claimedLabel')
@@ -226,7 +226,7 @@ function DappShortcutsRewards() {
             <DappsDisclaimer isDappListed={true} />
           </RequestContent>
         ) : (
-          <ActivityIndicator color={colors.greenBrand} style={styles.loader} />
+          <ActivityIndicator color={Colors.greenBrand} style={styles.loader} />
         )}
       </BottomSheet>
     </SafeAreaView>

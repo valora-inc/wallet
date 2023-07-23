@@ -56,7 +56,7 @@ const TAG = 'positions/saga'
 
 const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
-export function getHooksApiFunctionUrl(
+function getHooksApiFunctionUrl(
   hooksApiUrl: string,
   functionName: 'getPositions' | 'getShortcuts' | 'triggerShortcut'
 ) {
