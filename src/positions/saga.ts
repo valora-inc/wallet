@@ -17,9 +17,12 @@ import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
   shortcutsStatusSelector,
+  triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
   executeShortcut,
+  executeShortcutFailure,
+  executeShortcutSuccess,
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
@@ -28,6 +31,8 @@ import {
   fetchShortcutsSuccess,
   previewModeDisabled,
   previewModeEnabled,
+  TriggeredShortcuts,
+  triggerShortcut,
   triggerShortcutFailure,
   triggerShortcutSuccess,
 } from 'src/positions/slice'
@@ -200,18 +205,48 @@ export function* handleEnableHooksPreviewDeepLink(
   }
 }
 
+export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShortcut>) {
+  Logger.debug(`${TAG}/triggerShortcutSaga`, 'Initiating request to trigger shortcut', payload)
+
+  const hooksApiUrl = yield select(hooksApiUrlSelector)
+  try {
+    const response = yield call(
+      fetchWithTimeout,
+      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload.data),
+      }
+    )
+    if (!response.ok) {
+      throw new Error(`Unable to trigger shortcut: ${response.status} ${response.statusText}`)
+    }
+
+    const { data } = yield call([response, 'json'])
+    yield put(triggerShortcutSuccess({ id: payload.id, transactions: data.transactions }))
+  } catch (error) {
+    yield put(triggerShortcutFailure(payload.id))
+  }
+}
+
 export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShortcut>) {
-  Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating claim reward', payload)
+  Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating execute shortcut')
 
   try {
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
     const normalizer = new TxParamsNormalizer(kit.connection)
 
-    Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', payload.transactions)
+    const triggeredShortcuts: TriggeredShortcuts = yield select(triggeredShortcutsStatusSelector)
+    const shortcutTransactions = triggeredShortcuts[payload].transactions
+
+    Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', shortcutTransactions)
 
     // TODO parallelize the send transactions
-    for (const transaction of payload.transactions) {
+    for (const transaction of shortcutTransactions) {
       applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
       const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
       const txo = buildTxo(kit, tx)
@@ -230,14 +265,14 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
       )
     }
 
-    yield put(triggerShortcutSuccess(payload.id))
+    yield put(executeShortcutSuccess(payload))
     Toast.showWithGravity(
       i18n.t('dappShortcuts.claimRewardsScreen.claimSuccess'),
       Toast.SHORT,
       Toast.BOTTOM
     )
   } catch (error) {
-    yield put(triggerShortcutFailure(payload.id))
+    yield put(executeShortcutFailure(payload))
     // TODO customise error message when there are more shortcut types
     yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
@@ -258,6 +293,7 @@ export function* watchFetchBalances() {
 }
 
 export function* watchShortcuts() {
+  yield takeEvery(triggerShortcut, safely(triggerShortcutSaga))
   yield takeEvery(executeShortcut, safely(executeShortcutSaga))
 }
 

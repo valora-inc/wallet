@@ -1,9 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { Position, Shortcut } from './types'
+import { Position, Shortcut, ShortcutStatus } from './types'
 
-type Status = 'idle' | 'loading' | 'success' | 'error' | 'accepting'
+type Status = 'idle' | 'loading' | 'success' | 'error'
+
+export type TriggeredShortcuts = Record<
+  string,
+  {
+    status: ShortcutStatus
+    transactions: RawShortcutTransaction[]
+    appName: string
+    appImage: string
+  }
+>
 
 export interface State {
   positions: Position[]
@@ -11,7 +21,7 @@ export interface State {
   shortcuts: Shortcut[]
   shortcutsStatus: Status
   previewApiUrl: string | null
-  triggeredShortcutsStatus: Record<string, Status>
+  triggeredShortcutsStatus: TriggeredShortcuts
 }
 
 const initialState: State = {
@@ -30,9 +40,17 @@ export interface RawShortcutTransaction {
   network: string
 }
 
-export interface TriggerShortcut {
+interface TriggerShortcut {
   id: string // only used in the app to display the execution status of the shortcut
-  transactions: RawShortcutTransaction[]
+  appName: string
+  appImage: string
+  data: {
+    network: string
+    address: string
+    appId: string
+    positionAddress: string
+    shortcutId: string
+  }
 }
 
 const slice = createSlice({
@@ -81,20 +99,38 @@ const slice = createSlice({
       shortcuts: [],
       shortcutsStatus: 'idle',
     }),
-    triggerShortcut: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload] = 'loading'
+    triggerShortcut: (state, action: PayloadAction<TriggerShortcut>) => {
+      state.triggeredShortcutsStatus[action.payload.id] = {
+        status: 'loading',
+        appName: action.payload.appName,
+        appImage: action.payload.appImage,
+        transactions: [],
+      }
     },
-    executeShortcut: (state, action: PayloadAction<TriggerShortcut>) => {
-      state.triggeredShortcutsStatus[action.payload.id] = 'accepting'
-    },
-    denyExecuteShortcut: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload] = 'idle'
-    },
-    triggerShortcutSuccess: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload] = 'success'
+    triggerShortcutSuccess: (
+      state,
+      action: PayloadAction<{
+        id: string
+        transactions: RawShortcutTransaction[]
+      }>
+    ) => {
+      state.triggeredShortcutsStatus[action.payload.id].status = 'pendingAccept'
+      state.triggeredShortcutsStatus[action.payload.id].transactions = action.payload.transactions
     },
     triggerShortcutFailure: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload] = 'error'
+      state.triggeredShortcutsStatus[action.payload].status = 'error'
+    },
+    executeShortcut: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload].status = 'accepting'
+    },
+    denyExecuteShortcut: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload].status = 'idle'
+    },
+    executeShortcutSuccess: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload].status = 'success'
+    },
+    executeShortcutFailure: (state, action: PayloadAction<string>) => {
+      state.triggeredShortcutsStatus[action.payload].status = 'error'
     },
   },
   extraReducers: (builder) => {
@@ -119,6 +155,8 @@ export const {
   previewModeDisabled,
   triggerShortcut,
   executeShortcut,
+  executeShortcutSuccess,
+  executeShortcutFailure,
   denyExecuteShortcut,
   triggerShortcutSuccess,
   triggerShortcutFailure,

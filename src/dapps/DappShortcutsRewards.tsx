@@ -1,32 +1,21 @@
 import { BigNumber } from 'bignumber.js'
 import React, { useEffect, useRef, useState } from 'react'
-import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { getHooksApiFunctionUrl } from 'src/positions/saga'
 import {
   getClaimableRewardId,
-  hooksApiUrlSelector,
+  pendingAcceptanceShortcutSelector,
   positionsWithClaimableRewardsSelector,
-  triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
-import {
-  denyExecuteShortcut,
-  executeShortcut,
-  RawShortcutTransaction,
-  triggerShortcut,
-  triggerShortcutFailure,
-} from 'src/positions/slice'
+import { denyExecuteShortcut, executeShortcut, triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
 import { default as colors, default as Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -37,36 +26,17 @@ import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-const TAG = 'dapps/DappShortcutsRewards'
-
-interface TriggerShortcutPayload {
-  network: string
-  address: string
-  appId: string
-  positionAddress: string
-  shortcutId: string
-}
-
 function DappShortcutsRewards() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
   const dispatch = useDispatch()
   const confirmBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const hooksApiUrl = useSelector(hooksApiUrlSelector)
-
   const address = useSelector(walletAddressSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
-  const triggeredShortcutsStatus = useSelector(triggeredShortcutsStatusSelector)
+  const pendingAcceptShortcut = useSelector(pendingAcceptanceShortcutSelector)
 
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
-  // there should only be one claim in progress at a time
-  const [claimInProgress, setClaimInProgress] = useState<{
-    id: string
-    appName: string
-    imageUrl: string
-  } | null>(null)
-  const [claimTransactions, setConfirmTransactions] = useState<RawShortcutTransaction[]>([])
 
   useEffect(() => {
     setClaimablePositions((prev) => {
@@ -95,50 +65,10 @@ function DappShortcutsRewards() {
   }, [positionsWithClaimableRewards])
 
   useEffect(() => {
-    if (
-      claimInProgress &&
-      (triggeredShortcutsStatus[claimInProgress.id] === 'success' ||
-        triggeredShortcutsStatus[claimInProgress.id] === 'error')
-    ) {
+    if (!pendingAcceptShortcut) {
       confirmBottomSheetRef.current?.close()
-      setClaimInProgress(null)
     }
-  }, [triggeredShortcutsStatus])
-
-  const triggerShortcutAsync = useAsyncCallback(
-    async (payload: TriggerShortcutPayload) => {
-      Logger.debug(`${TAG}/triggerShortcutSaga`, 'Initiating request to claim reward', payload)
-
-      const response = await fetch(getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
-
-      if (!response.ok) {
-        throw new Error(await response.text())
-      }
-
-      return await response.json()
-    },
-    {
-      onSuccess: async (transactionData) => {
-        setConfirmTransactions(transactionData.data.transactions)
-      },
-      onError: (error: Error) => {
-        Logger.warn(`${TAG}/triggerShortcutSaga`, 'Error triggering shortcut', error)
-        dispatch(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
-      },
-    }
-  )
-
-  useEffect(() => {
-    if (triggerShortcutAsync.error && claimInProgress) {
-      dispatch(triggerShortcutFailure(claimInProgress.id))
-    }
-  }, [triggerShortcutAsync.error])
+  }, [pendingAcceptShortcut])
 
   const handleConfirmClaimReward = (position: ClaimablePosition) => () => {
     if (!address) {
@@ -148,30 +78,31 @@ function DappShortcutsRewards() {
     }
 
     const rewardId = getClaimableRewardId(position.address, position.claimableShortcut)
-    setClaimInProgress({
-      id: rewardId,
-      appName: position.appName,
-      imageUrl: position.displayProps.imageUrl,
-    })
-    dispatch(triggerShortcut(rewardId))
+    dispatch(
+      triggerShortcut({
+        id: rewardId,
+        appName: position.appName,
+        appImage: position.displayProps.imageUrl,
+        data: {
+          address,
+          appId: position.appId,
+          network: 'celo',
+          positionAddress: position.address,
+          shortcutId: position.claimableShortcut.id,
+        },
+      })
+    )
     confirmBottomSheetRef.current?.snapToIndex(0)
-    void triggerShortcutAsync.execute({
-      address,
-      appId: position.appId,
-      network: 'celo',
-      positionAddress: position.address,
-      shortcutId: position.claimableShortcut.id,
-    })
   }
 
   const handleClaimReward = () => {
-    if (!claimInProgress) {
+    if (!pendingAcceptShortcut) {
       // should never happen
       Logger.error('dapps/DappShortcutsRewards', 'No in progress reward found when claiming reward')
       return
     }
 
-    dispatch(executeShortcut({ id: claimInProgress.id, transactions: claimTransactions }))
+    dispatch(executeShortcut(pendingAcceptShortcut.id))
   }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
@@ -182,7 +113,8 @@ function DappShortcutsRewards() {
       )
     })
     const allowClaim = item.status === 'idle' || item.status === 'error'
-    const loading = item.status === 'loading' || item.status === 'accepting'
+    const loading =
+      item.status === 'loading' || item.status === 'pendingAccept' || item.status === 'accepting'
 
     return (
       <View style={styles.card} testID="DappShortcutsRewards/Card">
@@ -250,8 +182,8 @@ function DappShortcutsRewards() {
   }
 
   const handleDenyTransaction = () => {
-    if (claimInProgress && triggeredShortcutsStatus[claimInProgress.id] === 'accepting') {
-      dispatch(denyExecuteShortcut(claimInProgress.id))
+    if (pendingAcceptShortcut) {
+      dispatch(denyExecuteShortcut(pendingAcceptShortcut.id))
     }
   }
 
@@ -273,21 +205,21 @@ function DappShortcutsRewards() {
         onDismiss={handleDenyTransaction}
         testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
       >
-        {claimTransactions.length > 0 ? (
+        {pendingAcceptShortcut?.transactions?.length ? (
           <RequestContent
             onAccept={handleClaimReward}
             onDeny={handleDenyTransaction}
-            dappName={claimInProgress?.appName ?? ''}
-            dappImageUrl={claimInProgress?.imageUrl}
+            dappName={pendingAcceptShortcut.appName}
+            dappImageUrl={pendingAcceptShortcut.appImage}
             title={t('confirmTransaction')}
             description={t('walletConnectRequest.sendTransaction', {
-              dappName: claimInProgress?.appName,
+              dappName: pendingAcceptShortcut.appName,
             })}
             testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
           >
             <DataFieldWithCopy
               label={t('walletConnectRequest.transactionDataLabel')}
-              value={JSON.stringify(claimTransactions)}
+              value={JSON.stringify(pendingAcceptShortcut.transactions)}
               testID="DappShortcutsRewards/RewardTransactionData"
               onCopy={handleTrackCopyTransactionDetails}
             />

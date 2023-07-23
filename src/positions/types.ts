@@ -60,11 +60,19 @@ export interface Shortcut {
   category?: 'claim'
 }
 
+export type ShortcutStatus =
+  | 'idle'
+  | 'loading'
+  | 'pendingAccept'
+  | 'accepting'
+  | 'success'
+  | 'error'
+
 export type ClaimableShortcut = Shortcut & {
   claimableTokens: Token[]
 }
 
 export interface ClaimablePosition extends Omit<Position, 'availableShortcutIds' | 'tokens'> {
   claimableShortcut: ClaimableShortcut
-  status: 'idle' | 'loading' | 'accepting' | 'success' | 'error'
+  status: ShortcutStatus
 }
