@@ -7,7 +7,7 @@ import { call, select } from 'redux-saga/effects'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { refreshAllBalances } from 'src/home/actions'
 import {
-  executeShortcutsSaga,
+  executeShortcutSaga,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
@@ -235,7 +235,7 @@ describe(handleEnableHooksPreviewDeepLink, () => {
   })
 })
 
-describe(executeShortcutsSaga, () => {
+describe(executeShortcutSaga, () => {
   const mockTransaction = {
     network: 'celo',
     from: mockAccount,
@@ -251,7 +251,7 @@ describe(executeShortcutsSaga, () => {
     mockSendTransaction.mockResolvedValueOnce({ transactionHash: '0x1234' })
 
     await expectSaga(
-      executeShortcutsSaga,
+      executeShortcutSaga,
       executeShortcut({ transactions: [mockTransaction], id: 'someId' })
     )
       .provide(defaultProviders)
@@ -270,7 +270,7 @@ describe(executeShortcutsSaga, () => {
     mockSendTransaction.mockRejectedValueOnce('some error')
 
     await expectSaga(
-      executeShortcutsSaga,
+      executeShortcutSaga,
       executeShortcut({ transactions: [mockTransaction], id: 'someId' })
     )
       .provide(defaultProviders)

@@ -200,15 +200,15 @@ export function* handleEnableHooksPreviewDeepLink(
   }
 }
 
-export function* executeShortcutsSaga({ payload }: ReturnType<typeof executeShortcut>) {
-  Logger.debug(`${TAG}/executeShortcutsSaga`, 'Initiating claim reward', payload)
+export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShortcut>) {
+  Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating claim reward', payload)
 
   try {
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
     const normalizer = new TxParamsNormalizer(kit.connection)
 
-    Logger.debug(`${TAG}/executeShortcutsSaga`, 'Starting to claim reward(s)', payload.transactions)
+    Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', payload.transactions)
 
     // TODO parallelize the send transactions
     for (const transaction of payload.transactions) {
@@ -224,7 +224,7 @@ export function* executeShortcutsSaga({ payload }: ReturnType<typeof executeShor
       )
 
       Logger.debug(
-        `${TAG}/executeShortcutsSaga`,
+        `${TAG}/executeShortcutSaga`,
         'Claimed reward successful',
         receipt.transactionHash
       )
@@ -240,7 +240,7 @@ export function* executeShortcutsSaga({ payload }: ReturnType<typeof executeShor
     yield put(triggerShortcutFailure(payload.id))
     // TODO customise error message when there are more shortcut types
     yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
-    Logger.warn(`${TAG}/executeShortcutsSaga`, 'Failed to claim reward', error)
+    Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
   }
 }
 
@@ -258,7 +258,7 @@ export function* watchFetchBalances() {
 }
 
 export function* watchShortcuts() {
-  yield takeEvery(executeShortcut, safely(executeShortcutsSaga))
+  yield takeEvery(executeShortcut, safely(executeShortcutSaga))
 }
 
 export function* positionsSaga() {
