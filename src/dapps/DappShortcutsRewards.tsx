@@ -65,10 +65,9 @@ function DappShortcutsRewards() {
       return
     }
 
-    const rewardId = getClaimableRewardId(position.address, position.claimableShortcut)
     dispatch(
       triggerShortcut({
-        id: rewardId,
+        id: getClaimableRewardId(position.address, position.claimableShortcut),
         appName: position.appName,
         appImage: position.displayProps.imageUrl,
         data: {
@@ -219,7 +218,8 @@ const styles = StyleSheet.create({
     ...fontStyles.small600,
   },
   headerContainer: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
+    paddingBottom: Spacing.Thick24,
   },
   heading: {
     ...fontStyles.large600,
