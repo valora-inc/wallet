@@ -4,10 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import Logger from 'src/utils/Logger'
-import {
-  acceptRequest as acceptRequestV2,
-  denyRequest as denyRequestV2,
-} from 'src/walletConnect/actions'
+import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
@@ -20,12 +17,7 @@ interface Props {
   pendingAction: Web3WalletTypes.EventArguments['session_request']
 }
 
-// do not destructure props or else the type inference is lost
-function ActionRequest(props: Props) {
-  return <ActionRequestV2 {...props} />
-}
-
-function ActionRequestV2({ pendingAction }: Props) {
+function ActionRequest({ pendingAction }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -51,10 +43,10 @@ function ActionRequestV2({ pendingAction }: Props) {
   return (
     <RequestContent
       onAccept={() => {
-        dispatch(acceptRequestV2(pendingAction))
+        dispatch(acceptRequest(pendingAction))
       }}
       onDeny={() => {
-        dispatch(denyRequestV2(pendingAction, getSdkError('USER_REJECTED')))
+        dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
