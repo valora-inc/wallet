@@ -17,7 +17,7 @@ import {
 } from 'src/positions/selectors'
 import { denyExecuteShortcut, executeShortcut, triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
