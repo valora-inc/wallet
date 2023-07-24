@@ -821,7 +821,22 @@
                 "name": {
                     "type": "string"
                 },
+                "redirect": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "native": {
+                            "type": "string"
+                        },
+                        "universal": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "url": {
+                    "type": "string"
+                },
+                "verifyUrl": {
                     "type": "string"
                 }
             },
@@ -1876,22 +1891,6 @@
             },
             "type": "object"
         },
-        "Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>,\"topic\">": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "params": {
-                    "$ref": "#/definitions/ProposalTypes.Struct"
-                }
-            },
-            "required": [
-                "id",
-                "params"
-            ],
-            "type": "object"
-        },
         "Order": {
             "additionalProperties": false,
             "properties": {
@@ -2187,7 +2186,15 @@
             ],
             "type": "object"
         },
+        "ProposalTypes.OptionalNamespaces": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "ProposalTypes.RequiredNamespaces": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "ProposalTypes.SessionProperties": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -2199,6 +2206,9 @@
                 },
                 "id": {
                     "type": "number"
+                },
+                "optionalNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
                 },
                 "pairingTopic": {
                     "type": "string"
@@ -2227,11 +2237,15 @@
                 },
                 "requiredNamespaces": {
                     "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
+                },
+                "sessionProperties": {
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
                 }
             },
             "required": [
                 "expiry",
                 "id",
+                "optionalNamespaces",
                 "proposer",
                 "relays",
                 "requiredNamespaces"
@@ -2507,6 +2521,12 @@
                 "namespaces": {
                     "$ref": "#/definitions/SessionTypes.Namespaces"
                 },
+                "optionalNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
+                },
+                "pairingTopic": {
+                    "type": "string"
+                },
                 "peer": {
                     "additionalProperties": false,
                     "properties": {
@@ -2545,6 +2565,9 @@
                     ],
                     "type": "object"
                 },
+                "sessionProperties": {
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
+                },
                 "topic": {
                     "type": "string"
                 }
@@ -2554,6 +2577,8 @@
                 "controller",
                 "expiry",
                 "namespaces",
+                "optionalNamespaces",
+                "pairingTopic",
                 "peer",
                 "relay",
                 "requiredNamespaces",
@@ -2596,50 +2621,6 @@
                 "id",
                 "name",
                 "networks"
-            ],
-            "type": "object"
-        },
-        "SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "params": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "chainId": {
-                            "type": "string"
-                        },
-                        "request": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "method": {
-                                    "type": "string"
-                                },
-                                "params": {}
-                            },
-                            "required": [
-                                "method",
-                                "params"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "chainId",
-                        "request"
-                    ],
-                    "type": "object"
-                },
-                "topic": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "id",
-                "params",
-                "topic"
             ],
             "type": "object"
         },
@@ -3421,13 +3402,75 @@
             "properties": {
                 "pendingActions": {
                     "items": {
-                        "$ref": "#/definitions/SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>"
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "params": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "chainId": {
+                                        "type": "string"
+                                    },
+                                    "request": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "method": {
+                                                "type": "string"
+                                            },
+                                            "params": {}
+                                        },
+                                        "required": [
+                                            "method",
+                                            "params"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "chainId",
+                                    "request"
+                                ],
+                                "type": "object"
+                            },
+                            "topic": {
+                                "type": "string"
+                            },
+                            "verifyContext": {
+                                "$ref": "#/definitions/Verify.Context"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "params",
+                            "topic",
+                            "verifyContext"
+                        ],
+                        "type": "object"
                     },
                     "type": "array"
                 },
                 "pendingSessions": {
                     "items": {
-                        "$ref": "#/definitions/Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>,\"topic\">"
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "params": {
+                                "$ref": "#/definitions/ProposalTypes.Struct"
+                            },
+                            "verifyContext": {
+                                "$ref": "#/definitions/Verify.Context"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "params",
+                            "verifyContext"
+                        ],
+                        "type": "object"
                     },
                     "type": "array"
                 },
@@ -5114,6 +5157,40 @@
                 "countryCodeAlpha2",
                 "ipAddress",
                 "region"
+            ],
+            "type": "object"
+        },
+        "Verify.Context": {
+            "additionalProperties": false,
+            "properties": {
+                "verified": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "origin": {
+                            "type": "string"
+                        },
+                        "validation": {
+                            "enum": [
+                                "INVALID",
+                                "UNKNOWN",
+                                "VALID"
+                            ],
+                            "type": "string"
+                        },
+                        "verifyUrl": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "origin",
+                        "validation",
+                        "verifyUrl"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "verified"
             ],
             "type": "object"
         },

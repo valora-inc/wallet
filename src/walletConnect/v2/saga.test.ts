@@ -1,4 +1,5 @@
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { CoreTypes, SessionTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { DappRequestOrigin } from 'src/analytics/types'
@@ -16,8 +17,8 @@ import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
-  proposerMetadata: SignClientTypes.Metadata
-): SignClientTypes.EventArguments['session_proposal'] {
+  proposerMetadata: CoreTypes.Metadata
+): Web3WalletTypes.EventArguments['session_proposal'] {
   return {
     id: 1669989187506938,
     params: {
@@ -33,6 +34,7 @@ function createSessionProposal(
           methods: ['eth_sendTransaction', 'eth_signTypedData'],
         },
       },
+      optionalNamespaces: {},
       id: 1669989187506938,
       relays: [
         {
@@ -41,10 +43,17 @@ function createSessionProposal(
       ],
       pairingTopic: 'ab7c79764b6838abd24669ab735f6ce40bb26ca4d54cf948daca8e80a2eb6db1',
     },
+    verifyContext: {
+      verified: {
+        origin: '',
+        validation: 'UNKNOWN',
+        verifyUrl: '',
+      },
+    },
   }
 }
 
-function createSession(proposerMetadata: SignClientTypes.Metadata): SessionTypes.Struct {
+function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struct {
   return {
     expiry: 1671006057,
     self: {
@@ -73,6 +82,7 @@ function createSession(proposerMetadata: SignClientTypes.Metadata): SessionTypes
     },
     acknowledged: true,
     topic: '243b33442b6190b97055201b5a8817f4e604e3f37b5376e78ee0b3715cc6211c',
+    pairingTopic: '98339e3d81179f61656592154af78d308ba7f8d01498772320d2d87c90cafb85',
     requiredNamespaces: {
       eip155: {
         events: ['chainChanged', 'accountsChanged'],
@@ -80,6 +90,7 @@ function createSession(proposerMetadata: SignClientTypes.Metadata): SessionTypes
         methods: ['eth_sendTransaction', 'eth_signTypedData'],
       },
     },
+    optionalNamespaces: {},
   }
 }
 
@@ -133,7 +144,7 @@ describe('applyIconFixIfNeeded', () => {
     eachMetadata(
       'fixes the `icons` property when the metadata is $metadata',
       async ({ metadata, expected }) => {
-        const sessionProposal = createSessionProposal(metadata as SignClientTypes.Metadata)
+        const sessionProposal = createSessionProposal(metadata as Web3WalletTypes.Metadata)
         _applyIconFixIfNeeded(sessionProposal)
         // eslint-disable-next-line jest/no-standalone-expect
         expect(sessionProposal.params.proposer.metadata?.icons).toStrictEqual(expected)
@@ -145,7 +156,7 @@ describe('applyIconFixIfNeeded', () => {
     eachMetadata(
       'fixes the `icons` property when the metadata is $metadata',
       async ({ metadata, expected }) => {
-        const session = createSession(metadata as SignClientTypes.Metadata)
+        const session = createSession(metadata as Web3WalletTypes.Metadata)
         _applyIconFixIfNeeded(session)
         // eslint-disable-next-line jest/no-standalone-expect
         expect(session.peer.metadata?.icons).toStrictEqual(expected)

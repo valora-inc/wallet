@@ -1,4 +1,4 @@
-import { SignClientTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,7 +25,7 @@ type Props =
     }
   | {
       version: 2
-      pendingSession: SignClientTypes.EventArguments['session_proposal']
+      pendingSession: Web3WalletTypes.EventArguments['session_proposal']
     }
 
 // do not destructure props or else the type inference is lost

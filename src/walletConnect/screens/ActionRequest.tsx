@@ -1,5 +1,5 @@
-import { SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,7 +28,7 @@ interface PropsV1 {
 
 interface PropsV2 {
   version: 2
-  pendingAction: SignClientTypes.EventArguments['session_request']
+  pendingAction: Web3WalletTypes.EventArguments['session_request']
 }
 
 type Props = PropsV1 | PropsV2

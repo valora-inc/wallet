@@ -1,7 +1,8 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { fireEvent, render, within } from '@testing-library/react-native'
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
@@ -185,6 +186,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
     acknowledged: true,
     topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
+    pairingTopic: '20eca0383221cb6feb7af40d06d5cdd867965dd885e9ad36fb4540d9cc25267b',
     requiredNamespaces: {
       eip155: {
         methods: [
@@ -198,9 +200,10 @@ describe('ActionRequest with WalletConnect V2', () => {
         events: ['chainChanged', 'accountsChanged'],
       },
     },
+    optionalNamespaces: {},
   }
 
-  const pendingAction: SignClientTypes.EventArguments['session_request'] = {
+  const pendingAction: Web3WalletTypes.EventArguments['session_request'] = {
     id: 1669810746892321,
     topic: 'd8afe1f5c3efa38bbb62c68005f572a7218afcd48703e4b02bdc5df2549ac5b5',
     params: {
@@ -211,6 +214,13 @@ describe('ActionRequest with WalletConnect V2', () => {
           '0x4d65737361676520746f207369676e', // hex of 'Message to sign'
           '0x047154ac4d7e01b1dc9ddeea9e8996b57895a747',
         ],
+      },
+    },
+    verifyContext: {
+      verified: {
+        origin: '',
+        validation: 'UNKNOWN',
+        verifyUrl: '',
       },
     },
   }

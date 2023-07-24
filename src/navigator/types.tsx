@@ -1,7 +1,7 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
-import { SignClientTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -334,7 +334,7 @@ export type StackParamList = {
     | {
         type: WalletConnectRequestType.Action
         version: 2
-        pendingAction: SignClientTypes.EventArguments['session_request']
+        pendingAction: Web3WalletTypes.EventArguments['session_request']
       }
     | {
         type: WalletConnectRequestType.Session
@@ -344,7 +344,7 @@ export type StackParamList = {
     | {
         type: WalletConnectRequestType.Session
         version: 2
-        pendingSession: SignClientTypes.EventArguments['session_proposal']
+        pendingSession: Web3WalletTypes.EventArguments['session_proposal']
       }
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined

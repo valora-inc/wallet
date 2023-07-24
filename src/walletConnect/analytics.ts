@@ -1,4 +1,5 @@
-import { SessionTypes, SignClientTypes } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { ActiveDapp } from 'src/dapps/types'
 import {
@@ -8,13 +9,13 @@ import {
 } from 'src/walletConnect/types'
 
 const isSessionProposalType = (
-  session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct
-): session is SignClientTypes.EventArguments['session_proposal'] => {
+  session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
+): session is Web3WalletTypes.EventArguments['session_proposal'] => {
   return 'params' in session
 }
 
 export function getDefaultSessionTrackedPropertiesV2(
-  session: SignClientTypes.EventArguments['session_proposal'] | SessionTypes.Struct,
+  session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct,
   activeDapp: ActiveDapp | null
 ) {
   const peer = isSessionProposalType(session) ? session.params.proposer : session.peer
@@ -49,7 +50,7 @@ export function getDefaultSessionTrackedPropertiesV2(
 }
 
 export function getDefaultRequestTrackedPropertiesV2(
-  request: SignClientTypes.EventArguments['session_request']
+  request: Web3WalletTypes.EventArguments['session_request']
 ) {
   const { id, params } = request
 
