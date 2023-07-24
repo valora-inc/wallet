@@ -241,7 +241,9 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
     const normalizer = new TxParamsNormalizer(kit.connection)
 
     const triggeredShortcuts: TriggeredShortcuts = yield select(triggeredShortcutsStatusSelector)
-    const shortcutTransactions = triggeredShortcuts[payload].transactions
+    const shortcutTransactions = JSON.parse(
+      JSON.stringify(triggeredShortcuts[payload].transactions)
+    )
 
     Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', shortcutTransactions)
 
