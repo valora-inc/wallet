@@ -12,7 +12,7 @@ import {
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
-  walletConnectSagaV2,
+  walletConnectSaga,
   _applyIconFixIfNeeded,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -170,7 +170,7 @@ describe('applyIconFixIfNeeded', () => {
 
 // See also our comprehensive E2E tests for WalletConnect
 // The tests here are mainly to check things that are more difficult to cover from the E2E test
-describe(walletConnectSagaV2, () => {
+describe(walletConnectSaga, () => {
   beforeAll(() => {
     jest.useRealTimers()
   })
@@ -188,7 +188,7 @@ describe(walletConnectSagaV2, () => {
       throw new Error('An unexpected failure')
     })
     const state = createMockStore({}).getState()
-    await expectSaga(walletConnectSagaV2)
+    await expectSaga(walletConnectSaga)
       .withState(state)
       // This one will fail internally
       .dispatch(sessionProposalAction(sessionProposal))

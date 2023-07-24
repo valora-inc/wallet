@@ -18,8 +18,8 @@ import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
-  getDefaultRequestTrackedPropertiesV2,
-  getDefaultSessionTrackedPropertiesV2,
+  getDefaultRequestTrackedProperties,
+  getDefaultSessionTrackedProperties,
 } from 'src/walletConnect/analytics'
 import { SupportedActions } from 'src/walletConnect/constants'
 
@@ -57,8 +57,8 @@ function ActionRequestPayload(props: Props) {
     vibrateInformative()
 
     const defaultTrackedProps = {
-      ...getDefaultSessionTrackedPropertiesV2(props.session, activeDapp),
-      ...getDefaultRequestTrackedPropertiesV2(props.request),
+      ...getDefaultSessionTrackedProperties(props.session, activeDapp),
+      ...getDefaultRequestTrackedProperties(props.request),
     }
 
     ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, defaultTrackedProps)

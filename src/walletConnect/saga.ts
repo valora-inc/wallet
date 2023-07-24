@@ -55,8 +55,8 @@ import {
   WalletConnectActions,
 } from 'src/walletConnect/actions'
 import {
-  getDefaultRequestTrackedPropertiesV2,
-  getDefaultSessionTrackedPropertiesV2,
+  getDefaultRequestTrackedProperties,
+  getDefaultSessionTrackedProperties as getDefaultSessionTrackedPropertiesAnalytics,
 } from 'src/walletConnect/analytics'
 import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
@@ -79,7 +79,7 @@ export function* getDefaultSessionTrackedProperties(
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
   const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
-  return getDefaultSessionTrackedPropertiesV2(session, activeDapp)
+  return getDefaultSessionTrackedPropertiesAnalytics(session, activeDapp)
 }
 
 function* handleInitialiseWalletConnect() {
@@ -270,7 +270,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
   )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedPropertiesV2(request),
+    ...getDefaultRequestTrackedProperties(request),
   })
 
   const activeSessions = yield call([client, 'getActiveSessions'])
@@ -425,7 +425,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedPropertiesV2(request),
+    ...getDefaultRequestTrackedProperties(request),
   }
 
   try {
@@ -471,7 +471,7 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
   )
   const defaultTrackedProperties = {
     ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedPropertiesV2(request),
+    ...getDefaultRequestTrackedProperties(request),
     denyReason: reason.message,
   }
 
@@ -571,7 +571,7 @@ function* checkPersistedState() {
   }
 }
 
-export function* walletConnectSagaV2() {
+export function* walletConnectSaga() {
   yield takeLeading(Actions.INITIALISE_CLIENT, safely(handleInitialiseWalletConnect))
   yield takeEvery(Actions.INITIALISE_PAIRING, safely(handleInitialisePairing))
   yield takeEvery(Actions.CLOSE_SESSION, safely(closeSession))
@@ -593,10 +593,6 @@ export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPai
     yield take(Actions.CLIENT_INITIALISED)
   }
   yield put(initialisePairing(uri, origin))
-}
-
-export function* walletConnectSaga() {
-  yield spawn(walletConnectSagaV2)
 }
 
 export function* isWalletConnectEnabled(uri: string) {
