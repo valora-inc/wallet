@@ -71,6 +71,7 @@ import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -389,10 +390,11 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: Spacing.Smallest8,
   },
   nameLabel: {
     ...fontStyles.displayName,
-    marginTop: 8,
+    marginBottom: Spacing.Smallest8,
   },
   border: {
     marginTop: 20,
