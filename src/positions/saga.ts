@@ -13,6 +13,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
 import i18n from 'src/i18n'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
@@ -278,6 +280,10 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
     // TODO customise error message when there are more shortcut types
     yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
+  }
+
+  if (yield call(isBottomSheetVisible, Screens.DappShortcutTransactionRequest)) {
+    navigateBack()
   }
 }
 

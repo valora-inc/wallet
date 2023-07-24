@@ -31,6 +31,7 @@ import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncenti
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
@@ -321,7 +322,7 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.DappShortcutsRewards}
       component={DappShortcutsRewards}
-      options={DappShortcutsRewards.navigationOptions}
+      options={headerWithBackButton}
     />
   </>
 )
@@ -681,6 +682,11 @@ function nativeBottomSheets(
       </BottomSheet.Screen>
       <BottomSheet.Screen name={Screens.DappKitSignTxScreen}>
         {(props) => <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />}
+      </BottomSheet.Screen>
+      <BottomSheet.Screen name={Screens.DappShortcutTransactionRequest}>
+        {(props) => (
+          <DappShortcutTransactionRequest handleContentLayout={handleContentLayout} {...props} />
+        )}
       </BottomSheet.Screen>
     </>
   )

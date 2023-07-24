@@ -92,7 +92,7 @@ export const pendingAcceptanceShortcutSelector = createSelector(
   (triggeredShortcuts) => {
     // there should only be one in progress shortcut at a time
     const pendingAcceptanceShortcut = Object.entries(triggeredShortcuts).find(([_, value]) => {
-      return value.status === 'pendingAccept'
+      return value.status === 'pendingAccept' || value.status === 'accepting'
     })
     return pendingAcceptanceShortcut
       ? {

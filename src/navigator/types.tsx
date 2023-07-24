@@ -89,6 +89,7 @@ export type StackParamList = {
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.DappShortcutsRewards]: undefined
+  [Screens.DappShortcutTransactionRequest]: undefined
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens

@@ -1,40 +1,34 @@
 import { BigNumber } from 'bignumber.js'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
-import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
   getClaimableRewardId,
-  pendingAcceptanceShortcutSelector,
   positionsWithClaimableRewardsSelector,
 } from 'src/positions/selectors'
-import { denyExecuteShortcut, executeShortcut, triggerShortcut } from 'src/positions/slice'
+import { triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
-import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 function DappShortcutsRewards() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
   const dispatch = useDispatch()
-  const confirmBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const address = useSelector(walletAddressSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
-  const pendingAcceptShortcut = useSelector(pendingAcceptanceShortcutSelector)
 
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
 
@@ -64,12 +58,6 @@ function DappShortcutsRewards() {
     })
   }, [positionsWithClaimableRewards])
 
-  useEffect(() => {
-    if (!pendingAcceptShortcut) {
-      confirmBottomSheetRef.current?.close()
-    }
-  }, [pendingAcceptShortcut])
-
   const createConfirmClaimRewardHandler = (position: ClaimablePosition) => () => {
     if (!address) {
       // should never happen
@@ -92,17 +80,7 @@ function DappShortcutsRewards() {
         },
       })
     )
-    confirmBottomSheetRef.current?.snapToIndex(0)
-  }
-
-  const handleClaimReward = () => {
-    if (!pendingAcceptShortcut) {
-      // should never happen
-      Logger.error('dapps/DappShortcutsRewards', 'No in progress reward found when claiming reward')
-      return
-    }
-
-    dispatch(executeShortcut(pendingAcceptShortcut.id))
+    navigate(Screens.DappShortcutTransactionRequest)
   }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
@@ -177,18 +155,8 @@ function DappShortcutsRewards() {
     )
   }
 
-  const handleTrackCopyTransactionDetails = () => {
-    // TODO
-  }
-
-  const handleDenyTransaction = () => {
-    if (pendingAcceptShortcut) {
-      dispatch(denyExecuteShortcut(pendingAcceptShortcut.id))
-    }
-  }
-
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <>
       <Animated.FlatList
         contentContainerStyle={{
           paddingHorizontal: Spacing.Thick24,
@@ -199,53 +167,11 @@ function DappShortcutsRewards() {
         data={claimablePositions}
         ListHeaderComponent={renderHeader}
       />
-
-      <BottomSheet
-        forwardedRef={confirmBottomSheetRef}
-        onDismiss={handleDenyTransaction}
-        testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
-      >
-        {pendingAcceptShortcut?.transactions?.length ? (
-          <RequestContent
-            onAccept={handleClaimReward}
-            onDeny={handleDenyTransaction}
-            dappName={pendingAcceptShortcut.appName}
-            dappImageUrl={pendingAcceptShortcut.appImage}
-            title={t('confirmTransaction')}
-            description={t('walletConnectRequest.sendTransaction', {
-              dappName: pendingAcceptShortcut.appName,
-            })}
-            testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
-          >
-            <DataFieldWithCopy
-              label={t('walletConnectRequest.transactionDataLabel')}
-              value={JSON.stringify(pendingAcceptShortcut.transactions)}
-              testID="DappShortcutsRewards/RewardTransactionData"
-              onCopy={handleTrackCopyTransactionDetails}
-            />
-            <DappsDisclaimer isDappListed={true} />
-          </RequestContent>
-        ) : (
-          <ActivityIndicator color={Colors.greenBrand} style={styles.loader} />
-        )}
-      </BottomSheet>
-    </SafeAreaView>
+    </>
   )
 }
 
-DappShortcutsRewards.navigationOptions = () => ({
-  ...headerWithBackButton,
-  headerTransparent: true,
-  headerStyle: {
-    backgroundColor: 'transparent',
-  },
-})
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Spacing.Large32,
-  },
   card: {
     borderWidth: 1,
     borderColor: Colors.gray2,
@@ -307,9 +233,6 @@ const styles = StyleSheet.create({
   },
   claimButton: {
     minWidth: 72,
-  },
-  loader: {
-    marginVertical: Spacing.Thick24,
   },
 })
 
