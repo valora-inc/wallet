@@ -1,5 +1,5 @@
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,7 +8,11 @@ import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { Screens } from 'src/navigator/Screens'
 import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import { pendingAcceptanceShortcutSelector } from 'src/positions/selectors'
-import { denyExecuteShortcut, executeShortcut } from 'src/positions/slice'
+import {
+  denyExecuteShortcut,
+  executeShortcut,
+  executeShortcutBackgrounded,
+} from 'src/positions/slice'
 import { Colors } from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -23,6 +27,19 @@ function DappShortcutTransactionRequest({ handleContentLayout }: Props) {
   const dispatch = useDispatch()
 
   const pendingAcceptShortcut = useSelector(pendingAcceptanceShortcutSelector)
+  const inFlightShortcutRef = useRef(pendingAcceptShortcut)
+
+  useEffect(() => {
+    inFlightShortcutRef.current = pendingAcceptShortcut
+  }, [pendingAcceptShortcut])
+
+  useEffect(() => {
+    return () => {
+      if (inFlightShortcutRef.current?.status === 'accepting') {
+        dispatch(executeShortcutBackgrounded(inFlightShortcutRef.current.id))
+      }
+    }
+  }, [])
 
   const handleClaimReward = () => {
     if (!pendingAcceptShortcut) {

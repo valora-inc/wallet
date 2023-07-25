@@ -91,7 +91,10 @@ function DappShortcutsRewards() {
     })
     const allowClaim = item.status === 'idle' || item.status === 'error'
     const loading =
-      item.status === 'loading' || item.status === 'pendingAccept' || item.status === 'accepting'
+      item.status === 'loading' ||
+      item.status === 'pendingAccept' ||
+      item.status === 'accepting' ||
+      item.status === 'acceptingInBackground'
 
     return (
       <View style={styles.card} testID="DappShortcutsRewards/Card">
