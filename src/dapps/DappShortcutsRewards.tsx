@@ -5,6 +5,8 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappShortcutsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { navigate } from 'src/navigator/NavigationService'
@@ -31,6 +33,12 @@ function DappShortcutsRewards() {
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
+
+  useEffect(() => {
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_rewards_screen_open, {
+      numRewards: positionsWithClaimableRewards.length,
+    })
+  }, [])
 
   useEffect(() => {
     setClaimablePositions((prev) => {
@@ -65,17 +73,28 @@ function DappShortcutsRewards() {
       return
     }
 
+    const { appName, displayProps, claimableShortcut, appId } = position
+    const rewardId = getClaimableRewardId(position.address, claimableShortcut)
+
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
+      appName,
+      rewardTokens: claimableShortcut.claimableTokens.map((token) => token.symbol),
+      rewardAmounts: claimableShortcut.claimableTokens.map((token) => token.balance),
+      shortcutId: claimableShortcut.id,
+      rewardId,
+    })
+
     dispatch(
       triggerShortcut({
-        id: getClaimableRewardId(position.address, position.claimableShortcut),
-        appName: position.appName,
-        appImage: position.displayProps.imageUrl,
+        id: rewardId,
+        appName,
+        appImage: displayProps.imageUrl,
         data: {
           address,
-          appId: position.appId,
+          appId,
           network: 'celo',
           positionAddress: position.address,
-          shortcutId: position.claimableShortcut.id,
+          shortcutId: claimableShortcut.id,
         },
       })
     )

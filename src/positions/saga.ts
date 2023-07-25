@@ -7,7 +7,7 @@ import { Alert, Platform } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { BuilderHooksEvents } from 'src/analytics/Events'
+import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -237,19 +237,19 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
 export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShortcut>) {
   Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating execute shortcut')
 
+  const triggeredShortcuts: TriggeredShortcuts = yield select(triggeredShortcutsStatusSelector)
+  const shortcut = triggeredShortcuts[payload]
+
   try {
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
     const normalizer = new TxParamsNormalizer(kit.connection)
 
-    const triggeredShortcuts: TriggeredShortcuts = yield select(triggeredShortcutsStatusSelector)
     // use JSON stringify / parse, otherwise the transaction fails with this
     // error: 'Gas estimation failed: Could not decode transaction failure
     // reason or Error: invalid argument 0: json: cannot unmarshal non-string
     // into Go struct field TransactionArgs.chainId of type *hexutil.Big'
-    const shortcutTransactions = JSON.parse(
-      JSON.stringify(triggeredShortcuts[payload].transactions)
-    )
+    const shortcutTransactions = JSON.parse(JSON.stringify(shortcut?.transactions) ?? '[]')
 
     Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', shortcutTransactions)
 
@@ -279,11 +279,20 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
       Toast.SHORT,
       Toast.BOTTOM
     )
+
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_success, {
+      appName: shortcut.appName,
+      rewardId: payload,
+    })
   } catch (error) {
     yield put(executeShortcutFailure(payload))
     // TODO customise error message when there are more shortcut types
     yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_error, {
+      appName: shortcut.appName,
+      rewardId: payload,
+    })
   }
 
   if (yield call(isBottomSheetVisible, Screens.DappShortcutTransactionRequest)) {

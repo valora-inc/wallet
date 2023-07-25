@@ -11,13 +11,14 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
   DappKitEvents,
+  DappShortcutsEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -1311,6 +1312,27 @@ interface BuilderHooksProperties {
   [BuilderHooksEvents.hooks_disable_preview]: undefined
 }
 
+interface DappShortcutClaimRewardEvent {
+  rewardId: string
+  appName: string
+}
+interface DappShortcutsProperties {
+  [DappShortcutsEvents.dapp_shortcuts_rewards_screen_open]: {
+    numRewards: number
+  }
+  [DappShortcutsEvents.dapp_shortcuts_reward_claim_start]: DappShortcutClaimRewardEvent & {
+    rewardTokens: string[]
+    rewardAmounts: string[]
+    shortcutId: string
+  }
+  [DappShortcutsEvents.dapp_shortcuts_reward_claim_success]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_claim_error]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_propose]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_copy]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_accepted]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_rejected]: DappShortcutClaimRewardEvent
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1344,4 +1366,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   TokenBottomSheetEventsProperties &
   AssetsEventsProperties &
   NftsEventsProperties &
-  BuilderHooksProperties
+  BuilderHooksProperties &
+  DappShortcutsProperties

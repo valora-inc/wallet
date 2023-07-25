@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappShortcutsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { BottomSheetParams } from 'src/navigator/types'
@@ -26,6 +28,12 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
 
   useEffect(() => {
     inFlightShortcutRef.current = pendingAcceptShortcut
+    if (pendingAcceptShortcut?.status === 'pendingAccept') {
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_propose, {
+        appName: pendingAcceptShortcut.appName,
+        rewardId: pendingAcceptShortcut.id,
+      })
+    }
   }, [pendingAcceptShortcut])
 
   useEffect(() => {
@@ -44,16 +52,30 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
     }
 
     dispatch(executeShortcut(pendingAcceptShortcut.id))
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_accepted, {
+      appName: pendingAcceptShortcut.appName,
+      rewardId: pendingAcceptShortcut.id,
+    })
   }
 
   const handleDenyTransaction = () => {
     if (pendingAcceptShortcut) {
       dispatch(denyExecuteShortcut(pendingAcceptShortcut.id))
+
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_rejected, {
+        appName: pendingAcceptShortcut.appName,
+        rewardId: pendingAcceptShortcut.id,
+      })
     }
   }
 
   const handleTrackCopyTransactionDetails = () => {
-    // TODO
+    if (pendingAcceptShortcut) {
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_copy, {
+        appName: pendingAcceptShortcut.appName,
+        rewardId: pendingAcceptShortcut.id,
+      })
+    }
   }
 
   return (
@@ -65,7 +87,6 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
           dappName={pendingAcceptShortcut.appName}
           dappImageUrl={pendingAcceptShortcut.appImage}
           title={t('confirmTransaction')}
-          // TODO update translation keys
           description={t('walletConnectRequest.sendTransaction', {
             dappName: pendingAcceptShortcut.appName,
           })}
