@@ -11,6 +11,7 @@ import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
+import { Core } from '@walletconnect/core'
 
 const jestExpect = require('expect')
 
@@ -87,7 +88,7 @@ const verifySuccessfulTransaction = async (tx) => {
 }
 
 export default WalletConnect = () => {
-  let walletConnectClient, pairingUrl
+  let walletConnectClient, pairingUrl, core
   let intervalsToClear = []
 
   beforeAll(async () => {
@@ -100,15 +101,25 @@ export default WalletConnect = () => {
     // during the WC client init, and then clear them after the test is done
     // Note: this is a hack, and should be removed once @walletconnect/heartbeat is fixed
     const originalSetInterval = global.setInterval
+    const originalAbortController = global.AbortController
     global.setInterval = (...args) => {
       const id = originalSetInterval(...args)
       intervalsToClear.push(id)
       return id
     }
+    // This is fixed in Jest 27, but we're still on 26
+    const abortFn = jest.fn()
+    global.AbortController = jest.fn(() => ({
+      abort: abortFn,
+    }))
+
+    core = await Core.init({
+      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
+      relayUrl: 'wss://relay.walletconnect.org',
+    })
 
     walletConnectClient = await Client.init({
-      relayUrl: 'wss://relay.walletconnect.org',
-      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
+      core,
       metadata: {
         name: dappName,
         description: 'WalletConnect Client',
@@ -119,6 +130,7 @@ export default WalletConnect = () => {
 
     // Now restore the original setInterval
     global.setInterval = originalSetInterval
+    global.AbortController = originalAbortController
 
     const { uri } = await walletConnectClient.connect({
       requiredNamespaces: {

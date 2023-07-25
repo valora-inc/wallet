@@ -1,7 +1,7 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
-import { SignClientTypes } from '@walletconnect/types'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -22,11 +22,7 @@ import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import {
-  PendingAction,
-  WalletConnectRequestType,
-  WalletConnectSessionRequest,
-} from 'src/walletConnect/types'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -207,6 +203,7 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
+  [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestConfirmation]: {
@@ -329,25 +326,21 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:
     | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
-    | { type: WalletConnectRequestType.Action; version: 1; pendingAction: PendingAction }
     | {
         type: WalletConnectRequestType.Action
         version: 2
-        pendingAction: SignClientTypes.EventArguments['session_request']
-      }
-    | {
-        type: WalletConnectRequestType.Session
-        version: 1
-        pendingSession: WalletConnectSessionRequest
+        pendingAction: Web3WalletTypes.EventArguments['session_request']
       }
     | {
         type: WalletConnectRequestType.Session
         version: 2
-        pendingSession: SignClientTypes.EventArguments['session_proposal']
+        pendingSession: Web3WalletTypes.EventArguments['session_proposal']
       }
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined
+  [Screens.WalletSecurityPrimer]: undefined
+  [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawCeloQrScannerScreen]: {

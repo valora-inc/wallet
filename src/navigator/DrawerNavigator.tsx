@@ -52,9 +52,11 @@ import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
+import { NFT } from 'src/icons/navigator/NFT'
 import { Settings } from 'src/icons/navigator/Settings'
 import { Swap } from 'src/icons/navigator/Swap'
 import Invite from 'src/invite/Invite'
+import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
@@ -62,12 +64,14 @@ import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -200,6 +204,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 
 type Props = NativeStackScreenProps<StackParamList, Screens.DrawerNavigator>
 
+// TODO(ACT-771): get from Statsig
+function showKeylessBackup() {
+  return false
+}
+
 export default function DrawerNavigator({ route }: Props) {
   const { t } = useTranslation()
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
@@ -219,6 +228,8 @@ export default function DrawerNavigator({ route }: Props) {
   )
 
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
+
+  const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
 
   // ExchangeHomeScreen
   const celoMenuItem = (
@@ -251,6 +262,13 @@ export default function DrawerNavigator({ route }: Props) {
         component={WalletHome}
         options={{ title: t('home') ?? undefined, drawerIcon: Home, unmountOnBlur: false }}
       />
+      {shouldShowNftGallery && (
+        <Drawer.Screen
+          name={Screens.NftGallery}
+          component={NftGallery}
+          options={{ title: t('nftGallery.title') ?? undefined, drawerIcon: NFT }}
+        />
+      )}
       {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
           name={Screens.SwapScreen}
@@ -278,28 +296,57 @@ export default function DrawerNavigator({ route }: Props) {
           }}
         />
       )}
-      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (
-        <Drawer.Screen
-          name={Screens.BackupIntroduction}
-          // @ts-expect-error component type in native-stack v6
-          component={BackupIntroduction}
-          options={{
-            drawerLabel: !backupCompleted
-              ? () => (
-                  <View style={styles.itemStyle}>
-                    <Text style={styles.itemTitle}>{t('accountKey')}</Text>
-                    <View style={styles.drawerItemIcon}>
-                      <ExclamationCircleIcon />
+
+      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) &&
+        (showKeylessBackup() ? (
+          <Drawer.Screen
+            // NOTE: this needs to be a different screen name from the screen
+            // accessed from the settings which shows the back button instead of
+            // the drawer. Otherwise the settings item will navigate to the
+            // screen with the drawer. This wasn't needed for the
+            // BackupIntroduction screen because it navigates to the pin screen
+            // first.
+            name={Screens.WalletSecurityPrimerDrawer}
+            // @ts-expect-error component type in native-stack v6
+            component={WalletSecurityPrimer}
+            options={{
+              drawerLabel: !backupCompleted
+                ? () => (
+                    <View style={styles.itemStyle}>
+                      <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
+                      <View style={styles.drawerItemIcon}>
+                        <ExclamationCircleIcon />
+                      </View>
                     </View>
-                  </View>
-                )
-              : t('accountKey') ?? undefined,
-            title: t('accountKey') ?? undefined,
-            drawerIcon: AccountKey,
-          }}
-          initialParams={{ showDrawerTopBar: true }}
-        />
-      )}
+                  )
+                : t('walletSecurity') ?? undefined,
+              title: t('walletSecurity') ?? undefined,
+              drawerIcon: AccountKey,
+            }}
+            initialParams={{ showDrawerTopBar: true }}
+          />
+        ) : (
+          <Drawer.Screen
+            name={Screens.BackupIntroduction}
+            // @ts-expect-error component type in native-stack v6
+            component={BackupIntroduction}
+            options={{
+              drawerLabel: !backupCompleted
+                ? () => (
+                    <View style={styles.itemStyle}>
+                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                      <View style={styles.drawerItemIcon}>
+                        <ExclamationCircleIcon />
+                      </View>
+                    </View>
+                  )
+                : t('accountKey') ?? undefined,
+              title: t('accountKey') ?? undefined,
+              drawerIcon: AccountKey,
+            }}
+            initialParams={{ showDrawerTopBar: true }}
+          />
+        ))}
       {showAddWithdrawOnMenu && (
         <Drawer.Screen
           name={Screens.FiatExchange}
@@ -343,10 +390,11 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: Spacing.Smallest8,
   },
   nameLabel: {
     ...fontStyles.displayName,
-    marginTop: 8,
+    marginBottom: Spacing.Smallest8,
   },
   border: {
     marginTop: 20,

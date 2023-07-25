@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Kurtarma İfadesini Kullan",
       "subtitle": "Kurtarma ifadenizi not edin"
-    },
-    "cloudBackup": {
-      "title": "Buluta Yedekle",
-      "subtitle": "İfade kullanmadan cüzdanınızı geri yükleyin",
-      "bottomSheet": {
-        "title": "Bulut Yedekleme yakında!",
-        "restoreComingSoon": "Bulut yedekleme, kurtarma ifadesi olmadan cüzdanınızı geri yüklemenin bir yoludur. Bu konuda elimizden geldiğince hızlı çalışıyoruz ve hazır olduğunda sizi bilgilendireceğiz.",
-        "writeDownPhrase": "Bu sırada cüzdanınızı manuel olarak yedeklemek için lütfen kurtarma ifadenizi not edin.",
-        "continue": "Kurtarma İfadesine Devam Et"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Kurtarma ifadenizi kalemle bir kağıda not etmek ve güvenli bir yerde saklamak cüzdanınızı korumanın en güvenli yollarından biridir.",
       "phraseLocation": "Kolayca çalınamayacağı ve tekrar ulaşılması kolay olan, diğer önemli belgeleri ve malzemeleri sakladığınız yer ideal bir yer olabilir. Karar sizin!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Cüzdanınızı güvende tutun",
+    "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
   "setUpKeylessBackup": {
     "title": "Anahtarsız Yedeklemeyi Ayarlama",
@@ -153,12 +147,6 @@
   "headerTitle": "Kurtarma Kelimeleri",
   "introBackUpPhrase": "Kurtarma İfadesini Yedekle",
   "introCompleteQuiz": "Cüzdanınızın kurtarılabileceğini doğrulamak üzere yedekleme testimizi tamamlayın.\n\nYanlış not ettiyseniz cihazınıza bir şey olursa cüzdanınıza erişemezsiniz.",
-  "introTitle": "Kurtarma Kelimeleriniz",
-  "introBody": "Kurtarma Kelimeleriniz, hesabınızın en önemli parçasıdır.\n\nLütfen Kelimelerinizi oluşturmak için yalnız olabileceğiniz bir yer bulun. Bu işlem yaklaşık beş dakika sürer.",
-  "introPrimaryAction": "Oluştur",
-  "backupSetupTitle": "Kurtarma Kelimelerinizi oluşturun",
-  "backupSetupBody": "Fonlarınızı korumak için {{appName}} kullanmaya devam etmeden önce Kurtarma Kelimelerini oluşturmanız gerekir.",
-  "delayBackup": "Bir Saat Bekleyin",
   "postSetupTitle": "Kurtarma Kelimeleriniz",
   "postSetupBody": "Kurtarma Kelimelerinizi kaybederseniz, tüm Celo Dollar ve CELO'nuza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma Kelimelerinizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
   "postSetupCTA": "Kurtarma Kelimeleriniz ile ilgili daha fazla bilgi edinin",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Lütfen ifadenizi not edin.",
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
-  "backupKeyNotification": "Fonlarınızı güvende tutun. Kurtarma Kelimelerinizi şimdi oluşturun.",
   "backupKeyNotification2": "Fonlarınızı güvende tutun. Kurtarma İfadenizi şimdi yedekleyin.",
   "backupKeyCTA": "Yedeklemeyi Şimdi Tamamlayın",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
@@ -570,6 +557,7 @@
   "close": "Kapat",
   "home": "Ana Sayfa",
   "accountKey": "Kurtarma Kelimeleri",
+  "walletSecurity": "Cüzdan Güvenliği",
   "addAndWithdraw": "Ekle & Çek",
   "settings": "Ayarlar",
   "help": "Yardım",
@@ -1339,7 +1327,16 @@
     "rewards": {
       "title": "Ödülleriniz",
       "description": "Açık dapp pozisyonlarından mevcut ödülleri talep edin"
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Ödülleriniz",
+      "description": "Artık açık dapp pozisyonlarından ödülleri doğrudan {{appName}}adresinden talep edebilirsiniz!",
+      "claimButton": "İddia",
+      "claimedLabel": "Talep Edildi",
+      "rewardLabel": "Mevcut ödül",
+      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz"
+    },
+    "claimRewardFailure": "Ödülünüzü talep ederken bir hata oluştu, lütfen daha sonra tekrar deneyin"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
@@ -1414,7 +1411,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Ücretler dahil <0></0> adresinden para çekeceksiniz"
-    }
+    },
+    "receiveAmount": "Almak <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1752,6 +1750,10 @@
     "swap": "Swap",
     "withdraw": "Çek"
   },
+  "nftGallery": {
+    "title": "Koleksiyon Ürünleri",
+    "noNfts": "Cüzdanınızda bir tane olduğunda NFT'leriniz burada görüntülenecektir"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Celo Explorer'da görüntüle",
     "attributes": "Nitelikler",
@@ -1763,6 +1765,16 @@
     "loadErrorTitle": "NFT'lerin yüklenmesinde bir sorun var",
     "loadErrorSubtitle": "Varlıklarınız güvende. Lütfen tekrar deneyin.",
     "contactSupport": "Başka yardım gerekirse \n<0>Destek ile iletişime geçin</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Kancalar Önizleme Modu",
+      "message": "Lütfen kancalar için önizleme modunu etkinleştirmek istediğinizi onaylayın.\n\nBu özellik yalnızca kanca oluşturan geliştiriciler için tasarlanmıştır. Geliştirici değilseniz veya bu eylemi tetiklemediyseniz ONAYLAMAYIN.",
+      "cancel": "İptal",
+      "confirm": "Onayla"
+    },
+    "invalidApiUrl": "Geçersiz kanca önizleme API URL'si",
+    "bannerTitle": "Kancalar önizlemesi etkin, devre dışı bırakmak için dokunun"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
