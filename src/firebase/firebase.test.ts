@@ -11,7 +11,7 @@ import { Actions } from 'src/firebase/actions'
 import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/firebase'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('src/analytics/ValoraAnalytics')
 

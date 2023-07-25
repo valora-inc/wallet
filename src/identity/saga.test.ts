@@ -18,7 +18,7 @@ import {
   mockE164NumberToAddress,
   mockInvitableRecipient2,
 } from 'test/values'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 describe(watchValidateRecipientAddress, () => {
   beforeAll(() => {

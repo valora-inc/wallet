@@ -27,7 +27,7 @@ import { safely } from 'src/utils/safely'
 import { getWeb3 } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { call, put, select, takeLeading } from 'typed-redux-saga/macro'
+import { call, put, select, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'dappkit/dappkit'
 

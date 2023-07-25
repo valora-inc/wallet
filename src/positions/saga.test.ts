@@ -37,7 +37,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')

@@ -46,7 +46,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { PrimaryValoraWallet } from 'src/web3/types'
-import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'account/saga'
 

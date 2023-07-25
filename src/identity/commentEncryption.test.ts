@@ -28,7 +28,7 @@ import {
   mockPublicDEK,
   mockPublicDEK2,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('crypto', () => ({
   ...(jest.requireActual('crypto') as any),

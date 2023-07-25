@@ -7,7 +7,7 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('src/statsig')
 

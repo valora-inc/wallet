@@ -40,7 +40,6 @@ module.exports = {
   transform: {
     ...tsjPreset.transform,
     '^.+\\.(txt)$': require.resolve('./node_modules/react-native/jest/assetFileTransformer.js'),
-    '^.+\\.tsx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(@celo/)?@?react-native|@react-navigation|@react-native-community|@react-native-firebase|react-navigation|redux-persist|date-fns|victory-*|@walletconnect/react-native-compat|reactotron)',

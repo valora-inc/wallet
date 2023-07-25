@@ -21,16 +21,7 @@ import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
-import {
-  call,
-  cancelled,
-  put,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLatest,
-} from 'typed-redux-saga/macro'
+import { call, cancelled, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'firebase/saga'
 const EXCHANGE_RATES = 'exchangeRates'

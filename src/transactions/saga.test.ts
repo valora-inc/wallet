@@ -7,7 +7,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
+import { call } from 'typed-redux-saga'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 

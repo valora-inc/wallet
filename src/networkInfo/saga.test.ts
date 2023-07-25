@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { updateUserLocationData } from 'src/networkInfo/actions'
 import { fetchUserLocationData } from 'src/networkInfo/saga'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 describe(fetchUserLocationData, () => {
   const mockFetch = fetch as FetchMock

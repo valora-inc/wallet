@@ -10,7 +10,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mocked } from 'ts-jest/utils'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 jest.mock('src/statsig')
 

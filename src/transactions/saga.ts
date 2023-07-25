@@ -42,7 +42,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
-import { call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'transactions/saga'
 

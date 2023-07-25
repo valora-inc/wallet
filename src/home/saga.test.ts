@@ -5,7 +5,7 @@ import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { shouldUpdateBalance } from 'src/redux/selectors'
 import { getConnectedAccount } from 'src/web3/saga'
-import { call, put, select } from 'typed-redux-saga/macro'
+import { call, put, select } from 'typed-redux-saga'
 
 jest.useRealTimers()
 

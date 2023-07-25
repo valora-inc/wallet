@@ -6,7 +6,7 @@ import { doFetchDataEncryptionKey, fetchDEKDecentrally } from 'src/web3/dataEncr
 import networkConfig from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 const mockedDEK = mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')

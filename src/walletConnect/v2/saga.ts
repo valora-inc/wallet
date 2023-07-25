@@ -66,7 +66,7 @@ import {
   take,
   takeEvery,
   takeLeading,
-} from 'typed-redux-saga/macro'
+} from 'typed-redux-saga'
 
 let client: SignClient | null = null
 

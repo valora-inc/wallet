@@ -20,7 +20,7 @@ import {
   mockContract,
   mockTokenBalances,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 

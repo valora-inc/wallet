@@ -13,7 +13,7 @@ import {
 } from 'src/walletConnect/v2/saga'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 function createSessionProposal(
   proposerMetadata: SignClientTypes.Metadata

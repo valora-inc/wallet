@@ -20,7 +20,7 @@ import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)

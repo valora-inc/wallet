@@ -8,7 +8,7 @@ import {
 } from 'src/transactions/send'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
+import { call } from 'typed-redux-saga'
 
 const state = (override?: { celoBalance: string }) =>
   createMockStore({

@@ -46,7 +46,7 @@ import {
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('@celo/connect')
 

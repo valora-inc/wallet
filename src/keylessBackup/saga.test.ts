@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { handleGoogleSignInStarted } from 'src/keylessBackup/saga'
 import { googleSignInCompleted, googleSignInFailed } from 'src/keylessBackup/slice'
-import { call } from 'typed-redux-saga/macro'
+import { call } from 'typed-redux-saga'
 
 jest.mock('src/config', () => ({
   GOOGLE_OAUTH_CLIENT_ID: 'mockClientId',

@@ -8,7 +8,7 @@ import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
-import { call, cancelled, put, select, spawn, take } from 'typed-redux-saga/macro'
+import { call, cancelled, put, select, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'networkInfo/saga'
 

@@ -70,7 +70,7 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')

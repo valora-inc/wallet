@@ -49,7 +49,7 @@ import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { Actions as Web3Actions } from 'src/web3/actions'
 import { web3Saga } from 'src/web3/saga'
-import { call, select, spawn, take, takeEvery } from 'typed-redux-saga/macro'
+import { call, select, spawn, take, takeEvery } from 'typed-redux-saga'
 
 const loggerBlocklist = [
   REHYDRATE,

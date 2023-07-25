@@ -7,7 +7,7 @@ import Logger from 'src/utils/Logger'
 import * as accountCheckerModule from 'src/utils/accountChecker'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
 import { mocked } from 'ts-jest/utils'
-import { spawn, takeEvery } from 'typed-redux-saga/macro'
+import { spawn, takeEvery } from 'typed-redux-saga'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({

@@ -27,7 +27,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { call, put, select } from 'typed-redux-saga/macro'
+import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'FirebaseNotifications'
 

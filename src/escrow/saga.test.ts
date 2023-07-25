@@ -6,7 +6,7 @@ import { Actions, EscrowReclaimPaymentAction } from 'src/escrow/actions'
 import { reclaimFromEscrow } from 'src/escrow/saga'
 import { UnlockResult, getConnectedAccount, unlockAccount } from 'src/web3/saga'
 import { mockAccount } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
+import { call } from 'typed-redux-saga'
 
 describe(reclaimFromEscrow, () => {
   it('fails if user cancels PIN input', async () => {

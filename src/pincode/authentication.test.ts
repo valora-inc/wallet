@@ -30,7 +30,7 @@ import Logger from 'src/utils/Logger'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))

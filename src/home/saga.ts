@@ -23,7 +23,7 @@ import {
   spawn,
   take,
   takeLeading,
-} from 'typed-redux-saga/macro'
+} from 'typed-redux-saga'
 
 const REFRESH_TIMEOUT = 15000
 const TAG = 'home/saga'

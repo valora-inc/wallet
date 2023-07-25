@@ -20,7 +20,7 @@ import {
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.unmock('src/pincode/authentication')
 

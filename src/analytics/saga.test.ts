@@ -3,7 +3,7 @@ import { dynamic } from 'redux-saga-test-plan/providers'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 describe(updateUserTraits, () => {
   beforeAll(() => {

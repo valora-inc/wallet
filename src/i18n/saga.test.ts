@@ -13,7 +13,7 @@ import {
 } from 'src/i18n/selectors'
 import { otaTranslationsUpdated } from 'src/i18n/slice'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('@crowdin/ota-client', () => {
   return function () {

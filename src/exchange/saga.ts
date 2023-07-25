@@ -29,7 +29,7 @@ import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import { safely } from 'src/utils/safely'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { call, put, select, spawn, takeEvery } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, takeEvery } from 'typed-redux-saga'
 
 const TAG = 'exchange/saga'
 

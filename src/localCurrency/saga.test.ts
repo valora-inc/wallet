@@ -15,7 +15,7 @@ import {
 } from 'src/localCurrency/saga'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { Currency } from 'src/utils/currencies'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)

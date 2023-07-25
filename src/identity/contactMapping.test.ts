@@ -43,7 +43,7 @@ import {
   mockE164Number,
   mockE164NumberHash,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
 const mockFetch = fetch as FetchMock

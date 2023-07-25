@@ -101,7 +101,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/analytics/ValoraAnalytics')

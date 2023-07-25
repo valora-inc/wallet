@@ -49,7 +49,7 @@ import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
-import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga/macro'
+import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000

@@ -5,7 +5,7 @@ import { getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockWallet } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
+import { call } from 'typed-redux-saga'
 
 const signTransactionRequest = {
   method: SupportedActions.eth_signTransaction,

@@ -21,7 +21,7 @@ import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { mockOnboardingProps } from 'test/values'
-import { call, delay, fork, select } from 'typed-redux-saga/macro'
+import { call, delay, fork, select } from 'typed-redux-saga'
 
 jest.mock('src/onboarding/steps')
 

@@ -13,7 +13,7 @@ import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
+import { call } from 'typed-redux-saga'
 
 const GAS_AMOUNT = 500000
 

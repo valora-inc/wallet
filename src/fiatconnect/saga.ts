@@ -80,7 +80,7 @@ import Logger from 'src/utils/Logger'
 import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga/macro'
+import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FiatConnectSaga'

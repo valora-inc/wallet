@@ -33,7 +33,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
-import { all, call, put, select } from 'typed-redux-saga/macro'
+import { all, call, put, select } from 'typed-redux-saga'
 
 const TAG = 'identity/commentKey'
 // A separator to split the comment content from the metadata

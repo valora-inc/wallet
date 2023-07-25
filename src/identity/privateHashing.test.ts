@@ -16,7 +16,7 @@ import { isAccountUpToDate } from 'src/web3/dataEncryptionKey'
 import { getConnectedAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockE164Number, mockE164Number2 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 jest.mock('react-native-blind-threshold-bls', () => ({
   blindMessage: jest.fn(() => '0Uj+qoAu7ASMVvm6hvcUGx2eO/cmNdyEgGn0mSoZH8/dujrC1++SZ1N6IP6v2I8A'),

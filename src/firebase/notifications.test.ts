@@ -14,7 +14,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { mockRecipientInfo, mockTokenBalances } from 'test/values'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 describe(handleNotification, () => {
   beforeEach(() => {
