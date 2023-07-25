@@ -22,12 +22,13 @@ function VerificationCodeInputScreen({
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
   const [showHelpDialog, setShowHelpDialog] = useState(false)
+
+  const { t } = useTranslation()
+  const headerHeight = useHeaderHeight()
   const { resendSms, setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
     route.params.countryCallingCode
   )
-  const headerHeight = useHeaderHeight()
-  const { t } = useTranslation()
 
   const onResendSms = () => {
     ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
