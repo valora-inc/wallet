@@ -243,6 +243,10 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
     const normalizer = new TxParamsNormalizer(kit.connection)
 
     const triggeredShortcuts: TriggeredShortcuts = yield select(triggeredShortcutsStatusSelector)
+    // use JSON stringify / parse, otherwise the transaction fails with this
+    // error: 'Gas estimation failed: Could not decode transaction failure
+    // reason or Error: invalid argument 0: json: cannot unmarshal non-string
+    // into Go struct field TransactionArgs.chainId of type *hexutil.Big'
     const shortcutTransactions = JSON.parse(
       JSON.stringify(triggeredShortcuts[payload].transactions)
     )
