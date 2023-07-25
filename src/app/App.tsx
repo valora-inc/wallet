@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { LogBox, StatusBar } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
@@ -82,7 +83,9 @@ export class App extends React.Component<Props> {
               >
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <ErrorBoundary>
-                  <NavigatorWrapper />
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    <NavigatorWrapper />
+                  </GestureHandlerRootView>
                 </ErrorBoundary>
               </AppInitGate>
             </PersistGate>

@@ -117,7 +117,7 @@ export default function NftsInfoCarousel({ route }: Props) {
 
   // Full page error screen shown when ntfs === []
   if (nfts.length === 0) {
-    return <NftsLoadError />
+    return <NftsLoadError testID="NftsInfoCarousel/NftsLoadErrorScreen" />
   }
 
   return (

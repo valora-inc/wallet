@@ -821,7 +821,22 @@
                 "name": {
                     "type": "string"
                 },
+                "redirect": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "native": {
+                            "type": "string"
+                        },
+                        "universal": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "url": {
+                    "type": "string"
+                },
+                "verifyUrl": {
                     "type": "string"
                 }
             },
@@ -1351,124 +1366,6 @@
             ],
             "type": "object"
         },
-        "IClientMeta": {
-            "additionalProperties": false,
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "icons": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "description",
-                "icons",
-                "name",
-                "url"
-            ],
-            "type": "object"
-        },
-        "IJsonRpcSubscription": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "jsonrpc": {
-                    "type": "string"
-                },
-                "method": {
-                    "type": "string"
-                },
-                "params": {}
-            },
-            "required": [
-                "id",
-                "jsonrpc",
-                "method",
-                "params"
-            ],
-            "type": "object"
-        },
-        "IWalletConnectSession": {
-            "additionalProperties": false,
-            "properties": {
-                "accounts": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "bridge": {
-                    "type": "string"
-                },
-                "chainId": {
-                    "type": "number"
-                },
-                "clientId": {
-                    "type": "string"
-                },
-                "clientMeta": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/IClientMeta"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
-                "connected": {
-                    "type": "boolean"
-                },
-                "handshakeId": {
-                    "type": "number"
-                },
-                "handshakeTopic": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "peerId": {
-                    "type": "string"
-                },
-                "peerMeta": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/IClientMeta"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                }
-            },
-            "required": [
-                "accounts",
-                "bridge",
-                "chainId",
-                "clientId",
-                "clientMeta",
-                "connected",
-                "handshakeId",
-                "handshakeTopic",
-                "key",
-                "peerId",
-                "peerMeta"
-            ],
-            "type": "object"
-        },
         "IdToNotification": {
             "additionalProperties": {
                 "$ref": "#/definitions/Notification"
@@ -1876,22 +1773,6 @@
             },
             "type": "object"
         },
-        "Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>,\"topic\">": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "params": {
-                    "$ref": "#/definitions/ProposalTypes.Struct"
-                }
-            },
-            "required": [
-                "id",
-                "params"
-            ],
-            "type": "object"
-        },
         "Order": {
             "additionalProperties": false,
             "properties": {
@@ -2187,7 +2068,15 @@
             ],
             "type": "object"
         },
+        "ProposalTypes.OptionalNamespaces": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "ProposalTypes.RequiredNamespaces": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "ProposalTypes.SessionProperties": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -2199,6 +2088,9 @@
                 },
                 "id": {
                     "type": "number"
+                },
+                "optionalNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
                 },
                 "pairingTopic": {
                     "type": "string"
@@ -2227,11 +2119,15 @@
                 },
                 "requiredNamespaces": {
                     "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
+                },
+                "sessionProperties": {
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
                 }
             },
             "required": [
                 "expiry",
                 "id",
+                "optionalNamespaces",
                 "proposer",
                 "relays",
                 "requiredNamespaces"
@@ -2377,6 +2273,7 @@
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
+                "NftGallery",
                 "NftsInfoCarousel",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
@@ -2428,6 +2325,8 @@
                 "WalletConnectRequest",
                 "WalletConnectSessions",
                 "WalletHome",
+                "WalletSecurityPrimer",
+                "WalletSecurityPrimerDrawer",
                 "WebViewScreen",
                 "Welcome",
                 "WithdrawCeloQrScannerScreen",
@@ -2504,6 +2403,12 @@
                 "namespaces": {
                     "$ref": "#/definitions/SessionTypes.Namespaces"
                 },
+                "optionalNamespaces": {
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
+                },
+                "pairingTopic": {
+                    "type": "string"
+                },
                 "peer": {
                     "additionalProperties": false,
                     "properties": {
@@ -2542,6 +2447,9 @@
                     ],
                     "type": "object"
                 },
+                "sessionProperties": {
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
+                },
                 "topic": {
                     "type": "string"
                 }
@@ -2551,6 +2459,8 @@
                 "controller",
                 "expiry",
                 "namespaces",
+                "optionalNamespaces",
+                "pairingTopic",
                 "peer",
                 "relay",
                 "requiredNamespaces",
@@ -2593,50 +2503,6 @@
                 "id",
                 "name",
                 "networks"
-            ],
-            "type": "object"
-        },
-        "SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "params": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "chainId": {
-                            "type": "string"
-                        },
-                        "request": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "method": {
-                                    "type": "string"
-                                },
-                                "params": {}
-                            },
-                            "required": [
-                                "method",
-                                "params"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "chainId",
-                        "request"
-                    ],
-                    "type": "object"
-                },
-                "topic": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "id",
-                "params",
-                "topic"
             ],
             "type": "object"
         },
@@ -3338,36 +3204,52 @@
         "State_18": {
             "additionalProperties": false,
             "properties": {
-                "v1": {
-                    "$ref": "#/definitions/State_19"
-                },
-                "v2": {
-                    "$ref": "#/definitions/State_20"
-                }
-            },
-            "required": [
-                "v1",
-                "v2"
-            ],
-            "type": "object"
-        },
-        "State_19": {
-            "additionalProperties": false,
-            "properties": {
                 "pendingActions": {
                     "items": {
                         "additionalProperties": false,
                         "properties": {
-                            "action": {
-                                "$ref": "#/definitions/IJsonRpcSubscription"
+                            "id": {
+                                "type": "number"
                             },
-                            "peerId": {
+                            "params": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "chainId": {
+                                        "type": "string"
+                                    },
+                                    "request": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "method": {
+                                                "type": "string"
+                                            },
+                                            "params": {}
+                                        },
+                                        "required": [
+                                            "method",
+                                            "params"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "chainId",
+                                    "request"
+                                ],
+                                "type": "object"
+                            },
+                            "topic": {
                                 "type": "string"
+                            },
+                            "verifyContext": {
+                                "$ref": "#/definitions/Verify.Context"
                             }
                         },
                         "required": [
-                            "action",
-                            "peerId"
+                            "id",
+                            "params",
+                            "topic",
+                            "verifyContext"
                         ],
                         "type": "object"
                     },
@@ -3375,13 +3257,30 @@
                 },
                 "pendingSessions": {
                     "items": {
-                        "$ref": "#/definitions/WalletConnectSessionRequest"
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "params": {
+                                "$ref": "#/definitions/ProposalTypes.Struct"
+                            },
+                            "verifyContext": {
+                                "$ref": "#/definitions/Verify.Context"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "params",
+                            "verifyContext"
+                        ],
+                        "type": "object"
                     },
                     "type": "array"
                 },
                 "sessions": {
                     "items": {
-                        "$ref": "#/definitions/IWalletConnectSession"
+                        "$ref": "#/definitions/SessionTypes.Struct"
                     },
                     "type": "array"
                 }
@@ -3390,6 +3289,26 @@
                 "pendingActions",
                 "pendingSessions",
                 "sessions"
+            ],
+            "type": "object"
+        },
+        "State_19": {
+            "additionalProperties": false,
+            "properties": {
+                "error": {
+                    "type": "boolean"
+                },
+                "loading": {
+                    "type": "boolean"
+                },
+                "tokenBalances": {
+                    "$ref": "#/definitions/StoredTokenBalances"
+                }
+            },
+            "required": [
+                "error",
+                "loading",
+                "tokenBalances"
             ],
             "type": "object"
         },
@@ -3414,55 +3333,6 @@
             "type": "object"
         },
         "State_20": {
-            "additionalProperties": false,
-            "properties": {
-                "pendingActions": {
-                    "items": {
-                        "$ref": "#/definitions/SignClientTypes.BaseEventArgs<{request:{method:string;params:any;};chainId:string;}>"
-                    },
-                    "type": "array"
-                },
-                "pendingSessions": {
-                    "items": {
-                        "$ref": "#/definitions/Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>,\"topic\">"
-                    },
-                    "type": "array"
-                },
-                "sessions": {
-                    "items": {
-                        "$ref": "#/definitions/SessionTypes.Struct"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "pendingActions",
-                "pendingSessions",
-                "sessions"
-            ],
-            "type": "object"
-        },
-        "State_21": {
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "type": "boolean"
-                },
-                "loading": {
-                    "type": "boolean"
-                },
-                "tokenBalances": {
-                    "$ref": "#/definitions/StoredTokenBalances"
-                }
-            },
-            "required": [
-                "error",
-                "loading",
-                "tokenBalances"
-            ],
-            "type": "object"
-        },
-        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -3518,7 +3388,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -3646,7 +3516,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -3975,7 +3845,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "guaranteedSwapPriceEnabled": {
@@ -4047,7 +3917,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "positions": {
@@ -4095,7 +3965,7 @@
             ],
             "type": "object"
         },
-        "State_27": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "google": {
@@ -4129,7 +3999,7 @@
             ],
             "type": "object"
         },
-        "State_28": {
+        "State_26": {
             "additionalProperties": false,
             "properties": {
                 "nfts": {
@@ -5114,53 +4984,37 @@
             ],
             "type": "object"
         },
-        "WalletConnectSessionRequest": {
+        "Verify.Context": {
             "additionalProperties": false,
             "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "jsonrpc": {
-                    "type": "string"
-                },
-                "method": {
-                    "type": "string"
-                },
-                "params": {
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "chainId": {
-                                "type": [
-                                    "null",
-                                    "number"
-                                ]
-                            },
-                            "peerId": {
-                                "type": "string"
-                            },
-                            "peerMeta": {
-                                "$ref": "#/definitions/IClientMeta"
-                            }
+                "verified": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "origin": {
+                            "type": "string"
                         },
-                        "required": [
-                            "chainId",
-                            "peerId",
-                            "peerMeta"
-                        ],
-                        "type": "object"
+                        "validation": {
+                            "enum": [
+                                "INVALID",
+                                "UNKNOWN",
+                                "VALID"
+                            ],
+                            "type": "string"
+                        },
+                        "verifyUrl": {
+                            "type": "string"
+                        }
                     },
-                    "type": "array"
-                },
-                "uri": {
-                    "type": "string"
+                    "required": [
+                        "origin",
+                        "validation",
+                        "verifyUrl"
+                    ],
+                    "type": "object"
                 }
             },
             "required": [
-                "id",
-                "jsonrpc",
-                "method",
-                "params"
+                "verified"
             ],
             "type": "object"
         },
@@ -5891,7 +5745,7 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_21"
         },
         "escrow": {
             "$ref": "#/definitions/State_11"
@@ -5903,7 +5757,7 @@
             "$ref": "#/definitions/State_12"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_22"
         },
         "fiatExchanges": {
             "$ref": "#/definitions/State_17"
@@ -5921,7 +5775,7 @@
             "$ref": "#/definitions/State_15"
         },
         "keylessBackup": {
-            "$ref": "#/definitions/State_27"
+            "$ref": "#/definitions/State_25"
         },
         "localCurrency": {
             "$ref": "#/definitions/State_14"
@@ -5930,13 +5784,13 @@
             "$ref": "#/definitions/State_2"
         },
         "nfts": {
-            "$ref": "#/definitions/State_28"
+            "$ref": "#/definitions/State_26"
         },
         "paymentRequest": {
             "$ref": "#/definitions/State_16"
         },
         "positions": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_24"
         },
         "recipients": {
             "$ref": "#/definitions/State_13"
@@ -5945,13 +5799,13 @@
             "$ref": "#/definitions/State_4"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_22"
+            "$ref": "#/definitions/State_20"
         },
         "swap": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_23"
         },
         "tokens": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_19"
         },
         "transactions": {
             "$ref": "#/definitions/State_7"

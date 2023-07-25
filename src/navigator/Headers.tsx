@@ -34,6 +34,8 @@ const android_ripple = {
 }
 
 export const headerTransparentWithBack: NativeStackNavigationOptions = {
+  animation: 'slide_from_right',
+  animationDuration: 130,
   headerShown: true,
   headerTransparent: true,
   // Needed for Android to truly make the header transparent
