@@ -5,11 +5,13 @@ import {
   getElementTextList,
   scrollIntoView,
 } from '../utils/utils'
-import { navigateToDappList, scrollToDapp, navigateToHome } from '../utils/dappList'
+import { navigateToDappList, navigateToHome } from '../utils/dappList'
 
 const jestExpect = require('expect')
 
 export default DappListRecent = () => {
+  const dappToTest = 'impactMarket'
+
   it('should show most recently used dapp leftmost on home screen :ios:', async () => {
     // Get recently used dapps at start of test
     const startRecentlyUsedDapps = await getElementTextList('RecentlyUsedDapps/Name')
@@ -27,8 +29,8 @@ export default DappListRecent = () => {
     await navigateToDappList()
 
     // Scroll to impact market dapp
-    await scrollIntoView('impactMarket', 'DAppsExplorerScreen/DappsList')
-    await element(by.text('impactMarket')).tap()
+    await scrollIntoView(dappToTest, 'DAppsExplorerScreen/DappsList')
+    await element(by.text(dappToTest)).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
@@ -58,8 +60,8 @@ export default DappListRecent = () => {
     await navigateToDappList()
 
     // Scroll to impact market dapp
-    await scrollIntoView('impactMarket', 'DAppsExplorerScreen/DappsList')
-    await element(by.text('impactMarket')).tap()
+    await scrollIntoView(dappToTest, 'DAppsExplorerScreen/DappsList')
+    await element(by.text(dappToTest)).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()
