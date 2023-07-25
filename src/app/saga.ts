@@ -149,9 +149,7 @@ export function* appInit() {
   Logger.setNetworkErrors(sentryNetworkErrors)
 
   const supportedBiometryType = yield* call(Keychain.getSupportedBiometryType)
-  if (supportedBiometryType) {
-    yield* put(setSupportedBiometryType(supportedBiometryType))
-  }
+  yield* put(setSupportedBiometryType(supportedBiometryType))
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
@@ -329,7 +327,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
 
   // Try resolve dynamic links
   if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
-    const resolvedDynamicLink: string | null = yield* call(resolveDynamicLink, deepLink)
+    const resolvedDynamicLink = yield* call(resolveDynamicLink, deepLink)
     if (resolvedDynamicLink) {
       deepLink = resolvedDynamicLink
     }

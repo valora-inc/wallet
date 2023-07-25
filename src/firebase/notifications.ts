@@ -115,16 +115,19 @@ export function* handleNotification(
 
   switch (message.data?.type) {
     case NotificationTypes.PAYMENT_REQUESTED:
+      // message.data can be any object, but we control it so we know what it is and can safely cast
       yield* call(handlePaymentRequested, message.data as unknown as PaymentRequest)
       break
 
     case NotificationTypes.PAYMENT_RECEIVED:
+      // message.data can be any object, but we control it so we know what it is and can safely cast
       handlePaymentReceived(message.data as unknown as TransferNotificationData)
       break
 
     case NotificationTypes.FIAT_CONNECT_KYC_APPROVED:
       navigate(
         Screens.FiatConnectRefetchQuote,
+        // message.data can be any object, but we control it so we know what it is and can safely cast
         message.data as unknown as FiatConnectKycApprovedData
       )
       break

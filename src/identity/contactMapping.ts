@@ -159,6 +159,8 @@ export function* fetchAddressesAndValidateSaga({
     // Clear existing entries for those numbers so our mapping consumers know new status is pending.
     yield* put(updateE164PhoneNumberAddresses({ [e164Number]: undefined }, {}))
 
+    // there is a bug with 'all' in typed-redux-saga, so we need to hard cast the result
+    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
     const walletAddresses = (yield* call(fetchWalletAddresses, e164Number)) as unknown as string[]
 
     const e164NumberToAddressUpdates: E164NumberToAddressType = {}
