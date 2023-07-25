@@ -17,6 +17,7 @@ interface Props {
   onResendSms?: () => void
   onSuccess: () => void
   containerStyle?: StyleProp<ViewStyle>
+  title?: JSX.Element
 }
 
 function VerificationCodeInput({
@@ -26,6 +27,7 @@ function VerificationCodeInput({
   onResendSms,
   onSuccess,
   containerStyle,
+  title,
 }: Props) {
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
@@ -56,6 +58,7 @@ function VerificationCodeInput({
         style={[styles.scrollContainer, containerStyle]}
         keyboardShouldPersistTaps="always"
       >
+        {title}
         <Text style={styles.body}>{t('phoneVerificationInput.description', { phoneNumber })}</Text>
         <CodeInput
           autoFocus

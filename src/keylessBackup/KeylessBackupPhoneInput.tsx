@@ -85,7 +85,10 @@ function KeylessBackupPhoneInput({
     ValoraAnalytics.track(KeylessBackupEvents.enter_phone_number_continue, {
       keylessBackupFlow,
     })
-    // TODO: handle the rest of the phone backup flow
+    navigate(Screens.KeylessBackupPhoneCodeInput, {
+      keylessBackupFlow,
+      e164Number: phoneNumberInfo.e164Number,
+    })
   }
 
   return (
