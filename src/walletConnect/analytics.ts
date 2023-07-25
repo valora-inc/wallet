@@ -9,7 +9,7 @@ const isSessionProposalType = (
   return 'params' in session
 }
 
-export function getDefaultSessionTrackedPropertiesV2(
+export function getDefaultSessionTrackedProperties(
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct,
   activeDapp: ActiveDapp | null
 ) {
@@ -44,7 +44,7 @@ export function getDefaultSessionTrackedPropertiesV2(
   }
 }
 
-export function getDefaultRequestTrackedPropertiesV2(
+export function getDefaultRequestTrackedProperties(
   request: Web3WalletTypes.EventArguments['session_request']
 ) {
   const { id, params } = request

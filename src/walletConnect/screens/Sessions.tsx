@@ -14,7 +14,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { closeSession as closeSessionActionV2 } from 'src/walletConnect/actions'
+import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
 import { selectSessions } from 'src/walletConnect/selectors'
 
 type Session = SessionTypes.Struct
@@ -61,7 +61,7 @@ function Sessions() {
       return
     }
 
-    dispatch(closeSessionActionV2(highlighted))
+    dispatch(closeSessionAction(highlighted))
     closeModal()
   }
 
