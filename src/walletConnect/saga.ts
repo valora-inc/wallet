@@ -47,7 +47,7 @@ import {
   getDefaultRequestTrackedProperties,
   getDefaultSessionTrackedProperties as getDefaultSessionTrackedPropertiesAnalytics,
 } from 'src/walletConnect/analytics'
-import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
+import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   selectHasPendingState,
@@ -83,9 +83,7 @@ export function* getDefaultSessionTrackedProperties(
 }
 
 function* handleInitialiseWalletConnect() {
-  const walletConnectChannel: EventChannel<WalletConnectActions> = yield* call(
-    createWalletConnectChannel
-  )
+  const walletConnectChannel = yield* call(createWalletConnectChannel)
   while (true) {
     const message: WalletConnectActions = yield* take(walletConnectChannel)
     yield* put(message)
@@ -176,7 +174,7 @@ function* createWalletConnectChannel() {
 
       client = null
     }
-  })
+  }) as EventChannel<WalletConnectActions>
 }
 
 function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
@@ -280,7 +278,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     return
   }
 
-  yield* call(navigate, Screens.WalletConnectRequest, {
+  navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
     pendingAction: request,
     version: 2,
@@ -329,7 +327,7 @@ export function* acceptSession({ session }: AcceptSession) {
       newSession: call(getSessionFromClient, session),
     })
 
-    if (timedOut) {
+    if (!newSession || timedOut) {
       throw new Error('No corresponding session could not be found on the client')
     }
 
@@ -367,7 +365,7 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
   }
 
   applyIconFixIfNeeded(sessionValue)
-  return sessionValue
+  return sessionValue as SessionTypes.Struct
 }
 
 function* denySession({ session }: DenySession) {
@@ -446,7 +444,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     const result = yield* call(handleRequest, { ...params.request })
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
-      params.request.method === SupportedActions.eth_signTransaction ? result.raw : result
+      (params.request.method = typeof result === 'string' ? result : result.raw)
     )
     yield* call([client, 'respondSessionRequest'], { topic, response })
 
