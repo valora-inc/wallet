@@ -2,6 +2,8 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
@@ -170,6 +172,7 @@ describe('DappShortcutsRewards', () => {
         },
       ]
     `)
+    expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutTransactionRequest)
   })
 
   it('should show a reward being claimed', () => {

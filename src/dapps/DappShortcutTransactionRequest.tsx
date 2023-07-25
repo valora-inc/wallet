@@ -1,12 +1,10 @@
-import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
-import { Screens } from 'src/navigator/Screens'
-import { BottomSheetParams, StackParamList } from 'src/navigator/types'
+import { BottomSheetParams } from 'src/navigator/types'
 import { pendingAcceptanceShortcutSelector } from 'src/positions/selectors'
 import {
   denyExecuteShortcut,
@@ -19,10 +17,7 @@ import Logger from 'src/utils/Logger'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.DappShortcutTransactionRequest> &
-  BottomSheetParams
-
-function DappShortcutTransactionRequest({ handleContentLayout }: Props) {
+function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetParams) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -74,19 +69,23 @@ function DappShortcutTransactionRequest({ handleContentLayout }: Props) {
           description={t('walletConnectRequest.sendTransaction', {
             dappName: pendingAcceptShortcut.appName,
           })}
-          testId="DappShortcutsRewards/ConfirmClaimBottomSheet"
+          testId="DappShortcutTransactionRequest/BottomSheet"
         >
           <DataFieldWithCopy
             label={t('walletConnectRequest.transactionDataLabel')}
             value={JSON.stringify(pendingAcceptShortcut.transactions)}
             copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
-            testID="DappShortcutsRewards/RewardTransactionData"
+            testID="DappShortcutTransactionRequest/RewardTransactionData"
             onCopy={handleTrackCopyTransactionDetails}
           />
           <DappsDisclaimer isDappListed={true} />
         </RequestContent>
       ) : (
-        <ActivityIndicator color={Colors.greenBrand} style={styles.loader} />
+        <ActivityIndicator
+          testID="DappShortcutTransactionRequest/Loading"
+          color={Colors.greenBrand}
+          style={styles.loader}
+        />
       )}
     </BottomSheetScrollView>
   )
