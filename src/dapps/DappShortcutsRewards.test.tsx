@@ -1,12 +1,10 @@
-import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
-import { FetchMock } from 'jest-fetch-mock/types'
+import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import { Position } from 'src/positions/types'
-import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
+import { mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => true),
@@ -117,13 +115,10 @@ const defaultState = {
 }
 const mockStore = createMockStore(defaultState)
 
-const mockFetch = fetch as FetchMock
-
 describe('DappShortcutsRewards', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockStore.clearActions()
-    mockFetch.resetMocks()
   })
 
   it('should render claimable rewards correctly', () => {
@@ -148,23 +143,7 @@ describe('DappShortcutsRewards', () => {
   })
 
   it('should dispatch the correct action on claim', async () => {
-    const mockTransactions = [
-      {
-        network: 'celo',
-        from: mockAccount,
-        to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
-        data: '0x4e71d92d',
-      },
-    ]
-    mockFetch.mockResponseOnce(
-      JSON.stringify({
-        data: {
-          transactions: mockTransactions,
-        },
-      })
-    )
-
-    const { getAllByTestId, getByTestId } = render(
+    const { getAllByTestId } = render(
       <Provider store={mockStore}>
         <DappShortcutsRewards />
       </Provider>
@@ -175,24 +154,22 @@ describe('DappShortcutsRewards', () => {
     expect(mockStore.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
-          "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072",
+          "payload": Object {
+            "appImage": "",
+            "appName": "Ubeswap",
+            "data": Object {
+              "address": "0x0000000000000000000000000000000000007e57",
+              "appId": "ubeswap",
+              "network": "celo",
+              "positionAddress": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
+              "shortcutId": "claim-reward",
+            },
+            "id": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072",
+          },
           "type": "positions/triggerShortcut",
         },
       ]
     `)
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      body: '{"address":"0x0000000000000000000000000000000000007e57","appId":"ubeswap","network":"celo","positionAddress":"0xda7f463c27ec862cfbf2369f3f74c364d050d93f","shortcutId":"claim-reward"}',
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-    })
-
-    await waitFor(() =>
-      expect(getByTestId('DappShortcutsRewards/RewardTransactionData/Value')).toHaveTextContent(
-        JSON.stringify(mockTransactions)
-      )
-    )
-    expect(getByTestId('DappShortcutsRewards/ConfirmClaimBottomSheet/Allow')).toBeEnabled()
   })
 
   it('should show a reward being claimed', () => {
@@ -203,8 +180,10 @@ describe('DappShortcutsRewards', () => {
           positions: {
             ...defaultState.positions,
             triggeredShortcutsStatus: {
-              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072':
-                'loading',
+              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072': {
+                status: 'accepting',
+                transactions: [],
+              },
             },
           },
         })}

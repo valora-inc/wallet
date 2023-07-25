@@ -1,11 +1,13 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
-import Toast from 'react-native-simple-toast'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
-import { refreshAllBalances } from 'src/home/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
   executeShortcutSaga,
   fetchPositionsSaga,
@@ -17,17 +19,18 @@ import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
   shortcutsStatusSelector,
+  triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
   executeShortcut,
+  executeShortcutFailure,
+  executeShortcutSuccess,
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
   previewModeEnabled,
-  triggerShortcutFailure,
-  triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
@@ -245,40 +248,40 @@ describe(executeShortcutSaga, () => {
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
     [call(getContractKit), contractKit],
     [call(getConnectedUnlockedAccount), mockAccount],
+    [
+      select(triggeredShortcutsStatusSelector),
+      {
+        someId: {
+          status: 'pendingAccept',
+          transactions: [mockTransaction],
+        },
+      },
+    ],
+    [call(isBottomSheetVisible, Screens.DappShortcutTransactionRequest), true],
   ]
 
   it('should successfully trigger a shortcut and send the transaction', async () => {
     mockSendTransaction.mockResolvedValueOnce({ transactionHash: '0x1234' })
 
-    await expectSaga(
-      executeShortcutSaga,
-      executeShortcut({ transactions: [mockTransaction], id: 'someId' })
-    )
+    await expectSaga(executeShortcutSaga, executeShortcut('someId'))
       .provide(defaultProviders)
-      .put(triggerShortcutSuccess('someId'))
-      .not.put(triggerShortcutFailure(expect.anything()))
+      .put(executeShortcutSuccess('someId'))
+      .not.put(executeShortcutFailure(expect.anything()))
       .run()
 
-    expect(Toast.showWithGravity).toHaveBeenCalledWith(
-      'dappShortcuts.claimRewardsScreen.claimSuccess',
-      undefined,
-      undefined // these values do not matter so much
-    )
+    expect(navigateBack).toHaveBeenCalled()
   })
 
   it('should handle shortcut trigger failure', async () => {
     mockSendTransaction.mockRejectedValueOnce('some error')
 
-    await expectSaga(
-      executeShortcutSaga,
-      executeShortcut({ transactions: [mockTransaction], id: 'someId' })
-    )
+    await expectSaga(executeShortcutSaga, executeShortcut('someId'))
       .provide(defaultProviders)
-      .not.put(triggerShortcutSuccess(expect.anything()))
-      .not.put(refreshAllBalances())
-      .put(triggerShortcutFailure('someId'))
+      .not.put(executeShortcutSuccess(expect.anything()))
+      .put(executeShortcutFailure('someId'))
+      .put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
       .run()
 
-    expect(Toast.showWithGravity).not.toHaveBeenCalled()
+    expect(navigateBack).toHaveBeenCalled()
   })
 })
