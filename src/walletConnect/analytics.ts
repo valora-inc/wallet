@@ -2,11 +2,6 @@ import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { ActiveDapp } from 'src/dapps/types'
-import {
-  WalletConnectPayloadRequest,
-  WalletConnectSession,
-  WalletConnectSessionRequest,
-} from 'src/walletConnect/types'
 
 const isSessionProposalType = (
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
@@ -14,7 +9,7 @@ const isSessionProposalType = (
   return 'params' in session
 }
 
-export function getDefaultSessionTrackedPropertiesV2(
+export function getDefaultSessionTrackedProperties(
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct,
   activeDapp: ActiveDapp | null
 ) {
@@ -49,7 +44,7 @@ export function getDefaultSessionTrackedPropertiesV2(
   }
 }
 
-export function getDefaultRequestTrackedPropertiesV2(
+export function getDefaultRequestTrackedProperties(
   request: Web3WalletTypes.EventArguments['session_request']
 ) {
   const { id, params } = request
@@ -59,37 +54,5 @@ export function getDefaultRequestTrackedPropertiesV2(
     requestId: id,
     requestJsonrpc: '2.0',
     requestMethod: params.request.method,
-  }
-}
-
-export function getDefaultSessionTrackedPropertiesV1(
-  session: WalletConnectSessionRequest | WalletConnectSession,
-  activeDapp: ActiveDapp | null
-) {
-  const { peerId, peerMeta, chainId } = 'peerMeta' in session ? session : session.params[0]
-  const { name: dappName, url: dappUrl, description: dappDescription, icons } = peerMeta!
-  return {
-    version: 1 as const,
-    dappRequestOrigin: getDappRequestOrigin(activeDapp),
-    dappName,
-    dappUrl,
-    dappDescription,
-    dappIcon: icons[0],
-    peerId,
-    chainId: chainId?.toString() ?? '',
-  }
-}
-
-export function getDefaultRequestTrackedPropertiesV1(
-  request: WalletConnectPayloadRequest,
-  chainId: number
-) {
-  const { id: requestId, jsonrpc: requestJsonrpc, method: requestMethod } = request
-
-  return {
-    requestChainId: chainId.toString(),
-    requestId,
-    requestJsonrpc,
-    requestMethod,
   }
 }

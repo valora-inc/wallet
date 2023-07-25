@@ -16,6 +16,7 @@ import {
   v130Schema,
   v132Schema,
   v133Schema,
+  v136Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -974,6 +975,18 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[134](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.positions.previewApiUrl = null
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v136 to v137', () => {
+    const oldSchema = v136Schema
+    const migratedSchema = migrations[137](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.walletConnect.sessions = oldSchema.walletConnect.v2.sessions
+    expectedSchema.walletConnect.pendingActions = oldSchema.walletConnect.v2.pendingActions
+    expectedSchema.walletConnect.pendingSessions = oldSchema.walletConnect.v2.pendingSessions
+    delete expectedSchema.walletConnect.v1
+    delete expectedSchema.walletConnect.v2
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

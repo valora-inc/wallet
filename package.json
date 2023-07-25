@@ -108,7 +108,6 @@
     "@sentry/react-native": "^4.13.0",
     "@sentry/types": "^7.29.0",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",
-    "@walletconnect/client": "^1.8.0",
     "@walletconnect/react-native-compat": "^2.9.0",
     "@walletconnect/utils": "^2.9.0",
     "@walletconnect/web3wallet": "^1.8.6",
