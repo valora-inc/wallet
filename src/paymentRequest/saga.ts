@@ -92,7 +92,11 @@ function* subscribeToPaymentRequests(
   isOutgoingRequest: boolean
 ) {
   yield* all([call(waitForFirebaseAuth), call(getAccount)])
-  const address = (yield* select(currentAccountSelector))!
+  const address = yield* select(currentAccountSelector)
+  if (!address) {
+    // This should never happen
+    throw Error(`Currentaccount not set set`)
+  }
   const dataEncryptionKey: string | null = yield* select(dataEncryptionKeySelector)
   const paymentRequestChannel = yield* call(createPaymentRequestChannel, address, addressKeyField)
   while (true) {

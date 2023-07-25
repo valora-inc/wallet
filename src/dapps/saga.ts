@@ -64,11 +64,7 @@ export function* handleFetchDappsList() {
     return
   }
 
-  const language = yield* select(currentLanguageSelector)
-  if (!language) {
-    Logger.warn(TAG, 'Language not found, skipping dapps list fetch')
-    return
-  }
+  const language = (yield* select(currentLanguageSelector)) || 'en'
   const shortLanguage = language.split('-')[0]
 
   const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=2`

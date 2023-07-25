@@ -1,6 +1,5 @@
-import { CeloTx, CeloTxReceipt, Contract, toTransactionObject } from '@celo/connect'
+import { toTransactionObject } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
-import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
@@ -32,7 +31,6 @@ import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
-import { TokenBalances } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
@@ -56,9 +54,9 @@ export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
 
 export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimRewards>) {
   try {
-    const kit: ContractKit = yield* call(getContractKit)
-    const walletAddress: string = yield* call(getConnectedUnlockedAccount)
-    const baseNonce: number = yield* call(
+    const kit = yield* call(getContractKit)
+    const walletAddress = yield* call(getConnectedUnlockedAccount)
+    const baseNonce = yield* call(
       // @ts-ignore I can't figure out the syntax for this, it works but TS complains :'(
       [kit.web3.eth, kit.web3.eth.getTransactionCount],
       walletAddress
@@ -115,23 +113,19 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
 }
 
 function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce: number) {
-  const kit: ContractKit = yield* call(getContractKit)
-  const tokens: TokenBalances = yield* select(tokensByAddressSelector)
-  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
+  const kit = yield* call(getContractKit)
+  const tokens = yield* select(tokensByAddressSelector)
+  const walletAddress = yield* call(getConnectedUnlockedAccount)
 
   Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
-  const merkleContract: Contract = yield* call(
-    getContract,
-    merkleDistributor.abi,
-    reward.contractAddress
-  )
+  const merkleContract = yield* call(getContract, merkleDistributor.abi, reward.contractAddress)
   const fundsSource: string = yield* call(async () => merkleContract.methods.fundsSource().call())
   const tx = toTransactionObject(
     kit.connection,
     merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof ?? [])
   )
 
-  const receipt: CeloTxReceipt = yield* call(
+  const receipt = yield* call(
     sendTransaction,
     tx.txo,
     walletAddress,
@@ -171,17 +165,17 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
     )
   }
 
-  const kit: ContractKit = yield* call(getContractKit)
-  const tokens: TokenBalances = yield* select(tokensByAddressSelector)
-  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
+  const kit = yield* call(getContractKit)
+  const tokens = yield* select(tokensByAddressSelector)
+  const walletAddress = yield* call(getConnectedUnlockedAccount)
 
   Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
 
   const normalizer = new TxParamsNormalizer(kit.connection)
-  const tx: CeloTx = yield* call([normalizer, 'populate'], transaction)
+  const tx = yield* call([normalizer, 'populate'], transaction)
   const txo = buildTxo(kit, tx)
 
-  const receipt: CeloTxReceipt = yield* call(
+  const receipt = yield* call(
     sendTransaction,
     txo,
     walletAddress,
@@ -208,7 +202,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
 }
 
 export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchAvailableRewards>) {
-  const address: string | null = yield* select(walletAddressSelector)
+  const address = yield* select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
     return
@@ -227,7 +221,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
       ? config.fetchAvailableSuperchargeRewardsV2
       : config.fetchAvailableSuperchargeRewards
 
-    const response: Response = yield* call(
+    const response = yield* call(
       fetchWithTimeout,
       `${superchargeRewardsUrl}?address=${address}`,
       payload?.forceRefresh

@@ -43,7 +43,11 @@ export function* validateRecipientAddressSaga({
       throw Error(`Invalid recipient type for Secure Send, does not have e164Number`)
     }
 
-    const userAddress = (yield* select(currentAccountSelector))!
+    const userAddress = yield* select(currentAccountSelector)
+    if (!userAddress) {
+      // This should never happen
+      throw Error(`No userAddress set`)
+    }
     const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
     const { e164PhoneNumber } = recipient
     const possibleRecievingAddresses = e164NumberToAddress[e164PhoneNumber]

@@ -133,7 +133,10 @@ export function* chooseTxFeeDetails(
       gasPrice: preferredFeeCurrency !== feeCurrency ? undefined : gasPrice,
     }
   }
-  const userAddress = (yield* select(walletAddressSelector))!
+  const userAddress = yield* select(walletAddressSelector)
+  if (!userAddress) {
+    throw new Error('No wallet address found')
+  }
   const feeCurrency = tokenInfo.symbol === 'CELO' ? undefined : tokenInfo.address
   if (!gas) {
     gas = (

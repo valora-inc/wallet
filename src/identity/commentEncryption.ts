@@ -182,6 +182,8 @@ export function* checkTxsForIdentityMetadata({ transactions }: NewTransactionsIn
 
     const newIdentityData = findIdentityMetadataInComments(transactions, dataEncryptionKey)
 
+    // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
+    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
     const verifiedMetadata = (yield* call(
       verifyIdentityMetadata,
       newIdentityData

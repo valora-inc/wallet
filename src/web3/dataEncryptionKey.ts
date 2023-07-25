@@ -50,9 +50,9 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { call, put, select } from 'typed-redux-saga/macro'
-import { estimateGas } from 'src/web3/utils'
 import { PrimaryValoraWallet } from 'src/web3/types'
+import { estimateGas } from 'src/web3/utils'
+import { call, put, select } from 'typed-redux-saga/macro'
 
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
@@ -82,7 +82,10 @@ export function* fetchDEKDecentrally(walletAddress: string) {
 }
 
 export function* doFetchDataEncryptionKey(walletAddress: string) {
-  const address = (yield* select(walletAddressSelector))!
+  const address = yield* select(walletAddressSelector)
+  if (!address) {
+    throw new Error('No wallet address found')
+  }
   const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
   if (walletAddress.toLowerCase() === address.toLowerCase() && privateDataEncryptionKey) {
     // we can generate the user's own public DEK without making any requests

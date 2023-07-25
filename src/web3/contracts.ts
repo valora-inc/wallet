@@ -113,7 +113,7 @@ async function waitForContractKit(tries: number) {
 
 export function* getContractKit() {
   if (!contractKit) {
-    yield* call([initContractKitLock, initContractKitLock.acquire])
+    yield* call([initContractKitLock, 'acquire'])
     try {
       if (contractKit) {
         return contractKit

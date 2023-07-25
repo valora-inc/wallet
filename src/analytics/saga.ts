@@ -5,7 +5,7 @@ import { call, select, spawn, take } from 'typed-redux-saga/macro'
 export function* updateUserTraits() {
   let prevTraits
   while (true) {
-    const traits: ReturnType<typeof getCurrentUserTraits> = yield* select(getCurrentUserTraits)
+    const traits = yield* select(getCurrentUserTraits)
     if (traits !== prevTraits) {
       const { walletAddress } = traits
       yield* call([ValoraAnalytics, 'identify'], walletAddress as string | null, traits)

@@ -370,7 +370,11 @@ export function* handleDeepLink(action: OpenDeepLink) {
       })
     } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
       const privateKey = pathParts[2]
-      const walletAddress = (yield* select(walletAddressSelector))!
+      const walletAddress = yield* select(walletAddressSelector)
+      if (!walletAddress) {
+        Logger.error(TAG, 'No wallet address found in store. This should never happen.')
+        return
+      }
       yield* call(jumpstartLinkHandler, privateKey, walletAddress)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&

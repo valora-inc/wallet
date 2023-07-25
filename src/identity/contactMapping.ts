@@ -174,7 +174,10 @@ export function* fetchAddressesAndValidateSaga({
       walletAddresses.map((a) => (addressToE164NumberUpdates[a] = e164Number))
     }
 
-    const userAddress = (yield* select(walletAddressSelector))!
+    const userAddress = yield* select(walletAddressSelector)
+    if (!userAddress) {
+      throw new Error('Wallet address not set')
+    }
     const secureSendPossibleAddresses = [...walletAddresses]
     const secureSendPhoneNumberMapping = yield* select(secureSendPhoneNumberMappingSelector)
     // If fetch is being done as part of a payment request from an unverified address,

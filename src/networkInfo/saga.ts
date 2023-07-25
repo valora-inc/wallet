@@ -43,7 +43,7 @@ const isErrorResponse = (response: UserLocationData | ErrorResponse): response i
 
 function* subscribeToNetworkStatus() {
   const networkStatusChannel = yield* call(createNetworkStatusChannel)
-  let connectionInfo = yield* call([NetInfo, NetInfo.fetch])
+  let connectionInfo = yield* call([NetInfo, 'fetch'])
   let isNetworkConnected = isConnected(connectionInfo)
   Logger.setIsNetworkConnected(isNetworkConnected)
   yield* put(setNetworkConnectivity(isNetworkConnected))

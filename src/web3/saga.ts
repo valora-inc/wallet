@@ -24,9 +24,9 @@ import {
   twelveWordMnemonicEnabledSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
+import { PrimaryValoraWallet } from 'src/web3/types'
 import { call, delay, put, select, spawn, take } from 'typed-redux-saga/macro'
 import { RootState } from '../redux/reducers'
-import { PrimaryValoraWallet } from 'src/web3/types'
 
 const TAG = 'web3/saga'
 
@@ -159,10 +159,10 @@ function* getAddress<T extends { address: string | null }>({
       return account
     }
 
-    const actionEffect = yield* take(action)
-    if ((actionEffect as unknown as T).address) {
+    const actionEffect = (yield* take(action)) as unknown as T
+    if (actionEffect.address) {
       // account exists
-      return (actionEffect as unknown as T).address
+      return actionEffect.address
     }
   }
 }

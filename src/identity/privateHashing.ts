@@ -128,7 +128,7 @@ function* getPhoneHashPrivate(e164Number: string) {
   const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey, blindingFactor)
   try {
     const identifierHashDetails = (yield* call(
-      // @ts-ignore
+      // @ts-expect-error suspect that something about how this is exported messes up the type
       OdisUtils.Identifier.getObfuscatedIdentifier,
       e164Number,
       IdentifierPrefix.PHONE_NUMBER,
@@ -193,7 +193,10 @@ function* navigateToQuotaPurchaseScreen() {
   try {
     yield* call(doNavigate)
 
-    const ownAddress = (yield* select(currentAccountSelector))!
+    const ownAddress = yield* select(currentAccountSelector)
+    if (!ownAddress) {
+      throw new Error('No account set')
+    }
     const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
     const userBalance = tokens[Currency.Dollar]?.balance.toString() ?? null
     const userBalanceSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)

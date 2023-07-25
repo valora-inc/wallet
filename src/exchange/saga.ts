@@ -43,7 +43,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
   let context: TransactionContext | null = null
   try {
     const { recipientAddress, amount } = action
-    const account: string = yield* call(getConnectedUnlockedAccount)
+    const account = yield* call(getConnectedUnlockedAccount)
 
     navigate(Screens.WalletHome)
 
@@ -61,7 +61,10 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       })
     )
 
-    const celoTokenAddress = (yield* select(celoAddressSelector))!
+    const celoTokenAddress = yield* select(celoAddressSelector)
+    if (!celoTokenAddress) {
+      throw new Error('Celo token address not found')
+    }
     yield* put(
       addStandbyTransaction({
         context,
