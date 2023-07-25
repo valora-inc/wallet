@@ -493,7 +493,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.WalletSecurityPrimer}
-      options={WalletSecurityPrimer.navigationOptions}
+      options={headerWithBackButton}
       component={WalletSecurityPrimer}
     />
     <Navigator.Screen

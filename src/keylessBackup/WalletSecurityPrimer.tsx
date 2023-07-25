@@ -6,13 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import BackChevron from 'src/icons/BackChevron'
 import Chain from 'src/icons/Chain'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 
@@ -48,17 +45,6 @@ function WalletSecurityPrimer({ route }: Props) {
   )
 }
 
-WalletSecurityPrimer.navigationOptions = () => ({
-  ...emptyHeader,
-  headerLeft: () => (
-    <TopBarIconButton
-      style={styles.backButton}
-      icon={<BackChevron height={16} />}
-      onPress={navigateBack}
-    />
-  ),
-})
-
 export default WalletSecurityPrimer
 
 const styles = StyleSheet.create({
@@ -69,9 +55,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: 24,
     paddingTop: 36,
-  },
-  backButton: {
-    marginLeft: 16,
   },
   chainIcon: {
     alignSelf: 'center',
