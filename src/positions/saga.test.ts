@@ -13,6 +13,7 @@ import {
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
+  triggerShortcutSaga,
   _confirmEnableHooksPreview,
 } from 'src/positions/saga'
 import {
@@ -31,6 +32,9 @@ import {
   fetchShortcutsFailure,
   fetchShortcutsSuccess,
   previewModeEnabled,
+  triggerShortcut,
+  triggerShortcutFailure,
+  triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
@@ -235,6 +239,72 @@ describe(handleEnableHooksPreviewDeepLink, () => {
       .provide([[call(_confirmEnableHooksPreview), false]])
       .not.put.actionType(previewModeEnabled.type)
       .run()
+  })
+})
+
+describe(triggerShortcutSaga, () => {
+  const shortcut = {
+    id: 'someId',
+    appName: 'some dapp name',
+    appImage: 'https://some.image.url',
+    data: {
+      address: mockAccount,
+      appId: 'gooddollar',
+      network: 'celo',
+      positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
+      shortcutId: 'claim-reward',
+    },
+  }
+
+  it('should successfully trigger a shortcut and send the transaction', async () => {
+    const mockTransaction = {
+      network: 'celo',
+      from: mockAccount,
+      to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
+      data: '0x4e71d92d',
+    }
+    mockFetch.mockResponse(
+      JSON.stringify({
+        message: 'OK',
+        data: {
+          transactions: [mockTransaction],
+        },
+      })
+    )
+
+    await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
+      .provide([[select(hooksApiUrlSelector), networkConfig.hooksApiUrl]])
+      .put(triggerShortcutSuccess({ id: 'someId', transactions: [mockTransaction] }))
+      .not.put(triggerShortcutFailure(expect.anything()))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(shortcut.data),
+    })
+  })
+
+  it('should handle shortcut trigger failure', async () => {
+    mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
+
+    await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
+      .provide([[select(hooksApiUrlSelector), networkConfig.hooksApiUrl]])
+      .not.put(triggerShortcutSuccess(expect.anything()))
+      .put(triggerShortcutFailure('someId'))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(shortcut.data),
+    })
   })
 })
 
