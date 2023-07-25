@@ -14,17 +14,10 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { WalletConnectSession } from 'src/walletConnect/types'
-import { closeSession as closeSessionActionV1 } from 'src/walletConnect/v1/actions'
-import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
-import { closeSession as closeSessionActionV2 } from 'src/walletConnect/v2/actions'
-import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
+import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
+import { selectSessions } from 'src/walletConnect/selectors'
 
-type Session = WalletConnectSession | SessionTypes.Struct
-
-const isWCv2Session = (session: Session): session is SessionTypes.Struct => {
-  return 'topic' in session
-}
+type Session = SessionTypes.Struct
 
 const Dapp = ({
   metadata,
@@ -51,8 +44,7 @@ const Dapp = ({
 
 function Sessions() {
   const { t } = useTranslation()
-  const { sessions: sessionsV1 } = useSelector(selectSessionsV1)
-  const { sessions: sessionsV2 } = useSelector(selectSessionsV2)
+  const { sessions } = useSelector(selectSessions)
   const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
 
@@ -69,18 +61,11 @@ function Sessions() {
       return
     }
 
-    dispatch(
-      isWCv2Session(highlighted)
-        ? closeSessionActionV2(highlighted)
-        : closeSessionActionV1(highlighted)
-    )
+    dispatch(closeSessionAction(highlighted))
     closeModal()
   }
 
-  const dappName =
-    highlighted && isWCv2Session(highlighted)
-      ? highlighted?.peer.metadata.name
-      : highlighted?.peerMeta?.name
+  const dappName = highlighted && highlighted?.peer.metadata.name
 
   return (
     <ScrollView testID="WalletConnectSessionsView" style={styles.container}>
@@ -100,10 +85,7 @@ function Sessions() {
       <Text style={styles.title}>{t('sessionsTitle')}</Text>
       <Text style={styles.subTitle}>{t('sessionsSubTitle')}</Text>
 
-      {sessionsV1.map((s) => (
-        <Dapp key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
-      ))}
-      {sessionsV2.map((s) => (
+      {sessions.map((s) => (
         <Dapp key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
       ))}
     </ScrollView>

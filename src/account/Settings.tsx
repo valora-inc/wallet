@@ -72,8 +72,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
-import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
+import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
@@ -97,19 +96,16 @@ export const Account = ({ navigation, route }: Props) => {
   const pincodeType = useSelector(pincodeTypeSelector)
   const requirePinOnAppOpen = useSelector(getRequirePinOnAppOpen)
   const preferredCurrencyCode = useSelector(getLocalCurrencyCode)
-
-  const { sessions: walletConnectV1Sessions } = useSelector(selectSessionsV1)
-  const { sessions: walletConnectV2Sessions } = useSelector(selectSessionsV2)
-
-  const { v1, v2 } = useSelector(walletConnectEnabledSelector)
+  const { sessions } = useSelector(selectSessions)
+  const { v2 } = useSelector(walletConnectEnabledSelector)
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
 
-  const walletConnectEnabled = v1 || v2
-  const connectedApplications = walletConnectV1Sessions.length + walletConnectV2Sessions.length
+  const walletConnectEnabled = v2
+  const connectedApplications = sessions.length
 
   useEffect(() => {
     if (ValoraAnalytics.getSessionId() !== sessionId) {

@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Wiederherstellungsphrase verwenden",
       "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
-    },
-    "cloudBackup": {
-      "title": "In der Cloud sichern",
-      "subtitle": "Deine Wallet ohne Wiederherstellungsphrase wiederherstellen",
-      "bottomSheet": {
-        "title": "Das Cloud-Backup kommt demnächst!",
-        "restoreComingSoon": "Das Cloud-Backup ist eine Möglichkeit, deine Wallet ohne Wiederherstellungsphrase wiederherzustellen. Wir arbeiten so schnell wir können und benachrichtigen dich, sobald diese Funktion verfügbar ist.",
-        "writeDownPhrase": "In der Zwischenzeit schreibe dir bitte deine Wiederherstellungsphrase auf, um deine Wallet manuell zu sichern.",
-        "continue": "Mit Wiederherstellungsphrase fortfahren"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Schreibe deine Wiederherstellungsphrase auf ein Blatt Papier auf und bewahre es an einem sicheren Ort auf, um deine Wallet effektiv zu schützen.",
       "phraseLocation": "Ein idealer Ort könnte dort sein, wo du andere wichtige Dokumente und Unterlagen aufbewahrst, die nicht leicht gestohlen werden sollen. Es liegt an dir!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Bewahre dein Portemonnaie sicher auf",
+    "description": "Nur du kannst auf dein Portemonnaie zugreifen. Wenn dein Telefon verloren geht oder gestohlen wird, kann Valora es nicht für dich wiederherstellen.\n\nDu musst eine Methode einrichten, um dein Portemonnaie sicher aufzubewahren und dein Geld zu schützen."
   },
   "setUpKeylessBackup": {
     "title": "Schlüssellose Sicherung einrichten",
@@ -153,12 +147,6 @@
   "headerTitle": "Wiederherstellungsphrase",
   "introBackUpPhrase": "Wiederherstellungsphrase sichern",
   "introCompleteQuiz": "Schließe unser Backup-Quiz ab, um zu überprüfen, ob dein Wallet wiederhergestellt werden kann.\n\nWenn du es falsch geschrieben hast, dann hast du keinen Zugang auf dein Wallet, wenn etwas mit deinem Gerät passieren sollte.",
-  "introTitle": "Deine Wiederherstellungsphrase",
-  "introBody": "Deine Wiederherstellungsphrase ist der wichtigste Teil deines Kontos.\n\nBitte finde einen privaten Ort, um deine Phrase einzurichten. Es dauert etwa fünf Minuten.",
-  "introPrimaryAction": "Einrichten",
-  "backupSetupTitle": "Wiederherstellungsphrase einrichten",
-  "backupSetupBody": "Um dein Guthaben zu schützen, musst du deine Wiederherstellungsphrase einrichten, bevor du mit {{appName}} fortfahren kannst.",
-  "delayBackup": "Warte eine Stunde",
   "postSetupTitle": "Deine Wiederherstellungsphrase",
   "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Celo Dollar, Celo Euro und CELO. Niemand, nicht einmal {{appName}}, wird dir helfen können, dein Konto ohne deine Wiederherstellungsphrase wiederherzustellen. Bewahre sie an einem sicheren Ort und teile sie nicht.",
   "postSetupCTA": "Erfahre mehr über deine Wiederherstellungsphrase",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Bitte schreibe deine Phrase auf.",
   "completeEducation": "Ich verstehe",
   "yourAccountKey": "Deine Wiederherstellungsphrase",
-  "backupKeyNotification": "Verwahre dein Guthaben sicher. Richte deine Wiederherstellungsphrase ein.",
   "backupKeyNotification2": "Verwahre dein Guthaben sicher. Sichere jetzt deine Wiederherstellungsphrase.",
   "backupKeyCTA": "Schließe die Sicherung jetzt ab",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
@@ -570,6 +557,7 @@
   "close": "Schließen",
   "home": "Startseite",
   "accountKey": "Wiederherstellung",
+  "walletSecurity": "Sicherheit der Brieftasche",
   "addAndWithdraw": "Guthaben",
   "settings": "Einstellungen",
   "help": "Hilfe",
@@ -1339,7 +1327,16 @@
     "rewards": {
       "title": "Deine Belohnungen",
       "description": "Beanspruche verfügbare Rewards aus offenen Dapp-Positionen"
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Deine Belohnungen",
+      "description": "Jetzt kannst du Belohnungen aus offenen Dapp-Positionen direkt auf {{appName}}einfordern!",
+      "claimButton": "Anspruch",
+      "claimedLabel": "Beansprucht",
+      "rewardLabel": "Verfügbare Belohnung",
+      "claimSuccess": "Erfolg! Du hast eine Belohnung beansprucht"
+    },
+    "claimRewardFailure": "Beim Einfordern deiner Belohnung ist ein Fehler aufgetreten, bitte versuche es später noch einmal."
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1414,7 +1411,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Du ziehst <0></0> inklusive Gebühren ab"
-    }
+    },
+    "receiveAmount": "Empfange <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1752,6 +1750,10 @@
     "swap": "Tauschen",
     "withdraw": "Abheben"
   },
+  "nftGallery": {
+    "title": "Sammlerstücke",
+    "noNfts": "Deine NFTs werden hier angezeigt, sobald du eine in deinem Portemonnaie hast"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Auf Celo Explorer ansehen",
     "attributes": "Eigenschaften",
@@ -1763,6 +1765,16 @@
     "loadErrorTitle": "Beim Laden von NFTs ist ein Problem aufgetreten",
     "loadErrorSubtitle": "Dein Vermögen ist sicher. Bitte versuche es noch einmal.",
     "contactSupport": "Wenn du zusätzliche Hilfe benötigst, kannst du den\n<0>Support kontaktieren</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Haken Vorschau-Modus",
+      "message": "Bitte bestätige, dass du den Vorschaumodus für Hooks aktivieren möchtest.\n\nDiese Funktion ist nur für Entwickler gedacht, die Hooks erstellen. Wenn du kein Entwickler bist oder diese Aktion nicht ausgelöst hast, BESTÄTIGE NICHT.",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen"
+    },
+    "invalidApiUrl": "Ungültige Hooks Vorschau API URL",
+    "bannerTitle": "Hakenvorschau aktiviert, zum Deaktivieren antippen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
