@@ -79,6 +79,7 @@ function DappShortcutTransactionRequest({ handleContentLayout }: Props) {
           <DataFieldWithCopy
             label={t('walletConnectRequest.transactionDataLabel')}
             value={JSON.stringify(pendingAcceptShortcut.transactions)}
+            copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
             testID="DappShortcutsRewards/RewardTransactionData"
             onCopy={handleTrackCopyTransactionDetails}
           />

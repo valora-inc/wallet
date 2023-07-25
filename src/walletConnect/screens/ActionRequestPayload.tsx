@@ -60,6 +60,7 @@ function ActionRequestPayload(props: Props) {
     <DataFieldWithCopy
       label={t('walletConnectRequest.transactionDataLabel')}
       value={moreInfoString}
+      copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
       testID="WalletConnectRequest/ActionRequestPayload"
       onCopy={handleTrackCopyRequestPayload}
     />

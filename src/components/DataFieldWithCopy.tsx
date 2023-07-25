@@ -1,6 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import Touchable from 'src/components/Touchable'
@@ -14,24 +13,19 @@ import variables from 'src/styles/variables'
 interface Props {
   label: string
   value: string
+  copySuccessMessage: string
   testID: string
   onCopy?: () => void
 }
 
-function DataFieldWithCopy({ label, value, testID, onCopy }: Props) {
-  const { t } = useTranslation()
-
+function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }: Props) {
   const handleCopy = () => {
     onCopy?.()
 
     Clipboard.setString(value)
     vibrateInformative()
 
-    Toast.showWithGravity(
-      t('walletConnectRequest.transactionDataCopied'),
-      Toast.SHORT,
-      Toast.BOTTOM
-    )
+    Toast.showWithGravity(copySuccessMessage, Toast.SHORT, Toast.BOTTOM)
   }
 
   return (
