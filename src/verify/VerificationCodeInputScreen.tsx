@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +15,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import { useVerifyPhoneNumber } from 'src/verify/hooks'
-import VerificationCodeInputWrapper from 'src/verify/VerificationCodeInputWrapper'
+import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 
 function VerificationCodeInputScreen({
   route,
@@ -25,6 +26,7 @@ function VerificationCodeInputScreen({
     route.params.e164Number,
     route.params.countryCallingCode
   )
+  const headerHeight = useHeaderHeight()
   const { t } = useTranslation()
 
   const onResendSms = () => {
@@ -73,14 +75,15 @@ function VerificationCodeInputScreen({
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <VerificationCodeInputWrapper
+      <VerificationCodeInput
+        phoneNumber={route.params.e164Number}
         verificationStatus={verificationStatus}
         setSmsCode={setSmsCode}
         onResendSms={onResendSms}
-        phoneNumber={route.params.e164Number}
         onSuccess={() => {
           navigate(Screens.OnboardingSuccessScreen)
         }}
+        containerStyle={{ marginTop: headerHeight }}
       />
       <InfoBottomSheet
         isVisible={showHelpDialog}

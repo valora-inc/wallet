@@ -1,11 +1,15 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import SmsRetriever from 'react-native-sms-retriever'
-import VerificationCodeInputWrapper from 'src/verify/VerificationCodeInputWrapper'
+import VerificationCodeInputWrapper from 'src/verify/VerificationCodeInput'
 import { PhoneNumberVerificationStatus } from 'src/verify/hooks'
 import { mocked } from 'ts-jest/utils'
 
 const mockedSmsRetriever = mocked(SmsRetriever)
+
+jest.mock('@react-native-clipboard/clipboard')
+jest.mock('src/utils/IosVersionUtils')
 
 describe('VerificationCodeInputWrapper', () => {
   const mockOnSuccess = jest.fn()
@@ -29,16 +33,18 @@ describe('VerificationCodeInputWrapper', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useFakeTimers()
+    mocked(Clipboard.getString).mockResolvedValue('')
+    mocked(Clipboard.hasString).mockResolvedValue(false)
   })
 
   it('displays the correct components', () => {
-    const { getByText, getByTestId } = renderComponent()
+    const { getByText, getByTestId, queryByTestId } = renderComponent()
 
     expect(
       getByText(`phoneVerificationInput.description, {"phoneNumber":"${mockPhoneNumber}"}`)
     ).toBeTruthy()
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
+    expect(queryByTestId('PasteButton')).toBeFalsy()
   })
 
   it('hides resend button if onResendSms is not set', () => {
@@ -99,5 +105,29 @@ describe('VerificationCodeInputWrapper', () => {
       smsListener({ message: 'Your verification code for Valora is: 456789 5yaJvJcZt2P' })
     })
     expect(mockSetSmsCode).toHaveBeenCalledWith('456789')
+  })
+
+  it('shows paste button if clipboard has content matching code length', async () => {
+    const { findByTestId } = renderComponent()
+
+    await act(() => {
+      mocked(Clipboard.getString).mockResolvedValue('123456')
+      mocked(Clipboard.hasString).mockResolvedValue(true)
+    })
+    const findByPromise = findByTestId('PasteButton')
+    jest.runOnlyPendingTimers()
+    await expect(findByPromise).resolves.toBeTruthy()
+  })
+
+  it('does not show paste button if clipboard has content not matching code length', async () => {
+    const { findByTestId } = renderComponent()
+
+    await act(() => {
+      mocked(Clipboard.getString).mockResolvedValue('12345678')
+      mocked(Clipboard.hasString).mockResolvedValue(true)
+    })
+    const findByPromise = findByTestId('PasteButton')
+    jest.runOnlyPendingTimers()
+    await expect(findByPromise).rejects.toBeTruthy()
   })
 })

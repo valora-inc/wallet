@@ -1,7 +1,6 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -17,18 +16,19 @@ interface Props {
   setSmsCode: (code: string) => void
   onResendSms?: () => void
   onSuccess: () => void
+  containerStyle?: StyleProp<ViewStyle>
 }
 
-function VerificationCodeInputWrapper({
+function VerificationCodeInput({
   phoneNumber,
   verificationStatus,
   setSmsCode,
   onResendSms,
   onSuccess,
+  containerStyle,
 }: Props) {
   const [code, setCode] = useState('')
   const [codeInputStatus, setCodeInputStatus] = useState(CodeInputStatus.Inputting)
-  const headerHeight = useHeaderHeight()
 
   const { t } = useTranslation()
   // Android uses the SMS Retriever API to automatically fill in the verification code
@@ -53,7 +53,7 @@ function VerificationCodeInputWrapper({
   return (
     <>
       <KeyboardAwareScrollView
-        style={[styles.scrollContainer, headerHeight ? { marginTop: headerHeight } : undefined]}
+        style={[styles.scrollContainer, containerStyle]}
         keyboardShouldPersistTaps="always"
       >
         <Text style={styles.body}>{t('phoneVerificationInput.description', { phoneNumber })}</Text>
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default VerificationCodeInputWrapper
+export default VerificationCodeInput
