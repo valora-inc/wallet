@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Sử dụng Cụm từ khôi phục",
       "subtitle": "Viết ra cụm từ khôi phục"
-    },
-    "cloudBackup": {
-      "title": "Sao lưu lên Đám mây",
-      "subtitle": "Khôi phục ví mà không cần cụm từ khôi phục",
-      "bottomSheet": {
-        "title": "Tính năng Sao lưu lên đám mây sẽ sớm ra mắt!",
-        "restoreComingSoon": "Sao lưu lên đám mây là cách khôi phục ví mà không cần cụm từ khôi phục. Chúng tôi đang nỗ lực để ra mắt tính năng này nhanh nhất có thể và sẽ thông báo cho bạn ngay khi có thể sử dụng được tính năng này.",
-        "writeDownPhrase": "Trong thời gian chờ đợi, vui lòng viết ra cụm từ khôi phục để sao lưu ví theo cách thủ công.",
-        "continue": "Tiếp tục với Cụm từ khôi phục"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Dùng bút viết ra cụm từ khôi phục và cất vào một nơi an toàn là một trong những cách an toàn nhất để bảo vệ ví của bạn.",
       "phraseLocation": "Nơi lý tưởng có thể là nơi bạn thường cất giữ các giấy tờ và tài liệu quan trọng khác mà người khác không dễ đánh cắp hay lấy đi. Cái đó tùy bạn quyết định!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Keep your wallet safe",
+    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
     "title": "Thiết lập chức năng sao lưu không dùng mã khóa",
@@ -153,12 +147,6 @@
   "headerTitle": "Cụm từ khôi phục",
   "introBackUpPhrase": "Sao lưu Cụm từ khôi phục",
   "introCompleteQuiz": "Hoàn thành câu hỏi kiểm tra sao lưu của chúng tôi để xác minh đảm bảo ví của bạn có thể được khôi phục.\n\nNếu viết sai cụm từ khôi phục, bạn sẽ không thể truy cập vào ví trong trường hợp xảy bất kỳ sự cố nào với thiết bị.",
-  "introTitle": "Cụm từ khôi phục của bạn",
-  "introBody": "Cụm từ khôi phục là phần quan trọng nhất trong tài khoản.\n\nVui lòng tìm nơi riêng tư để thiết lập Cụm từ khôi phục của bạn. Thời gian thực hiện là khoảng 5 phút.",
-  "introPrimaryAction": "Thiết lập",
-  "backupSetupTitle": "Thiết lập Cụm từ khôi phục của bạn",
-  "backupSetupBody": "Để bảo vệ tiền của mình, bạn bắt buộc phải thiết lập Cụm từ khôi phục trước khi có thể tiếp tục sử dụng {{appName}}.",
-  "delayBackup": "Đợi 1 giờ",
   "postSetupTitle": "Cụm từ khôi phục của bạn",
   "postSetupBody": "Nếu mất Cụm từ khôi phục, bạn sẽ mất quyền truy cập vào tất cả Đô la Celo và CELO của mình. Không ai, kể cả {{appName}}, có thể giúp bạn khôi phục tài khoản khi không có Cụm từ khôi phục. Hãy lưu giữ Cụm từ này ở nơi an toàn và không chia sẻ với bất kỳ ai.",
   "postSetupCTA": "Tìm hiểu về Cụm từ khôi phục",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Vui lòng viết ra cụm từ của bạn.",
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
-  "backupKeyNotification": "Để bảo vệ tiền, hãy thiết lập Cụm từ khôi phục ngay.",
   "backupKeyNotification2": "Để bảo vệ tiền của bạn, hãy sao lưu Cụm từ khôi phục ngay.",
   "backupKeyCTA": "Hoàn tất quy trình sao lưu ngay",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
@@ -570,6 +557,7 @@
   "close": "Đóng",
   "home": "Trang chủ",
   "accountKey": "Cụm từ khôi phục",
+  "walletSecurity": "Wallet Security",
   "addAndWithdraw": "Nạp và rút tiền",
   "settings": "Cài đặt",
   "help": "Trợ giúp",
@@ -1337,7 +1325,16 @@
     "rewards": {
       "title": "Your rewards",
       "description": "Claim available rewards from open dapp positions"
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Your rewards",
+      "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
+      "claimButton": "Claim",
+      "claimedLabel": "Claimed",
+      "rewardLabel": "Available reward",
+      "claimSuccess": "Success! You claimed a reward"
+    },
+    "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
@@ -1412,7 +1409,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "You'll withdraw <0></0> including fees"
-    }
+    },
+    "receiveAmount": "Receive <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1750,6 +1748,10 @@
     "swap": "Trao đổi",
     "withdraw": "Rút tiền"
   },
+  "nftGallery": {
+    "title": "Collectibles",
+    "noNfts": "Your NFTs will display here once you have one in your wallet"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Xem trên Celo Explorer",
     "attributes": "Thuộc tính",
@@ -1761,6 +1763,16 @@
     "loadErrorTitle": "Đã xảy ra sự cố khi tải NFT",
     "loadErrorSubtitle": "Tài sản của bạn an toàn. Vui lòng thử lại.",
     "contactSupport": "Nếu cần trợ giúp thêm, bạn có thể \n<0>Liên hệ với bộ phận hỗ trợ</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Hooks Preview Mode",
+      "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      "cancel": "Hủy",
+      "confirm": "Xác nhận"
+    },
+    "invalidApiUrl": "Invalid hooks preview API URL",
+    "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
