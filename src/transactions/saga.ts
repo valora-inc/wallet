@@ -2,7 +2,6 @@ import { CeloTransactionObject, CeloTxReceipt, EventLog } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions as IdentityActions } from 'src/identity/actions'
@@ -13,22 +12,22 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  addHashToStandbyTransaction,
   NewTransactionsInFeedAction,
+  TransactionConfirmedAction,
+  TransactionFailedAction,
+  UpdateTransactionsAction,
+  addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
-  TransactionConfirmedAction,
   transactionFailed,
-  TransactionFailedAction,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
-  UpdateTransactionsAction,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
 import {
+  KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
-  KnownFeedTransactionsType,
   standbyTransactionsLegacySelector,
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
@@ -43,6 +42,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
+import { call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'transactions/saga'
 
@@ -50,7 +50,7 @@ const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactionsLegacy({ transactions }: NewTransactionsInFeedAction) {
-  const standbyTxs: StandbyTransactionLegacy[] = yield select(standbyTransactionsLegacySelector)
+  const standbyTxs: StandbyTransactionLegacy[] = yield* select(standbyTransactionsLegacySelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
   for (const standbyTx of standbyTxs) {
     if (
@@ -58,14 +58,14 @@ function* cleanupStandbyTransactionsLegacy({ transactions }: NewTransactionsInFe
       standbyTx.status !== TransactionStatus.Failed &&
       newFeedTxHashes.has(standbyTx.hash)
     ) {
-      yield put(removeStandbyTransaction(standbyTx.context.id))
+      yield* put(removeStandbyTransaction(standbyTx.context.id))
     }
   }
 }
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
-  const standbyTxs: StandbyTransaction[] = yield select(standbyTransactionsSelector)
+  const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
     if (
@@ -73,17 +73,17 @@ function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction)
       standbyTx.status !== TransactionStatus.Failed &&
       newFeedTxHashes.has(standbyTx.hash)
     ) {
-      yield put(removeStandbyTransaction(standbyTx.context.id))
+      yield* put(removeStandbyTransaction(standbyTx.context.id))
     }
   }
 }
 
 function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
-  const kit: ContractKit = yield call(getContractKit)
-  const escrowWrapper: EscrowWrapper = yield call([kit.contracts, kit.contracts.getEscrow])
-  const transferEvents: EventLog[] = yield call(
+  const kit: ContractKit = yield* call(getContractKit)
+  const escrowWrapper: EscrowWrapper = yield* call([kit.contracts, kit.contracts.getEscrow])
+  const transferEvents: EventLog[] = yield* call(
     [escrowWrapper, escrowWrapper.getPastEvents],
-    'Transfer',
+    escrowWrapper.eventTypes.Transfer,
     {
       fromBlock: blockNumber,
       toBlock: blockNumber,
@@ -108,7 +108,7 @@ function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
 }
 
 export function* getInviteTransactionsDetails({ transactions }: UpdateTransactionsAction) {
-  const existingInviteTransactions = yield select(inviteTransactionsSelector)
+  const existingInviteTransactions = yield* select(inviteTransactionsSelector)
   const newInviteTransactions = transactions.filter(
     (transaction) =>
       transaction.type === TokenTransactionTypeV2.InviteSent &&
@@ -121,7 +121,7 @@ export function* getInviteTransactionsDetails({ transactions }: UpdateTransactio
 
   const inviteTransactions = { ...existingInviteTransactions }
   for (const newInviteTransaction of newInviteTransactions) {
-    const { recipientIdentifier, paymentId } = yield call(
+    const { recipientIdentifier, paymentId } = yield* call(
       getInviteTransactionDetails,
       newInviteTransaction.transactionHash,
       newInviteTransaction.block
@@ -133,15 +133,14 @@ export function* getInviteTransactionsDetails({ transactions }: UpdateTransactio
       }
     }
   }
-  yield put(updateInviteTransactions(inviteTransactions))
+  yield* put(updateInviteTransactions(inviteTransactions))
 }
 
 export function* waitForTransactionWithId(txId: string) {
   while (true) {
-    const action: TransactionConfirmedAction | TransactionFailedAction = yield take([
-      Actions.TRANSACTION_CONFIRMED,
-      Actions.TRANSACTION_FAILED,
-    ])
+    const action = (yield* take([Actions.TRANSACTION_CONFIRMED, Actions.TRANSACTION_FAILED])) as
+      | TransactionConfirmedAction
+      | TransactionFailedAction
     if (action.txId === txId) {
       // Return the receipt on success and undefined otherwise.
       return action.type === Actions.TRANSACTION_CONFIRMED ? action.receipt : undefined
@@ -162,7 +161,7 @@ export function* sendAndMonitorTransaction<T>(
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
     const sendTxMethod = function* () {
-      const { transactionHash, receipt }: TxPromises = yield call(
+      const { transactionHash, receipt }: TxPromises = yield* call(
         sendTransactionPromises,
         tx.txo,
         account,
@@ -173,27 +172,33 @@ export function* sendAndMonitorTransaction<T>(
         nonce
       )
       const hash: string = yield transactionHash
-      yield put(addHashToStandbyTransaction(context.id, hash))
+      yield* put(addHashToStandbyTransaction(context.id, hash))
       return (yield receipt) as CeloTxReceipt
     }
-    const txReceipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
-    yield put(transactionConfirmed(context.id, txReceipt))
+    // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
+    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
+    const txReceipt: CeloTxReceipt = (yield* call(
+      wrapSendTransactionWithRetry,
+      sendTxMethod,
+      context
+    )) as unknown as CeloTxReceipt
+    yield* put(transactionConfirmed(context.id, txReceipt))
 
-    yield put(fetchTokenBalances({ showLoading: true }))
+    yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield put(removeStandbyTransaction(context.id))
-    yield put(transactionFailed(context.id))
-    yield put(showError(ErrorMessages.TRANSACTION_FAILED))
+    yield* put(removeStandbyTransaction(context.id))
+    yield* put(transactionFailed(context.id))
+    yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
   }
 }
 
 function* refreshRecentTxRecipients() {
-  const addressToE164Number: AddressToE164NumberType = yield select(addressToE164NumberSelector)
-  const recipientCache: NumberToRecipient = yield select(phoneRecipientCacheSelector)
-  const knownFeedTransactions: KnownFeedTransactionsType = yield select(
+  const addressToE164Number: AddressToE164NumberType = yield* select(addressToE164NumberSelector)
+  const recipientCache: NumberToRecipient = yield* select(phoneRecipientCacheSelector)
+  const knownFeedTransactions: KnownFeedTransactionsType = yield* select(
     knownFeedTransactionsSelector
   )
 
@@ -235,24 +240,24 @@ function* refreshRecentTxRecipients() {
     }
   }
 
-  yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
+  yield* put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, safely(cleanupStandbyTransactionsLegacy))
-  yield takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
-  yield takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
-  yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
+  yield* takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, safely(cleanupStandbyTransactionsLegacy))
+  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
+  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
+  yield* takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
 }
 
 function* watchAddressToE164PhoneNumberUpdate() {
-  yield takeLatest(
+  yield* takeLatest(
     IdentityActions.UPDATE_E164_PHONE_NUMBER_ADDRESSES,
     safely(refreshRecentTxRecipients)
   )
 }
 
 export function* transactionSaga() {
-  yield spawn(watchNewFeedTransactions)
-  yield spawn(watchAddressToE164PhoneNumberUpdate)
+  yield* spawn(watchNewFeedTransactions)
+  yield* spawn(watchAddressToE164PhoneNumberUpdate)
 }

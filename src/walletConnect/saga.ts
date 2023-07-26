@@ -7,17 +7,6 @@ import { SessionTypes } from '@walletconnect/types'
 import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
-import {
-  call,
-  delay,
-  put,
-  race,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLeading,
-} from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
@@ -70,6 +59,17 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
+import {
+  call,
+  delay,
+  put,
+  race,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLeading,
+} from 'typed-redux-saga'
 
 let client: IWeb3Wallet | null = null
 
@@ -84,17 +84,15 @@ const GET_SESSION_TIMEOUT = 10_000
 export function* getDefaultSessionTrackedProperties(
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
 ) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
   return getDefaultSessionTrackedPropertiesAnalytics(session, activeDapp)
 }
 
 function* handleInitialiseWalletConnect() {
-  const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
-    createWalletConnectChannel
-  )
+  const walletConnectChannel = yield* call(createWalletConnectChannel)
   while (true) {
-    const message: WalletConnectActions = yield take(walletConnectChannel)
-    yield put(message)
+    const message: WalletConnectActions = yield* take(walletConnectChannel)
+    yield* put(message)
   }
 }
 
@@ -117,7 +115,7 @@ export const _applyIconFixIfNeeded = applyIconFixIfNeeded
 function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
-    client = yield call([Web3Wallet, 'init'], {
+    client = yield* call([Web3Wallet, 'init'], {
       core: new Core({
         projectId: WALLET_CONNECT_PROJECT_ID,
         relayUrl: networkConfig.walletConnectEndpoint,
@@ -135,7 +133,7 @@ function* createWalletConnectChannel() {
     })
 
     Logger.debug(TAG + '@createWalletConnectChannel', `init end`)
-    yield put(clientInitialised())
+    yield* put(clientInitialised())
   }
 
   return eventChannel((emit) => {
@@ -182,11 +180,11 @@ function* createWalletConnectChannel() {
 
       client = null
     }
-  })
+  }) as EventChannel<WalletConnectActions>
 }
 
 function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
@@ -198,7 +196,7 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     }
 
     Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
-    yield call([client, 'pair'], { uri })
+    yield* call([client, 'pair'], { uri })
     Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
   } catch (e) {
     Logger.debug(TAG + '@handleInitialisePairing', e.message)
@@ -218,32 +216,32 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
 
 function* handleIncomingSessionRequest({ session }: SessionProposal) {
   const { pending }: { pending: Web3WalletTypes.EventArguments['session_proposal'][] } =
-    yield select(selectSessions)
+    yield* select(selectSessions)
   if (pending.length > 1) {
     return
   }
 
-  yield call(showSessionRequest, session)
+  yield* call(showSessionRequest, session)
 }
 
 function* handleIncomingActionRequest({ request }: SessionPayload) {
-  const pendingActions: Web3WalletTypes.EventArguments['session_request'][] = yield select(
+  const pendingActions: Web3WalletTypes.EventArguments['session_request'][] = yield* select(
     selectPendingActions
   )
   if (pendingActions.length > 1) {
     return
   }
 
-  yield call(showActionRequest, request)
+  yield* call(showActionRequest, request)
 }
 
 function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_proposal']) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const activeDapp = yield* select(activeDappSelector)
   ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success, {
     dappRequestOrigin: activeDapp ? DappRequestOrigin.InAppWebView : DappRequestOrigin.External,
   })
 
-  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -251,7 +249,7 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
     ...defaultSessionTrackedProperties,
   })
 
-  yield call(navigate, Screens.WalletConnectRequest, {
+  navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Session,
     pendingSession: session,
     version: 2,
@@ -259,8 +257,8 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
 }
 
 function* getSupportedChains() {
-  const kit: ContractKit = yield call(getContractKit)
-  const chainId = yield call([kit.connection, 'chainId'])
+  const kit: ContractKit = yield* call(getContractKit)
+  const chainId = yield* call([kit.connection, 'chainId'])
 
   return [`eip155:${chainId}`]
 }
@@ -272,12 +270,12 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
 
   if (!isSupportedAction(request.params.request.method)) {
     // Directly deny unsupported requests
-    yield put(denyRequest(request, getSdkError('WC_METHOD_UNSUPPORTED')))
+    yield* put(denyRequest(request, getSdkError('WC_METHOD_UNSUPPORTED')))
     return
   }
 
-  const session: SessionTypes.Struct = yield call(getSessionFromRequest, request)
-  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+  const session: SessionTypes.Struct = yield* call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -286,16 +284,16 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     ...getDefaultRequestTrackedProperties(request),
   })
 
-  const activeSessions = yield call([client, 'getActiveSessions'])
+  const activeSessions = yield* call([client, 'getActiveSessions'])
   const activeSession = activeSessions[session.topic]
   if (!activeSession) {
-    yield put(denyRequest(request, getSdkError('UNAUTHORIZED_EVENT')))
+    yield* put(denyRequest(request, getSdkError('UNAUTHORIZED_EVENT')))
     return
   }
 
-  const supportedChains = yield call(getSupportedChains)
+  const supportedChains = yield* call(getSupportedChains)
 
-  yield call(navigate, Screens.WalletConnectRequest, {
+  navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
     pendingAction: request,
     supportedChains,
@@ -304,7 +302,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
 }
 
 export function* acceptSession({ session }: AcceptSession) {
-  const defaultTrackedProperties: WalletConnect2Properties = yield call(
+  const defaultTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -315,7 +313,7 @@ export function* acceptSession({ session }: AcceptSession) {
       throw new Error('missing client')
     }
 
-    const address: string = yield call(getWalletAddress)
+    const address: string = yield* call(getWalletAddress)
     const { requiredNamespaces, relays, proposer } = session.params
 
     // Here we approve all required namespaces, but only for EVM chains.
@@ -326,7 +324,7 @@ export function* acceptSession({ session }: AcceptSession) {
     // If the dapp actually requests an action on an unsupported chain, we will show an error.
     // See ActionRequest for more details.
     const requiredEip155Chains = requiredNamespaces.eip155?.chains ?? []
-    const supportedEip155Chains = yield call(getSupportedChains)
+    const supportedEip155Chains = yield* call(getSupportedChains)
     const approvedEip155Chains = [
       ...supportedEip155Chains,
       ...requiredEip155Chains.filter((chainId) => !supportedEip155Chains.includes(chainId)),
@@ -354,7 +352,7 @@ export function* acceptSession({ session }: AcceptSession) {
       },
     })
 
-    yield call([client, 'approveSession'], {
+    yield* call([client, 'approveSession'], {
       id: session.id,
       relayProtocol: relays[0].protocol,
       namespaces: approvedNamespaces,
@@ -364,17 +362,17 @@ export function* acceptSession({ session }: AcceptSession) {
 
     // the Client does not emit any events when a new session value is
     // available, so if no matching session could be found we can wait and try again.
-    const { timedOut, newSession } = yield race({
+    const { timedOut, newSession } = yield* race({
       timedOut: delay(GET_SESSION_TIMEOUT),
       newSession: call(getSessionFromClient, session),
     })
 
-    if (timedOut) {
+    if (!newSession || timedOut) {
       throw new Error('No corresponding session could not be found on the client')
     }
 
-    yield put(sessionCreated(newSession))
-    yield call(showWalletConnectionSuccessMessage, proposer.metadata.name)
+    yield* put(sessionCreated(newSession))
+    yield* call(showWalletConnectionSuccessMessage, proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -383,7 +381,7 @@ export function* acceptSession({ session }: AcceptSession) {
     })
   }
 
-  yield call(handlePendingStateOrNavigateBack)
+  yield* call(handlePendingStateOrNavigateBack)
 }
 
 function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_proposal']) {
@@ -394,7 +392,7 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
 
   let sessionValue: null | SessionTypes.Struct = null
   while (!sessionValue) {
-    const sessions: Record<string, SessionTypes.Struct> = yield call([client, 'getActiveSessions'])
+    const sessions: Record<string, SessionTypes.Struct> = yield* call([client, 'getActiveSessions'])
     Object.values(sessions).forEach((entry) => {
       if (entry.pairingTopic === session.params.pairingTopic) {
         sessionValue = entry
@@ -402,16 +400,16 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
     })
 
     if (!sessionValue) {
-      yield delay(500)
+      yield* delay(500)
     }
   }
 
   applyIconFixIfNeeded(sessionValue)
-  return sessionValue
+  return sessionValue as SessionTypes.Struct
 }
 
 function* denySession({ session }: DenySession) {
-  const defaultTrackedProperties: WalletConnect2Properties = yield call(
+  const defaultTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -423,7 +421,7 @@ function* denySession({ session }: DenySession) {
       throw new Error('missing client')
     }
 
-    yield call([client, 'rejectSession'], {
+    yield* call([client, 'rejectSession'], {
       id: session.id,
       reason: getSdkError('USER_REJECTED_METHODS'),
     })
@@ -437,7 +435,7 @@ function* denySession({ session }: DenySession) {
     })
   }
 
-  yield call(handlePendingStateOrNavigateBack)
+  yield* call(handlePendingStateOrNavigateBack)
 }
 
 function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session_request']) {
@@ -446,7 +444,7 @@ function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session
     throw new Error('missing client')
   }
   // Active Sessions is an object with keys that are uuids
-  const activeSessions = yield call([client, 'getActiveSessions'])
+  const activeSessions = yield* call([client, 'getActiveSessions'])
   const session = activeSessions[request.topic]
 
   if (!session) {
@@ -458,8 +456,8 @@ function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session
 }
 
 function* handleAcceptRequest({ request }: AcceptRequest) {
-  const session: SessionTypes.Struct = yield call(getSessionFromRequest, request)
-  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+  const session: SessionTypes.Struct = yield* call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -476,22 +474,22 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     }
 
     const { topic, id, params } = request
-    const activeSessions = yield call([client, 'getActiveSessions'])
+    const activeSessions = yield* call([client, 'getActiveSessions'])
     const activeSession = activeSessions[topic]
 
     if (!activeSession) {
       throw new Error(`Missing active session for topic ${topic}`)
     }
 
-    const result = yield call(handleRequest, { ...params.request })
+    const result = yield* call(handleRequest, { ...params.request })
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
-      params.request.method === SupportedActions.eth_signTransaction ? result.raw : result
+      (params.request.method = typeof result === 'string' ? result : result.raw)
     )
-    yield call([client, 'respondSessionRequest'], { topic, response })
+    yield* call([client, 'respondSessionRequest'], { topic, response })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
-    yield call(showWalletConnectionSuccessMessage, activeSession.peer.metadata.name)
+    yield* call(showWalletConnectionSuccessMessage, activeSession.peer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
@@ -500,12 +498,12 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     })
   }
 
-  yield call(handlePendingStateOrNavigateBack)
+  yield* call(handlePendingStateOrNavigateBack)
 }
 
 function* handleDenyRequest({ request, reason }: DenyRequest) {
-  const session: SessionTypes.Struct = yield call(getSessionFromRequest, request)
-  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+  const session: SessionTypes.Struct = yield* call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -524,7 +522,7 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
 
     const { topic, id } = request
     const response = formatJsonRpcError(id, reason.message)
-    yield call([client, 'respondSessionRequest'], { topic, response })
+    yield* call([client, 'respondSessionRequest'], { topic, response })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e.message)
@@ -534,11 +532,11 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
     })
   }
 
-  yield call(handlePendingStateOrNavigateBack)
+  yield* call(handlePendingStateOrNavigateBack)
 }
 
 function* closeSession({ session }: CloseSession) {
-  const defaultTrackedProperties: WalletConnect2Properties = yield call(
+  const defaultTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
@@ -550,7 +548,7 @@ function* closeSession({ session }: CloseSession) {
       throw new Error('missing client')
     }
 
-    yield call([client, 'disconnectSession'], {
+    yield* call([client, 'disconnectSession'], {
       topic: session.topic,
       reason: getSdkError('USER_DISCONNECTED'),
     })
@@ -566,11 +564,11 @@ function* closeSession({ session }: CloseSession) {
 }
 
 function* handlePendingStateOrNavigateBack() {
-  const hasPendingState: boolean = yield select(selectHasPendingState)
+  const hasPendingState: boolean = yield* select(selectHasPendingState)
 
   if (hasPendingState) {
-    yield call(handlePendingState)
-  } else if (yield call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
+    yield* call(handlePendingState)
+  } else if (yield* call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
     navigateBack()
   }
 }
@@ -578,66 +576,66 @@ function* handlePendingStateOrNavigateBack() {
 function* handlePendingState() {
   const {
     pending: [pendingSession],
-  }: { pending: Web3WalletTypes.EventArguments['session_proposal'][] } = yield select(
+  }: { pending: Web3WalletTypes.EventArguments['session_proposal'][] } = yield* select(
     selectSessions
   )
   if (pendingSession) {
-    yield call(showSessionRequest, pendingSession)
+    yield* call(showSessionRequest, pendingSession)
     return
   }
 
-  const [pendingRequest]: Web3WalletTypes.EventArguments['session_request'][] = yield select(
+  const [pendingRequest]: Web3WalletTypes.EventArguments['session_request'][] = yield* select(
     selectPendingActions
   )
   if (pendingRequest) {
-    yield call(showActionRequest, pendingRequest)
+    yield* call(showActionRequest, pendingRequest)
   }
 }
 
 function* checkPersistedState() {
-  yield put(removeExpiredSessions(Date.now() / 1000))
+  yield* put(removeExpiredSessions(Date.now() / 1000))
 
-  const hasPendingState = yield select(selectHasPendingState)
+  const hasPendingState = yield* select(selectHasPendingState)
   if (hasPendingState) {
-    yield put(initialiseClient())
-    yield take(Actions.CLIENT_INITIALISED)
-    yield call(handlePendingState)
+    yield* put(initialiseClient())
+    yield* take(Actions.CLIENT_INITIALISED)
+    yield* call(handlePendingState)
     return
   }
 
-  const { sessions }: { sessions: SessionTypes.Struct[] } = yield select(selectSessions)
+  const { sessions }: { sessions: SessionTypes.Struct[] } = yield* select(selectSessions)
   if (sessions.length) {
-    yield put(initialiseClient())
+    yield* put(initialiseClient())
   }
 }
 
 export function* walletConnectSaga() {
-  yield takeLeading(Actions.INITIALISE_CLIENT, safely(handleInitialiseWalletConnect))
-  yield takeEvery(Actions.INITIALISE_PAIRING, safely(handleInitialisePairing))
-  yield takeEvery(Actions.CLOSE_SESSION, safely(closeSession))
+  yield* takeLeading(Actions.INITIALISE_CLIENT, safely(handleInitialiseWalletConnect))
+  yield* takeEvery(Actions.INITIALISE_PAIRING, safely(handleInitialisePairing))
+  yield* takeEvery(Actions.CLOSE_SESSION, safely(closeSession))
 
-  yield takeEvery(Actions.SESSION_PROPOSAL, safely(handleIncomingSessionRequest))
-  yield takeEvery(Actions.ACCEPT_SESSION, safely(acceptSession))
-  yield takeEvery(Actions.DENY_SESSION, safely(denySession))
+  yield* takeEvery(Actions.SESSION_PROPOSAL, safely(handleIncomingSessionRequest))
+  yield* takeEvery(Actions.ACCEPT_SESSION, safely(acceptSession))
+  yield* takeEvery(Actions.DENY_SESSION, safely(denySession))
 
-  yield takeEvery(Actions.SESSION_PAYLOAD, safely(handleIncomingActionRequest))
-  yield takeEvery(Actions.ACCEPT_REQUEST, safely(handleAcceptRequest))
-  yield takeEvery(Actions.DENY_REQUEST, safely(handleDenyRequest))
+  yield* takeEvery(Actions.SESSION_PAYLOAD, safely(handleIncomingActionRequest))
+  yield* takeEvery(Actions.ACCEPT_REQUEST, safely(handleAcceptRequest))
+  yield* takeEvery(Actions.DENY_REQUEST, safely(handleDenyRequest))
 
-  yield spawn(checkPersistedState)
+  yield* spawn(checkPersistedState)
 }
 
 export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
   if (!client) {
-    yield put(initialiseClient())
-    yield take(Actions.CLIENT_INITIALISED)
+    yield* put(initialiseClient())
+    yield* take(Actions.CLIENT_INITIALISED)
   }
-  yield put(initialisePairing(uri, origin))
+  yield* put(initialisePairing(uri, origin))
 }
 
 export function* isWalletConnectEnabled(uri: string) {
   const { version } = parseUri(uri)
-  const { v1, v2 }: { v1: boolean; v2: boolean } = yield select(walletConnectEnabledSelector)
+  const { v1, v2 }: { v1: boolean; v2: boolean } = yield* select(walletConnectEnabledSelector)
   const versionEnabled: { [version: string]: boolean | undefined } = {
     '1': v1,
     '2': v2,
@@ -646,7 +644,7 @@ export function* isWalletConnectEnabled(uri: string) {
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
-  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
+  const walletConnectEnabled = yield* call(isWalletConnectEnabled, uri)
 
   const { version } = parseUri(uri)
   if (!walletConnectEnabled) {
@@ -656,7 +654,7 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
 
   switch (version) {
     case 2:
-      yield call(initialiseWalletConnectV2, uri, origin)
+      yield* call(initialiseWalletConnectV2, uri, origin)
       break
     case 1:
     default:
@@ -665,9 +663,9 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
 }
 
 export function* showWalletConnectionSuccessMessage(dappName: string) {
-  const activeDapp = yield select(activeDappSelector)
+  const activeDapp = yield* select(activeDappSelector)
   const successMessage = activeDapp
     ? i18n.t('inAppConnectionSuccess', { dappName })
     : i18n.t('connectionSuccess', { dappName })
-  yield put(showMessage(successMessage))
+  yield* put(showMessage(successMessage))
 }

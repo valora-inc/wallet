@@ -10,18 +10,18 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
-  acceptSession as acceptSessionAction,
   Actions,
+  acceptSession as acceptSessionAction,
   sessionProposal as sessionProposalAction,
 } from 'src/walletConnect/actions'
 import {
+  _applyIconFixIfNeeded,
+  _setClientForTesting,
   acceptSession,
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
   walletConnectSaga,
-  _applyIconFixIfNeeded,
-  _setClientForTesting,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { createMockStore } from 'test/utils'

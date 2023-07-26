@@ -1,4 +1,3 @@
-import { call, cancelled, put, spawn, take } from 'redux-saga/effects'
 import {
   fetchCoinbasePaySenders,
   fetchInviteRewardsSenders,
@@ -10,38 +9,39 @@ import {
   rewardsSendersFetched,
 } from 'src/recipients/reducer'
 import Logger from 'src/utils/Logger'
+import { call, cancelled, put, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'recipientsSaga'
 
 function* fetchRewardsSendersSaga() {
-  const rewardsSendersChannel = yield call(fetchRewardsSenders)
+  const rewardsSendersChannel = yield* call(fetchRewardsSenders)
   if (!rewardsSendersChannel) {
     return
   }
   try {
     while (true) {
-      const rewardsSenders: string[] = yield take(rewardsSendersChannel)
-      yield put(rewardsSendersFetched(rewardsSenders))
+      const rewardsSenders = (yield* take(rewardsSendersChannel)) as string[]
+      yield* put(rewardsSendersFetched(rewardsSenders))
       Logger.info(`${TAG}@fetchRewardsSendersSaga`, rewardsSenders)
     }
   } catch (error) {
     Logger.error(`${TAG}@fetchRewardsSendersSaga`, 'Failed to fetch rewards senders', error)
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       rewardsSendersChannel.close()
     }
   }
 }
 
 function* fetchInviteRewardsSendersSaga() {
-  const rewardsSendersChannel = yield call(fetchInviteRewardsSenders)
+  const rewardsSendersChannel = yield* call(fetchInviteRewardsSenders)
   if (!rewardsSendersChannel) {
     return
   }
   try {
     while (true) {
-      const rewardsSenders: string[] = yield take(rewardsSendersChannel)
-      yield put(inviteRewardsSendersFetched(rewardsSenders))
+      const rewardsSenders = (yield* take(rewardsSendersChannel)) as string[]
+      yield* put(inviteRewardsSendersFetched(rewardsSenders))
       Logger.info(`${TAG}@fetchInviteRewardsSendersSaga`, rewardsSenders)
     }
   } catch (error) {
@@ -51,21 +51,21 @@ function* fetchInviteRewardsSendersSaga() {
       error
     )
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       rewardsSendersChannel.close()
     }
   }
 }
 
 function* fetchCoinbasePaySendersSaga() {
-  const coinbasePaySendersChannel = yield call(fetchCoinbasePaySenders)
+  const coinbasePaySendersChannel = yield* call(fetchCoinbasePaySenders)
   if (!coinbasePaySendersChannel) {
     return
   }
   try {
     while (true) {
-      const coinbasePaySenders: string[] = yield take(coinbasePaySendersChannel)
-      yield put(coinbasePaySendersFetched(coinbasePaySenders))
+      const coinbasePaySenders = (yield* take(coinbasePaySendersChannel)) as string[]
+      yield* put(coinbasePaySendersFetched(coinbasePaySenders))
       Logger.info(`${TAG}@fetchCoinbasePaySendersSaga`, coinbasePaySenders)
     }
   } catch (error) {
@@ -75,14 +75,14 @@ function* fetchCoinbasePaySendersSaga() {
       error
     )
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       coinbasePaySendersChannel.close()
     }
   }
 }
 
 export function* recipientsSaga() {
-  yield spawn(fetchRewardsSendersSaga)
-  yield spawn(fetchInviteRewardsSendersSaga)
-  yield spawn(fetchCoinbasePaySendersSaga)
+  yield* spawn(fetchRewardsSendersSaga)
+  yield* spawn(fetchInviteRewardsSendersSaga)
+  yield* spawn(fetchCoinbasePaySendersSaga)
 }

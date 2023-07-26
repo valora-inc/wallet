@@ -1,33 +1,33 @@
 import { Action, Predicate } from '@redux-saga/types'
 import BigNumber from 'bignumber.js'
-import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
-import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
+import { ActionTypes as AppActionTypes, Actions as AppActions } from 'src/app/actions'
 import {
   Actions,
-  assignProviderToTxHash,
   BidaliPaymentRequestedAction,
+  assignProviderToTxHash,
   setProviderLogos,
 } from 'src/fiatExchanges/actions'
-import { ProviderLogos, providerLogosSelector, TxHashToProvider } from 'src/fiatExchanges/reducer'
+import { ProviderLogos, TxHashToProvider, providerLogosSelector } from 'src/fiatExchanges/reducer'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { AddressRecipient, getDisplayName, RecipientType } from 'src/recipients/recipient'
-import { Actions as SendActions } from 'src/send/actions'
+import { AddressRecipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { Actions as SendActions } from 'src/send/actions'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import {
   NewTransactionsInFeedAction,
   Actions as TransactionActions,
 } from 'src/transactions/actions'
-import { resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { resolveCurrency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
+import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'fiatExchanges/saga'
 
@@ -51,7 +51,7 @@ function* bidaliPaymentRequest({
     throw new Error(`Unsupported payment currency from Bidali: ${currencyString}`)
   }
 
-  const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+  const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
   const tokenAddress = tokens[currency]?.address
 
   if (!tokenAddress) {
@@ -81,7 +81,7 @@ function* bidaliPaymentRequest({
   })
 
   while (true) {
-    const { cancel } = yield race({
+    const { cancel } = yield* race({
       sendStart: take(SendActions.SEND_PAYMENT),
       cancel: take(
         ((action: AppActionTypes) =>
@@ -91,21 +91,21 @@ function* bidaliPaymentRequest({
     })
     if (cancel) {
       Logger.debug(`${TAG}@bidaliPaymentRequest`, 'Cancelled')
-      yield call(onCancelled)
+      yield* call(onCancelled)
       return
     }
 
-    const { success } = yield race({
+    const { success } = yield* race({
       success: take(SendActions.SEND_PAYMENT_SUCCESS),
       failure: take(SendActions.SEND_PAYMENT_FAILURE),
     })
 
     if (success) {
       Logger.debug(`${TAG}@bidaliPaymentRequest`, 'Payment Sent')
-      yield call(onPaymentSent)
+      yield* call(onPaymentSent)
 
       // Keep address mapping locally
-      yield put(
+      yield* put(
         updateKnownAddresses({
           [address]: {
             name: getDisplayName(recipient, i18n.t),
@@ -121,8 +121,9 @@ function* bidaliPaymentRequest({
 }
 
 export function* fetchTxHashesToProviderMapping() {
-  const account = yield call(getAccount)
-  const txHashesToProvider: TxHashToProvider = yield readOnceFromFirebase(
+  const account = yield* call(getAccount)
+  const txHashesToProvider: TxHashToProvider = yield* call(
+    readOnceFromFirebase,
     `registrations/${account}/txHashes`
   )
   return txHashesToProvider
@@ -136,8 +137,8 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
     Logger.debug(`${TAG}@tagTxsWithProviderInfo`, `Checking ${transactions.length} txs`)
 
-    const providerLogos: ProviderLogos = yield select(providerLogosSelector)
-    const txHashesToProvider: TxHashToProvider = yield call(fetchTxHashesToProviderMapping)
+    const providerLogos: ProviderLogos = yield* select(providerLogosSelector)
+    const txHashesToProvider: TxHashToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
@@ -148,7 +149,7 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
       const providerLogo = providerLogos[provider || '']
 
       if (provider && providerLogo) {
-        yield put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
+        yield* put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
       }
     }
 
@@ -160,19 +161,19 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
 export function* importProviderLogos() {
   const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
-  yield put(setProviderLogos(providerLogos))
+  yield* put(setProviderLogos(providerLogos))
 }
 
 export function* watchBidaliPaymentRequests() {
-  yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, safely(bidaliPaymentRequest))
+  yield* takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, safely(bidaliPaymentRequest))
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(tagTxsWithProviderInfo))
+  yield* takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(tagTxsWithProviderInfo))
 }
 
 export function* fiatExchangesSaga() {
-  yield spawn(watchBidaliPaymentRequests)
-  yield spawn(watchNewFeedTransactions)
-  yield spawn(importProviderLogos)
+  yield* spawn(watchBidaliPaymentRequests)
+  yield* spawn(watchNewFeedTransactions)
+  yield* spawn(importProviderLogos)
 }

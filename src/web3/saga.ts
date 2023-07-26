@@ -2,7 +2,6 @@ import { generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
-import { call, delay, put, select, spawn, take } from 'redux-saga/effects'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -25,8 +24,9 @@ import {
   twelveWordMnemonicEnabledSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { RootState } from '../redux/reducers'
 import { PrimaryValoraWallet } from 'src/web3/types'
+import { call, delay, put, select, spawn, take } from 'typed-redux-saga'
+import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
 
@@ -35,19 +35,19 @@ const NEW_BLOCK_DELAY = 5000 // ms
 
 export function* waitForNextBlock() {
   const startTime = Date.now()
-  const web3 = yield call(getWeb3)
-  const initialBlockNumber = yield call(web3.eth.getBlockNumber)
+  const web3 = yield* call(getWeb3)
+  const initialBlockNumber = yield* call(web3.eth.getBlockNumber)
   while (Date.now() - startTime < NEW_BLOCK_TIMEOUT) {
-    const blockNumber = yield call(web3.eth.getBlockNumber)
+    const blockNumber = yield* call(web3.eth.getBlockNumber)
     if (blockNumber > initialBlockNumber) {
       return
     }
-    yield delay(NEW_BLOCK_DELAY)
+    yield* delay(NEW_BLOCK_DELAY)
   }
 }
 
 export function* getOrCreateAccount() {
-  const account: string = yield select(currentAccountSelector)
+  const account = yield* select(currentAccountSelector)
   if (account) {
     Logger.debug(
       TAG + '@getOrCreateAccount',
@@ -60,12 +60,12 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
-    const twelveWordMnemonicEnabled = yield select(twelveWordMnemonicEnabledSelector)
+    const twelveWordMnemonicEnabled = yield* select(twelveWordMnemonicEnabledSelector)
     const mnemonicBitLength = twelveWordMnemonicEnabled
       ? MnemonicStrength.s128_12words
       : MnemonicStrength.s256_24words
-    const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
-    let mnemonic: string = yield call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
+    const mnemonicLanguage = getMnemonicLanguage(yield* select(currentLanguageSelector))
+    let mnemonic: string = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
 
     // Ensure no duplicates in mnemonic
     const checkDuplicate = (someString: string) => {
@@ -74,7 +74,7 @@ export function* getOrCreateAccount() {
     let duplicateInMnemonic = checkDuplicate(mnemonic)
     while (duplicateInMnemonic) {
       Logger.debug(TAG + '@getOrCreateAccount', 'Regenerating mnemonic to avoid duplicates')
-      mnemonic = yield call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
+      mnemonic = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
       duplicateInMnemonic = checkDuplicate(mnemonic)
     }
 
@@ -82,18 +82,18 @@ export function* getOrCreateAccount() {
       throw new Error('Failed to generate mnemonic')
     }
 
-    const keys = yield call(generateKeysFromMnemonic, mnemonic)
+    const keys = yield* call(generateKeysFromMnemonic, mnemonic)
     privateKey = keys.privateKey
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
     }
 
-    const accountAddress: string = yield call(assignAccountFromPrivateKey, privateKey, mnemonic)
+    const accountAddress: string = yield* call(assignAccountFromPrivateKey, privateKey, mnemonic)
     if (!accountAddress) {
       throw new Error('Failed to assign account from private key')
     }
 
-    yield call(storeMnemonic, mnemonic, accountAddress)
+    yield* call(storeMnemonic, mnemonic, accountAddress)
 
     return accountAddress
   } catch (error) {
@@ -106,11 +106,11 @@ export function* getOrCreateAccount() {
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
     const account = privateKeyToAddress(privateKey)
-    const wallet: PrimaryValoraWallet = yield call(getWallet)
-    const password: string = yield call(getPasswordSaga, account, false, true)
+    const wallet: PrimaryValoraWallet = yield* call(getWallet)
+    const password: string = yield* call(getPasswordSaga, account, false, true)
 
     try {
-      yield call([wallet, wallet.addAccount], privateKey, password)
+      yield* call([wallet, wallet.addAccount], privateKey, password)
     } catch (e) {
       if (
         e.message === RpcWalletErrors.AccountAlreadyExists ||
@@ -122,13 +122,13 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
         throw e
       }
 
-      yield call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
+      yield* call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
     }
 
     Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)
-    yield put(setAccount(account))
-    yield put(setAccountCreationTime(Date.now()))
-    yield call(createAccountDek, mnemonic)
+    yield* put(setAccount(account))
+    yield* put(setAccountCreationTime(Date.now()))
+    yield* call(createAccountDek, mnemonic)
     return account
   } catch (e) {
     Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)
@@ -154,12 +154,12 @@ function* getAddress<T extends { address: string | null }>({
   action: Actions
 }) {
   while (true) {
-    const account = yield select(addressSelector)
+    const account = yield* select(addressSelector)
     if (account) {
       return account
     }
 
-    const actionEffect: T = yield take(action)
+    const actionEffect = (yield* take(action)) as unknown as T
     if (actionEffect.address) {
       // account exists
       return actionEffect.address
@@ -169,10 +169,11 @@ function* getAddress<T extends { address: string | null }>({
 
 // Wait for account to exist and then return it
 export function* getWalletAddress() {
-  return yield getAddress<SetAccountAction>({
+  const address = yield* getAddress<SetAccountAction>({
     addressSelector: walletAddressSelector,
     action: Actions.SET_ACCOUNT,
   })
+  return address as string
 }
 
 // deprecated, please use |getWalletAddress| instead.
@@ -188,15 +189,15 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: PrimaryValoraWallet = yield call(getWallet)
+  const wallet: PrimaryValoraWallet = yield* call(getWallet)
   if (!force && wallet.isAccountUnlocked(account)) {
     return UnlockResult.SUCCESS
   }
 
   try {
-    const password: string = yield call(getPasswordSaga, account)
+    const password: string = yield* call(getPasswordSaga, account)
 
-    const result = yield call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
+    const result = yield* call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
     if (!result) {
       throw new Error('Unlock account result false')
     }
@@ -215,19 +216,19 @@ export function* unlockAccount(account: string, force: boolean = false) {
 
 // Wait for account ready
 export function* getConnectedAccount() {
-  const account: string = yield call(getAccount)
+  const account: string = yield* call(getAccount)
   return account
 }
 
 // Wait for geth to be connected, geth ready, and get unlocked account
 export function* getConnectedUnlockedAccount() {
-  const account: string = yield call(getConnectedAccount)
-  const result: UnlockResult = yield call(unlockAccount, account)
+  const account: string = yield* call(getConnectedAccount)
+  const result: UnlockResult = yield* call(unlockAccount, account)
   if (result === UnlockResult.SUCCESS) {
-    const signedMessage = yield call(retrieveSignedMessage)
+    const signedMessage = yield* call(retrieveSignedMessage)
     if (!signedMessage) {
       try {
-        yield call(generateSignedMessage)
+        yield* call(generateSignedMessage)
       } catch (error) {
         Logger.error(
           `${TAG}@getConnectedUnlockedAccount`,
@@ -251,11 +252,11 @@ export function* getConnectedUnlockedAccount() {
 // used elsewhere that errouneously refers to the EOA
 // as `account`
 export function* getAccountAddress() {
-  const walletAddress: string = yield call(getAccount)
-  const mtwAddress: string | null = yield select(mtwAddressSelector)
+  const walletAddress: string = yield* call(getAccount)
+  const mtwAddress: string | null = yield* select(mtwAddressSelector)
   return mtwAddress ?? walletAddress
 }
 
 export function* web3Saga() {
-  yield spawn(initContractKit)
+  yield* spawn(initContractKit)
 }

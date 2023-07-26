@@ -1,12 +1,11 @@
-import { CeloTransactionObject, Contract, toTransactionObject } from '@celo/connect'
+import { Contract, toTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
+import { FeeInfo, calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -18,9 +17,9 @@ import {
   Actions,
   HandleBarcodeDetectedAction,
   SendPaymentAction,
+  ShareQRCodeAction,
   sendPaymentFailure,
   sendPaymentSuccess,
-  ShareQRCodeAction,
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
@@ -37,18 +36,19 @@ import { TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
-  newTransactionContext,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
+  newTransactionContext,
 } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
+import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
@@ -110,11 +110,11 @@ export async function getSendFee(
 
 export function* watchQrCodeDetections() {
   while (true) {
-    const action: HandleBarcodeDetectedAction = yield take(Actions.BARCODE_DETECTED)
+    const action = (yield* take(Actions.BARCODE_DETECTED)) as HandleBarcodeDetectedAction
     Logger.debug(TAG, 'Barcode detected in watcher')
-    const recipientInfo: RecipientInfo = yield select(recipientInfoSelector)
+    const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
 
-    const e164NumberToAddress = yield select(e164NumberToAddressSelector)
+    const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
     const isOutgoingPaymentRequest = action.isOutgoingPaymentRequest
     let secureSendTxData
     let requesterAddress
@@ -125,7 +125,7 @@ export function* watchQrCodeDetections() {
     }
 
     try {
-      yield call(
+      yield* call(
         handleBarcode,
         action.data,
         e164NumberToAddress,
@@ -142,9 +142,9 @@ export function* watchQrCodeDetections() {
 
 export function* watchQrCodeShare() {
   while (true) {
-    const action: ShareQRCodeAction = yield take(Actions.QRCODE_SHARE)
+    const action = (yield* take(Actions.QRCODE_SHARE)) as ShareQRCodeAction
     try {
-      const result = yield call(shareSVGImage, action.qrCodeSvg)
+      const result = yield* call(shareSVGImage, action.qrCodeSvg)
       // Note: when user cancels the share sheet, result contains {"dismissedAction":true}
       Logger.info(TAG, 'Share done', result)
     } catch (error) {
@@ -159,13 +159,13 @@ export function* buildSendTx(
   recipientAddress: string,
   comment: string
 ) {
-  const contract: Contract = yield call(getERC20TokenContract, tokenAddress)
-  const coreContract: Contract = yield call(getStableTokenContract, tokenAddress)
+  const contract: Contract = yield* call(getERC20TokenContract, tokenAddress)
+  const coreContract: Contract = yield* call(getStableTokenContract, tokenAddress)
 
-  const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
-  const convertedAmount: string = yield call(tokenAmountInSmallestUnit, amount, tokenAddress)
+  const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenAddress)
+  const convertedAmount: string = yield* call(tokenAmountInSmallestUnit, amount, tokenAddress)
 
-  const kit: ContractKit = yield call(getContractKit)
+  const kit: ContractKit = yield* call(getContractKit)
   return toTransactionObject(
     kit.connection,
     tokenInfo?.isCoreToken && tokenInfo.symbol !== 'CELO'
@@ -196,15 +196,9 @@ export function* buildAndSendPayment(
   comment: string,
   feeInfo: FeeInfo
 ) {
-  const userAddress: string = yield call(getConnectedUnlockedAccount)
+  const userAddress: string = yield* call(getConnectedUnlockedAccount)
 
-  const encryptedComment: string = yield call(
-    encryptComment,
-    comment,
-    recipientAddress,
-    userAddress,
-    true
-  )
+  const encryptedComment = yield* call(encryptComment, comment, recipientAddress, userAddress, true)
 
   Logger.debug(
     TAG,
@@ -216,7 +210,7 @@ export function* buildAndSendPayment(
     feeInfo
   )
 
-  yield put(
+  yield* put(
     addStandbyTransaction({
       context,
       type: TokenTransactionTypeV2.Sent,
@@ -229,15 +223,15 @@ export function* buildAndSendPayment(
     })
   )
 
-  const tx: CeloTransactionObject<boolean> = yield call(
+  const tx = yield* call(
     buildSendTx,
     tokenAddress,
     amount,
     recipientAddress,
-    encryptedComment
+    encryptedComment || ''
   )
 
-  const { receipt, error } = yield call(
+  const { receipt, error } = yield* call(
     sendAndMonitorTransaction,
     tx,
     userAddress,
@@ -274,7 +268,7 @@ function* sendPayment(
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
-    yield call(
+    yield* call(
       buildAndSendPayment,
       context,
       recipientAddress,
@@ -294,7 +288,7 @@ function* sendPayment(
   } catch (error) {
     Logger.error(`${TAG}/sendPayment`, 'Could not make token transfer', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
-    yield put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
+    yield* put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
     // TODO: Uncomment this when the transaction feed supports multiple tokens.
     // yield put(removeStandbyTransaction(context.id))
   }
@@ -311,11 +305,11 @@ export function* sendPaymentSaga({
   paymentRequestId,
 }: SendPaymentAction) {
   try {
-    yield call(getConnectedUnlockedAccount)
+    yield* call(getConnectedUnlockedAccount)
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
-    const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
+    const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenAddress)
     if (recipient.address) {
-      yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
+      yield* call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
       if (tokenInfo?.symbol === 'CELO') {
         ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
           amount: amount.toString(),
@@ -332,22 +326,22 @@ export function* sendPaymentSaga({
     }
 
     if (paymentRequestId) {
-      yield put(completePaymentRequest(paymentRequestId))
+      yield* put(completePaymentRequest(paymentRequestId))
     }
-    yield put(sendPaymentSuccess(amount))
+    yield* put(sendPaymentSuccess(amount))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
-    yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield put(sendPaymentFailure())
+    yield* put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
+    yield* put(sendPaymentFailure())
   }
 }
 
 export function* watchSendPayment() {
-  yield takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
+  yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
 }
 
 export function* sendSaga() {
-  yield spawn(watchQrCodeDetections)
-  yield spawn(watchQrCodeShare)
-  yield spawn(watchSendPayment)
+  yield* spawn(watchQrCodeDetections)
+  yield* spawn(watchQrCodeShare)
+  yield* spawn(watchSendPayment)
 }
