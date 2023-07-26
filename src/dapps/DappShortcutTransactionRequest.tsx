@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,42 +7,33 @@ import { DappShortcutsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
-import { BottomSheetParams } from 'src/navigator/types'
-import { pendingAcceptanceShortcutSelector } from 'src/positions/selectors'
-import {
-  denyExecuteShortcut,
-  executeShortcut,
-  executeShortcutBackgrounded,
-} from 'src/positions/slice'
+import { Screens } from 'src/navigator/Screens'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
+import { triggeredShortcutsStatusSelector } from 'src/positions/selectors'
+import { denyExecuteShortcut, executeShortcut } from 'src/positions/slice'
 import { Colors } from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 
-function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetParams) {
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappShortcutTransactionRequest> &
+  BottomSheetParams
+
+function DappShortcutTransactionRequest({ route: { params }, handleContentLayout }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const pendingAcceptShortcut = useSelector(pendingAcceptanceShortcutSelector)
-  const inFlightShortcutRef = useRef(pendingAcceptShortcut)
+  const { rewardId } = params
+
+  const triggeredShortcuts = useSelector(triggeredShortcutsStatusSelector)
+  const pendingAcceptShortcut = triggeredShortcuts[rewardId]
 
   useEffect(() => {
-    inFlightShortcutRef.current = pendingAcceptShortcut
-    if (pendingAcceptShortcut?.status === 'pendingAccept') {
-      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_propose, {
-        appName: pendingAcceptShortcut.appName,
-        rewardId: pendingAcceptShortcut.id,
-      })
-    }
-  }, [pendingAcceptShortcut])
-
-  useEffect(() => {
-    return () => {
-      if (inFlightShortcutRef.current?.status === 'accepting') {
-        dispatch(executeShortcutBackgrounded(inFlightShortcutRef.current.id))
-      }
-    }
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_propose, {
+      appName: pendingAcceptShortcut.appName,
+      rewardId,
+    })
   }, [])
 
   const handleClaimReward = () => {
@@ -51,20 +43,20 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
       return
     }
 
-    dispatch(executeShortcut(pendingAcceptShortcut.id))
+    dispatch(executeShortcut(rewardId))
     ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_accepted, {
       appName: pendingAcceptShortcut.appName,
-      rewardId: pendingAcceptShortcut.id,
+      rewardId,
     })
   }
 
   const handleDenyTransaction = () => {
     if (pendingAcceptShortcut) {
-      dispatch(denyExecuteShortcut(pendingAcceptShortcut.id))
+      dispatch(denyExecuteShortcut(rewardId))
 
       ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_rejected, {
         appName: pendingAcceptShortcut.appName,
-        rewardId: pendingAcceptShortcut.id,
+        rewardId,
       })
     }
   }
@@ -73,7 +65,7 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
     if (pendingAcceptShortcut) {
       ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_copy, {
         appName: pendingAcceptShortcut.appName,
-        rewardId: pendingAcceptShortcut.id,
+        rewardId,
       })
     }
   }

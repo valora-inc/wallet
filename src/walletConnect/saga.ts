@@ -3,7 +3,7 @@ import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rp
 import { Core } from '@walletconnect/core'
 import '@walletconnect/react-native-compat'
 import { SessionTypes } from '@walletconnect/types'
-import { getSdkError } from '@walletconnect/utils'
+import { getSdkError, parseUri } from '@walletconnect/utils'
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import {
@@ -596,8 +596,8 @@ export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPai
 }
 
 export function* isWalletConnectEnabled(uri: string) {
+  const { version } = parseUri(uri)
   const { v1, v2 }: { v1: boolean; v2: boolean } = yield select(walletConnectEnabledSelector)
-  const [, , version] = uri.split(/[:@?]/)
   const versionEnabled: { [version: string]: boolean | undefined } = {
     '1': v1,
     '2': v2,
@@ -608,17 +608,17 @@ export function* isWalletConnectEnabled(uri: string) {
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
 
-  const [, , version] = uri.split(/[:@?]/)
+  const { version } = parseUri(uri)
   if (!walletConnectEnabled) {
     Logger.debug('initialiseWalletConnect', `v${version} is disabled, ignoring`)
     return
   }
 
   switch (version) {
-    case '2':
+    case 2:
       yield call(initialiseWalletConnectV2, uri, origin)
       break
-    case '1':
+    case 1:
     default:
       throw new Error(`Unsupported WalletConnect version '${version}'`)
   }

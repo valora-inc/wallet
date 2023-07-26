@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { ShortcutStatus } from 'src/positions/types'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockPositions, mockShortcuts } from 'test/values'
 
@@ -48,7 +49,13 @@ describe('DappShortcutTransactionRequest', () => {
   it('should a loader when the shortcut transaction has not been fetched yet', () => {
     const { queryByText, getByTestId } = render(
       <Provider store={getMockStoreWithShortcutStatus('loading', [])}>
-        <DappShortcutTransactionRequest handleContentLayout={jest.fn()} />
+        <MockedNavigator
+          component={DappShortcutTransactionRequest}
+          params={{
+            rewardId:
+              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615',
+          }}
+        />
       </Provider>
     )
 
@@ -56,11 +63,17 @@ describe('DappShortcutTransactionRequest', () => {
     expect(getByTestId('DappShortcutTransactionRequest/Loading')).toBeTruthy()
   })
 
-  it('should display the correct information and accept the transaction request', () => {
+  it('should accept the transaction request and handle dismiss the bottom sheet', async () => {
     const mockStore = getMockStoreWithShortcutStatus('pendingAccept', mockTransactions)
-    const { getByText, queryByTestId, getByTestId } = render(
+    const { getByText, queryByTestId, getByTestId, unmount } = render(
       <Provider store={mockStore}>
-        <DappShortcutTransactionRequest handleContentLayout={jest.fn()} />
+        <MockedNavigator
+          component={DappShortcutTransactionRequest}
+          params={{
+            rewardId:
+              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615',
+          }}
+        />
       </Provider>
     )
 
@@ -82,13 +95,25 @@ describe('DappShortcutTransactionRequest', () => {
         },
       ]
     `)
+
+    mockStore.clearActions()
+    unmount()
+
+    // should not deny the transaction on dismiss bottom sheet if transaction is approved
+    expect(mockStore.getActions()).toMatchInlineSnapshot(`Array []`)
   })
 
   it('should deny the transaction request on dismiss bottom sheet', async () => {
     const store = getMockStoreWithShortcutStatus('pendingAccept', mockTransactions)
     const { unmount } = render(
       <Provider store={store}>
-        <DappShortcutTransactionRequest handleContentLayout={jest.fn()} />
+        <MockedNavigator
+          component={DappShortcutTransactionRequest}
+          params={{
+            rewardId:
+              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615',
+          }}
+        />
       </Provider>
     )
 
@@ -98,32 +123,6 @@ describe('DappShortcutTransactionRequest', () => {
 
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
-        Object {
-          "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615",
-          "type": "positions/denyExecuteShortcut",
-        },
-      ]
-    `)
-  })
-
-  it('should not deny the transaction on dismiss bottom sheet if transaction is approved', async () => {
-    const store = getMockStoreWithShortcutStatus('accepting', mockTransactions)
-    const { unmount } = render(
-      <Provider store={store}>
-        <DappShortcutTransactionRequest handleContentLayout={jest.fn()} />
-      </Provider>
-    )
-
-    await act(() => {
-      unmount()
-    })
-
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615",
-          "type": "positions/executeShortcutBackgrounded",
-        },
         Object {
           "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615",
           "type": "positions/denyExecuteShortcut",

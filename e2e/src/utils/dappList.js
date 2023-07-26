@@ -29,21 +29,6 @@ export async function navigateToHome() {
 }
 
 /**
- * Scroll to a dapp in the dapp - iOS only
- * @param {number} dappIndex: index of dapp to scroll to
- */
-export async function scrollToDapp(dappIndex = 0) {
-  try {
-    await waitFor(element(by.id('DappCard')).atIndex(dappIndex))
-      .toBeVisible(100)
-      .whileElement(by.id('DAppsExplorerScreen/DappsList'))
-      .scroll(250, 'down')
-  } catch {
-    console.log('Catch of scrollToDapp')
-  }
-}
-
-/**
  * Fetch the Dapp list from the cloud function using node-fetch
  * @param {string} userAgent: user agent to use for dapp list fetch
  * @returns {object|null} dappList: list of dapps
