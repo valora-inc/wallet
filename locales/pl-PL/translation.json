@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
-    },
-    "cloudBackup": {
-      "title": "Kopia zapasowa w chmurze",
-      "subtitle": "Przywróć swój portfel bez frazy",
-      "bottomSheet": {
-        "title": "Kopia zapasowa w chmurze już wkrótce!",
-        "restoreComingSoon": "Kopia zapasowa w chmurze to sposób na przywrócenie portfela bez frazy odzyskiwania. Pracujemy nad tym tak szybko, jak to możliwe, i powiadomimy Cię, gdy ta funkcja będzie dostępna do użycia.",
-        "writeDownPhrase": "W międzyczasie zapisz sobie frazę odzyskiwania, aby ręcznie wykonać kopię zapasową portfela.",
-        "continue": "Przejdź do frazy odzyskiwania"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Zapisanie długopisem frazy odzyskiwania i przechowywanie jej w bezpiecznym miejscu jest jednym z najbezpieczniejszych sposobów ochrony portfela.",
       "phraseLocation": "Idealne miejsce może być tam, gdzie przechowujesz dla bezpieczeństwa inne ważne dokumenty i materiały, których nie można łatwo ukraść i łatwo odnaleźć. Wszystko zależy od Ciebie!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Zadbaj o bezpieczeństwo swojego portfela",
+    "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie może go dla Ciebie odzyskać.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
   "setUpKeylessBackup": {
     "title": "Skonfiguruj tworzenie kopii zapasowej bez klucza",
@@ -153,12 +147,6 @@
   "headerTitle": "Fraza odzyskiwania",
   "introBackUpPhrase": "Faza odzyskiwania z kopii zapasowej",
   "introCompleteQuiz": "Ukończ nasz quiz dotyczący kopii zapasowej, aby sprawdzić, czy Twój portfel może zostać odzyskany.\n\nJeśli zapis był niepoprawny, nie będziesz mieć możliwości uzyskania dostępu do swojego portfela, w razie gdyby coś stało się z urządzeniem.",
-  "introTitle": "Twoja fraza odzyskiwania",
-  "introBody": "Twoja fraza odzyskiwania jest najważniejszym elementem konta.\n\nUstaw swoją frazę odzyskiwania tak, aby nikt jej nie widział. Zajmie to około pięciu minut.",
-  "introPrimaryAction": "Ustaw",
-  "backupSetupTitle": "Ustaw frazę odzyskiwania",
-  "backupSetupBody": "Aby móc kontynuować korzystanie z aplikacji {{appName}} i chronić swoje środki, musisz skonfigurować frazę odzyskiwania.",
-  "delayBackup": "Odczekaj godzinę",
   "postSetupTitle": "Twoja fraza odzyskiwania",
   "postSetupBody": "Jeśli stracisz swoją frazę odzyskiwania, stracisz dostęp do wszystkich swoich Celo Dolarów i CELO. Nikt, nawet aplikacja {{appName}}, nie będzie w stanie pomóc Ci odzyskać konta bez Twojej frazy odzyskiwania. Trzymaj ją zapisaną w bezpiecznym miejscu i nikomu jej nie ujawniaj.",
   "postSetupCTA": "Dowiedz się więcej o frazie odzyskiwania",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Zapisz swoją frazę.",
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
-  "backupKeyNotification": "Zadbaj o bezpieczeństwo swoich środków. Ustaw teraz swoją frazę odzyskiwania.",
   "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
@@ -570,6 +557,7 @@
   "close": "Zamknij",
   "home": "Strona główna",
   "accountKey": "Fraza odzyskiwania",
+  "walletSecurity": "Bezpieczeństwo portfela",
   "addAndWithdraw": "Dodaj i wypłać",
   "settings": "Ustawienia",
   "help": "Pomoc",
@@ -1343,7 +1331,16 @@
     "rewards": {
       "title": "Twoje nagrody",
       "description": "Odbierz dostępne nagrody z otwartych pozycji aplikacji"
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Twoje nagrody",
+      "description": "Teraz możesz odbierać nagrody z otwartych pozycji dapp bezpośrednio na {{appName}}!",
+      "claimButton": "Roszczenie",
+      "claimedLabel": "Roszczenie",
+      "rewardLabel": "Dostępna nagroda",
+      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę"
+    },
+    "claimRewardFailure": "Wystąpił błąd podczas odbierania nagrody, spróbuj ponownie później"
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
@@ -1418,7 +1415,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Wypłacisz <0></0> wraz z opłatami"
-    }
+    },
+    "receiveAmount": "Odbierz <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1756,6 +1754,10 @@
     "swap": "Zamieniaj",
     "withdraw": "Wycofaj"
   },
+  "nftGallery": {
+    "title": "Kolekcje",
+    "noNfts": "Twoje NFT będą wyświetlane tutaj, gdy będziesz mieć je w portfelu."
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Wyświetl w Celo Explorer",
     "attributes": "Atrybuty",
@@ -1767,6 +1769,16 @@
     "loadErrorTitle": "Występuje problem z ładowaniem NFT",
     "loadErrorSubtitle": "Twoje aktywa są bezpieczne. Spróbuj ponownie.",
     "contactSupport": "Jeśli potrzebujesz dodatkowej pomocy, możesz \n<0>skontaktować się z działem obsługi klienta</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Tryb podglądu haków",
+      "message": "Potwierdź, że chcesz włączyć tryb podglądu dla haków.\n\nTa funkcja jest przeznaczona tylko dla deweloperów tworzących haki. Jeśli nie jesteś deweloperem lub nie uruchomiłeś tej akcji, NIE POTWIERDZAJ.",
+      "cancel": "Anuluj",
+      "confirm": "Potwierdź"
+    },
+    "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków",
+    "bannerTitle": "Podgląd haków włączony, dotknij, aby wyłączyć"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

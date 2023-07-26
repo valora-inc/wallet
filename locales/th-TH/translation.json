@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "ใช้วลีกู้คืนรหัส",
       "subtitle": "จดวลีกู้คืนรหัสของคุณไว้"
-    },
-    "cloudBackup": {
-      "title": "สำรองข้อมูลไปยังคลาวด์",
-      "subtitle": "กู้คืนกระเป๋าเงินของคุณโดยไม่ต้องใช้วลี",
-      "bottomSheet": {
-        "title": "การสำรองข้อมูลไปยังคลาวด์เร็วๆ นี้",
-        "restoreComingSoon": "การสำรองข้อมูลไปยังคลาวด์เป็นวิธีกู้คืนกระเป๋าเงินของคุณโดยไม่ต้องใช้วลีกู้คืนรหัส เราจะดำเนินการโดยเร็วที่สุดและจะแจ้งให้คุณทราบทันทีเมื่อคุณสมบัตินี้พร้อมให้คุณใช้งาน",
-        "writeDownPhrase": "ในระหว่างนี้ โปรดจดบันทึกวลีกู้คืนรหัสของคุณไว้เพื่อสำรองข้อมูลกระเป๋าเงินของคุณไว้ด้วยตัวเองก่อน",
-        "continue": "ดำเนินการต่อไปยังวลีกู้คืนรหัส"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "การจดบันทึกวลีกู้คืนรหัสของคุณด้วยปากกาและจัดเก็บไว้ในที่ที่ปลอดภัยเป็นหนึ่งในวิธีที่ปลอดภัยที่สุดในการปกป้องกระเป๋าเงินของคุณ",
       "phraseLocation": "สถานที่ที่เหมาะสมอาจจะเป็นสถานที่ปลอยภัยที่คุณจัดเก็บเอกสารและวัสดุที่สำคัญอื่นๆ ซึ่งยากต่อการถูกขโมยและสามารถเรียกดูได้ง่าย ขึ้นอยู่กับความต้องการของคุณ"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Keep your wallet safe",
+    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
     "title": "ตั้งค่าการสำรองข้อมูลแบบไร้กุญแจ",
@@ -153,12 +147,6 @@
   "headerTitle": "วลีกู้คืนรหัส",
   "introBackUpPhrase": "สำรองข้อมูลวลีกู้คืนรหัส",
   "introCompleteQuiz": "ทำแบบทดสอบการสำรองข้อมูลของเราเพื่อยืนยันว่าจะสามารถกู้คืนกระเป๋าเงินของคุณได้\n\nหากคุณจดบันทึกข้อมูลไม่ถูกต้อง คุณจะไม่สามารถเข้าถึงกระเป๋าเงินของคุณได้ หากมีอะไรเกิดขึ้นกับอุปกรณ์ของคุณ",
-  "introTitle": "วลีกู้คืนรหัสของคุณ",
-  "introBody": "วลีกู้คืนรหัสเป็นส่วนที่สำคัญที่สุดในบัญชีของคุณ\n\nโปรดหาสถานที่ส่วนตัวเพื่อตั้งค่าวลีของคุณ ซึ่งจะใช้เวลาประมาณห้านาที",
-  "introPrimaryAction": "ตั้งค่า",
-  "backupSetupTitle": "ตั้งค่าวลีกู้คืนรหัสของคุณ",
-  "backupSetupBody": "เพื่อปกป้องเงินของคุณ คุณจะต้องตั้งค่าวลีกู้คืนรหัสก่อนที่คุณจะสามารถใช้ {{appName}} ต่อได้",
-  "delayBackup": "รอหนึ่งชั่วโมง",
   "postSetupTitle": "วลีกู้คืนรหัสของคุณ",
   "postSetupBody": "หากคุณทำวลีกู้คืนรหัสหาย คุณจะไม่สามารถเข้าถึง CELO และ Celo ดอลลาร์ทั้งหมดของคุณได้ ไม่มีใครหรือแม้แต่ {{appName}} ที่สามารถช่วยคุณกู้คืนบัญชีได้ หากไม่มีวลีกู้คืนรหัส โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัยและห้ามแบ่งปันให้ผู้อื่นทราบ",
   "postSetupCTA": "เรียนรู้เกี่ยวกับวลีกู้คืนรหัสของคุณ",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "โปรดจดบันทึกวลีของคุณไว้",
   "completeEducation": "ฉันเข้าใจ",
   "yourAccountKey": "วลีกู้คืนรหัสของคุณ",
-  "backupKeyNotification": "เก็บเงินของคุณให้ปลอดภัย ตั้งค่าวลีกู้คืนรหัสของคุณตอนนี้",
   "backupKeyNotification2": "เก็บเงินทุนของคุณให้ปลอดภัย สำรองข้อมูลวลีกู้คืนรหัสตอนนี้",
   "backupKeyCTA": "สำรองข้อมูลให้เสร็จตอนนี้",
   "backupKeySummary": "หาสถานที่ส่วนตัวเพื่อจดบันทึกวลีกู้คืนรหัสของคุณ โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัย ห้ามบันทึกลงในโทรศัพท์ของคุณ",
@@ -570,6 +557,7 @@
   "close": "ปิด",
   "home": "หน้าหลัก",
   "accountKey": "วลีกู้คืนรหัส",
+  "walletSecurity": "Wallet Security",
   "addAndWithdraw": "เพิ่มและถอน",
   "settings": "การตั้งค่า",
   "help": "ความช่วยเหลือ",
@@ -1337,7 +1325,16 @@
     "rewards": {
       "title": "Your rewards",
       "description": "Claim available rewards from open dapp positions"
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Your rewards",
+      "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
+      "claimButton": "Claim",
+      "claimedLabel": "Claimed",
+      "rewardLabel": "Available reward",
+      "claimSuccess": "Success! You claimed a reward"
+    },
+    "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp คืออะไร",
@@ -1412,7 +1409,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "You'll withdraw <0></0> including fees"
-    }
+    },
+    "receiveAmount": "Receive <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1750,6 +1748,10 @@
     "swap": "สว็อป",
     "withdraw": "ถอน"
   },
+  "nftGallery": {
+    "title": "Collectibles",
+    "noNfts": "Your NFTs will display here once you have one in your wallet"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "ดูใน Celo Explorer",
     "attributes": "คุณลักษณะ",
@@ -1761,6 +1763,16 @@
     "loadErrorTitle": "มีปัญหาในการโหลด NFT",
     "loadErrorSubtitle": "สินทรัพย์ของคุณปลอดภัย โปรดลองอีกครั้ง",
     "contactSupport": "หากคุณต้องการความช่วยเหลือเพิ่มเติม โปรด \n<0>ติดต่อฝ่ายบริการลูกค้า</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Hooks Preview Mode",
+      "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      "cancel": "ยกเลิก",
+      "confirm": "ยืนยัน"
+    },
+    "invalidApiUrl": "Invalid hooks preview API URL",
+    "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
