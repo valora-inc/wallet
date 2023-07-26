@@ -172,7 +172,9 @@ describe('DappShortcutsRewards', () => {
         },
       ]
     `)
-    expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutTransactionRequest)
+    expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutTransactionRequest, {
+      rewardId: 'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072',
+    })
   })
 
   it('should show a reward being claimed', () => {
