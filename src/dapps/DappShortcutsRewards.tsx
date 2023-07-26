@@ -66,40 +66,44 @@ function DappShortcutsRewards() {
     })
   }, [positionsWithClaimableRewards])
 
-  const createConfirmClaimRewardHandler = (position: ClaimablePosition) => () => {
-    if (!address) {
-      // should never happen
-      Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
-      return
-    }
+  const createConfirmClaimRewardHandler =
+    (position: ClaimablePosition, claimableValueUsd: BigNumber) => () => {
+      if (!address) {
+        // should never happen
+        Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
+        return
+      }
 
-    const { appName, displayProps, claimableShortcut, appId } = position
-    const rewardId = getClaimableRewardId(position.address, claimableShortcut)
+      const { appName, displayProps, claimableShortcut, appId } = position
+      const rewardId = getClaimableRewardId(position.address, claimableShortcut)
 
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
-      appName,
-      rewardTokens: claimableShortcut.claimableTokens.map((token) => token.symbol),
-      rewardAmounts: claimableShortcut.claimableTokens.map((token) => token.balance),
-      shortcutId: claimableShortcut.id,
-      rewardId,
-    })
-
-    dispatch(
-      triggerShortcut({
-        id: rewardId,
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
         appName,
-        appImage: displayProps.imageUrl,
-        data: {
-          address,
-          appId,
-          network: 'celo',
-          positionAddress: position.address,
-          shortcutId: claimableShortcut.id,
-        },
+        shortcutId: claimableShortcut.id,
+        rewardId,
+        appId,
+        network: 'celo',
+        rewardTokens: claimableShortcut.claimableTokens.map((token) => token.symbol).join(', '),
+        rewardAmounts: claimableShortcut.claimableTokens.map((token) => token.balance).join(', '),
+        claimableValueUsd: claimableValueUsd.toString(),
       })
-    )
-    navigate(Screens.DappShortcutTransactionRequest, { rewardId })
-  }
+
+      dispatch(
+        triggerShortcut({
+          id: rewardId,
+          appName,
+          appImage: displayProps.imageUrl,
+          data: {
+            address,
+            appId,
+            network: 'celo',
+            positionAddress: position.address,
+            shortcutId: claimableShortcut.id,
+          },
+        })
+      )
+      navigate(Screens.DappShortcutTransactionRequest, { rewardId })
+    }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
     let claimableValueUsd = new BigNumber(0)
@@ -132,7 +136,7 @@ function DappShortcutsRewards() {
                 </React.Fragment>
               ))}
             </Text>
-            {claimableValueUsd && (
+            {claimableValueUsd.gt(0) && (
               <TokenDisplay
                 style={styles.rewardFiatAmount}
                 amount={claimableValueUsd}
@@ -143,7 +147,7 @@ function DappShortcutsRewards() {
             )}
           </View>
           <Button
-            onPress={createConfirmClaimRewardHandler(item)}
+            onPress={createConfirmClaimRewardHandler(item, claimableValueUsd)}
             text={
               item.status === 'success'
                 ? t('dappShortcuts.claimRewardsScreen.claimedLabel')

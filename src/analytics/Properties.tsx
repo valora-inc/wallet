@@ -1315,15 +1315,18 @@ interface BuilderHooksProperties {
 interface DappShortcutClaimRewardEvent {
   rewardId: string
   appName: string
+  appId: string
+  network: string
+  shortcutId: string
 }
 interface DappShortcutsProperties {
   [DappShortcutsEvents.dapp_shortcuts_rewards_screen_open]: {
     numRewards: number
   }
   [DappShortcutsEvents.dapp_shortcuts_reward_claim_start]: DappShortcutClaimRewardEvent & {
-    rewardTokens: string[]
-    rewardAmounts: string[]
-    shortcutId: string
+    rewardTokens: string // comma separated
+    rewardAmounts: string // comma separated
+    claimableValueUsd: string
   }
   [DappShortcutsEvents.dapp_shortcuts_reward_claim_success]: DappShortcutClaimRewardEvent
   [DappShortcutsEvents.dapp_shortcuts_reward_claim_error]: DappShortcutClaimRewardEvent

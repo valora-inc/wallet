@@ -28,12 +28,19 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
 
   const triggeredShortcuts = useSelector(triggeredShortcutsStatusSelector)
   const pendingAcceptShortcut = triggeredShortcuts[rewardId]
+  const trackedShortcutProperties = {
+    rewardId,
+    appName: pendingAcceptShortcut?.appName ?? '',
+    appId: pendingAcceptShortcut?.appId ?? '',
+    network: pendingAcceptShortcut?.network ?? '',
+    shortcutId: pendingAcceptShortcut?.shortcutId ?? '',
+  }
 
   useEffect(() => {
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_propose, {
-      appName: pendingAcceptShortcut.appName,
-      rewardId,
-    })
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_tx_propose,
+      trackedShortcutProperties
+    )
   }, [])
 
   const handleClaimReward = () => {
@@ -44,29 +51,29 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
     }
 
     dispatch(executeShortcut(rewardId))
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted, {
-      appName: pendingAcceptShortcut.appName,
-      rewardId,
-    })
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted,
+      trackedShortcutProperties
+    )
   }
 
   const handleDenyTransaction = () => {
     if (pendingAcceptShortcut) {
       dispatch(denyExecuteShortcut(rewardId))
 
-      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected, {
-        appName: pendingAcceptShortcut.appName,
-        rewardId,
-      })
+      ValoraAnalytics.track(
+        DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected,
+        trackedShortcutProperties
+      )
     }
   }
 
   const handleTrackCopyTransactionDetails = () => {
     if (pendingAcceptShortcut) {
-      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_copy, {
-        appName: pendingAcceptShortcut.appName,
-        rewardId,
-      })
+      ValoraAnalytics.track(
+        DappShortcutsEvents.dapp_shortcuts_reward_tx_copy,
+        trackedShortcutProperties
+      )
     }
   }
 

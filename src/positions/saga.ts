@@ -239,6 +239,13 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
 
   const triggeredShortcuts: TriggeredShortcuts = yield select(triggeredShortcutsStatusSelector)
   const shortcut = triggeredShortcuts[payload]
+  const trackedShortcutProperties = {
+    appName: shortcut.appName,
+    appId: shortcut.appId,
+    network: shortcut.network,
+    shortcutId: shortcut.shortcutId,
+    rewardId: payload,
+  }
 
   try {
     const kit: ContractKit = yield call(getContractKit)
@@ -280,19 +287,19 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
       Toast.BOTTOM
     )
 
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_success, {
-      appName: shortcut.appName,
-      rewardId: payload,
-    })
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_claim_success,
+      trackedShortcutProperties
+    )
   } catch (error) {
     yield put(executeShortcutFailure(payload))
     // TODO customise error message when there are more shortcut types
     yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_error, {
-      appName: shortcut.appName,
-      rewardId: payload,
-    })
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_claim_error,
+      trackedShortcutProperties
+    )
   }
 
   if (yield call(isBottomSheetVisible, Screens.DappShortcutTransactionRequest)) {
