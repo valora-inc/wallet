@@ -1056,7 +1056,11 @@
     "sendTransaction": "{{dappName}} muốn xác nhận giao dịch Celo.",
     "decryptPayload": "{{dappName}} muốn giải mã tải trọng dữ liệu.",
     "computeSharedSecret": "{{dappName}} muốn tạo bí mật.",
-    "transactionDataCopied": "Dữ liệu giao dịch được sao chép"
+    "transactionDataCopied": "Dữ liệu giao dịch được sao chép",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    }
   },
   "sessionInfo": "Ứng dụng này có thể sẽ yêu cầu thực hiện các thao tác sau:",
   "description": {
