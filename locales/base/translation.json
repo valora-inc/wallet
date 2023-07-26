@@ -1063,7 +1063,7 @@
     "transactionDataCopied": "Transaction data copied",
     "unsupportedChain": {
       "title": "Unsupported chain",
-      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp."
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
     }
   },
   "sessionInfo": "This application may ask to perform the following actions:",
