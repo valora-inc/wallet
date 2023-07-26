@@ -50,7 +50,7 @@ const mockSwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
-const mockStartTimestamp = Date.now()
+const mockStartTimestamp = 1000000000000
 
 const mockSwap = {
   payload: {
@@ -75,6 +75,17 @@ const mockSwap = {
 describe(swapSubmitSaga, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(mockStartTimestamp + 5000)
+      .mockReturnValueOnce(mockStartTimestamp + 5500)
+      .mockReturnValueOnce(mockStartTimestamp + 7000)
+      .mockReturnValueOnce(mockStartTimestamp + 9000)
+  })
+
+  afterEach(() => {
+    jest.spyOn(Date, 'now').mockRestore()
   })
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
@@ -121,10 +132,10 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteRequestTimestamp: mockStartTimestamp,
       quoteRequestElapsedTimeInMs: 1000,
-      totalElapsedTimeInMs: expect.any(Number),
-      sendApprovalElapsedTimeInMs: expect.any(Number),
-      sendSwapElapsedTimeInMs: expect.any(Number),
-      quoteToTransactionElapsedTimeInMs: expect.any(Number),
+      totalElapsedTimeInMs: 9000,
+      sendApprovalElapsedTimeInMs: 500,
+      sendSwapElapsedTimeInMs: 2000,
+      quoteToTransactionElapsedTimeInMs: 6000,
     })
   })
 
