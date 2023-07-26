@@ -124,7 +124,7 @@ describe('ActionRequest with WalletConnect V2', () => {
       ).toBeTruthy()
       expect(getByText('allow')).toBeTruthy()
       expect(
-        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
+        within(getByTestId('WalletConnectRequest/ActionRequestPayload/Value')).getByText(
           'Message to sign'
         )
       ).toBeTruthy()
@@ -138,7 +138,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      fireEvent.press(getByTestId('WalletConnectActionRequest/RequestPayload/Copy'))
+      fireEvent.press(getByTestId('WalletConnectRequest/ActionRequestPayload/Copy'))
       expect(Clipboard.setString).toHaveBeenCalledWith('Message to sign')
     })
 
@@ -151,7 +151,9 @@ describe('ActionRequest with WalletConnect V2', () => {
       )
 
       expect(
-        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText('invalid hex')
+        within(getByTestId('WalletConnectRequest/ActionRequestPayload/Value')).getByText(
+          'invalid hex'
+        )
       ).toBeTruthy()
     })
 
@@ -164,7 +166,7 @@ describe('ActionRequest with WalletConnect V2', () => {
       )
 
       expect(
-        within(getByTestId('WalletConnectActionRequest/RequestPayload')).getByText(
+        within(getByTestId('WalletConnectRequest/ActionRequestPayload/Value')).getByText(
           'action.emptyMessage'
         )
       ).toBeTruthy()
