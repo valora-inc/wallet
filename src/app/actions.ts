@@ -190,10 +190,11 @@ export type ActionTypes =
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
 
-export const setAppState = (state: string) => ({
-  type: Actions.SET_APP_STATE,
-  state,
-})
+export const setAppState = (state: string) =>
+  ({
+    type: Actions.SET_APP_STATE,
+    state,
+  } as const)
 
 export const setLoggedIn = (loggedIn: boolean) => ({
   type: Actions.SET_LOGGED_IN,

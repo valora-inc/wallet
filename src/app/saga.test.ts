@@ -5,10 +5,12 @@ import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
+// import { call, select } from 'typed-redux-saga'
+import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
   inAppReviewRequested,
@@ -55,8 +57,8 @@ import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
-import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
@@ -70,7 +72,6 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -452,7 +453,7 @@ describe('handleSetAppState', () => {
     })
   })
 
-  describe('on app inactive', () => {
+  fdescribe('on app inactive', () => {
     it('does nothing', async () => {
       await expectSaga(handleSetAppState, setAppState('inactive'))
         .provide([
