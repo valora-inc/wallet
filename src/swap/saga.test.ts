@@ -50,6 +50,8 @@ const mockSwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
+const mockStartTimestamp = Date.now()
+
 const mockSwap = {
   payload: {
     approveTransaction: {
@@ -65,8 +67,8 @@ const mockSwap = {
     details: {
       swapProvider: '0x',
     },
-    quoteRequestAt: 5000,
-    quoteResponseAt: 6000,
+    quoteRequestAt: mockStartTimestamp,
+    quoteResponseAt: mockStartTimestamp + 1000,
   },
 }
 
@@ -117,12 +119,12 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteRequestTimestamp: 5000,
+      quoteRequestTimestamp: mockStartTimestamp,
       quoteRequestElapsedTimeInMs: 1000,
-      totalElapsedTime: expect.any(Number),
-      sendApprovalElapsedTime: expect.any(Number),
-      sendSwapElapsedTime: expect.any(Number),
-      quoteToTransactionElapsedTime: expect.any(Number),
+      totalElapsedTimeInMs: expect.any(Number),
+      sendApprovalElapsedTimeInMs: expect.any(Number),
+      sendSwapElapsedTimeInMs: expect.any(Number),
+      quoteToTransactionElapsedTimeInMs: expect.any(Number),
     })
   })
 
@@ -150,7 +152,7 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteRequestTimestamp: 5000,
+      quoteRequestTimestamp: mockStartTimestamp,
       quoteRequestElapsedTimeInMs: 1000,
       totalElapsedTimeInMs: expect.any(Number),
       sendApprovalElapsedTimeInMs: undefined,
