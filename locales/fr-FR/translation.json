@@ -1058,7 +1058,11 @@
     "sendTransaction": "{{dappName}} demande à envoyer une transaction Celo.",
     "decryptPayload": "{{dappName}} demande à déchiffrer une charge utile de données.",
     "computeSharedSecret": "{{dappName}} demande à générer des secrets.",
-    "transactionDataCopied": "Données de transaction copiées"
+    "transactionDataCopied": "Données de transaction copiées",
+    "unsupportedChain": {
+      "title": "Chaîne non soutenue",
+      "description": "{{dappName}} demande cette action sur une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que Celo est la chaîne active du côté de la dapp."
+    }
   },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
   "description": {
