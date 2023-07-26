@@ -1062,7 +1062,11 @@
     "sendTransaction": "{{dappName}} потрібно надіслати транзакцію із Celo.",
     "decryptPayload": "{{dappName}} потрібно розшифрувати корисний вміст даних.",
     "computeSharedSecret": "{{dappName}} потрібно згенерувати секретні коди.",
-    "transactionDataCopied": "Дані транзакції скопійовано"
+    "transactionDataCopied": "Дані транзакції скопійовано",
+    "unsupportedChain": {
+      "title": "Непідтримуваний ланцюг",
+      "description": "{{dappName}} запитує цю дію на ланцюжку, який не підтримується {{appName}}. Будь ласка, переконайтеся, що Celo є активним ланцюжком на стороні dapp."
+    }
   },
   "sessionInfo": "Цей застосунок може запросити виконати такі дії:",
   "description": {
