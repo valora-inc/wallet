@@ -130,8 +130,7 @@ KeylessBackupPhoneInput.navigationOptions = () => ({
   ...emptyHeader,
   headerLeft: () => (
     <TopBarIconButton
-      style={styles.cancelButton}
-      icon={<Times height={16} />}
+      icon={<Times />}
       onPress={navigateBack} // TODO: handle in ACT-770
     />
   ),
@@ -147,9 +146,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: 24,
     paddingTop: 36,
-  },
-  cancelButton: {
-    marginLeft: 16,
   },
   title: {
     ...fontStyles.h2,
