@@ -2,13 +2,11 @@ import { Address } from '@celo/base'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { isValidAddress, normalizeAddressWith0x, NULL_ADDRESS } from '@celo/utils/lib/address'
+import { NULL_ADDRESS, isValidAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
-import { MinimalContact } from 'react-native-contacts'
 import DeviceInfo from 'react-native-device-info'
-import { all, call, delay, put, race, select, take } from 'redux-saga/effects'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -19,9 +17,9 @@ import { decentralizedVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
+  FetchAddressesAndValidateAction,
   endFetchingAddresses,
   endImportContacts,
-  FetchAddressesAndValidateAction,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
@@ -42,27 +40,28 @@ import {
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
-import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
+import { NumberToRecipient, contactsToRecipients } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getAllContacts } from 'src/utils/contacts'
 import Logger from 'src/utils/Logger'
+import { getAllContacts } from 'src/utils/contacts'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { all, call, delay, put, race, select, take } from 'typed-redux-saga'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
 
 export function* doImportContactsWrapper() {
-  yield call(getConnectedAccount)
+  yield* call(getConnectedAccount)
   try {
     Logger.debug(TAG, 'Importing user contacts')
 
-    const { result, cancel, timeout } = yield race({
+    const { result, cancel, timeout } = yield* race({
       result: call(doImportContacts),
       cancel: take(Actions.CANCEL_IMPORT_CONTACTS),
       timeout: delay(IMPORT_CONTACTS_TIMEOUT),
@@ -78,17 +77,17 @@ export function* doImportContactsWrapper() {
     }
 
     Logger.debug(TAG, 'Done importing user contacts')
-    yield put(endImportContacts(true))
+    yield* put(endImportContacts(true))
   } catch (error) {
     Logger.error(TAG, 'Error importing user contacts', error)
     ValoraAnalytics.track(IdentityEvents.contacts_import_error, { error: error.message })
-    yield put(showErrorOrFallback(error, ErrorMessages.IMPORT_CONTACTS_FAILED))
-    yield put(endImportContacts(false))
+    yield* put(showErrorOrFallback(error, ErrorMessages.IMPORT_CONTACTS_FAILED))
+    yield* put(endImportContacts(false))
   }
 }
 
 function* doImportContacts() {
-  const hasGivenContactPermission: boolean = yield call(checkContactsPermission)
+  const hasGivenContactPermission: boolean = yield* call(checkContactsPermission)
   if (!hasGivenContactPermission) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
     ValoraAnalytics.track(IdentityEvents.contacts_import_permission_denied)
@@ -98,29 +97,29 @@ function* doImportContacts() {
   ValoraAnalytics.track(IdentityEvents.contacts_import_start)
 
   SentryTransactionHub.startTransaction(SentryTransaction.import_contacts)
-  yield put(updateImportContactsProgress(ImportContactsStatus.Importing))
+  yield* put(updateImportContactsProgress(ImportContactsStatus.Importing))
 
-  const contacts: MinimalContact[] = yield call(getAllContacts)
-  ValoraAnalytics.track(IdentityEvents.contacts_import_complete, {
-    contactImportCount: contacts.length,
-  })
+  const contacts = yield* call(getAllContacts)
   if (!contacts || !contacts.length) {
     Logger.warn(TAG, 'Empty contacts list. Skipping import.')
     return true
   }
+  ValoraAnalytics.track(IdentityEvents.contacts_import_complete, {
+    contactImportCount: contacts.length,
+  })
 
-  yield put(updateImportContactsProgress(ImportContactsStatus.Processing, 0, contacts.length))
+  yield* put(updateImportContactsProgress(ImportContactsStatus.Processing, 0, contacts.length))
 
-  const defaultCountryCode: string = yield select(defaultCountryCodeSelector)
+  const defaultCountryCode = (yield* select(defaultCountryCodeSelector))!
   const e164NumberToRecipients = contactsToRecipients(contacts, defaultCountryCode)
   if (!e164NumberToRecipients) {
     Logger.warn(TAG, 'No recipients found')
     return true
   }
 
-  yield call(updateUserContact, e164NumberToRecipients)
+  yield* call(updateUserContact, e164NumberToRecipients)
   Logger.debug(TAG, 'Updating recipients cache')
-  yield put(setPhoneRecipientCache(e164NumberToRecipients))
+  yield* put(setPhoneRecipientCache(e164NumberToRecipients))
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
   SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
@@ -131,7 +130,7 @@ function* doImportContacts() {
 // Find the user's own contact among those imported and save useful bits
 function* updateUserContact(e164NumberToRecipients: NumberToRecipient) {
   Logger.debug(TAG, 'Finding user contact details')
-  const e164Number: string = yield select(e164NumberSelector)
+  const e164Number = yield* select(e164NumberSelector)
 
   if (!e164Number) {
     return Logger.warn(TAG, 'User phone number not set, cannot find contact info')
@@ -142,7 +141,7 @@ function* updateUserContact(e164NumberToRecipients: NumberToRecipient) {
     return Logger.debug(TAG, 'User contact not found among recipients')
   }
 
-  yield put(setUserContactDetails(userRecipient.contactId, userRecipient.thumbnailPath || null))
+  yield* put(setUserContactDetails(userRecipient.contactId, userRecipient.thumbnailPath || null))
 }
 
 export function* fetchAddressesAndValidateSaga({
@@ -152,15 +151,17 @@ export function* fetchAddressesAndValidateSaga({
   ValoraAnalytics.track(IdentityEvents.phone_number_lookup_start)
   try {
     Logger.debug(TAG + '@fetchAddressesAndValidate', `Fetching addresses for number`)
-    const oldE164NumberToAddress: E164NumberToAddressType = yield select(
+    const oldE164NumberToAddress: E164NumberToAddressType = yield* select(
       e164NumberToAddressSelector
     )
     const oldAddresses = oldE164NumberToAddress[e164Number] || []
 
     // Clear existing entries for those numbers so our mapping consumers know new status is pending.
-    yield put(updateE164PhoneNumberAddresses({ [e164Number]: undefined }, {}))
+    yield* put(updateE164PhoneNumberAddresses({ [e164Number]: undefined }, {}))
 
-    const walletAddresses: string[] = yield call(fetchWalletAddresses, e164Number)
+    // there is a bug with 'all' in typed-redux-saga, so we need to hard cast the result
+    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
+    const walletAddresses = (yield* call(fetchWalletAddresses, e164Number)) as unknown as string[]
 
     const e164NumberToAddressUpdates: E164NumberToAddressType = {}
     const addressToE164NumberUpdates: AddressToE164NumberType = {}
@@ -175,9 +176,12 @@ export function* fetchAddressesAndValidateSaga({
       walletAddresses.map((a) => (addressToE164NumberUpdates[a] = e164Number))
     }
 
-    const userAddress = yield select(walletAddressSelector)
+    const userAddress = yield* select(walletAddressSelector)
+    if (!userAddress) {
+      throw new Error('Wallet address not set')
+    }
     const secureSendPossibleAddresses = [...walletAddresses]
-    const secureSendPhoneNumberMapping = yield select(secureSendPhoneNumberMappingSelector)
+    const secureSendPhoneNumberMapping = yield* select(secureSendPhoneNumberMappingSelector)
     // If fetch is being done as part of a payment request from an unverified address,
     // the unverified address should be considered in the Secure Send check
     if (requesterAddress && !secureSendPossibleAddresses.includes(requesterAddress)) {
@@ -192,17 +196,17 @@ export function* fetchAddressesAndValidateSaga({
       e164Number
     )
     if (addressValidationType !== AddressValidationType.NONE) {
-      yield put(requireSecureSend(e164Number, addressValidationType))
+      yield* put(requireSecureSend(e164Number, addressValidationType))
     }
-    yield put(
+    yield* put(
       updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates)
     )
-    yield put(endFetchingAddresses(e164Number, true))
+    yield* put(endFetchingAddresses(e164Number, true))
     ValoraAnalytics.track(IdentityEvents.phone_number_lookup_complete)
   } catch (error) {
     Logger.debug(TAG + '@fetchAddressesAndValidate', `Error fetching addresses`, error)
-    yield put(showErrorOrFallback(error, ErrorMessages.ADDRESS_LOOKUP_FAILURE))
-    yield put(endFetchingAddresses(e164Number, false))
+    yield* put(showErrorOrFallback(error, ErrorMessages.ADDRESS_LOOKUP_FAILURE))
+    yield* put(endFetchingAddresses(e164Number, false))
     ValoraAnalytics.track(IdentityEvents.phone_number_lookup_error, {
       error: error.message,
     })
@@ -210,32 +214,32 @@ export function* fetchAddressesAndValidateSaga({
 }
 
 function* getAccountAddresses(e164Number: string) {
-  const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
+  const phoneHashDetails: PhoneNumberHashDetails = yield* call(fetchPhoneHashPrivate, e164Number)
   const phoneHash = phoneHashDetails.phoneHash
-  const lostAccounts = yield call(fetchLostAccounts)
-  const accountAddresses: Address[] = yield call(
+  const lostAccounts = yield* call(fetchLostAccounts)
+  const accountAddresses: Address[] = yield* call(
     lookupAccountAddressesForIdentifier,
     phoneHash,
     lostAccounts
   )
-  return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
+  return yield* call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
 export function* fetchWalletAddressesDecentralized(e164Number: string) {
   // once odis v1 is EOL'ed, we can remove this whole path for fetching wallet addresses
-  const decentralizedVerificationEnabled = yield select(decentralizedVerificationEnabledSelector)
+  const decentralizedVerificationEnabled = yield* select(decentralizedVerificationEnabledSelector)
   if (!decentralizedVerificationEnabled) {
     return []
   }
 
-  const contractKit = yield call(getContractKit)
-  const accountsWrapper: AccountsWrapper = yield call([
+  const contractKit = yield* call(getContractKit)
+  const accountsWrapper: AccountsWrapper = yield* call([
     contractKit.contracts,
     contractKit.contracts.getAccounts,
   ])
 
-  const accountAddresses: Address[] = yield call(getAccountAddresses, e164Number)
-  const walletAddresses: Address[] = yield all(
+  const accountAddresses: Address[] = yield* call(getAccountAddresses, e164Number)
+  const walletAddresses: Address[] = yield* all(
     accountAddresses.map((accountAddress) => call(accountsWrapper.getWalletAddress, accountAddress))
   )
 
@@ -254,14 +258,14 @@ export function* fetchWalletAddressesDecentralized(e164Number: string) {
       possibleUserAddresses.add(accountAddress)
     }
   }
-  yield put(updateWalletToAccountAddress(walletToAccountAddress))
+  yield* put(updateWalletToAccountAddress(walletToAccountAddress))
   return Array.from(possibleUserAddresses)
 }
 
 function* fetchWalletAddresses(e164Number: string) {
   try {
-    const address = yield select(walletAddressSelector)
-    const signedMessage = yield call(retrieveSignedMessage)
+    const address = yield* select(walletAddressSelector)
+    const signedMessage = yield* call(retrieveSignedMessage)
 
     const centralisedLookupQueryParams = new URLSearchParams({
       phoneNumber: e164Number,
@@ -269,20 +273,19 @@ function* fetchWalletAddresses(e164Number: string) {
       clientVersion: DeviceInfo.getVersion(),
     }).toString()
 
-    const [centralisedLookupResponse, addressesFromDecentralizedMapping]: [Response, string[]] =
-      yield all([
-        call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Valora ${address}:${signedMessage}`,
-          },
-        }),
-        call(fetchWalletAddressesDecentralized, e164Number),
-      ])
+    const [centralisedLookupResponse, addressesFromDecentralizedMapping] = (yield* all([
+      call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+      }),
+      call(fetchWalletAddressesDecentralized, e164Number),
+    ])) as [Response, string[]]
 
     if (centralisedLookupResponse.ok) {
-      const { data }: { data: { addresses: string[] } } = yield call([
+      const { data }: { data: { addresses: string[] } } = yield* call([
         centralisedLookupResponse,
         'json',
       ])
@@ -312,13 +315,13 @@ function* fetchWalletAddresses(e164Number: string) {
 
 // Returns a list of account addresses for the identifier received.
 export function* lookupAccountAddressesForIdentifier(id: string, lostAccounts: string[] = []) {
-  const contractKit = yield call(getContractKit)
-  const attestationsWrapper: AttestationsWrapper = yield call([
+  const contractKit = yield* call(getContractKit)
+  const attestationsWrapper: AttestationsWrapper = yield* call([
     contractKit.contracts,
     contractKit.contracts.getAttestations,
   ])
 
-  const accounts = yield call(
+  const accounts = yield* call(
     [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
     id
   )
@@ -332,8 +335,8 @@ export function* filterNonVerifiedAddresses(accountAddresses: Address[], phoneHa
     return []
   }
 
-  const contractKit = yield call(getContractKit)
-  const attestationsWrapper: AttestationsWrapper = yield call([
+  const contractKit = yield* call(getContractKit)
+  const attestationsWrapper: AttestationsWrapper = yield* call([
     contractKit.contracts,
     contractKit.contracts.getAttestations,
   ])
@@ -344,7 +347,7 @@ export function* filterNonVerifiedAddresses(accountAddresses: Address[], phoneHa
       continue
     }
     // Get stats for the address
-    const stats: AttestationStat = yield call(
+    const stats: AttestationStat = yield* call(
       [attestationsWrapper, attestationsWrapper.getAttestationStat],
       phoneHash,
       address
