@@ -60,6 +60,7 @@ const DappKitAccountScreen = ({ route, handleContentLayout }: Props) => {
   return (
     <BottomSheetScrollView handleContentLayout={handleContentLayout}>
       <RequestContent
+        type="confirm"
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}

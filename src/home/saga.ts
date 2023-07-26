@@ -4,7 +4,7 @@ import { Actions, refreshAllBalances, setLoading, updateNotifications } from 'sr
 import { IdToNotification } from 'src/home/reducers'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
-import { triggerShortcutSuccess } from 'src/positions/slice'
+import { executeShortcutSuccess } from 'src/positions/slice'
 import { withTimeout } from 'src/redux/sagas-helpers'
 import { shouldUpdateBalance } from 'src/redux/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
@@ -72,7 +72,7 @@ export function* autoRefreshWatcher() {
 export function* watchRefreshBalances() {
   yield* call(refreshBalances)
   yield* takeLeading(
-    [Actions.REFRESH_BALANCES, triggerShortcutSuccess.type],
+    [Actions.REFRESH_BALANCES, executeShortcutSuccess.type],
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
   )
   yield* takeLeading(

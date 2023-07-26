@@ -1,14 +1,22 @@
 import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
+import { showMessage } from 'src/alert/actions'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { activeDappSelector } from 'src/dapps/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import i18n from 'src/i18n'
+import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { sessionProposal as sessionProposalAction } from 'src/walletConnect/actions'
+import {
+  Actions,
+  acceptSession as acceptSessionAction,
+  sessionProposal as sessionProposalAction,
+} from 'src/walletConnect/actions'
 import {
   _applyIconFixIfNeeded,
+  _setClientForTesting,
+  acceptSession,
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
@@ -202,6 +210,123 @@ describe(walletConnectSaga, () => {
       pendingSession: sessionProposal,
       version: 2,
     })
+  })
+})
+
+describe(acceptSession, () => {
+  const sessionProposal = createSessionProposal({
+    url: 'someUrl',
+    icons: ['someIcon'],
+    description: 'someDescription',
+    name: 'someName',
+  })
+  let mockClient: any
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    mockClient = {
+      approveSession: jest.fn(),
+      getActiveSessions: jest.fn(() => {
+        return Promise.resolve({
+          x: {
+            pairingTopic: sessionProposal.params.pairingTopic,
+          },
+        })
+      }),
+    }
+    _setClientForTesting(mockClient as any)
+  })
+
+  it('successfully accepts the session', async () => {
+    const state = createMockStore({}).getState()
+    await expectSaga(acceptSession, acceptSessionAction(sessionProposal))
+      .withState(state)
+      .provide([[call(isBottomSheetVisible, Screens.WalletConnectRequest), false]])
+      .put.actionType(Actions.SESSION_CREATED)
+      .put(showMessage(i18n.t('connectionSuccess', { dappName: 'someName' })))
+      .run()
+
+    expect(mockClient.approveSession).toHaveBeenCalledTimes(1)
+    expect(mockClient.approveSession.mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "id": 1669989187506938,
+          "namespaces": Object {
+            "eip155": Object {
+              "accounts": Array [
+                "eip155:44787:0x0000000000000000000000000000000000007e57",
+              ],
+              "chains": Array [
+                "eip155:44787",
+              ],
+              "events": Array [
+                "accountsChanged",
+                "chainChanged",
+              ],
+              "methods": Array [
+                "eth_sendTransaction",
+                "eth_signTypedData",
+              ],
+            },
+          },
+          "relayProtocol": "irn",
+        },
+      ]
+    `)
+  })
+
+  it('successfully accepts the session when the required chain is unsupported', async () => {
+    const state = createMockStore({}).getState()
+    await expectSaga(
+      acceptSession,
+      acceptSessionAction({
+        ...sessionProposal,
+        params: {
+          ...sessionProposal.params,
+          requiredNamespaces: {
+            ...sessionProposal.params.requiredNamespaces,
+            eip155: {
+              ...sessionProposal.params.requiredNamespaces.eip155,
+              chains: ['eip155:1'], // unsupported chain
+            },
+          },
+        },
+      })
+    )
+      .withState(state)
+      .provide([[call(isBottomSheetVisible, Screens.WalletConnectRequest), false]])
+      .put.actionType(Actions.SESSION_CREATED)
+      .put(showMessage(i18n.t('connectionSuccess', { dappName: 'someName' })))
+      .run()
+
+    expect(mockClient.approveSession).toHaveBeenCalledTimes(1)
+    // Note the approved chain below is now 1, not 44787
+    expect(mockClient.approveSession.mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "id": 1669989187506938,
+          "namespaces": Object {
+            "eip155": Object {
+              "accounts": Array [
+                "eip155:1:0x0000000000000000000000000000000000007e57",
+              ],
+              "chains": Array [
+                "eip155:1",
+              ],
+              "events": Array [
+                "accountsChanged",
+                "chainChanged",
+              ],
+              "methods": Array [
+                "eth_sendTransaction",
+                "eth_signTypedData",
+              ],
+            },
+          },
+          "relayProtocol": "irn",
+        },
+      ]
+    `)
   })
 })
 

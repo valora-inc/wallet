@@ -85,6 +85,9 @@ export type StackParamList = {
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.DappShortcutsRewards]: undefined
+  [Screens.DappShortcutTransactionRequest]: {
+    rewardId: string
+  }
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
@@ -330,6 +333,7 @@ export type StackParamList = {
         type: WalletConnectRequestType.Action
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
+        supportedChains: string[]
       }
     | {
         type: WalletConnectRequestType.Session

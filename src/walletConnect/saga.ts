@@ -1,9 +1,10 @@
+import { ContractKit } from '@celo/contractkit'
 import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
 import '@walletconnect/react-native-compat'
 import { SessionTypes } from '@walletconnect/types'
-import { getSdkError, parseUri } from '@walletconnect/utils'
+import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/utils'
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { showMessage } from 'src/alert/actions'
@@ -47,7 +48,7 @@ import {
   getDefaultRequestTrackedProperties,
   getDefaultSessionTrackedProperties as getDefaultSessionTrackedPropertiesAnalytics,
 } from 'src/walletConnect/analytics'
-import { isSupportedAction } from 'src/walletConnect/constants'
+import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   selectHasPendingState,
@@ -55,6 +56,7 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import {
@@ -70,6 +72,10 @@ import {
 } from 'typed-redux-saga/macro'
 
 let client: IWeb3Wallet | null = null
+
+export function _setClientForTesting(newClient: IWeb3Wallet | null) {
+  client = newClient
+}
 
 const TAG = 'WalletConnect/saga'
 
@@ -250,6 +256,13 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
   })
 }
 
+function* getSupportedChains() {
+  const kit: ContractKit = yield* call(getContractKit)
+  const chainId = yield* call([kit.connection, 'chainId'])
+
+  return [`eip155:${chainId}`]
+}
+
 function* showActionRequest(request: Web3WalletTypes.EventArguments['session_request']) {
   if (!client) {
     throw new Error('missing client')
@@ -278,9 +291,12 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     return
   }
 
+  const supportedChains = yield* call(getSupportedChains)
+
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
     pendingAction: request,
+    supportedChains,
     version: 2,
   })
 }
@@ -299,23 +315,47 @@ export function* acceptSession({ session }: AcceptSession) {
 
     const address: string = yield* call(getWalletAddress)
     const { requiredNamespaces, relays, proposer } = session.params
-    const namespaces: SessionTypes.Namespaces = {}
-    Object.keys(requiredNamespaces).forEach((key) => {
-      const accounts: string[] = []
-      requiredNamespaces[key].chains?.map((chain) => {
-        accounts.push(`${chain}:${address}`)
-      })
-      namespaces[key] = {
-        accounts,
-        methods: requiredNamespaces[key].methods,
-        events: requiredNamespaces[key].events,
-      }
+
+    // Here we approve all required namespaces, but only for EVM chains.
+    // This is so we don't break existing dapps which don't specify the Celo chain as required.
+    // As of writing this, Curve, Toucan and Cred Protocol do that.
+    // We also add the Celo chain to the list of supported chains if it's not already there.
+    // The goal is to be more flexible and allow the initial connection to succeed, no matter what chain is specified.
+    // If the dapp actually requests an action on an unsupported chain, we will show an error.
+    // See ActionRequest for more details.
+    const requiredEip155Chains = requiredNamespaces.eip155?.chains ?? []
+    const supportedEip155Chains = yield* call(getSupportedChains)
+    const approvedEip155Chains = [
+      ...supportedEip155Chains,
+      ...requiredEip155Chains.filter((chainId) => !supportedEip155Chains.includes(chainId)),
+    ]
+
+    // Important: this will still throw if the required namespaces don't overlap with the supported ones
+    // This is ok for now, but ideally we would check that earlier and show a warning to the user
+    // This will be addressed later.
+    const approvedNamespaces = buildApprovedNamespaces({
+      proposal: session.params,
+      supportedNamespaces: {
+        eip155: {
+          chains: approvedEip155Chains,
+          methods: [
+            SupportedActions.eth_sign,
+            SupportedActions.eth_signTransaction,
+            SupportedActions.eth_sendTransaction,
+            SupportedActions.personal_sign,
+            SupportedActions.eth_signTypedData,
+            SupportedActions.eth_signTypedData_v4,
+          ],
+          events: ['accountsChanged', 'chainChanged'],
+          accounts: approvedEip155Chains.map((chain) => `${chain}:${address}`),
+        },
+      },
     })
 
     yield* call([client, 'approveSession'], {
       id: session.id,
       relayProtocol: relays[0].protocol,
-      namespaces,
+      namespaces: approvedNamespaces,
     })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
