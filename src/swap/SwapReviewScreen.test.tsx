@@ -368,7 +368,13 @@ describe('SwapReviewScreen', () => {
     await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
 
     fireEvent.press(getByText('swapReviewScreen.complete'))
-    expect(mockStore.dispatch).toHaveBeenCalledWith(swapStart(mockSwap as any))
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      swapStart({
+        ...mockSwap,
+        quoteRequestAt: expect.any(Number),
+        quoteResponseAt: expect.any(Number),
+      } as any)
+    )
   })
 
   it('should have correct analytics on swap submission', async () => {

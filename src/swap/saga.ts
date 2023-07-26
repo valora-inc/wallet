@@ -5,6 +5,7 @@ import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
+import { SwapTimeMetrics } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -23,7 +24,7 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
-import { newTransactionContext, TransactionContext } from 'src/transactions/types'
+import { TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
@@ -68,6 +69,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ? ('buyAmount' as const)
       : ('sellAmount' as const)
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
+  const { quoteRequestAt, quoteResponseAt } = action.payload
 
   const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
@@ -91,6 +93,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     swapExecuteTxId: swapExecuteContext.id,
     swapApproveTxId: swapApproveContext.id,
   }
+
+  var beforeApproveTimestamp: number | undefined
+  var afterApproveTimestamp: number | undefined
+  var beforeSwapExecutionTimestamp: number | undefined
+  var afterSwapExecutionTimestamp: number | undefined
 
   try {
     // Navigate to swap pending screen
@@ -124,6 +131,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
     )
+    beforeApproveTimestamp = Date.now()
     yield call(
       sendApproveTx,
       sellTokenAddress,
@@ -131,23 +139,58 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       allowanceTarget,
       swapApproveContext
     )
+    afterApproveTimestamp = Date.now()
 
     // Execute transaction
     yield put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
 
+    beforeSwapExecutionTimestamp = Date.now()
     yield call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
       swapExecuteContext
     )
+    afterSwapExecutionTimestamp = Date.now()
+
+    const timeMetrics: SwapTimeMetrics = {
+      quoteRequestTimestamp: quoteRequestAt,
+      quoteRequestElapsedTime: quoteResponseAt - quoteRequestAt,
+      sendApprovalElapsedTime: afterApproveTimestamp - beforeApproveTimestamp,
+      sendSwapElapsedTime: afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp,
+      totalElapsedTime: afterSwapExecutionTimestamp - quoteRequestAt,
+      quoteToTransactionElapsedTime: beforeSwapExecutionTimestamp - quoteResponseAt,
+    }
+
     yield put(swapSuccess())
     vibrateSuccess()
-    ValoraAnalytics.track(SwapEvents.swap_execute_success, defaultSwapExecuteProps)
+    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
+      ...defaultSwapExecuteProps,
+      ...timeMetrics,
+    })
   } catch (error) {
+    const finishTime = Date.now()
+    const timeMetrics: SwapTimeMetrics = {
+      quoteRequestTimestamp: quoteRequestAt,
+      quoteRequestElapsedTime: quoteResponseAt - quoteRequestAt,
+      sendApprovalElapsedTime:
+        beforeApproveTimestamp && afterApproveTimestamp
+          ? afterApproveTimestamp - beforeApproveTimestamp
+          : undefined,
+      sendSwapElapsedTime:
+        beforeSwapExecutionTimestamp && afterSwapExecutionTimestamp
+          ? afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp
+          : undefined,
+      totalElapsedTime: finishTime - quoteRequestAt,
+      quoteToTransactionElapsedTime: beforeSwapExecutionTimestamp
+        ? beforeSwapExecutionTimestamp - quoteResponseAt
+        : undefined,
+    }
+
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
+      ...timeMetrics,
       error: error.message,
     })
     yield put(swapError())
