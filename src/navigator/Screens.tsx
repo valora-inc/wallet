@@ -16,6 +16,7 @@ export enum Screens {
   DappKitSignTxScreen = 'DappKitSignTxScreen',
   DAppsExplorerScreen = 'DAppsExplorerScreen',
   DappShortcutsRewards = 'DappShortcutsRewards',
+  DappShortcutTransactionRequest = 'DappShortcutTransactionRequest',
   Debug = 'Debug',
   DrawerNavigator = 'DrawerNavigator',
   EnableBiometry = 'EnableBiometry',

@@ -80,7 +80,9 @@ const verifySuccessfulTransaction = async (tx) => {
     .toBeVisible()
     .withTimeout(15 * 1000)
 
-  await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
+  await expect(element(by.id('WalletConnectRequest/ActionRequestPayload/Value'))).toHaveText(
+    `[${JSON.stringify(tx)}]`
+  )
 
   await element(by.id('WalletConnectActionRequest/Allow')).tap()
   await enterPinUiIfNecessary()
