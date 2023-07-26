@@ -64,6 +64,7 @@ import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
+import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
 import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
@@ -511,6 +512,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.KeylessBackupPhoneInput}
       options={KeylessBackupPhoneInput.navigationOptions}
       component={KeylessBackupPhoneInput}
+    />
+    <Navigator.Screen
+      name={Screens.KeylessBackupPhoneCodeInput}
+      options={{ headerStyle: {} }}
+      component={KeylessBackupPhoneCodeInput}
     />
   </>
 )
