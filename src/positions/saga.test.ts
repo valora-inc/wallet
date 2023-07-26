@@ -2,6 +2,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -43,7 +44,6 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')

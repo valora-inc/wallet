@@ -2,6 +2,7 @@ import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import { select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -14,7 +15,6 @@ import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { mockRecipientInfo, mockTokenBalances } from 'test/values'
-import { select } from 'typed-redux-saga/macro'
 
 describe(handleNotification, () => {
   beforeEach(() => {

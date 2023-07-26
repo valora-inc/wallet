@@ -1,6 +1,6 @@
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { call, select, spawn, take } from 'typed-redux-saga/macro'
+import { call, select, spawn, take } from 'typed-redux-saga'
 
 export function* updateUserTraits() {
   let prevTraits

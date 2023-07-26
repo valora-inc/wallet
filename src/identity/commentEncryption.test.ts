@@ -2,6 +2,7 @@ import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { call, select } from 'redux-saga/effects'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { updateE164PhoneNumberAddresses, updateE164PhoneNumberSalts } from 'src/identity/actions'
 import {
@@ -28,7 +29,6 @@ import {
   mockPublicDEK,
   mockPublicDEK2,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('crypto', () => ({
   ...(jest.requireActual('crypto') as any),

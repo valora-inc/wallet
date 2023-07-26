@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import { call } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   chooseTxFeeDetails,
@@ -8,7 +9,6 @@ import {
 } from 'src/transactions/send'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
 
 const state = (override?: { celoBalance: string }) =>
   createMockStore({
@@ -53,7 +53,12 @@ function* wrapperSaga({
   gas?: number
   gasPrice?: BigNumber
 }) {
-  return yield* call(chooseTxFeeDetails, tx, feeCurrency, gas, gasPrice)
+  return (yield call(chooseTxFeeDetails, tx, feeCurrency, gas, gasPrice)) as {
+    tx: any
+    feeCurrency: string | undefined
+    gas?: number
+    gasPrice?: BigNumber
+  }
 }
 
 describe('isTxPossiblyPending', () => {

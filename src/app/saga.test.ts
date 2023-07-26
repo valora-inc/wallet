@@ -5,6 +5,7 @@ import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -70,7 +71,6 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')

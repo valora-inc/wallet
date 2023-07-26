@@ -3,6 +3,7 @@ import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
@@ -43,7 +44,6 @@ import {
   mockE164Number,
   mockE164NumberHash,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
 const mockFetch = fetch as FetchMock

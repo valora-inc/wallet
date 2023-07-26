@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import {
   fetchCurrentRate,
   fetchCurrentRateFailure,
@@ -15,7 +16,6 @@ import {
 } from 'src/localCurrency/saga'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { Currency } from 'src/utils/currencies'
-import { call, select } from 'typed-redux-saga/macro'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)

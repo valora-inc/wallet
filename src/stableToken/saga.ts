@@ -1,6 +1,6 @@
 import { Actions } from 'src/stableToken/actions'
 import { tokenTransferFactory } from 'src/tokens/saga'
-import { spawn } from 'typed-redux-saga/macro'
+import { spawn } from 'typed-redux-saga'
 
 const tag = 'stableToken/saga'
 

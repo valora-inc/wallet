@@ -5,7 +5,7 @@ import { APP_BUNDLE_ID, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { select } from 'typed-redux-saga/macro'
+import { select } from 'typed-redux-saga'
 
 const TAG = 'sentry/Sentry'
 

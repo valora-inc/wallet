@@ -32,7 +32,7 @@ import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
-import { call, fork, put, select } from 'typed-redux-saga/macro'
+import { call, fork, put, select } from 'typed-redux-saga'
 import { parse } from 'url'
 
 export enum BarcodeTypes {

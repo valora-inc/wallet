@@ -1,6 +1,7 @@
 import firebase from '@react-native-firebase/app'
 import { expectSaga, SagaType } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { AppEvents } from 'src/analytics/Events'
@@ -11,7 +12,6 @@ import { Actions } from 'src/firebase/actions'
 import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/firebase'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -45,7 +45,7 @@ describe(takeWithInMemoryCache, () => {
     const testEffect = jest.fn()
     const testSaga = function* () {
       yield takeWithInMemoryCache(testAction as Actions)
-      yield* call(testEffect)
+      yield call(testEffect)
     }
 
     // calls testEffect after action is dispatched

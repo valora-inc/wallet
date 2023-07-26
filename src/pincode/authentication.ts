@@ -40,7 +40,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
-import { call, select } from 'typed-redux-saga/macro'
+import { call, select } from 'typed-redux-saga'
 
 const PIN_BLOCKLIST = require('src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json')
 

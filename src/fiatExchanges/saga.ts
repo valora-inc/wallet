@@ -27,16 +27,7 @@ import Logger from 'src/utils/Logger'
 import { resolveCurrency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
-import {
-  call,
-  put,
-  race,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLeading,
-} from 'typed-redux-saga/macro'
+import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'fiatExchanges/saga'
 

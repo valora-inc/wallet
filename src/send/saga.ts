@@ -48,7 +48,7 @@ import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
-import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'

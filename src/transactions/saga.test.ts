@@ -1,5 +1,6 @@
 import { EventLog } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
+import { call } from 'redux-saga/effects'
 import { updateInviteTransactions, updateTransactions } from 'src/transactions/actions'
 import { getInviteTransactionsDetails } from 'src/transactions/saga'
 import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -7,7 +8,6 @@ import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 

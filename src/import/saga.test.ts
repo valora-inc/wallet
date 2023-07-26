@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { dynamic } from 'redux-saga-test-plan/providers'
+import { call, delay, fork, select } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -21,7 +22,6 @@ import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { mockOnboardingProps } from 'test/values'
-import { call, delay, fork, select } from 'typed-redux-saga/macro'
 
 jest.mock('src/onboarding/steps')
 

@@ -52,7 +52,7 @@ import {
 } from 'src/web3/selectors'
 import { PrimaryValoraWallet } from 'src/web3/types'
 import { estimateGas } from 'src/web3/utils'
-import { call, put, select } from 'typed-redux-saga/macro'
+import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'

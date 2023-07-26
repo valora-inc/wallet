@@ -1,12 +1,12 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions, EscrowReclaimPaymentAction } from 'src/escrow/actions'
 import { reclaimFromEscrow } from 'src/escrow/saga'
 import { UnlockResult, getConnectedAccount, unlockAccount } from 'src/web3/saga'
 import { mockAccount } from 'test/values'
-import { call } from 'typed-redux-saga/macro'
 
 describe(reclaimFromEscrow, () => {
   it('fails if user cancels PIN input', async () => {

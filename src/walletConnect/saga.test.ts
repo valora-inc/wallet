@@ -1,6 +1,7 @@
 import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
+import { call, select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
@@ -25,7 +26,6 @@ import {
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { createMockStore } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata

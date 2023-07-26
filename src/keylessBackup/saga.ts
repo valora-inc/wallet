@@ -6,7 +6,7 @@ import {
   googleSignInStarted,
 } from 'src/keylessBackup/slice'
 import Logger from 'src/utils/Logger'
-import { call, put, spawn, takeLeading } from 'typed-redux-saga/macro'
+import { call, put, spawn, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'keylessBackupSaga'
 

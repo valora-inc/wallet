@@ -1,9 +1,9 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic } from 'redux-saga-test-plan/providers'
+import { select } from 'redux-saga/effects'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { select } from 'typed-redux-saga/macro'
 
 describe(updateUserTraits, () => {
   beforeAll(() => {

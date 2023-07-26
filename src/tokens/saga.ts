@@ -38,7 +38,7 @@ import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 
 const TAG = 'tokens/saga'

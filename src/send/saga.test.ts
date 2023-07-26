@@ -2,6 +2,7 @@ import { toTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { call, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -46,7 +47,6 @@ import {
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
 
 jest.mock('@celo/connect')
 

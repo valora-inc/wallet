@@ -29,7 +29,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
-import { call, put, select, take } from 'typed-redux-saga/macro'
+import { call, put, select, take } from 'typed-redux-saga'
 
 const TAG = 'firebase/firebase'
 

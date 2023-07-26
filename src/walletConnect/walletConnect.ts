@@ -10,7 +10,7 @@ import { Actions } from 'src/walletConnect/actions'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { call, delay, fork, race, select, take } from 'typed-redux-saga/macro'
+import { call, delay, fork, race, select, take } from 'typed-redux-saga'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='

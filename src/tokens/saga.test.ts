@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic, throwError } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
@@ -26,7 +27,6 @@ import {
   mockPoofAddress,
   mockTokenBalances,
 } from 'test/values'
-import { call, select } from 'typed-redux-saga/macro'
 
 const mockFirebaseTokenInfo: StoredTokenBalances = {
   [mockPoofAddress]: {

@@ -69,7 +69,7 @@ import {
   take,
   takeEvery,
   takeLeading,
-} from 'typed-redux-saga/macro'
+} from 'typed-redux-saga'
 
 let client: IWeb3Wallet | null = null
 

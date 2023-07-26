@@ -14,7 +14,7 @@ import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
-import { call, put, select } from 'typed-redux-saga/macro'
+import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'send/utils'
 

@@ -15,7 +15,7 @@ import {
 import { otaTranslationsUpdated, setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
-import { call, put, select, spawn, takeLatest } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'i18n/saga'
 const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)

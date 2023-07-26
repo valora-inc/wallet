@@ -34,7 +34,6 @@ module.exports = {
     '@babel/plugin-transform-flow-strip-types', // for a bug in FlatList caused by adding @babel/plugin-proposal-class-properties
     '@babel/plugin-proposal-class-properties', // for ethers
     '@babel/plugin-transform-private-methods', // for ethers
-    'macros', // this fixed jest tests when upgrading to typed-redux-saga
     ...moduleResolverPluginConfig,
     'react-native-reanimated/plugin',
     // NOTE: Reanimated plugin has to be listed last.

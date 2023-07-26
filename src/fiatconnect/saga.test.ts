@@ -14,6 +14,7 @@ import _ from 'lodash'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -101,7 +102,6 @@ import {
   mockTokenBalances,
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { call, select } from 'typed-redux-saga/macro'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/analytics/ValoraAnalytics')

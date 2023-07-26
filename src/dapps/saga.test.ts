@@ -1,5 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
+import { select } from 'redux-saga/effects'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
@@ -10,7 +11,6 @@ import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mocked } from 'ts-jest/utils'
-import { select } from 'typed-redux-saga/macro'
 
 jest.mock('src/statsig')
 

@@ -6,7 +6,7 @@ import { safely } from 'src/utils/safely'
 import { Actions } from 'src/web3/actions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, takeLeading } from 'typed-redux-saga/macro'
+import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'NftsSaga'
 
