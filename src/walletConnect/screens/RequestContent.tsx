@@ -2,35 +2,43 @@ import { IClientMeta } from '@walletconnect/legacy-types'
 import { CoreTypes } from '@walletconnect/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/types'
-import Logo from 'src/icons/Logo'
+import { activeDappSelector } from 'src/dapps/selectors'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
+import Logos from 'src/walletConnect/screens/Logos'
 
 interface RequestDetail {
   label: string
   value: string
 }
 
-interface Props {
-  onAccept(): void
-  onDeny(): void
+interface BaseProps {
+  dappName: string
+  dappUrl?: string
   dappImageUrl?: string
   title: string
   description: string | null
-  testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
-  dappName: string
-  dappUrl?: string
+  testId: string
   children?: React.ReactNode
 }
 
-const DAPP_IMAGE_SIZE = 40
+interface ConfirmProps extends BaseProps {
+  type: 'confirm'
+  onAccept(): void
+  onDeny(): void
+}
+
+interface DismissProps extends BaseProps {
+  type: 'dismiss'
+  onDismiss(): void
+}
+
+type Props = ConfirmProps | DismissProps
 
 export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | null) => {
   const activeDapp = useSelector(activeDappSelector)
@@ -71,65 +79,54 @@ export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | nu
   }
 }
 
-function RequestContent({
-  onAccept,
-  onDeny,
-  dappImageUrl,
-  title,
-  description,
-  testId,
-  requestDetails,
-  dappName,
-  children,
-}: Props) {
+function RequestContent(props: Props) {
+  const { type, dappName, dappImageUrl, title, description, requestDetails, testId, children } =
+    props
   const { t } = useTranslation()
+  const [isPressed, setIsPressed] = useState(false)
+  const isPressedRef = useRef(false)
 
-  const [isAccepting, setIsAccepting] = useState(false)
-  const dappConnectInfo = useSelector(dappConnectInfoSelector)
-
-  const isAcceptingRef = useRef(false)
-
-  const handleAccept = () => {
-    setIsAccepting(true)
+  const onPress = () => {
+    setIsPressed(true)
   }
 
   useEffect(() => {
-    isAcceptingRef.current = isAccepting
-    if (isAccepting) {
-      onAccept()
+    isPressedRef.current = isPressed
+    if (isPressed) {
+      switch (props.type) {
+        case 'confirm':
+          props.onAccept()
+          break
+        case 'dismiss':
+          props.onDismiss()
+          break
+        default:
+          break
+      }
     }
-  }, [isAccepting])
+  }, [isPressed])
 
   useEffect(() => {
+    // This makes sure that the onDeny/onDismiss callback is called when the component is unmounted
     return () => {
-      if (!isAcceptingRef.current) {
-        onDeny()
+      if (!isPressedRef.current) {
+        switch (props.type) {
+          case 'confirm':
+            props.onDeny()
+            break
+          case 'dismiss':
+            props.onDismiss()
+            break
+          default:
+            break
+        }
       }
     }
   }, [])
 
   return (
     <>
-      {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
-        <View style={styles.logoContainer}>
-          <View style={styles.logoShadow}>
-            <View style={styles.logoBackground}>
-              <Logo height={24} />
-            </View>
-          </View>
-          <View style={styles.logoShadow}>
-            {dappImageUrl ? (
-              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-            ) : (
-              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
-                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
-                  {dappName.charAt(0).toUpperCase()}
-                </Text>
-              </View>
-            )}
-          </View>
-        </View>
-      )}
+      <Logos dappName={dappName} dappImageUrl={dappImageUrl} />
       <Text style={styles.header} testID={`${testId}Header`}>
         {title}
       </Text>
@@ -159,23 +156,33 @@ function RequestContent({
 
       {children}
 
-      <Button
-        type={BtnTypes.PRIMARY}
-        size={BtnSizes.FULL}
-        text={t('allow')}
-        showLoading={isAccepting}
-        disabled={isAccepting}
-        onPress={handleAccept}
-        testID={`${testId}/Allow`}
-      />
+      {type == 'confirm' && (
+        <Button
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.FULL}
+          text={t('allow')}
+          showLoading={isPressed}
+          disabled={isPressed}
+          onPress={onPress}
+          testID={`${testId}/Allow`}
+        />
+      )}
+      {type == 'dismiss' && (
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          text={t('dismiss')}
+          showLoading={isPressed}
+          disabled={isPressed}
+          onPress={onPress}
+          testID={`${testId}/Dismiss`}
+        />
+      )}
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  logoContainer: {
-    flexDirection: 'row',
-  },
   requestDetailsContainer: {
     marginBottom: Spacing.Thick24,
   },
@@ -183,40 +190,10 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     paddingVertical: Spacing.Regular16,
   },
-  logoShadow: {
-    ...getShadowStyle(Shadow.SoftLight),
-    borderRadius: 100,
-  },
-  logoBackground: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: DAPP_IMAGE_SIZE,
-    width: DAPP_IMAGE_SIZE,
-    borderRadius: 100,
-    backgroundColor: Colors.light,
-  },
-  dappImage: {
-    height: DAPP_IMAGE_SIZE,
-    width: DAPP_IMAGE_SIZE,
-    borderRadius: 100,
-    backgroundColor: Colors.light,
-    marginLeft: -4,
-  },
   description: {
     ...fontStyles.small,
     lineHeight: 20,
     marginBottom: Spacing.Thick24,
-  },
-  placeholderLogoBackground: {
-    backgroundColor: Colors.light,
-    marginRight: -Spacing.Small12,
-    borderColor: Colors.gray2,
-    borderWidth: 1,
-  },
-  placeholderLogoText: {
-    ...fontStyles.h1,
-    lineHeight: undefined,
-    color: Colors.gray4,
   },
   requestDetailLabel: {
     ...fontStyles.small,
