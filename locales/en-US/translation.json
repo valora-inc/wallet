@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Use Recovery Phrase",
       "subtitle": "Write down your recovery phrase"
-    },
-    "cloudBackup": {
-      "title": "Backup to Cloud",
-      "subtitle": "Restore your wallet without a phrase",
-      "bottomSheet": {
-        "title": "Cloud Backup is coming soon!",
-        "restoreComingSoon": "Cloud backup is a way to restore your wallet without a recovery phrase. We are working on this as fast as we can and will notify you once it's available to use.",
-        "writeDownPhrase": "In the meantime, please write down your recovery phrase to manually backup your wallet.",
-        "continue": "Continue to Recovery Phrase"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Writing down your recovery phrase with a pen, and storing it in a safe place is one of the most secure ways to protect your wallet.",
       "phraseLocation": "An ideal place might be where you store other important documents & materials for safekeeping, that is not easily stolen and easy to retrieve. It's up to you!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Keep your wallet safe",
+    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
     "title": "Set up Keyless Backup",
@@ -153,12 +147,6 @@
   "headerTitle": "Recovery Phrase",
   "introBackUpPhrase": "Back Up Recovery Phrase",
   "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
-  "introTitle": "Your Recovery Phrase",
-  "introBody": "Your Recovery Phrase is the most important part of your account.\n\nPlease find a private place to set up your Phrase. It takes about five minutes.",
-  "introPrimaryAction": "Set Up",
-  "backupSetupTitle": "Set Up Your Recovery Phrase",
-  "backupSetupBody": "To protect your funds, you're required to set up your Recovery Phrase before you can continue using {{appName}}.",
-  "delayBackup": "Wait One Hour",
   "postSetupTitle": "Your Recovery Phrase",
   "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your Celo Dollars and CELO. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
   "postSetupCTA": "Learn about your Recovery Phrase",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Please write down your phrase.",
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Recovery Phrase",
-  "backupKeyNotification": "Keep your funds safe. Set up your Recovery Phrase now.",
   "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
   "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
@@ -570,6 +557,7 @@
   "close": "Close",
   "home": "Home",
   "accountKey": "Recovery Phrase",
+  "walletSecurity": "Wallet Security",
   "addAndWithdraw": "Add & Withdraw",
   "settings": "Settings",
   "help": "Help",
@@ -1339,7 +1327,16 @@
     "rewards": {
       "title": "Your rewards",
       "description": "Claim available rewards from open dapp positions"
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Your rewards",
+      "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
+      "claimButton": "Claim",
+      "claimedLabel": "Claimed",
+      "rewardLabel": "Available reward",
+      "claimSuccess": "Success! You claimed a reward"
+    },
+    "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
@@ -1414,7 +1411,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "You'll withdraw <0></0> including fees"
-    }
+    },
+    "receiveAmount": "Receive <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1752,6 +1750,10 @@
     "swap": "Swap",
     "withdraw": "Withdraw"
   },
+  "nftGallery": {
+    "title": "Collectibles",
+    "noNfts": "Your NFTs will display here once you have one in your wallet"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "View on Celo Explorer",
     "attributes": "Attributes",
@@ -1763,6 +1765,16 @@
     "loadErrorTitle": "There is an issue loading NFTs",
     "loadErrorSubtitle": "Your assets are safe. Please try again.",
     "contactSupport": "If you need additional help you can \n<0>Contact support</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Hooks Preview Mode",
+      "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "invalidApiUrl": "Invalid hooks preview API URL",
+    "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

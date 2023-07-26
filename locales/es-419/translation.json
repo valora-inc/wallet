@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Usar frase de recuperación",
       "subtitle": "Escribe tu frase de recuperación"
-    },
-    "cloudBackup": {
-      "title": "Respaldo en la nube",
-      "subtitle": "Restaura tu wallet sin frase de recuperación",
-      "bottomSheet": {
-        "title": "Próximamente: ¡respaldo en la nube!",
-        "restoreComingSoon": "El respaldo en la nube es una forma de restaurar tu wallet sin la frase de recuperación. Estamos trabajando en esto lo más rápido posible y te notificaremos una vez que la función esté disponible.",
-        "writeDownPhrase": "Mientras tanto, asegúrate de guardar tu frase de recuperación para resguardar tu wallet.",
-        "continue": "Ver frase de recuperación"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Anotar la frase de recuperación en un papel y almacenarla en un lugar seguro es una de las opciones más segura para resguardar tu wallet.",
       "phraseLocation": "El mejor lugar para guardarla es junto a otra documentación importante, de modo que no se pierda o te la roben fácilmente. ¡Tú eliges!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Mantén a salvo tu cartera",
+    "description": "Sólo tú puedes acceder a tu monedero. Si pierdes o te roban el teléfono, Valora no podrá recuperarlo por ti.\n\nTendrás que establecer un método para mantener a salvo tu monedero y proteger tus fondos."
   },
   "setUpKeylessBackup": {
     "title": "Configurar el respaldo sin llave",
@@ -153,12 +147,6 @@
   "headerTitle": "Recuperación",
   "introBackUpPhrase": "Respalda tu frase de recuperación",
   "introCompleteQuiz": "Completa la prueba de respaldo para confirmar que podrás restaurar tu wallet si lo necesitas.\n\nSi no la anotaste correctamente, no podrás acceder a tu wallet en caso de que necesites restaurarla.",
-  "introTitle": "Tu Frase de recuperación",
-  "introBody": "Tu Frase de recuperación es la parte más importante de tu cuenta. \n\nBusca un lugar privado donde puedas configurarla. Solo te tomará cinco minutos.",
-  "introPrimaryAction": "Configurar",
-  "backupSetupTitle": "Configura tu Frase de recuperación",
-  "backupSetupBody": "Para proteger tus fondos, debes configurar tu Frase de recuperación antes de seguir usando {{appName}}.",
-  "delayBackup": "Espera una hora por favor",
   "postSetupTitle": "Esta es tu Frase de recuperación",
   "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a tus activos Celo. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa frase. Guárdala en un lugar seguro y no la compartas con nadie.",
   "postSetupCTA": "Conoce más sobre la Frase de recuperación",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Por favor, anota tu frase.",
   "completeEducation": "Entiendo",
   "yourAccountKey": "Esta es tu Frase de recuperación",
-  "backupKeyNotification": "Protege tus fondos. Configura tu Frase de recuperación.",
   "backupKeyNotification2": "Resguarda tus fondos. Respalda tu frase de recuperación.",
   "backupKeyCTA": "Finalizar respaldo",
   "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
@@ -570,6 +557,7 @@
   "close": "Cerrar",
   "home": "Inicio",
   "accountKey": "Recuperación",
+  "walletSecurity": "Seguridad de la cartera",
   "addAndWithdraw": "Agregar y retirar",
   "settings": "Configuración",
   "help": "Ayuda",
@@ -1339,7 +1327,16 @@
     "rewards": {
       "title": "Tus recompensas",
       "description": "Reclama las recompensas disponibles en tus posiciones DeFi."
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Tus recompensas",
+      "description": "¡Ahora puedes reclamar recompensas de posiciones de dapp abiertas directamente en {{appName}}!",
+      "claimButton": "Reclama",
+      "claimedLabel": "Reclamado",
+      "rewardLabel": "Recompensa disponible",
+      "claimSuccess": "¡Éxito! Has reclamado una recompensa"
+    },
+    "claimRewardFailure": "Se ha producido un error al reclamar tu recompensa, inténtalo de nuevo más tarde."
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
@@ -1414,7 +1411,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Retirarás <0></0> con tasas incluidas"
-    }
+    },
+    "receiveAmount": "Recibe <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1752,6 +1750,10 @@
     "swap": "Cambiar",
     "withdraw": "Transferir"
   },
+  "nftGallery": {
+    "title": "Coleccionables",
+    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu cartera"
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Ver en Celo Explorer",
     "attributes": "Atributos",
@@ -1763,6 +1765,16 @@
     "loadErrorTitle": "Se produjo un error al cargar los NFTs",
     "loadErrorSubtitle": "Tus activos están a salvo. Vuelve a intentarlo.",
     "contactSupport": "Si necesitas ayuda, puedes contactar a nuestro equipo de\n<0>soporte técnico<0>."
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Ganchos Modo Vista Previa",
+      "message": "Confirma que deseas activar el modo de vista previa para los ganchos.\n\nEsta función sólo está destinada a los desarrolladores que crean ganchos. Si no eres desarrollador o no has activado esta acción, NO CONFIRMES.",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "invalidApiUrl": "URL API de previsualización de ganchos no válida",
+    "bannerTitle": "Vista previa de ganchos activada, pulsa para desactivarla"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

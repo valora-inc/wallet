@@ -63,16 +63,6 @@
     "recoveryPhrase": {
       "title": "Utiliser la Phrase de récupération",
       "subtitle": "Écrivez votre Phrase de récupération"
-    },
-    "cloudBackup": {
-      "title": "Sauvegarder dans le Cloud",
-      "subtitle": "Restaurer votre portefeuille sans phrase",
-      "bottomSheet": {
-        "title": "La sauvegarde dans le Cloud sera bientôt disponible.",
-        "restoreComingSoon": "Une sauvegarde dans le cloud est un moyen de restaurer votre portefeuille sans phrase de récupération. Nous travaillons sur cette solution et vous ferons savoir le plus vite possible dès que cette fonction sera disponible.",
-        "writeDownPhrase": "En attendant, veuillez écrire votre phrase de récupération pour pouvoir profiter d'une sauvegarde manuelle de votre portefeuille.",
-        "continue": "Continuer avec ma Phrase de récupération"
-      }
     }
   },
   "recoveryPhrase": {
@@ -86,6 +76,10 @@
       "writeDownPhrase": "Écrivez votre phrase de récupération avec un stylo puis conservez-la dans un endroit sûr. C'est l'un des moyens les plus sécurisés de protéger votre portefeuille.",
       "phraseLocation": "Un endroit idéal où la garder : là où vous gardez d'autres documents et papiers importants. Vous pourrez ainsi bien la protéger et la retrouver en toute sécurité. C'est à vous de jouer!"
     }
+  },
+  "walletSecurityPrimer": {
+    "title": "Garde ton portefeuille en sécurité",
+    "description": "Tu es le seul à pouvoir accéder à ton portefeuille. Si ton téléphone est perdu ou volé, Valora ne peut pas le récupérer pour toi.\n\nTu devras mettre en place une méthode pour garder ton portefeuille en sécurité et protéger tes fonds."
   },
   "setUpKeylessBackup": {
     "title": "Configurer une sauvegarde sans clé",
@@ -153,12 +147,6 @@
   "headerTitle": "Phrase de récupération",
   "introBackUpPhrase": "Phrase de récupération de sauvegarde",
   "introCompleteQuiz": "Remplissez notre questionnaire de sauvegarde pour vérifier que votre portefeuille peut être récupéré.\n\nSi vous ne l'avez pas correctement enregistrée, vous ne pourrez pas accéder à votre portefeuille en cas de problème avec votre appareil.",
-  "introTitle": "Votre Phrase de récupération",
-  "introBody": "Votre Phrase de récupération est la partie la plus importante de votre compte.\n\nVeuillez trouver un endroit privé pour configurer votre Phrase. Cela vous prendra environ cinq minutes.",
-  "introPrimaryAction": "Configuration",
-  "backupSetupTitle": "Configurez votre Phrase de récupération",
-  "backupSetupBody": "Pour protéger vos fonds, vous devez configurer votre Phrase de récupération avant de pouvoir continuer à utiliser {{appName}}.",
-  "delayBackup": "Patientez pendant une heure",
   "postSetupTitle": "Votre Phrase de récupération",
   "postSetupBody": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos Dollars Celo et à vos CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre Phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
   "postSetupCTA": "En savoir plus sur votre Phrase de récupération",
@@ -168,7 +156,6 @@
   "writeDownKeyExperimental": "Veuillez noter votre phrase.",
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
-  "backupKeyNotification": "Sécurisez vos fonds. Configurez votre Phrase de récupération.",
   "backupKeyNotification2": "Gardez vos fonds en sécurité. Enregistrez votre Phrase de récupération maintenant.",
   "backupKeyCTA": "Terminer la sauvegarde maintenant",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
@@ -570,6 +557,7 @@
   "close": "Fermer",
   "home": "Accueil",
   "accountKey": "Récupération",
+  "walletSecurity": "Sécurité du portefeuille",
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
   "help": "Aide",
@@ -1339,7 +1327,16 @@
     "rewards": {
       "title": "Vos récompenses",
       "description": "Réclamez vos récompenses disponibles pour vos positions de dapps."
-    }
+    },
+    "claimRewardsScreen": {
+      "title": "Vos récompenses",
+      "description": "Désormais, tu peux réclamer des récompenses pour les postes de dapp ouverts directement sur {{appName}}!",
+      "claimButton": "Réclamation",
+      "claimedLabel": "Réclamé",
+      "rewardLabel": "Récompense disponible",
+      "claimSuccess": "Succès ! Tu as réclamé une récompense"
+    },
+    "claimRewardFailure": "Il y a eu une erreur lors de la réclamation de ta récompense, essaie à nouveau plus tard."
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
@@ -1414,7 +1411,8 @@
     },
     "cashOut": {
       "amountSpentInfo": "Vous retirerez <0></0> frais inclus"
-    }
+    },
+    "receiveAmount": "Recevoir <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1752,6 +1750,10 @@
     "swap": "Échanger",
     "withdraw": "Retirer"
   },
+  "nftGallery": {
+    "title": "Objets de collection",
+    "noNfts": "Tes NFT s'afficheront ici une fois que tu en auras un dans ton portefeuille."
+  },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Voir sur CeloExplorer",
     "attributes": "Caractéristiques",
@@ -1763,6 +1765,16 @@
     "loadErrorTitle": "Un problème est survenu lors du chargement des NFT",
     "loadErrorSubtitle": "Vos actifs sont en sécurité. Veuillez réessayer.",
     "contactSupport": "Si vous avez besoin d'aide, vous pouvez \n<0>contacter le service client</0>"
+  },
+  "hooksPreview": {
+    "modal": {
+      "title": "Mode de prévisualisation des crochets",
+      "message": "Confirme que tu souhaites activer le mode aperçu pour les crochets.\n\nCette fonctionnalité est uniquement destinée aux développeurs qui construisent des crochets. Si tu n'es pas un développeur ou si tu n'as pas déclenché cette action, NE CONFIRME PAS.",
+      "cancel": "Annuler",
+      "confirm": "Valider"
+    },
+    "invalidApiUrl": "URL de l'API de prévisualisation des crochets invalide",
+    "bannerTitle": "L'aperçu des crochets est activé, touche pour le désactiver."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
