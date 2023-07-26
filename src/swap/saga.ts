@@ -163,7 +163,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     )
     const afterSwapExecutionTimestamp = Date.now()
     sendSwapElapsedTimeInMs = afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp
-    quoteToTransactionElapsedTimeInMs = afterSwapExecutionTimestamp - quoteRequestAt
+    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteRequestAt
 
     const timeMetrics = getTimeMetrics(afterSwapExecutionTimestamp)
 
