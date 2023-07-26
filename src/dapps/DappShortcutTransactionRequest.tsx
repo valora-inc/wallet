@@ -81,6 +81,7 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
     <BottomSheetScrollView handleContentLayout={handleContentLayout}>
       {pendingAcceptShortcut?.transactions?.length ? (
         <RequestContent
+          type="confirm"
           onAccept={handleClaimReward}
           onDeny={handleDenyTransaction}
           dappName={pendingAcceptShortcut.appName}
