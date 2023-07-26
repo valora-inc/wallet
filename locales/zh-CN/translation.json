@@ -1056,7 +1056,11 @@
     "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
     "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
     "computeSharedSecret": "{{dappName}} 想要生成密钥。",
-    "transactionDataCopied": "交易数据已复制"
+    "transactionDataCopied": "交易数据已复制",
+    "unsupportedChain": {
+      "title": "无支撑链",
+      "description": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 Celo 是 dapp 上的活动链。"
+    }
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
