@@ -12,6 +12,9 @@ export type TriggeredShortcuts = Record<
     transactions: RawShortcutTransaction[]
     appName: string
     appImage: string
+    appId: string
+    network: string
+    shortcutId: string
   }
 >
 
@@ -105,6 +108,9 @@ const slice = createSlice({
         appName: action.payload.appName,
         appImage: action.payload.appImage,
         transactions: [],
+        appId: action.payload.data.appId,
+        network: action.payload.data.network,
+        shortcutId: action.payload.data.shortcutId,
       }
     },
     triggerShortcutSuccess: (

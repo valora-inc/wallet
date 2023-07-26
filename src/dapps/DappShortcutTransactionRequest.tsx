@@ -1,8 +1,10 @@
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappShortcutsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { Screens } from 'src/navigator/Screens'
@@ -26,6 +28,20 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
 
   const triggeredShortcuts = useSelector(triggeredShortcutsStatusSelector)
   const pendingAcceptShortcut = triggeredShortcuts[rewardId]
+  const trackedShortcutProperties = {
+    rewardId,
+    appName: pendingAcceptShortcut?.appName ?? '',
+    appId: pendingAcceptShortcut?.appId ?? '',
+    network: pendingAcceptShortcut?.network ?? '',
+    shortcutId: pendingAcceptShortcut?.shortcutId ?? '',
+  }
+
+  useEffect(() => {
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_tx_propose,
+      trackedShortcutProperties
+    )
+  }, [])
 
   const handleClaimReward = () => {
     if (!pendingAcceptShortcut) {
@@ -35,16 +51,30 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
     }
 
     dispatch(executeShortcut(rewardId))
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted,
+      trackedShortcutProperties
+    )
   }
 
   const handleDenyTransaction = () => {
     if (pendingAcceptShortcut) {
       dispatch(denyExecuteShortcut(rewardId))
+
+      ValoraAnalytics.track(
+        DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected,
+        trackedShortcutProperties
+      )
     }
   }
 
   const handleTrackCopyTransactionDetails = () => {
-    // TODO
+    if (pendingAcceptShortcut) {
+      ValoraAnalytics.track(
+        DappShortcutsEvents.dapp_shortcuts_reward_tx_copy,
+        trackedShortcutProperties
+      )
+    }
   }
 
   return (
