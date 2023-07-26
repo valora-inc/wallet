@@ -65,9 +65,10 @@ function DappShortcutsRewards() {
       return
     }
 
+    const rewardId = getClaimableRewardId(position.address, position.claimableShortcut)
     dispatch(
       triggerShortcut({
-        id: getClaimableRewardId(position.address, position.claimableShortcut),
+        id: rewardId,
         appName: position.appName,
         appImage: position.displayProps.imageUrl,
         data: {
@@ -79,7 +80,7 @@ function DappShortcutsRewards() {
         },
       })
     )
-    navigate(Screens.DappShortcutTransactionRequest)
+    navigate(Screens.DappShortcutTransactionRequest, { rewardId })
   }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
@@ -91,10 +92,7 @@ function DappShortcutsRewards() {
     })
     const allowClaim = item.status === 'idle' || item.status === 'error'
     const loading =
-      item.status === 'loading' ||
-      item.status === 'pendingAccept' ||
-      item.status === 'accepting' ||
-      item.status === 'acceptingInBackground'
+      item.status === 'loading' || item.status === 'pendingAccept' || item.status === 'accepting'
 
     return (
       <View style={styles.card} testID="DappShortcutsRewards/Card">

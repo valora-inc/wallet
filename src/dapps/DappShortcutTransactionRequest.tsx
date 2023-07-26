@@ -1,40 +1,31 @@
-import React, { useEffect, useRef } from 'react'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
-import { BottomSheetParams } from 'src/navigator/types'
-import { pendingAcceptanceShortcutSelector } from 'src/positions/selectors'
-import {
-  denyExecuteShortcut,
-  executeShortcut,
-  executeShortcutBackgrounded,
-} from 'src/positions/slice'
+import { Screens } from 'src/navigator/Screens'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
+import { triggeredShortcutsStatusSelector } from 'src/positions/selectors'
+import { denyExecuteShortcut, executeShortcut } from 'src/positions/slice'
 import { Colors } from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 
-function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetParams) {
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappShortcutTransactionRequest> &
+  BottomSheetParams
+
+function DappShortcutTransactionRequest({ route: { params }, handleContentLayout }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const pendingAcceptShortcut = useSelector(pendingAcceptanceShortcutSelector)
-  const inFlightShortcutRef = useRef(pendingAcceptShortcut)
+  const { rewardId } = params
 
-  useEffect(() => {
-    inFlightShortcutRef.current = pendingAcceptShortcut
-  }, [pendingAcceptShortcut])
-
-  useEffect(() => {
-    return () => {
-      if (inFlightShortcutRef.current?.status === 'accepting') {
-        dispatch(executeShortcutBackgrounded(inFlightShortcutRef.current.id))
-      }
-    }
-  }, [])
+  const triggeredShortcuts = useSelector(triggeredShortcutsStatusSelector)
+  const pendingAcceptShortcut = triggeredShortcuts[rewardId]
 
   const handleClaimReward = () => {
     if (!pendingAcceptShortcut) {
@@ -43,12 +34,12 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
       return
     }
 
-    dispatch(executeShortcut(pendingAcceptShortcut.id))
+    dispatch(executeShortcut(rewardId))
   }
 
   const handleDenyTransaction = () => {
     if (pendingAcceptShortcut) {
-      dispatch(denyExecuteShortcut(pendingAcceptShortcut.id))
+      dispatch(denyExecuteShortcut(rewardId))
     }
   }
 
@@ -65,7 +56,6 @@ function DappShortcutTransactionRequest({ handleContentLayout }: BottomSheetPara
           dappName={pendingAcceptShortcut.appName}
           dappImageUrl={pendingAcceptShortcut.appImage}
           title={t('confirmTransaction')}
-          // TODO update translation keys
           description={t('walletConnectRequest.sendTransaction', {
             dappName: pendingAcceptShortcut.appName,
           })}

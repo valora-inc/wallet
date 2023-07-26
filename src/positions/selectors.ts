@@ -87,22 +87,6 @@ export function getClaimableRewardId(
   return `${claimableShortcut.id}-${positionAddress}-${claimableValue.toString()}`
 }
 
-export const pendingAcceptanceShortcutSelector = createSelector(
-  triggeredShortcutsStatusSelector,
-  (triggeredShortcuts) => {
-    // there should only be one in progress shortcut at a time
-    const pendingAcceptanceShortcut = Object.entries(triggeredShortcuts).find(([_, value]) => {
-      return value.status === 'pendingAccept' || value.status === 'accepting'
-    })
-    return pendingAcceptanceShortcut
-      ? {
-          id: pendingAcceptanceShortcut[0],
-          ...pendingAcceptanceShortcut[1],
-        }
-      : null
-  }
-)
-
 export const positionsWithClaimableRewardsSelector = createSelector(
   [positionsSelector, claimableShortcutSelector, triggeredShortcutsStatusSelector],
   (positions, shortcuts, triggeredShortcuts) => {

@@ -65,7 +65,6 @@ export type ShortcutStatus =
   | 'loading'
   | 'pendingAccept'
   | 'accepting'
-  | 'acceptingInBackground'
   | 'success'
   | 'error'
 
