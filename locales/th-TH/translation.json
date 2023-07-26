@@ -1056,7 +1056,11 @@
     "sendTransaction": "{{dappName}} ต้องการส่งธุรกรรม CELO",
     "decryptPayload": "{{dappName}} ต้องการถอดรหัสข้อมูลของข้อมูล",
     "computeSharedSecret": "{{dappName}} ต้องการสร้างความลับ",
-    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก"
+    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    }
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
   "description": {
