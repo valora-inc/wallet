@@ -1204,11 +1204,11 @@ type SwapQuoteEvent = SwapEvent & {
 
 export interface SwapTimeMetrics {
   quoteRequestTimestamp: number
-  quoteRequestElapsedTime: number
-  sendApprovalElapsedTime?: number
-  sendSwapElapsedTime?: number
-  totalElapsedTime: number
-  quoteToTransactionElapsedTime?: number
+  quoteRequestElapsedTimeInMs: number
+  sendApprovalElapsedTimeInMs?: number
+  sendSwapElapsedTimeInMs?: number
+  totalElapsedTimeInMs: number
+  quoteToTransactionElapsedTimeInMs?: number
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined

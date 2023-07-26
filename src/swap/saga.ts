@@ -94,10 +94,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     swapApproveTxId: swapApproveContext.id,
   }
 
-  var beforeApproveTimestamp: number | undefined
-  var afterApproveTimestamp: number | undefined
-  var beforeSwapExecutionTimestamp: number | undefined
-  var afterSwapExecutionTimestamp: number | undefined
+  let beforeApproveTimestamp: number | undefined
+  let afterApproveTimestamp: number | undefined
+  let beforeSwapExecutionTimestamp: number | undefined
+  let afterSwapExecutionTimestamp: number | undefined
 
   try {
     // Navigate to swap pending screen
@@ -155,11 +155,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const timeMetrics: SwapTimeMetrics = {
       quoteRequestTimestamp: quoteRequestAt,
-      quoteRequestElapsedTime: quoteResponseAt - quoteRequestAt,
-      sendApprovalElapsedTime: afterApproveTimestamp - beforeApproveTimestamp,
-      sendSwapElapsedTime: afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp,
-      totalElapsedTime: afterSwapExecutionTimestamp - quoteRequestAt,
-      quoteToTransactionElapsedTime: beforeSwapExecutionTimestamp - quoteResponseAt,
+      quoteRequestElapsedTimeInMs: quoteResponseAt - quoteRequestAt,
+      sendApprovalElapsedTimeInMs: afterApproveTimestamp - beforeApproveTimestamp,
+      sendSwapElapsedTimeInMs: afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp,
+      totalElapsedTimeInMs: afterSwapExecutionTimestamp - quoteRequestAt,
+      quoteToTransactionElapsedTimeInMs: beforeSwapExecutionTimestamp - quoteResponseAt,
     }
 
     yield put(swapSuccess())
@@ -172,17 +172,17 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     const finishTime = Date.now()
     const timeMetrics: SwapTimeMetrics = {
       quoteRequestTimestamp: quoteRequestAt,
-      quoteRequestElapsedTime: quoteResponseAt - quoteRequestAt,
-      sendApprovalElapsedTime:
+      quoteRequestElapsedTimeInMs: quoteResponseAt - quoteRequestAt,
+      sendApprovalElapsedTimeInMs:
         beforeApproveTimestamp && afterApproveTimestamp
           ? afterApproveTimestamp - beforeApproveTimestamp
           : undefined,
-      sendSwapElapsedTime:
+      sendSwapElapsedTimeInMs:
         beforeSwapExecutionTimestamp && afterSwapExecutionTimestamp
           ? afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp
           : undefined,
-      totalElapsedTime: finishTime - quoteRequestAt,
-      quoteToTransactionElapsedTime: beforeSwapExecutionTimestamp
+      totalElapsedTimeInMs: finishTime - quoteRequestAt,
+      quoteToTransactionElapsedTimeInMs: beforeSwapExecutionTimestamp
         ? beforeSwapExecutionTimestamp - quoteResponseAt
         : undefined,
     }

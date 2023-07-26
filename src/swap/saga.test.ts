@@ -118,7 +118,7 @@ describe(swapSubmitSaga, () => {
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
       quoteRequestTimestamp: 5000,
-      quoteRequestElapsedTime: 1000,
+      quoteRequestElapsedTimeInMs: 1000,
       totalElapsedTime: expect.any(Number),
       sendApprovalElapsedTime: expect.any(Number),
       sendSwapElapsedTime: expect.any(Number),
@@ -151,11 +151,11 @@ describe(swapSubmitSaga, () => {
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
       quoteRequestTimestamp: 5000,
-      quoteRequestElapsedTime: 1000,
-      totalElapsedTime: expect.any(Number),
-      sendApprovalElapsedTime: undefined,
-      sendSwapElapsedTime: undefined,
-      quoteToTransactionElapsedTime: undefined,
+      quoteRequestElapsedTimeInMs: 1000,
+      totalElapsedTimeInMs: expect.any(Number),
+      sendApprovalElapsedTimeInMs: undefined,
+      sendSwapElapsedTimeInMs: undefined,
+      quoteToTransactionElapsedTimeInMs: undefined,
     })
   })
 
