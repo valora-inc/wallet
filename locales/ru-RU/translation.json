@@ -1062,7 +1062,11 @@
     "sendTransaction": "{{dappName}} требуется отправить транзакцию Celo.",
     "decryptPayload": "{{dappName}} требуется расшифровать полезные данные.",
     "computeSharedSecret": "{{dappName}} требуется создать секреты.",
-    "transactionDataCopied": "Данные транзакции скопированы"
+    "transactionDataCopied": "Данные транзакции скопированы",
+    "unsupportedChain": {
+      "title": "Неподдерживаемая цепь",
+      "description": "{{dappName}} запрашивает это действие на цепочке, не поддерживаемой {{appName}}. Пожалуйста, убедитесь, что Celo является активной цепочкой на стороне dapp."
+    }
   },
   "sessionInfo": "Это приложение может запросить выполнение следующих действий:",
   "description": {
