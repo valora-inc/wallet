@@ -1058,7 +1058,11 @@
     "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
-    "transactionDataCopied": "İşlem verileri kopyalandı"
+    "transactionDataCopied": "İşlem verileri kopyalandı",
+    "unsupportedChain": {
+      "title": "Desteklenmeyen zincir",
+      "description": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+    }
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
