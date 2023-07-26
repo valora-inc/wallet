@@ -1062,7 +1062,11 @@
     "sendTransaction": "{{dappName}} chce wysłać transakcję Celo.",
     "decryptPayload": "{{dappName}} chce odszyfrować ładunek danych.",
     "computeSharedSecret": "{{dappName}} chce wygenerować tajemnice.",
-    "transactionDataCopied": "Dane transakcji zostały skopiowane"
+    "transactionDataCopied": "Dane transakcji zostały skopiowane",
+    "unsupportedChain": {
+      "title": "Nieobsługiwany łańcuch",
+      "description": "{{dappName}} żąda tej akcji na łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie aplikacji."
+    }
   },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
   "description": {
