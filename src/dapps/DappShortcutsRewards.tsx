@@ -5,6 +5,8 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappShortcutsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { navigate } from 'src/navigator/NavigationService'
@@ -33,6 +35,12 @@ function DappShortcutsRewards() {
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
 
   useEffect(() => {
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_rewards_screen_open, {
+      numRewards: positionsWithClaimableRewards.length,
+    })
+  }, [])
+
+  useEffect(() => {
     setClaimablePositions((prev) => {
       // update the displayed rewards in place, so they do not change order and
       // claimed rewards can remain on the screen even if the reward disappears
@@ -58,30 +66,44 @@ function DappShortcutsRewards() {
     })
   }, [positionsWithClaimableRewards])
 
-  const createConfirmClaimRewardHandler = (position: ClaimablePosition) => () => {
-    if (!address) {
-      // should never happen
-      Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
-      return
-    }
+  const createConfirmClaimRewardHandler =
+    (position: ClaimablePosition, claimableValueUsd: BigNumber) => () => {
+      if (!address) {
+        // should never happen
+        Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
+        return
+      }
 
-    const rewardId = getClaimableRewardId(position.address, position.claimableShortcut)
-    dispatch(
-      triggerShortcut({
-        id: rewardId,
-        appName: position.appName,
-        appImage: position.displayProps.imageUrl,
-        data: {
-          address,
-          appId: position.appId,
-          network: 'celo',
-          positionAddress: position.address,
-          shortcutId: position.claimableShortcut.id,
-        },
+      const { appName, displayProps, claimableShortcut, appId } = position
+      const rewardId = getClaimableRewardId(position.address, claimableShortcut)
+
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
+        appName,
+        shortcutId: claimableShortcut.id,
+        rewardId,
+        appId,
+        network: 'celo',
+        rewardTokens: claimableShortcut.claimableTokens.map((token) => token.symbol).join(', '),
+        rewardAmounts: claimableShortcut.claimableTokens.map((token) => token.balance).join(', '),
+        claimableValueUsd: claimableValueUsd.toString(),
       })
-    )
-    navigate(Screens.DappShortcutTransactionRequest, { rewardId })
-  }
+
+      dispatch(
+        triggerShortcut({
+          id: rewardId,
+          appName,
+          appImage: displayProps.imageUrl,
+          data: {
+            address,
+            appId,
+            network: 'celo',
+            positionAddress: position.address,
+            shortcutId: claimableShortcut.id,
+          },
+        })
+      )
+      navigate(Screens.DappShortcutTransactionRequest, { rewardId })
+    }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
     let claimableValueUsd = new BigNumber(0)
@@ -114,7 +136,7 @@ function DappShortcutsRewards() {
                 </React.Fragment>
               ))}
             </Text>
-            {claimableValueUsd && (
+            {claimableValueUsd.gt(0) && (
               <TokenDisplay
                 style={styles.rewardFiatAmount}
                 amount={claimableValueUsd}
@@ -125,7 +147,7 @@ function DappShortcutsRewards() {
             )}
           </View>
           <Button
-            onPress={createConfirmClaimRewardHandler(item)}
+            onPress={createConfirmClaimRewardHandler(item, claimableValueUsd)}
             text={
               item.status === 'success'
                 ? t('dappShortcuts.claimRewardsScreen.claimedLabel')
