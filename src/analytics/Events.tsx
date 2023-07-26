@@ -613,6 +613,17 @@ export enum BuilderHooksEvents {
   hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
 }
 
+export enum DappShortcutsEvents {
+  dapp_shortcuts_rewards_screen_open = 'dapp_shortcuts_rewards_screen_open', // When the rewards screen is mounted
+  dapp_shortcuts_reward_claim_start = 'dapp_shortcuts_reward_claim_start', // When the claim button is pressed
+  dapp_shortcuts_reward_claim_success = 'dapp_shortcuts_reward_claim_success', // When the claim shortcut succeeds
+  dapp_shortcuts_reward_claim_error = 'dapp_shortcuts_reward_claim_error', // When the claim shortcut fails
+  dapp_shortcuts_reward_tx_propose = 'dapp_shortcuts_reward_tx_propose', // When the user is shown the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_tx_copy', // When the user copies the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted', // When the user confirms the transaction via the bottom sheet
+  dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected', // When the user rejects the transaction via the bottom sheet
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -645,3 +656,4 @@ export type AnalyticsEventType =
   | AssetsEvents
   | NftEvents
   | BuilderHooksEvents
+  | DappShortcutsEvents

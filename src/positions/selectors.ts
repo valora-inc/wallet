@@ -106,8 +106,8 @@ export const positionsWithClaimableRewardsSelector = createSelector(
             ...rest,
             claimableShortcut,
             status:
-              triggeredShortcuts[getClaimableRewardId(position.address, claimableShortcut)] ??
-              'idle',
+              triggeredShortcuts[getClaimableRewardId(position.address, claimableShortcut)]
+                ?.status ?? 'idle',
           })
         }
       })

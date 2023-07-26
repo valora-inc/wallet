@@ -2185,10 +2185,6 @@
             ],
             "type": "object"
         },
-        "Record<string,Status>": {
-            "additionalProperties": false,
-            "type": "object"
-        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -2237,6 +2233,7 @@
                 "DAppsExplorerScreen",
                 "DappKitAccountScreen",
                 "DappKitSignTxScreen",
+                "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
                 "Debug",
                 "DrawerNavigator",
@@ -3960,7 +3957,7 @@
                     "$ref": "#/definitions/Status"
                 },
                 "triggeredShortcutsStatus": {
-                    "$ref": "#/definitions/Record<string,Status>"
+                    "$ref": "#/definitions/TriggeredShortcuts"
                 }
             },
             "required": [
@@ -4934,6 +4931,10 @@
                 "VERIFICATION_REWARD"
             ],
             "type": "string"
+        },
+        "TriggeredShortcuts": {
+            "additionalProperties": false,
+            "type": "object"
         },
         "TxHashToDisplayInfo": {
             "additionalProperties": {

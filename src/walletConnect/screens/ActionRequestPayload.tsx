@@ -1,22 +1,13 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
-import Clipboard from '@react-native-clipboard/clipboard'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import Toast from 'react-native-simple-toast'
 import { useSelector } from 'react-redux'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Touchable from 'src/components/Touchable'
+import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { activeDappSelector } from 'src/dapps/selectors'
-import CopyIcon from 'src/icons/CopyIcon'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { vibrateInformative } from 'src/styles/hapticFeedback'
-import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 import {
   getDefaultRequestTrackedProperties,
   getDefaultSessionTrackedProperties,
@@ -52,22 +43,13 @@ function ActionRequestPayload(props: Props) {
     [method, params]
   )
 
-  const handleCopyRequestPayload = () => {
-    Clipboard.setString(moreInfoString)
-    vibrateInformative()
-
+  const handleTrackCopyRequestPayload = () => {
     const defaultTrackedProps = {
       ...getDefaultSessionTrackedProperties(props.session, activeDapp),
       ...getDefaultRequestTrackedProperties(props.request),
     }
 
     ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, defaultTrackedProps)
-
-    Toast.showWithGravity(
-      t('walletConnectRequest.transactionDataCopied'),
-      Toast.SHORT,
-      Toast.BOTTOM
-    )
   }
 
   if (!moreInfoString) {
@@ -75,44 +57,14 @@ function ActionRequestPayload(props: Props) {
   }
 
   return (
-    <View style={styles.container} testID="WalletConnectActionRequest/RequestPayload">
-      <View style={styles.transactionDataContainer}>
-        <Text style={styles.transactionDataLabel}>
-          {t('walletConnectRequest.transactionDataLabel')}
-        </Text>
-        <Text testID="DappData" style={fontStyles.small} numberOfLines={1} ellipsizeMode="tail">
-          {moreInfoString}
-        </Text>
-      </View>
-      <Touchable
-        hitSlop={variables.iconHitslop}
-        onPress={handleCopyRequestPayload}
-        testID="WalletConnectActionRequest/RequestPayload/Copy"
-      >
-        <CopyIcon />
-      </Touchable>
-    </View>
+    <DataFieldWithCopy
+      label={t('walletConnectRequest.transactionDataLabel')}
+      value={moreInfoString}
+      copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
+      testID="WalletConnectRequest/ActionRequestPayload"
+      onCopy={handleTrackCopyRequestPayload}
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: Spacing.Regular16,
-    backgroundColor: colors.gray1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
-    marginTop: Spacing.Smallest8,
-    marginBottom: Spacing.Large32,
-  },
-  transactionDataContainer: {
-    flex: 1,
-    marginRight: Spacing.Regular16,
-  },
-  transactionDataLabel: {
-    ...fontStyles.small600,
-    marginBottom: 4,
-  },
-})
 
 export default ActionRequestPayload
