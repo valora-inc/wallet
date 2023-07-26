@@ -1327,10 +1327,10 @@ interface DappShortcutsProperties {
   }
   [DappShortcutsEvents.dapp_shortcuts_reward_claim_success]: DappShortcutClaimRewardEvent
   [DappShortcutsEvents.dapp_shortcuts_reward_claim_error]: DappShortcutClaimRewardEvent
-  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_propose]: DappShortcutClaimRewardEvent
-  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_copy]: DappShortcutClaimRewardEvent
-  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_accepted]: DappShortcutClaimRewardEvent
-  [DappShortcutsEvents.dapp_shortcuts_reward_transaction_rejected]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_propose]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_copy]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: DappShortcutClaimRewardEvent
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

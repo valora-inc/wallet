@@ -30,7 +30,7 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
   const pendingAcceptShortcut = triggeredShortcuts[rewardId]
 
   useEffect(() => {
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_propose, {
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_propose, {
       appName: pendingAcceptShortcut.appName,
       rewardId,
     })
@@ -44,7 +44,7 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
     }
 
     dispatch(executeShortcut(rewardId))
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_accepted, {
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted, {
       appName: pendingAcceptShortcut.appName,
       rewardId,
     })
@@ -54,7 +54,7 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
     if (pendingAcceptShortcut) {
       dispatch(denyExecuteShortcut(rewardId))
 
-      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_rejected, {
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected, {
         appName: pendingAcceptShortcut.appName,
         rewardId,
       })
@@ -63,7 +63,7 @@ function DappShortcutTransactionRequest({ route: { params }, handleContentLayout
 
   const handleTrackCopyTransactionDetails = () => {
     if (pendingAcceptShortcut) {
-      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_transaction_copy, {
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_tx_copy, {
         appName: pendingAcceptShortcut.appName,
         rewardId,
       })

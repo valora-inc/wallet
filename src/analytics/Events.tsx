@@ -618,10 +618,10 @@ export enum DappShortcutsEvents {
   dapp_shortcuts_reward_claim_start = 'dapp_shortcuts_reward_claim_start', // When the claim button is pressed
   dapp_shortcuts_reward_claim_success = 'dapp_shortcuts_reward_claim_success', // When the claim shortcut succeeds
   dapp_shortcuts_reward_claim_error = 'dapp_shortcuts_reward_claim_error', // When the claim shortcut fails
-  dapp_shortcuts_reward_transaction_propose = 'dapp_shortcuts_reward_transaction_propose', // When the user is shown the transaction details via the bottom sheet
-  dapp_shortcuts_reward_transaction_copy = 'dapp_shortcuts_reward_transaction_copy', // When the user copies the transaction details via the bottom sheet
-  dapp_shortcuts_reward_transaction_accepted = 'dapp_shortcuts_reward_transaction_accepted', // When the user confirms the transaction via the bottom sheet
-  dapp_shortcuts_reward_transaction_rejected = 'dapp_shortcuts_reward_transaction_rejected', // When the user rejects the transaction via the bottom sheet
+  dapp_shortcuts_reward_tx_propose = 'dapp_shortcuts_reward_transaction_propose', // When the user is shown the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_transaction_copy', // When the user copies the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_transaction_accepted', // When the user confirms the transaction via the bottom sheet
+  dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_transaction_rejected', // When the user rejects the transaction via the bottom sheet
 }
 
 export type AnalyticsEventType =
