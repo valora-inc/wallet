@@ -1,6 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import AttentionIcon from 'src/icons/Attention'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -10,14 +9,13 @@ interface Props {
   title: string
   description: string
   ctaLabel?: string | null
+  style?: StyleProp<ViewStyle>
   onPressCta?: () => void
 }
 
-export function Warning({ title, description, ctaLabel, onPressCta }: Props) {
-  const { t } = useTranslation()
-
+export function Warning({ title, description, ctaLabel, style, onPressCta }: Props) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.row}>
         <AttentionIcon color={Colors.goldDark} />
         <Text style={styles.titleText}>{title}</Text>
@@ -27,7 +25,7 @@ export function Warning({ title, description, ctaLabel, onPressCta }: Props) {
 
       {ctaLabel && onPressCta && (
         <Text style={styles.learnMoreText} onPress={onPressCta}>
-          {t('swapScreen.maxSwapAmountWarning.learnMore')}
+          {ctaLabel}
         </Text>
       )}
     </View>
@@ -36,7 +34,6 @@ export function Warning({ title, description, ctaLabel, onPressCta }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
     paddingVertical: Spacing.Regular16,
     backgroundColor: Colors.yellowFaint,
