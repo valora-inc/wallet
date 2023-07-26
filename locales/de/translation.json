@@ -1058,7 +1058,11 @@
     "sendTransaction": "{{dappName}} möchte sich eine Celo-Transaktion senden.",
     "decryptPayload": "{{dappName}} möchte sich eine Daten-Nutzlast entschlüsseln.",
     "computeSharedSecret": "{{dappName}} möchte sich Geheimnisse erzeugen.",
-    "transactionDataCopied": "Transaktionsdaten kopiert"
+    "transactionDataCopied": "Transaktionsdaten kopiert",
+    "unsupportedChain": {
+      "title": "Nicht unterstützte Kette",
+      "description": "{{dappName}} diese Aktion auf einer Kette anfordert, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
+    }
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
   "description": {
