@@ -2,7 +2,10 @@ import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import Warning from 'src/components/Warning'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
@@ -15,9 +18,10 @@ import { selectSessionFromTopic } from 'src/walletConnect/selectors'
 interface Props {
   version: 2
   pendingAction: Web3WalletTypes.EventArguments['session_request']
+  supportedChains: string[]
 }
 
-function ActionRequest({ pendingAction }: Props) {
+function ActionRequest({ pendingAction, supportedChains }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -40,8 +44,40 @@ function ActionRequest({ pendingAction }: Props) {
     dappName
   )
 
+  const chainId = pendingAction.params.chainId
+
+  // Reject and warn if the chain is not supported
+  // Note: we still allow personal_sign on unsupported chains (Cred Protocol does this)
+  // as this does not depend on the chainId
+  if (
+    !supportedChains.includes(chainId) &&
+    pendingAction.params.request.method !== SupportedActions.personal_sign
+  ) {
+    return (
+      <RequestContent
+        type="dismiss"
+        onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('UNSUPPORTED_CHAINS')))}
+        dappName={dappName}
+        dappImageUrl={dappImageUrl}
+        title={t('confirmTransaction')}
+        description={description}
+        testId="WalletConnectActionRequest"
+      >
+        <Warning
+          title={t('walletConnectRequest.unsupportedChain.title', { dappName, chainId })}
+          description={t('walletConnectRequest.unsupportedChain.description', {
+            dappName,
+            chainId,
+          })}
+          style={styles.warning}
+        />
+      </RequestContent>
+    )
+  }
+
   return (
     <RequestContent
+      type="confirm"
       onAccept={() => {
         dispatch(acceptRequest(pendingAction))
       }}
@@ -59,5 +95,11 @@ function ActionRequest({ pendingAction }: Props) {
     </RequestContent>
   )
 }
+
+const styles = StyleSheet.create({
+  warning: {
+    marginBottom: Spacing.Thick24,
+  },
+})
 
 export default ActionRequest

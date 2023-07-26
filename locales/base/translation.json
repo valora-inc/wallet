@@ -1060,7 +1060,11 @@
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
     "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
     "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataCopied": "Transaction data copied",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp."
+    }
   },
   "sessionInfo": "This application may ask to perform the following actions:",
   "description": {

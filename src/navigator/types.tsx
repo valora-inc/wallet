@@ -333,6 +333,7 @@ export type StackParamList = {
         type: WalletConnectRequestType.Action
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
+        supportedChains: string[]
       }
     | {
         type: WalletConnectRequestType.Session
