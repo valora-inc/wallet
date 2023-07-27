@@ -1338,7 +1338,8 @@
       "claimButton": "İddia",
       "claimedLabel": "Talep Edildi",
       "rewardLabel": "Mevcut ödül",
-      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz"
+      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz",
+      "confirmingReward": "ONAYLANIYOR"
     },
     "claimRewardFailure": "Ödülünüzü talep ederken bir hata oluştu, lütfen daha sonra tekrar deneyin"
   },
