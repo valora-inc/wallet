@@ -4,6 +4,7 @@ import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { SwapEvents } from 'src/analytics/Events'
+import { SwapTimeMetrics } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -53,6 +54,7 @@ function* handleSendSwapTransaction(
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
+  const swapSubmittedAt = Date.now()
   const {
     price,
     guaranteedPrice,
@@ -68,6 +70,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ? ('buyAmount' as const)
       : ('sellAmount' as const)
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
+  const { quoteReceivedAt } = action.payload
 
   const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
@@ -91,6 +94,13 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     swapExecuteTxId: swapExecuteContext.id,
     swapApproveTxId: swapApproveContext.id,
   }
+
+  let quoteToTransactionElapsedTimeInMs: number | undefined
+
+  const getTimeMetrics = (): SwapTimeMetrics => ({
+    quoteToUserConfirmsSwapElapsedTimeInMs: swapSubmittedAt - quoteReceivedAt,
+    quoteToTransactionElapsedTimeInMs,
+  })
 
   try {
     // Navigate to swap pending screen
@@ -136,18 +146,29 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     yield* put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
 
+    const beforeSwapExecutionTimestamp = Date.now()
+    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
     yield* call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
       swapExecuteContext
     )
+
+    const timeMetrics = getTimeMetrics()
+
     yield* put(swapSuccess())
     vibrateSuccess()
-    ValoraAnalytics.track(SwapEvents.swap_execute_success, defaultSwapExecuteProps)
+    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
+      ...defaultSwapExecuteProps,
+      ...timeMetrics,
+    })
   } catch (error) {
+    const timeMetrics = getTimeMetrics()
+
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
+      ...timeMetrics,
       error: error.message,
     })
     yield* put(swapError())

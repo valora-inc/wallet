@@ -1211,6 +1211,10 @@ type SwapQuoteEvent = SwapEvent & {
   provider: string
 }
 
+export interface SwapTimeMetrics {
+  quoteToTransactionElapsedTimeInMs?: number // The elapsed time since the quote was received until the swap transaction is sent to the blockchain
+  quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
+}
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1236,17 +1240,19 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
-    fromTokenBalance: string
-    swapExecuteTxId: string
-    swapApproveTxId: string
-  }
-  [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
-    error: string
-    fromTokenBalance: string
-    swapExecuteTxId: string
-    swapApproveTxId: string
-  }
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent &
+    SwapTimeMetrics & {
+      fromTokenBalance: string
+      swapExecuteTxId: string
+      swapApproveTxId: string
+    }
+  [SwapEvents.swap_execute_error]: SwapQuoteEvent &
+    SwapTimeMetrics & {
+      error: string
+      fromTokenBalance: string
+      swapExecuteTxId: string
+      swapApproveTxId: string
+    }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
