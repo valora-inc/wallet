@@ -145,6 +145,13 @@ function DappShortcutsRewards() {
                 testID="DappShortcutsRewards/RewardAmountFiat"
               />
             )}
+            {item.status === 'accepting' && (
+              <View style={styles.chip}>
+                <Text style={styles.chipText}>
+                  {t('dappShortcuts.claimRewardsScreen.confirmingReward')}
+                </Text>
+              </View>
+            )}
           </View>
           <Button
             onPress={createConfirmClaimRewardHandler(item, claimableValueUsd)}
@@ -256,6 +263,19 @@ const styles = StyleSheet.create({
   },
   claimButton: {
     minWidth: 72,
+  },
+  chip: {
+    marginTop: Spacing.Smallest8,
+    backgroundColor: Colors.onboardingLightBlue,
+    paddingVertical: 2,
+    paddingHorizontal: Spacing.Smallest8,
+    borderRadius: 100,
+    alignSelf: 'flex-start', // prevent from defaulting to full width of container
+  },
+  chipText: {
+    ...fontStyles.xsmall600,
+    fontSize: 10,
+    lineHeight: 12,
   },
 })
 

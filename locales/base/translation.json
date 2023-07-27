@@ -1340,7 +1340,8 @@
       "claimButton": "Claim",
       "claimedLabel": "Claimed",
       "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward"
+      "claimSuccess": "Success! You claimed a reward",
+      "confirmingReward": "CONFIRMING"
     },
     "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
