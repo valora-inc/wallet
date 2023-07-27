@@ -62,6 +62,7 @@ import {
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { revokeVerification } from 'src/identity/actions'
+import { getKeylessBackupGate, isKeylessBackupCompleteUtil } from 'src/keylessBackup/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -371,13 +372,11 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
-  const showKeylessBackup = () => {
-    // TODO(ACT-771): get from Statsig
-    return true
-  }
+  // TODO(ACT-771): get from Statsig
+  const showKeylessBackup = getKeylessBackupGate()
 
   // TODO(ACT-684, ACT-766, ACT-767): get from redux, and also handle in progress state
-  const isKeylessBackupComplete = true
+  const isKeylessBackupComplete = isKeylessBackupCompleteUtil()
 
   return (
     <SafeAreaView style={styles.container}>
@@ -425,7 +424,7 @@ export const Account = ({ navigation, route }: Props) => {
               testID="RecoveryPhrase"
             />
           )}
-          {showKeylessBackup() && (
+          {showKeylessBackup && (
             <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}
               onPress={
