@@ -86,7 +86,7 @@ export default function NftGallery() {
                   </View>
                 }
                 origin={NftOrigin.NftGallery}
-                borderRadius={Spacing.Smallest8}
+                borderRadius={Spacing.Regular16}
               />
             </Touchable>
           )}
