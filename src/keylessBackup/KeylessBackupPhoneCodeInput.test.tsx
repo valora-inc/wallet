@@ -32,6 +32,8 @@ const renderComponent = (keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlo
 describe('KeylessBackupPhoneCodeInput', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    store.clearActions()
+    mockFetch.resetMocks()
   })
 
   it('displays the correct components and requests sms code on mount', async () => {

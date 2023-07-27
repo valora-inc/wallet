@@ -1195,4 +1195,5 @@ export const migrations = {
       pendingSessions: state.walletConnect.v2.pendingSessions,
     },
   }),
+  138: (state: any) => state,
 }
