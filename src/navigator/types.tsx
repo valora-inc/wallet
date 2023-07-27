@@ -1,6 +1,7 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
+import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
@@ -343,6 +344,8 @@ export type StackParamList = {
         type: WalletConnectRequestType.Session
         version: 2
         pendingSession: Web3WalletTypes.EventArguments['session_proposal']
+        approvedNamespaces: SessionTypes.Namespaces | null // if null, we need to reject the session
+        supportedChains: string[]
       }
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
