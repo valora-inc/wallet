@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import { nftsLoadingSelector } from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
@@ -58,6 +60,9 @@ export default function NftImage({
 }: Props) {
   const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
+  const [reloadAttempt, setReloadAttempt] = useState(0)
+
+  const fetchingNfts = useSelector(nftsLoadingSelector)
 
   const imageUrl = nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
 
@@ -69,6 +74,14 @@ export default function NftImage({
       setStatus('error')
     }
   }, [`${nft.contractAddress}-${nft.tokenId}`])
+
+  useEffect(() => {
+    // if the image failed to load before, try again when the user pulls to refresh
+    if (status === 'error' && fetchingNfts) {
+      setStatus('loading')
+      setReloadAttempt((prev) => prev + 1)
+    }
+  }, [status, fetchingNfts])
 
   function sendImageLoadEvent(error?: string) {
     const { contractAddress, tokenId } = nft
@@ -104,6 +117,7 @@ export default function NftImage({
         ErrorComponent
       ) : (
         <FastImage
+          key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
           testID={testID}
           style={{
             borderRadius,
