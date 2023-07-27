@@ -1338,7 +1338,8 @@
       "claimButton": "Réclamation",
       "claimedLabel": "Réclamé",
       "rewardLabel": "Récompense disponible",
-      "claimSuccess": "Succès ! Tu as réclamé une récompense"
+      "claimSuccess": "Succès ! Tu as réclamé une récompense",
+      "confirmingReward": "CONFIRMATION"
     },
     "claimRewardFailure": "Il y a eu une erreur lors de la réclamation de ta récompense, essaie à nouveau plus tard."
   },
