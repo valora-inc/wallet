@@ -1336,7 +1336,8 @@
       "claimButton": "索赔",
       "claimedLabel": "已申请",
       "rewardLabel": "可获得的奖励",
-      "claimSuccess": "成功！您领取了奖励"
+      "claimSuccess": "成功！您领取了奖励",
+      "confirmingReward": "确认"
     },
     "claimRewardFailure": "领取奖励时出现错误，请稍后再试。"
   },
