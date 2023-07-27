@@ -1342,7 +1342,8 @@
       "claimButton": "Roszczenie",
       "claimedLabel": "Roszczenie",
       "rewardLabel": "Dostępna nagroda",
-      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę"
+      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę",
+      "confirmingReward": "POTWIERDZENIE"
     },
     "claimRewardFailure": "Wystąpił błąd podczas odbierania nagrody, spróbuj ponownie później"
   },
