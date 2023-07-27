@@ -50,7 +50,7 @@ const mockSwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
-const mockStartTimestamp = 1000000000000
+const mockQuoteReceivedTimestamp = 1000000000000
 
 const mockSwap = {
   payload: {
@@ -67,21 +67,13 @@ const mockSwap = {
     details: {
       swapProvider: '0x',
     },
-    quoteRequestAt: mockStartTimestamp,
-    quoteResponseAt: mockStartTimestamp + 1000,
+    quoteReceivedAt: mockQuoteReceivedTimestamp,
   },
 }
 
 describe(swapSubmitSaga, () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockStartTimestamp + 5000)
-      .mockReturnValueOnce(mockStartTimestamp + 5500)
-      .mockReturnValueOnce(mockStartTimestamp + 7000)
-      .mockReturnValueOnce(mockStartTimestamp + 9000)
   })
 
   afterEach(() => {
@@ -108,6 +100,11 @@ describe(swapSubmitSaga, () => {
   ]
 
   it('should complete swap', async () => {
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide(defaultProviders)
@@ -130,16 +127,13 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteRequestTimestamp: mockStartTimestamp,
-      quoteRequestElapsedTimeInMs: 1000,
-      totalElapsedTimeInMs: 9000,
-      sendApprovalElapsedTimeInMs: 500,
-      sendSwapElapsedTimeInMs: 2000,
-      quoteToTransactionElapsedTimeInMs: 6000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
+      quoteToTransactionElapsedTimeInMs: 10000,
     })
   })
 
   it('should set swap state correctly on error', async () => {
+    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
     ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
@@ -163,11 +157,7 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteRequestTimestamp: mockStartTimestamp,
-      quoteRequestElapsedTimeInMs: 1000,
-      totalElapsedTimeInMs: expect.any(Number),
-      sendApprovalElapsedTimeInMs: undefined,
-      sendSwapElapsedTimeInMs: undefined,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
       quoteToTransactionElapsedTimeInMs: undefined,
     })
   })

@@ -151,6 +151,10 @@ describe('SwapReviewScreen', () => {
     mockFetch.resetMocks()
   })
 
+  afterEach(() => {
+    jest.spyOn(Date, 'now').mockRestore()
+  })
+
   it('should display correct info on fetch', async () => {
     mockFeeCurrency.mockImplementation(() => mockCeloAddress)
 
@@ -356,6 +360,9 @@ describe('SwapReviewScreen', () => {
   })
 
   it('should correctly dispatch swapStart', async () => {
+    const quoteReceivedTimestamp = 1000
+    jest.spyOn(Date, 'now').mockReturnValueOnce(quoteReceivedTimestamp) // quote received timestamp
+
     mockStore.dispatch = jest.fn()
     mockFetch.mockResponse(JSON.stringify(mock0xResponse))
 
@@ -371,8 +378,7 @@ describe('SwapReviewScreen', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       swapStart({
         ...mockSwap,
-        quoteRequestAt: expect.any(Number),
-        quoteResponseAt: expect.any(Number),
+        quoteReceivedAt: quoteReceivedTimestamp,
       } as any)
     )
   })

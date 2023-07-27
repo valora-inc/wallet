@@ -54,6 +54,7 @@ function* handleSendSwapTransaction(
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
+  const swapSubmittedAt = Date.now()
   const {
     price,
     guaranteedPrice,
@@ -69,8 +70,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ? ('buyAmount' as const)
       : ('sellAmount' as const)
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
-  const { quoteRequestAt, quoteResponseAt } = action.payload
-  const quoteRequestElapsedTimeInMs = quoteResponseAt - quoteRequestAt
+  const { quoteRequestAt, quoteReceivedAt: quoteReceivedAt } = action.payload
+  const quoteRequestElapsedTimeInMs = quoteReceivedAt - quoteRequestAt
 
   const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
@@ -95,16 +96,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     swapApproveTxId: swapApproveContext.id,
   }
 
-  let sendApprovalElapsedTimeInMs: number | undefined
-  let sendSwapElapsedTimeInMs: number | undefined
   let quoteToTransactionElapsedTimeInMs: number | undefined
 
-  const getTimeMetrics = (finishTime: number): SwapTimeMetrics => ({
-    quoteRequestTimestamp: quoteRequestAt,
-    quoteRequestElapsedTimeInMs,
-    sendApprovalElapsedTimeInMs,
-    sendSwapElapsedTimeInMs,
-    totalElapsedTimeInMs: finishTime - quoteRequestAt,
+  const getTimeMetrics = (): SwapTimeMetrics => ({
+    quoteToUserConfirmsSwapElapsedTimeInMs: swapSubmittedAt - quoteReceivedAt,
     quoteToTransactionElapsedTimeInMs,
   })
 
@@ -140,7 +135,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
     )
-    const beforeApproveTimestamp = Date.now()
     yield call(
       sendApproveTx,
       sellTokenAddress,
@@ -148,24 +142,20 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       allowanceTarget,
       swapApproveContext
     )
-    const afterApproveTimestamp = Date.now()
-    sendApprovalElapsedTimeInMs = afterApproveTimestamp - beforeApproveTimestamp
 
     // Execute transaction
     yield put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
 
     const beforeSwapExecutionTimestamp = Date.now()
+    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
     yield call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
       swapExecuteContext
     )
-    const afterSwapExecutionTimestamp = Date.now()
-    sendSwapElapsedTimeInMs = afterSwapExecutionTimestamp - beforeSwapExecutionTimestamp
-    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteResponseAt
 
-    const timeMetrics = getTimeMetrics(afterSwapExecutionTimestamp)
+    const timeMetrics = getTimeMetrics()
 
     yield put(swapSuccess())
     vibrateSuccess()
@@ -174,8 +164,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...timeMetrics,
     })
   } catch (error) {
-    const finishTime = Date.now()
-    const timeMetrics = getTimeMetrics(finishTime)
+    const timeMetrics = getTimeMetrics()
 
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {

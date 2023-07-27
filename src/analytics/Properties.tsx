@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1204,12 +1204,8 @@ type SwapQuoteEvent = SwapEvent & {
 }
 
 export interface SwapTimeMetrics {
-  quoteRequestTimestamp: number
-  quoteRequestElapsedTimeInMs: number
-  sendApprovalElapsedTimeInMs?: number
-  sendSwapElapsedTimeInMs?: number
-  totalElapsedTimeInMs: number
-  quoteToTransactionElapsedTimeInMs?: number
+  quoteToTransactionElapsedTimeInMs?: number // The elapsed time since the quote was received until the swap transaction is sent to the blockchain
+  quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined

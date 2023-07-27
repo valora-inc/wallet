@@ -3895,10 +3895,7 @@
                                     ],
                                     "type": "object"
                                 },
-                                "quoteRequestAt": {
-                                    "type": "number"
-                                },
-                                "quoteResponseAt": {
+                                "quoteReceivedAt": {
                                     "type": "number"
                                 },
                                 "unvalidatedSwapTransaction": {
@@ -3911,8 +3908,7 @@
                             "required": [
                                 "approveTransaction",
                                 "details",
-                                "quoteRequestAt",
-                                "quoteResponseAt",
+                                "quoteReceivedAt",
                                 "unvalidatedSwapTransaction",
                                 "userInput"
                             ],

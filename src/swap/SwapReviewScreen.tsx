@@ -64,8 +64,7 @@ export function SwapReviewScreen() {
   const walletAddress = useSelector(walletAddressSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const feeCurrency = useFeeCurrency() ?? celoAddress
-  const quoteRequestAtRef = useRef<number | undefined>()
-  const quoteResponseAtRef = useRef<number | undefined>()
+  const quoteReceivedAtRef = useRef<number | undefined>()
 
   const estimateFeeAmount = () => {
     if (!feeCurrency || !swapResponse || !celoAddress || !tokensByAddress) {
@@ -139,9 +138,8 @@ export function SwapReviewScreen() {
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
-      quoteRequestAtRef.current = Date.now()
       const response = await fetch(requestUrl)
-      quoteResponseAtRef.current = Date.now()
+      quoteReceivedAtRef.current = Date.now()
       if (!response.ok) {
         throw new Error(
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
@@ -189,13 +187,12 @@ export function SwapReviewScreen() {
       provider: swapResponse.details.swapProvider,
     })
     // Dispatch swap submission
-    if (userInput && quoteRequestAtRef.current && quoteResponseAtRef.current) {
+    if (userInput && quoteReceivedAtRef.current) {
       dispatch(
         swapStart({
           ...swapResponse,
           userInput,
-          quoteRequestAt: quoteRequestAtRef.current,
-          quoteResponseAt: quoteResponseAtRef.current,
+          quoteReceivedAt: quoteReceivedAtRef.current,
         })
       )
     }
