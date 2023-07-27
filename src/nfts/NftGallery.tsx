@@ -8,6 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftImage from 'src/nfts/NftImage'
@@ -38,7 +39,9 @@ export default function NftGallery() {
 
   return (
     <SafeAreaView testID="NftGallery" style={styles.container} edges={['top']}>
-      <DrawerTopBar middleElement={<Text>{t('nftGallery.title')}</Text>} />
+      <DrawerTopBar
+        middleElement={<Text style={headerStyles.headerTitle}>{t('nftGallery.title')}</Text>}
+      />
       {error ? (
         <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />
       ) : (
