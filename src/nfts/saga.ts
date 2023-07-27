@@ -2,6 +2,7 @@ import { fetchNfts, fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { Actions } from 'src/web3/actions'
 import networkConfig from 'src/web3/networkConfig'
@@ -38,7 +39,8 @@ export function* handleFetchNfts() {
     }
     const { result } = yield* call([response, 'json'])
     yield* put(fetchNftsCompleted(result))
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG, '@handleFetchNfts', error)
     yield* put(fetchNftsFailed({ error: error.message }))
   }

@@ -38,6 +38,7 @@ import { persistor } from 'src/redux/store'
 import { patchUpdateStatsigUser } from 'src/statsig'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { getContractKit, getWallet } from 'src/web3/contracts'
@@ -94,9 +95,10 @@ export function* initializeAccountSaga() {
     Logger.debug(TAG + '@initializeAccountSaga', 'Account creation success')
     ValoraAnalytics.track(OnboardingEvents.initialize_account_complete)
     yield* put(initializeAccountSuccess())
-  } catch (e) {
-    Logger.error(TAG, 'Failed to initialize account', e)
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
+  } catch (err) {
+    const error = ensureError(err)
+    Logger.error(TAG, 'Failed to initialize account', error)
+    ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: error.message })
     navigateClearingStack(Screens.AccounSetupFailureScreen)
   }
 }

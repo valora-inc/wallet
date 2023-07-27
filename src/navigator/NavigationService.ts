@@ -2,11 +2,11 @@
 import { sleep } from '@celo/utils/lib/async'
 import {
   CommonActions,
-  createNavigationContainerRef,
   NavigationState,
   StackActions,
+  createNavigationContainerRef,
 } from '@react-navigation/native'
-import { createRef, MutableRefObject } from 'react'
+import { MutableRefObject, createRef } from 'react'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -21,6 +21,7 @@ import {
 import { store } from 'src/redux/store'
 import { isUserCancelledError } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 
 const TAG = 'NavigationService'
 
@@ -148,7 +149,8 @@ export async function ensurePincode(): Promise<boolean> {
       await getPincodeWithBiometry()
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
       return true
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       if (!isUserCancelledError(error)) {
         Logger.warn(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
       }

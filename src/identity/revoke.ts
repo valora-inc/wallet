@@ -12,6 +12,7 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -91,9 +92,10 @@ export function* revokeVerificationSaga() {
     ValoraAnalytics.track(VerificationEvents.verification_revoke_finish, { feeless: !!mtwAddress })
     Logger.showMessage('Address revoke was successful')
   } catch (err) {
-    Logger.error(TAG + '@revokeVerification', 'Error revoking verification', err)
+    const error = ensureError(err)
+    Logger.error(TAG + '@revokeVerification', 'Error revoking verification', error)
     ValoraAnalytics.track(VerificationEvents.verification_revoke_error, {
-      error: err.message,
+      error: error.message,
       feeless: !!mtwAddress,
     })
 

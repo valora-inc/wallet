@@ -8,6 +8,7 @@ import Toast from 'react-native-simple-toast'
 import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
+import { ensureError } from 'src/utils/ensureError'
 import { readFileChunked } from 'src/utils/readFile'
 import { stylize } from 'src/utils/stylize'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -53,10 +54,11 @@ class Logger {
   error = (
     tag: string,
     message: string,
-    error?: Error,
+    unknownError?: unknown,
     shouldSanitizeError = false,
     valueToPurge?: string
   ) => {
+    const error = unknownError ? ensureError(unknownError) : undefined
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)

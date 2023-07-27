@@ -25,6 +25,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -162,7 +163,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
     })
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     const timeMetrics = getTimeMetrics()
 
     Logger.error(TAG, 'Error while swapping', error)

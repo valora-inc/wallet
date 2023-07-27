@@ -81,6 +81,7 @@ import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -425,7 +426,8 @@ function* watchAppState() {
       const newState = (yield* take(appStateChannel)) as string
       Logger.debug(`${TAG}@monitorAppState`, `App changed state: ${newState}`)
       yield* put(setAppState(newState))
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       ValoraAnalytics.track(AppEvents.app_state_error, { error: error.message })
       Logger.error(`${TAG}@monitorAppState`, `App state Error`, error)
     } finally {
@@ -554,7 +556,8 @@ export function* requestInAppReview() {
       yield* call(InAppReview.RequestInAppReview)
       yield* put(inAppReviewRequested(now))
       ValoraAnalytics.track(AppEvents.in_app_review_impression)
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
       ValoraAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
     }
