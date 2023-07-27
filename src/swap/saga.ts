@@ -70,8 +70,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ? ('buyAmount' as const)
       : ('sellAmount' as const)
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
-  const { quoteRequestAt, quoteReceivedAt: quoteReceivedAt } = action.payload
-  const quoteRequestElapsedTimeInMs = quoteReceivedAt - quoteRequestAt
+  const { quoteReceivedAt } = action.payload
 
   const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
@@ -146,7 +145,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // Execute transaction
     yield* put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
