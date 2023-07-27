@@ -1338,7 +1338,8 @@
       "claimButton": "Rivendicazione",
       "claimedLabel": "Rivendicato",
       "rewardLabel": "Premio disponibile",
-      "claimSuccess": "Successo! Hai richiesto una ricompensa"
+      "claimSuccess": "Successo! Hai richiesto una ricompensa",
+      "confirmingReward": "CONFERMA"
     },
     "claimRewardFailure": "Si è verificato un errore nel richiedere la tua ricompensa, riprova più tardi."
   },
