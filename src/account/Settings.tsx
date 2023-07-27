@@ -55,6 +55,7 @@ import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
 import {
   SettingsExpandedItem,
+  SettingsItemCta,
   SettingsItemSwitch,
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
@@ -315,6 +316,11 @@ export const Account = ({ navigation, route }: Props) => {
     navigate(Screens.WalletSecurityPrimer)
   }
 
+  const onPressDeleteKeylessBackup = () => {
+    ValoraAnalytics.track(SettingsEvents.settings_delete_keyless_backup)
+    // TODO(ACT-766): invoke API to delete and update status
+  }
+
   const wipeReduxStore = () => {
     dispatch(clearStoredAccount(account ?? '', true))
   }
@@ -367,8 +373,11 @@ export const Account = ({ navigation, route }: Props) => {
 
   const showKeylessBackup = () => {
     // TODO(ACT-771): get from Statsig
-    return false
+    return true
   }
+
+  // TODO(ACT-684, ACT-766, ACT-767): get from redux, and also handle in progress state
+  const isKeylessBackupComplete = true
 
   return (
     <SafeAreaView style={styles.container}>
@@ -416,11 +425,16 @@ export const Account = ({ navigation, route }: Props) => {
               testID="RecoveryPhrase"
             />
           )}
-          {showKeylessBackup() && ( // TODO(ACT-765): update to match designs (red/green text buttons and name)
-            <SettingsItemTextValue
+          {showKeylessBackup() && (
+            <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}
-              onPress={onPressSetUpKeylessBackup}
+              onPress={
+                isKeylessBackupComplete ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
+              }
               testID="KeylessBackup"
+              ctaText={isKeylessBackupComplete ? t('delete') : t('setup')}
+              ctaColor={isKeylessBackupComplete ? colors.warning : colors.greenUI}
+              showChevron={!isKeylessBackupComplete}
             />
           )}
           <SettingsItemTextValue
