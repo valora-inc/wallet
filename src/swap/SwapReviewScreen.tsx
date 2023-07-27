@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -64,6 +64,7 @@ export function SwapReviewScreen() {
   const walletAddress = useSelector(walletAddressSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const feeCurrency = useFeeCurrency() ?? celoAddress
+  const quoteReceivedAtRef = useRef<number | undefined>()
 
   const estimateFeeAmount = () => {
     if (!feeCurrency || !swapResponse || !celoAddress || !tokensByAddress) {
@@ -138,6 +139,7 @@ export function SwapReviewScreen() {
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
       const response = await fetch(requestUrl)
+      quoteReceivedAtRef.current = Date.now()
       if (!response.ok) {
         throw new Error(
           `Failure response fetching token swap quote. ${response.status}  ${response.statusText}`
@@ -185,8 +187,14 @@ export function SwapReviewScreen() {
       provider: swapResponse.details.swapProvider,
     })
     // Dispatch swap submission
-    if (userInput !== null) {
-      dispatch(swapStart({ ...swapResponse, userInput }))
+    if (userInput && quoteReceivedAtRef.current) {
+      dispatch(
+        swapStart({
+          ...swapResponse,
+          userInput,
+          quoteReceivedAt: quoteReceivedAtRef.current,
+        })
+      )
     }
   }
 

@@ -50,6 +50,8 @@ const mockSwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
+const mockQuoteReceivedTimestamp = 1000000000000
+
 const mockSwap = {
   payload: {
     approveTransaction: {
@@ -65,12 +67,17 @@ const mockSwap = {
     details: {
       swapProvider: '0x',
     },
+    quoteReceivedAt: mockQuoteReceivedTimestamp,
   },
 }
 
 describe(swapSubmitSaga, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  afterEach(() => {
+    jest.spyOn(Date, 'now').mockRestore()
   })
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
@@ -93,6 +100,11 @@ describe(swapSubmitSaga, () => {
   ]
 
   it('should complete swap', async () => {
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide(defaultProviders)
@@ -115,10 +127,13 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
+      quoteToTransactionElapsedTimeInMs: 10000,
     })
   })
 
   it('should set swap state correctly on error', async () => {
+    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
     ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
@@ -142,6 +157,8 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
+      quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
+      quoteToTransactionElapsedTimeInMs: undefined,
     })
   })
 

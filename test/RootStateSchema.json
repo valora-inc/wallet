@@ -3896,6 +3896,9 @@
                                     ],
                                     "type": "object"
                                 },
+                                "quoteReceivedAt": {
+                                    "type": "number"
+                                },
                                 "unvalidatedSwapTransaction": {
                                     "$ref": "#/definitions/SwapTransaction"
                                 },
@@ -3906,6 +3909,7 @@
                             "required": [
                                 "approveTransaction",
                                 "details",
+                                "quoteReceivedAt",
                                 "unvalidatedSwapTransaction",
                                 "userInput"
                             ],
