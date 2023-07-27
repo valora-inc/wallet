@@ -2,7 +2,6 @@ import { sleep } from '@celo/utils/lib/async'
 import { AnyAction } from 'redux'
 // Import the actions included in the logger blocklist below.
 import { REHYDRATE } from 'redux-persist'
-import { call, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
@@ -22,8 +21,8 @@ import { escrowSaga } from 'src/escrow/saga'
 import { Actions as ExchangeActions } from 'src/exchange/actions'
 import { exchangeSaga } from 'src/exchange/saga'
 import { feesSaga } from 'src/fees/saga'
-import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
+import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { firebaseSaga } from 'src/firebase/saga'
 import { homeSaga } from 'src/home/saga'
 import { i18nSaga } from 'src/i18n/saga'
@@ -45,11 +44,12 @@ import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
-import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
+import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { Actions as Web3Actions } from 'src/web3/actions'
 import { web3Saga } from 'src/web3/saga'
+import { call, select, spawn, take, takeEvery } from 'typed-redux-saga'
 
 const loggerBlocklist = [
   REHYDRATE,
@@ -66,12 +66,12 @@ const loggerBlocklist = [
 ]
 
 function* loggerSaga() {
-  const devModeActive: boolean = yield select(devModeSelector)
+  const devModeActive: boolean = yield* select(devModeSelector)
   if (!devModeActive) {
     return
   }
 
-  yield takeEvery('*', (action: AnyAction) => {
+  yield* takeEvery('*', (action: AnyAction) => {
     if (
       action?.type &&
       (action.type.includes('IDENTITY/') || loggerBlocklist.includes(action.type))
@@ -101,47 +101,47 @@ export function* rootSaga() {
   try {
     // Delay all sagas until rehydrate is done
     // This prevents them from running with missing state
-    yield take(REHYDRATE)
+    yield* take(REHYDRATE)
 
-    yield call(appInit)
+    yield* call(appInit)
 
     // Note, the order of these does matter in certain cases
-    yield spawn(analyticsSaga)
-    yield spawn(appVersionSaga)
-    yield spawn(appRemoteFeatureFlagSaga)
-    yield spawn(loggerSaga)
-    yield spawn(appSaga)
-    yield spawn(i18nSaga)
-    yield spawn(sentrySaga)
-    yield spawn(networkInfoSaga)
-    yield spawn(web3Saga)
-    yield spawn(accountSaga)
-    yield spawn(firebaseSaga)
-    yield spawn(tokensSaga)
-    yield spawn(positionsSaga)
-    yield spawn(localCurrencySaga)
-    yield spawn(transactionSaga)
-    yield spawn(homeSaga)
-    yield spawn(identitySaga)
-    yield spawn(recipientsSaga)
-    yield spawn(feesSaga)
-    yield spawn(stableTokenSaga)
-    yield spawn(sendSaga)
-    yield spawn(exchangeSaga)
-    yield spawn(paymentRequestSaga)
-    yield spawn(escrowSaga)
-    yield spawn(importSaga)
-    yield spawn(dappKitSaga)
-    yield spawn(checkAccountExistenceSaga)
-    yield spawn(fiatExchangesSaga)
-    yield spawn(walletConnectSaga)
-    yield spawn(superchargeSaga)
-    yield spawn(checkAndroidMobileServicesSaga)
-    yield spawn(dappsSaga)
-    yield spawn(fiatConnectSaga)
-    yield spawn(swapSaga)
-    yield spawn(keylessBackupSaga)
-    yield spawn(nftsSaga)
+    yield* spawn(analyticsSaga)
+    yield* spawn(appVersionSaga)
+    yield* spawn(appRemoteFeatureFlagSaga)
+    yield* spawn(loggerSaga)
+    yield* spawn(appSaga)
+    yield* spawn(i18nSaga)
+    yield* spawn(sentrySaga)
+    yield* spawn(networkInfoSaga)
+    yield* spawn(web3Saga)
+    yield* spawn(accountSaga)
+    yield* spawn(firebaseSaga)
+    yield* spawn(tokensSaga)
+    yield* spawn(positionsSaga)
+    yield* spawn(localCurrencySaga)
+    yield* spawn(transactionSaga)
+    yield* spawn(homeSaga)
+    yield* spawn(identitySaga)
+    yield* spawn(recipientsSaga)
+    yield* spawn(feesSaga)
+    yield* spawn(stableTokenSaga)
+    yield* spawn(sendSaga)
+    yield* spawn(exchangeSaga)
+    yield* spawn(paymentRequestSaga)
+    yield* spawn(escrowSaga)
+    yield* spawn(importSaga)
+    yield* spawn(dappKitSaga)
+    yield* spawn(checkAccountExistenceSaga)
+    yield* spawn(fiatExchangesSaga)
+    yield* spawn(walletConnectSaga)
+    yield* spawn(superchargeSaga)
+    yield* spawn(checkAndroidMobileServicesSaga)
+    yield* spawn(dappsSaga)
+    yield* spawn(fiatConnectSaga)
+    yield* spawn(swapSaga)
+    yield* spawn(keylessBackupSaga)
+    yield* spawn(nftsSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

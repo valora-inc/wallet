@@ -3,7 +3,6 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -31,6 +30,7 @@ import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
+import { call, put, select, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'swap/saga'
 
@@ -42,15 +42,15 @@ function* handleSendSwapTransaction(
   rawTx: SwapTransaction,
   transactionContext: TransactionContext
 ) {
-  const kit: ContractKit = yield call(getContractKit)
-  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+  const kit: ContractKit = yield* call(getContractKit)
+  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
   const normalizer = new TxParamsNormalizer(kit.connection)
 
-  applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
-  const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
+  applyChainIdWorkaround(rawTx, yield* call([kit.connection, 'chainId']))
+  const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
-  yield call(sendTransaction, txo, walletAddress, transactionContext)
+  yield* call(sendTransaction, txo, walletAddress, transactionContext)
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
@@ -73,7 +73,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const { quoteRequestAt, quoteReceivedAt: quoteReceivedAt } = action.payload
   const quoteRequestElapsedTimeInMs = quoteReceivedAt - quoteRequestAt
 
-  const tokenBalances: TokenBalance[] = yield select(swappableTokensSelector)
+  const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
   const fromTokenBalance = fromToken
     ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
@@ -105,14 +105,14 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
   try {
     // Navigate to swap pending screen
-    yield call(navigate, Screens.SwapExecuteScreen)
+    navigate(Screens.SwapExecuteScreen)
 
     // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
-    const maxSlippagePercent: number = yield select(maxSwapSlippagePercentageSelector)
+    const maxSlippagePercent: number = yield* select(maxSwapSlippagePercentageSelector)
 
-    const priceDiff: number = yield call(getPercentageDifference, +price, +guaranteedPrice)
+    const priceDiff: number = yield* call(getPercentageDifference, +price, +guaranteedPrice)
     if (priceDiff >= maxSlippagePercent) {
-      yield put(swapPriceChange())
+      yield* put(swapPriceChange())
       ValoraAnalytics.track(SwapEvents.swap_execute_price_change, {
         price,
         guaranteedPrice,
@@ -122,7 +122,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       return
     }
 
-    const walletAddress: string = yield select(walletAddressSelector)
+    const walletAddress = yield* select(walletAddressSelector)
 
     const amountToApprove =
       amountType === 'buyAmount'
@@ -130,12 +130,12 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         : sellAmount
 
     // Approve transaction
-    yield put(swapApprove())
+    yield* put(swapApprove())
     Logger.debug(
       TAG,
       `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
     )
-    yield call(
+    yield* call(
       sendApproveTx,
       sellTokenAddress,
       amountToApprove,
@@ -144,12 +144,13 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     )
 
     // Execute transaction
-    yield put(swapExecute())
+    yield* put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
+
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    yield call(
+    yield* call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
       swapExecuteContext
@@ -157,7 +158,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const timeMetrics = getTimeMetrics()
 
-    yield put(swapSuccess())
+    yield* put(swapSuccess())
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
@@ -172,13 +173,13 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...timeMetrics,
       error: error.message,
     })
-    yield put(swapError())
+    yield* put(swapError())
     vibrateError()
   }
 }
 
 export function* swapSaga() {
-  yield takeLatest(swapStart.type, safely(swapSubmitSaga))
+  yield* takeLatest(swapStart.type, safely(swapSubmitSaga))
 }
 
 export function* sendApproveTx(
@@ -187,14 +188,14 @@ export function* sendApproveTx(
   recipientAddress: string,
   transactionContext: TransactionContext
 ) {
-  const kit: ContractKit = yield call(getContractKit)
-  const contract: Contract = yield call(getERC20TokenContract, tokenAddress)
-  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+  const kit: ContractKit = yield* call(getContractKit)
+  const contract: Contract = yield* call(getERC20TokenContract, tokenAddress)
+  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
 
   const tx: CeloTransactionObject<boolean> = toTransactionObject(
     kit.connection,
     contract.methods.approve(recipientAddress, amount)
   )
 
-  yield call(sendTransaction, tx.txo, walletAddress, transactionContext)
+  yield* call(sendTransaction, tx.txo, walletAddress, transactionContext)
 }

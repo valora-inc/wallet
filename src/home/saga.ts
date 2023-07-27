@@ -1,15 +1,3 @@
-import {
-  call,
-  cancel,
-  cancelled,
-  delay,
-  fork,
-  put,
-  select,
-  spawn,
-  take,
-  takeLeading,
-} from 'redux-saga/effects'
 import { fetchSentEscrowPayments } from 'src/escrow/actions'
 import { notificationsChannel } from 'src/firebase/firebase'
 import { Actions, refreshAllBalances, setLoading, updateNotifications } from 'src/home/actions'
@@ -24,84 +12,96 @@ import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getConnectedAccount } from 'src/web3/saga'
+import {
+  call,
+  cancel,
+  cancelled,
+  delay,
+  fork,
+  put,
+  select,
+  spawn,
+  take,
+  takeLeading,
+} from 'typed-redux-saga'
 
 const REFRESH_TIMEOUT = 15000
 const TAG = 'home/saga'
 
 export function withLoading<Fn extends (...args: any[]) => any>(fn: Fn, ...args: Parameters<Fn>) {
   return function* withLoadingGen() {
-    yield put(setLoading(true))
+    yield* put(setLoading(true))
     try {
-      const res = yield call(fn, ...args)
+      const res = yield* call(fn, ...args)
       return res
     } finally {
-      yield put(setLoading(false))
+      yield* put(setLoading(false))
     }
   }
 }
 
 export function* refreshBalances() {
   Logger.debug(TAG, 'Fetching all balances')
-  yield call(getConnectedAccount)
-  yield put(fetchTokenBalances({ showLoading: false }))
-  yield put(fetchCurrentRate())
-  yield put(fetchSentEscrowPayments())
+  yield* call(getConnectedAccount)
+  yield* put(fetchTokenBalances({ showLoading: false }))
+  yield* put(fetchCurrentRate())
+  yield* put(fetchSentEscrowPayments())
 }
 
 export function* autoRefreshSaga() {
   while (true) {
-    if (yield select(shouldUpdateBalance)) {
-      yield put(refreshAllBalances())
+    if (yield* select(shouldUpdateBalance)) {
+      yield* put(refreshAllBalances())
     }
-    if (yield select(shouldFetchCurrentRate)) {
-      yield put(fetchCurrentRate())
+    if (yield* select(shouldFetchCurrentRate)) {
+      yield* put(fetchCurrentRate())
     }
-    yield delay(10 * 1000) // sleep 10 seconds
+    yield* delay(10 * 1000) // sleep 10 seconds
   }
 }
 
 export function* autoRefreshWatcher() {
-  while (yield take(Actions.START_BALANCE_AUTOREFRESH)) {
+  while (yield* take(Actions.START_BALANCE_AUTOREFRESH)) {
     // starts the task in the background
-    const autoRefresh = yield fork(autoRefreshSaga)
-    yield take(Actions.STOP_BALANCE_AUTOREFRESH)
-    yield cancel(autoRefresh)
+    const autoRefresh = yield* fork(autoRefreshSaga)
+    yield* take(Actions.STOP_BALANCE_AUTOREFRESH)
+    yield* cancel(autoRefresh)
   }
 }
 
 export function* watchRefreshBalances() {
-  yield call(refreshBalances)
-  yield takeLeading(
+  yield* call(refreshBalances)
+  yield* takeLeading(
     [Actions.REFRESH_BALANCES, executeShortcutSuccess.type],
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
   )
-  yield takeLeading(
+  yield* takeLeading(
     TransactionActions.NEW_TRANSACTIONS_IN_FEED,
     safely(withTimeout(REFRESH_TIMEOUT, refreshBalances))
   )
 }
 
 function* fetchNotifications() {
-  const channel = yield call(notificationsChannel)
+  const channel = yield* call(notificationsChannel)
   if (!channel) {
     return
   }
   try {
     while (true) {
-      const notifications: IdToNotification = yield take(channel)
-      yield put(updateNotifications(notifications))
+      const notifications = (yield* take(channel)) as IdToNotification
+      yield* put(updateNotifications(notifications))
     }
   } catch (error) {
     Logger.error(`${TAG}@fetchNotifications`, 'Failed to update notifications', error)
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       channel.close()
     }
   }
 }
 
 export function* homeSaga() {
-  yield spawn(watchRefreshBalances)
-  yield spawn(autoRefreshWatcher)
-  yield spawn(fetchNotifications)
+  yield* spawn(watchRefreshBalances)
+  yield* spawn(autoRefreshWatcher)
+  yield* spawn(fetchNotifications)
 }

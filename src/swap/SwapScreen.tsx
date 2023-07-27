@@ -15,6 +15,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -33,7 +34,6 @@ import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
-import Warning from 'src/swap/Warning'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
@@ -380,6 +380,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
               title={t('swapScreen.maxSwapAmountWarning.title')}
               description={t('swapScreen.maxSwapAmountWarning.body')}
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
+              style={styles.warning}
               onPressCta={onPressLearnMoreFees}
             />
           )}
@@ -387,6 +388,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
             <Warning
               title={t('swapScreen.priceImpactWarning.title')}
               description={t('swapScreen.priceImpactWarning.body')}
+              style={styles.warning}
             />
           )}
         </View>
@@ -461,6 +463,9 @@ const styles = StyleSheet.create({
   },
   exchangeRateValueText: {
     ...fontStyles.xsmall600,
+  },
+  warning: {
+    marginTop: Spacing.Thick24,
   },
 })
 

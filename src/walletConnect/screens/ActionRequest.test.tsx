@@ -97,6 +97,8 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
   }
 
+  const supportedChains = ['eip155:44787']
+
   describe('personal_sign', () => {
     const store = createMockStore({
       walletConnect: {
@@ -114,7 +116,11 @@ describe('ActionRequest with WalletConnect V2', () => {
     it('renders the correct elements', () => {
       const { getByText, getByTestId } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -134,7 +140,11 @@ describe('ActionRequest with WalletConnect V2', () => {
     it('copies the request payload', () => {
       const { getByTestId } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -146,7 +156,11 @@ describe('ActionRequest with WalletConnect V2', () => {
       pendingAction.params.request.params[0] = 'invalid hex'
       const { getByTestId } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -161,7 +175,11 @@ describe('ActionRequest with WalletConnect V2', () => {
       pendingAction.params.request.params[0] = ''
       const { getByTestId } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -175,7 +193,11 @@ describe('ActionRequest with WalletConnect V2', () => {
     it('dispatches the correct action on press allow', () => {
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -186,7 +208,11 @@ describe('ActionRequest with WalletConnect V2', () => {
     it('dispatches the correct action on dismiss bottom sheet', () => {
       const { unmount } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -197,7 +223,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     })
   })
 
-  describe('displayed dapp name falbacks', () => {
+  describe('displayed dapp name fallbacks', () => {
     const activeDapp: ActiveDapp = {
       id: 'someDappId',
       categories: ['someCategory'],
@@ -234,7 +260,11 @@ describe('ActionRequest with WalletConnect V2', () => {
 
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -270,7 +300,11 @@ describe('ActionRequest with WalletConnect V2', () => {
 
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
@@ -306,12 +340,98 @@ describe('ActionRequest with WalletConnect V2', () => {
 
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest version={2} pendingAction={pendingAction} />
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+          />
         </Provider>
       )
 
       expect(getByText('confirmTransaction')).toBeTruthy()
       expect(getByText('walletConnectRequest.signPayload, {"dappName":""}')).toBeTruthy()
+    })
+  })
+
+  describe('unsupported chain', () => {
+    it('should show a warning if the chain is not supported', () => {
+      const store = createMockStore({
+        walletConnect: {
+          sessions: [v2Session],
+        },
+      })
+
+      const { getByText, queryByText } = render(
+        <Provider store={store}>
+          <ActionRequest
+            version={2}
+            pendingAction={{
+              ...pendingAction,
+              params: {
+                ...pendingAction.params,
+                request: {
+                  ...pendingAction.params.request,
+                  method: 'eth_sendTransaction',
+                },
+                chainId: 'eip155:1', // unsupported chain
+              },
+            }}
+            supportedChains={supportedChains}
+          />
+        </Provider>
+      )
+
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.sendTransaction, {"dappName":"WalletConnect Example"}')
+      ).toBeTruthy()
+      expect(queryByText('allow')).toBeFalsy()
+      expect(getByText('dismiss')).toBeTruthy()
+      expect(
+        getByText(
+          'walletConnectRequest.unsupportedChain.title, {"dappName":"WalletConnect Example","chainId":"eip155:1"}'
+        )
+      ).toBeTruthy()
+    })
+
+    it('should not show a warning if the chain is not supported and the method is personal_sign', () => {
+      const store = createMockStore({
+        walletConnect: {
+          sessions: [v2Session],
+        },
+      })
+
+      const { getByText, queryByText } = render(
+        <Provider store={store}>
+          <ActionRequest
+            version={2}
+            pendingAction={{
+              ...pendingAction,
+              params: {
+                ...pendingAction.params,
+                request: {
+                  ...pendingAction.params.request,
+                  method: 'personal_sign',
+                },
+                chainId: 'eip155:1', // unsupported chain
+              },
+            }}
+            supportedChains={supportedChains}
+          />
+        </Provider>
+      )
+
+      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.signPayload, {"dappName":"WalletConnect Example"}')
+      ).toBeTruthy()
+      expect(getByText('allow')).toBeTruthy()
+      expect(queryByText('dismiss')).toBeFalsy()
+      expect(
+        queryByText(
+          'walletConnectRequest.unsupportedChain.title, {"dappName":"WalletConnect Example","chainId":"eip155:1"}'
+        )
+      ).toBeFalsy()
     })
   })
 })

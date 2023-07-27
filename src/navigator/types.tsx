@@ -145,6 +145,14 @@ export type StackParamList = {
     normalizedQuote: FiatConnectQuote
     fiatAccount: FiatAccount
   }
+  [Screens.KeylessBackupPhoneCodeInput]: {
+    keylessBackupFlow: KeylessBackupFlow
+    e164Number: string
+  }
+  [Screens.KeylessBackupPhoneInput]: {
+    keylessBackupFlow: KeylessBackupFlow
+    selectedCountryCodeAlpha2?: string
+  }
   [Screens.KycDenied]: {
     flow: CICOFlow
     quote: FiatConnectQuote
@@ -231,10 +239,6 @@ export type StackParamList = {
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
-  }
-  [Screens.KeylessBackupPhoneInput]: {
-    keylessBackupFlow: KeylessBackupFlow
-    selectedCountryCodeAlpha2?: string
   }
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
@@ -333,6 +337,7 @@ export type StackParamList = {
         type: WalletConnectRequestType.Action
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
+        supportedChains: string[]
       }
     | {
         type: WalletConnectRequestType.Session
