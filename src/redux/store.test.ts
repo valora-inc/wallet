@@ -275,7 +275,7 @@ describe('store state', () => {
             "idToken": null,
             "status": "idle",
           },
-          "valoraKeyshare": null
+          "valoraKeyshare": null,
         },
         "localCurrency": Object {
           "error": false,
