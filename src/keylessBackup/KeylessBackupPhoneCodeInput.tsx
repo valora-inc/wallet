@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Times from 'src/icons/Times'
+import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -13,13 +14,16 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
-import { PhoneNumberVerificationStatus } from 'src/verify/hooks'
 
 function KeylessBackupPhoneCodeInput({
   route,
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneCodeInput>) {
   const { t } = useTranslation()
+  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+    route.params.e164Number,
+    route.params.keylessBackupFlow
+  )
 
   const onPressHelp = () => {
     // TODO(ACT-815): show help bottom sheet
@@ -57,12 +61,10 @@ function KeylessBackupPhoneCodeInput({
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <VerificationCodeInput
         phoneNumber={route.params.e164Number}
-        verificationStatus={PhoneNumberVerificationStatus.NONE}
-        setSmsCode={() => {
-          /* TODO fill this in*/
-        }}
+        verificationStatus={verificationStatus}
+        setSmsCode={setSmsCode}
         onSuccess={() => {
-          /* TODO fill this in*/
+          // TODO(ACT-763): navigate to appropriate screen
         }}
         title={<Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>}
       />

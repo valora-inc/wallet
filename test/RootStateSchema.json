@@ -3876,10 +3876,17 @@
                         "status"
                     ],
                     "type": "object"
+                },
+                "valoraKeyshare": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
-                "google"
+                "google",
+                "valoraKeyshare"
             ],
             "type": "object"
         },
