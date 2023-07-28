@@ -125,7 +125,7 @@ function* createWalletConnectChannel() {
         name: APP_NAME,
         description: i18n.t('appDescription'),
         url: WEB_LINK,
-        icons: [appendPath(WEB_LINK, '/favicon.ico')],
+        icons: [appendPath(WEB_LINK, 'favicon.ico')],
         redirect: {
           native: 'celo://wallet/wc',
           universal: 'https://valoraapp.com/wc',
