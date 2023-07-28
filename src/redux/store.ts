@@ -173,4 +173,4 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
 
 const { store, persistor } = setupStore()
 setupListeners(store.dispatch)
-export { persistor, store }
+export { store, persistor }

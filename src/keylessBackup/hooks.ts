@@ -108,19 +108,18 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
       })
 
       if (response.ok) {
-        return response
+        const { keyshare }: { keyshare: string } = await response.json()
+        return keyshare
       } else {
         throw new Error(await response.text())
       }
     },
     [smsCode, phoneNumber, issueCodeCompleted],
     {
-      onSuccess: async (response?: Response) => {
-        if (!response) {
+      onSuccess: async (keyshare?: string) => {
+        if (!keyshare) {
           return
         }
-
-        const { keyshare }: { keyshare: string } = await response.json()
 
         ValoraAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_success, {
           keylessBackupFlow,
