@@ -21,7 +21,8 @@
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
-  "keylessBackupSettingsTitle": "Respaldo sin llave",
+  "keylessBackupSettingsTitle": "Recuperación de correo electrónico y teléfono",
+  "setup": "Configurar",
   "restartModalSwitchOff": {
     "header": "Reinicia la app para desactivar el modo de Ahorro de datos",
     "body": "Para activar y desactivar el modo Ahorro de datos, tendrás que reiniciar la aplicación y volver a esta pantalla.",
