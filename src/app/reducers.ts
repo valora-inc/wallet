@@ -30,8 +30,8 @@ export interface State {
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   logPhoneNumberTypeEnabled: boolean
-  googleMobileServicesAvailable: boolean | undefined
-  huaweiMobileServicesAvailable: boolean | undefined
+  googleMobileServicesAvailable?: boolean
+  huaweiMobileServicesAvailable?: boolean
   pincodeUseExpandedBlocklist: boolean
   rewardPillText?: {
     [lang: string]: string

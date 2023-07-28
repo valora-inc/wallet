@@ -2980,9 +2980,7 @@
                 "decentralizedVerificationEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
-                "googleMobileServicesAvailable",
                 "hapticFeedbackEnabled",
-                "huaweiMobileServicesAvailable",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
@@ -3138,7 +3136,6 @@
             "required": [
                 "acceptedTerms",
                 "accountCreationTime",
-                "accountToRecoverFromStoreWipe",
                 "backupCompleted",
                 "celoEducationCompleted",
                 "choseToRestoreAccount",
@@ -3158,8 +3155,7 @@
                 "pincodeType",
                 "profileUploaded",
                 "recoveringFromStoreWipe",
-                "recoveryPhraseInOnboardingStatus",
-                "startOnboardingTime"
+                "recoveryPhraseInOnboardingStatus"
             ],
             "type": "object"
         },
