@@ -21,7 +21,8 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo-Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
-  "keylessBackupSettingsTitle": "Schlüssellose Sicherung",
+  "keylessBackupSettingsTitle": "E-Mail & Telefon Wiederherstellung",
+  "setup": "Einrichten",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
     "body": "Um Datensparmodus immer wieder ein- und auszuschalten, musst du die App neu starten und zu diesem Bildschirm zurückkehren.",
