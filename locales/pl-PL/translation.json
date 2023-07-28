@@ -21,7 +21,8 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia łączenie się z Celo Network za pośrednictwem zaufanego węzła. Możesz włączyć lub wyłączyć ten tryb w każdej chwili w ustawieniach aplikacji.",
-  "keylessBackupSettingsTitle": "Kopia zapasowa bez klucza",
+  "keylessBackupSettingsTitle": "Odzyskiwanie poczty e-mail i telefonu",
+  "setup": "Ustaw",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
     "body": "Aby wielokrotnie włączać i wyłączać oszczędzanie danych, musisz ponownie uruchomić aplikację i wrócić do tego ekranu.",
