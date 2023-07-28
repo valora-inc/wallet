@@ -1079,7 +1079,7 @@
         "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
       },
       "warnSomeUnsupportedEvents": {
-        "title": "Unsupported methods",
+        "title": "Unsupported events",
         "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
       }
     }
