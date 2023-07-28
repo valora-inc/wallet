@@ -17,6 +17,7 @@ import {
   setNumberVerified,
 } from 'src/app/actions'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
+import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
@@ -39,9 +40,12 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/utils/Logger')
+jest.mock('src/keylessBackup/utils')
 
 describe('Account', () => {
   beforeEach(() => {
+    mocked(getKeylessBackupGate).mockReturnValue(false)
+    mocked(isBackupComplete).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -290,9 +294,8 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  // TODO(ACT-771): update these tests to mock statsig instead of helper function
   it('does not show keyless backup', () => {
-    // TODO(ACT-771): update this test to verify that keyless onboarding is shown when Statsig says it should be.
-    //  for now it should be sealed off for everyone.
     const store = createMockStore()
     const { queryByTestId } = render(
       <Provider store={store}>
@@ -300,6 +303,44 @@ describe('Account', () => {
       </Provider>
     )
     expect(queryByTestId('KeylessBackup')).toBeNull()
+  })
+
+  it('shows keyless backup setup when flag is enabled and not already backed up', () => {
+    mocked(getKeylessBackupGate).mockReturnValue(true)
+    mocked(isBackupComplete).mockReturnValue(false)
+    const store = createMockStore()
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(getByTestId('KeylessBackup')).toBeTruthy()
+    expect(getByText('setup')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackup'))
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SettingsEvents.settings_set_up_keyless_backup
+    )
+  })
+
+  it('shows keyless backup delete when flag is enabled and already backed up', () => {
+    mocked(getKeylessBackupGate).mockReturnValue(true)
+    mocked(isBackupComplete).mockReturnValue(true)
+    const store = createMockStore()
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(getByTestId('KeylessBackup')).toBeTruthy()
+    expect(getByText('delete')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackup'))
+    expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SettingsEvents.settings_delete_keyless_backup
+    )
   })
 
   it('can revoke the phone number successfully', async () => {

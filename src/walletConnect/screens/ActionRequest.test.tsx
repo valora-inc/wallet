@@ -23,7 +23,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     expiry: 1670411909,
     self: {
       metadata: {
-        icons: ['https://valoraapp.com//favicon.ico'],
+        icons: ['https://valoraapp.com/favicon.ico'],
         description: 'A mobile payments wallet that works worldwide',
         name: 'Valora',
         url: 'https://valoraapp.com/',
