@@ -344,7 +344,7 @@ export type StackParamList = {
         type: WalletConnectRequestType.Session
         version: 2
         pendingSession: Web3WalletTypes.EventArguments['session_proposal']
-        approvedNamespaces: SessionTypes.Namespaces | null // if null, we need to reject the session
+        namespacesToApprove: SessionTypes.Namespaces | null // if null, we need to reject the session
         supportedChains: string[]
       }
     | { type: WalletConnectRequestType.TimeOut }

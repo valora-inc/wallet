@@ -284,10 +284,10 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
     ...requiredEip155Events.filter((event) => !supportedEip155Events.includes(event)),
   ]
 
-  let approvedNamespaces: SessionTypes.Namespaces | null = null
+  let namespacesToApprove: SessionTypes.Namespaces | null = null
   try {
     // Important: this still throws if the required namespaces don't overlap with the supported ones
-    approvedNamespaces = buildApprovedNamespaces({
+    namespacesToApprove = buildApprovedNamespaces({
       proposal: session.params,
       supportedNamespaces: {
         eip155: {
@@ -307,11 +307,14 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Session,
     pendingSession: session,
-    approvedNamespaces,
+    namespacesToApprove,
     supportedChains: supportedEip155Chains,
     version: 2,
   })
 }
+
+// Export for testing
+export const _showSessionRequest = showSessionRequest
 
 function* getSupportedChains() {
   const kit: ContractKit = yield* call(getContractKit)
@@ -358,7 +361,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
   })
 }
 
-export function* acceptSession({ session, approvedNamespaces }: AcceptSession) {
+function* acceptSession({ session, approvedNamespaces }: AcceptSession) {
   const defaultTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
@@ -404,6 +407,9 @@ export function* acceptSession({ session, approvedNamespaces }: AcceptSession) {
   yield* call(handlePendingStateOrNavigateBack)
 }
 
+// Export for testing
+export const _acceptSession = acceptSession
+
 function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_proposal']) {
   if (!client) {
     // should not happen
@@ -429,10 +435,14 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
 }
 
 function* denySession({ session, reason }: DenySession) {
-  const defaultTrackedProperties: WalletConnect2Properties = yield* call(
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
+  const defaultTrackedProperties = {
+    ...defaultSessionTrackedProperties,
+    rejectReason: reason.message,
+  }
 
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defaultTrackedProperties)

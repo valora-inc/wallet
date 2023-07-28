@@ -1,4 +1,5 @@
 import { CoreTypes, SessionTypes } from '@walletconnect/types'
+import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
@@ -10,21 +11,24 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
-  Actions,
   acceptSession as acceptSessionAction,
+  Actions,
   sessionProposal as sessionProposalAction,
 } from 'src/walletConnect/actions'
+import { SupportedActions, SupportedEvents } from 'src/walletConnect/constants'
 import {
-  _applyIconFixIfNeeded,
-  _setClientForTesting,
-  acceptSession,
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
   walletConnectSaga,
+  _acceptSession,
+  _applyIconFixIfNeeded,
+  _setClientForTesting,
+  _showSessionRequest,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { createMockStore } from 'test/utils'
+import { mockAccount } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
@@ -104,6 +108,10 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
     optionalNamespaces: {},
   }
 }
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
 
 describe('getDefaultSessionTrackedProperties', () => {
   const proposerMetadata = {
@@ -208,12 +216,157 @@ describe(walletConnectSaga, () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
       type: WalletConnectRequestType.Session,
       pendingSession: sessionProposal,
+      namespacesToApprove: expect.anything(),
+      supportedChains: ['eip155:44787'],
       version: 2,
     })
   })
 })
 
-describe(acceptSession, () => {
+describe('showSessionRequest', () => {
+  const sessionProposal = createSessionProposal({
+    url: 'someUrl',
+    icons: ['someIcon'],
+    description: 'someDescription',
+    name: 'someName',
+  })
+
+  it('navigates to the screen to approve the session', async () => {
+    const state = createMockStore({}).getState()
+    await expectSaga(_showSessionRequest, sessionProposal)
+      .withState(state)
+      .provide([[select(activeDappSelector), null]])
+      .run()
+
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Session,
+      pendingSession: sessionProposal,
+      namespacesToApprove: expect.anything(),
+      supportedChains: ['eip155:44787'],
+      version: 2,
+    })
+
+    // Check the namespaces to approve are correct
+    expect((navigate as jest.Mock).mock.calls[0][1].namespacesToApprove).toMatchInlineSnapshot(`
+      Object {
+        "eip155": Object {
+          "accounts": Array [
+            "eip155:44787:0x0000000000000000000000000000000000007e57",
+          ],
+          "chains": Array [
+            "eip155:44787",
+          ],
+          "events": Array [
+            "accountsChanged",
+            "chainChanged",
+          ],
+          "methods": Array [
+            "eth_sendTransaction",
+            "eth_signTypedData",
+          ],
+        },
+      }
+    `)
+  })
+
+  it('navigates to the screen to approve the session when requiring an EIP155 namespace with unsupported chains/methods/events', async () => {
+    const state = createMockStore({}).getState()
+    const session = {
+      ...sessionProposal,
+      params: {
+        ...sessionProposal.params,
+        requiredNamespaces: {
+          ...sessionProposal.params.requiredNamespaces,
+          eip155: {
+            ...sessionProposal.params.requiredNamespaces.eip155,
+            chains: ['eip155:1'], // unsupported chain
+            methods: ['eth_signTransaction', 'some_unsupported_method'],
+            events: ['accountsChanged', 'some_unsupported_event'],
+          },
+        },
+        optionalNamespaces: {
+          eip155: {
+            chains: ['eip155:44787'], // this optional chain is supported and will be added to the approved namespaces
+            methods: ['eth_signTransaction', 'some_optional_unsupported_method'],
+            events: ['accountsChanged', 'some_optional_unsupported_event'],
+          },
+        },
+      },
+    }
+    await expectSaga(_showSessionRequest, session)
+      .withState(state)
+      .provide([[select(activeDappSelector), null]])
+      .run()
+
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Session,
+      pendingSession: session,
+      namespacesToApprove: expect.anything(),
+      supportedChains: ['eip155:44787'],
+      version: 2,
+    })
+
+    // Check the namespaces to approve are correct
+    // Note that it includes the unsupported eip155 chains/methods/events
+    // + the optional eip155 chain (because it's supported)
+    expect((navigate as jest.Mock).mock.calls[0][1].namespacesToApprove).toMatchInlineSnapshot(`
+      Object {
+        "eip155": Object {
+          "accounts": Array [
+            "eip155:1:0x0000000000000000000000000000000000007e57",
+            "eip155:44787:0x0000000000000000000000000000000000007e57",
+          ],
+          "chains": Array [
+            "eip155:1",
+            "eip155:44787",
+          ],
+          "events": Array [
+            "accountsChanged",
+            "some_unsupported_event",
+          ],
+          "methods": Array [
+            "eth_signTransaction",
+            "some_unsupported_method",
+          ],
+        },
+      }
+    `)
+  })
+
+  it('navigates to the screen to reject the session when requiring a non EIP155 namespace', async () => {
+    const state = createMockStore({}).getState()
+    const session = {
+      ...sessionProposal,
+      params: {
+        ...sessionProposal.params,
+        requiredNamespaces: {
+          solana: {
+            methods: ['solana_signTransaction', 'solana_signMessage'],
+            chains: ['solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ'],
+            events: ['some_event'],
+          },
+        },
+      },
+    }
+    await expectSaga(_showSessionRequest, session)
+      .withState(state)
+      .provide([[select(activeDappSelector), null]])
+      .run()
+
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Session,
+      pendingSession: session,
+      namespacesToApprove: null,
+      supportedChains: ['eip155:44787'],
+      version: 2,
+    })
+  })
+})
+
+describe('acceptSession', () => {
   const sessionProposal = createSessionProposal({
     url: 'someUrl',
     icons: ['someIcon'],
@@ -223,7 +376,6 @@ describe(acceptSession, () => {
   let mockClient: any
 
   beforeEach(() => {
-    jest.clearAllMocks()
     mockClient = {
       approveSession: jest.fn(),
       getActiveSessions: jest.fn(() => {
@@ -239,7 +391,20 @@ describe(acceptSession, () => {
 
   it('successfully accepts the session', async () => {
     const state = createMockStore({}).getState()
-    await expectSaga(acceptSession, acceptSessionAction(sessionProposal))
+
+    const approvedNamespaces = buildApprovedNamespaces({
+      proposal: sessionProposal.params,
+      supportedNamespaces: {
+        eip155: {
+          chains: ['eip155:44787'],
+          methods: Object.values(SupportedActions) as string[],
+          events: Object.values(SupportedEvents) as string[],
+          accounts: [`eip155:44787:${mockAccount}`],
+        },
+      },
+    })
+
+    await expectSaga(_acceptSession, acceptSessionAction(sessionProposal, approvedNamespaces))
       .withState(state)
       .provide([[call(isBottomSheetVisible, Screens.WalletConnectRequest), false]])
       .put.actionType(Actions.SESSION_CREATED)
@@ -254,64 +419,10 @@ describe(acceptSession, () => {
           "namespaces": Object {
             "eip155": Object {
               "accounts": Array [
-                "eip155:44787:0x0000000000000000000000000000000000007e57",
+                "eip155:44787:0x0000000000000000000000000000000000007E57",
               ],
               "chains": Array [
                 "eip155:44787",
-              ],
-              "events": Array [
-                "accountsChanged",
-                "chainChanged",
-              ],
-              "methods": Array [
-                "eth_sendTransaction",
-                "eth_signTypedData",
-              ],
-            },
-          },
-          "relayProtocol": "irn",
-        },
-      ]
-    `)
-  })
-
-  it('successfully accepts the session when the required chain is unsupported', async () => {
-    const state = createMockStore({}).getState()
-    await expectSaga(
-      acceptSession,
-      acceptSessionAction({
-        ...sessionProposal,
-        params: {
-          ...sessionProposal.params,
-          requiredNamespaces: {
-            ...sessionProposal.params.requiredNamespaces,
-            eip155: {
-              ...sessionProposal.params.requiredNamespaces.eip155,
-              chains: ['eip155:1'], // unsupported chain
-            },
-          },
-        },
-      })
-    )
-      .withState(state)
-      .provide([[call(isBottomSheetVisible, Screens.WalletConnectRequest), false]])
-      .put.actionType(Actions.SESSION_CREATED)
-      .put(showMessage(i18n.t('connectionSuccess', { dappName: 'someName' })))
-      .run()
-
-    expect(mockClient.approveSession).toHaveBeenCalledTimes(1)
-    // Note the approved chain below is now 1, not 44787
-    expect(mockClient.approveSession.mock.calls[0]).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "id": 1669989187506938,
-          "namespaces": Object {
-            "eip155": Object {
-              "accounts": Array [
-                "eip155:1:0x0000000000000000000000000000000000007e57",
-              ],
-              "chains": Array [
-                "eip155:1",
               ],
               "events": Array [
                 "accountsChanged",

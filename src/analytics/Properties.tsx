@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1059,6 +1059,10 @@ type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   // requestParams: any
 }
 
+type WalletConnectRequestRejectSessionProperties = WalletConnectDefaultProperties & {
+  rejectReason: string
+}
+
 type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
   denyReason: string
 }
@@ -1080,9 +1084,9 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_session_approve_error]: WalletConnectDefaultProperties & {
     error: string
   }
-  [WalletConnectEvents.wc_session_reject_start]: WalletConnectDefaultProperties
-  [WalletConnectEvents.wc_session_reject_success]: WalletConnectDefaultProperties
-  [WalletConnectEvents.wc_session_reject_error]: WalletConnectDefaultProperties & {
+  [WalletConnectEvents.wc_session_reject_start]: WalletConnectRequestRejectSessionProperties
+  [WalletConnectEvents.wc_session_reject_success]: WalletConnectRequestRejectSessionProperties
+  [WalletConnectEvents.wc_session_reject_error]: WalletConnectRequestRejectSessionProperties & {
     error: string
   }
   [WalletConnectEvents.wc_session_remove_start]: WalletConnectDefaultProperties

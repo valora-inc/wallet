@@ -19,12 +19,12 @@ import { currentAccountSelector } from 'src/web3/selectors'
 type Props = {
   version: 2
   pendingSession: Web3WalletTypes.EventArguments['session_proposal']
-  approvedNamespaces: SessionTypes.Namespaces | null
+  namespacesToApprove: SessionTypes.Namespaces | null
   supportedChains: string[]
 }
 
 // do not destructure props or else the type inference is lost
-function SessionRequest({ pendingSession, approvedNamespaces, supportedChains }: Props) {
+function SessionRequest({ pendingSession, namespacesToApprove, supportedChains }: Props) {
   const { metadata } = pendingSession.params.proposer
 
   const { t } = useTranslation()
@@ -44,14 +44,14 @@ function SessionRequest({ pendingSession, approvedNamespaces, supportedChains }:
         ]
       : []
 
-  if (!approvedNamespaces) {
-    // We couldn't build an approved namespace, so we reject the session, showing the reason
+  if (!namespacesToApprove) {
+    // We couldn't build an namespace to approve, so we reject the session, showing the reason
     // Note: for now it can only be because it's not an EVM chain
     return (
       <RequestContent
         type="dismiss"
         onDismiss={() => {
-          dispatch(denySession(pendingSession, getSdkError('UNSUPPORTED_CHAINS')))
+          dispatch(denySession(pendingSession, getSdkError('UNSUPPORTED_NAMESPACE_KEY')))
         }}
         dappName={dappName}
         dappImageUrl={dappImageUrl}
@@ -64,8 +64,8 @@ function SessionRequest({ pendingSession, approvedNamespaces, supportedChains }:
         testId="WalletConnectSessionRequest"
       >
         <Warning
-          title={t('walletConnectRequest.unsupportedChain.title', { dappName })}
-          description={t('walletConnectRequest.unsupportedChain.description', {
+          title={t('walletConnectRequest.session.failUnsupportedNamespace.title', { dappName })}
+          description={t('walletConnectRequest.session.failUnsupportedNamespace.description', {
             dappName,
           })}
           style={styles.warning}
@@ -74,58 +74,15 @@ function SessionRequest({ pendingSession, approvedNamespaces, supportedChains }:
     )
   }
 
-  let warning: React.ReactNode | null = null
-  const approvedEip155Namespace = approvedNamespaces['eip155']
-  const approvedSupportedChains = (approvedEip155Namespace?.chains ?? []).filter((chainId) =>
-    supportedChains.includes(chainId)
-  )
-  const approvedUnsupportedMethods = (approvedEip155Namespace?.methods ?? []).filter(
-    (method) => !isSupportedAction(method)
-  )
-  const approvedUnsupportedEvents = (approvedEip155Namespace?.events ?? []).filter(
-    (event) => !isSupportedEvent(event)
-  )
-  if (approvedSupportedChains.length === 0) {
-    warning = (
-      <Warning
-        title={t('walletConnectRequest.noSupportedChains.title', { dappName })}
-        description={t('walletConnectRequest.noSupportedChains.description', {
-          dappName,
-        })}
-        style={styles.warning}
-      />
-    )
-  } else if (approvedUnsupportedMethods.length > 0) {
-    warning = (
-      <Warning
-        title={t('walletConnectRequest.someUnsupportedMethods.title', { dappName })}
-        description={t('walletConnectRequest.someUnsupportedMethods.description', {
-          dappName,
-        })}
-        style={styles.warning}
-      />
-    )
-  } else if (approvedUnsupportedEvents.length > 0) {
-    warning = (
-      <Warning
-        title={t('walletConnectRequest.someUnsupportedEvents.title', { dappName })}
-        description={t('walletConnectRequest.someUnsupportedEvents.description', {
-          dappName,
-        })}
-        style={styles.warning}
-      />
-    )
-  }
-
   return (
     <RequestContent
       type="confirm"
       onAccept={() => {
         SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_connection)
-        dispatch(acceptSession(pendingSession, approvedNamespaces))
+        dispatch(acceptSession(pendingSession, namespacesToApprove))
       }}
       onDeny={() => {
-        dispatch(denySession(pendingSession, getSdkError('USER_REJECTED_METHODS')))
+        dispatch(denySession(pendingSession, getSdkError('USER_REJECTED')))
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
@@ -138,9 +95,61 @@ function SessionRequest({ pendingSession, approvedNamespaces, supportedChains }:
       requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"
     >
-      {warning}
+      <NamespacesWarning
+        namespacesToApprove={namespacesToApprove}
+        supportedChains={supportedChains}
+        dappName={dappName}
+      />
     </RequestContent>
   )
+}
+
+function NamespacesWarning({
+  namespacesToApprove,
+  supportedChains,
+  dappName,
+}: {
+  namespacesToApprove: SessionTypes.Namespaces
+  supportedChains: string[]
+  dappName: string
+}) {
+  const { t } = useTranslation()
+
+  let title: string | null = null
+  let description: string | null = null
+
+  const eip155NamespaceToApprove = namespacesToApprove['eip155']
+  const supportedChainsToApprove = (eip155NamespaceToApprove?.chains ?? []).filter((chainId) =>
+    supportedChains.includes(chainId)
+  )
+  const unsupportedMethods = (eip155NamespaceToApprove?.methods ?? []).filter(
+    (method) => !isSupportedAction(method)
+  )
+  const unsupportedEvents = (eip155NamespaceToApprove?.events ?? []).filter(
+    (event) => !isSupportedEvent(event)
+  )
+  if (supportedChainsToApprove.length === 0) {
+    title = t('walletConnectRequest.session.warnUnsupportedChains.title', { dappName })
+    description = t('walletConnectRequest.session.warnUnsupportedChains.description', {
+      dappName,
+    })
+  } else if (unsupportedMethods.length > 0) {
+    title = t('walletConnectRequest.session.warnSomeUnsupportedMethods.title', { dappName })
+    description = t('walletConnectRequest.session.warnSomeUnsupportedMethods.description', {
+      dappName,
+    })
+  } else if (unsupportedEvents.length > 0) {
+    title = t('walletConnectRequest.session.warnSomeUnsupportedEvents.title', { dappName })
+    description = t('walletConnectRequest.session.warnSomeUnsupportedEvents.description', {
+      dappName,
+    })
+  }
+
+  if (!title || !description) {
+    return null
+  }
+
+  return <Warning title={title} description={description} style={styles.warning} />
 }
 
 const styles = StyleSheet.create({
