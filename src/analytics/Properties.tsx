@@ -211,14 +211,22 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_delete_keyless_backup]: undefined
 }
 
+interface CommonKeylessBackupProps {
+  keylessBackupFlow: KeylessBackupFlow
+}
+
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
   [KeylessBackupEvents.sign_in_with_google]: undefined
   [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
-  [KeylessBackupEvents.enter_phone_number_continue]: {
-    keylessBackupFlow: KeylessBackupFlow
-  }
+  [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
 }
 
 interface OnboardingEventsProperties {
