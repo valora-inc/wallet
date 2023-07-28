@@ -17,7 +17,7 @@ import {
   setNumberVerified,
 } from 'src/app/actions'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
-import { getKeylessBackupGate, isKeylessBackupCompleteUtil } from 'src/keylessBackup/utils'
+import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
@@ -45,7 +45,7 @@ jest.mock('src/keylessBackup/utils')
 describe('Account', () => {
   beforeEach(() => {
     mocked(getKeylessBackupGate).mockReturnValue(false)
-    mocked(isKeylessBackupCompleteUtil).mockReturnValue(false)
+    mocked(isBackupComplete).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -307,7 +307,7 @@ describe('Account', () => {
 
   it('shows keyless backup setup when flag is enabled and not already backed up', () => {
     mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isKeylessBackupCompleteUtil).mockReturnValue(false)
+    mocked(isBackupComplete).mockReturnValue(false)
     const store = createMockStore()
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -318,11 +318,15 @@ describe('Account', () => {
     expect(getByText('setup')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackup'))
     expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SettingsEvents.settings_set_up_keyless_backup
+    )
   })
 
   it('shows keyless backup delete when flag is enabled and already backed up', () => {
     mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isKeylessBackupCompleteUtil).mockReturnValue(true)
+    mocked(isBackupComplete).mockReturnValue(true)
     const store = createMockStore()
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -333,6 +337,10 @@ describe('Account', () => {
     expect(getByText('delete')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackup'))
     expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SettingsEvents.settings_delete_keyless_backup
+    )
   })
 
   it('can revoke the phone number successfully', async () => {

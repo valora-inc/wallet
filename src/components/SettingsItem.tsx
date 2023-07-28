@@ -159,7 +159,7 @@ export function SettingsItemInput({
 }
 
 type SettingsItemCtaProps = {
-  ctaText?: string | null
+  ctaText: string
   ctaColor?: colors
   showChevron?: boolean
 } & BaseProps
@@ -177,14 +177,12 @@ export function SettingsItemCta({
       <View style={styles.container}>
         <Title value={title} />
         <View style={styles.right}>
-          {ctaText && (
-            <Text
-              testID={testID ? `${testID}/value` : `${title}/value`}
-              style={[styles.value, { color: ctaColor }]}
-            >
-              {ctaText}
-            </Text>
-          )}
+          <Text
+            testID={testID ? `${testID}/cta` : `${title}/cta`}
+            style={[styles.value, { color: ctaColor }]}
+          >
+            {ctaText}
+          </Text>
           {showChevron && <ForwardChevron color={ctaColor} />}
         </View>
       </View>

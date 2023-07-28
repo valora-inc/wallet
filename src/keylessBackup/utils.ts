@@ -4,4 +4,4 @@
 export const getKeylessBackupGate = () => false
 
 // TODO(ACT-684, ACT-766, ACT-767): remove when status taken from redux
-export const isKeylessBackupCompleteUtil = () => false
+export const isBackupComplete = () => false
