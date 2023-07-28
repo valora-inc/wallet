@@ -21,7 +21,8 @@
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
   "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
-  "keylessBackupSettingsTitle": "Sauvegarde sans clé",
+  "keylessBackupSettingsTitle": "Récupération des courriels et des téléphones",
+  "setup": "Configuration",
   "restartModalSwitchOff": {
     "header": "Redémarrer pour désactiver l'Économiseur de données",
     "body": "Pour activer et désactiver l'Économiseur de données, vous devrez redémarrer l'appli et revenir sur cet écran.",
