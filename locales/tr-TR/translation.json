@@ -21,7 +21,8 @@
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla Celo Ağı ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
-  "keylessBackupSettingsTitle": "Anahtarsız Yedekleme",
+  "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
+  "setup": "Oluştur",
   "restartModalSwitchOff": {
     "header": "Veri Tasarrufunu Kapatmak İçin Uygulamayı Tekrar Başlatın",
     "body": "Veri Tasarrufu'nu açmak veya kapatmak için uygulamayı yeniden başlatmanız ve bu ekrana geri dönmeniz gerekecektir.",
