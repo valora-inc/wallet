@@ -21,7 +21,8 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过信任节点与 Celo 网络通信。您可以随时在应用程序设置中更改此模式。",
-  "keylessBackupSettingsTitle": "免密钥备份",
+  "keylessBackupSettingsTitle": "电子邮件和电话恢复",
+  "setup": "设置",
   "restartModalSwitchOff": {
     "header": "重新启动以关闭数据保护模式",
     "body": "若要反复开启或关闭数据保护模式，您将需要重新启动应用程序并返回此屏幕。",
