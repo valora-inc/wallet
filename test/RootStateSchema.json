@@ -3138,7 +3138,6 @@
                 "accountCreationTime",
                 "backupCompleted",
                 "celoEducationCompleted",
-                "choseToRestoreAccount",
                 "contactDetails",
                 "defaultCountryCode",
                 "devModeActive",
@@ -3153,8 +3152,6 @@
                 "photosNUXClicked",
                 "pictureUri",
                 "pincodeType",
-                "profileUploaded",
-                "recoveringFromStoreWipe",
                 "recoveryPhraseInOnboardingStatus"
             ],
             "type": "object"
