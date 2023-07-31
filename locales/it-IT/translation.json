@@ -1782,6 +1782,9 @@
     "invalidApiUrl": "URL API di anteprima dei ganci non valido",
     "bannerTitle": "Anteprima dei ganci abilitata, toccare per disabilitarla"
   },
+  "assets": {
+    "claimRewards": "Richiedi ora"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
