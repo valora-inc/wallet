@@ -1063,6 +1063,24 @@
     "unsupportedChain": {
       "title": "Desteklenmeyen zincir",
       "description": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Desteklenmeyen zincir",
+        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyorum. Lütfen uygulama tarafında Celo'nun seçili olduğundan emin olun."
+      },
+      "warnUnsupportedChains": {
+        "title": "Desteklenmeyen zincir",
+        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Desteklenmeyen yöntemler",
+        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bazı yöntemleri belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Desteklenmeyen olaylar",
+        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bazı olayları belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
+      }
     }
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
@@ -1781,6 +1799,9 @@
     },
     "invalidApiUrl": "Geçersiz kanca önizleme API URL'si",
     "bannerTitle": "Kancalar önizlemesi etkin, devre dışı bırakmak için dokunun"
+  },
+  "assets": {
+    "claimRewards": "Ödüllerinizi Alın"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
