@@ -1786,6 +1786,9 @@
     "invalidApiUrl": "Невірна URL-адреса API для перегляду хуків",
     "bannerTitle": "Попередній перегляд хуків увімкнено, натисніть, щоб вимкнути"
   },
+  "assets": {
+    "claimRewards": "Запит винагороди"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
