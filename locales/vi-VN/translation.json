@@ -1780,5 +1780,8 @@
     "invalidApiUrl": "Invalid hooks preview API URL",
     "bannerTitle": "Hooks preview enabled, tap to disable"
   },
+  "assets": {
+    "claimRewards": "Xác nhận tiền thưởng"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
