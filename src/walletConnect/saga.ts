@@ -21,6 +21,7 @@ import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import {
@@ -48,7 +49,7 @@ import {
   getDefaultRequestTrackedProperties,
   getDefaultSessionTrackedProperties as getDefaultSessionTrackedPropertiesAnalytics,
 } from 'src/walletConnect/analytics'
-import { isSupportedAction, SupportedActions } from 'src/walletConnect/constants'
+import { isSupportedAction, SupportedActions, SupportedEvents } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   selectHasPendingState,
@@ -198,11 +199,12 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
     yield* call([client, 'pair'], { uri })
     Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
-  } catch (e) {
-    Logger.debug(TAG + '@handleInitialisePairing', e.message)
+  } catch (err) {
+    const error = ensureError(err)
+    Logger.debug(TAG + '@handleInitialisePairing', error.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
-      error: e.message,
+      error: error.message,
     })
   }
 }
@@ -249,12 +251,72 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
     ...defaultSessionTrackedProperties,
   })
 
+  const address = yield* call(getWalletAddress)
+  const { requiredNamespaces } = session.params
+
+  // Here we approve all required namespaces, but only for EVM chains.
+  // This is so we don't break existing dapps which don't specify the Celo chain as required.
+  // As of writing this, Curve, Toucan and Cred Protocol do that.
+  // We also add the Celo chain to the list of supported chains if it's not already there.
+  // The goal is to be more flexible and allow the initial connection to succeed, no matter what (EVM) chain is specified.
+  // If later the dapp actually requests an action on an unsupported chain, we will show an error.
+  // See SessionRequest and ActionRequest for more details.
+  const requiredEip155Chains = requiredNamespaces.eip155?.chains ?? []
+  const supportedEip155Chains = yield* call(getSupportedChains)
+  const approvedEip155Chains = [
+    ...supportedEip155Chains,
+    ...requiredEip155Chains.filter((chainId) => !supportedEip155Chains.includes(chainId)),
+  ]
+
+  // Here we approve all required methods, but only for EVM chains.
+  // Again, this is to be more flexible and allow the initial connection to succeed.
+  // If later an unsupported method is requested, we will show an error.
+  const requiredEip155Methods = requiredNamespaces.eip155?.methods ?? []
+  const supportedEip155Methods = Object.values(SupportedActions) as string[]
+  const approvedEip155Methods = [
+    ...supportedEip155Methods,
+    ...requiredEip155Methods.filter((method) => !supportedEip155Methods.includes(method)),
+  ]
+
+  // And similar for events
+  const requiredEip155Events = requiredNamespaces.eip155?.events ?? []
+  const supportedEip155Events = Object.values(SupportedEvents) as string[]
+  const approvedEip155Events = [
+    ...supportedEip155Events,
+    ...requiredEip155Events.filter((event) => !supportedEip155Events.includes(event)),
+  ]
+
+  let namespacesToApprove: SessionTypes.Namespaces | null = null
+  try {
+    // Important: this still throws if the required namespaces don't overlap with the supported ones
+    namespacesToApprove = buildApprovedNamespaces({
+      proposal: session.params,
+      supportedNamespaces: {
+        eip155: {
+          chains: approvedEip155Chains,
+          methods: approvedEip155Methods,
+          events: approvedEip155Events,
+          accounts: approvedEip155Chains.map((chain) => `${chain}:${address}`),
+        },
+      },
+    })
+  } catch (e) {
+    // Right now the only way this can happen is if the required chain isn't an EVM chain
+    // since we've approved all EVM chains/methods/events above.
+    Logger.warn(TAG + '@showSessionRequest', 'Failed to build approved namespaces', e)
+  }
+
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Session,
     pendingSession: session,
+    namespacesToApprove,
+    supportedChains: supportedEip155Chains,
     version: 2,
   })
 }
+
+// Export for testing
+export const _showSessionRequest = showSessionRequest
 
 function* getSupportedChains() {
   const kit: ContractKit = yield* call(getContractKit)
@@ -301,7 +363,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
   })
 }
 
-export function* acceptSession({ session }: AcceptSession) {
+function* acceptSession({ session, approvedNamespaces }: AcceptSession) {
   const defaultTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
@@ -313,44 +375,7 @@ export function* acceptSession({ session }: AcceptSession) {
       throw new Error('missing client')
     }
 
-    const address: string = yield* call(getWalletAddress)
-    const { requiredNamespaces, relays, proposer } = session.params
-
-    // Here we approve all required namespaces, but only for EVM chains.
-    // This is so we don't break existing dapps which don't specify the Celo chain as required.
-    // As of writing this, Curve, Toucan and Cred Protocol do that.
-    // We also add the Celo chain to the list of supported chains if it's not already there.
-    // The goal is to be more flexible and allow the initial connection to succeed, no matter what chain is specified.
-    // If the dapp actually requests an action on an unsupported chain, we will show an error.
-    // See ActionRequest for more details.
-    const requiredEip155Chains = requiredNamespaces.eip155?.chains ?? []
-    const supportedEip155Chains = yield* call(getSupportedChains)
-    const approvedEip155Chains = [
-      ...supportedEip155Chains,
-      ...requiredEip155Chains.filter((chainId) => !supportedEip155Chains.includes(chainId)),
-    ]
-
-    // Important: this will still throw if the required namespaces don't overlap with the supported ones
-    // This is ok for now, but ideally we would check that earlier and show a warning to the user
-    // This will be addressed later.
-    const approvedNamespaces = buildApprovedNamespaces({
-      proposal: session.params,
-      supportedNamespaces: {
-        eip155: {
-          chains: approvedEip155Chains,
-          methods: [
-            SupportedActions.eth_sign,
-            SupportedActions.eth_signTransaction,
-            SupportedActions.eth_sendTransaction,
-            SupportedActions.personal_sign,
-            SupportedActions.eth_signTypedData,
-            SupportedActions.eth_signTypedData_v4,
-          ],
-          events: ['accountsChanged', 'chainChanged'],
-          accounts: approvedEip155Chains.map((chain) => `${chain}:${address}`),
-        },
-      },
-    })
+    const { relays, proposer } = session.params
 
     yield* call([client, 'approveSession'], {
       id: session.id,
@@ -373,7 +398,8 @@ export function* acceptSession({ session }: AcceptSession) {
 
     yield* put(sessionCreated(newSession))
     yield* call(showWalletConnectionSuccessMessage, proposer.metadata.name)
-  } catch (e) {
+  } catch (err) {
+    const e = ensureError(err)
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
       ...defaultTrackedProperties,
@@ -383,6 +409,9 @@ export function* acceptSession({ session }: AcceptSession) {
 
   yield* call(handlePendingStateOrNavigateBack)
 }
+
+// Export for testing
+export const _acceptSession = acceptSession
 
 function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_proposal']) {
   if (!client) {
@@ -408,11 +437,15 @@ function* getSessionFromClient(session: Web3WalletTypes.EventArguments['session_
   return sessionValue as SessionTypes.Struct
 }
 
-function* denySession({ session }: DenySession) {
-  const defaultTrackedProperties: WalletConnect2Properties = yield* call(
+function* denySession({ session, reason }: DenySession) {
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
     session
   )
+  const defaultTrackedProperties = {
+    ...defaultSessionTrackedProperties,
+    rejectReason: reason.message,
+  }
 
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defaultTrackedProperties)
@@ -423,11 +456,12 @@ function* denySession({ session }: DenySession) {
 
     yield* call([client, 'rejectSession'], {
       id: session.id,
-      reason: getSdkError('USER_REJECTED_METHODS'),
+      reason,
     })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_success, defaultTrackedProperties)
-  } catch (e) {
+  } catch (err) {
+    const e = ensureError(err)
     Logger.debug(TAG + '@denySession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_error, {
       ...defaultTrackedProperties,
@@ -490,7 +524,8 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
 
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
     yield* call(showWalletConnectionSuccessMessage, activeSession.peer.metadata.name)
-  } catch (e) {
+  } catch (err) {
+    const e = ensureError(err)
     Logger.debug(TAG + '@acceptRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
       ...defaultTrackedProperties,
@@ -524,7 +559,8 @@ function* handleDenyRequest({ request, reason }: DenyRequest) {
     const response = formatJsonRpcError(id, reason.message)
     yield* call([client, 'respondSessionRequest'], { topic, response })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
-  } catch (e) {
+  } catch (err) {
+    const e = ensureError(err)
     Logger.debug(TAG + '@denyRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
       ...defaultTrackedProperties,
@@ -554,7 +590,8 @@ function* closeSession({ session }: CloseSession) {
     })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_success, defaultTrackedProperties)
-  } catch (e) {
+  } catch (err) {
+    const e = ensureError(err)
     Logger.debug(TAG + '@closeSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_error, {
       ...defaultTrackedProperties,

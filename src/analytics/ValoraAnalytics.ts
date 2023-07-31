@@ -24,6 +24,7 @@ import {
 } from 'src/config'
 import { store } from 'src/redux/store'
 import { getDefaultStatsigUser } from 'src/statsig'
+import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
 
@@ -138,7 +139,8 @@ class ValoraAnalytics {
       }
 
       Logger.info(TAG, 'Segment Analytics Integration initialized!')
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
     }
 

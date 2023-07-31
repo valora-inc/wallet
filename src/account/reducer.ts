@@ -18,15 +18,15 @@ export interface State {
   pincodeType: PincodeType
   backupCompleted: boolean
   accountCreationTime: number
-  startOnboardingTime: number | undefined
+  startOnboardingTime?: number
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
-  choseToRestoreAccount: boolean | undefined
-  profileUploaded: boolean | undefined
-  recoveringFromStoreWipe: boolean | undefined
-  accountToRecoverFromStoreWipe: string | undefined
+  choseToRestoreAccount?: boolean
+  profileUploaded?: boolean
+  recoveringFromStoreWipe?: boolean
+  accountToRecoverFromStoreWipe?: string
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
   celoEducationCompleted: boolean
