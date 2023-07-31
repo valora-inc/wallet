@@ -1783,5 +1783,8 @@
     },
     "invalidApiUrl": "Invalid hooks preview API URL",
     "bannerTitle": "Hooks preview enabled, tap to disable"
+  },
+  "assets": {
+    "claimRewards": "Claim Rewards"
   }
 }
