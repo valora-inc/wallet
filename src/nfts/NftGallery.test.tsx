@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import NftGallery from 'src/nfts/NftGallery'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -41,11 +42,21 @@ describe('NftGallery', () => {
     expect(getAllByTestId('NftGallery/NftImage')).toHaveLength(2)
     expect(getAllByTestId('NftGallery/NftImage')[0]).toHaveProp(
       'source',
-      expect.objectContaining({ uri: mockNftAllFields.media[0].gateway })
+      expect.objectContaining({
+        uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
     )
     expect(getAllByTestId('NftGallery/NftImage')[1]).toHaveProp(
       'source',
-      expect.objectContaining({ uri: mockNftMinimumFields.media[0].gateway })
+      expect.objectContaining({
+        uri: mockNftMinimumFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
     )
 
     // Placeholder when metadata is null

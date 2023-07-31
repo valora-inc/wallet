@@ -61,6 +61,9 @@ describe('NftFeedItem', () => {
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
       })
     )
   })
