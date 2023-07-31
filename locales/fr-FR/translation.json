@@ -1063,6 +1063,24 @@
     "unsupportedChain": {
       "title": "Chaîne non soutenue",
       "description": "{{dappName}} demande cette action sur une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que Celo est la chaîne active du côté de la dapp."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Chaîne non soutenue",
+        "description": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que Celo est sélectionné du côté de la dapp."
+      },
+      "warnUnsupportedChains": {
+        "title": "Chaîne non soutenue",
+        "description": "{{dappName}} n'a pas spécifié que Celo est une chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Méthodes non prises en charge",
+        "description": "{{dappName}} spécifie certaines méthodes qui ne sont pas prises en charge par {{appName}}. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Événements non pris en charge",
+        "description": "{{dappName}} spécifie certains événements qui ne sont pas pris en charge par {{appName}}. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu."
+      }
     }
   },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
