@@ -1782,6 +1782,9 @@
     "invalidApiUrl": "URL API de previsualización de ganchos no válida",
     "bannerTitle": "Vista previa de ganchos activada, pulsa para desactivarla"
   },
+  "assets": {
+    "claimRewards": "Reclamar recompensas"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
