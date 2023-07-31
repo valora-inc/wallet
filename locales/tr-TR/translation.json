@@ -21,7 +21,8 @@
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla Celo Ağı ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
-  "keylessBackupSettingsTitle": "Anahtarsız Yedekleme",
+  "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
+  "setup": "Oluştur",
   "restartModalSwitchOff": {
     "header": "Veri Tasarrufunu Kapatmak İçin Uygulamayı Tekrar Başlatın",
     "body": "Veri Tasarrufu'nu açmak veya kapatmak için uygulamayı yeniden başlatmanız ve bu ekrana geri dönmeniz gerekecektir.",
@@ -1058,7 +1059,11 @@
     "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
-    "transactionDataCopied": "İşlem verileri kopyalandı"
+    "transactionDataCopied": "İşlem verileri kopyalandı",
+    "unsupportedChain": {
+      "title": "Desteklenmeyen zincir",
+      "description": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+    }
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
@@ -1334,7 +1339,8 @@
       "claimButton": "İddia",
       "claimedLabel": "Talep Edildi",
       "rewardLabel": "Mevcut ödül",
-      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz"
+      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz",
+      "confirmingReward": "ONAYLANIYOR"
     },
     "claimRewardFailure": "Ödülünüzü talep ederken bir hata oluştu, lütfen daha sonra tekrar deneyin"
   },

@@ -21,7 +21,8 @@
   "dataSaver": "Economia de Dados",
   "enableDataSaver": "Ativar Economia de Dados",
   "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a rede Celo por meio de um nó confiável. Você sempre pode alterar este modo nas configurações do aplicativo.",
-  "keylessBackupSettingsTitle": "Backup sem chave",
+  "keylessBackupSettingsTitle": "Recuperação de e-mail e telefone",
+  "setup": "Configurar",
   "restartModalSwitchOff": {
     "header": "Reinicie para desativar Economia de Dados",
     "body": "Para alternar entre ativar e desativar o modo de Economia de Dados repetidamente, você precisará reiniciar o aplicativo e retornar a esta tela.",
@@ -1058,7 +1059,11 @@
     "sendTransaction": "{{dappName}} gostaria de enviar uma transação Celo.",
     "decryptPayload": "{{dappName}} gostaria de decifrar uma carga útil de dados.",
     "computeSharedSecret": "{{dappName}} gostaria de gerar segredos.",
-    "transactionDataCopied": "Dados de transação copiados"
+    "transactionDataCopied": "Dados de transação copiados",
+    "unsupportedChain": {
+      "title": "Corrente sem suporte",
+      "description": "{{dappName}} está a solicitar esta ação numa cadeia não suportada por {{appName}}. Por favor, certifique-se de que Celo é a cadeia ativa no lado do dapp."
+    }
   },
   "sessionInfo": "Este aplicativo pode pedir para executar as seguintes ações:",
   "description": {
@@ -1334,7 +1339,8 @@
       "claimButton": "Reclamação",
       "claimedLabel": "Reivindicado",
       "rewardLabel": "Prémio disponível",
-      "claimSuccess": "Sucesso! Solicitou uma recompensa"
+      "claimSuccess": "Sucesso! Solicitou uma recompensa",
+      "confirmingReward": "CONFIRMAÇÃO"
     },
     "claimRewardFailure": "Ocorreu um erro ao solicitar a sua recompensa, tente novamente mais tarde"
   },

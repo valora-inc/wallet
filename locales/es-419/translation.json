@@ -21,7 +21,8 @@
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
-  "keylessBackupSettingsTitle": "Respaldo sin llave",
+  "keylessBackupSettingsTitle": "Recuperación de correo electrónico y teléfono",
+  "setup": "Configurar",
   "restartModalSwitchOff": {
     "header": "Reinicia la app para desactivar el modo de Ahorro de datos",
     "body": "Para activar y desactivar el modo Ahorro de datos, tendrás que reiniciar la aplicación y volver a esta pantalla.",
@@ -1058,7 +1059,11 @@
     "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
     "computeSharedSecret": "{{dappName}} desea generar secretos.",
-    "transactionDataCopied": "Datos de transacción copiados"
+    "transactionDataCopied": "Datos de transacción copiados",
+    "unsupportedChain": {
+      "title": "Cadena sin soporte",
+      "description": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo es la cadena activa en el lado de la dapp."
+    }
   },
   "sessionInfo": "Esta aplicación puede solicitar realizar las siguientes acciones:",
   "description": {
@@ -1334,7 +1339,8 @@
       "claimButton": "Reclama",
       "claimedLabel": "Reclamado",
       "rewardLabel": "Recompensa disponible",
-      "claimSuccess": "¡Éxito! Has reclamado una recompensa"
+      "claimSuccess": "¡Éxito! Has reclamado una recompensa",
+      "confirmingReward": "CONFIRMAR"
     },
     "claimRewardFailure": "Se ha producido un error al reclamar tu recompensa, inténtalo de nuevo más tarde."
   },
