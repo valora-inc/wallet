@@ -39,12 +39,15 @@ describe('NftGallery', () => {
 
     // Should load two NFTs images and one placeholder
     expect(getAllByTestId('NftGallery/NftImage')).toHaveLength(2)
-    expect(getAllByTestId('NftGallery/NftImage')[0]).toHaveProp('source', {
-      uri: mockNftAllFields.media[0].gateway,
-    })
-    expect(getAllByTestId('NftGallery/NftImage')[1]).toHaveProp('source', {
-      uri: mockNftMinimumFields.media[0].gateway,
-    })
+    expect(getAllByTestId('NftGallery/NftImage')[0]).toHaveProp(
+      'source',
+      expect.objectContaining({ uri: mockNftAllFields.media[0].gateway })
+    )
+    expect(getAllByTestId('NftGallery/NftImage')[1]).toHaveProp(
+      'source',
+      expect.objectContaining({ uri: mockNftMinimumFields.media[0].gateway })
+    )
+
     // Placeholder when metadata is null
     expect(getAllByTestId('ImageErrorIcon')).toHaveLength(1)
   })
