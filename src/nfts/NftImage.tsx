@@ -10,6 +10,7 @@ import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 
 const DEFAULT_IMAGE_HEIGHT = 360
 
@@ -126,6 +127,9 @@ export default function NftImage({
           }}
           source={{
             uri: imageUrl,
+            headers: {
+              origin: networkConfig.nftsValoraAppUrl,
+            },
           }}
           onLoad={({ nativeEvent: { width, height } }) => {
             const aspectRatio = width / height

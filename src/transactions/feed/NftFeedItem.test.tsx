@@ -57,9 +57,15 @@ describe('NftFeedItem', () => {
   it('shows NFT icon with correct source when enabled from statsig', () => {
     mocked(getFeatureGate).mockReturnValue(true)
     const { getByTestId } = renderScreen({})
-    expect(getByTestId('NftFeedItem/NftIcon')).toHaveProp('source', {
-      uri: mockNftAllFields.media[0].gateway,
-    })
+    expect(getByTestId('NftFeedItem/NftIcon')).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
   })
 
   it('shows default icon when disabled from statsig', () => {
