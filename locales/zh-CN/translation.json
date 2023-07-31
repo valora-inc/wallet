@@ -1061,6 +1061,24 @@
     "unsupportedChain": {
       "title": "无支撑链",
       "description": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 Celo 是 dapp 上的活动链。"
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "无支撑链",
+        "description": "{{dappName}} 希望连接 {{appName}}不支持的链。请确保在 dapp 端选择了 Celo。"
+      },
+      "warnUnsupportedChains": {
+        "title": "无支撑链",
+        "description": "{{dappName}} 没有指定 Celo 为支持链。某些功能可能无法按预期运行。"
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "不支持的方法",
+        "description": "{{dappName}} 指定了一些 {{appName}}不支持的方法。某些功能可能无法按预期运行。"
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "不支持的事件",
+        "description": "{{dappName}} 指定了一些 {{appName}}不支持的事件。某些功能可能无法按预期运行。"
+      }
     }
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
