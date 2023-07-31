@@ -83,6 +83,11 @@ export default function NftGallery() {
                 ErrorComponent={
                   <View style={styles.errorView}>
                     <ImageErrorIcon />
+                    {item.metadata?.name && (
+                      <Text numberOfLines={2} style={styles.noNftMetadataText}>
+                        {item.metadata.name}
+                      </Text>
+                    )}
                   </View>
                 }
                 origin={NftOrigin.NftGallery}
@@ -122,6 +127,10 @@ const styles = StyleSheet.create({
   },
   lastImage: {
     marginRight: variables.width / 2 - Spacing.Smallest8,
+  },
+  noNftMetadataText: {
+    ...fontStyles.small,
+    textAlign: 'center',
   },
   noNftsView: {
     padding: Spacing.Regular16,
