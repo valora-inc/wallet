@@ -1063,6 +1063,24 @@
     "unsupportedChain": {
       "title": "Nicht unterstützte Kette",
       "description": "{{dappName}} diese Aktion auf einer Kette anfordert, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Nicht unterstützte Kette",
+        "description": "{{dappName}} mit einer Kette verbinden möchte, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo auf der Dapp-Seite ausgewählt ist."
+      },
+      "warnUnsupportedChains": {
+        "title": "Nicht unterstützte Kette",
+        "description": "{{dappName}} Celo nicht als unterstützte Kette angegeben hat. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Nicht unterstützte Methoden",
+        "description": "{{dappName}} einige Methoden angegeben, die von {{appName}}nicht unterstützt werden. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Nicht unterstützte Ereignisse",
+        "description": "{{dappName}} einige Ereignisse angegeben, die von {{appName}}nicht unterstützt werden. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+      }
     }
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
