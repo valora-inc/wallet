@@ -21,7 +21,8 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo-Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
-  "keylessBackupSettingsTitle": "Schlüssellose Sicherung",
+  "keylessBackupSettingsTitle": "E-Mail & Telefon Wiederherstellung",
+  "setup": "Einrichten",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
     "body": "Um Datensparmodus immer wieder ein- und auszuschalten, musst du die App neu starten und zu diesem Bildschirm zurückkehren.",
@@ -1058,7 +1059,11 @@
     "sendTransaction": "{{dappName}} möchte sich eine Celo-Transaktion senden.",
     "decryptPayload": "{{dappName}} möchte sich eine Daten-Nutzlast entschlüsseln.",
     "computeSharedSecret": "{{dappName}} möchte sich Geheimnisse erzeugen.",
-    "transactionDataCopied": "Transaktionsdaten kopiert"
+    "transactionDataCopied": "Transaktionsdaten kopiert",
+    "unsupportedChain": {
+      "title": "Nicht unterstützte Kette",
+      "description": "{{dappName}} diese Aktion auf einer Kette anfordert, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
+    }
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
   "description": {
@@ -1334,7 +1339,8 @@
       "claimButton": "Anspruch",
       "claimedLabel": "Beansprucht",
       "rewardLabel": "Verfügbare Belohnung",
-      "claimSuccess": "Erfolg! Du hast eine Belohnung beansprucht"
+      "claimSuccess": "Erfolg! Du hast eine Belohnung beansprucht",
+      "confirmingReward": "BESTÄTIGUNG"
     },
     "claimRewardFailure": "Beim Einfordern deiner Belohnung ist ein Fehler aufgetreten, bitte versuche es später noch einmal."
   },
