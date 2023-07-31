@@ -1,15 +1,12 @@
-import { CeloTransactionObject, CeloTxObject } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
-import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
+import { CeloTxObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
-import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { FeeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { createReclaimTransaction } from 'src/escrow/saga'
-import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
+import { FeeType, estimateFee, feeEstimated } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import {
@@ -19,13 +16,14 @@ import {
   tokensByUsdBalanceSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
 import { getWalletAddress } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
+import { call, put, select, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'fees/saga'
 
@@ -50,12 +48,12 @@ export function* estimateFeeSaga({
 }: ReturnType<typeof estimateFee>) {
   Logger.debug(`${TAG}/estimateFeeSaga`, `updating for ${feeType} ${tokenAddress} `)
 
-  const tokenBalances: TokenBalances = yield select(tokensByAddressSelector)
+  const tokenBalances: TokenBalances = yield* select(tokensByAddressSelector)
   const tokenInfo = tokenBalances[tokenAddress]
 
   if (!tokenInfo?.balance || tokenInfo.balance.isEqualTo(0)) {
     Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string or zero')
-    yield put(
+    yield* put(
       feeEstimated({
         feeType,
         tokenAddress,
@@ -77,26 +75,26 @@ export function* estimateFeeSaga({
 
     switch (feeType) {
       case FeeType.SWAP:
-        feeInfo = yield call(estimateSwapFee, tokenAddress)
+        feeInfo = yield* call(estimateSwapFee, tokenAddress)
         break
       case FeeType.SEND:
-        feeInfo = yield call(estimateSendFee, tokenAddress)
+        feeInfo = yield* call(estimateSendFee, tokenAddress)
         break
       case FeeType.EXCHANGE:
         // TODO
         break
       case FeeType.RECLAIM_ESCROW:
-        feeInfo = yield call(estimateReclaimEscrowFee, paymentID)
+        feeInfo = yield* call(estimateReclaimEscrowFee, paymentID)
         break
       case FeeType.REGISTER_DEK:
-        feeInfo = yield call(estimateRegisterDekFee)
+        feeInfo = yield* call(estimateRegisterDekFee)
         break
     }
 
     if (feeInfo) {
-      const usdFee: BigNumber = yield call(mapFeeInfoToUsdFee, feeInfo)
+      const usdFee = yield* call(mapFeeInfoToUsdFee, feeInfo)
       Logger.debug(`${TAG}/estimateFeeSaga`, `New fee is: ${usdFee.toString()}`)
-      yield put(
+      yield* put(
         feeEstimated({
           feeType,
           tokenAddress,
@@ -122,8 +120,8 @@ export function* estimateFeeSaga({
       feeType,
       tokenAddress,
     })
-    yield put(showErrorOrFallback(error, ErrorMessages.CALCULATE_FEE_FAILED))
-    yield put(
+    yield* put(showErrorOrFallback(error, ErrorMessages.CALCULATE_FEE_FAILED))
+    yield* put(
       feeEstimated({
         feeType,
         tokenAddress,
@@ -139,7 +137,7 @@ export function* estimateFeeSaga({
 }
 
 export function* estimateSendFee(tokenAddress: string) {
-  const tx: CeloTransactionObject<any> = yield call(
+  const tx = yield* call(
     buildSendTx,
     tokenAddress,
     PLACEHOLDER_AMOUNT,
@@ -147,12 +145,12 @@ export function* estimateSendFee(tokenAddress: string) {
     PLACEHOLDER_COMMENT
   )
 
-  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo)
+  const feeInfo = yield* call(calculateFeeForTx, tx.txo)
   return feeInfo
 }
 
 export function* estimateSwapFee(tokenAddress: string) {
-  const tx: CeloTransactionObject<any> = yield call(
+  const tx = yield* call(
     buildSendTx,
     tokenAddress,
     PLACEHOLDER_AMOUNT,
@@ -167,8 +165,8 @@ export function* estimateSwapFee(tokenAddress: string) {
   // account long swap routes.
   // Increased multiplier for CELO swaps because the ratio swap_fee / simple_transaction_fee is higher
 
-  const celoAddress: string = yield select(celoAddressSelector)
-  const feeInfo: FeeInfo = yield call(
+  const celoAddress = yield* select(celoAddressSelector)
+  const feeInfo = yield* call(
     calculateFeeForTx,
     tx.txo,
     tokenAddress === celoAddress ? SWAP_CELO_FEE_ESTIMATE_MULTIPLIER : SWAP_FEE_ESTIMATE_MULTIPLIER
@@ -180,39 +178,35 @@ function* estimateReclaimEscrowFee(paymentID?: string) {
   if (!paymentID) {
     throw new Error('paymentID must be set for estimating escrow reclaim fee')
   }
-  const txo: CeloTxObject<any> = yield call(createReclaimTransaction, paymentID)
-  const feeInfo: FeeInfo = yield call(calculateFeeForTx, txo)
+  const txo = yield* call(createReclaimTransaction, paymentID)
+  const feeInfo = yield* call(calculateFeeForTx, txo)
   return feeInfo
 }
 
 function* estimateRegisterDekFee() {
-  const userAddress: string = yield call(getWalletAddress)
-  const kit: ContractKit = yield call(getContractKit)
-  const accounts: AccountsWrapper = yield call([kit.contracts, kit.contracts.getAccounts])
+  const userAddress = yield* call(getWalletAddress)
+  const kit = yield* call(getContractKit)
+  const accounts = yield* call([kit.contracts, kit.contracts.getAccounts])
   const tx = accounts.setAccount('', PLACEHOLDER_DEK, userAddress)
-  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo)
+  const feeInfo = yield* call(calculateFeeForTx, tx.txo)
   return feeInfo
 }
 
 function* calculateFeeForTx(txo: CeloTxObject<any>, gasMultiplier?: number) {
-  const userAddress: string = yield call(getWalletAddress)
+  const userAddress = yield* call(getWalletAddress)
 
-  const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
-  const gasNeeded: BigNumber = yield call(estimateGas, txo, {
+  const feeCurrency = yield* call(fetchFeeCurrencySaga)
+  const gasNeeded = yield* call(estimateGas, txo, {
     from: userAddress,
     feeCurrency,
   })
 
-  const feeInfo: FeeInfo = yield call(
-    calculateFee,
-    gasNeeded.multipliedBy(gasMultiplier ?? 1),
-    feeCurrency
-  )
+  const feeInfo = yield* call(calculateFee, gasNeeded.multipliedBy(gasMultiplier ?? 1), feeCurrency)
   return feeInfo
 }
 
 function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
-  const tokensInfo: TokenBalance[] = yield select(coreTokensSelector)
+  const tokensInfo = yield* select(coreTokensSelector)
   const tokenInfo = tokensInfo.find(
     (token) =>
       token.address === feeInfo.feeCurrency || (token.symbol === 'CELO' && !feeInfo.feeCurrency)
@@ -241,7 +235,7 @@ export async function currencyToFeeCurrency(currency: Currency): Promise<string 
 }
 
 export function* fetchFeeCurrencySaga() {
-  const tokens: TokenBalance[] = yield select(tokensByUsdBalanceSelector)
+  const tokens = yield* select(tokensByUsdBalanceSelector)
   return fetchFeeCurrency(tokens)
 }
 
@@ -263,5 +257,5 @@ export function fetchFeeCurrency(tokens: TokenBalance[]) {
 }
 
 export function* feesSaga() {
-  yield takeLatest(estimateFee.type, safely(estimateFeeSaga))
+  yield* takeLatest(estimateFee.type, safely(estimateFeeSaga))
 }

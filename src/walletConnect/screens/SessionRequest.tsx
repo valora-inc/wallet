@@ -50,6 +50,7 @@ function SessionRequest(props: Props) {
 
   return (
     <RequestContent
+      type="confirm"
       onAccept={handleAcceptSession}
       onDeny={handleDenySession}
       dappName={dappName}

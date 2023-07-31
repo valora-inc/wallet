@@ -1,24 +1,30 @@
-import { CeloTx, CeloTxReceipt } from '@celo/connect'
+import { CeloTxReceipt } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import isIP from 'is-ip'
 import path from 'path'
 import { Alert, Platform } from 'react-native'
 import Toast from 'react-native-simple-toast'
-import { call, put, select, spawn, takeEvery, takeLeading } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { BuilderHooksEvents } from 'src/analytics/Events'
-import { HooksEnablePreviewOrigin } from 'src/analytics/types'
+import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_TESTNET } from 'src/config'
 import i18n from 'src/i18n'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
   shortcutsStatusSelector,
+  triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
+  TriggeredShortcuts,
+  executeShortcut,
+  executeShortcutFailure,
+  executeShortcutSuccess,
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
@@ -39,13 +45,14 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
+import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'positions/saga'
 
@@ -83,17 +90,17 @@ export function* fetchShortcutsSaga() {
       return
     }
 
-    const shortcutsStatus = yield select(shortcutsStatusSelector)
-    const hooksPreviewApiUrl = yield select(hooksPreviewApiUrlSelector)
+    const shortcutsStatus = yield* select(shortcutsStatusSelector)
+    const hooksPreviewApiUrl = yield* select(hooksPreviewApiUrlSelector)
     if (shortcutsStatus === 'success' && !hooksPreviewApiUrl) {
       // no need to fetch shortcuts more than once per session
       // if we're not in preview mode
       return
     }
 
-    yield put(fetchShortcutsStart())
-    const hooksApiUrl = yield select(hooksApiUrlSelector)
-    const response = yield call(
+    yield* put(fetchShortcutsStart())
+    const hooksApiUrl = yield* select(hooksApiUrlSelector)
+    const response = yield* call(
       fetchWithTimeout,
       getHooksApiFunctionUrl(hooksApiUrl, 'getShortcuts')
     )
@@ -103,17 +110,17 @@ export function* fetchShortcutsSaga() {
 
     const result: {
       data: Shortcut[]
-    } = yield call([response, 'json'])
-    yield put(fetchShortcutsSuccess(result.data))
+    } = yield* call([response, 'json'])
+    yield* put(fetchShortcutsSuccess(result.data))
   } catch (error) {
     Logger.warn(TAG, 'Unable to fetch shortcuts', error)
-    yield put(fetchShortcutsFailure(error))
+    yield* put(fetchShortcutsFailure(error))
   }
 }
 
 export function* fetchPositionsSaga() {
   try {
-    const address: string | null = yield select(walletAddressSelector)
+    const address: string | null = yield* select(walletAddressSelector)
     if (!address) {
       Logger.debug(TAG, 'Skipping fetching positions since no address was found')
       return
@@ -122,14 +129,14 @@ export function* fetchPositionsSaga() {
       return
     }
 
-    yield put(fetchPositionsStart())
+    yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
-    const hooksApiUrl = yield select(hooksApiUrlSelector)
-    const positions = yield call(fetchPositions, hooksApiUrl, address)
+    const hooksApiUrl = yield* select(hooksApiUrlSelector)
+    const positions = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess(positions))
   } catch (error) {
-    yield put(fetchPositionsFailure(error))
+    yield* put(fetchPositionsFailure(error))
     Logger.error(TAG, 'Unable to fetch positions', error)
   }
 }
@@ -186,27 +193,27 @@ export function* handleEnableHooksPreviewDeepLink(
   }
 
   if (!hooksPreviewApiUrl) {
-    yield put(showError(ErrorMessages.HOOKS_INVALID_PREVIEW_API_URL))
+    yield* put(showError(ErrorMessages.HOOKS_INVALID_PREVIEW_API_URL))
     return
   }
 
-  const confirm = yield call(confirmEnableHooksPreview)
+  const confirm = yield* call(confirmEnableHooksPreview)
   if (confirm) {
     ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
     Logger.info(TAG, `Enabling hooks preview mode with API URL: ${hooksPreviewApiUrl}`)
-    yield put(previewModeEnabled(hooksPreviewApiUrl))
+    yield* put(previewModeEnabled(hooksPreviewApiUrl))
   } else {
     ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
   }
 }
 
 export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShortcut>) {
-  Logger.debug(`${TAG}/triggerShortcutSaga`, 'Initiating request to claim reward', payload)
+  Logger.debug(`${TAG}/triggerShortcutSaga`, 'Initiating request to trigger shortcut', payload)
 
-  const hooksApiUrl = yield select(hooksApiUrlSelector)
+  const hooksApiUrl = yield* select(hooksApiUrlSelector)
 
   try {
-    const response = yield call(
+    const response = yield* call(
       fetchWithTimeout,
       getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
       {
@@ -214,73 +221,112 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload.data),
       }
     )
     if (!response.ok) {
       throw new Error(`Unable to trigger shortcut: ${response.status} ${response.statusText}`)
     }
 
-    const { data } = yield call([response, 'json'])
+    const { data } = yield* call([response, 'json'])
+    yield* put(triggerShortcutSuccess({ id: payload.id, transactions: data.transactions }))
+  } catch (error) {
+    yield* put(triggerShortcutFailure(payload.id))
+  }
+}
 
-    const kit: ContractKit = yield call(getContractKit)
-    const walletAddress: string = yield call(getConnectedUnlockedAccount)
+export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShortcut>) {
+  Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating execute shortcut')
+
+  const triggeredShortcuts: TriggeredShortcuts = yield* select(triggeredShortcutsStatusSelector)
+  const shortcut = triggeredShortcuts[payload]
+  const trackedShortcutProperties = {
+    appName: shortcut.appName,
+    appId: shortcut.appId,
+    network: shortcut.network,
+    shortcutId: shortcut.shortcutId,
+    rewardId: payload,
+  }
+
+  try {
+    const kit: ContractKit = yield* call(getContractKit)
+    const walletAddress: string = yield* call(getConnectedUnlockedAccount)
     const normalizer = new TxParamsNormalizer(kit.connection)
 
-    Logger.debug(`${TAG}/triggerShortcutSaga`, 'Starting to claim reward(s)', data.transactions)
+    // use JSON stringify / parse, otherwise the transaction fails with this
+    // error: 'Gas estimation failed: Could not decode transaction failure
+    // reason or Error: invalid argument 0: json: cannot unmarshal non-string
+    // into Go struct field TransactionArgs.chainId of type *hexutil.Big'
+    const shortcutTransactions = JSON.parse(JSON.stringify(shortcut?.transactions) ?? '[]')
+
+    Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', shortcutTransactions)
 
     // TODO parallelize the send transactions
-    for (const transaction of data.transactions) {
-      applyChainIdWorkaround(transaction, yield call([kit.connection, 'chainId']))
-      const tx: CeloTx = yield call([normalizer, 'populate'], transaction)
+    for (const transaction of shortcutTransactions) {
+      applyChainIdWorkaround(transaction, yield* call([kit.connection, 'chainId']))
+      const tx = yield* call([normalizer, 'populate'], transaction)
       const txo = buildTxo(kit, tx)
 
-      const receipt: CeloTxReceipt = yield call(
+      const receipt: CeloTxReceipt = yield* call(
         sendTransaction,
         txo,
         walletAddress,
-        newTransactionContext(TAG, 'Trigger shortcut')
+        newTransactionContext(TAG, 'Execute shortcut')
       )
 
       Logger.debug(
-        `${TAG}/triggerShortcutSaga`,
+        `${TAG}/executeShortcutSaga`,
         'Claimed reward successful',
         receipt.transactionHash
       )
     }
 
-    yield put(triggerShortcutSuccess(payload.id))
+    yield* put(executeShortcutSuccess(payload))
     Toast.showWithGravity(
       i18n.t('dappShortcuts.claimRewardsScreen.claimSuccess'),
       Toast.SHORT,
       Toast.BOTTOM
     )
+
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_claim_success,
+      trackedShortcutProperties
+    )
   } catch (error) {
-    yield put(triggerShortcutFailure(payload.id))
+    yield* put(executeShortcutFailure(payload))
     // TODO customise error message when there are more shortcut types
-    yield put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
-    Logger.warn(`${TAG}/triggerShortcutSaga`, 'Failed to claim reward', error)
+    yield* put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
+    Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
+    ValoraAnalytics.track(
+      DappShortcutsEvents.dapp_shortcuts_reward_claim_error,
+      trackedShortcutProperties
+    )
+  }
+
+  if (yield* call(isBottomSheetVisible, Screens.DappShortcutTransactionRequest)) {
+    navigateBack()
   }
 }
 
 export function* watchFetchBalances() {
   // Refresh positions/shortcuts when fetching token balances
   // or when preview mode is enabled/disabled
-  yield takeLeading(
+  yield* takeLeading(
     [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
     safely(fetchPositionsSaga)
   )
-  yield takeLeading(
+  yield* takeLeading(
     [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
     safely(fetchShortcutsSaga)
   )
 }
 
 export function* watchShortcuts() {
-  yield takeEvery(triggerShortcut, safely(triggerShortcutSaga))
+  yield* takeEvery(triggerShortcut, safely(triggerShortcutSaga))
+  yield* takeEvery(executeShortcut, safely(executeShortcutSaga))
 }
 
 export function* positionsSaga() {
-  yield spawn(watchFetchBalances)
-  yield spawn(watchShortcuts)
+  yield* spawn(watchFetchBalances)
+  yield* spawn(watchShortcuts)
 }

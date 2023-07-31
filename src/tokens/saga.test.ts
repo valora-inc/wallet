@@ -13,10 +13,10 @@ import {
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
-  fetchTokenBalancesFailure,
-  setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
+  fetchTokenBalancesFailure,
+  setTokenBalances,
 } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -24,8 +24,8 @@ import {
   mockAccount,
   mockCeurAddress,
   mockCusdAddress,
-  mockTokenBalances,
   mockPoofAddress,
+  mockTokenBalances,
 } from 'test/values'
 
 const mockFirebaseTokenInfo: StoredTokenBalances = {

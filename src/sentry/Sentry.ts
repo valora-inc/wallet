@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
-import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
 import { APP_BUNDLE_ID, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
-import networkConfig from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { select } from 'typed-redux-saga'
 
 const TAG = 'sentry/Sentry'
 
@@ -33,7 +33,7 @@ export function* initializeSentry() {
     return
   }
 
-  const tracesSampleRate = yield select(sentryTracesSampleRateSelector)
+  const tracesSampleRate = yield* select(sentryTracesSampleRateSelector)
   // tracingOrigins is an array of regexes to match domain names against:
   //   https://docs.sentry.io/platforms/javascript/performance/instrumentation/automatic-instrumentation/#tracingorigins
   // If you want to match against a specific domain (which we do) make sure to
@@ -63,7 +63,7 @@ export function* initializeSentry() {
 
 // This should not be called at cold start since it can slow down the cold start.
 export function* initializeSentryUserContext() {
-  const account = yield select(currentAccountSelector)
+  const account = yield* select(currentAccountSelector)
 
   if (!account) {
     return

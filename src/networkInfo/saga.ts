@@ -2,13 +2,13 @@ import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo'
 import { getIpAddress } from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
-import { call, cancelled, put, select, spawn, take } from 'redux-saga/effects'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { isE2EEnv } from 'src/config'
-import networkConfig from 'src/web3/networkConfig'
 import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/actions'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import networkConfig from 'src/web3/networkConfig'
+import { call, cancelled, put, select, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'networkInfo/saga'
 
@@ -42,21 +42,21 @@ const isErrorResponse = (response: UserLocationData | ErrorResponse): response i
   !!(response as ErrorResponse).error
 
 function* subscribeToNetworkStatus() {
-  const networkStatusChannel = yield createNetworkStatusChannel()
-  let connectionInfo: NetInfoState = yield call(NetInfo.fetch)
+  const networkStatusChannel = yield* call(createNetworkStatusChannel)
+  let connectionInfo = yield* call([NetInfo, 'fetch'])
   let isNetworkConnected = isConnected(connectionInfo)
   Logger.setIsNetworkConnected(isNetworkConnected)
-  yield put(setNetworkConnectivity(isNetworkConnected))
+  yield* put(setNetworkConnectivity(isNetworkConnected))
   while (true) {
     try {
-      connectionInfo = yield take(networkStatusChannel)
+      connectionInfo = (yield* take(networkStatusChannel)) as NetInfoState
       isNetworkConnected = isConnected(connectionInfo)
       Logger.setIsNetworkConnected(isNetworkConnected)
-      yield put(setNetworkConnectivity(isNetworkConnected))
+      yield* put(setNetworkConnectivity(isNetworkConnected))
     } catch (error) {
       Logger.error(`${TAG}@subscribeToNetworkStatus`, 'Failed to watch network status', error)
     } finally {
-      if (yield cancelled()) {
+      if (yield* cancelled()) {
         networkStatusChannel.close()
       }
     }
@@ -66,8 +66,8 @@ function* subscribeToNetworkStatus() {
 export function* fetchUserLocationData() {
   let userLocationData: UserLocationData | ErrorResponse
   try {
-    const response: Response = yield call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
-    userLocationData = yield call([response, 'json'])
+    const response: Response = yield* call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
+    userLocationData = yield* call([response, 'json'])
 
     if (isErrorResponse(userLocationData)) {
       throw new Error(
@@ -77,13 +77,13 @@ export function* fetchUserLocationData() {
   } catch (error) {
     Logger.error(`${TAG}:fetchUserLocationData`, 'Failed to fetch user location', error)
     // If endpoint fails then use country code to determine location
-    const countryCallingCode: string | null = yield select(defaultCountryCodeSelector)
+    const countryCallingCode: string | null = yield* select(defaultCountryCodeSelector)
     const countryCodeAlpha2 = countryCallingCode
       ? getRegionCodeFromCountryCode(countryCallingCode)
       : null
     let ipAddress: string | null
     try {
-      ipAddress = yield call(getIpAddress)
+      ipAddress = yield* call(getIpAddress)
     } catch (error) {
       ipAddress = null
     }
@@ -91,12 +91,10 @@ export function* fetchUserLocationData() {
     userLocationData = { countryCodeAlpha2, region: null, ipAddress }
   }
 
-  yield isE2EEnv
-    ? put(updateUserLocationData(MOCK_USER_LOCATION))
-    : put(updateUserLocationData(userLocationData))
+  yield* put(updateUserLocationData(isE2EEnv ? MOCK_USER_LOCATION : userLocationData))
 }
 
 export function* networkInfoSaga() {
-  yield spawn(subscribeToNetworkStatus)
-  yield spawn(fetchUserLocationData)
+  yield* spawn(subscribeToNetworkStatus)
+  yield* spawn(fetchUserLocationData)
 }

@@ -5,8 +5,12 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappShortcutsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
   getClaimableRewardId,
   positionsWithClaimableRewardsSelector,
@@ -31,6 +35,12 @@ function DappShortcutsRewards() {
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
 
   useEffect(() => {
+    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_rewards_screen_open, {
+      numRewards: positionsWithClaimableRewards.length,
+    })
+  }, [])
+
+  useEffect(() => {
     setClaimablePositions((prev) => {
       // update the displayed rewards in place, so they do not change order and
       // claimed rewards can remain on the screen even if the reward disappears
@@ -49,31 +59,51 @@ function DappShortcutsRewards() {
 
       // add any new claimable positions to the end of the list
       const newClaimablePositions = positionsWithClaimableRewards.filter(
-        (position) => !claimablePositions.find((reward) => reward.address === position.address)
+        (position) => !prev.find((reward) => reward.address === position.address)
       )
 
       return [...updatedPositions, ...newClaimablePositions]
     })
   }, [positionsWithClaimableRewards])
 
-  const handleClaimReward = (position: ClaimablePosition) => () => {
-    if (!address) {
-      // should never happen
-      Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
-      return
-    }
+  const createConfirmClaimRewardHandler =
+    (position: ClaimablePosition, claimableValueUsd: BigNumber) => () => {
+      if (!address) {
+        // should never happen
+        Logger.error('dapps/DappShortcutsRewards', 'No wallet address found when claiming reward')
+        return
+      }
 
-    dispatch(
-      triggerShortcut({
-        id: getClaimableRewardId(position.address, position.claimableShortcut),
-        address,
-        appId: position.appId,
+      const { appName, displayProps, claimableShortcut, appId } = position
+      const rewardId = getClaimableRewardId(position.address, claimableShortcut)
+
+      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
+        appName,
+        shortcutId: claimableShortcut.id,
+        rewardId,
+        appId,
         network: 'celo',
-        positionAddress: position.address,
-        shortcutId: position.claimableShortcut.id,
+        rewardTokens: claimableShortcut.claimableTokens.map((token) => token.symbol).join(', '),
+        rewardAmounts: claimableShortcut.claimableTokens.map((token) => token.balance).join(', '),
+        claimableValueUsd: claimableValueUsd.toString(),
       })
-    )
-  }
+
+      dispatch(
+        triggerShortcut({
+          id: rewardId,
+          appName,
+          appImage: displayProps.imageUrl,
+          data: {
+            address,
+            appId,
+            network: 'celo',
+            positionAddress: position.address,
+            shortcutId: claimableShortcut.id,
+          },
+        })
+      )
+      navigate(Screens.DappShortcutTransactionRequest, { rewardId })
+    }
 
   const renderItem = ({ item }: { item: ClaimablePosition }) => {
     let claimableValueUsd = new BigNumber(0)
@@ -82,6 +112,9 @@ function DappShortcutsRewards() {
         BigNumber(token.priceUsd).times(BigNumber(token.balance))
       )
     })
+    const allowClaim = item.status === 'idle' || item.status === 'error'
+    const loading =
+      item.status === 'loading' || item.status === 'pendingAccept' || item.status === 'accepting'
 
     return (
       <View style={styles.card} testID="DappShortcutsRewards/Card">
@@ -103,7 +136,7 @@ function DappShortcutsRewards() {
                 </React.Fragment>
               ))}
             </Text>
-            {claimableValueUsd && (
+            {claimableValueUsd.gt(0) && (
               <TokenDisplay
                 style={styles.rewardFiatAmount}
                 amount={claimableValueUsd}
@@ -112,16 +145,23 @@ function DappShortcutsRewards() {
                 testID="DappShortcutsRewards/RewardAmountFiat"
               />
             )}
+            {item.status === 'accepting' && (
+              <View style={styles.chip}>
+                <Text style={styles.chipText}>
+                  {t('dappShortcuts.claimRewardsScreen.confirmingReward')}
+                </Text>
+              </View>
+            )}
           </View>
           <Button
-            onPress={handleClaimReward(item)}
+            onPress={createConfirmClaimRewardHandler(item, claimableValueUsd)}
             text={
               item.status === 'success'
                 ? t('dappShortcuts.claimRewardsScreen.claimedLabel')
                 : t('dappShortcuts.claimRewardsScreen.claimButton')
             }
-            showLoading={item.status === 'loading'}
-            disabled={item.status === 'success' || item.status === 'loading'}
+            showLoading={loading}
+            disabled={!allowClaim}
             size={BtnSizes.SMALL}
             touchableStyle={styles.claimButton}
             testID="DappShortcutsRewards/ClaimButton"
@@ -223,6 +263,19 @@ const styles = StyleSheet.create({
   },
   claimButton: {
     minWidth: 72,
+  },
+  chip: {
+    marginTop: Spacing.Smallest8,
+    backgroundColor: Colors.onboardingLightBlue,
+    paddingVertical: 2,
+    paddingHorizontal: Spacing.Smallest8,
+    borderRadius: 100,
+    alignSelf: 'flex-start', // prevent from defaulting to full width of container
+  },
+  chipText: {
+    ...fontStyles.xsmall600,
+    fontSize: 10,
+    lineHeight: 12,
   },
 })
 

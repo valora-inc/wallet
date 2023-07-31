@@ -16,14 +16,17 @@ jobs:
     name: iOS (${{ inputs.ios-version  }})
     runs-on: ios-e2e-group
     steps:
+      - uses: google-github-actions/auth@v1
+        with:
+          project_id: celo-mobile-mainnet
+          credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - name: Google Secrets
         if: ${{ env.SECRETS_AVAILABLE }}
         id: google-secrets
-        uses: google-github-actions/get-secretmanager-secrets@v0.2.2
+        uses: google-github-actions/get-secretmanager-secrets@v1.0.1
         with:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
-          credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:

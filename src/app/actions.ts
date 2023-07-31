@@ -56,7 +56,7 @@ interface SetNumberVerifiedAction {
 
 interface SetSupportedBiometryType {
   type: Actions.SET_SUPPORTED_BIOMETRY_TYPE
-  supportedBiometryType: BIOMETRY_TYPE
+  supportedBiometryType: BIOMETRY_TYPE | null
 }
 
 export interface OpenDeepLink {
@@ -205,7 +205,7 @@ export const setNumberVerified = (numberVerified: boolean) => ({
   numberVerified,
 })
 
-export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE) => ({
+export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE | null) => ({
   type: Actions.SET_SUPPORTED_BIOMETRY_TYPE,
   supportedBiometryType,
 })

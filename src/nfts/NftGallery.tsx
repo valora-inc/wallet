@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftImage from 'src/nfts/NftImage'
@@ -29,6 +30,7 @@ export default function NftGallery() {
   const loading = useSelector(nftsLoadingSelector)
   const error = useSelector(nftsErrorSelector)
   const nfts = useSelector(nftsSelector)
+  const insets = useSafeAreaInsets()
 
   useEffect(() => {
     ValoraAnalytics.track(NftEvents.nft_gallery_screen_open, { numNfts: nfts.length })
@@ -36,15 +38,19 @@ export default function NftGallery() {
   }, [])
 
   return (
-    <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
-      <DrawerTopBar middleElement={<Text>{t('nftGallery.title')}</Text>} />
+    <SafeAreaView testID="NftGallery" style={styles.container} edges={['top']}>
+      <DrawerTopBar
+        middleElement={<Text style={headerStyles.headerTitle}>{t('nftGallery.title')}</Text>}
+      />
       {error ? (
         <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />
       ) : (
         <FlatList
           numColumns={2}
           data={nfts}
-          contentContainerStyle={styles.contentContainer}
+          contentContainerStyle={[styles.contentContainer, { paddingBottom: insets.bottom }]}
+          // Workaround iOS setting an incorrect automatic inset at the top
+          scrollIndicatorInsets={{ top: 0.01 }}
           refreshControl={
             <RefreshControl
               tintColor={colors.greenBrand}
@@ -80,7 +86,7 @@ export default function NftGallery() {
                   </View>
                 }
                 origin={NftOrigin.NftGallery}
-                borderRadius={Spacing.Smallest8}
+                borderRadius={Spacing.Regular16}
               />
             </Touchable>
           )}
@@ -99,9 +105,11 @@ export default function NftGallery() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   contentContainer: {
     alignItems: 'center',
-    paddingBottom: '12%',
   },
   errorView: {
     width: imageSize,
@@ -123,9 +131,6 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.gray3,
     textAlign: 'center',
-  },
-  safeAreaContainer: {
-    flexGrow: 1,
   },
   touchableIcon: {
     marginBottom: Spacing.Regular16,

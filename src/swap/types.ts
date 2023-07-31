@@ -92,6 +92,7 @@ export interface ApproveTransaction {
 
 export type SwapInfo = FetchQuoteResponse & {
   userInput: SwapUserInput
+  quoteReceivedAt: number
 }
 
 export interface FetchQuoteResponse {

@@ -5,6 +5,7 @@ export interface State {
     status: 'idle' | 'loading' | 'success' | 'error'
     idToken: string | null
   }
+  valoraKeyshare: string | null
 }
 
 export const initialState: State = {
@@ -12,6 +13,7 @@ export const initialState: State = {
     status: 'idle',
     idToken: null,
   },
+  valoraKeyshare: null,
 }
 
 export const slice = createSlice({
@@ -29,9 +31,17 @@ export const slice = createSlice({
     googleSignInFailed: (state) => {
       state.google.status = 'error'
     },
+    valoraKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
+      state.valoraKeyshare = action.payload.keyshare
+    },
   },
 })
 
-export const { googleSignInStarted, googleSignInCompleted, googleSignInFailed } = slice.actions
+export const {
+  googleSignInStarted,
+  googleSignInCompleted,
+  googleSignInFailed,
+  valoraKeyshareIssued,
+} = slice.actions
 
 export default slice.reducer

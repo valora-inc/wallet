@@ -158,6 +158,38 @@ export function SettingsItemInput({
   )
 }
 
+type SettingsItemCtaProps = {
+  ctaText: string
+  ctaColor?: colors
+  showChevron?: boolean
+} & BaseProps
+
+export function SettingsItemCta({
+  testID,
+  title,
+  showChevron,
+  onPress,
+  ctaText,
+  ctaColor,
+}: SettingsItemCtaProps) {
+  return (
+    <Wrapper testID={testID} onPress={onPress}>
+      <View style={styles.container}>
+        <Title value={title} />
+        <View style={styles.right}>
+          <Text
+            testID={testID ? `${testID}/cta` : `${title}/cta`}
+            style={[styles.value, { color: ctaColor }]}
+          >
+            {ctaText}
+          </Text>
+          {showChevron && <ForwardChevron color={ctaColor} />}
+        </View>
+      </View>
+    </Wrapper>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

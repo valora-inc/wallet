@@ -11,7 +11,6 @@ import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
-import { call, put, select, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { AppEvents } from 'src/analytics/Events'
@@ -30,6 +29,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
+import { call, put, select, take } from 'typed-redux-saga'
 
 const TAG = 'firebase/firebase'
 
@@ -49,7 +49,7 @@ export function* watchFirebaseNotificationChannel() {
     Logger.debug(`${TAG}/watchFirebaseNotificationChannel`, 'Started channel watching')
 
     while (true) {
-      const event: NotificationChannelEvent = yield take(channel)
+      const event = (yield* take(channel)) as NotificationChannelEvent
       if (!event) {
         Logger.debug(`${TAG}/watchFirebaseNotificationChannel`, 'Data in channel was empty')
         continue
@@ -58,7 +58,7 @@ export function* watchFirebaseNotificationChannel() {
         `${TAG}/watchFirebaseNotificationChannel`,
         'Notification received in the channel'
       )
-      yield call(handleNotification, event.message, event.stateType)
+      yield* call(handleNotification, event.message, event.stateType)
     }
   } catch (error) {
     Logger.error(
@@ -82,10 +82,10 @@ export function* checkInitialNotification() {
   // Manual type checking because yield calls can't infer return type yet :'(
   const initialNotification: Awaited<
     ReturnType<FirebaseMessagingTypes.Module['getInitialNotification']>
-  > = yield call([firebase.messaging(), 'getInitialNotification'])
+  > = yield* call([firebase.messaging(), 'getInitialNotification'])
   if (initialNotification) {
     Logger.info(TAG, 'App opened fresh via a notification', initialNotification)
-    yield call(handleNotification, initialNotification, NotificationReceiveState.AppColdStart)
+    yield* call(handleNotification, initialNotification, NotificationReceiveState.AppColdStart)
   }
 }
 
@@ -150,7 +150,7 @@ export function* takeWithInMemoryCache(action: Actions | HomeActions) {
   if (actionSeen[action]) {
     return
   }
-  yield take(action)
+  yield* take(action)
   actionSeen[action] = true
   return
 }
@@ -161,14 +161,14 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
   // Manual type checking because yield calls can't infer return type yet :'(
   const authStatus: Awaited<ReturnType<FirebaseMessagingTypes.Module['hasPermission']>> =
-    yield call([app.messaging(), 'hasPermission'])
+    yield* call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     yield takeWithInMemoryCache(HomeActions.VISIT_HOME) // better than take(HomeActions.VISIT_HOME) because if failure occurs, retries can succeed without an additional visit home
     try {
-      yield call([app.messaging(), 'requestPermission'])
+      yield* call([app.messaging(), 'requestPermission'])
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
-      yield put(pushNotificationsPermissionChanged(true))
+      yield* put(pushNotificationsPermissionChanged(true))
     } catch (error) {
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: false })
       Logger.warn(TAG, 'User has rejected messaging permissions', error)
@@ -176,27 +176,27 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     }
   } else {
     const pushNotificationsEnabled = authStatus !== firebase.messaging.AuthorizationStatus.DENIED
-    const lastKnownEnabledState = yield select(pushNotificationsEnabledSelector)
+    const lastKnownEnabledState = yield* select(pushNotificationsEnabledSelector)
 
     if (lastKnownEnabledState !== pushNotificationsEnabled) {
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {
         enabled: pushNotificationsEnabled,
       })
-      yield put(pushNotificationsPermissionChanged(pushNotificationsEnabled))
+      yield* put(pushNotificationsPermissionChanged(pushNotificationsEnabled))
     }
   }
   let fcmToken
-  const isEmulator = yield call([DeviceInfo, 'isEmulator'])
+  const isEmulator = yield* call([DeviceInfo, 'isEmulator'])
   // Emulators can't handle fcm tokens and calling getToken on them will throw an error
   if (!isEmulator) {
-    fcmToken = yield call([app.messaging(), 'getToken'])
+    fcmToken = yield* call([app.messaging(), 'getToken'])
   }
   if (fcmToken) {
-    yield call(handleUpdateAccountRegistration)
+    yield* call(handleUpdateAccountRegistration)
 
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
-      yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
+      yield* call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
     }
   }
 
@@ -241,7 +241,7 @@ export function appVersionDeprecationChannel() {
     Logger.warn(TAG, error.toString())
   }
 
-  return eventChannel((emit: any) => {
+  return eventChannel<string>((emit: any) => {
     const emitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
       const minVersion = snapshot.val().minVersion
       emit(minVersion)
@@ -382,7 +382,7 @@ export async function fetchCoinbasePaySenders() {
 
 async function fetchListFromFirebase(path: string) {
   if (!FIREBASE_ENABLED) {
-    return []
+    return null
   }
   return eventChannel((emit: any) => {
     const onValueChange = firebase
