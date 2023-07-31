@@ -21,7 +21,8 @@
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
-  "keylessBackupSettingsTitle": "Keyless Backup",
+  "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "setup": "Set Up",
   "restartModalSwitchOff": {
     "header": "Restart To Switch Off Data Saver",
     "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
@@ -1058,7 +1059,11 @@
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
     "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
     "computeSharedSecret": "{{dappName}} would like to generate secrets.",
-    "transactionDataCopied": "Transaction data copied"
+    "transactionDataCopied": "Transaction data copied",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    }
   },
   "sessionInfo": "This application may ask to perform the following actions:",
   "description": {
@@ -1334,7 +1339,8 @@
       "claimButton": "Claim",
       "claimedLabel": "Claimed",
       "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward"
+      "claimSuccess": "Success! You claimed a reward",
+      "confirmingReward": "CONFIRMING"
     },
     "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
