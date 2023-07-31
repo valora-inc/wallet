@@ -78,14 +78,22 @@ export enum SettingsEvents {
   settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
 
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
+  settings_delete_keyless_backup = 'settings_delete_keyless_backup',
 }
 
 export enum KeylessBackupEvents {
+  // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
   sign_in_with_google = 'sign_in_with_google',
   sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
   enter_phone_number_continue = 'enter_phone_number_continue',
+  cab_issue_sms_code_start = 'cab_issue_sms_code_start',
+  cab_issue_sms_code_success = 'cab_issue_sms_code_success',
+  cab_issue_sms_code_error = 'cab_issue_sms_code_error',
+  cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
+  cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
+  cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
 }
 
 export enum OnboardingEvents {
@@ -613,6 +621,17 @@ export enum BuilderHooksEvents {
   hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
 }
 
+export enum DappShortcutsEvents {
+  dapp_shortcuts_rewards_screen_open = 'dapp_shortcuts_rewards_screen_open', // When the rewards screen is mounted
+  dapp_shortcuts_reward_claim_start = 'dapp_shortcuts_reward_claim_start', // When the claim button is pressed
+  dapp_shortcuts_reward_claim_success = 'dapp_shortcuts_reward_claim_success', // When the claim shortcut succeeds
+  dapp_shortcuts_reward_claim_error = 'dapp_shortcuts_reward_claim_error', // When the claim shortcut fails
+  dapp_shortcuts_reward_tx_propose = 'dapp_shortcuts_reward_tx_propose', // When the user is shown the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_tx_copy', // When the user copies the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted', // When the user confirms the transaction via the bottom sheet
+  dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected', // When the user rejects the transaction via the bottom sheet
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -645,3 +664,4 @@ export type AnalyticsEventType =
   | AssetsEvents
   | NftEvents
   | BuilderHooksEvents
+  | DappShortcutsEvents

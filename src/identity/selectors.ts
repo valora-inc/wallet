@@ -40,6 +40,6 @@ export const isBalanceSufficientForSigRetrievalSelector = createSelector(
   (tokens) => {
     const cusdBalance = tokens[Currency.Dollar]?.balance
     const celoBalance = tokens[Currency.Celo]?.balance
-    isBalanceSufficientForSigRetrieval(cusdBalance || 0, celoBalance || 0)
+    return isBalanceSufficientForSigRetrieval(cusdBalance || 0, celoBalance || 0)
   }
 )

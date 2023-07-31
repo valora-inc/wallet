@@ -5,11 +5,13 @@ import {
   getElementTextList,
   scrollIntoView,
 } from '../utils/utils'
-import { navigateToDappList, scrollToDapp, navigateToHome } from '../utils/dappList'
+import { navigateToDappList, navigateToHome } from '../utils/dappList'
 
 const jestExpect = require('expect')
 
 export default DappListRecent = () => {
+  const dappToTest = 'impactMarket'
+
   it('should show most recently used dapp leftmost on home screen :ios:', async () => {
     // Get recently used dapps at start of test
     const startRecentlyUsedDapps = await getElementTextList('RecentlyUsedDapps/Name')
@@ -26,11 +28,9 @@ export default DappListRecent = () => {
     // Navigate to DappList reload and navigate again - ci issue
     await navigateToDappList()
 
-    // Scroll to first dapp or next after most recent dapp
-    await scrollToDapp(startRecentDappCount + 1)
-    // The E2E test wallet always receives a non-shuffled dapp list which is controlled by Statsig
-    // Unless Bidali or impactMarket are removed impactMarket will always be second in the list
-    await element(by.text('impactMarket')).tap()
+    // Scroll to impact market dapp
+    await scrollIntoView(dappToTest, 'DAppsExplorerScreen/DappsList')
+    await element(by.text(dappToTest)).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
@@ -59,8 +59,9 @@ export default DappListRecent = () => {
     // Navigate to DappList reload and navigate again - ci issue
     await navigateToDappList()
 
-    // Scroll doesn't work well for android so we just tap the second dapp
-    await element(by.id('DappCard')).atIndex(1).tap()
+    // Scroll to impact market dapp
+    await scrollIntoView(dappToTest, 'DAppsExplorerScreen/DappsList')
+    await element(by.text(dappToTest)).tap()
 
     // Get dapp name in confirmation dialog
     const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()

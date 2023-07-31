@@ -3,10 +3,9 @@ import { IdentifierHashDetails, IdentifierPrefix } from '@celo/identity/lib/odis
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AuthSigner, ServiceContext } from '@celo/identity/lib/odis/query'
 import { CombinerEndpointPNP } from '@celo/phone-number-privacy-common'
-import { isE164NumberStrict, PhoneNumberUtils } from '@celo/phone-utils'
+import { PhoneNumberUtils, isE164NumberStrict } from '@celo/phone-utils'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import DeviceInfo from 'react-native-device-info'
-import { call, put, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -25,12 +24,13 @@ import { transferStableTokenLegacy } from 'src/stableToken/actions'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
-import { getAccount, getAccountAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { UnlockResult, getAccount, getAccountAddress, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
+import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'identity/privateHashing'
 export const LOOKUP_GAS_FEE_ESTIMATE = 0.03
@@ -38,22 +38,22 @@ export const LOOKUP_GAS_FEE_ESTIMATE = 0.03
 // Fetch and cache a phone number's salt and hash
 export function* fetchPhoneHashPrivate(e164Number: string) {
   try {
-    const details: PhoneNumberHashDetails = yield call(doFetchPhoneHashPrivate, e164Number)
+    const details: PhoneNumberHashDetails = yield* call(doFetchPhoneHashPrivate, e164Number)
     return details
   } catch (error) {
     if (error.message === ErrorMessages.SALT_QUOTA_EXCEEDED) {
       Logger.warn(`${TAG}@fetchPhoneHashPrivate`, 'Salt quota exceeded')
 
-      const isBalanceSufficientForQuota = yield select(isBalanceSufficientForSigRetrievalSelector)
+      const isBalanceSufficientForQuota = yield* select(isBalanceSufficientForSigRetrievalSelector)
       if (!isBalanceSufficientForQuota) {
         Logger.debug(`${TAG}@fetchPhoneHashPrivate`, 'ODIS insufficient balance', error)
         throw new Error(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
       }
 
-      const quotaPurchaseSuccess: boolean = yield call(navigateToQuotaPurchaseScreen)
+      const quotaPurchaseSuccess: boolean = yield* call(navigateToQuotaPurchaseScreen)
       if (quotaPurchaseSuccess) {
         // If quota purchase was successful, try lookup a second time
-        const details: PhoneNumberHashDetails = yield call(doFetchPhoneHashPrivate, e164Number)
+        const details: PhoneNumberHashDetails = yield* call(doFetchPhoneHashPrivate, e164Number)
         return details
       } else {
         throw new Error(ErrorMessages.SALT_QUOTA_EXCEEDED)
@@ -71,7 +71,7 @@ export function* fetchPhoneHashPrivate(e164Number: string) {
  */
 function* doFetchPhoneHashPrivate(e164Number: string) {
   Logger.debug(`${TAG}@doFetchPhoneHashPrivate`, 'Fetching phone hash details')
-  const saltCache: E164NumberToSaltType = yield select(e164NumberToSaltSelector)
+  const saltCache: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
   const cachedSalt = saltCache[e164Number]
 
   if (cachedSalt) {
@@ -81,8 +81,8 @@ function* doFetchPhoneHashPrivate(e164Number: string) {
     return cachedDetails
   }
 
-  const details: PhoneNumberHashDetails = yield call(getPhoneHashPrivate, e164Number)
-  yield put(updateE164PhoneNumberSalts({ [e164Number]: details.pepper }))
+  const details: PhoneNumberHashDetails = yield* call(getPhoneHashPrivate, e164Number)
+  yield* put(updateE164PhoneNumberSalts({ [e164Number]: details.pepper }))
   return details
 }
 
@@ -94,13 +94,13 @@ function* getPhoneHashPrivate(e164Number: string) {
     throw new Error(ErrorMessages.INVALID_PHONE_NUMBER)
   }
 
-  const walletAddress: string = yield call(getAccount)
-  const accountAddress: string = yield call(getAccountAddress)
-  const authSigner: AuthSigner = yield call(getAuthSignerForAccount, accountAddress, walletAddress)
+  const walletAddress: string = yield* call(getAccount)
+  const accountAddress: string = yield* call(getAccountAddress)
+  const authSigner: AuthSigner = yield* call(getAuthSignerForAccount, accountAddress, walletAddress)
 
   // Unlock the account if the authentication is signed by the wallet
   if (authSigner.authenticationMethod === OdisUtils.Query.AuthenticationMethod.WALLET_KEY) {
-    const result: UnlockResult = yield call(unlockAccount, walletAddress)
+    const result: UnlockResult = yield* call(unlockAccount, walletAddress)
     if (result !== UnlockResult.SUCCESS) {
       throw new Error(ErrorMessages.INCORRECT_PIN)
     }
@@ -114,7 +114,7 @@ function* getPhoneHashPrivate(e164Number: string) {
   // Use DEK for deterministic randomness
   // This allows user to use the same blinded message for the same phone number
   // which prevents consumption of quota for future duplicate requests
-  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+  const privateDataKey: string | null = yield* select(dataEncryptionKeySelector)
   if (!privateDataKey) {
     throw new Error('No data key in store. Should never happen.')
   }
@@ -127,7 +127,8 @@ function* getPhoneHashPrivate(e164Number: string) {
   Logger.debug(TAG, '@fetchPrivatePhoneHash', 'Blinding factor', blindingFactor)
   const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey, blindingFactor)
   try {
-    const identifierHashDetails: IdentifierHashDetails = yield call(
+    const identifierHashDetails = (yield* call(
+      // @ts-expect-error suspect that something about how this is exported messes up the type
       OdisUtils.Identifier.getObfuscatedIdentifier,
       e164Number,
       IdentifierPrefix.PHONE_NUMBER,
@@ -140,7 +141,7 @@ function* getPhoneHashPrivate(e164Number: string) {
       undefined,
       undefined,
       CombinerEndpointPNP.LEGACY_PNP_SIGN
-    )
+    )) as IdentifierHashDetails
     const phoneNumberHashDetails: PhoneNumberHashDetails = {
       e164Number: identifierHashDetails.plaintextIdentifier,
       phoneHash: identifierHashDetails.obfuscatedIdentifier,
@@ -159,12 +160,12 @@ function* getPhoneHashPrivate(e164Number: string) {
 // Get the wallet user's own phone hash details if they're cached
 // null otherwise
 export function* getUserSelfPhoneHashDetails() {
-  const e164Number: string = yield select(e164NumberSelector)
+  const e164Number = yield* select(e164NumberSelector)
   if (!e164Number) {
     return undefined
   }
 
-  const saltCache: E164NumberToSaltType = yield select(e164NumberToSaltSelector)
+  const saltCache: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
   const salt = saltCache[e164Number]
 
   if (!salt) {
@@ -180,17 +181,23 @@ export function* getUserSelfPhoneHashDetails() {
   return details
 }
 
+function doNavigate() {
+  return new Promise((resolve, reject) => {
+    navigate(Screens.PhoneNumberLookupQuota, {
+      onBuy: resolve as () => void,
+      onSkip: () => reject('skipped'),
+    })
+  })
+}
 function* navigateToQuotaPurchaseScreen() {
   try {
-    yield new Promise((resolve, reject) => {
-      navigate(Screens.PhoneNumberLookupQuota, {
-        onBuy: resolve as () => void,
-        onSkip: () => reject('skipped'),
-      })
-    })
+    yield* call(doNavigate)
 
-    const ownAddress: string = yield select(currentAccountSelector)
-    const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+    const ownAddress = yield* select(currentAccountSelector)
+    if (!ownAddress) {
+      throw new Error('No account set')
+    }
+    const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
     const userBalance = tokens[Currency.Dollar]?.balance.toString() ?? null
     const userBalanceSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)
     if (!userBalanceSufficient) {
@@ -198,7 +205,7 @@ function* navigateToQuotaPurchaseScreen() {
     }
 
     const context = newTransactionContext(TAG, 'Purchase lookup quota')
-    yield put(
+    yield* put(
       transferStableTokenLegacy({
         recipientAddress: ownAddress, // send payment to yourself
         amount: '0.01', // one penny
@@ -208,7 +215,7 @@ function* navigateToQuotaPurchaseScreen() {
       })
     )
 
-    const quotaPurchaseTxSuccess = yield call(waitForTransactionWithId, context.id)
+    const quotaPurchaseTxSuccess = yield* call(waitForTransactionWithId, context.id)
     if (!quotaPurchaseTxSuccess) {
       throw new Error('Purchase tx failed')
     }

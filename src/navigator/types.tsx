@@ -85,6 +85,9 @@ export type StackParamList = {
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.DappShortcutsRewards]: undefined
+  [Screens.DappShortcutTransactionRequest]: {
+    rewardId: string
+  }
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
@@ -141,6 +144,14 @@ export type StackParamList = {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
     fiatAccount: FiatAccount
+  }
+  [Screens.KeylessBackupPhoneCodeInput]: {
+    keylessBackupFlow: KeylessBackupFlow
+    e164Number: string
+  }
+  [Screens.KeylessBackupPhoneInput]: {
+    keylessBackupFlow: KeylessBackupFlow
+    selectedCountryCodeAlpha2?: string
   }
   [Screens.KycDenied]: {
     flow: CICOFlow
@@ -228,10 +239,6 @@ export type StackParamList = {
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
-  }
-  [Screens.KeylessBackupPhoneInput]: {
-    keylessBackupFlow: KeylessBackupFlow
-    selectedCountryCodeAlpha2?: string
   }
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
@@ -330,6 +337,7 @@ export type StackParamList = {
         type: WalletConnectRequestType.Action
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
+        supportedChains: string[]
       }
     | {
         type: WalletConnectRequestType.Session

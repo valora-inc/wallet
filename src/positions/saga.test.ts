@@ -1,24 +1,31 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
-import Toast from 'react-native-simple-toast'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
-import { refreshAllBalances } from 'src/home/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
+  _confirmEnableHooksPreview,
+  executeShortcutSaga,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
   triggerShortcutSaga,
-  _confirmEnableHooksPreview,
 } from 'src/positions/saga'
 import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
   shortcutsStatusSelector,
+  triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
+  executeShortcut,
+  executeShortcutFailure,
+  executeShortcutSuccess,
   fetchPositionsFailure,
   fetchPositionsStart,
   fetchPositionsSuccess,
@@ -30,7 +37,6 @@ import {
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { getFeatureGate } from 'src/statsig'
-import { sendTransaction } from 'src/transactions/send'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -42,8 +48,10 @@ import { mocked } from 'ts-jest/utils'
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
 jest.mock('src/utils/Logger')
+
+const mockSendTransaction = jest.fn()
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
+  sendTransaction: () => mockSendTransaction(),
 }))
 jest.mock('react-native-simple-toast')
 
@@ -237,17 +245,16 @@ describe(handleEnableHooksPreviewDeepLink, () => {
 describe(triggerShortcutSaga, () => {
   const shortcut = {
     id: 'someId',
-    address: mockAccount,
-    appId: 'gooddollar',
-    network: 'celo',
-    positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
-    shortcutId: 'claim-reward',
+    appName: 'some dapp name',
+    appImage: 'https://some.image.url',
+    data: {
+      address: mockAccount,
+      appId: 'gooddollar',
+      network: 'celo',
+      positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
+      shortcutId: 'claim-reward',
+    },
   }
-  const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
-    [call(getContractKit), contractKit],
-    [call(getConnectedUnlockedAccount), mockAccount],
-  ]
 
   it('should successfully trigger a shortcut and send the transaction', async () => {
     const mockTransaction = {
@@ -266,8 +273,8 @@ describe(triggerShortcutSaga, () => {
     )
 
     await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
-      .provide(defaultProviders)
-      .put(triggerShortcutSuccess('someId'))
+      .provide([[select(hooksApiUrlSelector), networkConfig.hooksApiUrl]])
+      .put(triggerShortcutSuccess({ id: 'someId', transactions: [mockTransaction] }))
       .not.put(triggerShortcutFailure(expect.anything()))
       .run()
 
@@ -277,24 +284,16 @@ describe(triggerShortcutSaga, () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(shortcut),
+      body: JSON.stringify(shortcut.data),
     })
-    // TODO how to check that the transaction was correctly formed?
-    expect(sendTransaction).toHaveBeenCalledWith(expect.anything(), mockAccount, expect.anything())
-    expect(Toast.showWithGravity).toHaveBeenCalledWith(
-      'dappShortcuts.claimRewardsScreen.claimSuccess',
-      undefined,
-      undefined // these values do not matter so much
-    )
   })
 
   it('should handle shortcut trigger failure', async () => {
     mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
 
     await expectSaga(triggerShortcutSaga, triggerShortcut(shortcut))
-      .provide(defaultProviders)
+      .provide([[select(hooksApiUrlSelector), networkConfig.hooksApiUrl]])
       .not.put(triggerShortcutSuccess(expect.anything()))
-      .not.put(refreshAllBalances())
       .put(triggerShortcutFailure('someId'))
       .run()
 
@@ -304,9 +303,55 @@ describe(triggerShortcutSaga, () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(shortcut),
+      body: JSON.stringify(shortcut.data),
     })
-    expect(sendTransaction).not.toHaveBeenCalled()
-    expect(Toast.showWithGravity).not.toHaveBeenCalled()
+  })
+})
+
+describe(executeShortcutSaga, () => {
+  const mockTransaction = {
+    network: 'celo',
+    from: mockAccount,
+    to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
+    data: '0x4e71d92d',
+  }
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [call(getContractKit), contractKit],
+    [call(getConnectedUnlockedAccount), mockAccount],
+    [
+      select(triggeredShortcutsStatusSelector),
+      {
+        someId: {
+          status: 'pendingAccept',
+          transactions: [mockTransaction],
+        },
+      },
+    ],
+    [call(isBottomSheetVisible, Screens.DappShortcutTransactionRequest), true],
+  ]
+
+  it('should successfully trigger a shortcut and send the transaction', async () => {
+    mockSendTransaction.mockResolvedValueOnce({ transactionHash: '0x1234' })
+
+    await expectSaga(executeShortcutSaga, executeShortcut('someId'))
+      .provide(defaultProviders)
+      .put(executeShortcutSuccess('someId'))
+      .not.put(executeShortcutFailure(expect.anything()))
+      .run()
+
+    expect(navigateBack).toHaveBeenCalled()
+  })
+
+  it('should handle shortcut trigger failure', async () => {
+    mockSendTransaction.mockRejectedValueOnce('some error')
+
+    await expectSaga(executeShortcutSaga, executeShortcut('someId'))
+      .provide(defaultProviders)
+      .not.put(executeShortcutSuccess(expect.anything()))
+      .put(executeShortcutFailure('someId'))
+      .put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
+      .run()
+
+    expect(navigateBack).toHaveBeenCalled()
   })
 })

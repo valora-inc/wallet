@@ -8,7 +8,6 @@ import {
   SignTxRequest,
   SignTxResponseSuccess,
 } from '@celo/utils/lib/dappkit'
-import { call, put, select, takeLeading } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { DappKitEvents } from 'src/analytics/Events'
@@ -28,6 +27,7 @@ import { safely } from 'src/utils/safely'
 import { getWeb3 } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { call, put, select, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'dappkit/dappkit'
 
@@ -73,10 +73,10 @@ export function getDefaultRequestTrackedProperties(
 }
 
 function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
-  const activeDapp = yield select(activeDappSelector)
+  const activeDapp = yield* select(activeDappSelector)
 
   if (activeDapp) {
-    yield put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: activeDapp.name })))
+    yield* put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: activeDapp.name })))
     navigate(Screens.WebViewScreen, {
       uri: activeDapp.dappUrl,
       dappkitDeeplink,
@@ -89,22 +89,30 @@ function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
 }
 
 function* respondToAccountAuth(action: ApproveAccountAuthAction) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
   const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request, activeDapp)
   try {
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Approving auth account')
-    const account = yield select(currentAccountSelector)
-    const phoneNumber = yield select(e164NumberSelector)
-    const e164NumberToSalt = yield select(e164NumberToSaltSelector)
+    const account = yield* select(currentAccountSelector)
+    const phoneNumber = yield* select(e164NumberSelector)
+    const e164NumberToSalt = yield* select(e164NumberToSaltSelector)
+    if (!account) {
+      throw new Error('Account is not set')
+    }
+    if (!phoneNumber) {
+      throw new Error('Phone number is not set')
+    }
     const pepper = e164NumberToSalt[phoneNumber]
-
+    if (!pepper) {
+      throw new Error('Pepper is not set')
+    }
     const responseDeeplink = produceResponseDeeplink(
       action.request,
       AccountAuthResponseSuccess(account, phoneNumber, pepper)
     )
 
-    yield call(handleNavigationWithDeeplink, responseDeeplink)
+    yield* call(handleNavigationWithDeeplink, responseDeeplink)
 
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
     SentryTransactionHub.finishTransaction(SentryTransaction.dappkit_connection)
@@ -119,18 +127,19 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
 
 // TODO Error handling here
 function* produceTxSignature(action: RequestTxSignatureAction) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
   const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request, activeDapp)
   try {
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Producing tx signature')
 
-    yield call(getConnectedUnlockedAccount)
+    yield* call(getConnectedUnlockedAccount)
     // Call Sentry performance monitoring after entering pin if required
     SentryTransactionHub.startTransaction(SentryTransaction.dappkit_transaction)
-    const web3 = yield call(getWeb3)
+    const web3 = yield* call(getWeb3)
 
-    const rawTxs = yield Promise.all(
+    const rawTxs = (yield* call(
+      Promise.all,
       action.request.txs.map(async (tx) => {
         // TODO offload this logic to walletkit or contractkit, otherwise they
         // could diverge again and create another bug
@@ -160,11 +169,11 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
         const signedTx = await web3.eth.signTransaction(params)
         return signedTx.raw
       })
-    )
+    )) as string[]
 
     Logger.debug(TAG, 'Txs signed, opening URL')
     const responseDeeplink = produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs))
-    yield call(handleNavigationWithDeeplink, responseDeeplink)
+    yield* call(handleNavigationWithDeeplink, responseDeeplink)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
     SentryTransactionHub.finishTransaction(SentryTransaction.dappkit_transaction)
   } catch (error) {
@@ -177,12 +186,12 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
 }
 
 export function* dappKitSaga() {
-  yield takeLeading(actions.APPROVE_ACCOUNT_AUTH, safely(respondToAccountAuth))
-  yield takeLeading(actions.REQUEST_TX_SIGNATURE, safely(produceTxSignature))
+  yield* takeLeading(actions.APPROVE_ACCOUNT_AUTH, safely(respondToAccountAuth))
+  yield* takeLeading(actions.REQUEST_TX_SIGNATURE, safely(produceTxSignature))
 }
 
 export function* handleDappkitDeepLink(deeplink: string) {
-  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
   try {
     const dappKitRequest = parseDappKitRequestDeeplink(deeplink)
     switch (dappKitRequest.type) {

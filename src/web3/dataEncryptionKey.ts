@@ -22,7 +22,6 @@ import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
-import { call, put, select } from 'redux-saga/effects'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -39,8 +38,8 @@ import { getCurrencyAddress } from 'src/tokens/saga'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -51,14 +50,15 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { estimateGas } from 'src/web3/utils'
 import { PrimaryValoraWallet } from 'src/web3/types'
+import { estimateGas } from 'src/web3/utils'
+import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
 export function* fetchDataEncryptionKeyWrapper({ address }: FetchDataEncryptionKeyAction) {
-  yield call(doFetchDataEncryptionKey, address)
+  yield* call(doFetchDataEncryptionKey, address)
 }
 
 export function* fetchDEKDecentrally(walletAddress: string) {
@@ -66,38 +66,41 @@ export function* fetchDEKDecentrally(walletAddress: string) {
   // We could use the values in the DekMap instead of looking up each time
   // But Deks can change, how should we invalidate the cache?
 
-  const contractKit = yield call(getContractKit)
-  const accountsWrapper: AccountsWrapper = yield call([
+  const contractKit = yield* call(getContractKit)
+  const accountsWrapper: AccountsWrapper = yield* call([
     contractKit.contracts,
     contractKit.contracts.getAccounts,
   ])
-  const walletToAccountAddress: WalletToAccountAddressType = yield select(
+  const walletToAccountAddress: WalletToAccountAddressType = yield* select(
     walletToAccountAddressSelector
   )
   const accountAddress =
     walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
-  const dek: string = yield call(accountsWrapper.getDataEncryptionKey, accountAddress)
-  yield put(updateAddressDekMap(accountAddress, dek || null))
-  return !dek ? null : hexToBuffer(dek)
+  const dek: string = yield* call(accountsWrapper.getDataEncryptionKey, accountAddress)
+  yield* put(updateAddressDekMap(accountAddress, dek || null))
+  return dek
 }
 
 export function* doFetchDataEncryptionKey(walletAddress: string) {
-  const address = yield select(walletAddressSelector)
-  const privateDataEncryptionKey = yield select(dataEncryptionKeySelector)
+  const address = yield* select(walletAddressSelector)
+  if (!address) {
+    throw new Error('No wallet address found')
+  }
+  const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
   if (walletAddress.toLowerCase() === address.toLowerCase() && privateDataEncryptionKey) {
     // we can generate the user's own public DEK without making any requests
     return compressedPubKey(hexToBuffer(privateDataEncryptionKey))
   }
 
   try {
-    const signedMessage = yield call(retrieveSignedMessage)
+    const signedMessage = yield* call(retrieveSignedMessage)
     const queryParams = new URLSearchParams({
       address,
       clientPlatform: Platform.OS,
       clientVersion: DeviceInfo.getVersion(),
     }).toString()
 
-    const response = yield call(fetch, `${networkConfig.getPublicDEKUrl}?${queryParams}`, {
+    const response = yield* call(fetch, `${networkConfig.getPublicDEKUrl}?${queryParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -106,10 +109,13 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
     })
 
     if (response.ok) {
-      const { data }: { data: { publicDataEncryptionKey: string } } = yield call([response, 'json'])
+      const { data }: { data: { publicDataEncryptionKey: string } } = yield* call([
+        response,
+        'json',
+      ])
       return data.publicDataEncryptionKey
     } else {
-      throw new Error(yield call([response, 'text']))
+      throw new Error(yield* call([response, 'text']))
     }
   } catch (error) {
     Logger.debug(
@@ -120,16 +126,16 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   }
 
   // fall back to decentralised fetch if the above fails to maintain backwards compatibility
-  return yield call(fetchDEKDecentrally, walletAddress)
+  return yield* call(fetchDEKDecentrally, walletAddress)
 }
 
 export function* createAccountDek(mnemonic: string) {
   if (!mnemonic) {
     throw new Error('Cannot generate DEK with empty mnemonic')
   }
-  const { privateKey } = yield call(deriveDek, mnemonic, bip39)
+  const { privateKey } = yield* call(deriveDek, mnemonic, bip39)
   const newDek = ensureLeading0x(privateKey)
-  yield put(setDataEncryptionKey(newDek))
+  yield* put(setDataEncryptionKey(newDek))
   return newDek
 }
 
@@ -140,14 +146,14 @@ function* sendUserFundedSetAccountTx(
   accountAddress: string,
   walletAddress: string
 ) {
-  const mtwAddressCreated: boolean = !!(yield select(mtwAddressSelector))
+  const mtwAddressCreated: boolean = !!(yield* select(mtwAddressSelector))
   // Generate and send a transaction to set the DEK on-chain.
   let setAccountTx = accountsWrapper.setAccount('', publicDataKey, walletAddress)
   const context = newTransactionContext(TAG, 'Set wallet address & DEK')
   // If MTW has been created, route the user's DEK/wallet registration through it
   // because accountAddress is determined by msg.sender. Else, do it normally
   if (mtwAddressCreated) {
-    const mtwWrapper: MetaTransactionWalletWrapper = yield call(
+    const mtwWrapper: MetaTransactionWalletWrapper = yield* call(
       [contractKit.contracts, contractKit.contracts.getMetaTransactionWallet],
       accountAddress
     )
@@ -156,7 +162,7 @@ function* sendUserFundedSetAccountTx(
       v: number
       r: string
       s: string
-    } = yield call(
+    } = yield* call(
       [accountsWrapper, accountsWrapper.generateProofOfKeyPossession],
       accountAddress,
       walletAddress
@@ -164,15 +170,15 @@ function* sendUserFundedSetAccountTx(
 
     setAccountTx = accountsWrapper.setAccount('', publicDataKey, walletAddress, proofOfPossession)
 
-    const setAccountTxViaMTW: CeloTransactionObject<string> = yield call(
+    const setAccountTxViaMTW: CeloTransactionObject<string> = yield* call(
       [mtwWrapper, mtwWrapper.signAndExecuteMetaTransaction],
       setAccountTx.txo
     )
-    yield call(sendTransaction, setAccountTxViaMTW.txo, walletAddress, context)
+    yield* call(sendTransaction, setAccountTxViaMTW.txo, walletAddress, context)
   } else {
-    yield call(sendTransaction, setAccountTx.txo, walletAddress, context)
+    yield* call(sendTransaction, setAccountTx.txo, walletAddress, context)
   }
-  yield put(updateWalletToAccountAddress({ [walletAddress]: accountAddress }))
+  yield* put(updateWalletToAccountAddress({ [walletAddress]: accountAddress }))
 }
 
 // Register the address and DEK with the Accounts contract
@@ -180,7 +186,7 @@ function* sendUserFundedSetAccountTx(
 // pendingMtwAddress is only passed during feeless verification flow
 export function* registerAccountDek() {
   try {
-    const isAlreadyRegistered = yield select(isDekRegisteredSelector)
+    const isAlreadyRegistered = yield* select(isDekRegisteredSelector)
     if (isAlreadyRegistered) {
       Logger.debug(
         `${TAG}@registerAccountDek`,
@@ -188,7 +194,7 @@ export function* registerAccountDek() {
       )
       return
     }
-    const tokens: CurrencyTokens = yield select(tokensByCurrencySelector)
+    const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
     const cusdBalance: BigNumber | undefined = tokens[Currency.Dollar]?.balance
     const celoBalance: BigNumber | undefined = tokens[Currency.Celo]?.balance
     if ((!cusdBalance || cusdBalance.isEqualTo(0)) && (!celoBalance || celoBalance.isEqualTo(0))) {
@@ -205,23 +211,23 @@ export function* registerAccountDek() {
       'Setting wallet address and public data encryption key'
     )
 
-    const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+    const privateDataKey: string | null = yield* select(dataEncryptionKeySelector)
     if (!privateDataKey) {
       throw new Error('No data key in store. Should never happen.')
     }
 
     const publicDataKey = compressedPubKey(hexToBuffer(privateDataKey))
 
-    const contractKit = yield call(getContractKit)
-    const accountsWrapper: AccountsWrapper = yield call([
+    const contractKit = yield* call(getContractKit)
+    const accountsWrapper: AccountsWrapper = yield* call([
       contractKit.contracts,
       contractKit.contracts.getAccounts,
     ])
 
-    const accountAddress: string = yield call(getAccountAddress)
-    const walletAddress: string = yield call(getAccount)
+    const accountAddress: string = yield* call(getAccountAddress)
+    const walletAddress: string = yield* call(getAccount)
 
-    const upToDate: boolean = yield call(
+    const upToDate = yield* call(
       isAccountUpToDate,
       accountsWrapper,
       accountAddress,
@@ -232,17 +238,17 @@ export function* registerAccountDek() {
 
     if (upToDate) {
       Logger.debug(`${TAG}@registerAccountDek`, 'Address and DEK up to date, skipping.')
-      yield put(registerDataEncryptionKey())
+      yield* put(registerDataEncryptionKey())
       ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
         newRegistration: false,
       })
       return
     }
 
-    yield call(getConnectedUnlockedAccount)
+    yield* call(getConnectedUnlockedAccount)
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
-    yield call(
+    yield* call(
       sendUserFundedSetAccountTx,
       contractKit,
       accountsWrapper,
@@ -251,7 +257,7 @@ export function* registerAccountDek() {
       walletAddress
     )
 
-    yield put(registerDataEncryptionKey())
+    yield* put(registerDataEncryptionKey())
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,
     })
@@ -304,20 +310,20 @@ export async function getRegisterDekTxGas(account: string, currency: Currency) {
 }
 
 export function* getAuthSignerForAccount(accountAddress: string, walletAddress: string) {
-  const contractKit = yield call(getContractKit)
+  const contractKit = yield* call(getContractKit)
 
   if (features.PNP_USE_DEK_FOR_AUTH) {
     // Use the DEK for authentication if the current DEK is registered with this account
-    const accountsWrapper: AccountsWrapper = yield call([
+    const accountsWrapper: AccountsWrapper = yield* call([
       contractKit.contracts,
       contractKit.contracts.getAccounts,
     ])
-    const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+    const privateDataKey: string | null = yield* select(dataEncryptionKeySelector)
     if (!privateDataKey) {
       Logger.error(TAG + '/getAuthSignerForAccount', 'Missing comment key, should never happen.')
     } else {
       const publicDataKey = compressedPubKey(hexToBuffer(privateDataKey))
-      const upToDate: boolean = yield call(
+      const upToDate = yield* call(
         isAccountUpToDate,
         accountsWrapper,
         accountAddress,
@@ -347,7 +353,7 @@ export function* getAuthSignerForAccount(accountAddress: string, walletAddress: 
 }
 
 export function* importDekIfNecessary(wallet: PrimaryValoraWallet | undefined) {
-  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+  const privateDataKey: string | null = yield* select(dataEncryptionKeySelector)
   if (!privateDataKey) {
     throw new Error('No data key in store. Should never happen.')
   }
@@ -355,10 +361,10 @@ export function* importDekIfNecessary(wallet: PrimaryValoraWallet | undefined) {
     privateKeyToAddress(ensureLeading0x(privateDataKey))
   )
   // directly using pepper because we don't want to set a PIN for the DEK
-  const pepper: string = yield call(retrieveOrGeneratePepper, DEK)
+  const pepper: string = yield* call(retrieveOrGeneratePepper, DEK)
   if (wallet && !wallet.hasAccount(dataKeyAddress)) {
     try {
-      yield call([wallet, wallet.addAccount], privateDataKey, pepper)
+      yield* call([wallet, wallet.addAccount], privateDataKey, pepper)
     } catch (error) {
       Logger.warn('Unable to add DEK to wallet', error)
     }

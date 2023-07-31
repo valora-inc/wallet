@@ -5,7 +5,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions, EscrowReclaimPaymentAction } from 'src/escrow/actions'
 import { reclaimFromEscrow } from 'src/escrow/saga'
-import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { UnlockResult, getConnectedAccount, unlockAccount } from 'src/web3/saga'
 import { mockAccount } from 'test/values'
 
 describe(reclaimFromEscrow, () => {
