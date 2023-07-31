@@ -21,7 +21,8 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณเชื่อมต่อกับเครือข่าย Celo ผ่านวิธีการที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในการตั้งค่าแอป",
-  "keylessBackupSettingsTitle": "การสำรองข้อมูลแบบไร้กุญแจ",
+  "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "setup": "ตั้งค่า",
   "restartModalSwitchOff": {
     "header": "รีสตาร์ทเพื่อปิดโหมดประหยัดข้อมูล",
     "body": "หากต้องการปิดและเปิดโหมดประหยัดข้อมูลซ้ำ คุณจะต้องรีสตาร์ทแอปแล้วกลับมาที่หน้าจอนี้",
@@ -1056,7 +1057,11 @@
     "sendTransaction": "{{dappName}} ต้องการส่งธุรกรรม CELO",
     "decryptPayload": "{{dappName}} ต้องการถอดรหัสข้อมูลของข้อมูล",
     "computeSharedSecret": "{{dappName}} ต้องการสร้างความลับ",
-    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก"
+    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    }
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
   "description": {
@@ -1332,7 +1337,8 @@
       "claimButton": "Claim",
       "claimedLabel": "Claimed",
       "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward"
+      "claimSuccess": "Success! You claimed a reward",
+      "confirmingReward": "CONFIRMING"
     },
     "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },

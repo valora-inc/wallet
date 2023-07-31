@@ -23,6 +23,7 @@ import { useSelector } from 'react-redux'
 import { AssetsEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
@@ -33,7 +34,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { positionsSelector, totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import {
+  positionsSelector,
+  positionsWithClaimableRewardsSelector,
+  totalPositionsBalanceUsdSelector,
+} from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -97,19 +102,48 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
 
+  const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)
+  const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
+  const showClaimRewards = dappShortcutsEnabled && positionsWithClaimableRewards.length > 0
+
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
+  const [listFooterHeight, setListFooterHeight] = useState(0)
 
   const scrollPosition = useSharedValue(0)
-  const handleScroll = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollPosition.value = event.contentOffset.y
+  const footerPosition = useSharedValue(0)
+  const handleScroll = useAnimatedScrollHandler<{ prevScrollY: number }>(
+    {
+      onScroll: (event, ctx) => {
+        const scrollY = event.contentOffset.y
+        scrollPosition.value = scrollY
+
+        function clamp(value: number, min: number, max: number) {
+          return Math.min(Math.max(value, min), max)
+        }
+
+        // Omit overscroll in the calculation
+        const clampedScrollY = clamp(
+          scrollY,
+          0,
+          event.contentSize.height - event.layoutMeasurement.height
+        )
+
+        // This does the same as React Native's Animated.diffClamp
+        const diff = clampedScrollY - ctx.prevScrollY
+        footerPosition.value = clamp(footerPosition.value + diff, 0, listFooterHeight)
+        ctx.prevScrollY = clampedScrollY
+      },
+      onBeginDrag: (event, ctx) => {
+        ctx.prevScrollY = event.contentOffset.y
+      },
     },
-  })
+    [listFooterHeight]
+  )
 
   const animatedListHeaderStyles = useAnimatedStyle(() => {
     if (nonStickyHeaderHeight === 0 || !displayPositions) {
@@ -140,6 +174,16 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     }
   }, [scrollPosition.value, nonStickyHeaderHeight, displayPositions])
 
+  const animatedFooterStyles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: footerPosition.value,
+        },
+      ],
+    }
+  }, [footerPosition.value])
+
   useScrollAwareHeader({
     navigation,
     title: t('totalAssets'),
@@ -168,6 +212,10 @@ function TokenBalancesScreen({ navigation, route }: Props) {
 
   const handleMeasureListHeaderHeight = (event: LayoutChangeEvent) => {
     setListHeaderHeight(event.nativeEvent.layout.height)
+  }
+
+  const handleMeasureListFooterHeight = (event: LayoutChangeEvent) => {
+    setListFooterHeight(event.nativeEvent.layout.height)
   }
 
   const handleChangeActiveView = (_: string, index: number) => {
@@ -300,6 +348,26 @@ function TokenBalancesScreen({ navigation, route }: Props) {
         scrollEventThrottle={16}
         ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
       />
+      {showClaimRewards && (
+        <Animated.View
+          style={[
+            styles.footerContainer,
+            { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) },
+            animatedFooterStyles,
+          ]}
+          onLayout={handleMeasureListFooterHeight}
+        >
+          <Button
+            type={BtnTypes.SECONDARY}
+            size={BtnSizes.FULL}
+            text={t('assets.claimRewards')}
+            onPress={() => {
+              ValoraAnalytics.track(AssetsEvents.tap_claim_rewards)
+              navigate(Screens.DappShortcutsRewards)
+            }}
+          />
+        </Animated.View>
+      )}
     </>
   )
 }
@@ -348,6 +416,15 @@ const styles = StyleSheet.create({
   },
   nonStickyHeaderContainer: {
     zIndex: 1,
+  },
+  footerContainer: {
+    backgroundColor: Colors.light,
+    position: 'absolute',
+    bottom: 0,
+    left: 10, // so the scroll bar is still visible
+    right: 10,
+    paddingHorizontal: Spacing.Thick24 - 10,
+    paddingTop: Spacing.Regular16,
   },
 })
 
