@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1299,6 +1299,7 @@ interface AssetsEventsProperties {
         description: string
         balanceUsd: number
       }
+  [AssetsEvents.tap_claim_rewards]: undefined
 }
 
 interface NftsEventsProperties {
