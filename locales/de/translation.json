@@ -1782,6 +1782,9 @@
     "invalidApiUrl": "Ungültige Hooks Vorschau API URL",
     "bannerTitle": "Hakenvorschau aktiviert, zum Deaktivieren antippen"
   },
+  "assets": {
+    "claimRewards": "Belohnung beanspruchen"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
