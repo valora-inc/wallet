@@ -22,6 +22,7 @@ import {
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
 import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
@@ -139,7 +140,8 @@ function* paymentRequestWriter({ paymentRequest }: WritePaymentRequestAction) {
     yield* call(() => pendingRequestRef.push(encryptedPaymentRequest))
 
     navigateHome()
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG, 'Failed to write payment request to Firebase DB', error)
     ValoraAnalytics.track(RequestEvents.request_error, { error: error.message })
     yield* put(showError(ErrorMessages.PAYMENT_REQUEST_FAILED))

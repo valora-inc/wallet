@@ -21,6 +21,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { ensureError } from 'src/utils/ensureError'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -116,7 +117,8 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
 
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
     SentryTransactionHub.finishTransaction(SentryTransaction.dappkit_connection)
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG, 'Failed to respond to account auth', error)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_error, {
       ...defaultTrackedProperties,
@@ -176,7 +178,8 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     yield* call(handleNavigationWithDeeplink, responseDeeplink)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
     SentryTransactionHub.finishTransaction(SentryTransaction.dappkit_transaction)
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG, 'Failed to produce tx signature', error)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_error, {
       ...defaultTrackedProperties,
@@ -213,7 +216,8 @@ export function* handleDappkitDeepLink(deeplink: string) {
         navigate(Screens.ErrorScreen, { errorMessage: 'Unsupported dapp request type' })
         Logger.warn(TAG, 'Unsupported dapp request type')
     }
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     navigate(Screens.ErrorScreen, { errorMessage: `Deep link not valid for dappkit: ${error}` })
     Logger.debug(TAG, `Deep link not valid for dappkit: ${error}`)
     ValoraAnalytics.track(DappKitEvents.dappkit_parse_deeplink_error, {

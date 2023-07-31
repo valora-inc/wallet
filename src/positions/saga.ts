@@ -46,6 +46,7 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
@@ -112,7 +113,8 @@ export function* fetchShortcutsSaga() {
       data: Shortcut[]
     } = yield* call([response, 'json'])
     yield* put(fetchShortcutsSuccess(result.data))
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.warn(TAG, 'Unable to fetch shortcuts', error)
     yield* put(fetchShortcutsFailure(error))
   }
@@ -135,7 +137,8 @@ export function* fetchPositionsSaga() {
     const positions = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
     yield* put(fetchPositionsSuccess(positions))
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))
     Logger.error(TAG, 'Unable to fetch positions', error)
   }
@@ -185,7 +188,8 @@ export function* handleEnableHooksPreviewDeepLink(
         hooksPreviewApiUrl = url.toString()
       }
     }
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
     ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_error, {
       error: error?.message || error?.toString(),
