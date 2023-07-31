@@ -1061,6 +1061,24 @@
     "unsupportedChain": {
       "title": "Unsupported chain",
       "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+      },
+      "warnUnsupportedChains": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Unsupported methods",
+        "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Unsupported events",
+        "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
+      }
     }
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
