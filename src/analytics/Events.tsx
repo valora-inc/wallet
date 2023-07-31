@@ -597,6 +597,7 @@ export enum AssetsEvents {
   view_wallet_assets = 'view_wallet_assets', // When a user taps on the "Wallet Assets" segmented control
   view_dapp_positions = 'view_dapp_positions', // When a user taps on the "Dapp Positions" segmented control
   tap_asset = 'tap_asset', // When a user taps on an asset
+  tap_claim_rewards = 'tap_claim_rewards', // When a user taps on the "Claim Rewards" button
 }
 
 export enum NftEvents {

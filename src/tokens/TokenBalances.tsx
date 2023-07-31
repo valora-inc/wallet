@@ -362,6 +362,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
             size={BtnSizes.FULL}
             text={t('assets.claimRewards')}
             onPress={() => {
+              ValoraAnalytics.track(AssetsEvents.tap_claim_rewards)
               navigate(Screens.DappShortcutsRewards)
             }}
           />
