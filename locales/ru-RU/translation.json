@@ -1786,6 +1786,9 @@
     "invalidApiUrl": "Неверный URL API-адрес предварительного просмотра крючков",
     "bannerTitle": "Предварительный просмотр крючков включен, нажмите, чтобы отключить"
   },
+  "assets": {
+    "claimRewards": "Заявить о вознаграждениях"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
