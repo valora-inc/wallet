@@ -78,6 +78,7 @@ import { isTxPossiblyPending } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
@@ -970,9 +971,10 @@ export function* _initiateSendTxToProvider({
     )
     return receipt.transactionHash
   }
+  const err = ensureError(error)
   ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
     flow: CICOFlow.CashOut,
-    error: error.message,
+    error: err.message,
     transferAddress: transferAddress,
     provider: fiatConnectQuote.getProviderId(),
   })
@@ -981,8 +983,8 @@ export function* _initiateSendTxToProvider({
   // this check is not perfect; there may be false positives/negatives.
   throw new FiatConnectTxError(
     'Error while attempting to send funds for FiatConnect transfer out',
-    isTxPossiblyPending(error),
-    error
+    isTxPossiblyPending(err),
+    err
   )
 }
 
@@ -1034,15 +1036,16 @@ export function* handleCreateFiatConnectTransfer(
       })
     )
   } catch (err) {
-    Logger.error(TAG, `Transfer for ${flow} failed..`, err)
+    const error = ensureError(err)
+    Logger.error(TAG, `Transfer for ${flow} failed..`, error)
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error, {
       flow: CICOFlow.CashOut,
-      error: err.message,
+      error: error.message,
       provider: fiatConnectQuote.getProviderId(),
     })
 
-    if (err instanceof FiatConnectTxError) {
-      if (err.txPossiblyPending) {
+    if (error instanceof FiatConnectTxError) {
+      if (error.txPossiblyPending) {
         yield* put(createFiatConnectTransferTxProcessing({ flow, quoteId }))
         return
       }

@@ -27,6 +27,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { call, put, select, spawn, takeEvery } from 'typed-redux-saga'
@@ -94,7 +95,8 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
       amount: amount.toString(),
     })
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     if (error.message === ErrorMessages.PIN_INPUT_CANCELED) {
       yield* put(withdrawCeloCanceled())
       return
@@ -108,7 +110,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
     yield* put(withdrawCeloFailed(context?.id, errorToShow))
 
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_error, {
-      error,
+      error: error.message,
     })
   }
 }

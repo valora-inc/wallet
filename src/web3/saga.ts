@@ -13,6 +13,7 @@ import {
   retrieveSignedMessage,
 } from 'src/pincode/authentication'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
+import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Actions, setAccount, SetAccountAction } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'
@@ -96,7 +97,8 @@ export function* getOrCreateAccount() {
     yield* call(storeMnemonic, mnemonic, accountAddress)
 
     return accountAddress
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     const sanitizedError = Logger.sanitizeError(error, privateKey)
     Logger.error(TAG + '@getOrCreateAccount', 'Error creating account', sanitizedError)
     throw new Error(ErrorMessages.ACCOUNT_SETUP_FAILED)
@@ -111,7 +113,8 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
 
     try {
       yield* call([wallet, wallet.addAccount], privateKey, password)
-    } catch (e) {
+    } catch (err) {
+      const e = ensureError(err)
       if (
         e.message === RpcWalletErrors.AccountAlreadyExists ||
         e.message === ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS

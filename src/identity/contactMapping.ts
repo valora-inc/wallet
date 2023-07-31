@@ -46,6 +46,7 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import Logger from 'src/utils/Logger'
 import { getAllContacts } from 'src/utils/contacts'
+import { ensureError } from 'src/utils/ensureError'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -78,7 +79,8 @@ export function* doImportContactsWrapper() {
 
     Logger.debug(TAG, 'Done importing user contacts')
     yield* put(endImportContacts(true))
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG, 'Error importing user contacts', error)
     ValoraAnalytics.track(IdentityEvents.contacts_import_error, { error: error.message })
     yield* put(showErrorOrFallback(error, ErrorMessages.IMPORT_CONTACTS_FAILED))
@@ -203,7 +205,8 @@ export function* fetchAddressesAndValidateSaga({
     )
     yield* put(endFetchingAddresses(e164Number, true))
     ValoraAnalytics.track(IdentityEvents.phone_number_lookup_complete)
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.debug(TAG + '@fetchAddressesAndValidate', `Error fetching addresses`, error)
     yield* put(showErrorOrFallback(error, ErrorMessages.ADDRESS_LOOKUP_FAILURE))
     yield* put(endFetchingAddresses(e164Number, false))

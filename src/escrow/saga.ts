@@ -23,6 +23,7 @@ import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -84,10 +85,11 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
 
     yield* call(navigateHome)
     ValoraAnalytics.track(EscrowEvents.escrow_reclaim_complete)
-  } catch (e) {
-    Logger.error(TAG + '@reclaimFromEscrow', 'Error reclaiming payment from escrow', e)
-    ValoraAnalytics.track(EscrowEvents.escrow_reclaim_error, { error: e.message })
-    yield* put(showErrorOrFallback(e, ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED))
+  } catch (err) {
+    const error = ensureError(err)
+    Logger.error(TAG + '@reclaimFromEscrow', 'Error reclaiming payment from escrow', error)
+    ValoraAnalytics.track(EscrowEvents.escrow_reclaim_error, { error: error.message })
+    yield* put(showErrorOrFallback(error, ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED))
     yield* put(reclaimEscrowPaymentFailure())
   } finally {
     yield* put(fetchSentEscrowPayments())
@@ -160,9 +162,10 @@ function* doFetchSentPayments() {
 
     yield* put(storeSentEscrowPayments(sentPayments))
     ValoraAnalytics.track(EscrowEvents.escrow_fetch_complete)
-  } catch (e) {
-    ValoraAnalytics.track(EscrowEvents.escrow_fetch_error, { error: e.message })
-    Logger.error(TAG + '@doFetchSentPayments', 'Error fetching sent escrowed payments', e)
+  } catch (err) {
+    const error = ensureError(err)
+    ValoraAnalytics.track(EscrowEvents.escrow_fetch_error, { error: error.message })
+    Logger.error(TAG + '@doFetchSentPayments', 'Error fetching sent escrowed payments', error)
   }
 }
 
