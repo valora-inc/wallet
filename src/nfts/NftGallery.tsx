@@ -82,7 +82,7 @@ export default function NftGallery() {
                 height={imageSize}
                 ErrorComponent={
                   <View style={styles.errorView}>
-                    <ImageErrorIcon color="#C93717" />
+                    <ImageErrorIcon />
                   </View>
                 }
                 origin={NftOrigin.NftGallery}
