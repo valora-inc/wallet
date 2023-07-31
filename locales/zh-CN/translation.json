@@ -21,7 +21,8 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过信任节点与 Celo 网络通信。您可以随时在应用程序设置中更改此模式。",
-  "keylessBackupSettingsTitle": "免密钥备份",
+  "keylessBackupSettingsTitle": "电子邮件和电话恢复",
+  "setup": "设置",
   "restartModalSwitchOff": {
     "header": "重新启动以关闭数据保护模式",
     "body": "若要反复开启或关闭数据保护模式，您将需要重新启动应用程序并返回此屏幕。",
@@ -1056,7 +1057,11 @@
     "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
     "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
     "computeSharedSecret": "{{dappName}} 想要生成密钥。",
-    "transactionDataCopied": "交易数据已复制"
+    "transactionDataCopied": "交易数据已复制",
+    "unsupportedChain": {
+      "title": "无支撑链",
+      "description": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 Celo 是 dapp 上的活动链。"
+    }
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
@@ -1332,7 +1337,8 @@
       "claimButton": "索赔",
       "claimedLabel": "已申请",
       "rewardLabel": "可获得的奖励",
-      "claimSuccess": "成功！您领取了奖励"
+      "claimSuccess": "成功！您领取了奖励",
+      "confirmingReward": "确认"
     },
     "claimRewardFailure": "领取奖励时出现错误，请稍后再试。"
   },

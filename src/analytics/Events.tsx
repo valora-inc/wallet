@@ -82,11 +82,18 @@ export enum SettingsEvents {
 }
 
 export enum KeylessBackupEvents {
+  // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
   sign_in_with_google = 'sign_in_with_google',
   sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
   enter_phone_number_continue = 'enter_phone_number_continue',
+  cab_issue_sms_code_start = 'cab_issue_sms_code_start',
+  cab_issue_sms_code_success = 'cab_issue_sms_code_success',
+  cab_issue_sms_code_error = 'cab_issue_sms_code_error',
+  cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
+  cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
+  cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
 }
 
 export enum OnboardingEvents {
@@ -598,6 +605,7 @@ export enum AssetsEvents {
   view_wallet_assets = 'view_wallet_assets', // When a user taps on the "Wallet Assets" segmented control
   view_dapp_positions = 'view_dapp_positions', // When a user taps on the "Dapp Positions" segmented control
   tap_asset = 'tap_asset', // When a user taps on an asset
+  tap_claim_rewards = 'tap_claim_rewards', // When a user taps on the "Claim Rewards" button
 }
 
 export enum NftEvents {

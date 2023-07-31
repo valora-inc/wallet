@@ -49,6 +49,8 @@ interface NetworkConfig {
   fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
   getNftsByOwnerAddressUrl: string
+  cabIssueSmsCodeUrl: string
+  cabIssueValoraKeyshareUrl: string
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -145,6 +147,12 @@ const JUMPSTART_ADDRESS_MAINNET = '0x22Bac00dB51FfD2eb5a02e58974b64726c684BaA'
 const GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getNfts`
 const GET_NFTS_BY_OWNER_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
 
+const CAB_ISSUE_SMS_CODE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueSmsCode`
+const CAB_ISSUE_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueSmsCode`
+
+const CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
+const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -192,6 +200,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
+    cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
+    cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -238,6 +248,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
+    cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
+    cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
   },
 }
 

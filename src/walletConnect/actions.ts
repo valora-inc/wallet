@@ -49,11 +49,13 @@ export interface ClientDestroyed {
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION
   session: Web3WalletTypes.EventArguments['session_proposal']
+  approvedNamespaces: SessionTypes.Namespaces
 }
 
 export interface DenySession {
   type: Actions.DENY_SESSION
   session: Web3WalletTypes.EventArguments['session_proposal']
+  reason: JsonRpcTypes.Error
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION
@@ -136,17 +138,21 @@ export const initialisePairing = (
 })
 
 export const acceptSession = (
-  session: Web3WalletTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal'],
+  approvedNamespaces: SessionTypes.Namespaces
 ): AcceptSession => ({
   type: Actions.ACCEPT_SESSION,
   session,
+  approvedNamespaces,
 })
 
 export const denySession = (
-  session: Web3WalletTypes.EventArguments['session_proposal']
+  session: Web3WalletTypes.EventArguments['session_proposal'],
+  reason: JsonRpcTypes.Error
 ): DenySession => ({
   type: Actions.DENY_SESSION,
   session,
+  reason,
 })
 
 export const closeSession = (session: SessionTypes.Struct): CloseSession => ({

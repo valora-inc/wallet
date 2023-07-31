@@ -1,6 +1,7 @@
 import { CeloTx, CeloTxObject, CeloTxReceipt } from '@celo/connect'
 import { values } from 'lodash'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { estimateGas, getTransactionReceipt } from 'src/web3/utils'
 
 const RECEIPT_POLL_INTERVAL = 5000 // 5s
@@ -245,7 +246,8 @@ export async function sendTransactionAsync<T>(
           clearInterval(timerID)
         }
       })
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     logger(Exception(error, feeCurrencyAddress))
     rejectAll(error)
   }

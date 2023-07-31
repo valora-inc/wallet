@@ -1,5 +1,6 @@
 import * as Keychain from 'react-native-keychain'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 
 const TAG = 'storage/keychain'
 // the user cancelled error strings are OS specific
@@ -61,7 +62,8 @@ export async function retrieveStoredItem(key: string, options: Keychain.Options 
       return null
     }
     return item.password
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     if (!isUserCancelledError(error)) {
       // triggered when biometry verification fails and user cancels the action
       Logger.error(TAG, 'Error retrieving stored item', error, true)

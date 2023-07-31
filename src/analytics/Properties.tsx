@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -211,14 +211,22 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_delete_keyless_backup]: undefined
 }
 
+interface CommonKeylessBackupProps {
+  keylessBackupFlow: KeylessBackupFlow
+}
+
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
   [KeylessBackupEvents.sign_in_with_google]: undefined
   [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
-  [KeylessBackupEvents.enter_phone_number_continue]: {
-    keylessBackupFlow: KeylessBackupFlow
-  }
+  [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
 }
 
 interface OnboardingEventsProperties {
@@ -1060,6 +1068,10 @@ type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   // requestParams: any
 }
 
+type WalletConnectRequestRejectSessionProperties = WalletConnectDefaultProperties & {
+  rejectReason: string
+}
+
 type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
   denyReason: string
 }
@@ -1081,9 +1093,9 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_session_approve_error]: WalletConnectDefaultProperties & {
     error: string
   }
-  [WalletConnectEvents.wc_session_reject_start]: WalletConnectDefaultProperties
-  [WalletConnectEvents.wc_session_reject_success]: WalletConnectDefaultProperties
-  [WalletConnectEvents.wc_session_reject_error]: WalletConnectDefaultProperties & {
+  [WalletConnectEvents.wc_session_reject_start]: WalletConnectRequestRejectSessionProperties
+  [WalletConnectEvents.wc_session_reject_success]: WalletConnectRequestRejectSessionProperties
+  [WalletConnectEvents.wc_session_reject_error]: WalletConnectRequestRejectSessionProperties & {
     error: string
   }
   [WalletConnectEvents.wc_session_remove_start]: WalletConnectDefaultProperties
@@ -1291,6 +1303,7 @@ interface AssetsEventsProperties {
         description: string
         balanceUsd: number
       }
+  [AssetsEvents.tap_claim_rewards]: undefined
 }
 
 interface NftsEventsProperties {
