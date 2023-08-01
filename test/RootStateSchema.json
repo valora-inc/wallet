@@ -1612,6 +1612,15 @@
             },
             "type": "object"
         },
+        "KeylessBackupStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "KnownFeedTransactionsType": {
             "additionalProperties": {
                 "type": [
@@ -3854,19 +3863,7 @@
             "additionalProperties": false,
             "properties": {
                 "backupStatus": {
-                    "anyOf": [
-                        {
-                            "enum": [
-                                "Completed",
-                                "Failed",
-                                "InProgress"
-                            ],
-                            "type": "string"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
+                    "$ref": "#/definitions/KeylessBackupStatus"
                 },
                 "google": {
                     "additionalProperties": false,
