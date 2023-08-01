@@ -33,6 +33,7 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
@@ -299,7 +300,8 @@ export function* fetchTokenBalancesSaga() {
     yield* put(setTokenBalances(tokens))
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_balances)
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     yield* put(fetchTokenBalancesFailure())
     Logger.error(TAG, 'error fetching user balances', error.message)
     ValoraAnalytics.track(AppEvents.fetch_balance_error, {

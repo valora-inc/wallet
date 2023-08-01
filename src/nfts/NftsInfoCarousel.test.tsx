@@ -25,9 +25,15 @@ describe('NftsInfoCarousel', () => {
     )
 
     // Correct image source should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
-      uri: mockNftAllFields.media[0].gateway,
-    })
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
 
     // The image carousel should not render if there is only one Nft
@@ -51,24 +57,42 @@ describe('NftsInfoCarousel', () => {
     expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
 
     // Correct Nft Image and name should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
-      uri: mockNftAllFields.media[0].gateway,
-    })
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
 
     // Toggle to Second Nft
     fireEvent.press(getByTestId(nft2Thumbnail))
     expect(getByText(mockNftMinimumFields.metadata!.name)).toBeTruthy()
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
-      uri: mockNftMinimumFields.media[0].gateway,
-    })
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftMinimumFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
 
     // Return to first Nft
     fireEvent.press(getByTestId(nft1Thumbnail))
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp('source', {
-      uri: mockNftAllFields.media[0].gateway,
-    })
+    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
   })
 
   it('renders full screen error when no Nft(s)', () => {

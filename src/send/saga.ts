@@ -43,6 +43,7 @@ import {
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
@@ -285,7 +286,8 @@ function* sendPayment(
       usdAmount: usdAmount?.toString(),
       tokenAddress,
     })
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(`${TAG}/sendPayment`, 'Could not make token transfer', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
     yield* put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))

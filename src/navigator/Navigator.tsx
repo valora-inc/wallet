@@ -459,8 +459,8 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={BidaliScreen}
     />
     <Navigator.Screen
-      name={Screens.CoinbasePayScreen}
       // @ts-expect-error component type in native-stack v6
+      name={Screens.CoinbasePayScreen}
       component={CoinbasePayScreen}
       options={emptyHeader}
     />
