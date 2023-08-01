@@ -7,7 +7,7 @@ export interface State {
     idToken: string | null
   }
   valoraKeyshare: string | null
-  backupStatus: KeylessBackupStatus | null
+  backupStatus: KeylessBackupStatus
 }
 
 export const initialState: State = {
@@ -16,7 +16,7 @@ export const initialState: State = {
     idToken: null,
   },
   valoraKeyshare: null,
-  backupStatus: null,
+  backupStatus: KeylessBackupStatus.NotStarted,
 }
 
 export const slice = createSlice({

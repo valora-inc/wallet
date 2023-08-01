@@ -271,7 +271,7 @@ describe('store state', () => {
           "isImportingWallet": false,
         },
         "keylessBackup": Object {
-          "backupStatus": null,
+          "backupStatus": "NotStarted",
           "google": Object {
             "idToken": null,
             "status": "idle",

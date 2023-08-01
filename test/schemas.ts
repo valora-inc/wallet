@@ -14,6 +14,7 @@ import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { KeylessBackupStatus } from 'src/keylessBackup/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2404,7 +2405,7 @@ export const v139Schema = {
   },
   keylessBackup: {
     ...v138Schema.keylessBackup,
-    backupStatus: null,
+    backupStatus: KeylessBackupStatus.NotStarted,
   },
 }
 

@@ -4,6 +4,7 @@ export enum KeylessBackupFlow {
 }
 
 export enum KeylessBackupStatus {
+  NotStarted = 'NotStarted',
   InProgress = 'InProgress',
   Completed = 'Completed',
   Failed = 'Failed',

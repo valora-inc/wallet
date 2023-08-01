@@ -59,16 +59,16 @@ function KeylessBackupProgress({
 
   const onPressLater = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
-    navigateHome()
+    navigate(Screens.Settings)
   }
 
   switch (keylessBackupStatus) {
-    case undefined:
+    case KeylessBackupStatus.NotStarted:
     case KeylessBackupStatus.InProgress: {
       return (
         <SafeAreaView style={styles.progressContainer}>
           <GreenLoadingSpinner />
-          <Text style={styles.title}>{t('keylessBackupStatus.inProgress.title')}</Text>
+          <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
         </SafeAreaView>
       )
     }
@@ -79,8 +79,8 @@ function KeylessBackupProgress({
             <View style={styles.iconContainer}>
               <GreenLoadingSpinnerToCheck />
             </View>
-            <Text style={styles.title}>{t('keylessBackupStatus.completed.title')}</Text>
-            <Text style={styles.body}>{t('keylessBackupStatus.completed.body')}</Text>
+            <Text style={styles.title}>{t('keylessBackupStatus.setup.completed.title')}</Text>
+            <Text style={styles.body}>{t('keylessBackupStatus.setup.completed.body')}</Text>
           </View>
           <Button
             testID="KeylessBackupProgress/Continue"
@@ -99,13 +99,13 @@ function KeylessBackupProgress({
         <SafeAreaView style={styles.container}>
           <View style={styles.finishedContainer}>
             <RedLoadingSpinnerToInfo />
-            <Text style={styles.title}>{t('keylessBackupStatus.failed.title')}</Text>
-            <Text style={styles.body}>{t('keylessBackupStatus.failed.body')}</Text>
+            <Text style={styles.title}>{t('keylessBackupStatus.setup.failed.title')}</Text>
+            <Text style={styles.body}>{t('keylessBackupStatus.setup.failed.body')}</Text>
           </View>
           <Button
             testID="KeylessBackupProgress/Later"
             onPress={onPressLater}
-            text={t('keylessBackupStatus.failed.later')}
+            text={t('keylessBackupStatus.setup.failed.later')}
             size={BtnSizes.FULL}
             type={BtnTypes.ONBOARDING}
             style={styles.button}
@@ -114,7 +114,7 @@ function KeylessBackupProgress({
           <Button
             testID="KeylessBackupProgress/Manual"
             onPress={onPressManual}
-            text={t('keylessBackupStatus.failed.manual')}
+            text={t('keylessBackupStatus.setup.failed.manual')}
             size={BtnSizes.FULL}
             type={BtnTypes.ONBOARDING_SECONDARY}
             style={styles.button}

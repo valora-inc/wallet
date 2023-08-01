@@ -11,6 +11,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { KeylessBackupStatus } from 'src/keylessBackup/types'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1200,7 +1201,7 @@ export const migrations = {
     ...state,
     keylessBackup: {
       ...state.keylessBackup,
-      backupStatus: null,
+      backupStatus: KeylessBackupStatus.NotStarted,
     },
   }),
 }
