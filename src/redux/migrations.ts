@@ -1197,11 +1197,5 @@ export const migrations = {
     },
   }),
   138: (state: any) => state,
-  139: (state: any) => ({
-    ...state,
-    keylessBackup: {
-      ...state.keylessBackup,
-      backupStatus: KeylessBackupStatus.NotStarted,
-    },
-  }),
+  139: (state: any) => state,
 }
