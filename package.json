@@ -8,7 +8,7 @@
     "lint": "eslint --ext=.tsx,.ts src/",
     "format": "prettier --loglevel error --write .",
     "format:check": "prettier --check .",
-    "generate-types": "typechain --target=ethers-v6 --out-dir 'src/abis/types' 'src/abis/*.json'",
+    "generate-ethers-types": "typechain --target=ethers-v6 --out-dir 'src/abis/types' 'src/abis/*.json'",
     "reset": "yarn reset-modules && yarn reset-cache",
     "reset-cache": "yarn reset-yarn && yarn reset-rn",
     "reset-modules": "rm -rf node_modules/",
@@ -47,7 +47,7 @@
     "e2e:test:ios-release": "detox test -c ios.release -l verbose",
     "pre-deploy": "./scripts/pre-deploy.sh",
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
-    "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh && yarn generate-types",
+    "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh && yarn generate-ethers-types",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt"
   },
