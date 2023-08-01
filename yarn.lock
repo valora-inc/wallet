@@ -2872,43 +2872,43 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.5.2.tgz#1540cef83a83a6001fc249605ccf28f596edf791"
   integrity sha512-LFfU2t6BIrVGmTU8CC/vaANfyczDBq4JD7700jTPbONMzfKUkO9sp2jgRA1+dKI+f8SuWNditA7ImUczAj2giw==
 
-"@segment/analytics-react-native-plugin-adjust@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.6.1.tgz#010fb12a8f81b41070d20c2d7c9a58133e860bd0"
-  integrity sha512-iTQ8wBnbW1mzAHsgG8kUE7i1n50BvcQ5j/QoWb/tpplts7OE6v96dSRlOjrqCvISfVX1deLLfBr6vxKQqoQ3MQ==
+"@segment/analytics-react-native-plugin-adjust@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.6.2.tgz#8d395f604fc6af737b63f02e8f0ab078b1d00393"
+  integrity sha512-JnAAIhlMLAVVJgiOebPo8lBHYKIiuM+ozGVCjoOF3C8whz+sm2V3LwXCWm34VhVwL66MaW74aL+ppeOmuxPfcQ==
   dependencies:
     react-native-adjust "^4.33.0"
 
-"@segment/analytics-react-native-plugin-clevertap@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.0.0.tgz#9b50d4cc223b6640ca42a9628e865ae6ee8ed1a9"
-  integrity sha512-uKtCjkfjwcD1tLzkJ6SxVkEXJfV2OO1FZqcjlpwsN5dXwi0ZaQkU2JUZlsAQ9a5iXskKwYp75qi14nMaJQstJg==
+"@segment/analytics-react-native-plugin-clevertap@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.0.2.tgz#90eacb4dff6ac15ae927bf2092019d794afe5836"
+  integrity sha512-U+fW44tzMqxfWw7T6yrjTby4OD7dPopCFFzqkq07icteF3TA+R+jYbXpaH0FPC5Ru/h0Y1QAqQq+uH4kC8tN9w==
   dependencies:
     clevertap-react-native "^1.0.0"
 
-"@segment/analytics-react-native-plugin-firebase@^0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.3.7.tgz#caa7e7327c4403c1a960ff23080e206a3c2fcb8f"
-  integrity sha512-0lidYR8GL81wpu3sq92ud/bwHeiVmMKf9XfT+DT+PsZAVk94wOOdr3hqJDgSzaTtUxp5ETteVCuVNiq8Ah4A7w==
+"@segment/analytics-react-native-plugin-firebase@^0.3.9":
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.3.9.tgz#d11bde6771dbb75fe395ff6252a9cf6e02593d8b"
+  integrity sha512-yTmtBZB5E4FNTUkjBG7hWVzpqSZU1x5jjrm972gWxmkL+nGEvrN7l/nvZQmsPtYdPLBpfE7IWlRHJTMbAexKNg==
 
-"@segment/analytics-react-native@^2.13.4":
-  version "2.13.4"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.13.4.tgz#52216972bf0a1f8722ddf18088340c9d4d90ca5a"
-  integrity sha512-47z2TmODJpeA7Pf1P8kE5dNTiqmxJ7khQ/NgiFR3eoiSy/ir0QOpT49QFrwVMeG35fEl+wDGLXUoYWoAMvBy6w==
+"@segment/analytics-react-native@^2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.15.0.tgz#3fd4cf509922f5069c6b98892df0024bd70cff68"
+  integrity sha512-c+HyWgfN2IwFAWb5wsPxniHtILp5GJKK0G4diT6+aR6xPqfnX8u3gl/vkqUVIPfO+g6shENGBqoz5Jv1Hs/9jg==
   dependencies:
     "@segment/sovran-react-native" "^1"
     deepmerge "^4.2.2"
     js-base64 "^3.7.2"
     uuid "^9.0.0"
 
-"@segment/sovran-react-native@1.0.1", "@segment/sovran-react-native@^1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.0.1.tgz#4311f0af2e2b606d2c17e535b293c096c6a3c2e8"
-  integrity sha512-7VZrIa7/VP59d4QDvAs0ZOhiadlJ+2YC8K8dKOF0fGwiFC0UmQUZVs4IN9GZfbBavXsagVVMgL2GzjVGLLQdBw==
+"@segment/sovran-react-native@^1", "@segment/sovran-react-native@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.0.4.tgz#862c9c01c15f5ea81a77012c6e720ebd56153ccc"
+  integrity sha512-oeIjspLOX9V+YmM7arZ+OXCyjooKdurnyVji+sj8OVkw+tUcXtvy+m9oC8E4yqazR/tghWCYE+tCriNx4jsVTw==
   dependencies:
     ansi-regex "5.0.1"
     deepmerge "^4.2.2"
-    shell-quote "1.7.3"
+    shell-quote "1.8.0"
 
 "@sentry/browser@7.29.0":
   version "7.29.0"
@@ -14667,7 +14667,7 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3, shell-quote@^1.8.1:
+shell-quote@1.8.0, shell-quote@^1.6.1, shell-quote@^1.7.2, shell-quote@^1.7.3, shell-quote@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.8.1.tgz#6dbf4db75515ad5bac63b4f1894c3a154c766680"
   integrity sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==
