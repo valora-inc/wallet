@@ -103,6 +103,21 @@
       "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
     }
   },
+  "keylessBackupStatus": {
+    "inProgress": {
+      "title": "Backup in progress..."
+    },
+    "completed": {
+      "title": "Backup complete",
+      "body": "You are now able to recover your wallet with your email address and phone number."
+    },
+    "failed": {
+      "title": "Keyless backup unavailable",
+      "body": "You can set up keyless backup later or protect your account now by backing up manually",
+      "later": "I'll backup later",
+      "manual": "Manual Backup"
+    }
+  },
   "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",

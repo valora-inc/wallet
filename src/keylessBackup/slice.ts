@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { KeylessBackupStatus, KeylessBackupFlow } from 'src/keylessBackup/types'
 
 export interface State {
   google: {
@@ -6,6 +7,7 @@ export interface State {
     idToken: string | null
   }
   valoraKeyshare: string | null
+  backupStatus: KeylessBackupStatus | null
 }
 
 export const initialState: State = {
@@ -14,6 +16,7 @@ export const initialState: State = {
     idToken: null,
   },
   valoraKeyshare: null,
+  backupStatus: null,
 }
 
 export const slice = createSlice({
@@ -34,6 +37,12 @@ export const slice = createSlice({
     valoraKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
       state.valoraKeyshare = action.payload.keyshare
     },
+    keylessBackupStarted: (
+      state,
+      action: PayloadAction<{ keylessBackupFlow: KeylessBackupFlow }>
+    ) => {
+      state.backupStatus = KeylessBackupStatus.InProgress
+    },
   },
 })
 
@@ -42,6 +51,7 @@ export const {
   googleSignInCompleted,
   googleSignInFailed,
   valoraKeyshareIssued,
+  keylessBackupStarted,
 } = slice.actions
 
 export default slice.reducer

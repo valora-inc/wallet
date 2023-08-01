@@ -153,6 +153,9 @@ export type StackParamList = {
     keylessBackupFlow: KeylessBackupFlow
     selectedCountryCodeAlpha2?: string
   }
+  [Screens.KeylessBackupProgress]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.KycDenied]: {
     flow: CICOFlow
     quote: FiatConnectQuote
