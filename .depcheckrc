@@ -23,5 +23,6 @@ ignores: [
   "typescript-json-schema", # helps manage redux state migrations
   "@segment/sovran-react-native", # required for react-native-segment
   "react-native-adjust", # required for @segment/analytics-react-native-plugin-adjust
+  "@typechain/ethers-v6", # used by typechain
 ]
 skip-missing: true
