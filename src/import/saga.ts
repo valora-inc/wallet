@@ -28,6 +28,7 @@ import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboardin
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import {
@@ -89,7 +90,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
             timeout: timeout !== undefined,
           })
         }
-      } catch (error) {
+      } catch (err) {
+        const error = ensureError(err)
         Logger.error(
           TAG + '@importBackupPhraseSaga',
           `Encountered an error trying to correct a phrase`,
@@ -163,7 +165,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     })
 
     yield* put(importBackupPhraseSuccess())
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG + '@importBackupPhraseSaga', 'Error importing backup phrase', error)
     yield* put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
     yield* put(importBackupPhraseFailure())

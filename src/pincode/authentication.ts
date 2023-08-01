@@ -38,6 +38,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
 import { call, select } from 'typed-redux-saga'
@@ -351,7 +352,8 @@ export async function getPincode(withVerification = true) {
     try {
       const retrievedPin = await getPincodeWithBiometry()
       return retrievedPin
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       // do not return here, the pincode input is the user's fallback if
       // biometric auth fails
       if (!isUserCancelledError(error)) {

@@ -16,6 +16,7 @@ import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { recipientHasNumber } from 'src/recipients/recipient'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { fetchDataEncryptionKeyWrapper } from 'src/web3/dataEncryptionKey'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -70,7 +71,8 @@ export function* validateRecipientAddressSaga({
     })
 
     yield* put(validateRecipientAddressSuccess(e164PhoneNumber, validatedAddress))
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     ValoraAnalytics.track(SendEvents.send_secure_incorrect, {
       confirmByScan: false,
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
@@ -78,8 +80,8 @@ export function* validateRecipientAddressSaga({
     })
 
     Logger.error(TAG, 'validateRecipientAddressSaga/Address validation error: ', error)
-    if (Object.values(ErrorMessages).includes(error.message)) {
-      yield* put(showErrorInline(error.message))
+    if (Object.values(ErrorMessages).includes(error.message as ErrorMessages)) {
+      yield* put(showErrorInline(error.message as ErrorMessages))
     } else {
       yield* put(showErrorInline(ErrorMessages.ADDRESS_VALIDATION_ERROR))
     }

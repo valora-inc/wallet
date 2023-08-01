@@ -26,6 +26,7 @@ import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
 import { UnlockResult, getAccount, getAccountAddress, unlockAccount } from 'src/web3/saga'
@@ -40,7 +41,8 @@ export function* fetchPhoneHashPrivate(e164Number: string) {
   try {
     const details: PhoneNumberHashDetails = yield* call(doFetchPhoneHashPrivate, e164Number)
     return details
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     if (error.message === ErrorMessages.SALT_QUOTA_EXCEEDED) {
       Logger.warn(`${TAG}@fetchPhoneHashPrivate`, 'Salt quota exceeded')
 
@@ -149,7 +151,8 @@ function* getPhoneHashPrivate(e164Number: string) {
       unblindedSignature: identifierHashDetails.unblindedSignature,
     }
     return phoneNumberHashDetails
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     if (error.message === ErrorMessages.ODIS_QUOTA_ERROR) {
       throw new Error(ErrorMessages.SALT_QUOTA_EXCEEDED)
     }
@@ -229,7 +232,7 @@ function* navigateToQuotaPurchaseScreen() {
       ValoraAnalytics.track(IdentityEvents.phone_number_lookup_purchase_skip)
     } else {
       ValoraAnalytics.track(IdentityEvents.phone_number_lookup_purchase_error, {
-        error: error.message,
+        error: ensureError(error).message,
       })
     }
     Logger.error(

@@ -28,6 +28,7 @@ import {
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -168,7 +169,7 @@ describe(getPincode, () => {
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'storage/keychain',
       'Error retrieving stored item',
-      'some error',
+      ensureError('some error'),
       true
     )
     expectPincodeEntered()

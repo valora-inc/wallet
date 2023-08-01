@@ -18,6 +18,7 @@ import {
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
@@ -113,7 +114,8 @@ export function* estimateFeeSaga({
         usdFee: usdFee.toString(),
       })
     }
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(`${TAG}/estimateFeeSaga`, 'Error estimating fee', error)
     ValoraAnalytics.track(FeeEvents.estimate_fee_failed, {
       error: error.message,
