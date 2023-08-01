@@ -2283,6 +2283,7 @@
                 "Invite",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
+                "KeylessBackupProgress",
                 "KycDenied",
                 "KycExpired",
                 "KycLanding",
@@ -3994,6 +3995,21 @@
         "State_25": {
             "additionalProperties": false,
             "properties": {
+                "backupStatus": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "Completed",
+                                "Failed",
+                                "InProgress"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "google": {
                     "additionalProperties": false,
                     "properties": {
@@ -4027,6 +4043,7 @@
                 }
             },
             "required": [
+                "backupStatus",
                 "google",
                 "valoraKeyshare"
             ],

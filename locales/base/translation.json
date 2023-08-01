@@ -113,7 +113,7 @@
     },
     "failed": {
       "title": "Keyless backup unavailable",
-      "body": "You can set up keyless backup later or protect your account now by backing up manually",
+      "body": "You can set up keyless backup later or protect your account now by backing up manually.",
       "later": "I'll backup later",
       "manual": "Manual Backup"
     }
