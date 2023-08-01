@@ -271,12 +271,12 @@ describe('store state', () => {
           "isImportingWallet": false,
         },
         "keylessBackup": Object {
+          "backupStatus": null,
           "google": Object {
             "idToken": null,
             "status": "idle",
           },
           "valoraKeyshare": null,
-          "backupStatus": null,
         },
         "localCurrency": Object {
           "error": false,
