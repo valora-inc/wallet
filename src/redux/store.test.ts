@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 138,
+          "version": 139,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -276,6 +276,7 @@ describe('store state', () => {
             "status": "idle",
           },
           "valoraKeyshare": null,
+          "backupStatus": null,
         },
         "localCurrency": Object {
           "error": false,
