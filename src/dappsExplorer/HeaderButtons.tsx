@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import QrScanButton from 'src/components/QrScanButton'
+import Help from 'src/icons/Help'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import Help from 'src/icons/Help'
 import colors from 'src/styles/colors'
 
 interface Props {

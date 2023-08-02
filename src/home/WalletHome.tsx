@@ -1,13 +1,15 @@
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 'react-native'
+import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import NotificationBell from 'src/components/NotificationBell'
+import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -17,27 +19,27 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
+import { refreshAllBalances, visitHome } from 'src/home/actions'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { checkContactsPermission } from 'src/utils/permissions'
-import QrScanButton from 'src/components/QrScanButton'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -63,6 +65,8 @@ function WalletHome() {
   const { showHomeActions, showHomeNavBar, showQrScanner } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
+
+  const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
 
   useEffect(() => {
     dispatch(visitHome())
@@ -179,6 +183,17 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
+  const topRightElements = (
+    <View style={styles.topRightElementsContainer}>
+      {showQrScanner && (
+        <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
+      )}
+      {showNotificationCenter && (
+        <NotificationBell testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
+      )}
+    </View>
+  )
+
   return (
     <SafeAreaView
       testID="WalletHome"
@@ -187,9 +202,7 @@ function WalletHome() {
     >
       <DrawerTopBar
         middleElement={showHomeActions ? undefined : <Logo testID="WalletHome/Logo" />}
-        rightElement={
-          showQrScanner ? <QrScanButton testID={'WalletHome/QRScanButton'} /> : undefined
-        }
+        rightElement={topRightElements}
         scrollPosition={scrollPosition}
       />
       <AnimatedSectionList
@@ -217,6 +230,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
+  },
+  topRightElementsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topRightElement: {
+    marginLeft: Spacing.Regular16,
   },
 })
 
