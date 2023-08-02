@@ -24,3 +24,6 @@ test/RootStateSchema.json
 e2e/test-results/*
 # Ignore generated fastlane files
 fastlane/README.md
+
+# Ignore typechain generated filed
+src/abis/types/
