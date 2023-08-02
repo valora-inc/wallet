@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import Video from 'react-native-video'
 import { useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -12,23 +13,30 @@ import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 
-const DEFAULT_IMAGE_HEIGHT = 360
+const DEFAULT_HEIGHT = 360
 
-interface ImagePlaceHolderProps {
+interface PlaceHolderProps {
   testID: string
   height?: number
   width?: number
   borderRadius?: number
+  mediaType: 'image' | 'video'
 }
 
-interface Props extends ImagePlaceHolderProps {
+interface Props extends PlaceHolderProps {
   nft: Nft
   origin: NftOrigin
   shouldAutoScaleHeight?: boolean
   ErrorComponent: React.ReactNode
 }
 
-function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: ImagePlaceHolderProps) {
+function Placeholder({
+  testID,
+  width,
+  mediaType,
+  height = mediaType === 'video' ? DEFAULT_HEIGHT : 40,
+  borderRadius = 0,
+}: PlaceHolderProps) {
   return (
     <SkeletonPlaceholder
       borderRadius={borderRadius}
@@ -49,7 +57,7 @@ function ImagePlaceholder({ height = 40, width, borderRadius = 0, testID }: Imag
 
 type Status = 'loading' | 'error' | 'success'
 
-export default function NftImage({
+export default function NftMedia({
   nft,
   height,
   width,
@@ -58,57 +66,62 @@ export default function NftImage({
   origin,
   ErrorComponent,
   testID,
+  mediaType,
 }: Props) {
   const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
-  const [scaledHeight, setScaledHeight] = useState(DEFAULT_IMAGE_HEIGHT)
+  const [scaledHeight, setScaledHeight] = useState(DEFAULT_HEIGHT)
   const [reloadAttempt, setReloadAttempt] = useState(0)
 
   const fetchingNfts = useSelector(nftsLoadingSelector)
 
   const imageUrl = nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
+  const videoUrl = nft.media.find((media) => media.raw === nft.metadata?.animation_url)?.gateway
 
   useEffect(() => {
     if (nft.metadata) {
       setStatus('loading')
     } else {
-      sendImageLoadEvent('No nft metadata')
+      sendLoadEvent('No nft metadata')
       setStatus('error')
     }
   }, [`${nft.contractAddress}-${nft.tokenId}`])
 
+  // if the image failed to load before, try again when the user pulls to refresh
   useEffect(() => {
-    // if the image failed to load before, try again when the user pulls to refresh
     if (status === 'error' && fetchingNfts) {
       setStatus('loading')
       setReloadAttempt((prev) => prev + 1)
     }
   }, [status, fetchingNfts])
 
-  function sendImageLoadEvent(error?: string) {
+  function sendLoadEvent(error?: string) {
     const { contractAddress, tokenId } = nft
-    ValoraAnalytics.track(NftEvents.nft_image_load, {
+    ValoraAnalytics.track(NftEvents.nft_media_load, {
       tokenId,
       contractAddress,
       url: imageUrl,
       origin,
       error,
+      mediaType,
     })
 
     if (error) {
       Logger.error(
         origin,
-        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load image from ${imageUrl}`
+        `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load media from ${
+          mediaType === 'video' && videoUrl ? videoUrl : imageUrl
+        }`
       )
     }
   }
 
   function handleLoadError() {
-    sendImageLoadEvent('Failed to load image')
+    sendLoadEvent('Failed to load media')
     setStatus('error')
   }
 
   function handleLoadSuccess() {
-    sendImageLoadEvent()
+    sendLoadEvent()
     setStatus('success')
   }
 
@@ -116,6 +129,35 @@ export default function NftImage({
     <>
       {status === 'error' ? (
         ErrorComponent
+      ) : mediaType === 'video' && videoUrl ? (
+        <>
+          <Video
+            source={{
+              uri: videoUrl,
+              headers: {
+                origin: networkConfig.nftsValoraAppUrl,
+              },
+            }}
+            key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
+            testID={testID}
+            style={{
+              marginTop: 42, // Otherwise the video controls are hidden behind the floating header :(
+              height: DEFAULT_HEIGHT,
+              width: variables.width,
+              zIndex: 1, // Make sure the video player is in front of the loading skeleton
+            }}
+            onLoad={handleLoadSuccess}
+            onError={handleLoadError}
+            controls={true}
+            resizeMode="cover"
+            muted={true}
+            minLoadRetryCount={3}
+          ></Video>
+          {/* This is a hack to get the loading skeleton to overlay the media player while loading, nesting within the player doesn't work */}
+          <View style={{ marginTop: -DEFAULT_HEIGHT }}>
+            <Placeholder mediaType="video" testID={`${testID}/VideoPlaceholder`} />
+          </View>
+        </>
       ) : (
         <FastImage
           key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
@@ -142,11 +184,12 @@ export default function NftImage({
           }
         >
           {status === 'loading' && (
-            <ImagePlaceholder
+            <Placeholder
               height={shouldAutoScaleHeight ? scaledHeight : height}
               width={width}
               borderRadius={borderRadius}
               testID={`${testID}/ImagePlaceholder`}
+              mediaType="image"
             />
           )}
         </FastImage>

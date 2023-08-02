@@ -11,7 +11,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NftImage from 'src/nfts/NftImage'
+import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
 import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/selectors'
 import { fetchNfts } from 'src/nfts/slice'
@@ -75,7 +75,7 @@ export default function NftGallery() {
                   : { marginLeft: Spacing.Regular16 },
               ]}
             >
-              <NftImage
+              <NftMedia
                 nft={item}
                 testID="NftGallery/NftImage"
                 width={imageSize}
@@ -92,6 +92,7 @@ export default function NftGallery() {
                 }
                 origin={NftOrigin.NftGallery}
                 borderRadius={Spacing.Regular16}
+                mediaType="image"
               />
             </Touchable>
           )}

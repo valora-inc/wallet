@@ -9,9 +9,8 @@ import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import NftImage from 'src/nfts/NftImage'
+import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import NftVideo from 'src/nfts/NftVideo'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -39,7 +38,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      <NftImage
+      <NftMedia
         nft={nft}
         ErrorComponent={
           <View style={styles.nftImageLoadingErrorContainer}>
@@ -55,6 +54,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
         borderRadius={8}
         testID="NftsInfoCarousel/ThumbnailImage"
         origin={NftOrigin.NftsInfoCarouselThumbnail}
+        mediaType="image"
       />
     </Touchable>
   )
@@ -126,8 +126,10 @@ export default function NftsInfoCarousel({ route }: Props) {
       <ScrollView>
         {/* Main Nft Video or Image */}
         {activeNft.metadata?.animation_url ? (
-          <NftVideo
+          <NftMedia
             nft={activeNft}
+            mediaType="video"
+            origin={NftOrigin.NftsInfoCarouselMain}
             ErrorComponent={
               <View style={styles.nftImageLoadingErrorContainer}>
                 <ImageErrorIcon />
@@ -135,10 +137,9 @@ export default function NftsInfoCarousel({ route }: Props) {
               </View>
             }
             testID="NftsInfoCarousel/MainVideo"
-            origin={NftOrigin.NftsInfoCarouselMain}
           />
         ) : (
-          <NftImage
+          <NftMedia
             nft={activeNft}
             ErrorComponent={
               <View style={styles.nftImageLoadingErrorContainer}>
@@ -149,6 +150,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             testID="NftsInfoCarousel/MainImage"
             origin={NftOrigin.NftsInfoCarouselMain}
             shouldAutoScaleHeight
+            mediaType={'image'}
           />
         )}
         {/* Display a carousel selection if multiple images */}
