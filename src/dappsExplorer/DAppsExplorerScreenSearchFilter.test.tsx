@@ -664,12 +664,12 @@ describe(DAppsExplorerScreenSearchFilter, () => {
         showQrScanner: true,
       })
 
-      const { queryByTestId } = render(
+      const { getByTestId } = render(
         <Provider store={defaultStore}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
       )
-      expect(queryByTestId('DAppsExplorerScreen/QRScanButton')).toBeTruthy()
+      expect(getByTestId('DAppsExplorerScreen/QRScanButton')).toBeTruthy()
     })
 
     it('does not show QR button when experiment disabled', () => {
