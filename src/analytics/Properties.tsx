@@ -1315,6 +1315,13 @@ interface NftsEventsProperties {
     origin: NftOrigin
     error?: string
   }
+  [NftEvents.nft_video_load]: {
+    tokenId: string
+    contractAddress: string
+    url?: string
+    origin: NftOrigin
+    error?: string
+  }
   [NftEvents.nft_gallery_screen_open]: {
     numNfts: number
   }

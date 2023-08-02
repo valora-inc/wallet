@@ -11,6 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftImage from 'src/nfts/NftImage'
 import NftsLoadError from 'src/nfts/NftsLoadError'
+import NftVideo from 'src/nfts/NftVideo'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -123,19 +124,33 @@ export default function NftsInfoCarousel({ route }: Props) {
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
-        {/* Main Nft Image */}
-        <NftImage
-          nft={activeNft}
-          ErrorComponent={
-            <View style={styles.nftImageLoadingErrorContainer}>
-              <ImageErrorIcon color="#C93717" />
-              <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
-            </View>
-          }
-          testID="NftsInfoCarousel/MainImage"
-          origin={NftOrigin.NftsInfoCarouselMain}
-          shouldAutoScaleHeight
-        />
+        {/* Main Nft Video or Image */}
+        {activeNft.metadata?.animation_url ? (
+          <NftVideo
+            nft={activeNft}
+            ErrorComponent={
+              <View style={styles.nftImageLoadingErrorContainer}>
+                <ImageErrorIcon color="#C93717" />
+                <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+              </View>
+            }
+            testID="NftsInfoCarousel/MainVideo"
+            origin={NftOrigin.NftsInfoCarouselMain}
+          />
+        ) : (
+          <NftImage
+            nft={activeNft}
+            ErrorComponent={
+              <View style={styles.nftImageLoadingErrorContainer}>
+                <ImageErrorIcon color="#C93717" />
+                <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+              </View>
+            }
+            testID="NftsInfoCarousel/MainImage"
+            origin={NftOrigin.NftsInfoCarouselMain}
+            shouldAutoScaleHeight
+          />
+        )}
         {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
           <NftImageCarousel
