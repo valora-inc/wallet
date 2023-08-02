@@ -126,7 +126,7 @@ export const getCurrentUserTraits = createSelector(
         ? getRegionCodeFromCountryCode(phoneCountryCallingCode)
         : undefined,
       countryCodeAlpha2: countryCodeAlpha2 ?? undefined,
-      language: language ?? null,
+      language: language ?? undefined,
       deviceLanguage: RNLocalize.getLocales()[0]?.languageTag, // Example: "en-GB"
       netWorthUsd: new BigNumber(totalBalanceUsd).plus(totalPositionsBalanceUsd).toNumber(), // Tokens + positions
       totalBalanceUsd: totalBalanceUsd?.toNumber(), // Only tokens (with a USD price), no positions
