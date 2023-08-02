@@ -103,6 +103,23 @@
       "subtitle": "Yedeklemeyi ayarlamak için daha önce kullandığınız telefon numarasını girin.\n\nBu numaranın size ait olduğunu doğrulamak için size bir kod göndereceğiz."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Yedekleme devam ediyor..."
+      },
+      "completed": {
+        "title": "Yedekleme tamamlandı",
+        "body": "Artık cüzdanınızı e-posta adresiniz ve telefon numaranızla kurtarabilirsiniz."
+      },
+      "failed": {
+        "title": "Anahtarsız yedekleme kullanılamıyor",
+        "body": "Anahtarsız yedeklemeyi daha sonra ayarlayabilir veya manuel olarak yedekleyerek hesabınızı şimdi koruyabilirsiniz.",
+        "later": "Daha sonra yedekleyeceğim.",
+        "manual": "Manuel Yedekleme"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
