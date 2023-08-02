@@ -103,6 +103,23 @@
       "subtitle": "Inserisci il numero telefonico che hai usato per impostare il backup.\n\nTi invieremo un codice per verificare che questo numero sia tuo."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in corso..."
+      },
+      "completed": {
+        "title": "Backup completato",
+        "body": "Ora sei in grado di recuperare il tuo portafoglio con il tuo indirizzo e-mail e il tuo numero di telefono."
+      },
+      "failed": {
+        "title": "Backup senza chiave non disponibile",
+        "body": "Puoi impostare un backup senza chiavi in un secondo momento o proteggere il tuo account ora eseguendo il backup manualmente.",
+        "later": "Farò un backup più tardi",
+        "manual": "Backup manuale"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del tuo dispositivo. Tienile al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
