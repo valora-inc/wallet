@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
+import QrScanButton from 'src/components/QrScanButton'
 import SearchInput from 'src/components/SearchInput'
 import {
   dappsCategoriesAlphabeticalSelector,
@@ -30,14 +31,15 @@ import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
 import { DappRankingsBottomSheet } from 'src/dappsExplorer/DappRankingsBottomSheet'
 import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
-import HeaderButtons from 'src/dappsExplorer/HeaderButtons'
 import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
-import useDappInfoBottomSheet from 'src/dappsExplorer/useDappInfoBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -68,6 +70,9 @@ export function DAppsExplorerScreenSearchFilter() {
   const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const [selectedFilter, setSelectedFilter] = useState('all')
+  const { showQrScanner } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
+  )
 
   // Some state lifted up from all and favorite sections
   const [searchTerm, setSearchTerm] = useState('')
@@ -76,7 +81,6 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
-  const { openSheet, DappInfoBottomSheet } = useDappInfoBottomSheet()
 
   const removeFilter = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: selectedFilter, remove: true })
@@ -130,11 +134,7 @@ export function DAppsExplorerScreenSearchFilter() {
     <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
         rightElement={
-          <HeaderButtons
-            onPressHelp={openSheet}
-            helpIconColor={colors.onboardingGreen}
-            testID={'DAppsExplorerScreen/HeaderButtons'}
-          />
+          showQrScanner ? <QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} /> : undefined
         }
         scrollPosition={scrollPosition}
       />
@@ -264,7 +264,6 @@ export function DAppsExplorerScreenSearchFilter() {
       </>
       {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
-      {DappInfoBottomSheet}
       <DappRankingsBottomSheet
         forwardedRef={dappRankingsBottomSheetRef}
         onPressDapp={onSelectDapp}
