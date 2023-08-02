@@ -128,7 +128,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           nft={activeNft}
           ErrorComponent={
             <View style={styles.nftImageLoadingErrorContainer}>
-              <ImageErrorIcon color="#C93717" />
+              <ImageErrorIcon />
               <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
             </View>
           }
