@@ -103,6 +103,23 @@
       "subtitle": "输入您之前用于设置备份的电话号码。\n\n我们会向您发送一个代码，以验证这个号码归您所有。"
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "正在备份..."
+      },
+      "completed": {
+        "title": "备份完成",
+        "body": "现在，您可以通过电子邮件地址和电话号码找回钱包。"
+      },
+      "failed": {
+        "title": "无法使用无钥匙备份",
+        "body": "您可以稍后设置无键备份，或者现在就手动备份，保护您的账户。",
+        "later": "我稍后再备份",
+        "manual": "手动备份"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
