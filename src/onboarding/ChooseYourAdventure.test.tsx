@@ -122,6 +122,8 @@ describe('ChooseYourAdventure', () => {
 
     fireEvent.press(getByTestId('ChooseYourAdventure/Later'))
     expect(navigateHome).toHaveBeenLastCalledWith()
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later, {
+      cardOrder: expectedCardOrder,
+    })
   })
 })
