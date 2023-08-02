@@ -103,6 +103,23 @@
       "subtitle": "Ingresa el número de teléfono que utilizaste para configurar la copia de seguridad.\n\nTe enviaremos un código para verificar que este número es tuyo."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Copia de seguridad en curso..."
+      },
+      "completed": {
+        "title": "Copia de seguridad completa",
+        "body": "Ahora puedes recuperar tu monedero con tu dirección de correo electrónico y tu número de teléfono."
+      },
+      "failed": {
+        "title": "No está disponible la copia de seguridad sin llave",
+        "body": "Puedes configurar una copia de seguridad sin llave más adelante o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
+        "later": "Haré una copia de seguridad más tarde",
+        "manual": "Copia de seguridad manual"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
