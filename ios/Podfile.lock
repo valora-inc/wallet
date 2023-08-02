@@ -1,4 +1,9 @@
 PODS:
+  - A0Auth0 (2.17.4):
+    - Auth0 (= 2.3.2)
+    - JWTDecode (= 3.0.1)
+    - React-Core
+    - SimpleKeychain (= 1.0.1)
   - Adjust (4.33.3):
     - Adjust/Core (= 4.33.3)
   - Adjust/Core (4.33.3)
@@ -9,6 +14,9 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
+  - Auth0 (2.3.2):
+    - JWTDecode (~> 3.0)
+    - SimpleKeychain (~> 1.0)
   - boost (1.76.0)
   - BVLinearGradient (2.6.2):
     - React-Core
@@ -222,6 +230,7 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
+  - JWTDecode (3.0.1)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
   - libwebp (1.2.4):
@@ -699,6 +708,7 @@ PODS:
     - React-Core
     - sovran-react-native
   - Sentry/HybridSDK (7.31.5)
+  - SimpleKeychain (1.0.1)
   - SocketRocket (0.6.0)
   - sovran-react-native (1.0.4):
     - React-Core
@@ -709,6 +719,7 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - A0Auth0 (from `../node_modules/react-native-auth0`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
@@ -827,6 +838,7 @@ SPEC REPOS:
     - Adjust
     - Analytics
     - AppAuth
+    - Auth0
     - CleverTap-iOS-SDK
     - CocoaAsyncSocket
     - CTNotificationService
@@ -858,6 +870,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - JWTDecode
     - leveldb-library
     - libevent
     - libwebp
@@ -869,12 +882,15 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
+    - SimpleKeychain
     - SocketRocket
     - Toast
     - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
+  A0Auth0:
+    :path: "../node_modules/react-native-auth0"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   BVLinearGradient:
@@ -1051,9 +1067,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
   Adjust: 41d0d5c031409aebe7fb1f5703ff0d3306133439
   Analytics: 9655e0e1c71ea98107cfcb2b14891168acc6c6c9
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CleverTap-iOS-SDK: 36c21b8a671d87a0f9c7b389b339d02528bbe4d7
@@ -1092,6 +1110,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: f62cb61d0a484ba548448a4bd52aabf150ff6eef
@@ -1181,6 +1200,7 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 2b90f606cda9234dd110d117c4ffc918d9ba29bb
   Sentry: 4c9babff9034785067c896fd580b1f7de44da020
+  SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   sovran-react-native: 791f2f726b4d57ece59676eda58d6da9dc95ad4e
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196

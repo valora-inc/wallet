@@ -185,6 +185,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         resValue "bool", "is_profiling_build", System.getenv("IS_PROFILING_BUILD") ?: "false"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        manifestPlaceholders = [auth0Domain: project.env.get("AUTH0_DOMAIN"), auth0Scheme: "${applicationId}"]
 
         if (isNewArchitectureEnabled()) {
             // We configure the CMake build only if you decide to opt-in for the New Architecture.
