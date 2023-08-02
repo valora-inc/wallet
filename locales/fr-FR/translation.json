@@ -103,6 +103,23 @@
       "subtitle": "Saisissez le numéro de téléphone que vous avez utilisé pour configurer la sauvegarde.\n\nNous vous enverrons un code pour vérifier que ce numéro est le vôtre."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Sauvegarde en cours..."
+      },
+      "completed": {
+        "title": "Sauvegarde terminée",
+        "body": "Tu es maintenant en mesure de récupérer ton portefeuille avec ton adresse email et ton numéro de téléphone."
+      },
+      "failed": {
+        "title": "Sauvegarde sans clé indisponible",
+        "body": "Tu peux mettre en place une sauvegarde sans clé plus tard ou protéger ton compte dès maintenant en effectuant une sauvegarde manuelle.",
+        "later": "Je ferai une sauvegarde plus tard",
+        "manual": "Sauvegarde manuelle"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Souvenez-vous</0>, ces informations sont votre seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Gardez-les en sécurité !",
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",
