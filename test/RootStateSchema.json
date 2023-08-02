@@ -1612,6 +1612,15 @@
             },
             "type": "object"
         },
+        "KeylessBackupStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "KnownFeedTransactionsType": {
             "additionalProperties": {
                 "type": [
@@ -2456,6 +2465,7 @@
                 "Invite",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
+                "KeylessBackupProgress",
                 "KycDenied",
                 "KycExpired",
                 "KycLanding",
@@ -3852,6 +3862,9 @@
         "State_25": {
             "additionalProperties": false,
             "properties": {
+                "backupStatus": {
+                    "$ref": "#/definitions/KeylessBackupStatus"
+                },
                 "google": {
                     "additionalProperties": false,
                     "properties": {
@@ -3885,6 +3898,7 @@
                 }
             },
             "required": [
+                "backupStatus",
                 "google",
                 "valoraKeyshare"
             ],
