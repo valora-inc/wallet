@@ -103,6 +103,23 @@
       "subtitle": "Insira o número de celular que utilizou para configurar a cópia de segurança.\n\nTerá de utilizar este número de celular para restaurar a sua carteira."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Cópia de segurança em curso..."
+      },
+      "completed": {
+        "title": "Cópia de segurança concluída",
+        "body": "Pode agora recuperar a sua carteira com o seu endereço de correio eletrónico e número de telefone."
+      },
+      "failed": {
+        "title": "Backup sem chave indisponível",
+        "body": "Pode configurar uma cópia de segurança sem chave mais tarde ou proteger a sua conta agora, efectuando uma cópia de segurança manual.",
+        "later": "Faço o backup mais tarde",
+        "manual": "Cópia de segurança manual"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. Você deve protegê-las!",
   "testFaqLink": "Perguntas frequentes da {{appName}}",
   "termsOfServiceLink": "Termos de Serviço",
