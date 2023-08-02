@@ -9,13 +9,14 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata } from 'test/values'
 
 jest.mock('src/utils/Logger')
+jest.mock('react-native-video', () => 'ReactNativeVideo')
 
 describe('NftsInfoCarousel', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('renders correctly with one Nft', () => {
+  it('renders correctly with one Video Nft', () => {
     const { queryByTestId, getByTestId, getByText } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
@@ -25,10 +26,10 @@ describe('NftsInfoCarousel', () => {
     )
 
     // Correct image source should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
       'source',
       expect.objectContaining({
-        uri: mockNftAllFields.media[0].gateway,
+        uri: mockNftAllFields.media[1].gateway,
         headers: {
           origin: networkConfig.nftsValoraAppUrl,
         },
@@ -56,11 +57,11 @@ describe('NftsInfoCarousel', () => {
     // Carousel should be rendered
     expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
 
-    // Correct Nft Image and name should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+    // Correct Nft Video and name should be rendered
+    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
       'source',
       expect.objectContaining({
-        uri: mockNftAllFields.media[0].gateway,
+        uri: mockNftAllFields.media[1].gateway,
         headers: {
           origin: networkConfig.nftsValoraAppUrl,
         },
@@ -84,10 +85,10 @@ describe('NftsInfoCarousel', () => {
     // Return to first Nft
     fireEvent.press(getByTestId(nft1Thumbnail))
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
       'source',
       expect.objectContaining({
-        uri: mockNftAllFields.media[0].gateway,
+        uri: mockNftAllFields.media[1].gateway,
         headers: {
           origin: networkConfig.nftsValoraAppUrl,
         },
