@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -383,7 +383,9 @@ interface OnboardingEventsProperties {
     position: number
     cardOrder: AdventureCardName[]
   }
-  [OnboardingEvents.cya_later]: undefined
+  [OnboardingEvents.cya_later]: {
+    cardOrder: AdventureCardName[]
+  }
 }
 
 interface VerificationEventsProperties {
