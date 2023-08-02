@@ -695,12 +695,12 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
-  - segment-analytics-react-native (2.13.4):
+  - segment-analytics-react-native (2.15.0):
     - React-Core
     - sovran-react-native
   - Sentry/HybridSDK (7.31.5)
   - SocketRocket (0.6.0)
-  - sovran-react-native (1.0.1):
+  - sovran-react-native (1.0.4):
     - React-Core
   - Toast (4.0.0)
   - TOCropViewController (2.6.0)
@@ -1179,10 +1179,10 @@ SPEC CHECKSUMS:
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  segment-analytics-react-native: cc12d9422f7ce863ee57c1b650ab48eec4b6d5bd
+  segment-analytics-react-native: 2b90f606cda9234dd110d117c4ffc918d9ba29bb
   Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  sovran-react-native: 2964014cf2b12b6f0939a38199fe70477adc92b5
+  sovran-react-native: 791f2f726b4d57ece59676eda58d6da9dc95ad4e
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: bb774af243598f7f860127c6e9ac7b62fb6519c4
