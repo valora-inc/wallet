@@ -13,7 +13,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftImage from 'src/nfts/NftImage'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/selectors'
+import {
+  nftsErrorSelector,
+  nftsLoadingSelector,
+  nftsWithMetadataSelector,
+} from 'src/nfts/selectors'
 import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
@@ -29,7 +33,7 @@ export default function NftGallery() {
   const dispatch = useDispatch()
   const loading = useSelector(nftsLoadingSelector)
   const error = useSelector(nftsErrorSelector)
-  const nfts = useSelector(nftsSelector)
+  const nfts = useSelector(nftsWithMetadataSelector)
   const insets = useSafeAreaInsets()
 
   useEffect(() => {
