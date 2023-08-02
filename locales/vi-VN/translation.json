@@ -103,6 +103,23 @@
       "subtitle": "Nhập số điện thoại mà trước đây bạn đã sử dụng để thiết lập sao lưu.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số của bạn."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in progress..."
+      },
+      "completed": {
+        "title": "Backup complete",
+        "body": "You are now able to recover your wallet with your email address and phone number."
+      },
+      "failed": {
+        "title": "Keyless backup unavailable",
+        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "later": "I'll backup later",
+        "manual": "Manual Backup"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
