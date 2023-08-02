@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { keylessBackupStarted } from 'src/keylessBackup/slice'
 
 const mockFetch = fetch as FetchMock
 const store = createMockStore()
@@ -80,7 +81,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
     })
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.cabIssueValoraKeyshareUrl}`, {
       method: 'POST',
       headers: {
@@ -89,8 +90,16 @@ describe('KeylessBackupPhoneCodeInput', () => {
       body: '{"phoneNumber":"+15555555555","smsCode":"123456","clientPlatform":"android","clientBundleId":"org.celo.mobile.debug"}',
     })
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
-    expect(store.getActions()).toEqual([valoraKeyshareIssued({ keyshare: 'valora-keyshare' })])
-    // TODO: assert navigation to screen when implemented
+
+    expect(store.getActions()).toEqual([
+      valoraKeyshareIssued({ keyshare: 'valora-keyshare' }),
+      keylessBackupStarted({ keylessBackupFlow: KeylessBackupFlow.Setup }),
+    ])
+
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupProgress, {
+      keylessBackupFlow: KeylessBackupFlow.Setup,
+    })
   })
 
   it('shows error in verifying sms code', async () => {

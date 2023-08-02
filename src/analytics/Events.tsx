@@ -95,6 +95,9 @@ export enum KeylessBackupEvents {
   cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
   cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
   cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
+  cab_progress_completed_continue = 'cab_progress_completed_continue',
+  cab_progress_failed_later = 'cab_progress_failed_later',
+  cab_progress_failed_manual = 'cab_progress_failed_manual',
 }
 
 export enum OnboardingEvents {
