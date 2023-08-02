@@ -103,6 +103,23 @@
       "subtitle": "Gib die Telefonnummer ein, die du für die Einrichtung der Sicherung verwendet hast.\n\nWir senden dir einen Code zu, um zu verifizieren, dass diese Nummer dir gehört."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in Arbeit..."
+      },
+      "completed": {
+        "title": "Sicherung abgeschlossen",
+        "body": "Jetzt kannst du deine Brieftasche mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
+      },
+      "failed": {
+        "title": "Schlüssellose Sicherung nicht verfügbar",
+        "body": "Du kannst später ein schlüsselloses Backup einrichten oder dein Konto jetzt schützen, indem du es manuell sicherst.",
+        "later": "Ich werde später ein Backup machen",
+        "manual": "Manuelle Sicherung"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
