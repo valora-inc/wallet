@@ -60,5 +60,11 @@
       </intent-filter>
     </service>
     <meta-data android:name="CLEVERTAP_NOTIFICATION_ICON" android:value="ic_notification_small"/>
+    <meta-data
+        android:name="CLEVERTAP_ACCOUNT_ID"
+         android:value="${clevertapAccountId}"/>
+    <meta-data
+        android:name="CLEVERTAP_TOKEN"
+        android:value="${clevertapToken}"/>
   </application>
 </manifest>

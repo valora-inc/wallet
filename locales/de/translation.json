@@ -103,6 +103,23 @@
       "subtitle": "Gib die Telefonnummer ein, die du für die Einrichtung der Sicherung verwendet hast.\n\nWir senden dir einen Code zu, um zu verifizieren, dass diese Nummer dir gehört."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in Arbeit..."
+      },
+      "completed": {
+        "title": "Sicherung abgeschlossen",
+        "body": "Jetzt kannst du deine Brieftasche mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
+      },
+      "failed": {
+        "title": "Schlüssellose Sicherung nicht verfügbar",
+        "body": "Du kannst später ein schlüsselloses Backup einrichten oder dein Konto jetzt schützen, indem du es manuell sicherst.",
+        "later": "Ich werde später ein Backup machen",
+        "manual": "Manuelle Sicherung"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
@@ -1063,6 +1080,24 @@
     "unsupportedChain": {
       "title": "Nicht unterstützte Kette",
       "description": "{{dappName}} diese Aktion auf einer Kette anfordert, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Nicht unterstützte Kette",
+        "description": "{{dappName}} mit einer Kette verbinden möchte, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo auf der Dapp-Seite ausgewählt ist."
+      },
+      "warnUnsupportedChains": {
+        "title": "Nicht unterstützte Kette",
+        "description": "{{dappName}} Celo nicht als unterstützte Kette angegeben hat. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Nicht unterstützte Methoden",
+        "description": "{{dappName}} einige Methoden angegeben, die von {{appName}}nicht unterstützt werden. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Nicht unterstützte Ereignisse",
+        "description": "{{dappName}} einige Ereignisse angegeben, die von {{appName}}nicht unterstützt werden. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+      }
     }
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
@@ -1781,6 +1816,9 @@
     },
     "invalidApiUrl": "Ungültige Hooks Vorschau API URL",
     "bannerTitle": "Hakenvorschau aktiviert, zum Deaktivieren antippen"
+  },
+  "assets": {
+    "claimRewards": "Belohnung beanspruchen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
