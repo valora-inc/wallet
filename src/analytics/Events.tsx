@@ -613,7 +613,7 @@ export enum AssetsEvents {
 
 export enum NftEvents {
   nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
-  nft_media_load = 'nft_media_load', // When of attempting to load NFT media
+  nft_media_load = 'nft_media_load', // When attempting to load NFT media
   nft_gallery_screen_open = 'nft_gallery_screen_open', // When the gallery screen is mounted
 }
 
