@@ -103,6 +103,23 @@
       "subtitle": "Inserisci il numero telefonico che hai usato per impostare il backup.\n\nTi invieremo un codice per verificare che questo numero sia tuo."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in corso..."
+      },
+      "completed": {
+        "title": "Backup completato",
+        "body": "Ora sei in grado di recuperare il tuo portafoglio con il tuo indirizzo e-mail e il tuo numero di telefono."
+      },
+      "failed": {
+        "title": "Backup senza chiave non disponibile",
+        "body": "Puoi impostare un backup senza chiavi in un secondo momento o proteggere il tuo account ora eseguendo il backup manualmente.",
+        "later": "Farò un backup più tardi",
+        "manual": "Backup manuale"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del tuo dispositivo. Tienile al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
@@ -1063,6 +1080,24 @@
     "unsupportedChain": {
       "title": "Catena non supportata",
       "description": "{{dappName}} sta richiedendo questa azione su una catena non supportata da {{appName}}. Assicurati che Celo sia la catena attiva sul lato della dapp."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Catena non supportata",
+        "description": "{{dappName}} Vorrei connettermi con una catena non supportata da {{appName}}. Assicurati che Celo sia selezionato sul lato dapp."
+      },
+      "warnUnsupportedChains": {
+        "title": "Catena non supportata",
+        "description": "{{dappName}} non ha specificato Celo come catena supportata. Alcune funzioni potrebbero non funzionare come previsto."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Metodi non supportati",
+        "description": "{{dappName}} ha specificato alcuni metodi che non sono supportati da {{appName}}. Alcune funzioni potrebbero non funzionare come previsto."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Eventi non supportati",
+        "description": "{{dappName}} ha specificato alcuni eventi che non sono supportati da {{appName}}. Alcune funzioni potrebbero non funzionare come previsto."
+      }
     }
   },
   "sessionInfo": "Questa applicazione potrebbe richiedere di eseguire le seguenti azioni:",
@@ -1781,6 +1816,9 @@
     },
     "invalidApiUrl": "URL API di anteprima dei ganci non valido",
     "bannerTitle": "Anteprima dei ganci abilitata, toccare per disabilitarla"
+  },
+  "assets": {
+    "claimRewards": "Richiedi ora"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

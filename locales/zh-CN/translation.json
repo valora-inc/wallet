@@ -103,6 +103,23 @@
       "subtitle": "输入您之前用于设置备份的电话号码。\n\n我们会向您发送一个代码，以验证这个号码归您所有。"
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "正在备份..."
+      },
+      "completed": {
+        "title": "备份完成",
+        "body": "现在，您可以通过电子邮件地址和电话号码找回钱包。"
+      },
+      "failed": {
+        "title": "无法使用无钥匙备份",
+        "body": "您可以稍后设置无键备份，或者现在就手动备份，保护您的账户。",
+        "later": "我稍后再备份",
+        "manual": "手动备份"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
@@ -1061,6 +1078,24 @@
     "unsupportedChain": {
       "title": "无支撑链",
       "description": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 Celo 是 dapp 上的活动链。"
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "无支撑链",
+        "description": "{{dappName}} 希望连接 {{appName}}不支持的链。请确保在 dapp 端选择了 Celo。"
+      },
+      "warnUnsupportedChains": {
+        "title": "无支撑链",
+        "description": "{{dappName}} 没有指定 Celo 为支持链。某些功能可能无法按预期运行。"
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "不支持的方法",
+        "description": "{{dappName}} 指定了一些 {{appName}}不支持的方法。某些功能可能无法按预期运行。"
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "不支持的事件",
+        "description": "{{dappName}} 指定了一些 {{appName}}不支持的事件。某些功能可能无法按预期运行。"
+      }
     }
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
@@ -1779,6 +1814,9 @@
     },
     "invalidApiUrl": "预览API URL无效",
     "bannerTitle": "钩子预览已启用，点击禁用"
+  },
+  "assets": {
+    "claimRewards": "领取奖励"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
