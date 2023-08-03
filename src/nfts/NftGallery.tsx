@@ -13,7 +13,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/selectors'
+import {
+  nftsErrorSelector,
+  nftsLoadingSelector,
+  nftsWithMetadataSelector,
+} from 'src/nfts/selectors'
 import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
@@ -29,7 +33,7 @@ export default function NftGallery() {
   const dispatch = useDispatch()
   const loading = useSelector(nftsLoadingSelector)
   const error = useSelector(nftsErrorSelector)
-  const nfts = useSelector(nftsSelector)
+  const nfts = useSelector(nftsWithMetadataSelector)
   const insets = useSafeAreaInsets()
 
   useEffect(() => {
@@ -61,40 +65,42 @@ export default function NftGallery() {
             />
           }
           renderItem={({ item, index }) => (
-            <Touchable
-              borderless={false}
-              onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
-              style={[
-                styles.touchableIcon,
-                // For even indexes, add right margin; for odd indexes, add left margin.
-                // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
-                index % 2 === 0
-                  ? { marginRight: Spacing.Regular16 } &&
-                    index === nfts.length - 1 &&
-                    styles.lastImage
-                  : { marginLeft: Spacing.Regular16 },
-              ]}
-            >
-              <NftMedia
-                nft={item}
-                testID="NftGallery/NftImage"
-                width={imageSize}
-                height={imageSize}
-                ErrorComponent={
-                  <View style={styles.errorView}>
-                    <ImageErrorIcon />
-                    {item.metadata?.name && (
-                      <Text numberOfLines={2} style={styles.noNftMetadataText}>
-                        {item.metadata.name}
-                      </Text>
-                    )}
-                  </View>
-                }
-                origin={NftOrigin.NftGallery}
-                borderRadius={Spacing.Regular16}
-                mediaType="image"
-              />
-            </Touchable>
+            <View style={styles.touchableContainer}>
+              <Touchable
+                borderless={false}
+                onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+                style={[
+                  styles.touchableIcon,
+                  // For even indexes, add right margin; for odd indexes, add left margin.
+                  // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
+                  index % 2 === 0
+                    ? { marginRight: Spacing.Regular16 } &&
+                      index === nfts.length - 1 &&
+                      styles.lastImage
+                    : { marginLeft: Spacing.Regular16 },
+                ]}
+              >
+                <NftMedia
+                  nft={item}
+                  testID="NftGallery/NftImage"
+                  width={imageSize}
+                  height={imageSize}
+                  ErrorComponent={
+                    <View style={styles.errorView}>
+                      <ImageErrorIcon />
+                      {item.metadata?.name && (
+                        <Text numberOfLines={2} style={styles.noNftMetadataText}>
+                          {item.metadata.name}
+                        </Text>
+                      )}
+                    </View>
+                  }
+                  origin={NftOrigin.NftGallery}
+                  borderRadius={Spacing.Regular16}
+                  mediaType="image"
+                />
+              </Touchable>
+            </View>
           )}
           keyExtractor={(item) => `${item.contractAddress}-${item.tokenId}`}
           ListEmptyComponent={
@@ -141,6 +147,10 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.gray3,
     textAlign: 'center',
+  },
+  touchableContainer: {
+    overflow: 'hidden',
+    borderRadius: Spacing.Regular16,
   },
   touchableIcon: {
     marginBottom: Spacing.Regular16,
