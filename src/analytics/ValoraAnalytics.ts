@@ -333,7 +333,7 @@ class ValoraAnalytics {
       // Prefixed super props
       ...prefixedSuperProps,
       // Statsig prop, won't be read properly by Statsig if prefixed
-      statsigEnvironment: STATSIG_ENV.tier,
+      statsigEnvironment: STATSIG_ENV,
     }
   }
 }
