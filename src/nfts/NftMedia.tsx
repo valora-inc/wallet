@@ -1,5 +1,6 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { useSelector } from 'react-redux'
@@ -71,6 +72,7 @@ export default function NftMedia({
   const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_HEIGHT)
   const [reloadAttempt, setReloadAttempt] = useState(0)
+  const headerHeight = useHeaderHeight()
 
   const fetchingNfts = useSelector(nftsLoadingSelector)
 
@@ -141,9 +143,9 @@ export default function NftMedia({
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
             testID={testID}
             style={{
-              marginTop: 42, // Otherwise the video controls are hidden behind the floating header :(
               height: DEFAULT_HEIGHT,
               width: variables.width,
+              marginTop: Platform.OS === 'ios' ? headerHeight / 2 : 0, // Otherwise the fullscreen option is hidden on iOS
               zIndex: 1, // Make sure the video player is in front of the loading skeleton
             }}
             onLoad={handleLoadSuccess}
@@ -152,7 +154,7 @@ export default function NftMedia({
             resizeMode="cover"
             muted={true}
             minLoadRetryCount={3}
-          ></Video>
+          />
           {/* This is a hack to get the loading skeleton to overlay the media player while loading, nesting within the player doesn't work */}
           <View style={{ marginTop: -DEFAULT_HEIGHT }}>
             <Placeholder mediaType="video" testID={`${testID}/VideoPlaceholder`} />
