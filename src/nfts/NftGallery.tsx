@@ -65,39 +65,41 @@ export default function NftGallery() {
             />
           }
           renderItem={({ item, index }) => (
-            <Touchable
-              borderless={false}
-              onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
-              style={[
-                styles.touchableIcon,
-                // For even indexes, add right margin; for odd indexes, add left margin.
-                // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
-                index % 2 === 0
-                  ? { marginRight: Spacing.Regular16 } &&
-                    index === nfts.length - 1 &&
-                    styles.lastImage
-                  : { marginLeft: Spacing.Regular16 },
-              ]}
-            >
-              <NftImage
-                nft={item}
-                testID="NftGallery/NftImage"
-                width={imageSize}
-                height={imageSize}
-                ErrorComponent={
-                  <View style={styles.errorView}>
-                    <ImageErrorIcon />
-                    {item.metadata?.name && (
-                      <Text numberOfLines={2} style={styles.noNftMetadataText}>
-                        {item.metadata.name}
-                      </Text>
-                    )}
-                  </View>
-                }
-                origin={NftOrigin.NftGallery}
-                borderRadius={Spacing.Regular16}
-              />
-            </Touchable>
+            <View style={styles.touchableContainer}>
+              <Touchable
+                borderless={false}
+                onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+                style={[
+                  styles.touchableIcon,
+                  // For even indexes, add right margin; for odd indexes, add left margin.
+                  // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
+                  index % 2 === 0
+                    ? { marginRight: Spacing.Regular16 } &&
+                      index === nfts.length - 1 &&
+                      styles.lastImage
+                    : { marginLeft: Spacing.Regular16 },
+                ]}
+              >
+                <NftImage
+                  nft={item}
+                  testID="NftGallery/NftImage"
+                  width={imageSize}
+                  height={imageSize}
+                  ErrorComponent={
+                    <View style={styles.errorView}>
+                      <ImageErrorIcon />
+                      {item.metadata?.name && (
+                        <Text numberOfLines={2} style={styles.noNftMetadataText}>
+                          {item.metadata.name}
+                        </Text>
+                      )}
+                    </View>
+                  }
+                  origin={NftOrigin.NftGallery}
+                  borderRadius={Spacing.Regular16}
+                />
+              </Touchable>
+            </View>
           )}
           keyExtractor={(item) => `${item.contractAddress}-${item.tokenId}`}
           ListEmptyComponent={
@@ -144,6 +146,10 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.gray3,
     textAlign: 'center',
+  },
+  touchableContainer: {
+    overflow: 'hidden',
+    borderRadius: Spacing.Regular16,
   },
   touchableIcon: {
     marginBottom: Spacing.Regular16,
