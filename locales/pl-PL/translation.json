@@ -103,6 +103,23 @@
       "subtitle": "Wprowadź numer telefonu użyty wcześniej do skonfigurowania kopii zapasowej.\n\nWyślemy Ci kod, aby zweryfikować, czy ten numer należy do Ciebie."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Kopia zapasowa w toku..."
+      },
+      "completed": {
+        "title": "Kopia zapasowa zakończona",
+        "body": "Możesz teraz odzyskać swój portfel za pomocą adresu e-mail i numeru telefonu."
+      },
+      "failed": {
+        "title": "Bezkluczykowa kopia zapasowa niedostępna",
+        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub chronić swoje konto teraz, tworząc kopie zapasowe ręcznie.",
+        "later": "Zrobię kopię zapasową później",
+        "manual": "Ręczna kopia zapasowa"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
@@ -1067,6 +1084,24 @@
     "unsupportedChain": {
       "title": "Nieobsługiwany łańcuch",
       "description": "{{dappName}} żąda tej akcji na łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie aplikacji."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Nieobsługiwany łańcuch",
+        "description": "{{dappName}} chcesz połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest wybrane po stronie aplikacji."
+      },
+      "warnUnsupportedChains": {
+        "title": "Nieobsługiwany łańcuch",
+        "description": "{{dappName}} nie określiła Celo jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Nieobsługiwane metody",
+        "description": "{{dappName}} określono niektóre metody, które nie są obsługiwane przez {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Nieobsługiwane zdarzenia",
+        "description": "{{dappName}} określono niektóre zdarzenia, które nie są obsługiwane przez {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+      }
     }
   },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
@@ -1785,6 +1820,9 @@
     },
     "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków",
     "bannerTitle": "Podgląd haków włączony, dotknij, aby wyłączyć"
+  },
+  "assets": {
+    "claimRewards": "Odbierz nagrody"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
