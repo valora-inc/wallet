@@ -14,6 +14,7 @@ import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { KeylessBackupStatus } from 'src/keylessBackup/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2396,6 +2397,18 @@ export const v138Schema = {
   },
 }
 
+export const v139Schema = {
+  ...v138Schema,
+  _persist: {
+    ...v138Schema._persist,
+    version: 139,
+  },
+  keylessBackup: {
+    ...v138Schema.keylessBackup,
+    backupStatus: KeylessBackupStatus.NotStarted,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v138Schema as Partial<RootState>
+  return v139Schema as Partial<RootState>
 }

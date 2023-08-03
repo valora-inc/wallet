@@ -4,6 +4,7 @@ import {
   googleSignInCompleted,
   googleSignInFailed,
   googleSignInStarted,
+  keylessBackupStarted,
 } from 'src/keylessBackup/slice'
 import Logger from 'src/utils/Logger'
 import { call, put, spawn, takeLeading } from 'typed-redux-saga'
@@ -32,10 +33,19 @@ export function* handleGoogleSignInStarted() {
   }
 }
 
+export function* handleKeylessBackupStarted({ payload }: ReturnType<typeof keylessBackupStarted>) {
+  // TODO(ACT-684?): Implement backup/restore flow
+}
+
 function* watchGoogleSignInStarted() {
   yield* takeLeading(googleSignInStarted.type, handleGoogleSignInStarted)
 }
 
+function* watchKeylessBackupStarted() {
+  yield* takeLeading(keylessBackupStarted.type, handleKeylessBackupStarted)
+}
+
 export function* keylessBackupSaga() {
   yield* spawn(watchGoogleSignInStarted)
+  yield* spawn(watchKeylessBackupStarted)
 }
