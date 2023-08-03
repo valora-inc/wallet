@@ -711,6 +711,7 @@ PODS:
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - CleverTap-iOS-SDK
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - CTNotificationService
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -1188,6 +1189,6 @@ SPEC CHECKSUMS:
   Yoga: bb774af243598f7f860127c6e9ac7b62fb6519c4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: f2b17532c87bd562359542e44c3de4574265ae91
+PODFILE CHECKSUM: bd53fc313400ba78777b945e2ba8a118e1c4a451
 
 COCOAPODS: 1.12.1

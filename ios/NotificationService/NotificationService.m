@@ -10,4 +10,15 @@
 
 @implementation NotificationService
 
+- (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
+    
+    self.contentHandler = contentHandler;
+    self.bestAttemptContent = [request.content mutableCopy];
+
+    // call to record the Notification viewed
+    NSLog(@"About to recordNotificationViewedEventWithData");
+    [[CleverTap sharedInstance] recordNotificationViewedEventWithData:request.content.userInfo];
+    [super didReceiveNotificationRequest:request withContentHandler:contentHandler];
+}
+
 @end
