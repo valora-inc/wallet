@@ -16,7 +16,7 @@ describe('NftsInfoCarousel', () => {
     jest.clearAllMocks()
   })
 
-  it('renders correctly with one Video Nft', () => {
+  it('renders correctly with one Nft', () => {
     const { queryByTestId, getByTestId, getByText } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
