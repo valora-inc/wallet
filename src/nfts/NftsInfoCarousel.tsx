@@ -105,7 +105,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
   const { t } = useTranslation()
-  const hasVideo = activeNft.metadata?.animation_url ? true : false
 
   function pressExplorerLink() {
     navigate(Screens.WebViewScreen, {
@@ -127,10 +126,10 @@ export default function NftsInfoCarousel({ route }: Props) {
       <ScrollView>
         {/* Main Nft Video or Image */}
         <NftMedia
-          shouldAutoScaleHeight={hasVideo ? false : true}
+          shouldAutoScaleHeight={activeNft.metadata?.animation_url ? false : true}
           height={DEFAULT_HEIGHT}
           nft={activeNft}
-          mediaType={hasVideo ? 'video' : 'image'}
+          mediaType={activeNft.metadata?.animation_url ? 'video' : 'image'}
           origin={NftOrigin.NftsInfoCarouselMain}
           ErrorComponent={
             <View style={styles.nftImageLoadingErrorContainer}>
