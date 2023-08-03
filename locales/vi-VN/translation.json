@@ -103,6 +103,23 @@
       "subtitle": "Nhập số điện thoại mà trước đây bạn đã sử dụng để thiết lập sao lưu.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số của bạn."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in progress..."
+      },
+      "completed": {
+        "title": "Backup complete",
+        "body": "You are now able to recover your wallet with your email address and phone number."
+      },
+      "failed": {
+        "title": "Keyless backup unavailable",
+        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "later": "I'll backup later",
+        "manual": "Manual Backup"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
@@ -1061,6 +1078,24 @@
     "unsupportedChain": {
       "title": "Unsupported chain",
       "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+      },
+      "warnUnsupportedChains": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Unsupported methods",
+        "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Unsupported events",
+        "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
+      }
     }
   },
   "sessionInfo": "Ứng dụng này có thể sẽ yêu cầu thực hiện các thao tác sau:",
@@ -1779,6 +1814,9 @@
     },
     "invalidApiUrl": "Invalid hooks preview API URL",
     "bannerTitle": "Hooks preview enabled, tap to disable"
+  },
+  "assets": {
+    "claimRewards": "Xác nhận tiền thưởng"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
