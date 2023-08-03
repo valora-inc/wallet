@@ -125,34 +125,22 @@ export default function NftsInfoCarousel({ route }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {/* Main Nft Video or Image */}
-        {activeNft.metadata?.animation_url ? (
-          <NftMedia
-            nft={activeNft}
-            mediaType="video"
-            origin={NftOrigin.NftsInfoCarouselMain}
-            ErrorComponent={
-              <View style={styles.nftImageLoadingErrorContainer}>
-                <ImageErrorIcon />
-                <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
-              </View>
-            }
-            testID="NftsInfoCarousel/MainVideo"
-          />
-        ) : (
-          <NftMedia
-            nft={activeNft}
-            ErrorComponent={
-              <View style={styles.nftImageLoadingErrorContainer}>
-                <ImageErrorIcon />
-                <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
-              </View>
-            }
-            testID="NftsInfoCarousel/MainImage"
-            origin={NftOrigin.NftsInfoCarouselMain}
-            shouldAutoScaleHeight
-            mediaType={'image'}
-          />
-        )}
+        <NftMedia
+          nft={activeNft}
+          mediaType={activeNft.metadata?.animation_url ? 'video' : 'image'}
+          origin={NftOrigin.NftsInfoCarouselMain}
+          ErrorComponent={
+            <View style={styles.nftImageLoadingErrorContainer}>
+              <ImageErrorIcon />
+              <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
+            </View>
+          }
+          testID={
+            activeNft.metadata?.animation_url
+              ? 'NftsInfoCarousel/MainVideo'
+              : 'NftsInfoCarousel/MainImage'
+          }
+        />
         {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
           <NftImageCarousel
