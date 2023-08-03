@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -57,46 +57,53 @@ function ChooseYourAdventure() {
   const { t } = useTranslation()
   const address = useSelector(walletAddressSelector)
 
+  const cardDetails = [
+    {
+      text: t('chooseYourAdventure.options.add'),
+      goToNextScreen: () => {
+        navigateHome() // navigate home so that back on the fiat exchange currency screen takes the user back to Home screen
+        navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+      },
+      icon: <PlusIcon />,
+      name: AdventureCardName.Add,
+    },
+    {
+      text: t('chooseYourAdventure.options.dapp'),
+      goToNextScreen: () => {
+        navigateHome({ params: { initialScreen: Screens.DAppsExplorerScreen } })
+      },
+      icon: <GraphSparkle />,
+      name: AdventureCardName.Dapp,
+    },
+    {
+      text: t('chooseYourAdventure.options.profile'),
+      goToNextScreen: () => {
+        navigateHome()
+        navigate(Screens.Profile)
+      },
+      icon: <ProfilePlus />,
+      name: AdventureCardName.Profile,
+    },
+    {
+      text: t('chooseYourAdventure.options.learn'),
+      goToNextScreen: () => {
+        navigateHome({ params: { initialScreen: Screens.ExchangeHomeScreen } })
+      },
+      icon: <CeloIconNew />,
+      name: AdventureCardName.Learn,
+    },
+  ]
+
+  const shuffledCardDetails = useMemo(() => {
+    return shuffle(cardDetails, address ?? DEFAULT_SEED)
+  }, [address])
+
+  const cardOrder: AdventureCardName[] = useMemo(() => {
+    return shuffledCardDetails.map((details) => details.name)
+  }, [shuffledCardDetails])
+
   const getAdventureCards = () => {
-    const cardDetails = [
-      {
-        text: t('chooseYourAdventure.options.add'),
-        goToNextScreen: () => {
-          navigateHome() // navigate home so that back on the fiat exchange currency screen takes the user back to Home screen
-          navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
-        },
-        icon: <PlusIcon />,
-        name: AdventureCardName.Add,
-      },
-      {
-        text: t('chooseYourAdventure.options.dapp'),
-        goToNextScreen: () => {
-          navigateHome({ params: { initialScreen: Screens.DAppsExplorerScreen } })
-        },
-        icon: <GraphSparkle />,
-        name: AdventureCardName.Dapp,
-      },
-      {
-        text: t('chooseYourAdventure.options.profile'),
-        goToNextScreen: () => {
-          navigateHome()
-          navigate(Screens.Profile)
-        },
-        icon: <ProfilePlus />,
-        name: AdventureCardName.Profile,
-      },
-      {
-        text: t('chooseYourAdventure.options.learn'),
-        goToNextScreen: () => {
-          navigateHome({ params: { initialScreen: Screens.ExchangeHomeScreen } })
-        },
-        icon: <CeloIconNew />,
-        name: AdventureCardName.Learn,
-      },
-    ]
-    const shuffled = shuffle(cardDetails, address ?? DEFAULT_SEED)
-    const cardOrder: AdventureCardName[] = shuffled.map((details) => details.name)
-    return shuffled.map(({ text, goToNextScreen, icon, name }, index) => {
+    return shuffledCardDetails.map(({ text, goToNextScreen, icon, name }, index) => {
       const onPress = () => {
         ValoraAnalytics.track(OnboardingEvents.cya_button_press, {
           position: index + 1,
@@ -110,7 +117,9 @@ function ChooseYourAdventure() {
   }
 
   const onNavigateHome = () => {
-    ValoraAnalytics.track(OnboardingEvents.cya_later)
+    ValoraAnalytics.track(OnboardingEvents.cya_later, {
+      cardOrder,
+    })
     navigateHome()
   }
 

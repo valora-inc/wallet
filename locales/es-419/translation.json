@@ -103,6 +103,23 @@
       "subtitle": "Ingresa el número de teléfono que utilizaste para configurar la copia de seguridad.\n\nTe enviaremos un código para verificar que este número es tuyo."
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Copia de seguridad en curso..."
+      },
+      "completed": {
+        "title": "Copia de seguridad completa",
+        "body": "Ahora puedes recuperar tu monedero con tu dirección de correo electrónico y tu número de teléfono."
+      },
+      "failed": {
+        "title": "No está disponible la copia de seguridad sin llave",
+        "body": "Puedes configurar una copia de seguridad sin llave más adelante o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
+        "later": "Haré una copia de seguridad más tarde",
+        "manual": "Copia de seguridad manual"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
@@ -1063,6 +1080,24 @@
     "unsupportedChain": {
       "title": "Cadena sin soporte",
       "description": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo es la cadena activa en el lado de la dapp."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Cadena sin soporte",
+        "description": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo está seleccionado en el lado de la dapp."
+      },
+      "warnUnsupportedChains": {
+        "title": "Cadena sin soporte",
+        "description": "{{dappName}} no especificó Celo como cadena compatible. Es posible que algunas funciones no funcionen como se esperaba."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Métodos no admitidos",
+        "description": "{{dappName}} especifica algunos métodos que no son compatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Eventos no admitidos",
+        "description": "{{dappName}} especifica algunos eventos que no son compatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
+      }
     }
   },
   "sessionInfo": "Esta aplicación puede solicitar realizar las siguientes acciones:",
@@ -1781,6 +1816,9 @@
     },
     "invalidApiUrl": "URL API de previsualización de ganchos no válida",
     "bannerTitle": "Vista previa de ganchos activada, pulsa para desactivarla"
+  },
+  "assets": {
+    "claimRewards": "Reclamar recompensas"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

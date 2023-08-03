@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -227,6 +227,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_progress_completed_continue]: undefined
+  [KeylessBackupEvents.cab_progress_failed_later]: undefined
+  [KeylessBackupEvents.cab_progress_failed_manual]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -380,7 +383,9 @@ interface OnboardingEventsProperties {
     position: number
     cardOrder: AdventureCardName[]
   }
-  [OnboardingEvents.cya_later]: undefined
+  [OnboardingEvents.cya_later]: {
+    cardOrder: AdventureCardName[]
+  }
 }
 
 interface VerificationEventsProperties {
