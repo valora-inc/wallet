@@ -18,7 +18,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import networkConfig from 'src/web3/networkConfig'
 
-const DEFAULT_IMAGE_HEIGHT = 360
+const DEFAULT_HEIGHT = 360
 
 interface NftThumbnailProps {
   nft: Nft
@@ -105,6 +105,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
   const { t } = useTranslation()
+  const hasVideo = activeNft.metadata?.animation_url ? true : false
 
   function pressExplorerLink() {
     navigate(Screens.WebViewScreen, {
@@ -126,8 +127,10 @@ export default function NftsInfoCarousel({ route }: Props) {
       <ScrollView>
         {/* Main Nft Video or Image */}
         <NftMedia
+          shouldAutoScaleHeight={hasVideo ? false : true}
+          height={DEFAULT_HEIGHT}
           nft={activeNft}
-          mediaType={activeNft.metadata?.animation_url ? 'video' : 'image'}
+          mediaType={hasVideo ? 'video' : 'image'}
           origin={NftOrigin.NftsInfoCarouselMain}
           ErrorComponent={
             <View style={styles.nftImageLoadingErrorContainer}>
@@ -239,7 +242,7 @@ const styles = StyleSheet.create({
   },
   nftImageLoadingErrorContainer: {
     width: '100%',
-    height: DEFAULT_IMAGE_HEIGHT,
+    height: DEFAULT_HEIGHT,
     backgroundColor: colors.gray1,
     alignItems: 'center',
     justifyContent: 'center',

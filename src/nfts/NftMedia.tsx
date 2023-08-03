@@ -34,8 +34,7 @@ interface Props extends PlaceHolderProps {
 function Placeholder({
   testID,
   width,
-  mediaType,
-  height = mediaType === 'video' ? DEFAULT_HEIGHT : 40,
+  height = DEFAULT_HEIGHT,
   borderRadius = 0,
 }: PlaceHolderProps) {
   return (
