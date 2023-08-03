@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
@@ -14,24 +15,22 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/SignInWithEmail'
 
-function onPressCancel() {
-  ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_cancel)
-  navigate(Screens.SetUpKeylessBackup)
-}
+type Props = NativeStackScreenProps<StackParamList, Screens.SignInWithEmail>
 
-// TODO: support recovery flow
-function SignInWithEmail() {
+function SignInWithEmail({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { authorize, getCredentials, clearCredentials } = useAuth0()
+  const { keylessBackupFlow } = route.params
 
   const onPressGoogle = async () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, { keylessBackupFlow })
     try {
       // clear any existing saved credentials
       await clearCredentials()
@@ -49,9 +48,11 @@ function SignInWithEmail() {
       if (!credentials.idToken) {
         throw new Error('got an empty token from auth0')
       }
-      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow: KeylessBackupFlow.Setup })
+      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow })
       dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
-      ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success)
+      ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
+        keylessBackupFlow,
+      })
     } catch (err) {
       Logger.warn(TAG, 'login failed', err)
     }
@@ -61,7 +62,11 @@ function SignInWithEmail() {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>{t('signInWithEmail.title')}</Text>
-        <Text style={styles.subtitle}>{t('signInWithEmail.subtitle')}</Text>
+        <Text style={styles.subtitle}>
+          {keylessBackupFlow === KeylessBackupFlow.Setup
+            ? t('signInWithEmail.subtitle')
+            : t('signInWithEmail.subtitleRestore')}
+        </Text>
       </ScrollView>
       <Button
         testID="SignInWithEmail/Google"
@@ -78,9 +83,25 @@ function SignInWithEmail() {
   )
 }
 
-SignInWithEmail.navigationOptions = () => ({
+SignInWithEmail.navigationOptions = ({ route }: Props) => ({
   ...emptyHeader,
-  headerLeft: () => <TopBarIconButton icon={<Times />} onPress={onPressCancel} />,
+  headerLeft: () => (
+    <TopBarIconButton
+      testID="SignInWithEmail/Close"
+      icon={<Times />}
+      onPress={() => {
+        const { keylessBackupFlow } = route.params
+        ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_cancel, {
+          keylessBackupFlow,
+        })
+        navigate(
+          keylessBackupFlow === KeylessBackupFlow.Setup
+            ? Screens.SetUpKeylessBackup
+            : Screens.ImportWallet // TODO(any): use the new restore landing screen once built
+        )
+      }}
+    />
+  ),
 })
 
 export default SignInWithEmail
