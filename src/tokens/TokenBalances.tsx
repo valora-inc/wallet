@@ -327,7 +327,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
               </View>
             </Touchable>
           )}
-          <View style={{ height: Spacing.Thick24 }} />
+          <View style={styles.spacer} />
           <AssetsTokenBalance showInfo={displayPositions} />
         </View>
         {displayPositions && (
@@ -418,6 +418,9 @@ const styles = StyleSheet.create({
   positionSectionHeaderText: {
     ...fontStyles.xsmall600,
     color: Colors.gray5,
+  },
+  spacer: {
+    height: Spacing.Thick24,
   },
   nonStickyHeaderContainer: {
     zIndex: 1,
