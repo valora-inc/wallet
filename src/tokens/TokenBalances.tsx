@@ -327,6 +327,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
               </View>
             </Touchable>
           )}
+          <View style={{ height: Spacing.Thick24 }} />
           <AssetsTokenBalance showInfo={displayPositions} />
         </View>
         {displayPositions && (
@@ -384,7 +385,6 @@ TokenBalancesScreen.navigationOptions = {
 const styles = StyleSheet.create({
   nftBannerContainer: {
     marginHorizontal: -Spacing.Thick24,
-    marginBottom: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
     paddingVertical: 4,
     justifyContent: 'space-between',
