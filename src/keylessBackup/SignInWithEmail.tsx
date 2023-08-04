@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
 import { useAuth0 } from 'react-native-auth0'
@@ -28,8 +28,10 @@ function SignInWithEmail({ route }: Props) {
   const dispatch = useDispatch()
   const { authorize, getCredentials, clearCredentials } = useAuth0()
   const { keylessBackupFlow } = route.params
+  const [loading, setLoading] = useState(false)
 
   const onPressGoogle = async () => {
+    setLoading(true)
     ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, { keylessBackupFlow })
     try {
       // clear any existing saved credentials
@@ -42,6 +44,7 @@ function SignInWithEmail({ route }: Props) {
 
       if (!credentials) {
         Logger.debug(TAG, 'login cancelled')
+        setLoading(false)
         return
       }
 
@@ -53,8 +56,13 @@ function SignInWithEmail({ route }: Props) {
       ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
         keylessBackupFlow,
       })
+      setTimeout(() => {
+        // to avoid screen flash
+        setLoading(false)
+      }, 1000)
     } catch (err) {
       Logger.warn(TAG, 'login failed', err)
+      setLoading(false)
     }
   }
 
@@ -77,7 +85,9 @@ function SignInWithEmail({ route }: Props) {
         style={styles.button}
         icon={<GoogleIcon />}
         iconMargin={12}
-        touchableStyle={styles.buttonTouchable}
+        touchableStyle={loading ? undefined : styles.buttonTouchable}
+        showLoading={loading}
+        disabled={loading}
       />
     </SafeAreaView>
   )
