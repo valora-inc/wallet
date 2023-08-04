@@ -9,12 +9,12 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { KeylessBackupStatus } from 'src/keylessBackup/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { KeylessBackupStatus } from 'src/keylessBackup/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2409,6 +2409,18 @@ export const v139Schema = {
   },
 }
 
+export const v140Schema = {
+  ...v139Schema,
+  _persist: {
+    ...v139Schema._persist,
+    version: 140,
+  },
+  keylessBackup: {
+    ..._.omit(v139Schema.keylessBackup, 'google'),
+    googleIdToken: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v139Schema as Partial<RootState>
+  return v140Schema as Partial<RootState>
 }

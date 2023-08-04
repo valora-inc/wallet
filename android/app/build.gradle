@@ -201,6 +201,8 @@ android {
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         manifestPlaceholders = [
+            auth0Domain: project.env.get("AUTH0_DOMAIN"),
+            auth0Scheme: "${applicationId}",
             clevertapAccountId: secrets['CLEVERTAP_ACCOUNT_ID'] ?: '', // these values cannot be null
             clevertapToken: secrets['CLEVERTAP_TOKEN'] ?: ''
         ]

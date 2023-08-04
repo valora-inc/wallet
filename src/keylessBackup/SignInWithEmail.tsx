@@ -1,31 +1,60 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { useAuth0 } from 'react-native-auth0'
 import { useDispatch } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import GoogleIcon from 'src/icons/Google'
 import Times from 'src/icons/Times'
-import { googleSignInStarted } from 'src/keylessBackup/slice'
+import { googleSignInCompleted } from 'src/keylessBackup/slice'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import fontStyles from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'keylessBackup/SignInWithEmail'
 
 function onPressCancel() {
-  ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_email_screen_cancel)
-  navigateHome({ params: { initialScreen: Screens.Settings } })
+  ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_cancel)
+  navigate(Screens.SetUpKeylessBackup)
 }
 
+// TODO: support recovery flow
 function SignInWithEmail() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { authorize, getCredentials, clearCredentials } = useAuth0()
 
-  const onPressGoogle = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.sign_in_with_google)
-    dispatch(googleSignInStarted())
+  const onPressGoogle = async () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google)
+    try {
+      // clear any existing saved credentials
+      await clearCredentials()
+
+      Logger.debug(TAG, 'Starting auth0 login')
+
+      await authorize({ scope: 'email', connection: 'google-oauth2' })
+      const credentials = await getCredentials()
+
+      if (!credentials) {
+        Logger.debug(TAG, 'login cancelled')
+        return
+      }
+
+      if (!credentials.idToken) {
+        throw new Error('got an empty token from auth0')
+      }
+      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow: KeylessBackupFlow.Setup })
+      dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
+      ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success)
+    } catch (err) {
+      Logger.warn(TAG, 'login failed', err)
+    }
   }
 
   return (
@@ -51,13 +80,7 @@ function SignInWithEmail() {
 
 SignInWithEmail.navigationOptions = () => ({
   ...emptyHeader,
-  headerLeft: () => (
-    <TopBarIconButton
-      style={styles.cancelButton}
-      icon={<Times height={16} />}
-      onPress={onPressCancel}
-    />
-  ),
+  headerLeft: () => <TopBarIconButton icon={<Times />} onPress={onPressCancel} />,
 })
 
 export default SignInWithEmail
@@ -70,9 +93,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: 24,
     paddingTop: 36,
-  },
-  cancelButton: {
-    marginLeft: 16,
   },
   title: {
     ...fontStyles.h2,
