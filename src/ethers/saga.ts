@@ -26,7 +26,7 @@ export function* getSendTxFeeDetails({
     recipientAddress,
     encryptedComment || ''
   )
-  // It may never be worth it for us to port this fee calculation logic to ethers since it is so celo-specific
+  // todo(any): port this logic over from contractkit to use ethers
   const { feeCurrency, gas, gasPrice } = yield* call(
     chooseTxFeeDetails,
     celoTx.txo,
