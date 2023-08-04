@@ -34,6 +34,9 @@ export const slice = createSlice({
     ) => {
       state.backupStatus = KeylessBackupStatus.InProgress
     },
+    keylessBackupFailed: (state) => {
+      state.backupStatus = KeylessBackupStatus.Failed
+    },
   },
 })
 
@@ -42,6 +45,7 @@ export const {
   valoraKeyshareIssued,
   torusKeyshareIssued,
   keylessBackupStarted,
+  keylessBackupFailed,
 } = slice.actions
 
 export default slice.reducer

@@ -1,10 +1,14 @@
 import {
   googleSignInCompleted,
+  keylessBackupFailed,
   keylessBackupStarted,
   torusKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { call, put, spawn, takeLeading } from 'typed-redux-saga'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'keylessBackup/saga'
 
 export function* handleKeylessBackupStarted({ payload }: ReturnType<typeof keylessBackupStarted>) {
   // TODO(ACT-684?): Implement backup/restore flow
@@ -13,8 +17,13 @@ export function* handleKeylessBackupStarted({ payload }: ReturnType<typeof keyle
 export function* handleGoogleSignInCompleted({
   payload: { idToken: jwt },
 }: ReturnType<typeof googleSignInCompleted>) {
-  const torusPrivateKey = yield* call(getTorusPrivateKey, { verifier: 'valora-auth0', jwt })
-  yield* put(torusKeyshareIssued({ keyshare: torusPrivateKey }))
+  try {
+    const torusPrivateKey = yield* call(getTorusPrivateKey, { verifier: 'valora-auth0', jwt })
+    yield* put(torusKeyshareIssued({ keyshare: torusPrivateKey }))
+  } catch (error) {
+    Logger.error(TAG, 'Error getting Torus private key from auth0 jwt', error)
+    yield* put(keylessBackupFailed())
+  }
 }
 
 function* watchKeylessBackupStarted() {
