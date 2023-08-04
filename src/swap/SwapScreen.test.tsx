@@ -104,9 +104,9 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           balance: celoBalance,
         },
         [mockTestTokenAddress]: {
+          // no usdPrice
           address: mockTestTokenAddress,
           symbol: 'TT',
-          priceFetchedAt: now,
           decimals: 18,
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/TT.png',
@@ -116,9 +116,9 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           balance: '100',
         },
         [mockPoofAddress]: {
+          // no usdPrice
           address: mockPoofAddress,
           symbol: 'POOF',
-          priceFetchedAt: now,
           decimals: 18,
           imageUrl: `https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/POOF.png`,
           isCoreToken: false,
@@ -668,15 +668,15 @@ describe('SwapScreen', () => {
       swappingNonNativeTokensEnabled: true,
     })
 
-    const { swapToContainer, getByPlaceholderText, queryByTestId } = renderScreen({})
+    const { swapToContainer, getByPlaceholderText, getByTestId, queryByTestId } = renderScreen({})
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
     expect(getByPlaceholderText('tokenBottomSheet.searchAssets')).toBeTruthy()
-    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
-    expect(queryByTestId('cEURTouchable')).toBeTruthy()
-    expect(queryByTestId('POOFTouchable')).toBeTruthy()
-    expect(queryByTestId('CELOTouchable')).toBeTruthy()
-    expect(queryByTestId('TTTouchable')).toBeNull()
+    expect(getByTestId('cUSDTouchable')).toBeTruthy()
+    expect(getByTestId('cEURTouchable')).toBeTruthy()
+    expect(getByTestId('CELOTouchable')).toBeTruthy()
+    expect(queryByTestId('POOFTouchable')).toBeFalsy()
+    expect(queryByTestId('TTTouchable')).toBeFalsy()
   })
 
   it('should be able to hide top drawer nav when parameter is set', () => {
