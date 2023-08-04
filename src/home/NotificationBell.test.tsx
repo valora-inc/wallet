@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import NotificationBell from 'src/components/NotificationBell'
+import NotificationBell from 'src/home/NotificationBell'
 
 const mockUseNotifications = jest.fn()
 
