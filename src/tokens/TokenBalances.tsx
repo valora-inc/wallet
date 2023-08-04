@@ -95,6 +95,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
     visualizeNFTsEnabledInHomeAssetsPageSelector
   )
+  const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
 
@@ -201,9 +202,11 @@ function TokenBalancesScreen({ navigation, route }: Props) {
 
   const onPressNFTsBanner = () => {
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
-    navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
-    })
+    shouldShowNftGallery
+      ? navigate(Screens.NftGallery)
+      : navigate(Screens.WebViewScreen, {
+          uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+        })
   }
 
   const handleMeasureNonStickyHeaderHeight = (event: LayoutChangeEvent) => {
@@ -314,14 +317,17 @@ function TokenBalancesScreen({ navigation, route }: Props) {
               onPress={onPressNFTsBanner}
             >
               <View style={styles.nftBannerContainer}>
-                <Text style={styles.nftBannerText}>{t('nftViewer')}</Text>
+                <Text style={styles.nftBannerText}>
+                  {shouldShowNftGallery ? t('nftGallery.title') : t('nftViewer')}
+                </Text>
                 <View style={styles.nftBannerCtaContainer}>
                   <Text style={styles.nftBannerText}>{t('open')}</Text>
-                  <OpenLinkIcon color={Colors.greenUI} />
+                  {!shouldShowNftGallery && <OpenLinkIcon color={Colors.greenUI} />}
                 </View>
               </View>
             </Touchable>
           )}
+          <View style={styles.spacer} />
           <AssetsTokenBalance showInfo={displayPositions} />
         </View>
         {displayPositions && (
@@ -379,7 +385,6 @@ TokenBalancesScreen.navigationOptions = {
 const styles = StyleSheet.create({
   nftBannerContainer: {
     marginHorizontal: -Spacing.Thick24,
-    marginBottom: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
     paddingVertical: 4,
     justifyContent: 'space-between',
@@ -413,6 +418,9 @@ const styles = StyleSheet.create({
   positionSectionHeaderText: {
     ...fontStyles.xsmall600,
     color: Colors.gray5,
+  },
+  spacer: {
+    height: Spacing.Thick24,
   },
   nonStickyHeaderContainer: {
     zIndex: 1,
