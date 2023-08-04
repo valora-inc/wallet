@@ -30,7 +30,7 @@ export interface ButtonProps {
   onPress: () => void
   style?: StyleProp<ViewStyle>
   text: string | ReactNode
-  showLoading?: boolean
+  showLoading?: boolean // shows activity indicator on the button, but doesn't disable it. disabled must explicitly be set to disable the button
   loadingColor?: string
   accessibilityLabel?: string
   type?: BtnTypes

@@ -68,6 +68,7 @@ describe('SignInWithEmail', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
     })
+    expect(getByTestId('Button/Loading')).toBeTruthy()
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupPhoneInput, {
       keylessBackupFlow: KeylessBackupFlow.Setup,
@@ -85,9 +86,10 @@ describe('SignInWithEmail', () => {
 
   it('pressing button invokes authorize and logs warning if authorize fails', async () => {
     mockAuthorize.mockRejectedValue(new Error('auth failed'))
-    const { getByTestId } = renderComponent()
+    const { getByTestId, queryByTestId } = renderComponent()
     const continueButton = getByTestId('SignInWithEmail/Google')
     fireEvent.press(continueButton)
+    expect(getByTestId('Button/Loading')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
     })
@@ -98,13 +100,15 @@ describe('SignInWithEmail', () => {
     expect(mockGetCredentials).not.toHaveBeenCalled()
     expect(store.getActions()).toEqual([])
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(queryByTestId('Button/Loading')).toBeNull()
   })
 
   it('pressing button invokes authorize and logs warning if idToken is not present in credentials', async () => {
     mockGetCredentials.mockResolvedValue({})
-    const { getByTestId } = renderComponent()
+    const { getByTestId, queryByTestId } = renderComponent()
     const continueButton = getByTestId('SignInWithEmail/Google')
     fireEvent.press(continueButton)
+    expect(getByTestId('Button/Loading')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
     })
@@ -115,13 +119,15 @@ describe('SignInWithEmail', () => {
     expect(mockGetCredentials).toHaveBeenCalledTimes(1)
     expect(store.getActions()).toEqual([])
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(queryByTestId('Button/Loading')).toBeNull()
   })
 
   it('pressing button invokes authorize and logs debug message if login is cancelled (empty credentials)', async () => {
     mockGetCredentials.mockResolvedValue(undefined)
-    const { getByTestId } = renderComponent()
+    const { getByTestId, queryByTestId } = renderComponent()
     const continueButton = getByTestId('SignInWithEmail/Google')
     fireEvent.press(continueButton)
+    expect(getByTestId('Button/Loading')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
     })
@@ -135,6 +141,7 @@ describe('SignInWithEmail', () => {
     expect(store.getActions()).toEqual([])
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(logWarnSpy).not.toHaveBeenCalled()
+    expect(queryByTestId('Button/Loading')).toBeNull()
   })
 
   it.each([
