@@ -75,15 +75,15 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 
   const CELO = useMemo(
     () =>
-      supportedTokens.find(
+      swappableTokens.find(
         (token) => token.symbol === DEFAULT_FROM_TOKEN_SYMBOL && token.isCoreToken
       ),
-    [supportedTokens]
+    [swappableTokens]
   )
 
   const defaultFromToken = useMemo(() => {
     return swappableTokens[0] ?? CELO
-  }, [supportedTokens, swappableTokens])
+  }, [swappableTokens])
 
   const [fromToken, setFromToken] = useState<TokenBalance | undefined>(defaultFromToken)
   const [toToken, setToToken] = useState<TokenBalance | undefined>()
@@ -239,7 +239,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   }
 
   const handleSelectToken = (tokenAddress: string) => {
-    const selectedToken = supportedTokens.find((token) => token.address === tokenAddress)
+    const selectedToken = swappableTokens.find((token) => token.address === tokenAddress)
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
@@ -411,7 +411,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
         searchEnabled={swappingNonNativeTokensEnabled}
-        tokens={supportedTokens}
+        tokens={swappableTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
