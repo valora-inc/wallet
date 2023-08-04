@@ -19,10 +19,7 @@ export const slice = createSlice({
   name: 'keylessBackup',
   initialState,
   reducers: {
-    googleSignInCompleted: (
-      state,
-      action: PayloadAction<{ idToken: string; keylessBackupFlow: KeylessBackupFlow }>
-    ) => {
+    googleSignInCompleted: (state, action: PayloadAction<{ idToken: string }>) => {
       state.googleIdToken = action.payload.idToken
     },
     valoraKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
@@ -37,10 +34,7 @@ export const slice = createSlice({
     ) => {
       state.backupStatus = KeylessBackupStatus.InProgress
     },
-    keylessBackupFailed: (
-      state,
-      action: PayloadAction<{ keylessBackupFlow: KeylessBackupFlow }>
-    ) => {
+    keylessBackupFailed: (state) => {
       state.backupStatus = KeylessBackupStatus.Failed
     },
   },
