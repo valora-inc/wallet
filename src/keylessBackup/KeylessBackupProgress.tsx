@@ -25,6 +25,7 @@ function KeylessBackupProgress({
   route,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  Logger.info(TAG, `Keyless backup status: ${keylessBackupStatus}`)
 
   const { t } = useTranslation()
 
