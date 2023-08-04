@@ -25,7 +25,7 @@ describe('NotificationBell', () => {
     expect(queryByTestId(testId)).toBeTruthy()
     fireEvent.press(getByTestId(testId))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_pressed, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_bell_pressed, {
       newNotifications: false,
     })
   })
@@ -37,7 +37,7 @@ describe('NotificationBell', () => {
     expect(queryByTestId(testId)).toBeTruthy()
     fireEvent.press(getByTestId(testId))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_pressed, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_bell_pressed, {
       newNotifications: true,
     })
   })

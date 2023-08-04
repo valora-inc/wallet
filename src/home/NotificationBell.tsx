@@ -16,12 +16,12 @@ interface Props {
 export default function NotificationBell({ style, size, testID }: Props) {
   const notifications = useNotifications()
 
-  const newNotifications = notifications.length > 0
-  const notificationMark = newNotifications ? colors.greenUI : undefined
+  const hasNewNotifications = notifications.length > 0
+  const notificationMark = hasNewNotifications ? colors.greenUI : undefined
 
   const onPress = () => {
-    ValoraAnalytics.track(HomeEvents.notification_center_pressed, {
-      newNotifications,
+    ValoraAnalytics.track(HomeEvents.notification_bell_pressed, {
+      hasNewNotifications,
     })
     // TODO: Navigate to notification center
   }
