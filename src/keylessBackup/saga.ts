@@ -23,7 +23,8 @@ export function* handleGoogleSignInCompleted({
     yield* put(torusKeyshareIssued({ keyshare: torusPrivateKey }))
   } catch (error) {
     Logger.error(TAG, 'Error getting Torus private key from auth0 jwt', error)
-    yield* put(keylessBackupFailed())
+    yield* put(keylessBackupFailed()) // this just updates state for now. when the user reaches the
+    // KeylessBackupProgress screen (after phone verification), they will see the failure UI
   }
 }
 
