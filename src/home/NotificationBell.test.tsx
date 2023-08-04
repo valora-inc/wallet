@@ -26,7 +26,7 @@ describe('NotificationBell', () => {
     fireEvent.press(getByTestId(testId))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_bell_pressed, {
-      newNotifications: false,
+      hasNewNotifications: false,
     })
   })
 
@@ -38,7 +38,7 @@ describe('NotificationBell', () => {
     fireEvent.press(getByTestId(testId))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_bell_pressed, {
-      newNotifications: true,
+      hasNewNotifications: true,
     })
   })
 })
