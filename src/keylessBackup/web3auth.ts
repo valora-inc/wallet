@@ -45,7 +45,7 @@ export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; 
     { verifier_id: sub },
     jwt
   )
-  // Logger.debug(TAG, `got shares ${JSON.stringify(shares)}`)
+  Logger.debug(TAG, `got shares of private key`)
   const sharesEthAddressLower = shares.ethAddress.toLowerCase()
   if (
     typeof torusPubKey === 'string'
