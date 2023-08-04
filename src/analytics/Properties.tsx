@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -218,8 +218,9 @@ interface CommonKeylessBackupProps {
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
-  [KeylessBackupEvents.sign_in_with_google]: undefined
-  [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
+  [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
@@ -227,6 +228,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_progress_completed_continue]: undefined
+  [KeylessBackupEvents.cab_progress_failed_later]: undefined
+  [KeylessBackupEvents.cab_progress_failed_manual]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -380,7 +384,9 @@ interface OnboardingEventsProperties {
     position: number
     cardOrder: AdventureCardName[]
   }
-  [OnboardingEvents.cya_later]: undefined
+  [OnboardingEvents.cya_later]: {
+    cardOrder: AdventureCardName[]
+  }
 }
 
 interface VerificationEventsProperties {

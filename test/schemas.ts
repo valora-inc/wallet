@@ -9,6 +9,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { KeylessBackupStatus } from 'src/keylessBackup/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
@@ -2396,6 +2397,30 @@ export const v138Schema = {
   },
 }
 
+export const v139Schema = {
+  ...v138Schema,
+  _persist: {
+    ...v138Schema._persist,
+    version: 139,
+  },
+  keylessBackup: {
+    ...v138Schema.keylessBackup,
+    backupStatus: KeylessBackupStatus.NotStarted,
+  },
+}
+
+export const v140Schema = {
+  ...v139Schema,
+  _persist: {
+    ...v139Schema._persist,
+    version: 140,
+  },
+  keylessBackup: {
+    ..._.omit(v139Schema.keylessBackup, 'google'),
+    googleIdToken: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v138Schema as Partial<RootState>
+  return v140Schema as Partial<RootState>
 }

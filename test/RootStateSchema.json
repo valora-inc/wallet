@@ -1612,6 +1612,15 @@
             },
             "type": "object"
         },
+        "KeylessBackupStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "KnownFeedTransactionsType": {
             "additionalProperties": {
                 "type": [
@@ -2456,6 +2465,7 @@
                 "Invite",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
+                "KeylessBackupProgress",
                 "KycDenied",
                 "KycExpired",
                 "KycLanding",
@@ -3852,30 +3862,14 @@
         "State_25": {
             "additionalProperties": false,
             "properties": {
-                "google": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "idToken": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
-                        "status": {
-                            "enum": [
-                                "error",
-                                "idle",
-                                "loading",
-                                "success"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "idToken",
-                        "status"
-                    ],
-                    "type": "object"
+                "backupStatus": {
+                    "$ref": "#/definitions/KeylessBackupStatus"
+                },
+                "googleIdToken": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "valoraKeyshare": {
                     "type": [
@@ -3885,7 +3879,8 @@
                 }
             },
             "required": [
-                "google",
+                "backupStatus",
+                "googleIdToken",
                 "valoraKeyshare"
             ],
             "type": "object"

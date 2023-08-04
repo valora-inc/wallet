@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 138,
+          "version": 140,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -271,10 +271,8 @@ describe('store state', () => {
           "isImportingWallet": false,
         },
         "keylessBackup": Object {
-          "google": Object {
-            "idToken": null,
-            "status": "idle",
-          },
+          "backupStatus": "NotStarted",
+          "googleIdToken": null,
           "valoraKeyshare": null,
         },
         "localCurrency": Object {

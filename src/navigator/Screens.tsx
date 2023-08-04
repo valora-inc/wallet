@@ -40,6 +40,7 @@ export enum Screens {
   Invite = 'Invite',
   KeylessBackupPhoneInput = 'KeylessBackupPhoneInput',
   KeylessBackupPhoneCodeInput = 'KeylessBackupPhoneCodeInput',
+  KeylessBackupProgress = 'KeylessBackupProgress',
   KycLanding = 'KycLanding',
   KycDenied = 'KycDenied',
   KycPending = 'KycPending',

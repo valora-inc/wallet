@@ -85,8 +85,9 @@ export enum KeylessBackupEvents {
   // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
-  sign_in_with_google = 'sign_in_with_google',
-  sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
+  cab_sign_in_with_google = 'cab_sign_in_with_google',
+  cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
+  cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
   enter_phone_number_continue = 'enter_phone_number_continue',
   cab_issue_sms_code_start = 'cab_issue_sms_code_start',
   cab_issue_sms_code_success = 'cab_issue_sms_code_success',
@@ -94,6 +95,9 @@ export enum KeylessBackupEvents {
   cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
   cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
   cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
+  cab_progress_completed_continue = 'cab_progress_completed_continue',
+  cab_progress_failed_later = 'cab_progress_failed_later',
+  cab_progress_failed_manual = 'cab_progress_failed_manual',
 }
 
 export enum OnboardingEvents {

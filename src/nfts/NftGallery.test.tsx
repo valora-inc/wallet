@@ -32,7 +32,7 @@ describe('NftGallery', () => {
   })
 
   it('shows NFTs from redux store', () => {
-    const { getAllByTestId } = render(
+    const { getAllByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
         <NftGallery />
       </Provider>
@@ -59,8 +59,8 @@ describe('NftGallery', () => {
       })
     )
 
-    // Placeholder when metadata is null
-    expect(getAllByTestId('ImageErrorIcon')).toHaveLength(1)
+    // Expect NFTs with no metadata not to display
+    expect(queryByTestId('ImageErrorIcon')).toBeFalsy()
   })
 
   it('shows error message when error', () => {
@@ -107,7 +107,7 @@ describe('NftGallery', () => {
     )
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_gallery_screen_open, {
-      numNfts: 3,
+      numNfts: 2,
     })
   })
 })

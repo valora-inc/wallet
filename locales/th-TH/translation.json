@@ -103,6 +103,23 @@
       "subtitle": "กรอกหมายเลขโทรศัพท์เดียวกับที่ใช้ก่อนหน้านี้เพื่อตั้งค่าการสำรองข้อมูล\n\nเราจะส่งรหัสเพื่อให้คุณยืนยันว่าหมายเลขนี้เป็นหมายเลขของคุณจริง"
     }
   },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in progress..."
+      },
+      "completed": {
+        "title": "Backup complete",
+        "body": "You are now able to recover your wallet with your email address and phone number."
+      },
+      "failed": {
+        "title": "Keyless backup unavailable",
+        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "later": "I'll backup later",
+        "manual": "Manual Backup"
+      }
+    }
+  },
   "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ โปรดเก็บให้ปลอดภัย",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
@@ -1061,6 +1078,24 @@
     "unsupportedChain": {
       "title": "Unsupported chain",
       "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+      },
+      "warnUnsupportedChains": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Unsupported methods",
+        "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Unsupported events",
+        "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
+      }
     }
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
@@ -1779,6 +1814,9 @@
     },
     "invalidApiUrl": "Invalid hooks preview API URL",
     "bannerTitle": "Hooks preview enabled, tap to disable"
+  },
+  "assets": {
+    "claimRewards": "ขอรับรางวัล"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

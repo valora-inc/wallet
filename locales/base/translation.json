@@ -91,6 +91,7 @@
   "signInWithEmail": {
     "title": "Sign in with email",
     "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
+    "subtitleRestore": "Sign in with the email you used to set up your keyless backup.",
     "google": "Sign in with Google"
   },
   "keylessBackupPhoneInput": {
@@ -101,6 +102,23 @@
     "restore": {
       "title": "Verify your phone number",
       "subtitle": "Enter the phone number you previously used to set up backup.\n\nWe’ll send you a code to verify that this number is yours."
+    }
+  },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in progress..."
+      },
+      "completed": {
+        "title": "Backup complete",
+        "body": "You are now able to recover your wallet with your email address and phone number."
+      },
+      "failed": {
+        "title": "Keyless backup unavailable",
+        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "later": "I'll backup later",
+        "manual": "Manual Backup"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",

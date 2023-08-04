@@ -154,6 +154,9 @@ export type StackParamList = {
     keylessBackupFlow: KeylessBackupFlow
     selectedCountryCodeAlpha2?: string
   }
+  [Screens.KeylessBackupProgress]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.KycDenied]: {
     flow: CICOFlow
     quote: FiatConnectQuote
@@ -287,7 +290,9 @@ export type StackParamList = {
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SetUpKeylessBackup]: undefined
-  [Screens.SignInWithEmail]: undefined
+  [Screens.SignInWithEmail]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
