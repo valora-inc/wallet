@@ -8,5 +8,6 @@ describe('Given', () => {
   })
 
   describe('Send', Send)
-  describe('SecureSend cUSD', SecureSend)
+  // TODO: unskip this test if we enable CPV in CI
+  describe.skip('SecureSend cUSD', SecureSend)
 })
