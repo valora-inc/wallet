@@ -51,6 +51,7 @@ export default function NftGallery() {
       ) : (
         <FlatList
           numColumns={2}
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           data={nfts}
           contentContainerStyle={[styles.contentContainer, { paddingBottom: insets.bottom }]}
           // Workaround iOS setting an incorrect automatic inset at the top
@@ -65,20 +66,22 @@ export default function NftGallery() {
             />
           }
           renderItem={({ item, index }) => (
-            <View style={styles.touchableContainer}>
+            <View
+              style={[
+                styles.touchableContainer,
+                // For even indexes, add right margin; for odd indexes, add left margin.
+                // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
+                index % 2 === 0
+                  ? { marginRight: Spacing.Regular16 } &&
+                    index === nfts.length - 1 &&
+                    styles.lastImage
+                  : { marginLeft: Spacing.Regular16 },
+              ]}
+            >
               <Touchable
                 borderless={false}
                 onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
-                style={[
-                  styles.touchableIcon,
-                  // For even indexes, add right margin; for odd indexes, add left margin.
-                  // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
-                  index % 2 === 0
-                    ? { marginRight: Spacing.Regular16 } &&
-                      index === nfts.length - 1 &&
-                      styles.lastImage
-                    : { marginLeft: Spacing.Regular16 },
-                ]}
+                style={styles.touchableIcon}
               >
                 <NftImage
                   nft={item}
@@ -131,6 +134,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
     borderRadius: Spacing.Regular16,
   },
+  itemSeparator: {
+    height: Spacing.Regular16,
+  },
   lastImage: {
     marginRight: variables.width / 2 - Spacing.Smallest8,
   },
@@ -152,7 +158,6 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Regular16,
   },
   touchableIcon: {
-    marginBottom: Spacing.Regular16,
     borderRadius: Spacing.Regular16,
   },
 })
