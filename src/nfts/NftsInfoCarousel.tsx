@@ -126,7 +126,7 @@ export default function NftsInfoCarousel({ route }: Props) {
       <ScrollView>
         {/* Main Nft Video or Image */}
         <NftMedia
-          shouldAutoScaleHeight={activeNft.metadata?.animation_url ? false : true}
+          shouldAutoScaleHeight
           height={DEFAULT_HEIGHT}
           nft={activeNft}
           mediaType={activeNft.metadata?.animation_url ? 'video' : 'image'}

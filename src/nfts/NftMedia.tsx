@@ -142,16 +142,21 @@ export default function NftMedia({
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
             testID={testID}
             style={{
-              height: DEFAULT_HEIGHT,
+              height: shouldAutoScaleHeight ? scaledHeight : height,
               width: variables.width,
               marginTop: Platform.OS === 'ios' ? headerHeight / 2 : 0, // Otherwise the fullscreen option is hidden on iOS
               zIndex: 1, // Make sure the video player is in front of the loading skeleton
             }}
-            onLoad={handleLoadSuccess}
+            onLoad={({ naturalSize }) => {
+              const aspectRatio = naturalSize.width / naturalSize.height
+              setScaledHeight(variables.width / aspectRatio)
+              handleLoadSuccess()
+            }}
             onError={handleLoadError}
             controls={true}
             minLoadRetryCount={3}
             repeat={true}
+            resizeMode={shouldAutoScaleHeight ? 'contain' : 'cover'}
           />
           {/* This is a hack to get the loading skeleton to overlay the media player while loading, nesting within the player doesn't work */}
           <View style={{ marginTop: -DEFAULT_HEIGHT }}>
