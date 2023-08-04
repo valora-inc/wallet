@@ -172,7 +172,7 @@ interface HomeEventsProperties {
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.view_nft_home_assets]: undefined
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
-  [HomeEvents.notification_bell_pressed]: { hasNewNotifications: boolean }
+  [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
 }
 
 interface SettingsEventsProperties {
