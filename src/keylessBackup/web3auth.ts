@@ -37,7 +37,6 @@ export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; 
     verifierId: sub,
   })
   Logger.debug(TAG, `getting shares with torusPubKey ${JSON.stringify(torusPubKey)}`)
-  // if (typeof torusPubKey === 'string') throw new Error('must use extended pub key')  // todo check if this error is needed. CustomAuth has it, unclear why. While testing it got thrown. But ignoring it seems to work fine...
   const shares = await torus.retrieveShares(
     torusNodeEndpoints,
     torusIndexes,
