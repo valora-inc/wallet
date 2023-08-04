@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { LogBox, StatusBar } from 'react-native'
+import { Auth0Provider } from 'react-native-auth0'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -12,7 +13,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { apolloClient } from 'src/apollo/index'
 import AppInitGate from 'src/app/AppInitGate'
 import ErrorBoundary from 'src/app/ErrorBoundary'
-import { isE2EEnv } from 'src/config'
+import { AUTH0_CLIENT_ID, AUTH0_DOMAIN, isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { persistor, store } from 'src/redux/store'
@@ -77,17 +78,19 @@ export class App extends React.Component<Props> {
         <ApolloProvider client={apolloClient}>
           <Provider store={store}>
             <PersistGate persistor={persistor}>
-              <AppInitGate
-                appStartedMillis={this.props.appStartedMillis}
-                reactLoadTime={this.reactLoadTime}
-              >
-                <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-                <ErrorBoundary>
-                  <GestureHandlerRootView style={{ flex: 1 }}>
-                    <NavigatorWrapper />
-                  </GestureHandlerRootView>
-                </ErrorBoundary>
-              </AppInitGate>
+              <Auth0Provider domain={AUTH0_DOMAIN} clientId={AUTH0_CLIENT_ID}>
+                <AppInitGate
+                  appStartedMillis={this.props.appStartedMillis}
+                  reactLoadTime={this.reactLoadTime}
+                >
+                  <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+                  <ErrorBoundary>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                      <NavigatorWrapper />
+                    </GestureHandlerRootView>
+                  </ErrorBoundary>
+                </AppInitGate>
+              </Auth0Provider>
             </PersistGate>
           </Provider>
         </ApolloProvider>

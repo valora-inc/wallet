@@ -218,8 +218,9 @@ interface CommonKeylessBackupProps {
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
-  [KeylessBackupEvents.sign_in_with_google]: undefined
-  [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
+  [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
