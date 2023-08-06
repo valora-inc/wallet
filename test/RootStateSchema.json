@@ -1674,6 +1674,9 @@
                         {
                             "additionalProperties": false,
                             "properties": {
+                                "animation_url": {
+                                    "type": "string"
+                                },
                                 "attributes": {
                                     "anyOf": [
                                         {
@@ -3865,30 +3868,11 @@
                 "backupStatus": {
                     "$ref": "#/definitions/KeylessBackupStatus"
                 },
-                "google": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "idToken": {
-                            "type": [
-                                "null",
-                                "string"
-                            ]
-                        },
-                        "status": {
-                            "enum": [
-                                "error",
-                                "idle",
-                                "loading",
-                                "success"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "idToken",
-                        "status"
-                    ],
-                    "type": "object"
+                "googleIdToken": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "valoraKeyshare": {
                     "type": [
@@ -3899,7 +3883,7 @@
             },
             "required": [
                 "backupStatus",
-                "google",
+                "googleIdToken",
                 "valoraKeyshare"
             ],
             "type": "object"

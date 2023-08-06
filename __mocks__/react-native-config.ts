@@ -4,4 +4,5 @@ export default {
   SHOW_TESTNET_BANNER: 'true',
   DEFAULT_TESTNET: 'alfajores',
   DYNAMIC_DOWNLOAD_LINK: 'https://vlra.app/invite',
+  AUTH0_DOMAIN: 'auth0.com',
 }
