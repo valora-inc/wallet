@@ -1271,6 +1271,10 @@ export const mockNftAllFields: Nft = {
       gateway: 'https://example.com/gateway/1',
       raw: 'https://example.com/1',
     },
+    {
+      gateway: 'https://example.com/gateway/2',
+      raw: 'https://example.com/2',
+    },
   ],
   metadata: {
     attributes: [{ trait_type: 'Fizz Buzz', value: '1' }],
@@ -1279,6 +1283,7 @@ export const mockNftAllFields: Nft = {
     dna: '000001',
     id: 1,
     image: 'https://example.com/1',
+    animation_url: 'https://example.com/2',
     name: `${mockName}.fizzBuzz`,
   },
   ownerAddress: mockAccount,
