@@ -1314,12 +1314,13 @@ interface AssetsEventsProperties {
 
 interface NftsEventsProperties {
   [NftEvents.nft_error_screen_open]: undefined
-  [NftEvents.nft_image_load]: {
+  [NftEvents.nft_media_load]: {
     tokenId: string
     contractAddress: string
     url?: string
     origin: NftOrigin
     error?: string
+    mediaType: 'image' | 'video'
   }
   [NftEvents.nft_gallery_screen_open]: {
     numNfts: number

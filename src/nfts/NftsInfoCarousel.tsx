@@ -9,7 +9,7 @@ import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import NftImage from 'src/nfts/NftImage'
+import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
@@ -18,7 +18,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import networkConfig from 'src/web3/networkConfig'
 
-const DEFAULT_IMAGE_HEIGHT = 360
+const DEFAULT_HEIGHT = 360
 
 interface NftThumbnailProps {
   nft: Nft
@@ -38,7 +38,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
       onPress={onPress}
       testID={`NftsInfoCarousel/NftThumbnail/${nft.contractAddress}-${nft.tokenId}`}
     >
-      <NftImage
+      <NftMedia
         nft={nft}
         ErrorComponent={
           <View style={styles.nftImageLoadingErrorContainer}>
@@ -54,6 +54,7 @@ function NftThumbnail({ nft, isActive, onPress }: NftThumbnailProps) {
         borderRadius={8}
         testID="NftsInfoCarousel/ThumbnailImage"
         origin={NftOrigin.NftsInfoCarouselThumbnail}
+        mediaType="image"
       />
     </Touchable>
   )
@@ -123,18 +124,24 @@ export default function NftsInfoCarousel({ route }: Props) {
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
-        {/* Main Nft Image */}
-        <NftImage
+        {/* Main Nft Video or Image */}
+        <NftMedia
+          shouldAutoScaleHeight
+          height={DEFAULT_HEIGHT}
           nft={activeNft}
+          mediaType={activeNft.metadata?.animation_url ? 'video' : 'image'}
+          origin={NftOrigin.NftsInfoCarouselMain}
           ErrorComponent={
             <View style={styles.nftImageLoadingErrorContainer}>
               <ImageErrorIcon />
               <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
             </View>
           }
-          testID="NftsInfoCarousel/MainImage"
-          origin={NftOrigin.NftsInfoCarouselMain}
-          shouldAutoScaleHeight
+          testID={
+            activeNft.metadata?.animation_url
+              ? 'NftsInfoCarousel/MainVideo'
+              : 'NftsInfoCarousel/MainImage'
+          }
         />
         {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
@@ -234,7 +241,7 @@ const styles = StyleSheet.create({
   },
   nftImageLoadingErrorContainer: {
     width: '100%',
-    height: DEFAULT_IMAGE_HEIGHT,
+    height: DEFAULT_HEIGHT,
     backgroundColor: colors.gray1,
     alignItems: 'center',
     justifyContent: 'center',
