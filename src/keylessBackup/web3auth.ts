@@ -4,6 +4,7 @@ import { TORUS_NETWORK, TORUS_SIGNER_BASE_URL } from 'src/config'
 
 const TAG = 'keylessBackup/torus'
 
+// TODO update to use the latest Torus/Web3Auth API https://linear.app/valora/issue/ACT-876/refactor-gettorusprivatekey-to-use-updated-torusweb3auth-dependencies
 export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; jwt: string }) {
   // these imports have side effects for our tests (they break fetch mocking) so we cannot do it at the top level
   const Torus = require('@toruslabs/torus.js')
