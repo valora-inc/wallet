@@ -189,6 +189,10 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   const isEmulator = yield* call([DeviceInfo, 'isEmulator'])
   // Emulators can't handle fcm tokens and calling getToken on them will throw an error
   if (!isEmulator) {
+    if (Platform.OS === 'ios') {
+      yield* call([CleverTap, 'registerForPush'])
+      yield* call([app.messaging(), 'registerDeviceForRemoteMessages'])
+    }
     fcmToken = yield* call([app.messaging(), 'getToken'])
   }
   if (fcmToken) {
