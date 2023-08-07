@@ -6,13 +6,7 @@ import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { Provider, useDispatch } from 'react-redux'
-import { mocked } from 'ts-jest/utils'
-
-jest.mock('react-redux', () => ({
-  ...(jest.requireActual('react-redux') as any),
-  useDispatch: jest.fn().mockReturnValue(jest.fn()),
-}))
+import { Provider } from 'react-redux'
 
 describe('WalletSecurityPrimer', () => {
   it('renders drawer if prop is set', () => {
@@ -38,10 +32,9 @@ describe('WalletSecurityPrimer', () => {
   })
 
   it('pressing get started button emits analytics event, dispatches keylessBackupStarted, and navigates to next screen', () => {
-    const mockDispatch = jest.fn()
-    mocked(useDispatch).mockReturnValue(mockDispatch)
+    const store = createMockStore()
     const { getByTestId } = render(
-      <Provider store={createMockStore({})}>
+      <Provider store={store}>
         <WalletSecurityPrimer {...getMockStackScreenProps(Screens.WalletSecurityPrimer)} />
       </Provider>
     )
@@ -53,9 +46,11 @@ describe('WalletSecurityPrimer', () => {
     )
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.SetUpKeylessBackup)
-    expect(mockDispatch).toHaveBeenCalledWith({
-      payload: { keylessBackupFlow: 'setup' },
-      type: 'keylessBackup/keylessBackupStarted',
-    })
+    expect(store.getActions()).toEqual([
+      {
+        payload: { keylessBackupFlow: 'setup' },
+        type: 'keylessBackup/keylessBackupStarted',
+      },
+    ])
   })
 })
