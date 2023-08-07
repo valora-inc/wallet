@@ -1,18 +1,22 @@
-import NodeDetailManager from '@toruslabs/fetch-node-details'
-import Torus from '@toruslabs/torus.js'
 import jwtDecode from 'jwt-decode'
 import Logger from 'src/utils/Logger'
-import { TORUS_NETWORK, TORUS_NETWORK_CONTRACT_ADDRESS, TORUS_SIGNER_BASE_URL } from 'src/config'
+import { TORUS_NETWORK, TORUS_SIGNER_BASE_URL } from 'src/config'
 
 const TAG = 'keylessBackup/torus'
 
 export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; jwt: string }) {
+  // these imports have side effects for our tests (they break fetch mocking) so we cannot do it at the top level
+  const Torus = require('@toruslabs/torus.js')
+  const NodeDetailManager = require('@toruslabs/fetch-node-details')
   // largely copied from CustomAuth triggerLogin
   Logger.debug(TAG, `decoding jwt ${jwt}`)
   const sub = jwtDecode<{ sub: string }>(jwt).sub
   const nodeDetailManager = new NodeDetailManager({
     network: TORUS_NETWORK,
-    proxyAddress: TORUS_NETWORK_CONTRACT_ADDRESS,
+    proxyAddress:
+      TORUS_NETWORK === 'cyan'
+        ? NodeDetailManager.PROXY_ADDRESS_CYAN
+        : NodeDetailManager.PROXY_ADDRESS_TESTNET,
   })
   const torus = new Torus({
     enableOneKey: false, // same as default from CustomAuth

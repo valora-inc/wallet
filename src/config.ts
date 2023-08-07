@@ -8,7 +8,6 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-import NodeDetailManager from '@toruslabs/fetch-node-details'
 
 export * from 'src/brandingConfig'
 
@@ -99,10 +98,6 @@ export const E2E_TEST_STATSIG_ID = 'e2e_test_statsig_id'
 export const TORUS_NETWORK = DEFAULT_TESTNET === 'mainnet' ? 'cyan' : 'testnet'
 export const TORUS_SIGNER_BASE_URL =
   TORUS_NETWORK === 'cyan' ? 'https://signer-polygon.tor.us' : 'https://signer.tor.us'
-export const TORUS_NETWORK_CONTRACT_ADDRESS =
-  TORUS_NETWORK === 'cyan'
-    ? NodeDetailManager.PROXY_ADDRESS_CYAN
-    : NodeDetailManager.PROXY_ADDRESS_TESTNET
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
