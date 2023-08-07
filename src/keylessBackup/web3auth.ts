@@ -1,14 +1,14 @@
 import jwtDecode from 'jwt-decode'
 import Logger from 'src/utils/Logger'
 import { TORUS_NETWORK, TORUS_SIGNER_BASE_URL } from 'src/config'
+import Torus from '@toruslabs/torus.js'
+import NodeDetailManager from '@toruslabs/fetch-node-details'
 
 const TAG = 'keylessBackup/torus'
 
-// TODO update to use the latest Torus/Web3Auth API https://linear.app/valora/issue/ACT-876/refactor-gettorusprivatekey-to-use-updated-torusweb3auth-dependencies
+// TODO update to use the latest Torus/Web3Auth API and add test coverage https://linear.app/valora/issue/ACT-876
+//  note: @toruslabs/torus.js and @toruslabs/fetch-node-details currently have empty mocks in jest_setup.ts
 export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; jwt: string }) {
-  // these imports have side effects for our tests (they break fetch mocking) so we cannot do it at the top level
-  const Torus = require('@toruslabs/torus.js')
-  const NodeDetailManager = require('@toruslabs/fetch-node-details')
   // largely copied from CustomAuth triggerLogin
   Logger.debug(TAG, `decoding jwt ${jwt}`)
   const sub = jwtDecode<{ sub: string }>(jwt).sub

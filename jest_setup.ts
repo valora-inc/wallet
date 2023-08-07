@@ -38,3 +38,8 @@ jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
 
 // @ts-ignore
 global.__reanimatedWorkletInit = jest.fn()
+
+// avoid side effects from importing Torus dependencies while testing (doing so unmocks fetch, even for unrelated tests)
+// TODO may need to remove once we update to use latest Torus/Web3Auth API https://linear.app/valora/issue/ACT-876
+jest.mock('@toruslabs/torus.js', () => jest.fn())
+jest.mock('@toruslabs/fetch-node-details', () => jest.fn())
