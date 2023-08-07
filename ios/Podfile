@@ -75,6 +75,7 @@ end
 
 target 'NotificationService' do
   pod 'CTNotificationService'
+  pod 'CleverTap-iOS-SDK'
 end
 
 # Convert all permission pods into static libraries
