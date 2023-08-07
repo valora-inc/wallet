@@ -1674,6 +1674,9 @@
                         {
                             "additionalProperties": false,
                             "properties": {
+                                "animation_url": {
+                                    "type": "string"
+                                },
                                 "attributes": {
                                     "anyOf": [
                                         {

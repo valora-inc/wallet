@@ -9,7 +9,7 @@ import NftReceivedIcon from 'src/icons/NftReceivedIcon'
 import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NftImage from 'src/nfts/NftImage'
+import NftMedia from 'src/nfts/NftMedia'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
@@ -46,7 +46,7 @@ function NftFeedItem({ transaction }: Props) {
       <View style={styles.container}>
         {/* If enabled try to show the first image. Otherwise display the default icons */}
         {showNftsInApp && nfts.length > 0 && nfts[0].metadata?.image ? (
-          <NftImage
+          <NftMedia
             nft={nfts[0]}
             ErrorComponent={
               <View style={[styles.circleIcon, styles.errorCircleIcon]}>
@@ -58,6 +58,7 @@ function NftFeedItem({ transaction }: Props) {
             height={40}
             testID="NftFeedItem/NftIcon"
             origin={NftOrigin.TransactionFeed}
+            mediaType="image"
           />
         ) : transaction.type === TokenTransactionTypeV2.NftReceived ? (
           <NftReceivedIcon />
