@@ -12,7 +12,6 @@ import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { keylessBackupStarted } from 'src/keylessBackup/slice'
 
 const mockFetch = fetch as FetchMock
 const store = createMockStore()
@@ -91,10 +90,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     })
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
 
-    expect(store.getActions()).toEqual([
-      valoraKeyshareIssued({ keyshare: 'valora-keyshare' }),
-      keylessBackupStarted({ keylessBackupFlow: KeylessBackupFlow.Setup }),
-    ])
+    expect(store.getActions()).toEqual([valoraKeyshareIssued({ keyshare: 'valora-keyshare' })])
 
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupProgress, {

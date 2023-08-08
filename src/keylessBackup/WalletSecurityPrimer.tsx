@@ -12,17 +12,16 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
-
-function onPressContinue() {
-  ValoraAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
-  navigate(Screens.SetUpKeylessBackup)
-}
+import { keylessBackupStarted } from 'src/keylessBackup/slice'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { useDispatch } from 'react-redux'
 
 type Props =
   | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimer>
   | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimerDrawer>
 
 function WalletSecurityPrimer({ route }: Props) {
+  const dispatch = useDispatch()
   const { t } = useTranslation()
   const showDrawerTopBar = route.params?.showDrawerTopBar
   return (
@@ -35,7 +34,15 @@ function WalletSecurityPrimer({ route }: Props) {
       </ScrollView>
       <Button
         testID="WalletSecurityPrimer/GetStarted"
-        onPress={onPressContinue}
+        onPress={function () {
+          ValoraAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
+          dispatch(
+            keylessBackupStarted({
+              keylessBackupFlow: KeylessBackupFlow.Setup,
+            })
+          )
+          navigate(Screens.SetUpKeylessBackup)
+        }}
         text={t('getStarted')}
         size={BtnSizes.FULL}
         type={BtnTypes.ONBOARDING}

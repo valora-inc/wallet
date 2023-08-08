@@ -5,28 +5,38 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { Provider } from 'react-redux'
 
 describe('WalletSecurityPrimer', () => {
   it('renders drawer if prop is set', () => {
     const { getByTestId } = render(
-      <WalletSecurityPrimer
-        {...getMockStackScreenProps(Screens.WalletSecurityPrimerDrawer, { showDrawerTopBar: true })}
-      />
+      <Provider store={createMockStore({})}>
+        <WalletSecurityPrimer
+          {...getMockStackScreenProps(Screens.WalletSecurityPrimerDrawer, {
+            showDrawerTopBar: true,
+          })}
+        />
+      </Provider>
     )
     expect(getByTestId('WalletSecurityPrimer/DrawerTopBar')).toBeTruthy()
   })
 
   it('hides drawer if prop is not set', () => {
     const { queryByTestId } = render(
-      <WalletSecurityPrimer {...getMockStackScreenProps(Screens.WalletSecurityPrimer)} />
+      <Provider store={createMockStore({})}>
+        <WalletSecurityPrimer {...getMockStackScreenProps(Screens.WalletSecurityPrimer)} />
+      </Provider>
     )
     expect(queryByTestId('WalletSecurityPrimer/DrawerTopBar')).toBeFalsy()
   })
 
-  it('pressing get started button emits analytics event and navigates to next screen', () => {
+  it('pressing get started button emits analytics event, dispatches keylessBackupStarted, and navigates to next screen', () => {
+    const store = createMockStore()
     const { getByTestId } = render(
-      <WalletSecurityPrimer {...getMockStackScreenProps(Screens.WalletSecurityPrimer)} />
+      <Provider store={store}>
+        <WalletSecurityPrimer {...getMockStackScreenProps(Screens.WalletSecurityPrimer)} />
+      </Provider>
     )
     const continueButton = getByTestId('WalletSecurityPrimer/GetStarted')
     fireEvent.press(continueButton)
@@ -36,5 +46,11 @@ describe('WalletSecurityPrimer', () => {
     )
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.SetUpKeylessBackup)
+    expect(store.getActions()).toEqual([
+      {
+        payload: { keylessBackupFlow: 'setup' },
+        type: 'keylessBackup/keylessBackupStarted',
+      },
+    ])
   })
 })
