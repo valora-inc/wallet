@@ -374,12 +374,6 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginTop: Spacing.Large32,
   },
-  pageHeaderText: {
-    ...fontStyles.h1,
-  },
-  pageHeaderSubText: {
-    ...fontStyles.regular,
-  },
   disclaimer: {
     ...fontStyles.xsmall,
     color: colors.gray4,
