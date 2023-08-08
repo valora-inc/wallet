@@ -3874,6 +3874,12 @@
                         "string"
                     ]
                 },
+                "torusKeyshare": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "valoraKeyshare": {
                     "type": [
                         "null",
@@ -3884,6 +3890,7 @@
             "required": [
                 "backupStatus",
                 "googleIdToken",
+                "torusKeyshare",
                 "valoraKeyshare"
             ],
             "type": "object"
