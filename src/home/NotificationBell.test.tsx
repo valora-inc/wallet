@@ -25,13 +25,13 @@ describe('NotificationBell', () => {
       },
     }
 
-    const { queryByTestId, getByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={createMockStore(storeDataWithoutNotification)}>
         <NotificationBell testID={testId} />
       </Provider>
     )
 
-    expect(queryByTestId(testId)).toBeTruthy()
+    expect(getByTestId(testId)).toBeTruthy()
     fireEvent.press(getByTestId(testId))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_bell_pressed, {
@@ -40,13 +40,13 @@ describe('NotificationBell', () => {
   })
 
   it(`emits the analytics event on press when there are notifications`, () => {
-    const { queryByTestId, getByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={createMockStore({})}>
         <NotificationBell testID={testId} />
       </Provider>
     )
 
-    expect(queryByTestId(testId)).toBeTruthy()
+    expect(getByTestId(testId)).toBeTruthy()
     fireEvent.press(getByTestId(testId))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_bell_pressed, {
