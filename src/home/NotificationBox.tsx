@@ -386,7 +386,7 @@ function useSimpleActions() {
   return actions
 }
 
-function useNotifications() {
+export function useNotifications() {
   const notifications: Notification[] = []
 
   // Pending outgoing invites in escrow
