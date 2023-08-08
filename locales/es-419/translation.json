@@ -1414,9 +1414,9 @@
   "merchantWalletUnlockError": "Algo salió mal al desbloquear tu wallet, vuelve a intentarlo",
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Algunos métodos de pago no están disponibles en tu región.",
-    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
-    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. <0>Más información.</0>",
+    "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región.",
+    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
+    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. <0>Más información.</0>",
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
