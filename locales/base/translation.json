@@ -91,7 +91,6 @@
   "signInWithEmail": {
     "title": "Sign in with email",
     "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
-    "subtitleRestore": "Sign in with the email you used to set up your keyless backup.",
     "google": "Sign in with Google"
   },
   "keylessBackupPhoneInput": {
