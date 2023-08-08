@@ -38,6 +38,7 @@ import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { styles as headerStyles } from 'src/navigator/Headers'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
@@ -165,6 +166,7 @@ export function DAppsExplorerScreenSearchFilter() {
         rightElement={
           showQrScanner ? <QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} /> : undefined
         }
+        middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         scrollPosition={scrollPosition}
       />
 
@@ -197,10 +199,6 @@ export function DAppsExplorerScreenSearchFilter() {
             }
             ListHeaderComponent={
               <>
-                <DescriptionView
-                  title={t('dappsScreen.title')}
-                  message={t('dappsScreen.message')}
-                />
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
                 <SearchInput
                   onChangeText={(text) => {
@@ -304,15 +302,6 @@ export function DAppsExplorerScreenSearchFilter() {
   )
 }
 
-function DescriptionView({ message, title }: { message: string; title: string }) {
-  return (
-    <View style={styles.descriptionView}>
-      <Text style={styles.pageHeaderText}>{title}</Text>
-      <Text style={styles.pageHeaderSubText}>{message}</Text>
-    </View>
-  )
-}
-
 function parseResultsIntoAll(
   nonFavoriteDapps: DappV2WithCategoryNames[],
   searchTerm: string,
@@ -401,9 +390,6 @@ const styles = StyleSheet.create({
   listFooterComponent: {
     flex: 1,
     justifyContent: 'flex-end',
-  },
-  descriptionView: {
-    paddingBottom: Spacing.Regular16,
   },
 })
 
