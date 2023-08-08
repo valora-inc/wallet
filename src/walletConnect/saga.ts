@@ -183,9 +183,15 @@ function* createWalletConnectChannel() {
     }
   }) as EventChannel<WalletConnectActions>
 }
-
+/**
+ * It appears Actions.INITIALISE_PAIRING is emitting on both initial connections and on payload requests
+ * If we already have an active session with whose pairingTopic === topic from the uri we should extend the session
+ * Otherwise we should create a new pairing
+ */
 function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
   const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
+  // All uri's should have a topic https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1328.md
+  const { topic } = parseUri(uri)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
@@ -196,9 +202,21 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
       throw new Error('missing client')
     }
 
-    Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
-    yield* call([client, 'pair'], { uri })
-    Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
+    // Check the client for an existing session with a pairingTopic equal to the uri topic
+    const activeSessions = client.getActiveSessions()
+    const foundSession = Object.keys(activeSessions).find((key) => {
+      return activeSessions[key].pairingTopic === topic
+    })
+
+    if (foundSession) {
+      Logger.debug(TAG + '@handleInitialisePairing', 'extending session start')
+      yield* call([client, 'extendSession'], { topic: foundSession })
+      Logger.debug(TAG + '@handleInitialisePairing', 'extending session end')
+    } else {
+      Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
+      yield* call([client, 'pair'], { uri })
+      Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
+    }
   } catch (err) {
     const error = ensureError(err)
     Logger.debug(TAG + '@handleInitialisePairing', error.message)
