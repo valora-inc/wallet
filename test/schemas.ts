@@ -2421,6 +2421,18 @@ export const v140Schema = {
   },
 }
 
+export const v141Schema = {
+  ...v140Schema,
+  _persist: {
+    ...v140Schema._persist,
+    version: 141,
+  },
+  keylessBackup: {
+    ...v140Schema.keylessBackup,
+    torusKeyshare: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v140Schema as Partial<RootState>
+  return v141Schema as Partial<RootState>
 }

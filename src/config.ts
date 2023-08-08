@@ -94,6 +94,11 @@ export const STATSIG_ENV = {
 }
 export const E2E_TEST_STATSIG_ID = 'e2e_test_statsig_id'
 
+// Keyless backup settings
+export const TORUS_NETWORK = DEFAULT_TESTNET === 'mainnet' ? 'cyan' : 'testnet'
+export const TORUS_SIGNER_BASE_URL =
+  TORUS_NETWORK === 'cyan' ? 'https://signer-polygon.tor.us' : 'https://signer.tor.us'
+
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')

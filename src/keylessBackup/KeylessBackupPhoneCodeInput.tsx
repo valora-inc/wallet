@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
-import { useDispatch } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Times from 'src/icons/Times'
 import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
@@ -14,7 +13,6 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { keylessBackupStarted } from 'src/keylessBackup/slice'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 
 function KeylessBackupPhoneCodeInput({
@@ -22,7 +20,6 @@ function KeylessBackupPhoneCodeInput({
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneCodeInput>) {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
     route.params.e164Number,
     route.params.keylessBackupFlow
@@ -67,11 +64,6 @@ function KeylessBackupPhoneCodeInput({
         verificationStatus={verificationStatus}
         setSmsCode={setSmsCode}
         onSuccess={() => {
-          dispatch(
-            keylessBackupStarted({
-              keylessBackupFlow: route.params.keylessBackupFlow,
-            })
-          )
           navigate(Screens.KeylessBackupProgress, {
             keylessBackupFlow: route.params.keylessBackupFlow,
           })
