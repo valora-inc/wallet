@@ -22,6 +22,7 @@ import {
   dappsListErrorSelector,
   dappsListLoadingSelector,
   dappsMinimalDisclaimerEnabledSelector,
+  favoriteDappsWithCategoryNamesSelector,
   nonFavoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -69,6 +70,7 @@ export function DAppsExplorerScreenSearchFilter() {
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
+  const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
   const [selectedFilter, setSelectedFilter] = useState('all')
   const { showQrScanner } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
@@ -78,6 +80,27 @@ export function DAppsExplorerScreenSearchFilter() {
   const [searchTerm, setSearchTerm] = useState('')
   const [favoriteResultsEmpty, setFavoriteResultsEmpty] = useState(false)
   const [allResultEmpty, setAllResultEmpty] = useState(false)
+
+  // Hide favorites when there are no favorites or no favorites matching the search term
+  useEffect(() => {
+    if (searchTerm === '') {
+      const emptyFavorites =
+        selectedFilter === 'all'
+          ? favoriteDappsWithCategoryNames.length === 0
+          : favoriteDappsWithCategoryNames.filter((dapp) =>
+              dapp.categories.includes(selectedFilter)
+            ).length === 0
+      setFavoriteResultsEmpty(!!emptyFavorites)
+    } else {
+      const filteredFavorites =
+        selectedFilter === 'all'
+          ? favoriteDappsWithCategoryNames
+          : favoriteDappsWithCategoryNames.filter((dapp) =>
+              dapp.categories.includes(selectedFilter)
+            )
+      setFavoriteResultsEmpty(searchDappList(filteredFavorites, searchTerm).length === 0)
+    }
+  }, [favoriteDappsWithCategoryNames.length, searchTerm, selectedFilter])
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
@@ -118,15 +141,21 @@ export function DAppsExplorerScreenSearchFilter() {
   }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
 
   const emptyListComponent = useMemo(() => {
-    if (allResultEmpty && favoriteResultsEmpty) return null
     return (
-      <NoResults
-        filterId={selectedFilter}
-        filterName={selectedFilterName}
-        removeFilter={removeFilter}
-        searchTerm={searchTerm}
-        testID="DAppsExplorerScreen/NoResults"
-      />
+      <>
+        {allResultEmpty && favoriteResultsEmpty && (
+          <Text style={styles.sectionTitle}>
+            {t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')}
+          </Text>
+        )}
+        <NoResults
+          filterId={selectedFilter}
+          filterName={selectedFilterName}
+          removeFilter={removeFilter}
+          searchTerm={searchTerm}
+          testID="DAppsExplorerScreen/NoResults"
+        />
+      </>
     )
   }, [allResultEmpty, favoriteResultsEmpty, searchTerm])
 
@@ -212,19 +241,22 @@ export function DAppsExplorerScreenSearchFilter() {
                 </View>
                 <>
                   {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
-                  <Text style={styles.sectionTitle}>
-                    {allResultEmpty && favoriteResultsEmpty
-                      ? t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')
-                      : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
-                  </Text>
-                  <FavoriteDappsSection
-                    onPressDapp={onSelectDapp}
-                    filterId={selectedFilter}
-                    filterName={selectedFilterName}
-                    removeFilter={removeFilter}
-                    searchTerm={searchTerm}
-                    setFavoriteResultsEmpty={setFavoriteResultsEmpty}
-                  />
+                  {!favoriteResultsEmpty && (
+                    <>
+                      <Text style={styles.sectionTitle}>
+                        {allResultEmpty && favoriteResultsEmpty
+                          ? t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(
+                              language ?? 'en-US'
+                            )
+                          : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
+                      </Text>
+                      <FavoriteDappsSection
+                        onPressDapp={onSelectDapp}
+                        filterId={selectedFilter}
+                        searchTerm={searchTerm}
+                      />
+                    </>
+                  )}
                   {/* If all dapp section isn't empty or favoriteResults isn't empty display all section header */}
                   {(!allResultEmpty || !favoriteResultsEmpty) && (
                     <Text style={styles.sectionTitle}>
