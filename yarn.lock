@@ -3341,7 +3341,7 @@
   dependencies:
     elliptic "^6.5.4"
 
-"@toruslabs/fetch-node-details@^8.1.0":
+"@toruslabs/fetch-node-details@^8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-8.1.1.tgz#7b74384ce18e7b73af05e03eeee80a947bca255f"
   integrity sha512-fMCuFhp4Fih5LSRA+QEmaPrKdDcqQf50kvuMafLS5MVeKMFXgXnrjBPlf8VfYhWM31/7mA3wtddYy+SipT7ZUg==
