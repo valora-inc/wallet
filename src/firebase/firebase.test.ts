@@ -23,7 +23,6 @@ const onMessageMock = jest.fn(() => null)
 const onNotificationOpenedAppMock = jest.fn(() => null)
 const getInitialNotificationMock = jest.fn(() => null)
 const setBackgroundMessageHandler = jest.fn(() => null)
-const registerDeviceForRemoteMessagesMock = jest.fn(() => null)
 
 const mockFcmToken = 'token'
 
@@ -37,7 +36,6 @@ const app: any = {
     onMessage: onMessageMock,
     onNotificationOpenedApp: onNotificationOpenedAppMock,
     getInitialNotification: getInitialNotificationMock,
-    registerDeviceForRemoteMessages: registerDeviceForRemoteMessagesMock,
   }),
 }
 
