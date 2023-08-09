@@ -109,7 +109,7 @@
     "@sentry/types": "^7.29.0",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",
     "@toruslabs/fetch-node-details": "^8.1.1",
-    "@toruslabs/torus.js": "^6.4.0",
+    "@toruslabs/torus.js": "^6.4.1",
     "@typechain/ethers-v6": "^0.4.3",
     "@walletconnect/react-native-compat": "^2.9.2",
     "@walletconnect/utils": "^2.9.2",
