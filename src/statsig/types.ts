@@ -25,6 +25,7 @@ export enum StatsigFeatureGates {
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
   SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
+  SHOW_NOTIFICATION_CENTER = 'show_notification_center',
 }
 
 export enum StatsigExperiments {
