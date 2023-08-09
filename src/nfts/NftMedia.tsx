@@ -157,6 +157,7 @@ export default function NftMedia({
             minLoadRetryCount={3}
             repeat={true}
             resizeMode={shouldAutoScaleHeight ? 'contain' : 'cover'}
+            muted={true}
           />
           {/* This is a hack to get the loading skeleton to overlay the media player while loading, nesting within the player doesn't work */}
           <View style={{ marginTop: -DEFAULT_HEIGHT }}>
