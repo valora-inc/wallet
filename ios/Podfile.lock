@@ -505,10 +505,10 @@ PODS:
     - Toast (~> 4.0.0)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.0.0-alpha.6):
+  - react-native-video (6.0.0-alpha.7):
     - React-Core
-    - react-native-video/Video (= 6.0.0-alpha.6)
-  - react-native-video/Video (6.0.0-alpha.6):
+    - react-native-video/Video (= 6.0.0-alpha.7)
+  - react-native-video/Video (6.0.0-alpha.7):
     - PromisesSwift
     - React-Core
   - react-native-webview (11.6.5):
@@ -1142,7 +1142,7 @@ SPEC CHECKSUMS:
   react-native-shake: 51c01abaf54a05d1ee23ddb8faad424c9fcc0569
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: fee89269ad07556d960721f3b62e39be6ace3c90
+  react-native-video: 967eead48aaa42c25a9e1d65c3b1ab30762a88df
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
   React-perflogger: c0b9c0ab8cbaf732694cd776645b3161d128784d
   React-RCTActionSheet: c2b26d0be4e6e48ed6b4666345da16c8f7933b7b
