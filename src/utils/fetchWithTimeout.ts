@@ -2,7 +2,7 @@ import { FETCH_TIMEOUT_DURATION } from 'src/config'
 
 export const fetchWithTimeout = async (
   url: string,
-  options: RequestInit | undefined = undefined,
+  options: RequestInit | null = null,
   duration: number = FETCH_TIMEOUT_DURATION
 ): Promise<Response> => {
   const controller = new AbortController()
