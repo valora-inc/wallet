@@ -54,6 +54,21 @@ function* handleSendSwapTransaction(
   yield* call(sendTransaction, txo, walletAddress, transactionContext)
 }
 
+function calculateEstimatedUsdValue({
+  tokenInfo,
+  tokenAmount,
+}: {
+  tokenInfo: TokenBalance
+  tokenAmount: string
+}): number | undefined {
+  if (!tokenInfo.usdPrice) {
+    return undefined
+  }
+
+  const amount = valueToBigNumber(tokenAmount)
+  return tokenInfo.usdPrice.times(amount.shiftedBy(-tokenInfo.decimals)).toNumber()
+}
+
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
   const {
@@ -78,6 +93,10 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const fromTokenBalance = fromToken
     ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
     : ''
+
+  const estimatedUsdValue = fromToken
+    ? calculateEstimatedUsdValue({ tokenInfo: fromToken, tokenAmount: sellAmount })
+    : undefined
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
@@ -162,6 +181,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
+      estimatedUsdValue,      
     })
   } catch (err) {
     const error = ensureError(err)
@@ -172,6 +192,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
       error: error.message,
+      estimatedUsdValue: estimatedUsdValue,
     })
     yield* put(swapError())
     vibrateError()
