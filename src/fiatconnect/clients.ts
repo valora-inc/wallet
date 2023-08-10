@@ -1,12 +1,13 @@
 import { ensureLeading0x } from '@celo/utils/lib/address'
-import { PrimaryValoraWallet } from 'src/web3/types'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { networkTimeoutSecondsSelector } from 'src/app/selectors'
 import { FIATCONNECT_NETWORK } from 'src/config'
 import { getPassword } from 'src/pincode/authentication'
-import { store } from 'src/redux/store'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
+import { PrimaryValoraWallet } from 'src/web3/types'
 
 const fiatConnectClients: Record<
   string,
@@ -52,7 +53,9 @@ export async function getFiatConnectClient(
           network: FIATCONNECT_NETWORK,
           accountAddress: account,
           apiKey: providerApiKey,
-          timeout: networkTimeoutSecondsSelector(store.getState()) * 1000,
+          timeout:
+            getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT])
+              .cico * 1000,
         },
         getSiweSigningFunction(wallet)
       ),

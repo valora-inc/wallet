@@ -6,8 +6,8 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
-import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
 import KeychainAccountManager from 'src/web3/KeychainAccountManager'
+import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
 import networkConfig from 'src/web3/networkConfig'
 import {
   mockAccount,
@@ -38,6 +38,10 @@ jest.mock('src/utils/Logger', () => ({
     info: jest.fn(),
     error: jest.fn(),
   },
+}))
+
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({ cico: 30 }),
 }))
 
 jest.mock('src/web3/ValoraCeloWallet', () => {
