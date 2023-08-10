@@ -1,8 +1,6 @@
+import * as secp from '@noble/secp256k1'
 import crypto from 'crypto'
-import { ec as EC } from 'elliptic'
 import hkdf from 'futoin-hkdf'
-
-const ec = new EC('secp256k1')
 
 /**
  * Derives a 256-bit key using the HKDF method from two key shares.
@@ -11,17 +9,30 @@ const ec = new EC('secp256k1')
  * @param {string} keyshare2 - The second keyshare in utf8 format.
  * @returns {Buffer} A derived 256-bit key as a Buffer.
  */
-export function deriveKeyFromKeyShares(keyshare1: string, keyshare2: string): Buffer {
+export function deriveKeyFromKeyShares(
+  keyshare1: Buffer,
+  keyshare2: Buffer,
+  bytes: number = 32
+): Buffer {
+  // sanity check
+  if (keyshare1.length < 16 || keyshare2.length < 16) {
+    throw new Error('Key shares must be at least 16 bytes long')
+  }
+
   // Combining the keyshares
   const combinedKeyShares = Buffer.concat([
-    Buffer.from(keyshare1, 'utf8'),
-    Buffer.from(keyshare2, 'utf8'),
+    keyshare1,
+    hkdf(keyshare2, bytes, {
+      salt: 'some fixed salt',
+      info: 'valora.keylessBackup.deriveKeyFromKeyShares',
+      hash: 'SHA-256',
+    }),
   ])
 
   // Using futoin-hkdf to derive a 256-bit key
-  return hkdf(combinedKeyShares, 32, {
+  return hkdf(combinedKeyShares, bytes, {
     salt: 'some fixed salt',
-    info: 'encryption',
+    info: 'valora.keylessBackup.deriveKeyFromKeyShares',
     hash: 'SHA-256',
   })
 }
@@ -33,10 +44,13 @@ export function deriveKeyFromKeyShares(keyshare1: string, keyshare2: string): Bu
  * @param {string} keyshare2 - The second keyshare in utf8 format.
  * @returns {Buffer} A derived 256-bit key as a Buffer.
  */
-export function getSecp256K1KeyPair(keyshare1: string, keyshare2: string): EC.KeyPair {
-  const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2)
+export function getSecp256K1KeyPair(keyshare1: Buffer, keyshare2: Buffer): Uint8Array {
+  // Creating two keys and concatonating them to form a 48 byte key since 40 is the minimum for hashToPrivateKey
+  const derivedKey1 = deriveKeyFromKeyShares(keyshare1, keyshare2)
+  const derrivedKey2 = deriveKeyFromKeyShares(keyshare1, keyshare2, 16)
+  const derivedKey = Buffer.concat([derivedKey1, derrivedKey2])
 
-  return ec.keyFromPrivate(derivedKey)
+  return secp.utils.hashToPrivateKey(derivedKey)
 }
 
 /**
@@ -45,22 +59,22 @@ export function getSecp256K1KeyPair(keyshare1: string, keyshare2: string): EC.Ke
  * @param {string} keyshare1 - The first keyshare used to derive the encryption key.
  * @param {string} keyshare2 - The second keyshare used to derive the encryption key.
  * @param {string} passphrase - The passphrase to encrypt.
- * @returns {string} The encrypted passphrase, formatted as `iv:encrypted:authTag`, all parts base64 encoded.
+ * @returns {string} The encrypted passphrase, formatted as `nonce:encrypted:authTag`, all parts base64 encoded.
  */
 export function encryptPassphrase(
-  keyshare1: string,
-  keyshare2: string,
+  keyshare1: Buffer,
+  keyshare2: Buffer,
   passphrase: string
 ): string {
   const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2)
-  const iv = crypto.randomBytes(12) // GCM recommends a 12-byte IV
-  const cipher = crypto.createCipheriv('aes-256-gcm', derivedKey, iv)
+  const nonce = crypto.randomBytes(12) // GCM recommends a 12-byte nonce
+  const cipher = crypto.createCipheriv('aes-256-gcm', derivedKey, nonce)
 
   let encrypted = cipher.update(passphrase, 'utf8', 'base64')
   encrypted += cipher.final('base64')
   const authTag = cipher.getAuthTag()
 
-  return `${iv.toString('base64')}:${encrypted}:${authTag.toString('base64')}`
+  return `${nonce.toString('base64')}:${encrypted}:${authTag.toString('base64')}`
 }
 
 /**
@@ -69,19 +83,19 @@ export function encryptPassphrase(
  * @
  * @param {string} keyshare1 - The first keyshare used to derive the decryption key.
  * @param {string} keyshare2 - The second keyshare used to derive the decryption key.
- * @param {string} encryptedData - The data to decrypt, formatted as `iv:encrypted:authTag`, all parts base64 encoded.
+ * @param {string} encryptedData - The data to decrypt, formatted as `nonce:encrypted:authTag`, all parts base64 encoded.
  * @returns {string} The decrypted passphrase.
  */
 export function decryptPassphrase(
-  keyshare1: string,
-  keyshare2: string,
+  keyshare1: Buffer,
+  keyshare2: Buffer,
   encryptedData: string
 ): string {
   const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2)
-  const [ivBase64, encrypted, authTagBase64] = encryptedData.split(':')
-  const iv = Buffer.from(ivBase64, 'base64')
+  const [nonceBase64, encrypted, authTagBase64] = encryptedData.split(':')
+  const nonce = Buffer.from(nonceBase64, 'base64')
   const authTag = Buffer.from(authTagBase64, 'base64')
-  const decipher = crypto.createDecipheriv('aes-256-gcm', derivedKey, iv)
+  const decipher = crypto.createDecipheriv('aes-256-gcm', derivedKey, nonce)
   decipher.setAuthTag(authTag)
 
   let decrypted = decipher.update(encrypted, 'base64', 'utf8')

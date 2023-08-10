@@ -1,4 +1,4 @@
-import { ec as EC } from 'elliptic'
+import crypto from 'crypto'
 import {
   decryptPassphrase,
   deriveKeyFromKeyShares,
@@ -7,13 +7,13 @@ import {
 } from './encryption'
 
 describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
-  let keyshare1: string
-  let keyshare2: string
+  let keyshare1: Buffer
+  let keyshare2: Buffer
   let passphrase: string
 
   beforeEach(() => {
-    keyshare1 = 'testKeyshare1'
-    keyshare2 = 'testKeyshare2'
+    keyshare1 = crypto.randomBytes(16)
+    keyshare2 = crypto.randomBytes(16)
     passphrase = 'testPassphrase'
   })
 
@@ -26,16 +26,19 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
 
     it('should produce different outputs for different keyshares', () => {
       const buffer1 = deriveKeyFromKeyShares(keyshare1, keyshare2)
-      const buffer2 = deriveKeyFromKeyShares('testKeyshare3', 'testKeyshare4')
+      const buffer2 = deriveKeyFromKeyShares(keyshare2, keyshare1)
       expect(buffer1.toString('hex')).not.toBe(buffer2.toString('hex'))
+    })
+    it('should throw if a keyshare is less than 16 bytes', () => {
+      expect(() => deriveKeyFromKeyShares(keyshare1, crypto.randomBytes(15))).toThrow()
     })
   })
 
   describe('getSecp256K1KeyPair', () => {
     it('should produce a valid secp256k1 private key', () => {
-      const keyPair = getSecp256K1KeyPair(keyshare1, keyshare2)
-      expect(keyPair).toBeInstanceOf(EC.KeyPair)
-      expect(keyPair.getPrivate()).not.toBeNull() // Ensures the private key exists
+      const privateKey = getSecp256K1KeyPair(keyshare1, keyshare2)
+      expect(privateKey).toBeInstanceOf(Uint8Array)
+      expect(privateKey.byteLength).toEqual(32)
     })
   })
 
