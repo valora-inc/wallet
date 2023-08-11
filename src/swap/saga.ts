@@ -181,7 +181,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
-      estimatedUsdValue,      
+      estimatedUsdValue,
     })
   } catch (err) {
     const error = ensureError(err)

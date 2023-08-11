@@ -1265,7 +1265,7 @@ interface SwapEventsProperties {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
-      estimatedUsdValue?: number      
+      estimatedUsdValue?: number
     }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
