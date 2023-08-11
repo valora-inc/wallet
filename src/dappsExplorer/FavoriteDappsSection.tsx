@@ -1,35 +1,18 @@
-import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { favoriteDappsWithCategoryNamesSelector } from 'src/dapps/selectors'
 import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
-import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
-import StarIllustration from 'src/icons/StarIllustration'
-import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 
 interface Props {
   filterId: string
-  filterName: string
   onPressDapp: (dapp: ActiveDapp) => void
-  setFavoriteResultsEmpty: (empty: boolean) => void
-  removeFilter: () => void
   searchTerm: string
 }
 
-export function FavoriteDappsSection({
-  filterId,
-  filterName,
-  onPressDapp,
-  setFavoriteResultsEmpty,
-  removeFilter,
-  searchTerm,
-}: Props) {
-  const { t } = useTranslation()
+export function FavoriteDappsSection({ filterId, onPressDapp, searchTerm }: Props) {
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
   const favoriteResultsFiltered = favoriteDappsWithCategoryNames.filter(
     (dapp) => dapp.categories.includes(filterId) || filterId === 'all'
@@ -38,10 +21,6 @@ export function FavoriteDappsSection({
     searchTerm === ''
       ? favoriteResultsFiltered
       : (searchDappList(favoriteResultsFiltered, searchTerm) as Dapp[])
-
-  useEffect(() => {
-    setFavoriteResultsEmpty(favoriteResults.length <= 0)
-  }, [favoriteResults, searchTerm, filterId])
 
   // Display favorites matching search and filter
   if (favoriteResults.length > 0) {
@@ -57,53 +36,9 @@ export function FavoriteDappsSection({
         ))}
       </View>
     )
-    // Else if no favorites, display no favorites section
-  } else if (
-    favoriteDappsWithCategoryNames.length === 0 &&
-    searchTerm === '' &&
-    filterId === 'all'
-  ) {
-    return (
-      <View style={styles.container}>
-        <StarIllustration />
-        <View style={styles.contentContainer}>
-          <Text style={styles.title}>{t('dappsScreen.noFavorites.title')}</Text>
-          <Text style={styles.description}>{t('dappsScreen.noFavorites.description')}</Text>
-        </View>
-      </View>
-    )
-    // Else display no results section
   } else {
-    return (
-      <NoResults
-        filterId={filterId}
-        filterName={filterName}
-        removeFilter={removeFilter}
-        searchTerm={searchTerm}
-        testID="FavoriteDappsSection/NoResults"
-      />
-    )
+    return null
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flex: 1,
-    marginTop: Spacing.Thick24,
-  },
-  contentContainer: {
-    marginLeft: Spacing.Regular16,
-    flex: 1,
-  },
-  title: {
-    ...fontStyles.regular600,
-    marginBottom: 4,
-  },
-  description: {
-    ...fontStyles.small,
-    color: Colors.gray4,
-  },
-})
 
 export default FavoriteDappsSection
