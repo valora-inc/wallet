@@ -89,13 +89,18 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const { quoteReceivedAt } = action.payload
 
   const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
+
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
   const fromTokenBalance = fromToken
     ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
     : ''
-
-  const estimatedUsdValue = fromToken
+  const estimatedSellTokenUsdValue = fromToken
     ? calculateEstimatedUsdValue({ tokenInfo: fromToken, tokenAmount: sellAmount })
+    : undefined
+
+  const toToken = tokenBalances.find((token) => token.address === buyTokenAddress)
+  const estimatedBuyTokenUsdValue = toToken
+    ? calculateEstimatedUsdValue({ tokenInfo: toToken, tokenAmount: buyAmount })
     : undefined
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
@@ -113,6 +118,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     fromTokenBalance,
     swapExecuteTxId: swapExecuteContext.id,
     swapApproveTxId: swapApproveContext.id,
+    estimatedSellTokenUsdValue,
+    estimatedBuyTokenUsdValue,
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
@@ -181,7 +188,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
-      estimatedUsdValue,
     })
   } catch (err) {
     const error = ensureError(err)
@@ -192,7 +198,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
       error: error.message,
-      estimatedUsdValue: estimatedUsdValue,
     })
     yield* put(swapError())
     vibrateError()
