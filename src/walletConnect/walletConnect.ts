@@ -1,6 +1,7 @@
+import { parseUri } from '@walletconnect/utils'
 import { WalletConnectEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
@@ -47,8 +48,9 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
     yield* fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Deeplink)
   }
 
-  // connection request
-  if (link.includes('?')) {
+  // pairing request
+  // https://docs.walletconnect.com/2.0/specs/clients/core/pairing/pairing-uri
+  if (parseUri(link).symKey) {
     yield* call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
   }
 
