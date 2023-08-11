@@ -54,6 +54,21 @@ function* handleSendSwapTransaction(
   yield* call(sendTransaction, txo, walletAddress, transactionContext)
 }
 
+function calculateEstimatedUsdValue({
+  tokenInfo,
+  tokenAmount,
+}: {
+  tokenInfo: TokenBalance
+  tokenAmount: string
+}): number | undefined {
+  if (!tokenInfo.usdPrice) {
+    return undefined
+  }
+
+  const amount = valueToBigNumber(tokenAmount)
+  return tokenInfo.usdPrice.times(amount.shiftedBy(-tokenInfo.decimals)).toNumber()
+}
+
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
   const {
@@ -74,10 +89,19 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const { quoteReceivedAt } = action.payload
 
   const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
+
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
   const fromTokenBalance = fromToken
     ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
     : ''
+  const estimatedSellTokenUsdValue = fromToken
+    ? calculateEstimatedUsdValue({ tokenInfo: fromToken, tokenAmount: sellAmount })
+    : undefined
+
+  const toToken = tokenBalances.find((token) => token.address === buyTokenAddress)
+  const estimatedBuyTokenUsdValue = toToken
+    ? calculateEstimatedUsdValue({ tokenInfo: toToken, tokenAmount: buyAmount })
+    : undefined
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
@@ -94,6 +118,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     fromTokenBalance,
     swapExecuteTxId: swapExecuteContext.id,
     swapApproveTxId: swapApproveContext.id,
+    estimatedSellTokenUsdValue,
+    estimatedBuyTokenUsdValue,
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
