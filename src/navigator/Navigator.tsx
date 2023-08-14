@@ -61,6 +61,7 @@ import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
+import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -577,6 +578,16 @@ const nftScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const notificationScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.NotificationCenter}
+      component={NotificationCenter}
+      options={headerWithBackButton}
+    />
+  </>
+)
+
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
@@ -641,6 +652,7 @@ export function MainStackScreen() {
       {generalScreens(Stack)}
       {swapScreens(Stack)}
       {nftScreens(Stack)}
+      {notificationScreens(Stack)}
     </Stack.Navigator>
   )
 }
