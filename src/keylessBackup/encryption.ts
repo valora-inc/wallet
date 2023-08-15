@@ -44,11 +44,15 @@ export function deriveKeyFromKeyShares(
  *
  * @param {string} keyshare1 - The first keyshare in utf8 format.
  * @param {string} keyshare2 - The second keyshare in utf8 format.
- * @returns {Buffer} A derived 256-bit key as a Buffer.
  */
-export function getSecp256K1KeyPair(keyshare1: Buffer, keyshare2: Buffer): Uint8Array {
+export function getSecp256K1KeyPair(
+  keyshare1: Buffer,
+  keyshare2: Buffer
+): { privateKey: Uint8Array; publicKey: Uint8Array } {
   const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2, 48) // 40 is the minimum for hashToPrivateKey
-  return secp.utils.hashToPrivateKey(derivedKey)
+  const privateKey = secp.utils.hashToPrivateKey(derivedKey)
+  const publicKey = secp.getPublicKey(privateKey, true)
+  return { privateKey, publicKey }
 }
 
 /**

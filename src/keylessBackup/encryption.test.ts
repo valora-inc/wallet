@@ -4,6 +4,7 @@ import {
   encryptPassphrase,
   getSecp256K1KeyPair,
 } from './encryption'
+import * as secp from '@noble/secp256k1'
 
 describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
   let keyshare1: Buffer
@@ -43,10 +44,17 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
   })
 
   describe('getSecp256K1KeyPair', () => {
-    it('should produce a valid secp256k1 private key', () => {
-      const privateKey = getSecp256K1KeyPair(keyshare1, keyshare2)
+    it('should produce a valid secp256k1 key pair', async () => {
+      const { privateKey, publicKey } = getSecp256K1KeyPair(keyshare1, keyshare2)
       expect(privateKey).toBeInstanceOf(Uint8Array)
       expect(privateKey.byteLength).toEqual(32)
+      expect(publicKey).toBeInstanceOf(Uint8Array)
+      expect(publicKey.byteLength).toEqual(33)
+
+      // able to sign with private key and verify with public key
+      const messageHash = await secp.utils.sha256(new TextEncoder().encode('hello world'))
+      const signature = await secp.sign(messageHash, privateKey)
+      expect(secp.verify(signature, messageHash, publicKey)).toBe(true)
     })
   })
 
