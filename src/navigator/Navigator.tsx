@@ -545,6 +545,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={GoldEducation}
       options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
     />
+    <Navigator.Screen
+      name={Screens.NotificationCenter}
+      component={NotificationCenter}
+      options={headerWithBackButton}
+    />
   </>
 )
 
@@ -574,16 +579,6 @@ const nftScreens = (Navigator: typeof Stack) => (
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
       options={headerTransparentWithBack}
-    />
-  </>
-)
-
-const notificationScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.NotificationCenter}
-      component={NotificationCenter}
-      options={headerWithBackButton}
     />
   </>
 )
@@ -652,7 +647,6 @@ export function MainStackScreen() {
       {generalScreens(Stack)}
       {swapScreens(Stack)}
       {nftScreens(Stack)}
-      {notificationScreens(Stack)}
     </Stack.Navigator>
   )
 }
