@@ -54,7 +54,7 @@ export enum Screens {
   MoonPayScreen = 'MoonPayScreen',
   XanpoolScreen = 'XanpoolScreen',
   NameAndPicture = 'NameAndPicture',
-  NotificationCenter = 'NotificationFeed',
+  NotificationCenter = 'NotificationCenter',
   NftGallery = 'NftGallery',
   NftsInfoCarousel = 'NftsInfoCarousel',
   OnboardingRecoveryPhrase = 'OnboardingRecoveryPhrase',
