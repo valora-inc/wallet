@@ -3,12 +3,12 @@ import crypto from 'crypto'
 import hkdf from 'futoin-hkdf'
 
 /**
- * Derives a 256-bit key using the HKDF method from two key shares.
+ * Derives a key using the HKDF method from two key shares.
  *
  * @param {string} keyshare1 - The first keyshare in utf8 format.
  * @param {string} keyshare2 - The second keyshare in utf8 format.
  * @param {number} outputKeyBytes - The number of bytes to output. Defaults to 32.
- * @returns {Buffer} A derived 256-bit key as a Buffer.
+ * @returns {Buffer} A derived key as a Buffer.
  */
 export function deriveKeyFromKeyShares(
   keyshare1: Buffer,
