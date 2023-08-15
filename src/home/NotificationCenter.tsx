@@ -15,6 +15,27 @@ import { Spacing } from 'src/styles/styles'
 
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
+const renderItem = ({ item }: { item: Notification }) => {
+  return (
+    <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
+      {item.element}
+    </View>
+  )
+}
+
+const keyExtractor = (item: Notification) => item.id
+
+const renderItemSeparator = () => <View style={styles.itemSeparator} />
+
+const renderEmptyState = () => (
+  <View testID="NotificationCenter/EmptyState" style={styles.emptyStateContainer}>
+    <ThumbsUpIllustration />
+    <Text testID="NotificationCenter/EmptyState/Text" style={styles.emptyStateLabel}>
+      {t('youAreAllCaughtUp')}
+    </Text>
+  </View>
+)
+
 export default function Notifications({ navigation }: NotificationsProps) {
   const safeAreaInsets = useSafeAreaInsets()
 
@@ -42,36 +63,15 @@ export default function Notifications({ navigation }: NotificationsProps) {
     scrollPosition.value = event.contentOffset.y
   })
 
-  const notifications = useNotifications()
-
   const renderHeader = () => (
     <Text style={styles.title} onLayout={handleMeasureHeaderHeight}>
       {title}
     </Text>
   )
 
-  const renderItem = ({ item }: { item: Notification }) => {
-    return (
-      <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
-        {item.element}
-      </View>
-    )
-  }
-
-  const keyExtractor = (item: Notification) => item.id
-
-  const renderItemSeparator = () => <View style={styles.itemSeparator} />
-
-  const renderEmptyState = () => (
-    <View testID="NotificationCenter/EmptyState" style={styles.emptyStateContainer}>
-      <ThumbsUpIllustration />
-      <Text testID="NotificationCenter/EmptyState/Text" style={styles.emptyStateLabel}>
-        {t('youAreAllCaughtUp')}
-      </Text>
-    </View>
-  )
-
   const contentContainerStyle = { paddingBottom: safeAreaInsets.bottom + Spacing.Regular16 }
+
+  const notifications = useNotifications()
 
   return (
     <Animated.FlatList
