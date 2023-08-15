@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { t } from 'i18next'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -27,17 +27,10 @@ const keyExtractor = (item: Notification) => item.id
 
 const renderItemSeparator = () => <View style={styles.itemSeparator} />
 
-const renderEmptyState = () => (
-  <View testID="NotificationCenter/EmptyState" style={styles.emptyStateContainer}>
-    <ThumbsUpIllustration />
-    <Text testID="NotificationCenter/EmptyState/Text" style={styles.emptyStateLabel}>
-      {t('youAreAllCaughtUp')}
-    </Text>
-  </View>
-)
-
 export default function Notifications({ navigation }: NotificationsProps) {
   const safeAreaInsets = useSafeAreaInsets()
+
+  const { t } = useTranslation()
 
   const title = t('notifications')
 
@@ -67,6 +60,13 @@ export default function Notifications({ navigation }: NotificationsProps) {
     <Text style={styles.title} onLayout={handleMeasureHeaderHeight}>
       {title}
     </Text>
+  )
+
+  const renderEmptyState = () => (
+    <View testID="NotificationCenter/EmptyState" style={styles.emptyStateContainer}>
+      <ThumbsUpIllustration />
+      <Text style={styles.emptyStateLabel}>{t('youAreAllCaughtUp')}</Text>
+    </View>
   )
 
   const contentContainerStyle = { paddingBottom: safeAreaInsets.bottom + Spacing.Regular16 }

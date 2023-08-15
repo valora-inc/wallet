@@ -29,23 +29,6 @@ const testNotification = {
   },
 }
 
-const storeDataNotificationsEnabled = {
-  account: {
-    backupCompleted: false,
-    dismissedGetVerified: false,
-    accountCreationTime: BACKUP_TIME,
-    celoEducationCompleted: false,
-  },
-  paymentRequest: {
-    incomingPaymentRequests: mockPaymentRequests.slice(0, 2),
-  },
-  home: {
-    notifications: {
-      testNotification,
-    },
-  },
-}
-
 const storeDataNotificationsDisabled = {
   account: {
     backupCompleted: true,
@@ -125,14 +108,14 @@ const mockcUsdWithoutEnoughBalance = {
 describe('NotificationCenter', () => {
   it('renders empty state when there is no notifications at all', () => {
     const store = createMockStore({ ...storeDataNotificationsDisabled })
-    const { queryByTestId } = render(
+    const { queryByTestId, queryByText } = render(
       <Provider store={store}>
         <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
     expect(queryByTestId('NotificationCenter/EmptyState')).toBeTruthy()
-    expect(queryByTestId('NotificationCenter/EmptyState/Text')).toBeTruthy()
+    expect(queryByText('youAreAllCaughtUp')).toBeTruthy()
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {
