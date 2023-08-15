@@ -88,5 +88,13 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       )}`
       expect(() => decryptPassphrase(keyshare1, keyshare2, tampered)).toThrow()
     })
+    it('throws if authTag from other passphrase is used', () => {
+      const encrypted0 = encryptPassphrase(keyshare1, keyshare2, passphrase)
+      const encrypted1 = encryptPassphrase(keyshare1, keyshare2, 'passphrase one')
+      const [nonce0, encryptedMessage0, _authTag0] = encrypted0.split(':')
+      const [_nonce1, _encryptedMessage1, authTag1] = encrypted1.split(':')
+      const tampered = `${nonce0}:${encryptedMessage0}:${authTag1}`
+      expect(() => decryptPassphrase(keyshare1, keyshare2, tampered)).toThrow()
+    })
   })
 })
