@@ -26,8 +26,9 @@ export const getClient = async (): Promise<SiweApiClient> => {
         loginUrl: `${networkConfig.inHouseLiquidityURL}/auth/login`,
         clockUrl: `${networkConfig.inHouseLiquidityURL}/clock`,
         timeout:
-          getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT])
-            .cico * 1000,
+          getDynamicConfigParams(
+            DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS]
+          ).cico * 1000,
       },
       getSiweSigningFunction(wallet)
     )

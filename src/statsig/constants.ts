@@ -89,8 +89,8 @@ export const DynamicConfigs = {
       blockedNouns: [] as string[],
     },
   },
-  [StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT]: {
-    configName: StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT,
+  [StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS]: {
+    configName: StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS,
     defaultValues: {
       default: 15,
       cico: 30,

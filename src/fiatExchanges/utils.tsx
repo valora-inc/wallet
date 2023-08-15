@@ -150,8 +150,8 @@ export const fetchProviders = async (
     const response = await fetchWithTimeout(
       networkConfig.providerFetchUrl,
       composePostObject(requestData),
-      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT]).cico *
-        1000
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!response.ok) {
@@ -188,8 +188,8 @@ export const fetchSimplexPaymentData = async (
           userAgent: DeviceInfo.getUserAgentSync(),
         },
       }),
-      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT]).cico *
-        1000
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!response.ok) {
@@ -290,8 +290,8 @@ export async function fetchExchanges(
     const resp = await fetchWithTimeout(
       `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`,
       undefined,
-      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT]).cico *
-        1000
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!resp.ok) {

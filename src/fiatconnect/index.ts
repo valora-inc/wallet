@@ -57,7 +57,8 @@ export async function getFiatConnectProviders(
         ...(!!providerList && { providers: providerList }),
       }),
     undefined,
-    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT]).cico * 1000
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+      .cico * 1000
   )
   if (!response.ok) {
     Logger.error(TAG, `Failure response fetching FiatConnect providers: ${response}`)
@@ -156,7 +157,8 @@ export async function getFiatConnectQuotes(
   const response = await fetchWithTimeout(
     `${networkConfig.getFiatConnectQuotesUrl}?${queryParams}`,
     undefined,
-    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT]).cico * 1000
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+      .cico * 1000
   )
   if (!response.ok) {
     const err = await response.json()
