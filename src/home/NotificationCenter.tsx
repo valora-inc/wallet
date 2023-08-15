@@ -10,6 +10,7 @@ import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -92,10 +93,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.h1,
     ...fontStyles.large600,
     fontSize: 24,
     lineHeight: 32,
+    color: colors.dark,
     margin: Spacing.Thick24,
     marginTop: Spacing.Smallest8,
   },
