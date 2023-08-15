@@ -108,14 +108,14 @@ const mockcUsdWithoutEnoughBalance = {
 describe('NotificationCenter', () => {
   it('renders empty state when there is no notifications at all', () => {
     const store = createMockStore({ ...storeDataNotificationsDisabled })
-    const { queryByTestId, queryByText } = render(
+    const { getByTestId, getByText } = render(
       <Provider store={store}>
         <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
-    expect(queryByTestId('NotificationCenter/EmptyState')).toBeTruthy()
-    expect(queryByText('youAreAllCaughtUp')).toBeTruthy()
+    expect(getByTestId('NotificationCenter/EmptyState')).toBeTruthy()
+    expect(getByText('youAreAllCaughtUp')).toBeTruthy()
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {
