@@ -1406,10 +1406,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@coinbase/cbpay-js@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-1.6.0.tgz#23f4456ba57f3e6ba1583e21376e9a2337fd1aaa"
-  integrity sha512-jt1BUaMLbA2/xfHc2YC/Uq+rYD0LIpU5s70ms8VpxImNGiMLUEgUZnAzjk1aIqWiTpQWRmwqyq+WvKTb0Yv05Q==
+"@coinbase/cbpay-js@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-1.7.0.tgz#5b098d70a5928f2689f774d0d5c16ecab6729880"
+  integrity sha512-Y29a18PiJA/JQOsDVRyMipbSArqM5elxy5TRFB+kyfvuMfFa67oesFw1tIgQuaobBF353AO3gFzRLLEEKjP2OA==
 
 "@crowdin/ota-client@^0.7.0":
   version "0.7.0"
@@ -13663,10 +13663,10 @@ react-native-flipper@^0.127.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"
   integrity sha512-qloUyUOs9MoMVncIDDWeOxAPbomWJ3e4y0SgyCgq8joJEOXC7RvPWeEfUXp0EPyNhHGQV9a4RwzF6BWKFCR3Kg==
 
-react-native-flipper@^0.200.0, react-native-flipper@^0.34.0:
-  version "0.200.0"
-  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.200.0.tgz#17af94c56286ba734d5b2f69879e383e24fdfc2c"
-  integrity sha512-P8EDgBN9PEIEfx3SOwsNw2kXVFlnvburaq4tLQ/U+5hHiYRx0mL7c+V1MRKRgtlgoV7IqJVw9WtU/PkfWMWXOA==
+react-native-flipper@^0.210.1, react-native-flipper@^0.34.0:
+  version "0.210.1"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.210.1.tgz#0501aa302af3f811f8f47e937488fd1358146c1e"
+  integrity sha512-LnnV9lEHT0ri3VK1EYWluz4wAcnphAjPEMHjNdPqUEaA1kAj5Fi3y9BM8b591iaNf22qBnGRYbmrxjYXqHtcJw==
 
 react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
   version "2.16.6"

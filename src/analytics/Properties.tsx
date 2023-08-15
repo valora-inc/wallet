@@ -1257,6 +1257,8 @@ interface SwapEventsProperties {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
     SwapTimeMetrics & {
@@ -1264,6 +1266,8 @@ interface SwapEventsProperties {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
     }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {

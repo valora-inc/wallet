@@ -1414,9 +1414,9 @@
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo wallet, riprova",
   "noMoreTransactions": "Non ci sono altre transazioni",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Gli acquisti sono gestiti dai nostri fornitori partner. Alcuni metodi di pagamento non sono disponibili nella tua area geografica.",
-    "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti dai partner su Celo. Alcuni metodi di pagamento non sono disponibili nella tua area geografica. <0>Altre informazioni.</0>",
-    "disclaimer": "I pagamenti sono gestiti dai partner su Celo. <0>Altre informazioni.</0>",
+    "somePaymentsUnavailable": "Gli acquisti sono gestiti dai nostri fornitori partner. Le tariffe possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica.",
+    "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti dai partner su Celo. Le tariffe possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica. <0>Altre informazioni.</0>",
+    "disclaimer": "I pagamenti sono gestiti dai partner su Celo. Le tariffe possono variare. <0>Altre informazioni.</0>",
     "learnMore": "Scopri di più.",
     "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",

@@ -1414,9 +1414,9 @@
   "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre wallet, veuillez réessayer",
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Les achats sont effectués par nos prestataires partenaires. Certains modes de paiement ne sont pas disponibles dans votre pays.",
-    "disclaimerWithSomePaymentsUnavailable": "Les paiements sont effectués par des partenaires sur Celo. Certains modes de paiement ne sont pas disponibles dans votre pays. <0>En savoir plus.</0>",
-    "disclaimer": "Les paiements sont effectués par des partenaires sur Celo. <0>En savoir plus.</0>",
+    "somePaymentsUnavailable": "Les achats sont effectués par nos prestataires partenaires. Les frais peuvent varier. Certains modes de paiement ne sont pas disponibles dans votre pays.",
+    "disclaimerWithSomePaymentsUnavailable": "Les paiements sont effectués par des partenaires sur Celo. Les frais peuvent varier. Certains modes de paiement ne sont pas disponibles dans votre pays. <0>En savoir plus.</0>",
+    "disclaimer": "Les paiements sont effectués par des partenaires sur Celo. Les frais peuvent varier. <0>En savoir plus.</0>",
     "learnMore": "En savoir plus.",
     "whyMissingPayments": "Pourquoi ne vois-je pas plus de modes de paiement ?",
     "dismiss": "Ignorer",
