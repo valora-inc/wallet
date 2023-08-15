@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import {
   decryptPassphrase,
   deriveKeyFromKeyShares,
@@ -12,16 +11,23 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
   let passphrase: string
 
   beforeEach(() => {
-    keyshare1 = crypto.randomBytes(16)
-    keyshare2 = crypto.randomBytes(16)
-    passphrase = 'testPassphrase'
+    keyshare1 = Buffer.from('57e25df276a72a7f38c862803a201596', 'hex')
+    keyshare2 = Buffer.from('bc56bf47e65f62319a0659bfe106e992', 'hex')
+    passphrase =
+      'hurdle citizen woman cherry wedding screen camp pony curve bargain pipe trend clump absent mule uncover where obey other tent december betray space jacket'
   })
 
   describe('deriveKeyFromKeyShares', () => {
-    it('should derive a buffer of length 32', () => {
+    it('should derive a buffer of length 32 by default', () => {
       const buffer = deriveKeyFromKeyShares(keyshare1, keyshare2)
       expect(buffer).toBeInstanceOf(Buffer)
       expect(buffer.length).toBe(32)
+    })
+
+    it('should derive a buffer of length 48 when specified', () => {
+      const buffer = deriveKeyFromKeyShares(keyshare1, keyshare2, 48)
+      expect(buffer).toBeInstanceOf(Buffer)
+      expect(buffer.length).toBe(48)
     })
 
     it('should produce different outputs for different keyshares', () => {
@@ -30,7 +36,9 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       expect(buffer1.toString('hex')).not.toBe(buffer2.toString('hex'))
     })
     it('should throw if a keyshare is less than 16 bytes', () => {
-      expect(() => deriveKeyFromKeyShares(keyshare1, crypto.randomBytes(15))).toThrow()
+      const shortKeyshare = Buffer.from('77020c157b3440de1b697ab0e66baf', 'hex') // obtained with crypto.randomBytes(15).toString('hex')
+      expect(() => deriveKeyFromKeyShares(keyshare1, shortKeyshare)).toThrow()
+      expect(() => deriveKeyFromKeyShares(shortKeyshare, keyshare2)).toThrow()
     })
   })
 

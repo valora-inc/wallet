@@ -7,12 +7,13 @@ import hkdf from 'futoin-hkdf'
  *
  * @param {string} keyshare1 - The first keyshare in utf8 format.
  * @param {string} keyshare2 - The second keyshare in utf8 format.
+ * @param {number} outputKeyBytes - The number of bytes to output. Defaults to 32.
  * @returns {Buffer} A derived 256-bit key as a Buffer.
  */
 export function deriveKeyFromKeyShares(
   keyshare1: Buffer,
   keyshare2: Buffer,
-  bytes: number = 32
+  outputKeyBytes: number = 32
 ): Buffer {
   // sanity check
   if (keyshare1.length < 16 || keyshare2.length < 16) {
@@ -22,7 +23,8 @@ export function deriveKeyFromKeyShares(
   // Combining the keyshares
   const combinedKeyShares = Buffer.concat([
     keyshare1,
-    hkdf(keyshare2, bytes, {
+    hkdf(keyshare2, 32, {
+      // per advice from @nategraf: [using 32 here] gives the maximum available security available with SHA-256, and prevents a bit of wasted work if the requested output is longer than 32 bytes
       salt: 'some fixed salt',
       info: 'valora.keylessBackup.deriveKeyFromKeyShares',
       hash: 'SHA-256',
@@ -30,7 +32,7 @@ export function deriveKeyFromKeyShares(
   ])
 
   // Using futoin-hkdf to derive a 256-bit key
-  return hkdf(combinedKeyShares, bytes, {
+  return hkdf(combinedKeyShares, outputKeyBytes, {
     salt: 'some fixed salt',
     info: 'valora.keylessBackup.deriveKeyFromKeyShares',
     hash: 'SHA-256',
@@ -45,11 +47,7 @@ export function deriveKeyFromKeyShares(
  * @returns {Buffer} A derived 256-bit key as a Buffer.
  */
 export function getSecp256K1KeyPair(keyshare1: Buffer, keyshare2: Buffer): Uint8Array {
-  // Creating two keys and concatonating them to form a 48 byte key since 40 is the minimum for hashToPrivateKey
-  const derivedKey1 = deriveKeyFromKeyShares(keyshare1, keyshare2)
-  const derrivedKey2 = deriveKeyFromKeyShares(keyshare1, keyshare2, 16)
-  const derivedKey = Buffer.concat([derivedKey1, derrivedKey2])
-
+  const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2, 48) // 40 is the minimum for hashToPrivateKey
   return secp.utils.hashToPrivateKey(derivedKey)
 }
 
