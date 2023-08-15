@@ -33,7 +33,6 @@ export function deriveKeyFromKeyShares(
     }),
   ])
 
-  // Using futoin-hkdf to derive a 256-bit key
   return hkdf(combinedKeyShares, outputKeyBytes, {
     salt,
     info,
