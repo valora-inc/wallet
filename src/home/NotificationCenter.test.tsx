@@ -131,8 +131,8 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationCenterEmptyState')).toBeTruthy()
-    expect(queryByTestId('NotificationCenterEmptyState/Text')).toBeTruthy()
+    expect(queryByTestId('NotificationCenter/EmptyState')).toBeTruthy()
+    expect(queryByTestId('NotificationCenter/EmptyState/Text')).toBeTruthy()
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {

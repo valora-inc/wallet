@@ -63,9 +63,9 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const renderItemSeparator = () => <View style={styles.itemSeparator} />
 
   const renderEmptyState = () => (
-    <View testID="NotificationCenterEmptyState" style={styles.emptyStateContainer}>
+    <View testID="NotificationCenter/EmptyState" style={styles.emptyStateContainer}>
       <ThumbsUpIllustration />
-      <Text testID="NotificationCenterEmptyState/Text" style={styles.emptyStateLabel}>
+      <Text testID="NotificationCenter/EmptyState/Text" style={styles.emptyStateLabel}>
         {t('youAreAllCaughtUp')}
       </Text>
     </View>
