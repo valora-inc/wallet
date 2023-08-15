@@ -8,6 +8,11 @@ export interface Props extends TouchableWithoutFeedbackProps {
   borderRadius?: number
 }
 
+/**
+ * @param borderless - If true, the touchable has a borderless ripple effect.
+ * @param borderRadius - Adds a border radius to the touchable and a parent view to prevent Android ripple overflow.
+ * @returns A touchable component
+ */
 export default function Touchable({ borderless, borderRadius = 0, ...passThroughProps }: Props) {
   const background = borderless
     ? PlatformTouchable.SelectableBackgroundBorderless()
