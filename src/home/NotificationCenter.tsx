@@ -31,18 +31,14 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const safeAreaInsets = useSafeAreaInsets()
 
   const { t } = useTranslation()
-
   const title = t('notifications')
+
+  const notifications = useNotifications()
+
+  const scrollPosition = useSharedValue(0)
 
   const [headerYPosition, setHeaderYPosition] = useState(0)
   const [headerHeight, setHeaderHeight] = useState(0)
-
-  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
-    setHeaderYPosition(event.nativeEvent.layout.y)
-    setHeaderHeight(event.nativeEvent.layout.height)
-  }
-
-  const scrollPosition = useSharedValue(0)
 
   useScrollAwareHeader({
     navigation,
@@ -55,6 +51,11 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const handleScroll = useAnimatedScrollHandler((event) => {
     scrollPosition.value = event.contentOffset.y
   })
+
+  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
+    setHeaderYPosition(event.nativeEvent.layout.y)
+    setHeaderHeight(event.nativeEvent.layout.height)
+  }
 
   const renderHeader = () => (
     <Text style={styles.title} onLayout={handleMeasureHeaderHeight}>
@@ -70,8 +71,6 @@ export default function Notifications({ navigation }: NotificationsProps) {
   )
 
   const contentContainerStyle = { paddingBottom: safeAreaInsets.bottom + Spacing.Regular16 }
-
-  const notifications = useNotifications()
 
   return (
     <Animated.FlatList
