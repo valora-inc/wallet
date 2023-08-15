@@ -1,6 +1,6 @@
 import React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
 import i18n, { withTranslation } from 'src/i18n'
 import { E164NumberToAddressType } from 'src/identity/reducer'
@@ -16,6 +16,7 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
+import { Spacing } from 'src/styles/styles'
 
 interface StateProps {
   paymentRequests: PaymentRequest[]
@@ -45,7 +46,7 @@ export const listItemRenderer =
   (request: PaymentRequest, key: number | undefined = undefined) => {
     const requestee = getRecipientFromAddress(request.requesteeAddress, params.recipientInfo)
     return (
-      <View key={key}>
+      <View key={key} style={styles.listItem}>
         <OutgoingPaymentRequestListItem
           id={request.uid || ''}
           amount={request.amount}
@@ -67,6 +68,12 @@ const OutgoingPaymentRequestListScreen = (props: Props) => {
 OutgoingPaymentRequestListScreen.navigationOptions = titleWithBalanceNavigationOptions(
   i18n.t('outgoingPaymentRequests')
 )
+
+const styles = StyleSheet.create({
+  listItem: {
+    marginBottom: Spacing.Regular16,
+  },
+})
 
 export default connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps, {
   cancelPaymentRequest,
