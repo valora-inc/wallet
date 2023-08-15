@@ -2,6 +2,8 @@ import * as secp from '@noble/secp256k1'
 import crypto from 'crypto'
 import hkdf from 'futoin-hkdf'
 
+const HKDF_SALT = 'd922444e-ef5d-4921-b19d-ceec3780e704'
+
 /**
  * Derives a 256-bit key using the HKDF method from two key shares.
  *
@@ -25,7 +27,7 @@ export function deriveKeyFromKeyShares(
     keyshare1,
     hkdf(keyshare2, 32, {
       // per advice from @nategraf: [using 32 here] gives the maximum available security available with SHA-256, and prevents a bit of wasted work if the requested output is longer than 32 bytes
-      salt: 'some fixed salt',
+      salt: HKDF_SALT,
       info: 'valora.keylessBackup.deriveKeyFromKeyShares',
       hash: 'SHA-256',
     }),
@@ -33,7 +35,7 @@ export function deriveKeyFromKeyShares(
 
   // Using futoin-hkdf to derive a 256-bit key
   return hkdf(combinedKeyShares, outputKeyBytes, {
-    salt: 'some fixed salt',
+    salt: HKDF_SALT,
     info: 'valora.keylessBackup.deriveKeyFromKeyShares',
     hash: 'SHA-256',
   })
