@@ -15,8 +15,8 @@ import {
   getWalletAddressFromPrivateKey,
 } from 'src/keylessBackup/encryption'
 import { getStoredMnemonic } from 'src/backup/utils'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
 
 const TAG = 'keylessBackup/saga'
 
@@ -44,7 +44,7 @@ export function* handleKeylessBackupSetup() {
     )
     const encryptionAddress = getWalletAddressFromPrivateKey(privateKey)
     Logger.debug(TAG, 'Encryption address obtained')
-    const walletAddress = yield* call(getConnectedUnlockedAccount) // fixme getting "PIN input canceled" error here
+    const walletAddress = yield* select(walletAddressSelector)
     const mnemonic = yield* call(getStoredMnemonic, walletAddress)
     if (!mnemonic) {
       throw new Error('No mnemonic found')

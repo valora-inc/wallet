@@ -312,9 +312,16 @@ export const Account = ({ navigation, route }: Props) => {
     navigation.setParams({ promptConfirmRemovalModal: false })
   }
 
-  const onPressSetUpKeylessBackup = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
-    navigate(Screens.WalletSecurityPrimer)
+  const onPressSetUpKeylessBackup = async () => {
+    try {
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
+        navigate(Screens.WalletSecurityPrimer)
+      }
+    } catch (error) {
+      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
+    }
   }
 
   const onPressDeleteKeylessBackup = () => {
