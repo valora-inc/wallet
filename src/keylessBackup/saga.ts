@@ -25,18 +25,17 @@ const WAIT_FOR_KEYSHARES_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshare
 
 export function* handleValoraKeyshareIssued({ payload }: ReturnType<typeof valoraKeyshareIssued>) {
   if (payload.keylessBackupFlow === KeylessBackupFlow.Setup) {
-    yield* handleKeylessBackupSetup()
+    yield* handleKeylessBackupSetup(payload.keyshare)
   } else {
     Logger.error(TAG, 'Unsupported keyless backup flow', payload.keylessBackupFlow)
     yield* put(keylessBackupFailed())
   }
 }
 
-export function* handleKeylessBackupSetup() {
+export function* handleKeylessBackupSetup(valoraKeyshare: string) {
   Logger.debug(TAG, 'Handling keyless backup setup')
   try {
-    const { torusKeyshare, valoraKeyshare } = yield* waitForIssuedKeyshares()
-    Logger.debug(TAG, 'Keyshares obtained')
+    const torusKeyshare = yield* waitForTorusKeyshare()
     const { privateKey } = yield* call(
       getSecp256K1KeyPair,
       Buffer.from(torusKeyshare, 'hex'),
@@ -75,28 +74,19 @@ export function* handleKeylessBackupSetup() {
   }
 }
 
-export function* waitForIssuedKeyshares() {
-  Logger.debug('Waiting for keyshares')
+export function* waitForTorusKeyshare() {
   const startTime = Date.now()
   let torusKeyshare: string | null = null
-  let valoraKeyshare: string | null = null
-  while (
-    Date.now() - startTime < WAIT_FOR_KEYSHARES_TIMEOUT_MS &&
-    !torusKeyshare &&
-    !valoraKeyshare
-  ) {
+  while (Date.now() - startTime < WAIT_FOR_KEYSHARES_TIMEOUT_MS && !torusKeyshare) {
     torusKeyshare = yield* select((state) => state.keylessBackup.torusKeyshare)
-    valoraKeyshare = yield* select((state) => state.keylessBackup.valoraKeyshare)
-    if (!torusKeyshare || !valoraKeyshare) {
+    if (!torusKeyshare) {
       yield* delay(DELAY_INTERVAL_MS)
     }
   }
-  if (!torusKeyshare || !valoraKeyshare) {
-    throw new Error(
-      `Timed out waiting for keyshares. torusKeyshare obtained: ${!!torusKeyshare}, valoraKeyshare obtained: ${!!valoraKeyshare}`
-    )
+  if (!torusKeyshare) {
+    throw new Error(`Timed out waiting for torus keyshare.`)
   }
-  return { torusKeyshare, valoraKeyshare }
+  return torusKeyshare
 }
 
 export function* handleGoogleSignInCompleted({
