@@ -24,6 +24,6 @@ export async function storeEncryptedMnemonic({
   if (response.status === 409) {
     Logger.info(TAG, 'Encrypted mnemonic already exists')
   } else if (!response.ok) {
-    throw new Error(`Failed to post encrypted mnemonic: ${response.status}`)
+    throw new Error(`Failed to post encrypted mnemonic with status ${response.status}`)
   }
 }
