@@ -1,8 +1,8 @@
 diff --git a/node_modules/react-native-fast-crypto/android/build.gradle b/node_modules/react-native-fast-crypto/android/build.gradle
-index dd999fa..0e4c861 100644
+index dd999fa..1cc7cf6 100644
 --- a/node_modules/react-native-fast-crypto/android/build.gradle
 +++ b/node_modules/react-native-fast-crypto/android/build.gradle
-@@ -1,68 +1,43 @@
+@@ -1,68 +1,48 @@
 -
  buildscript {
 -    repositories {
@@ -54,7 +54,23 @@ index dd999fa..0e4c861 100644
 +def DEFAULT_MIN_SDK_VERSION = 19
 +def DEFAULT_TARGET_SDK_VERSION = 27
  
--    }
++android {
++  compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
++  buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
++
++  defaultConfig {
++    minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
++    targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
++    versionCode 1
++    versionName '1.0'
++  }
++  lintOptions {
++    abortOnError false
++  }
++  externalNativeBuild {
++    cmake {
++      path "src/main/cpp/CMakeLists.txt"
+     }
 -    lintOptions {
 -        abortOnError false
 -    }
@@ -73,18 +89,6 @@ index dd999fa..0e4c861 100644
 -            jniLibs.srcDirs 'jni/libs/'
 -        }
 -    }
-+android {
-+  compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
-+  buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
-+
-+  defaultConfig {
-+    minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
-+    targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
-+    versionCode 1
-+    versionName '1.0'
-+  }
-+  lintOptions {
-+    abortOnError false
 +  }
  }
  
@@ -96,7 +100,6 @@ index dd999fa..0e4c861 100644
 -    implementation 'com.facebook.react:react-native:+'
 +  implementation 'com.facebook.react:react-native:+'
  }
-\ No newline at end of file
 -  
 diff --git a/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec b/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
 index 0745247..ce5333d 100644
