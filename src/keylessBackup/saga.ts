@@ -36,12 +36,14 @@ export function* handleValoraKeyshareIssued({ payload }: ReturnType<typeof valor
 export function* handleKeylessBackupSetup(valoraKeyshare: string) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
-    const { privateKey } = yield* call(
+    const torusKeyshareBuffer = Buffer.from(torusKeyshare, 'hex')
+    const valoraKeyshareBuffer = Buffer.from(valoraKeyshare, 'hex')
+    const { privateKey: encryptionPrivateKey } = yield* call(
       getSecp256K1KeyPair,
-      Buffer.from(torusKeyshare, 'hex'),
-      Buffer.from(valoraKeyshare, 'hex')
+      torusKeyshareBuffer,
+      valoraKeyshareBuffer
     )
-    const encryptionAddress = getWalletAddressFromPrivateKey(privateKey)
+    const encryptionAddress = getWalletAddressFromPrivateKey(encryptionPrivateKey)
     const walletAddress = yield* select(walletAddressSelector)
     const mnemonic = yield* call(getStoredMnemonic, walletAddress)
     if (!mnemonic) {
@@ -49,8 +51,8 @@ export function* handleKeylessBackupSetup(valoraKeyshare: string) {
     }
     const encryptedMnemonic = yield* call(
       encryptPassphrase,
-      Buffer.from(torusKeyshare, 'hex'),
-      Buffer.from(valoraKeyshare, 'hex'),
+      torusKeyshareBuffer,
+      valoraKeyshareBuffer,
       mnemonic
     )
     yield* call(storeEncryptedMnemonic, {
