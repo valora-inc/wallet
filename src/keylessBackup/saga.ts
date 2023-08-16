@@ -21,8 +21,8 @@ import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 
 const TAG = 'keylessBackup/saga'
 
-const DELAY_INTERVAL_MS = 500 // how long to wait between checks for keyshares
-const WAIT_FOR_KEYSHARES_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshares before failing
+export const DELAY_INTERVAL_MS = 500 // how long to wait between checks for keyshares
+export const WAIT_FOR_KEYSHARE_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshares before failing
 
 export function* handleValoraKeyshareIssued({ payload }: ReturnType<typeof valoraKeyshareIssued>) {
   if (payload.keylessBackupFlow === KeylessBackupFlow.Setup) {
@@ -77,12 +77,10 @@ export function* handleKeylessBackupSetup(valoraKeyshare: string) {
 
 export function* waitForTorusKeyshare() {
   const startTime = Date.now()
-  let torusKeyshare: string | null = null
-  while (Date.now() - startTime < WAIT_FOR_KEYSHARES_TIMEOUT_MS && !torusKeyshare) {
+  let torusKeyshare: string | null = yield* select(torusKeyshareSelector)
+  while (!torusKeyshare && Date.now() - startTime < WAIT_FOR_KEYSHARE_TIMEOUT_MS) {
+    yield* delay(DELAY_INTERVAL_MS)
     torusKeyshare = yield* select(torusKeyshareSelector)
-    if (!torusKeyshare) {
-      yield* delay(DELAY_INTERVAL_MS)
-    }
   }
   if (!torusKeyshare) {
     throw new Error(`Timed out waiting for torus keyshare.`)
