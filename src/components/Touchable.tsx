@@ -10,7 +10,7 @@ export interface Props extends TouchableWithoutFeedbackProps {
 
 /**
  * @param borderless - If true, the touchable has a borderless ripple effect.
- * @param borderRadius - Adds a border radius to the touchable and a parent view to prevent Android ripple overflow.
+ * @param borderRadius - should be added if the touchable component has rounded corners, to prevent the ripple effect from going outside the component on tap (Android)
  * @returns A touchable component
  */
 export default function Touchable({ borderless, borderRadius = 0, ...passThroughProps }: Props) {
