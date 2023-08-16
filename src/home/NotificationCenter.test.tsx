@@ -126,7 +126,7 @@ describe('NotificationCenter', () => {
     )
 
     expect(getByTestId('NotificationCenter/EmptyState')).toBeTruthy()
-    expect(getByText('youAreAllCaughtUp')).toBeTruthy()
+    expect(getByText('noNotificationsPlaceholder')).toBeTruthy()
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {
