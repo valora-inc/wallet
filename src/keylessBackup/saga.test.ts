@@ -2,6 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import {
   DELAY_INTERVAL_MS,
   handleGoogleSignInCompleted,
+  handleKeylessBackupSetup,
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
@@ -9,11 +10,20 @@ import { call, select } from 'redux-saga/effects'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import {
   googleSignInCompleted,
+  keylessBackupCompleted,
   keylessBackupFailed,
   torusKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
+import {
+  encryptPassphrase,
+  getSecp256K1KeyPair,
+  getWalletAddressFromPrivateKey,
+} from 'src/keylessBackup/encryption'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { getStoredMnemonic } from 'src/backup/utils'
+import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
 
 describe('keylessBackup saga', () => {
   describe('handleGoogleSignInCompleted', () => {
@@ -87,6 +97,97 @@ describe('keylessBackup saga', () => {
     })
   })
   describe('handleKeylessBackupSetup', () => {
-    // TODO
+    const mockTorusKeyshare = '0x123'
+    const mockTorusKeyshareBuffer = Buffer.from(mockTorusKeyshare, 'hex')
+    const mockValoraKeyshare = '0xabc'
+    const mockValoraKeyshareBuffer = Buffer.from(mockValoraKeyshare, 'hex')
+
+    const mockEncryptionPrivateKey =
+      '0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb'
+    const mockEncryptionPrivateKeyBuffer = Buffer.from(mockEncryptionPrivateKey, 'hex')
+    const mockEncryptionPublicKeyBuffer = Buffer.from(
+      '02e966cd1e93c10d6462e665b1a45039200e1faff289ef5265ecfbf06b5ddb94b2',
+      'hex'
+    )
+    const mockEncryptionAddress = '0xbdde6c4f63a50b23c8bd8409fe4d9cfb33c619de'
+
+    const mockWalletAddress = '0xdef'
+    const mockMnemonic = 'fake mnemonic'
+    const mockEncryptedMnemonic = 'mock-encrypted-mnemonic'
+
+    it('stores encrypted mnemonic and puts success event if no errors', async () => {
+      await expectSaga(handleKeylessBackupSetup, mockValoraKeyshare)
+        .provide([
+          [select(torusKeyshareSelector), mockTorusKeyshare],
+          [
+            call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+            {
+              privateKey: mockEncryptionPrivateKeyBuffer,
+              publicKey: mockEncryptionPublicKeyBuffer,
+            },
+          ],
+          [
+            call(getWalletAddressFromPrivateKey, mockEncryptionPrivateKeyBuffer),
+            mockEncryptionAddress,
+          ],
+          [select(walletAddressSelector), mockWalletAddress],
+          [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
+          [
+            call(
+              encryptPassphrase,
+              mockTorusKeyshareBuffer,
+              mockValoraKeyshareBuffer,
+              mockMnemonic
+            ),
+            mockEncryptedMnemonic,
+          ],
+          [
+            call(storeEncryptedMnemonic, {
+              encryptedMnemonic: mockEncryptedMnemonic,
+              encryptionAddress: mockEncryptionAddress,
+            }),
+            undefined,
+          ],
+        ])
+        .put(keylessBackupCompleted())
+        .run()
+    })
+    it('puts failure event if error occurs storing encrypted mnemonic', async () => {
+      await expectSaga(handleKeylessBackupSetup, mockValoraKeyshare)
+        .provide([
+          [select(torusKeyshareSelector), mockTorusKeyshare],
+          [
+            call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+            {
+              privateKey: mockEncryptionPrivateKeyBuffer,
+              publicKey: mockEncryptionPublicKeyBuffer,
+            },
+          ],
+          [
+            call(getWalletAddressFromPrivateKey, mockEncryptionPrivateKeyBuffer),
+            mockEncryptionAddress,
+          ],
+          [select(walletAddressSelector), mockWalletAddress],
+          [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
+          [
+            call(
+              encryptPassphrase,
+              mockTorusKeyshareBuffer,
+              mockValoraKeyshareBuffer,
+              mockMnemonic
+            ),
+            mockEncryptedMnemonic,
+          ],
+          [
+            call(storeEncryptedMnemonic, {
+              encryptedMnemonic: mockEncryptedMnemonic,
+              encryptionAddress: mockEncryptionAddress,
+            }),
+            throwError(new Error('mock error storing encrypted mnemonic')),
+          ],
+        ])
+        .put(keylessBackupFailed())
+        .run()
+    })
   })
 })
