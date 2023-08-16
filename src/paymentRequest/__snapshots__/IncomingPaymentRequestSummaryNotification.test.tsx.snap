@@ -61,7 +61,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
           }
           testID="IncomingPaymentRequestNotification/FAKE_ID_1/Title"
         >
-          incomingPaymentRequestNotificationTitle, {}
+          incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}
         </Text>
         <Text
           numberOfLines={1}
@@ -136,13 +136,24 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
               ]
             }
           >
-            <svg
-              fill="hsl(151, 53%, 93%)"
-              height="40"
-              style={Object {}}
-              viewBox="0 0 40 40"
-              width="40"
-            />
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#FFFFFF",
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                  },
+                  Object {
+                    "color": "hsl(151, 67%, 24%)",
+                    "fontSize": 20,
+                  },
+                ]
+              }
+            >
+              J
+            </Text>
           </View>
         </View>
       </View>
@@ -305,7 +316,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
           }
           testID="IncomingPaymentRequestNotification/FAKE_ID_1/Title"
         >
-          incomingPaymentRequestNotificationTitle, {}
+          incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}
         </Text>
         <Text
           numberOfLines={1}
@@ -380,13 +391,24 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
               ]
             }
           >
-            <svg
-              fill="hsl(151, 53%, 93%)"
-              height="40"
-              style={Object {}}
-              viewBox="0 0 40 40"
-              width="40"
-            />
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#FFFFFF",
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                  },
+                  Object {
+                    "color": "hsl(151, 67%, 24%)",
+                    "fontSize": 20,
+                  },
+                ]
+              }
+            >
+              J
+            </Text>
           </View>
         </View>
       </View>
