@@ -34,7 +34,6 @@ export function* handleValoraKeyshareIssued({ payload }: ReturnType<typeof valor
 }
 
 export function* handleKeylessBackupSetup(valoraKeyshare: string) {
-  Logger.debug(TAG, 'Handling keyless backup setup')
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
     const { privateKey } = yield* call(
@@ -43,31 +42,22 @@ export function* handleKeylessBackupSetup(valoraKeyshare: string) {
       Buffer.from(valoraKeyshare, 'hex')
     )
     const encryptionAddress = getWalletAddressFromPrivateKey(privateKey)
-    Logger.debug(TAG, 'Encryption address obtained')
     const walletAddress = yield* select(walletAddressSelector)
     const mnemonic = yield* call(getStoredMnemonic, walletAddress)
     if (!mnemonic) {
       throw new Error('No mnemonic found')
     }
-    Logger.debug(TAG, 'Mnemonic obtained')
     const encryptedMnemonic = yield* call(
       encryptPassphrase,
       Buffer.from(torusKeyshare, 'hex'),
       Buffer.from(valoraKeyshare, 'hex'),
       mnemonic
     )
-    Logger.debug(TAG, 'Mnemonic encrypted')
-    Logger.debug(
-      TAG,
-      `encryptionAddressString: ${encryptionAddress}, encryptedMnemonic: ${encryptedMnemonic}`
-    )
     yield* call(storeEncryptedMnemonic, {
       encryptedMnemonic,
       encryptionAddress,
     })
-    Logger.debug(TAG, 'Encrypted mnemonic stored')
     yield* put(keylessBackupCompleted())
-    Logger.debug(TAG, 'Keyless backup completed')
   } catch (error) {
     Logger.error(TAG, 'Error handling keyless backup setup', error)
     yield* put(keylessBackupFailed())
