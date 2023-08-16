@@ -118,6 +118,17 @@ const mockcUsdWithoutEnoughBalance = {
   },
 }
 
+const mockIdentity = {
+  identity: {
+    addressToDisplayName: {
+      [mockPaymentRequests[0].requesterAddress]: {
+        name: 'Test Name',
+        imageUrl: null,
+      },
+    },
+  },
+}
+
 describe('NotificationBox', () => {
   it('renders correctly for with all notifications', () => {
     const store = createMockStore({
@@ -182,6 +193,7 @@ describe('NotificationBox', () => {
   it('renders incoming payment request when they exist', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
+      ...mockIdentity,
       account: {
         ...storeDataNotificationsDisabled.account,
       },
@@ -196,7 +208,9 @@ describe('NotificationBox', () => {
     )
 
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
+    expect(getElementText(titleElement)).toBe(
+      'incomingPaymentRequestNotificationTitle, {"name":"Test Name"}'
+    )
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
