@@ -58,7 +58,7 @@ export function getSecp256K1KeyPair(
 }
 
 export function getWalletAddressFromPrivateKey(privateKey: Uint8Array) {
-  return new ethers.Wallet(Buffer.from(privateKey).toString('hex')).address
+  return new ethers.Wallet(Buffer.from(privateKey).toString('hex')).address.toLowerCase()
 }
 
 /**
