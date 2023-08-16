@@ -1,5 +1,6 @@
 import networkConfig from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 
 const TAG = 'src/keylessBackup/index.ts'
 
@@ -10,7 +11,7 @@ export async function storeEncryptedMnemonic({
   encryptedMnemonic: string
   encryptionAddress: string
 }) {
-  const response = await fetch(networkConfig.cabStoreEncryptedMnemonicUrl, {
+  const response = await fetchWithTimeout(networkConfig.cabStoreEncryptedMnemonicUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
