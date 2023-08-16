@@ -32,6 +32,7 @@ import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import {
+  all,
   call,
   cancel,
   delay,
@@ -242,24 +243,13 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
  */
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
-  let requests = [
-    yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Euro, address),
-    yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, address),
-    yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Celo, address),
-  ]
-  while (requests.length > 0) {
-    const balances = yield* race(requests.map((req) => join(req)))
-    for (const balance of balances) {
-      if (balance?.isGreaterThan(0)) {
-        // Cancel any remaining requests.
-        cancel(requests)
-        return true
-      }
-    }
-    requests = requests.filter((_, i) => balances[i] === undefined)
-  }
+  const requests = yield* all([
+    call(fetchTokenBalanceInWeiWithRetry, Currency.Euro, address),
+    call(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, address),
+    call(fetchTokenBalanceInWeiWithRetry, Currency.Celo, address),
+  ])
 
-  return false
+  return requests.some((balance) => balance?.isGreaterThan(0))
 }
 
 export function* watchImportBackupPhrase() {
