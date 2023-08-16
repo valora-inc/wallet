@@ -6,7 +6,7 @@ import { StackParamList } from 'src/navigator/types'
 
 interface Props {
   title: string
-  subtitle: string | null
+  subtitle?: string | null
   scrollPosition: Animated.SharedValue<number>
   navigation: NativeStackNavigationProp<StackParamList, keyof StackParamList>
   startFadeInPosition: number
