@@ -16,18 +16,6 @@ import { Spacing } from 'src/styles/styles'
 
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
-const renderItem = ({ item }: { item: Notification }) => {
-  return (
-    <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
-      {item.element}
-    </View>
-  )
-}
-
-const keyExtractor = (item: Notification) => item.id
-
-const renderItemSeparator = () => <View style={styles.itemSeparator} />
-
 export default function Notifications({ navigation }: NotificationsProps) {
   const safeAreaInsets = useSafeAreaInsets()
 
@@ -70,6 +58,18 @@ export default function Notifications({ navigation }: NotificationsProps) {
       <Text style={styles.emptyStateLabel}>{t('noNotificationsPlaceholder')}</Text>
     </View>
   )
+
+  const renderItemSeparator = () => <View style={styles.itemSeparator} />
+
+  const renderItem = ({ item }: { item: Notification }) => {
+    return (
+      <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
+        {item.element}
+      </View>
+    )
+  }
+
+  const keyExtractor = (item: Notification) => item.id
 
   const contentContainerStyle = { paddingBottom: safeAreaInsets.bottom + Spacing.Regular16 }
 
