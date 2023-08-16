@@ -88,7 +88,6 @@ export function encryptPassphrase(
 /**
  * Decrypts an encrypted passphrase using AES-256-GCM decryption with a key derived from two key shares.
  *
- * @
  * @param {string} keyshare1 - The first keyshare used to derive the decryption key.
  * @param {string} keyshare2 - The second keyshare used to derive the decryption key.
  * @param {string} encryptedData - The data to decrypt, formatted as `nonce:encrypted:authTag`, all parts base64 encoded.

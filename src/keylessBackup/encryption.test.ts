@@ -32,6 +32,12 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       expect(buffer.length).toBe(48)
     })
 
+    it('gives same result when called twice with same inputs', () => {
+      const buffer1 = deriveKeyFromKeyShares(keyshare1, keyshare2)
+      const buffer2 = deriveKeyFromKeyShares(keyshare1, keyshare2)
+      expect(buffer1).toEqual(buffer2)
+    })
+
     it('should produce different outputs for different keyshares', () => {
       const buffer1 = deriveKeyFromKeyShares(keyshare1, keyshare2)
       const buffer2 = deriveKeyFromKeyShares(keyshare2, keyshare1)
@@ -56,6 +62,16 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       const messageHash = await secp.utils.sha256(new TextEncoder().encode('hello world'))
       const signature = await secp.sign(messageHash, privateKey)
       expect(secp.verify(signature, messageHash, publicKey)).toBe(true)
+    })
+
+    it('gives same result when called twice with same inputs', async () => {
+      const { privateKey, publicKey } = getSecp256K1KeyPair(keyshare1, keyshare2)
+      const { privateKey: privateKey2, publicKey: publicKey2 } = getSecp256K1KeyPair(
+        keyshare1,
+        keyshare2
+      )
+      expect(privateKey).toEqual(privateKey2)
+      expect(publicKey).toEqual(publicKey2)
     })
   })
 
