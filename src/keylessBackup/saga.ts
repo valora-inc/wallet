@@ -17,6 +17,7 @@ import {
 import { getStoredMnemonic } from 'src/backup/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 
 const TAG = 'keylessBackup/saga'
 
@@ -78,7 +79,7 @@ export function* waitForTorusKeyshare() {
   const startTime = Date.now()
   let torusKeyshare: string | null = null
   while (Date.now() - startTime < WAIT_FOR_KEYSHARES_TIMEOUT_MS && !torusKeyshare) {
-    torusKeyshare = yield* select((state) => state.keylessBackup.torusKeyshare)
+    torusKeyshare = yield* select(torusKeyshareSelector)
     if (!torusKeyshare) {
       yield* delay(DELAY_INTERVAL_MS)
     }
