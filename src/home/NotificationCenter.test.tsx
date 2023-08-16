@@ -11,6 +11,7 @@ import {
   mockCusdAddress,
   mockE164Number,
   mockE164NumberPepper,
+  mockName,
   mockPaymentRequests,
 } from 'test/values'
 
@@ -109,7 +110,7 @@ const mockIdentity = {
   identity: {
     addressToDisplayName: {
       [mockPaymentRequests[0].requesterAddress]: {
-        name: 'Test Name',
+        name: mockName,
         imageUrl: null,
       },
     },
@@ -170,7 +171,7 @@ describe('NotificationCenter', () => {
 
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
     expect(getElementText(titleElement)).toBe(
-      'incomingPaymentRequestNotificationTitle, {"name":"Test Name"}'
+      'incomingPaymentRequestNotificationTitle, {"name":"John Doe"}'
     )
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('₱266,000.00')
