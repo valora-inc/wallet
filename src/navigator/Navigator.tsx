@@ -61,6 +61,7 @@ import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
+import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -543,6 +544,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.GoldEducation}
       component={GoldEducation}
       options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.NotificationCenter}
+      component={NotificationCenter}
+      options={headerWithBackButton}
     />
   </>
 )

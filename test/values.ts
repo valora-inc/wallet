@@ -257,6 +257,7 @@ export const mockPhoneRecipientCache: NumberToRecipient = {
 
 export const mockValoraRecipientCache: AddressToRecipient = {
   [mockAccount]: mockRecipient,
+  [mockAccount2]: mockRecipient2,
   [mockAccountInvite]: mockRecipient2,
   [mockAccount2Invite]: mockRecipient3,
 }
