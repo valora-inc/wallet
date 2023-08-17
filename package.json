@@ -108,7 +108,7 @@
     "@segment/sovran-react-native": "^1.0.4",
     "@sentry/react-native": "^4.13.0",
     "@sentry/types": "^7.29.0",
-    "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",
+    "@th3rdwave/react-navigation-bottom-sheet": "^0.2.7",
     "@toruslabs/fetch-node-details": "^8.1.1",
     "@toruslabs/torus.js": "^6.4.1",
     "@typechain/ethers-v6": "^0.4.3",
