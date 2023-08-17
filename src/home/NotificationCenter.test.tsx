@@ -159,18 +159,17 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title'))).toBe(
+    const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
+    expect(getElementText(titleElement)).toBe(
       'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
     )
-    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount'))).toBe(
-      '₱266,000.00'
-    )
-    expect(
-      getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details'))
-    ).toBe('Dinner for me and the gals, PIZZAA!')
+    const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
+    expect(getElementText(amountElement)).toBe('₱266,000.00')
+    const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
+    expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
 
-  it('renders incoming payment requests in correct order', () => {
+  it('renders incoming payment requests in reverse chronological order', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -186,7 +185,6 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    // Requests must be ordered by time desc
     const items = getAllByTestId(/IncomingPaymentRequestNotification\/FAKE_ID_[1-3]\/Amount/)
     expect(getElementText(items[0])).toBe('₱1,641.96')
     expect(getElementText(items[1])).toBe('₱240.58')
@@ -209,18 +207,17 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title'))).toBe(
+    const titleElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title')
+    expect(getElementText(titleElement)).toBe(
       'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
     )
-    expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount'))).toBe(
-      '₱266,000.00'
-    )
-    expect(
-      getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details'))
-    ).toBe('Dinner for me and the gals, PIZZAA!')
+    const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
+    expect(getElementText(amountElement)).toBe('₱266,000.00')
+    const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
+    expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
 
-  it('renders outgoing payment requests in correct order', () => {
+  it('renders outgoing payment requests in reverse chronological order', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -236,7 +233,6 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    // Requests must be ordered by time desc
     const items = getAllByTestId(/OutgoingPaymentRequestNotification\/FAKE_ID_[1-3]\/Amount/)
     expect(getElementText(items[0])).toBe('₱1,641.96')
     expect(getElementText(items[1])).toBe('₱240.58')
@@ -272,7 +268,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(getByTestId('EscrowedPaymentListItem/Details'))).toBe('Welcome!')
   })
 
-  it('renders sent escrowed payments in correct order', () => {
+  it('renders sent escrowed payments in reverse chronological order', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
