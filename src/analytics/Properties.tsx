@@ -232,6 +232,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_progress_completed_continue]: undefined
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: undefined
+  [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
+    backupAlreadyExists: boolean
+  }
 }
 
 interface OnboardingEventsProperties {

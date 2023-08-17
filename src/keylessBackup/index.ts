@@ -1,5 +1,7 @@
 import networkConfig from 'src/web3/networkConfig'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 
 export async function storeEncryptedMnemonic({
   encryptedMnemonic,
@@ -19,6 +21,9 @@ export async function storeEncryptedMnemonic({
     }),
   })
   if (!response.ok) {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_post_encrypted_mnemonic_failed, {
+      backupAlreadyExists: response.status === 409,
+    })
     const message = (await response.json())?.message
     throw new Error(
       `Failed to post encrypted mnemonic with status ${response.status}, message ${message}`
