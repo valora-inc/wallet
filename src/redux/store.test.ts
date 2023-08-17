@@ -3,11 +3,10 @@ import { spawn, takeEvery } from 'redux-saga/effects'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { rootSaga } from 'src/redux/sagas'
-import { _persistConfig, setupStore } from 'src/redux/store'
-import Logger from 'src/utils/Logger'
+import { setupStore, _persistConfig } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
+import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
-import { mocked } from 'ts-jest/utils'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({
@@ -380,7 +379,7 @@ describe('store state', () => {
 
 describe(setupStore, () => {
   it('reports uncaught errors happening in sagas', async () => {
-    mocked(rootSaga).mockImplementationOnce(function* () {
+    jest.mocked(rootSaga).mockImplementationOnce(function* () {
       yield spawn(function* mySaga() {
         yield takeEvery('SOME_ACTION', function* someActionHandler() {
           // do something

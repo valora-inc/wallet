@@ -7,13 +7,12 @@ import {
 } from 'src/positions/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { mockPositions, mockShortcuts } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
 beforeEach(() => {
   jest.clearAllMocks()
-  mocked(getFeatureGate).mockReturnValue(true)
+  jest.mocked(getFeatureGate).mockReturnValue(true)
 })
 
 describe('totalPositionsBalanceUsdSelector', () => {
@@ -38,7 +37,7 @@ describe('totalPositionsBalanceUsdSelector', () => {
   })
 
   it("returns null if the feature isn't enabled", () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const state: any = {
       positions: {
         positions: [],

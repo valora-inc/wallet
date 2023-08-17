@@ -31,7 +31,6 @@ import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
@@ -52,8 +51,8 @@ const mockPepper = {
   storage: 'some string',
 }
 const mockPin = '111555'
-const mockedKeychain = mocked(Keychain)
-const mockStore = mocked(store)
+const mockedKeychain = jest.mocked(Keychain)
+const mockStore = jest.mocked(store)
 mockStore.getState.mockImplementation(getMockStoreData)
 const mockedNavigate = navigate as jest.Mock
 

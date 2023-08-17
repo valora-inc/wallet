@@ -10,7 +10,6 @@ import { setLanguage } from 'src/i18n/slice'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/redux/sagas', () => ({
@@ -90,7 +89,7 @@ describe('AppInitGate', () => {
   })
 
   it('should show error screen in case of failed i18n init', async () => {
-    mocked(waitUntilSagasFinishLoading).mockRejectedValueOnce('some error')
+    jest.mocked(waitUntilSagasFinishLoading).mockRejectedValueOnce('some error')
     renderAppInitGate()
 
     await waitFor(() => expect(waitUntilSagasFinishLoading).toHaveBeenCalledTimes(1))

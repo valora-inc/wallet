@@ -15,11 +15,10 @@ import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 const mockFetch = fetch as FetchMock
 
-const mockedKeychain = mocked(Keychain)
+const mockedKeychain = jest.mocked(Keychain)
 mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
   password: 'someSignedMessage',
@@ -27,10 +26,10 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   storage: 'some string',
 })
 
-const mockedDEK = mocked(DEK)
+const mockedDEK = jest.mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('somePublicKey')
 
-const mockedSmsRetriever = mocked(SmsRetriever)
+const mockedSmsRetriever = jest.mocked(SmsRetriever)
 
 const e164Number = '+31619123456'
 const store = createMockStore({

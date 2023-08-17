@@ -13,7 +13,6 @@ import { PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
 import { mockProviders, mockProviderSelectionAnalyticsData } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 const FAKE_APP_ID = 'fake app id'
 const FAKE_URL = 'www.coinbasepay.test'
@@ -42,7 +41,7 @@ describe('CoinbasePaymentSection', () => {
   })
 
   it('navigates to coinbase flow when card is pressed', async () => {
-    mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
+    jest.mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
     const { getByTestId, queryByText } = render(
       <Provider store={mockStore}>
         <CoinbasePaymentSection {...props} />

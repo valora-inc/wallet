@@ -26,11 +26,10 @@ import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 const mockFetch = fetch as FetchMock
-const mockedKeychain = mocked(Keychain)
+const mockedKeychain = jest.mocked(Keychain)
 mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
   password: 'someSignedMessage',
@@ -44,8 +43,8 @@ jest.mock('src/keylessBackup/utils')
 
 describe('Account', () => {
   beforeEach(() => {
-    mocked(getKeylessBackupGate).mockReturnValue(false)
-    mocked(isBackupComplete).mockReturnValue(false)
+    jest.mocked(getKeylessBackupGate).mockReturnValue(false)
+    jest.mocked(isBackupComplete).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -306,8 +305,8 @@ describe('Account', () => {
   })
 
   it('shows keyless backup setup when flag is enabled and not already backed up', () => {
-    mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isBackupComplete).mockReturnValue(false)
+    jest.mocked(getKeylessBackupGate).mockReturnValue(true)
+    jest.mocked(isBackupComplete).mockReturnValue(false)
     const store = createMockStore()
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -325,8 +324,8 @@ describe('Account', () => {
   })
 
   it('shows keyless backup delete when flag is enabled and already backed up', () => {
-    mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isBackupComplete).mockReturnValue(true)
+    jest.mocked(getKeylessBackupGate).mockReturnValue(true)
+    jest.mocked(isBackupComplete).mockReturnValue(true)
     const store = createMockStore()
     const { getByTestId, getByText } = render(
       <Provider store={store}>

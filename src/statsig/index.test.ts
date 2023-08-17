@@ -11,13 +11,12 @@ import Logger from 'src/utils/Logger'
 import { EvaluationReason } from 'statsig-js'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
 
-const mockStore = mocked(store)
+const mockStore = jest.mocked(store)
 const MOCK_ACCOUNT = '0x000000000000000000000000000000000000000000'
 const MOCK_START_ONBOARDING_TIME = 1680563877
 mockStore.getState.mockImplementation(() =>
@@ -106,7 +105,7 @@ describe('Statsig helpers', () => {
 
   describe('getFeatureGate', () => {
     it('returns default values if getting statsig feature gate throws error', () => {
-      mocked(Statsig.checkGate).mockImplementation(() => {
+      jest.mocked(Statsig.checkGate).mockImplementation(() => {
         throw new Error('mock error')
       })
       const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
@@ -114,7 +113,7 @@ describe('Statsig helpers', () => {
       expect(output).toEqual(FeatureGates[StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT])
     })
     it('returns Statsig values if no error is thrown', () => {
-      mocked(Statsig.checkGate).mockImplementation(() => true)
+      jest.mocked(Statsig.checkGate).mockImplementation(() => true)
       const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual(true)
@@ -191,7 +190,7 @@ describe('Statsig helpers', () => {
     })
 
     it('logs an error if statsig throws', async () => {
-      mocked(Statsig.updateUser).mockRejectedValue(new Error())
+      jest.mocked(Statsig.updateUser).mockRejectedValue(new Error())
       await patchUpdateStatsigUser()
       expect(Statsig.updateUser).toHaveBeenCalledTimes(1)
       expect(Statsig.updateUser).toHaveBeenCalledWith({

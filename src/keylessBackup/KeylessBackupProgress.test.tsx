@@ -1,14 +1,13 @@
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
-import { Screens } from 'src/navigator/Screens'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import * as React from 'react'
-import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
-import { navigate, navigateHome, ensurePincode } from 'src/navigator/NavigationService'
 import { Provider } from 'react-redux'
-import { mocked } from 'ts-jest/utils'
 import { KeylessBackupEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/navigator/NavigationService')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -81,7 +80,7 @@ describe('KeylessBackupProgress', () => {
     )
   })
   it('navigates to manual backup on failure', async () => {
-    mocked(ensurePincode).mockResolvedValueOnce(true)
+    jest.mocked(ensurePincode).mockResolvedValueOnce(true)
     const { getByTestId } = render(
       <Provider store={createStore(KeylessBackupStatus.Failed)}>
         <KeylessBackupProgress {...getProps()} />

@@ -6,7 +6,6 @@ import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import { getExperimentParams } from 'src/statsig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
@@ -17,7 +16,7 @@ jest.mock('src/statsig', () => ({
 
 describe('DrawerNavigator', () => {
   beforeEach(() => {
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       showAddWithdrawOnMenu: true,
       showSwapOnMenu: true,
       discoverCopyEnabled: false,
@@ -81,7 +80,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('hides add/withdraw menu item based on statsig experiment param', () => {
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       showAddWithdrawOnMenu: false,
     })
     const { queryByTestId } = render(
@@ -93,7 +92,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('hides swap menu item based on statsig experiment param', () => {
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       showSwapOnMenu: false,
     })
     const store = createMockStore({

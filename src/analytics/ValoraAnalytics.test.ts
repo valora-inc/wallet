@@ -13,7 +13,6 @@ import {
   mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('@segment/analytics-react-native')
 jest.mock('@segment/analytics-react-native-legacy', () => ({
@@ -42,9 +41,9 @@ const mockWalletAddress = '0x12AE66CDc592e10B60f9097a7b0D3C59fce29876' // delibe
 
 Date.now = jest.fn(() => 1482363367071)
 
-const mockCreateSegmentClient = mocked(createClient)
+const mockCreateSegmentClient = jest.mocked(createClient)
 
-const mockStore = mocked(store)
+const mockStore = jest.mocked(store)
 const state = getMockStoreData({
   tokens: {
     tokenBalances: {
@@ -183,11 +182,11 @@ describe('ValoraAnalytics', () => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
     })
     mockStore.getState.mockImplementation(() => state)
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it('creates statsig client on initialization with default statsig user', async () => {
-    mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
+    jest.mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
     await ValoraAnalytics.init()
     expect(mockSegmentClient.userInfo.set).toHaveBeenCalledWith({
       anonymousId: 'legacy-anon-id',

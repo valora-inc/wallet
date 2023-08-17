@@ -11,7 +11,6 @@ import { RootState } from 'src/redux/reducers'
 import { getExperimentParams } from 'src/statsig'
 import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 const mockBalances = {
   tokens: {
@@ -197,7 +196,8 @@ describe('WalletHome', () => {
   })
 
   it('hides sections', async () => {
-    mocked(getExperimentParams)
+    jest
+      .mocked(getExperimentParams)
       .mockReturnValueOnce({
         showHomeNavBar: false,
         showHomeActions: false,
@@ -237,7 +237,7 @@ describe('WalletHome', () => {
   })
 
   it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
-    mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+    jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
     const { getByTestId } = renderScreen({
       ...zeroBalances,
     })
@@ -269,7 +269,7 @@ describe('WalletHome', () => {
   })
 
   it('Renders actions, scanner, logo correctly  when experiment flag is on', () => {
-    mocked(getExperimentParams).mockReturnValueOnce({
+    jest.mocked(getExperimentParams).mockReturnValueOnce({
       showHomeNavBar: true,
       showHomeActions: true,
       showQrScanner: true,

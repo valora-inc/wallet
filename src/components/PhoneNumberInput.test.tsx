@@ -5,7 +5,6 @@ import { Platform } from 'react-native'
 import SmsRetriever from 'react-native-sms-retriever'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import { flushMicrotasksQueue } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('react-native-sms-retriever', () => {
   return {
@@ -13,7 +12,7 @@ jest.mock('react-native-sms-retriever', () => {
   }
 })
 
-const requestPhoneNumber = mocked(SmsRetriever.requestPhoneNumber)
+const requestPhoneNumber = jest.mocked(SmsRetriever.requestPhoneNumber)
 
 const countries = new Countries('en-us')
 

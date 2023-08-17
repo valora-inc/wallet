@@ -101,7 +101,6 @@ import {
   mockFiatConnectQuotes,
   mockTokenBalances,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -644,7 +643,7 @@ describe('Fiatconnect saga', () => {
   })
   describe('handleFetchFiatConnectQuotes', () => {
     it('saves quotes when fetch is successful', async () => {
-      mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
+      jest.mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
@@ -681,7 +680,7 @@ describe('Fiatconnect saga', () => {
     })
 
     it('saves an error', async () => {
-      mocked(fetchQuotes).mockRejectedValue({})
+      jest.mocked(fetchQuotes).mockRejectedValue({})
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
@@ -716,7 +715,7 @@ describe('Fiatconnect saga', () => {
       })
     })
     it('saves an error when providers is null', async () => {
-      mocked(fetchQuotes).mockResolvedValue(mockFiatConnectQuotes)
+      jest.mocked(fetchQuotes).mockResolvedValue(mockFiatConnectQuotes)
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
@@ -1130,7 +1129,7 @@ describe('Fiatconnect saga', () => {
 
   describe('handleFetchFiatConnectProviders', () => {
     it('saves on success', async () => {
-      mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
+      jest.mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(fetchFiatConnectProvidersCompleted({ providers: mockFiatConnectProviderInfo }))
@@ -1138,7 +1137,7 @@ describe('Fiatconnect saga', () => {
       expect(getFiatConnectProviders).toHaveBeenCalledWith('0xabc')
     })
     it('fails when account is null', async () => {
-      mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
+      jest.mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(walletAddressSelector), null]])
         .run()
@@ -1146,7 +1145,7 @@ describe('Fiatconnect saga', () => {
       expect(Logger.error).toHaveBeenCalled()
     })
     it('fails when getProviders fails', async () => {
-      mocked(getFiatConnectProviders).mockRejectedValue(new Error('error'))
+      jest.mocked(getFiatConnectProviders).mockRejectedValue(new Error('error'))
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(walletAddressSelector), '0xabc']])
         .run()
@@ -1626,7 +1625,12 @@ describe('Fiatconnect saga', () => {
       mockGetFiatAccounts.mockResolvedValueOnce(Result.err(new Error('error')))
       await expect(
         async () =>
-          await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
+          await expectSaga(
+            fetchFiatAccountsSaga,
+            'test-provider',
+            'www.hello.valoraapp.com',
+            undefined
+          )
             .provide([
               [
                 call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
@@ -1649,7 +1653,7 @@ describe('Fiatconnect saga', () => {
           ],
         })
       )
-      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
+      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com', undefined)
         .provide([
           [
             call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
@@ -1685,7 +1689,7 @@ describe('Fiatconnect saga', () => {
     const mockFcClient = {
       transferOut: mockTransferOut,
     }
-    mocked(uuidv4).mockReturnValue('mock-uuidv4')
+    jest.mocked(uuidv4).mockReturnValue('mock-uuidv4')
     it('calls the fiatconnect transfer function and returns the transfer results', async () => {
       mockTransferOut.mockResolvedValueOnce(
         Result.ok({
@@ -1817,7 +1821,7 @@ describe('Fiatconnect saga', () => {
       }
     )
     it('throws when there is an error (safe to retry) with the transaction', async () => {
-      mocked(isTxPossiblyPending).mockReturnValue(false)
+      jest.mocked(isTxPossiblyPending).mockReturnValue(false)
       await expect(() =>
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
@@ -1863,7 +1867,7 @@ describe('Fiatconnect saga', () => {
       )
     })
     it('throws when there is a timeout error (not safe to retry) with the transaction', async () => {
-      mocked(isTxPossiblyPending).mockReturnValue(false)
+      jest.mocked(isTxPossiblyPending).mockReturnValue(false)
       await expect(() =>
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
@@ -1909,7 +1913,7 @@ describe('Fiatconnect saga', () => {
       )
     })
     it('throws when there is a miscellanious error (not safe to retry) with the transaction', async () => {
-      mocked(isTxPossiblyPending).mockReturnValue(true)
+      jest.mocked(isTxPossiblyPending).mockReturnValue(true)
       await expect(() =>
         expectSaga(_initiateSendTxToProvider, {
           transferAddress: '0xabc',
@@ -2582,7 +2586,7 @@ describe('Fiatconnect saga', () => {
     const flow = CICOFlow.CashOut
 
     it('deletes kyc status and navigates to kyc landing screen', async () => {
-      mocked(deleteKyc).mockResolvedValueOnce()
+      jest.mocked(deleteKyc).mockResolvedValueOnce()
       await expectSaga(handleKycTryAgain, kycTryAgain({ flow, quote }))
         .put(kycTryAgainCompleted())
         .run()
@@ -2596,7 +2600,7 @@ describe('Fiatconnect saga', () => {
     })
 
     it('shows error message on delete kyc failure', async () => {
-      mocked(deleteKyc).mockRejectedValueOnce(new Error('delete failed'))
+      jest.mocked(deleteKyc).mockRejectedValueOnce(new Error('delete failed'))
       await expectSaga(handleKycTryAgain, kycTryAgain({ flow, quote }))
         .put(kycTryAgainCompleted())
         .run()

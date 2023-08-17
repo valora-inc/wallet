@@ -29,10 +29,13 @@ export const sessionIdSelector = (state: RootState) => {
 export const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
-export const walletConnectEnabledSelector = (state?: RootState) => ({
-  v1: state?.app.walletConnectV1Enabled ?? false,
-  v2: state?.app.walletConnectV2Enabled ?? false,
-})
+export const walletConnectEnabledSelector = createSelector(
+  [(state) => state.app.walletConnectV1Enabled, (state) => state.app.walletConnectV2Enabled],
+  (v1, v2) => ({
+    v1,
+    v2,
+  })
+)
 
 export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
   state.app.superchargeTokenConfigByToken
