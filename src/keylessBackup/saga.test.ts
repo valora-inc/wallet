@@ -24,6 +24,7 @@ import {
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getStoredMnemonic } from 'src/backup/utils'
 import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 describe('keylessBackup saga', () => {
   describe('handleGoogleSignInCompleted', () => {
@@ -94,6 +95,7 @@ describe('keylessBackup saga', () => {
         })
       expect(mockTime).toBeGreaterThanOrEqual(WAIT_FOR_KEYSHARE_TIMEOUT_MS) // make sure the test is mocking time correctly
       expect(caughtErrorMessage).toBe('Timed out waiting for torus keyshare.')
+      expect(ValoraAnalytics.track).toBeCalledWith('cab_torus_keyshare_timeout')
     })
   })
   describe('handleKeylessBackupSetup', () => {
@@ -151,6 +153,7 @@ describe('keylessBackup saga', () => {
         ])
         .put(keylessBackupCompleted())
         .run()
+      expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_setup_success')
     })
     it('puts failure event if error occurs storing encrypted mnemonic', async () => {
       await expectSaga(handleKeylessBackupSetup, mockValoraKeyshare)
@@ -188,6 +191,7 @@ describe('keylessBackup saga', () => {
         ])
         .put(keylessBackupFailed())
         .run()
+      expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_setup_failed')
     })
   })
 })
