@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -86,11 +86,17 @@ export const allRewardsSendersSelector = (state: RootState) => [
 ]
 export const coinbasePaySendersSelector = (state: RootState) => state.recipients.coinbasePaySenders
 
-export const recipientInfoSelector = (state: RootState) => {
-  return {
-    addressToE164Number: state.identity.addressToE164Number,
-    phoneRecipientCache: state.recipients.phoneRecipientCache,
-    valoraRecipientCache: state.recipients.valoraRecipientCache,
-    addressToDisplayName: state.identity.addressToDisplayName,
-  }
-}
+export const recipientInfoSelector = createSelector(
+  [
+    (state: RootState) => state.identity.addressToE164Number,
+    (state: RootState) => state.recipients.phoneRecipientCache,
+    (state: RootState) => state.recipients.valoraRecipientCache,
+    (state: RootState) => state.identity.addressToDisplayName,
+  ],
+  (addressToE164Number, phoneRecipientCache, valoraRecipientCache, addressToDisplayName) => ({
+    addressToE164Number,
+    phoneRecipientCache,
+    valoraRecipientCache,
+    addressToDisplayName,
+  })
+)

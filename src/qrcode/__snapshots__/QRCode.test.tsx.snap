@@ -3,15 +3,15 @@
 exports[`QRCode renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "alignItems": "center",
       "backgroundColor": "#FFFFFF",
       "flex": 1,
@@ -21,7 +21,7 @@ exports[`QRCode renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "column",
         "justifyContent": "center",
@@ -31,8 +31,8 @@ exports[`QRCode renders correctly 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
@@ -43,12 +43,12 @@ exports[`QRCode renders correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "justifyContent": "center",
             },
-            Object {
+            {
               "backgroundColor": "hsl(0, 53%, 93%)",
               "borderRadius": 32,
               "height": 64,
@@ -60,13 +60,13 @@ exports[`QRCode renders correctly 1`] = `
         <Text
           allowFontScaling={false}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
               },
-              Object {
+              {
                 "color": "hsl(0, 67%, 24%)",
                 "fontSize": 32,
               },
@@ -81,14 +81,14 @@ exports[`QRCode renders correctly 1`] = `
       ellipsizeMode="tail"
       numberOfLines={1}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 22,
             "lineHeight": 28,
           },
-          Object {
+          {
             "marginHorizontal": 20,
             "paddingTop": 6,
             "textAlign": "center",
@@ -100,21 +100,21 @@ exports[`QRCode renders correctly 1`] = `
     </Text>
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
         }
       }
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 18,
             },
-            Object {
+            {
               "alignItems": "center",
               "justifyContent": "center",
               "marginRight": 4,
@@ -126,7 +126,7 @@ exports[`QRCode renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 14,
@@ -140,7 +140,7 @@ exports[`QRCode renders correctly 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "paddingTop": 16,
       }
     }
@@ -168,15 +168,15 @@ exports[`QRCode renders correctly 1`] = `
 exports[`QRCode renders correctly 2`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "alignItems": "center",
       "backgroundColor": "#FFFFFF",
       "flex": 1,
@@ -186,7 +186,7 @@ exports[`QRCode renders correctly 2`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "column",
         "justifyContent": "center",
@@ -196,8 +196,8 @@ exports[`QRCode renders correctly 2`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
@@ -208,12 +208,12 @@ exports[`QRCode renders correctly 2`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "justifyContent": "center",
             },
-            Object {
+            {
               "backgroundColor": "hsl(0, 53%, 93%)",
               "borderRadius": 32,
               "height": 64,
@@ -225,13 +225,13 @@ exports[`QRCode renders correctly 2`] = `
         <Text
           allowFontScaling={false}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
               },
-              Object {
+              {
                 "color": "hsl(0, 67%, 24%)",
                 "fontSize": 32,
               },
@@ -246,14 +246,14 @@ exports[`QRCode renders correctly 2`] = `
       ellipsizeMode="tail"
       numberOfLines={1}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 22,
             "lineHeight": 28,
           },
-          Object {
+          {
             "marginHorizontal": 20,
             "paddingTop": 6,
             "textAlign": "center",
@@ -265,21 +265,21 @@ exports[`QRCode renders correctly 2`] = `
     </Text>
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
         }
       }
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 18,
             },
-            Object {
+            {
               "alignItems": "center",
               "justifyContent": "center",
               "marginRight": 4,
@@ -291,7 +291,7 @@ exports[`QRCode renders correctly 2`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 14,
@@ -305,7 +305,7 @@ exports[`QRCode renders correctly 2`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "paddingTop": 16,
       }
     }

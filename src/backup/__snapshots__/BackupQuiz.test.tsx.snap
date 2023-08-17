@@ -3,15 +3,15 @@
 exports[`BackupQuiz renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
       "paddingBottom": 24,
@@ -21,15 +21,15 @@ exports[`BackupQuiz renders correctly 1`] = `
 >
   <RNCSafeAreaView
     edges={
-      Array [
-        "bottom",
-        "left",
-        "right",
-        "top",
-      ]
+      {
+        "bottom": "additive",
+        "left": "additive",
+        "right": "additive",
+        "top": "additive",
+      }
     }
     style={
-      Object {
+      {
         "height": 35,
         "position": "absolute",
         "right": 10,
@@ -40,6 +40,15 @@ exports[`BackupQuiz renders correctly 1`] = `
     }
   >
     <Text
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       onClick={[Function]}
@@ -55,7 +64,7 @@ exports[`BackupQuiz renders correctly 1`] = `
   </RNCSafeAreaView>
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "paddingTop": 24,
       }
@@ -64,7 +73,7 @@ exports[`BackupQuiz renders correctly 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "alignSelf": "center",
             "flexDirection": "row",
             "flexWrap": "wrap",
@@ -75,8 +84,8 @@ exports[`BackupQuiz renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -92,7 +101,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -107,8 +116,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -124,7 +133,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -139,8 +148,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -156,7 +165,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -171,8 +180,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -188,7 +197,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -203,8 +212,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -220,7 +229,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -235,8 +244,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -252,7 +261,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -267,8 +276,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -284,7 +293,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -299,8 +308,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -316,7 +325,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -331,8 +340,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -348,7 +357,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -363,8 +372,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -380,7 +389,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -395,8 +404,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -412,7 +421,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -427,8 +436,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -444,7 +453,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -459,8 +468,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -476,7 +485,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -491,8 +500,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -508,7 +517,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -523,8 +532,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -540,7 +549,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -555,8 +564,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -572,7 +581,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -587,8 +596,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -604,7 +613,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -619,8 +628,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -636,7 +645,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -651,8 +660,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -668,7 +677,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -683,8 +692,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -700,7 +709,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -715,8 +724,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -732,7 +741,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -747,8 +756,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -764,7 +773,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -779,8 +788,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -796,7 +805,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -811,8 +820,8 @@ exports[`BackupQuiz renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "borderColor": "#E6E6E6",
                 "borderRadius": 100,
                 "borderWidth": 1,
@@ -828,7 +837,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -844,7 +853,7 @@ exports[`BackupQuiz renders correctly 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "flex": 1,
             "justifyContent": "center",
           }
@@ -852,7 +861,7 @@ exports[`BackupQuiz renders correctly 1`] = `
       >
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -865,7 +874,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           backupQuizWordCount, {"ordinal":"ordinals.1"}
           <Text
             style={
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
@@ -880,7 +889,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         </Text>
         <View
           style={
-            Object {
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "center",
@@ -890,7 +899,7 @@ exports[`BackupQuiz renders correctly 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "borderColor": "#1AB775",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
@@ -901,10 +910,27 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -918,7 +944,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "borderRadius": 100,
                   "minWidth": 65,
                   "paddingHorizontal": 16,
@@ -929,7 +955,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#1AB775",
                     "textAlign": "center",
                   }
@@ -941,7 +967,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "borderColor": "#1AB775",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
@@ -952,10 +978,27 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -969,7 +1012,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "borderRadius": 100,
                   "minWidth": 65,
                   "paddingHorizontal": 16,
@@ -980,7 +1023,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#1AB775",
                     "textAlign": "center",
                   }
@@ -992,7 +1035,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "borderColor": "#1AB775",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
@@ -1003,10 +1046,27 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -1020,7 +1080,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "borderRadius": 100,
                   "minWidth": 65,
                   "paddingHorizontal": 16,
@@ -1031,7 +1091,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#1AB775",
                     "textAlign": "center",
                   }
@@ -1043,7 +1103,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "borderColor": "#1AB775",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
@@ -1054,10 +1114,27 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -1071,7 +1148,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "borderRadius": 100,
                   "minWidth": 65,
                   "paddingHorizontal": 16,
@@ -1082,7 +1159,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#1AB775",
                     "textAlign": "center",
                   }
@@ -1094,7 +1171,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "borderColor": "#1AB775",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
@@ -1105,10 +1182,27 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -1122,7 +1216,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "borderRadius": 100,
                   "minWidth": 65,
                   "paddingHorizontal": 16,
@@ -1133,7 +1227,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#1AB775",
                     "textAlign": "center",
                   }
@@ -1145,7 +1239,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "borderColor": "#1AB775",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
@@ -1156,10 +1250,27 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -1173,7 +1284,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Object {
+                {
                   "borderRadius": 100,
                   "minWidth": 65,
                   "paddingHorizontal": 16,
@@ -1184,7 +1295,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#1AB775",
                     "textAlign": "center",
                   }

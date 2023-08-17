@@ -21,9 +21,10 @@ jest.mock('src/web3/contracts', () => ({
     unlockAccount: jest.fn(),
   }),
 }))
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 jest.mock('src/onboarding/steps', () => ({
   getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
-  onboardingPropsSelector: () => mockOnboardingProps,
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 jest.mock('src/navigator/NavigationService', () => {
   const originalModule = jest.requireActual('src/navigator/NavigationService')

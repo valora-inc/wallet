@@ -3,12 +3,15 @@
 exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
     }
@@ -32,7 +35,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -44,7 +47,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   />
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "paddingHorizontal": 16,
       }
     }
@@ -54,7 +57,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
     <View>
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "flexWrap": "wrap",
@@ -66,7 +69,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         <View>
           <Text
             style={
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
@@ -85,8 +88,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           placeholder="€0"
           placeholderTextColor="#757575"
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
@@ -96,7 +99,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                 "minHeight": 48,
                 "textAlign": "right",
               },
-              Object {
+              {
                 "color": "#1AB775",
               },
             ]
@@ -106,8 +109,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "space-between",
@@ -119,7 +122,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       >
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "marginRight": 5,
@@ -128,14 +131,14 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -154,14 +157,14 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         </View>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -181,7 +184,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   </RCTScrollView>
   <Text
     style={
-      Object {
+      {
         "color": "#666666",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
@@ -194,11 +197,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   </Text>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "column",
         },
-        Object {
+        {
           "padding": 16,
         },
       ]
@@ -206,11 +209,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "overflow": "hidden",
           },
-          Object {
+          {
             "borderRadius": 100,
           },
         ]
@@ -218,14 +221,26 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
     >
       <View
         accessibilityState={
-          Object {
+          {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": true,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackground",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -239,8 +254,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#97DFC1",
               "flexDirection": "row",
@@ -260,7 +275,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           accessibilityLabel="next"
           maxFontSizeMultiplier={1}
           style={
-            Object {
+            {
               "color": "#FFFFFF",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
@@ -278,13 +293,13 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   <View
     collapsable={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "bottom": 0,
           "left": 0,
           "right": 0,
         },
-        Object {
+        {
           "height": 0,
         },
         undefined,
@@ -297,12 +312,15 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
 exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
     }
@@ -326,7 +344,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -338,7 +356,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   />
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "paddingHorizontal": 16,
       }
     }
@@ -348,7 +366,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
     <View>
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "flexWrap": "wrap",
@@ -360,7 +378,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         <View>
           <Text
             style={
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
@@ -379,8 +397,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           placeholder="$0"
           placeholderTextColor="#757575"
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
@@ -390,7 +408,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                 "minHeight": 48,
                 "textAlign": "right",
               },
-              Object {
+              {
                 "color": "#1AB775",
               },
             ]
@@ -400,8 +418,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "space-between",
@@ -413,7 +431,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       >
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "marginRight": 5,
@@ -422,14 +440,14 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -448,14 +466,14 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         </View>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -475,7 +493,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   </RCTScrollView>
   <Text
     style={
-      Object {
+      {
         "color": "#666666",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
@@ -488,11 +506,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   </Text>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "column",
         },
-        Object {
+        {
           "padding": 16,
         },
       ]
@@ -500,11 +518,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "overflow": "hidden",
           },
-          Object {
+          {
             "borderRadius": 100,
           },
         ]
@@ -512,14 +530,26 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
     >
       <View
         accessibilityState={
-          Object {
+          {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": true,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackground",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -533,8 +563,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#97DFC1",
               "flexDirection": "row",
@@ -554,7 +584,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           accessibilityLabel="next"
           maxFontSizeMultiplier={1}
           style={
-            Object {
+            {
               "color": "#FFFFFF",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
@@ -572,13 +602,13 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   <View
     collapsable={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "bottom": 0,
           "left": 0,
           "right": 0,
         },
-        Object {
+        {
           "height": 0,
         },
         undefined,

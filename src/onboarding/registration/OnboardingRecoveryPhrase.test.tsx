@@ -12,14 +12,17 @@ import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps, mockTwelveWordMnemonic } from 'test/values'
 
+const mockUseAccountKey = jest.fn(() => mockTwelveWordMnemonic)
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
+
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/backup/utils', () => ({
-  useAccountKey: () => mockTwelveWordMnemonic,
+  useAccountKey: () => mockUseAccountKey(),
 }))
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
   getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
-  onboardingPropsSelector: () => mockOnboardingProps,
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),

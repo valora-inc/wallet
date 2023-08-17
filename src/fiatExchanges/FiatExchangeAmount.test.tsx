@@ -15,8 +15,9 @@ import { createMockStore, getElementText, getMockStackScreenProps } from 'test/u
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
 
+const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
-  useMaxSendAmount: () => mockMaxSendAmount,
+  useMaxSendAmount: () => mockUseMaxSendAmount(),
 }))
 jest.mock('src/statsig')
 

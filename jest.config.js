@@ -44,6 +44,6 @@ module.exports = {
     '^.+\\.(txt)$': require.resolve('./node_modules/react-native/jest/assetFileTransformer.js'),
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(@celo/)?@?react-native|@react-navigation|@react-native-community|@react-native-firebase|react-navigation|redux-persist|date-fns|uuid|victory-*|@walletconnect/react-native-compat|reactotron)',
+    'node_modules/(?!(@celo/)?@?react-native|@react-navigation|@react-native-community|@react-native-firebase|react-navigation|redux-persist|date-fns|statsig-js|uuid|victory-*|@walletconnect/react-native-compat|reactotron)',
   ],
 }

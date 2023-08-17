@@ -10,10 +10,12 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockOnboardingProps } from 'test/values'
 
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
+
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
   getOnboardingStepValues: () => ({ step: 1, totalSteps: 2 }),
-  onboardingPropsSelector: () => mockOnboardingProps,
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 
 const mockPin = '364141' // Last 6 hexidecimal values of the secp256k1 group order.

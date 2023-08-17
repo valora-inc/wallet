@@ -1,8 +1,6 @@
 import '@testing-library/jest-native/extend-expect'
 import 'react-native-svg-mock'
 
-jest.useFakeTimers()
-
 if (typeof window !== 'object') {
   // @ts-ignore
   global.window = global
