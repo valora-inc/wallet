@@ -320,7 +320,7 @@ export const Account = ({ navigation, route }: Props) => {
         navigate(Screens.WalletSecurityPrimer)
       }
     } catch (error) {
-      Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
+      Logger.error('SettingsItem@onPress', 'PIN ensure error - onPressSetUpKeylessBackup', error)
     }
   }
 
