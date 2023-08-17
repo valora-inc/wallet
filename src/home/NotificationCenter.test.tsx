@@ -159,7 +159,6 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    // First request
     expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title'))).toBe(
       'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
     )
@@ -210,7 +209,6 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    // First request
     expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title'))).toBe(
       'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
     )
@@ -267,7 +265,6 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    // First request must be rendered correctly
     expect(getElementText(getByTestId('EscrowedPaymentListItem/Title'))).toBe(
       'escrowPaymentNotificationTitle, {"mobile":"John Doe"}'
     )
