@@ -90,8 +90,7 @@ const onCloseMock = jest.fn()
 
 describe('TokenBottomSheet', () => {
   beforeEach(() => {
-    // see: https://stackoverflow.com/questions/52695553/testing-debounced-function-in-react-component-with-jest-and-enzyme/64336022#64336022
-    jest.useFakeTimers('modern')
+    jest.useFakeTimers()
     jest.clearAllMocks()
   })
 
