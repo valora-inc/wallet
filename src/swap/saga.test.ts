@@ -40,6 +40,7 @@ jest.mock('src/transactions/send', () => ({
 
 const mockSwapTransaction = {
   buyAmount: '10000000000000000',
+  sellAmount: '10000000000000000',
   buyTokenAddress: mockCeloAddress,
   sellTokenAddress: mockCeurAddress,
   price: '1',
@@ -89,6 +90,7 @@ describe(swapSubmitSaga, () => {
       [
         {
           ...mockTokenBalances[mockCeurAddress],
+          usdPrice: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       ],
@@ -129,6 +131,8 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
       quoteToTransactionElapsedTimeInMs: 10000,
+      estimatedBuyTokenUsdValue: undefined,
+      estimatedSellTokenUsdValue: 0.01,
     })
   })
 
@@ -159,6 +163,8 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
       quoteToTransactionElapsedTimeInMs: undefined,
+      estimatedBuyTokenUsdValue: undefined,
+      estimatedSellTokenUsdValue: 0.01,
     })
   })
 
