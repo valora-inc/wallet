@@ -1,8 +1,5 @@
 import networkConfig from 'src/web3/networkConfig'
-import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-
-const TAG = 'src/keylessBackup/index.ts'
 
 export async function storeEncryptedMnemonic({
   encryptedMnemonic,
@@ -21,9 +18,10 @@ export async function storeEncryptedMnemonic({
       encryptionAddress,
     }),
   })
-  if (response.status === 409) {
-    Logger.info(TAG, 'Encrypted mnemonic already exists')
-  } else if (!response.ok) {
-    throw new Error(`Failed to post encrypted mnemonic with status ${response.status}`)
+  if (!response.ok) {
+    const message = (await response.json())?.message
+    throw new Error(
+      `Failed to post encrypted mnemonic with status ${response.status}, message ${message}`
+    )
   }
 }
