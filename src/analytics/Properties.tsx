@@ -238,6 +238,7 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
   [KeylessBackupEvents.cab_handle_keyless_backup_setup_failed]: undefined
   [KeylessBackupEvents.cab_handle_keyless_backup_setup_success]: undefined
+  [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
 }
 
 interface OnboardingEventsProperties {

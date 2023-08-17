@@ -89,6 +89,7 @@ export enum KeylessBackupEvents {
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
+  cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
   enter_phone_number_continue = 'enter_phone_number_continue',
   cab_issue_sms_code_start = 'cab_issue_sms_code_start',
   cab_issue_sms_code_success = 'cab_issue_sms_code_success',
