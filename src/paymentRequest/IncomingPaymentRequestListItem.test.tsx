@@ -296,6 +296,6 @@ describe('IncomingPaymentRequestListItem', () => {
       </Provider>
     )
 
-    expect(navigate).toBeCalledTimes(0)
+    expect(navigate).toHaveBeenCalledTimes(0)
   })
 })

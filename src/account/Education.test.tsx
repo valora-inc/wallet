@@ -40,13 +40,13 @@ describe('Education', () => {
   it('finishes when pressed', () => {
     const edu = render(<Education {...educationProps} />)
     fireEvent.press(edu.UNSAFE_getByProps({ text: BUTTON_TEXT }))
-    expect(educationProps.onFinish).toBeCalled()
+    expect(educationProps.onFinish).toHaveBeenCalled()
   })
 
   it('navigates back', () => {
     const edu = render(<Education {...educationProps} />)
     fireEvent.press(edu.getByTestId('Education/CloseIcon'))
-    expect(navigateBack).toBeCalled()
+    expect(navigateBack).toHaveBeenCalled()
   })
 
   it('onboarding step info analytics event fires', () => {

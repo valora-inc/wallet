@@ -71,7 +71,7 @@ describe('Pincode', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(goToNextOnboardingScreen).toBeCalledWith({
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
       firstScreenInCurrentStep: Screens.PincodeSet,
       onboardingProps: mockOnboardingProps,
     })
@@ -156,6 +156,6 @@ describe('Pincode', () => {
     await flushMicrotasksQueue()
 
     expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
-    expect(navigate).toBeCalledWith(Screens.Settings)
+    expect(navigate).toHaveBeenCalledWith(Screens.Settings)
   })
 })

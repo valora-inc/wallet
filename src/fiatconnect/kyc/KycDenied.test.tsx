@@ -1,20 +1,19 @@
-import React from 'react'
+import { FiatAccountType, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { mockFiatConnectQuotes } from 'test/values'
-import { CICOFlow } from 'src/fiatExchanges/utils'
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { Screens } from 'src/navigator/Screens'
+import React from 'react'
 import { Provider } from 'react-redux'
-import KycDenied from 'src/fiatconnect/kyc/KycDenied'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
-import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
-import { navigate } from 'src/navigator/NavigationService'
 import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
 import { kycTryAgain } from 'src/fiatconnect/slice'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect/kyc/getNavigationOptions')
@@ -56,7 +55,7 @@ describe('KycDenied', () => {
         <KycDenied {...mockProps} />
       </Provider>
     )
-    expect(mockProps.navigation.setOptions).toBeCalledWith(
+    expect(mockProps.navigation.setOptions).toHaveBeenCalledWith(
       getNavigationOptions({
         fiatConnectKycStatus: FiatConnectKycStatus.KycDenied,
         quote: mockQuote,

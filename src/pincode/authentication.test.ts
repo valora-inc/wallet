@@ -8,27 +8,27 @@ import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
+  CANCELLED_PIN_INPUT,
+  DEFAULT_CACHE_ACCOUNT,
+  getPasswordSaga,
+  getPincode,
+  getPincodeWithBiometry,
+  PinBlocklist,
+  removeStoredPin,
+  retrieveOrGeneratePepper,
+  setPincodeWithBiometry,
+  updatePin,
+} from 'src/pincode/authentication'
+import {
   clearPasswordCaches,
   getCachedPepper,
   getCachedPin,
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
-import {
-  CANCELLED_PIN_INPUT,
-  DEFAULT_CACHE_ACCOUNT,
-  PinBlocklist,
-  getPasswordSaga,
-  getPincode,
-  getPincodeWithBiometry,
-  removeStoredPin,
-  retrieveOrGeneratePepper,
-  setPincodeWithBiometry,
-  updatePin,
-} from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
-import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import Logger from 'src/utils/Logger'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -93,14 +93,14 @@ describe(getPasswordSaga, () => {
       expectSaga(getPasswordSaga, mockAccount, false, false)
         .provide([[select(pincodeTypeSelector), PincodeType.Unset]])
         .run()
-    ).rejects.toThrowError('Pin has never been set')
+    ).rejects.toThrow('Pin has never been set')
   })
   it('should throw an error for unexpected pincode type', async () => {
     await expect(
       expectSaga(getPasswordSaga, mockAccount, false, false)
         .provide([[select(pincodeTypeSelector), 'unexpectedPinType']])
         .run()
-    ).rejects.toThrowError('Unsupported Pincode Type unexpectedPinType')
+    ).rejects.toThrow('Unsupported Pincode Type unexpectedPinType')
   })
 })
 
@@ -238,7 +238,7 @@ describe(getPincodeWithBiometry, () => {
   it('throws an error if a null pin was retrieved', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue(false)
 
-    await expect(getPincodeWithBiometry()).rejects.toThrowError(
+    await expect(getPincodeWithBiometry()).rejects.toThrow(
       'Failed to retrieve pin with biometry, recieved null value'
     )
 
@@ -316,7 +316,7 @@ describe(setPincodeWithBiometry, () => {
       storage: 'storage',
     })
 
-    await expect(setPincodeWithBiometry()).rejects.toThrowError(
+    await expect(setPincodeWithBiometry()).rejects.toThrow(
       "Retrieved value for key 'PIN' does not match stored value"
     )
   })
@@ -431,7 +431,7 @@ describe(removeStoredPin, () => {
   it('should throw an error if item could not be removed from keychain', async () => {
     mockedKeychain.resetGenericPassword.mockRejectedValueOnce(new Error('some error'))
 
-    await expect(removeStoredPin()).rejects.toThrowError('some error')
+    await expect(removeStoredPin()).rejects.toThrow('some error')
   })
 })
 
@@ -479,7 +479,7 @@ describe(retrieveOrGeneratePepper, () => {
       password: 'some random password',
     })
 
-    await expect(retrieveOrGeneratePepper()).rejects.toThrowError(
+    await expect(retrieveOrGeneratePepper()).rejects.toThrow(
       "Retrieved value for key 'PEPPER' does not match stored value"
     )
     expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PEPPER' })

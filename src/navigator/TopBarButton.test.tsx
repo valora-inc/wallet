@@ -20,7 +20,7 @@ describe('TopBarTextButton', () => {
       <TopBarTextButton testID={testID} title={'label'} onPress={onPress} />
     )
     fireEvent.press(queryByTestId(testID)!)
-    expect(onPress).toBeCalled()
+    expect(onPress).toHaveBeenCalled()
   })
 })
 
@@ -39,6 +39,6 @@ describe('TopBarIconButton', () => {
       <TopBarIconButton testID={testID} icon={<Text>icon</Text>} onPress={onPress} />
     )
     fireEvent.press(queryByTestId(testID)!)
-    expect(onPress).toBeCalled()
+    expect(onPress).toHaveBeenCalled()
   })
 })

@@ -160,7 +160,7 @@ describe('TokenBottomSheet', () => {
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Celo',
@@ -174,7 +174,7 @@ describe('TokenBottomSheet', () => {
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(2)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Test',
@@ -188,7 +188,7 @@ describe('TokenBottomSheet', () => {
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(3)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Usd',
@@ -208,7 +208,7 @@ describe('TokenBottomSheet', () => {
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     // We don't send events for intermediate search inputs
     expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,

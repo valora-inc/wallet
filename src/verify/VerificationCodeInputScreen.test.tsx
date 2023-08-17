@@ -276,7 +276,7 @@ describe('VerificationCodeInputScreen', () => {
     await act(() => {
       fireEvent.press(getByText('phoneVerificationInput.help'))
     })
-    await waitFor(() => expect(getByTestId('PhoneVerificationInputHelpDialog')))
+    await waitFor(() => expect(getByTestId('PhoneVerificationInputHelpDialog')).toBeTruthy())
     const HelpDialog = getByTestId('PhoneVerificationInputHelpDialog')
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.title')).toBeTruthy()
     expect(within(HelpDialog).getByText('phoneVerificationInput.helpDialog.body')).toBeTruthy()
