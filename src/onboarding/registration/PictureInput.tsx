@@ -10,8 +10,9 @@ import Touchable from 'src/components/Touchable'
 import Edit from 'src/icons/Edit'
 import { Recipient } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
-import { getDataURL } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
+import { getDataURL } from 'src/utils/image'
 
 const PICTURE_SIZE = 64
 
@@ -41,18 +42,19 @@ function PictureInput({ picture, onPhotoChosen }: Props) {
         // @ts-ignore
         onPhotoChosen(getDataURL(image.mime, image.data))
       }
-    } catch (e) {
+    } catch (err) {
+      const error = ensureError(err)
       const MISSING_PERMISSION_ERR_MSG = 'Required permission missing'
       const USER_CANCELLED_ERR_MSG = 'User cancelled image selection'
       if (
-        e.message.includes(USER_CANCELLED_ERR_MSG) ||
-        e.message.includes(MISSING_PERMISSION_ERR_MSG)
+        error.message.includes(USER_CANCELLED_ERR_MSG) ||
+        error.message.includes(MISSING_PERMISSION_ERR_MSG)
       ) {
-        Logger.info('PictureInput', e.message)
+        Logger.info('PictureInput', error.message)
         return
       }
 
-      Logger.error('PictureInput', 'Error while fetching image from picker', e)
+      Logger.error('PictureInput', 'Error while fetching image from picker', error)
     }
   }
 

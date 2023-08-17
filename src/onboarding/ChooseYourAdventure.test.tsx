@@ -19,18 +19,18 @@ describe('ChooseYourAdventure', () => {
     {
       address: mockAccount,
       testIDs: [
-        'AdventureCard/0/chooseYourAdventure.options.add',
-        'AdventureCard/1/chooseYourAdventure.options.learn',
-        'AdventureCard/2/chooseYourAdventure.options.dapp',
+        'AdventureCard/0/chooseYourAdventure.options.dapp',
+        'AdventureCard/1/chooseYourAdventure.options.add',
+        'AdventureCard/2/chooseYourAdventure.options.learn',
         'AdventureCard/3/chooseYourAdventure.options.profile',
       ],
     },
     {
       address: mockAccount2,
       testIDs: [
-        'AdventureCard/0/chooseYourAdventure.options.dapp',
+        'AdventureCard/0/chooseYourAdventure.options.learn',
         'AdventureCard/1/chooseYourAdventure.options.profile',
-        'AdventureCard/2/chooseYourAdventure.options.learn',
+        'AdventureCard/2/chooseYourAdventure.options.dapp',
         'AdventureCard/3/chooseYourAdventure.options.add',
       ],
     },
@@ -71,40 +71,40 @@ describe('ChooseYourAdventure', () => {
       </Provider>
     )
     const expectedCardOrder = [
+      AdventureCardName.Dapp,
       AdventureCardName.Add,
       AdventureCardName.Learn,
-      AdventureCardName.Dapp,
       AdventureCardName.Profile,
     ]
 
-    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.add'))
-    expect(navigateHome).toHaveBeenLastCalledWith()
-    expect(navigate).toHaveBeenLastCalledWith(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      position: 1,
-      name: AdventureCardName.Add,
-      cardOrder: expectedCardOrder,
-    })
-    fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.learn'))
-    expect(navigateHome).toHaveBeenLastCalledWith({
-      params: { initialScreen: Screens.ExchangeHomeScreen },
-    })
-
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      position: 2,
-      name: AdventureCardName.Learn,
-      cardOrder: expectedCardOrder,
-    })
-
-    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.dapp'))
+    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.dapp'))
     expect(navigateHome).toHaveBeenLastCalledWith({
       params: { initialScreen: Screens.DAppsExplorerScreen },
     })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      position: 3,
+      position: 1,
       name: AdventureCardName.Dapp,
+      cardOrder: expectedCardOrder,
+    })
+    fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.add'))
+    expect(navigateHome).toHaveBeenLastCalledWith()
+    expect(navigate).toHaveBeenLastCalledWith(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
+    })
+
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
+      position: 2,
+      name: AdventureCardName.Add,
+      cardOrder: expectedCardOrder,
+    })
+
+    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
+    expect(navigateHome).toHaveBeenLastCalledWith({
+      params: { initialScreen: Screens.ExchangeHomeScreen },
+    })
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
+      position: 3,
+      name: AdventureCardName.Learn,
       cardOrder: expectedCardOrder,
     })
 
@@ -122,6 +122,8 @@ describe('ChooseYourAdventure', () => {
 
     fireEvent.press(getByTestId('ChooseYourAdventure/Later'))
     expect(navigateHome).toHaveBeenLastCalledWith()
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later, {
+      cardOrder: expectedCardOrder,
+    })
   })
 })

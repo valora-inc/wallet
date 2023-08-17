@@ -8,35 +8,22 @@ import InAppReview from 'react-native-in-app-review'
 import * as Keychain from 'react-native-keychain'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
-import {
-  all,
-  call,
-  cancelled,
-  delay,
-  put,
-  race,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLatest,
-} from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   Actions,
+  OpenDeepLink,
+  OpenUrlAction,
+  SetAppState,
   androidMobileServicesAvailabilityChecked,
   appLock,
   inAppReviewRequested,
   inviteLinkConsumed,
   minAppVersionDetermined,
-  OpenDeepLink,
   openDeepLink,
-  OpenUrlAction,
   phoneNumberVerificationMigrated,
-  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -61,9 +48,9 @@ import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import {
   appVersionDeprecationChannel,
   fetchRemoteConfigValues,
@@ -93,8 +80,9 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
-import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
+import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -108,6 +96,19 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
+import {
+  all,
+  call,
+  cancelled,
+  delay,
+  put,
+  race,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLatest,
+} from 'typed-redux-saga'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -127,12 +128,12 @@ const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 120 // 120 days
 export function* appInit() {
   SentryTransactionHub.startTransaction(SentryTransaction.app_init_saga)
 
-  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
-  const otaTranslationsAppVersion = yield select(otaTranslationsAppVersionSelector)
-  const language = yield select(currentLanguageSelector)
+  const allowOtaTranslations = yield* select(allowOtaTranslationsSelector)
+  const otaTranslationsAppVersion = yield* select(otaTranslationsAppVersionSelector)
+  const language = yield* select(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
 
-  yield all([
+  yield* all([
     call(initializeSentry),
     call([ValoraAnalytics, 'init']),
     call(
@@ -145,32 +146,32 @@ export function* appInit() {
 
   // This step is important if the user is offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
-  const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
+  const sentryNetworkErrors = yield* select(sentryNetworkErrorsSelector)
   Logger.setNetworkErrors(sentryNetworkErrors)
 
-  const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
-  yield put(setSupportedBiometryType(supportedBiometryType))
+  const supportedBiometryType = yield* call(Keychain.getSupportedBiometryType)
+  yield* put(setSupportedBiometryType(supportedBiometryType))
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
 
 export function* appVersionSaga() {
-  const appVersionChannel = yield call(appVersionDeprecationChannel)
+  const appVersionChannel = yield* call(appVersionDeprecationChannel)
   if (!appVersionChannel) {
     return
   }
   try {
     while (true) {
-      const minRequiredVersion = yield take(appVersionChannel)
+      const minRequiredVersion = yield* take(appVersionChannel)
       Logger.info(TAG, `Required min version: ${minRequiredVersion}`)
       // Note: The NavigatorWrapper will read this value from the store and
       // show the UpdateScreen if necessary.
-      yield put(minAppVersionDetermined(minRequiredVersion))
+      yield* put(minAppVersionDetermined(minRequiredVersion))
     }
   } catch (error) {
     Logger.error(`${TAG}@appVersionSaga`, 'Failed to watch app version', error)
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       appVersionChannel.close()
     }
   }
@@ -187,7 +188,7 @@ export function* checkAndroidMobileServicesSaga() {
   // Check to see if Google Mobile Services (i.e. Google Play Services) are available on this device.
   let googleIsAvailable: boolean | undefined
   try {
-    googleIsAvailable = yield call([DeviceInfo, DeviceInfo.hasGms])
+    googleIsAvailable = yield* call([DeviceInfo, DeviceInfo.hasGms])
     Logger.info(TAG, 'Result of check for Google Mobile Services', googleIsAvailable)
   } catch (e) {
     Logger.error(TAG, 'Error in check for Google Mobile Services', e)
@@ -196,7 +197,7 @@ export function* checkAndroidMobileServicesSaga() {
   // Check to see if Huawei Mobile Services are available on this device.
   let huaweiIsAvailable: boolean | undefined
   try {
-    huaweiIsAvailable = yield call([DeviceInfo, DeviceInfo.hasHms])
+    huaweiIsAvailable = yield* call([DeviceInfo, DeviceInfo.hasHms])
     Logger.info(TAG, `Result of check for Huawei Mobile Services`, huaweiIsAvailable)
   } catch (e) {
     Logger.error(TAG, `Error in check for Huawei Mobile Services`, e)
@@ -206,8 +207,8 @@ export function* checkAndroidMobileServicesSaga() {
   // When this is first run, the status in the state tree will be undefined, ensuring this event is
   // fired at least once for each client.
   const updated =
-    googleIsAvailable !== (yield select(googleMobileServicesAvailableSelector)) ||
-    huaweiIsAvailable !== (yield select(huaweiMobileServicesAvailableSelector))
+    googleIsAvailable !== (yield* select(googleMobileServicesAvailableSelector)) ||
+    huaweiIsAvailable !== (yield* select(huaweiMobileServicesAvailableSelector))
 
   if (updated) {
     ValoraAnalytics.track(AppEvents.android_mobile_services_checked, {
@@ -216,7 +217,7 @@ export function* checkAndroidMobileServicesSaga() {
     })
   }
 
-  yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
+  yield* put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
 }
 
 export interface RemoteConfigValues {
@@ -278,18 +279,18 @@ export function* appRemoteFeatureFlagSaga() {
     const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
 
     if (isAppActive && isRefreshTime) {
-      const { configValues }: { configValues: RemoteConfigValues | undefined } = yield race({
+      const { configValues } = yield* race({
         configValues: call(fetchRemoteConfigValues),
         timeout: delay(FETCH_TIMEOUT_DURATION),
       })
       if (configValues) {
         Logger.setNetworkErrors(configValues.sentryNetworkErrors)
-        yield put(updateRemoteConfigValues(configValues))
+        yield* put(updateRemoteConfigValues(configValues))
         lastLoadTime = Date.now()
       }
     }
 
-    const action: SetAppState = yield take(Actions.SET_APP_STATE)
+    const action = (yield* take(Actions.SET_APP_STATE)) as SetAppState
     isAppActive = action.state === 'active'
   }
 }
@@ -321,13 +322,13 @@ export function* handleDeepLink(action: OpenDeepLink) {
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
   if (isWalletConnectDeepLink(deepLink)) {
-    yield call(handleWalletConnectDeepLink, deepLink)
+    yield* call(handleWalletConnectDeepLink, deepLink)
     return
   }
 
   // Try resolve dynamic links
   if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
-    const resolvedDynamicLink: string | null = yield call(resolveDynamicLink, deepLink)
+    const resolvedDynamicLink = yield* call(resolveDynamicLink, deepLink)
     if (resolvedDynamicLink) {
       deepLink = resolvedDynamicLink
     }
@@ -339,11 +340,11 @@ export function* handleDeepLink(action: OpenDeepLink) {
     if (rawParams.path.startsWith('/payment')) {
       // TODO: contact our merchant partner and come up
       // with something that doesn't match /pay, maybe /merchantPay ?
-      yield call(paymentDeepLinkHandlerMerchant, deepLink)
+      yield* call(paymentDeepLinkHandlerMerchant, deepLink)
     } else if (rawParams.path.startsWith('/pay')) {
-      yield call(handlePaymentDeeplink, deepLink)
+      yield* call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
-      yield call(handleDappkitDeepLink, deepLink)
+      yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
     } else if (rawParams.pathname === '/bidali') {
@@ -362,45 +363,49 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(params.screen as keyof StackParamList, params)
     } else if (pathParts.length === 3 && pathParts[1] === 'share') {
       const inviterAddress = pathParts[2]
-      yield put(inviteLinkConsumed(inviterAddress))
+      yield* put(inviteLinkConsumed(inviterAddress))
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
         inviterAddress,
       })
     } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
       const privateKey = pathParts[2]
-      const walletAddress: string = yield select(walletAddressSelector)
-      yield call(jumpstartLinkHandler, privateKey, walletAddress)
+      const walletAddress = yield* select(walletAddressSelector)
+      if (!walletAddress) {
+        Logger.error(TAG, 'No wallet address found in store. This should never happen.')
+        return
+      }
+      yield* call(jumpstartLinkHandler, privateKey, walletAddress)
     } else if (
-      (yield select(allowHooksPreviewSelector)) &&
+      (yield* select(allowHooksPreviewSelector)) &&
       rawParams.pathname === '/hooks/enablePreview'
     ) {
-      yield call(handleEnableHooksPreviewDeepLink, deepLink, HooksEnablePreviewOrigin.Deeplink)
+      yield* call(handleEnableHooksPreviewDeepLink, deepLink, HooksEnablePreviewOrigin.Deeplink)
     }
   }
 }
 
 export function* watchDeepLinks() {
-  yield takeLatest(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
+  yield* takeLatest(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
 }
 
 export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
-  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, url)
+  const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, url)
   Logger.debug(TAG, 'Handling url', url)
   if (isDeepLink(url) || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
     // Handle celo links directly, this avoids showing the "Open with App" sheet on Android
-    yield call(handleDeepLink, openDeepLink(url, isSecureOrigin))
+    yield* call(handleDeepLink, openDeepLink(url, isSecureOrigin))
   } else if (/^https?:\/\//i.test(url) === true && !openExternal) {
     // We display http or https links using our in app browser, unless openExternal is forced
     navigate(Screens.WebViewScreen, { uri: url })
   } else {
     // Fallback
-    yield call(navigateToURI, url)
+    yield* call(navigateToURI, url)
   }
 }
 
 export function* watchOpenUrl() {
-  yield takeEvery(Actions.OPEN_URL, safely(handleOpenUrl))
+  yield* takeEvery(Actions.OPEN_URL, safely(handleOpenUrl))
 }
 
 function createAppStateChannel() {
@@ -415,17 +420,18 @@ function createAppStateChannel() {
 
 function* watchAppState() {
   Logger.debug(`${TAG}@monitorAppState`, 'Starting monitor app state saga')
-  const appStateChannel = yield createAppStateChannel()
+  const appStateChannel = yield* call(createAppStateChannel)
   while (true) {
     try {
-      const newState = yield take(appStateChannel)
+      const newState = (yield* take(appStateChannel)) as string
       Logger.debug(`${TAG}@monitorAppState`, `App changed state: ${newState}`)
-      yield put(setAppState(newState))
-    } catch (error) {
+      yield* put(setAppState(newState))
+    } catch (err) {
+      const error = ensureError(err)
       ValoraAnalytics.track(AppEvents.app_state_error, { error: error.message })
       Logger.error(`${TAG}@monitorAppState`, `App state Error`, error)
     } finally {
-      if (yield cancelled()) {
+      if (yield* cancelled()) {
         appStateChannel.close()
       }
     }
@@ -433,28 +439,28 @@ function* watchAppState() {
 }
 
 export function* handleSetAppState(action: SetAppState) {
-  const requirePinOnAppOpen = yield select(getRequirePinOnAppOpen)
-  const lastTimeBackgrounded = yield select(getLastTimeBackgrounded)
+  const requirePinOnAppOpen = yield* select(getRequirePinOnAppOpen)
+  const lastTimeBackgrounded = yield* select(getLastTimeBackgrounded)
   const isPassedDoNotLockPeriod = Date.now() - lastTimeBackgrounded > DO_NOT_LOCK_PERIOD
   const isAppActive = action.state === 'active'
 
   if (requirePinOnAppOpen && isPassedDoNotLockPeriod && isAppActive) {
-    yield put(appLock())
+    yield* put(appLock())
   }
 
   if (isAppActive) {
     // Force a statsig refresh by updating the user object
-    yield call(patchUpdateStatsigUser)
+    yield* call(patchUpdateStatsigUser)
   }
 }
 
 export function* runCentralPhoneVerificationMigration() {
-  const shouldRunVerificationMigration = yield select(shouldRunVerificationMigrationSelector)
+  const shouldRunVerificationMigration = yield* select(shouldRunVerificationMigrationSelector)
   if (!shouldRunVerificationMigration) {
     return
   }
 
-  const privateDataEncryptionKey = yield select(dataEncryptionKeySelector)
+  const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
   if (!privateDataEncryptionKey) {
     Logger.warn(
       `${TAG}@runCentralPhoneVerificationMigration`,
@@ -463,17 +469,24 @@ export function* runCentralPhoneVerificationMigration() {
     return
   }
 
-  const address = yield select(walletAddressSelector)
-  const mtwAddress = yield select(mtwAddressSelector)
-  const phoneNumber = yield select(e164NumberSelector)
+  const address = yield* select(walletAddressSelector)
+  const mtwAddress = yield* select(mtwAddressSelector)
+  const phoneNumber = yield* select(e164NumberSelector)
   const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
 
   try {
-    const signedMessage = yield call(retrieveSignedMessage)
+    const signedMessage = yield* call(retrieveSignedMessage)
     if (!signedMessage) {
       Logger.warn(
         `${TAG}@runCentralPhoneVerificationMigration`,
         'No signed message was found for this user. Skipping CPV migration.'
+      )
+      return
+    }
+    if (!phoneNumber) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No phone number was found for this user. Skipping CPV migration.'
       )
       return
     }
@@ -483,10 +496,10 @@ export function* runCentralPhoneVerificationMigration() {
       'Starting to run central phone verification migration'
     )
 
-    const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, phoneNumber)
-    const inviterAddress = yield select(inviterAddressSelector)
+    const phoneHashDetails: PhoneNumberHashDetails = yield* call(fetchPhoneHashPrivate, phoneNumber)
+    const inviterAddress = yield* select(inviterAddressSelector)
 
-    const response = yield call(fetch, networkConfig.migratePhoneVerificationUrl, {
+    const response = yield* call(fetch, networkConfig.migratePhoneVerificationUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -505,13 +518,13 @@ export function* runCentralPhoneVerificationMigration() {
     })
 
     if (response.status === 200) {
-      yield put(phoneNumberVerificationMigrated())
+      yield* put(phoneNumberVerificationMigrated())
       Logger.debug(
         `${TAG}@runCentralPhoneVerificationMigration`,
         'Central phone verification migration completed successfully'
       )
     } else {
-      throw new Error(yield call([response, 'text']))
+      throw new Error(yield* call([response, 'text']))
     }
   } catch (error) {
     Logger.warn(
@@ -523,7 +536,7 @@ export function* runCentralPhoneVerificationMigration() {
 }
 
 export function* requestInAppReview() {
-  const walletAddress = yield select(walletAddressSelector)
+  const walletAddress = yield* select(walletAddressSelector)
   // Quick return if no wallet address or the device does not support in app review
   if (
     !walletAddress ||
@@ -532,18 +545,19 @@ export function* requestInAppReview() {
   )
     return
 
-  const lastInteractionTimestamp = yield select(inAppReviewLastInteractionTimestampSelector)
+  const lastInteractionTimestamp = yield* select(inAppReviewLastInteractionTimestampSelector)
   const now = Date.now()
 
   // If the last interaction was less than a quarter year ago or null
-  if (now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
+  if (!lastInteractionTimestamp || now - lastInteractionTimestamp >= REVIEW_INTERVAL) {
     try {
       // If we call InAppReview.RequestInAppReview and there wasn't an error
       // Update the last interaction timestamp and send analytics
-      yield call(InAppReview.RequestInAppReview)
-      yield put(inAppReviewRequested(now))
+      yield* call(InAppReview.RequestInAppReview)
+      yield* put(inAppReviewRequested(now))
       ValoraAnalytics.track(AppEvents.in_app_review_impression)
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
       ValoraAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
     }
@@ -552,21 +566,21 @@ export function* requestInAppReview() {
 
 export function* watchAppReview() {
   // Triggers on successful payment, swap, or rewards claim
-  yield takeLatest(
+  yield* takeLatest(
     [SendActions.SEND_PAYMENT_SUCCESS, swapSuccess, claimRewardsSuccess],
     safely(requestInAppReview)
   )
 }
 
 export function* appSaga() {
-  yield spawn(watchDeepLinks)
-  yield spawn(watchOpenUrl)
-  yield spawn(watchAppState)
-  yield spawn(runCentralPhoneVerificationMigration)
-  yield takeLatest(
+  yield* spawn(watchDeepLinks)
+  yield* spawn(watchOpenUrl)
+  yield* spawn(watchAppState)
+  yield* spawn(runCentralPhoneVerificationMigration)
+  yield* takeLatest(
     Actions.UPDATE_REMOTE_CONFIG_VALUES,
     safely(runCentralPhoneVerificationMigration)
   )
-  yield takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
-  yield spawn(watchAppReview)
+  yield* takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
+  yield* spawn(watchAppReview)
 }

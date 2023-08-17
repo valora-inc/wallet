@@ -1,25 +1,25 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { Trans, useTranslation } from 'react-i18next'
-import fontStyles from 'src/styles/fonts'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { KeylessBackupEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { emptyHeader } from 'src/navigator/Headers'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import Times from 'src/icons/Times'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import Card from 'src/components/Card'
-import Colors from 'src/styles/colors'
-import variables from 'src/styles/variables'
-import colors from 'src/styles/colors'
+import Times from 'src/icons/Times'
 import EnvelopeIcon from 'src/keylessBackup/EnvelopeIcon'
 import SmartphoneIcon from 'src/keylessBackup/SmartphoneIcon'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { KeylessBackupEvents } from 'src/analytics/Events'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { emptyHeader } from 'src/navigator/Headers'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { default as Colors, default as colors } from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 
 function onPressContinue() {
   ValoraAnalytics.track(KeylessBackupEvents.set_up_keyless_backup_screen_continue)
-  navigate(Screens.SignInWithEmail)
+  navigate(Screens.SignInWithEmail, { keylessBackupFlow: KeylessBackupFlow.Setup })
 }
 
 function SetUpKeylessBackup() {

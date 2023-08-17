@@ -3,9 +3,9 @@ import { spawn, takeEvery } from 'redux-saga/effects'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { rootSaga } from 'src/redux/sagas'
-import { setupStore, _persistConfig } from 'src/redux/store'
-import * as accountCheckerModule from 'src/utils/accountChecker'
+import { _persistConfig, setupStore } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import * as accountCheckerModule from 'src/utils/accountChecker'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
 import { mocked } from 'ts-jest/utils'
 
@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 137,
+          "version": 141,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -271,10 +271,10 @@ describe('store state', () => {
           "isImportingWallet": false,
         },
         "keylessBackup": Object {
-          "google": Object {
-            "idToken": null,
-            "status": "idle",
-          },
+          "backupStatus": "NotStarted",
+          "googleIdToken": null,
+          "torusKeyshare": null,
+          "valoraKeyshare": null,
         },
         "localCurrency": Object {
           "error": false,

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
@@ -65,26 +64,18 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
     }
 
     return (
-      <View style={styles.container}>
-        <RequestMessagingCard
-          testID={`OutgoingPaymentRequestNotification/${id}`}
-          title={t('outgoingPaymentRequestNotificationTitle', {
-            name: getDisplayName(requestee, t),
-          })}
-          amount={<CurrencyDisplay amount={amount} />}
-          details={comment}
-          icon={<ContactCircle recipient={requestee} />}
-          callToActions={this.getCTA()}
-        />
-      </View>
+      <RequestMessagingCard
+        testID={`OutgoingPaymentRequestNotification/${id}`}
+        title={t('outgoingPaymentRequestNotificationTitle', {
+          name: getDisplayName(requestee, t),
+        })}
+        amount={<CurrencyDisplay amount={amount} />}
+        details={comment}
+        icon={<ContactCircle recipient={requestee} />}
+        callToActions={this.getCTA()}
+      />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-})
 
 export default withTranslation<Props>()(OutgoingPaymentRequestListItem)

@@ -1,12 +1,3 @@
-import {
-  cancelled,
-  put,
-  select,
-  spawn,
-  takeEvery,
-  takeLatest,
-  takeLeading,
-} from 'redux-saga/effects'
 import { showErrorInline } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -25,9 +16,11 @@ import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { recipientHasNumber } from 'src/recipients/recipient'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { fetchDataEncryptionKeyWrapper } from 'src/web3/dataEncryptionKey'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { cancelled, put, select, spawn, takeEvery, takeLatest, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'identity/saga'
 
@@ -43,8 +36,12 @@ export function* validateRecipientAddressSaga({
       throw Error(`Invalid recipient type for Secure Send, does not have e164Number`)
     }
 
-    const userAddress = yield select(currentAccountSelector)
-    const e164NumberToAddress = yield select(e164NumberToAddressSelector)
+    const userAddress = yield* select(currentAccountSelector)
+    if (!userAddress) {
+      // This should never happen
+      throw Error(`No userAddress set`)
+    }
+    const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
     const { e164PhoneNumber } = recipient
     const possibleRecievingAddresses = e164NumberToAddress[e164PhoneNumber]
 
@@ -73,8 +70,9 @@ export function* validateRecipientAddressSaga({
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
     })
 
-    yield put(validateRecipientAddressSuccess(e164PhoneNumber, validatedAddress))
-  } catch (error) {
+    yield* put(validateRecipientAddressSuccess(e164PhoneNumber, validatedAddress))
+  } catch (err) {
+    const error = ensureError(err)
     ValoraAnalytics.track(SendEvents.send_secure_incorrect, {
       confirmByScan: false,
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
@@ -82,50 +80,50 @@ export function* validateRecipientAddressSaga({
     })
 
     Logger.error(TAG, 'validateRecipientAddressSaga/Address validation error: ', error)
-    if (Object.values(ErrorMessages).includes(error.message)) {
-      yield put(showErrorInline(error.message))
+    if (Object.values(ErrorMessages).includes(error.message as ErrorMessages)) {
+      yield* put(showErrorInline(error.message as ErrorMessages))
     } else {
-      yield put(showErrorInline(ErrorMessages.ADDRESS_VALIDATION_ERROR))
+      yield* put(showErrorInline(ErrorMessages.ADDRESS_VALIDATION_ERROR))
     }
   }
 }
 
 function* watchVerification() {
-  yield takeLeading(Actions.REVOKE_VERIFICATION, safely(revokeVerificationSaga))
+  yield* takeLeading(Actions.REVOKE_VERIFICATION, safely(revokeVerificationSaga))
 }
 
 function* watchContactMapping() {
-  yield takeLeading(Actions.IMPORT_CONTACTS, safely(doImportContactsWrapper))
-  yield takeLatest(
+  yield* takeLeading(Actions.IMPORT_CONTACTS, safely(doImportContactsWrapper))
+  yield* takeLatest(
     Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS,
     safely(fetchAddressesAndValidateSaga)
   )
 }
 
 export function* watchValidateRecipientAddress() {
-  yield takeLatest(Actions.VALIDATE_RECIPIENT_ADDRESS, safely(validateRecipientAddressSaga))
+  yield* takeLatest(Actions.VALIDATE_RECIPIENT_ADDRESS, safely(validateRecipientAddressSaga))
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(checkTxsForIdentityMetadata))
+  yield* takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(checkTxsForIdentityMetadata))
 }
 
 function* watchFetchDataEncryptionKey() {
-  yield takeLeading(Actions.FETCH_DATA_ENCRYPTION_KEY, safely(fetchDataEncryptionKeyWrapper))
+  yield* takeLeading(Actions.FETCH_DATA_ENCRYPTION_KEY, safely(fetchDataEncryptionKeyWrapper))
 }
 
 export function* identitySaga() {
   Logger.debug(TAG, 'Initializing identity sagas')
   try {
-    yield spawn(watchVerification)
-    yield spawn(watchContactMapping)
-    yield spawn(watchValidateRecipientAddress)
-    yield spawn(watchNewFeedTransactions)
-    yield spawn(watchFetchDataEncryptionKey)
+    yield* spawn(watchVerification)
+    yield* spawn(watchContactMapping)
+    yield* spawn(watchValidateRecipientAddress)
+    yield* spawn(watchNewFeedTransactions)
+    yield* spawn(watchFetchDataEncryptionKey)
   } catch (error) {
     Logger.error(TAG, 'Error initializing identity sagas', error)
   } finally {
-    if (yield cancelled()) {
+    if (yield* cancelled()) {
       Logger.error(TAG, 'identity sagas prematurely cancelled')
     }
   }

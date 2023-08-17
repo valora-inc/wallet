@@ -257,7 +257,14 @@ static void SetCustomNSURLSessionConfiguration() {
 // See https://github.com/invertase/react-native-firebase/blob/0d22eadfbb2f4a9229c63393bc87dc838511a617/packages/messaging/ios/RNFBMessaging/RNFBMessaging%2BUNUserNotificationCenter.m#L86
 - (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler 
 {
+  NSLog(@"%@: will present notification: %@", self.description, notification.request.content.userInfo);
+  [[CleverTap sharedInstance] recordNotificationViewedEventWithData:notification.request.content.userInfo];
   completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+    NSLog(@"%@: did receive remote notification completionhandler: %@", self.description, userInfo);
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 // This is also needed for CleverTap to have correct push actions handling, because of the swizzling competition between CleverTap and Firebase

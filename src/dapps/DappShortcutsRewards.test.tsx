@@ -2,6 +2,8 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
@@ -142,7 +144,7 @@ describe('DappShortcutsRewards', () => {
     expect(within(rewardCard).getByTestId('DappShortcutsRewards/ClaimButton')).toBeTruthy()
   })
 
-  it('should dispatch the correct action on claim', () => {
+  it('should dispatch the correct action on claim', async () => {
     const { getAllByTestId } = render(
       <Provider store={mockStore}>
         <DappShortcutsRewards />
@@ -155,17 +157,24 @@ describe('DappShortcutsRewards', () => {
       Array [
         Object {
           "payload": Object {
-            "address": "0x0000000000000000000000000000000000007e57",
-            "appId": "ubeswap",
+            "appImage": "",
+            "appName": "Ubeswap",
+            "data": Object {
+              "address": "0x0000000000000000000000000000000000007e57",
+              "appId": "ubeswap",
+              "network": "celo",
+              "positionAddress": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
+              "shortcutId": "claim-reward",
+            },
             "id": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072",
-            "network": "celo",
-            "positionAddress": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
-            "shortcutId": "claim-reward",
           },
           "type": "positions/triggerShortcut",
         },
       ]
     `)
+    expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutTransactionRequest, {
+      rewardId: 'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072',
+    })
   })
 
   it('should show a reward being claimed', () => {
@@ -176,8 +185,10 @@ describe('DappShortcutsRewards', () => {
           positions: {
             ...defaultState.positions,
             triggeredShortcutsStatus: {
-              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072':
-                'loading',
+              'claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072': {
+                status: 'accepting',
+                transactions: [],
+              },
             },
           },
         })}

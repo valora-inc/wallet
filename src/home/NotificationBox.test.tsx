@@ -196,7 +196,9 @@ describe('NotificationBox', () => {
     )
 
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
+    expect(getElementText(titleElement)).toBe(
+      'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
+    )
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')

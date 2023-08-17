@@ -1,6 +1,4 @@
-import { CeloTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, takeEvery } from 'redux-saga/effects'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
@@ -12,7 +10,7 @@ import {
   withdrawCeloFailed,
   withdrawCeloSuccess,
 } from 'src/exchange/actions'
-import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { sendPaymentSuccess } from 'src/send/actions'
@@ -21,21 +19,23 @@ import { celoAddressSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction, addStandbyTransactionLegacy } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
-  newTransactionContext,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
+  newTransactionContext,
 } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
-import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { call, put, select, spawn, takeEvery } from 'typed-redux-saga'
 
 const TAG = 'exchange/saga'
 
 function* celoToDollarAmount(amount: BigNumber) {
-  const exchangeRates: ExchangeRates = yield select(exchangeRatesSelector)
+  const exchangeRates = yield* select(exchangeRatesSelector)
   const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Dollar, Currency.Celo)
   return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
 }
@@ -44,12 +44,12 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
   let context: TransactionContext | null = null
   try {
     const { recipientAddress, amount } = action
-    const account: string = yield call(getConnectedUnlockedAccount)
+    const account = yield* call(getConnectedUnlockedAccount)
 
     navigate(Screens.WalletHome)
 
     context = newTransactionContext(TAG, 'Withdraw CELO')
-    yield put(
+    yield* put(
       addStandbyTransactionLegacy({
         context,
         type: TokenTransactionType.Sent,
@@ -62,8 +62,11 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       })
     )
 
-    const celoTokenAddress: string = yield select(celoAddressSelector)
-    yield put(
+    const celoTokenAddress = yield* select(celoAddressSelector)
+    if (!celoTokenAddress) {
+      throw new Error('Celo token address not found')
+    }
+    yield* put(
       addStandbyTransaction({
         context,
         type: TokenTransactionTypeV2.Sent,
@@ -76,29 +79,26 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       })
     )
 
-    const tx: CeloTransactionObject<boolean> = yield call(
-      createTokenTransferTransaction,
-      celoTokenAddress,
-      {
-        recipientAddress,
-        amount,
-        comment: '',
-      }
-    )
+    const tx = yield* call(createTokenTransferTransaction, celoTokenAddress, {
+      recipientAddress,
+      amount,
+      comment: '',
+    })
 
-    yield call(sendAndMonitorTransaction, tx, account, context)
+    yield* call(sendAndMonitorTransaction, tx, account, context)
 
-    const dollarAmount = yield call(celoToDollarAmount, amount)
-    yield put(sendPaymentSuccess(dollarAmount))
+    const dollarAmount = yield* call(celoToDollarAmount, amount)
+    yield* put(sendPaymentSuccess(dollarAmount))
 
-    yield put(withdrawCeloSuccess())
+    yield* put(withdrawCeloSuccess())
 
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
       amount: amount.toString(),
     })
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     if (error.message === ErrorMessages.PIN_INPUT_CANCELED) {
-      yield put(withdrawCeloCanceled())
+      yield* put(withdrawCeloCanceled())
       return
     }
 
@@ -107,18 +107,18 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       error.message === ErrorMessages.INCORRECT_PIN
         ? ErrorMessages.INCORRECT_PIN
         : ErrorMessages.TRANSACTION_FAILED
-    yield put(withdrawCeloFailed(context?.id, errorToShow))
+    yield* put(withdrawCeloFailed(context?.id, errorToShow))
 
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_error, {
-      error,
+      error: error.message,
     })
   }
 }
 
 export function* watchWithdrawCelo() {
-  yield takeEvery(Actions.WITHDRAW_CELO, safely(withdrawCelo))
+  yield* takeEvery(Actions.WITHDRAW_CELO, safely(withdrawCelo))
 }
 
 export function* exchangeSaga() {
-  yield spawn(watchWithdrawCelo)
+  yield* spawn(watchWithdrawCelo)
 }

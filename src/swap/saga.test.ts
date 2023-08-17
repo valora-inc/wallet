@@ -40,6 +40,7 @@ jest.mock('src/transactions/send', () => ({
 
 const mockSwapTransaction = {
   buyAmount: '10000000000000000',
+  sellAmount: '10000000000000000',
   buyTokenAddress: mockCeloAddress,
   sellTokenAddress: mockCeurAddress,
   price: '1',
@@ -49,6 +50,8 @@ const mockSwapTransaction = {
   allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
   estimatedPriceImpact: '0.1',
 }
+
+const mockQuoteReceivedTimestamp = 1000000000000
 
 const mockSwap = {
   payload: {
@@ -65,12 +68,17 @@ const mockSwap = {
     details: {
       swapProvider: '0x',
     },
+    quoteReceivedAt: mockQuoteReceivedTimestamp,
   },
 }
 
 describe(swapSubmitSaga, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  afterEach(() => {
+    jest.spyOn(Date, 'now').mockRestore()
   })
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
@@ -82,6 +90,7 @@ describe(swapSubmitSaga, () => {
       [
         {
           ...mockTokenBalances[mockCeurAddress],
+          usdPrice: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       ],
@@ -93,6 +102,11 @@ describe(swapSubmitSaga, () => {
   ]
 
   it('should complete swap', async () => {
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide(defaultProviders)
@@ -115,10 +129,15 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
+      quoteToTransactionElapsedTimeInMs: 10000,
+      estimatedBuyTokenUsdValue: undefined,
+      estimatedSellTokenUsdValue: 0.01,
     })
   })
 
   it('should set swap state correctly on error', async () => {
+    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
     ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
@@ -142,6 +161,10 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
+      quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
+      quoteToTransactionElapsedTimeInMs: undefined,
+      estimatedBuyTokenUsdValue: undefined,
+      estimatedSellTokenUsdValue: 0.01,
     })
   })
 

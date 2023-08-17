@@ -7,6 +7,9 @@ import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -146,7 +149,9 @@ export const fetchProviders = async (
   try {
     const response = await fetchWithTimeout(
       networkConfig.providerFetchUrl,
-      composePostObject(requestData)
+      composePostObject(requestData),
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!response.ok) {
@@ -182,7 +187,9 @@ export const fetchSimplexPaymentData = async (
           appVersion: DeviceInfo.getVersion(),
           userAgent: DeviceInfo.getUserAgentSync(),
         },
-      })
+      }),
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!response.ok) {
@@ -280,13 +287,18 @@ export async function fetchExchanges(
   // Standardize cGLD to CELO
 
   try {
-    const resp = await fetch(
-      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`
+    const resp = await fetchWithTimeout(
+      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`,
+      undefined,
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!resp.ok) {
       throw Error(`Fetch exchanges failed with status ${resp?.status}`)
     }
+
+    Logger.debug(TAG, 'got exchanges')
 
     return resp.json()
   } catch (error) {

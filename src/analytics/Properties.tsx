@@ -18,6 +18,7 @@ import {
   ContractKitEvents,
   DappExplorerEvents,
   DappKitEvents,
+  DappShortcutsEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -171,6 +172,7 @@ interface HomeEventsProperties {
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.view_nft_home_assets]: undefined
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
+  [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
 }
 
 interface SettingsEventsProperties {
@@ -207,16 +209,29 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_revoke_phone_number]: undefined
   [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
   [SettingsEvents.settings_set_up_keyless_backup]: undefined
+  [SettingsEvents.settings_delete_keyless_backup]: undefined
+}
+
+interface CommonKeylessBackupProps {
+  keylessBackupFlow: KeylessBackupFlow
 }
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
-  [KeylessBackupEvents.sign_in_with_google]: undefined
-  [KeylessBackupEvents.sign_in_with_email_screen_cancel]: undefined
-  [KeylessBackupEvents.enter_phone_number_continue]: {
-    keylessBackupFlow: KeylessBackupFlow
-  }
+  [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_progress_completed_continue]: undefined
+  [KeylessBackupEvents.cab_progress_failed_later]: undefined
+  [KeylessBackupEvents.cab_progress_failed_manual]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -370,7 +385,9 @@ interface OnboardingEventsProperties {
     position: number
     cardOrder: AdventureCardName[]
   }
-  [OnboardingEvents.cya_later]: undefined
+  [OnboardingEvents.cya_later]: {
+    cardOrder: AdventureCardName[]
+  }
 }
 
 interface VerificationEventsProperties {
@@ -1058,6 +1075,10 @@ type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   // requestParams: any
 }
 
+type WalletConnectRequestRejectSessionProperties = WalletConnectDefaultProperties & {
+  rejectReason: string
+}
+
 type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
   denyReason: string
 }
@@ -1079,9 +1100,9 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_session_approve_error]: WalletConnectDefaultProperties & {
     error: string
   }
-  [WalletConnectEvents.wc_session_reject_start]: WalletConnectDefaultProperties
-  [WalletConnectEvents.wc_session_reject_success]: WalletConnectDefaultProperties
-  [WalletConnectEvents.wc_session_reject_error]: WalletConnectDefaultProperties & {
+  [WalletConnectEvents.wc_session_reject_start]: WalletConnectRequestRejectSessionProperties
+  [WalletConnectEvents.wc_session_reject_success]: WalletConnectRequestRejectSessionProperties
+  [WalletConnectEvents.wc_session_reject_error]: WalletConnectRequestRejectSessionProperties & {
     error: string
   }
   [WalletConnectEvents.wc_session_remove_start]: WalletConnectDefaultProperties
@@ -1202,6 +1223,10 @@ type SwapQuoteEvent = SwapEvent & {
   provider: string
 }
 
+export interface SwapTimeMetrics {
+  quoteToTransactionElapsedTimeInMs?: number // The elapsed time since the quote was received until the swap transaction is sent to the blockchain
+  quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
+}
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1227,17 +1252,23 @@ interface SwapEventsProperties {
     toToken: string
     fromToken: string
   }
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent & {
-    fromTokenBalance: string
-    swapExecuteTxId: string
-    swapApproveTxId: string
-  }
-  [SwapEvents.swap_execute_error]: SwapQuoteEvent & {
-    error: string
-    fromTokenBalance: string
-    swapExecuteTxId: string
-    swapApproveTxId: string
-  }
+  [SwapEvents.swap_execute_success]: SwapQuoteEvent &
+    SwapTimeMetrics & {
+      fromTokenBalance: string
+      swapExecuteTxId: string
+      swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
+    }
+  [SwapEvents.swap_execute_error]: SwapQuoteEvent &
+    SwapTimeMetrics & {
+      error: string
+      fromTokenBalance: string
+      swapExecuteTxId: string
+      swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
+    }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
@@ -1283,16 +1314,18 @@ interface AssetsEventsProperties {
         description: string
         balanceUsd: number
       }
+  [AssetsEvents.tap_claim_rewards]: undefined
 }
 
 interface NftsEventsProperties {
   [NftEvents.nft_error_screen_open]: undefined
-  [NftEvents.nft_image_load]: {
+  [NftEvents.nft_media_load]: {
     tokenId: string
     contractAddress: string
     url?: string
     origin: NftOrigin
     error?: string
+    mediaType: 'image' | 'video'
   }
   [NftEvents.nft_gallery_screen_open]: {
     numNfts: number
@@ -1309,6 +1342,30 @@ interface BuilderHooksProperties {
     error: string
   }
   [BuilderHooksEvents.hooks_disable_preview]: undefined
+}
+
+interface DappShortcutClaimRewardEvent {
+  rewardId: string
+  appName: string
+  appId: string
+  network: string
+  shortcutId: string
+}
+interface DappShortcutsProperties {
+  [DappShortcutsEvents.dapp_shortcuts_rewards_screen_open]: {
+    numRewards: number
+  }
+  [DappShortcutsEvents.dapp_shortcuts_reward_claim_start]: DappShortcutClaimRewardEvent & {
+    rewardTokens: string // comma separated
+    rewardAmounts: string // comma separated
+    claimableValueUsd: string
+  }
+  [DappShortcutsEvents.dapp_shortcuts_reward_claim_success]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_claim_error]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_propose]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_copy]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted]: DappShortcutClaimRewardEvent
+  [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: DappShortcutClaimRewardEvent
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
@@ -1344,4 +1401,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   TokenBottomSheetEventsProperties &
   AssetsEventsProperties &
   NftsEventsProperties &
-  BuilderHooksProperties
+  BuilderHooksProperties &
+  DappShortcutsProperties

@@ -21,7 +21,8 @@
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla Celo Ağı ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
-  "keylessBackupSettingsTitle": "Anahtarsız Yedekleme",
+  "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
+  "setup": "Oluştur",
   "restartModalSwitchOff": {
     "header": "Veri Tasarrufunu Kapatmak İçin Uygulamayı Tekrar Başlatın",
     "body": "Veri Tasarrufu'nu açmak veya kapatmak için uygulamayı yeniden başlatmanız ve bu ekrana geri dönmeniz gerekecektir.",
@@ -100,6 +101,23 @@
     "restore": {
       "title": "Telefon numaranızı doğrulayın",
       "subtitle": "Yedeklemeyi ayarlamak için daha önce kullandığınız telefon numarasını girin.\n\nBu numaranın size ait olduğunu doğrulamak için size bir kod göndereceğiz."
+    }
+  },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Yedekleme devam ediyor..."
+      },
+      "completed": {
+        "title": "Yedekleme tamamlandı",
+        "body": "Artık cüzdanınızı e-posta adresiniz ve telefon numaranızla kurtarabilirsiniz."
+      },
+      "failed": {
+        "title": "Anahtarsız yedekleme kullanılamıyor",
+        "body": "Anahtarsız yedeklemeyi daha sonra ayarlayabilir veya manuel olarak yedekleyerek hesabınızı şimdi koruyabilirsiniz.",
+        "later": "Daha sonra yedekleyeceğim.",
+        "manual": "Manuel Yedekleme"
+      }
     }
   },
   "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Bunları güvende tutun!",
@@ -1058,7 +1076,29 @@
     "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
-    "transactionDataCopied": "İşlem verileri kopyalandı"
+    "transactionDataCopied": "İşlem verileri kopyalandı",
+    "unsupportedChain": {
+      "title": "Desteklenmeyen zincir",
+      "description": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Desteklenmeyen zincir",
+        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyorum. Lütfen uygulama tarafında Celo'nun seçili olduğundan emin olun."
+      },
+      "warnUnsupportedChains": {
+        "title": "Desteklenmeyen zincir",
+        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Desteklenmeyen yöntemler",
+        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bazı yöntemleri belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Desteklenmeyen olaylar",
+        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bazı olayları belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
+      }
+    }
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
@@ -1095,6 +1135,7 @@
   "sent": "Gönderildi",
   "received": "Alındı",
   "viewAll": "Tümünü Göster",
+  "noNotificationsPlaceholder": "Hepiniz yetiştiniz!",
   "thanksForVerifying": "Bağlandığınız için teşekkürler",
   "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dollar'larını biriktirebileceğiniz yerdir",
   "dinner": "Akşam Yemeği",
@@ -1334,7 +1375,8 @@
       "claimButton": "İddia",
       "claimedLabel": "Talep Edildi",
       "rewardLabel": "Mevcut ödül",
-      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz"
+      "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz",
+      "confirmingReward": "ONAYLANIYOR"
     },
     "claimRewardFailure": "Ödülünüzü talep ederken bir hata oluştu, lütfen daha sonra tekrar deneyin"
   },
@@ -1373,9 +1415,9 @@
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
-    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
-    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. <0>Daha fazla bilgi edinin.</0>",
+    "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
+    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1775,6 +1817,9 @@
     },
     "invalidApiUrl": "Geçersiz kanca önizleme API URL'si",
     "bannerTitle": "Kancalar önizlemesi etkin, devre dışı bırakmak için dokunun"
+  },
+  "assets": {
+    "claimRewards": "Ödüllerinizi Alın"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

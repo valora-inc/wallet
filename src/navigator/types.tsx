@@ -1,6 +1,7 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
+import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
@@ -85,6 +86,9 @@ export type StackParamList = {
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.DappShortcutsRewards]: undefined
+  [Screens.DappShortcutTransactionRequest]: {
+    rewardId: string
+  }
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
@@ -141,6 +145,17 @@ export type StackParamList = {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
     fiatAccount: FiatAccount
+  }
+  [Screens.KeylessBackupPhoneCodeInput]: {
+    keylessBackupFlow: KeylessBackupFlow
+    e164Number: string
+  }
+  [Screens.KeylessBackupPhoneInput]: {
+    keylessBackupFlow: KeylessBackupFlow
+    selectedCountryCodeAlpha2?: string
+  }
+  [Screens.KeylessBackupProgress]: {
+    keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.KycDenied]: {
     flow: CICOFlow
@@ -203,6 +218,7 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
+  [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
@@ -228,10 +244,6 @@ export type StackParamList = {
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
-  }
-  [Screens.KeylessBackupPhoneInput]: {
-    keylessBackupFlow: KeylessBackupFlow
-    selectedCountryCodeAlpha2?: string
   }
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
@@ -279,7 +291,9 @@ export type StackParamList = {
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SetUpKeylessBackup]: undefined
-  [Screens.SignInWithEmail]: undefined
+  [Screens.SignInWithEmail]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
@@ -330,11 +344,14 @@ export type StackParamList = {
         type: WalletConnectRequestType.Action
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
+        supportedChains: string[]
       }
     | {
         type: WalletConnectRequestType.Session
         version: 2
         pendingSession: Web3WalletTypes.EventArguments['session_proposal']
+        namespacesToApprove: SessionTypes.Namespaces | null // if null, we need to reject the session
+        supportedChains: string[]
       }
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined

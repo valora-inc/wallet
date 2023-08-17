@@ -1,9 +1,9 @@
-import { initializeFirebase } from 'src/firebase/saga'
+import firebase from '@react-native-firebase/app'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { getAccount } from 'src/web3/saga'
 import { initializeAuth, initializeCloudMessaging } from 'src/firebase/firebase'
-import firebase from '@react-native-firebase/app'
+import { initializeFirebase } from 'src/firebase/saga'
+import { getAccount } from 'src/web3/saga'
 
 jest.mock('@react-native-firebase/app', () => ({
   app: () => ({ options: { databaseURL: 'https://test-firebase.valoraapp.com' } }),

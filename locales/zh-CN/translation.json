@@ -21,7 +21,8 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过信任节点与 Celo 网络通信。您可以随时在应用程序设置中更改此模式。",
-  "keylessBackupSettingsTitle": "免密钥备份",
+  "keylessBackupSettingsTitle": "电子邮件和电话恢复",
+  "setup": "设置",
   "restartModalSwitchOff": {
     "header": "重新启动以关闭数据保护模式",
     "body": "若要反复开启或关闭数据保护模式，您将需要重新启动应用程序并返回此屏幕。",
@@ -100,6 +101,23 @@
     "restore": {
       "title": "验证您的电话号码。",
       "subtitle": "输入您之前用于设置备份的电话号码。\n\n我们会向您发送一个代码，以验证这个号码归您所有。"
+    }
+  },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "正在备份..."
+      },
+      "completed": {
+        "title": "备份完成",
+        "body": "现在，您可以通过电子邮件地址和电话号码找回钱包。"
+      },
+      "failed": {
+        "title": "无法使用无钥匙备份",
+        "body": "您可以稍后设置无键备份，或者现在就手动备份，保护您的账户。",
+        "later": "我稍后再备份",
+        "manual": "手动备份"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
@@ -1056,7 +1074,29 @@
     "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
     "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
     "computeSharedSecret": "{{dappName}} 想要生成密钥。",
-    "transactionDataCopied": "交易数据已复制"
+    "transactionDataCopied": "交易数据已复制",
+    "unsupportedChain": {
+      "title": "无支撑链",
+      "description": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 Celo 是 dapp 上的活动链。"
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "无支撑链",
+        "description": "{{dappName}} 希望连接 {{appName}}不支持的链。请确保在 dapp 端选择了 Celo。"
+      },
+      "warnUnsupportedChains": {
+        "title": "无支撑链",
+        "description": "{{dappName}} 没有指定 Celo 为支持链。某些功能可能无法按预期运行。"
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "不支持的方法",
+        "description": "{{dappName}} 指定了一些 {{appName}}不支持的方法。某些功能可能无法按预期运行。"
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "不支持的事件",
+        "description": "{{dappName}} 指定了一些 {{appName}}不支持的事件。某些功能可能无法按预期运行。"
+      }
+    }
   },
   "sessionInfo": "此应用程序可能会要求执行以下操作：",
   "description": {
@@ -1093,6 +1133,7 @@
   "sent": "已发送",
   "received": "已接收",
   "viewAll": "查看全部",
+  "noNotificationsPlaceholder": "你们都赶上了！",
   "thanksForVerifying": "感谢关联",
   "goldIsWhereYouSave": "您可以在 CELO 存储 Celo 美元",
   "dinner": "餐费",
@@ -1332,7 +1373,8 @@
       "claimButton": "索赔",
       "claimedLabel": "已申请",
       "rewardLabel": "可获得的奖励",
-      "claimSuccess": "成功！您领取了奖励"
+      "claimSuccess": "成功！您领取了奖励",
+      "confirmingReward": "确认"
     },
     "claimRewardFailure": "领取奖励时出现错误，请稍后再试。"
   },
@@ -1371,9 +1413,9 @@
   "merchantWalletUnlockError": "解锁您的钱包时出现问题，请重试",
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "购买交易由我们的合作伙伴供应商提供支持。您所在地区可能无法使用某些付款方式。",
-    "disclaimerWithSomePaymentsUnavailable": "支付交易由 Celo 上的合作伙伴提供支持。您所在地区可能无法使用某些支付方式。<0>了解更多。</0>",
-    "disclaimer": "支付交易由 Celo 上的合作伙伴提供支持。<0>了解更多。</0>",
+    "somePaymentsUnavailable": "购买交易由我们的合作伙伴供应商提供支持。您所在地区可能无法使用某些付款方式。费用可能有所不同。",
+    "disclaimerWithSomePaymentsUnavailable": "支付交易由 Celo 上的合作伙伴提供支持。您所在地区可能无法使用某些支付方式。费用可能有所不同。<0>了解更多。</0>",
+    "disclaimer": "支付交易由 Celo 上的合作伙伴提供支持。费用可能有所不同。<0>了解更多。</0>",
     "learnMore": "了解更多。",
     "whyMissingPayments": "为什么我看不到更多的付款方式？",
     "dismiss": "忽略",
@@ -1773,6 +1815,9 @@
     },
     "invalidApiUrl": "预览API URL无效",
     "bannerTitle": "钩子预览已启用，点击禁用"
+  },
+  "assets": {
+    "claimRewards": "领取奖励"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

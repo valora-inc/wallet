@@ -92,7 +92,7 @@ function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
 
   return (
     <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
-      <Touchable onPress={onPress} testID={`Dapp/${dapp.id}`}>
+      <Touchable onPress={onPress} borderRadius={8} testID={`Dapp/${dapp.id}`}>
         <DappCardContent
           dapp={dapp}
           onFavoriteDapp={onFavoriteDapp}

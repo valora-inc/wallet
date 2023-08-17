@@ -21,7 +21,8 @@
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với Celo Network qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
-  "keylessBackupSettingsTitle": "Sao lưu không dùng mã khóa",
+  "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "setup": "Thiết lập",
   "restartModalSwitchOff": {
     "header": "Khởi động lại để tắt chế độ Tiết kiệm dữ liệu",
     "body": "Để bật và tắt chế độ Tiết kiệm dữ liệu liên tục, bạn cần khởi động lại ứng dụng và quay lại màn hình này.",
@@ -100,6 +101,23 @@
     "restore": {
       "title": "Xác minh số điện thoại của bạn",
       "subtitle": "Nhập số điện thoại mà trước đây bạn đã sử dụng để thiết lập sao lưu.\n\nChúng tôi sẽ gửi cho bạn một mã để xác minh rằng đây là số của bạn."
+    }
+  },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in progress..."
+      },
+      "completed": {
+        "title": "Backup complete",
+        "body": "You are now able to recover your wallet with your email address and phone number."
+      },
+      "failed": {
+        "title": "Keyless backup unavailable",
+        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "later": "I'll backup later",
+        "manual": "Manual Backup"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
@@ -1056,7 +1074,29 @@
     "sendTransaction": "{{dappName}} muốn xác nhận giao dịch Celo.",
     "decryptPayload": "{{dappName}} muốn giải mã tải trọng dữ liệu.",
     "computeSharedSecret": "{{dappName}} muốn tạo bí mật.",
-    "transactionDataCopied": "Dữ liệu giao dịch được sao chép"
+    "transactionDataCopied": "Dữ liệu giao dịch được sao chép",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+      },
+      "warnUnsupportedChains": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Unsupported methods",
+        "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Unsupported events",
+        "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
+      }
+    }
   },
   "sessionInfo": "Ứng dụng này có thể sẽ yêu cầu thực hiện các thao tác sau:",
   "description": {
@@ -1093,6 +1133,7 @@
   "sent": "Đã gửi",
   "received": "Đã nhận",
   "viewAll": "Xem tất cả",
+  "noNotificationsPlaceholder": "You're all caught up!",
   "thanksForVerifying": "Cảm ơn bạn đã kết nối",
   "goldIsWhereYouSave": "CELO là nơi bạn có thể tiết kiệm Đô la Celo của mình",
   "dinner": "Bữa tối",
@@ -1332,7 +1373,8 @@
       "claimButton": "Claim",
       "claimedLabel": "Claimed",
       "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward"
+      "claimSuccess": "Success! You claimed a reward",
+      "confirmingReward": "CONFIRMING"
     },
     "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
@@ -1371,9 +1413,9 @@
   "merchantWalletUnlockError": "Đã xảy ra lỗi khi mở khóa ví của bạn, vui lòng thử lại",
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
-    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
-    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. <0>Tìm hiểu thêm.</0>",
+    "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
+    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
+    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. <0>Tìm hiểu thêm.</0>",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
@@ -1773,6 +1815,9 @@
     },
     "invalidApiUrl": "Invalid hooks preview API URL",
     "bannerTitle": "Hooks preview enabled, tap to disable"
+  },
+  "assets": {
+    "claimRewards": "Xác nhận tiền thưởng"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

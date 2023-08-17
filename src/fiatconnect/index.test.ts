@@ -6,8 +6,8 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
-import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
 import KeychainAccountManager from 'src/web3/KeychainAccountManager'
+import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
 import networkConfig from 'src/web3/networkConfig'
 import {
   mockAccount,
@@ -38,6 +38,10 @@ jest.mock('src/utils/Logger', () => ({
     info: jest.fn(),
     error: jest.fn(),
   },
+}))
+
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({ cico: 30 }),
 }))
 
 jest.mock('src/web3/ValoraCeloWallet', () => {
@@ -75,7 +79,8 @@ describe('FiatConnect helpers', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
       const providers = await getFiatConnectProviders(mockAccount, 'fake-provider')
       expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.getFiatConnectProvidersUrl}?address=0x0000000000000000000000000000000000007E57&providers=fake-provider`
+        `${networkConfig.getFiatConnectProvidersUrl}?address=0x0000000000000000000000000000000000007E57&providers=fake-provider`,
+        expect.any(Object)
       )
       expect(providers).toMatchObject([fakeProviderInfo])
     })
@@ -89,7 +94,8 @@ describe('FiatConnect helpers', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 200 })
       await getFiatConnectProviders(mockAccount)
       expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.getFiatConnectProvidersUrl}?address=0x0000000000000000000000000000000000007E57`
+        `${networkConfig.getFiatConnectProvidersUrl}?address=0x0000000000000000000000000000000000007E57`,
+        expect.any(Object)
       )
     })
   })
@@ -170,8 +176,14 @@ describe('FiatConnect helpers', () => {
         status: 200,
       })
       await getFiatConnectQuotes({ ...getQuotesInput, flow: CICOFlow.CashOut })
-      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('cryptoAmount=100'))
-      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('fiatAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('cryptoAmount=100'),
+        expect.any(Object)
+      )
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.not.stringContaining('fiatAmount=100'),
+        expect.any(Object)
+      )
       expect(Logger.error).not.toHaveBeenCalled()
     })
     it('calls with fiatAmount for cash in', async () => {
@@ -179,16 +191,28 @@ describe('FiatConnect helpers', () => {
         status: 200,
       })
       await getFiatConnectQuotes(getQuotesInput)
-      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('fiatAmount=100'))
-      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('cryptoAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('fiatAmount=100'),
+        expect.any(Object)
+      )
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.not.stringContaining('cryptoAmount=100'),
+        expect.any(Object)
+      )
     })
     it('calls with fiatAmount for cash in when crypto is CELO', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
         status: 200,
       })
       await getFiatConnectQuotes({ ...getQuotesInput, digitalAsset: CiCoCurrency.CELO })
-      expect(mockFetch).toHaveBeenCalledWith(expect.not.stringContaining('cryptoAmount=100'))
-      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('fiatAmount=100'))
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.not.stringContaining('cryptoAmount=100'),
+        expect.any(Object)
+      )
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('fiatAmount=100'),
+        expect.any(Object)
+      )
     })
   })
   describe('loginWithFiatConnectProvider', () => {

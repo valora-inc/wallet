@@ -9,6 +9,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
+import { KeylessBackupStatus } from 'src/keylessBackup/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
@@ -2384,6 +2385,54 @@ export const v137Schema = {
   },
 }
 
+export const v138Schema = {
+  ...v137Schema,
+  _persist: {
+    ...v137Schema._persist,
+    version: 138,
+  },
+  keylessBackup: {
+    ...v137Schema.keylessBackup,
+    valoraKeyshare: null,
+  },
+}
+
+export const v139Schema = {
+  ...v138Schema,
+  _persist: {
+    ...v138Schema._persist,
+    version: 139,
+  },
+  keylessBackup: {
+    ...v138Schema.keylessBackup,
+    backupStatus: KeylessBackupStatus.NotStarted,
+  },
+}
+
+export const v140Schema = {
+  ...v139Schema,
+  _persist: {
+    ...v139Schema._persist,
+    version: 140,
+  },
+  keylessBackup: {
+    ..._.omit(v139Schema.keylessBackup, 'google'),
+    googleIdToken: null,
+  },
+}
+
+export const v141Schema = {
+  ...v140Schema,
+  _persist: {
+    ...v140Schema._persist,
+    version: 141,
+  },
+  keylessBackup: {
+    ...v140Schema.keylessBackup,
+    torusKeyshare: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v137Schema as Partial<RootState>
+  return v141Schema as Partial<RootState>
 }

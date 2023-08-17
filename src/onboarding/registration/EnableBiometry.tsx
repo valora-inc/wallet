@@ -32,6 +32,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 
 const TAG = 'EnableBiometry'
 
@@ -97,7 +98,8 @@ export default function EnableBiometry({ navigation }: Props) {
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
       ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_complete)
       handleNavigateToNextScreen()
-    } catch (error) {
+    } catch (err) {
+      const error = ensureError(err)
       ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_error)
       if (!isUserCancelledError(error)) {
         Logger.error(TAG, 'Error enabling biometry', error)

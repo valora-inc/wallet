@@ -21,7 +21,8 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia łączenie się z Celo Network za pośrednictwem zaufanego węzła. Możesz włączyć lub wyłączyć ten tryb w każdej chwili w ustawieniach aplikacji.",
-  "keylessBackupSettingsTitle": "Kopia zapasowa bez klucza",
+  "keylessBackupSettingsTitle": "Odzyskiwanie poczty e-mail i telefonu",
+  "setup": "Ustaw",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
     "body": "Aby wielokrotnie włączać i wyłączać oszczędzanie danych, musisz ponownie uruchomić aplikację i wrócić do tego ekranu.",
@@ -100,6 +101,23 @@
     "restore": {
       "title": "Zweryfikuj swój numer telefonu",
       "subtitle": "Wprowadź numer telefonu użyty wcześniej do skonfigurowania kopii zapasowej.\n\nWyślemy Ci kod, aby zweryfikować, czy ten numer należy do Ciebie."
+    }
+  },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Kopia zapasowa w toku..."
+      },
+      "completed": {
+        "title": "Kopia zapasowa zakończona",
+        "body": "Możesz teraz odzyskać swój portfel za pomocą adresu e-mail i numeru telefonu."
+      },
+      "failed": {
+        "title": "Bezkluczykowa kopia zapasowa niedostępna",
+        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub chronić swoje konto teraz, tworząc kopie zapasowe ręcznie.",
+        "later": "Zrobię kopię zapasową później",
+        "manual": "Ręczna kopia zapasowa"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Dbaj o bezpieczeństwo!",
@@ -1062,7 +1080,29 @@
     "sendTransaction": "{{dappName}} chce wysłać transakcję Celo.",
     "decryptPayload": "{{dappName}} chce odszyfrować ładunek danych.",
     "computeSharedSecret": "{{dappName}} chce wygenerować tajemnice.",
-    "transactionDataCopied": "Dane transakcji zostały skopiowane"
+    "transactionDataCopied": "Dane transakcji zostały skopiowane",
+    "unsupportedChain": {
+      "title": "Nieobsługiwany łańcuch",
+      "description": "{{dappName}} żąda tej akcji na łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie aplikacji."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Nieobsługiwany łańcuch",
+        "description": "{{dappName}} chcesz połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest wybrane po stronie aplikacji."
+      },
+      "warnUnsupportedChains": {
+        "title": "Nieobsługiwany łańcuch",
+        "description": "{{dappName}} nie określiła Celo jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Nieobsługiwane metody",
+        "description": "{{dappName}} określono niektóre metody, które nie są obsługiwane przez {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Nieobsługiwane zdarzenia",
+        "description": "{{dappName}} określono niektóre zdarzenia, które nie są obsługiwane przez {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+      }
+    }
   },
   "sessionInfo": "Ta aplikacja może poprosić o wykonanie następujących operacji:",
   "description": {
@@ -1099,6 +1139,7 @@
   "sent": "Wysłano",
   "received": "Otrzymano",
   "viewAll": "Zobacz wszystkie",
+  "noNotificationsPlaceholder": "Wszyscy jesteście dogonieni!",
   "thanksForVerifying": "Dziękujemy za połączenie",
   "goldIsWhereYouSave": "CELO to miejsce, w którym możesz zaoszczędzić swoje Celo Dolary",
   "dinner": "Kolacja",
@@ -1338,7 +1379,8 @@
       "claimButton": "Roszczenie",
       "claimedLabel": "Roszczenie",
       "rewardLabel": "Dostępna nagroda",
-      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę"
+      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę",
+      "confirmingReward": "POTWIERDZENIE"
     },
     "claimRewardFailure": "Wystąpił błąd podczas odbierania nagrody, spróbuj ponownie później"
   },
@@ -1377,9 +1419,9 @@
   "merchantWalletUnlockError": "Coś poszło nie tak podczas odblokowywania portfela, spróbuj ponownie",
   "noMoreTransactions": "Nie ma więcej transakcji",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Zakupy są obsługiwane przez naszych partnerów. Niektóre metody płatności są niedostępne w Twoim regionie.",
-    "disclaimerWithSomePaymentsUnavailable": "Płatności są obsługiwane przez partnerów w Celo. Niektóre metody płatności są niedostępne w Twoim regionie. <0>Dowiedz się więcej.</0>",
-    "disclaimer": "Płatności są obsługiwane przez partnerów w Celo. <0>Dowiedz się więcej.</0>",
+    "somePaymentsUnavailable": "Zakupy są obsługiwane przez naszych partnerów. Opłaty mogą się różnić. Niektóre metody płatności są niedostępne w Twoim regionie.",
+    "disclaimerWithSomePaymentsUnavailable": "Płatności są obsługiwane przez partnerów w Celo. Opłaty mogą się różnić. Niektóre metody płatności są niedostępne w Twoim regionie. <0>Dowiedz się więcej.</0>",
+    "disclaimer": "Płatności są obsługiwane przez partnerów w Celo. Opłaty mogą się różnić. <0>Dowiedz się więcej.</0>",
     "learnMore": "Dowiedz się więcej.",
     "whyMissingPayments": "Dlaczego nie widzę więcej metod płatności?",
     "dismiss": "Odrzuć",
@@ -1779,6 +1821,9 @@
     },
     "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków",
     "bannerTitle": "Podgląd haków włączony, dotknij, aby wyłączyć"
+  },
+  "assets": {
+    "claimRewards": "Odbierz nagrody"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

@@ -21,7 +21,8 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณเชื่อมต่อกับเครือข่าย Celo ผ่านวิธีการที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในการตั้งค่าแอป",
-  "keylessBackupSettingsTitle": "การสำรองข้อมูลแบบไร้กุญแจ",
+  "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "setup": "ตั้งค่า",
   "restartModalSwitchOff": {
     "header": "รีสตาร์ทเพื่อปิดโหมดประหยัดข้อมูล",
     "body": "หากต้องการปิดและเปิดโหมดประหยัดข้อมูลซ้ำ คุณจะต้องรีสตาร์ทแอปแล้วกลับมาที่หน้าจอนี้",
@@ -100,6 +101,23 @@
     "restore": {
       "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
       "subtitle": "กรอกหมายเลขโทรศัพท์เดียวกับที่ใช้ก่อนหน้านี้เพื่อตั้งค่าการสำรองข้อมูล\n\nเราจะส่งรหัสเพื่อให้คุณยืนยันว่าหมายเลขนี้เป็นหมายเลขของคุณจริง"
+    }
+  },
+  "keylessBackupStatus": {
+    "setup": {
+      "inProgress": {
+        "title": "Backup in progress..."
+      },
+      "completed": {
+        "title": "Backup complete",
+        "body": "You are now able to recover your wallet with your email address and phone number."
+      },
+      "failed": {
+        "title": "Keyless backup unavailable",
+        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "later": "I'll backup later",
+        "manual": "Manual Backup"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ โปรดเก็บให้ปลอดภัย",
@@ -1056,7 +1074,29 @@
     "sendTransaction": "{{dappName}} ต้องการส่งธุรกรรม CELO",
     "decryptPayload": "{{dappName}} ต้องการถอดรหัสข้อมูลของข้อมูล",
     "computeSharedSecret": "{{dappName}} ต้องการสร้างความลับ",
-    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก"
+    "transactionDataCopied": "ข้อมูลการทำธุรกรรมคัดลอก",
+    "unsupportedChain": {
+      "title": "Unsupported chain",
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    },
+    "session": {
+      "failUnsupportedNamespace": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+      },
+      "warnUnsupportedChains": {
+        "title": "Unsupported chain",
+        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedMethods": {
+        "title": "Unsupported methods",
+        "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
+      },
+      "warnSomeUnsupportedEvents": {
+        "title": "Unsupported events",
+        "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
+      }
+    }
   },
   "sessionInfo": "แอปพลิเคชั่นนี้อาจขอดำเนินการดังต่อไปนี้:",
   "description": {
@@ -1093,6 +1133,7 @@
   "sent": "ที่ส่ง",
   "received": "ที่ได้รับ",
   "viewAll": "ดูทั้งหมด",
+  "noNotificationsPlaceholder": "You're all caught up!",
   "thanksForVerifying": "ขอขอบคุณสำหรับการเชื่อมต่อ",
   "goldIsWhereYouSave": "CELO คือที่ที่คุณสามารถเก็บเงิน Celo ดอลลาร์ที่คุณมี",
   "dinner": "อาหารค่ำ",
@@ -1332,7 +1373,8 @@
       "claimButton": "Claim",
       "claimedLabel": "Claimed",
       "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward"
+      "claimSuccess": "Success! You claimed a reward",
+      "confirmingReward": "CONFIRMING"
     },
     "claimRewardFailure": "There was an error claiming your reward, please try again later"
   },
@@ -1371,9 +1413,9 @@
   "merchantWalletUnlockError": "มีบางอย่างผิดปกติเมื่อปลดล็อกกระเป๋าเงินของคุณ โปรดลองอีกครั้ง",
   "noMoreTransactions": "ไม่มีธุรกรรมเพิ่มอีก",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "การซื้อดำเนินการโดยผู้ให้บริการที่เป็นพันธมิตรของเรา วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ",
-    "disclaimerWithSomePaymentsUnavailable": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ <0>ดูข้อมูลเพิ่มเติม</0>",
-    "disclaimer": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo <0>ดูข้อมูลเพิ่มเติม</0>",
+    "somePaymentsUnavailable": "การซื้อดำเนินการโดยผู้ให้บริการที่เป็นพันธมิตรของเรา วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ ค่าธรรมเนียมอาจแตกต่างกันไป",
+    "disclaimerWithSomePaymentsUnavailable": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo ค่าธรรมเนียมอาจแตกต่างกันไป วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ <0>ดูข้อมูลเพิ่มเติม</0>",
+    "disclaimer": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo ค่าธรรมเนียมอาจแตกต่างกันไป <0>ดูข้อมูลเพิ่มเติม</0>",
     "learnMore": "ดูข้อมูลเพิ่มเติม",
     "whyMissingPayments": "ทำไมฉันจึงเห็นวิธีการชำระเงินเพียงเท่านี้",
     "dismiss": "ปิด",
@@ -1773,6 +1815,9 @@
     },
     "invalidApiUrl": "Invalid hooks preview API URL",
     "bannerTitle": "Hooks preview enabled, tap to disable"
+  },
+  "assets": {
+    "claimRewards": "ขอรับรางวัล"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

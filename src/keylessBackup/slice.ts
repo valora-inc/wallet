@@ -1,37 +1,51 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 
 export interface State {
-  google: {
-    status: 'idle' | 'loading' | 'success' | 'error'
-    idToken: string | null
-  }
+  googleIdToken: string | null
+  valoraKeyshare: string | null
+  torusKeyshare: string | null
+  backupStatus: KeylessBackupStatus
 }
 
 export const initialState: State = {
-  google: {
-    status: 'idle',
-    idToken: null,
-  },
+  googleIdToken: null,
+  valoraKeyshare: null,
+  torusKeyshare: null,
+  backupStatus: KeylessBackupStatus.NotStarted,
 }
 
 export const slice = createSlice({
   name: 'keylessBackup',
   initialState,
   reducers: {
-    googleSignInStarted: (state) => {
-      state.google.status = 'loading'
-      state.google.idToken = null
-    },
     googleSignInCompleted: (state, action: PayloadAction<{ idToken: string }>) => {
-      state.google.status = 'success'
-      state.google.idToken = action.payload.idToken
+      state.googleIdToken = action.payload.idToken
     },
-    googleSignInFailed: (state) => {
-      state.google.status = 'error'
+    valoraKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
+      state.valoraKeyshare = action.payload.keyshare
+    },
+    torusKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
+      state.torusKeyshare = action.payload.keyshare
+    },
+    keylessBackupStarted: (
+      state,
+      action: PayloadAction<{ keylessBackupFlow: KeylessBackupFlow }>
+    ) => {
+      state.backupStatus = KeylessBackupStatus.InProgress
+    },
+    keylessBackupFailed: (state) => {
+      state.backupStatus = KeylessBackupStatus.Failed
     },
   },
 })
 
-export const { googleSignInStarted, googleSignInCompleted, googleSignInFailed } = slice.actions
+export const {
+  googleSignInCompleted,
+  valoraKeyshareIssued,
+  torusKeyshareIssued,
+  keylessBackupStarted,
+  keylessBackupFailed,
+} = slice.actions
 
 export default slice.reducer

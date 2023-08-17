@@ -94,6 +94,11 @@ export const STATSIG_ENV = {
 }
 export const E2E_TEST_STATSIG_ID = 'e2e_test_statsig_id'
 
+// Keyless backup settings
+export const TORUS_NETWORK = DEFAULT_TESTNET === 'mainnet' ? 'cyan' : 'testnet'
+export const TORUS_SIGNER_BASE_URL =
+  TORUS_NETWORK === 'cyan' ? 'https://signer-polygon.tor.us' : 'https://signer.tor.us'
+
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
@@ -113,11 +118,12 @@ export const WALLET_CONNECT_PROJECT_ID =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WALLET_CONNECT_PROJECT_ID') ??
   // valora-e2e-client project in the WC project dashboard
   '8f6f2517f4485c013849d38717ec90d1'
-export const GOOGLE_OAUTH_CLIENT_ID = keyOrUndefined(
-  secretsFile,
-  DEFAULT_TESTNET,
-  'GOOGLE_OAUTH_CLIENT_ID'
-)
+export const AUTH0_CLIENT_ID =
+  keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'AUTH0_CLIENT_ID') ??
+  // dev app client id as fallback for e2e tests
+  'YgsHPq93Egfap5Wc4iEQlGyQMqjLeBf2'
+
+export const AUTH0_DOMAIN = configOrThrow('AUTH0_DOMAIN')
 
 export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
   {

@@ -1,5 +1,4 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getClient } from 'src/in-house-liquidity/client'
 import { getWalletAsync } from 'src/web3/contracts'
 
@@ -11,6 +10,10 @@ jest.mock('src/web3/contracts', () => ({
 
 jest.mock('src/fiatconnect/clients')
 
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({ cico: 30 }),
+}))
+
 describe('getClient', () => {
   afterEach(() => {
     jest.clearAllMocks()
@@ -20,10 +23,7 @@ describe('getClient', () => {
     const ihlClient = await getClient()
     expect(getWalletAsync).toHaveBeenCalled()
     expect(ihlClient).toBeInstanceOf(SiweClient)
-    expect(ihlClient).toHaveProperty(
-      'config.timeout',
-      REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds * 1000
-    )
+    expect(ihlClient).toHaveProperty('config.timeout', 30000)
   })
 
   it('returns an already existing client', async () => {

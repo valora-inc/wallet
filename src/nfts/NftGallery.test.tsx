@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import NftGallery from 'src/nfts/NftGallery'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -31,7 +32,7 @@ describe('NftGallery', () => {
   })
 
   it('shows NFTs from redux store', () => {
-    const { getAllByTestId } = render(
+    const { getAllByTestId, queryByTestId } = render(
       <Provider store={defaultStore}>
         <NftGallery />
       </Provider>
@@ -39,14 +40,27 @@ describe('NftGallery', () => {
 
     // Should load two NFTs images and one placeholder
     expect(getAllByTestId('NftGallery/NftImage')).toHaveLength(2)
-    expect(getAllByTestId('NftGallery/NftImage')[0]).toHaveProp('source', {
-      uri: mockNftAllFields.media[0].gateway,
-    })
-    expect(getAllByTestId('NftGallery/NftImage')[1]).toHaveProp('source', {
-      uri: mockNftMinimumFields.media[0].gateway,
-    })
-    // Placeholder when metadata is null
-    expect(getAllByTestId('ImageErrorIcon')).toHaveLength(1)
+    expect(getAllByTestId('NftGallery/NftImage')[0]).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftAllFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
+    expect(getAllByTestId('NftGallery/NftImage')[1]).toHaveProp(
+      'source',
+      expect.objectContaining({
+        uri: mockNftMinimumFields.media[0].gateway,
+        headers: {
+          origin: networkConfig.nftsValoraAppUrl,
+        },
+      })
+    )
+
+    // Expect NFTs with no metadata not to display
+    expect(queryByTestId('ImageErrorIcon')).toBeFalsy()
   })
 
   it('shows error message when error', () => {
@@ -93,7 +107,7 @@ describe('NftGallery', () => {
     )
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_gallery_screen_open, {
-      numNfts: 3,
+      numNfts: 2,
     })
   })
 })

@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NftImage from 'src/nfts/NftImage'
+import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { nftsErrorSelector, nftsLoadingSelector, nftsSelector } from 'src/nfts/selectors'
+import {
+  nftsErrorSelector,
+  nftsLoadingSelector,
+  nftsWithMetadataSelector,
+} from 'src/nfts/selectors'
 import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
@@ -28,7 +33,8 @@ export default function NftGallery() {
   const dispatch = useDispatch()
   const loading = useSelector(nftsLoadingSelector)
   const error = useSelector(nftsErrorSelector)
-  const nfts = useSelector(nftsSelector)
+  const nfts = useSelector(nftsWithMetadataSelector)
+  const insets = useSafeAreaInsets()
 
   useEffect(() => {
     ValoraAnalytics.track(NftEvents.nft_gallery_screen_open, { numNfts: nfts.length })
@@ -36,15 +42,20 @@ export default function NftGallery() {
   }, [])
 
   return (
-    <SafeAreaView testID="NftGallery" style={styles.safeAreaContainer} edges={['top']}>
-      <DrawerTopBar middleElement={<Text>{t('nftGallery.title')}</Text>} />
+    <SafeAreaView testID="NftGallery" style={styles.container} edges={['top']}>
+      <DrawerTopBar
+        middleElement={<Text style={headerStyles.headerTitle}>{t('nftGallery.title')}</Text>}
+      />
       {error ? (
         <NftsLoadError testID="NftGallery/NftsLoadErrorScreen" />
       ) : (
         <FlatList
           numColumns={2}
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           data={nfts}
-          contentContainerStyle={styles.contentContainer}
+          contentContainerStyle={[styles.contentContainer, { paddingBottom: insets.bottom }]}
+          // Workaround iOS setting an incorrect automatic inset at the top
+          scrollIndicatorInsets={{ top: 0.01 }}
           refreshControl={
             <RefreshControl
               tintColor={colors.greenBrand}
@@ -55,11 +66,9 @@ export default function NftGallery() {
             />
           }
           renderItem={({ item, index }) => (
-            <Touchable
-              borderless={false}
-              onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+            <View
               style={[
-                styles.touchableIcon,
+                styles.touchableContainer,
                 // For even indexes, add right margin; for odd indexes, add left margin.
                 // If the index is even and it's the last image, add a right margin to left-align the image in the last row.
                 index % 2 === 0
@@ -69,20 +78,32 @@ export default function NftGallery() {
                   : { marginLeft: Spacing.Regular16 },
               ]}
             >
-              <NftImage
-                nft={item}
-                testID="NftGallery/NftImage"
-                width={imageSize}
-                height={imageSize}
-                ErrorComponent={
-                  <View style={styles.errorView}>
-                    <ImageErrorIcon color="#C93717" />
-                  </View>
-                }
-                origin={NftOrigin.NftGallery}
-                borderRadius={Spacing.Smallest8}
-              />
-            </Touchable>
+              <Touchable
+                borderless={false}
+                onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+                style={styles.touchableIcon}
+              >
+                <NftMedia
+                  nft={item}
+                  testID="NftGallery/NftImage"
+                  width={imageSize}
+                  height={imageSize}
+                  ErrorComponent={
+                    <View style={styles.errorView}>
+                      <ImageErrorIcon />
+                      {item.metadata?.name && (
+                        <Text numberOfLines={2} style={styles.noNftMetadataText}>
+                          {item.metadata.name}
+                        </Text>
+                      )}
+                    </View>
+                  }
+                  origin={NftOrigin.NftGallery}
+                  borderRadius={Spacing.Regular16}
+                  mediaType="image"
+                />
+              </Touchable>
+            </View>
           )}
           keyExtractor={(item) => `${item.contractAddress}-${item.tokenId}`}
           ListEmptyComponent={
@@ -99,9 +120,11 @@ export default function NftGallery() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   contentContainer: {
     alignItems: 'center',
-    paddingBottom: '12%',
   },
   errorView: {
     width: imageSize,
@@ -112,8 +135,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
     borderRadius: Spacing.Regular16,
   },
+  itemSeparator: {
+    height: Spacing.Regular16,
+  },
   lastImage: {
     marginRight: variables.width / 2 - Spacing.Smallest8,
+  },
+  noNftMetadataText: {
+    ...fontStyles.small,
+    textAlign: 'center',
   },
   noNftsView: {
     padding: Spacing.Regular16,
@@ -124,11 +154,11 @@ const styles = StyleSheet.create({
     color: colors.gray3,
     textAlign: 'center',
   },
-  safeAreaContainer: {
-    flexGrow: 1,
+  touchableContainer: {
+    overflow: 'hidden',
+    borderRadius: Spacing.Regular16,
   },
   touchableIcon: {
-    marginBottom: Spacing.Regular16,
     borderRadius: Spacing.Regular16,
   },
 })

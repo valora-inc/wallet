@@ -8,8 +8,8 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import {
   appLock,
   inAppReviewRequested,
@@ -56,8 +56,8 @@ import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
-import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { navigateToURI } from 'src/utils/linking'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
@@ -224,7 +224,7 @@ describe('WalletConnect deeplinks', () => {
   })
 
   const connectionString = encodeURIComponent(
-    'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@1?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'
+    'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@2?relay-protocol=irn&symKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39'
   )
   const connectionLinks = [
     {

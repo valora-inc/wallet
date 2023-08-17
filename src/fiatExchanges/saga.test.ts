@@ -18,8 +18,8 @@ import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
 
 const now = Date.now()

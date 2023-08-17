@@ -42,6 +42,7 @@ export enum HomeEvents {
   view_token_balances = 'view_token_balances',
   view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
   home_action_pressed = 'home_action_pressed',
+  notification_bell_pressed = 'notification_bell_pressed',
 }
 
 export enum SettingsEvents {
@@ -78,14 +79,26 @@ export enum SettingsEvents {
   settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
 
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
+  settings_delete_keyless_backup = 'settings_delete_keyless_backup',
 }
 
 export enum KeylessBackupEvents {
+  // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
-  sign_in_with_google = 'sign_in_with_google',
-  sign_in_with_email_screen_cancel = 'sign_in_with_email_screen_cancel',
+  cab_sign_in_with_google = 'cab_sign_in_with_google',
+  cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
+  cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
   enter_phone_number_continue = 'enter_phone_number_continue',
+  cab_issue_sms_code_start = 'cab_issue_sms_code_start',
+  cab_issue_sms_code_success = 'cab_issue_sms_code_success',
+  cab_issue_sms_code_error = 'cab_issue_sms_code_error',
+  cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
+  cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
+  cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
+  cab_progress_completed_continue = 'cab_progress_completed_continue',
+  cab_progress_failed_later = 'cab_progress_failed_later',
+  cab_progress_failed_manual = 'cab_progress_failed_manual',
 }
 
 export enum OnboardingEvents {
@@ -597,11 +610,12 @@ export enum AssetsEvents {
   view_wallet_assets = 'view_wallet_assets', // When a user taps on the "Wallet Assets" segmented control
   view_dapp_positions = 'view_dapp_positions', // When a user taps on the "Dapp Positions" segmented control
   tap_asset = 'tap_asset', // When a user taps on an asset
+  tap_claim_rewards = 'tap_claim_rewards', // When a user taps on the "Claim Rewards" button
 }
 
 export enum NftEvents {
   nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
-  nft_image_load = 'nft_image_load', // When an NFT attempted to load contains error boolean for success or failure
+  nft_media_load = 'nft_media_load', // When attempting to load NFT media
   nft_gallery_screen_open = 'nft_gallery_screen_open', // When the gallery screen is mounted
 }
 
@@ -611,6 +625,17 @@ export enum BuilderHooksEvents {
   hooks_enable_preview_confirm = 'hooks_enable_preview_confirm', // When a user confirms enabling hooks preview
   hooks_enable_preview_error = 'hooks_enable_preview_error', // When a user encounters an error enabling hooks preview
   hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
+}
+
+export enum DappShortcutsEvents {
+  dapp_shortcuts_rewards_screen_open = 'dapp_shortcuts_rewards_screen_open', // When the rewards screen is mounted
+  dapp_shortcuts_reward_claim_start = 'dapp_shortcuts_reward_claim_start', // When the claim button is pressed
+  dapp_shortcuts_reward_claim_success = 'dapp_shortcuts_reward_claim_success', // When the claim shortcut succeeds
+  dapp_shortcuts_reward_claim_error = 'dapp_shortcuts_reward_claim_error', // When the claim shortcut fails
+  dapp_shortcuts_reward_tx_propose = 'dapp_shortcuts_reward_tx_propose', // When the user is shown the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_tx_copy', // When the user copies the transaction details via the bottom sheet
+  dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted', // When the user confirms the transaction via the bottom sheet
+  dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected', // When the user rejects the transaction via the bottom sheet
 }
 
 export type AnalyticsEventType =
@@ -645,3 +670,4 @@ export type AnalyticsEventType =
   | AssetsEvents
   | NftEvents
   | BuilderHooksEvents
+  | DappShortcutsEvents

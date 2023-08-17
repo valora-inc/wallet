@@ -8,26 +8,27 @@ import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
-  CANCELLED_PIN_INPUT,
-  DEFAULT_CACHE_ACCOUNT,
-  getPasswordSaga,
-  getPincode,
-  getPincodeWithBiometry,
-  PinBlocklist,
-  removeStoredPin,
-  retrieveOrGeneratePepper,
-  setPincodeWithBiometry,
-  updatePin,
-} from 'src/pincode/authentication'
-import {
   clearPasswordCaches,
   getCachedPepper,
   getCachedPin,
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
+import {
+  CANCELLED_PIN_INPUT,
+  DEFAULT_CACHE_ACCOUNT,
+  PinBlocklist,
+  getPasswordSaga,
+  getPincode,
+  getPincodeWithBiometry,
+  removeStoredPin,
+  retrieveOrGeneratePepper,
+  setPincodeWithBiometry,
+  updatePin,
+} from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { mocked } from 'ts-jest/utils'
@@ -168,7 +169,7 @@ describe(getPincode, () => {
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'storage/keychain',
       'Error retrieving stored item',
-      'some error',
+      ensureError('some error'),
       true
     )
     expectPincodeEntered()

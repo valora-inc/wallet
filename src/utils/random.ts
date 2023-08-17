@@ -7,10 +7,11 @@ export function shuffle(array: any[], seed: string) {
     temporaryValue,
     randomIndex
 
+  const randomizer = seedrandom(seed)
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
     // Pick a remaining element...
-    randomIndex = Math.floor(seedrandom(seed)() * currentIndex)
+    randomIndex = Math.floor(randomizer() * currentIndex)
     currentIndex -= 1
 
     // And swap it with the current element.

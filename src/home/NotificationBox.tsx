@@ -87,7 +87,7 @@ export enum NotificationBannerCTATypes {
   remote_notification_cta = 'remote_notification_cta',
 }
 
-interface Notification {
+export interface Notification {
   element: React.ReactElement
   priority: number
   id: string
@@ -386,7 +386,7 @@ function useSimpleActions() {
   return actions
 }
 
-function useNotifications() {
+export function useNotifications() {
   const notifications: Notification[] = []
 
   // Pending outgoing invites in escrow
