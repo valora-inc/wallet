@@ -289,7 +289,7 @@
     "redux-saga-test-plan": "^4.0.0-beta.2",
     "remote-redux-devtools": "^0.5.12",
     "shelljs": "^0.8.5",
-    "ts-jest": "^26.5.1",
+    "ts-jest": "^29.1.1",
     "ts-node": "10.7.0",
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.69.0",

@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import Mailer from 'react-native-mail'
@@ -10,8 +10,7 @@ import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
 jest.mock('src/account/zendesk')
@@ -76,23 +75,23 @@ describe('Contact', () => {
       fireEvent.changeText(getByTestId('MessageEntry'), 'Test Message')
       fireEvent.press(getByTestId('SubmitContactForm'))
 
-      await flushMicrotasksQueue()
-
-      expect(Mailer.mail).toHaveBeenCalledWith(
-        expect.objectContaining({
-          isHTML: true,
-          body: 'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"os":"android","country":"US","region":null,"deviceId":"someDeviceId","deviceBrand":"someBrand","deviceModel":"someModel","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedCentralized":false,"hooksPreviewEnabled":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
-          recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
-          subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
-          attachments: logAttachments,
-        }),
-        expect.any(Function)
+      await waitFor(() =>
+        expect(Mailer.mail).toHaveBeenCalledWith(
+          expect.objectContaining({
+            isHTML: true,
+            body: 'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"os":"android","country":"US","region":null,"deviceId":"someDeviceId","deviceBrand":"someBrand","deviceModel":"someModel","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedCentralized":false,"hooksPreviewEnabled":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
+            recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
+            subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
+            attachments: logAttachments,
+          }),
+          expect.any(Function)
+        )
       )
     })
   })
   describe('withZendesk', () => {
     it('submits zendesk request with logs, message, email, and name', async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       const mockedLogAttachments = Logger.getLogsToAttach as jest.Mock
       Logger.getCurrentLogFileName = jest.fn(() => 'log2.txt')
       const logAttachments = [
@@ -121,32 +120,32 @@ describe('Contact', () => {
 
       fireEvent.press(getByTestId('SubmitContactForm'))
 
-      await flushMicrotasksQueue()
-
+      await waitFor(() =>
+        expect(sendSupportRequest).toHaveBeenCalledWith({
+          message: 'Test Message',
+          deviceInfo: {
+            address: '0x0000000000000000000000000000000000007e57',
+            apiLevel: -1,
+            buildNumber: '1',
+            country: 'US',
+            deviceBrand: 'someBrand',
+            deviceId: 'someDeviceId',
+            deviceModel: 'someModel',
+            hooksPreviewEnabled: false,
+            network: 'alfajores',
+            numberVerifiedCentralized: false,
+            os: 'android',
+            region: null,
+            sessionId: '',
+            version: '0.0.1',
+          },
+          logFiles: logAttachments,
+          userEmail: 'my@email.com',
+          userName: 'My Name',
+          subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
+        })
+      )
       expect(Mailer.mail).not.toHaveBeenCalled()
-      expect(sendSupportRequest).toHaveBeenCalledWith({
-        message: 'Test Message',
-        deviceInfo: {
-          address: '0x0000000000000000000000000000000000007e57',
-          apiLevel: -1,
-          buildNumber: '1',
-          country: 'US',
-          deviceBrand: 'someBrand',
-          deviceId: 'someDeviceId',
-          deviceModel: 'someModel',
-          hooksPreviewEnabled: false,
-          network: 'alfajores',
-          numberVerifiedCentralized: false,
-          os: 'android',
-          region: null,
-          sessionId: '',
-          version: '0.0.1',
-        },
-        logFiles: logAttachments,
-        userEmail: 'my@email.com',
-        userName: 'My Name',
-        subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
-      })
     })
   })
 })
