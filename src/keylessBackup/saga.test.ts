@@ -51,6 +51,7 @@ describe('keylessBackup saga', () => {
         ])
         .put(keylessBackupFailed())
         .run()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_get_torus_keyshare_failed')
     })
   })
   describe('waitForTorusKeyshare', () => {
