@@ -3,6 +3,7 @@ import {
   deriveKeyFromKeyShares,
   encryptPassphrase,
   getSecp256K1KeyPair,
+  getWalletAddressFromPrivateKey,
 } from './encryption'
 import * as secp from '@noble/secp256k1'
 
@@ -62,6 +63,7 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       const signature = await secp.sign(messageHash, privateKey)
       expect(secp.verify(signature, messageHash, publicKey)).toBe(true)
     })
+
     it('gives same result when called twice with same inputs', async () => {
       const { privateKey, publicKey } = getSecp256K1KeyPair(keyshare1, keyshare2)
       const { privateKey: privateKey2, publicKey: publicKey2 } = getSecp256K1KeyPair(
@@ -110,6 +112,16 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       const [_nonce1, _encryptedMessage1, authTag1] = encrypted1.split(':')
       const tampered = `${nonce0}:${encryptedMessage0}:${authTag1}`
       expect(() => decryptPassphrase(keyshare1, keyshare2, tampered)).toThrow()
+    })
+  })
+
+  describe('getWalletAddressFromPrivateKey', () => {
+    it('gives lowercase wallet address associated with private key', () => {
+      expect(
+        getWalletAddressFromPrivateKey(
+          Buffer.from('0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb', 'hex')
+        )
+      ).toBe('0xbdde6c4f63a50b23c8bd8409fe4d9cfb33c619de')
     })
   })
 })
