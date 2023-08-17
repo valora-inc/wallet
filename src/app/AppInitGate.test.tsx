@@ -48,9 +48,9 @@ describe('AppInitGate', () => {
   })
 
   it('should render the fallback before initialised', async () => {
-    mocked(waitUntilSagasFinishLoading).mockImplementationOnce(
-      () => new Promise((resolve) => setTimeout(resolve, 5000))
-    )
+    jest
+      .mocked(waitUntilSagasFinishLoading)
+      .mockImplementationOnce(() => new Promise((resolve) => setTimeout(resolve, 5000)))
     const { getByText, queryByText, store } = renderAppInitGate()
     await act(() => {
       jest.advanceTimersByTime(2000)

@@ -190,7 +190,7 @@ export type ActionTypes =
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
 
-export const setAppState = (state: string) => ({
+export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
   state,
 })

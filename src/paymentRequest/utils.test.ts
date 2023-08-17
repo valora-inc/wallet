@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { PaymentRequest } from 'src/paymentRequest/types'
+import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/types'
 import {
   decryptPaymentRequest,
   encryptPaymentRequest,
@@ -202,8 +202,12 @@ describe('transactionDataFromPaymentRequest', () => {
 })
 
 describe('Encrypt Payment Request', () => {
+  const writableRequest: WriteablePaymentRequest = {
+    ...mockPaymentRequests[0],
+    createdAt: new Date(mockPaymentRequests[0].createdAt),
+  }
   it('Encrypts valid payment request', async () => {
-    await expectSaga(encryptPaymentRequest, req)
+    await expectSaga(encryptPaymentRequest, writableRequest)
       .provide([
         [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
         [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
@@ -214,10 +218,10 @@ describe('Encrypt Payment Request', () => {
 
   it('Does not encrypt when a DEK is missing', async () => {
     const sanitizedReq = {
-      ...req,
+      ...writableRequest,
       requesterE164Number: undefined,
     }
-    await expectSaga(encryptPaymentRequest, req)
+    await expectSaga(encryptPaymentRequest, writableRequest)
       .provide([
         [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
         [call(doFetchDataEncryptionKey, mockAccount2), null],

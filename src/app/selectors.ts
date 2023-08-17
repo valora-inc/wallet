@@ -30,7 +30,10 @@ export const numberVerifiedDecentrallySelector = (state: RootState) => state.app
 
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = createSelector(
-  [(state) => state.app.walletConnectV1Enabled, (state) => state.app.walletConnectV2Enabled],
+  [
+    (state: RootState) => state.app.walletConnectV1Enabled,
+    (state: RootState) => state.app.walletConnectV2Enabled,
+  ],
   (v1, v2) => ({
     v1,
     v2,

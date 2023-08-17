@@ -8,7 +8,10 @@ export function selectHasPendingState(state: RootState) {
 }
 
 export const selectSessions = createSelector(
-  [(state) => state.walletConnect.pendingSessions, (state) => state.walletConnect.sessions],
+  [
+    (state: RootState) => state.walletConnect.pendingSessions,
+    (state: RootState) => state.walletConnect.sessions,
+  ],
   (pending, sessions) => ({
     pending,
     sessions,

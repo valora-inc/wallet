@@ -13,8 +13,12 @@ import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/a
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
-import { MNEMONIC_AUTOCORRECT_TIMEOUT, importBackupPhraseSaga } from 'src/import/saga'
+import {
+  importBackupPhrase,
+  importBackupPhraseFailure,
+  importBackupPhraseSuccess,
+} from 'src/import/actions'
+import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
@@ -72,7 +76,7 @@ describe('Import wallet saga', () => {
     jest.clearAllMocks()
   })
   const expectSuccessfulSagaWithPhrase = async (phrase: string) => {
-    await expectSaga(importBackupPhraseSaga, { phrase, useEmptyWallet: false })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(phrase, false))
       .provide([
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
@@ -111,10 +115,7 @@ describe('Import wallet saga', () => {
     ${'12'}   | ${mockPhraseInvalidChecksumShort}
     ${'24'}   | ${mockPhraseInvalidChecksum}
   `('fails for a $wordCount word phrase invalid checksum', async ({ phrase }) => {
-    await expectSaga(importBackupPhraseSaga, {
-      phrase,
-      useEmptyWallet: false,
-    })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(phrase, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
@@ -132,10 +133,7 @@ describe('Import wallet saga', () => {
   `(
     'imports a $wordCount word phrase with invalid words after autocorrection',
     async ({ phrase, walletAddress }) => {
-      await expectSaga(importBackupPhraseSaga, {
-        phrase,
-        useEmptyWallet: false,
-      })
+      await expectSaga(importBackupPhraseSaga, importBackupPhrase(phrase, false))
         .provide([
           [select(currentLanguageSelector), 'english'],
           // Respond only to the true correct address with a positive balance.
@@ -159,10 +157,7 @@ describe('Import wallet saga', () => {
   )
 
   it('rejects a phrase with invalid words after failed autocorrection', async () => {
-    await expectSaga(importBackupPhraseSaga, {
-      phrase: mockPhraseInvalidWords,
-      useEmptyWallet: false,
-    })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(mockPhraseInvalidWords, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
@@ -178,7 +173,7 @@ describe('Import wallet saga', () => {
   })
 
   it('asks the user to confirm import of an empty phrase', async () => {
-    await expectSaga(importBackupPhraseSaga, { phrase: mockPhraseValid, useEmptyWallet: false })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(mockPhraseValid, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
