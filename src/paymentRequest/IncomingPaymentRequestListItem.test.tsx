@@ -98,7 +98,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('shows the phone number if there is no name assosiated with the address', () => {
+  it('shows the phone number if there is no name associated with the address', () => {
     const store = createMockStore()
     const request = {
       ...mockPaymentRequest,
