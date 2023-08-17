@@ -57,7 +57,7 @@ import {
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { revokeVerification } from 'src/identity/actions'
-import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
+import { isBackupComplete } from 'src/keylessBackup/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -65,6 +65,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import RevokePhoneNumber from 'src/RevokePhoneNumber'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
@@ -373,8 +375,7 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
-  // TODO(ACT-771): get from Statsig
-  const showKeylessBackup = getKeylessBackupGate()
+  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
   // TODO(ACT-684, ACT-766, ACT-767): get from redux, and also handle in progress state
   const isKeylessBackupComplete = isBackupComplete()
