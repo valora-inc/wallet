@@ -13,7 +13,7 @@ import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRe
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { createMockStore, getElementText } from 'test/utils'
 import {
-  mockAccount2,
+  mockAccount3,
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
@@ -27,7 +27,7 @@ jest.mock('src/recipients/recipient', () => ({
   ...(jest.requireActual('src/recipients/recipient') as any),
   getRecipientFromAddress: jest.fn((address: string) => {
     switch (address) {
-      case mockAccount2:
+      case mockAccount3:
         return mockPhoneRecipient
       default:
         return mockRecipient
@@ -102,7 +102,7 @@ describe('IncomingPaymentRequestListItem', () => {
     const store = createMockStore()
     const request = {
       ...mockPaymentRequest,
-      requesterAddress: mockAccount2,
+      requesterAddress: mockAccount3,
     }
 
     const { getByTestId } = render(
