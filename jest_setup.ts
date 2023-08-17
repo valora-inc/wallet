@@ -1,4 +1,5 @@
 import '@testing-library/jest-native/extend-expect'
+import 'abort-controller/polyfill' // TODO(any): remove this along with the dev dependency when jest is upgraded to v27+
 import 'react-native-svg-mock'
 
 if (typeof window !== 'object') {

@@ -28,7 +28,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @ampproject/remapping. A copy of the source code may be downloaded from git+https://github.com/ampproject/remapping.git. This software contains the following license and notice below:
+The following software may be included in this product: @ampproject/remapping, futoin-hkdf. A copy of the source code may be downloaded from git+https://github.com/ampproject/remapping.git (@ampproject/remapping), https://github.com/futoin/util-js-hkdf.git (futoin-hkdf). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004

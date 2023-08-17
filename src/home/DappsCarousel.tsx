@@ -143,6 +143,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
               onPress={() => onSelectDapp({ ...dapp, openedFrom: section })}
               style={styles.touchable}
               testID={`${testID}/Dapp`}
+              borderRadius={8}
             >
               <>
                 <Image
@@ -165,7 +166,7 @@ function DappsCarousel({ onSelectDapp }: Props) {
         ))}
 
         <Card style={[styles.card, { marginRight: 0 }]} rounded={true} shadow={null}>
-          <Touchable style={styles.touchable} onPress={onPressAllDapps}>
+          <Touchable style={styles.touchable} borderRadius={8} onPress={onPressAllDapps}>
             <>
               <View style={[styles.icon, styles.viewAllIcon]}>
                 <ArrowRight />

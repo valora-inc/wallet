@@ -278,13 +278,16 @@ describe(triggerShortcutSaga, () => {
       .run()
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shortcut.data),
-    })
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.hooksApiUrl}/triggerShortcut`,
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(shortcut.data),
+      })
+    )
   })
 
   it('should handle shortcut trigger failure', async () => {
@@ -297,13 +300,16 @@ describe(triggerShortcutSaga, () => {
       .run()
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shortcut.data),
-    })
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.hooksApiUrl}/triggerShortcut`,
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(shortcut.data),
+      })
+    )
   })
 })
 
