@@ -129,7 +129,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
           'Successfully verified sms code and got keyshare'
         )
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-        dispatch(valoraKeyshareIssued({ keyshare }))
+        dispatch(valoraKeyshareIssued({ keyshare, keylessBackupFlow }))
       },
       onError: (error: Error) => {
         ValoraAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_error, {

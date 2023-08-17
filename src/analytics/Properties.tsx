@@ -232,6 +232,13 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_progress_completed_continue]: undefined
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: undefined
+  [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
+    backupAlreadyExists: boolean
+  }
+  [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_failed]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_success]: undefined
+  [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
 }
 
 interface OnboardingEventsProperties {
