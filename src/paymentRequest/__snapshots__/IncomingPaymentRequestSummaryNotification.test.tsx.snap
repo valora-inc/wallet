@@ -3,30 +3,30 @@
 exports[`IncomingPaymentRequestSummaryNotification renders a number when the address mapping is cached 1`] = `
 <View
   style={
-    Object {
+    {
       "marginBottom": 16,
     }
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#FFFFFF",
           "padding": 16,
         },
-        Object {
+        {
           "borderRadius": 8,
         },
         undefined,
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#E6E6E6",
             "borderWidth": 1,
             "flex": 1,
             "minHeight": 144,
           },
-          Object {},
+          {},
         ],
       ]
     }
@@ -34,7 +34,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
   >
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "flexDirection": "row",
         }
@@ -42,7 +42,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
             "marginRight": 16,
           }
@@ -51,7 +51,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         <Text
           numberOfLines={2}
           style={
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 13,
@@ -66,7 +66,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 24,
@@ -78,9 +78,9 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         >
           <Text
             style={
-              Array [
+              [
                 undefined,
-                Object {
+                {
                   "color": undefined,
                 },
               ]
@@ -93,7 +93,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         </Text>
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -106,12 +106,12 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         </Text>
       </View>
       <View
-        style={Object {}}
+        style={{}}
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
@@ -122,12 +122,12 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                 },
-                Object {
+                {
                   "backgroundColor": "hsl(151, 53%, 93%)",
                   "borderRadius": 20,
                   "height": 40,
@@ -139,7 +139,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
             <svg
               fill="hsl(151, 53%, 93%)"
               height="40"
-              style={Object {}}
+              style={{}}
               viewBox="0 0 40 40"
               width="40"
             />
@@ -149,7 +149,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
     </View>
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "flex-start",
@@ -158,10 +158,27 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
       testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions"
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -178,14 +195,14 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16,
                 "marginRight": 24,
@@ -199,10 +216,27 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
         </Text>
       </View>
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -219,14 +253,14 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16,
                 "marginRight": 24,
@@ -247,30 +281,30 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
 exports[`IncomingPaymentRequestSummaryNotification renders correctly for just one alone 1`] = `
 <View
   style={
-    Object {
+    {
       "marginBottom": 16,
     }
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#FFFFFF",
           "padding": 16,
         },
-        Object {
+        {
           "borderRadius": 8,
         },
         undefined,
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#E6E6E6",
             "borderWidth": 1,
             "flex": 1,
             "minHeight": 144,
           },
-          Object {},
+          {},
         ],
       ]
     }
@@ -278,7 +312,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
   >
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "flexDirection": "row",
         }
@@ -286,7 +320,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
             "marginRight": 16,
           }
@@ -295,7 +329,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         <Text
           numberOfLines={2}
           style={
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 13,
@@ -310,7 +344,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 24,
@@ -322,9 +356,9 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         >
           <Text
             style={
-              Array [
+              [
                 undefined,
-                Object {
+                {
                   "color": undefined,
                 },
               ]
@@ -337,7 +371,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         </Text>
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -350,12 +384,12 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         </Text>
       </View>
       <View
-        style={Object {}}
+        style={{}}
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
@@ -366,12 +400,12 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                 },
-                Object {
+                {
                   "backgroundColor": "hsl(151, 53%, 93%)",
                   "borderRadius": 20,
                   "height": 40,
@@ -383,7 +417,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
             <svg
               fill="hsl(151, 53%, 93%)"
               height="40"
-              style={Object {}}
+              style={{}}
               viewBox="0 0 40 40"
               width="40"
             />
@@ -393,7 +427,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
     </View>
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "flex-start",
@@ -402,10 +436,27 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
       testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions"
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -422,14 +473,14 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16,
                 "marginRight": 24,
@@ -443,10 +494,27 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
         </Text>
       </View>
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -463,14 +531,14 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16,
                 "marginRight": 24,
@@ -491,30 +559,30 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
 exports[`IncomingPaymentRequestSummaryNotification renders correctly for more than one request 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "borderColor": "#E6E6E6",
           "borderWidth": 1,
           "flex": 1,
           "minHeight": 144,
         },
-        Object {},
+        {},
       ],
     ]
   }
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "flexDirection": "row",
       }
@@ -522,7 +590,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
   >
     <View
       style={
-        Object {
+        {
           "width": 40,
         }
       }
@@ -530,7 +598,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
       <Image
         resizeMode="contain"
         source={
-          Object {
+          {
             "testUri": "../../../src/images/notification-incoming-request.png",
           }
         }
@@ -538,7 +606,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
     </View>
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "justifyContent": "space-between",
           "marginLeft": 16,
@@ -547,7 +615,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
     >
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 18,
@@ -562,7 +630,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
       <Text
         numberOfLines={3}
         style={
-          Object {
+          {
             "color": "#505050",
             "flex": 1,
             "fontFamily": "Inter-Regular",
@@ -576,7 +644,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
       </Text>
       <View
         style={
-          Object {
+          {
             "flexDirection": "row",
             "flexWrap": "wrap",
             "justifyContent": "flex-start",
@@ -585,10 +653,27 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
         testID="undefined/CallToActions"
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackgroundBorderless",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -605,14 +690,14 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#1AB775",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "fontSize": 14,
                   "lineHeight": 16,
                   "marginRight": 24,

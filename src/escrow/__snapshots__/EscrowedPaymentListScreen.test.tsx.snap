@@ -3,29 +3,29 @@
 exports[`EscrowedPaymentListScreen renders correctly with no payments 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
     }
   }
 >
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "lineHeight": 22,
         },
-        Object {
+        {
           "marginTop": 30,
           "textAlign": "center",
         },
@@ -40,15 +40,15 @@ exports[`EscrowedPaymentListScreen renders correctly with no payments 1`] = `
 exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
     }
   }
@@ -57,37 +57,37 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
           }
         }
       >
         <View
           style={
-            Object {
+            {
               "marginBottom": 16,
             }
           }
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "backgroundColor": "#FFFFFF",
                   "padding": 16,
                 },
-                Object {
+                {
                   "borderRadius": 8,
                 },
                 undefined,
-                Array [
-                  Object {
+                [
+                  {
                     "borderColor": "#E6E6E6",
                     "borderWidth": 1,
                     "flex": 1,
                     "minHeight": 144,
                   },
-                  Object {},
+                  {},
                 ],
               ]
             }
@@ -95,7 +95,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "flexDirection": "row",
                 }
@@ -103,7 +103,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "flex": 1,
                     "marginRight": 16,
                   }
@@ -112,7 +112,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   numberOfLines={2}
                   style={
-                    Object {
+                    {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 13,
@@ -127,7 +127,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   numberOfLines={1}
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 24,
@@ -146,7 +146,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
@@ -159,12 +159,12 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
               </View>
               <View
-                style={Object {}}
+                style={{}}
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flexDirection": "row",
                         "justifyContent": "center",
@@ -175,12 +175,12 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "justifyContent": "center",
                         },
-                        Object {
+                        {
                           "backgroundColor": "hsl(0, 53%, 93%)",
                           "borderRadius": 20,
                           "height": 40,
@@ -192,13 +192,13 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     <Text
                       allowFontScaling={false}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#FFFFFF",
                             "fontFamily": "Inter-Medium",
                             "fontSize": 16,
                           },
-                          Object {
+                          {
                             "color": "hsl(0, 67%, 24%)",
                             "fontSize": 20,
                           },
@@ -213,7 +213,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
                   "justifyContent": "flex-start",
@@ -222,10 +222,27 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               testID="EscrowedPaymentListItem/CallToActions"
             >
               <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
                 accessible={true}
                 focusable={true}
                 nativeBackgroundAndroid={
-                  Object {
+                  {
                     "attribute": "selectableItemBackgroundBorderless",
                     "rippleRadius": undefined,
                     "type": "ThemeAttrAndroid",
@@ -242,14 +259,14 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#1AB775",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
                       },
-                      Object {
+                      {
                         "fontSize": 14,
                         "lineHeight": 16,
                         "marginRight": 24,
@@ -263,10 +280,27 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
               </View>
               <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
                 accessible={true}
                 focusable={true}
                 nativeBackgroundAndroid={
-                  Object {
+                  {
                     "attribute": "selectableItemBackgroundBorderless",
                     "rippleRadius": undefined,
                     "type": "ThemeAttrAndroid",
@@ -283,14 +317,14 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#1AB775",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
                       },
-                      Object {
+                      {
                         "fontSize": 14,
                         "lineHeight": 16,
                         "marginRight": 24,
@@ -308,30 +342,30 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
         </View>
         <View
           style={
-            Object {
+            {
               "marginBottom": 16,
             }
           }
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "backgroundColor": "#FFFFFF",
                   "padding": 16,
                 },
-                Object {
+                {
                   "borderRadius": 8,
                 },
                 undefined,
-                Array [
-                  Object {
+                [
+                  {
                     "borderColor": "#E6E6E6",
                     "borderWidth": 1,
                     "flex": 1,
                     "minHeight": 144,
                   },
-                  Object {},
+                  {},
                 ],
               ]
             }
@@ -339,7 +373,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "flexDirection": "row",
                 }
@@ -347,7 +381,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "flex": 1,
                     "marginRight": 16,
                   }
@@ -356,7 +390,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   numberOfLines={2}
                   style={
-                    Object {
+                    {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 13,
@@ -371,7 +405,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   numberOfLines={1}
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 24,
@@ -390,7 +424,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
@@ -403,12 +437,12 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
               </View>
               <View
-                style={Object {}}
+                style={{}}
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flexDirection": "row",
                         "justifyContent": "center",
@@ -419,12 +453,12 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "justifyContent": "center",
                         },
-                        Object {
+                        {
                           "backgroundColor": "hsl(0, 53%, 93%)",
                           "borderRadius": 20,
                           "height": 40,
@@ -436,13 +470,13 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     <Text
                       allowFontScaling={false}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#FFFFFF",
                             "fontFamily": "Inter-Medium",
                             "fontSize": 16,
                           },
-                          Object {
+                          {
                             "color": "hsl(0, 67%, 24%)",
                             "fontSize": 20,
                           },
@@ -457,7 +491,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
                   "justifyContent": "flex-start",
@@ -466,10 +500,27 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               testID="EscrowedPaymentListItem/CallToActions"
             >
               <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
                 accessible={true}
                 focusable={true}
                 nativeBackgroundAndroid={
-                  Object {
+                  {
                     "attribute": "selectableItemBackgroundBorderless",
                     "rippleRadius": undefined,
                     "type": "ThemeAttrAndroid",
@@ -486,14 +537,14 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#1AB775",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
                       },
-                      Object {
+                      {
                         "fontSize": 14,
                         "lineHeight": 16,
                         "marginRight": 24,
@@ -507,10 +558,27 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
               </View>
               <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
                 accessible={true}
                 focusable={true}
                 nativeBackgroundAndroid={
-                  Object {
+                  {
                     "attribute": "selectableItemBackgroundBorderless",
                     "rippleRadius": undefined,
                     "type": "ThemeAttrAndroid",
@@ -527,14 +595,14 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#1AB775",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
                       },
-                      Object {
+                      {
                         "fontSize": 14,
                         "lineHeight": 16,
                         "marginRight": 24,
@@ -552,30 +620,30 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
         </View>
         <View
           style={
-            Object {
+            {
               "marginBottom": 16,
             }
           }
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "backgroundColor": "#FFFFFF",
                   "padding": 16,
                 },
-                Object {
+                {
                   "borderRadius": 8,
                 },
                 undefined,
-                Array [
-                  Object {
+                [
+                  {
                     "borderColor": "#E6E6E6",
                     "borderWidth": 1,
                     "flex": 1,
                     "minHeight": 144,
                   },
-                  Object {},
+                  {},
                 ],
               ]
             }
@@ -583,7 +651,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "flexDirection": "row",
                 }
@@ -591,7 +659,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "flex": 1,
                     "marginRight": 16,
                   }
@@ -600,7 +668,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   numberOfLines={2}
                   style={
-                    Object {
+                    {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 13,
@@ -615,7 +683,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   numberOfLines={1}
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 24,
@@ -634,7 +702,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
@@ -647,12 +715,12 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
               </View>
               <View
-                style={Object {}}
+                style={{}}
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flexDirection": "row",
                         "justifyContent": "center",
@@ -663,12 +731,12 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "justifyContent": "center",
                         },
-                        Object {
+                        {
                           "backgroundColor": "hsl(0, 53%, 93%)",
                           "borderRadius": 20,
                           "height": 40,
@@ -680,13 +748,13 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     <Text
                       allowFontScaling={false}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#FFFFFF",
                             "fontFamily": "Inter-Medium",
                             "fontSize": 16,
                           },
-                          Object {
+                          {
                             "color": "hsl(0, 67%, 24%)",
                             "fontSize": 20,
                           },
@@ -701,7 +769,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "flexDirection": "row",
                   "flexWrap": "wrap",
                   "justifyContent": "flex-start",
@@ -710,10 +778,27 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               testID="EscrowedPaymentListItem/CallToActions"
             >
               <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
                 accessible={true}
                 focusable={true}
                 nativeBackgroundAndroid={
-                  Object {
+                  {
                     "attribute": "selectableItemBackgroundBorderless",
                     "rippleRadius": undefined,
                     "type": "ThemeAttrAndroid",
@@ -730,14 +815,14 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#1AB775",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
                       },
-                      Object {
+                      {
                         "fontSize": 14,
                         "lineHeight": 16,
                         "marginRight": 24,
@@ -751,10 +836,27 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 </Text>
               </View>
               <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
                 accessible={true}
                 focusable={true}
                 nativeBackgroundAndroid={
-                  Object {
+                  {
                     "attribute": "selectableItemBackgroundBorderless",
                     "rippleRadius": undefined,
                     "type": "ThemeAttrAndroid",
@@ -771,14 +873,14 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#1AB775",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
                       },
-                      Object {
+                      {
                         "fontSize": 14,
                         "lineHeight": 16,
                         "marginRight": 24,

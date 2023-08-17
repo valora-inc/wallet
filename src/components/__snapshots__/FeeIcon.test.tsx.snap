@@ -1,12 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ExchangeFeeIcon renders correctly 1`] = `
-Array [
+[
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     hitSlop={
-      Object {
+      {
         "bottom": 10,
         "left": 10,
         "right": 10,
@@ -14,7 +31,7 @@ Array [
       }
     }
     nativeBackgroundAndroid={
-      Object {
+      {
         "attribute": "selectableItemBackgroundBorderless",
         "rippleRadius": undefined,
         "type": "ThemeAttrAndroid",
@@ -28,7 +45,7 @@ Array [
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "alignItems": "center",
         "justifyContent": "flex-end",
         "paddingHorizontal": 5,
@@ -73,7 +90,7 @@ Array [
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -86,12 +103,29 @@ Array [
 `;
 
 exports[`SecurityFeeIcon renders correctly 1`] = `
-Array [
+[
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     hitSlop={
-      Object {
+      {
         "bottom": 10,
         "left": 10,
         "right": 10,
@@ -99,7 +133,7 @@ Array [
       }
     }
     nativeBackgroundAndroid={
-      Object {
+      {
         "attribute": "selectableItemBackgroundBorderless",
         "rippleRadius": undefined,
         "type": "ThemeAttrAndroid",
@@ -113,7 +147,7 @@ Array [
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "alignItems": "center",
         "justifyContent": "flex-end",
         "paddingHorizontal": 5,
@@ -158,7 +192,7 @@ Array [
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]

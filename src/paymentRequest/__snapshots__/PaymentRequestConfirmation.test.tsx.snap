@@ -3,12 +3,15 @@
 exports[`PaymentRequestConfirmation renders correctly for request payment confirmation 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "padding": 8,
     }
@@ -16,8 +19,8 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#FFFFFF",
           "flex": 1,
         },
@@ -27,7 +30,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
   >
     <RCTScrollView
       contentContainerStyle={
-        Object {
+        {
           "paddingVertical": 10,
         }
       }
@@ -37,14 +40,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
       <View>
         <View
           style={
-            Object {
+            {
               "marginHorizontal": 16,
             }
           }
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "flex-start",
                 "paddingBottom": 24,
               }
@@ -52,7 +55,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           >
             <View
               style={
-                Object {
+                {
                   "alignItems": "flex-start",
                   "flexDirection": "row",
                 }
@@ -60,8 +63,8 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "alignItems": "center",
                       "flexDirection": "row",
                       "justifyContent": "center",
@@ -72,12 +75,12 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "justifyContent": "center",
                       },
-                      Object {
+                      {
                         "backgroundColor": "hsl(195, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
@@ -89,13 +92,13 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   <Text
                     allowFontScaling={false}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#FFFFFF",
                           "fontFamily": "Inter-Medium",
                           "fontSize": 16,
                         },
-                        Object {
+                        {
                           "color": "hsl(195, 67%, 24%)",
                           "fontSize": 20,
                         },
@@ -108,14 +111,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               </View>
               <View
                 style={
-                  Object {
+                  {
                     "paddingLeft": 8,
                   }
                 }
               >
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
@@ -127,7 +130,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 </Text>
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Medium",
                       "fontSize": 16,
@@ -141,7 +144,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             </View>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 32,
@@ -165,7 +168,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               placeholderTextColor="#1AB775"
               returnKeyType="done"
               style={
-                Object {
+                {
                   "alignSelf": "stretch",
                   "color": "#2E3338",
                   "flex": 1,
@@ -185,7 +188,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
     </RCTScrollView>
     <View
       style={
-        Object {
+        {
           "padding": 16,
           "paddingBottom": 8,
         }
@@ -193,8 +196,8 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "space-between",
@@ -206,7 +209,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
       >
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "marginRight": 5,
@@ -215,14 +218,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
@@ -237,14 +240,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
         </View>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
@@ -264,14 +267,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
-            Object {
+            {
               "marginVertical": 0,
             },
           ]
@@ -279,7 +282,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
       >
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "marginRight": 5,
@@ -288,14 +291,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -307,7 +310,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           >
             <Text
               style={
-                Object {
+                {
                   "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -326,14 +329,14 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
         </View>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -354,7 +357,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
     </View>
     <View
       style={
-        Object {
+        {
           "marginHorizontal": 16,
           "paddingVertical": 16,
         }
@@ -362,11 +365,11 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "column",
             },
-            Object {
+            {
               "marginBottom": 16,
             },
           ]
@@ -374,11 +377,11 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "overflow": "hidden",
               },
-              Object {
+              {
                 "borderRadius": 100,
               },
             ]
@@ -386,14 +389,26 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
         >
           <View
             accessibilityState={
-              Object {
+              {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackground",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -407,8 +422,8 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "backgroundColor": "#1AB775",
                   "flexDirection": "row",
@@ -428,7 +443,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               accessibilityLabel="request"
               maxFontSizeMultiplier={1}
               style={
-                Object {
+                {
                   "color": "#FFFFFF",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
@@ -447,13 +462,13 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
     <View
       collapsable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "bottom": 0,
             "left": 0,
             "right": 0,
           },
-          Object {
+          {
             "height": 0,
           },
           undefined,

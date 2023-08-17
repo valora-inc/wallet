@@ -3,15 +3,15 @@
 exports[`NotificationList renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
     }
   }
@@ -20,7 +20,7 @@ exports[`NotificationList renders correctly 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
           }
         }

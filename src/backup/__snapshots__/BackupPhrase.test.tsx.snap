@@ -3,15 +3,15 @@
 exports[`renders correctly with backup completed 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
     }
@@ -19,8 +19,8 @@ exports[`renders correctly with backup completed 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "height": 56,
@@ -28,7 +28,7 @@ exports[`renders correctly with backup completed 1`] = `
           "overflow": "hidden",
           "width": "100%",
         },
-        Object {
+        {
           "paddingHorizontal": 16,
         },
       ]
@@ -36,7 +36,7 @@ exports[`renders correctly with backup completed 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -61,7 +61,7 @@ exports[`renders correctly with backup completed 1`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -71,10 +71,27 @@ exports[`renders correctly with backup completed 1`] = `
         visible={false}
       />
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -82,7 +99,7 @@ exports[`renders correctly with backup completed 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -99,18 +116,18 @@ exports[`renders correctly with backup completed 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                 },
-                Object {
+                {
                   "color": "#666666",
                 },
               ],
@@ -123,7 +140,7 @@ exports[`renders correctly with backup completed 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -131,10 +148,27 @@ exports[`renders correctly with backup completed 1`] = `
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -142,7 +176,7 @@ exports[`renders correctly with backup completed 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -158,7 +192,7 @@ exports[`renders correctly with backup completed 1`] = `
       >
         <Text
           style={
-            Object {
+            {
               "color": "#1AB775",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -173,7 +207,7 @@ exports[`renders correctly with backup completed 1`] = `
   </View>
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "padding": 16,
       }
@@ -183,7 +217,7 @@ exports[`renders correctly with backup completed 1`] = `
       <View>
         <View
           style={
-            Object {
+            {
               "flexDirection": "row",
               "justifyContent": "space-between",
               "paddingHorizontal": 2,
@@ -192,14 +226,14 @@ exports[`renders correctly with backup completed 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flexDirection": "column",
               }
             }
           >
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Jost-Medium",
                   "fontSize": 22,
@@ -215,7 +249,7 @@ exports[`renders correctly with backup completed 1`] = `
         <View
           accessibilityLabel=""
           style={
-            Object {
+            {
               "alignContent": "center",
               "backgroundColor": "#F1F0EB",
               "borderRadius": 8,
@@ -231,7 +265,7 @@ exports[`renders correctly with backup completed 1`] = `
       </View>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -250,15 +284,15 @@ exports[`renders correctly with backup completed 1`] = `
 exports[`renders correctly with backup not completed 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
     }
@@ -266,8 +300,8 @@ exports[`renders correctly with backup not completed 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "height": 56,
@@ -275,7 +309,7 @@ exports[`renders correctly with backup not completed 1`] = `
           "overflow": "hidden",
           "width": "100%",
         },
-        Object {
+        {
           "paddingHorizontal": 16,
         },
       ]
@@ -283,7 +317,7 @@ exports[`renders correctly with backup not completed 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -308,7 +342,7 @@ exports[`renders correctly with backup not completed 1`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -318,10 +352,27 @@ exports[`renders correctly with backup not completed 1`] = `
         visible={false}
       />
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -329,7 +380,7 @@ exports[`renders correctly with backup not completed 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -346,18 +397,18 @@ exports[`renders correctly with backup not completed 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                 },
-                Object {
+                {
                   "color": "#666666",
                 },
               ],
@@ -370,7 +421,7 @@ exports[`renders correctly with backup not completed 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -378,10 +429,27 @@ exports[`renders correctly with backup not completed 1`] = `
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -389,7 +457,7 @@ exports[`renders correctly with backup not completed 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -405,7 +473,7 @@ exports[`renders correctly with backup not completed 1`] = `
       >
         <Text
           style={
-            Object {
+            {
               "color": "#1AB775",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -420,7 +488,7 @@ exports[`renders correctly with backup not completed 1`] = `
   </View>
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "padding": 16,
       }
@@ -430,7 +498,7 @@ exports[`renders correctly with backup not completed 1`] = `
       <View>
         <View
           style={
-            Object {
+            {
               "flexDirection": "row",
               "justifyContent": "space-between",
               "paddingHorizontal": 2,
@@ -439,14 +507,14 @@ exports[`renders correctly with backup not completed 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flexDirection": "column",
               }
             }
           >
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Jost-Medium",
                   "fontSize": 22,
@@ -462,7 +530,7 @@ exports[`renders correctly with backup not completed 1`] = `
         <View
           accessibilityLabel=""
           style={
-            Object {
+            {
               "alignContent": "center",
               "backgroundColor": "#F1F0EB",
               "borderRadius": 8,
@@ -478,7 +546,7 @@ exports[`renders correctly with backup not completed 1`] = `
       </View>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -493,7 +561,7 @@ exports[`renders correctly with backup not completed 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "marginVertical": 16,
@@ -517,7 +585,7 @@ exports[`renders correctly with backup not completed 1`] = `
     <Text
       onPress={[Function]}
       style={
-        Object {
+        {
           "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
@@ -532,11 +600,11 @@ exports[`renders correctly with backup not completed 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "column",
         },
-        Object {
+        {
           "paddingBottom": 16,
           "paddingHorizontal": 16,
         },
@@ -545,11 +613,11 @@ exports[`renders correctly with backup not completed 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "overflow": "hidden",
           },
-          Object {
+          {
             "borderRadius": 100,
           },
         ]
@@ -557,14 +625,26 @@ exports[`renders correctly with backup not completed 1`] = `
     >
       <View
         accessibilityState={
-          Object {
+          {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": true,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackground",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -578,8 +658,8 @@ exports[`renders correctly with backup not completed 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#F1F0EB",
               "flexDirection": "row",
@@ -598,7 +678,7 @@ exports[`renders correctly with backup not completed 1`] = `
         <Text
           maxFontSizeMultiplier={1}
           style={
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
@@ -619,15 +699,15 @@ exports[`renders correctly with backup not completed 1`] = `
 exports[`still renders when mnemonic doesnt show up 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
     }
@@ -635,8 +715,8 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "height": 56,
@@ -644,7 +724,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           "overflow": "hidden",
           "width": "100%",
         },
-        Object {
+        {
           "paddingHorizontal": 16,
         },
       ]
@@ -652,7 +732,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -677,7 +757,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -687,10 +767,27 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
         visible={false}
       />
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -698,7 +795,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -715,18 +812,18 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                 },
-                Object {
+                {
                   "color": "#666666",
                 },
               ],
@@ -739,7 +836,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -747,10 +844,27 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
       }
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -758,7 +872,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -774,7 +888,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
       >
         <Text
           style={
-            Object {
+            {
               "color": "#1AB775",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -789,7 +903,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
   </View>
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "padding": 16,
       }
@@ -799,7 +913,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
       <View>
         <View
           style={
-            Object {
+            {
               "flexDirection": "row",
               "justifyContent": "space-between",
               "paddingHorizontal": 2,
@@ -808,14 +922,14 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flexDirection": "column",
               }
             }
           >
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Jost-Medium",
                   "fontSize": 22,
@@ -831,7 +945,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
         <View
           accessibilityLabel=""
           style={
-            Object {
+            {
               "alignContent": "center",
               "backgroundColor": "#F1F0EB",
               "borderRadius": 8,
@@ -847,7 +961,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
       </View>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
