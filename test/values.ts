@@ -243,6 +243,12 @@ export const mockRecipient4: ContactRecipient = {
   recipientType: RecipientType.PhoneNumber,
 }
 
+export const mockPhoneRecipient: AddressRecipient = {
+  address: mockAccount2,
+  e164PhoneNumber: '+15551234567',
+  recipientType: RecipientType.Address,
+}
+
 export const mockE164NumberToInvitableRecipient = {
   [mockE164Number]: mockInvitableRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,
