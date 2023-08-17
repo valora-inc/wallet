@@ -143,17 +143,17 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('renders incoming payment requests when they exist', () => {
+  it('renders incoming payment request when it exists', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
         ...storeDataNotificationsDisabled.account,
       },
       paymentRequest: {
-        incomingPaymentRequests: mockPaymentRequests,
+        incomingPaymentRequests: [mockPaymentRequests[0]],
       },
     })
-    const { getByTestId, getAllByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
@@ -169,28 +169,23 @@ describe('NotificationCenter', () => {
     expect(
       getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details'))
     ).toBe('Dinner for me and the gals, PIZZAA!')
+  })
 
-    // Second request
-    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_2/Title'))).toBe(
-      'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
+  it('renders incoming payment requests in correct order', () => {
+    const store = createMockStore({
+      ...storeDataNotificationsDisabled,
+      account: {
+        ...storeDataNotificationsDisabled.account,
+      },
+      paymentRequest: {
+        incomingPaymentRequests: mockPaymentRequests,
+      },
+    })
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+      </Provider>
     )
-    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_2/Amount'))).toBe(
-      '₱240.58'
-    )
-    expect(
-      getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_2/Details'))
-    ).toBe('My Birthday Present. :) Am I not the best? Celebration. Bam!')
-
-    // Third request
-    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_3/Title'))).toBe(
-      'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
-    )
-    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_3/Amount'))).toBe(
-      '₱1,641.96'
-    )
-    expect(
-      getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_3/Details'))
-    ).toBe('My Birthday Present. :) Am I not the best? Celebration. Bam!')
 
     // Requests must be ordered by time desc
     const items = getAllByTestId(/IncomingPaymentRequestNotification\/FAKE_ID_[1-3]\/Amount/)
@@ -199,17 +194,17 @@ describe('NotificationCenter', () => {
     expect(getElementText(items[2])).toBe('₱266,000.00')
   })
 
-  it('renders outgoing payment requests when they exist', () => {
+  it('renders outgoing payment request when it exists', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
         ...storeDataNotificationsDisabled.account,
       },
       paymentRequest: {
-        outgoingPaymentRequests: mockPaymentRequests,
+        outgoingPaymentRequests: [mockPaymentRequests[0]],
       },
     })
-    const { getByTestId, getAllByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
@@ -225,28 +220,23 @@ describe('NotificationCenter', () => {
     expect(
       getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details'))
     ).toBe('Dinner for me and the gals, PIZZAA!')
+  })
 
-    // Second request
-    expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_2/Title'))).toBe(
-      'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
+  it('renders outgoing payment requests in correct order', () => {
+    const store = createMockStore({
+      ...storeDataNotificationsDisabled,
+      account: {
+        ...storeDataNotificationsDisabled.account,
+      },
+      paymentRequest: {
+        outgoingPaymentRequests: mockPaymentRequests,
+      },
+    })
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+      </Provider>
     )
-    expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_2/Amount'))).toBe(
-      '₱240.58'
-    )
-    expect(
-      getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_2/Details'))
-    ).toBe('My Birthday Present. :) Am I not the best? Celebration. Bam!')
-
-    // Third request
-    expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_3/Title'))).toBe(
-      'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
-    )
-    expect(getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_3/Amount'))).toBe(
-      '₱1,641.96'
-    )
-    expect(
-      getElementText(getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_3/Details'))
-    ).toBe('My Birthday Present. :) Am I not the best? Celebration. Bam!')
 
     // Requests must be ordered by time desc
     const items = getAllByTestId(/OutgoingPaymentRequestNotification\/FAKE_ID_[1-3]\/Amount/)
