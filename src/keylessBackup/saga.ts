@@ -18,6 +18,8 @@ import { getStoredMnemonic } from 'src/backup/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 
 const TAG = 'keylessBackup/saga'
 
@@ -60,8 +62,10 @@ export function* handleKeylessBackupSetup(valoraKeyshare: string) {
       encryptionAddress,
     })
     yield* put(keylessBackupCompleted())
+    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_setup_success)
   } catch (error) {
     Logger.error(TAG, 'Error handling keyless backup setup', error)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_setup_failed)
     yield* put(keylessBackupFailed())
     return
   }
@@ -75,6 +79,7 @@ export function* waitForTorusKeyshare() {
     torusKeyshare = yield* select(torusKeyshareSelector)
   }
   if (!torusKeyshare) {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_torus_keyshare_timeout)
     throw new Error(`Timed out waiting for torus keyshare.`)
   }
   return torusKeyshare

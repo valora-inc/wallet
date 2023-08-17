@@ -235,6 +235,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
     backupAlreadyExists: boolean
   }
+  [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_failed]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_success]: undefined
 }
 
 interface OnboardingEventsProperties {

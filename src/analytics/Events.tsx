@@ -100,6 +100,9 @@ export enum KeylessBackupEvents {
   cab_progress_failed_later = 'cab_progress_failed_later',
   cab_progress_failed_manual = 'cab_progress_failed_manual',
   cab_post_encrypted_mnemonic_failed = 'cab_post_encrypted_mnemonic_failed',
+  cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
+  cab_handle_keyless_backup_setup_failed = 'cab_handle_keyless_backup_setup_failed',
+  cab_handle_keyless_backup_setup_success = 'cab_handle_keyless_backup_setup_success',
 }
 
 export enum OnboardingEvents {
