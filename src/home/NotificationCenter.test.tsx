@@ -3,16 +3,15 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import NotificationBox from 'src/home/NotificationBox'
+import NotificationCenter from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getElementText } from 'test/utils'
+import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockCusdAddress,
   mockE164Number,
   mockE164NumberPepper,
   mockPaymentRequests,
-  mockTokenBalances,
 } from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
@@ -30,23 +29,6 @@ const testNotification = {
   },
 }
 
-const storeDataNotificationsEnabled = {
-  account: {
-    backupCompleted: false,
-    dismissedGetVerified: false,
-    accountCreationTime: BACKUP_TIME,
-    celoEducationCompleted: false,
-  },
-  paymentRequest: {
-    incomingPaymentRequests: mockPaymentRequests.slice(0, 2),
-  },
-  home: {
-    notifications: {
-      testNotification,
-    },
-  },
-}
-
 const storeDataNotificationsDisabled = {
   account: {
     backupCompleted: true,
@@ -54,9 +36,14 @@ const storeDataNotificationsDisabled = {
     dismissedGetVerified: true,
     accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: true,
+    dismissedStartSupercharging: true,
+  },
+  escrow: {
+    sentEscrowedPayments: [],
   },
   paymentRequest: {
     incomingPaymentRequests: [],
+    outgoingPaymentRequests: [],
   },
   home: {
     notifications: {
@@ -118,25 +105,17 @@ const mockcUsdWithoutEnoughBalance = {
   },
 }
 
-describe('NotificationBox', () => {
-  it('renders correctly for with all notifications', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsEnabled,
-      account: {
-        ...storeDataNotificationsEnabled.account,
-        e164PhoneNumber: mockE164Number,
-      },
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      tokens: {
-        tokenBalances: mockTokenBalances,
-      },
-    })
-    const tree = render(
+describe('NotificationCenter', () => {
+  it('renders empty state when there is no notifications at all', () => {
+    const store = createMockStore({ ...storeDataNotificationsDisabled })
+    const { getByTestId, getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
-    expect(tree).toMatchSnapshot()
+
+    expect(getByTestId('NotificationCenter/EmptyState')).toBeTruthy()
+    expect(getByText('noNotificationsPlaceholder')).toBeTruthy()
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {
@@ -149,7 +128,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -159,24 +138,6 @@ describe('NotificationBox', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
       hideOnboardingStep: true,
     })
-  })
-
-  it('renders educations when not complete yet', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsDisabled,
-      account: {
-        ...storeDataNotificationsDisabled.account,
-        celoEducationCompleted: false,
-      },
-    })
-    const { getByText } = render(
-      <Provider store={store}>
-        <NotificationBox />
-      </Provider>
-    )
-    expect(getByText('whatIsGold')).toBeTruthy()
-    // Functionality disabled for now
-    // expect(getByText('inviteAnyone')).toBeTruthy()
   })
 
   it('renders incoming payment request when they exist', () => {
@@ -191,7 +152,7 @@ describe('NotificationBox', () => {
     })
     const { getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -217,7 +178,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
     expect(getByText(/incomingPaymentRequestsSummaryTitle/)).toBeTruthy()
@@ -235,7 +196,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
     expect(getByText(/outgoingPaymentRequestsSummaryTitle/)).toBeTruthy()
@@ -253,7 +214,7 @@ describe('NotificationBox', () => {
     })
     const { getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -279,7 +240,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
     expect(getByText('notification.body')).toBeTruthy()
@@ -291,7 +252,7 @@ describe('NotificationBox', () => {
     })
     const { queryByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
     expect(queryByText('notification.body')).toBeFalsy()
@@ -336,7 +297,7 @@ describe('NotificationBox', () => {
     })
     const { queryByText, getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
     expect(queryByText('Notification 1')).toBeFalsy()
@@ -383,7 +344,7 @@ describe('NotificationBox', () => {
     })
     const { queryByText, getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
     expect(queryByText('Notification 1')).toBeTruthy()
@@ -408,7 +369,7 @@ describe('NotificationBox', () => {
     const store = createMockStore(superchargeSetUp)
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -431,7 +392,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -445,7 +406,7 @@ describe('NotificationBox', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 
-  it('does not renders keep supercharging because is dismissed', () => {
+  it('does not render keep supercharging because is dismissed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -457,7 +418,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -479,7 +440,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -502,7 +463,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
@@ -516,7 +477,7 @@ describe('NotificationBox', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 
-  it('does not renders start supercharging because is dismissed', () => {
+  it('does not render start supercharging because is dismissed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -528,7 +489,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 

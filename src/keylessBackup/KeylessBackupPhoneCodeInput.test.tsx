@@ -74,7 +74,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       status: 200,
     })
 
-    const { getByTestId } = renderComponent()
+    const { getByTestId } = renderComponent(KeylessBackupFlow.Setup)
 
     await act(() => {
       fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
@@ -90,7 +90,12 @@ describe('KeylessBackupPhoneCodeInput', () => {
     })
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
 
-    expect(store.getActions()).toEqual([valoraKeyshareIssued({ keyshare: 'valora-keyshare' })])
+    expect(store.getActions()).toEqual([
+      valoraKeyshareIssued({
+        keyshare: 'valora-keyshare',
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+      }),
+    ])
 
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupProgress, {

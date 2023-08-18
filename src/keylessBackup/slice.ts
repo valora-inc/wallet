@@ -22,7 +22,10 @@ export const slice = createSlice({
     googleSignInCompleted: (state, action: PayloadAction<{ idToken: string }>) => {
       state.googleIdToken = action.payload.idToken
     },
-    valoraKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
+    valoraKeyshareIssued: (
+      state,
+      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow }>
+    ) => {
       state.valoraKeyshare = action.payload.keyshare
     },
     torusKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
@@ -37,6 +40,9 @@ export const slice = createSlice({
     keylessBackupFailed: (state) => {
       state.backupStatus = KeylessBackupStatus.Failed
     },
+    keylessBackupCompleted: (state) => {
+      state.backupStatus = KeylessBackupStatus.Completed
+    },
   },
 })
 
@@ -46,6 +52,7 @@ export const {
   torusKeyshareIssued,
   keylessBackupStarted,
   keylessBackupFailed,
+  keylessBackupCompleted,
 } = slice.actions
 
 export default slice.reducer

@@ -305,9 +305,10 @@ describe('Account', () => {
     expect(queryByTestId('KeylessBackup')).toBeNull()
   })
 
-  it('shows keyless backup setup when flag is enabled and not already backed up', () => {
+  it('shows keyless backup setup when flag is enabled and not already backed up', async () => {
     mocked(getKeylessBackupGate).mockReturnValue(true)
     mocked(isBackupComplete).mockReturnValue(false)
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     const store = createMockStore()
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -317,6 +318,7 @@ describe('Account', () => {
     expect(getByTestId('KeylessBackup')).toBeTruthy()
     expect(getByText('setup')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackup'))
+    await flushMicrotasksQueue()
     expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
