@@ -13,10 +13,11 @@ import { mockOnboardingProps } from 'test/values'
 
 const mockedKeychain = jest.mocked(Keychain)
 
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
   getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
-  onboardingPropsSelector: () => mockOnboardingProps,
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 
 const renderComponent = (navParams?: StackParamList[Screens.VerificationStartScreen]) =>

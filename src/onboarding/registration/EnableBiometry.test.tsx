@@ -15,10 +15,11 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
 
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
   getOnboardingStepValues: () => ({ step: 1, totalSteps: 2 }),
-  onboardingPropsSelector: () => mockOnboardingProps,
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 
 const mockedSetPincodeWithBiometry = jest.mocked(setPincodeWithBiometry)

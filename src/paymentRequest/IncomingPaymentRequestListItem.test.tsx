@@ -21,9 +21,10 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
+const mockGetRecipientFromAddress = jest.fn(() => mockRecipient)
 jest.mock('src/recipients/recipient', () => ({
   ...(jest.requireActual('src/recipients/recipient') as any),
-  getRecipientFromAddress: jest.fn(() => mockRecipient),
+  getRecipientFromAddress: () => mockGetRecipientFromAddress(),
 }))
 
 const mockPaymentRequest = mockPaymentRequests[1]

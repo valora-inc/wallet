@@ -15,13 +15,13 @@ export const SentryTransactionHub = {
 
     // Find first the transaction with this op.
     const selectedTransaction = transactions.find(
-      (transaction) => transaction.op === SentryTransactions[name].op
+      (transaction) => transaction && transaction.op === SentryTransactions[name].op
     )
 
     // Finish the selected transaction
     selectedTransaction?.finish()
 
     // Remove all transactions matching op from the transaction hub
-    transactions = transactions.filter((transaction) => transaction.op !== op)
+    transactions = transactions.filter((transaction) => transaction && transaction.op !== op)
   },
 }

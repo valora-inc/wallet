@@ -2,8 +2,6 @@ import '@testing-library/jest-native/extend-expect'
 import 'abort-controller/polyfill' // TODO(any): remove this along with the dev dependency when jest is upgraded to v27+
 import 'react-native-svg-mock'
 
-jest.useFakeTimers()
-
 if (typeof window !== 'object') {
   // @ts-ignore
   global.window = global
