@@ -406,9 +406,9 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "action": Object {
+      [
+        {
+          "action": {
             "type": "HOME/REFRESH_BALANCES",
           },
           "alertType": "toast",
@@ -442,9 +442,9 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "action": Object {
+      [
+        {
+          "action": {
             "type": "HOME/REFRESH_BALANCES",
           },
           "alertType": "toast",

@@ -30,8 +30,8 @@ describe('Welcome', () => {
     await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
     expect(patchUpdateStatsigUser).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "now": 123,
           "type": "ACCOUNT/CHOOSE_CREATE",
         },
@@ -45,8 +45,8 @@ describe('Welcome', () => {
     jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "type": "ACCOUNT/CHOOSE_RESTORE",
         },
       ]
