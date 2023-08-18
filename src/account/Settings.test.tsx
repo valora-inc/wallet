@@ -275,7 +275,6 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  // TODO(ACT-771): update these tests to mock statsig instead of helper function
   it('does not show keyless backup', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
