@@ -582,7 +582,7 @@ PODS:
   - RNAnalytics (1.5.3):
     - Analytics
     - React-Core
-  - RNCAsyncStorage (1.19.1):
+  - RNCAsyncStorage (1.19.2):
     - React-Core
   - RNCClipboard (1.11.2):
     - React-Core
@@ -1157,7 +1157,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 6bedb63b3de0c5c3bb3cc44595431e2a91c24da2
   ReactCommon: 2642dd48fe3def7738d85f747c05fdd8c3a47950
   RNAnalytics: 6fc4977ed662251d8a0066422aed1d1a5f697caf
-  RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
+  RNCAsyncStorage: f57e929cd7757f2cb3dd8186d123c09e8281a1ad
   RNCClipboard: 3f0451a8100393908bea5c5c5b16f96d45f30bfc
   RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
   RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
