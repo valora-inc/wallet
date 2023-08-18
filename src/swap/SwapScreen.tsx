@@ -58,6 +58,10 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
 
+  const { swapBuyAmountEnabled } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
+  )
+
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSelector(swappableTokensSelector)
   const swappableTokens = useMemo(() => {
@@ -357,6 +361,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && fetchingSwapQuote}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
+            editable={swapBuyAmountEnabled}
           >
             <Text style={[styles.exchangeRateText, { opacity: exchangeRateUpdatePending ? 0 : 1 }]}>
               {fromToken && toToken && exchangeRate ? (
