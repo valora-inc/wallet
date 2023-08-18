@@ -1684,7 +1684,7 @@
     },
     "missingPriceImpactWarning": {
       "title": "Before you swap",
-      "body": "We couldn't estimate the price impact of this swap. Proceed carefully."
+      "body": "The price impact of this swap couldn't be estimated. Proceed carefully."
     },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
