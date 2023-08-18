@@ -79,6 +79,12 @@ export const ExperimentConfigs = {
       discoverCopyEnabled: false,
     },
   },
+  [StatsigExperiments.SWAP_BUY_AMOUNT]: {
+    experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
+    defaultValues: {
+      swapBuyAmountEnabled: true,
+    },
+  },
 }
 
 export const DynamicConfigs = {

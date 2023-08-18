@@ -32,6 +32,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
   buttonPlaceholder: string
   children?: React.ReactNode
+  editable?: boolean
 }
 
 const SwapAmountInput = ({
@@ -47,6 +48,7 @@ const SwapAmountInput = ({
   style,
   buttonPlaceholder,
   children,
+  editable = true,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -78,7 +80,7 @@ const SwapAmountInput = ({
           placeholder="0"
           // hide input when loading to prevent the UI height from jumping
           style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
-          editable={!showInputLoader}
+          editable={editable && !showInputLoader}
           keyboardType="decimal-pad"
           // Work around for RN issue with Samsung keyboards
           // https://github.com/facebook/react-native/issues/22005
