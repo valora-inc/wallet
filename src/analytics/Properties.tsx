@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -1279,7 +1279,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact: string
+    priceImpact?: string
   }
 }
 

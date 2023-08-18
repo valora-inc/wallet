@@ -15,6 +15,7 @@ interface ExchangeRate {
   swapAmount: BigNumber
   price: string
   provider: string
+  estimatedPriceImpact?: string
 }
 
 const useSwapQuote = () => {
@@ -78,6 +79,7 @@ const useSwapQuote = () => {
             ? swapPrice
             : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
         provider: quote.details.swapProvider,
+        estimatedPriceImpact: quote.unvalidatedSwapTransaction.estimatedPriceImpact,
       }
 
       return updatedExchangeRate

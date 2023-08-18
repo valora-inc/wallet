@@ -1682,6 +1682,10 @@
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
     },
+    "missingPriceImpactWarning": {
+      "title": "Before you swap",
+      "body": "We couldn't estimate the price impact of this swap. Proceed carefully."
+    },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
