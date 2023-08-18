@@ -29,13 +29,18 @@ describe('send/utils', () => {
       jest.clearAllMocks()
     })
 
-    const mockData = {
+    const mockData: UriData = {
       address: mockAccount2.toLowerCase(),
       currencyCode: 'USD' as LocalCurrencyCode,
+      displayName: undefined,
+      e164PhoneNumber: undefined,
+      amount: undefined,
+      token: undefined,
+      comment: undefined,
     }
 
     it('should navigate to SendAmount screen when no amount nor token is sent', async () => {
-      await expectSaga(handleSendPaymentData, mockData)
+      await expectSaga(handleSendPaymentData, mockData, false, undefined, false)
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
@@ -51,7 +56,13 @@ describe('send/utils', () => {
     })
 
     it('should navigate to SendAmount screen when no amount is sent but token is', async () => {
-      await expectSaga(handleSendPaymentData, { ...mockData, token: 'cEUR' })
+      await expectSaga(
+        handleSendPaymentData,
+        { ...mockData, token: 'cEUR' },
+        false,
+        undefined,
+        false
+      )
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
@@ -68,7 +79,13 @@ describe('send/utils', () => {
     })
 
     it('should navigate to SendAmount screen when amount and token are sent but not recognized', async () => {
-      await expectSaga(handleSendPaymentData, { ...mockData, amount: 1, token: 'NOT_A_TOKEN' })
+      await expectSaga(
+        handleSendPaymentData,
+        { ...mockData, amount: '1', token: 'NOT_A_TOKEN' },
+        false,
+        undefined,
+        false
+      )
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
@@ -85,7 +102,7 @@ describe('send/utils', () => {
 
     it('should throw an error when no local currency exchange rate is available', async () => {
       await expect(
-        expectSaga(handleSendPaymentData, mockData)
+        expectSaga(handleSendPaymentData, mockData, false, undefined, false)
           .withState(
             createMockStore({
               localCurrency: {
@@ -105,7 +122,13 @@ describe('send/utils', () => {
     })
 
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
-      await expectSaga(handleSendPaymentData, { ...mockData, amount: 1, token: 'cEUR' })
+      await expectSaga(
+        handleSendPaymentData,
+        { ...mockData, amount: '1', token: 'cEUR' },
+        false,
+        undefined,
+        false
+      )
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
@@ -125,7 +148,7 @@ describe('send/utils', () => {
     })
 
     it('should navigate to SendConfirmation screen defaulting to cUSD when amount is sent but token isnt', async () => {
-      await expectSaga(handleSendPaymentData, { ...mockData, amount: 1 })
+      await expectSaga(handleSendPaymentData, { ...mockData, amount: '1' }, false, undefined, false)
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
@@ -171,7 +194,7 @@ describe('send/utils', () => {
       })
 
       it('should navigate to SendAmount screen when only address & currencyCode are given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[3])
+        await expectSaga(handleSendPaymentData, mockUriData[3], false, undefined, false)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
@@ -194,7 +217,7 @@ describe('send/utils', () => {
           amountIsInLocalCurrency: true,
         }
 
-        await expectSaga(handleSendPaymentData, mockUriData[4])
+        await expectSaga(handleSendPaymentData, mockUriData[4], false, undefined, false)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
@@ -216,7 +239,7 @@ describe('send/utils', () => {
           amountIsInLocalCurrency: true,
         }
 
-        await expectSaga(handleSendPaymentData, mockUriData[5])
+        await expectSaga(handleSendPaymentData, mockUriData[5], false, undefined, false)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
@@ -236,7 +259,7 @@ describe('send/utils', () => {
       })
 
       it('should navigate to SendConfirmation screen when address, token = CELO, currencyCode, and amount are given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[0])
+        await expectSaga(handleSendPaymentData, mockUriData[0], false, undefined, false)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
@@ -259,7 +282,7 @@ describe('send/utils', () => {
       })
 
       it('should navigate to SendAmount screen when only address & token = CELO are given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[1])
+        await expectSaga(handleSendPaymentData, mockUriData[1], false, undefined, false)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
@@ -278,7 +301,7 @@ describe('send/utils', () => {
       })
 
       it('should navigate to SendAmount screen when an unsupported token is given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[2])
+        await expectSaga(handleSendPaymentData, mockUriData[2], false, undefined, false)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],

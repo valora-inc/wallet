@@ -1625,7 +1625,12 @@ describe('Fiatconnect saga', () => {
       mockGetFiatAccounts.mockResolvedValueOnce(Result.err(new Error('error')))
       await expect(
         async () =>
-          await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
+          await expectSaga(
+            fetchFiatAccountsSaga,
+            'test-provider',
+            'www.hello.valoraapp.com',
+            undefined
+          )
             .provide([
               [
                 call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
@@ -1648,7 +1653,7 @@ describe('Fiatconnect saga', () => {
           ],
         })
       )
-      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
+      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com', undefined)
         .provide([
           [
             call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
