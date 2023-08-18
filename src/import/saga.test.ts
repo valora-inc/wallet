@@ -76,7 +76,7 @@ describe('Import wallet saga', () => {
     jest.clearAllMocks()
   })
   const expectSuccessfulSagaWithPhrase = async (phrase: string) => {
-    await expectSaga(importBackupPhraseSaga, { phrase, useEmptyWallet: false })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(phrase, false))
       .provide([
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
@@ -115,10 +115,7 @@ describe('Import wallet saga', () => {
     ${'12'}   | ${mockPhraseInvalidChecksumShort}
     ${'24'}   | ${mockPhraseInvalidChecksum}
   `('fails for a $wordCount word phrase invalid checksum', async ({ phrase }) => {
-    await expectSaga(importBackupPhraseSaga, {
-      phrase,
-      useEmptyWallet: false,
-    })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(phrase, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
@@ -136,10 +133,7 @@ describe('Import wallet saga', () => {
   `(
     'imports a $wordCount word phrase with invalid words after autocorrection',
     async ({ phrase, walletAddress }) => {
-      await expectSaga(importBackupPhraseSaga, {
-        phrase,
-        useEmptyWallet: false,
-      })
+      await expectSaga(importBackupPhraseSaga, importBackupPhrase(phrase, false))
         .provide([
           [select(currentLanguageSelector), 'english'],
           // Respond only to the true correct address with a positive balance.
@@ -163,10 +157,7 @@ describe('Import wallet saga', () => {
   )
 
   it('rejects a phrase with invalid words after failed autocorrection', async () => {
-    await expectSaga(importBackupPhraseSaga, {
-      phrase: mockPhraseInvalidWords,
-      useEmptyWallet: false,
-    })
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(mockPhraseInvalidWords, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
@@ -181,7 +172,7 @@ describe('Import wallet saga', () => {
       .run()
   })
 
-  it.only('asks the user to confirm import of an empty phrase', async () => {
+  it('asks the user to confirm import of an empty phrase', async () => {
     await expectSaga(importBackupPhraseSaga, importBackupPhrase(mockPhraseValid, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
