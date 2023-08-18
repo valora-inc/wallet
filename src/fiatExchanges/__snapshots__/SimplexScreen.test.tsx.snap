@@ -3,7 +3,7 @@
 exports[`SimplexScreen renders correctly 1`] = `
 <View
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "center",
       "overflow": "hidden",
@@ -13,7 +13,7 @@ exports[`SimplexScreen renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -23,8 +23,8 @@ exports[`SimplexScreen renders correctly 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "paddingHorizontal": 16,
             "paddingVertical": 16,
           },
@@ -49,7 +49,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -76,7 +76,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -87,8 +87,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       />
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -103,8 +103,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -120,8 +120,8 @@ exports[`SimplexScreen renders correctly 1`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -132,9 +132,9 @@ exports[`SimplexScreen renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Array [],
-                Object {
+              [
+                [],
+                {
                   "color": undefined,
                 },
               ]
@@ -147,8 +147,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -163,14 +163,14 @@ exports[`SimplexScreen renders correctly 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#666666",
               },
             ]
@@ -180,14 +180,14 @@ exports[`SimplexScreen renders correctly 1`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#666666",
               },
             ]
@@ -195,13 +195,13 @@ exports[`SimplexScreen renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "color": "#666666",
                   },
                 ],
-                Object {
+                {
                   "color": "#666666",
                 },
               ]
@@ -215,8 +215,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "backgroundColor": "#E6E6E6",
               "height": 1,
               "marginVertical": 16,
@@ -227,8 +227,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       />
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -243,8 +243,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -257,8 +257,8 @@ exports[`SimplexScreen renders correctly 1`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -269,9 +269,9 @@ exports[`SimplexScreen renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Array [],
-                Object {
+              [
+                [],
+                {
                   "color": undefined,
                 },
               ]
@@ -285,8 +285,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -301,8 +301,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "display": "flex",
                 "flexDirection": "row",
               },
@@ -311,8 +311,8 @@ exports[`SimplexScreen renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
@@ -326,10 +326,27 @@ exports[`SimplexScreen renders correctly 1`] = `
             fee
           </Text>
           <View
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
             accessible={true}
             focusable={true}
             hitSlop={
-              Object {
+              {
                 "bottom": 10,
                 "left": 10,
                 "right": 10,
@@ -337,7 +354,7 @@ exports[`SimplexScreen renders correctly 1`] = `
               }
             }
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackground",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -351,8 +368,8 @@ exports[`SimplexScreen renders correctly 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "marginLeft": 6,
                   "position": "relative",
                   "top": 5,
@@ -384,16 +401,16 @@ exports[`SimplexScreen renders correctly 1`] = `
         <Text>
           <Text
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 22,
                   },
                 ],
-                Object {
+                {
                   "color": "#2E3338",
                 },
               ]
@@ -407,8 +424,8 @@ exports[`SimplexScreen renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -423,14 +440,14 @@ exports[`SimplexScreen renders correctly 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
@@ -443,14 +460,14 @@ exports[`SimplexScreen renders correctly 1`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
@@ -461,16 +478,16 @@ exports[`SimplexScreen renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
                   },
                 ],
-                Object {
+                {
                   "color": "#2E3338",
                 },
               ]
@@ -485,11 +502,11 @@ exports[`SimplexScreen renders correctly 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "flexDirection": "column",
           },
-          Object {
+          {
             "margin": 16,
           },
         ]
@@ -497,11 +514,11 @@ exports[`SimplexScreen renders correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "overflow": "hidden",
             },
-            Object {
+            {
               "borderRadius": 100,
             },
           ]
@@ -509,14 +526,26 @@ exports[`SimplexScreen renders correctly 1`] = `
       >
         <View
           accessibilityState={
-            Object {
+            {
+              "busy": undefined,
+              "checked": undefined,
               "disabled": true,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackground",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -530,8 +559,8 @@ exports[`SimplexScreen renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
                 "flexDirection": "row",
@@ -561,7 +590,7 @@ exports[`SimplexScreen renders correctly 1`] = `
 exports[`SimplexScreen renders correctly 2`] = `
 <View
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "center",
       "overflow": "hidden",
@@ -571,7 +600,7 @@ exports[`SimplexScreen renders correctly 2`] = `
 >
   <View
     style={
-      Object {
+      {
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -581,8 +610,8 @@ exports[`SimplexScreen renders correctly 2`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "paddingHorizontal": 16,
             "paddingVertical": 16,
           },
@@ -607,7 +636,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -634,7 +663,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         scrollTo={null}
         statusBarTranslucent={true}
         supportedOrientations={
-          Array [
+          [
             "portrait",
             "landscape",
           ]
@@ -645,8 +674,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       />
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -661,8 +690,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -678,8 +707,8 @@ exports[`SimplexScreen renders correctly 2`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -690,9 +719,9 @@ exports[`SimplexScreen renders correctly 2`] = `
         >
           <Text
             style={
-              Array [
-                Array [],
-                Object {
+              [
+                [],
+                {
                   "color": undefined,
                 },
               ]
@@ -705,8 +734,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -721,14 +750,14 @@ exports[`SimplexScreen renders correctly 2`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#666666",
               },
             ]
@@ -738,14 +767,14 @@ exports[`SimplexScreen renders correctly 2`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#666666",
               },
             ]
@@ -753,13 +782,13 @@ exports[`SimplexScreen renders correctly 2`] = `
         >
           <Text
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "color": "#666666",
                   },
                 ],
-                Object {
+                {
                   "color": "#666666",
                 },
               ]
@@ -773,8 +802,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "backgroundColor": "#E6E6E6",
               "height": 1,
               "marginVertical": 16,
@@ -785,8 +814,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       />
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -801,8 +830,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -815,8 +844,8 @@ exports[`SimplexScreen renders correctly 2`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -827,9 +856,9 @@ exports[`SimplexScreen renders correctly 2`] = `
         >
           <Text
             style={
-              Array [
-                Array [],
-                Object {
+              [
+                [],
+                {
                   "color": undefined,
                 },
               ]
@@ -843,8 +872,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -859,8 +888,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "display": "flex",
                 "flexDirection": "row",
               },
@@ -869,8 +898,8 @@ exports[`SimplexScreen renders correctly 2`] = `
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
@@ -884,10 +913,27 @@ exports[`SimplexScreen renders correctly 2`] = `
             fee
           </Text>
           <View
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
             accessible={true}
             focusable={true}
             hitSlop={
-              Object {
+              {
                 "bottom": 10,
                 "left": 10,
                 "right": 10,
@@ -895,7 +941,7 @@ exports[`SimplexScreen renders correctly 2`] = `
               }
             }
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackground",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -909,8 +955,8 @@ exports[`SimplexScreen renders correctly 2`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "marginLeft": 6,
                   "position": "relative",
                   "top": 5,
@@ -942,16 +988,16 @@ exports[`SimplexScreen renders correctly 2`] = `
         <Text>
           <Text
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 22,
                   },
                 ],
-                Object {
+                {
                   "color": "#2E3338",
                 },
               ]
@@ -965,8 +1011,8 @@ exports[`SimplexScreen renders correctly 2`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
@@ -981,14 +1027,14 @@ exports[`SimplexScreen renders correctly 2`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
@@ -1001,14 +1047,14 @@ exports[`SimplexScreen renders correctly 2`] = `
         </Text>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
@@ -1019,16 +1065,16 @@ exports[`SimplexScreen renders correctly 2`] = `
         >
           <Text
             style={
-              Array [
-                Array [
-                  Object {
+              [
+                [
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
                   },
                 ],
-                Object {
+                {
                   "color": "#2E3338",
                 },
               ]
@@ -1043,11 +1089,11 @@ exports[`SimplexScreen renders correctly 2`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "flexDirection": "column",
           },
-          Object {
+          {
             "margin": 16,
           },
         ]
@@ -1055,11 +1101,11 @@ exports[`SimplexScreen renders correctly 2`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "overflow": "hidden",
             },
-            Object {
+            {
               "borderRadius": 100,
             },
           ]
@@ -1067,14 +1113,26 @@ exports[`SimplexScreen renders correctly 2`] = `
       >
         <View
           accessibilityState={
-            Object {
+            {
+              "busy": undefined,
+              "checked": undefined,
               "disabled": true,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackground",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -1088,8 +1146,8 @@ exports[`SimplexScreen renders correctly 2`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
                 "flexDirection": "row",
@@ -1107,7 +1165,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           <Text
             maxFontSizeMultiplier={1}
             style={
-              Object {
+              {
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,

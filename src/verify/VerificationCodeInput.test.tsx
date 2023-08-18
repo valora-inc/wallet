@@ -11,6 +11,10 @@ jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
 
 describe('VerificationCodeInputWrapper', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+  })
+
   const mockOnSuccess = jest.fn()
   const mockOnResendSms = jest.fn()
   const mockSetSmsCode = jest.fn()

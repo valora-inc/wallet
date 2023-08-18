@@ -105,6 +105,7 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
+    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
   })
 

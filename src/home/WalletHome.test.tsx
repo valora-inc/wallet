@@ -111,7 +111,7 @@ describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
 
   beforeEach(() => {
-    jest.useFakeTimers()
+    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
     mockFetch.mockResponse(
       JSON.stringify({

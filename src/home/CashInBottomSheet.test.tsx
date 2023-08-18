@@ -42,6 +42,7 @@ describe('CashInBottomSheet', () => {
   const mockFetch = fetch as FetchMock
 
   beforeEach(() => {
+    jest.useFakeTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })

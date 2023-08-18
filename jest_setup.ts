@@ -14,6 +14,7 @@ global.fetch = require('jest-fetch-mock')
 
 // Mock LayoutAnimation as it's done not automatically
 jest.mock('react-native/Libraries/LayoutAnimation/LayoutAnimation.js')
+jest.mock('react-native/Libraries/Animated/animations/SpringAnimation.js')
 jest.mock('react-native/Libraries/Animated/animations/TimingAnimation.js')
 
 // Mock Animated Views this way otherwise we get a
@@ -25,6 +26,13 @@ jest.mock('react-native/Libraries/Animated/components/AnimatedView.js', () => ({
 jest.mock('react-native/Libraries/Animated/components/AnimatedScrollView.js', () => ({
   default: 'RCTScrollView',
 }))
+jest.mock('react-native-webview', () => {
+  const { View } = require('react-native')
+  return {
+    default: View,
+    WebView: View,
+  }
+})
 
 // Mock ToastAndroid as it's not done automatically
 jest.mock('react-native/Libraries/Components/ToastAndroid/ToastAndroid.android.js', () => ({

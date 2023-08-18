@@ -156,6 +156,7 @@ const defaultQuoteResponse = JSON.stringify({
 
 describe('SwapScreen', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
 

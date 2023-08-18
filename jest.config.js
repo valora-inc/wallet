@@ -7,10 +7,6 @@ module.exports = {
     navigator: true,
     window: true,
   },
-  fakeTimers: {
-    enableGlobally: true,
-    legacyFakeTimers: true,
-  },
   haste: {
     ...reactNativeJestPreset.haste,
     defaultPlatform: 'android',

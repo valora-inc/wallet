@@ -57,6 +57,7 @@ const renderComponent = () =>
 
 describe('VerificationCodeInputScreen', () => {
   beforeEach(() => {
+    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
     mockFetch.resetMocks()
     store.clearActions()
