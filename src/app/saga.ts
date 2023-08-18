@@ -10,20 +10,20 @@ import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
-  OpenDeepLink,
-  OpenUrlAction,
-  SetAppState,
   androidMobileServicesAvailabilityChecked,
   appLock,
   inAppReviewRequested,
   inviteLinkConsumed,
   minAppVersionDetermined,
+  OpenDeepLink,
   openDeepLink,
+  OpenUrlAction,
   phoneNumberVerificationMigrated,
+  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -48,9 +48,9 @@ import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import {
   appVersionDeprecationChannel,
   fetchRemoteConfigValues,
@@ -80,9 +80,9 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
-import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -250,7 +250,6 @@ export interface RemoteConfigValues {
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
-  shouldShowRecoveryPhraseInSettings: boolean
   maxSwapSlippagePercentage: number
   networkTimeoutSeconds: number
   dappFavoritesEnabled: boolean

@@ -27,7 +27,6 @@ import {
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
@@ -214,7 +213,6 @@ export default function DrawerNavigator({ route }: Props) {
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
@@ -297,7 +295,7 @@ export default function DrawerNavigator({ route }: Props) {
         />
       )}
 
-      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) &&
+      {!backupCompleted &&
         (showKeylessBackup() ? (
           <Drawer.Screen
             // NOTE: this needs to be a different screen name from the screen
