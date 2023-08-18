@@ -5186,10 +5186,10 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.1.0, bl@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.4.tgz#57eaf7ca2b5698dbd717bef3e05a14058257c28f"
-  integrity sha512-GGacz5iDrO9gmt3Pa19rYe7AJECJDYAErDN+JuKJG6WhGZG26mE1Lbk4pabK+cMWzvpECzk4KAMfMaWD67l1SA==
+bl@^4.1.0, bl@^6.0.5:
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.6.tgz#a9373de876e3619c707d0fb15af011037cc380a7"
+  integrity sha512-NqSAj8YLlID2Tbd7/ZB2Gj+N+2wwsAfDD38T1beT8KYytNwJEnxFTGOpvrGY0MTWq7VkWzuQ4PC3nBNgrMGWBQ==
   dependencies:
     buffer "^6.0.3"
     inherits "^2.0.4"
@@ -13663,10 +13663,10 @@ react-native-flipper@^0.127.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"
   integrity sha512-qloUyUOs9MoMVncIDDWeOxAPbomWJ3e4y0SgyCgq8joJEOXC7RvPWeEfUXp0EPyNhHGQV9a4RwzF6BWKFCR3Kg==
 
-react-native-flipper@^0.210.1, react-native-flipper@^0.34.0:
-  version "0.210.1"
-  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.210.1.tgz#0501aa302af3f811f8f47e937488fd1358146c1e"
-  integrity sha512-LnnV9lEHT0ri3VK1EYWluz4wAcnphAjPEMHjNdPqUEaA1kAj5Fi3y9BM8b591iaNf22qBnGRYbmrxjYXqHtcJw==
+react-native-flipper@^0.211.0, react-native-flipper@^0.34.0:
+  version "0.211.1"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.211.1.tgz#c6bf94f86ad1101e3c51b07aa2c68d99fd19e027"
+  integrity sha512-G0AfySXdWLBk0pvyx88SMI3+g9E+JHELEqnxAORjAace4eSGDucJ0GsT85uXX4iUKK/B1BSHZ39FIzy79dPMkQ==
 
 react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
   version "2.16.6"
