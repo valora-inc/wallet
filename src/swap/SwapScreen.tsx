@@ -188,7 +188,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         ? new BigNumber(exchangeRate.estimatedPriceImpact).dividedBy(100)
         : undefined
 
-      const isPriceImpactMissing = !priceImpact
+      const isPriceImpactMissing = priceImpact === undefined
 
       const priceImpactExceedsThreshold =
         !!priceImpact && priceImpact.gte(priceImpactWarningThreshold)
