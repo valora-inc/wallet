@@ -308,16 +308,14 @@ export default function DrawerNavigator({ route }: Props) {
             // @ts-expect-error component type in native-stack v6
             component={WalletSecurityPrimer}
             options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('walletSecurity') ?? undefined,
+              drawerLabel: () => (
+                <View style={styles.itemStyle}>
+                  <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
+                  <View style={styles.drawerItemIcon}>
+                    <ExclamationCircleIcon />
+                  </View>
+                </View>
+              ),
               title: t('walletSecurity') ?? undefined,
               drawerIcon: AccountKey,
             }}
@@ -329,16 +327,14 @@ export default function DrawerNavigator({ route }: Props) {
             // @ts-expect-error component type in native-stack v6
             component={BackupIntroduction}
             options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('accountKey') ?? undefined,
+              drawerLabel: () => (
+                <View style={styles.itemStyle}>
+                  <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                  <View style={styles.drawerItemIcon}>
+                    <ExclamationCircleIcon />
+                  </View>
+                </View>
+              ),
               title: t('accountKey') ?? undefined,
               drawerIcon: AccountKey,
             }}
