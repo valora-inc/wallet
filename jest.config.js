@@ -5,14 +5,11 @@ module.exports = {
   ...tsjPreset,
   globals: {
     navigator: true,
-    'ts-jest': {
-      babelConfig: true,
-      // Disables type-check when running tests as it takes valuable time
-      // and is redundant with the tsc build step
-      isolatedModules: true,
-      tsconfig: 'tsconfig.test.json',
-    },
     window: true,
+  },
+  fakeTimers: {
+    enableGlobally: true,
+    legacyFakeTimers: true,
   },
   haste: {
     ...reactNativeJestPreset.haste,
@@ -38,10 +35,19 @@ module.exports = {
   ],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e'],
   transform: {
-    ...tsjPreset.transform,
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        babelConfig: true,
+        // Disables type-check when running tests as it takes valuable time
+        // and is redundant with the tsc build step
+        isolatedModules: true,
+        tsconfig: 'tsconfig.test.json',
+      },
+    ],
     '^.+\\.(txt)$': require.resolve('./node_modules/react-native/jest/assetFileTransformer.js'),
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(@celo/)?@?react-native|@react-navigation|@react-native-community|@react-native-firebase|react-navigation|redux-persist|date-fns|victory-*|@walletconnect/react-native-compat|reactotron)',
+    'node_modules/(?!(@celo/)?@?react-native|@react-navigation|@react-native-community|uuid|statsig-js|@react-native-firebase|react-navigation|redux-persist|date-fns|victory-*|@walletconnect/react-native-compat|reactotron)',
   ],
 }
