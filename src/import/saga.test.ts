@@ -13,8 +13,12 @@ import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/a
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
-import { MNEMONIC_AUTOCORRECT_TIMEOUT, importBackupPhraseSaga } from 'src/import/saga'
+import {
+  importBackupPhrase,
+  importBackupPhraseFailure,
+  importBackupPhraseSuccess,
+} from 'src/import/actions'
+import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
@@ -177,8 +181,8 @@ describe('Import wallet saga', () => {
       .run()
   })
 
-  it('asks the user to confirm import of an empty phrase', async () => {
-    await expectSaga(importBackupPhraseSaga, { phrase: mockPhraseValid, useEmptyWallet: false })
+  it.only('asks the user to confirm import of an empty phrase', async () => {
+    await expectSaga(importBackupPhraseSaga, importBackupPhrase(mockPhraseValid, false))
       .provide([
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],

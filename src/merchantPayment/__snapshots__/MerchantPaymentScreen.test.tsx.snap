@@ -3,12 +3,12 @@
 exports[`MerchantPaymentScreen renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
+    [
       "bottom",
     ]
   }
   style={
-    Object {
+    {
       "flex": 1,
       "paddingHorizontal": 8,
     }
@@ -16,7 +16,7 @@ exports[`MerchantPaymentScreen renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "paddingTop": "75%",
       }
     }

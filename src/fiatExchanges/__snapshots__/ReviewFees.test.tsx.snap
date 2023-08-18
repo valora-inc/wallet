@@ -3,8 +3,8 @@
 exports[`ReviewFees renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "paddingHorizontal": 16,
         "paddingVertical": 16,
       },
@@ -29,7 +29,7 @@ exports[`ReviewFees renders correctly 1`] = `
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -56,7 +56,7 @@ exports[`ReviewFees renders correctly 1`] = `
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -67,8 +67,8 @@ exports[`ReviewFees renders correctly 1`] = `
   />
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -83,8 +83,8 @@ exports[`ReviewFees renders correctly 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -100,8 +100,8 @@ exports[`ReviewFees renders correctly 1`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -112,9 +112,9 @@ exports[`ReviewFees renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Array [],
-            Object {
+          [
+            [],
+            {
               "color": undefined,
             },
           ]
@@ -127,8 +127,8 @@ exports[`ReviewFees renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -143,14 +143,14 @@ exports[`ReviewFees renders correctly 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#666666",
           },
         ]
@@ -160,14 +160,14 @@ exports[`ReviewFees renders correctly 1`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#666666",
           },
         ]
@@ -175,13 +175,13 @@ exports[`ReviewFees renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "color": "#666666",
               },
             ],
-            Object {
+            {
               "color": "#666666",
             },
           ]
@@ -195,8 +195,8 @@ exports[`ReviewFees renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#E6E6E6",
           "height": 1,
           "marginVertical": 16,
@@ -207,8 +207,8 @@ exports[`ReviewFees renders correctly 1`] = `
   />
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -223,8 +223,8 @@ exports[`ReviewFees renders correctly 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -237,8 +237,8 @@ exports[`ReviewFees renders correctly 1`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -249,9 +249,9 @@ exports[`ReviewFees renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Array [],
-            Object {
+          [
+            [],
+            {
               "color": undefined,
             },
           ]
@@ -265,8 +265,8 @@ exports[`ReviewFees renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -281,8 +281,8 @@ exports[`ReviewFees renders correctly 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "display": "flex",
             "flexDirection": "row",
           },
@@ -291,8 +291,8 @@ exports[`ReviewFees renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -306,10 +306,27 @@ exports[`ReviewFees renders correctly 1`] = `
         fee
       </Text>
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -317,7 +334,7 @@ exports[`ReviewFees renders correctly 1`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackground",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -331,8 +348,8 @@ exports[`ReviewFees renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "marginLeft": 6,
               "position": "relative",
               "top": 5,
@@ -364,16 +381,16 @@ exports[`ReviewFees renders correctly 1`] = `
     <Text>
       <Text
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
             ],
-            Object {
+            {
               "color": "#2E3338",
             },
           ]
@@ -387,8 +404,8 @@ exports[`ReviewFees renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -403,14 +420,14 @@ exports[`ReviewFees renders correctly 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
@@ -423,14 +440,14 @@ exports[`ReviewFees renders correctly 1`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
@@ -441,16 +458,16 @@ exports[`ReviewFees renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
             ],
-            Object {
+            {
               "color": "#2E3338",
             },
           ]
@@ -468,8 +485,8 @@ exports[`ReviewFees renders correctly 1`] = `
 exports[`ReviewFees renders correctly 2`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "paddingHorizontal": 16,
         "paddingVertical": 16,
       },
@@ -494,7 +511,7 @@ exports[`ReviewFees renders correctly 2`] = `
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -521,7 +538,7 @@ exports[`ReviewFees renders correctly 2`] = `
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -532,8 +549,8 @@ exports[`ReviewFees renders correctly 2`] = `
   />
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -548,8 +565,8 @@ exports[`ReviewFees renders correctly 2`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -565,8 +582,8 @@ exports[`ReviewFees renders correctly 2`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -577,9 +594,9 @@ exports[`ReviewFees renders correctly 2`] = `
     >
       <Text
         style={
-          Array [
-            Array [],
-            Object {
+          [
+            [],
+            {
               "color": undefined,
             },
           ]
@@ -592,8 +609,8 @@ exports[`ReviewFees renders correctly 2`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -608,14 +625,14 @@ exports[`ReviewFees renders correctly 2`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#666666",
           },
         ]
@@ -625,14 +642,14 @@ exports[`ReviewFees renders correctly 2`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#666666",
           },
         ]
@@ -640,13 +657,13 @@ exports[`ReviewFees renders correctly 2`] = `
     >
       <Text
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "color": "#666666",
               },
             ],
-            Object {
+            {
               "color": "#666666",
             },
           ]
@@ -660,8 +677,8 @@ exports[`ReviewFees renders correctly 2`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#E6E6E6",
           "height": 1,
           "marginVertical": 16,
@@ -672,8 +689,8 @@ exports[`ReviewFees renders correctly 2`] = `
   />
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -688,8 +705,8 @@ exports[`ReviewFees renders correctly 2`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -702,8 +719,8 @@ exports[`ReviewFees renders correctly 2`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -714,9 +731,9 @@ exports[`ReviewFees renders correctly 2`] = `
     >
       <Text
         style={
-          Array [
-            Array [],
-            Object {
+          [
+            [],
+            {
               "color": undefined,
             },
           ]
@@ -730,8 +747,8 @@ exports[`ReviewFees renders correctly 2`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -746,8 +763,8 @@ exports[`ReviewFees renders correctly 2`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "display": "flex",
             "flexDirection": "row",
           },
@@ -756,8 +773,8 @@ exports[`ReviewFees renders correctly 2`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -769,10 +786,27 @@ exports[`ReviewFees renders correctly 2`] = `
         feeDiscount
       </Text>
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -780,7 +814,7 @@ exports[`ReviewFees renders correctly 2`] = `
           }
         }
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackground",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -794,8 +828,8 @@ exports[`ReviewFees renders correctly 2`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
+          [
+            {
               "marginLeft": 6,
               "position": "relative",
               "top": 5,
@@ -826,7 +860,7 @@ exports[`ReviewFees renders correctly 2`] = `
     </View>
     <Text
       style={
-        Object {
+        {
           "color": "#1AB775",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
@@ -839,8 +873,8 @@ exports[`ReviewFees renders correctly 2`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
@@ -855,14 +889,14 @@ exports[`ReviewFees renders correctly 2`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
@@ -875,14 +909,14 @@ exports[`ReviewFees renders correctly 2`] = `
     </Text>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
@@ -893,16 +927,16 @@ exports[`ReviewFees renders correctly 2`] = `
     >
       <Text
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
             ],
-            Object {
+            {
               "color": "#2E3338",
             },
           ]
