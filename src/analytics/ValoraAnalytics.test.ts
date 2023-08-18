@@ -30,7 +30,7 @@ jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('src/config', () => ({
-  ...jest.requireActual('src/config'),
+  ...(jest.requireActual('src/config') as any),
   STATSIG_API_KEY: 'statsig-key',
 }))
 jest.mock('statsig-react-native')
