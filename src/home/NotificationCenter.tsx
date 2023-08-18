@@ -18,9 +18,9 @@ import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
-import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
@@ -35,6 +35,8 @@ import { Spacing } from 'src/styles/styles'
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
 export function useNotifications() {
+  const recipientInfo = useSelector(recipientInfoSelector)
+
   const notifications: Notification[] = []
 
   // Pending outgoing invites in escrow
@@ -72,8 +74,6 @@ export function useNotifications() {
   // Outgoing payment requests
   const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
   if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
-    const recipientInfo = useSelector(recipientInfoSelector)
-
     for (const request of outgoingPaymentRequests) {
       if (!request.uid) {
         continue
