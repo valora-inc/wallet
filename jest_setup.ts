@@ -14,6 +14,7 @@ global.fetch = require('jest-fetch-mock')
 
 // Mock LayoutAnimation as it's done not automatically
 jest.mock('react-native/Libraries/LayoutAnimation/LayoutAnimation.js')
+jest.mock('react-native/Libraries/Animated/animations/TimingAnimation.js')
 
 // Mock Animated Views this way otherwise we get a
 // `JavaScript heap out of memory` error when a ref is set (?!)
