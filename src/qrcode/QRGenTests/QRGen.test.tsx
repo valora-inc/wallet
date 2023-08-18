@@ -22,7 +22,7 @@ describe('QRCode', () => {
         svgRef={{ current: null }}
       />
     )
-    expect(onErrorMock).toHaveBeenCalledTimes(1)
+    expect(onErrorMock).toBeCalledTimes(1)
   })
 
   it('does not call onError in case if value is fine', () => {

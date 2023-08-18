@@ -12,7 +12,7 @@ describe('SmallButton', () => {
         <SmallButton solid={true} onPress={handler} text="SmallButton" />
       )
       fireEvent.press(UNSAFE_getByType(Touchable))
-      expect(handler).toHaveBeenCalled()
+      expect(handler).toBeCalled()
     })
   })
   it('renders with minimum props', () => {

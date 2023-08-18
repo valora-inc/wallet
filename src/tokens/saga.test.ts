@@ -13,10 +13,10 @@ import {
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
-  fetchTokenBalancesFailure,
-  setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
+  fetchTokenBalancesFailure,
+  setTokenBalances,
 } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -134,7 +134,7 @@ describe(tokenAmountInSmallestUnit, () => {
       expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
         .withState(createMockStore({}).getState())
         .run()
-    ).rejects.toThrow(`Couldnt find token info for address ${mockAddress}.`)
+    ).rejects.toThrowError(`Couldnt find token info for address ${mockAddress}.`)
   })
 })
 

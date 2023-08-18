@@ -32,6 +32,6 @@ describe('RewardsPill', () => {
       </Provider>
     )
     fireEvent.press(getByTestId('EarnRewards'))
-    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
+    expect(navigate).toBeCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 })

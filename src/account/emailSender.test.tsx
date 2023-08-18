@@ -22,7 +22,7 @@ describe('emailSender', () => {
       body,
       isHTML: true,
     })
-    expect(Mailer.mail).toHaveBeenCalledWith(
+    expect(Mailer.mail).toBeCalledWith(
       expect.objectContaining({
         isHTML: true,
         body,

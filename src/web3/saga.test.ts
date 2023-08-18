@@ -172,6 +172,6 @@ describe('getConnectedUnlockedAccount', () => {
         ])
         .not.call(generateSignedMessage)
         .run()
-    ).rejects.toThrow(ErrorMessages.INCORRECT_PIN)
+    ).rejects.toThrowError(ErrorMessages.INCORRECT_PIN)
   })
 })

@@ -52,7 +52,7 @@ describe('PincodeEnter', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(mockScreenProps.route.params.onSuccess).toHaveBeenCalledWith(pin)
+    expect(mockScreenProps.route.params.onSuccess).toBeCalledWith(pin)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_input_start

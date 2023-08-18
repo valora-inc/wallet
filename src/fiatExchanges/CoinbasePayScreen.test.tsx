@@ -26,7 +26,7 @@ describe('CoinbasePayScreen', () => {
     )
     fireEvent.press(getByText('close'))
     await waitFor(() => {
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(CoinbasePayEvents.coinbase_pay_flow_exit)
+      expect(ValoraAnalytics.track).toBeCalledWith(CoinbasePayEvents.coinbase_pay_flow_exit)
     })
   })
 })

@@ -11,9 +11,9 @@ import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-ba
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
+import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 
 // Use real encryption
 jest.unmock('crypto-js')
@@ -107,9 +107,9 @@ describe('KeychainWallet', () => {
   })
 
   it('fails if you add an invalid private key', async () => {
-    await expect(wallet.addAccount('this is not a valid private key', 'password')).rejects.toThrow(
-      'private key length is invalid'
-    )
+    await expect(
+      wallet.addAccount('this is not a valid private key', 'password')
+    ).rejects.toThrowError('private key length is invalid')
   })
 
   it('succeeds if you add a private key without 0x', async () => {
@@ -226,34 +226,34 @@ describe('KeychainWallet', () => {
           gatewayFee: '0x5678',
           data: '0xabcdef',
         }
-        await expect(wallet.signTransaction(celoTransaction)).rejects.toThrow(
+        await expect(wallet.signTransaction(celoTransaction)).rejects.toThrowError(
           'authentication needed: password or unlock'
         )
       })
 
       it('fails calling signPersonalMessage', async () => {
         const hexStr: string = '0xa1'
-        await expect(wallet.signPersonalMessage(knownAddress, hexStr)).rejects.toThrow(
+        await expect(wallet.signPersonalMessage(knownAddress, hexStr)).rejects.toThrowError(
           'authentication needed: password or unlock'
         )
       })
 
       it('fails calling signTypedData', async () => {
-        await expect(wallet.signTypedData(knownAddress, TYPED_DATA)).rejects.toThrow(
+        await expect(wallet.signTypedData(knownAddress, TYPED_DATA)).rejects.toThrowError(
           'authentication needed: password or unlock'
         )
       })
 
       it('fails calling decrypt', async () => {
-        await expect(wallet.decrypt(knownAddress, Buffer.from('anything'))).rejects.toThrow(
+        await expect(wallet.decrypt(knownAddress, Buffer.from('anything'))).rejects.toThrowError(
           'authentication needed: password or unlock'
         )
       })
 
       it('fails calling computeSharedSecret', async () => {
-        await expect(wallet.computeSharedSecret(knownAddress, ACCOUNT_ADDRESS2)).rejects.toThrow(
-          'authentication needed: password or unlock'
-        )
+        await expect(
+          wallet.computeSharedSecret(knownAddress, ACCOUNT_ADDRESS2)
+        ).rejects.toThrowError('authentication needed: password or unlock')
       })
     })
 
@@ -293,20 +293,20 @@ describe('KeychainWallet', () => {
           })
 
           it('fails calling signTransaction', async () => {
-            await expect(wallet.signTransaction(celoTransaction)).rejects.toThrow(
+            await expect(wallet.signTransaction(celoTransaction)).rejects.toThrowError(
               `Could not find address ${UNKNOWN_ADDRESS}`
             )
           })
 
           it('fails calling signPersonalMessage', async () => {
             const hexStr: string = '0xa1'
-            await expect(wallet.signPersonalMessage(UNKNOWN_ADDRESS, hexStr)).rejects.toThrow(
+            await expect(wallet.signPersonalMessage(UNKNOWN_ADDRESS, hexStr)).rejects.toThrowError(
               `Could not find address ${UNKNOWN_ADDRESS}`
             )
           })
 
           it('fails calling signTypedData', async () => {
-            await expect(wallet.signTypedData(UNKNOWN_ADDRESS, TYPED_DATA)).rejects.toThrow(
+            await expect(wallet.signTypedData(UNKNOWN_ADDRESS, TYPED_DATA)).rejects.toThrowError(
               `Could not find address ${UNKNOWN_ADDRESS}`
             )
           })
@@ -345,7 +345,7 @@ describe('KeychainWallet', () => {
             it('fails when trying to sign a tx with an invalid gas price', async () => {
               for (const gasPrice of [0, '0x0', '0x', '0', '']) {
                 const testTx = { ...celoTransaction, gasPrice }
-                await expect(wallet.signTransaction(testTx)).rejects.toThrow(
+                await expect(wallet.signTransaction(testTx)).rejects.toThrowError(
                   /Preventing sign tx with 'gasPrice'/
                 )
               }
@@ -376,9 +376,9 @@ describe('KeychainWallet', () => {
       describe('decryption', () => {
         describe('using an unknown address', () => {
           it('fails calling decrypt', async () => {
-            await expect(wallet.decrypt(UNKNOWN_ADDRESS, Buffer.from('anything'))).rejects.toThrow(
-              `Could not find address ${UNKNOWN_ADDRESS}`
-            )
+            await expect(
+              wallet.decrypt(UNKNOWN_ADDRESS, Buffer.from('anything'))
+            ).rejects.toThrowError(`Could not find address ${UNKNOWN_ADDRESS}`)
           })
         })
 
@@ -583,7 +583,7 @@ describe('KeychainWallet', () => {
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
           await expect(
             wallet.unlockAccount(GETH_ACCOUNT_ADDRESS, 'password', UNLOCK_DURATION)
-          ).rejects.toThrow(
+          ).rejects.toThrowError(
             'Generated private key address (0x652e61b1f42e37f0d101252161cbce07a0af30fa) does not match the existing account address (0x0be03211499a654f0c00d8148b074c5d574654e4)'
           )
 
@@ -624,7 +624,7 @@ describe('KeychainWallet', () => {
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
           await expect(
             wallet.unlockAccount(GETH_ACCOUNT_ADDRESS, 'password', UNLOCK_DURATION)
-          ).rejects.toThrow('No mnemonic found in storage')
+          ).rejects.toThrowError('No mnemonic found in storage')
 
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
 

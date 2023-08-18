@@ -100,7 +100,7 @@ describe('send/utils', () => {
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-      ).rejects.toThrow("Precondition failed: Can't send tokens from payment data")
+      ).rejects.toThrowError("Precondition failed: Can't send tokens from payment data")
       expect(navigate).not.toHaveBeenCalled()
     })
 

@@ -16,7 +16,7 @@ describe('Given TopBarTextButtonOnboarding', () => {
       const button = getByTestId('TopBarTextButtonOnboarding')
 
       fireEvent.press(button)
-      expect(onPress).toHaveBeenCalled()
+      expect(onPress).toBeCalled()
     })
   })
 })

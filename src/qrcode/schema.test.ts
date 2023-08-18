@@ -71,7 +71,7 @@ describe('qrcode/schema', () => {
     })
 
     it('should parse with error on invalid address', () => {
-      expect(() => uriDataFromJson({ address: zeroAddress().slice(0, -1) })).toThrow(
+      expect(() => uriDataFromJson({ address: zeroAddress().slice(0, -1) })).toThrowError(
         'is not a valid address'
       )
     })

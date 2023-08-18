@@ -25,18 +25,18 @@ describe('Support', () => {
   it('navigates to Web FAQ', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('FAQLink'))
-    expect(navigateToURI).toHaveBeenCalledWith(FAQ_LINK)
+    expect(navigateToURI).toBeCalledWith(FAQ_LINK)
   })
 
   it('navigates to Forum', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('ForumLink'))
-    expect(navigateToURI).toHaveBeenCalledWith(FORUM_LINK)
+    expect(navigateToURI).toBeCalledWith(FORUM_LINK)
   })
 
   it('navigates to Contact', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('SupportContactLink'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
+    expect(navigate).toBeCalledWith(Screens.SupportContact)
   })
 })

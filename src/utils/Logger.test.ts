@@ -46,7 +46,7 @@ describe('utils/Logger', () => {
   it('Logger overrides console.debug', () => {
     console.debug = jest.fn()
     Logger.debug('Test/Debug', 'Test message #1', 'Test message #2', { someVal: 'test' })
-    expect(console.debug).toHaveBeenCalledTimes(1)
+    expect(console.debug).toBeCalledTimes(1)
     expect(console.debug).toHaveBeenCalledWith('Test/Debug', 'Test message #1', 'Test message #2', {
       someVal: 'test',
     })
@@ -55,7 +55,7 @@ describe('utils/Logger', () => {
   it('Logger overrides console.info', () => {
     console.info = jest.fn()
     Logger.info('Test/Info', 'Test message #1', 'Test message #2', { someVal: 'test' })
-    expect(console.info).toHaveBeenCalledTimes(1)
+    expect(console.info).toBeCalledTimes(1)
     expect(console.info).toHaveBeenCalledWith('Test/Info', 'Test message #1', 'Test message #2', {
       someVal: 'test',
     })
@@ -64,7 +64,7 @@ describe('utils/Logger', () => {
   it('Logger.warn pipes to console.warn', () => {
     console.warn = jest.fn()
     Logger.warn('Test/Warn', 'Test message #1', 'Test message #2', { someVal: 'test' })
-    expect(console.warn).toHaveBeenCalledTimes(1)
+    expect(console.warn).toBeCalledTimes(1)
     expect(console.warn).toHaveBeenCalledWith('Test/Warn', 'Test message #1', 'Test message #2', {
       someVal: 'test',
     })
@@ -79,7 +79,7 @@ describe('utils/Logger', () => {
       '/Users/flarf/src/github.com/valora-inc/wallet/src/utils/Logger.test.ts'
     )
     Logger.error('Test/Error', 'Test message #1', testError)
-    expect(console.error).toHaveBeenCalledTimes(1)
+    expect(console.error).toBeCalledTimes(1)
     expect((console.error as jest.Mock).mock.calls[0]).toMatchInlineSnapshot(`
       Array [
         "Test/Error :: Test message #1 :: This is a test error in Error: This is a test error

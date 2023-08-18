@@ -90,7 +90,7 @@ describe('Fetch phone hash details', () => {
         ])
         .withState(state)
         .run()
-    ).rejects.toThrow(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
+    ).rejects.toThrowError(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
   })
 
   // TODO confirm it navs to quota purchase screen

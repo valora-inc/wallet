@@ -48,7 +48,7 @@ describe('OnboardingRecoveryPhraseScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_complete)
     expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingCompleted())
-    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+    expect(goToNextOnboardingScreen).toBeCalledWith({
       firstScreenInCurrentStep: Screens.ProtectWallet,
       onboardingProps: mockOnboardingProps,
     })

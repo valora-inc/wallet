@@ -78,7 +78,7 @@ describe('Contact', () => {
 
       await flushMicrotasksQueue()
 
-      expect(Mailer.mail).toHaveBeenCalledWith(
+      expect(Mailer.mail).toBeCalledWith(
         expect.objectContaining({
           isHTML: true,
           body: 'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"os":"android","country":"US","region":null,"deviceId":"someDeviceId","deviceBrand":"someBrand","deviceModel":"someModel","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedCentralized":false,"hooksPreviewEnabled":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
@@ -123,7 +123,7 @@ describe('Contact', () => {
 
       await flushMicrotasksQueue()
 
-      expect(Mailer.mail).not.toHaveBeenCalled()
+      expect(Mailer.mail).not.toBeCalled()
       expect(sendSupportRequest).toHaveBeenCalledWith({
         message: 'Test Message',
         deviceInfo: {

@@ -44,6 +44,6 @@ describe('ExternalExchanges', () => {
     expect(getByTestId('provider-1')).toBeTruthy()
     expect(getByTestId('provider-2')).toBeTruthy()
     await fireEvent.press(getByTestId('provider-1'))
-    expect(navigateToURI).toHaveBeenCalledWith('https://coinlist.co/asset/celo')
+    expect(navigateToURI).toBeCalledWith('https://coinlist.co/asset/celo')
   })
 })

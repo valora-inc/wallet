@@ -12,7 +12,7 @@ describe('Button', () => {
       const button = getByTestId('TEST')
 
       fireEvent.press(button)
-      expect(handler).toHaveBeenCalled()
+      expect(handler).toBeCalled()
     })
     // react-native-testing-library fireEvent.press simply calls the handler passed into onPress
     // therefore testing press events is not reliable.
@@ -25,7 +25,7 @@ describe('Button', () => {
       fireEvent.press(button)
       fireEvent.press(button)
       fireEvent.press(button)
-      expect(handler).toHaveBeenCalledTimes(1)
+      expect(handler).toBeCalledTimes(1)
     })
 
     describe('when disabled', () => {
@@ -42,7 +42,7 @@ describe('Button', () => {
         )
         const button = getByTestId('TEST')
         fireEvent.press(button)
-        expect(handler).not.toHaveBeenCalled()
+        expect(handler).not.toBeCalled()
       })
     })
   })

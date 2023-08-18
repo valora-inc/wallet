@@ -5,8 +5,8 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
-  KycSchema,
   KycStatus as FiatConnectKycStatus,
+  KycSchema,
   TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
@@ -24,9 +24,20 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
-import { fetchQuotes, FiatConnectQuoteSuccess, getFiatConnectProviders } from 'src/fiatconnect'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess, fetchQuotes, getFiatConnectProviders } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
+  _checkFiatAccountAndNavigate,
+  _getFiatAccount,
+  _getQuotes,
+  _getSpecificQuote,
+  _initiateSendTxToProvider,
+  _initiateTransferWithProvider,
+  _selectQuoteAndFiatAccount,
+  _selectQuoteMatchingFiatAccount,
   fetchFiatAccountsSaga,
   handleAttemptReturnUserFlow,
   handleCreateFiatConnectTransfer,
@@ -37,14 +48,6 @@ import {
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
   handleSubmitFiatAccount,
-  _checkFiatAccountAndNavigate,
-  _getFiatAccount,
-  _getQuotes,
-  _getSpecificQuote,
-  _initiateSendTxToProvider,
-  _initiateTransferWithProvider,
-  _selectQuoteAndFiatAccount,
-  _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
 import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
@@ -75,9 +78,6 @@ import {
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
 import { FiatConnectTxError } from 'src/fiatconnect/types'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { deleteKyc, getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -87,9 +87,9 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { newTransactionContext, TransactionContext } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockCeloAddress,
@@ -211,7 +211,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         normalizedQuote: normalizedQuote,
         flow: normalizedQuote.flow,
@@ -342,7 +342,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         normalizedQuote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -403,7 +403,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycDenied, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -464,7 +464,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycExpired, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -524,7 +524,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -575,7 +575,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,
@@ -635,7 +635,7 @@ describe('Fiatconnect saga', () => {
           fiatAccountSchema: normalizedQuoteKyc.getFiatAccountSchema(),
         }
       )
-      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toBeCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.KycPending, {
         quote: normalizedQuoteKyc,
         flow: normalizedQuoteKyc.flow,

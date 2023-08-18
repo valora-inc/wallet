@@ -77,7 +77,7 @@ describe('TransferStatusScreen', () => {
           <TransferStatusScreen {...mockProps} />
         </Provider>
       )
-      expect(mockProps.navigation.setOptions).toHaveBeenCalledWith(
+      expect(mockProps.navigation.setOptions).toBeCalledWith(
         expect.objectContaining({
           headerTitle: 'fiatConnectStatusScreen.success.header',
         })
@@ -274,7 +274,7 @@ describe('TransferStatusScreen', () => {
           <TransferStatusScreen {...mockProps} />
         </Provider>
       )
-      expect(mockProps.navigation.setOptions).toHaveBeenCalledWith(
+      expect(mockProps.navigation.setOptions).toBeCalledWith(
         expect.objectContaining({
           headerLeft: expect.any(Function),
           headerRight: expect.any(Function),
@@ -366,7 +366,7 @@ describe('TransferStatusScreen', () => {
         </Provider>
       )
       expect(getByTestId('loadingTransferStatus')).toBeTruthy()
-      expect(mockProps.navigation.setOptions).not.toHaveBeenCalled()
+      expect(mockProps.navigation.setOptions).not.toBeCalled()
     })
     it('Shows explanation if taking a while', async () => {
       const mockProps = mockScreenProps(CICOFlow.CashIn)
