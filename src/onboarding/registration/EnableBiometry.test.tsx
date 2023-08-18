@@ -14,7 +14,6 @@ import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
@@ -22,7 +21,7 @@ jest.mock('src/onboarding/steps', () => ({
   onboardingPropsSelector: () => mockOnboardingProps,
 }))
 
-const mockedSetPincodeWithBiometry = mocked(setPincodeWithBiometry)
+const mockedSetPincodeWithBiometry = jest.mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
 

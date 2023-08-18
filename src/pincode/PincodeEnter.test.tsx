@@ -8,11 +8,10 @@ import { Screens } from 'src/navigator/Screens'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-const mockedCheckPin = mocked(checkPin)
+const mockedCheckPin = jest.mocked(checkPin)
 const mockScreenProps = getMockStackScreenProps(Screens.PincodeEnter, {
   withVerification: true,
   onSuccess: jest.fn(),

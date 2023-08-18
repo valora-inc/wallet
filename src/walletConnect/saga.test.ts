@@ -29,7 +29,6 @@ import {
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
@@ -200,7 +199,7 @@ describe(walletConnectSaga, () => {
 
   // Sanity check to ensure `safely` does its job
   it('continues to handle actions even when handlers previously failed unexpectedly', async () => {
-    mocked(navigate).mockImplementationOnce(() => {
+    jest.mocked(navigate).mockImplementationOnce(() => {
       throw new Error('An unexpected failure')
     })
     const state = createMockStore({}).getState()

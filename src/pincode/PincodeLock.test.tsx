@@ -8,10 +8,9 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { checkPin, getPincodeWithBiometry } from 'src/pincode/authentication'
 import PincodeLock from 'src/pincode/PincodeLock'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
-const mockedCheckPin = mocked(checkPin)
-const mockedGetPincodeWithBiometry = mocked(getPincodeWithBiometry)
+const mockedCheckPin = jest.mocked(checkPin)
+const mockedGetPincodeWithBiometry = jest.mocked(getPincodeWithBiometry)
 
 const pin = '123456'
 

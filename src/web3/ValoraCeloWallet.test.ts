@@ -1,11 +1,10 @@
-import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
-import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
-import KeychainAccountManager from 'src/web3/KeychainAccountManager'
-import { mocked } from 'ts-jest/utils'
-import { TypedDataDomain, TypedDataField } from 'ethers'
 import { CeloTx } from '@celo/connect'
+import { TypedDataDomain, TypedDataField } from 'ethers'
 import { UNLOCK_DURATION } from 'src/web3/consts'
+import KeychainAccountManager from 'src/web3/KeychainAccountManager'
+import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
+import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
 
 const MOCK_ADDRESS = '0x1234567890123456789012345678901234567890'
 const MOCK_IMPORT_MNEMONIC_ACCOUNT: ImportMnemonicAccount = {
@@ -55,7 +54,7 @@ describe('ValoraCeloWallet', () => {
   }
   beforeEach(() => {
     jest.clearAllMocks()
-    mocked(KeychainWallet).mockReturnValue(mockKeychainWallet as unknown as KeychainWallet)
+    jest.mocked(KeychainWallet).mockReturnValue(mockKeychainWallet as unknown as KeychainWallet)
     valoraCeloWallet = new ValoraCeloWallet(
       MOCK_IMPORT_MNEMONIC_ACCOUNT,
       new KeychainAccountManager()

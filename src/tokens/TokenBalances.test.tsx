@@ -19,7 +19,6 @@ import {
   mockTokenBalances,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
@@ -173,7 +172,7 @@ describe('TokenBalancesScreen', () => {
   })
 
   it('renders the correct components when there are positions', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
 
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText } = render(
@@ -193,7 +192,7 @@ describe('TokenBalancesScreen', () => {
   })
 
   it('renders the correct information in positions', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
 
     const { getAllByTestId, getByText } = render(

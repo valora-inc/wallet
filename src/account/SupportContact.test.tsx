@@ -11,7 +11,6 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
 jest.mock('src/account/zendesk')
@@ -92,7 +91,7 @@ describe('Contact', () => {
   })
   describe('withZendesk', () => {
     it('submits zendesk request with logs, message, email, and name', async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       const mockedLogAttachments = Logger.getLogsToAttach as jest.Mock
       Logger.getCurrentLogFileName = jest.fn(() => 'log2.txt')
       const logAttachments = [

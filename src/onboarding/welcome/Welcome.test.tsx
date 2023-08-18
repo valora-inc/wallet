@@ -7,7 +7,6 @@ import { firstOnboardingScreen } from 'src/onboarding/steps'
 import Welcome from 'src/onboarding/welcome/Welcome'
 import { patchUpdateStatsigUser } from 'src/statsig'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/onboarding/steps')
 jest.mock('src/statsig', () => ({
@@ -59,7 +58,7 @@ describe('Welcome', () => {
         acceptedTerms: true,
       },
     })
-    mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
+    jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
     const { getByTestId } = render(
       <Provider store={store}>
         <Welcome />
