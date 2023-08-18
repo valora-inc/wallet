@@ -40,19 +40,22 @@ describe('send/utils', () => {
     }
 
     it('should navigate to SendAmount screen when no amount nor token is sent', async () => {
-      await expectSaga(handleSendPaymentData, mockData, false, undefined, false)
+      await expectSaga(handleSendPaymentData, mockData, false, undefined, undefined)
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
           [select(localCurrencyToUsdSelector), '1'],
         ])
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-        origin: SendOrigin.AppSendFlow,
-        recipient: { address: mockData.address, recipientType: RecipientType.Address },
-        isOutgoingPaymentRequest: undefined,
-        forceTokenAddress: false,
-      })
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendAmount,
+        expect.objectContaining({
+          origin: SendOrigin.AppSendFlow,
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
+          isOutgoingPaymentRequest: undefined,
+          forceTokenAddress: false,
+        })
+      )
     })
 
     it('should navigate to SendAmount screen when no amount is sent but token is', async () => {
@@ -61,7 +64,7 @@ describe('send/utils', () => {
         { ...mockData, token: 'cEUR' },
         false,
         undefined,
-        false
+        undefined
       )
         .withState(createMockStore({}).getState())
         .provide([
@@ -69,13 +72,16 @@ describe('send/utils', () => {
           [select(localCurrencyToUsdSelector), '1'],
         ])
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-        origin: SendOrigin.AppSendFlow,
-        recipient: { address: mockData.address, recipientType: RecipientType.Address },
-        isOutgoingPaymentRequest: undefined,
-        forceTokenAddress: true,
-        defaultTokenOverride: mockCeurAddress,
-      })
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendAmount,
+        expect.objectContaining({
+          origin: SendOrigin.AppSendFlow,
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
+          isOutgoingPaymentRequest: undefined,
+          forceTokenAddress: true,
+          defaultTokenOverride: mockCeurAddress,
+        })
+      )
     })
 
     it('should navigate to SendAmount screen when amount and token are sent but not recognized', async () => {
@@ -84,7 +90,7 @@ describe('send/utils', () => {
         { ...mockData, amount: '1', token: 'NOT_A_TOKEN' },
         false,
         undefined,
-        false
+        undefined
       )
         .withState(createMockStore({}).getState())
         .provide([
@@ -92,17 +98,20 @@ describe('send/utils', () => {
           [select(localCurrencyToUsdSelector), '1'],
         ])
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-        origin: SendOrigin.AppSendFlow,
-        recipient: { address: mockData.address, recipientType: RecipientType.Address },
-        isOutgoingPaymentRequest: undefined,
-        forceTokenAddress: false,
-      })
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendAmount,
+        expect.objectContaining({
+          origin: SendOrigin.AppSendFlow,
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
+          isOutgoingPaymentRequest: undefined,
+          forceTokenAddress: false,
+        })
+      )
     })
 
     it('should throw an error when no local currency exchange rate is available', async () => {
       await expect(
-        expectSaga(handleSendPaymentData, mockData, false, undefined, false)
+        expectSaga(handleSendPaymentData, mockData, false, undefined, undefined)
           .withState(
             createMockStore({
               localCurrency: {
@@ -117,7 +126,7 @@ describe('send/utils', () => {
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-      ).rejects.toThrowError("Precondition failed: Can't send tokens from payment data")
+      ).rejects.toThrow("Precondition failed: Can't send tokens from payment data")
       expect(navigate).not.toHaveBeenCalled()
     })
 
@@ -127,7 +136,7 @@ describe('send/utils', () => {
         { ...mockData, amount: '1', token: 'cEUR' },
         false,
         undefined,
-        false
+        undefined
       )
         .withState(createMockStore({}).getState())
         .provide([
@@ -135,36 +144,48 @@ describe('send/utils', () => {
           [select(localCurrencyToUsdSelector), '1'],
         ])
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-        transactionData: {
-          recipient: { address: mockData.address, recipientType: RecipientType.Address },
-          inputAmount: new BigNumber(1),
-          amountIsInLocalCurrency: true,
-          tokenAddress: mockCeurAddress,
-          tokenAmount: new BigNumber(1.2), // The cEUR exchange rate is 1.2
-        },
-        origin: SendOrigin.AppSendFlow,
-      })
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendConfirmation,
+        expect.objectContaining({
+          transactionData: {
+            recipient: { address: mockData.address, recipientType: RecipientType.Address },
+            inputAmount: new BigNumber(1),
+            amountIsInLocalCurrency: true,
+            tokenAddress: mockCeurAddress,
+            tokenAmount: new BigNumber(1.2), // The cEUR exchange rate is 1.2
+          },
+          origin: SendOrigin.AppSendFlow,
+        })
+      )
     })
 
     it('should navigate to SendConfirmation screen defaulting to cUSD when amount is sent but token isnt', async () => {
-      await expectSaga(handleSendPaymentData, { ...mockData, amount: '1' }, false, undefined, false)
+      await expectSaga(
+        handleSendPaymentData,
+        { ...mockData, amount: '1' },
+        false,
+        undefined,
+        undefined
+      )
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
           [select(localCurrencyToUsdSelector), '1'],
         ])
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-        transactionData: {
-          recipient: { address: mockData.address, recipientType: RecipientType.Address },
-          inputAmount: new BigNumber(1),
-          amountIsInLocalCurrency: true,
-          tokenAddress: mockCusdAddress,
-          tokenAmount: new BigNumber(1),
-        },
-        origin: SendOrigin.AppSendFlow,
-      })
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendConfirmation,
+        expect.objectContaining({
+          transactionData: {
+            recipient: { address: mockData.address, recipientType: RecipientType.Address },
+            inputAmount: new BigNumber(1),
+            amountIsInLocalCurrency: true,
+            tokenAddress: mockCusdAddress,
+            tokenAmount: new BigNumber(1),
+          },
+          origin: SendOrigin.AppSendFlow,
+        })
+      )
     })
 
     it('should call handleSendPaymentData with parsed payment data', async () => {
@@ -194,18 +215,21 @@ describe('send/utils', () => {
       })
 
       it('should navigate to SendAmount screen when only address & currencyCode are given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[3], false, undefined, false)
+        await expectSaga(handleSendPaymentData, mockUriData[3], false, undefined, undefined)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-          origin: SendOrigin.AppSendFlow,
-          recipient: mockQRCodeRecipient,
-          forceTokenAddress: false,
-        })
+        expect(navigate).toHaveBeenCalledWith(
+          Screens.SendAmount,
+          expect.objectContaining({
+            origin: SendOrigin.AppSendFlow,
+            recipient: mockQRCodeRecipient,
+            forceTokenAddress: false,
+          })
+        )
       })
 
       it('should navigate to SendConfirmation screen when address, currencyCode, & amount are given', async () => {
@@ -217,17 +241,20 @@ describe('send/utils', () => {
           amountIsInLocalCurrency: true,
         }
 
-        await expectSaga(handleSendPaymentData, mockUriData[4], false, undefined, false)
+        await expectSaga(handleSendPaymentData, mockUriData[4], false, undefined, undefined)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-          origin: SendOrigin.AppSendFlow,
-          transactionData: mockTransactionData,
-        })
+        expect(navigate).toHaveBeenCalledWith(
+          Screens.SendConfirmation,
+          expect.objectContaining({
+            origin: SendOrigin.AppSendFlow,
+            transactionData: mockTransactionData,
+          })
+        )
       })
 
       it('should navigate to SendConfirmation screen when address, currencyCode, amount, & token = cUSD are given', async () => {
@@ -239,17 +266,20 @@ describe('send/utils', () => {
           amountIsInLocalCurrency: true,
         }
 
-        await expectSaga(handleSendPaymentData, mockUriData[5], false, undefined, false)
+        await expectSaga(handleSendPaymentData, mockUriData[5], false, undefined, undefined)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-          origin: SendOrigin.AppSendFlow,
-          transactionData: mockTransactionData,
-        })
+        expect(navigate).toHaveBeenCalledWith(
+          Screens.SendConfirmation,
+          expect.objectContaining({
+            origin: SendOrigin.AppSendFlow,
+            transactionData: mockTransactionData,
+          })
+        )
       })
     })
 
@@ -259,63 +289,72 @@ describe('send/utils', () => {
       })
 
       it('should navigate to SendConfirmation screen when address, token = CELO, currencyCode, and amount are given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[0], false, undefined, false)
+        await expectSaga(handleSendPaymentData, mockUriData[0], false, undefined, undefined)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-          origin: SendOrigin.AppSendFlow,
-          transactionData: {
-            recipient: {
-              address: mockUriData[0].address.toLowerCase(),
-              recipientType: RecipientType.Address,
+        expect(navigate).toHaveBeenCalledWith(
+          Screens.SendConfirmation,
+          expect.objectContaining({
+            origin: SendOrigin.AppSendFlow,
+            transactionData: {
+              recipient: {
+                address: mockUriData[0].address.toLowerCase(),
+                recipientType: RecipientType.Address,
+              },
+              tokenAddress: mockCeloAddress,
+              tokenAmount: new BigNumber(mockUriData[0].amount!).times(5), // 5 is the CELO price.
+              inputAmount: new BigNumber(mockUriData[0].amount!),
+              amountIsInLocalCurrency: true,
             },
-            tokenAddress: mockCeloAddress,
-            tokenAmount: new BigNumber(mockUriData[0].amount!).times(5), // 5 is the CELO price.
-            inputAmount: new BigNumber(mockUriData[0].amount!),
-            amountIsInLocalCurrency: true,
-          },
-        })
+          })
+        )
       })
 
       it('should navigate to SendAmount screen when only address & token = CELO are given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[1], false, undefined, false)
+        await expectSaga(handleSendPaymentData, mockUriData[1], false, undefined, undefined)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-          origin: SendOrigin.AppSendFlow,
-          recipient: {
-            address: mockUriData[1].address.toLowerCase(),
-            recipientType: RecipientType.Address,
-          },
-          forceTokenAddress: true,
-          defaultTokenOverride: mockCeloAddress,
-        })
+        expect(navigate).toHaveBeenCalledWith(
+          Screens.SendAmount,
+          expect.objectContaining({
+            origin: SendOrigin.AppSendFlow,
+            recipient: {
+              address: mockUriData[1].address.toLowerCase(),
+              recipientType: RecipientType.Address,
+            },
+            forceTokenAddress: true,
+            defaultTokenOverride: mockCeloAddress,
+          })
+        )
       })
 
       it('should navigate to SendAmount screen when an unsupported token is given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[2], false, undefined, false)
+        await expectSaga(handleSendPaymentData, mockUriData[2], false, undefined, undefined)
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
             [select(localCurrencyToUsdSelector), '1'],
           ])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-          origin: SendOrigin.AppSendFlow,
-          recipient: {
-            address: mockUriData[2].address.toLowerCase(),
-            recipientType: RecipientType.Address,
-          },
-          forceTokenAddress: false,
-        })
+        expect(navigate).toHaveBeenCalledWith(
+          Screens.SendAmount,
+          expect.objectContaining({
+            origin: SendOrigin.AppSendFlow,
+            recipient: {
+              address: mockUriData[2].address.toLowerCase(),
+              recipientType: RecipientType.Address,
+            },
+            forceTokenAddress: false,
+          })
+        )
       })
     })
   })

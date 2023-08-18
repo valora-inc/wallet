@@ -64,6 +64,9 @@ describe('VerificationCodeInputScreen', () => {
   })
 
   it('displays the correct components and requests for the verification code on mount', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { verificationId: 'someId' } }), {
+      status: 200,
+    })
     const { getByText, getByTestId } = renderComponent()
 
     expect(getByText('phoneVerificationInput.title')).toBeTruthy()
@@ -245,6 +248,9 @@ describe('VerificationCodeInputScreen', () => {
   })
 
   it('makes a request to resend the sms code and resets the timer', async () => {
+    mockFetch.mockResponse(JSON.stringify({ data: { verificationId: 'someId' } }), {
+      status: 200,
+    })
     const dateNow = Date.now()
     MockDate.set(dateNow)
     const { getByTestId } = renderComponent()
@@ -270,6 +276,9 @@ describe('VerificationCodeInputScreen', () => {
   })
 
   it('shows the help dialog', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { verificationId: 'someId' } }), {
+      status: 200,
+    })
     const { getByTestId, getByText } = renderComponent()
 
     await act(() => {

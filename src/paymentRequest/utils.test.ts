@@ -130,6 +130,11 @@ const encryptedPaymentReq: PaymentRequest = {
     'BNFXzyIGjZqqNyq6r35aV2HlMMqUbGnIqboReD77MwAlI5IyzqLQ99WF5B1bsZSVS1K+7trtJtKGhIdI1vbSJSsBAQEBAQEBAQEBAQEBAQEBBhjruDecYg9fsrPNcQbI3AkcvWra1MHIeOZlcycn7Vqtx+UVNR59A3kqdIDbLuGiBNFXzyIGjZqqNyq6r35aV2HlMMqUbGnIqboReD77MwAlI5IyzqLQ99WF5B1bsZSVS1K+7trtJtKGhIdI1vbSJSsBAQEBAQEBAQEBAQEBAQEBCVYJWqi/TZNXbAR9ziyX5MJCtfdulxA1tjlvHR/xpE6WnlC/kyXAfKIMqgKGJXchAQEBAQEBAQEBAQEBAQEBAXV31J+7haU0vKJ0SfJfe8mNaylt8oc5bKobMysx91ue1mBc8aLBawM5KfuZyKDBgckvD43PvjQ5',
 }
 
+const encryptedWritablePaymentReq: WriteablePaymentRequest = {
+  ...encryptedPaymentReq,
+  createdAt: new Date(encryptedPaymentReq.createdAt),
+}
+
 describe('transactionDataFromPaymentRequest', () => {
   const getStableTokens = ({
     cusdBalance,
@@ -212,7 +217,7 @@ describe('Encrypt Payment Request', () => {
         [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
         [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
       ])
-      .returns(encryptedPaymentReq)
+      .returns(encryptedWritablePaymentReq)
       .run()
   })
 
