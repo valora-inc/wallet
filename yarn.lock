@@ -1969,27 +1969,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.6":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.6.tgz#e7e6d298b1b1501bb7653181e4e7fbd1efe9d7ff"
-  integrity sha512-TQMGJZCYBoxyKRva9yMyS4tD6ZaCepIQJQM0VzRnrbq9NZKRYgD+n13tI2BrYFUToRFQkOg5iWlrkC31VSLC1g==
+"@fiatconnect/fiatconnect-sdk@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.8.tgz#d638de4d9a8094ec83b8e831f5b97aa64e539c9a"
+  integrity sha512-U26m/UVOMwTXO/mmUVn4MB5RkOyxFepzMOWDpT08u2YA2GaAkaEyRkscy8Zudo+G7QnI/dlX/fvY1oXMeZR2TQ==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.1.0"
+    "@fiatconnect/fiatconnect-types" "^13.1.1"
     cross-fetch "^4.0.0"
     ethers "^5.7.2"
     fetch-cookie "^2.1.0"
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
     tslib "^2.6.1"
-    zod "^3.21.4"
+    zod "^3.22.0"
 
-"@fiatconnect/fiatconnect-types@^13.1.0":
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.1.0.tgz#3101843a52a13f05809b0e562f7a202cc91ae6d4"
-  integrity sha512-cef62s6cZHQ8IsSV8p03VjrZegZ6DZqSGlx+3cru4G1u8SIf85tVqfFy5+iGau63ck1EO/Kla+6cfqlFVvfL0A==
+"@fiatconnect/fiatconnect-types@^13.1.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.1.1.tgz#e478e1e84fbc91e1f783b3e8dd284d7cd69e3f21"
+  integrity sha512-YGSIr5+hX0fPQfjeSrXJBI2aD7lP5ECASz5bSihKdXy7qFOPu5c9/YGHt9YYZN/8cFoTp+e9ET4iUAVISwmuTA==
   dependencies:
-    zod "^3.21.4"
+    zod "^3.22.0"
 
 "@gorhom/bottom-sheet@^4.4.7":
   version "4.4.7"
@@ -18249,7 +18249,7 @@ zen-observable@^0.8.0:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.9.tgz#0475c760ff0eda046bbdfa4dc3f95d392807ac53"
   integrity sha512-Y9kPzjGvIZ5jchSlqlCpBW3I82zBBL4z+ulXDRVA1NwsKzjt5kwAi+gOYIy0htNkfuehGZZtP5mRXHRV6TjDWw==
 
-zod@^3.21.4:
-  version "3.21.4"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.21.4.tgz#10882231d992519f0a10b5dd58a38c9dabbb64db"
-  integrity sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==
+zod@^3.22.0:
+  version "3.22.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.1.tgz#815f850baf933fef96c1061322dbe579b1a80c27"
+  integrity sha512-+qUhAMl414+Elh+fRNtpU+byrwjDFOS1N7NioLY+tSlcADTx4TkCUua/hxJvxwDXcV4397/nZ420jy4n4+3WUg==
