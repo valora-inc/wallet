@@ -441,16 +441,16 @@ describe('SendConfirmation', () => {
     const { store } = renderScreen({ fees: { estimates: emptyFees } })
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "payload": Object {
+      [
+        {
+          "payload": {
             "feeType": "send",
             "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
           "type": "FEES/ESTIMATE_FEE",
         },
-        Object {
-          "payload": Object {
+        {
+          "payload": {
             "feeType": "register-dek",
             "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },

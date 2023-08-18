@@ -160,35 +160,35 @@ describe('WalletHome', () => {
     expect(tree.queryByTestId('HomeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "payload": undefined,
           "type": "supercharge/fetchAvailableRewards",
         },
-        Object {
+        {
           "type": "ALERT/HIDE",
         },
-        Object {
+        {
           "type": "HOME/VISIT_HOME",
         },
-        Object {
+        {
           "type": "SENTRY/INITIALIZE_SENTRY_USER_CONTEXT",
         },
-        Object {
+        {
           "action": null,
           "alertType": "message",
           "buttonMessage": null,
           "dismissAfter": 5000,
           "displayMethod": 0,
-          "message": "testnetAlert.1, {\\"testnet\\":\\"Alfajores\\"}",
-          "title": "testnetAlert.0, {\\"testnet\\":\\"Alfajores\\"}",
+          "message": "testnetAlert.1, {"testnet":"Alfajores"}",
+          "title": "testnetAlert.0, {"testnet":"Alfajores"}",
           "type": "ALERT/SHOW",
           "underlyingError": undefined,
         },
-        Object {
+        {
           "type": "HOME/REFRESH_BALANCES",
         },
-        Object {
+        {
           "type": "IDENTITY/IMPORT_CONTACTS",
         },
       ]
