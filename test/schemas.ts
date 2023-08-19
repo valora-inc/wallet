@@ -2433,6 +2433,15 @@ export const v141Schema = {
   },
 }
 
+export const v142Schema = {
+  ...v141Schema,
+  _persist: {
+    ...v141Schema._persist,
+    version: 142,
+  },
+  app: _.omit(v141Schema.app, 'shouldShowRecoveryPhraseInSettings'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v141Schema as Partial<RootState>
+  return v142Schema as Partial<RootState>
 }
