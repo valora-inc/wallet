@@ -58,7 +58,13 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
 
   const handleRevokePhoneNumber = async () => {
     ValoraAnalytics.track(SettingsEvents.settings_revoke_phone_number_confirm)
-    await revokeNumberAsync.execute()
+    try {
+      await revokeNumberAsync.execute()
+    } catch (error) {
+      // the error handler for revokeNumberAsync handles the error but it is
+      // incorrectly propagated
+      // https://github.com/slorber/react-async-hook/issues/85
+    }
   }
 
   return (

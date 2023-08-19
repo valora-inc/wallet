@@ -11,6 +11,7 @@ import { navigateToError } from 'src/navigator/NavigationService'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { createMockStore } from 'test/utils'
 
+jest.mock('src/redux/store')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/redux/sagas', () => ({
   ...(jest.requireActual('src/redux/sagas') as any),
@@ -44,6 +45,7 @@ const renderAppInitGate = (language: string | null = 'en-US') => {
 
 describe('AppInitGate', () => {
   beforeEach(() => {
+    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
   })
 
