@@ -23,12 +23,7 @@ import {
   toggleBackupState,
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import {
-  devModeSelector,
-  e164NumberSelector,
-  pincodeTypeSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
-} from 'src/account/selectors'
+import { devModeSelector, e164NumberSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -101,7 +96,6 @@ export const Account = ({ navigation, route }: Props) => {
   const { sessions } = useSelector(selectSessions)
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
@@ -424,13 +418,11 @@ export const Account = ({ navigation, route }: Props) => {
             />
           )}
           <SectionHead text={t('security')} style={styles.sectionTitle} />
-          {shouldShowRecoveryPhraseInSettings && (
-            <SettingsItemTextValue
-              title={t('accountKey')}
-              onPress={goToRecoveryPhrase}
-              testID="RecoveryPhrase"
-            />
-          )}
+          <SettingsItemTextValue
+            title={t('accountKey')}
+            onPress={goToRecoveryPhrase}
+            testID="RecoveryPhrase"
+          />
           {showKeylessBackup && (
             <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}

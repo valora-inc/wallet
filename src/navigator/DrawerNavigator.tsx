@@ -27,7 +27,6 @@ import {
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
@@ -214,7 +213,6 @@ export default function DrawerNavigator({ route }: Props) {
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
@@ -297,7 +295,7 @@ export default function DrawerNavigator({ route }: Props) {
         />
       )}
 
-      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) &&
+      {!backupCompleted &&
         (showKeylessBackup() ? (
           <Drawer.Screen
             // NOTE: this needs to be a different screen name from the screen
@@ -310,16 +308,14 @@ export default function DrawerNavigator({ route }: Props) {
             // @ts-expect-error component type in native-stack v6
             component={WalletSecurityPrimer}
             options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('walletSecurity') ?? undefined,
+              drawerLabel: () => (
+                <View style={styles.itemStyle}>
+                  <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
+                  <View style={styles.drawerItemIcon}>
+                    <ExclamationCircleIcon />
+                  </View>
+                </View>
+              ),
               title: t('walletSecurity') ?? undefined,
               drawerIcon: AccountKey,
             }}
@@ -331,16 +327,14 @@ export default function DrawerNavigator({ route }: Props) {
             // @ts-expect-error component type in native-stack v6
             component={BackupIntroduction}
             options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('accountKey') ?? undefined,
+              drawerLabel: () => (
+                <View style={styles.itemStyle}>
+                  <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                  <View style={styles.drawerItemIcon}>
+                    <ExclamationCircleIcon />
+                  </View>
+                </View>
+              ),
               title: t('accountKey') ?? undefined,
               drawerIcon: AccountKey,
             }}
