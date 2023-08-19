@@ -707,4 +707,14 @@ describe('SwapScreen', () => {
 
     expect(getByTestId('SwapScreen/DrawerBar')).toBeTruthy()
   })
+
+  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
+    mockExperimentParams.mockReturnValue({
+      swapBuyAmountEnabled: false,
+    })
+    const { swapFromContainer, swapToContainer } = renderScreen({})
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
+  })
 })

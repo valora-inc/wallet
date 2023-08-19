@@ -2156,10 +2156,10 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.8.tgz#d638de4d9a8094ec83b8e831f5b97aa64e539c9a"
-  integrity sha512-U26m/UVOMwTXO/mmUVn4MB5RkOyxFepzMOWDpT08u2YA2GaAkaEyRkscy8Zudo+G7QnI/dlX/fvY1oXMeZR2TQ==
+"@fiatconnect/fiatconnect-sdk@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.9.tgz#568f733824c878b686201519ff63175cb187ec8c"
+  integrity sha512-J183euvj5+97eOiP36CwykdKJQ2l2/THy9+SB0e2PbfUxFnKGKU8blp0jxB7xoHOGDX85K787AV0hbtgHlOfWA==
   dependencies:
     "@badrap/result" "^0.2.13"
     "@fiatconnect/fiatconnect-types" "^13.1.1"
@@ -2169,7 +2169,7 @@
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
     tslib "^2.6.1"
-    zod "^3.22.0"
+    zod "^3.22.1"
 
 "@fiatconnect/fiatconnect-types@^13.1.1":
   version "13.1.1"
@@ -2763,10 +2763,10 @@
   resolved "https://registry.yarnpkg.com/@pedrouid/environment/-/environment-1.0.1.tgz#858f0f8a057340e0b250398b75ead77d6f4342ec"
   integrity sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==
 
-"@react-native-async-storage/async-storage@^1.19.1":
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.1.tgz#09d35caaa31823b40fdfeebf95decf8f992a6274"
-  integrity sha512-5QXuGCtB+HL3VtKL2JN3+6t4qh8VXizK+aGDAv6Dqiq3MLrzgZHb4tjVgtEWMd8CcDtD/JqaAI1b6/EaYGtFIA==
+"@react-native-async-storage/async-storage@^1.19.2":
+  version "1.19.2"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.2.tgz#44f0af5927a04436b3f67aae67f028b888ff452c"
+  integrity sha512-7jTQKbT3BdhFHQMnfElsLeeyVqNICv72lPKbeNHnNgLP9eH3+Yk1GFMWWb7A8qRMYianSmwmx1cYofNe9H9hLQ==
   dependencies:
     merge-options "^3.0.4"
 
@@ -14023,7 +14023,7 @@ react-native-flipper@^0.127.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.127.0.tgz#4d4040c0d0a45136b9bbabdc801d3e32d385de73"
   integrity sha512-qloUyUOs9MoMVncIDDWeOxAPbomWJ3e4y0SgyCgq8joJEOXC7RvPWeEfUXp0EPyNhHGQV9a4RwzF6BWKFCR3Kg==
 
-react-native-flipper@^0.211.0, react-native-flipper@^0.34.0:
+react-native-flipper@^0.211.1, react-native-flipper@^0.34.0:
   version "0.211.1"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.211.1.tgz#c6bf94f86ad1101e3c51b07aa2c68d99fd19e027"
   integrity sha512-G0AfySXdWLBk0pvyx88SMI3+g9E+JHELEqnxAORjAace4eSGDucJ0GsT85uXX4iUKK/B1BSHZ39FIzy79dPMkQ==
@@ -18383,7 +18383,7 @@ zen-observable@^0.8.0:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.9.tgz#0475c760ff0eda046bbdfa4dc3f95d392807ac53"
   integrity sha512-Y9kPzjGvIZ5jchSlqlCpBW3I82zBBL4z+ulXDRVA1NwsKzjt5kwAi+gOYIy0htNkfuehGZZtP5mRXHRV6TjDWw==
 
-zod@^3.22.0:
-  version "3.22.1"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.1.tgz#815f850baf933fef96c1061322dbe579b1a80c27"
-  integrity sha512-+qUhAMl414+Elh+fRNtpU+byrwjDFOS1N7NioLY+tSlcADTx4TkCUua/hxJvxwDXcV4397/nZ420jy4n4+3WUg==
+zod@^3.22.0, zod@^3.22.1:
+  version "3.22.2"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.2.tgz#3add8c682b7077c05ac6f979fea6998b573e157b"
+  integrity sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==
