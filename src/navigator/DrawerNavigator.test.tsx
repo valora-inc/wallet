@@ -143,9 +143,6 @@ describe('DrawerNavigator', () => {
 
   it('hides wallet security and recovery phrase if backup is complete', () => {
     const store = createMockStore({
-      app: {
-        shouldShowRecoveryPhraseInSettings: true,
-      },
       account: {
         backupCompleted: true,
       },
