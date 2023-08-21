@@ -3175,11 +3175,6 @@
     "@noble/hashes" "~1.3.0"
     "@scure/base" "~1.1.0"
 
-"@segment/analytics-react-native-legacy@npm:@segment/analytics-react-native@1.5.3":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.5.3.tgz#0fc0ec3ffbe01cad06c728360c67379660486402"
-  integrity sha512-sCUSqppTHKEB1FkvplO1e+uALyidTZSa/LnxrvuClsjP8Q5s5rfxLgK/aj3D3ffScIefQd+v9gY2cBjAo3zMWw==
-
 "@segment/analytics-react-native-plugin-adjust@^0.6.2":
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.6.2.tgz#8d395f604fc6af737b63f02e8f0ab078b1d00393"
