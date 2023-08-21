@@ -381,7 +381,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.sendTransactionTitle')).toBeTruthy()
       expect(
         getByText('walletConnectRequest.sendTransaction, {"dappName":"WalletConnect Example"}')
       ).toBeTruthy()
