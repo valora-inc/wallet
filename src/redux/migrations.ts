@@ -812,8 +812,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      shouldShowRecoveryPhraseInSettings:
-        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+      shouldShowRecoveryPhraseInSettings: false,
     },
   }),
   73: (state: any) => state,
@@ -1199,4 +1198,8 @@ export const migrations = {
   139: (state: any) => state,
   140: (state: any) => state,
   141: (state: any) => state,
+  142: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'shouldShowRecoveryPhraseInSettings'),
+  }),
 }

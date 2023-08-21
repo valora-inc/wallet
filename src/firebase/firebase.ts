@@ -328,7 +328,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
-    shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),

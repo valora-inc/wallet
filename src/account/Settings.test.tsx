@@ -77,6 +77,7 @@ describe('Account', () => {
     expect(getByText('connectedApplications')).toBeTruthy()
     expect(getByTestId('ConnectedApplications')).toHaveTextContent('0')
 
+    expect(getByText('accountKey')).toBeTruthy() // recovery phrase
     expect(getByText('changePin')).toBeTruthy()
     expect(getByText('requirePinOnAppOpen')).toBeTruthy()
     expect(getByText('hapticFeedback')).toBeTruthy()
@@ -242,30 +243,8 @@ describe('Account', () => {
     )
   })
 
-  it('renders correctly when shouldShowRecoveryPhraseInSettings is false', () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: false } })
-
-    const tree = render(
-      <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-    expect(tree.queryByTestId('RecoveryPhrase')).toBeFalsy()
-  })
-
-  it('renders correctly when shouldShowRecoveryPhraseInSettings is true', () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
-
-    const tree = render(
-      <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-    expect(tree.queryByTestId('RecoveryPhrase')).toBeTruthy()
-  })
-
   it('navigates to recovery phrase if entered PIN is correct', async () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+    const store = createMockStore()
 
     const tree = render(
       <Provider store={store}>
@@ -281,7 +260,7 @@ describe('Account', () => {
   })
 
   it('does not navigate to recovery phrase if entered PIN is incorrect', async () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+    const store = createMockStore()
 
     const tree = render(
       <Provider store={store}>
