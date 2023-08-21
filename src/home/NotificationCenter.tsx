@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -35,6 +36,7 @@ import { Spacing } from 'src/styles/styles'
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
 export function useNotifications() {
+  const dispatch = useDispatch()
   const recipientInfo = useSelector(recipientInfoSelector)
 
   const notifications: Notification[] = []
@@ -72,6 +74,10 @@ export function useNotifications() {
   }
 
   // Outgoing payment requests
+  const handleCancelPaymentRequest = (id: string) => dispatch(cancelPaymentRequest(id))
+  const handleUpdatePaymentRequestNotified = (id: string) =>
+    dispatch(updatePaymentRequestNotified(id, false))
+
   const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
   if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
     for (const request of outgoingPaymentRequests) {
@@ -90,8 +96,8 @@ export function useNotifications() {
             amount={request.amount}
             requestee={requestee}
             comment={request.comment}
-            cancelPaymentRequest={cancelPaymentRequest}
-            updatePaymentRequestNotified={updatePaymentRequestNotified}
+            cancelPaymentRequest={handleCancelPaymentRequest}
+            updatePaymentRequestNotified={handleUpdatePaymentRequestNotified}
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
