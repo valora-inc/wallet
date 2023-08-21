@@ -228,8 +228,8 @@ export default function DrawerNavigator({ route }: Props) {
 
   const cloudBackupGate = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
   const anyBackupCompleted = backupCompleted || cloudBackupCompleted
-  const shouldShowWalletSecurity = !anyBackupCompleted && cloudBackupGate
-  const shouldShowRecoveryPhrase = !anyBackupCompleted && !cloudBackupGate
+  const showWalletSecurity = !anyBackupCompleted && cloudBackupGate
+  const showRecoveryPhrase = !anyBackupCompleted && !cloudBackupGate
 
   // ExchangeHomeScreen
   const celoMenuItem = (
@@ -297,7 +297,7 @@ export default function DrawerNavigator({ route }: Props) {
         />
       )}
 
-      {shouldShowWalletSecurity && (
+      {showWalletSecurity && (
         <Drawer.Screen
           // NOTE: this needs to be a different screen name from the screen
           // accessed from the settings which shows the back button instead of
@@ -323,7 +323,7 @@ export default function DrawerNavigator({ route }: Props) {
           initialParams={{ showDrawerTopBar: true }}
         />
       )}
-      {shouldShowRecoveryPhrase && (
+      {showRecoveryPhrase && (
         <Drawer.Screen
           name={Screens.BackupIntroduction}
           // @ts-expect-error component type in native-stack v6

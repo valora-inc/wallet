@@ -40,7 +40,6 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/utils/Logger')
-jest.mock('src/keylessBackup/utils')
 jest.mock('src/statsig')
 
 describe('Account', () => {
