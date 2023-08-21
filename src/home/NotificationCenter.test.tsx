@@ -7,6 +7,7 @@ import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
@@ -215,6 +216,35 @@ describe('NotificationCenter', () => {
     expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
+  })
+
+  it('dispatches correct events when outgoing payment request buttons are pressed', () => {
+    const store = createMockStore({
+      ...storeDataNotificationsDisabled,
+      account: {
+        ...storeDataNotificationsDisabled.account,
+      },
+      paymentRequest: {
+        outgoingPaymentRequests: [mockPaymentRequests[0]],
+      },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+      </Provider>
+    )
+
+    const remindButton = getByTestId(
+      'OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/remind/Button'
+    )
+    fireEvent.press(remindButton)
+    expect(store.getActions().at(-1)).toEqual(updatePaymentRequestNotified('FAKE_ID_1', false))
+
+    const cancelButton = getByTestId(
+      'OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/cancel/Button'
+    )
+    fireEvent.press(cancelButton)
+    expect(store.getActions().at(-1)).toEqual(cancelPaymentRequest('FAKE_ID_1'))
   })
 
   it('renders outgoing payment requests in reverse chronological order', () => {
