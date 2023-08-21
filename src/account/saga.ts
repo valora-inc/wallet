@@ -1,6 +1,6 @@
 import { ContractKit } from '@celo/contractkit'
-import { EIP712TypedData } from '@celo/payments-types'
 import { parsePhoneNumber } from '@celo/phone-utils'
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import { Platform } from 'react-native'
