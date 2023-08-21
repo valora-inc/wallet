@@ -15,6 +15,7 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
+import { BlockchainName } from 'src/utils/blockchains'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -42,12 +43,14 @@ export enum CloudFunctionDigitalAsset {
   CUSD = 'CUSD',
   CEUR = 'CEUR',
   CREAL = 'CREAL',
+  ETH = 'ETH',
 }
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
   digitalAsset: CloudFunctionDigitalAsset
+  chainName: BlockchainName
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'
@@ -324,6 +327,7 @@ export function resolveCloudFunctionDigitalAsset(
     [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
     [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
     [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
+    [CiCoCurrency.ETH]: CloudFunctionDigitalAsset.ETH,
   }
   return mapping[currency]
 }

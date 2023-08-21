@@ -24,6 +24,7 @@ import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { BlockchainName } from 'src/utils/blockchains'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -123,6 +124,7 @@ export type StackParamList = {
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
     flow: CICOFlow
+    chainName: BlockchainName
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
@@ -266,6 +268,7 @@ export type StackParamList = {
   [Screens.SelectProvider]: {
     flow: CICOFlow
     selectedCrypto: CiCoCurrency
+    chainName: BlockchainName
     amount: {
       crypto: number
       fiat: number

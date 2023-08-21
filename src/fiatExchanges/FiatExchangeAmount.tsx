@@ -62,6 +62,7 @@ const cicoCurrencyTranslationKeys = {
   [CiCoCurrency.cEUR]: 'celoEuro',
   [CiCoCurrency.cUSD]: 'celoDollar',
   [CiCoCurrency.cREAL]: 'celoReal',
+  [CiCoCurrency.ETH]: 'eth',
 }
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
@@ -70,7 +71,7 @@ type Props = RouteProps
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { currency, flow } = route.params
+  const { currency, flow, chainName } = route.params
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -173,6 +174,7 @@ function FiatExchangeAmount({ route }: Props) {
         flow,
         selectedCrypto: currency,
         amount,
+        chainName,
       })
     }
   }

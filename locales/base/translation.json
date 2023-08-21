@@ -350,6 +350,7 @@
   "celoEuro": "Celo Euro",
   "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
+  "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "Tap to copy your {{appName}} CUSD address",
   "disclaimerFiat": "{{currency}} values are estimates.",
   "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",

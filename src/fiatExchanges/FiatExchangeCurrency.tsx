@@ -26,6 +26,8 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
+import { BlockchainName } from 'src/utils/blockchains'
+import { showMultichainFeatures } from 'src/utils/multichain'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -98,6 +100,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const { flow } = route.params
 
   const [selectedCurrency, setSelectedCurrency] = useState<CiCoCurrency>(CiCoCurrency.cUSD)
+  const showEth = showMultichainFeatures()
 
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_currency_chosen, {
@@ -113,6 +116,8 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     }
     navigate(Screens.FiatExchangeAmount, {
       currency: selectedCurrency,
+      chainName:
+        selectedCurrency === CiCoCurrency.ETH ? BlockchainName.Ethereum : BlockchainName.Celo,
       flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
     })
   }
@@ -158,13 +163,20 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
             selected={selectedCurrency === CiCoCurrency.cREAL}
             onSelect={() => setSelectedCurrency(CiCoCurrency.cREAL)}
             enabled={flow === FiatExchangeFlow.CashIn}
-            containerStyle={{
-              borderTopWidth: 0.5,
-              borderBottomLeftRadius: 8,
-              borderBottomRightRadius: 8,
-            }}
+            containerStyle={showEth ? styles.radioMiddle : styles.radioBottom}
             testID="radio/cREAL"
           />
+          {showEth && (
+            <CurrencyRadioItem
+              title={t('ether')}
+              body="(ETH)"
+              selected={selectedCurrency === CiCoCurrency.ETH}
+              onSelect={() => setSelectedCurrency(CiCoCurrency.ETH)}
+              enabled={flow === FiatExchangeFlow.CashIn}
+              containerStyle={styles.radioBottom}
+              testID="radio/ETH"
+            />
+          )}
         </View>
       </ScrollView>
       <View style={styles.bottomContainer}>
@@ -234,6 +246,11 @@ const styles = StyleSheet.create({
   radioMiddle: {
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
+  },
+  radioBottom: {
+    borderTopWidth: 0.5,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
   },
 })
 

@@ -95,6 +95,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     selectedCrypto: digitalAsset,
     amount: { crypto: cryptoAmount, fiat: fiatAmount },
+    chainName,
   } = route.params
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
@@ -162,6 +163,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
+          chainName,
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
