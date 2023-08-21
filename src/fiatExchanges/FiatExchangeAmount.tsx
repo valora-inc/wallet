@@ -62,7 +62,7 @@ const cicoCurrencyTranslationKeys = {
   [CiCoCurrency.cEUR]: 'celoEuro',
   [CiCoCurrency.cUSD]: 'celoDollar',
   [CiCoCurrency.cREAL]: 'celoReal',
-  [CiCoCurrency.ETH]: 'eth',
+  [CiCoCurrency.ETH]: 'ether',
 }
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
