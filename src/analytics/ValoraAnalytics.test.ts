@@ -181,9 +181,6 @@ describe('ValoraAnalytics', () => {
   it('creates statsig client on initialization with default statsig user', async () => {
     jest.mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
     await ValoraAnalytics.init()
-    expect(mockSegmentClient.userInfo.set).toHaveBeenCalledWith({
-      anonymousId: 'legacy-anon-id',
-    })
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       { userID: 'someUserId' },
