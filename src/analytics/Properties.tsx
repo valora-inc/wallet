@@ -69,7 +69,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, CurrencyOrCREAL } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -745,15 +745,6 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-  [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
-  [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
-    currency: StableCurrency
-    makerAmount: number
-    exchangeRate: number
-  }
-  [CeloExchangeEvents.celo_fetch_exchange_rate_error]: {
-    error: string
-  }
 
   [CeloExchangeEvents.celo_withdraw_review]: {
     amount: string
