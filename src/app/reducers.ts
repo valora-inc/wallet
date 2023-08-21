@@ -48,7 +48,6 @@ export interface State {
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
-  shouldShowRecoveryPhraseInSettings: boolean
   maxSwapSlippagePercentage: number
   inviterAddress: string | null
   networkTimeoutSeconds: number
@@ -97,8 +96,6 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
-  shouldShowRecoveryPhraseInSettings:
-    REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
@@ -217,7 +214,6 @@ export const appReducer = (
           action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
-        shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
