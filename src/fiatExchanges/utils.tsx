@@ -15,7 +15,7 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { BlockchainName } from 'src/utils/blockchains'
+import { BlockchainId } from 'src/utils/blockchains'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -45,12 +45,13 @@ export enum CloudFunctionDigitalAsset {
   CREAL = 'CREAL',
   ETH = 'ETH',
 }
+
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
   digitalAsset: CloudFunctionDigitalAsset
-  chainName: BlockchainName
+  chainId: BlockchainId
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'
@@ -81,6 +82,7 @@ export interface RawProviderQuote {
   returnedAmount?: number
   fiatFee?: number
 }
+
 export interface LegacyMobileMoneyProvider {
   name: string
   celo: {

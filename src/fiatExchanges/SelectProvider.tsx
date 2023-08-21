@@ -72,6 +72,7 @@ import {
   getProviderSelectionAnalyticsData,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
+import { BLOCKCHAIN_NAME_TO_ID } from 'src/config'
 
 const TAG = 'SelectProviderScreen'
 
@@ -163,7 +164,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-          chainName,
+          chainId: BLOCKCHAIN_NAME_TO_ID[chainName],
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
