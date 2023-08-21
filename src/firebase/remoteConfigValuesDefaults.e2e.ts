@@ -56,7 +56,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
-  shouldShowRecoveryPhraseInSettings: true,
   maxSwapSlippagePercentage: 2,
   networkTimeoutSeconds: 30,
   dappFavoritesEnabled: false,

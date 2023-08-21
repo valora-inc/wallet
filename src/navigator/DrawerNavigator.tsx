@@ -27,7 +27,6 @@ import {
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
@@ -204,17 +203,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 
 type Props = NativeStackScreenProps<StackParamList, Screens.DrawerNavigator>
 
-// TODO(ACT-771): get from Statsig
-function showKeylessBackup() {
-  return false
-}
-
 export default function DrawerNavigator({ route }: Props) {
   const { t } = useTranslation()
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
@@ -230,6 +223,10 @@ export default function DrawerNavigator({ route }: Props) {
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
   const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
+
+  const shouldShowKeylessBackup = getFeatureGate(
+    StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP
+  )
 
   // ExchangeHomeScreen
   const celoMenuItem = (
@@ -297,8 +294,8 @@ export default function DrawerNavigator({ route }: Props) {
         />
       )}
 
-      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) &&
-        (showKeylessBackup() ? (
+      {!backupCompleted &&
+        (shouldShowKeylessBackup ? (
           <Drawer.Screen
             // NOTE: this needs to be a different screen name from the screen
             // accessed from the settings which shows the back button instead of
@@ -310,16 +307,14 @@ export default function DrawerNavigator({ route }: Props) {
             // @ts-expect-error component type in native-stack v6
             component={WalletSecurityPrimer}
             options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('walletSecurity') ?? undefined,
+              drawerLabel: () => (
+                <View style={styles.itemStyle}>
+                  <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
+                  <View style={styles.drawerItemIcon}>
+                    <ExclamationCircleIcon />
+                  </View>
+                </View>
+              ),
               title: t('walletSecurity') ?? undefined,
               drawerIcon: AccountKey,
             }}
@@ -331,16 +326,14 @@ export default function DrawerNavigator({ route }: Props) {
             // @ts-expect-error component type in native-stack v6
             component={BackupIntroduction}
             options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('accountKey') ?? undefined,
+              drawerLabel: () => (
+                <View style={styles.itemStyle}>
+                  <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                  <View style={styles.drawerItemIcon}>
+                    <ExclamationCircleIcon />
+                  </View>
+                </View>
+              ),
               title: t('accountKey') ?? undefined,
               drawerIcon: AccountKey,
             }}

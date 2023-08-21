@@ -23,12 +23,7 @@ import {
   toggleBackupState,
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import {
-  devModeSelector,
-  e164NumberSelector,
-  pincodeTypeSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
-} from 'src/account/selectors'
+import { devModeSelector, e164NumberSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -62,7 +57,7 @@ import {
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { revokeVerification } from 'src/identity/actions'
-import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
+import { isBackupComplete } from 'src/keylessBackup/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -70,6 +65,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import RevokePhoneNumber from 'src/RevokePhoneNumber'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
@@ -101,7 +98,6 @@ export const Account = ({ navigation, route }: Props) => {
   const { sessions } = useSelector(selectSessions)
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
@@ -379,8 +375,7 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
-  // TODO(ACT-771): get from Statsig
-  const showKeylessBackup = getKeylessBackupGate()
+  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
   // TODO(ACT-684, ACT-766, ACT-767): get from redux, and also handle in progress state
   const isKeylessBackupComplete = isBackupComplete()
@@ -424,13 +419,11 @@ export const Account = ({ navigation, route }: Props) => {
             />
           )}
           <SectionHead text={t('security')} style={styles.sectionTitle} />
-          {shouldShowRecoveryPhraseInSettings && (
-            <SettingsItemTextValue
-              title={t('accountKey')}
-              onPress={goToRecoveryPhrase}
-              testID="RecoveryPhrase"
-            />
-          )}
+          <SettingsItemTextValue
+            title={t('accountKey')}
+            onPress={goToRecoveryPhrase}
+            testID="RecoveryPhrase"
+          />
           {showKeylessBackup && (
             <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}
