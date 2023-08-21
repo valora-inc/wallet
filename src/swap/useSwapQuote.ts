@@ -15,7 +15,7 @@ interface ExchangeRate {
   swapAmount: BigNumber
   price: string
   provider: string
-  estimatedPriceImpact?: string
+  estimatedPriceImpact: string | null
 }
 
 const useSwapQuote = () => {
