@@ -1,7 +1,8 @@
 import { ContractKit } from '@celo/contractkit'
+import { EIP712TypedData } from '@celo/payments-types'
 import { parsePhoneNumber } from '@celo/phone-utils'
+import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
-import { TypedDataDomain, TypedDataField } from 'ethers'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import {
@@ -46,9 +47,7 @@ import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { PrimaryValoraWallet } from 'src/web3/types'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
-
 const TAG = 'account/saga'
 
 export const SENTINEL_MIGRATE_COMMENT = '__CELO_MIGRATE_TX__'
@@ -152,37 +151,35 @@ function* handlePreviouslyVerifiedPhoneNumber() {
 
 export function* generateSignedMessage() {
   try {
-    const wallet: PrimaryValoraWallet = yield* call(getWallet)
-    const address = (yield* select(walletAddressSelector))!
+    const wallet: UnlockableWallet = yield* call(getWallet)
+    const address = yield* select(walletAddressSelector)
+    if (!address) {
+      throw new Error('No address found')
+    }
     yield* call(unlockAccount, address)
 
     const kit: ContractKit = yield* call(getContractKit)
     const chainId = yield* call([kit.connection, 'chainId'])
-    const domain: TypedDataDomain = {
-      name: 'Valora',
-      version: '1',
-      chainId,
+    const payload: EIP712TypedData = {
+      types: {
+        EIP712Domain: [
+          { name: 'name', type: 'string' },
+          { name: 'version', type: 'string' },
+          { name: 'chainId', type: 'uint256' },
+        ],
+        Message: [{ name: 'content', type: 'string' }],
+      },
+      domain: {
+        name: 'Valora',
+        version: '1',
+        chainId,
+      },
+      message: {
+        content: 'valora auth message',
+      },
+      primaryType: 'Message',
     }
-    const types: Record<string, Array<TypedDataField>> = {
-      EIP712Domain: [
-        { name: 'name', type: 'string' },
-        { name: 'version', type: 'string' },
-        { name: 'chainId', type: 'uint256' },
-      ],
-      Message: [{ name: 'content', type: 'string' }],
-    }
-    const value: Record<string, any> = {
-      content: 'valora auth message',
-    }
-    const primaryType = 'Message'
-    const signedTypedMessage = yield* call(
-      [wallet, 'signTypedData'],
-      address,
-      domain,
-      types,
-      value,
-      primaryType
-    )
+    const signedTypedMessage = yield* call([wallet, 'signTypedData'], address, payload)
 
     yield* call(storeSignedMessage, signedTypedMessage)
     yield* put(saveSignedMessage())

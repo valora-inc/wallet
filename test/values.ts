@@ -1,12 +1,13 @@
 /* Shared mock values to facilitate testing */
+import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
-  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
+  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -52,7 +53,6 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { PrimaryValoraWallet } from 'src/web3/types'
 
 export const nullAddress = '0x0'
 
@@ -443,17 +443,18 @@ export const mockRecipientInfo: RecipientInfo = {
   addressToDisplayName: {},
 }
 
-export const mockWallet: PrimaryValoraWallet = {
+export const mockWallet: UnlockableWallet = {
   unlockAccount: jest.fn(),
   isAccountUnlocked: jest.fn(),
   addAccount: jest.fn(),
   getAccounts: jest.fn(),
+  removeAccount: jest.fn(),
   hasAccount: jest.fn(),
   signTransaction: jest.fn(),
   signTypedData: jest.fn(),
   signPersonalMessage: jest.fn(),
-  decryptMessage: jest.fn(),
-  updateAccount: jest.fn(),
+  decrypt: jest.fn(),
+  computeSharedSecret: jest.fn(),
 }
 
 export const makeExchangeRates = (

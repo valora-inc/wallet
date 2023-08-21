@@ -1,6 +1,7 @@
 import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
@@ -8,7 +9,6 @@ import { newTransactionContext } from 'src/transactions/types'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
-import { PrimaryValoraWallet } from 'src/web3/types'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
 import Web3 from 'web3'
@@ -26,7 +26,7 @@ export interface WalletResponseSuccess {
 
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield* call(getWalletAddress)
-  const wallet: PrimaryValoraWallet = yield* call(getWallet)
+  const wallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)

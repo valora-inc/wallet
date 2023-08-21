@@ -1,5 +1,6 @@
 import { generateMnemonic, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
 import { setAccountCreationTime } from 'src/account/actions'
@@ -25,7 +26,6 @@ import {
   twelveWordMnemonicEnabledSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { PrimaryValoraWallet } from 'src/web3/types'
 import { call, delay, put, select, spawn, take } from 'typed-redux-saga'
 import { RootState } from '../redux/reducers'
 
@@ -108,8 +108,8 @@ export function* getOrCreateAccount() {
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
     const account = privateKeyToAddress(privateKey)
-    const wallet: PrimaryValoraWallet = yield* call(getWallet)
-    const password: string = yield* call(getPasswordSaga, account, false, true)
+    const wallet: UnlockableWallet = yield call(getWallet)
+    const password: string = yield call(getPasswordSaga, account, false, true)
 
     try {
       yield* call([wallet, wallet.addAccount], privateKey, password)
@@ -192,7 +192,7 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: PrimaryValoraWallet = yield* call(getWallet)
+  const wallet: UnlockableWallet = yield call(getWallet)
   if (!force && wallet.isAccountUnlocked(account)) {
     return UnlockResult.SUCCESS
   }
