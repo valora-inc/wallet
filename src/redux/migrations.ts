@@ -1202,4 +1202,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'shouldShowRecoveryPhraseInSettings'),
   }),
+  143: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      cloudBackupCompleted: false,
+    },
+  }),
 }
