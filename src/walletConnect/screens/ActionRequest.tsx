@@ -86,7 +86,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction')}
+      title={title}
       description={description}
       testId="WalletConnectActionRequest"
     >
