@@ -6,6 +6,7 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -18,8 +19,8 @@ import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { PrimaryValoraWallet } from 'src/web3/types'
 import { call, select } from 'typed-redux-saga'
+
 import Web3 from 'web3'
 
 const TAG = 'web3/contracts'
@@ -147,7 +148,7 @@ export function* getWallet() {
       initContractKitLock.release()
     }
   }
-  return wallet as PrimaryValoraWallet
+  return wallet as UnlockableWallet
 }
 
 // Used for cases where the wallet must be access outside of a saga

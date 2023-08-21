@@ -89,7 +89,7 @@ export function* getOrCreateAccount() {
       throw new Error('Failed to convert mnemonic to hex')
     }
 
-    const accountAddress: string = yield* call(assignAccountFromPrivateKey, privateKey, mnemonic)
+    const accountAddress = yield* call(assignAccountFromPrivateKey, privateKey, mnemonic)
     if (!accountAddress) {
       throw new Error('Failed to assign account from private key')
     }
@@ -108,8 +108,8 @@ export function* getOrCreateAccount() {
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
     const account = privateKeyToAddress(privateKey)
-    const wallet: UnlockableWallet = yield call(getWallet)
-    const password: string = yield call(getPasswordSaga, account, false, true)
+    const wallet: UnlockableWallet = yield* call(getWallet)
+    const password: string = yield* call(getPasswordSaga, account, false, true)
 
     try {
       yield* call([wallet, wallet.addAccount], privateKey, password)
@@ -192,7 +192,7 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: UnlockableWallet = yield call(getWallet)
+  const wallet: UnlockableWallet = yield* call(getWallet)
   if (!force && wallet.isAccountUnlocked(account)) {
     return UnlockResult.SUCCESS
   }

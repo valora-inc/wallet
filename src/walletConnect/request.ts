@@ -80,21 +80,13 @@ export function* handleRequest({ method, params }: { method: string; params: any
     }
     case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:
-      const typedDataObject = JSON.parse(params[1])
-      return (yield* call(
-        [wallet, 'signTypedData'],
-        account,
-        typedDataObject.domain,
-        typedDataObject.types,
-        typedDataObject.message,
-        typedDataObject.primaryType
-      )) as string
+      return (yield* call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
     case SupportedActions.personal_decrypt:
       return (yield* call(
-        wallet.decryptMessage.bind(wallet),
+        wallet.decrypt.bind(wallet),
         account,
         Buffer.from(params[1])
-      )) as string
+      )) as unknown as string
     case SupportedActions.eth_sendTransaction: {
       const rawTx = { ...params[0] }
       const kit: ContractKit = yield* call(getContractKit)

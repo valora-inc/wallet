@@ -30,6 +30,10 @@ jest.mock('src/pincode/authentication', () => ({
   getPassword: jest.fn(),
 }))
 
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({ cico: 30 }),
+}))
+
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
   namedExport: jest.fn(),
