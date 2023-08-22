@@ -67,7 +67,7 @@ const verifySuccessfulSign = async (title = 'Verify wallet') => {
   await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)
-  await waitFor(element(by.text(`${dappName} would like to sign a data payload.`)))
+  await waitFor(element(by.text(`${dappName} would like to verify ownership of your wallet.`)))
     .toBeVisible()
     .withTimeout(15 * 1000)
   await element(by.text('Allow')).tap()
