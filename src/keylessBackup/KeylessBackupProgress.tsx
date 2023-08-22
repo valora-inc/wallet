@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
-import { StyleSheet, Text, BackHandler, View } from 'react-native'
-import { useTranslation } from 'react-i18next'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { StackParamList } from 'src/navigator/types'
-import { Screens } from 'src/navigator/Screens'
-import { useSelector } from 'react-redux'
-import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
-import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
-import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
-import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
-import { KeylessBackupEvents } from 'src/analytics/Events'
-import fontStyles from 'src/styles/fonts'
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Spacing } from 'src/styles/styles'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { useSelector } from 'react-redux'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
+import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
+import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
+import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
+    marginHorizontal: Spacing.Thick24,
   },
   finishedContainer: {
     flexGrow: 1,
@@ -155,15 +156,12 @@ const styles = StyleSheet.create({
   },
   body: {
     ...fontStyles.regular,
-    paddingTop: 16,
+    paddingTop: Spacing.Regular16,
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
   },
   button: {
-    paddingLeft: 24,
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingRight: 24,
+    paddingVertical: Spacing.Smallest8,
   },
   buttonTouchable: {
     justifyContent: 'center',
