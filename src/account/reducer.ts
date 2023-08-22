@@ -2,6 +2,7 @@ import { isE164NumberStrict } from '@celo/phone-utils'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
+import { keylessBackupCompleted } from 'src/keylessBackup/slice'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
@@ -16,7 +17,7 @@ export interface State {
   devModeClickCount: number
   photosNUXClicked: boolean
   pincodeType: PincodeType
-  backupCompleted: boolean
+  backupCompleted: boolean // recovery phrase backup
   accountCreationTime: number
   startOnboardingTime?: number
   dismissedGetVerified: boolean
@@ -31,6 +32,7 @@ export interface State {
   dismissedStartSupercharging: boolean
   celoEducationCompleted: boolean
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus
+  cloudBackupCompleted: boolean
 }
 
 export enum PincodeType {
@@ -99,11 +101,17 @@ export const initialState: State = {
   dismissedStartSupercharging: false,
   celoEducationCompleted: false,
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
+  cloudBackupCompleted: false,
 }
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
+  action:
+    | ActionTypes
+    | RehydrateAction
+    | Web3ActionTypes
+    | AppActionTypes
+    | typeof keylessBackupCompleted
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -273,6 +281,11 @@ export const reducer = (
       return {
         ...state,
         recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
+      }
+    case keylessBackupCompleted.type:
+      return {
+        ...state,
+        cloudBackupCompleted: true,
       }
     default:
       return state

@@ -17,10 +17,10 @@ import {
   setNumberVerified,
 } from 'src/app/actions'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
-import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
+import { getFeatureGate } from 'src/statsig/index'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -40,12 +40,11 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/utils/Logger')
-jest.mock('src/keylessBackup/utils')
+jest.mock('src/statsig')
 
 describe('Account', () => {
   beforeEach(() => {
-    mocked(getKeylessBackupGate).mockReturnValue(false)
-    mocked(isBackupComplete).mockReturnValue(false)
+    mocked(getFeatureGate).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -273,7 +272,6 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  // TODO(ACT-771): update these tests to mock statsig instead of helper function
   it('does not show keyless backup', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
@@ -285,10 +283,9 @@ describe('Account', () => {
   })
 
   it('shows keyless backup setup when flag is enabled and not already backed up', async () => {
-    mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isBackupComplete).mockReturnValue(false)
+    mocked(getFeatureGate).mockReturnValue(true)
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
-    const store = createMockStore()
+    const store = createMockStore({ account: { cloudBackupCompleted: false } })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -306,9 +303,8 @@ describe('Account', () => {
   })
 
   it('shows keyless backup delete when flag is enabled and already backed up', () => {
-    mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isBackupComplete).mockReturnValue(true)
-    const store = createMockStore()
+    mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({ account: { cloudBackupCompleted: true } })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
