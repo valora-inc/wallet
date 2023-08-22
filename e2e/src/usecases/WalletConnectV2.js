@@ -13,7 +13,7 @@ import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 import { Core } from '@walletconnect/core'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
 

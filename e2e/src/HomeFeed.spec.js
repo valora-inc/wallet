@@ -1,7 +1,6 @@
 import { reloadReactNative } from './utils/retries'
 import { quickOnboarding, sleep, waitForElementId } from './utils/utils'
-
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 beforeAll(async () => {
   await quickOnboarding()

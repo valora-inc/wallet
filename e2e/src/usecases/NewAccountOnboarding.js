@@ -11,7 +11,7 @@ import {
 } from '../utils/utils'
 import { getAddressChunks } from '@celo/utils/lib/address'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default NewAccountOnboarding = () => {
   let testRecoveryPhrase, testAccountAddress

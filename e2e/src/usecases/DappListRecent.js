@@ -7,7 +7,7 @@ import {
 } from '../utils/utils'
 import { navigateToDappList, navigateToHome } from '../utils/dappList'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default DappListRecent = () => {
   const dappToTest = 'impactMarket'
