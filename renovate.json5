@@ -27,11 +27,16 @@
   // overwrite values of an also-matching rule declared earlier.
   packageRules: [
     {
+      matchManagers: ['npm'],
+      prPriority: 2, // set higher priority for node dependencies
+    },
+    {
       // Group devDependencies updates
       matchDepTypes: ['devDependencies'],
       groupName: 'devDependencies',
       // But exclude some specific packages from this group
       excludePackageNames: ['typescript'],
+      prPriority: 0, // set default priority for dev dependencies
     },
     {
       // Group updates for @celo packages
