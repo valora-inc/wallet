@@ -295,6 +295,7 @@
     "typescript-json-schema": "^0.59.0"
   },
   "resolutions": {
+    "ethers": "5.7.2",
     "**/truffle/mocha": "^6.2.3",
     "**/truffle-security/mocha": "^6.2.3",
     "node-gyp": "5.1.1",
