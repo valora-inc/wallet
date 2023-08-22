@@ -360,9 +360,6 @@ export enum TransactionEvents {
 
 export enum CeloExchangeEvents {
   celo_home_info = 'celo_home_info', // when the (i) next to Celo Gold price is clicked, launching education (not pictured)
-  celo_fetch_exchange_rate_start = 'celo_fetch_exchange_rate_start',
-  celo_fetch_exchange_rate_complete = 'celo_fetch_exchange_rate_complete',
-  celo_fetch_exchange_rate_error = 'celo_fetch_exchange_rate_error',
 
   celo_withdraw_review = 'celo_withdraw_review', // when ‘review’ is clicked on the withdraw amount screen
   celo_withdraw_edit = 'celo_withdraw_edit', // when ‘edit’ is clicked on the review screen

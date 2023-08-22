@@ -3087,6 +3087,9 @@
                 "choseToRestoreAccount": {
                     "type": "boolean"
                 },
+                "cloudBackupCompleted": {
+                    "type": "boolean"
+                },
                 "contactDetails": {
                     "$ref": "#/definitions/UserContactDetails"
                 },
@@ -3159,6 +3162,7 @@
                 "accountCreationTime",
                 "backupCompleted",
                 "celoEducationCompleted",
+                "cloudBackupCompleted",
                 "contactDetails",
                 "defaultCountryCode",
                 "devModeActive",

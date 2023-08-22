@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
@@ -107,6 +107,63 @@ describe('DrawerNavigator', () => {
     )
     expect(queryByTestId('DrawerItem/swapScreen.title')).toBeNull()
   })
+
+  it('shows recovery phrase if backup is not complete and cloud backup feature gate is false', () => {
+    mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+        cloudBackupCompleted: false,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+      </Provider>
+    )
+    expect(queryByTestId('DrawerItem/accountKey')).toBeTruthy()
+    expect(queryByTestId('DrawerItem/walletSecurity')).toBeNull()
+  })
+
+  it('shows wallet security if backup is not complete and cloud backup feature gate is true', () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+        cloudBackupCompleted: false,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+      </Provider>
+    )
+    expect(queryByTestId('DrawerItem/accountKey')).toBeNull()
+    expect(queryByTestId('DrawerItem/walletSecurity')).toBeTruthy()
+  })
+
+  it.each([
+    [true, false],
+    [false, true],
+    [true, true],
+  ])(
+    'hides wallet security and recovery phrase if at least one backup is complete',
+    (backupCompleted, cloudBackupCompleted) => {
+      const store = createMockStore({
+        account: {
+          backupCompleted,
+          cloudBackupCompleted,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+      expect(queryByTestId('DrawerItem/accountKey')).toBeNull()
+      expect(queryByTestId('DrawerItem/walletSecurity')).toBeNull()
+    }
+  )
 
   describe('phone number in drawer', () => {
     it('shows the phone number when the user is verified', () => {

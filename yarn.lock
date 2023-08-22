@@ -2156,27 +2156,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.9":
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.9.tgz#568f733824c878b686201519ff63175cb187ec8c"
-  integrity sha512-J183euvj5+97eOiP36CwykdKJQ2l2/THy9+SB0e2PbfUxFnKGKU8blp0jxB7xoHOGDX85K787AV0hbtgHlOfWA==
+"@fiatconnect/fiatconnect-sdk@^0.5.13":
+  version "0.5.13"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.13.tgz#412d7a1c7799dd8735efe85e6dae8487ea54ad30"
+  integrity sha512-ufqYnb/LyC9x62rSfa3Jw5qENk9E7PCpxkmkUaq0O0JcZhYqyqn48TmrwBAa0bj5BsvqOGc/TJS7WrJ6jJvWcw==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.1.1"
+    "@fiatconnect/fiatconnect-types" "^13.1.3"
     cross-fetch "^4.0.0"
     ethers "^5.7.2"
     fetch-cookie "^2.1.0"
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
-    tslib "^2.6.1"
-    zod "^3.22.1"
+    tslib "^2.6.2"
+    zod "^3.22.2"
 
-"@fiatconnect/fiatconnect-types@^13.1.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.1.1.tgz#e478e1e84fbc91e1f783b3e8dd284d7cd69e3f21"
-  integrity sha512-YGSIr5+hX0fPQfjeSrXJBI2aD7lP5ECASz5bSihKdXy7qFOPu5c9/YGHt9YYZN/8cFoTp+e9ET4iUAVISwmuTA==
+"@fiatconnect/fiatconnect-types@^13.1.3":
+  version "13.1.3"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.1.3.tgz#59c3155044d306a9c3c40605ad769da433581359"
+  integrity sha512-MOM/MMrvNF+oP7IIlSIYzDeZPwdk3+iKpiCgedqyTO2CMyCzMnLfOu4vQHMSB2WT2fe8NbAmTD7Ez0aQdfkAwA==
   dependencies:
-    zod "^3.22.0"
+    zod "^3.22.2"
 
 "@gorhom/bottom-sheet@^4.4.7":
   version "4.4.7"
@@ -5549,7 +5549,7 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.1.0, bl@^6.0.5:
+bl@^4.1.0, bl@^6.0.6:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.6.tgz#a9373de876e3619c707d0fb15af011037cc380a7"
   integrity sha512-NqSAj8YLlID2Tbd7/ZB2Gj+N+2wwsAfDD38T1beT8KYytNwJEnxFTGOpvrGY0MTWq7VkWzuQ4PC3nBNgrMGWBQ==
@@ -12436,10 +12436,10 @@ node-environment-flags@1.0.6:
     object.getownpropertydescriptors "^2.0.3"
     semver "^5.7.0"
 
-node-fetch@^2.0.0-alpha.8, node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7:
-  version "2.6.12"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.12.tgz#02eb8e22074018e3d5a83016649d04df0e348fba"
-  integrity sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==
+node-fetch@^2.0.0-alpha.8, node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.13, node-fetch@^2.6.7:
+  version "2.6.13"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.13.tgz#a20acbbec73c2e09f9007de5cda17104122e0010"
+  integrity sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -16431,10 +16431,10 @@ tslib@2.4.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
-tslib@^2.0.1, tslib@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.1.tgz#fd8c9a0ff42590b25703c0acb3de3d3f4ede0410"
-  integrity sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==
+tslib@^2.0.1, tslib@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
 
 tsutils@^3.21.0:
   version "3.21.0"
@@ -18378,7 +18378,7 @@ zen-observable@^0.8.0:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.9.tgz#0475c760ff0eda046bbdfa4dc3f95d392807ac53"
   integrity sha512-Y9kPzjGvIZ5jchSlqlCpBW3I82zBBL4z+ulXDRVA1NwsKzjt5kwAi+gOYIy0htNkfuehGZZtP5mRXHRV6TjDWw==
 
-zod@^3.22.0, zod@^3.22.1:
+zod@^3.22.2:
   version "3.22.2"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.2.tgz#3add8c682b7077c05ac6f979fea6998b573e157b"
   integrity sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==
