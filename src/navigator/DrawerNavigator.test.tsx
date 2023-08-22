@@ -109,7 +109,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('shows recovery phrase if backup is not complete and cloud backup feature gate is false', () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const store = createMockStore({
       account: {
         backupCompleted: false,
@@ -126,7 +126,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('shows wallet security if backup is not complete and cloud backup feature gate is true', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore({
       account: {
         backupCompleted: false,
