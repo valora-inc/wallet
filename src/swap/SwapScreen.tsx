@@ -126,7 +126,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     const priceImpactExceedsThreshold =
       !!priceImpact && priceImpact.gte(priceImpactWarningThreshold)
 
-    return { isPriceImpactMissing, priceImpactExceedsThreshold }
+    return { isPriceImpactMissing, priceImpactExceedsThreshold, priceImpact }
   }
 
   const { isPriceImpactMissing, priceImpactExceedsThreshold } = useMemo(() => {
@@ -138,7 +138,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       return
     }
 
-    const { isPriceImpactMissing, priceImpactExceedsThreshold } = calculatePriceImpactData()
+    const { isPriceImpactMissing, priceImpactExceedsThreshold, priceImpact } =
+      calculatePriceImpactData()
 
     if (priceImpactExceedsThreshold || isPriceImpactMissing) {
       ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
@@ -146,7 +147,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         fromToken: exchangeRate.fromTokenAddress,
         amount: parsedSwapAmount[updatedField].toString(),
         amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
-        priceImpact: exchangeRate.estimatedPriceImpact?.toString(),
+        priceImpact: priceImpact?.toString(),
         provider: exchangeRate.provider,
       })
     }

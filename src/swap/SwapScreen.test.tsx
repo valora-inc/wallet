@@ -408,6 +408,7 @@ describe('SwapScreen', () => {
       JSON.stringify({
         unvalidatedSwapTransaction: {
           price: highPriceImpactPrice,
+          estimatedPriceImpact: null,
         },
         details: {
           swapProvider: 'someProvider',
