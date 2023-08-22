@@ -253,7 +253,7 @@
     "babel-jest": "^29.2.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "depcheck": "^1.4.3",
-    "detox": "^19.13.0",
+    "detox": "^20.11.3",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^8.19.0",
     "eslint-plugin-import": "^2.28.0",
@@ -348,8 +348,13 @@
     "flat": "^5.0.2"
   },
   "detox": {
-    "test-runner": "jest",
-    "runnerConfig": "./e2e/config.json",
+    "testRunner": {
+      "$0": "jest",
+      "args": {
+       "config": "./e2e/jest.config.js"
+      },
+      "forwardEnv": true
+   },
     "artifacts": {
       "rootDir": "./e2e/artifacts"
     },
