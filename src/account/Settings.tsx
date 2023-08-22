@@ -23,7 +23,12 @@ import {
   toggleBackupState,
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import { devModeSelector, e164NumberSelector, pincodeTypeSelector } from 'src/account/selectors'
+import {
+  cloudBackupCompletedSelector,
+  devModeSelector,
+  e164NumberSelector,
+  pincodeTypeSelector,
+} from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -57,7 +62,6 @@ import {
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { revokeVerification } from 'src/identity/actions'
-import { isBackupComplete } from 'src/keylessBackup/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -101,6 +105,7 @@ export const Account = ({ navigation, route }: Props) => {
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
+  const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
@@ -377,9 +382,6 @@ export const Account = ({ navigation, route }: Props) => {
 
   const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
-  // TODO(ACT-684, ACT-766, ACT-767): get from redux, and also handle in progress state
-  const isKeylessBackupComplete = isBackupComplete()
-
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar />
@@ -428,12 +430,12 @@ export const Account = ({ navigation, route }: Props) => {
             <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}
               onPress={
-                isKeylessBackupComplete ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
+                cloudBackupCompleted ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
               }
               testID="KeylessBackup"
-              ctaText={isKeylessBackupComplete ? t('delete') : t('setup')}
-              ctaColor={isKeylessBackupComplete ? colors.warning : colors.greenUI}
-              showChevron={!isKeylessBackupComplete}
+              ctaText={cloudBackupCompleted ? t('delete') : t('setup')}
+              ctaColor={cloudBackupCompleted ? colors.warning : colors.greenUI}
+              showChevron={!cloudBackupCompleted}
             />
           )}
           <SettingsItemTextValue
