@@ -5291,7 +5291,7 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.1.0, bl@^6.0.5:
+bl@^4.1.0, bl@^6.0.6:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.6.tgz#a9373de876e3619c707d0fb15af011037cc380a7"
   integrity sha512-NqSAj8YLlID2Tbd7/ZB2Gj+N+2wwsAfDD38T1beT8KYytNwJEnxFTGOpvrGY0MTWq7VkWzuQ4PC3nBNgrMGWBQ==
