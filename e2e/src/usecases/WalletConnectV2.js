@@ -63,7 +63,7 @@ const verifySuccessfulConnection = async () => {
     .withTimeout(15 * 1000)
 }
 
-const verifySuccessfulSign = async (title = 'Authenticate with wallet') => {
+const verifySuccessfulSign = async (title = 'Verify wallet') => {
   await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)

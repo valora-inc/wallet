@@ -1073,8 +1073,8 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Transaction data",
     "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayloadTitle": "Authenticate with wallet",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signPayloadTitle": "Verify wallet",
+    "signPayload": "{{dappName}} would like to verify ownership of your wallet.",
     "signTransactionTitle": "Sign transaction",
     "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
     "sendTransactionTitle": "Send transaction",
