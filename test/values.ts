@@ -243,6 +243,12 @@ export const mockRecipient4: ContactRecipient = {
   recipientType: RecipientType.PhoneNumber,
 }
 
+export const mockPhoneRecipient: AddressRecipient = {
+  address: mockAccount2,
+  e164PhoneNumber: '+15551234567',
+  recipientType: RecipientType.Address,
+}
+
 export const mockE164NumberToInvitableRecipient = {
   [mockE164Number]: mockInvitableRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,
@@ -344,7 +350,7 @@ export const mockPaymentRequests: PaymentRequest[] = [
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    createdAt: date,
+    createdAt: date + 1000,
     amount: '180.89',
     uid: 'FAKE_ID_2',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -356,8 +362,8 @@ export const mockPaymentRequests: PaymentRequest[] = [
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    createdAt: date,
-    amount: '180.89',
+    createdAt: date + 2000,
+    amount: '1234.56',
     uid: 'FAKE_ID_3',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
     requesteeAddress: mockAccount,

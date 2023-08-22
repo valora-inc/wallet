@@ -60,3 +60,5 @@ export const celoEducationCompletedSelector = (state: RootState) =>
 export const startOnboardingTimeSelector = (state: RootState) => state.account.startOnboardingTime
 export const recoveryPhraseInOnboardingStatusSelector = (state: RootState) =>
   state.account.recoveryPhraseInOnboardingStatus
+
+export const cloudBackupCompletedSelector = (state: RootState) => state.account.cloudBackupCompleted
