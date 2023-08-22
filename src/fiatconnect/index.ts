@@ -1,3 +1,4 @@
+import { UnlockableWallet } from '@celo/wallet-base'
 import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatType, QuoteErrorResponse, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow, isUserInputCrypto } from 'src/fiatExchanges/utils'
@@ -12,7 +13,6 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import networkConfig from 'src/web3/networkConfig'
-import { PrimaryValoraWallet } from 'src/web3/types'
 
 const TAG = 'FIATCONNECT'
 
@@ -76,7 +76,7 @@ export async function getFiatConnectProviders(
  * If the user's wallet is currently locked, will prompt for PIN entry.
  */
 export async function loginWithFiatConnectProvider(
-  wallet: PrimaryValoraWallet,
+  wallet: UnlockableWallet,
   fiatConnectClient: FiatConnectApiClient,
   forceLogin: boolean = false
 ): Promise<void> {
