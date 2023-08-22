@@ -1684,7 +1684,7 @@
     },
     "missingPriceImpactWarning": {
       "title": "Before you swap",
-      "body": "The price impact of this swap couldn't be estimated. Proceed carefully."
+      "body": "We can't estimate the value of this swap. Valora is not responsible if you choose to proceed."
     },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
