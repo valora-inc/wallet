@@ -1,8 +1,7 @@
 import { fetchDappList, navigateToDappList } from '../utils/dappList'
 import { reloadReactNative } from '../utils/retries'
 import { getElementTextList, sleep, scrollIntoView, waitForElementId } from '../utils/utils'
-
-jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default DappListDisplay = () => {
   let dappList = null

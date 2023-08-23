@@ -32,4 +32,6 @@ module.exports = {
   rootDir: '..',
   testMatch: ['<rootDir>/e2e/**/*.spec.js'],
   testTimeout: 300000,
+  // prevent the e2e tests from using the __mocks__ we use for normal unit tests
+  modulePathIgnorePatterns: ['<rootDir>/__mocks__'],
 }
