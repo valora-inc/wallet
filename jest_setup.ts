@@ -1,5 +1,4 @@
 import '@testing-library/jest-native/extend-expect'
-import 'abort-controller/polyfill'
 import 'react-native-svg-mock'
 
 if (typeof window !== 'object') {
