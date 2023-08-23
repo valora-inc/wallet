@@ -12,8 +12,6 @@ import { getExperimentParams } from 'src/statsig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
 
-jest.useFakeTimers()
-
 const mockBalances = {
   tokens: {
     tokenBalances: {

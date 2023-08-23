@@ -65,7 +65,6 @@ describe('TransferStatusScreen', () => {
     })
 
   beforeEach(() => {
-    jest.useFakeTimers()
     jest.clearAllMocks()
   })
 

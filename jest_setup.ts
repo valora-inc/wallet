@@ -1,5 +1,10 @@
 import '@testing-library/jest-native/extend-expect'
+import 'abort-controller/polyfill'
 import 'react-native-svg-mock'
+
+beforeAll(() => {
+  jest.useFakeTimers()
+})
 
 if (typeof window !== 'object') {
   // @ts-ignore

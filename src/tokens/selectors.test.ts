@@ -13,11 +13,14 @@ import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const mockDate = 1588200517518
-global.Date.now = jest.fn(() => mockDate)
 
 jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
 }))
+
+beforeAll(() => {
+  jest.useFakeTimers({ now: mockDate })
+})
 
 const state: any = {
   tokens: {

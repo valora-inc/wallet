@@ -16,7 +16,6 @@ import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
-jest.useFakeTimers()
 const mockFetch = fetch as FetchMock
 
 const mockedKeychain = jest.mocked(Keychain)

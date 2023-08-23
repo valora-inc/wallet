@@ -6,12 +6,12 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
+import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -46,7 +46,6 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
   })),
 }))
 jest.mock('src/fiatconnect/clients')
-jest.useFakeTimers()
 
 const schemaCountryOverrides: FiatAccountSchemaCountryOverrides = {
   NG: {

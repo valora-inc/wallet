@@ -32,8 +32,6 @@ const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-in
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
 const mockWalletAddress = '0x12AE66CDc592e10B60f9097a7b0D3C59fce29876' // deliberately using checksummed version here
 
-Date.now = jest.fn(() => 1482363367071)
-
 const mockCreateSegmentClient = jest.mocked(createClient)
 
 const mockStore = jest.mocked(store)
@@ -151,6 +149,10 @@ const defaultProperties = {
     tier: 'development',
   },
 }
+
+beforeAll(() => {
+  jest.useFakeTimers({ now: 1482363367071 })
+})
 
 describe('ValoraAnalytics', () => {
   let ValoraAnalytics: typeof ValoraAnalyticsModule

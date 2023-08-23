@@ -71,8 +71,6 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 
-jest.useFakeTimers()
-
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
@@ -84,9 +82,6 @@ jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: () => mockRequestInAppReview(),
   isAvailable: () => mockIsInAppReviewAvailable(),
 }))
-
-const now = 1482363367071
-Date.now = jest.fn(() => now)
 
 const mockRequestInAppReview = jest.fn()
 const mockIsInAppReviewAvailable = jest.fn()
@@ -637,6 +632,14 @@ describe('appInit', () => {
 })
 
 describe(requestInAppReview, () => {
+  const now = 1482363367071
+
+  beforeAll(() => {
+    jest.useFakeTimers({
+      now,
+    })
+  })
+
   const oneDayAgo = now - ONE_DAY_IN_MILLIS
   const fourMonthsAndADayAgo = now - ONE_DAY_IN_MILLIS * 121
 

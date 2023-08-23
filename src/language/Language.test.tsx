@@ -17,10 +17,6 @@ jest.mock('src/analytics/ValoraAnalytics')
 const mockedUseChangeLanguage = jest.mocked(useChangeLanguage)
 
 describe('Language', () => {
-  beforeAll(() => {
-    jest.useFakeTimers()
-  })
-
   localesList.forEach(({ name, code }) => {
     it(`renders correctly and sets the right language when the language is ${name}`, () => {
       const changeLanguageSpy = jest.fn().mockResolvedValue(true)

@@ -57,7 +57,6 @@ function getProps(qrCodeStyle: QRCodeStyle): QRCodeProps {
 
 describe('QRNavigator', () => {
   beforeAll(async () => {
-    jest.useFakeTimers()
     await Statsig.initialize('client-sdk-key-testing', null, { localMode: true })
   })
   afterEach(async () => {

@@ -6,7 +6,6 @@ const mockFetch = fetch as FetchMock
 describe('fetchWithTimeout', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
-    jest.useFakeTimers()
   })
 
   it('returns response if request completes within timeout', async () => {

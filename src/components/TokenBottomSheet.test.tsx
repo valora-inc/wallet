@@ -12,7 +12,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
 
-jest.useFakeTimers()
 jest.mock('src/components/useShowOrHideAnimation')
 jest.mock('src/analytics/ValoraAnalytics')
 

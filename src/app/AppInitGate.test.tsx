@@ -17,7 +17,6 @@ jest.mock('src/redux/sagas', () => ({
   ...(jest.requireActual('src/redux/sagas') as any),
   waitUntilSagasFinishLoading: jest.fn(),
 }))
-jest.useFakeTimers()
 
 jest.mock('src/i18n', () => ({
   ...(jest.requireActual('src/i18n') as any),
@@ -28,8 +27,6 @@ jest.mock('src/i18n', () => ({
 jest.mock('src/navigator/NavigationService', () => ({
   navigateToError: jest.fn(),
 }))
-
-jest.spyOn(Date, 'now').mockImplementation(() => 1682420628)
 
 const renderAppInitGate = (language: string | null = 'en-US') => {
   const store = createMockStore({ i18n: { language } })
@@ -43,6 +40,10 @@ const renderAppInitGate = (language: string | null = 'en-US') => {
 
   return { ...tree, store }
 }
+
+beforeAll(() => {
+  jest.useFakeTimers({ now: new Date(1682420628) })
+})
 
 describe('AppInitGate', () => {
   beforeEach(() => {
@@ -69,7 +70,7 @@ describe('AppInitGate', () => {
     expect(ValoraAnalytics.startSession).toHaveBeenCalledWith(
       'app_launched',
       expect.objectContaining({
-        appLoadDuration: 5,
+        appLoadDuration: 12,
         deviceHeight: 1334,
         deviceWidth: 750,
         reactLoadDuration: 3,
