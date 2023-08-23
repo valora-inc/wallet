@@ -903,6 +903,48 @@
             ],
             "type": "object"
         },
+        "CoreTypes.Metadata_1": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "icons": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "redirect": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "native": {
+                            "type": "string"
+                        },
+                        "universal": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "verifyUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "icons",
+                "name",
+                "url"
+            ],
+            "type": "object"
+        },
         "CryptoType": {
             "enum": [
                 "CELO",
@@ -2209,11 +2251,23 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "ProposalTypes.OptionalNamespaces_1": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "ProposalTypes.RequiredNamespaces": {
             "additionalProperties": false,
             "type": "object"
         },
+        "ProposalTypes.RequiredNamespaces_1": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "ProposalTypes.SessionProperties": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "ProposalTypes.SessionProperties_1": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -2227,7 +2281,7 @@
                     "type": "number"
                 },
                 "optionalNamespaces": {
-                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces_1"
                 },
                 "pairingTopic": {
                     "type": "string"
@@ -2236,7 +2290,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "metadata": {
-                            "$ref": "#/definitions/CoreTypes.Metadata"
+                            "$ref": "#/definitions/CoreTypes.Metadata_1"
                         },
                         "publicKey": {
                             "type": "string"
@@ -2250,15 +2304,15 @@
                 },
                 "relays": {
                     "items": {
-                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
+                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions_1"
                     },
                     "type": "array"
                 },
                 "requiredNamespaces": {
-                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
+                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces_1"
                 },
                 "sessionProperties": {
-                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties_1"
                 }
             },
             "required": [
@@ -2411,6 +2465,21 @@
             "type": "string"
         },
         "RelayerTypes.ProtocolOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "data": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "protocol"
+            ],
+            "type": "object"
+        },
+        "RelayerTypes.ProtocolOptions_1": {
             "additionalProperties": false,
             "properties": {
                 "data": {
