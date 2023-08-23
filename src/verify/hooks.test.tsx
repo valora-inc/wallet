@@ -8,7 +8,7 @@ import { phoneNumberRevoked } from 'src/app/actions'
 import Touchable from 'src/components/Touchable'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import networkConfig from 'src/web3/networkConfig'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 
 const mockFetch = fetch as FetchMock
 
@@ -44,7 +44,6 @@ describe('useRevokeCurrentPhoneNumber', () => {
 
     await act(async () => {
       fireEvent.press(getByText('Revoke'))
-      await flushMicrotasksQueue()
     })
 
     expect(mockFetch).toHaveBeenNthCalledWith(1, `${networkConfig.revokePhoneNumberUrl}`, {
@@ -71,7 +70,6 @@ describe('useRevokeCurrentPhoneNumber', () => {
 
     await act(async () => {
       fireEvent.press(getByText('Revoke'))
-      await flushMicrotasksQueue()
     })
 
     expect(mockFetch).toHaveBeenNthCalledWith(1, `${networkConfig.revokePhoneNumberUrl}`, {

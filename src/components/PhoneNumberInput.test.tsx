@@ -1,10 +1,9 @@
 import { Countries } from '@celo/phone-utils'
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'
 import SmsRetriever from 'react-native-sms-retriever'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
-import { flushMicrotasksQueue } from 'test/utils'
 
 jest.mock('react-native-sms-retriever', () => {
   return {
@@ -36,8 +35,11 @@ describe('PhoneNumberInput', () => {
 
     expect(getByText('🇫🇷')).toBeTruthy()
     expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 00 00 00')
-    fireEvent.press(getByTestId('CountrySelectionButton'))
-    await flushMicrotasksQueue()
+
+    await act(() => {
+      fireEvent.press(getByTestId('CountrySelectionButton'))
+    })
+
     expect(onPressCountry).toHaveBeenCalled()
 
     fireEvent.changeText(getByTestId('PhoneNumberField'), '123')
@@ -61,8 +63,10 @@ describe('PhoneNumberInput', () => {
         />
       )
 
-      fireEvent(getByTestId('PhoneNumberField'), 'focus')
-      await flushMicrotasksQueue()
+      await act(() => {
+        fireEvent(getByTestId('PhoneNumberField'), 'focus')
+      })
+
       expect(onChange).toHaveBeenCalledWith('030 111111', '+49')
     })
 
@@ -78,8 +82,9 @@ describe('PhoneNumberInput', () => {
         />
       )
 
-      fireEvent.press(getByTestId('CountrySelectionButton'))
-      await flushMicrotasksQueue()
+      await act(() => {
+        fireEvent.press(getByTestId('CountrySelectionButton'))
+      })
       expect(onChange).toHaveBeenCalledWith('030 111111', '+49')
     })
   })
@@ -96,8 +101,9 @@ describe('PhoneNumberInput', () => {
       />
     )
 
-    fireEvent(getByTestId('PhoneNumberField'), 'focus')
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent(getByTestId('PhoneNumberField'), 'focus')
+    })
     expect(onChange).not.toHaveBeenCalled()
   })
 
@@ -115,8 +121,9 @@ describe('PhoneNumberInput', () => {
 
     requestPhoneNumber.mockResolvedValue('+1 416-868-0000')
 
-    fireEvent(getByTestId('PhoneNumberField'), 'focus')
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent(getByTestId('PhoneNumberField'), 'focus')
+    })
     expect(onChange).toHaveBeenCalledWith('(416) 868-0000', '+1')
   })
 
@@ -134,8 +141,9 @@ describe('PhoneNumberInput', () => {
 
     requestPhoneNumber.mockResolvedValue('+1 415-426-5200')
 
-    fireEvent(getByTestId('PhoneNumberField'), 'focus')
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent(getByTestId('PhoneNumberField'), 'focus')
+    })
     expect(onChange).toHaveBeenCalledWith('(415) 426-5200', '+1')
   })
 
@@ -157,8 +165,9 @@ describe('PhoneNumberInput', () => {
 
     expect(getByText('🇨🇮')).toBeTruthy()
     expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000')
-    fireEvent.press(getByTestId('CountrySelectionButton'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(getByTestId('CountrySelectionButton'))
+    })
     expect(onPressCountry).toHaveBeenCalled()
 
     fireEvent.changeText(getByTestId('PhoneNumberField'), '2123456789')

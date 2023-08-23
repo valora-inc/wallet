@@ -14,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 
 const mockFetch = fetch as FetchMock
 
@@ -139,12 +139,12 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
+    // enter the verification code before the verifyPhoneNumber fetch has resolved
+    fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
+
     await act(async () => {
-      // enter the verification code before the verifyPhoneNumber fetch has resolved
-      fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
       // handle the verification code, and then increment the timer to resolve
       // the network delay
-      await flushMicrotasksQueue()
       jest.runOnlyPendingTimers()
     })
 

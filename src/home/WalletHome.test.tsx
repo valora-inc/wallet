@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -9,7 +9,7 @@ import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams } from 'src/statsig'
-import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
+import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
 
 const mockBalances = {
@@ -153,8 +153,9 @@ describe('WalletHome', () => {
       },
     })
 
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     expect(tree.queryByTestId('startSupercharging')).toBeTruthy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeTruthy()
@@ -221,8 +222,9 @@ describe('WalletHome', () => {
       },
     })
 
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     const importContactsAction = store
       .getActions()
@@ -242,7 +244,9 @@ describe('WalletHome', () => {
       ...zeroBalances,
     })
 
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
   })
 

@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { AuthenticationEvents } from 'src/analytics/Events'
@@ -7,7 +7,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeEnter from 'src/pincode/PincodeEnter'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -48,8 +48,10 @@ describe('PincodeEnter', () => {
     const { getByTestId } = renderComponentWithMockStore()
 
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     expect(mockScreenProps.route.params.onSuccess).toBeCalledWith(pin)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
@@ -66,8 +68,9 @@ describe('PincodeEnter', () => {
     const { getByTestId, getByText } = renderComponentWithMockStore()
 
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     expect(getByText(`${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])

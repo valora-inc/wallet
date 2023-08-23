@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
@@ -7,7 +7,7 @@ import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
 import { setCachedPin } from 'src/pincode/PasswordCache'
 import PincodeSet from 'src/pincode/PincodeSet'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockOnboardingProps } from 'test/values'
 
 const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
@@ -59,8 +59,9 @@ describe('Pincode', () => {
 
     // Create pin
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     rerender(
       <Provider store={mockStore}>
@@ -70,8 +71,9 @@ describe('Pincode', () => {
 
     // Verify pin
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     expect(goToNextOnboardingScreen).toBeCalledWith({
       firstScreenInCurrentStep: Screens.PincodeSet,
@@ -91,8 +93,9 @@ describe('Pincode', () => {
 
     // Create pin
     '123456'.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     expect(getByText('pincodeSet.invalidPin')).toBeDefined()
   })
 
@@ -108,8 +111,9 @@ describe('Pincode', () => {
 
     // Create pin
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     rerender(
       <Provider store={mockStore}>
@@ -119,8 +123,9 @@ describe('Pincode', () => {
 
     // Verify with incorrect pin
     '555555'.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     expect(getByText('pincodeSet.pinsDontMatch')).toBeDefined()
   })
 
@@ -143,8 +148,9 @@ describe('Pincode', () => {
 
     // Change pin
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     rerender(
       <Provider store={mockStore}>
@@ -154,8 +160,9 @@ describe('Pincode', () => {
 
     // Verify pin
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
     expect(navigate).toBeCalledWith(Screens.Settings)
