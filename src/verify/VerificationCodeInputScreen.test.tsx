@@ -16,6 +16,7 @@ import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
+jest.useFakeTimers()
 const mockFetch = fetch as FetchMock
 
 const mockedKeychain = jest.mocked(Keychain)
@@ -57,7 +58,6 @@ const renderComponent = () =>
 
 describe('VerificationCodeInputScreen', () => {
   beforeEach(() => {
-    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
     mockFetch.resetMocks()
     store.clearActions()
@@ -124,7 +124,9 @@ describe('VerificationCodeInputScreen', () => {
     })
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
 
-    jest.runOnlyPendingTimers()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
   })
 
@@ -139,16 +141,18 @@ describe('VerificationCodeInputScreen', () => {
 
     const { getByTestId } = renderComponent()
 
-    // enter the verification code before the verifyPhoneNumber fetch has resolved
-    fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
+    await act(() => {
+      // enter the verification code before the verifyPhoneNumber fetch has resolved
+      fireEvent.changeText(getByTestId('PhoneVerificationCode'), '123456')
+    })
 
-    await act(async () => {
+    await act(() => {
       // handle the verification code, and then increment the timer to resolve
       // the network delay
       jest.runOnlyPendingTimers()
     })
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    expect(mockFetch).toHaveBeenCalledTimes(2)
     expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.verifySmsCodeUrl}`, {
       method: 'POST',
       headers: {
@@ -193,7 +197,9 @@ describe('VerificationCodeInputScreen', () => {
     expect(getByText('123456')).toBeTruthy()
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
 
-    jest.runOnlyPendingTimers()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen)
   })
 
@@ -214,7 +220,9 @@ describe('VerificationCodeInputScreen', () => {
       body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
     })
 
-    jest.runOnlyPendingTimers()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.OnboardingSuccessScreen))
   })
 
@@ -244,7 +252,9 @@ describe('VerificationCodeInputScreen', () => {
       expect.not.arrayContaining([showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE)])
     )
 
-    jest.runOnlyPendingTimers()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     expect(navigate).not.toHaveBeenCalled()
   })
 

@@ -17,6 +17,7 @@ jest.mock('src/redux/sagas', () => ({
   ...(jest.requireActual('src/redux/sagas') as any),
   waitUntilSagasFinishLoading: jest.fn(),
 }))
+jest.useFakeTimers()
 
 jest.mock('src/i18n', () => ({
   ...(jest.requireActual('src/i18n') as any),
@@ -45,7 +46,6 @@ const renderAppInitGate = (language: string | null = 'en-US') => {
 
 describe('AppInitGate', () => {
   beforeEach(() => {
-    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
   })
 

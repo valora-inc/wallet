@@ -71,6 +71,8 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 
+jest.useFakeTimers()
+
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
@@ -105,7 +107,6 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
-    jest.useFakeTimers({ legacyFakeTimers: true })
     jest.clearAllMocks()
   })
 

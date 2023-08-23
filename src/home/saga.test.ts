@@ -7,8 +7,6 @@ import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { shouldUpdateBalance } from 'src/redux/selectors'
 import { getConnectedAccount } from 'src/web3/saga'
 
-jest.useRealTimers()
-
 describe('refreshBalances', () => {
   test('ask for balance when geth and account are ready', () =>
     expectSaga(refreshBalances)
