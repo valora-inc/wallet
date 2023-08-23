@@ -39,7 +39,7 @@ export default DappListDisplay = () => {
       .withTimeout(10 * 1000)
   })
 
-  it('should correctly filter dapp list based on user agent :ios:', async () => {
+  it(':ios: should correctly filter dapp list based on user agent', async () => {
     const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 14.5; iPhone)')
     await reloadReactNative()
     await navigateToDappList()
