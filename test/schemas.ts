@@ -2442,6 +2442,18 @@ export const v142Schema = {
   app: _.omit(v141Schema.app, 'shouldShowRecoveryPhraseInSettings'),
 }
 
+export const v143Schema = {
+  ...v142Schema,
+  _persist: {
+    ...v142Schema._persist,
+    version: 143,
+  },
+  account: {
+    ...v142Schema.account,
+    cloudBackupCompleted: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v142Schema as Partial<RootState>
+  return v143Schema as Partial<RootState>
 }
