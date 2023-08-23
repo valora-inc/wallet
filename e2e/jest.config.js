@@ -3,7 +3,6 @@ module.exports = {
   globalSetup: '<rootDir>/e2e/global-setup.js',
   globalTeardown: 'detox/runners/jest/globalTeardown',
   setupFilesAfterEnv: ['<rootDir>/e2e/init.js'],
-  testEnvironment: '<rootDir>/e2e/environment.js',
   reporters: [
     'detox/runners/jest/reporter',
     [
