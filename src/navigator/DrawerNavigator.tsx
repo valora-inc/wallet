@@ -1,7 +1,6 @@
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
-  DrawerContentOptions,
   DrawerContentScrollView,
 } from '@react-navigation/drawer'
 import {
@@ -97,7 +96,6 @@ function CustomDrawerItemList({
   state,
   navigation,
   descriptors,
-  itemStyle,
   protectedRoutes,
   ...passThroughProps
 }: CustomDrawerItemListProps) {
@@ -149,7 +147,11 @@ function CustomDrawerItemList({
         label={drawerLabel !== undefined ? drawerLabel : title !== undefined ? title : route.name}
         icon={drawerIcon}
         focused={focused}
-        style={itemStyle}
+        labelStyle={[
+          fontStyles.regular,
+          { color: colors.dark, marginLeft: -20, fontWeight: 'normal' },
+        ]}
+        style={focused && { backgroundColor: colors.gray2 }}
         to={buildLink(route.name, route.params)}
         onPress={onPress}
       />
@@ -157,7 +159,7 @@ function CustomDrawerItemList({
   }) as React.ReactNode as React.ReactElement
 }
 
-function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
+function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { t } = useTranslation()
   const displayName = useSelector(nameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
@@ -218,9 +220,7 @@ export default function DrawerNavigator({ route }: Props) {
     ExperimentConfigs[StatsigExperiments.DAPP_MENU_ITEM_COPY]
   )
 
-  const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
-    <CustomDrawerContent {...props} />
-  )
+  const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
@@ -245,13 +245,10 @@ export default function DrawerNavigator({ route }: Props) {
       initialRouteName={initialScreen}
       drawerContent={drawerContent}
       backBehavior={'initialRoute'}
-      drawerContentOptions={{
-        labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
-        activeBackgroundColor: colors.gray2,
-      }}
       // Reloads the screen when the user comes back to it - resetting navigation state
       screenOptions={{
         unmountOnBlur: true,
+        headerShown: false, // Hide the default header on v6
       }}
       // Whether inactive screens should be detached from the view hierarchy to save memory.
       // Defaults to true, but also explicitly set here.
