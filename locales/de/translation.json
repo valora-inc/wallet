@@ -1680,6 +1680,10 @@
       "title": "Bevor du tauschst",
       "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
     },
+    "missingSwapImpactWarning": {
+      "title": "Bevor du tauschst",
+      "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, weiterzumachen."
+    },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
