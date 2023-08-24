@@ -12,13 +12,17 @@ import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { useNotificationCenterContext } from 'src/home/NotificationCenter'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType, SecureSendDetails } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
+import {
+  incomingPaymentRequestNotificationId,
+  transactionDataFromPaymentRequest,
+} from 'src/paymentRequest/utils'
 import { getDisplayName, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
@@ -36,6 +40,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
   const [addressesFetched, setAddressesFetched] = useState(false)
+  const { notificationPositions } = useNotificationCenterContext()
 
   const stableTokens = useSelector(stablecoinsSelector)
   const recipientInfo = useSelector(recipientInfoSelector)
@@ -44,6 +49,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   const e164PhoneNumber = requester.e164PhoneNumber
   const requesterAddress = requester.address
   const paymentRequestId = paymentRequest.uid || ''
+  const notificationId = incomingPaymentRequestNotificationId(paymentRequestId)
 
   const secureSendDetails: SecureSendDetails | undefined = useSelector(
     (state: RootState) => state.identity.secureSendPhoneNumberMapping[e164PhoneNumber || '']
@@ -61,6 +67,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.pay,
+      notificationPosition: notificationPositions?.[notificationId],
     })
   }
 
@@ -68,6 +75,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
+      notificationPosition: notificationPositions?.[notificationId],
     })
     dispatch(declinePaymentRequest(paymentRequestId))
     Logger.showMessage(t('requestDeclined'))

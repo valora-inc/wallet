@@ -9,8 +9,8 @@ import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/type
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { TokenBalance } from 'src/tokens/slice'
-import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { call } from 'typed-redux-saga'
 
@@ -187,4 +187,12 @@ function sanitizePaymentRequest(paymentRequest: WriteablePaymentRequest): Writea
     ...paymentRequest,
     requesterE164Number: undefined,
   }
+}
+
+export function incomingPaymentRequestNotificationId(id: string) {
+  return `incomingPaymentRequest/${id}`
+}
+
+export function outgoingPaymentRequestNotificationId(id: string) {
+  return `outgoingPaymentRequest/${id}`
 }

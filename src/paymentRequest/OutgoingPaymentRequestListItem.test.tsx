@@ -1,12 +1,25 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import { noop } from 'lodash'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
 import { RecipientType } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/analytics/ValoraAnalytics')
+
+jest.mock('src/home/NotificationCenter', () => ({
+  ...(jest.requireActual('src/home/NotificationCenter') as any),
+  useNotificationCenterContext: jest.fn(() => ({
+    notificationPositions: { ['outgoingPaymentRequest/1']: 4 },
+  })),
+}))
+
 const store = createMockStore()
 
 const commonProps = {
@@ -26,6 +39,10 @@ const commonProps = {
 }
 
 describe('OutgoingPaymentRequestListItem', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
@@ -34,5 +51,45 @@ describe('OutgoingPaymentRequestListItem', () => {
     )
 
     expect(tree).toMatchSnapshot()
+  })
+
+  it('emits correct analytics event when remind button is pressed', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <OutgoingPaymentRequestListItem {...commonProps} />
+      </Provider>
+    )
+
+    const remindButton = getByTestId(
+      'OutgoingPaymentRequestNotification/1/CallToActions/remind/Button'
+    )
+    fireEvent.press(remindButton)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      selectedAction: NotificationBannerCTATypes.remind,
+      notificationPosition: 4,
+    })
+  })
+
+  it('emits correct analytics event when cancel button is pressed', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <OutgoingPaymentRequestListItem {...commonProps} />
+      </Provider>
+    )
+
+    const cancelButton = getByTestId(
+      'OutgoingPaymentRequestNotification/1/CallToActions/cancel/Button'
+    )
+    fireEvent.press(cancelButton)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      selectedAction: NotificationBannerCTATypes.decline,
+      notificationPosition: 4,
+    })
   })
 })

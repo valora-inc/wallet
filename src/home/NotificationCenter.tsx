@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
@@ -10,6 +10,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { reclaimInviteNotificationId } from 'src/escrow/utils'
 import type { Notification } from 'src/home/NotificationBox'
 import {
   INCOMING_PAYMENT_REQUESTS_PRIORITY,
@@ -28,6 +29,10 @@ import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
+import {
+  incomingPaymentRequestNotificationId,
+  outgoingPaymentRequestNotificationId,
+} from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
@@ -35,7 +40,21 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
+type NotificationPositions = Record<string, number>
+type NotificationCenterProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
+type NotificationsProps = {
+  navigation: NotificationCenterProps['navigation']
+  setNotificationPositions: React.Dispatch<React.SetStateAction<NotificationPositions>>
+}
+
+const NotificationCenterContext = createContext<{ notificationPositions?: NotificationPositions }>(
+  {}
+)
+
+export function useNotificationCenterContext() {
+  const context = useContext(NotificationCenterContext)
+  return context
+}
 
 export function useNotifications() {
   const dispatch = useDispatch()
@@ -52,7 +71,7 @@ export function useNotifications() {
       notifications.push({
         element: <EscrowedPaymentListItem payment={payment} />,
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
-        id: `reclaimInvite/${payment.paymentID}`,
+        id: reclaimInviteNotificationId(payment.paymentID),
       })
     }
   }
@@ -70,7 +89,7 @@ export function useNotifications() {
       notifications.push({
         element: <IncomingPaymentRequestListItem paymentRequest={request} />,
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
-        id: `incomingPaymentRequest/${request.uid}`,
+        id: incomingPaymentRequestNotificationId(request.uid),
       })
     }
   }
@@ -103,7 +122,7 @@ export function useNotifications() {
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-        id: `outgoingPaymentRequest/${request.uid}`,
+        id: outgoingPaymentRequestNotificationId(request.uid),
       })
     }
   }
@@ -120,7 +139,17 @@ export function useNotifications() {
   return notifications.sort((n1, n2) => n2.priority - n1.priority)
 }
 
-export default function Notifications({ navigation }: NotificationsProps) {
+export default function NotificationCenter({ navigation }: NotificationCenterProps) {
+  const [notificationPositions, setNotificationPositions] = useState<NotificationPositions>({})
+
+  return (
+    <NotificationCenterContext.Provider value={{ notificationPositions }}>
+      <Notifications navigation={navigation} setNotificationPositions={setNotificationPositions} />
+    </NotificationCenterContext.Provider>
+  )
+}
+
+function Notifications({ navigation, setNotificationPositions }: NotificationsProps) {
   const safeAreaInsets = useSafeAreaInsets()
 
   const { t } = useTranslation()
@@ -164,8 +193,13 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const handleViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      viewableItems.forEach(({ item, isViewable }, index) => {
-        if (isViewable && !seenNotifications.current.has(item.id)) {
+      viewableItems.forEach(({ item }, index) => {
+        setNotificationPositions((prevNotificationPositions) => ({
+          ...prevNotificationPositions,
+          [item.id]: index,
+        }))
+
+        if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
           ValoraAnalytics.track(HomeEvents.notification_impression, {

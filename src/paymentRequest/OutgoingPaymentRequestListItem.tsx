@@ -6,8 +6,10 @@ import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { useNotificationCenterContext } from 'src/home/NotificationCenter'
 import { withTranslation } from 'src/i18n'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
+import { outgoingPaymentRequestNotificationId } from 'src/paymentRequest/utils'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -21,24 +23,32 @@ interface OwnProps {
   updatePaymentRequestNotified: typeof updatePaymentRequestNotified
 }
 
-type Props = OwnProps & WithTranslation
+interface WithNotificationPositions {
+  notificationPositions?: Record<string, number>
+}
+
+type Props = OwnProps & WithTranslation & WithNotificationPositions
 
 export class OutgoingPaymentRequestListItem extends React.Component<Props> {
   onRemind = () => {
-    const { id, t } = this.props
+    const { id, t, notificationPositions } = this.props
+    const notificationId = outgoingPaymentRequestNotificationId(id)
     this.props.updatePaymentRequestNotified(id, false)
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.remind,
+      notificationPosition: notificationPositions?.[notificationId],
     })
     Logger.showMessage(t('reminderSent'))
   }
 
   onCancel = () => {
-    const { id } = this.props
+    const { id, notificationPositions } = this.props
+    const notificationId = outgoingPaymentRequestNotificationId(id)
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
+      notificationPosition: notificationPositions?.[notificationId],
     })
     this.props.cancelPaymentRequest(id)
   }
@@ -78,4 +88,15 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
   }
 }
 
-export default withTranslation<Props>()(OutgoingPaymentRequestListItem)
+const withNotificationPositions = <T extends WithNotificationPositions>(
+  WrappedComponent: React.ComponentType<T>
+) => {
+  const Wrapper = (props: T) => {
+    const { notificationPositions } = useNotificationCenterContext()
+
+    return <WrappedComponent {...props} notificationPositions={notificationPositions} />
+  }
+  return Wrapper
+}
+
+export default withNotificationPositions(withTranslation<Props>()(OutgoingPaymentRequestListItem))

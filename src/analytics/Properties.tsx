@@ -163,6 +163,7 @@ interface HomeEventsProperties {
     notificationType: NotificationBannerTypes
     selectedAction: NotificationBannerCTATypes
     notificationId?: string
+    notificationPosition?: number
   }
   [HomeEvents.notification_impression]: {
     notificationId: string

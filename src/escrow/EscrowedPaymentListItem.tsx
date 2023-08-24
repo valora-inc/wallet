@@ -7,8 +7,9 @@ import ContactCircle from 'src/components/ContactCircle'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { useEscrowPaymentRecipient } from 'src/escrow/utils'
+import { reclaimInviteNotificationId, useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { useNotificationCenterContext } from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -25,11 +26,14 @@ function EscrowedPaymentListItem({ payment }: Props) {
   const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
   const tokenInfo = useTokenInfo(payment.tokenAddress)
+  const { notificationPositions } = useNotificationCenterContext()
+  const notificationId = reclaimInviteNotificationId(payment.paymentID)
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.remind,
+      notificationPosition: notificationPositions?.[notificationId],
     })
 
     try {
@@ -48,6 +52,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.reclaim,
+      notificationPosition: notificationPositions?.[notificationId],
     })
     navigate(Screens.ReclaimPaymentConfirmationScreen, { reclaimPaymentInput })
   }

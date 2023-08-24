@@ -17,3 +17,7 @@ export const useEscrowPaymentRecipient = (payment: EscrowedPayment): ContactReci
 
   return recipient
 }
+
+export function reclaimInviteNotificationId(id: string) {
+  return `reclaimInvite/${id}`
+}

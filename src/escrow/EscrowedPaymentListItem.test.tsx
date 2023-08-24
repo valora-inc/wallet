@@ -3,7 +3,10 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
+import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore, flushMicrotasksQueue, getElementText } from 'test/utils'
 import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
@@ -11,7 +14,20 @@ import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
 const store = createMockStore()
 Share.share = jest.fn()
 
+jest.mock('src/analytics/ValoraAnalytics')
+
+jest.mock('src/home/NotificationCenter', () => ({
+  ...(jest.requireActual('src/home/NotificationCenter') as any),
+  useNotificationCenterContext: jest.fn(() => ({
+    notificationPositions: { ['reclaimInvite/0x0000000000000000000000000000000000007E57']: 4 },
+  })),
+}))
+
 describe('EscrowedPaymentReminderNotification', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
@@ -57,5 +73,41 @@ describe('EscrowedPaymentReminderNotification', () => {
     fireEvent.press(contact.getByTestId('EscrowedPaymentListItem/CallToActions/remind/Button'))
     await flushMicrotasksQueue()
     expect(Share.share).toHaveBeenCalled()
+  })
+
+  it('emits correct analytics event when remind button is pressed', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} />
+      </Provider>
+    )
+
+    const remindButton = getByTestId('EscrowedPaymentListItem/CallToActions/remind/Button')
+    fireEvent.press(remindButton)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      selectedAction: NotificationBannerCTATypes.remind,
+      notificationPosition: 4,
+    })
+  })
+
+  it('emits correct analytics event when reclaim button is pressed', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} />
+      </Provider>
+    )
+
+    const cancelButton = getByTestId('EscrowedPaymentListItem/CallToActions/reclaim/Button')
+    fireEvent.press(cancelButton)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      selectedAction: NotificationBannerCTATypes.reclaim,
+      notificationPosition: 4,
+    })
   })
 })

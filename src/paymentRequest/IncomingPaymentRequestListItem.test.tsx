@@ -4,8 +4,11 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { HomeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { AddressValidationType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -33,6 +36,15 @@ jest.mock('src/recipients/recipient', () => ({
         return mockRecipient
     }
   }),
+}))
+
+jest.mock('src/analytics/ValoraAnalytics')
+
+jest.mock('src/home/NotificationCenter', () => ({
+  ...(jest.requireActual('src/home/NotificationCenter') as any),
+  useNotificationCenterContext: jest.fn(() => ({
+    notificationPositions: { ['incomingPaymentRequest/FAKE_ID_2']: 4 },
+  })),
 }))
 
 const mockPaymentRequest = mockPaymentRequests[1]
@@ -324,5 +336,55 @@ describe('IncomingPaymentRequestListItem', () => {
     )
 
     expect(navigate).toBeCalledTimes(0)
+  })
+
+  it('emits correct analytics event when send button is pressed', () => {
+    const store = createMockStore({
+      identity: identityLoading,
+      tokens: balances,
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <IncomingPaymentRequestListItem {...props} />
+      </Provider>
+    )
+
+    const remindButton = getByTestId(
+      'IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/send/Button'
+    )
+    fireEvent.press(remindButton)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.incoming_tx_request,
+      selectedAction: NotificationBannerCTATypes.pay,
+      notificationPosition: 4,
+    })
+  })
+
+  it('emits correct analytics event when decline button is pressed', () => {
+    const store = createMockStore({
+      identity: identityLoading,
+      tokens: balances,
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <IncomingPaymentRequestListItem {...props} />
+      </Provider>
+    )
+
+    const cancelButton = getByTestId(
+      'IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/decline/Button'
+    )
+    fireEvent.press(cancelButton)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.incoming_tx_request,
+      selectedAction: NotificationBannerCTATypes.decline,
+      notificationPosition: 4,
+    })
   })
 })
