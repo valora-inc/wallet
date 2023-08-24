@@ -2988,6 +2988,12 @@
                 "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
+                "pushNotificationRequestedUnixTime": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
                 "pushNotificationsEnabled": {
                     "type": "boolean"
                 },
@@ -3085,6 +3091,7 @@
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
+                "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
                 "requireCPV",

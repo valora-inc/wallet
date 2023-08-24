@@ -165,8 +165,9 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   // whether we should prompt the user for permission manually through redux
   // instead of relying on firebase messaging's `hasPermission` method
   const pushNotificationRequestedUnixTime = yield* select(pushNotificationRequestedUnixTimeSelector)
+  const lastKnownEnabledState = yield* select(pushNotificationsEnabledSelector)
 
-  if (pushNotificationRequestedUnixTime === null) {
+  if (pushNotificationRequestedUnixTime === null && !lastKnownEnabledState) {
     yield takeWithInMemoryCache(HomeActions.VISIT_HOME) // better than take(HomeActions.VISIT_HOME) because if failure occurs, retries can succeed without an additional visit home
 
     Logger.info(TAG, 'requesting permission')
@@ -198,7 +199,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
       yield* call([app.messaging(), 'hasPermission'])
 
     const pushNotificationsEnabled = authStatus !== firebase.messaging.AuthorizationStatus.DENIED
-    const lastKnownEnabledState = yield* select(pushNotificationsEnabledSelector)
 
     if (lastKnownEnabledState !== pushNotificationsEnabled) {
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {

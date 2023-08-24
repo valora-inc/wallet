@@ -73,6 +73,7 @@ describe(initializeCloudMessaging, () => {
       .provide([
         [call([app.messaging(), 'requestPermission']), 0],
         [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
       ])
       .put(pushNotificationsPermissionChanged(false, true))
       .run()
@@ -92,6 +93,7 @@ describe(initializeCloudMessaging, () => {
           'denied',
         ],
         [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
       ])
       .put(pushNotificationsPermissionChanged(false, true))
       .run()
@@ -130,6 +132,7 @@ describe(initializeCloudMessaging, () => {
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
         [call([app.messaging(), 'requestPermission']), 1],
         [call([app.messaging(), 'getToken']), mockFcmToken],
       ])
@@ -147,6 +150,7 @@ describe(initializeCloudMessaging, () => {
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
         [
           call([PermissionsAndroid, 'request'], PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS),
           'granted',
