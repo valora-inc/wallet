@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.react.CleverTapModule;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -95,6 +96,11 @@ public class MainActivity extends ReactActivity {
     Boolean firebaseEnabled = Boolean.parseBoolean(BuildConfig.FIREBASE_ENABLED);
     if (firebaseEnabled) {
       super.onNewIntent(intent);
+
+      CleverTapAPI cleverTapDefaultInstance = CleverTapAPI.getDefaultInstance(this);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        cleverTapDefaultInstance.pushNotificationClickedEvent(intent.getExtras());
+      }
     }
   }
 }
