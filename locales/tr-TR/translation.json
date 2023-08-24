@@ -1680,6 +1680,10 @@
       "title": "Takas yapmadan önce",
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
+    "missingSwapImpactWarning": {
+      "title": "Takas yapmadan önce",
+      "body": "Bu takasın değerini tahmin edemiyoruz. {{appName}} devam etmeyi seçerseniz sorumlu değildir."
+    },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
