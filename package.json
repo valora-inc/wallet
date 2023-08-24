@@ -120,7 +120,7 @@
     "clevertap-react-native": "^1.0.3",
     "country-data": "^0.0.31",
     "crypto-js": "^4.1.1",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "dot-prop-immutable": "^2.1.1",
     "ethereumjs-util": "^7.1.5",
     "fast-levenshtein": "^3.0.0",
