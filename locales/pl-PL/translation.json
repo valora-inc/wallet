@@ -1684,6 +1684,10 @@
       "title": "Zanim dokonasz swapu",
       "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
+    "missingSwapImpactWarning": {
+      "title": "Zanim dokonasz swapu",
+      "body": "Nie możemy oszacować wartości tej zamiany. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
+    },
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
