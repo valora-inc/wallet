@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -166,6 +166,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.notification_impression]: {
     notificationId: string
+    notificationPosition?: number
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
@@ -173,6 +174,7 @@ interface HomeEventsProperties {
   [HomeEvents.view_nft_home_assets]: undefined
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
   [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
+  [HomeEvents.notification_center_opened]: { notificationsCount: number }
 }
 
 interface SettingsEventsProperties {

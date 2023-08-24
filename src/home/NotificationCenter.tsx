@@ -1,10 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -126,6 +128,14 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const notifications = useNotifications()
 
+  useEffect(() => {
+    ValoraAnalytics.track(HomeEvents.notification_center_opened, {
+      notificationsCount: notifications.length,
+    })
+  }, [])
+
+  const seenNotifications = useRef(new Set())
+
   const scrollPosition = useSharedValue(0)
 
   const [headerYPosition, setHeaderYPosition] = useState(0)
@@ -147,6 +157,26 @@ export default function Notifications({ navigation }: NotificationsProps) {
     setHeaderYPosition(event.nativeEvent.layout.y)
     setHeaderHeight(event.nativeEvent.layout.height)
   }
+
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 100,
+  })
+
+  const handleViewableItemsChanged = useCallback(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+      viewableItems.forEach(({ item, isViewable }, index) => {
+        if (isViewable && !seenNotifications.current.has(item.id)) {
+          seenNotifications.current.add(item.id)
+
+          ValoraAnalytics.track(HomeEvents.notification_impression, {
+            notificationId: item.id,
+            notificationPosition: index,
+          })
+        }
+      })
+    },
+    []
+  )
 
   const renderHeader = () => (
     <Text style={styles.title} onLayout={handleMeasureHeaderHeight}>
@@ -185,6 +215,8 @@ export default function Notifications({ navigation }: NotificationsProps) {
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       onScroll={handleScroll}
+      viewabilityConfig={viewabilityConfig.current}
+      onViewableItemsChanged={handleViewableItemsChanged}
       contentContainerStyle={contentContainerStyle}
     />
   )

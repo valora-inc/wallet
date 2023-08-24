@@ -43,6 +43,7 @@ export enum HomeEvents {
   view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
   home_action_pressed = 'home_action_pressed',
   notification_bell_pressed = 'notification_bell_pressed',
+  notification_center_opened = 'notification_center_opened',
 }
 
 export enum SettingsEvents {
