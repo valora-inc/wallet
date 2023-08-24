@@ -5,21 +5,25 @@
  */
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
+import { normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
-import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
+import getLockableViemWallet from 'src/viem/getLockableWallet'
+import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, select } from 'typed-redux-saga'
+import { Address, Chain, WalletClient } from 'viem'
 
 import Web3 from 'web3'
 
@@ -29,11 +33,14 @@ const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
+const viemWallets = new Map<Chain, WalletClient>()
+
+const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
 
 async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new KeychainWallet(importMnemonicAccount)
+  const newWallet = new KeychainWallet(importMnemonicAccount, keychainLock)
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
@@ -107,6 +114,31 @@ async function waitForContractKit(tries: number) {
     }
   }
   return contractKit
+}
+
+export function* getViemWallet(chain: Chain) {
+  if (viemWallets.has(chain)) {
+    return viemWallets.get(chain) as WalletClient
+  }
+  const walletAddress = yield* select(walletAddressSelector)
+  const mnemonic = yield* call(getStoredMnemonic, walletAddress)
+  if (!mnemonic) {
+    throw new Error('No mnemonic found')
+  }
+  const keys = yield* call(generateKeysFromMnemonic, mnemonic)
+  const privateKey = keys.privateKey
+  if (!privateKey) {
+    throw new Error('Failed to convert mnemonic to hex')
+  }
+  Logger.debug(`${TAG}@getViemWallet`, `Initializing wallet with private key: ${privateKey}`)
+  const wallet = getLockableViemWallet(
+    keychainLock,
+    chain,
+    normalizeAddressWith0x(privateKey) as Address
+  )
+  Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
+  viemWallets.set(chain, wallet)
+  return wallet
 }
 
 export function* getContractKit() {
