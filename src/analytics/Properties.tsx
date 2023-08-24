@@ -1218,7 +1218,7 @@ interface SwapEvent {
 
 type SwapQuoteEvent = SwapEvent & {
   allowanceTarget: string
-  estimatedPriceImpact?: string
+  estimatedPriceImpact: string | null
   price: string
   provider: string
 }
@@ -1272,7 +1272,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact: string
+    priceImpact?: string
   }
 }
 
