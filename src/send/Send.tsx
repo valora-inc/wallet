@@ -62,7 +62,7 @@ function Send({ route }: Props) {
   const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
 
-  const [searchQuery, setSearchQuery] = useState('0x3f51cc414530ce21ef3f7b951a153c89ed251fa0')
+  const [searchQuery, setSearchQuery] = useState('')
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
@@ -91,7 +91,7 @@ function Send({ route }: Props) {
 
   useEffect(() => {
     // Clear search when recipients change to avoid tricky states
-    throttledSearch('0x3f51cc414530ce21ef3f7b951a153c89ed251fa0')
+    throttledSearch('')
   }, [recentRecipientsFilter, allRecipientsFilter])
 
   const { result } = useAsync(async () => {
