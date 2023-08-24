@@ -28,7 +28,7 @@ export enum AppEvents {
 }
 
 export enum HomeEvents {
-  home_send = 'home_send',
+  home_send = 'home_send', // when "send" button is pressed from home screen send or request bar (NOT from home screen actions)
   home_request = 'home_request',
   home_qr = 'home_qr',
   hamburger_tapped = 'hamburger_tapped',
@@ -305,7 +305,7 @@ export enum SendEvents {
 
   send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
 
-  send_tx_start = 'send_tx_start',
+  send_tx_start = 'send_tx_start', // issued from the sendPayment saga, after a user confirms their intent to send and right before we build and send the transaction to the network
   send_tx_complete = 'send_tx_complete', // when a send transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
