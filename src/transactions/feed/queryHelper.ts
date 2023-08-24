@@ -112,13 +112,7 @@ export function useFetchTransactions(): QueryHookResult {
     Logger.info(TAG, `Fetched ${isPollResult ? 'new' : 'next page of'} transactions`)
 
     for (const [chain, result] of Object.entries(results) as Array<[Chain, QueryResponse]>) {
-      // Augment the transaction with chain data, since it will eventually be needed
-      // for correct rendering.
-      const returnedTransactions = (result.data?.tokenTransactionsV3?.transactions ?? []).map(
-        (tx) => {
-          return { ...tx, chain }
-        }
-      )
+      const returnedTransactions = result.data?.tokenTransactionsV3?.transactions ?? []
       const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
 
       // the initial feed fetch is from polling, exclude polled updates from that scenario
@@ -269,7 +263,7 @@ export function useFetchTransactions(): QueryHookResult {
 }
 
 function anyChainHasMorePages(pageInfo: { [key in Chain]?: PageInfo | null }): boolean {
-  return Object.values(pageInfo).reduce((acc, val) => acc || !val?.hasNextPage, false)
+  return Object.values(pageInfo).reduce((acc, val) => acc || !!val?.hasNextPage, false)
 }
 
 function anyChainHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
@@ -278,6 +272,8 @@ function anyChainHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
   return Object.values(hasTransactionsOnCurrentPage).reduce((acc, val) => acc || val, false)
 }
 
+// Queries for transactions feed for any number of chains in parallel,
+// with optional pagination support.
 async function queryTransactionsFeed({
   address,
   localCurrencyCode,
@@ -339,6 +335,8 @@ async function queryChainTransactionsFeed({
     }),
   })
   const body = (await response.json()) as QueryResponse
+  // Augment the transactions with chain data, since this is not included by default
+  // from blockchain-api and is needed throughout the app.
   return {
     ...body,
     data: {

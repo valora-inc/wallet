@@ -54,7 +54,6 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  // TODO: Make this work with native tokens lacking a tokenAddress
   const tokenInfoFromAddress = useTokenInfo(tokenAddress!)
   const tokenInfoFromCurrency = useTokenInfoBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
