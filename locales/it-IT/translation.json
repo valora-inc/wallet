@@ -1680,6 +1680,10 @@
       "title": "Prima di uno scambio",
       "body": "Scambiare questi asset può comportare un tasso di cambio sfavorevole. Riducendo l'importo, potresti ottenere un tasso migliore."
     },
+    "missingSwapImpactWarning": {
+      "title": "Prima di uno scambio",
+      "body": "Non possiamo stimare il valore di questo scambio. {{appName}} non è responsabile se decidi di procedere."
+    },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
