@@ -1678,6 +1678,10 @@
       "title": "ก่อนที่จะสว็อป",
       "body": "การสว็อปสินทรัพย์อาจส่งผลให้ได้รับอัตราแลกเปลี่ยนที่ไม่น่าพึงพอใจ หากคุณลดจำนวนเงินลง คุณอาจได้รับอัตราที่ดีขึ้น"
     },
+    "missingSwapImpactWarning": {
+      "title": "ก่อนที่จะสว็อป",
+      "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
+    },
     "estimatedExchangeRate": "อัตราโดยประมาณ ≈ <0>0.00</0>"
   },
   "swapTransactionDetailPage": {
