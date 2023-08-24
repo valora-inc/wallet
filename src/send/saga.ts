@@ -40,6 +40,7 @@ import {
   TransactionContext,
   TransactionStatus,
   newTransactionContext,
+  Chain,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
@@ -214,6 +215,7 @@ export function* buildAndSendPayment(
   yield* put(
     addStandbyTransaction({
       context,
+      chain: Chain.Celo,
       type: TokenTransactionTypeV2.Sent,
       comment,
       status: TransactionStatus.Pending,

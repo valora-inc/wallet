@@ -23,6 +23,7 @@ export interface StandbyTransactionLegacy {
 }
 export interface StandbyTransaction {
   context: TransactionContext
+  chain: Chain
   type: TokenTransferTypeV2
   status: TransactionStatus
   value: string

@@ -27,6 +27,7 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
   const transferTx = tx as StandbyTransaction
   return {
     __typename: 'TokenTransferV3',
+    chain: tx.chain,
     type: tx.type,
     status: tx.status,
     transactionHash: tx.hash || '',

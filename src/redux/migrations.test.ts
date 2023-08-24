@@ -3,7 +3,7 @@ import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Chain, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { Chain, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import BigNumber from 'bignumber.js'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
@@ -995,10 +995,23 @@ describe('Redux persist migrations', () => {
   it('works from v143 to v144', () => {
     // Ensure that all of TokenTransfer, TokenExchange, and NftTransfer migrate correctly.
     // Namely, that the __typename is updated to V3 and that chain is added to each TX.
+    // Also check that chain is added to standby transactions.
     const oldSchema = {
       ...v143Schema,
       transactions: {
         ...v143Schema.transactions,
+        standbyTransactions: [
+          {
+            context: { id: 'test' },
+            type: TokenTransactionTypeV2.Sent,
+            status: TransactionStatus.Pending,
+            value: '0.5',
+            tokenAddress: 'mock-address',
+            comment: '',
+            timestamp: 1542300000,
+            address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+          },
+        ],
         transactions: [
           {
             __typename: 'TokenTransferV2',
@@ -1062,6 +1075,19 @@ describe('Redux persist migrations', () => {
       ...v143Schema,
       transactions: {
         ...v143Schema.transactions,
+        standbyTransactions: [
+          {
+            context: { id: 'test' },
+            chain: Chain.Celo,
+            type: TokenTransactionTypeV2.Sent,
+            status: TransactionStatus.Pending,
+            value: '0.5',
+            tokenAddress: 'mock-address',
+            comment: '',
+            timestamp: 1542300000,
+            address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+          },
+        ],
         transactions: [
           {
             __typename: 'TokenTransferV3',

@@ -1,11 +1,12 @@
 import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
-import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus, Chain } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import { mockCusdAddress } from 'test/values'
 
 const mockFeedItem = (timestamp: number, comment: string): FeedTokenTransaction => {
   return {
-    __typename: 'TokenTransferV2',
+    __typename: 'TokenTransferV3',
+    chain: Chain.Celo,
     type: TokenTransactionTypeV2.Sent,
     block: '8648978',
     transactionHash: 'any_value',

@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { updateInviteTransactions, updateTransactions } from 'src/transactions/actions'
 import { getInviteTransactionsDetails } from 'src/transactions/saga'
-import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { TokenTransaction, TokenTransactionTypeV2, Chain } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
@@ -13,7 +13,8 @@ const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 const transactionHash = '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b'
 const mockInviteTransaction: TokenTransaction = {
-  __typename: 'TokenTransferV2',
+  __typename: 'TokenTransferV3',
+  chain: Chain.Celo,
   address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
   amount: {
     tokenAddress: mockCusdAddress,

@@ -22,7 +22,7 @@ import { sendPaymentSaga, watchQrCodeDetections } from 'src/send/saga'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus, Chain } from 'src/transactions/types'
 import {
   UnlockResult,
   getConnectedAccount,
@@ -303,6 +303,7 @@ describe(sendPaymentSaga, () => {
       .put(
         addStandbyTransaction({
           context: mockContext,
+          chain: Chain.Celo,
           type: TokenTransactionTypeV2.Sent,
           comment: sendAction.comment,
           status: TransactionStatus.Pending,

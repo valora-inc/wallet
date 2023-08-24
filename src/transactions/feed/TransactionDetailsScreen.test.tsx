@@ -14,6 +14,7 @@ import {
   TokenTransactionTypeV2,
   TokenTransfer,
   TokenTransferMetadata,
+  Chain,
 } from 'src/transactions/types'
 import {
   createMockStore,
@@ -89,7 +90,8 @@ describe('TransactionDetailsScreen', () => {
     fees?: Fee[]
   }): TokenTransfer {
     return {
-      __typename: 'TokenTransferV2',
+      __typename: 'TokenTransferV3',
+      chain: Chain.Celo,
       type,
       transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
       timestamp: 1542306118,
@@ -119,7 +121,8 @@ describe('TransactionDetailsScreen', () => {
     fees?: Fee[]
   }): TokenExchange {
     return {
-      __typename: 'TokenExchangeV2',
+      __typename: 'TokenExchangeV3',
+      chain: Chain.Celo,
       type: TokenTransactionTypeV2.SwapTransaction,
       transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
       timestamp: 1531306119,

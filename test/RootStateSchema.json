@@ -2746,6 +2746,9 @@
                 "address": {
                     "type": "string"
                 },
+                "chain": {
+                    "$ref": "#/definitions/Chain"
+                },
                 "comment": {
                     "type": "string"
                 },
@@ -2773,6 +2776,7 @@
             },
             "required": [
                 "address",
+                "chain",
                 "comment",
                 "context",
                 "status",

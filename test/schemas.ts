@@ -15,7 +15,7 @@ import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { TokenTransaction, Chain } from 'src/transactions/types'
+import { TokenTransaction, Chain, StandbyTransaction } from 'src/transactions/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2463,11 +2463,15 @@ export const v144Schema = {
   },
   transactions: {
     ...v143Schema.transactions,
+    standbyTransactions: (v143Schema.transactions.standbyTransactions as StandbyTransaction[]).map(
+      (tx) => {
+        return { ...tx, chain: Chain.Celo }
+      }
+    ),
     transactions: (v143Schema.transactions.transactions as TokenTransaction[]).map((tx) => {
-      // eslint-disable-next-line
-      const __typename =
+      const __typename = // @ts-ignore
         tx.__typename === 'TokenTransferV2'
-          ? 'TokenTransferV3'
+          ? 'TokenTransferV3' // @ts-ignore
           : tx.__typename === 'NftTransferV2'
           ? 'NftTransferV3'
           : 'TokenExchangeV3'

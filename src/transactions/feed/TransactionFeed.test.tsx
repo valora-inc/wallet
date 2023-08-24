@@ -11,13 +11,15 @@ import {
   TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
+  Chain,
 } from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
 const mockTransaction = (transactionHash: string): TokenTransaction => {
   return {
-    __typename: 'TokenTransferV2',
+    __typename: 'TokenTransferV3',
+    chain: Chain.Celo,
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
     amount: {
       tokenAddress: mockCusdAddress,
@@ -37,6 +39,7 @@ const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
   {
     context: { id: 'test' },
+    chain: Chain.Celo,
     type: TokenTransactionTypeV2.Sent,
     status: TransactionStatus.Pending,
     value: '0.5',
@@ -51,7 +54,7 @@ const END_CURSOR = 'YXJyYXljb25uZWN0aW9uOjk='
 
 const MOCK_EMPTY_RESPONSE: QueryResponse = {
   data: {
-    tokenTransactionsV2: {
+    tokenTransactionsV3: {
       pageInfo: {
         startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
         endCursor: END_CURSOR,
@@ -65,7 +68,7 @@ const MOCK_EMPTY_RESPONSE: QueryResponse = {
 
 const MOCK_RESPONSE: QueryResponse = {
   data: {
-    tokenTransactionsV2: {
+    tokenTransactionsV3: {
       pageInfo: {
         startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
         endCursor: END_CURSOR,
@@ -81,7 +84,7 @@ const MOCK_RESPONSE: QueryResponse = {
 
 const MOCK_RESPONSE_NO_NEXT_PAGE: QueryResponse = {
   data: {
-    tokenTransactionsV2: {
+    tokenTransactionsV3: {
       pageInfo: {
         startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
         endCursor: END_CURSOR,
@@ -97,7 +100,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: QueryResponse = {
 
 const MOCK_RESPONSE_MANY_ITEMS: QueryResponse = {
   data: {
-    tokenTransactionsV2: {
+    tokenTransactionsV3: {
       pageInfo: {
         startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
         endCursor: END_CURSOR,
@@ -184,7 +187,7 @@ describe('TransactionFeed', () => {
 
     const { getByTestId, queryByTestId } = renderScreen({
       transactions: {
-        transactions: MOCK_RESPONSE.data.tokenTransactionsV2.transactions,
+        transactions: MOCK_RESPONSE.data.tokenTransactionsV3.transactions,
       },
     })
 
