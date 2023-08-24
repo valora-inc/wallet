@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 142,
+          "version": 143,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -108,6 +108,7 @@ describe('store state', () => {
           "backupCompleted": false,
           "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
+          "cloudBackupCompleted": false,
           "contactDetails": Object {
             "contactId": "contactId",
             "thumbnailPath": null,

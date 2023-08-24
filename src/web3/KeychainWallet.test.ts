@@ -13,7 +13,6 @@ import * as Keychain from 'react-native-keychain'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
-import KeychainAccountManager from 'src/web3/KeychainAccountManager'
 
 // Use real encryption
 jest.unmock('crypto-js')
@@ -88,13 +87,11 @@ const MOCK_DATE = new Date(1482363367071)
 // https://github.com/celo-org/celo-monorepo/blob/325b4e3ce10912478330cae6cf793aabfdb2816a/packages/sdk/wallets/wallet-local/src/local-wallet.test.ts
 describe('KeychainWallet', () => {
   let wallet: KeychainWallet
-  let keychainAccountManager: KeychainAccountManager
 
   beforeEach(async () => {
     jest.clearAllMocks()
     mockedKeychain.clearAllItems()
-    keychainAccountManager = new KeychainAccountManager()
-    wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT, keychainAccountManager)
+    wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
     await wallet.init()
   })
 
@@ -140,7 +137,6 @@ describe('KeychainWallet', () => {
       // created using:
       // await wallet.addAccount(PRIVATE_KEY1, 'password')
       // await wallet.addAccount(PRIVATE_KEY2, 'password2')
-      keychainAccountManager = new KeychainAccountManager()
       mockedKeychain.setItems({
         'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
           password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
@@ -154,7 +150,7 @@ describe('KeychainWallet', () => {
         },
       })
 
-      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT, keychainAccountManager)
+      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
       await wallet.init()
     })
 
@@ -420,7 +416,6 @@ describe('KeychainWallet', () => {
             // Setup mocked keychain content, created using:
             // await wallet.addAccount(PRIVATE_KEY2, 'password2')
             // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
-            keychainAccountManager = new KeychainAccountManager()
             mockedKeychain.setItems({
               'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
                 password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
@@ -435,7 +430,7 @@ describe('KeychainWallet', () => {
               },
             })
 
-            wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, keychainAccountManager)
+            wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
             await wallet.init()
           })
 
@@ -502,7 +497,6 @@ describe('KeychainWallet', () => {
             // Setup mocked keychain content, created using:
             // await wallet.addAccount(PRIVATE_KEY2, 'password2')
             // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
-            keychainAccountManager = new KeychainAccountManager()
             mockedKeychain.setItems({
               'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
                 password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
@@ -517,14 +511,11 @@ describe('KeychainWallet', () => {
               },
             })
 
-            wallet = new KeychainWallet(
-              {
-                ...EXISTING_GETH_ACCOUNT,
-                // Even further future date
-                createdAt: new Date(2040, 5, 17),
-              },
-              keychainAccountManager
-            )
+            wallet = new KeychainWallet({
+              ...EXISTING_GETH_ACCOUNT,
+              // Even further future date
+              createdAt: new Date(2040, 5, 17),
+            })
             await wallet.init()
           })
 
@@ -556,7 +547,6 @@ describe('KeychainWallet', () => {
           // Setup mocked keychain content, created using:
           // await wallet.addAccount(PRIVATE_KEY2, 'password2')
           // await storeMnemonic(ANOTHER_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
-          keychainAccountManager = new KeychainAccountManager()
           mockedKeychain.setItems({
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
               password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
@@ -571,7 +561,7 @@ describe('KeychainWallet', () => {
             },
           })
 
-          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, keychainAccountManager)
+          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
           await wallet.init()
         })
 
@@ -601,7 +591,6 @@ describe('KeychainWallet', () => {
         beforeEach(async () => {
           // Setup mocked keychain content, created using:
           // await wallet.addAccount(PRIVATE_KEY2, 'password2')
-          keychainAccountManager = new KeychainAccountManager()
           mockedKeychain.setItems({
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
               password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
@@ -612,7 +601,7 @@ describe('KeychainWallet', () => {
             },
           })
 
-          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, keychainAccountManager)
+          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
           await wallet.init()
         })
 
@@ -642,7 +631,6 @@ describe('KeychainWallet', () => {
         // await wallet.addAccount(PRIVATE_KEY2, 'password2')
         // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
         // await wallet.addAccount(GETH_ACCOUNT_ADDRESS, 'password')
-        keychainAccountManager = new KeychainAccountManager()
         mockedKeychain.setItems({
           'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
             password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
@@ -661,7 +649,7 @@ describe('KeychainWallet', () => {
           },
         })
 
-        wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, keychainAccountManager)
+        wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
         await wallet.init()
       })
 
