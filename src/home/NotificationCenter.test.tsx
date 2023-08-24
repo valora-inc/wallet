@@ -2,6 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationCenter from 'src/home/NotificationCenter'
@@ -17,6 +19,8 @@ import {
   mockEscrowedPayment,
   mockPaymentRequests,
 } from 'test/values'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -110,6 +114,10 @@ const mockcUsdWithoutEnoughBalance = {
 }
 
 describe('NotificationCenter', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders empty state when there is no notifications at all', () => {
     const store = createMockStore({ ...storeDataNotificationsDisabled })
     const { getByTestId, getByText } = render(
@@ -120,6 +128,20 @@ describe('NotificationCenter', () => {
 
     expect(getByTestId('NotificationCenter/EmptyState')).toBeTruthy()
     expect(getByText('noNotificationsPlaceholder')).toBeTruthy()
+  })
+
+  it('emits correct analytics event when opened', () => {
+    const store = createMockStore()
+    render(
+      <Provider store={store}>
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+      </Provider>
+    )
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_center_opened, {
+      notificationsCount: 4,
+    })
   })
 
   it('renders reverify notification if decentrally verified and not CPV', () => {
