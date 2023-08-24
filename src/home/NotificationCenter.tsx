@@ -164,8 +164,8 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const handleViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      viewableItems.forEach(({ item, isViewable }, index) => {
-        if (isViewable && !seenNotifications.current.has(item.id)) {
+      viewableItems.forEach(({ item }, index) => {
+        if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
           ValoraAnalytics.track(HomeEvents.notification_impression, {
