@@ -29,6 +29,7 @@ export enum StatsigFeatureGates {
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
+  SHOW_MULTI_CHAIN_TRANSFERS = 'show_multi_chain_transfers',
 }
 
 export enum StatsigExperiments {

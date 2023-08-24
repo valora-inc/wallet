@@ -34,6 +34,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
+  [StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS]: false,
 }
 
 export const ExperimentConfigs = {

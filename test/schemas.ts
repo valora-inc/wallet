@@ -15,6 +15,7 @@ import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { TokenTransaction, Chain } from 'src/transactions/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2454,6 +2455,31 @@ export const v143Schema = {
   },
 }
 
+export const v144Schema = {
+  ...v143Schema,
+  _persist: {
+    ...v143Schema._persist,
+    version: 144,
+  },
+  transactions: {
+    ...v143Schema.transactions,
+    transactions: (v143Schema.transactions.transactions as TokenTransaction[]).map((tx) => {
+      // eslint-disable-next-line
+      const __typename =
+        tx.__typename === 'TokenTransferV2'
+          ? 'TokenTransferV3'
+          : tx.__typename === 'NftTransferV2'
+          ? 'NftTransferV3'
+          : 'TokenExchangeV3'
+      return {
+        ...tx,
+        __typename,
+        chain: Chain.Celo,
+      }
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v143Schema as Partial<RootState>
+  return v144Schema as Partial<RootState>
 }

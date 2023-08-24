@@ -730,6 +730,13 @@
             },
             "type": "object"
         },
+        "Chain": {
+            "enum": [
+                "Celo",
+                "Ethereum"
+            ],
+            "type": "string"
+        },
         "CiCoCurrency": {
             "enum": [
                 "CELO",
@@ -1790,11 +1797,14 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "NftTransferV2",
+                    "const": "NftTransferV3",
                     "type": "string"
                 },
                 "block": {
                     "type": "string"
+                },
+                "chain": {
+                    "$ref": "#/definitions/Chain"
                 },
                 "fees": {
                     "items": {
@@ -1821,6 +1831,7 @@
             "required": [
                 "__typename",
                 "block",
+                "chain",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2766,7 +2777,6 @@
                 "context",
                 "status",
                 "timestamp",
-                "tokenAddress",
                 "type",
                 "value"
             ],
@@ -4596,7 +4606,6 @@
                 }
             },
             "required": [
-                "tokenAddress",
                 "value"
             ],
             "type": "object"
@@ -4605,11 +4614,14 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV2",
+                    "const": "TokenExchangeV3",
                     "type": "string"
                 },
                 "block": {
                     "type": "string"
+                },
+                "chain": {
+                    "$ref": "#/definitions/Chain"
                 },
                 "fees": {
                     "items": {
@@ -4639,6 +4651,7 @@
             "required": [
                 "__typename",
                 "block",
+                "chain",
                 "fees",
                 "inAmount",
                 "outAmount",
@@ -4690,7 +4703,7 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenTransferV2",
+                    "const": "TokenTransferV3",
                     "type": "string"
                 },
                 "address": {
@@ -4701,6 +4714,9 @@
                 },
                 "block": {
                     "type": "string"
+                },
+                "chain": {
+                    "$ref": "#/definitions/Chain"
                 },
                 "fees": {
                     "items": {
@@ -4726,6 +4742,7 @@
                 "address",
                 "amount",
                 "block",
+                "chain",
                 "fees",
                 "metadata",
                 "timestamp",

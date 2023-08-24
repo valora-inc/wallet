@@ -9,7 +9,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
-import { TokenTransaction } from 'src/transactions/types'
+import { TokenTransaction, Chain } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
@@ -1207,6 +1207,26 @@ export const migrations = {
     account: {
       ...state.account,
       cloudBackupCompleted: false,
+    },
+  }),
+  144: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      transactions: (state.transactions.transactions as TokenTransaction[]).map((tx) => {
+        // eslint-disable-next-line
+        const __typename =
+          tx.__typename === 'TokenTransferV2'
+            ? 'TokenTransferV3'
+            : tx.__typename === 'NftTransferV2'
+            ? 'NftTransferV3'
+            : 'TokenExchangeV3'
+        return {
+          ...tx,
+          __typename,
+          chain: Chain.Celo,
+        }
+      }),
     },
   }),
 }

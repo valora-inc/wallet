@@ -12,6 +12,10 @@ import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
+import Logger from 'src/utils/Logger'
+import { getAllowedChains } from 'src/transactions/feed/queryHelper'
+
+const TAG = 'transactions/feed/TransactionFeed'
 
 export type FeedTokenProperties = {
   status: TransactionStatus // for standby transactions
@@ -22,7 +26,7 @@ export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
   const transferTx = tx as StandbyTransaction
   return {
-    __typename: 'TokenTransferV2',
+    __typename: 'TokenTransferV3',
     type: tx.type,
     status: tx.status,
     transactionHash: tx.hash || '',
@@ -43,7 +47,7 @@ function TransactionFeed() {
     useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
-
+  Logger.info(TAG, cachedTransactions)
   const confirmedTokenTransactions: TokenTransaction[] =
     transactions.length > 0 ? transactions : cachedTransactions
   const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
@@ -55,7 +59,12 @@ function TransactionFeed() {
     mapStandbyTransactionToFeedTokenTransaction(tx)
   )
 
-  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions]
+  const allowedChains = getAllowedChains()
+  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions].filter(
+    (tx) => {
+      return allowedChains.includes(tx.chain)
+    }
+  )
 
   const sections = useMemo(() => {
     if (tokenTransactions.length === 0) {
@@ -71,11 +80,11 @@ function TransactionFeed() {
 
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
-      case 'TokenExchangeV2':
+      case 'TokenExchangeV3':
         return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
-      case 'TokenTransferV2':
+      case 'TokenTransferV3':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-      case 'NftTransferV2':
+      case 'NftTransferV3':
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     }
   }

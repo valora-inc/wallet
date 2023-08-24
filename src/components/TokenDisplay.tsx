@@ -54,9 +54,6 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  if (tokenAddress ? currency : !currency) {
-    throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
-  }
   const tokenInfoFromAddress = useTokenInfo(tokenAddress!)
   const tokenInfoFromCurrency = useTokenInfoBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
