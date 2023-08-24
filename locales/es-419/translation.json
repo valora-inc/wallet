@@ -1680,6 +1680,10 @@
       "title": "Antes de cambiar",
       "body": "Intercambiar estos activos puede afectar el tipo de cambio. Si reduces el monto a cambiar, tal vez obtengas un mejor tipo de cambio."
     },
+    "missingSwapImpactWarning": {
+      "title": "Antes de cambiar",
+      "body": "No podemos estimar el valor de este intercambio. {{appName}} no se hace responsable si decides proceder."
+    },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
