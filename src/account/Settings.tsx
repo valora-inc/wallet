@@ -24,10 +24,10 @@ import {
 } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import {
+  cloudBackupCompletedSelector,
   devModeSelector,
   e164NumberSelector,
   pincodeTypeSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -62,7 +62,6 @@ import {
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { revokeVerification } from 'src/identity/actions'
-import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -70,6 +69,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import RevokePhoneNumber from 'src/RevokePhoneNumber'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
@@ -101,10 +102,10 @@ export const Account = ({ navigation, route }: Props) => {
   const { sessions } = useSelector(selectSessions)
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
+  const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
@@ -379,11 +380,7 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
-  // TODO(ACT-771): get from Statsig
-  const showKeylessBackup = getKeylessBackupGate()
-
-  // TODO(ACT-684, ACT-766, ACT-767): get from redux, and also handle in progress state
-  const isKeylessBackupComplete = isBackupComplete()
+  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -424,23 +421,21 @@ export const Account = ({ navigation, route }: Props) => {
             />
           )}
           <SectionHead text={t('security')} style={styles.sectionTitle} />
-          {shouldShowRecoveryPhraseInSettings && (
-            <SettingsItemTextValue
-              title={t('accountKey')}
-              onPress={goToRecoveryPhrase}
-              testID="RecoveryPhrase"
-            />
-          )}
+          <SettingsItemTextValue
+            title={t('accountKey')}
+            onPress={goToRecoveryPhrase}
+            testID="RecoveryPhrase"
+          />
           {showKeylessBackup && (
             <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}
               onPress={
-                isKeylessBackupComplete ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
+                cloudBackupCompleted ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
               }
               testID="KeylessBackup"
-              ctaText={isKeylessBackupComplete ? t('delete') : t('setup')}
-              ctaColor={isKeylessBackupComplete ? colors.warning : colors.greenUI}
-              showChevron={!isKeylessBackupComplete}
+              ctaText={cloudBackupCompleted ? t('delete') : t('setup')}
+              ctaColor={cloudBackupCompleted ? colors.warning : colors.greenUI}
+              showChevron={!cloudBackupCompleted}
             />
           )}
           <SettingsItemTextValue

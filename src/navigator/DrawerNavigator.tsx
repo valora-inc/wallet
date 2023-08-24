@@ -24,10 +24,10 @@ import { useDispatch } from 'react-redux'
 import FiatExchange from 'src/account/FiatExchange'
 import {
   backupCompletedSelector,
+  cloudBackupCompletedSelector,
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
-  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
@@ -204,18 +204,13 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 
 type Props = NativeStackScreenProps<StackParamList, Screens.DrawerNavigator>
 
-// TODO(ACT-771): get from Statsig
-function showKeylessBackup() {
-  return false
-}
-
 export default function DrawerNavigator({ route }: Props) {
   const { t } = useTranslation()
   const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
-  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
+  const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
   const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
@@ -230,6 +225,11 @@ export default function DrawerNavigator({ route }: Props) {
   const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
   const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
+
+  const cloudBackupGate = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
+  const anyBackupCompleted = backupCompleted || cloudBackupCompleted
+  const showWalletSecurity = !anyBackupCompleted && cloudBackupGate
+  const showRecoveryPhrase = !anyBackupCompleted && !cloudBackupGate
 
   // ExchangeHomeScreen
   const celoMenuItem = (
@@ -297,56 +297,52 @@ export default function DrawerNavigator({ route }: Props) {
         />
       )}
 
-      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) &&
-        (showKeylessBackup() ? (
-          <Drawer.Screen
-            // NOTE: this needs to be a different screen name from the screen
-            // accessed from the settings which shows the back button instead of
-            // the drawer. Otherwise the settings item will navigate to the
-            // screen with the drawer. This wasn't needed for the
-            // BackupIntroduction screen because it navigates to the pin screen
-            // first.
-            name={Screens.WalletSecurityPrimerDrawer}
-            // @ts-expect-error component type in native-stack v6
-            component={WalletSecurityPrimer}
-            options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('walletSecurity') ?? undefined,
-              title: t('walletSecurity') ?? undefined,
-              drawerIcon: AccountKey,
-            }}
-            initialParams={{ showDrawerTopBar: true }}
-          />
-        ) : (
-          <Drawer.Screen
-            name={Screens.BackupIntroduction}
-            // @ts-expect-error component type in native-stack v6
-            component={BackupIntroduction}
-            options={{
-              drawerLabel: !backupCompleted
-                ? () => (
-                    <View style={styles.itemStyle}>
-                      <Text style={styles.itemTitle}>{t('accountKey')}</Text>
-                      <View style={styles.drawerItemIcon}>
-                        <ExclamationCircleIcon />
-                      </View>
-                    </View>
-                  )
-                : t('accountKey') ?? undefined,
-              title: t('accountKey') ?? undefined,
-              drawerIcon: AccountKey,
-            }}
-            initialParams={{ showDrawerTopBar: true }}
-          />
-        ))}
+      {showWalletSecurity && (
+        <Drawer.Screen
+          // NOTE: this needs to be a different screen name from the screen
+          // accessed from the settings which shows the back button instead of
+          // the drawer. Otherwise the settings item will navigate to the
+          // screen with the drawer. This wasn't needed for the
+          // BackupIntroduction screen because it navigates to the pin screen
+          // first.
+          name={Screens.WalletSecurityPrimerDrawer}
+          // @ts-expect-error component type in native-stack v6
+          component={WalletSecurityPrimer}
+          options={{
+            drawerLabel: () => (
+              <View style={styles.itemStyle}>
+                <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
+                <View style={styles.drawerItemIcon}>
+                  <ExclamationCircleIcon />
+                </View>
+              </View>
+            ),
+            title: t('walletSecurity') ?? undefined,
+            drawerIcon: AccountKey,
+          }}
+          initialParams={{ showDrawerTopBar: true }}
+        />
+      )}
+      {showRecoveryPhrase && (
+        <Drawer.Screen
+          name={Screens.BackupIntroduction}
+          // @ts-expect-error component type in native-stack v6
+          component={BackupIntroduction}
+          options={{
+            drawerLabel: () => (
+              <View style={styles.itemStyle}>
+                <Text style={styles.itemTitle}>{t('accountKey')}</Text>
+                <View style={styles.drawerItemIcon}>
+                  <ExclamationCircleIcon />
+                </View>
+              </View>
+            ),
+            title: t('accountKey') ?? undefined,
+            drawerIcon: AccountKey,
+          }}
+          initialParams={{ showDrawerTopBar: true }}
+        />
+      )}
       {showAddWithdrawOnMenu && (
         <Drawer.Screen
           name={Screens.FiatExchange}

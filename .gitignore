@@ -76,9 +76,6 @@ coverage.json
 
 lerna-debug.log
 
-# Typechain types
-**/types/typechain/
-
 # keys
 .env.mnemonic*
 !.env.mnemonic*.enc
@@ -142,7 +139,3 @@ src/icons/Home.tsx
 src/images/*
 !src/images/Images.ts
 !src/images/link-arrow.png
-
-# Types generated from typechain
-# https://github.com/dethcrypto/TypeChain#q-should-i-commit-generated-files-to-my-repository
-src/abis/types/

@@ -2938,9 +2938,6 @@
                 "sessionId": {
                     "type": "string"
                 },
-                "shouldShowRecoveryPhraseInSettings": {
-                    "type": "boolean"
-                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
@@ -3015,7 +3012,6 @@
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
-                "shouldShowRecoveryPhraseInSettings",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipVerification",
@@ -3078,6 +3074,9 @@
                     "type": "boolean"
                 },
                 "choseToRestoreAccount": {
+                    "type": "boolean"
+                },
+                "cloudBackupCompleted": {
                     "type": "boolean"
                 },
                 "contactDetails": {
@@ -3152,6 +3151,7 @@
                 "accountCreationTime",
                 "backupCompleted",
                 "celoEducationCompleted",
+                "cloudBackupCompleted",
                 "contactDetails",
                 "defaultCountryCode",
                 "devModeActive",
