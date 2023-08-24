@@ -1401,3 +1401,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties
+
+export type AnalyticsEventType = keyof AnalyticsPropertiesList
