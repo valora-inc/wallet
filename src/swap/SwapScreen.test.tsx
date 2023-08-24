@@ -440,7 +440,7 @@ describe('SwapScreen', () => {
     })
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 12.44445 cUSD')
-    expect(getByText('swapScreen.missingPriceImpactWarning.title')).toBeTruthy()
+    expect(getByText('swapScreen.missingSwapImpactWarning.title')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
       {
@@ -460,7 +460,7 @@ describe('SwapScreen', () => {
     })
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 13.12345 cUSD')
-    expect(queryByText('swapScreen.missingPriceImpactWarning.title')).toBeFalsy()
+    expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
 
   it('should support from amount with comma as the decimal separator', async () => {

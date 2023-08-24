@@ -1682,7 +1682,7 @@
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
     },
-    "missingPriceImpactWarning": {
+    "missingSwapImpactWarning": {
       "title": "Before you swap",
       "body": "We can't estimate the value of this swap. Valora is not responsible if you choose to proceed."
     },

@@ -113,46 +113,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     [swapAmount]
   )
 
-  const calculatePriceImpactData = () => {
-    if (!exchangeRate) {
-      return { isPriceImpactMissing: false, priceImpactExceedsThreshold: false }
-    }
-
-    const priceImpact = exchangeRate.estimatedPriceImpact
-      ? new BigNumber(exchangeRate.estimatedPriceImpact).dividedBy(100)
-      : null
-
-    const isPriceImpactMissing = priceImpact === null
-    const priceImpactExceedsThreshold =
-      !!priceImpact && priceImpact.gte(priceImpactWarningThreshold)
-
-    return { isPriceImpactMissing, priceImpactExceedsThreshold, priceImpact }
-  }
-
-  const { isPriceImpactMissing, priceImpactExceedsThreshold } = useMemo(() => {
-    return calculatePriceImpactData()
-  }, [exchangeRate])
-
-  useEffect(() => {
-    if (!exchangeRate) {
-      return
-    }
-
-    const { isPriceImpactMissing, priceImpactExceedsThreshold, priceImpact } =
-      calculatePriceImpactData()
-
-    if (priceImpactExceedsThreshold || isPriceImpactMissing) {
-      ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
-        toToken: exchangeRate.toTokenAddress,
-        fromToken: exchangeRate.fromTokenAddress,
-        amount: parsedSwapAmount[updatedField].toString(),
-        amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
-        priceImpact: priceImpact?.toString(),
-        provider: exchangeRate.provider,
-      })
-    }
-  }, [exchangeRate])
-
   // Used to reset the swap when after a successful swap or error
   useEffect(() => {
     if (swapInfo === null) {
@@ -220,9 +180,24 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
           decimalSeparator,
         }),
       })
+
+      if (
+        !exchangeRate.estimatedPriceImpact ||
+        exchangeRate.estimatedPriceImpact.gte(priceImpactWarningThreshold)
+      ) {
+        ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
+          toToken: exchangeRate.toTokenAddress,
+          fromToken: exchangeRate.fromTokenAddress,
+          amount: parsedSwapAmount[updatedField].toString(),
+          amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
+          priceImpact: exchangeRate.estimatedPriceImpact?.toString(),
+          provider: exchangeRate.provider,
+        })
+      }
     },
     // We only want to update the other field when the exchange rate changes
     // that's why we don't include the other dependencies
+
     [exchangeRate]
   )
 
@@ -342,6 +317,11 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       exchangeRate.toTokenAddress !== toToken?.address ||
       !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
 
+  const showPriceImpactWarning =
+    !fetchingSwapQuote && !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
+  const showMisingPriceImpactWarning =
+    !fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact
+
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
       {showDrawerTopNav && (
@@ -405,17 +385,17 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
               onPressCta={onPressLearnMoreFees}
             />
           )}
-          {!fetchingSwapQuote && priceImpactExceedsThreshold && (
+          {showPriceImpactWarning && (
             <Warning
               title={t('swapScreen.priceImpactWarning.title')}
               description={t('swapScreen.priceImpactWarning.body')}
               style={styles.warning}
             />
           )}
-          {!fetchingSwapQuote && isPriceImpactMissing && (
+          {showMisingPriceImpactWarning && (
             <Warning
-              title={t('swapScreen.missingPriceImpactWarning.title')}
-              description={t('swapScreen.missingPriceImpactWarning.body')}
+              title={t('swapScreen.missingSwapImpactWarning.title')}
+              description={t('swapScreen.missingSwapImpactWarning.body')}
               style={styles.warning}
             />
           )}
