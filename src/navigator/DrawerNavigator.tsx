@@ -79,7 +79,10 @@ const TAG = 'NavigationService'
 
 const Drawer = createDrawerNavigator()
 
-type CustomDrawerItemListProps = Omit<DrawerContentOptions, 'contentContainerStyle' | 'style'> & {
+type CustomDrawerItemListProps = Omit<
+  DrawerContentComponentProps,
+  'contentContainerStyle' | 'style'
+> & {
   state: DrawerNavigationState<ParamListBase>
   navigation: DrawerNavigationHelpers
   descriptors: DrawerDescriptorMap
