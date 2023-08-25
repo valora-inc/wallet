@@ -15,6 +15,7 @@ export enum StatsigLayers {
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
+  MULTI_CHAIN_FEATURES = 'multi_chain_features',
 }
 
 export enum StatsigFeatureGates {

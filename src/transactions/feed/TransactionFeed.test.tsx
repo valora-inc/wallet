@@ -16,6 +16,8 @@ import {
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
+jest.mock('src/statsig')
+
 const mockTransaction = (transactionHash: string): TokenTransaction => {
   return {
     __typename: 'TokenTransferV3',

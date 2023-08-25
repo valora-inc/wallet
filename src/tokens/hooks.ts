@@ -9,7 +9,7 @@ import {
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
-export function useTokenInfo(tokenAddress: string | undefined) {
+export function useTokenInfo(tokenAddress?: string) {
   // TODO: Make this work with native tokens lacking a tokenAddress
   const tokens = useSelector(tokensByAddressSelector)
   return tokenAddress ? tokens[tokenAddress] : undefined

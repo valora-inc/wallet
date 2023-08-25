@@ -99,7 +99,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 143,
+          "version": 144,
         },
         "account": Object {
           "acceptedTerms": false,

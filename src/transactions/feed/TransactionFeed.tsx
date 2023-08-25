@@ -12,10 +12,7 @@ import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-import Logger from 'src/utils/Logger'
 import { getAllowedChains } from 'src/transactions/feed/queryHelper'
-
-const TAG = 'transactions/feed/TransactionFeed'
 
 export type FeedTokenProperties = {
   status: TransactionStatus // for standby transactions
@@ -48,7 +45,7 @@ function TransactionFeed() {
     useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
-  Logger.info(TAG, cachedTransactions)
+
   const confirmedTokenTransactions: TokenTransaction[] =
     transactions.length > 0 ? transactions : cachedTransactions
   const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({

@@ -47,15 +47,6 @@ describe('TokenDisplay', () => {
   }
 
   describe('when displaying tokens', () => {
-    it('throws when neither currency nor tokenAddress are supplied', () => {
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).toThrow()
-    })
     it('throws when both currency and tokenAddress are supplied', () => {
       expect(() =>
         render(

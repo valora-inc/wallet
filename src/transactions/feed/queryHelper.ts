@@ -16,8 +16,9 @@ import { TokenTransaction, Chain } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig/index'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -63,9 +64,9 @@ const deduplicateTransactions = (
 }
 
 export function getAllowedChains(): Array<Chain> {
-  return getFeatureGate(StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS)
-    ? (Object.keys(Chain) as Array<Chain>)
-    : [Chain.Celo]
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])[
+    'show_transfers_for_chains'
+  ]
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -113,10 +114,11 @@ export function useFetchTransactions(): QueryHookResult {
 
     for (const [chain, result] of Object.entries(results) as Array<[Chain, QueryResponse]>) {
       const returnedTransactions = result.data?.tokenTransactionsV3?.transactions ?? []
+
       const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
 
       // the initial feed fetch is from polling, exclude polled updates from that scenario
-      const isPolledUpdate = isPollResult && fetchedResult.pageInfo !== null
+      const isPolledUpdate = isPollResult && fetchedResult.pageInfo[chain] !== null
 
       if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
         setFetchedResult((prev) => ({
@@ -167,7 +169,7 @@ export function useFetchTransactions(): QueryHookResult {
       const result = await queryTransactionsFeed({
         address,
         localCurrencyCode,
-        params: (Object.keys(Chain) as Array<Chain>).map((chain) => {
+        params: allowedChains.map((chain) => {
           return { chain }
         }),
       })
@@ -186,7 +188,6 @@ export function useFetchTransactions(): QueryHookResult {
         setFetchingMoreTransactions(false)
         return
       }
-
       // If we're requested to fetch more transactions, only fetch them for chains
       // that actually have further pages.
       const params: Array<{
