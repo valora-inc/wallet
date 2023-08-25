@@ -15,6 +15,7 @@ import App from 'src/app/App'
 import * as Sentry from '@sentry/react-native'
 import 'react-native-gesture-handler'
 import { Text, TextInput } from 'react-native'
+import 'intl-pluralrules'
 
 const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 
