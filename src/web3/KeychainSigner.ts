@@ -21,7 +21,7 @@ export class KeychainSigner implements Signer {
 
   async init(privateKey: string, passphrase: string) {
     await storePrivateKey(privateKey, this.account, passphrase)
-    await this.lock.init(this.account)
+    await this.lock.addAccount(this.account)
   }
 
   async signTransaction(

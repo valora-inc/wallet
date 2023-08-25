@@ -16,14 +16,14 @@ import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
-import getLockableViemWallet from 'src/viem/getLockableWallet'
+import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
 import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, select } from 'typed-redux-saga'
-import { Address, Chain, WalletClient } from 'viem'
+import { Address, Chain } from 'viem'
 
 import Web3 from 'web3'
 
@@ -33,7 +33,7 @@ const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
-const viemWallets = new Map<Chain, WalletClient>()
+const viemWallets = new Map<Chain, ViemWallet>()
 
 const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
@@ -118,7 +118,7 @@ async function waitForContractKit(tries: number) {
 
 export function* getViemWallet(chain: Chain) {
   if (viemWallets.has(chain)) {
-    return viemWallets.get(chain) as WalletClient
+    return viemWallets.get(chain) as ViemWallet
   }
   const walletAddress = yield* select(walletAddressSelector)
   const mnemonic = yield* call(getStoredMnemonic, walletAddress)

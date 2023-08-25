@@ -185,13 +185,12 @@ export class KeychainLock {
     }
   > = new Map()
 
-  init(account: KeychainAccount) {
+  addAccount(account: KeychainAccount) {
     this.locks.set(account.address, { account })
   }
 
   async unlock(address: string, passphrase: string, duration: number) {
     Logger.debug(`${TAG}@unlock`, `Unlocking keychain for ${address} for ${duration} seconds`)
-    Logger.debug(`${TAG}@unlock`, `Existing locks: ${JSON.stringify([...this.locks.entries()])}`)
     if (!this.locks.has(address)) {
       return false
     }

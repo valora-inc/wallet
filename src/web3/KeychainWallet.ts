@@ -29,7 +29,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
 
     accounts.forEach((account) => {
       addressToSigner.set(account.address, new KeychainSigner(account, this.lock))
-      this.lock.init(account)
+      this.lock.addAccount(account)
     })
     return addressToSigner
   }
