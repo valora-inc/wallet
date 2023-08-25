@@ -16,7 +16,11 @@ import {
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({
+    show_transfers_for_chains: ['Celo'],
+  }),
+}))
 
 const mockTransaction = (transactionHash: string): TokenTransaction => {
   return {
