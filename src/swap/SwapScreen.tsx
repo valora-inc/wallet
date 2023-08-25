@@ -98,7 +98,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
-  const [showPriceImpactWarning, setShowPriceImpactWarning] = useState(false)
 
   const maxFromAmountUnchecked = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
@@ -186,25 +185,23 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         }),
       })
 
-      const fromFiatValue = swapFromAmount.multipliedBy(fromToken?.usdPrice || 0)
-      const toFiatValue = swapToAmount.multipliedBy(toToken?.usdPrice || 0)
-      const priceImpact = fromFiatValue.minus(toFiatValue).dividedBy(fromFiatValue)
-      const priceImpactExceedsThreshold = priceImpact.gte(priceImpactWarningThreshold)
-      setShowPriceImpactWarning(priceImpactExceedsThreshold)
-
-      if (priceImpactExceedsThreshold) {
+      if (
+        !exchangeRate.estimatedPriceImpact ||
+        exchangeRate.estimatedPriceImpact.gte(priceImpactWarningThreshold)
+      ) {
         ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
           toToken: exchangeRate.toTokenAddress,
           fromToken: exchangeRate.fromTokenAddress,
           amount: parsedSwapAmount[updatedField].toString(),
           amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
-          priceImpact: priceImpact.toString(),
+          priceImpact: exchangeRate.estimatedPriceImpact?.toString(),
           provider: exchangeRate.provider,
         })
       }
     },
     // We only want to update the other field when the exchange rate changes
     // that's why we don't include the other dependencies
+
     [exchangeRate]
   )
 
@@ -280,7 +277,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     }
 
     setShowMaxSwapAmountWarning(false)
-    setShowPriceImpactWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -324,6 +320,11 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     (exchangeRate.fromTokenAddress !== fromToken?.address ||
       exchangeRate.toTokenAddress !== toToken?.address ||
       !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
+
+  const showPriceImpactWarning =
+    !fetchingSwapQuote && !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
+  const showMisingPriceImpactWarning =
+    !fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
@@ -393,6 +394,13 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
             <Warning
               title={t('swapScreen.priceImpactWarning.title')}
               description={t('swapScreen.priceImpactWarning.body')}
+              style={styles.warning}
+            />
+          )}
+          {showMisingPriceImpactWarning && (
+            <Warning
+              title={t('swapScreen.missingSwapImpactWarning.title')}
+              description={t('swapScreen.missingSwapImpactWarning.body')}
               style={styles.warning}
             />
           )}

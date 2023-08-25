@@ -28,7 +28,7 @@ export enum AppEvents {
 }
 
 export enum HomeEvents {
-  home_send = 'home_send',
+  home_send = 'home_send', // when "send" button is pressed from home screen send or request bar (NOT from home screen actions)
   home_request = 'home_request',
   home_qr = 'home_qr',
   hamburger_tapped = 'hamburger_tapped',

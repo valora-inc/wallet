@@ -53,9 +53,9 @@ const TAG = 'NotificationBox'
 // Priority of static notifications
 const BACKUP_PRIORITY = 1000
 const VERIFICATION_PRIORITY = 100
-const INVITES_PRIORITY = 400
-const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
-const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
+export const INVITES_PRIORITY = 400
+export const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
+export const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 const SUPERCHARGE_INFO_PRIORITY = 440
@@ -93,7 +93,7 @@ export interface Notification {
   id: string
 }
 
-function useSimpleActions() {
+export function useSimpleActions() {
   const {
     backupCompleted,
     dismissedGetVerified,
