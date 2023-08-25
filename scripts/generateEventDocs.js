@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fs = require('fs')
 
 const INPUT_PATH = process.env.INPUT_PATH

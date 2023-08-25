@@ -38,6 +38,11 @@ import {
   DappShortcutsEvents,
 } from 'src/analytics/Events'
 
+/**
+ * Documentation for analytics events.
+ *
+ * DO NOT add empty strings as values! (Only acceptable for legacy events)
+ */
 export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.app_launched]: ``,
   [AppEvents.app_state_error]: ``,
@@ -97,7 +102,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SettingsEvents.settings_biometry_opt_in_enable]: ``,
   [SettingsEvents.settings_biometry_opt_in_complete]: ``,
   [SettingsEvents.settings_biometry_opt_in_error]: ``,
-  [SettingsEvents.settings_biometry_opt_in_disable]: `intentionally not tracking analytics opt in/out`,
+  [SettingsEvents.settings_biometry_opt_in_disable]: ``,
+  // intentionally not tracking analytics opt in/out
+  // to avoid tracking through omission
   [SettingsEvents.settings_recovery_phrase]: ``,
   [SettingsEvents.settings_haptic_feedback]: ``,
   [SettingsEvents.settings_analytics]: ``,
@@ -276,11 +283,15 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.token_dropdown_opened]: ``,
   [SendEvents.token_selected]: `A token was selected in TokenBottomSheet.`,
   [SendEvents.max_pressed]: ``,
-  [SendEvents.swap_input_pressed]: `related to the alert that is shown when sending to an unknown address`,
+  [SendEvents.swap_input_pressed]: ``,
+
+  // related to the alert that is shown when sending to an unknown address
   [SendEvents.check_account_alert_shown]: ``,
   [SendEvents.check_account_do_not_ask_selected]: ``,
   [SendEvents.check_account_alert_back]: ``,
   [SendEvents.check_account_alerts_continue]: ``,
+
+  // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,
   [QrScreenEvents.qr_screen_bottom_sheet_close]: ``,
   [QrScreenEvents.qr_screen_bottom_sheet_link_press]: ``,
@@ -346,13 +357,11 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_add_bottom_sheet_selected]: ``,
   [FiatExchangeEvents.cico_add_bottom_sheet_impression]: ``,
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected]: ``,
-  [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: `Funding Education Dialog Screen`,
+  [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: ``,
 
   // Funding Education Dialog Screen
   [FiatExchangeEvents.cico_add_funds_info_support]: ``,
-  [FiatExchangeEvents.cico_cash_out_info_support]: `External Exchanges Screen`,
-
-  // External Exchanges Screen
+  [FiatExchangeEvents.cico_cash_out_info_support]: ``,
   [FiatExchangeEvents.external_exchange_link]: ``,
   [FiatExchangeEvents.cico_external_exchanges_back]: ``,
   [FiatExchangeEvents.cico_cash_out_copy_address]: ``,
@@ -364,7 +373,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press]: ``,
   [FiatExchangeEvents.cico_exchange_qr_back]: ``,
   [FiatExchangeEvents.cico_exchange_qr_copy_address]: ``,
-  [FiatExchangeEvents.cico_exchange_qr_share]: `Spend Flow`,
+  [FiatExchangeEvents.cico_exchange_qr_share]: ``,
 
   // Spend Flow
   [FiatExchangeEvents.spend_merchant_link]: ``,
@@ -384,23 +393,33 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_fc_review_error_retry]: ``,
   [FiatExchangeEvents.cico_fc_link_account_continue]: ``,
   [FiatExchangeEvents.cico_fc_link_account_back]: ``,
-  [FiatExchangeEvents.cico_fc_link_account_provider_website]: `Fiat Connect link KYC & account page`,
-  [FiatExchangeEvents.cico_fc_link_kyc_account_back]: `persona_kyc_start is fired when the 'Set up ID Verification' button is clicked`,
+  [FiatExchangeEvents.cico_fc_link_account_provider_website]: ``,
+
+  // Fiat Connect link KYC & account page
+  [FiatExchangeEvents.cico_fc_link_kyc_account_back]: ``,
+
+  // Fiat Connect fiat details screen
   [FiatExchangeEvents.cico_fiat_details_success]: ``,
   [FiatExchangeEvents.cico_fiat_details_back]: ``,
   [FiatExchangeEvents.cico_fiat_details_cancel]: ``,
-  [FiatExchangeEvents.cico_fiat_details_error]: `Fiat Connect transfer analytics`,
+  [FiatExchangeEvents.cico_fiat_details_error]: ``,
+
+  // Fiat Connect transfer analytics
   [FiatExchangeEvents.cico_fc_transfer_api_error]: ``,
   [FiatExchangeEvents.cico_fc_transfer_tx_error]: ``,
   [FiatExchangeEvents.cico_fc_transfer_error]: ``,
-  [FiatExchangeEvents.cico_fc_transfer_success]: `Fiat Connect transfer status screen`,
+  [FiatExchangeEvents.cico_fc_transfer_success]: ``,
+
+  // Fiat Connect transfer status screen
   [FiatExchangeEvents.cico_fc_transfer_error_retry]: ``,
   [FiatExchangeEvents.cico_fc_transfer_error_cancel]: ``,
   [FiatExchangeEvents.cico_fc_transfer_error_contact_support]: ``,
   [FiatExchangeEvents.cico_fc_transfer_success_complete]: ``,
   [FiatExchangeEvents.cico_fc_transfer_success_view_tx]: ``,
   [FiatExchangeEvents.cico_fc_transfer_processing_continue]: ``,
-  [FiatExchangeEvents.cico_fc_transfer_processing_view_tx]: `Fiat Connect KYC status screens`,
+  [FiatExchangeEvents.cico_fc_transfer_processing_view_tx]: ``,
+
+  // Fiat Connect KYC status screens
   [FiatExchangeEvents.cico_fc_kyc_status_contact_support]: ``,
   [FiatExchangeEvents.cico_fc_kyc_status_back]: ``,
   [FiatExchangeEvents.cico_fc_kyc_status_close]: ``,
@@ -452,7 +471,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [DappKitEvents.dappkit_request_accept_start]: `when user presses the button to accept a dapp request`,
   [DappKitEvents.dappkit_request_accept_success]: `when the dapp request succeeds`,
   [DappKitEvents.dappkit_request_accept_error]: `when the dapp request fails`,
-  [CICOEvents.persona_kyc_start]: `when a user begins the Persona KYC process`,
+  [CICOEvents.persona_kyc_start]: `when a user begins the Persona KYC process (clicks 'Set up ID Verification' button)`,
   [CICOEvents.persona_kyc_success]: `when the onComplete callback is called for a Persona inquiry with success status`,
   [CICOEvents.persona_kyc_failed]: `when the onComplete callback is called for a Persona inquiry with failed status`,
   [CICOEvents.persona_kyc_cancel]: `when the onCancelled callback is called for a Persona inquiry`,
