@@ -7,13 +7,14 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       Object {
         "data": Array [
           Object {
-            "__typename": "TokenTransferV2",
+            "__typename": "TokenTransferV3",
             "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
             "amount": Object {
               "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
               "value": "0.1",
             },
             "block": "8648978",
+            "chain": "Celo",
             "fees": Array [],
             "metadata": Object {},
             "status": "Complete",
