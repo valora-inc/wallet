@@ -41,7 +41,10 @@ import {
 /**
  * Documentation for analytics events.
  *
- * DO NOT add empty strings as values! (Only acceptable for legacy events)
+ * Intentionally causes compilation errors if any analytics events are omitted (to remind us to document them).
+ *
+ * DO NOT add empty strings as descriptions! Some events have empty descriptions from before we used this to enforce
+ *  documenting new events.
  */
 export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.app_launched]: ``,
