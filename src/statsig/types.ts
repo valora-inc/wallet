@@ -27,6 +27,8 @@ export enum StatsigFeatureGates {
   SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
+  SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
+  SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
 }
 
 export enum StatsigExperiments {
@@ -36,6 +38,7 @@ export enum StatsigExperiments {
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   DAPP_MENU_ITEM_COPY = 'dapp_menu_item_copy',
+  SWAP_BUY_AMOUNT = 'swap_buy_amount',
 }
 
 export type StatsigParameter =

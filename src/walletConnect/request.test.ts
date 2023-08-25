@@ -91,14 +91,7 @@ describe(handleRequest, () => {
       .provide([[call(getWallet), mockWallet]])
       .withState(state)
       .call(unlockAccount, '0xwallet')
-      .call(
-        [mockWallet, 'signTypedData'],
-        '0xwallet',
-        undefined,
-        undefined,
-        'Some typed data',
-        undefined
-      )
+      .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
       .run()
   })
 
@@ -107,14 +100,7 @@ describe(handleRequest, () => {
       .provide([[call(getWallet), mockWallet]])
       .withState(state)
       .call(unlockAccount, '0xwallet')
-      .call(
-        [mockWallet, 'signTypedData'],
-        '0xwallet',
-        undefined,
-        undefined,
-        'Some typed data',
-        undefined
-      )
+      .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
       .run()
   })
 

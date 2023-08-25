@@ -17,10 +17,10 @@ import {
   setNumberVerified,
 } from 'src/app/actions'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
-import { getKeylessBackupGate, isBackupComplete } from 'src/keylessBackup/utils'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
+import { getFeatureGate } from 'src/statsig/index'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -40,12 +40,11 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/utils/Logger')
-jest.mock('src/keylessBackup/utils')
+jest.mock('src/statsig')
 
 describe('Account', () => {
   beforeEach(() => {
-    mocked(getKeylessBackupGate).mockReturnValue(false)
-    mocked(isBackupComplete).mockReturnValue(false)
+    mocked(getFeatureGate).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -77,6 +76,7 @@ describe('Account', () => {
     expect(getByText('connectedApplications')).toBeTruthy()
     expect(getByTestId('ConnectedApplications')).toHaveTextContent('0')
 
+    expect(getByText('accountKey')).toBeTruthy() // recovery phrase
     expect(getByText('changePin')).toBeTruthy()
     expect(getByText('requirePinOnAppOpen')).toBeTruthy()
     expect(getByText('hapticFeedback')).toBeTruthy()
@@ -242,30 +242,8 @@ describe('Account', () => {
     )
   })
 
-  it('renders correctly when shouldShowRecoveryPhraseInSettings is false', () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: false } })
-
-    const tree = render(
-      <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-    expect(tree.queryByTestId('RecoveryPhrase')).toBeFalsy()
-  })
-
-  it('renders correctly when shouldShowRecoveryPhraseInSettings is true', () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
-
-    const tree = render(
-      <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-    expect(tree.queryByTestId('RecoveryPhrase')).toBeTruthy()
-  })
-
   it('navigates to recovery phrase if entered PIN is correct', async () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+    const store = createMockStore()
 
     const tree = render(
       <Provider store={store}>
@@ -281,7 +259,7 @@ describe('Account', () => {
   })
 
   it('does not navigate to recovery phrase if entered PIN is incorrect', async () => {
-    const store = createMockStore({ app: { shouldShowRecoveryPhraseInSettings: true } })
+    const store = createMockStore()
 
     const tree = render(
       <Provider store={store}>
@@ -294,7 +272,6 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  // TODO(ACT-771): update these tests to mock statsig instead of helper function
   it('does not show keyless backup', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
@@ -305,10 +282,10 @@ describe('Account', () => {
     expect(queryByTestId('KeylessBackup')).toBeNull()
   })
 
-  it('shows keyless backup setup when flag is enabled and not already backed up', () => {
-    mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isBackupComplete).mockReturnValue(false)
-    const store = createMockStore()
+  it('shows keyless backup setup when flag is enabled and not already backed up', async () => {
+    mocked(getFeatureGate).mockReturnValue(true)
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    const store = createMockStore({ account: { cloudBackupCompleted: false } })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -317,6 +294,7 @@ describe('Account', () => {
     expect(getByTestId('KeylessBackup')).toBeTruthy()
     expect(getByText('setup')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackup'))
+    await flushMicrotasksQueue()
     expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
@@ -325,9 +303,8 @@ describe('Account', () => {
   })
 
   it('shows keyless backup delete when flag is enabled and already backed up', () => {
-    mocked(getKeylessBackupGate).mockReturnValue(true)
-    mocked(isBackupComplete).mockReturnValue(true)
-    const store = createMockStore()
+    mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({ account: { cloudBackupCompleted: true } })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
         <Settings {...getMockStackScreenProps(Screens.Settings)} />

@@ -19,7 +19,7 @@ import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
-import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { getDisplayName, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
@@ -137,7 +137,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   return (
     <RequestMessagingCard
       testID={`IncomingPaymentRequestNotification/${paymentRequestId}`}
-      title={t('incomingPaymentRequestNotificationTitle', { name: requester.name })}
+      title={t('incomingPaymentRequestNotificationTitle', { name: getDisplayName(requester, t) })}
       details={paymentRequest.comment}
       amount={
         <CurrencyDisplay

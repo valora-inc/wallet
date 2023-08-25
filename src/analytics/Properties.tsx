@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -69,7 +69,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, CurrencyOrCREAL } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -232,6 +232,13 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_progress_completed_continue]: undefined
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: undefined
+  [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
+    backupAlreadyExists: boolean
+  }
+  [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_failed]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_success]: undefined
+  [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -738,15 +745,6 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-  [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
-  [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
-    currency: StableCurrency
-    makerAmount: number
-    exchangeRate: number
-  }
-  [CeloExchangeEvents.celo_fetch_exchange_rate_error]: {
-    error: string
-  }
 
   [CeloExchangeEvents.celo_withdraw_review]: {
     amount: string
@@ -1218,7 +1216,7 @@ interface SwapEvent {
 
 type SwapQuoteEvent = SwapEvent & {
   allowanceTarget: string
-  estimatedPriceImpact?: string
+  estimatedPriceImpact: string | null
   price: string
   provider: string
 }
@@ -1272,7 +1270,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact: string
+    priceImpact?: string
   }
 }
 

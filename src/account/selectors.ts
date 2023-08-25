@@ -2,10 +2,10 @@ import { Countries } from '@celo/phone-utils'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import i18n from 'src/i18n'
+import { RecipientType } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { RecipientType } from 'src/recipients/recipient'
 
 const inferCountryCode = () => {
   const localizedCountry = new Countries(i18n.language).getCountryByCodeAlpha2(
@@ -54,12 +54,11 @@ export const choseToRestoreAccountSelector = (state: RootState) =>
 
 export const accountCreationTimeSelector = (state: RootState) => state.account.accountCreationTime
 
-export const shouldShowRecoveryPhraseInSettingsSelector = (state: RootState) =>
-  state.app.shouldShowRecoveryPhraseInSettings
-
 export const celoEducationCompletedSelector = (state: RootState) =>
   state.account.celoEducationCompleted
 
 export const startOnboardingTimeSelector = (state: RootState) => state.account.startOnboardingTime
 export const recoveryPhraseInOnboardingStatusSelector = (state: RootState) =>
   state.account.recoveryPhraseInOnboardingStatus
+
+export const cloudBackupCompletedSelector = (state: RootState) => state.account.cloudBackupCompleted
