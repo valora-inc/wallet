@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
-import { AnalyticsEventType } from 'src/analytics/Events'
+import { AnalyticsEventType } from 'src/analytics/Properties'
 import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton, TopBarTextButton } from 'src/navigator/TopBarButton'
