@@ -8,7 +8,7 @@ import Warning from 'src/components/Warning'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
+import { getDescriptionAndTitleFromAction, SupportedActions } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
@@ -41,7 +41,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
     return null
   }
 
-  const description = getDescriptionFromAction(
+  const { description, title } = getDescriptionAndTitleFromAction(
     t,
     pendingAction.params.request.method as SupportedActions,
     dappName
@@ -62,7 +62,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
         onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('UNSUPPORTED_CHAINS')))}
         dappName={dappName}
         dappImageUrl={dappImageUrl}
-        title={t('confirmTransaction')}
+        title={title}
         description={description}
         testId="WalletConnectActionRequest"
       >
@@ -89,7 +89,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction')}
+      title={title}
       description={description}
       testId="WalletConnectActionRequest"
     >
