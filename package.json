@@ -130,6 +130,7 @@
     "graphql": "^14.7.0",
     "i18next": "^22.5.1",
     "ibantools": "^4.2.2",
+    "intl-pluralrules": "^2.0.1",
     "io-ts": "2.0.1",
     "is-ip": "^3.1.0",
     "jwt-decode": "^3.1.2",
