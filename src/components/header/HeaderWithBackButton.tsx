@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnalyticsEventType } from 'src/analytics/Events'
+import { AnalyticsEventType } from 'src/analytics/Properties'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 

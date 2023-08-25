@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
-import { AnalyticsEventType } from 'src/analytics/Events'
-import { AnalyticsPropertiesList } from 'src/analytics/Properties'
+import { AnalyticsPropertiesList, AnalyticsEventType } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
