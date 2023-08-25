@@ -62,12 +62,10 @@ describe(takeWithInMemoryCache, () => {
 describe(initializeCloudMessaging, () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    Platform.OS = 'android' // default
+    Platform.OS = 'ios' // default
   })
 
   it('should track and throw error when messaging permission is denied on iOS', async () => {
-    Platform.OS = 'ios'
-
     await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
@@ -84,7 +82,12 @@ describe(initializeCloudMessaging, () => {
     )
   })
 
-  it('should track when messaging permission is denied on Android', async () => {
+  it('should track when messaging permission is denied on Android API 33+ by the user', async () => {
+    Platform.OS = 'android'
+    Object.defineProperty(Platform, 'Version', {
+      get: jest.fn(() => 33),
+    })
+
     await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
@@ -126,8 +129,6 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('should track when messaging permission is granted on iOS', async () => {
-    Platform.OS = 'ios'
-
     await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
@@ -145,7 +146,12 @@ describe(initializeCloudMessaging, () => {
     )
   })
 
-  it('should track when messaging permission is granted on Android', async () => {
+  it('should track when messaging permission is granted on Android API 33+ by the user', async () => {
+    Platform.OS = 'android'
+    Object.defineProperty(Platform, 'Version', {
+      get: jest.fn(() => 33),
+    })
+
     await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([

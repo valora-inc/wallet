@@ -173,7 +173,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     Logger.info(TAG, 'requesting permission')
     try {
       let permissionGranted = false
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && Platform.Version >= 33) {
         const permissionStatus: PermissionStatus = yield* call(
           [PermissionsAndroid, 'request'],
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
