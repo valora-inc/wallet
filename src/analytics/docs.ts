@@ -210,6 +210,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [VerificationEvents.verification_revoke_start]: ``,
   [VerificationEvents.verification_revoke_finish]: ``,
   [VerificationEvents.verification_revoke_error]: ``,
+
+  // Events emitted in the CPV flow
   [PhoneVerificationEvents.phone_verification_skip]: `when skip is pressed in the phone number input screen`,
   [PhoneVerificationEvents.phone_verification_skip_confirm]: `when skip is confirmed from the dialog in the phone number input screen`,
   [PhoneVerificationEvents.phone_verification_learn_more]: `when the learn more dialog is launched in the phone number input screen`,
