@@ -124,7 +124,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.signPayloadTitle')).toBeTruthy()
       expect(
         getByText('walletConnectRequest.signPayload, {"dappName":"WalletConnect Example"}')
       ).toBeTruthy()
@@ -268,7 +268,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.signPayloadTitle')).toBeTruthy()
       expect(
         getByText('walletConnectRequest.signPayload, {"dappName":"someDappName"}')
       ).toBeTruthy()
@@ -308,7 +308,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.signPayloadTitle')).toBeTruthy()
       expect(
         getByText('walletConnectRequest.signPayload, {"dappName":"some.dapp.com"}')
       ).toBeTruthy()
@@ -348,7 +348,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.signPayloadTitle')).toBeTruthy()
       expect(getByText('walletConnectRequest.signPayload, {"dappName":""}')).toBeTruthy()
     })
   })
@@ -381,7 +381,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.sendTransactionTitle')).toBeTruthy()
       expect(
         getByText('walletConnectRequest.sendTransaction, {"dappName":"WalletConnect Example"}')
       ).toBeTruthy()
@@ -421,7 +421,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('confirmTransaction')).toBeTruthy()
+      expect(getByText('walletConnectRequest.signPayloadTitle')).toBeTruthy()
       expect(
         getByText('walletConnectRequest.signPayload, {"dappName":"WalletConnect Example"}')
       ).toBeTruthy()
