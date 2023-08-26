@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
 
 export function selectHasPendingState(state: RootState) {
@@ -6,19 +7,19 @@ export function selectHasPendingState(state: RootState) {
   )
 }
 
-export function selectSessions(state: RootState) {
-  return {
-    pending: state.walletConnect.pendingSessions,
-    sessions: state.walletConnect.sessions,
+export const sessionsSelector = (state: RootState) => state.walletConnect.sessions
+const pendingSessionsSelector = (state: RootState) => state.walletConnect.pendingSessions
+
+export const selectSessions = createSelector(
+  [sessionsSelector, pendingSessionsSelector],
+  (sessions, pending) => {
+    return {
+      pending,
+      sessions,
+    }
   }
-}
+)
 
 export function selectPendingActions(state: RootState) {
   return state.walletConnect.pendingActions
-}
-
-export function selectSessionFromTopic(topic: string) {
-  return function (state: RootState) {
-    return state.walletConnect.sessions.find((session) => session.topic === topic)
-  }
 }
