@@ -26,7 +26,7 @@ import {
   nonFavoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { Dapp, DappSection, DappV2WithCategoryNames } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappSection, DappV2WithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
@@ -119,6 +119,10 @@ export function DAppsExplorerScreenSearchFilter() {
   const handleShowDappRankings = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
     dappRankingsBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const handleSelectDapp = (dapp: ActiveDapp, index: number) => {
+    onSelectDapp(dapp, { activeSearchTerm: searchTerm, activeFilter: selectedFilter, index })
   }
 
   useEffect(() => {
@@ -249,7 +253,7 @@ export function DAppsExplorerScreenSearchFilter() {
                           : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
                       </Text>
                       <FavoriteDappsSection
-                        onPressDapp={onSelectDapp}
+                        onPressDapp={handleSelectDapp}
                         filterId={selectedFilter}
                         searchTerm={searchTerm}
                       />
@@ -274,11 +278,12 @@ export function DAppsExplorerScreenSearchFilter() {
             scrollEventThrottle={16}
             onScroll={onScroll}
             sections={allSectionResults}
-            renderItem={({ item: dapp }) => (
+            renderItem={({ item: dapp, index }) => (
               <DappCard
                 dapp={dapp}
-                section={DappSection.All}
-                onPressDapp={onSelectDapp}
+                onPressDapp={() =>
+                  handleSelectDapp({ ...dapp, openedFrom: DappSection.All }, index)
+                }
                 onFavoriteDapp={onFavoriteDapp}
               />
             )}
@@ -296,7 +301,7 @@ export function DAppsExplorerScreenSearchFilter() {
       {DappFavoritedToast}
       <DappRankingsBottomSheet
         forwardedRef={dappRankingsBottomSheetRef}
-        onPressDapp={onSelectDapp}
+        onPressDapp={handleSelectDapp}
       />
     </SafeAreaView>
   )

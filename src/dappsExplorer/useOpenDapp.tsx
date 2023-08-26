@@ -44,8 +44,11 @@ const useOpenDapp = () => {
     }
   }
 
-  const openDapp = (dapp: ActiveDapp) => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_open, getEventProperties(dapp))
+  const openDapp = (dapp: ActiveDapp, extraAnalyticsProps?: Record<string, string | number>) => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
+      ...getEventProperties(dapp),
+      ...(extraAnalyticsProps ?? {}),
+    })
     dispatch(dappSelected({ dapp }))
   }
 
@@ -60,12 +63,15 @@ const useOpenDapp = () => {
     setShowOpenDappConfirmation(false)
   }
 
-  const onSelectDapp = (dapp: ActiveDapp) => {
+  const onSelectDapp = (
+    dapp: ActiveDapp,
+    extraAnalyticsProps?: Record<string, string | number>
+  ) => {
     const dappEventProps = getEventProperties(dapp)
     ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
 
     if (isDeepLink(dapp.dappUrl) || dappsMinimalDisclaimerEnabled) {
-      openDapp(dapp)
+      openDapp(dapp, extraAnalyticsProps)
     } else {
       setSelectedDapp(dapp)
       setShowOpenDappConfirmation(true)
