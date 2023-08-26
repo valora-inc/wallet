@@ -15,6 +15,7 @@ interface ExchangeRate {
   swapAmount: BigNumber
   price: string
   provider: string
+  estimatedPriceImpact: BigNumber | null
 }
 
 const useSwapQuote = () => {
@@ -69,6 +70,7 @@ const useSwapQuote = () => {
       const swapPrice = useGuaranteedPrice
         ? quote.unvalidatedSwapTransaction.guaranteedPrice
         : quote.unvalidatedSwapTransaction.price
+      const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
       const updatedExchangeRate: ExchangeRate = {
         toTokenAddress: toToken.address,
         fromTokenAddress: fromToken.address,
@@ -78,6 +80,9 @@ const useSwapQuote = () => {
             ? swapPrice
             : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
         provider: quote.details.swapProvider,
+        estimatedPriceImpact: estimatedPriceImpact
+          ? new BigNumber(estimatedPriceImpact).dividedBy(100)
+          : null,
       }
 
       return updatedExchangeRate
