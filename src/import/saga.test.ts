@@ -52,7 +52,7 @@ describe('Import wallet saga', () => {
     await expectSaga(importBackupPhraseSaga, { phrase, useEmptyWallet: false })
       .provide([
         [
-          call(fetchTokenBalancesForAddress, mockAccount),
+          matchers.call.fn(fetchTokenBalancesForAddress),
           [{ tokenAddress: '0xabc', balance: '10' }],
         ],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
