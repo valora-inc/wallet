@@ -2,7 +2,6 @@ import { toTransactionObject } from '@celo/connect'
 import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
-import { retryAsync } from '@celo/utils/lib/async'
 import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import * as erc20 from 'src/abis/IERC20.json'
@@ -21,19 +20,19 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
 import {
-  StoredTokenBalance,
-  StoredTokenBalances,
-  TokenBalance,
   fetchTokenBalances,
   fetchTokenBalancesFailure,
   setTokenBalances,
+  StoredTokenBalance,
+  StoredTokenBalances,
+  TokenBalance,
 } from 'src/tokens/slice'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
-import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
+import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
@@ -143,19 +142,6 @@ export async function createTokenTransferTransaction(
   )
 }
 
-export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: string) {
-  Logger.debug(TAG + '@fetchTokenBalanceInWeiWithRetry', 'Checking account balance', account)
-  const tokenContract = await getTokenContract(token)
-  // Retry needed here because it's typically the app's first tx and seems to fail on occasion
-  // TODO consider having retry logic for ALL contract calls and txs. ContractKit should have this logic.
-  const balanceInWei = await retryAsync(tokenContract.balanceOf, 3, [account])
-  Logger.debug(
-    TAG + '@fetchTokenBalanceInWeiWithRetry',
-    `Account ${account} ${token} balance: ${balanceInWei.toString()}`
-  )
-  return balanceInWei
-}
-
 export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) {
   return function* () {
     while (true) {
@@ -237,7 +223,7 @@ export async function getStableTokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(stableToken.abi, tokenAddress)
 }
 
-interface FetchedTokenBalance {
+export interface FetchedTokenBalance {
   tokenAddress: string
   balance: string
 }
