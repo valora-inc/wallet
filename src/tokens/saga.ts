@@ -2,7 +2,6 @@ import { toTransactionObject } from '@celo/connect'
 import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
-import { retryAsync } from '@celo/utils/lib/async'
 import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import * as erc20 from 'src/abis/IERC20.json'
@@ -139,19 +138,6 @@ export async function createTokenTransferTransaction(
   )
 }
 
-export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: string) {
-  Logger.debug(TAG + '@fetchTokenBalanceInWeiWithRetry', 'Checking account balance', account)
-  const tokenContract = await getTokenContract(token)
-  // Retry needed here because it's typically the app's first tx and seems to fail on occasion
-  // TODO consider having retry logic for ALL contract calls and txs. ContractKit should have this logic.
-  const balanceInWei = await retryAsync(tokenContract.balanceOf, 3, [account])
-  Logger.debug(
-    TAG + '@fetchTokenBalanceInWeiWithRetry',
-    `Account ${account} ${token} balance: ${balanceInWei.toString()}`
-  )
-  return balanceInWei
-}
-
 export function* stableTokenTransferLegacySaga() {
   const tag = 'stableToken/saga'
 
@@ -233,7 +219,7 @@ export async function getStableTokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(stableToken.abi, tokenAddress)
 }
 
-interface FetchedTokenBalance {
+export interface FetchedTokenBalance {
   tokenAddress: string
   balance: string
 }
@@ -247,6 +233,7 @@ interface UserBalancesResponse {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
+  console.log('====address', address)
   const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
     query: gql`
       query FetchUserBalances($address: Address!) {
