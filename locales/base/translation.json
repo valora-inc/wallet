@@ -1073,9 +1073,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Transaction data",
     "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signPayloadTitle": "Verify wallet",
+    "signPayload": "{{dappName}} would like to verify ownership of your wallet.",
+    "signTransactionTitle": "Sign transaction",
     "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransactionTitle": "Send transaction",
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayloadTitle": "Decrypt with wallet",
     "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
     "computeSharedSecret": "{{dappName}} would like to generate secrets.",
     "transactionDataCopied": "Transaction data copied",
@@ -1681,6 +1685,10 @@
     "priceImpactWarning": {
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+    },
+    "missingSwapImpactWarning": {
+      "title": "Before you swap",
+      "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
     },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },
