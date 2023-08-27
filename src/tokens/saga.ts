@@ -233,7 +233,6 @@ interface UserBalancesResponse {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  console.log('====address', address)
   const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
     query: gql`
       query FetchUserBalances($address: Address!) {
