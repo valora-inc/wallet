@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
@@ -68,8 +68,8 @@ describe('SendAmountHeader', () => {
     expect(getByText('sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
-  it("allows changing the token if there's more than one token with balance", () => {
-    const { getByTestId, findByTestId, getByText } = renderComponent({
+  it("allows changing the token if there's more than one token with balance", async () => {
+    const { getByTestId, getByText } = renderComponent({
       tokenAddress: mockCeurAddress,
     })
 
@@ -77,8 +77,11 @@ describe('SendAmountHeader', () => {
     expect(tokenPicker).not.toBeNull()
     expect(getByText('send')).toBeDefined()
 
-    fireEvent.press(tokenPicker)
-    expect(findByTestId('TokenBottomSheetContainer')).toBeTruthy()
+    await act(() => {
+      fireEvent.press(tokenPicker)
+    })
+
+    await waitFor(() => expect(getByTestId('BottomSheetContainer')).toBeVisible())
 
     fireEvent.press(getByTestId('cUSDTouchable'))
     expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdAddress)

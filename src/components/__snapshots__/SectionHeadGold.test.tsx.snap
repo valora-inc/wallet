@@ -3,7 +3,7 @@
 exports[`renders text 1`] = `
 <View
   style={
-    Object {
+    {
       "paddingBottom": 8,
       "paddingHorizontal": 16,
       "paddingTop": 20,
@@ -12,7 +12,7 @@ exports[`renders text 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#2E3338",
         "fontFamily": "Jost-Medium",
         "fontSize": 22,

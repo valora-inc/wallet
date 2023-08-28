@@ -1,5 +1,5 @@
 import firebase from '@react-native-firebase/app'
-import { expectSaga, SagaType } from 'redux-saga-test-plan'
+import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
@@ -65,7 +65,7 @@ describe(initializeCloudMessaging, () => {
     const errorToRaise = new Error('No permission')
     let catchedError
 
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
@@ -87,7 +87,7 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('handle account registration if firebase messaging is enabled', async () => {
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .provide([
         [select(pushNotificationsEnabledSelector), true],
         [
@@ -111,7 +111,7 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('should track when messaging permission is granted', async () => {
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
@@ -130,7 +130,7 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('track when firebase messaging permission has changed between app sessions', async () => {
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .provide([
         [select(pushNotificationsEnabledSelector), true],
         [call([app.messaging(), 'hasPermission']), firebase.messaging.AuthorizationStatus.DENIED],

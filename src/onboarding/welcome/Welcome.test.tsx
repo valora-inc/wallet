@@ -7,7 +7,6 @@ import { firstOnboardingScreen } from 'src/onboarding/steps'
 import Welcome from 'src/onboarding/welcome/Welcome'
 import { patchUpdateStatsigUser } from 'src/statsig'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/onboarding/steps')
 jest.mock('src/statsig', () => ({
@@ -31,8 +30,8 @@ describe('Welcome', () => {
     await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
     expect(patchUpdateStatsigUser).toHaveBeenCalledWith({ custom: { startOnboardingTime: 123 } })
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "now": 123,
           "type": "ACCOUNT/CHOOSE_CREATE",
         },
@@ -46,8 +45,8 @@ describe('Welcome', () => {
     jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "type": "ACCOUNT/CHOOSE_RESTORE",
         },
       ]
@@ -59,7 +58,7 @@ describe('Welcome', () => {
         acceptedTerms: true,
       },
     })
-    mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
+    jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
     const { getByTestId } = render(
       <Provider store={store}>
         <Welcome />

@@ -90,7 +90,6 @@ const onCloseMock = jest.fn()
 
 describe('TokenBottomSheet', () => {
   beforeEach(() => {
-    jest.useFakeTimers()
     jest.clearAllMocks()
   })
 

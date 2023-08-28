@@ -107,7 +107,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
   })
   const middlewares: Middleware[] = [sagaMiddleware]
 
-  if (__DEV__) {
+  if (__DEV__ && !process.env.JEST_WORKER_ID) {
     const createDebugger = require('redux-flipper').default
     // Sending the whole state makes the redux debugger in flipper super slow!!
     // I suspect it's the exchange rates causing this!

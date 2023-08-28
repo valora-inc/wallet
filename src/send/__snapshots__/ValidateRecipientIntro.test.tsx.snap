@@ -3,7 +3,7 @@
 exports[`ValidateRecipientIntro renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
+    [
       "bottom",
       "left",
       "right",
@@ -11,7 +11,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
     ]
   }
   style={
-    Object {
+    {
       "flex": 1,
       "justifyContent": "space-between",
     }
@@ -19,7 +19,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flex": 1,
         "justifyContent": "flex-start",
         "paddingBottom": 30,
@@ -30,7 +30,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "paddingTop": 20,
           }
@@ -38,8 +38,8 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
@@ -50,12 +50,12 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                 },
-                Object {
+                {
                   "backgroundColor": "hsl(0, 53%, 93%)",
                   "borderRadius": 32,
                   "height": 64,
@@ -67,13 +67,13 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
             <Text
               allowFontScaling={false}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#FFFFFF",
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                   },
-                  Object {
+                  {
                     "color": "hsl(0, 67%, 24%)",
                     "fontSize": 32,
                   },
@@ -87,7 +87,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
       </View>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 22,
@@ -102,7 +102,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
@@ -116,7 +116,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
@@ -132,17 +132,34 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "paddingBottom": 45,
       }
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -159,14 +176,14 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#1AB775",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
             },
-            Object {
+            {
               "paddingVertical": 16,
             },
           ]
@@ -176,10 +193,27 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -196,14 +230,14 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#1AB775",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 22,
             },
-            Object {
+            {
               "paddingVertical": 16,
             },
           ]

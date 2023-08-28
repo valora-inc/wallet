@@ -3,14 +3,14 @@
 exports[`Contact withEmail renders correctly 1`] = `
 <View
   style={
-    Object {
+    {
       "flex": 1,
     }
   }
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "padding": 16,
       }
@@ -19,7 +19,7 @@ exports[`Contact withEmail renders correctly 1`] = `
     <View>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Book",
             "fontSize": 26,
@@ -33,7 +33,7 @@ exports[`Contact withEmail renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 14,
@@ -45,14 +45,14 @@ exports[`Contact withEmail renders correctly 1`] = `
       </Text>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "flex": 1,
               "flexDirection": "row",
               "justifyContent": "center",
             },
-            Object {
+            {
               "alignItems": "flex-start",
               "borderColor": "#E6E6E6",
               "borderRadius": 4,
@@ -80,8 +80,8 @@ exports[`Contact withEmail renders correctly 1`] = `
           placeholder="contactMessagePlaceholder"
           placeholderTextColor="#666666"
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
@@ -90,7 +90,7 @@ exports[`Contact withEmail renders correctly 1`] = `
                 "paddingHorizontal": 0,
                 "paddingVertical": 12,
               },
-              Object {
+              {
                 "textAlignVertical": "top",
               },
               undefined,
@@ -103,7 +103,7 @@ exports[`Contact withEmail renders correctly 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "flexShrink": 0,
@@ -120,7 +120,7 @@ exports[`Contact withEmail renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Object {
+            {
               "marginBottom": 3,
               "marginRight": 10,
             }
@@ -133,7 +133,7 @@ exports[`Contact withEmail renders correctly 1`] = `
         />
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -146,14 +146,14 @@ exports[`Contact withEmail renders correctly 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "marginBottom": 24,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -167,8 +167,8 @@ exports[`Contact withEmail renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
             },
             undefined,
@@ -177,11 +177,11 @@ exports[`Contact withEmail renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "overflow": "hidden",
               },
-              Object {
+              {
                 "borderRadius": 100,
               },
             ]
@@ -189,14 +189,26 @@ exports[`Contact withEmail renders correctly 1`] = `
         >
           <View
             accessibilityState={
-              Object {
+              {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": true,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackground",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -210,8 +222,8 @@ exports[`Contact withEmail renders correctly 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "backgroundColor": "#97DFC1",
                   "flexDirection": "row",
@@ -230,7 +242,7 @@ exports[`Contact withEmail renders correctly 1`] = `
             <Text
               maxFontSizeMultiplier={1}
               style={
-                Object {
+                {
                   "color": "#FFFFFF",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
@@ -250,13 +262,13 @@ exports[`Contact withEmail renders correctly 1`] = `
   <View
     collapsable={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "bottom": 0,
           "left": 0,
           "right": 0,
         },
-        Object {
+        {
           "height": 0,
         },
         undefined,

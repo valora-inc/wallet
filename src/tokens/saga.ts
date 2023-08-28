@@ -17,6 +17,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { Actions } from 'src/stableToken/actions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
 import {
@@ -114,11 +115,6 @@ export interface TokenTransfer {
 
 export type TokenTransferAction = { type: string } & TokenTransfer
 
-interface TokenTransferFactory {
-  actionName: string
-  tag: string
-}
-
 export async function createTokenTransferTransaction(
   tokenAddress: string,
   transferAction: BasicTokenTransfer
@@ -142,59 +138,59 @@ export async function createTokenTransferTransaction(
   )
 }
 
-export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) {
-  return function* () {
-    while (true) {
-      const transferAction = (yield* take(actionName)) as TokenTransferAction
-      const { recipientAddress, amount, currency, comment, feeInfo, context } = transferAction
+export function* stableTokenTransferLegacySaga() {
+  const tag = 'stableToken/saga'
 
-      Logger.debug(
-        tag,
-        'Transferring token',
-        context.description ?? 'No description',
-        context.id,
+  while (true) {
+    const transferAction = (yield* take(Actions.TRANSFER)) as TokenTransferAction
+    const { recipientAddress, amount, currency, comment, feeInfo, context } = transferAction
+
+    Logger.debug(
+      tag,
+      'Transferring token',
+      context.description ?? 'No description',
+      context.id,
+      currency,
+      amount,
+      feeInfo
+    )
+
+    yield* put(
+      addStandbyTransactionLegacy({
+        context,
+        type: TokenTransactionType.Sent,
+        comment,
+        status: TransactionStatus.Pending,
+        value: amount.toString(),
         currency,
+        timestamp: Math.floor(Date.now() / 1000),
+        address: recipientAddress,
+      })
+    )
+
+    try {
+      const account: string = yield* call(getConnectedUnlockedAccount)
+
+      const currencyAddress: string = yield* call(getCurrencyAddress, currency)
+      const tx = yield* call(createTokenTransferTransaction, currencyAddress, {
+        recipientAddress,
         amount,
-        feeInfo
+        comment,
+      })
+
+      yield* call(
+        sendAndMonitorTransaction,
+        tx,
+        account,
+        context,
+        feeInfo?.feeCurrency,
+        feeInfo?.gas?.toNumber(),
+        feeInfo?.gasPrice
       )
-
-      yield* put(
-        addStandbyTransactionLegacy({
-          context,
-          type: TokenTransactionType.Sent,
-          comment,
-          status: TransactionStatus.Pending,
-          value: amount.toString(),
-          currency,
-          timestamp: Math.floor(Date.now() / 1000),
-          address: recipientAddress,
-        })
-      )
-
-      try {
-        const account: string = yield* call(getConnectedUnlockedAccount)
-
-        const currencyAddress: string = yield* call(getCurrencyAddress, currency)
-        const tx = yield* call(createTokenTransferTransaction, currencyAddress, {
-          recipientAddress,
-          amount,
-          comment,
-        })
-
-        yield* call(
-          sendAndMonitorTransaction,
-          tx,
-          account,
-          context,
-          feeInfo?.feeCurrency,
-          feeInfo?.gas?.toNumber(),
-          feeInfo?.gasPrice
-        )
-      } catch (error) {
-        Logger.error(tag, 'Error transfering token', error)
-        yield* put(removeStandbyTransaction(context.id))
-        yield* put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
-      }
+    } catch (error) {
+      Logger.error(tag, 'Error transfering token', error)
+      yield* put(removeStandbyTransaction(context.id))
+      yield* put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
     }
   }
 }

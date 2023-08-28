@@ -10,8 +10,8 @@ import { setLanguage } from 'src/i18n/slice'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
+jest.mock('src/redux/store')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/redux/sagas', () => ({
   ...(jest.requireActual('src/redux/sagas') as any),
@@ -28,8 +28,6 @@ jest.mock('src/navigator/NavigationService', () => ({
   navigateToError: jest.fn(),
 }))
 
-jest.spyOn(Date, 'now').mockImplementation(() => 1682420628)
-
 const renderAppInitGate = (language: string | null = 'en-US') => {
   const store = createMockStore({ i18n: { language } })
   const tree = render(
@@ -43,15 +41,19 @@ const renderAppInitGate = (language: string | null = 'en-US') => {
   return { ...tree, store }
 }
 
+beforeAll(() => {
+  jest.useFakeTimers({ now: new Date(1682420628) })
+})
+
 describe('AppInitGate', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('should render the fallback before initialised', async () => {
-    mocked(waitUntilSagasFinishLoading).mockImplementationOnce(
-      () => new Promise((resolve) => setTimeout(resolve, 5000))
-    )
+    jest
+      .mocked(waitUntilSagasFinishLoading)
+      .mockImplementationOnce(() => new Promise((resolve) => setTimeout(resolve, 5000)))
     const { getByText, queryByText, store } = renderAppInitGate()
     await act(() => {
       jest.advanceTimersByTime(2000)
@@ -68,7 +70,7 @@ describe('AppInitGate', () => {
     expect(ValoraAnalytics.startSession).toHaveBeenCalledWith(
       'app_launched',
       expect.objectContaining({
-        appLoadDuration: 5,
+        appLoadDuration: 12,
         deviceHeight: 1334,
         deviceWidth: 750,
         reactLoadDuration: 3,
@@ -90,7 +92,7 @@ describe('AppInitGate', () => {
   })
 
   it('should show error screen in case of failed i18n init', async () => {
-    mocked(waitUntilSagasFinishLoading).mockRejectedValueOnce('some error')
+    jest.mocked(waitUntilSagasFinishLoading).mockRejectedValueOnce('some error')
     renderAppInitGate()
 
     await waitFor(() => expect(waitUntilSagasFinishLoading).toHaveBeenCalledTimes(1))

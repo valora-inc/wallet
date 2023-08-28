@@ -7,7 +7,6 @@ import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
@@ -29,7 +28,7 @@ describe('Given Nfts saga', () => {
     })
 
     it("should fetch user's NFTs", async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(nftResponse)
 
       await expectSaga(handleFetchNfts)
@@ -51,7 +50,7 @@ describe('Given Nfts saga', () => {
     })
 
     it('should save error on parse fail', async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponseOnce('invalid json')
 
       await expectSaga(handleFetchNfts)
@@ -71,7 +70,7 @@ describe('Given Nfts saga', () => {
     })
 
     it('should save error on fetch fail', async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
 
       await expectSaga(handleFetchNfts)
@@ -85,7 +84,7 @@ describe('Given Nfts saga', () => {
     })
 
     it('should not fetch when no wallet address found', async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(nftResponse)
 
       await expectSaga(handleFetchNfts)
@@ -100,7 +99,7 @@ describe('Given Nfts saga', () => {
     })
 
     it('should be disabled by feature gate', async () => {
-      mocked(getFeatureGate).mockReturnValue(false)
+      jest.mocked(getFeatureGate).mockReturnValue(false)
       mockFetch.mockResponse(nftResponse)
 
       await expectSaga(handleFetchNfts)

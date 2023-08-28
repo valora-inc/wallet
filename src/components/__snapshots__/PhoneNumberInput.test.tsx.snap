@@ -3,22 +3,22 @@
 exports[`PhoneNumberInput renders and behaves correctly 1`] = `
 <View
   style={
-    Array [
-      Object {},
+    [
+      {},
       undefined,
     ]
   }
 >
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#A49B80",
           "fontFamily": "Inter-SemiBold",
           "fontSize": 13,
           "lineHeight": 16,
         },
-        Object {
+        {
           "marginBottom": 8,
         },
       ]
@@ -28,7 +28,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
   </Text>
   <View
     style={
-      Object {
+      {
         "alignItems": "stretch",
         "flexDirection": "row",
       }
@@ -36,14 +36,26 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
   >
     <View
       accessibilityState={
-        Object {
+        {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackground",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -57,8 +69,8 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "stretch",
             "backgroundColor": "#FFFFFF",
             "borderRadius": 8,
@@ -72,7 +84,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
             "justifyContent": "center",
           }
@@ -80,13 +92,13 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "flexWrap": "wrap",
               },
-              Object {
+              {
                 "justifyContent": "center",
               },
             ]
@@ -94,7 +106,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "fontSize": 20,
               }
             }
@@ -104,10 +116,10 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "marginLeft": 7,
-                "transform": Array [
-                  Object {
+                "transform": [
+                  {
                     "rotate": "0deg",
                   },
                 ],
@@ -131,7 +143,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "marginLeft": 7,
         }
@@ -139,8 +151,8 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "flex": 1,
               "flexDirection": "row",
@@ -160,8 +172,8 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           placeholder="00 00 00 00 00"
           placeholderTextColor="#757575"
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
@@ -183,7 +195,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "backgroundColor": "#A49B80",
             "height": 1,
             "opacity": 0.2,

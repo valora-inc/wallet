@@ -3,16 +3,33 @@
 exports[`ListItem renders correctly 1`] = `
 <View
   style={
-    Object {
+    {
       "backgroundColor": "#FFFFFF",
     }
   }
 >
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     nativeBackgroundAndroid={
-      Object {
+      {
         "attribute": "selectableItemBackgroundBorderless",
         "rippleRadius": undefined,
         "type": "ThemeAttrAndroid",
@@ -28,7 +45,7 @@ exports[`ListItem renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "borderBottomColor": "#E6E6E6",
           "borderBottomWidth": 1,
           "marginLeft": 16,

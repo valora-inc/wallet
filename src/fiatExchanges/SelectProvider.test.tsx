@@ -14,13 +14,12 @@ import { StatsigExperiments } from 'src/statsig/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockExchanges, mockFiatConnectQuotes, mockProviders } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 import {
   CICOFlow,
-  LegacyMobileMoneyProvider,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
+  LegacyMobileMoneyProvider,
 } from './utils'
 
 const AMOUNT_TO_CASH_IN = 100
@@ -108,11 +107,11 @@ describe(SelectProviderScreen, () => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
     mockStore = createMockStore(MOCK_STORE_DATA)
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
       addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
     })
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('calls fetchProviders correctly', async () => {
@@ -146,9 +145,9 @@ describe(SelectProviderScreen, () => {
     await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', Currency.Dollar))
   })
   it('shows the provider sections (bank, card, mobile money), legacy mobile money, and exchange section', async () => {
-    mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+    jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     mockStore = createMockStore({
       ...MOCK_STORE_DATA,
       fiatConnect: {
@@ -175,10 +174,10 @@ describe(SelectProviderScreen, () => {
     expect(queryByTestId('AmountSpentInfo')).toBeFalsy()
   })
   it('shows you will pay fiat amount for cash ins if feature flag is true', async () => {
-    mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+    jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     mockStore = createMockStore({
       ...MOCK_STORE_DATA,
       fiatConnect: {
@@ -199,10 +198,10 @@ describe(SelectProviderScreen, () => {
     expect(getByTestId('AmountSpentInfo/Fiat/value')).toBeTruthy()
   })
   it('shows you will withdraw crypto amount for cash outs if feature flag is true', async () => {
-    mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+    jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     mockStore = createMockStore({
       ...MOCK_STORE_DATA,
       fiatConnect: {
@@ -223,9 +222,9 @@ describe(SelectProviderScreen, () => {
     expect(getByTestId('AmountSpentInfo/Crypto')).toBeTruthy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
-    mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    jest.mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
+    jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     const { getByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
@@ -236,9 +235,9 @@ describe(SelectProviderScreen, () => {
     expect(getByText('selectProviderScreen.disclaimerWithSomePaymentsUnavailable')).toBeTruthy()
   })
   it('does not show exchange section if no exchanges', async () => {
-    mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue([])
+    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+    jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    jest.mocked(fetchExchanges).mockResolvedValue([])
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
@@ -250,9 +249,9 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
   })
   it('shows no payment screen when no providers or exchanges are available', async () => {
-    mocked(fetchProviders).mockResolvedValue([])
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
-    mocked(fetchExchanges).mockResolvedValue([])
+    jest.mocked(fetchProviders).mockResolvedValue([])
+    jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
+    jest.mocked(fetchExchanges).mockResolvedValue([])
     const { queryByText, getByTestId } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
@@ -270,13 +269,13 @@ describe(SelectProviderScreen, () => {
 
   describe('Exchanges section', () => {
     beforeAll(() => {
-      mocked(fetchProviders).mockResolvedValue([])
-      mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
-      mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+      jest.mocked(fetchProviders).mockResolvedValue([])
+      jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
+      jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     })
 
     it('renders crypto exchange and navigates to exchanges screen regardless of statsig param for cash outs', async () => {
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
         addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
       })
@@ -304,7 +303,7 @@ describe(SelectProviderScreen, () => {
     })
 
     it('renders based on params from statsig for cash ins', async () => {
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
         addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
       })
@@ -338,13 +337,13 @@ describe(SelectProviderScreen, () => {
     beforeEach(() => {
       jest.useRealTimers()
       jest.clearAllMocks()
-      mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-      mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+      jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+      jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     })
     it('does not show coinbase card if coinbase is restricted and feature flag is false', async () => {
       const mockProvidersAdjusted = mockProviders
       mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
-      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
 
       const { queryByText } = render(
         <Provider store={mockStore}>
@@ -356,7 +355,7 @@ describe(SelectProviderScreen, () => {
     it('does not show coinbase card if coinbase is not restricted but feature flag is false', async () => {
       const mockProvidersAdjusted = mockProviders
       mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
       const { queryByText } = render(
         <Provider store={mockStore}>
           <SelectProviderScreen {...mockScreenProps()} />
@@ -367,7 +366,7 @@ describe(SelectProviderScreen, () => {
     it('does not show coinbase card if coinbase is restricted and feature flag is true', async () => {
       const mockProvidersAdjusted = mockProviders
       mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
-      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
       mockStore = createMockStore({
         ...MOCK_STORE_DATA,
         app: {
@@ -384,7 +383,7 @@ describe(SelectProviderScreen, () => {
     it('shows coinbase card if coinbase is not restricted, feature flag is true, and CELO is selected', async () => {
       const mockProvidersAdjusted = mockProviders
       mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
       mockStore = createMockStore({
         ...mockStore,
         app: {
@@ -405,7 +404,7 @@ describe(SelectProviderScreen, () => {
         const mockProvidersAdjusted = mockProviders
         mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted =
           false
-        mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+        jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
         mockStore = createMockStore({
           ...mockStore,
           app: {
@@ -424,7 +423,7 @@ describe(SelectProviderScreen, () => {
     it('does not show coinbase pay card in withdraw flow', async () => {
       const mockProvidersAdjusted = mockProviders
       mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
       mockStore = createMockStore({
         ...mockStore,
         app: {
