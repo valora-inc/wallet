@@ -13,16 +13,8 @@ import {
   mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('@segment/analytics-react-native')
-jest.mock('@segment/analytics-react-native-legacy', () => ({
-  __esModule: true,
-  default: {
-    setup: jest.fn().mockResolvedValue(undefined),
-    getAnonymousId: jest.fn().mockResolvedValue('legacy-anon-id'),
-  },
-}))
 jest.mock('@segment/analytics-react-native-plugin-adjust')
 jest.mock('@segment/analytics-react-native-plugin-clevertap')
 jest.mock('@segment/analytics-react-native-plugin-firebase')
@@ -30,8 +22,7 @@ jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('src/config', () => ({
-  // @ts-expect-error
-  ...jest.requireActual('src/config'),
+  ...(jest.requireActual('src/config') as any),
   STATSIG_API_KEY: 'statsig-key',
 }))
 jest.mock('statsig-react-native')
@@ -41,11 +32,9 @@ const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-in
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
 const mockWalletAddress = '0x12AE66CDc592e10B60f9097a7b0D3C59fce29876' // deliberately using checksummed version here
 
-Date.now = jest.fn(() => 1482363367071)
+const mockCreateSegmentClient = jest.mocked(createClient)
 
-const mockCreateSegmentClient = mocked(createClient)
-
-const mockStore = mocked(store)
+const mockStore = jest.mocked(store)
 const state = getMockStoreData({
   tokens: {
     tokenBalances: {
@@ -161,6 +150,10 @@ const defaultProperties = {
   },
 }
 
+beforeAll(() => {
+  jest.useFakeTimers({ now: 1482363367071 })
+})
+
 describe('ValoraAnalytics', () => {
   let ValoraAnalytics: typeof ValoraAnalyticsModule
   const mockSegmentClient = {
@@ -184,15 +177,12 @@ describe('ValoraAnalytics', () => {
       ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
     })
     mockStore.getState.mockImplementation(() => state)
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it('creates statsig client on initialization with default statsig user', async () => {
-    mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
+    jest.mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
     await ValoraAnalytics.init()
-    expect(mockSegmentClient.userInfo.set).toHaveBeenCalledWith({
-      anonymousId: 'legacy-anon-id',
-    })
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       { userID: 'someUserId' },

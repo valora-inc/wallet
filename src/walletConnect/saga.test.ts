@@ -29,7 +29,6 @@ import {
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
@@ -200,7 +199,7 @@ describe(walletConnectSaga, () => {
 
   // Sanity check to ensure `safely` does its job
   it('continues to handle actions even when handlers previously failed unexpectedly', async () => {
-    mocked(navigate).mockImplementationOnce(() => {
+    jest.mocked(navigate).mockImplementationOnce(() => {
       throw new Error('An unexpected failure')
     })
     const state = createMockStore({}).getState()
@@ -249,19 +248,19 @@ describe('showSessionRequest', () => {
 
     // Check the namespaces to approve are correct
     expect((navigate as jest.Mock).mock.calls[0][1].namespacesToApprove).toMatchInlineSnapshot(`
-      Object {
-        "eip155": Object {
-          "accounts": Array [
+      {
+        "eip155": {
+          "accounts": [
             "eip155:44787:0x0000000000000000000000000000000000007e57",
           ],
-          "chains": Array [
+          "chains": [
             "eip155:44787",
           ],
-          "events": Array [
+          "events": [
             "accountsChanged",
             "chainChanged",
           ],
-          "methods": Array [
+          "methods": [
             "eth_sendTransaction",
             "eth_signTypedData",
           ],
@@ -312,21 +311,21 @@ describe('showSessionRequest', () => {
     // Note that it includes the unsupported eip155 chains/methods/events
     // + the optional eip155 chain (because it's supported)
     expect((navigate as jest.Mock).mock.calls[0][1].namespacesToApprove).toMatchInlineSnapshot(`
-      Object {
-        "eip155": Object {
-          "accounts": Array [
+      {
+        "eip155": {
+          "accounts": [
             "eip155:1:0x0000000000000000000000000000000000007e57",
             "eip155:44787:0x0000000000000000000000000000000000007e57",
           ],
-          "chains": Array [
+          "chains": [
             "eip155:1",
             "eip155:44787",
           ],
-          "events": Array [
+          "events": [
             "accountsChanged",
             "some_unsupported_event",
           ],
-          "methods": Array [
+          "methods": [
             "eth_signTransaction",
             "some_unsupported_method",
           ],
@@ -413,22 +412,22 @@ describe('acceptSession', () => {
 
     expect(mockClient.approveSession).toHaveBeenCalledTimes(1)
     expect(mockClient.approveSession.mock.calls[0]).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "id": 1669989187506938,
-          "namespaces": Object {
-            "eip155": Object {
-              "accounts": Array [
+          "namespaces": {
+            "eip155": {
+              "accounts": [
                 "eip155:44787:0x0000000000000000000000000000000000007E57",
               ],
-              "chains": Array [
+              "chains": [
                 "eip155:44787",
               ],
-              "events": Array [
+              "events": [
                 "accountsChanged",
                 "chainChanged",
               ],
-              "methods": Array [
+              "methods": [
                 "eth_sendTransaction",
                 "eth_signTypedData",
               ],

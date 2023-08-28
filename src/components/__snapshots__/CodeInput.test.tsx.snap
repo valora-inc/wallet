@@ -3,17 +3,17 @@
 exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -24,7 +24,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -32,8 +32,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -46,14 +46,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -68,7 +68,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -87,26 +87,26 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 1`] = `
 exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
-      Object {
+      {
         "elevation": 5,
         "shadowColor": "rgba(48, 46, 37, 0.15)",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 2,
           "width": 0,
         },
         "shadowOpacity": 1,
         "shadowRadius": 8,
       },
-      Array [
-        Object {
+      [
+        {
           "padding": 0,
         },
         undefined,
@@ -116,7 +116,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -124,8 +124,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "padding": 16,
@@ -137,14 +137,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -156,8 +156,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
         </Text>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flex": 1,
                 "flexDirection": "row",
@@ -176,8 +176,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
             onFocus={[Function]}
             placeholder="placeholder"
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "flex": 1,
                   "fontFamily": "Inter-Regular",
@@ -187,7 +187,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
                   "paddingVertical": 12,
                 },
                 undefined,
-                Object {
+                {
                   "minHeight": undefined,
                 },
               ]
@@ -204,17 +204,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
 exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -225,7 +225,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -233,8 +233,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -247,14 +247,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -269,7 +269,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -282,7 +282,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -301,17 +301,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
 exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -322,7 +322,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -330,8 +330,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -344,14 +344,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -366,7 +366,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -379,7 +379,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -398,17 +398,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
 exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -419,7 +419,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -427,8 +427,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -441,14 +441,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -463,7 +463,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -476,7 +476,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -485,14 +485,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
         <svg
           fill="none"
           height={32}
-          style={Object {}}
+          style={{}}
           viewBox="0 0 32 32"
           width={32}
         >
           <path
             d="M8.414 15.086a2 2 0 10-2.828 2.828l2.828-2.828zM12.5 22l-1.414 1.414a2 2 0 002.8.029L12.5 22zm13.885-10.557a2 2 0 00-2.77-2.886l2.77 2.886zm-20.8 6.471l5.5 5.5 2.83-2.828-5.5-5.5-2.83 2.828zm8.3 5.529l12.5-12-2.77-2.886-12.5 12 2.77 2.886z"
             fill="#42D689"
-            style={Object {}}
+            style={{}}
           />
         </svg>
       </View>
@@ -504,26 +504,26 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
 exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
-      Object {
+      {
         "elevation": 5,
         "shadowColor": "rgba(48, 46, 37, 0.15)",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 2,
           "width": 0,
         },
         "shadowOpacity": 1,
         "shadowRadius": 8,
       },
-      Array [
-        Object {
+      [
+        {
           "padding": 0,
         },
         undefined,
@@ -533,7 +533,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -541,8 +541,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "padding": 16,
@@ -554,14 +554,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -573,8 +573,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
         </Text>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flex": 1,
                 "flexDirection": "row",
@@ -593,8 +593,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
             onFocus={[Function]}
             placeholder="placeholder"
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "flex": 1,
                   "fontFamily": "Inter-Regular",
@@ -604,7 +604,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
                   "paddingVertical": 12,
                 },
                 undefined,
-                Object {
+                {
                   "minHeight": undefined,
                 },
               ]
@@ -615,7 +615,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -649,17 +649,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -670,7 +670,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -678,8 +678,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -691,14 +691,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -714,7 +714,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
@@ -735,26 +735,26 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 2`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
-      Object {
+      {
         "elevation": 5,
         "shadowColor": "rgba(48, 46, 37, 0.15)",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 2,
           "width": 0,
         },
         "shadowOpacity": 1,
         "shadowRadius": 8,
       },
-      Array [
-        Object {
+      [
+        {
           "padding": 0,
         },
         undefined,
@@ -764,7 +764,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -772,13 +772,13 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "padding": 16,
           },
-          Object {
+          {
             "paddingBottom": 4,
           },
         ]
@@ -786,14 +786,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -806,8 +806,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         </Text>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flex": 1,
                 "flexDirection": "row",
@@ -826,8 +826,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             onFocus={[Function]}
             placeholder="placeholder"
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "flex": 1,
                   "fontFamily": "Inter-Regular",
@@ -837,7 +837,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
                   "paddingVertical": 12,
                 },
                 undefined,
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 18,
@@ -860,17 +860,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 3`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -881,7 +881,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -889,8 +889,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -902,7 +902,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
     >
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -910,14 +910,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       />
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -933,7 +933,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
@@ -948,7 +948,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -967,17 +967,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 4`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -988,7 +988,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -996,8 +996,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -1009,7 +1009,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
     >
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -1017,14 +1017,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       />
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -1040,7 +1040,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
@@ -1055,7 +1055,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -1074,17 +1074,17 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 5`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "rgba(103, 99, 86, 0.1)",
           "padding": 0,
         },
@@ -1095,7 +1095,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -1103,8 +1103,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flex": 1,
             "flexDirection": "row",
@@ -1116,7 +1116,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
     >
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -1124,14 +1124,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       />
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -1147,7 +1147,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#A49B80",
               "fontFamily": "Inter-Regular",
               "fontSize": 18,
@@ -1162,7 +1162,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -1171,14 +1171,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         <svg
           fill="none"
           height={32}
-          style={Object {}}
+          style={{}}
           viewBox="0 0 32 32"
           width={32}
         >
           <path
             d="M8.414 15.086a2 2 0 10-2.828 2.828l2.828-2.828zM12.5 22l-1.414 1.414a2 2 0 002.8.029L12.5 22zm13.885-10.557a2 2 0 00-2.77-2.886l2.77 2.886zm-20.8 6.471l5.5 5.5 2.83-2.828-5.5-5.5-2.83 2.828zm8.3 5.529l12.5-12-2.77-2.886-12.5 12 2.77 2.886z"
             fill="#42D689"
-            style={Object {}}
+            style={{}}
           />
         </svg>
       </View>
@@ -1190,26 +1190,26 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 6`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
-      Object {
+      {
         "elevation": 5,
         "shadowColor": "rgba(48, 46, 37, 0.15)",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 2,
           "width": 0,
         },
         "shadowOpacity": 1,
         "shadowRadius": 8,
       },
-      Array [
-        Object {
+      [
+        {
           "padding": 0,
         },
         undefined,
@@ -1219,7 +1219,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
 >
   <View
     style={
-      Object {
+      {
         "borderRadius": 8,
         "overflow": "hidden",
       }
@@ -1227,13 +1227,13 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "padding": 16,
           },
-          Object {
+          {
             "paddingBottom": 4,
           },
         ]
@@ -1241,7 +1241,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
     >
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }
@@ -1249,14 +1249,14 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       />
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 13,
@@ -1269,8 +1269,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         </Text>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flex": 1,
                 "flexDirection": "row",
@@ -1289,8 +1289,8 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             onFocus={[Function]}
             placeholder="placeholder"
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "flex": 1,
                   "fontFamily": "Inter-Regular",
@@ -1300,7 +1300,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
                   "paddingVertical": 12,
                 },
                 undefined,
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 18,
@@ -1317,7 +1317,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
       </View>
       <View
         style={
-          Object {
+          {
             "marginLeft": 4,
             "width": 32,
           }

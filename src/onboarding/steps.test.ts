@@ -3,6 +3,8 @@ import { initializeAccount } from 'src/account/actions'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { navigate, navigateClearingStack, popToScreen } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import {
   firstOnboardingScreen,
   getOnboardingStepValues,
@@ -10,13 +12,10 @@ import {
 } from 'src/onboarding/steps'
 import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
-import { mocked } from 'ts-jest/utils'
-import { updateStatsigAndNavigate } from 'src/onboarding/actions'
-import { StackParamList } from 'src/navigator/types'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
 
-const mockStore = mocked(store)
+const mockStore = jest.mocked(store)
 
 describe('onboarding steps', () => {
   const newUserFlowWithEverythingEnabled = {

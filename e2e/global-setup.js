@@ -3,9 +3,10 @@ const { execSync } = require('child_process')
 const detox = require('detox')
 
 async function globalSetup() {
+  await require('detox/runners/jest/index').globalSetup()
+
   const config = resolveSelectedConfiguration() || {}
   downloadTestButlerAPKIfNeeded(config)
-  await detox.globalInit()
 }
 
 function downloadTestButlerAPKIfNeeded(config) {

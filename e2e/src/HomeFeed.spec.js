@@ -1,14 +1,13 @@
 import { reloadReactNative } from './utils/retries'
 import { quickOnboarding, sleep, waitForElementId } from './utils/utils'
-
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 beforeAll(async () => {
   await quickOnboarding()
 })
 
 // iOS only as getAttributes on multiple elements is not supported on Android
-describe('Home Feed :ios:', () => {
+describe(':ios: Home Feed', () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
