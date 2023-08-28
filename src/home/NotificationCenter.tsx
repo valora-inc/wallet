@@ -128,13 +128,17 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const notifications = useNotifications()
 
+  const seenNotifications = useRef(new Set())
+
   useEffect(() => {
     ValoraAnalytics.track(HomeEvents.notification_center_opened, {
       notificationsCount: notifications.length,
     })
   }, [])
 
-  const seenNotifications = useRef(new Set())
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 100,
+  })
 
   const scrollPosition = useSharedValue(0)
 
@@ -153,15 +157,6 @@ export default function Notifications({ navigation }: NotificationsProps) {
     scrollPosition.value = event.contentOffset.y
   })
 
-  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
-    setHeaderYPosition(event.nativeEvent.layout.y)
-    setHeaderHeight(event.nativeEvent.layout.height)
-  }
-
-  const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 100,
-  })
-
   const handleViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
       viewableItems.forEach(({ item }, index) => {
@@ -177,6 +172,11 @@ export default function Notifications({ navigation }: NotificationsProps) {
     },
     []
   )
+
+  const handleMeasureHeaderHeight = (event: LayoutChangeEvent) => {
+    setHeaderYPosition(event.nativeEvent.layout.y)
+    setHeaderHeight(event.nativeEvent.layout.height)
+  }
 
   const renderHeader = () => (
     <Text style={styles.title} onLayout={handleMeasureHeaderHeight}>
