@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -7,7 +7,7 @@ import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 
 const mockRampProvider = {
   name: 'Ramp',
@@ -62,7 +62,10 @@ describe('CashInBottomSheet', () => {
         <CashInBottomSheet />
       </Provider>
     )
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
     await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
 
     fireEvent.press(getByTestId('cashInBtn'))
@@ -90,7 +93,10 @@ describe('CashInBottomSheet', () => {
           <CashInBottomSheet />
         </Provider>
       )
-      await flushMicrotasksQueue()
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
       await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
     }
   )
@@ -106,7 +112,10 @@ describe('CashInBottomSheet', () => {
         <CashInBottomSheet />
       </Provider>
     )
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
     await waitFor(() => expect(getByTestId('cashInBtnRamp')).toBeTruthy())
     fireEvent.press(getByTestId('cashInBtnRamp'))
     expect(navigateToURI).toHaveBeenCalledWith(mockRampProvider.url)

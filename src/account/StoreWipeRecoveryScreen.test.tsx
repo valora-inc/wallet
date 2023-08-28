@@ -1,11 +1,11 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { startStoreWipeRecovery } from 'src/account/actions'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 
 const mockAccount = '0x0000000000000000000000000000000000007E57'
 
@@ -29,9 +29,9 @@ describe('StoreWipRecoverScreen', () => {
     expect(getByText('storeRecoveryTitle')).toBeTruthy()
     expect(getByText('storeRecoveryBody')).toBeTruthy()
 
-    fireEvent.press(getByText('storeRecoveryButton'))
-
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(getByText('storeRecoveryButton'))
+    })
 
     expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
     expect(store.getActions()).toEqual([startStoreWipeRecovery(mockAccount)])

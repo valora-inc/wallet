@@ -9,7 +9,6 @@ import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScre
 import { getExperimentParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig', () => ({
@@ -658,7 +657,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     })
 
     it('shows QR button when experiment enabled', () => {
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         showQrScanner: true,
       })
 
@@ -671,7 +670,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     })
 
     it('does not show QR button when experiment disabled', () => {
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         showQrScanner: false,
       })
       const { queryByTestId } = render(

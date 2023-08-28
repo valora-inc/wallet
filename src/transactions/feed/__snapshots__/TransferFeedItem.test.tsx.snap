@@ -3,14 +3,26 @@
 exports[`TransferFeedItem renders correctly 1`] = `
 <View
   accessibilityState={
-    Object {
+    {
+      "busy": undefined,
+      "checked": undefined,
       "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
   }
   accessible={true}
   focusable={true}
   nativeBackgroundAndroid={
-    Object {
+    {
       "attribute": "selectableItemBackground",
       "rippleRadius": undefined,
       "type": "ThemeAttrAndroid",
@@ -27,7 +39,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "flexDirection": "row",
         "paddingHorizontal": 16,
@@ -37,13 +49,13 @@ exports[`TransferFeedItem renders correctly 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
           },
-          Object {
+          {
             "alignItems": "flex-start",
           },
         ]
@@ -51,12 +63,12 @@ exports[`TransferFeedItem renders correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "justifyContent": "center",
             },
-            Object {
+            {
               "backgroundColor": "hsl(101, 53%, 93%)",
               "borderRadius": 20,
               "height": 40,
@@ -68,7 +80,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
         <svg
           fill="hsl(101, 53%, 93%)"
           height="40"
-          style={Object {}}
+          style={{}}
           viewBox="0 0 40 40"
           width="40"
         />
@@ -76,7 +88,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "flexGrow": 1,
           "paddingHorizontal": 16,
@@ -85,7 +97,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
     >
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "flexShrink": 1,
             "fontFamily": "Inter-Medium",
@@ -99,7 +111,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
@@ -114,7 +126,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "flex-end",
           "flex": 0,
           "maxWidth": "35%",
@@ -123,8 +135,8 @@ exports[`TransferFeedItem renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "flexWrap": "wrap",
               "fontFamily": "Inter-Medium",
@@ -132,7 +144,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
               "lineHeight": 22,
               "textAlign": "right",
             },
-            Object {
+            {
               "color": "#1AB775",
             },
           ]
@@ -145,7 +157,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
       </Text>
       <Text
         style={
-          Object {
+          {
             "color": "#666666",
             "flexWrap": "wrap",
             "fontFamily": "Inter-Regular",

@@ -13,7 +13,6 @@ import { generateRandomUsername } from 'src/nameGenerator'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/nameGenerator')
@@ -56,7 +55,7 @@ describe('Profile', () => {
     })
 
     it('generate name fills in name with random name', () => {
-      mocked(generateRandomUsername).mockReturnValue('Random username')
+      jest.mocked(generateRandomUsername).mockReturnValue('Random username')
       const { getByTestId } = render(
         <Provider store={store}>
           <Profile {...getMockStackScreenProps(Screens.Profile)} />

@@ -1,6 +1,6 @@
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,12 +8,12 @@ import Warning from 'src/components/Warning'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { getDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
+import { getDescriptionAndTitleFromAction, SupportedActions } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
-import { selectSessionFromTopic } from 'src/walletConnect/selectors'
+import { sessionsSelector } from 'src/walletConnect/selectors'
 
 interface Props {
   version: 2
@@ -25,7 +25,10 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
+  const sessions = useSelector(sessionsSelector)
+  const activeSession = useMemo(() => {
+    return sessions.find((s) => s.topic === pendingAction.topic)
+  }, [sessions])
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
   const isDappListed = useIsDappListed(url)
 
@@ -38,7 +41,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
     return null
   }
 
-  const description = getDescriptionFromAction(
+  const { description, title } = getDescriptionAndTitleFromAction(
     t,
     pendingAction.params.request.method as SupportedActions,
     dappName
@@ -59,7 +62,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
         onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('UNSUPPORTED_CHAINS')))}
         dappName={dappName}
         dappImageUrl={dappImageUrl}
-        title={t('confirmTransaction')}
+        title={title}
         description={description}
         testId="WalletConnectActionRequest"
       >
@@ -86,7 +89,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={t('confirmTransaction')}
+      title={title}
       description={description}
       testId="WalletConnectActionRequest"
     >

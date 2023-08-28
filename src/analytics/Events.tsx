@@ -28,7 +28,7 @@ export enum AppEvents {
 }
 
 export enum HomeEvents {
-  home_send = 'home_send',
+  home_send = 'home_send', // when "send" button is pressed from home screen send or request bar (NOT from home screen actions)
   home_request = 'home_request',
   home_qr = 'home_qr',
   hamburger_tapped = 'hamburger_tapped',
@@ -89,6 +89,7 @@ export enum KeylessBackupEvents {
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
+  cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
   enter_phone_number_continue = 'enter_phone_number_continue',
   cab_issue_sms_code_start = 'cab_issue_sms_code_start',
   cab_issue_sms_code_success = 'cab_issue_sms_code_success',
@@ -99,6 +100,10 @@ export enum KeylessBackupEvents {
   cab_progress_completed_continue = 'cab_progress_completed_continue',
   cab_progress_failed_later = 'cab_progress_failed_later',
   cab_progress_failed_manual = 'cab_progress_failed_manual',
+  cab_post_encrypted_mnemonic_failed = 'cab_post_encrypted_mnemonic_failed',
+  cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
+  cab_handle_keyless_backup_setup_failed = 'cab_handle_keyless_backup_setup_failed',
+  cab_handle_keyless_backup_setup_success = 'cab_handle_keyless_backup_setup_success',
 }
 
 export enum OnboardingEvents {
@@ -299,7 +304,7 @@ export enum SendEvents {
 
   send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
 
-  send_tx_start = 'send_tx_start',
+  send_tx_start = 'send_tx_start', // issued from the sendPayment saga, after a user confirms their intent to send and right before we build and send the transaction to the network
   send_tx_complete = 'send_tx_complete', // when a send transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
@@ -355,9 +360,6 @@ export enum TransactionEvents {
 
 export enum CeloExchangeEvents {
   celo_home_info = 'celo_home_info', // when the (i) next to Celo Gold price is clicked, launching education (not pictured)
-  celo_fetch_exchange_rate_start = 'celo_fetch_exchange_rate_start',
-  celo_fetch_exchange_rate_complete = 'celo_fetch_exchange_rate_complete',
-  celo_fetch_exchange_rate_error = 'celo_fetch_exchange_rate_error',
 
   celo_withdraw_review = 'celo_withdraw_review', // when ‘review’ is clicked on the withdraw amount screen
   celo_withdraw_edit = 'celo_withdraw_edit', // when ‘edit’ is clicked on the review screen
@@ -637,37 +639,3 @@ export enum DappShortcutsEvents {
   dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted', // When the user confirms the transaction via the bottom sheet
   dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected', // When the user rejects the transaction via the bottom sheet
 }
-
-export type AnalyticsEventType =
-  | AppEvents
-  | HomeEvents
-  | SettingsEvents
-  | KeylessBackupEvents
-  | OnboardingEvents
-  | VerificationEvents
-  | IdentityEvents
-  | AuthenticationEvents
-  | InviteEvents
-  | EscrowEvents
-  | FiatExchangeEvents
-  | SendEvents
-  | RequestEvents
-  | FeeEvents
-  | TransactionEvents
-  | CeloExchangeEvents
-  | PerformanceEvents
-  | NavigationEvents
-  | RewardsEvents
-  | WalletConnectEvents
-  | DappKitEvents
-  | CICOEvents
-  | DappExplorerEvents
-  | WebViewEvents
-  | CoinbasePayEvents
-  | SwapEvents
-  | CeloNewsEvents
-  | TokenBottomSheetEvents
-  | AssetsEvents
-  | NftEvents
-  | BuilderHooksEvents
-  | DappShortcutsEvents

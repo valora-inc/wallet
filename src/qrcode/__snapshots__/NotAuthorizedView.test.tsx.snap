@@ -3,7 +3,7 @@
 exports[`NotAuthorizedView renders correctly 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flex": 1,
       "justifyContent": "center",
@@ -13,7 +13,7 @@ exports[`NotAuthorizedView renders correctly 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#FFFFFF",
         "fontFamily": "Jost-Medium",
         "fontSize": 22,
@@ -26,7 +26,7 @@ exports[`NotAuthorizedView renders correctly 1`] = `
   </Text>
   <Text
     style={
-      Object {
+      {
         "color": "#FFFFFF",
         "fontFamily": "Inter-Regular",
         "fontSize": 16,
@@ -39,10 +39,27 @@ exports[`NotAuthorizedView renders correctly 1`] = `
     cameraNotAuthorizedDescription
   </Text>
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     nativeBackgroundAndroid={
-      Object {
+      {
         "attribute": "selectableItemBackgroundBorderless",
         "rippleRadius": undefined,
         "type": "ThemeAttrAndroid",
@@ -58,7 +75,7 @@ exports[`NotAuthorizedView renders correctly 1`] = `
   >
     <Text
       style={
-        Object {
+        {
           "color": "#1AB775",
           "fontFamily": "Inter-SemiBold",
           "fontSize": 16,

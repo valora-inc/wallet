@@ -13,7 +13,7 @@ import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 import { Core } from '@walletconnect/core'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
 
@@ -63,11 +63,11 @@ const verifySuccessfulConnection = async () => {
     .withTimeout(15 * 1000)
 }
 
-const verifySuccessfulSign = async () => {
-  await waitFor(element(by.text(`Confirm transaction`)))
+const verifySuccessfulSign = async (title = 'Verify wallet') => {
+  await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)
-  await waitFor(element(by.text(`${dappName} would like to sign a data payload.`)))
+  await waitFor(element(by.text(`${dappName} would like to verify ownership of your wallet.`)))
     .toBeVisible()
     .withTimeout(15 * 1000)
   await element(by.text('Allow')).tap()
@@ -75,8 +75,8 @@ const verifySuccessfulSign = async () => {
   await verifySuccessfulConnection()
 }
 
-const verifySuccessfulTransaction = async (tx) => {
-  await waitFor(element(by.text(`Confirm transaction`)))
+const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) => {
+  await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)
 
@@ -199,7 +199,7 @@ export default WalletConnect = () => {
     await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
       .toBeVisible()
       .withTimeout(15 * 1000)
-    await verifySuccessfulTransaction(tx)
+    await verifySuccessfulTransaction('Send transaction', tx)
 
     // Wait for transaction and get receipt
     const { status, from, to } = await kit.connection.getTransactionReceipt(txHash)
@@ -229,7 +229,7 @@ export default WalletConnect = () => {
     await waitFor(element(by.text(`${dappName} would like to sign a Celo transaction.`)))
       .toBeVisible()
       .withTimeout(15 * 1000)
-    await verifySuccessfulTransaction(tx)
+    await verifySuccessfulTransaction('Sign transaction', tx)
 
     const [recoveredTx, recoveredSigner] = recoverTransaction(signedTx)
 

@@ -11,19 +11,29 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { createMockStore } from 'test/utils'
+import { createMockStore, getElementText } from 'test/utils'
 import {
+  mockAccount3,
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
   mockPaymentRequests,
+  mockPhoneRecipient,
   mockRecipient,
   mockTokenBalances,
 } from 'test/values'
 
+const mockGetRecipientFromAddress = jest.fn((address: string) => {
+  switch (address) {
+    case mockAccount3:
+      return mockPhoneRecipient
+    default:
+      return mockRecipient
+  }
+})
 jest.mock('src/recipients/recipient', () => ({
   ...(jest.requireActual('src/recipients/recipient') as any),
-  getRecipientFromAddress: jest.fn(() => mockRecipient),
+  getRecipientFromAddress: (address: string) => mockGetRecipientFromAddress(address),
 }))
 
 const mockPaymentRequest = mockPaymentRequests[1]
@@ -87,6 +97,24 @@ describe('IncomingPaymentRequestListItem', () => {
     )
 
     expect(tree).toMatchSnapshot()
+  })
+
+  it('shows the phone number if there is no name associated with the address', () => {
+    const store = createMockStore()
+    const request = {
+      ...mockPaymentRequest,
+      requesterAddress: mockAccount3,
+    }
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <IncomingPaymentRequestListItem paymentRequest={request} />
+      </Provider>
+    )
+
+    expect(getElementText(getByTestId('IncomingPaymentRequestNotification/FAKE_ID_2/Title'))).toBe(
+      'incomingPaymentRequestNotificationTitle, {"name":"+15551234567"}'
+    )
   })
 
   it('displays the loading animation while fetching addresses', () => {

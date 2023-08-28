@@ -8,11 +8,11 @@ import {
   EmitterSubscription,
   Keyboard,
   KeyboardEvent,
+  KeyboardMetrics,
   LayoutAnimation,
   LayoutAnimationConfig,
   LayoutRectangle,
   Platform,
-  ScreenRect,
   StyleSheet,
   View,
   ViewStyle,
@@ -74,7 +74,7 @@ export default class KeyboardSpacer extends React.Component<Props> {
     this._listeners.forEach((listener) => listener.remove())
   }
 
-  relativeKeyboardHeight(viewFrame: LayoutRectangle, keyboardFrame: ScreenRect): number {
+  relativeKeyboardHeight(viewFrame: LayoutRectangle, keyboardFrame: KeyboardMetrics): number {
     if (
       !viewFrame ||
       // On Android these can be undefined for unfocused screens

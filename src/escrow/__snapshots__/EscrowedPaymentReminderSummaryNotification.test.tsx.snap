@@ -3,30 +3,30 @@
 exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "borderColor": "#E6E6E6",
           "borderWidth": 1,
           "flex": 1,
           "minHeight": 144,
         },
-        Object {},
+        {},
       ],
     ]
   }
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "flexDirection": "row",
       }
@@ -34,7 +34,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "width": 40,
         }
       }
@@ -42,7 +42,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
       <Image
         resizeMode="contain"
         source={
-          Object {
+          {
             "testUri": "../../../src/images/notification-invite.png",
           }
         }
@@ -50,7 +50,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "justifyContent": "space-between",
           "marginLeft": 16,
@@ -59,7 +59,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
     >
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 18,
@@ -74,7 +74,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
       <Text
         numberOfLines={3}
         style={
-          Object {
+          {
             "color": "#505050",
             "flex": 1,
             "fontFamily": "Inter-Regular",
@@ -88,7 +88,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
       </Text>
       <View
         style={
-          Object {
+          {
             "flexDirection": "row",
             "flexWrap": "wrap",
             "justifyContent": "flex-start",
@@ -97,10 +97,27 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
         testID="undefined/CallToActions"
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackgroundBorderless",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -117,14 +134,14 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#1AB775",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "fontSize": 14,
                   "lineHeight": 16,
                   "marginRight": 24,
@@ -146,30 +163,30 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
 exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders just it alone 1`] = `
 <View
   style={
-    Object {
+    {
       "marginBottom": 16,
     }
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#FFFFFF",
           "padding": 16,
         },
-        Object {
+        {
           "borderRadius": 8,
         },
         undefined,
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#E6E6E6",
             "borderWidth": 1,
             "flex": 1,
             "minHeight": 144,
           },
-          Object {},
+          {},
         ],
       ]
     }
@@ -177,7 +194,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
   >
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "flexDirection": "row",
         }
@@ -185,7 +202,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
     >
       <View
         style={
-          Object {
+          {
             "flex": 1,
             "marginRight": 16,
           }
@@ -194,7 +211,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
         <Text
           numberOfLines={2}
           style={
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 13,
@@ -209,7 +226,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
         <Text
           numberOfLines={1}
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 24,
@@ -228,7 +245,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
         </Text>
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -241,12 +258,12 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
         </Text>
       </View>
       <View
-        style={Object {}}
+        style={{}}
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
@@ -257,12 +274,12 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                 },
-                Object {
+                {
                   "backgroundColor": "hsl(0, 53%, 93%)",
                   "borderRadius": 20,
                   "height": 40,
@@ -274,13 +291,13 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
             <Text
               allowFontScaling={false}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#FFFFFF",
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                   },
-                  Object {
+                  {
                     "color": "hsl(0, 67%, 24%)",
                     "fontSize": 20,
                   },
@@ -295,7 +312,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
     </View>
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "flex-start",
@@ -304,10 +321,27 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
       testID="EscrowedPaymentListItem/CallToActions"
     >
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -324,14 +358,14 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16,
                 "marginRight": 24,
@@ -345,10 +379,27 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
         </Text>
       </View>
       <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackgroundBorderless",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -365,14 +416,14 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16,
                 "marginRight": 24,
@@ -393,30 +444,30 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
 exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests renders just two 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "borderColor": "#E6E6E6",
           "borderWidth": 1,
           "flex": 1,
           "minHeight": 144,
         },
-        Object {},
+        {},
       ],
     ]
   }
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "flexDirection": "row",
       }
@@ -424,7 +475,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
   >
     <View
       style={
-        Object {
+        {
           "width": 40,
         }
       }
@@ -432,7 +483,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
       <Image
         resizeMode="contain"
         source={
-          Object {
+          {
             "testUri": "../../../src/images/notification-invite.png",
           }
         }
@@ -440,7 +491,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
     </View>
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "justifyContent": "space-between",
           "marginLeft": 16,
@@ -449,7 +500,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
     >
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 18,
@@ -464,7 +515,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
       <Text
         numberOfLines={3}
         style={
-          Object {
+          {
             "color": "#505050",
             "flex": 1,
             "fontFamily": "Inter-Regular",
@@ -478,7 +529,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
       </Text>
       <View
         style={
-          Object {
+          {
             "flexDirection": "row",
             "flexWrap": "wrap",
             "justifyContent": "flex-start",
@@ -487,10 +538,27 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
         testID="undefined/CallToActions"
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackgroundBorderless",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -507,14 +575,14 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#1AB775",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "fontSize": 14,
                   "lineHeight": 16,
                   "marginRight": 24,

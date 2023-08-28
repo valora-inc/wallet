@@ -2433,6 +2433,39 @@ export const v141Schema = {
   },
 }
 
+export const v142Schema = {
+  ...v141Schema,
+  _persist: {
+    ...v141Schema._persist,
+    version: 142,
+  },
+  app: _.omit(v141Schema.app, 'shouldShowRecoveryPhraseInSettings'),
+}
+
+export const v143Schema = {
+  ...v142Schema,
+  _persist: {
+    ...v142Schema._persist,
+    version: 143,
+  },
+  account: {
+    ...v142Schema.account,
+    cloudBackupCompleted: false,
+  },
+}
+
+export const v144Schema = {
+  ...v143Schema,
+  _persist: {
+    ...v143Schema._persist,
+    version: 144,
+  },
+  app: {
+    ...v143Schema.app,
+    pushNotificationRequestedUnixTime: 1692878055000,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v141Schema as Partial<RootState>
+  return v144Schema as Partial<RootState>
 }
