@@ -3,8 +3,8 @@
 exports[`ReviewFrame renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "flex": 1,
       },
@@ -14,7 +14,7 @@ exports[`ReviewFrame renders correctly 1`] = `
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "paddingVertical": 10,
       }
     }
@@ -24,7 +24,7 @@ exports[`ReviewFrame renders correctly 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "marginHorizontal": 16,
           }
         }
@@ -33,15 +33,15 @@ exports[`ReviewFrame renders correctly 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
+      {
         "marginVertical": 20,
       }
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
@@ -52,14 +52,26 @@ exports[`ReviewFrame renders correctly 1`] = `
     >
       <View
         accessibilityState={
-          Object {
+          {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
         focusable={true}
         hitSlop={
-          Object {
+          {
             "bottom": 10,
             "left": 10,
             "right": 10,
@@ -74,26 +86,26 @@ exports[`ReviewFrame renders correctly 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "alignItems": "center",
                 "justifyContent": "center",
               },
-              Object {
+              {
                 "backgroundColor": "#42D689",
               },
-              Object {
+              {
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderColor": "#42D689",
                 "borderRadius": 25,
                 "height": 50,
                 "width": 50,
               },
             ],
-            Object {
+            {
               "opacity": 1,
             },
           ]
@@ -102,7 +114,7 @@ exports[`ReviewFrame renders correctly 1`] = `
         <svg
           fill="none"
           height={20}
-          style={Object {}}
+          style={{}}
           viewBox="0 0 92.132 92.132"
           width={20}
           xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +126,7 @@ exports[`ReviewFrame renders correctly 1`] = `
           c-2.854-2.855-7.481-2.855-10.333,0c-2.855,2.853-2.855,7.481,0,10.334l31.868,31.869L2.143,78.795
           C-0.714,81.648-0.714,86.274,2.141,89.13z"
             fill="#FFFFFF"
-            style={Object {}}
+            style={{}}
           />
         </svg>
       </View>
@@ -123,13 +135,13 @@ exports[`ReviewFrame renders correctly 1`] = `
   <View
     collapsable={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "bottom": 0,
           "left": 0,
           "right": 0,
         },
-        Object {
+        {
           "height": 0,
         },
         undefined,

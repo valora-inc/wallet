@@ -1,8 +1,11 @@
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 
-const loggerErrorSpy = jest.spyOn(Logger, 'error')
+const loggerErrorSpy = jest.fn()
 const consoleErrorSpy = jest.spyOn(console, 'error')
+
+const mockedLogger = jest.mocked(Logger)
+mockedLogger.error = loggerErrorSpy
 
 beforeEach(() => {
   jest.resetAllMocks()

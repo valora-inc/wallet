@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import Mailer from 'react-native-mail'
@@ -10,8 +10,7 @@ import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
 jest.mock('src/account/zendesk')
@@ -74,9 +73,9 @@ describe('Contact', () => {
       )
       // Text is required to send to support
       fireEvent.changeText(getByTestId('MessageEntry'), 'Test Message')
-      fireEvent.press(getByTestId('SubmitContactForm'))
-
-      await flushMicrotasksQueue()
+      await act(() => {
+        fireEvent.press(getByTestId('SubmitContactForm'))
+      })
 
       expect(Mailer.mail).toBeCalledWith(
         expect.objectContaining({
@@ -92,7 +91,7 @@ describe('Contact', () => {
   })
   describe('withZendesk', () => {
     it('submits zendesk request with logs, message, email, and name', async () => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       const mockedLogAttachments = Logger.getLogsToAttach as jest.Mock
       Logger.getCurrentLogFileName = jest.fn(() => 'log2.txt')
       const logAttachments = [
@@ -119,9 +118,9 @@ describe('Contact', () => {
       fireEvent.changeText(getByTestId('NameEntry'), 'My Name')
       fireEvent.changeText(getByTestId('EmailEntry'), 'my@email.com')
 
-      fireEvent.press(getByTestId('SubmitContactForm'))
-
-      await flushMicrotasksQueue()
+      await act(() => {
+        fireEvent.press(getByTestId('SubmitContactForm'))
+      })
 
       expect(Mailer.mail).not.toBeCalled()
       expect(sendSupportRequest).toHaveBeenCalledWith({

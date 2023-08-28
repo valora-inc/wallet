@@ -54,6 +54,7 @@ export interface State {
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
   decentralizedVerificationEnabled: boolean
+  pushNotificationRequestedUnixTime: number | null
   pushNotificationsEnabled: boolean
   inAppReviewLastInteractionTimestamp: number | null
 }
@@ -102,6 +103,7 @@ const initialState = {
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
   decentralizedVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.decentralizedVerificationEnabled,
+  pushNotificationRequestedUnixTime: null,
   pushNotificationsEnabled: false,
   inAppReviewLastInteractionTimestamp: null,
 }
@@ -260,6 +262,9 @@ export const appReducer = (
       return {
         ...state,
         pushNotificationsEnabled: action.enabled,
+        pushNotificationRequestedUnixTime: action.requestedInApp
+          ? Date.now()
+          : state.pushNotificationRequestedUnixTime,
       }
     case Actions.IN_APP_REVIEW_REQUESTED:
       return {

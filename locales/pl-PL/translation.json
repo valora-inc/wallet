@@ -1075,9 +1075,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Dane transakcyjne",
     "readAccount": "{{dappName}} chce przeczytać Twój adres portfela {{appName}}.",
-    "signPayload": "{{dappName}} chce podpisać ładunek danych.",
+    "signPayloadTitle": "Zweryfikuj portfel",
+    "signPayload": "{{dappName}} chcielibyśmy zweryfikować własność Twojego portfela.",
+    "signTransactionTitle": "Podpisz transakcję",
     "signTransaction": "{{dappName}} chce podpisać transakcję Celo.",
+    "sendTransactionTitle": "Wyślij transakcję",
     "sendTransaction": "{{dappName}} chce wysłać transakcję Celo.",
+    "decryptPayloadTitle": "Odszyfruj za pomocą portfela",
     "decryptPayload": "{{dappName}} chce odszyfrować ładunek danych.",
     "computeSharedSecret": "{{dappName}} chce wygenerować tajemnice.",
     "transactionDataCopied": "Dane transakcji zostały skopiowane",
@@ -1683,6 +1687,10 @@
     "priceImpactWarning": {
       "title": "Zanim dokonasz swapu",
       "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
+    },
+    "missingSwapImpactWarning": {
+      "title": "Zanim dokonasz swapu",
+      "body": "Nie możemy oszacować wartości tej zamiany. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
     },
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
   },

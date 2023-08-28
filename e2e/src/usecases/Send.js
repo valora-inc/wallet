@@ -8,7 +8,7 @@ import {
   addComment,
 } from '../utils/utils'
 const faker = require('@faker-js/faker')
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default Send = () => {
   let randomComment = faker.lorem.words()

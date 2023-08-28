@@ -2,11 +2,10 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import SmsRetriever from 'react-native-sms-retriever'
-import VerificationCodeInputWrapper from 'src/verify/VerificationCodeInput'
 import { PhoneNumberVerificationStatus } from 'src/verify/hooks'
-import { mocked } from 'ts-jest/utils'
+import VerificationCodeInputWrapper from 'src/verify/VerificationCodeInput'
 
-const mockedSmsRetriever = mocked(SmsRetriever)
+const mockedSmsRetriever = jest.mocked(SmsRetriever)
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -33,8 +32,8 @@ describe('VerificationCodeInputWrapper', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    mocked(Clipboard.getString).mockResolvedValue('')
-    mocked(Clipboard.hasString).mockResolvedValue(false)
+    jest.mocked(Clipboard.getString).mockResolvedValue('')
+    jest.mocked(Clipboard.hasString).mockResolvedValue(false)
   })
 
   it('displays the correct components', () => {
@@ -111,8 +110,8 @@ describe('VerificationCodeInputWrapper', () => {
     const { findByTestId } = renderComponent()
 
     await act(() => {
-      mocked(Clipboard.getString).mockResolvedValue('123456')
-      mocked(Clipboard.hasString).mockResolvedValue(true)
+      jest.mocked(Clipboard.getString).mockResolvedValue('123456')
+      jest.mocked(Clipboard.hasString).mockResolvedValue(true)
     })
     const findByPromise = findByTestId('PasteButton')
     jest.runOnlyPendingTimers()
@@ -123,8 +122,8 @@ describe('VerificationCodeInputWrapper', () => {
     const { findByTestId } = renderComponent()
 
     await act(() => {
-      mocked(Clipboard.getString).mockResolvedValue('12345678')
-      mocked(Clipboard.hasString).mockResolvedValue(true)
+      jest.mocked(Clipboard.getString).mockResolvedValue('12345678')
+      jest.mocked(Clipboard.hasString).mockResolvedValue(true)
     })
     const findByPromise = findByTestId('PasteButton')
     jest.runOnlyPendingTimers()

@@ -1,5 +1,4 @@
 import { createClient, SegmentClient } from '@segment/analytics-react-native'
-import LegacySegment from '@segment/analytics-react-native-legacy'
 import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
 import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
@@ -111,14 +110,6 @@ class ValoraAnalytics {
         writeKey: SEGMENT_API_KEY,
         storePersistor: AsyncStoragePersistor,
       })
-
-      // TODO: Remove this code once there is a break in onboarding experiments (note: removing this code will change all users anonymousId's)
-      // This is a temporary workaround for a side effect of upgrading to Segment v2
-      // Segment v2 generates a different anonymousId for the user than Segment v1
-      // In order to avoid disrupting ongoing onboarding experiments by changing the anonymousId mid-experiment we use the legacy Segment client to get the anonymousId
-      await LegacySegment.setup('dummy-key', {}) // not necessary to provide a valid key, but is necessary to call setup.
-      const anonymousId = await LegacySegment.getAnonymousId()
-      await this.segmentClient.userInfo.set({ anonymousId })
 
       this.segmentClient.add({ plugin: new InjectTraits() })
       this.segmentClient.add({ plugin: new AdjustPlugin() })
