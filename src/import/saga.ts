@@ -25,8 +25,7 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
-import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
-import { Currency } from 'src/utils/currencies'
+import { FetchedTokenBalance, fetchTokenBalancesForAddress } from 'src/tokens/saga'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -237,34 +236,12 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 }
 
 /**
- * Check the CELO, cUSD, and cEUR balances of the given address, returning true if any are greater
- * than zero. Returns as soon as a single balance check request comes back positive.
+ * Check if the given address has a non-zero balance.
  */
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
-
-  const getBalanceCEur = yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Euro, address)
-  const getBalanceCUsd = yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, address)
-  const getBalanceCelo = yield* fork(fetchTokenBalanceInWeiWithRetry, Currency.Celo, address)
-
-  const { balanceCEur, balanceCUsd, balanceCelo } = yield* race({
-    balanceCEur: join(getBalanceCEur),
-    balanceCUsd: join(getBalanceCUsd),
-    balanceCelo: join(getBalanceCelo),
-  })
-
-  if (
-    balanceCEur?.isGreaterThan(0) ||
-    balanceCUsd?.isGreaterThan(0) ||
-    balanceCelo?.isGreaterThan(0)
-  ) {
-    yield* cancel(getBalanceCEur)
-    yield* cancel(getBalanceCUsd)
-    yield* cancel(getBalanceCelo)
-    return true
-  }
-
-  return false
+  const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
+  return tokenBalances.length > 0
 }
 
 export function* watchImportBackupPhrase() {

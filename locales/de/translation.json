@@ -1071,9 +1071,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Transaktionsdaten",
     "readAccount": "{{dappName}} möchte sich deine {{appName}} Wallet-Adresse lesen.",
-    "signPayload": "{{dappName}} möchte sich eine Daten-Nutzlast signieren.",
+    "signPayloadTitle": "Brieftasche verifizieren",
+    "signPayload": "{{dappName}} möchte den Besitz deiner Brieftasche überprüfen.",
+    "signTransactionTitle": "Transaktion unterschreiben",
     "signTransaction": "{{dappName}} möchte sich eine Celo-Transaktion signieren.",
+    "sendTransactionTitle": "Transaktion senden",
     "sendTransaction": "{{dappName}} möchte sich eine Celo-Transaktion senden.",
+    "decryptPayloadTitle": "Mit Brieftasche entschlüsseln",
     "decryptPayload": "{{dappName}} möchte sich eine Daten-Nutzlast entschlüsseln.",
     "computeSharedSecret": "{{dappName}} möchte sich Geheimnisse erzeugen.",
     "transactionDataCopied": "Transaktionsdaten kopiert",
@@ -1679,6 +1683,10 @@
     "priceImpactWarning": {
       "title": "Bevor du tauschst",
       "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
+    },
+    "missingSwapImpactWarning": {
+      "title": "Bevor du tauschst",
+      "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, weiterzumachen."
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
