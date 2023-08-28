@@ -20,7 +20,6 @@ interface Props {
 
 function SwapFeedItem({ exchange }: Props) {
   const { t } = useTranslation()
-
   const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenAddress)
   const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenAddress)
 
