@@ -13,10 +13,10 @@ PODS:
   - boost (1.76.0)
   - BVLinearGradient (2.6.2):
     - React-Core
-  - CleverTap-iOS-SDK (4.2.2):
+  - CleverTap-iOS-SDK (5.2.0):
     - SDWebImage (~> 5.11)
-  - clevertap-react-native (1.0.3):
-    - CleverTap-iOS-SDK (= 4.2.2)
+  - clevertap-react-native (1.2.0):
+    - CleverTap-iOS-SDK (= 5.2.0)
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - CTNotificationService (0.1.4)
@@ -1125,8 +1125,8 @@ SPEC CHECKSUMS:
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
-  CleverTap-iOS-SDK: 36c21b8a671d87a0f9c7b389b339d02528bbe4d7
-  clevertap-react-native: f291b28460c0f0ce92aad465f091e205dbb7425d
+  CleverTap-iOS-SDK: 6a38eea6d2f0c336fb142baadcca2cd8aafd2290
+  clevertap-react-native: 3acdd0abca15a23e9339e19fa26abf0635ac4bd2
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CTNotificationService: 43d6e66c78bc338bde3db173d615d8cde5f104f7
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54

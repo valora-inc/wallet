@@ -116,7 +116,7 @@
     "apollo-boost": "^0.4.9",
     "apollo-cache-persist": "^0.1.1",
     "bignumber.js": "^9.1.1",
-    "clevertap-react-native": "^1.0.3",
+    "clevertap-react-native": "^1.2.0",
     "country-data": "^0.0.31",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
@@ -341,10 +341,10 @@
     "testRunner": {
       "$0": "jest",
       "args": {
-       "config": "./e2e/jest.config.js"
+        "config": "./e2e/jest.config.js"
       },
       "forwardEnv": true
-   },
+    },
     "artifacts": {
       "rootDir": "./e2e/artifacts"
     },
