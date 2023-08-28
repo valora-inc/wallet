@@ -639,37 +639,3 @@ export enum DappShortcutsEvents {
   dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted', // When the user confirms the transaction via the bottom sheet
   dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected', // When the user rejects the transaction via the bottom sheet
 }
-
-export type AnalyticsEventType =
-  | AppEvents
-  | HomeEvents
-  | SettingsEvents
-  | KeylessBackupEvents
-  | OnboardingEvents
-  | VerificationEvents
-  | IdentityEvents
-  | AuthenticationEvents
-  | InviteEvents
-  | EscrowEvents
-  | FiatExchangeEvents
-  | SendEvents
-  | RequestEvents
-  | FeeEvents
-  | TransactionEvents
-  | CeloExchangeEvents
-  | PerformanceEvents
-  | NavigationEvents
-  | RewardsEvents
-  | WalletConnectEvents
-  | DappKitEvents
-  | CICOEvents
-  | DappExplorerEvents
-  | WebViewEvents
-  | CoinbasePayEvents
-  | SwapEvents
-  | CeloNewsEvents
-  | TokenBottomSheetEvents
-  | AssetsEvents
-  | NftEvents
-  | BuilderHooksEvents
-  | DappShortcutsEvents

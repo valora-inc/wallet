@@ -7,7 +7,6 @@ import { setupStore, _persistConfig } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
-import { mocked } from 'ts-jest/utils'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({
@@ -96,12 +95,12 @@ describe('store state', () => {
     // Make sure the state looks the way we expect it to.
     // This should help catch unintentional changes to the state, caused by incorrect migrations
     expect(data).toMatchInlineSnapshot(`
-      Object {
-        "_persist": Object {
+      {
+        "_persist": {
           "rehydrated": true,
-          "version": 143,
+          "version": 144,
         },
-        "account": Object {
+        "account": {
           "acceptedTerms": false,
           "accountCreationTime": 99999999999999,
           "accountToRecoverFromStoreWipe": undefined,
@@ -109,7 +108,7 @@ describe('store state', () => {
           "celoEducationCompleted": false,
           "choseToRestoreAccount": false,
           "cloudBackupCompleted": false,
-          "contactDetails": Object {
+          "contactDetails": {
             "contactId": "contactId",
             "thumbnailPath": null,
           },
@@ -132,13 +131,13 @@ describe('store state', () => {
           "startOnboardingTime": undefined,
         },
         "alert": null,
-        "app": Object {
+        "app": {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
           "celoEducationUri": null,
           "celoEuroEnabled": true,
-          "celoNews": Object {},
+          "celoNews": {},
           "coinbasePayEnabled": false,
           "decentralizedVerificationEnabled": true,
           "fiatConnectCashInEnabled": false,
@@ -159,17 +158,18 @@ describe('store state', () => {
           "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
+          "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
           "requireCPV": false,
           "requirePinOnAppOpen": false,
-          "rewardPillText": Object {
+          "rewardPillText": {
             "de": "Belohnungen",
             "en": "Rewards",
             "es": "Recompensas",
             "pt": "Recompensas",
           },
-          "sentryNetworkErrors": Array [
+          "sentryNetworkErrors": [
             "network request failed",
             "The network connection was lost",
           ],
@@ -179,37 +179,37 @@ describe('store state', () => {
           "showSwapMenuInDrawerMenu": false,
           "skipVerification": false,
           "superchargeApy": 12,
-          "superchargeTokenConfigByToken": Object {},
+          "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,
         },
-        "dapps": Object {
+        "dapps": {
           "activeDapp": null,
           "dappConnectInfo": "default",
           "dappFavoritesEnabled": false,
           "dappListApiUrl": null,
-          "dappsCategories": Array [],
-          "dappsList": Array [],
+          "dappsCategories": [],
+          "dappsList": [],
           "dappsListError": null,
           "dappsListLoading": false,
           "dappsMinimalDisclaimerEnabled": false,
           "dappsWebViewEnabled": false,
-          "favoriteDappIds": Array [],
+          "favoriteDappIds": [],
           "maxNumRecentDapps": 0,
-          "mostPopularDappIds": Array [],
-          "recentDappIds": Array [],
+          "mostPopularDappIds": [],
+          "recentDappIds": [],
         },
-        "escrow": Object {
+        "escrow": {
           "isReclaiming": false,
-          "sentEscrowedPayments": Array [],
+          "sentEscrowedPayments": [],
         },
-        "exchange": Object {
+        "exchange": {
           "exchangeRates": null,
-          "history": Object {
-            "aggregatedExchangeRates": Array [],
-            "celoGoldExchangeRates": Array [],
+          "history": {
+            "aggregatedExchangeRates": [],
+            "celoGoldExchangeRates": [],
             "granularity": 60,
             "lastTimeUpdated": 0,
             "range": 2592000000,
@@ -217,68 +217,68 @@ describe('store state', () => {
           "isLoading": false,
           "tobinTax": "0",
         },
-        "fees": Object {
-          "estimates": Object {},
+        "fees": {
+          "estimates": {},
         },
-        "fiatConnect": Object {
+        "fiatConnect": {
           "attemptReturnUserFlowLoading": false,
-          "cachedFiatAccountUses": Array [],
-          "cachedQuoteParams": Object {},
-          "cachedTransfers": Object {},
+          "cachedFiatAccountUses": [],
+          "cachedQuoteParams": {},
+          "cachedTransfers": {},
           "kycTryAgainLoading": false,
           "personaInProgress": false,
           "providers": null,
-          "quotes": Array [],
+          "quotes": [],
           "quotesError": null,
           "quotesLoading": false,
-          "schemaCountryOverrides": Object {},
+          "schemaCountryOverrides": {},
           "selectFiatConnectQuoteLoading": false,
           "sendingFiatAccountStatus": "NotSending",
           "transfer": null,
         },
-        "fiatExchanges": Object {
-          "providerLogos": Object {},
-          "txHashToProvider": Object {},
+        "fiatExchanges": {
+          "providerLogos": {},
+          "txHashToProvider": {},
         },
-        "home": Object {
+        "home": {
           "loading": false,
-          "notifications": Object {},
+          "notifications": {},
         },
-        "i18n": Object {
+        "i18n": {
           "allowOtaTranslations": false,
           "language": "es-419",
           "otaTranslationsAppVersion": "0",
           "otaTranslationsLanguage": "",
           "otaTranslationsLastUpdate": 0,
         },
-        "identity": Object {
-          "addressToDataEncryptionKey": Object {},
-          "addressToDisplayName": Object {},
-          "addressToE164Number": Object {},
+        "identity": {
+          "addressToDataEncryptionKey": {},
+          "addressToDisplayName": {},
+          "addressToE164Number": {},
           "askedContactsPermission": false,
-          "e164NumberToAddress": Object {},
-          "e164NumberToSalt": Object {},
+          "e164NumberToAddress": {},
+          "e164NumberToSalt": {},
           "hasSeenVerificationNux": false,
-          "importContactsProgress": Object {
+          "importContactsProgress": {
             "current": 0,
             "status": 0,
             "total": 0,
           },
-          "secureSendPhoneNumberMapping": Object {},
-          "walletToAccountAddress": Object {},
+          "secureSendPhoneNumberMapping": {},
+          "walletToAccountAddress": {},
         },
-        "imports": Object {
+        "imports": {
           "isImportingWallet": false,
         },
-        "keylessBackup": Object {
+        "keylessBackup": {
           "backupStatus": "NotStarted",
           "googleIdToken": null,
           "torusKeyshare": null,
           "valoraKeyshare": null,
         },
-        "localCurrency": Object {
+        "localCurrency": {
           "error": false,
-          "exchangeRates": Object {
+          "exchangeRates": {
             "cEUR": null,
             "cGLD": null,
             "cUSD": "1.33",
@@ -287,85 +287,85 @@ describe('store state', () => {
           "isLoading": false,
           "preferredCurrencyCode": "PHP",
         },
-        "networkInfo": Object {
+        "networkInfo": {
           "connected": false,
           "rehydrated": true,
-          "userLocationData": Object {
+          "userLocationData": {
             "countryCodeAlpha2": null,
             "ipAddress": null,
             "region": null,
           },
         },
-        "nfts": Object {
-          "nfts": Array [],
+        "nfts": {
+          "nfts": [],
           "nftsError": null,
           "nftsLoading": false,
         },
-        "paymentRequest": Object {
-          "incomingPaymentRequests": Array [],
-          "outgoingPaymentRequests": Array [],
+        "paymentRequest": {
+          "incomingPaymentRequests": [],
+          "outgoingPaymentRequests": [],
         },
-        "positions": Object {
-          "positions": Array [],
+        "positions": {
+          "positions": [],
           "previewApiUrl": null,
-          "shortcuts": Array [],
+          "shortcuts": [],
           "shortcutsStatus": "idle",
           "status": "idle",
-          "triggeredShortcutsStatus": Object {},
+          "triggeredShortcutsStatus": {},
         },
-        "recipients": Object {
-          "coinbasePaySenders": Array [],
-          "inviteRewardsSenders": Array [],
-          "phoneRecipientCache": Object {},
-          "rewardsSenders": Array [],
-          "valoraRecipientCache": Object {},
+        "recipients": {
+          "coinbasePaySenders": [],
+          "inviteRewardsSenders": [],
+          "phoneRecipientCache": {},
+          "rewardsSenders": [],
+          "valoraRecipientCache": {},
         },
-        "send": Object {
+        "send": {
           "inviteRewardCusd": 5,
           "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,
           "lastUsedCurrency": "cUSD",
-          "recentPayments": Array [],
-          "recentRecipients": Array [],
+          "recentPayments": [],
+          "recentRecipients": [],
           "showSendToAddressWarning": true,
         },
-        "supercharge": Object {
-          "availableRewards": Array [],
+        "supercharge": {
+          "availableRewards": [],
           "error": false,
           "fetchAvailableRewardsError": false,
           "fetchAvailableRewardsLoading": false,
           "loading": false,
           "superchargeRewardContractAddress": "",
-          "superchargeV1Addresses": Array [],
+          "superchargeV1Addresses": [],
           "superchargeV2Enabled": false,
         },
-        "swap": Object {
+        "swap": {
           "guaranteedSwapPriceEnabled": false,
           "priceImpactWarningThreshold": 0.04,
           "swapInfo": null,
           "swapState": "quote",
           "swapUserInput": null,
         },
-        "tokens": Object {
+        "tokens": {
           "error": false,
           "loading": false,
-          "tokenBalances": Object {},
+          "tokenBalances": {},
         },
-        "transactions": Object {
-          "inviteTransactions": Object {},
-          "knownFeedTransactions": Object {},
-          "recentTxRecipientsCache": Object {},
-          "standbyTransactions": Array [],
-          "standbyTransactionsLegacy": Array [],
-          "transactions": Array [],
+        "transactions": {
+          "inviteTransactions": {},
+          "knownFeedTransactions": {},
+          "recentTxRecipientsCache": {},
+          "standbyTransactions": [],
+          "standbyTransactionsLegacy": [],
+          "transactions": [],
         },
-        "walletConnect": Object {
-          "pendingActions": Array [],
-          "pendingSessions": Array [],
-          "sessions": Array [],
+        "walletConnect": {
+          "pendingActions": [],
+          "pendingSessions": [],
+          "sessions": [],
         },
-        "web3": Object {
+        "web3": {
           "account": "0x0000000000000000000000000000000000007E57",
           "accountInWeb3Keystore": "0x0000000000000000000000000000000000007E57",
           "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
@@ -380,7 +380,7 @@ describe('store state', () => {
 
 describe(setupStore, () => {
   it('reports uncaught errors happening in sagas', async () => {
-    mocked(rootSaga).mockImplementationOnce(function* () {
+    jest.mocked(rootSaga).mockImplementationOnce(function* () {
       yield spawn(function* mySaga() {
         yield takeEvery('SOME_ACTION', function* someActionHandler() {
           // do something
@@ -394,7 +394,7 @@ describe(setupStore, () => {
     expect(rootSaga).toHaveBeenCalledTimes(1)
     expect(loggerErrorSpy).toHaveBeenCalledTimes(1)
     expect(loggerErrorSpy.mock.calls[0]).toMatchInlineSnapshot(`
-      Array [
+      [
         "redux/store",
         "Uncaught error in saga with stack: The above error occurred in task mySaga
       Tasks cancelled due to error:

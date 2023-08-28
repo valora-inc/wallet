@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -16,7 +16,6 @@ import SendConfirmation from 'src/send/SendConfirmation'
 import { getGasPrice } from 'src/web3/gas'
 import {
   createMockStore,
-  flushMicrotasksQueue,
   getElementText,
   getMockStackScreenProps,
   RecursivePartial,
@@ -155,8 +154,9 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByText('feeEstimate'))
 
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runAllTimers()
+    })
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
     expect(getElementText(feeComponent)).toEqual('₱0.0266')
@@ -193,8 +193,9 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByText('feeEstimate'))
 
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runAllTimers()
+    })
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
     expect(getElementText(feeComponent)).toEqual('₱0.0266')
@@ -441,16 +442,16 @@ describe('SendConfirmation', () => {
     const { store } = renderScreen({ fees: { estimates: emptyFees } })
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "payload": Object {
+      [
+        {
+          "payload": {
             "feeType": "send",
             "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
           "type": "FEES/ESTIMATE_FEE",
         },
-        Object {
-          "payload": Object {
+        {
+          "payload": {
             "feeType": "register-dek",
             "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },

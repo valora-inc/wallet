@@ -7,7 +7,7 @@ import { call } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createReclaimTransaction } from 'src/escrow/saga'
-import { feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
+import { estimateFee, feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { calculateFee, estimateFeeSaga, SWAP_FEE_ESTIMATE_MULTIPLIER } from 'src/fees/saga'
 import { buildSendTx } from 'src/send/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -66,9 +66,10 @@ describe(estimateFeeSaga, () => {
   }
 
   it('estimates the send fee', async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
+    )
       .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
@@ -89,9 +90,10 @@ describe(estimateFeeSaga, () => {
   })
 
   it('estimates the swap fee', async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SWAP, tokenAddress: mockCusdAddress },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.SWAP, tokenAddress: mockCusdAddress })
+    )
       .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
@@ -116,13 +118,14 @@ describe(estimateFeeSaga, () => {
   })
 
   it('estimates the escrow reclaim fee', async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: {
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({
         feeType: FeeType.RECLAIM_ESCROW,
         tokenAddress: mockCusdAddress,
         paymentID: 'paymentID',
-      },
-    })
+      })
+    )
       .withState(store.getState())
       .provide([
         [call(createReclaimTransaction, 'paymentID'), mockTxo],
@@ -145,9 +148,13 @@ describe(estimateFeeSaga, () => {
   it('estimates the dek register fee', async () => {
     const kit = await getContractKitAsync()
     const mockAccountsWrapper = { setAccount: jest.fn(() => ({ txo: mockTxo })) }
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.REGISTER_DEK, tokenAddress: mockCusdAddress },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({
+        feeType: FeeType.REGISTER_DEK,
+        tokenAddress: mockCusdAddress,
+      })
+    )
       .withState(store.getState())
       .provide([
         [call(getContractKit), kit],
@@ -169,9 +176,10 @@ describe(estimateFeeSaga, () => {
   })
 
   it('marks as error if no paymentID is sent for escrow reclaim fee', async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.RECLAIM_ESCROW, tokenAddress: mockCusdAddress },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.RECLAIM_ESCROW, tokenAddress: mockCusdAddress })
+    )
       .withState(store.getState())
       .provide([
         [call(createReclaimTransaction, 'paymentID'), mockTxo],
@@ -197,9 +205,10 @@ describe(estimateFeeSaga, () => {
   })
 
   it('marks as error if an error is thrown', async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
+    )
       .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
@@ -225,9 +234,10 @@ describe(estimateFeeSaga, () => {
   })
 
   it("marks as error if token info isn't found", async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SEND, tokenAddress: 'randomAddress' },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.SEND, tokenAddress: 'randomAddress' })
+    )
       .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
@@ -253,9 +263,10 @@ describe(estimateFeeSaga, () => {
   })
 
   it('marks as error and shows banner if fee estimation fails', async () => {
-    await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
-    })
+    await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
+    )
       .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
@@ -280,9 +291,10 @@ describe(estimateFeeSaga, () => {
   })
 
   it('marks as error without fee banner if token balance is zero', async () => {
-    const { effects } = await expectSaga(estimateFeeSaga, {
-      payload: { feeType: FeeType.SEND, tokenAddress: mockCeurAddress },
-    })
+    const { effects } = await expectSaga(
+      estimateFeeSaga,
+      estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCeurAddress })
+    )
       .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],

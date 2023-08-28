@@ -19,7 +19,6 @@ import {
   mockProviders,
   mockProviderSelectionAnalyticsData,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -52,7 +51,7 @@ describe('PaymentMethodSection', () => {
       cryptoType: CiCoCurrency.cUSD,
       analyticsData: mockProviderSelectionAnalyticsData,
     }
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
   it('shows nothing if there are no available providers', async () => {
     props.normalizedQuotes = []
@@ -90,7 +89,7 @@ describe('PaymentMethodSection', () => {
   })
 
   it('shows a non-expandable view with receive amount if there is one provider available and feature gate is true', async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     props.normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       [],
@@ -163,7 +162,7 @@ describe('PaymentMethodSection', () => {
   })
 
   it('shows an expanded view with receive amount if there is more than one provider available and feature gate is false', async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByText, queryByTestId, getByText, debug } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />

@@ -8,8 +8,8 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
   inAppReviewRequested,
@@ -56,8 +56,8 @@ import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
-import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
@@ -70,7 +70,6 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -83,9 +82,6 @@ jest.mock('react-native-in-app-review', () => ({
   RequestInAppReview: () => mockRequestInAppReview(),
   isAvailable: () => mockIsInAppReviewAvailable(),
 }))
-
-const now = 1482363367071
-Date.now = jest.fn(() => now)
 
 const mockRequestInAppReview = jest.fn()
 const mockIsInAppReviewAvailable = jest.fn()
@@ -101,7 +97,7 @@ jest.mock('src/i18n', () => ({
 
 jest.mock('src/utils/Logger')
 
-const mockedDEK = mocked(DEK)
+const mockedDEK = jest.mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 describe('handleDeepLink', () => {
@@ -602,7 +598,7 @@ describe('appInit', () => {
     // Ensure the right context is used
     // Note: switch to mock.contexts[0] when we upgrade to jest >= 28
     // See https://jestjs.io/docs/mock-function-api/#mockfnmockcontexts
-    expect(mocked(ValoraAnalytics.init).mock.instances[0]).toBe(ValoraAnalytics)
+    expect(jest.mocked(ValoraAnalytics.init).mock.instances[0]).toBe(ValoraAnalytics)
     expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
   })
 
@@ -636,6 +632,14 @@ describe('appInit', () => {
 })
 
 describe(requestInAppReview, () => {
+  const now = 1482363367071
+
+  beforeAll(() => {
+    jest.useFakeTimers({
+      now,
+    })
+  })
+
   const oneDayAgo = now - ONE_DAY_IN_MILLIS
   const fourMonthsAndADayAgo = now - ONE_DAY_IN_MILLIS * 121
 
@@ -650,7 +654,7 @@ describe(requestInAppReview, () => {
   `(
     `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
     async ({ lastInteractionTimestamp }) => {
-      mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockIsInAppReviewAvailable.mockReturnValue(true)
       mockRequestInAppReview.mockResolvedValue(true)
 
@@ -679,7 +683,7 @@ describe(requestInAppReview, () => {
   `(
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
-      mocked(getFeatureGate).mockReturnValue(featureGate)
+      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
       mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
       mockRequestInAppReview.mockResolvedValue(true)
 
@@ -699,7 +703,7 @@ describe(requestInAppReview, () => {
   )
 
   it('Should handle error from react-native-in-app-review', async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     mockIsInAppReviewAvailable.mockReturnValue(true)
     mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
 

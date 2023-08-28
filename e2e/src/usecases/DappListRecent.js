@@ -7,12 +7,12 @@ import {
 } from '../utils/utils'
 import { navigateToDappList, navigateToHome } from '../utils/dappList'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default DappListRecent = () => {
   const dappToTest = 'impactMarket'
 
-  it('should show most recently used dapp leftmost on home screen :ios:', async () => {
+  it(':ios: should show most recently used dapp leftmost on home screen', async () => {
     // Get recently used dapps at start of test
     const startRecentlyUsedDapps = await getElementTextList('RecentlyUsedDapps/Name')
     const startRecentDappCount = startRecentlyUsedDapps.length
@@ -47,7 +47,7 @@ export default DappListRecent = () => {
     jestExpect(endRecentlyUsedDapps.length).toEqual(startRecentDappCount + 1)
   })
 
-  it('should show most recently used dapp leftmost on home screen :android:', async () => {
+  it(':android: should show most recently used dapp leftmost on home screen', async () => {
     // Get most recently used dapp at start of test
     const mostRecentlyUsedDappName = await getElementText('RecentlyUsedDapps/Name')
 

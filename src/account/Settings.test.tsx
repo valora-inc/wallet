@@ -24,13 +24,12 @@ import { getFeatureGate } from 'src/statsig/index'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 const mockFetch = fetch as FetchMock
-const mockedKeychain = mocked(Keychain)
+const mockedKeychain = jest.mocked(Keychain)
 mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
   password: 'someSignedMessage',
@@ -44,7 +43,7 @@ jest.mock('src/statsig')
 
 describe('Account', () => {
   beforeEach(() => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -181,8 +180,10 @@ describe('Account', () => {
       </Provider>
     )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
-    fireEvent.press(tree.getByTestId('ChangePIN'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(tree.getByTestId('ChangePIN'))
+    })
+
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
       changePin: true,
     })
@@ -195,8 +196,9 @@ describe('Account', () => {
       </Provider>
     )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(false))
-    fireEvent.press(tree.getByTestId('ChangePIN'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(tree.getByTestId('ChangePIN'))
+    })
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -215,8 +217,9 @@ describe('Account', () => {
       </Provider>
     )
 
-    fireEvent(getByTestId('useBiometryToggle'), 'valueChange', true)
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent(getByTestId('useBiometryToggle'), 'valueChange', true)
+    })
 
     expect(getByText('useBiometryType, {"biometryType":"biometryType.FaceID"}')).toBeTruthy()
     expect(setPincodeWithBiometry).toHaveBeenCalledTimes(1)
@@ -230,8 +233,9 @@ describe('Account', () => {
       SettingsEvents.settings_biometry_opt_in_complete
     )
 
-    fireEvent(getByTestId('useBiometryToggle'), 'valueChange', false)
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent(getByTestId('useBiometryToggle'), 'valueChange', false)
+    })
 
     expect(removeStoredPin).toHaveBeenCalledTimes(1)
     expect(store.getActions()).toEqual(
@@ -251,8 +255,9 @@ describe('Account', () => {
       </Provider>
     )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
-    fireEvent.press(tree.getByTestId('RecoveryPhrase'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(tree.getByTestId('RecoveryPhrase'))
+    })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_recovery_phrase)
     expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
@@ -267,8 +272,9 @@ describe('Account', () => {
       </Provider>
     )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(false))
-    fireEvent.press(tree.getByTestId('RecoveryPhrase'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(tree.getByTestId('RecoveryPhrase'))
+    })
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -283,7 +289,7 @@ describe('Account', () => {
   })
 
   it('shows keyless backup setup when flag is enabled and not already backed up', async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     const store = createMockStore({ account: { cloudBackupCompleted: false } })
     const { getByTestId, getByText } = render(
@@ -293,8 +299,10 @@ describe('Account', () => {
     )
     expect(getByTestId('KeylessBackup')).toBeTruthy()
     expect(getByText('setup')).toBeTruthy()
-    fireEvent.press(getByTestId('KeylessBackup'))
-    await flushMicrotasksQueue()
+
+    await act(() => {
+      fireEvent.press(getByTestId('KeylessBackup'))
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
@@ -303,7 +311,7 @@ describe('Account', () => {
   })
 
   it('shows keyless backup delete when flag is enabled and already backed up', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore({ account: { cloudBackupCompleted: true } })
     const { getByTestId, getByText } = render(
       <Provider store={store}>

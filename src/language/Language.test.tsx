@@ -10,12 +10,11 @@ import Language from 'src/language/Language'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/i18n/useChangeLanguage')
 jest.mock('src/analytics/ValoraAnalytics')
 
-const mockedUseChangeLanguage = mocked(useChangeLanguage)
+const mockedUseChangeLanguage = jest.mocked(useChangeLanguage)
 
 describe('Language', () => {
   localesList.forEach(({ name, code }) => {

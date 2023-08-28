@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ValidateRecipientAccount renders correctly when full validation required 1`] = `
-Array [
+[
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "justifyContent": "space-between",
         "paddingHorizontal": 16,
@@ -17,7 +17,7 @@ Array [
       <View>
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Jost-Medium",
               "fontSize": 22,
@@ -33,7 +33,7 @@ Array [
           <View>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
@@ -46,7 +46,7 @@ Array [
             </Text>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
@@ -59,7 +59,7 @@ Array [
             </Text>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
@@ -72,14 +72,14 @@ Array [
             </Text>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "flex": 1,
                     "flexDirection": "row",
                     "justifyContent": "center",
                   },
-                  Object {
+                  {
                     "backgroundColor": "#FFF",
                     "borderColor": "#E6E6E6",
                     "borderRadius": 3,
@@ -98,8 +98,8 @@ Array [
                 placeholder="0xf1b1d5a6e7728g309c4a025k122d71ad75a61976"
                 shouldShowClipboard={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#2E3338",
                       "flex": 1,
                       "fontFamily": "Inter-Regular",
@@ -120,18 +120,18 @@ Array [
         </View>
         <View
           style={
-            Object {
+            {
               "height": 64,
             }
           }
         />
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "flexDirection": "row",
               },
-              Object {
+              {
                 "paddingVertical": 16,
               },
             ]
@@ -139,11 +139,11 @@ Array [
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "overflow": "hidden",
                 },
-                Object {
+                {
                   "borderRadius": 100,
                 },
               ]
@@ -151,14 +151,26 @@ Array [
           >
             <View
               accessibilityState={
-                Object {
+                {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": true,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -172,8 +184,8 @@ Array [
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "backgroundColor": "#97DFC1",
                     "flexDirection": "row",
@@ -192,7 +204,7 @@ Array [
               <Text
                 maxFontSizeMultiplier={1}
                 style={
-                  Object {
+                  {
                     "color": "#FFFFFF",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
@@ -210,7 +222,7 @@ Array [
       </View>
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "flexDirection": "row",
           }
@@ -238,7 +250,7 @@ Array [
         <Text
           onPress={[Function]}
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -256,13 +268,13 @@ Array [
   <View
     collapsable={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "bottom": 0,
           "left": 0,
           "right": 0,
         },
-        Object {
+        {
           "height": 0,
         },
         undefined,
@@ -287,7 +299,7 @@ Array [
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -300,10 +312,10 @@ Array [
 `;
 
 exports[`ValidateRecipientAccount renders correctly when partial validation required 1`] = `
-Array [
+[
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
         "justifyContent": "space-between",
         "paddingHorizontal": 16,
@@ -316,7 +328,7 @@ Array [
       <View>
         <Text
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Jost-Medium",
               "fontSize": 22,
@@ -332,7 +344,7 @@ Array [
           <View>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
@@ -345,7 +357,7 @@ Array [
             </Text>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
@@ -358,28 +370,28 @@ Array [
             </Text>
             <View
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Object {
+                  {
                     "paddingRight": 8,
                   }
                 }
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flex": 1,
                         "flexDirection": "row",
                         "justifyContent": "center",
                       },
-                      Object {
+                      {
                         "backgroundColor": "#FFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
@@ -400,8 +412,8 @@ Array [
                     onFocus={[Function]}
                     placeholder="a"
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#2E3338",
                           "flex": 1,
                           "fontFamily": "Inter-Regular",
@@ -410,7 +422,7 @@ Array [
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        Object {
+                        {
                           "textAlignVertical": "top",
                         },
                         undefined,
@@ -424,21 +436,21 @@ Array [
               </View>
               <View
                 style={
-                  Object {
+                  {
                     "paddingRight": 8,
                   }
                 }
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flex": 1,
                         "flexDirection": "row",
                         "justifyContent": "center",
                       },
-                      Object {
+                      {
                         "backgroundColor": "#FFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
@@ -459,8 +471,8 @@ Array [
                     onFocus={[Function]}
                     placeholder="0"
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#2E3338",
                           "flex": 1,
                           "fontFamily": "Inter-Regular",
@@ -469,7 +481,7 @@ Array [
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        Object {
+                        {
                           "textAlignVertical": "top",
                         },
                         undefined,
@@ -483,21 +495,21 @@ Array [
               </View>
               <View
                 style={
-                  Object {
+                  {
                     "paddingRight": 8,
                   }
                 }
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flex": 1,
                         "flexDirection": "row",
                         "justifyContent": "center",
                       },
-                      Object {
+                      {
                         "backgroundColor": "#FFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
@@ -518,8 +530,8 @@ Array [
                     onFocus={[Function]}
                     placeholder="F"
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#2E3338",
                           "flex": 1,
                           "fontFamily": "Inter-Regular",
@@ -528,7 +540,7 @@ Array [
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        Object {
+                        {
                           "textAlignVertical": "top",
                         },
                         undefined,
@@ -542,21 +554,21 @@ Array [
               </View>
               <View
                 style={
-                  Object {
+                  {
                     "paddingRight": 8,
                   }
                 }
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "flex": 1,
                         "flexDirection": "row",
                         "justifyContent": "center",
                       },
-                      Object {
+                      {
                         "backgroundColor": "#FFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
@@ -577,8 +589,8 @@ Array [
                     onFocus={[Function]}
                     placeholder="4"
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#2E3338",
                           "flex": 1,
                           "fontFamily": "Inter-Regular",
@@ -587,7 +599,7 @@ Array [
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        Object {
+                        {
                           "textAlignVertical": "top",
                         },
                         undefined,
@@ -604,18 +616,18 @@ Array [
         </View>
         <View
           style={
-            Object {
+            {
               "height": 64,
             }
           }
         />
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "flexDirection": "row",
               },
-              Object {
+              {
                 "paddingVertical": 16,
               },
             ]
@@ -623,11 +635,11 @@ Array [
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "overflow": "hidden",
                 },
-                Object {
+                {
                   "borderRadius": 100,
                 },
               ]
@@ -635,14 +647,26 @@ Array [
           >
             <View
               accessibilityState={
-                Object {
+                {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": true,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
-                Object {
+                {
                   "attribute": "selectableItemBackground",
                   "rippleRadius": undefined,
                   "type": "ThemeAttrAndroid",
@@ -656,8 +680,8 @@ Array [
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "backgroundColor": "#97DFC1",
                     "flexDirection": "row",
@@ -676,7 +700,7 @@ Array [
               <Text
                 maxFontSizeMultiplier={1}
                 style={
-                  Object {
+                  {
                     "color": "#FFFFFF",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
@@ -694,7 +718,7 @@ Array [
       </View>
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "flexDirection": "row",
           }
@@ -722,7 +746,7 @@ Array [
         <Text
           onPress={[Function]}
           style={
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -740,13 +764,13 @@ Array [
   <View
     collapsable={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "bottom": 0,
           "left": 0,
           "right": 0,
         },
-        Object {
+        {
           "height": 0,
         },
         undefined,
@@ -771,7 +795,7 @@ Array [
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]

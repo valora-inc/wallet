@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly with address and name but no number 1`] = `
+exports[`Avatar renders correctly with address and name but no number 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flexDirection": "column",
       "justifyContent": "center",
@@ -13,8 +13,8 @@ exports[`renders correctly with address and name but no number 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "center",
@@ -25,12 +25,12 @@ exports[`renders correctly with address and name but no number 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
           },
-          Object {
+          {
             "backgroundColor": "hsl(0, 53%, 93%)",
             "borderRadius": 20,
             "height": 40,
@@ -42,13 +42,13 @@ exports[`renders correctly with address and name but no number 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#FFFFFF",
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
             },
-            Object {
+            {
               "color": "hsl(0, 67%, 24%)",
               "fontSize": 20,
             },
@@ -63,14 +63,14 @@ exports[`renders correctly with address and name but no number 1`] = `
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 18,
         },
-        Object {
+        {
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -84,14 +84,14 @@ exports[`renders correctly with address and name but no number 1`] = `
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 14,
           "lineHeight": 18,
         },
-        Object {
+        {
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -104,10 +104,10 @@ exports[`renders correctly with address and name but no number 1`] = `
 </View>
 `;
 
-exports[`renders correctly with address but no name nor number 1`] = `
+exports[`Avatar renders correctly with address but no name nor number 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flexDirection": "column",
       "justifyContent": "center",
@@ -117,8 +117,8 @@ exports[`renders correctly with address but no name nor number 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "center",
@@ -129,12 +129,12 @@ exports[`renders correctly with address but no name nor number 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
           },
-          Object {
+          {
             "backgroundColor": "hsl(0, 53%, 93%)",
             "borderRadius": 20,
             "height": 40,
@@ -146,7 +146,7 @@ exports[`renders correctly with address but no name nor number 1`] = `
       <svg
         fill="hsl(0, 53%, 93%)"
         height="40"
-        style={Object {}}
+        style={{}}
         viewBox="0 0 40 40"
         width="40"
       />
@@ -156,14 +156,14 @@ exports[`renders correctly with address but no name nor number 1`] = `
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 18,
         },
-        Object {
+        {
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -176,10 +176,10 @@ exports[`renders correctly with address but no name nor number 1`] = `
 </View>
 `;
 
-exports[`renders correctly with just number 1`] = `
+exports[`Avatar renders correctly with just number 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flexDirection": "column",
       "justifyContent": "center",
@@ -189,8 +189,8 @@ exports[`renders correctly with just number 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "center",
@@ -201,12 +201,12 @@ exports[`renders correctly with just number 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
           },
-          Object {
+          {
             "backgroundColor": "hsl(0, 53%, 93%)",
             "borderRadius": 20,
             "height": 40,
@@ -218,7 +218,7 @@ exports[`renders correctly with just number 1`] = `
       <svg
         fill="hsl(0, 53%, 93%)"
         height="40"
-        style={Object {}}
+        style={{}}
         viewBox="0 0 40 40"
         width="40"
       />
@@ -228,14 +228,14 @@ exports[`renders correctly with just number 1`] = `
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 18,
         },
-        Object {
+        {
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -247,21 +247,21 @@ exports[`renders correctly with just number 1`] = `
   </Text>
   <View
     style={
-      Object {
+      {
         "flexDirection": "row",
       }
     }
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
           },
-          Object {
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginRight": 4,
@@ -273,7 +273,7 @@ exports[`renders correctly with just number 1`] = `
     </Text>
     <Text
       style={
-        Object {
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
@@ -287,10 +287,10 @@ exports[`renders correctly with just number 1`] = `
 </View>
 `;
 
-exports[`renders correctly with number and name 1`] = `
+exports[`Avatar renders correctly with number and name 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flexDirection": "column",
       "justifyContent": "center",
@@ -300,8 +300,8 @@ exports[`renders correctly with number and name 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "center",
@@ -312,12 +312,12 @@ exports[`renders correctly with number and name 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "justifyContent": "center",
           },
-          Object {
+          {
             "backgroundColor": "hsl(0, 53%, 93%)",
             "borderRadius": 20,
             "height": 40,
@@ -329,13 +329,13 @@ exports[`renders correctly with number and name 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#FFFFFF",
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
             },
-            Object {
+            {
               "color": "hsl(0, 67%, 24%)",
               "fontSize": 20,
             },
@@ -350,14 +350,14 @@ exports[`renders correctly with number and name 1`] = `
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 18,
         },
-        Object {
+        {
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -369,21 +369,21 @@ exports[`renders correctly with number and name 1`] = `
   </Text>
   <View
     style={
-      Object {
+      {
         "flexDirection": "row",
       }
     }
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
           },
-          Object {
+          {
             "alignItems": "center",
             "justifyContent": "center",
             "marginRight": 4,
@@ -395,7 +395,7 @@ exports[`renders correctly with number and name 1`] = `
     </Text>
     <Text
       style={
-        Object {
+        {
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
