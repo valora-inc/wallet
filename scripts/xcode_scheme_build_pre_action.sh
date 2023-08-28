@@ -16,7 +16,9 @@ eval "$(grep -v -e '^#' /tmp/.env-xcode | xargs -I {} echo export \'{}\')"
 
 # Now augment it with network specific "secrets" (not real secrets, just API keys)
 # See https://newbedev.com/how-to-convert-a-json-object-to-key-value-format-in-jq
-jq -r ".${DEFAULT_TESTNET}|to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" "${SRCROOT}/../secrets.json" >> /tmp/.env-xcode
+# Check if jq exists in the path or use the absolute path
+JQ_CMD=$(command -v jq || echo "/opt/homebrew/bin/jq")
+$JQ_CMD -r ".${DEFAULT_TESTNET}|to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" "${SRCROOT}/../secrets.json" >> /tmp/.env-xcode
 
 # This makes the scheme use the specified envfile
 # See https://github.com/luggit/react-native-config#ios-1

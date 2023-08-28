@@ -32,7 +32,6 @@ describe('KycLanding', () => {
   store.dispatch = jest.fn()
 
   beforeEach(() => {
-    jest.useFakeTimers()
     jest.clearAllMocks()
   })
   describe('step one', () => {

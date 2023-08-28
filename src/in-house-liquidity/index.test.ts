@@ -15,7 +15,6 @@ import {
   verifyWalletAddress,
 } from 'src/in-house-liquidity/index'
 import networkConfig from 'src/web3/networkConfig'
-import { mocked } from 'ts-jest/utils'
 
 const mockFetch = fetch as FetchMock
 
@@ -77,7 +76,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('makeRequest', () => {
     it('makes a FC authenticated call if provider info is passed', async () => {
-      mocked(getAuthHeaders).mockResolvedValueOnce({ 'header-key': 'header-val' })
+      jest.mocked(getAuthHeaders).mockResolvedValueOnce({ 'header-key': 'header-val' })
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       await makeRequest({
         providerInfo: mockProviderInfo,
@@ -149,7 +148,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('getKycStatus', () => {
     it('throws if response not OK', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
       await expect(
         getKycStatus({
           providerInfo: mockProviderInfo,
@@ -170,9 +169,9 @@ describe('In House Liquidity Calls', () => {
         },
         persona: PersonaKycStatus.Approved,
       }
-      mocked(makeRequest).mockResolvedValueOnce(
-        new Response(JSON.stringify(mockGetKycStatusResponse))
-      )
+      jest
+        .mocked(makeRequest)
+        .mockResolvedValueOnce(new Response(JSON.stringify(mockGetKycStatusResponse)))
       const getKycStatusResponse = await getKycStatus({
         providerInfo: mockProviderInfo,
         kycSchemas: [KycSchema.PersonalDataAndDocuments],
@@ -188,7 +187,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('postKyc', () => {
     it('throws if response not OK', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
       await expect(
         postKyc({
           providerInfo: mockProviderInfo,
@@ -202,7 +201,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is OK', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response())
       const postKycResponse = await postKyc({
         providerInfo: mockProviderInfo,
         kycSchema: KycSchema.PersonalDataAndDocuments,
@@ -218,7 +217,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('deleteKyc', () => {
     it('throws if response not OK', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 400 }))
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 400 }))
       await expect(
         deleteKyc({
           providerInfo: mockProviderInfo,
@@ -232,7 +231,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is OK', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response())
       const deleteKycResponse = await deleteKyc({
         providerInfo: mockProviderInfo,
         kycSchema: KycSchema.PersonalDataAndDocuments,
@@ -245,7 +244,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is 404', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 404 }))
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 404 }))
       const deleteKycResponse = await deleteKyc({
         providerInfo: mockProviderInfo,
         kycSchema: KycSchema.PersonalDataAndDocuments,
@@ -261,7 +260,7 @@ describe('In House Liquidity Calls', () => {
 
   describe('createPersonaAccount', () => {
     it('throws if response is not OK or 409', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 418 }))
       await expect(
         createPersonaAccount({
           walletAddress: 'some-address',
@@ -278,7 +277,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is OK', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response())
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response())
       const createPersonaAccountResponse = await createPersonaAccount({
         walletAddress: 'some-address',
       })
@@ -292,7 +291,7 @@ describe('In House Liquidity Calls', () => {
       })
     })
     it('silently succeeds if response is 409', async () => {
-      mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 409 }))
+      jest.mocked(makeRequest).mockResolvedValueOnce(new Response('', { status: 409 }))
       const createPersonaAccountResponse = await createPersonaAccount({
         walletAddress: 'some-address',
       })

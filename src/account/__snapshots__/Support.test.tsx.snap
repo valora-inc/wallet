@@ -3,7 +3,7 @@
 exports[`Support renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
+    [
       "bottom",
       "left",
       "right",
@@ -11,14 +11,14 @@ exports[`Support renders correctly 1`] = `
     ]
   }
   style={
-    Object {
+    {
       "flex": 1,
     }
   }
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "backgroundColor": "transparent",
         "borderBottomColor": 0,
@@ -31,10 +31,27 @@ exports[`Support renders correctly 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       hitSlop={
-        Object {
+        {
           "bottom": 10,
           "left": 10,
           "right": 10,
@@ -49,15 +66,15 @@ exports[`Support renders correctly 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "left": 0,
             "marginBottom": 0,
             "marginLeft": 16,
             "padding": 0,
             "position": "absolute",
           },
-          Object {
+          {
             "opacity": 1,
           },
         ]
@@ -104,7 +121,7 @@ exports[`Support renders correctly 1`] = `
     <View>
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Book",
             "fontSize": 26,
@@ -118,23 +135,40 @@ exports[`Support renders correctly 1`] = `
       </Text>
       <View
         style={
-          Object {
+          {
             "flex": 1,
           }
         }
       >
         <View
           style={
-            Object {
+            {
               "backgroundColor": "#FFFFFF",
             }
           }
         >
           <View
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackgroundBorderless",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -151,7 +185,7 @@ exports[`Support renders correctly 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
@@ -161,7 +195,7 @@ exports[`Support renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "space-between",
@@ -171,8 +205,8 @@ exports[`Support renders correctly 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "flex": 1,
                         "justifyContent": "center",
                       },
@@ -181,7 +215,7 @@ exports[`Support renders correctly 1`] = `
                 >
                   <Text
                     style={
-                      Object {
+                      {
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
@@ -194,7 +228,7 @@ exports[`Support renders correctly 1`] = `
                 </View>
                 <View
                   style={
-                    Object {
+                    {
                       "alignItems": "center",
                       "flexDirection": "row",
                     }
@@ -206,16 +240,33 @@ exports[`Support renders correctly 1`] = `
         </View>
         <View
           style={
-            Object {
+            {
               "backgroundColor": "#FFFFFF",
             }
           }
         >
           <View
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackgroundBorderless",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -232,7 +283,7 @@ exports[`Support renders correctly 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
@@ -242,7 +293,7 @@ exports[`Support renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "space-between",
@@ -252,8 +303,8 @@ exports[`Support renders correctly 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "flex": 1,
                         "justifyContent": "center",
                       },
@@ -262,7 +313,7 @@ exports[`Support renders correctly 1`] = `
                 >
                   <Text
                     style={
-                      Object {
+                      {
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
@@ -275,7 +326,7 @@ exports[`Support renders correctly 1`] = `
                 </View>
                 <View
                   style={
-                    Object {
+                    {
                       "alignItems": "center",
                       "flexDirection": "row",
                     }
@@ -287,16 +338,33 @@ exports[`Support renders correctly 1`] = `
         </View>
         <View
           style={
-            Object {
+            {
               "backgroundColor": "#FFFFFF",
             }
           }
         >
           <View
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackgroundBorderless",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -313,7 +381,7 @@ exports[`Support renders correctly 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
                   "marginLeft": 16,
@@ -323,7 +391,7 @@ exports[`Support renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "space-between",
@@ -333,8 +401,8 @@ exports[`Support renders correctly 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "flex": 1,
                         "justifyContent": "center",
                       },
@@ -343,7 +411,7 @@ exports[`Support renders correctly 1`] = `
                 >
                   <Text
                     style={
-                      Object {
+                      {
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
@@ -356,7 +424,7 @@ exports[`Support renders correctly 1`] = `
                 </View>
                 <View
                   style={
-                    Object {
+                    {
                       "alignItems": "center",
                       "flexDirection": "row",
                     }

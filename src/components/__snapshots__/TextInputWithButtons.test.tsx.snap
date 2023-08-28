@@ -3,8 +3,8 @@
 exports[`TextInputWithButtons renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignItems": "center",
         "flex": 1,
         "flexDirection": "row",
@@ -17,8 +17,8 @@ exports[`TextInputWithButtons renders correctly 1`] = `
   <TextInput
     onChangeText={[MockFunction]}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
@@ -33,6 +33,23 @@ exports[`TextInputWithButtons renders correctly 1`] = `
     value="TestValue"
   />
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     onClick={[Function]}
@@ -43,9 +60,9 @@ exports[`TextInputWithButtons renders correctly 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
+      [
         undefined,
-        Object {
+        {
           "opacity": 1,
         },
       ]

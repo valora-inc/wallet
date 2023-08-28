@@ -2,7 +2,7 @@ import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default offRamps = () => {
   beforeEach(async () => {

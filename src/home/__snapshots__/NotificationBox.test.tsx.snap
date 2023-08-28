@@ -3,7 +3,7 @@
 exports[`NotificationBox renders correctly for with all notifications 1`] = `
 <View
   style={
-    Object {
+    {
       "maxWidth": 750,
       "width": 750,
     }
@@ -19,7 +19,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
             "width": 718,
           }
@@ -28,23 +28,23 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#FFFFFF",
                 "padding": 16,
               },
-              Object {
+              {
                 "borderRadius": 8,
               },
               undefined,
-              Array [
-                Object {
+              [
+                {
                   "borderColor": "#E6E6E6",
                   "borderWidth": 1,
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {},
+                {},
               ],
             ]
           }
@@ -52,7 +52,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexDirection": "row",
               }
@@ -60,7 +60,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "justifyContent": "space-between",
                 }
@@ -68,7 +68,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 18,
@@ -81,7 +81,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "flex-start",
@@ -90,10 +90,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 testID="BackupKeyNotification/CallToActions"
               >
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -110,14 +127,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -134,7 +151,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 12,
@@ -145,7 +162,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               <svg
                 fill="none"
                 height={86}
-                style={Object {}}
+                style={{}}
                 width={92}
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -153,7 +170,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   d="M55.21 45.03H43.809m-7.602 6.923v-6.922h7.602m0 0v6.922"
                   stroke="#2E3338"
                   strokeWidth={2}
-                  style={Object {}}
+                  style={{}}
                 />
                 <ellipse
                   cx={59.846}
@@ -162,13 +179,13 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   ry={4.615}
                   stroke="#2E3338"
                   strokeWidth={2}
-                  style={Object {}}
+                  style={{}}
                 />
                 <path
                   d="M51.31 9.975C32.23 9.123 12.923 18.71.555 35.59.555 12.447 27.2-.95 49.688.053c22.486 1.004 42.651 17.855 41.948 33.46C79.3 19.364 70.389 10.827 51.31 9.974Z"
                   fill="#FFE768"
                   style={
-                    Object {
+                    {
                       "mixBlendMode": "multiply",
                     }
                   }
@@ -177,7 +194,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   d="M44.094 74.222c18.46 4.876 30.448-.389 46.14-14.26-9.533 17.387-29.03 29.826-50.787 24.08-21.756-5.747-30.592-27.23-22.944-44.767 2.318 14.306 9.13 30.071 27.59 34.947Z"
                   fill="#42D689"
                   style={
-                    Object {
+                    {
                       "mixBlendMode": "multiply",
                     }
                   }
@@ -186,7 +203,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   d="M20.831 34.857c-6.733 14.522-3.984 31.144 4.585 46.605C9.704 73.626 4.652 50.175 12.586 33.06c7.936-17.115 29.068-23.775 40.862-17.893l-.043.009c-11.618 2.327-25.85 5.177-32.574 19.681Z"
                   fill="#FF6F43"
                   style={
-                    Object {
+                    {
                       "mixBlendMode": "multiply",
                     }
                   }
@@ -195,7 +212,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   d="M78.36 44.298c.798-16.3-5.86-29.026-20.368-39.65 17.916.869 30.129 17.227 30.129 39.65s-21.78 36.46-35.228 35.807C66.617 72.58 77.563 60.6 78.36 44.298Z"
                   fill="#92D8FF"
                   style={
-                    Object {
+                    {
                       "mixBlendMode": "multiply",
                     }
                   }
@@ -207,7 +224,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
             "width": 718,
           }
@@ -216,30 +233,30 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#FFFFFF",
                 "padding": 16,
               },
-              Object {
+              {
                 "borderRadius": 8,
               },
               undefined,
-              Array [
-                Object {
+              [
+                {
                   "borderColor": "#E6E6E6",
                   "borderWidth": 1,
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {},
+                {},
               ],
             ]
           }
         >
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexDirection": "row",
               }
@@ -247,7 +264,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "width": 40,
                 }
               }
@@ -255,7 +272,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               <Image
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "testUri": "../../../src/images/notification-incoming-request.png",
                   }
                 }
@@ -263,7 +280,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "justifyContent": "space-between",
                   "marginLeft": 16,
@@ -272,7 +289,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Jost-Medium",
                     "fontSize": 18,
@@ -287,7 +304,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               <Text
                 numberOfLines={3}
                 style={
-                  Object {
+                  {
                     "color": "#505050",
                     "flex": 1,
                     "fontFamily": "Inter-Regular",
@@ -301,7 +318,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "flex-start",
@@ -310,10 +327,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 testID="undefined/CallToActions"
               >
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -330,14 +364,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -357,7 +391,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
             "width": 718,
           }
@@ -366,23 +400,23 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#FFFFFF",
                 "padding": 16,
               },
-              Object {
+              {
                 "borderRadius": 8,
               },
               undefined,
-              Array [
-                Object {
+              [
+                {
                   "borderColor": "#E6E6E6",
                   "borderWidth": 1,
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {},
+                {},
               ],
             ]
           }
@@ -390,7 +424,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexDirection": "row",
               }
@@ -398,7 +432,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "justifyContent": "space-between",
                 }
@@ -406,7 +440,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 18,
@@ -419,7 +453,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "flex-start",
@@ -428,10 +462,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 testID="startSupercharging/CallToActions"
               >
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -448,14 +499,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -469,10 +520,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   </Text>
                 </View>
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -489,14 +557,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "color": "#666666",
                           "fontSize": 14,
                           "lineHeight": 16,
@@ -514,7 +582,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 12,
@@ -525,12 +593,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               <Image
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "testUri": "../../../src/images/boost-rewards.png",
                   }
                 }
                 style={
-                  Object {
+                  {
                     "height": "100%",
                     "width": "100%",
                   }
@@ -543,7 +611,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
             "width": 718,
           }
@@ -552,23 +620,23 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#FFFFFF",
                 "padding": 16,
               },
-              Object {
+              {
                 "borderRadius": 8,
               },
               undefined,
-              Array [
-                Object {
+              [
+                {
                   "borderColor": "#E6E6E6",
                   "borderWidth": 1,
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {},
+                {},
               ],
             ]
           }
@@ -576,7 +644,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexDirection": "row",
               }
@@ -584,7 +652,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "justifyContent": "space-between",
                 }
@@ -592,7 +660,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 18,
@@ -605,7 +673,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "flex-start",
@@ -614,10 +682,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 testID="getVerified/CallToActions"
               >
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -634,14 +719,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -655,10 +740,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   </Text>
                 </View>
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -675,14 +777,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "color": "#666666",
                           "fontSize": 14,
                           "lineHeight": 16,
@@ -700,7 +802,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 12,
@@ -711,12 +813,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               <Image
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "testUri": "../../../src/images/get-verified.png",
                   }
                 }
                 style={
-                  Object {
+                  {
                     "height": "100%",
                     "width": "100%",
                   }
@@ -729,7 +831,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
             "width": 718,
           }
@@ -738,23 +840,23 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#FFFFFF",
                 "padding": 16,
               },
-              Object {
+              {
                 "borderRadius": 8,
               },
               undefined,
-              Array [
-                Object {
+              [
+                {
                   "borderColor": "#E6E6E6",
                   "borderWidth": 1,
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {},
+                {},
               ],
             ]
           }
@@ -762,7 +864,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexDirection": "row",
               }
@@ -770,7 +872,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "justifyContent": "space-between",
                 }
@@ -778,7 +880,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 18,
@@ -791,7 +893,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "flex-start",
@@ -800,10 +902,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 testID="testNotification/CallToActions"
               >
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -820,14 +939,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -841,10 +960,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   </Text>
                 </View>
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -861,14 +997,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "color": "#666666",
                           "fontSize": 14,
                           "lineHeight": 16,
@@ -889,7 +1025,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "margin": 16,
             "width": 718,
           }
@@ -898,23 +1034,23 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#FFFFFF",
                 "padding": 16,
               },
-              Object {
+              {
                 "borderRadius": 8,
               },
               undefined,
-              Array [
-                Object {
+              [
+                {
                   "borderColor": "#E6E6E6",
                   "borderWidth": 1,
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {},
+                {},
               ],
             ]
           }
@@ -922,7 +1058,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexDirection": "row",
               }
@@ -930,7 +1066,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "flex": 1,
                   "justifyContent": "space-between",
                 }
@@ -938,7 +1074,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 18,
@@ -951,7 +1087,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "flex-start",
@@ -960,10 +1096,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 testID="celoEducation/CallToActions"
               >
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -980,14 +1133,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -1001,10 +1154,27 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   </Text>
                 </View>
                 <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
                   accessible={true}
                   focusable={true}
                   nativeBackgroundAndroid={
-                    Object {
+                    {
                       "attribute": "selectableItemBackgroundBorderless",
                       "rippleRadius": undefined,
                       "type": "ThemeAttrAndroid",
@@ -1021,14 +1191,14 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#1AB775",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
+                        {
                           "color": "#666666",
                           "fontSize": 14,
                           "lineHeight": 16,
@@ -1046,7 +1216,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             </View>
             <View
               style={
-                Object {
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 12,
@@ -1057,12 +1227,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               <Image
                 resizeMode="contain"
                 source={
-                  Object {
+                  {
                     "testUri": "../../../src/images/learn-celo.png",
                   }
                 }
                 style={
-                  Object {
+                  {
                     "height": "100%",
                     "width": "100%",
                   }
@@ -1077,13 +1247,13 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
   </RCTScrollView>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {
+        {
           "paddingBottom": 16,
         },
       ]
@@ -1091,7 +1261,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#2E3338",
           "borderRadius": 5,
           "flex": 0,
@@ -1103,7 +1273,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#666666",
           "borderRadius": 5,
           "flex": 0,
@@ -1115,7 +1285,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#666666",
           "borderRadius": 5,
           "flex": 0,
@@ -1127,7 +1297,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#666666",
           "borderRadius": 5,
           "flex": 0,
@@ -1139,7 +1309,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#666666",
           "borderRadius": 5,
           "flex": 0,
@@ -1151,7 +1321,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     />
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#666666",
           "borderRadius": 5,
           "flex": 0,

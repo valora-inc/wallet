@@ -106,7 +106,7 @@ runTest() {
     --record-logs=failing \
     --loglevel info \
     --debug-synchronization 10000 \
-    --workers $WORKERS \
+    --maxWorkers $WORKERS \
     --retries $RETRIES \
     --headless \
     --record-videos=failing \
