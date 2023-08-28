@@ -217,8 +217,8 @@ export function useFetchTransactions(): QueryHookResult {
   )
 
   useEffect(() => {
-    // this hook does 2 things:
-    // 1. ensures that we populate the entire screen with transactions on load
+    // this hook does 2 1:
+    // things. ensures that we populate the entire screen with transactions on load
     //    so that future refetches can be correctly triggered by `onEndReached`,
     //    in the event that blockchain-api returns a small number of results for
     //    the first page(s)
@@ -264,13 +264,13 @@ export function useFetchTransactions(): QueryHookResult {
 }
 
 function anyChainHasMorePages(pageInfo: { [key in Chain]?: PageInfo | null }): boolean {
-  return Object.values(pageInfo).reduce((acc, val) => acc || !!val?.hasNextPage, false)
+  return Object.values(pageInfo).some((val) => !!val?.hasNextPage)
 }
 
 function anyChainHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
   [key in Chain]?: boolean
 }): boolean {
-  return Object.values(hasTransactionsOnCurrentPage).reduce((acc, val) => acc || val, false)
+  return Object.values(hasTransactionsOnCurrentPage).some((hasTxs) => hasTxs)
 }
 
 // Queries for transactions feed for any number of chains in parallel,
@@ -288,12 +288,12 @@ async function queryTransactionsFeed({
   }>
 }): Promise<{ [key in Chain]?: QueryResponse }> {
   const results = await Promise.all(
-    params.map((params) =>
+    params.map(({ chain, afterCursor }) =>
       queryChainTransactionsFeed({
         address,
         localCurrencyCode,
-        chain: params.chain,
-        afterCursor: params.afterCursor,
+        chain,
+        afterCursor,
       })
     )
   )

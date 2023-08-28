@@ -8,6 +8,13 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { getDynamicConfigParams } from 'src/statsig'
+
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({
+    show_native_tokens: false,
+  }),
+}))
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -61,6 +68,27 @@ describe('TokenDisplay', () => {
           </Provider>
         )
       ).toThrow()
+    })
+    it('throws when neither currency nor tokenAddress are supplied', () => {
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
+          </Provider>
+        )
+      ).toThrow()
+    })
+    it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
+      jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+        show_native_tokens: true,
+      })
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
+          </Provider>
+        )
+      ).not.toThrow()
     })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(

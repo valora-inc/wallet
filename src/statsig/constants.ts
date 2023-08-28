@@ -110,6 +110,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.MULTI_CHAIN_FEATURES,
     defaultValues: {
       show_transfers_for_chains: [Chain.Celo],
+      show_native_tokens: false,
     },
   },
 }

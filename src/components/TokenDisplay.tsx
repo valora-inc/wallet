@@ -7,6 +7,9 @@ import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { getDynamicConfigParams } from 'src/statsig/index'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
@@ -54,9 +57,15 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  if (tokenAddress && currency) {
+  const showNativeTokens = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  )['show_native_tokens']
+  if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
+    throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
+  } else if (tokenAddress && currency) {
     throw new Error('TokenDisplay must be passed tokenAddress, currency, or nethier, but not both')
   }
+
   const tokenInfoFromAddress = useTokenInfo(tokenAddress!)
   const tokenInfoFromCurrency = useTokenInfoBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
