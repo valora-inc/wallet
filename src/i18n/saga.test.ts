@@ -13,7 +13,6 @@ import {
   otaTranslationsLastUpdateSelector,
 } from 'src/i18n/selectors'
 import { otaTranslationsUpdated } from 'src/i18n/slice'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('@crowdin/ota-client', () => {
   return function () {
@@ -31,7 +30,7 @@ jest.mock('i18next', () => ({
   addResourceBundle: jest.fn(),
 }))
 
-const MockedI18n = mocked(i18n)
+const MockedI18n = jest.mocked(i18n)
 
 describe('i18n sagas', () => {
   afterEach(() => {

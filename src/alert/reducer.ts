@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux'
 import { Actions, ActionTypes, AlertTypes, ShowAlertAction } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
@@ -19,7 +20,7 @@ export interface Alert {
   message: string
   dismissAfter?: number | null
   buttonMessage?: string | null
-  action?: object | null
+  action?: AnyAction | null
   title?: string | null
   underlyingError?: ErrorMessages | null
 }

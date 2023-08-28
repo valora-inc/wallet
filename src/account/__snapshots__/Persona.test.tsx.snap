@@ -3,8 +3,8 @@
 exports[`Persona renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
       undefined,
@@ -13,11 +13,11 @@ exports[`Persona renders correctly 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "overflow": "hidden",
         },
-        Object {
+        {
           "borderRadius": 100,
         },
       ]
@@ -25,14 +25,26 @@ exports[`Persona renders correctly 1`] = `
   >
     <View
       accessibilityState={
-        Object {
+        {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": true,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
       focusable={false}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackground",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -46,8 +58,8 @@ exports[`Persona renders correctly 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#97DFC1",
             "flexDirection": "row",
@@ -66,7 +78,7 @@ exports[`Persona renders correctly 1`] = `
       <Text
         maxFontSizeMultiplier={1}
         style={
-          Object {
+          {
             "color": "#FFFFFF",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,

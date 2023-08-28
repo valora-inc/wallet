@@ -4,8 +4,8 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
+import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -13,11 +13,11 @@ import { getFeatureGate } from 'src/statsig'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 import { CICOFlow } from './utils'
 
+const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
-  useMaxSendAmount: () => mockMaxSendAmount,
+  useMaxSendAmount: () => mockUseMaxSendAmount(),
 }))
 jest.mock('src/statsig')
 
@@ -209,7 +209,7 @@ describe('FiatExchangeAmount cashOut', () => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('displays correctly for cUSD when local currency is USD', () => {
@@ -248,7 +248,7 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly when the SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER feature flag is on', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByText, queryByTestId, queryByText } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />

@@ -14,7 +14,6 @@ import {
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -28,7 +27,7 @@ jest.mock('src/statsig')
 
 describe('normalizeQuotes', () => {
   it('returns both fiatconnect and external quotes sorted by fee if feature gate is false', () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotes,
@@ -61,7 +60,7 @@ describe('normalizeQuotes', () => {
   })
 
   it('returns both fiatconnect and external quotes sorted by receive amount if feature gate is true', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotes,
@@ -82,7 +81,7 @@ describe('normalizeQuotes', () => {
   })
 
   it('sorts FiatConnect quotes with no fee returned at the end of quotes if feature gate is false', () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       mockFiatConnectQuotesWithUnknownFees,
@@ -110,7 +109,7 @@ describe('normalizeQuotes', () => {
   })
 
   it('sorts quotes with no receive amount at the end of quotes if feature gate is true', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const normalizedQuotes = normalizeQuotes(
       CICOFlow.CashIn,
       [],

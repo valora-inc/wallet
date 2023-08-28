@@ -1,4 +1,3 @@
-const detox = require('detox')
 import { launchApp } from './src/utils/retries'
 
 beforeAll(async () => {

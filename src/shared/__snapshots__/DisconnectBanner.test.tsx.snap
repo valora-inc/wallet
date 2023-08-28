@@ -3,18 +3,18 @@
 exports[`renders banner when app is disconnected 1`] = `
 <Text
   style={
-    Array [
-      Object {
+    [
+      {
         "color": "#2E3338",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
         "lineHeight": undefined,
         "textAlign": "center",
       },
-      Object {
+      {
         "color": "#666666",
       },
-      Object {
+      {
         "color": "#2E3338",
         "fontFamily": "Inter-SemiBold",
         "fontSize": 16,

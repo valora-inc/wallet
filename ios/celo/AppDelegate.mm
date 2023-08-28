@@ -9,10 +9,9 @@
 
 #import "AppDelegate.h"
 
-#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
-#import <React/RCTRootView.h>
-#import <React/RCTAppSetupUtils.h>
+
+#import "RNCConfig.h"
 
 #import <React/RCTLinkingManager.h>
 #import <React/RCTHTTPRequestHandler.h>
@@ -20,8 +19,6 @@
 @import Firebase;
 
 #import "RNSplashScreen.h"
-#import "ReactNativeConfig.h"
-
 #import <segment_analytics_react_native-Swift.h>
 
 #import <UserNotifications/UserNotifications.h>
@@ -49,25 +46,6 @@ static void InitializeFlipper(UIApplication *application)
   [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
   [client start];
 }
-#endif
-
-#if RCT_NEW_ARCH_ENABLED
-#import <React/CoreModulesPlugins.h>
-#import <React/RCTCxxBridgeDelegate.h>
-#import <React/RCTFabricSurfaceHostingProxyRootView.h>
-#import <React/RCTSurfacePresenter.h>
-#import <React/RCTSurfacePresenterBridgeAdapter.h>
-#import <ReactCommon/RCTTurboModuleManager.h>
-
-#import <react/config/ReactNativeConfig.h>
-
-@interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
-  RCTTurboModuleManager *_turboModuleManager;
-  RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
-  std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
-  facebook::react::ContextContainer::Shared _contextContainer;
-}
-@end
 #endif
 
 // Use same key as react-native-secure-key-store
@@ -103,8 +81,6 @@ static void SetCustomNSURLSessionConfiguration() {
   InitializeFlipper(application);
 #endif
 
-  RCTAppSetupPrepareApp(application);
-  
   // Reset keychain on first run to clear existing Firebase credentials
   // Note: react-native-secure-key-store also does that but is run too late
   // and hence can't clear Firebase credentials
@@ -125,65 +101,41 @@ static void SetCustomNSURLSessionConfiguration() {
   [CleverTap autoIntegrate];
   [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
   
-  NSString *env = [ReactNativeConfig envFor:@"FIREBASE_ENABLED"];
+  NSString *env = [RNCConfig envFor:@"FIREBASE_ENABLED"];
   if (env.boolValue) {
     [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
     [FIRApp configure];
   }
   
   SetCustomNSURLSessionConfiguration();
-
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-#if RCT_NEW_ARCH_ENABLED
-  _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
-  _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
-  _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
-  _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc] initWithBridge:bridge contextContainer:_contextContainer];
-  bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
-#endif
-   
-  NSDictionary *initProps = [self prepareInitialProps];
-  UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"celo", initProps);
   
-  [RNSplashScreen showSplash:@"LaunchScreen" inRootView:rootView];
-  if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-      rootView.backgroundColor = [UIColor whiteColor];
-  }
-  
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
+  self.moduleName = @"celo";
 
-  return YES;
+  // You can add your custom initial props in the dictionary below.
+  // They will be passed down to the ViewController used by React Native.
+  NSDate *now = [NSDate date];
+  NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
+  NSNumber *nowEpochMs = @((long long)(nowEpochSeconds * 1000));
+
+  self.initialProps = @{
+    @"appStartedMillis": nowEpochMs
+  };
+
+  bool didFinish = [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  [RNSplashScreen show];  // this needs to be called after [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  return didFinish;
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
 ///
 /// @see: https://reactjs.org/blog/2022/03/29/react-v18.html
 /// @note: This requires to be rendering on Fabric (i.e. on the New Architecture).
-/// @return: `true` if the `concurrentRoot` feture is enabled. Otherwise, it returns `false`.
+/// @return: `true` if the `concurrentRoot` feature is enabled. Otherwise, it returns `false`.
 - (BOOL)concurrentRootEnabled
 {
-  // Switch this bool to turn on and off the concurrent root
   return true;
-}
-- (NSDictionary *)prepareInitialProps
-{
-  NSMutableDictionary *initProps = [NSMutableDictionary new];
-
-  NSDate *now = [NSDate date];
-  NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
-  long long nowEpochMs = (long long)(nowEpochSeconds * 1000);
-  initProps[@"appStartedMillis"] = @(nowEpochMs);
-
-#ifdef RCT_NEW_ARCH_ENABLED
-  initProps[kRNConcurrentRoot] = @([self concurrentRootEnabled]);
-#endif
-  return initProps;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

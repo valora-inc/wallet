@@ -19,16 +19,15 @@ import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentic
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { UnlockResult, getOrCreateAccount, unlockAccount } from 'src/web3/saga'
+import { getOrCreateAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockWallet } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 import { initializeAccountSuccess, saveSignedMessage } from './actions'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
-const mockedKeychain = mocked(Keychain)
+const mockedKeychain = jest.mocked(Keychain)
 
-const mockedDEK = mocked(DEK)
+const mockedDEK = jest.mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 const mockFetch = fetch as FetchMock

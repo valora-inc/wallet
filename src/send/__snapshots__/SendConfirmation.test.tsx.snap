@@ -3,7 +3,7 @@
 exports[`SendConfirmation renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
+    [
       "bottom",
       "left",
       "right",
@@ -11,7 +11,7 @@ exports[`SendConfirmation renders correctly 1`] = `
     ]
   }
   style={
-    Object {
+    {
       "flex": 1,
       "paddingHorizontal": 8,
     }
@@ -19,8 +19,8 @@ exports[`SendConfirmation renders correctly 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "height": 56,
@@ -28,7 +28,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           "overflow": "hidden",
           "width": "100%",
         },
-        Object {
+        {
           "paddingHorizontal": 8,
         },
       ]
@@ -36,7 +36,7 @@ exports[`SendConfirmation renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
@@ -45,8 +45,8 @@ exports[`SendConfirmation renders correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "justifyContent": "center",
             },
@@ -55,10 +55,27 @@ exports[`SendConfirmation renders correctly 1`] = `
         }
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           hitSlop={
-            Object {
+            {
               "bottom": 10,
               "left": 10,
               "right": 10,
@@ -66,7 +83,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             }
           }
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackgroundBorderless",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -100,8 +117,8 @@ exports[`SendConfirmation renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "backgroundColor": "#FFFFFF",
           "flex": 1,
         },
@@ -111,7 +128,7 @@ exports[`SendConfirmation renders correctly 1`] = `
   >
     <RCTScrollView
       contentContainerStyle={
-        Object {
+        {
           "paddingVertical": 10,
         }
       }
@@ -121,14 +138,14 @@ exports[`SendConfirmation renders correctly 1`] = `
       <View>
         <View
           style={
-            Object {
+            {
               "marginHorizontal": 16,
             }
           }
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "flex-start",
                 "paddingBottom": 24,
               }
@@ -136,7 +153,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           >
             <View
               style={
-                Object {
+                {
                   "alignItems": "flex-start",
                   "flexDirection": "row",
                 }
@@ -144,8 +161,8 @@ exports[`SendConfirmation renders correctly 1`] = `
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "alignItems": "center",
                       "flexDirection": "row",
                       "justifyContent": "center",
@@ -156,12 +173,12 @@ exports[`SendConfirmation renders correctly 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignItems": "center",
                         "justifyContent": "center",
                       },
-                      Object {
+                      {
                         "backgroundColor": "hsl(0, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
@@ -173,7 +190,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   <svg
                     fill="hsl(0, 53%, 93%)"
                     height="40"
-                    style={Object {}}
+                    style={{}}
                     viewBox="0 0 40 40"
                     width="40"
                   />
@@ -181,14 +198,14 @@ exports[`SendConfirmation renders correctly 1`] = `
               </View>
               <View
                 style={
-                  Object {
+                  {
                     "paddingLeft": 8,
                   }
                 }
               >
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
@@ -201,7 +218,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 </Text>
                 <Text
                   style={
-                    Object {
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Medium",
                       "fontSize": 16,
@@ -216,7 +233,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             </View>
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 32,
@@ -241,7 +258,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               placeholderTextColor="#1AB775"
               returnKeyType="done"
               style={
-                Object {
+                {
                   "alignSelf": "stretch",
                   "color": "#2E3338",
                   "flex": 1,
@@ -274,7 +291,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             scrollTo={null}
             statusBarTranslucent={true}
             supportedOrientations={
-              Array [
+              [
                 "portrait",
                 "landscape",
               ]
@@ -288,7 +305,7 @@ exports[`SendConfirmation renders correctly 1`] = `
     </RCTScrollView>
     <View
       style={
-        Object {
+        {
           "padding": 16,
           "paddingBottom": 8,
         }
@@ -296,10 +313,27 @@ exports[`SendConfirmation renders correctly 1`] = `
     >
       <View>
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackground",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -316,7 +350,7 @@ exports[`SendConfirmation renders correctly 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "flexDirection": "row",
                 "justifyContent": "space-between",
               }
@@ -324,8 +358,8 @@ exports[`SendConfirmation renders correctly 1`] = `
           >
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "flexDirection": "row",
                     "flexWrap": "wrap",
@@ -336,7 +370,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             >
               <Text
                 style={
-                  Object {
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
@@ -348,10 +382,10 @@ exports[`SendConfirmation renders correctly 1`] = `
               </Text>
               <View
                 style={
-                  Object {
+                  {
                     "marginLeft": 7,
-                    "transform": Array [
-                      Object {
+                    "transform": [
+                      {
                         "rotate": "0deg",
                       },
                     ],
@@ -373,8 +407,8 @@ exports[`SendConfirmation renders correctly 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "flexWrap": "wrap",
                     "justifyContent": "space-between",
@@ -386,7 +420,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             >
               <View
                 style={
-                  Object {
+                  {
                     "alignItems": "center",
                     "flexDirection": "row",
                     "marginRight": 5,
@@ -395,8 +429,8 @@ exports[`SendConfirmation renders correctly 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
@@ -410,8 +444,8 @@ exports[`SendConfirmation renders correctly 1`] = `
               </View>
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
@@ -424,9 +458,9 @@ exports[`SendConfirmation renders correctly 1`] = `
               >
                 <Text
                   style={
-                    Array [
+                    [
                       undefined,
-                      Object {
+                      {
                         "color": undefined,
                       },
                     ]
@@ -443,8 +477,8 @@ exports[`SendConfirmation renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "space-between",
@@ -456,7 +490,7 @@ exports[`SendConfirmation renders correctly 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "marginRight": 5,
@@ -465,14 +499,14 @@ exports[`SendConfirmation renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
@@ -487,14 +521,14 @@ exports[`SendConfirmation renders correctly 1`] = `
         </View>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
@@ -514,14 +548,14 @@ exports[`SendConfirmation renders correctly 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "row",
               "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
-            Object {
+            {
               "marginVertical": 0,
             },
           ]
@@ -529,7 +563,7 @@ exports[`SendConfirmation renders correctly 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "marginRight": 5,
@@ -538,14 +572,14 @@ exports[`SendConfirmation renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -557,7 +591,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           >
             <Text
               style={
-                Object {
+                {
                   "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -576,14 +610,14 @@ exports[`SendConfirmation renders correctly 1`] = `
         </View>
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -604,7 +638,7 @@ exports[`SendConfirmation renders correctly 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "marginHorizontal": 16,
           "paddingVertical": 16,
         }
@@ -612,11 +646,11 @@ exports[`SendConfirmation renders correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "flexDirection": "column",
             },
-            Object {
+            {
               "marginBottom": 16,
             },
           ]
@@ -624,11 +658,11 @@ exports[`SendConfirmation renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "overflow": "hidden",
               },
-              Object {
+              {
                 "borderRadius": 100,
               },
             ]
@@ -636,14 +670,26 @@ exports[`SendConfirmation renders correctly 1`] = `
         >
           <View
             accessibilityState={
-              Object {
+              {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
-              Object {
+              {
                 "attribute": "selectableItemBackground",
                 "rippleRadius": undefined,
                 "type": "ThemeAttrAndroid",
@@ -657,8 +703,8 @@ exports[`SendConfirmation renders correctly 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "backgroundColor": "#1AB775",
                   "flexDirection": "row",
@@ -678,7 +724,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               accessibilityLabel="send"
               maxFontSizeMultiplier={1}
               style={
-                Object {
+                {
                   "color": "#FFFFFF",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
@@ -697,13 +743,13 @@ exports[`SendConfirmation renders correctly 1`] = `
     <View
       collapsable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "bottom": 0,
             "left": 0,
             "right": 0,
           },
-          Object {
+          {
             "height": 0,
           },
           undefined,

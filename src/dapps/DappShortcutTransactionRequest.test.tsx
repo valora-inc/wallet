@@ -88,8 +88,8 @@ describe('DappShortcutTransactionRequest', () => {
     fireEvent.press(getByText('allow'))
 
     expect(mockStore.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615",
           "type": "positions/executeShortcut",
         },
@@ -100,7 +100,7 @@ describe('DappShortcutTransactionRequest', () => {
     unmount()
 
     // should not deny the transaction on dismiss bottom sheet if transaction is approved
-    expect(mockStore.getActions()).toMatchInlineSnapshot(`Array []`)
+    expect(mockStore.getActions()).toMatchInlineSnapshot(`[]`)
   })
 
   it('should deny the transaction request on dismiss bottom sheet', async () => {
@@ -122,8 +122,8 @@ describe('DappShortcutTransactionRequest', () => {
     })
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "payload": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-0.010209368244703615",
           "type": "positions/denyExecuteShortcut",
         },
