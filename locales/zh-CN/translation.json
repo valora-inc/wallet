@@ -1069,9 +1069,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "交易数据",
     "readAccount": "{{dappName}} 想要读取您的 {{appName}} 钱包地址。",
-    "signPayload": "{{dappName}} 想要签署数据有效负载。",
+    "signPayloadTitle": "验证钱包",
+    "signPayload": "{{dappName}} 希望核实您的钱包所有权。",
+    "signTransactionTitle": "签署交易",
     "signTransaction": "{{dappName}} 想要签署一笔 Celo 交易。",
+    "sendTransactionTitle": "发送交易",
     "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
+    "decryptPayloadTitle": "用钱包解密",
     "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
     "computeSharedSecret": "{{dappName}} 想要生成密钥。",
     "transactionDataCopied": "交易数据已复制",
@@ -1677,6 +1681,10 @@
     "priceImpactWarning": {
       "title": "交换之前",
       "body": "交换这些资产可能导致不利的汇率。如果降低金额，您会获得更好的汇率。"
+    },
+    "missingSwapImpactWarning": {
+      "title": "交换之前",
+      "body": "我们无法估算此次交换的价值。如果您选择继续交换， {{appName}} 不承担任何责任。"
     },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
   },
