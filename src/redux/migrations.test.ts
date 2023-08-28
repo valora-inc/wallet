@@ -19,7 +19,7 @@ import {
   v132Schema,
   v133Schema,
   v136Schema,
-  v143Schema,
+  v144Schema,
   v13Schema,
   v14Schema,
   v15Schema,
@@ -992,14 +992,14 @@ describe('Redux persist migrations', () => {
     delete expectedSchema.walletConnect.v2
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
-  it('works from v143 to v144', () => {
+  it('works from v144 to v145', () => {
     // Ensure that all of TokenTransfer, TokenExchange, and NftTransfer migrate correctly.
     // Namely, that the __typename is updated to V3 and that chain is added to each TX.
     // Also check that chain is added to standby transactions.
     const oldSchema = {
-      ...v143Schema,
+      ...v144Schema,
       transactions: {
-        ...v143Schema.transactions,
+        ...v144Schema.transactions,
         standbyTransactions: [
           {
             context: { id: 'test' },
@@ -1072,9 +1072,9 @@ describe('Redux persist migrations', () => {
       },
     }
     const expectedSchema = {
-      ...v143Schema,
+      ...v144Schema,
       transactions: {
-        ...v143Schema.transactions,
+        ...v144Schema.transactions,
         standbyTransactions: [
           {
             context: { id: 'test' },
@@ -1150,7 +1150,7 @@ describe('Redux persist migrations', () => {
         ],
       },
     }
-    const migratedSchema = migrations[144](oldSchema)
+    const migratedSchema = migrations[145](oldSchema)
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
