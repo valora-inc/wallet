@@ -232,6 +232,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         defaultFiatType: defaultCurrency,
         transferFiatAmount: fiatAmount,
         ...analyticsData,
+        // TODO may want to add a field making it easy to tell when only centralized exchanges are available
       })
     }
   }, [
