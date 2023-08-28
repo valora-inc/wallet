@@ -20,7 +20,14 @@ import {
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
 
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => {
+  return {
+    getFeatureGate: jest.fn(),
+    getDynamicConfigParams: jest.fn().mockReturnValue({
+      show_native_tokens: false,
+    }),
+  }
+})
 
 const storeWithoutHistoricalPrices = {
   tokens: {
