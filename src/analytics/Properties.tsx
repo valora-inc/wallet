@@ -1323,7 +1323,7 @@ interface NftsEventsProperties {
     url?: string
     origin: NftOrigin
     error?: string
-    mediaType: 'image' | 'video'
+    mediaType: 'image' | 'video' | 'text/html'
   }
   [NftEvents.nft_gallery_screen_open]: {
     numNfts: number

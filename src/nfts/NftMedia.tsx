@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import WebView from 'src/components/WebView'
 import { nftsLoadingSelector } from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
@@ -21,7 +22,7 @@ interface PlaceHolderProps {
   height?: number
   width?: number
   borderRadius?: number
-  mediaType: 'image' | 'video'
+  mediaType: 'image' | 'video' | 'text/html'
 }
 
 interface Props extends PlaceHolderProps {
@@ -76,7 +77,7 @@ export default function NftMedia({
   const fetchingNfts = useSelector(nftsLoadingSelector)
 
   const imageUrl = nft.media.find((media) => media.raw === nft.metadata?.image)?.gateway
-  const videoUrl = nft.media.find((media) => media.raw === nft.metadata?.animation_url)?.gateway
+  const animationUrl = nft.media.find((media) => media.raw === nft.metadata?.animation_url)?.gateway
 
   useEffect(() => {
     if (nft.metadata) {
@@ -110,7 +111,9 @@ export default function NftMedia({
       Logger.error(
         origin,
         `ContractAddress=${contractAddress}, TokenId: ${tokenId}, Failed to load media from ${
-          mediaType === 'video' && videoUrl ? videoUrl : imageUrl
+          (mediaType === 'video' || mediaType === 'text/html') && animationUrl
+            ? animationUrl
+            : imageUrl
         }`
       )
     }
@@ -128,13 +131,12 @@ export default function NftMedia({
 
   return (
     <>
-      {status === 'error' ? (
-        ErrorComponent
-      ) : mediaType === 'video' && videoUrl ? (
+      {status === 'error' && ErrorComponent}
+      {mediaType === 'video' && animationUrl && (
         <>
           <Video
             source={{
-              uri: videoUrl,
+              uri: animationUrl,
               headers: {
                 origin: networkConfig.nftsValoraAppUrl,
               },
@@ -163,7 +165,29 @@ export default function NftMedia({
             <Placeholder mediaType="video" testID={`${testID}/VideoPlaceholder`} />
           </View>
         </>
-      ) : (
+      )}
+      {mediaType === 'text/html' && animationUrl && (
+        <WebView
+          source={{ uri: animationUrl }}
+          key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
+          testID={testID}
+          style={{ height, width: variables.width }}
+          onLoadEnd={(event) => {
+            if (event.nativeEvent.loading === false) {
+              // Give 1.5 seconds for HTML to actually load
+              setTimeout(() => handleLoadSuccess(), 1500)
+            }
+          }}
+          // Prevent the user from selecting within the webview
+          injectedJavaScript={`document.body.style.userSelect = 'none'`}
+          onError={handleLoadError}
+        >
+          {status === 'loading' && (
+            <Placeholder testID={`${testID}/HTMLPlaceholder`} mediaType="text/html" />
+          )}
+        </WebView>
+      )}
+      {mediaType === 'image' && (
         <FastImage
           key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
           testID={testID}

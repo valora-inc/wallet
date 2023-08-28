@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -104,6 +104,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
+  const [fetchedMediaType, setFetchedMediaType] = useState<'image' | 'video' | 'text/html'>('image')
   const { t } = useTranslation()
 
   function pressExplorerLink() {
@@ -115,6 +116,31 @@ export default function NftsInfoCarousel({ route }: Props) {
   function handleThumbnailPress(nft: Nft) {
     setActiveNft(nft)
   }
+
+  useEffect(() => {
+    const getMediaType = async () => {
+      if (!activeNft || !activeNft.metadata || !activeNft.metadata.animation_url) {
+        setFetchedMediaType('image')
+        return
+      }
+
+      try {
+        const response = await fetch(activeNft.metadata.animation_url)
+        const contentType = response.headers.get('content-type')
+
+        if (contentType?.includes('video')) {
+          setFetchedMediaType('video')
+        } else {
+          setFetchedMediaType('text/html')
+        }
+      } catch (error) {
+        // Handle any fetch errors
+        setFetchedMediaType('image')
+      }
+    }
+
+    getMediaType()
+  }, [activeNft])
 
   // Full page error screen shown when ntfs === []
   if (nfts.length === 0) {
@@ -129,7 +155,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           shouldAutoScaleHeight
           height={DEFAULT_HEIGHT}
           nft={activeNft}
-          mediaType={activeNft.metadata?.animation_url ? 'video' : 'image'}
+          mediaType={fetchedMediaType}
           origin={NftOrigin.NftsInfoCarouselMain}
           ErrorComponent={
             <View style={styles.nftImageLoadingErrorContainer}>
@@ -137,11 +163,7 @@ export default function NftsInfoCarousel({ route }: Props) {
               <Text style={styles.errorImageText}>{t('nftInfoCarousel.nftImageLoadError')}</Text>
             </View>
           }
-          testID={
-            activeNft.metadata?.animation_url
-              ? 'NftsInfoCarousel/MainVideo'
-              : 'NftsInfoCarousel/MainImage'
-          }
+          testID={`NftsInfoCarousel/Main-${fetchedMediaType}`}
         />
         {/* Display a carousel selection if multiple images */}
         {nfts.length > 1 && (
