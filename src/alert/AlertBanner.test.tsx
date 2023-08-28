@@ -1,6 +1,7 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { AnyAction } from 'redux'
 import { AlertTypes } from 'src/alert/actions'
 import AlertBanner from 'src/alert/AlertBanner'
 import { ErrorDisplayType } from 'src/alert/reducer'
@@ -82,7 +83,7 @@ describe('AlertBanner', () => {
           displayMethod: ErrorDisplayType.BANNER,
           message: 'My message',
           dismissAfter: 0,
-          action: { type: 'MY_ACTION' },
+          action: { type: 'MY_ACTION' } as AnyAction,
         },
       })
       const { getByTestId } = render(
@@ -104,7 +105,7 @@ describe('AlertBanner', () => {
           displayMethod: ErrorDisplayType.BANNER,
           message: 'My precious toast',
           buttonMessage: 'Some button label',
-          action: { type: 'MY_ACTION' },
+          action: { type: 'MY_ACTION' } as AnyAction,
         },
       })
       const { getByText, queryByTestId } = render(

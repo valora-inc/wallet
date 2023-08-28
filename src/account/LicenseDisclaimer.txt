@@ -2,32 +2,6 @@ THE FOLLOWING SETS FORTH ATTRIBUTION NOTICES FOR THIRD PARTY SOFTWARE THAT MAY B
 
 -----
 
-The following software may be included in this product: @adraffy/ens-normalize. A copy of the source code may be downloaded from git+https://github.com/adraffy/ens-normalize.js.git. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2021 Andrew Raffensperger
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
 The following software may be included in this product: @ampproject/remapping, futoin-hkdf. A copy of the source code may be downloaded from git+https://github.com/ampproject/remapping.git (@ampproject/remapping), https://github.com/futoin/util-js-hkdf.git (futoin-hkdf). This software contains the following license and notice below:
 
 Apache License
@@ -2820,18 +2794,6 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @typechain/ethers-v6. A copy of the source code may be downloaded from https://github.com/ethereum-ts/Typechain. This software contains the following license and notice below:
-
-Copyright 2020 Krzysztof Kaczor
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
------
-
 The following software may be included in this product: @types/bn.js, @types/cacheable-request, @types/d3-array, @types/d3-color, @types/d3-ease, @types/d3-interpolate, @types/d3-path, @types/d3-scale, @types/d3-shape, @types/d3-time, @types/d3-timer, @types/google-libphonenumber, @types/http-cache-semantics, @types/invariant, @types/istanbul-reports, @types/keyv, @types/node, @types/pbkdf2, @types/prettier, @types/react, @types/react-redux, @types/scheduler, @types/secp256k1, @types/yargs. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/cacheable-request), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-array), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-color), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-ease), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-interpolate), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-path), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-scale), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-shape), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-time), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/d3-timer), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/google-libphonenumber), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/http-cache-semantics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/invariant), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-reports), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/keyv), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/pbkdf2), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prettier), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-redux), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/scheduler), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/secp256k1), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs). This software contains the following license and notice below:
 
 MIT License
@@ -3358,32 +3320,6 @@ The following software may be included in this product: aes-js. A copy of the so
 The MIT License (MIT)
 
 Copyright (c) 2015 Richard Moore
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
------
-
-The following software may be included in this product: aes-js. A copy of the source code may be downloaded from git://github.com/ricmoo/aes-js.git. This software contains the following license and notice below:
-
-The MIT License (MIT)
-
-Copyright (c) 2022 Richard Moore
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -9531,32 +9467,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: ethers. A copy of the source code may be downloaded from git://github.com/ethers-io/ethers.js.git. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2016-2023 Richard Moore
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
 The following software may be included in this product: ethjs-unit. A copy of the source code may be downloaded from git://github.com/ethjs/ethjs-unit. This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -11820,6 +11730,24 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
 OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
 TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
+
+-----
+
+The following software may be included in this product: intl-pluralrules. A copy of the source code may be downloaded from https://github.com/eemeli/intl-pluralrules.git. This software contains the following license and notice below:
+
+Copyright 2015-2018 by Eemeli Aro <eemeli@gmail.com>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
@@ -25416,32 +25344,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 -----
 
-The following software may be included in this product: ts-essentials. A copy of the source code may be downloaded from git@github.com:krzkaczor/ts-essentials.git. This software contains the following license and notice below:
-
-The MIT License
-
-Copyright (c) 2018-2019 Chris Kaczor (github.com/krzkaczor)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
------
-
 The following software may be included in this product: ts-invariant. A copy of the source code may be downloaded from git+https://github.com/apollographql/invariant-packages.git. This software contains the following license and notice below:
 
 MIT License
@@ -26590,30 +26492,6 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 The following software may be included in this product: ws. A copy of the source code may be downloaded from https://github.com/websockets/ws.git. This software contains the following license and notice below:
 
 The MIT License (MIT)
-
-Copyright (c) 2011 Einar Otto Stangvik <einaros@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
-The following software may be included in this product: ws. A copy of the source code may be downloaded from https://github.com/websockets/ws.git. This software contains the following license and notice below:
 
 Copyright (c) 2011 Einar Otto Stangvik <einaros@gmail.com>
 

@@ -156,6 +156,7 @@ interface HapticFeedbackSet {
 export interface PushNotificationsPermissionChanged {
   type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED
   enabled: boolean
+  requestedInApp: boolean
 }
 
 export interface inAppReviewRequested {
@@ -190,7 +191,7 @@ export type ActionTypes =
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
 
-export const setAppState = (state: string) => ({
+export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
   state,
 })
@@ -331,11 +332,13 @@ export const hapticFeedbackSet = (hapticFeedbackEnabled: boolean): HapticFeedbac
 }
 
 export const pushNotificationsPermissionChanged = (
-  enabled: boolean
+  enabled: boolean,
+  requestedInApp: boolean
 ): PushNotificationsPermissionChanged => {
   return {
     type: Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED,
     enabled,
+    requestedInApp,
   }
 }
 

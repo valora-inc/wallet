@@ -2,13 +2,12 @@ import { PincodeType } from 'src/account/reducer'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { getMockStoreData } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
 beforeEach(() => {
   jest.clearAllMocks()
-  mocked(getFeatureGate).mockReturnValue(true)
+  jest.mocked(getFeatureGate).mockReturnValue(true)
 })
 
 describe('getCurrentUserTraits', () => {

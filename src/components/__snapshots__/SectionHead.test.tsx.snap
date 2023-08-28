@@ -3,8 +3,8 @@
 exports[`renders text 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignItems": "center",
         "backgroundColor": "#FFFFFF",
         "flexDirection": "row",
@@ -18,7 +18,7 @@ exports[`renders text 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#666666",
         "fontFamily": "Inter-Medium",
         "fontSize": 13,

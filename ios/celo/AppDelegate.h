@@ -8,12 +8,10 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <UserNotifications/UserNotifications.h>
+#import <RCTAppDelegate.h>
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapReact/CleverTapReactManager.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
-
-@property (nonatomic, strong) UIWindow *window;
+@interface AppDelegate : RCTAppDelegate
 
 @end

@@ -292,20 +292,20 @@ describe('ConsumerIncentivesHomeScreen', () => {
     // One action to fetch rewards and other one to claim them
     expect(store.getActions().length).toBe(2)
     expect(store.getActions()[0]).toMatchInlineSnapshot(`
-      Object {
+      {
         "payload": undefined,
         "type": "supercharge/fetchAvailableRewards",
       }
     `)
     expect(store.getActions()[1]).toMatchInlineSnapshot(`
-      Object {
-        "payload": Array [
-          Object {
+      {
+        "payload": [
+          {
             "amount": "de0b6b3a7640000",
             "contractAddress": "0xdistributorContract",
             "createdAt": 1645591363099,
             "index": 0,
-            "proof": Array [],
+            "proof": [],
             "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
         ],
@@ -328,7 +328,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
 
     expect(store.getActions().length).toBe(1)
     expect(store.getActions()[0]).toMatchInlineSnapshot(`
-      Object {
+      {
         "payload": undefined,
         "type": "supercharge/fetchAvailableRewards",
       }

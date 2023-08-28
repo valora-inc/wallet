@@ -7,7 +7,7 @@ import BackupPhraseContainer, {
 } from 'src/backup/BackupPhraseContainer'
 import { mockMnemonic, mockTwelveWordMnemonic } from 'test/values'
 
-describe(BackupPhraseContainer, () => {
+describe('BackupPhraseContainer', () => {
   it('renders correctly for readonly backup 24-word phrase', () => {
     const tree = render(
       <BackupPhraseContainer

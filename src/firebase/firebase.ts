@@ -8,7 +8,7 @@ import '@react-native-firebase/messaging'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import CleverTap from 'clevertap-react-native'
-import { Platform } from 'react-native'
+import { PermissionsAndroid, PermissionStatus, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
@@ -17,7 +17,10 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { RemoteConfigValues } from 'src/app/saga'
-import { pushNotificationsEnabledSelector } from 'src/app/selectors'
+import {
+  pushNotificationRequestedUnixTimeSelector,
+  pushNotificationsEnabledSelector,
+} from 'src/app/selectors'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { Actions } from 'src/firebase/actions'
@@ -158,31 +161,50 @@ export function* takeWithInMemoryCache(action: Actions | HomeActions) {
 export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, address: string) {
   Logger.info(TAG, 'Initializing Firebase Cloud Messaging')
 
-  // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
-  // Manual type checking because yield calls can't infer return type yet :'(
-  const authStatus: Awaited<ReturnType<FirebaseMessagingTypes.Module['hasPermission']>> =
-    yield* call([app.messaging(), 'hasPermission'])
-  Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
-  if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
+  // permissions are denied by default on Android API level 33+, so we track
+  // whether we should prompt the user for permission manually through redux
+  // instead of relying on firebase messaging's `hasPermission` method
+  const pushNotificationRequestedUnixTime = yield* select(pushNotificationRequestedUnixTimeSelector)
+  const lastKnownEnabledState = yield* select(pushNotificationsEnabledSelector)
+
+  if (pushNotificationRequestedUnixTime === null && !lastKnownEnabledState) {
     yield takeWithInMemoryCache(HomeActions.VISIT_HOME) // better than take(HomeActions.VISIT_HOME) because if failure occurs, retries can succeed without an additional visit home
+
+    Logger.info(TAG, 'requesting permission')
     try {
-      yield* call([app.messaging(), 'requestPermission'])
-      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: true })
-      yield* put(pushNotificationsPermissionChanged(true))
+      let permissionGranted = false
+      if (Platform.OS === 'android' && Platform.Version >= 33) {
+        const permissionStatus: PermissionStatus = yield* call(
+          [PermissionsAndroid, 'request'],
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+        )
+        permissionGranted = permissionStatus === 'granted'
+      } else {
+        const permissionStatus = yield* call([app.messaging(), 'requestPermission'])
+        permissionGranted = permissionStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED
+      }
+
+      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {
+        enabled: permissionGranted,
+      })
+      yield* put(pushNotificationsPermissionChanged(permissionGranted, true))
     } catch (error) {
-      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, { enabled: false })
-      Logger.warn(TAG, 'User has rejected messaging permissions', error)
+      Logger.warn(TAG, 'Failed to request permission from the user', error)
       throw error
     }
   } else {
+    // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
+    // Manual type checking because yield calls can't infer return type yet :'(
+    const authStatus: Awaited<ReturnType<FirebaseMessagingTypes.Module['hasPermission']>> =
+      yield* call([app.messaging(), 'hasPermission'])
+
     const pushNotificationsEnabled = authStatus !== firebase.messaging.AuthorizationStatus.DENIED
-    const lastKnownEnabledState = yield* select(pushNotificationsEnabledSelector)
 
     if (lastKnownEnabledState !== pushNotificationsEnabled) {
       ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {
         enabled: pushNotificationsEnabled,
       })
-      yield* put(pushNotificationsPermissionChanged(pushNotificationsEnabled))
+      yield* put(pushNotificationsPermissionChanged(pushNotificationsEnabled, false))
     }
   }
   let fcmToken

@@ -52,8 +52,8 @@ describe(BidaliScreen, () => {
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
-      Object {
-        "balances": Object {
+      {
+        "balances": {
           "CEUR": "5",
           "CUSD": "10",
         },
@@ -92,8 +92,8 @@ describe(BidaliScreen, () => {
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
-      Object {
-        "balances": Object {
+      {
+        "balances": {
           "CEUR": "5",
           "CUSD": "10",
         },
@@ -137,8 +137,8 @@ describe(BidaliScreen, () => {
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     // `paymentCurrency` is CEUR here because it has the highest balance in the local currency
     expect(window.valora).toMatchInlineSnapshot(`
-      Object {
-        "balances": Object {
+      {
+        "balances": {
           "CEUR": "9",
           "CUSD": "10",
         },

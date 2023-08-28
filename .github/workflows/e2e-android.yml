@@ -50,7 +50,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --workers 3
+          --maxWorkers 3
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"

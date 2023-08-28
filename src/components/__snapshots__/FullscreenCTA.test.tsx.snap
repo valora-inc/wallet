@@ -3,7 +3,7 @@
 exports[`FullscreenCTA renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
+    [
       "bottom",
       "left",
       "right",
@@ -11,7 +11,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
     ]
   }
   style={
-    Object {
+    {
       "backgroundColor": "#FFFFFF",
       "flex": 1,
       "height": 1292,
@@ -25,7 +25,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "height": 120,
         "justifyContent": "space-between",
@@ -34,7 +34,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
   >
     <Text
       style={
-        Object {
+        {
           "color": "#2E3338",
           "fontFamily": "Jost-Book",
           "fontSize": 26,
@@ -46,7 +46,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
     </Text>
     <Text
       style={
-        Object {
+        {
           "color": "#2E3338",
           "fontFamily": "Jost-Medium",
           "fontSize": 22,
@@ -62,7 +62,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
       ellipsizeMode="tail"
       numberOfLines={10}
       style={
-        Object {
+        {
           "backgroundColor": "rgba(238, 238, 238, 0.75)",
           "borderRadius": 25,
           "color": "#2E3338",
@@ -78,15 +78,15 @@ exports[`FullscreenCTA renders correctly 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
       }
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "flexDirection": "row",
           },
           undefined,
@@ -95,21 +95,38 @@ exports[`FullscreenCTA renders correctly 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "overflow": "hidden",
             },
-            Object {
+            {
               "borderRadius": 100,
             },
           ]
         }
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackground",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -123,8 +140,8 @@ exports[`FullscreenCTA renders correctly 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "backgroundColor": "#1AB775",
                 "flexDirection": "row",
@@ -143,7 +160,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
           <Text
             maxFontSizeMultiplier={1}
             style={
-              Object {
+              {
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,

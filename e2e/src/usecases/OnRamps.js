@@ -1,6 +1,6 @@
 import { reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementId } from '../utils/utils'
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default onRamps = () => {
   beforeEach(async () => {

@@ -1,8 +1,7 @@
 import { fetchDappList, navigateToDappList } from '../utils/dappList'
 import { reloadReactNative } from '../utils/retries'
 import { getElementTextList, sleep, scrollIntoView, waitForElementId } from '../utils/utils'
-
-jestExpect = require('expect')
+import jestExpect from 'expect'
 
 export default DappListDisplay = () => {
   let dappList = null
@@ -40,7 +39,7 @@ export default DappListDisplay = () => {
       .withTimeout(10 * 1000)
   })
 
-  it('should correctly filter dapp list based on user agent :ios:', async () => {
+  it(':ios: should correctly filter dapp list based on user agent', async () => {
     const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 14.5; iPhone)')
     await reloadReactNative()
     await navigateToDappList()

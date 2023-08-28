@@ -6,11 +6,10 @@ import * as I18nSlice from 'src/i18n/slice'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import Logger from 'src/utils/Logger'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/i18n')
 
-const mockedI18n = mocked(i18n)
+const mockedI18n = jest.mocked(i18n)
 
 const setLanguageSpy = jest.spyOn(I18nSlice, 'setLanguage')
 const loggerErrorSpy = jest.spyOn(Logger, 'error')

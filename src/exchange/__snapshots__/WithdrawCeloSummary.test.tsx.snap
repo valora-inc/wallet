@@ -4,8 +4,8 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
 <View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
@@ -17,7 +17,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "marginRight": 5,
@@ -26,14 +26,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
             },
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
@@ -48,14 +48,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     </View>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
@@ -67,9 +67,9 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
+          [
             undefined,
-            Object {
+            {
               "color": undefined,
             },
           ]
@@ -82,10 +82,27 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
   </View>
   <View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackground",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -102,7 +119,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "flexDirection": "row",
             "justifyContent": "space-between",
           }
@@ -110,8 +127,8 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "flexWrap": "wrap",
@@ -122,7 +139,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
@@ -134,10 +151,10 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           </Text>
           <View
             style={
-              Object {
+              {
                 "marginLeft": 7,
-                "transform": Array [
-                  Object {
+                "transform": [
+                  {
                     "rotate": "0deg",
                   },
                 ],
@@ -159,8 +176,8 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
                 "justifyContent": "space-between",
@@ -172,7 +189,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
                 "flexDirection": "row",
                 "marginRight": 5,
@@ -181,8 +198,8 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           >
             <Text
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
@@ -196,8 +213,8 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           </View>
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
@@ -210,9 +227,9 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           >
             <Text
               style={
-                Array [
+                [
                   undefined,
-                  Object {
+                  {
                     "color": undefined,
                   },
                 ]
@@ -228,8 +245,8 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
@@ -241,7 +258,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "marginRight": 5,
@@ -250,14 +267,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
             },
-            Object {
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
@@ -272,14 +289,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     </View>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
@@ -291,9 +308,9 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
+          [
             undefined,
-            Object {
+            {
               "color": undefined,
             },
           ]
@@ -306,14 +323,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
   </View>
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
           "marginVertical": 5,
         },
-        Object {
+        {
           "marginVertical": 0,
         },
       ]
@@ -321,7 +338,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "flexDirection": "row",
           "marginRight": 5,
@@ -330,14 +347,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
             },
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
@@ -349,14 +366,26 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
       >
         <View
           accessibilityState={
-            Object {
+            {
+              "busy": undefined,
+              "checked": undefined,
               "disabled": true,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackground",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -372,7 +401,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
         >
           <Text
             style={
-              Object {
+              {
                 "color": "#666666",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
@@ -383,9 +412,9 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             totalInCelo
             <Text
               style={
-                Array [
+                [
                   undefined,
-                  Object {
+                  {
                     "color": undefined,
                   },
                 ]
@@ -401,14 +430,14 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     </View>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
           },
-          Object {
+          {
             "color": "#666666",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
@@ -420,9 +449,9 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
+          [
             undefined,
-            Object {
+            {
               "color": undefined,
             },
           ]

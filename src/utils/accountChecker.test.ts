@@ -5,11 +5,10 @@ import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import { clearStoredAccounts } from 'src/web3/KeychainLock'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/web3/KeychainSigner')
 
-const mockedKeychain = mocked(Keychain)
+const mockedKeychain = jest.mocked(Keychain)
 
 beforeEach(() => {
   jest.clearAllMocks()

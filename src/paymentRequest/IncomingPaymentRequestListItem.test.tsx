@@ -23,16 +23,17 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
+const mockGetRecipientFromAddress = jest.fn((address: string) => {
+  switch (address) {
+    case mockAccount3:
+      return mockPhoneRecipient
+    default:
+      return mockRecipient
+  }
+})
 jest.mock('src/recipients/recipient', () => ({
   ...(jest.requireActual('src/recipients/recipient') as any),
-  getRecipientFromAddress: jest.fn((address: string) => {
-    switch (address) {
-      case mockAccount3:
-        return mockPhoneRecipient
-      default:
-        return mockRecipient
-    }
-  }),
+  getRecipientFromAddress: (address: string) => mockGetRecipientFromAddress(address),
 }))
 
 const mockPaymentRequest = mockPaymentRequests[1]
