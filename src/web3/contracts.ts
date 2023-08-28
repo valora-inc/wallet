@@ -130,7 +130,6 @@ export function* getViemWallet(chain: Chain) {
   if (!privateKey) {
     throw new Error('Failed to convert mnemonic to hex')
   }
-  Logger.debug(`${TAG}@getViemWallet`, `Initializing wallet with private key: ${privateKey}`)
   const wallet = getLockableViemWallet(
     keychainLock,
     chain,

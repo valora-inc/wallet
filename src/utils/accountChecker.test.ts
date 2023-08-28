@@ -6,7 +6,7 @@ import { clearStoredAccounts } from 'src/web3/KeychainLock'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
 
-jest.mock('src/web3/KeychainSigner')
+jest.mock('src/web3/KeychainLock')
 
 const mockedKeychain = jest.mocked(Keychain)
 
