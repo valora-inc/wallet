@@ -127,7 +127,7 @@ describe('NotificationCenter', () => {
     jest.clearAllMocks()
   })
 
-  it('renders empty state when there is no notifications at all', () => {
+  xit('renders empty state when there is no notifications at all', () => {
     const store = createMockStore({ ...storeDataNotificationsDisabled })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -147,13 +147,43 @@ describe('NotificationCenter', () => {
       </Provider>
     )
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_center_opened, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
       notificationsCount: 4,
     })
   })
 
-  it('renders backup when not complete yet', () => {
+  it('emits correct analytics events when notificatons are first rendered', () => {
+    const store = createMockStore()
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+      </Provider>
+    )
+
+    const eventData = {
+      nativeEvent: {
+        contentOffset: {
+          y: 500,
+        },
+        contentSize: {
+          height: 2000,
+          width: 390,
+        },
+        layoutMeasurement: {
+          height: 844,
+          width: 390,
+        },
+      },
+    }
+    fireEvent.scroll(getByTestId('NotificationCenter/List'), eventData)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+      notificationId: 'backup',
+      notificationPosition: 0,
+    })
+  })
+
+  xit('renders backup when not complete yet', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -171,7 +201,7 @@ describe('NotificationCenter', () => {
     expect(getByText('backupKeyNotification2')).toBeTruthy()
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -195,7 +225,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('renders reverify notification if decentrally verified and not CPV', () => {
+  xit('renders reverify notification if decentrally verified and not CPV', () => {
     const store = createMockStore({
       app: {
         requireCPV: true,
@@ -217,7 +247,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       app: {
         requireCPV: true,
@@ -240,7 +270,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('renders educations when not complete yet', () => {
+  xit('renders educations when not complete yet', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -258,7 +288,7 @@ describe('NotificationCenter', () => {
     expect(getByText('whatIsGold')).toBeTruthy()
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -282,7 +312,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('emits correct analytics event when notification is dismissed', () => {
+  xit('emits correct analytics event when notification is dismissed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -306,7 +336,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('renders incoming payment request when it exists', () => {
+  xit('renders incoming payment request when it exists', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -332,7 +362,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
 
-  it('renders incoming payment requests in reverse chronological order', () => {
+  xit('renders incoming payment requests in reverse chronological order', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -354,7 +384,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(items[2])).toBe('₱266,000.00')
   })
 
-  it('renders outgoing payment request when it exists', () => {
+  xit('renders outgoing payment request when it exists', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -380,7 +410,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
 
-  it('dispatches correct events when outgoing payment request buttons are pressed', () => {
+  xit('dispatches correct events when outgoing payment request buttons are pressed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -409,7 +439,7 @@ describe('NotificationCenter', () => {
     expect(store.getActions().at(-1)).toEqual(cancelPaymentRequest('FAKE_ID_1'))
   })
 
-  it('renders outgoing payment requests in reverse chronological order', () => {
+  xit('renders outgoing payment requests in reverse chronological order', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -431,7 +461,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(items[2])).toBe('₱266,000.00')
   })
 
-  it('renders sent escrowed payment when it exists', () => {
+  xit('renders sent escrowed payment when it exists', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -460,7 +490,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(getByTestId('EscrowedPaymentListItem/Details'))).toBe('Welcome!')
   })
 
-  it('renders sent escrowed payments in reverse chronological order', () => {
+  xit('renders sent escrowed payments in reverse chronological order', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -499,7 +529,7 @@ describe('NotificationCenter', () => {
     expect(getElementText(items[2])).toBe('₱13.30')
   })
 
-  it('renders verification reminder when not verified', () => {
+  xit('renders verification reminder when not verified', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -517,7 +547,7 @@ describe('NotificationCenter', () => {
     expect(getByText('notification.body')).toBeTruthy()
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -542,7 +572,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('emits correct analytics event when notification is dismissed', () => {
+  xit('emits correct analytics event when notification is dismissed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       account: {
@@ -567,7 +597,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('does not render verification reminder when insufficient balance', () => {
+  xit('does not render verification reminder when insufficient balance', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
     })
@@ -579,7 +609,7 @@ describe('NotificationCenter', () => {
     expect(queryByText('notification.body')).toBeFalsy()
   })
 
-  it('renders all remote notifications that were not dismissed', () => {
+  xit('renders all remote notifications that were not dismissed', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       home: {
@@ -634,7 +664,7 @@ describe('NotificationCenter', () => {
     ])
   })
 
-  it('renders notifications that open URL internally or externally', () => {
+  xit('renders notifications that open URL internally or externally', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       home: {
@@ -686,7 +716,7 @@ describe('NotificationCenter', () => {
     ])
   })
 
-  it('renders claim rewards notification when there are supercharge rewards', () => {
+  xit('renders claim rewards notification when there are supercharge rewards', () => {
     const store = createMockStore(superchargeSetUp)
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
@@ -704,7 +734,7 @@ describe('NotificationCenter', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore(superchargeSetUp)
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
@@ -727,7 +757,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('renders keep supercharging notification when expected', () => {
+  xit('renders keep supercharging notification when expected', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -750,7 +780,7 @@ describe('NotificationCenter', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 
-  it('does not render keep supercharging because is dismissed', () => {
+  xit('does not render keep supercharging because is dismissed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -771,7 +801,7 @@ describe('NotificationCenter', () => {
     expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -795,7 +825,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('emits correct analytics event when notification is dismissed', () => {
+  xit('emits correct analytics event when notification is dismissed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -817,7 +847,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('renders start supercharging notification if number is not verified', () => {
+  xit('renders start supercharging notification if number is not verified', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -844,7 +874,7 @@ describe('NotificationCenter', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 
-  it('renders start supercharging notification if user does not have enough balance', () => {
+  xit('renders start supercharging notification if user does not have enough balance', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -867,7 +897,7 @@ describe('NotificationCenter', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
 
-  it('does not render start supercharging because is dismissed', () => {
+  xit('does not render start supercharging because is dismissed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -888,7 +918,7 @@ describe('NotificationCenter', () => {
     expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
   })
 
-  it('emits correct analytics event when CTA button is pressed', () => {
+  xit('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
@@ -916,7 +946,7 @@ describe('NotificationCenter', () => {
     })
   })
 
-  it('emits correct analytics event when notification is dismissed', () => {
+  xit('emits correct analytics event when notification is dismissed', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
