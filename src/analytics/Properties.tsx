@@ -834,6 +834,12 @@ interface FiatExchangeEventsProperties {
     isLowestFee: boolean | undefined
   } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_fetch_quotes_result]: {
+    flow: CICOFlow
+    fiatType: LocalCurrencyCode
+    defaultFiatType: LocalCurrencyCode
+    transferFiatAmount?: number
+  } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_exchanges_selected]: {
     flow: CICOFlow
   } & ProviderSelectionAnalyticsData

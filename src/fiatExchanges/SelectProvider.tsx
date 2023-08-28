@@ -39,6 +39,7 @@ import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconne
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
+  getDefaultLocalCurrencyCode,
   getLocalCurrencyCode,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
@@ -99,6 +100,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const defaultCurrency = useSelector(getDefaultLocalCurrencyCode)
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
@@ -178,18 +180,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     }
   }, [])
 
-  if (
+  const quotesLoading =
     asyncProviders.loading ||
     fiatConnectQuotesLoading ||
     asyncExchanges.loading ||
     selectFiatConnectQuoteLoading
-  ) {
-    return (
-      <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.greenBrand} />
-      </View>
-    )
-  }
+
   const normalizedQuotes = normalizeQuotes(
     flow,
     fiatConnectQuotes,
@@ -197,30 +193,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     digitalAsset
   )
 
-  const availablePaymentMethods = normalizedQuotes.map((quote) => quote.getPaymentMethod())
-  const somePaymentMethodsUnavailable = !paymentMethodSections.every((method) =>
-    availablePaymentMethods.includes(method)
-  )
-
+  const exchanges = asyncExchanges.result ?? []
+  const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
   const coinbaseProvider = filterProvidersByPaymentMethod(
     PaymentMethod.Coinbase,
     asyncProviders.result?.externalProviders
   )
-
-  const supportOnPress = () => navigate(Screens.SupportContact)
-
-  const handlePressDisclaimer = () => {
-    navigate(Screens.WebViewScreen, { uri: FUNDING_LINK })
-  }
-
-  const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
-
-  const exchanges = asyncExchanges.result ?? []
-  const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
-
   const coinbasePayVisible =
     flow === CICOFlow.CashIn &&
     coinbaseProvider &&
@@ -234,6 +212,62 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     coinbasePayVisible ||
     exchanges.length ||
     legacyMobileMoneyProviders?.length
+
+  const analyticsData = getProviderSelectionAnalyticsData({
+    normalizedQuotes,
+    legacyMobileMoneyProviders,
+    exchangeRates,
+    tokenInfo,
+    centralizedExchanges: exchanges,
+    coinbasePayAvailable: coinbasePayVisible,
+    transferCryptoAmount: cryptoAmount,
+    cryptoType: digitalAsset,
+  })
+
+  useEffect(() => {
+    if (!quotesLoading) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_fetch_quotes_result, {
+        flow,
+        fiatType: localCurrency,
+        defaultFiatType: defaultCurrency,
+        transferFiatAmount: fiatAmount,
+        ...analyticsData,
+      })
+    }
+  }, [
+    quotesLoading,
+    flow,
+    digitalAsset,
+    localCurrency,
+    defaultCurrency,
+    cryptoAmount,
+    fiatAmount,
+    normalizedQuotes,
+  ])
+
+  if (quotesLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
+  }
+
+  const availablePaymentMethods = normalizedQuotes.map((quote) => quote.getPaymentMethod())
+  const somePaymentMethodsUnavailable = !paymentMethodSections.every((method) =>
+    availablePaymentMethods.includes(method)
+  )
+
+  const supportOnPress = () => navigate(Screens.SupportContact)
+
+  const handlePressDisclaimer = () => {
+    navigate(Screens.WebViewScreen, { uri: FUNDING_LINK })
+  }
+
+  const switchCurrencyOnPress = () =>
+    navigate(Screens.FiatExchangeCurrency, {
+      flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+    })
 
   if (!anyProviders) {
     return (
@@ -260,17 +294,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       </View>
     )
   }
-
-  const analyticsData = getProviderSelectionAnalyticsData({
-    normalizedQuotes,
-    legacyMobileMoneyProviders,
-    exchangeRates,
-    tokenInfo,
-    centralizedExchanges: exchanges,
-    coinbasePayAvailable: coinbasePayVisible,
-    transferCryptoAmount: cryptoAmount,
-    cryptoType: digitalAsset,
-  })
 
   const showReceiveAmount = getFeatureGate(
     StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER
