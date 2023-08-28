@@ -1,6 +1,6 @@
 import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,7 +13,7 @@ import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
-import { selectSessionFromTopic } from 'src/walletConnect/selectors'
+import { sessionsSelector } from 'src/walletConnect/selectors'
 
 interface Props {
   version: 2
@@ -25,7 +25,10 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const activeSession = useSelector(selectSessionFromTopic(pendingAction.topic))
+  const sessions = useSelector(sessionsSelector)
+  const activeSession = useMemo(() => {
+    return sessions.find((s) => s.topic === pendingAction.topic)
+  }, [sessions])
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
   const isDappListed = useIsDappListed(url)
 

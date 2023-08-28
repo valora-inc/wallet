@@ -2461,14 +2461,26 @@ export const v144Schema = {
     ...v143Schema._persist,
     version: 144,
   },
+  app: {
+    ...v143Schema.app,
+    pushNotificationRequestedUnixTime: 1692878055000,
+  },
+}
+
+export const v145Schema = {
+  ...v144Schema,
+  _persist: {
+    ...v144Schema._persist,
+    version: 145,
+  },
   transactions: {
-    ...v143Schema.transactions,
-    standbyTransactions: (v143Schema.transactions.standbyTransactions as StandbyTransaction[]).map(
+    ...v144Schema.transactions,
+    standbyTransactions: (v144Schema.transactions.standbyTransactions as StandbyTransaction[]).map(
       (tx) => {
         return { ...tx, chain: Chain.Celo }
       }
     ),
-    transactions: (v143Schema.transactions.transactions as TokenTransaction[]).map((tx) => {
+    transactions: (v144Schema.transactions.transactions as TokenTransaction[]).map((tx) => {
       const __typename = // @ts-ignore
         tx.__typename === 'TokenTransferV2'
           ? 'TokenTransferV3' // @ts-ignore
@@ -2485,5 +2497,5 @@ export const v144Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v144Schema as Partial<RootState>
+  return v145Schema as Partial<RootState>
 }

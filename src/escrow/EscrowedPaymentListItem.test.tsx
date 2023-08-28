@@ -1,11 +1,11 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
-import { createMockStore, flushMicrotasksQueue, getElementText } from 'test/utils'
+import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
 
 const store = createMockStore()
@@ -54,8 +54,10 @@ describe('EscrowedPaymentReminderNotification', () => {
       </Provider>
     )
 
-    fireEvent.press(contact.getByTestId('EscrowedPaymentListItem/CallToActions/remind/Button'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(contact.getByTestId('EscrowedPaymentListItem/CallToActions/remind/Button'))
+    })
+
     expect(Share.share).toHaveBeenCalled()
   })
 })

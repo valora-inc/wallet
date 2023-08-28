@@ -1071,9 +1071,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Datos de la transacción",
     "readAccount": "{{dappName}} desea leer tu dirección de wallet de {{appName}}.",
-    "signPayload": "{{dappName}} desea aprobar una carga de datos.",
+    "signPayloadTitle": "Verificar monedero",
+    "signPayload": "{{dappName}} quisiera verificar la propiedad de tu monedero.",
+    "signTransactionTitle": "Firmar la transacción",
     "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
+    "sendTransactionTitle": "Enviar transacción",
     "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
+    "decryptPayloadTitle": "Descifrar con monedero",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
     "computeSharedSecret": "{{dappName}} desea generar secretos.",
     "transactionDataCopied": "Datos de transacción copiados",
@@ -1679,6 +1683,10 @@
     "priceImpactWarning": {
       "title": "Antes de cambiar",
       "body": "Intercambiar estos activos puede afectar el tipo de cambio. Si reduces el monto a cambiar, tal vez obtengas un mejor tipo de cambio."
+    },
+    "missingSwapImpactWarning": {
+      "title": "Antes de cambiar",
+      "body": "No podemos estimar el valor de este intercambio. {{appName}} no se hace responsable si decides proceder."
     },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>"
   },

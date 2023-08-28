@@ -185,9 +185,7 @@
                 "action": {
                     "anyOf": [
                         {
-                            "additionalProperties": true,
-                            "properties": {},
-                            "type": "object"
+                            "$ref": "#/definitions/AnyAction"
                         },
                         {
                             "type": "null"
@@ -319,6 +317,19 @@
                 "toast"
             ],
             "type": "string"
+        },
+        "AnyAction": {
+            "additionalProperties": {},
+            "description": "An Action type which accepts any other properties.\nThis is mainly for the use of the `Reducer` type.\nThis is not part of `Action` itself to prevent types that extend `Action` from\nhaving an index signature.",
+            "properties": {
+                "type": {
+                    "description": "the type of the action's `type` tag."
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
         },
         "AppState": {
             "enum": [
@@ -2922,6 +2933,12 @@
                 "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
+                "pushNotificationRequestedUnixTime": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
                 "pushNotificationsEnabled": {
                     "type": "boolean"
                 },
@@ -3019,6 +3036,7 @@
                 "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
+                "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
                 "requireCPV",

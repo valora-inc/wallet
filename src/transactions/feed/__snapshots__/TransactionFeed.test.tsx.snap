@@ -9,7 +9,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           Object {
             "__typename": "TokenTransferV3",
             "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
-            "amount": Object {
+            "amount": {
               "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
               "value": "0.1",
             },
@@ -41,18 +41,19 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
   onScrollEndDrag={[Function]}
   renderItem={[Function]}
   scrollEventThrottle={50}
-  stickyHeaderIndices={Array []}
+  stickyHeaderIndices={[]}
   testID="TransactionList"
 >
   <View>
     <View
+      onFocusCapture={[Function]}
       onLayout={[Function]}
       style={null}
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#FFFFFF",
               "flexDirection": "row",
@@ -66,7 +67,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       >
         <Text
           style={
-            Object {
+            {
               "color": "#666666",
               "fontFamily": "Inter-Medium",
               "fontSize": 13,
@@ -79,19 +80,32 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       </View>
     </View>
     <View
+      onFocusCapture={[Function]}
       onLayout={[Function]}
       style={null}
     >
       <View
         accessibilityState={
-          Object {
+          {
+            "busy": undefined,
+            "checked": undefined,
             "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
-          Object {
+          {
             "attribute": "selectableItemBackground",
             "rippleRadius": undefined,
             "type": "ThemeAttrAndroid",
@@ -108,7 +122,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "flex": 1,
               "flexDirection": "row",
               "paddingHorizontal": 16,
@@ -118,13 +132,13 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
                 },
-                Object {
+                {
                   "alignItems": "flex-start",
                 },
               ]
@@ -132,12 +146,12 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           >
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "justifyContent": "center",
                   },
-                  Object {
+                  {
                     "backgroundColor": "hsl(192, 53%, 93%)",
                     "borderRadius": 20,
                     "height": 40,
@@ -149,7 +163,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
               <svg
                 fill="hsl(192, 53%, 93%)"
                 height="40"
-                style={Object {}}
+                style={{}}
                 viewBox="0 0 40 40"
                 width="40"
               />
@@ -157,7 +171,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "flex": 1,
                 "flexGrow": 1,
                 "paddingHorizontal": 16,
@@ -166,7 +180,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           >
             <Text
               style={
-                Object {
+                {
                   "color": "#2E3338",
                   "flexShrink": 1,
                   "fontFamily": "Inter-Medium",
@@ -180,7 +194,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             </Text>
             <Text
               style={
-                Object {
+                {
                   "color": "#666666",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 14,
@@ -195,7 +209,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           </View>
           <View
             style={
-              Object {
+              {
                 "alignItems": "flex-end",
                 "flex": 0,
                 "maxWidth": "35%",
@@ -204,8 +218,8 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
           >
             <Text
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#2E3338",
                     "flexWrap": "wrap",
                     "fontFamily": "Inter-Medium",
@@ -213,7 +227,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
                     "lineHeight": 22,
                     "textAlign": "right",
                   },
-                  Object {
+                  {
                     "color": "#1AB775",
                   },
                 ]
@@ -226,7 +240,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             </Text>
             <Text
               style={
-                Object {
+                {
                   "color": "#666666",
                   "flexWrap": "wrap",
                   "fontFamily": "Inter-Regular",
@@ -246,6 +260,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       </View>
     </View>
     <View
+      onFocusCapture={[Function]}
       onLayout={[Function]}
       style={null}
     />

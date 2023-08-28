@@ -3,13 +3,22 @@
 exports[`SmartTopAlert renders correctly 1`] = `
 <View
   style={
-    Object {
+    {
       "overflow": "hidden",
     }
   }
   testID="infoBanner"
 >
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     onClick={[Function]}
@@ -20,8 +29,8 @@ exports[`SmartTopAlert renders correctly 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "backgroundColor": "#0768AE",
           "flexDirection": "row",
@@ -31,10 +40,10 @@ exports[`SmartTopAlert renders correctly 1`] = `
         },
         undefined,
         false,
-        Object {
+        {
           "paddingTop": 10,
-          "transform": Array [
-            Object {
+          "transform": [
+            {
               "translateY": -500,
             },
           ],
@@ -45,15 +54,15 @@ exports[`SmartTopAlert renders correctly 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
             "lineHeight": 18,
           },
           false,
-          Object {
+          {
             "color": "white",
             "lineHeight": undefined,
             "textAlign": "center",
@@ -63,14 +72,14 @@ exports[`SmartTopAlert renders correctly 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#2E3338",
               "fontFamily": "Inter-Medium",
               "fontSize": 14,
               "lineHeight": 18,
             },
-            Object {
+            {
               "color": "white",
               "lineHeight": undefined,
               "textAlign": "center",

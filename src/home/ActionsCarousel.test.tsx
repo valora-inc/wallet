@@ -10,7 +10,6 @@ import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 function getStore(shouldShowSwapAction: boolean) {
   return createMockStore({
@@ -76,8 +75,8 @@ describe('ActionsCarousel', () => {
       expect(navigate).toHaveBeenCalledTimes(1)
       // NOTE: cannot use calledWith(screen, screenOptions) because undefined
       // isn't explicitly passed for screens with no options and the expect fails
-      expect(mocked(navigate).mock.calls[0][0]).toEqual(screen)
-      expect(mocked(navigate).mock.calls[0][1]).toEqual(screenOptions)
+      expect(jest.mocked(navigate).mock.calls[0][0]).toEqual(screen)
+      expect(jest.mocked(navigate).mock.calls[0][1]).toEqual(screenOptions)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {

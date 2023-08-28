@@ -11,9 +11,10 @@ jest.mock('lodash', () => ({
   shuffle: jest.fn((array) => array),
 }))
 
+const mockGetStoredMnemonic = jest.fn(() => mockMnemonic)
 jest.mock('src/backup/utils', () => ({
   ...(jest.requireActual('src/backup/utils') as any),
-  getStoredMnemonic: jest.fn(() => mockMnemonic),
+  getStoredMnemonic: () => mockGetStoredMnemonic(),
 }))
 
 const mockScreenProps = getMockStackScreenProps(Screens.BackupQuiz)

@@ -6,7 +6,7 @@ const ErrorComponent = () => {
   throw new Error('Snap!')
 }
 
-describe(ErrorBoundary, () => {
+describe('ErrorBoundary', () => {
   it('catches the errors', () => {
     const wrapper = render(
       <ErrorBoundary>

@@ -1211,6 +1211,15 @@ export const migrations = {
   }),
   144: (state: any) => ({
     ...state,
+    app: {
+      ...state.app,
+      // set this to a non null value for existing users so that they do not get
+      // prompted for push notification permissions again
+      pushNotificationRequestedUnixTime: 1692878055000,
+    },
+  }),
+  145: (state: any) => ({
+    ...state,
     transactions: {
       ...state.transactions,
       standbyTransactions: (state.transactions.standbyTransactions as StandbyTransaction[]).map(

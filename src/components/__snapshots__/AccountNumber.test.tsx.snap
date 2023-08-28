@@ -3,7 +3,7 @@
 exports[`AccountNumber renders correctly when touch disabled 1`] = `
 <Text
   style={
-    Object {
+    {
       "color": "#666666",
       "fontFamily": "Inter-Regular",
       "fontSize": 14,
@@ -19,6 +19,23 @@ exports[`AccountNumber renders correctly when touch disabled 1`] = `
 
 exports[`AccountNumber renders correctly when touch enabled 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   focusable={true}
   onClick={[Function]}
@@ -29,9 +46,9 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "opacity": 1,
       },
     ]
@@ -40,7 +57,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#666666",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
@@ -54,7 +71,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
   </Text>
   <Text
     style={
-      Object {
+      {
         "color": "#666666",
         "fontFamily": "Inter-Regular",
         "fontSize": 13,
