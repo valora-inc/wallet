@@ -260,7 +260,12 @@ export default function DrawerNavigator({ route }: Props) {
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home') ?? undefined, drawerIcon: Home, unmountOnBlur: false }}
+        options={{
+          title: t('home') ?? undefined,
+          drawerIcon: Home,
+          unmountOnBlur: false,
+          freezeOnBlur: false,
+        }}
       />
       {shouldShowNftGallery && (
         <Drawer.Screen
