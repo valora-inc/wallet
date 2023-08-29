@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -69,6 +69,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   }
 
   const submitModal = () => {
+    Keyboard.dismiss()
     onBarCodeDetected({ type: '', data: value })
     closeModal()
   }
