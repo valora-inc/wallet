@@ -207,7 +207,6 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   return (
     <Animated.FlatList
-      testID={'NotificationCenter/List'}
       style={styles.container}
       ListHeaderComponent={renderHeader}
       ListEmptyComponent={renderEmptyState}
