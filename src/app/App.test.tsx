@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
 import App from 'src/app/App'
 
+jest.mock('src/redux/store')
 jest.mock('react-native-screens')
 jest.mock('react-native-localize', () => ({
   getNumberFormatSettings: jest

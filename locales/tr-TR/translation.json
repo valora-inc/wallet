@@ -1071,9 +1071,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "İşlem verileri",
     "readAccount": "{{dappName}}, {{appName}} cüzdan adresinizi okumak istiyor.",
-    "signPayload": "{{dappName}} bir veri yükü imzalamak istiyor.",
+    "signPayloadTitle": "Cüzdanı doğrula",
+    "signPayload": "{{dappName}} cüzdanınızın sahipliğini doğrulamak istiyor.",
+    "signTransactionTitle": "İşlemi imzala",
     "signTransaction": "{{dappName}} bir Celo işlemini imzalamak istiyor.",
+    "sendTransactionTitle": "İşlem gönder",
     "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
+    "decryptPayloadTitle": "Cüzdan ile şifre çözme",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
     "transactionDataCopied": "İşlem verileri kopyalandı",
@@ -1679,6 +1683,10 @@
     "priceImpactWarning": {
       "title": "Takas yapmadan önce",
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
+    },
+    "missingSwapImpactWarning": {
+      "title": "Takas yapmadan önce",
+      "body": "Bu takasın değerini tahmin edemiyoruz. {{appName}} devam etmeyi seçerseniz sorumlu değildir."
     },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },

@@ -15,7 +15,7 @@ import {
   completeProtectWalletScreen,
 } from '../utils/utils'
 
-const jestExpect = require('expect')
+import jestExpect from 'expect'
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {

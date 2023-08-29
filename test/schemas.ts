@@ -2454,6 +2454,18 @@ export const v143Schema = {
   },
 }
 
+export const v144Schema = {
+  ...v143Schema,
+  _persist: {
+    ...v143Schema._persist,
+    version: 144,
+  },
+  app: {
+    ...v143Schema.app,
+    pushNotificationRequestedUnixTime: 1692878055000,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v143Schema as Partial<RootState>
+  return v144Schema as Partial<RootState>
 }

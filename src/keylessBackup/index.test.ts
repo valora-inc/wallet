@@ -1,14 +1,13 @@
-import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
-import { mocked } from 'ts-jest/utils'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 
 jest.mock('src/utils/fetchWithTimeout')
 
 describe(storeEncryptedMnemonic, () => {
   it('throws error and logs analytics event if error status', async () => {
     // 500 error
-    mocked(fetchWithTimeout).mockResolvedValueOnce({
+    jest.mocked(fetchWithTimeout).mockResolvedValueOnce({
       status: 500,
       ok: false,
       json: async () => ({ message: 'bad news' }),
@@ -24,7 +23,7 @@ describe(storeEncryptedMnemonic, () => {
     })
 
     // 409 error (backup exists)
-    mocked(fetchWithTimeout).mockResolvedValueOnce({
+    jest.mocked(fetchWithTimeout).mockResolvedValueOnce({
       status: 409,
       ok: false,
       json: async () => ({ message: 'backup exists' }),
@@ -40,7 +39,7 @@ describe(storeEncryptedMnemonic, () => {
     })
   })
   it('resolves if success status', async () => {
-    mocked(fetchWithTimeout).mockResolvedValueOnce({ status: 200, ok: true } as any)
+    jest.mocked(fetchWithTimeout).mockResolvedValueOnce({ status: 200, ok: true } as any)
     expect(
       await storeEncryptedMnemonic({
         encryptedMnemonic: 'encrypted',

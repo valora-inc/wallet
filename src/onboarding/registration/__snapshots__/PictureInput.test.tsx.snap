@@ -1,12 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PictureInputScreen renders correctly 1`] = `
-Array [
+[
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     focusable={true}
     nativeBackgroundAndroid={
-      Object {
+      {
         "attribute": "selectableItemBackground",
         "rippleRadius": undefined,
         "type": "ThemeAttrAndroid",
@@ -20,8 +37,8 @@ Array [
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "alignSelf": "center",
           "borderRadius": 32,
@@ -35,8 +52,8 @@ Array [
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
@@ -47,12 +64,12 @@ Array [
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "justifyContent": "center",
             },
-            Object {
+            {
               "backgroundColor": "hsl(0, 53%, 93%)",
               "borderRadius": 32,
               "height": 64,
@@ -64,17 +81,17 @@ Array [
         <Image
           resizeMode="cover"
           source={
-            Object {
+            {
               "uri": "abc",
             }
           }
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignSelf": "center",
                 "margin": "auto",
               },
-              Object {
+              {
                 "borderRadius": 32,
                 "height": 64,
                 "width": 64,
@@ -86,7 +103,7 @@ Array [
     </View>
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "backgroundColor": "#F8F9F9",
           "borderRadius": 20,
@@ -102,7 +119,7 @@ Array [
       <svg
         fill="none"
         height={13}
-        style={Object {}}
+        style={{}}
         viewBox="0 0 13 13"
         width={13}
         xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +129,7 @@ Array [
           d="M10.8667 4.94998L8.03333 2.14998L8.96667 1.21665C9.22222 0.961091 9.53622 0.833313 9.90867 0.833313C10.2807 0.833313 10.5944 0.961091 10.85 1.21665L11.7833 2.14998C12.0389 2.40554 12.1722 2.71398 12.1833 3.07531C12.1944 3.4362 12.0722 3.74442 11.8167 3.99998L10.8667 4.94998ZM9.9 5.93331L2.83333 13H0V10.1666L7.06667 3.09998L9.9 5.93331Z"
           fill="#178154"
           fill-rule="evenodd"
-          style={Object {}}
+          style={{}}
         />
       </svg>
     </View>
@@ -135,7 +152,7 @@ Array [
     scrollTo={null}
     statusBarTranslucent={true}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
