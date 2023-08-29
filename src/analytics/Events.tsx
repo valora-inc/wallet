@@ -9,9 +9,9 @@ export enum AppEvents {
   user_restart = 'user_restart',
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
-  redux_keychain_mismatch = 'redux_keychain_mismatch', // when the redux state doesn't contain the account found in the keychain
+  redux_keychain_mismatch = 'redux_keychain_mismatch',
   redux_store_recovery_success = 'redux_store_recovery_success',
-  redux_no_matching_keychain_account = 'redux_no_matching_keychain_account', // when account in redux has no matching password hash in the keychain
+  redux_no_matching_keychain_account = 'redux_no_matching_keychain_account',
   push_notification_opened = 'push_notification_opened',
   push_notifications_permission_changed = 'push_notifications_permission_changed',
   android_mobile_services_checked = 'android_mobile_services_checked',
@@ -23,8 +23,8 @@ export enum AppEvents {
   account_funded = 'account_funded',
   account_liquidated = 'account_liquidated',
 
-  in_app_review_impression = 'in_app_review_impression', // User sees an in-app review request
-  in_app_review_error = 'in_app_review_error', // Error while attempting to display in-app review
+  in_app_review_impression = 'in_app_review_impression',
+  in_app_review_error = 'in_app_review_error',
 }
 
 export enum HomeEvents {
@@ -40,7 +40,7 @@ export enum HomeEvents {
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
-  view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
+  view_nft_home_assets = 'view_nft_home_assets',
   home_action_pressed = 'home_action_pressed',
   notification_bell_pressed = 'notification_bell_pressed',
 }
@@ -125,18 +125,18 @@ export enum OnboardingEvents {
   backup_education_cancel = 'backup_education_cancel',
 
   backup_start = 'backup_start',
-  backup_continue = 'backup_continue', // (count # of taps on “Continue” button in Backup_Phrase)
-  backup_complete = 'backup_complete', // (count # of taps on "Cancel" button in Backup_Phrase/BackupQuiz)
+  backup_continue = 'backup_continue',
+  backup_complete = 'backup_complete',
   backup_more_info = 'backup_more_info',
-  backup_delay_confirm = 'backup_delay_confirm', // when a user confirms they want to delay backup
-  backup_delay_cancel = 'backup_delay_cancel', // when a user decides to return to backup flow
-  backup_cancel = 'backup_cancel', // (count # of taps on "Cancel" button in Backup_Phrase/BackupQuiz)
+  backup_delay_confirm = 'backup_delay_confirm',
+  backup_delay_cancel = 'backup_delay_cancel',
+  backup_cancel = 'backup_cancel',
   backup_error = 'backup_error',
 
   backup_quiz_start = 'backup_quiz_start',
-  backup_quiz_progress = 'backup_quiz_progress', // whenever the backspace is pressed or word is chosen
-  backup_quiz_complete = 'backup_quiz_complete', // (Count # of successful Recovery Phrase confirmations Backup_Quiz)
-  backup_quiz_incorrect = 'backup_quiz_incorrect', // (Count # of failed Recovery Phrase confirmations Backup_Quiz)
+  backup_quiz_progress = 'backup_quiz_progress',
+  backup_quiz_complete = 'backup_quiz_complete',
+  backup_quiz_incorrect = 'backup_quiz_incorrect',
 
   terms_and_conditions_accepted = 'terms_and_conditions_accepted',
 
@@ -165,8 +165,8 @@ export enum OnboardingEvents {
   wallet_import_start = 'wallet_import_start',
   wallet_import_phrase_updated = 'wallet_import_phrase_updated',
   wallet_import_submit = 'wallet_import_submit',
-  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of empty wallet or navigates back
-  wallet_import_zero_balance = 'wallet_import_zero_balance', // when the user is informed a wallet has zero balance
+  wallet_import_cancel = 'wallet_import_cancel',
+  wallet_import_zero_balance = 'wallet_import_zero_balance',
   wallet_import_phrase_invalid = 'wallet_import_phrase_invalid',
   wallet_import_phrase_correction_attempt = 'wallet_import_phrase_correction_attempt',
   wallet_import_phrase_correction_success = 'wallet_import_phrase_correction_success',
@@ -209,30 +209,30 @@ export enum VerificationEvents {
 
 // Events emitted in the CPV flow
 export enum PhoneVerificationEvents {
-  phone_verification_skip = 'phone_verification_skip', // when skip is pressed in the phone number input screen
-  phone_verification_skip_confirm = 'phone_verification_skip_confirm', // when skip is confirmed from the dialog in the phone number input screen
-  phone_verification_learn_more = 'phone_verification_learn_more', // when the learn more dialog is launched in the phone number input screen
-  phone_verification_start = 'phone_verification_start', // when the start button is pressed in the phone number input screen
+  phone_verification_skip = 'phone_verification_skip',
+  phone_verification_skip_confirm = 'phone_verification_skip_confirm',
+  phone_verification_learn_more = 'phone_verification_learn_more',
+  phone_verification_start = 'phone_verification_start',
 
-  phone_verification_code_request_success = 'phone_verification_code_request_success', // when the verifyPhoneNumber endpoint returns successfully
-  phone_verification_restore_success = 'phone_verification_restore_success', // when the verifyPhoneNumber endpoint returns that the user is already verified (restore wallet flow)
-  phone_verification_code_verify_start = 'phone_verification_code_verify_start', // when the user has entered the sms code and we start to validate on the backend
-  phone_verification_code_verify_success = 'phone_verification_code_verify_success', // when the backend confirms that the sms code is successfully validated
-  phone_verification_code_verify_error = 'phone_verification_code_verify_error', // when the backend throws an error and the sms code cannot be validated
+  phone_verification_code_request_success = 'phone_verification_code_request_success',
+  phone_verification_restore_success = 'phone_verification_restore_success',
+  phone_verification_code_verify_start = 'phone_verification_code_verify_start',
+  phone_verification_code_verify_success = 'phone_verification_code_verify_success',
+  phone_verification_code_verify_error = 'phone_verification_code_verify_error',
 
-  phone_verification_input_help = 'phone_verification_input_help', // when the help button is pressed
-  phone_verification_input_help_skip = 'phone_verification_input_help_skip', // when the user presses skip on the help dialog to skip verification
-  phone_verification_input_help_continue = 'phone_verification_input_help_continue', // when the user presses continue on the help dialog to continue verification
+  phone_verification_input_help = 'phone_verification_input_help',
+  phone_verification_input_help_skip = 'phone_verification_input_help_skip',
+  phone_verification_input_help_continue = 'phone_verification_input_help_continue',
 
-  phone_verification_resend_message = 'phone_verification_resend_message', // when the user triggers a resend of the sms code
+  phone_verification_resend_message = 'phone_verification_resend_message',
 
-  phone_verification_revoke_start = 'phone_verification_revoke_start', // when the revoke endpoint is called
-  phone_verification_revoke_success = 'phone_verification_revoke_success', // when the revoke endpoint returns successfully
-  phone_verification_revoke_error = 'phone_verification_revoke_error', // when the revoke endpoint returns an error
+  phone_verification_revoke_start = 'phone_verification_revoke_start',
+  phone_verification_revoke_success = 'phone_verification_revoke_success',
+  phone_verification_revoke_error = 'phone_verification_revoke_error',
 }
 
 export enum IdentityEvents {
-  contacts_connect = 'contacts_connect', // when connect button is pressed
+  contacts_connect = 'contacts_connect',
   contacts_import_permission_denied = 'contacts_import_permission_denied',
   contacts_import_start = 'contacts_import_start',
   contacts_import_complete = 'contacts_import_complete',
@@ -268,7 +268,7 @@ export enum InviteEvents {
   invite_with_share_dismiss = 'invite_with_share_dismiss',
   invite_with_referral_url = 'invite_with_referral_url',
   opened_via_invite_url = 'opened_via_invite_url',
-  invite_help_link = 'invite_help_link', // When taps "View all terms" in invite disclaimer
+  invite_help_link = 'invite_help_link',
 }
 
 export enum EscrowEvents {
@@ -276,40 +276,40 @@ export enum EscrowEvents {
   escrow_fetch_complete = 'escrow_fetch_complete',
   escrow_fetch_error = 'escrow_fetch_error',
 
-  escrow_reclaim_confirm = 'escrow_reclaim_confirm', // user confirms they want to reclaim escrowed payment
-  escrow_reclaim_cancel = 'escrow_reclaim_cancel', // user decides not to initiate a reclaim of escrowed payment
-  escrow_reclaim_start = 'escrow_reclaim_start', // when reclaim transaction starts
-  escrow_reclaim_complete = 'escrow_reclaim_complete', // when reclaim transaction complete
+  escrow_reclaim_confirm = 'escrow_reclaim_confirm',
+  escrow_reclaim_cancel = 'escrow_reclaim_cancel',
+  escrow_reclaim_start = 'escrow_reclaim_start',
+  escrow_reclaim_complete = 'escrow_reclaim_complete',
   escrow_reclaim_error = 'escrow_reclaim_error',
 }
 
 export enum SendEvents {
-  send_scan = 'send_scan', // when scan QR icon is selected from the send screen
-  send_select_recipient = 'send_select_recipient', // when recipient was selected
-  send_cancel = 'send_cancel', // when user x's out of Send screen
-  send_amount_back = 'send_amount_back', // back button pressed on amount screen
-  send_amount_continue = 'send_amount_continue', // when next button pressed on amount enter page
-  send_confirm_back = 'send_confirm_back', // when back button pressed on send confirmation screen
-  send_confirm_send = 'send_confirm_send', // when send button pressed on send confirmation screen
+  send_scan = 'send_scan',
+  send_select_recipient = 'send_select_recipient',
+  send_cancel = 'send_cancel',
+  send_amount_back = 'send_amount_back',
+  send_amount_continue = 'send_amount_continue',
+  send_confirm_back = 'send_confirm_back',
+  send_confirm_send = 'send_confirm_send',
 
-  send_secure_start = 'send_secure_start', // when either secure send scan or manual confirm button pressed
-  send_secure_back = 'send_secure_back', // when back button is pressed during secure send
-  send_secure_cancel = 'send_secure_cancel', // when secure send flow is canceled
+  send_secure_start = 'send_secure_start',
+  send_secure_back = 'send_secure_back',
+  send_secure_cancel = 'send_secure_cancel',
 
-  send_secure_info = 'send_secure_info', // when "help" button is pressed
-  send_secure_info_dismissed = 'send_secure_info_dismissed', // when "help" button is dismissed
-  send_secure_submit = 'send_secure_submit', // when an account is submitted for validation
-  send_secure_incorrect = 'send_secure_incorrect', // when there's been an error validating the account
-  send_secure_complete = 'send_secure_complete', // when an account has been validated
+  send_secure_info = 'send_secure_info',
+  send_secure_info_dismissed = 'send_secure_info_dismissed',
+  send_secure_submit = 'send_secure_submit',
+  send_secure_incorrect = 'send_secure_incorrect',
+  send_secure_complete = 'send_secure_complete',
 
-  send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
+  send_secure_edit = 'send_secure_edit',
 
-  send_tx_start = 'send_tx_start', // issued from the sendPayment saga, after a user confirms their intent to send and right before we build and send the transaction to the network
-  send_tx_complete = 'send_tx_complete', // when a send transaction has successfully completed
-  send_tx_error = 'send_tx_error', // when there is an error sending a transaction
+  send_tx_start = 'send_tx_start',
+  send_tx_complete = 'send_tx_complete',
+  send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  token_selected = 'token_selected', // A token was selected in TokenBottomSheet.
+  token_selected = 'token_selected',
   max_pressed = 'max_pressed',
   swap_input_pressed = 'swap_input_pressed',
 
@@ -326,18 +326,18 @@ export enum QrScreenEvents {
   qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
   qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
-  qr_scanner_open = 'qr_scanner_open', // When unique "QR scanner" button is pressed
+  qr_scanner_open = 'qr_scanner_open',
 }
 
 export enum RequestEvents {
-  request_scan = 'request_scan', // when scan QR icon is selected from the request screen
-  request_select_recipient = 'request_select_recipient', // when recipient was selected
-  request_cancel = 'request_cancel', // when cancel is clicked after launching request flow
-  request_amount_back = 'request_amount_back', // back button pressed on amount screen
-  request_amount_continue = 'request_amount_continue', // when next button pressed on amount enter page
-  request_confirm_back = 'request_confirm_back', // when back button pressed on request confirmation screen
-  request_confirm_request = 'request_confirm_request', // when request button pressed on request confirmation screen
-  request_error = 'request_error', // when there is an error requesting a transaction
+  request_scan = 'request_scan',
+  request_select_recipient = 'request_select_recipient',
+  request_cancel = 'request_cancel',
+  request_amount_back = 'request_amount_back',
+  request_amount_continue = 'request_amount_continue',
+  request_confirm_back = 'request_confirm_back',
+  request_confirm_request = 'request_confirm_request',
+  request_error = 'request_error',
 }
 
 export enum FeeEvents {
@@ -347,7 +347,6 @@ export enum FeeEvents {
   fetch_tobin_tax_failed = 'fetch_tobin_tax_failed',
 }
 
-// Generic transaction logging to grab tx hashes
 export enum TransactionEvents {
   transaction_start = 'transaction_start',
   transaction_gas_estimated = 'transaction_gas_estimated',
@@ -359,47 +358,47 @@ export enum TransactionEvents {
 }
 
 export enum CeloExchangeEvents {
-  celo_home_info = 'celo_home_info', // when the (i) next to Celo Gold price is clicked, launching education (not pictured)
+  celo_home_info = 'celo_home_info',
 
-  celo_withdraw_review = 'celo_withdraw_review', // when ‘review’ is clicked on the withdraw amount screen
-  celo_withdraw_edit = 'celo_withdraw_edit', // when ‘edit’ is clicked on the review screen
-  celo_withdraw_cancel = 'celo_withdraw_cancel', // when ’cancel’ is clicked on the review screen
-  celo_withdraw_confirm = 'celo_withdraw_confirm', // when ‘withdraw’ is clicked on the review screen
-  celo_withdraw_completed = 'celo_withdraw_completed', // when the transaction for the withdrawal is completed
-  celo_withdraw_error = 'celo_withdraw_error', // when there's an error on the withdrawal transaction
+  celo_withdraw_review = 'celo_withdraw_review',
+  celo_withdraw_edit = 'celo_withdraw_edit',
+  celo_withdraw_cancel = 'celo_withdraw_cancel',
+  celo_withdraw_confirm = 'celo_withdraw_confirm',
+  celo_withdraw_completed = 'celo_withdraw_completed',
+  celo_withdraw_error = 'celo_withdraw_error',
 
-  celo_chart_tapped = 'celo_chart_tapped', // when user clicks the chart on exchange screen
+  celo_chart_tapped = 'celo_chart_tapped',
 }
 
 export enum FiatExchangeEvents {
   // The CICO landing page accessible from the Settings Menu
-  cico_landing_token_balance = 'cico_landing_token_balance', // User taps to view detailed token balance
-  cico_landing_select_flow = 'cico_landing_select_flow', // User taps which CICO flow they want (Cash in, cash out, spend)
-  cico_landing_how_to_fund = 'cico_landing_how_to_fund', // User taps help article link at the bottom
+  cico_landing_token_balance = 'cico_landing_token_balance',
+  cico_landing_select_flow = 'cico_landing_select_flow',
+  cico_landing_how_to_fund = 'cico_landing_how_to_fund',
 
   // The CICO Currency screen where the user selects their digital currency
-  cico_currency_chosen = 'cico_currency_chosen', // User selects a currency and taps next
-  cico_currency_back = 'cico_currency_back', // User presses the back button from the currency screen
+  cico_currency_chosen = 'cico_currency_chosen',
+  cico_currency_back = 'cico_currency_back',
 
   // The CICO Amount screen where the user selects the amount of money
-  cico_amount_chosen = 'cico_amount_chosen', // User selects a valid amount and taps next
-  cico_amount_chosen_invalid = 'cico_amount_chosen_invalid', // User attempts to click next but the amount is invalid
-  cico_amount_back = 'cico_amount_back', // User presses the back button from the amount screen
+  cico_amount_chosen = 'cico_amount_chosen',
+  cico_amount_chosen_invalid = 'cico_amount_chosen_invalid',
+  cico_amount_back = 'cico_amount_back',
 
   // Select Provider Screen
-  cico_providers_section_impression = 'cico_providers_section_impression', // User sees a category of providers
-  cico_providers_section_expand = 'cico_providers_section_expand', // User expands a category of providers
-  cico_providers_section_collapse = 'cico_providers_section_collapse', // User collapses a category of providers
-  cico_providers_quote_selected = 'cico_providers_quote_selected', // User selects a quote
-  cico_providers_exchanges_selected = 'cico_providers_exchanges_selected', // User taps the External Exchanges section
+  cico_providers_section_impression = 'cico_providers_section_impression',
+  cico_providers_section_expand = 'cico_providers_section_expand',
+  cico_providers_section_collapse = 'cico_providers_section_collapse',
+  cico_providers_quote_selected = 'cico_providers_quote_selected',
+  cico_providers_exchanges_selected = 'cico_providers_exchanges_selected',
 
-  cico_providers_back = 'cico_providers_back', // User presses the back button from the Select Providers screen
-  cico_providers_unavailable_impression = 'cico_providers_unavailable_impression', // User sees a blurb about providers unavailable
-  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected', // User taps a blurb about providers unavailable
-  cico_providers_new_info_opened = 'cico_providers_new_info_opened', // User taps on the new label and views the dialog
+  cico_providers_back = 'cico_providers_back',
+  cico_providers_unavailable_impression = 'cico_providers_unavailable_impression',
+  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected',
+  cico_providers_new_info_opened = 'cico_providers_new_info_opened',
 
   // Cash In Success Screen
-  cash_in_success = 'cash_in_success', // Screen users are (most of the time) redirected to after cash in with external providers
+  cash_in_success = 'cash_in_success',
 
   // Add fund flow entered through home screen cash in bottom sheet
   cico_add_bottom_sheet_selected = 'cico_add_bottom_sheet_selected',
@@ -415,7 +414,7 @@ export enum FiatExchangeEvents {
   external_exchange_link = 'external_exchange_link',
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
-  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
+  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue',
 
   // External Exchanges QR Code Screen
   cico_exchange_qr_bottom_sheet_open = 'cico_exchange_qr_bottom_sheet_open',
@@ -428,7 +427,7 @@ export enum FiatExchangeEvents {
   // Spend Flow
   spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
-  cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
+  cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue',
 
   // Simplex Review Screen
   cico_simplex_open_webview = 'cico_simplex_open_webview',
@@ -503,139 +502,139 @@ export enum RewardsEvents {
 
 export enum WalletConnectEvents {
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
-  wc_pairing_start = 'wc_pairing_start', // when WC pairing is started (no UI at this point)
-  wc_pairing_success = 'wc_pairing_success', // when WC pairing succeeds
-  wc_pairing_error = 'wc_pairing_error', // when WC pairing fails
+  wc_pairing_start = 'wc_pairing_start',
+  wc_pairing_success = 'wc_pairing_success',
+  wc_pairing_error = 'wc_pairing_error',
 
   // Events related to WalletConnect sessions (approving/rejecting/removing dapps)
-  wc_session_propose = 'wc_session_propose', // when the WC session screen is displayed to approve/reject a new dapp
-  wc_session_approve_start = 'wc_session_approve_start', // when user presses the button to approve the dapp connection
-  wc_session_approve_success = 'wc_session_approve_success', // when the dapp approval succeeds
-  wc_session_approve_error = 'wc_session_approve_error', // when the dapp approval fails
-  wc_session_reject_start = 'wc_session_reject_start', // when user presses the button to reject the dapp connection
-  wc_session_reject_success = 'wc_session_reject_success', // when the dapp rejection succeeds
-  wc_session_reject_error = 'wc_session_reject_error', // when the dapp rejection fails
-  wc_session_remove_start = 'wc_session_remove_start', // when user presses the button to disconnect the dapp
-  wc_session_remove_success = 'wc_session_remove_success', // when the dapp disconnection succeeds
-  wc_session_remove_error = 'wc_session_remove_error', // when the dapp disconnection fails
+  wc_session_propose = 'wc_session_propose',
+  wc_session_approve_start = 'wc_session_approve_start',
+  wc_session_approve_success = 'wc_session_approve_success',
+  wc_session_approve_error = 'wc_session_approve_error',
+  wc_session_reject_start = 'wc_session_reject_start',
+  wc_session_reject_success = 'wc_session_reject_success',
+  wc_session_reject_error = 'wc_session_reject_error',
+  wc_session_remove_start = 'wc_session_remove_start',
+  wc_session_remove_success = 'wc_session_remove_success',
+  wc_session_remove_error = 'wc_session_remove_error',
 
   // Events related to WalletConnect requests from approved dapps (signing)
-  wc_request_propose = 'wc_request_propose', // when the WC request screen is displayed to accept/deny a dapp request
-  wc_request_details = 'wc_request_details', // when user presses the button to show details of a dapp request
-  wc_request_accept_start = 'wc_request_accept_start', // when user presses the button to accept a dapp request
-  wc_request_accept_success = 'wc_request_accept_success', // when the dapp request succeeds
-  wc_request_accept_error = 'wc_request_accept_error', // when the dapp request fails
-  wc_request_deny_start = 'wc_request_deny_start', // when user presses the button to accept a dapp request
-  wc_request_deny_success = 'wc_request_deny_success', // when the dapp request denial succeeds
-  wc_request_deny_error = 'wc_request_deny_error', // when the dapp request denial fails
+  wc_request_propose = 'wc_request_propose',
+  wc_request_details = 'wc_request_details',
+  wc_request_accept_start = 'wc_request_accept_start',
+  wc_request_accept_success = 'wc_request_accept_success',
+  wc_request_accept_error = 'wc_request_accept_error',
+  wc_request_deny_start = 'wc_request_deny_start',
+  wc_request_deny_success = 'wc_request_deny_success',
+  wc_request_deny_error = 'wc_request_deny_error',
 
-  wc_copy_request_payload = 'wc_copy_request_payload', // when a user taps to copy the request payload from the bottom sheet
+  wc_copy_request_payload = 'wc_copy_request_payload',
 }
 
 export enum DappKitEvents {
-  dappkit_parse_deeplink_error = 'dappkit_parse_deeplink_error', // when dappkit fails to parse the deeplink
-  dappkit_request_propose = 'dappkit_request_propose', // when the dappkit request screen is displayed to accept/deny a dapp request
-  dappkit_request_cancel = 'dappkit_request_cancel', // when user presses the button to cancel the dapp request
-  dappkit_copy_request_details = 'dappkit_copy_request_details', // when user presses the button to copy details of a dapp request
-  dappkit_request_accept_start = 'dappkit_request_accept_start', // when user presses the button to accept a dapp request
-  dappkit_request_accept_success = 'dappkit_request_accept_success', // when the dapp request succeeds
-  dappkit_request_accept_error = 'dappkit_request_accept_error', // when the dapp request fails
+  dappkit_parse_deeplink_error = 'dappkit_parse_deeplink_error',
+  dappkit_request_propose = 'dappkit_request_propose',
+  dappkit_request_cancel = 'dappkit_request_cancel',
+  dappkit_copy_request_details = 'dappkit_copy_request_details',
+  dappkit_request_accept_start = 'dappkit_request_accept_start',
+  dappkit_request_accept_success = 'dappkit_request_accept_success',
+  dappkit_request_accept_error = 'dappkit_request_accept_error',
 }
 
 export enum CICOEvents {
-  persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
-  persona_kyc_success = 'persona_kyc_success', // when the onComplete callback is called for a Persona inquiry with success status
-  persona_kyc_failed = 'persona_kyc_failed', // when the onComplete callback is called for a Persona inquiry with failed status
-  persona_kyc_cancel = 'persona_kyc_cancel', // when the onCancelled callback is called for a Persona inquiry
-  persona_kyc_error = 'persona_kyc_error', // when the onError callback is called for a Persona inquiry
+  persona_kyc_start = 'persona_kyc_start',
+  persona_kyc_success = 'persona_kyc_success',
+  persona_kyc_failed = 'persona_kyc_failed',
+  persona_kyc_cancel = 'persona_kyc_cancel',
+  persona_kyc_error = 'persona_kyc_error',
 }
 
 export enum DappExplorerEvents {
-  dapp_impression = 'dapp_impression', // when a dapp shows up in the featured section of the app
-  dapp_open = 'dapp_open', // when a dapp is opened
-  dapp_close = 'dapp_close', // when a dapp is closed from the in-app dapp web view
+  dapp_impression = 'dapp_impression',
+  dapp_open = 'dapp_open',
+  dapp_close = 'dapp_close',
   dapp_screen_open = 'dapp_screen_open',
   dapp_select = 'dapp_select',
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
-  dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
-  dapp_favorite = 'dapp_favorite', // when user favorites a dapp
-  dapp_unfavorite = 'dapp_unfavorite', // when user unfavorites a dapp
-  dapp_open_info = 'dapp_open_info', // when a user taps on the help icon
-  dapp_open_more_info = 'dapp_open_more_info', // when a user taps on the "more" button from inside the help bottom sheet
-  dapp_filter = 'dapp_filter', // when a user taps on a filter
-  dapp_search = 'dapp_search', // when a user searches on the dapp explorer screen
-  dapp_rankings_impression = 'dapp_rankings_impression', // when the dapp rankings card shows up
-  dapp_rankings_open = 'dapp_rankings_open', // when a user taps on the dapp rankings card
+  dapp_view_all = 'dapp_view_all',
+  dapp_favorite = 'dapp_favorite',
+  dapp_unfavorite = 'dapp_unfavorite',
+  dapp_open_info = 'dapp_open_info',
+  dapp_open_more_info = 'dapp_open_more_info',
+  dapp_filter = 'dapp_filter',
+  dapp_search = 'dapp_search',
+  dapp_rankings_impression = 'dapp_rankings_impression',
+  dapp_rankings_open = 'dapp_rankings_open',
 }
 
 export enum WebViewEvents {
-  webview_more_options = 'webview_more_options', // when user taps "triple dot icon" from the webview
-  webview_open_in_browser = 'webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
+  webview_more_options = 'webview_more_options',
+  webview_open_in_browser = 'webview_open_in_browser',
 }
 
 export enum CoinbasePayEvents {
-  coinbase_pay_flow_start = 'coinbase_pay_flow_start', // When user is navigated to Coinbase Pay experience
-  coinbase_pay_flow_exit = 'coinbase_pay_flow_exit', // When user exits Coinbase Pay
+  coinbase_pay_flow_start = 'coinbase_pay_flow_start',
+  coinbase_pay_flow_exit = 'coinbase_pay_flow_exit',
 }
 
 export enum SwapEvents {
-  swap_screen_open = 'swap_screen_open', // When the screen is mounted
-  swap_screen_select_token = 'swap_screen_select_token', // When a user selects a token, prompting the token select bottom sheet
-  swap_screen_confirm_token = 'swap_screen_confirm_token', // When a user selects a token from the bottom sheet
-  swap_screen_max_swap_amount = 'swap_screen_max_swap_amount', // when a user taps on the "max" button to swap their whole balance
-  swap_gas_fees_learn_more = 'swap_gas_fees_learn_more', // When a user taps on the learn more text on the max swap amount warning
-  swap_screen_review_swap = 'swap_screen_review_swap', // When a user click on the review button to proceed to next step
-  swap_feed_detail_view_tx = 'swap_feed_detail_view_tx', // When a user click 'View on CeloExplorer' in the swap feed detail page
-  swap_review_screen_open = 'swap_review_screen_open', // When the review screen is mounted
-  swap_review_submit = 'swap_review_submit', // When the user submits the swap
-  swap_execute_price_change = 'swap_execute_price_change', // When guaranteed is greater than 2% difference than the quoted price.
-  swap_execute_success = 'swap_execute_success', // When the swap is executed successfully
-  swap_execute_error = 'swap_execute_error', // When the swap returns an error
-  swap_learn_more = 'swap_learn_more', // When a user taps on the learn more button on the swap screen
-  swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed', // When the price impact warning is displayed
+  swap_screen_open = 'swap_screen_open',
+  swap_screen_select_token = 'swap_screen_select_token',
+  swap_screen_confirm_token = 'swap_screen_confirm_token',
+  swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
+  swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
+  swap_screen_review_swap = 'swap_screen_review_swap',
+  swap_feed_detail_view_tx = 'swap_feed_detail_view_tx',
+  swap_review_screen_open = 'swap_review_screen_open',
+  swap_review_submit = 'swap_review_submit',
+  swap_execute_price_change = 'swap_execute_price_change',
+  swap_execute_success = 'swap_execute_success',
+  swap_execute_error = 'swap_execute_error',
+  swap_learn_more = 'swap_learn_more',
+  swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
 }
 
 export enum CeloNewsEvents {
-  celo_news_screen_open = 'celo_news_screen_open', // When the screen is mounted
-  celo_news_article_tap = 'celo_news_article_tap', // When a user taps on a news article
-  celo_news_bottom_read_more_tap = 'celo_news_bottom_read_more_tap', // When a user taps on the read more button at the bottom of the screen
-  celo_news_retry_tap = 'celo_news_retry_tap', // When a user taps on the retry button
+  celo_news_screen_open = 'celo_news_screen_open',
+  celo_news_article_tap = 'celo_news_article_tap',
+  celo_news_bottom_read_more_tap = 'celo_news_bottom_read_more_tap',
+  celo_news_retry_tap = 'celo_news_retry_tap',
 }
 
 export enum TokenBottomSheetEvents {
-  search_token = 'search_token', // When a user searches a token using the token bottom sheet search box
+  search_token = 'search_token',
 }
 
 export enum AssetsEvents {
-  show_asset_balance_info = 'show_asset_balance_info', // When a user taps on the info icon
-  view_wallet_assets = 'view_wallet_assets', // When a user taps on the "Wallet Assets" segmented control
-  view_dapp_positions = 'view_dapp_positions', // When a user taps on the "Dapp Positions" segmented control
-  tap_asset = 'tap_asset', // When a user taps on an asset
-  tap_claim_rewards = 'tap_claim_rewards', // When a user taps on the "Claim Rewards" button
+  show_asset_balance_info = 'show_asset_balance_info',
+  view_wallet_assets = 'view_wallet_assets',
+  view_dapp_positions = 'view_dapp_positions',
+  tap_asset = 'tap_asset',
+  tap_claim_rewards = 'tap_claim_rewards',
 }
 
 export enum NftEvents {
-  nft_error_screen_open = 'nft_error_screen_open', // When the high level error screen is mounted
-  nft_media_load = 'nft_media_load', // When attempting to load NFT media
-  nft_gallery_screen_open = 'nft_gallery_screen_open', // When the gallery screen is mounted
+  nft_error_screen_open = 'nft_error_screen_open',
+  nft_media_load = 'nft_media_load',
+  nft_gallery_screen_open = 'nft_gallery_screen_open',
 }
 
 export enum BuilderHooksEvents {
-  hooks_enable_preview_propose = 'hooks_enable_preview_propose', // When a user scans a QR code or opens a deep link to enable hooks preview
-  hooks_enable_preview_cancel = 'hooks_enable_preview_cancel', // When a user cancels the hooks preview flow
-  hooks_enable_preview_confirm = 'hooks_enable_preview_confirm', // When a user confirms enabling hooks preview
-  hooks_enable_preview_error = 'hooks_enable_preview_error', // When a user encounters an error enabling hooks preview
-  hooks_disable_preview = 'hooks_disable_preview', // When a user disables hooks preview
+  hooks_enable_preview_propose = 'hooks_enable_preview_propose',
+  hooks_enable_preview_cancel = 'hooks_enable_preview_cancel',
+  hooks_enable_preview_confirm = 'hooks_enable_preview_confirm',
+  hooks_enable_preview_error = 'hooks_enable_preview_error',
+  hooks_disable_preview = 'hooks_disable_preview',
 }
 
 export enum DappShortcutsEvents {
-  dapp_shortcuts_rewards_screen_open = 'dapp_shortcuts_rewards_screen_open', // When the rewards screen is mounted
-  dapp_shortcuts_reward_claim_start = 'dapp_shortcuts_reward_claim_start', // When the claim button is pressed
-  dapp_shortcuts_reward_claim_success = 'dapp_shortcuts_reward_claim_success', // When the claim shortcut succeeds
-  dapp_shortcuts_reward_claim_error = 'dapp_shortcuts_reward_claim_error', // When the claim shortcut fails
-  dapp_shortcuts_reward_tx_propose = 'dapp_shortcuts_reward_tx_propose', // When the user is shown the transaction details via the bottom sheet
-  dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_tx_copy', // When the user copies the transaction details via the bottom sheet
-  dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted', // When the user confirms the transaction via the bottom sheet
-  dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected', // When the user rejects the transaction via the bottom sheet
+  dapp_shortcuts_rewards_screen_open = 'dapp_shortcuts_rewards_screen_open',
+  dapp_shortcuts_reward_claim_start = 'dapp_shortcuts_reward_claim_start',
+  dapp_shortcuts_reward_claim_success = 'dapp_shortcuts_reward_claim_success',
+  dapp_shortcuts_reward_claim_error = 'dapp_shortcuts_reward_claim_error',
+  dapp_shortcuts_reward_tx_propose = 'dapp_shortcuts_reward_tx_propose',
+  dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_tx_copy',
+  dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted',
+  dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected',
 }
