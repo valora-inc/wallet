@@ -16,14 +16,10 @@ export function DappRankingsBottomSheet({
   onPressDapp,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
-  onPressDapp: (dapp: ActiveDapp) => void
+  onPressDapp: (dapp: ActiveDapp, index: number) => () => void
 }) {
   const { t } = useTranslation()
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
-
-  const handleOnPress = (dapp: Dapp) => () => {
-    onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular })
-  }
 
   const handleFavoriteDapp = (dapp: Dapp) => () => {
     Toast.showWithGravity(
@@ -53,7 +49,7 @@ export function DappRankingsBottomSheet({
         >
           <Touchable
             style={styles.popularDappCardContentContainer}
-            onPress={handleOnPress(dapp)}
+            onPress={onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular }, index)}
             testID={`Dapp/${dapp.id}`}
           >
             <>

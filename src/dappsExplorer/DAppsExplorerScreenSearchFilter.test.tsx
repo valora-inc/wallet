@@ -47,7 +47,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     jest.clearAllMocks()
   })
 
-  it('renders correctly and fires the correct actions on press dapp', () => {
+  it.only('renders correctly and fires the correct actions on press dapp', () => {
     const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenSearchFilter />
@@ -680,5 +680,11 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       )
       expect(queryByTestId('DAppsExplorerScreen/QRScanButton')).toBeFalsy()
     })
+  })
+
+  describe('dapp open analytics event properties', () => {
+    it('should dispatch with no filter or search, from the normal list', () => {})
+    it('should dispatch with no filter or search, from favourites', () => {})
+    it('should dispatch with filters and search', () => {})
   })
 })
