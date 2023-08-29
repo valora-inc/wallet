@@ -62,17 +62,18 @@ import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
-  FiatExchangeFlow,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
+  FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
+import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
 
@@ -227,24 +228,19 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   useEffect(() => {
     if (!quotesLoading) {
       ValoraAnalytics.track(FiatExchangeEvents.cico_providers_fetch_quotes_result, {
-        flow,
         fiatType: localCurrency,
         defaultFiatType: defaultCurrency,
-        transferFiatAmount: fiatAmount,
-        ...analyticsData,
-        // TODO may want to add a field making it easy to tell when only centralized exchanges are available
+        ..._.omit(analyticsData, 'transferCryptoAmount'),
+        ...(flow === CICOFlow.CashIn
+          ? { flow, fiatAmount, cryptoAmount: undefined }
+          : {
+              flow,
+              cryptoAmount,
+              fiatAmount: undefined,
+            }),
       })
     }
-  }, [
-    quotesLoading,
-    flow,
-    digitalAsset,
-    localCurrency,
-    defaultCurrency,
-    cryptoAmount,
-    fiatAmount,
-    normalizedQuotes,
-  ])
+  }, [quotesLoading, localCurrency, defaultCurrency, analyticsData, flow, fiatAmount, cryptoAmount])
 
   if (quotesLoading) {
     return (
