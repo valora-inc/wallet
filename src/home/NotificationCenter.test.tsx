@@ -638,55 +638,158 @@ describe('NotificationCenter', () => {
       expect(queryByText('Notification 1')).toBeFalsy()
       expect(queryByText('Notification 2')).toBeTruthy()
       expect(queryByText('Notification 3')).toBeTruthy()
-
-      expect(store.getActions()).toEqual([fetchAvailableRewards()])
-
-      fireEvent.press(getByText('Press Remote'))
-      expect(store.getActions()).toEqual([
-        fetchAvailableRewards(),
-        openUrl(testNotification.ctaUri, false, true),
-      ])
-    })
-
-    it('renders notifications that open URL internally or externally', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        home: {
-          notifications: {
-            notification1: {
-              ...testNotification,
-              content: {
-                en: {
-                  ...testNotification.content.en,
-                  body: 'Notification 1',
-                  cta: 'Press Internal',
+      describe('remote notifications', () => {
+        it('renders all remote notifications that were not dismissed', () => {
+          const store = createMockStore({
+            ...storeDataNotificationsDisabled,
+            home: {
+              notifications: {
+                notification1: {
+                  ...testNotification,
+                  dismissed: true,
+                  content: {
+                    en: {
+                      ...testNotification.content.en,
+                      body: 'Notification 1',
+                    },
+                  },
+                },
+                notification2: {
+                  ...testNotification,
+                  content: {
+                    en: {
+                      ...testNotification.content.en,
+                      body: 'Notification 2',
+                    },
+                  },
+                },
+                notification3: {
+                  ...testNotification,
+                  content: {
+                    en: {
+                      ...testNotification.content.en,
+                      body: 'Notification 3',
+                      cta: 'Press Remote',
+                    },
+                  },
                 },
               },
             },
-            notification2: {
-              ...testNotification,
-              openExternal: true,
-              content: {
-                en: {
-                  ...testNotification.content.en,
-                  body: 'Notification 2',
-                  cta: 'Press External',
+          })
+          const { queryByText, getByText } = render(
+            <Provider store={store}>
+              <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+            </Provider>
+          )
+          expect(queryByText('Notification 1')).toBeFalsy()
+          expect(queryByText('Notification 2')).toBeTruthy()
+          expect(queryByText('Notification 3')).toBeTruthy()
+
+          expect(store.getActions()).toEqual([fetchAvailableRewards()])
+          expect(store.getActions()).toEqual([fetchAvailableRewards()])
+
+          fireEvent.press(getByText('Press Remote'))
+          expect(store.getActions()).toEqual([
+            fetchAvailableRewards(),
+            openUrl(testNotification.ctaUri, false, true),
+          ])
+        })
+        fireEvent.press(getByText('Press Remote'))
+        expect(store.getActions()).toEqual([
+          fetchAvailableRewards(),
+          openUrl(testNotification.ctaUri, false, true),
+        ])
+      })
+
+      it('renders notifications that open URL internally or externally', () => {
+        const store = createMockStore({
+          ...storeDataNotificationsDisabled,
+          home: {
+            notifications: {
+              notification1: {
+                ...testNotification,
+                content: {
+                  en: {
+                    ...testNotification.content.en,
+                    body: 'Notification 1',
+                    cta: 'Press Internal',
+                  },
+                },
+              },
+              notification2: {
+                ...testNotification,
+                openExternal: true,
+                content: {
+                  en: {
+                    ...testNotification.content.en,
+                    body: 'Notification 2',
+                    cta: 'Press External',
+                  },
                 },
               },
             },
           },
-        },
+        })
+        const { queryByText, getByText } = render(
+          <Provider store={store}>
+            <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+          </Provider>
+        )
+        expect(queryByText('Notification 1')).toBeTruthy()
+        expect(queryByText('Notification 2')).toBeTruthy()
+        it('renders notifications that open URL internally or externally', () => {
+          const store = createMockStore({
+            ...storeDataNotificationsDisabled,
+            home: {
+              notifications: {
+                notification1: {
+                  ...testNotification,
+                  content: {
+                    en: {
+                      ...testNotification.content.en,
+                      body: 'Notification 1',
+                      cta: 'Press Internal',
+                    },
+                  },
+                },
+                notification2: {
+                  ...testNotification,
+                  openExternal: true,
+                  content: {
+                    en: {
+                      ...testNotification.content.en,
+                      body: 'Notification 2',
+                      cta: 'Press External',
+                    },
+                  },
+                },
+              },
+            },
+          })
+          const { queryByText, getByText } = render(
+            <Provider store={store}>
+              <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+            </Provider>
+          )
+          expect(queryByText('Notification 1')).toBeTruthy()
+          expect(queryByText('Notification 2')).toBeTruthy()
+
+          expect(store.getActions()).toEqual([fetchAvailableRewards()])
+          expect(store.getActions()).toEqual([fetchAvailableRewards()])
+
+          fireEvent.press(getByText('Press Internal'))
+          expect(store.getActions()).toEqual([
+            fetchAvailableRewards(),
+            openUrl(testNotification.ctaUri, false, true),
+          ])
+          fireEvent.press(getByText('Press External'))
+          expect(store.getActions()).toEqual([
+            fetchAvailableRewards(),
+            openUrl(testNotification.ctaUri, false, true),
+            openUrl(testNotification.ctaUri, true, true),
+          ])
+        })
       })
-      const { queryByText, getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-      expect(queryByText('Notification 1')).toBeTruthy()
-      expect(queryByText('Notification 2')).toBeTruthy()
-
-      expect(store.getActions()).toEqual([fetchAvailableRewards()])
-
       fireEvent.press(getByText('Press Internal'))
       expect(store.getActions()).toEqual([
         fetchAvailableRewards(),
@@ -710,6 +813,9 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
+      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
+      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
       expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
       expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
       expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
@@ -758,6 +864,9 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
+      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+      expect(queryByTestId('NotificationView/keepSupercharging')).toBeTruthy()
+      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
       expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
       expect(queryByTestId('NotificationView/keepSupercharging')).toBeTruthy()
       expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
@@ -857,6 +966,9 @@ describe('NotificationCenter', () => {
       expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
       expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
       expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
 
       fireEvent.press(
         getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
@@ -877,6 +989,9 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
+      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
       expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
       expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
       expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
