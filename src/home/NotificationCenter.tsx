@@ -138,6 +138,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 100,
+    minimumViewTime: 500,
   })
 
   const scrollPosition = useSharedValue(0)
