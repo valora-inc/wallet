@@ -12,12 +12,17 @@ import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
+import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
-import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
+import {
+  ImportMnemonicAccount,
+  KeychainLock,
+  getStoredPrivateKey,
+  listStoredAccounts,
+} from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
@@ -116,19 +121,25 @@ async function waitForContractKit(tries: number) {
   return contractKit
 }
 
+// This code assumes that the account for walletAddress already exists in the Keychain
+// which is a responsibility currently handled by KeychainWallet
 export function* getViemWallet(chain: Chain) {
   if (viemWallets.has(chain)) {
     return viemWallets.get(chain) as ViemWallet
   }
   const walletAddress = yield* select(walletAddressSelector)
-  const mnemonic = yield* call(getStoredMnemonic, walletAddress)
-  if (!mnemonic) {
-    throw new Error('No mnemonic found')
+  if (!walletAddress) {
+    throw new Error('Wallet address not found')
   }
-  const keys = yield* call(generateKeysFromMnemonic, mnemonic)
-  const privateKey = keys.privateKey
+  const accounts = yield* call(listStoredAccounts)
+  const account = accounts.find((a) => a.address === walletAddress)
+  if (!account) {
+    throw new Error(`Account ${walletAddress} not found in Keychain`)
+  }
+  const password = yield* call(getPasswordSaga, walletAddress, false, true)
+  const privateKey = yield* call(getStoredPrivateKey, account, password)
   if (!privateKey) {
-    throw new Error('Failed to convert mnemonic to hex')
+    throw new Error(`Private key not found for account ${walletAddress}`)
   }
   const wallet = getLockableViemWallet(
     keychainLock,

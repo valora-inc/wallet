@@ -410,7 +410,7 @@ describe('KeychainWallet', () => {
         },
       })
 
-      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
+      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT, new KeychainLock())
       await wallet.init()
       await wallet.unlockAccount(knownAddress, 'password', 0)
     })

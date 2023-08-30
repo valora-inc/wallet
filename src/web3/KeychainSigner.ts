@@ -16,7 +16,7 @@ const TAG = 'web3/KeychainSigner'
  * Implements the signer interface on top of the OS keychain
  */
 export class KeychainSigner implements Signer {
-  protected signer: LocalSigner | null = null
+  protected localSigner: LocalSigner | null = null
   constructor(protected account: KeychainAccount, protected lock: KeychainLock) {}
 
   async init(privateKey: string, passphrase: string) {
@@ -37,17 +37,17 @@ export class KeychainSigner implements Signer {
       throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
     }
 
-    return this.localSigner.signTransaction(addToV, encodedTx)
+    return this.unlockedLocalSigner.signTransaction(addToV, encodedTx)
   }
 
   async signPersonalMessage(data: string): Promise<{ v: number; r: Buffer; s: Buffer }> {
     Logger.info(`${TAG}@signPersonalMessage`, `Signing ${data}`)
-    return this.localSigner.signPersonalMessage(data)
+    return this.unlockedLocalSigner.signPersonalMessage(data)
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
     Logger.info(`${TAG}@signTypedData`, `Signing typed DATA:`, { address: this.account, typedData })
-    return this.localSigner.signTypedData(typedData)
+    return this.unlockedLocalSigner.signTypedData(typedData)
   }
 
   getNativeKey() {
@@ -59,26 +59,26 @@ export class KeychainSigner implements Signer {
     if (!privateKey) {
       return false
     }
-    this.signer = new LocalSigner(privateKey)
+    this.localSigner = new LocalSigner(privateKey)
     await this.lock.unlock(this.account.address, passphrase, duration)
     return true
   }
 
   async decrypt(ciphertext: Buffer): Promise<Buffer> {
-    return this.localSigner.decrypt(ciphertext)
+    return this.unlockedLocalSigner.decrypt(ciphertext)
   }
 
   async computeSharedSecret(publicKey: string): Promise<Buffer> {
-    return this.localSigner.computeSharedSecret(publicKey)
+    return this.unlockedLocalSigner.computeSharedSecret(publicKey)
   }
 
-  protected get localSigner(): LocalSigner {
+  protected get unlockedLocalSigner(): LocalSigner {
     if (!this.lock.isUnlocked(this.account.address)) {
       throw new Error('authentication needed: password or unlock')
     }
-    if (!this.signer) {
+    if (!this.localSigner) {
       throw new Error('signer not initialized')
     }
-    return this.signer
+    return this.localSigner
   }
 }

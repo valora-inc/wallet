@@ -10,7 +10,7 @@ export enum Testnets {
   mainnet = 'mainnet',
 }
 
-export enum Chains {
+export enum Network {
   celo = 'celo',
 }
 
@@ -58,7 +58,7 @@ interface NetworkConfig {
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
   viemChain: {
-    [key in Chains]: ViemChain
+    [key in Network]: ViemChain
   }
 }
 
@@ -215,7 +215,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
     viemChain: {
-      [Chains.celo]: celoAlfajores,
+      [Network.celo]: celoAlfajores,
     },
   },
   [Testnets.mainnet]: {
@@ -267,7 +267,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
     viemChain: {
-      [Chains.celo]: celo,
+      [Network.celo]: celo,
     },
   },
 }

@@ -47,6 +47,10 @@ export default function getLockableViemWallet(
     account,
   }).extend((client: Client): Actions => {
     return {
+      // All wallet functions that we want our ViemWallet to have must go here
+      // For instance we will later need signTransaction which we can add here by
+      // importing the signTransaction action and blocking it with the checkLock function
+      // Introduction to wallet actions: https://viem.sh/docs/actions/wallet/introduction.html
       writeContract: (args) => {
         checkLock()
         return writeContract(client, args)

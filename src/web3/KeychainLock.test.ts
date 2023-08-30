@@ -63,6 +63,6 @@ describe('KeychainLock', () => {
   })
   it('unlock throws if has been added but private key is not in the keychain', async () => {
     lock.addAccount({ address: mockAccount, createdAt: date })
-    await expect(async () => await lock.unlock(mockAccount, 'password', 100)).rejects.toThrow()
+    await expect(lock.unlock(mockAccount, 'password', 100)).rejects.toThrow()
   })
 })
