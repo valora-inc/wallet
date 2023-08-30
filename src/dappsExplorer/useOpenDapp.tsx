@@ -22,7 +22,7 @@ const useOpenDapp = () => {
   const [selectedDapp, setSelectedDapp] = useState<ActiveDapp | null>(null)
   const dispatch = useDispatch()
 
-  const extraAnalyticsPropertiesRef = useRef<Record<string, any>>({})
+  const extraAnalyticsPropertiesRef = useRef<Record<string, string | number>>({})
 
   const recentlyUsedDappsMode = activeScreen === Screens.WalletHome
 
@@ -46,7 +46,10 @@ const useOpenDapp = () => {
     }
   }
 
-  const openDapp = (dapp: ActiveDapp, extraAnalyticsProperties: Record<string, any> = {}) => {
+  const openDapp = (
+    dapp: ActiveDapp,
+    extraAnalyticsProperties: Record<string, string | number> = {}
+  ) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
       ...getEventProperties(dapp),
       ...extraAnalyticsProperties,
@@ -65,7 +68,10 @@ const useOpenDapp = () => {
     setShowOpenDappConfirmation(false)
   }
 
-  const onSelectDapp = (dapp: ActiveDapp, extraAnalyticsProperties: Record<string, any> = {}) => {
+  const onSelectDapp = (
+    dapp: ActiveDapp,
+    extraAnalyticsProperties: Record<string, string | number> = {}
+  ) => {
     const dappEventProps = getEventProperties(dapp)
     ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
 

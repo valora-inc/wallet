@@ -47,7 +47,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     jest.clearAllMocks()
   })
 
-  it.only('renders correctly and fires the correct actions on press dapp', () => {
+  it('renders correctly and fires the correct actions on press dapp', () => {
     const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenSearchFilter />
@@ -683,8 +683,104 @@ describe(DAppsExplorerScreenSearchFilter, () => {
   })
 
   describe('dapp open analytics event properties', () => {
-    it('should dispatch with no filter or search, from the normal list', () => {})
-    it('should dispatch with no filter or search, from favourites', () => {})
-    it('should dispatch with filters and search', () => {})
+    const defaultStoreProps = {
+      dappListApiUrl: 'http://url.com',
+      dappsList,
+      dappsCategories,
+      favoriteDappIds: [],
+      dappFavoritesEnabled: true,
+      dappsMinimalDisclaimerEnabled: true,
+    }
+    const defaultExpectedDappOpenProps = {
+      activeFilter: 'all',
+      activeSearchTerm: '',
+      categories: ['1'],
+      dappId: 'dapp3',
+      dappName: 'Dapp 3',
+      position: 3,
+      section: 'all',
+    }
+
+    it('should dispatch with no filter or search, from the normal list with confirmation bottom sheet', () => {
+      const store = createMockStore({
+        dapps: { ...defaultStoreProps, dappsMinimalDisclaimerEnabled: false },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('Dapp 3'))
+      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 3"}`))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+        DappExplorerEvents.dapp_open,
+        defaultExpectedDappOpenProps
+      )
+    })
+
+    it('should dispatch with no filter or search, from the normal list with no confirmation bottom sheet', () => {
+      const store = createMockStore({
+        dapps: defaultStoreProps,
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('Dapp 3'))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+        DappExplorerEvents.dapp_open,
+        defaultExpectedDappOpenProps
+      )
+    })
+
+    it('should dispatch with no filter or search, with favourites', () => {
+      const store = createMockStore({
+        dapps: {
+          ...defaultStoreProps,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('Dapp 3'))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
+        ...defaultExpectedDappOpenProps,
+        position: 2,
+      })
+    })
+
+    it('should dispatch with filter and search', () => {
+      const store = createMockStore({
+        dapps: defaultStoreProps,
+      })
+      const { getByText, getByTestId, getAllByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('SearchInput'), 'cool')
+      fireEvent.press(getByText(dappsCategories[0].name))
+
+      expect(getAllByTestId('DappCard')).toHaveLength(1)
+      fireEvent.press(getByText('Dapp 3'))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
+        ...defaultExpectedDappOpenProps,
+        activeFilter: '1',
+        activeSearchTerm: 'cool',
+        position: 1,
+      })
+    })
   })
 })
