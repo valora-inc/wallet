@@ -79,8 +79,8 @@
     }
   },
   "walletSecurityPrimer": {
-    "title": "Mantén a salvo tu cartera",
-    "description": "Sólo tú puedes acceder a tu monedero. Si pierdes o te roban el teléfono, Valora no podrá recuperarlo por ti.\n\nTendrás que establecer un método para mantener a salvo tu monedero y proteger tus fondos."
+    "title": "Mantén a salvo tu billetera",
+    "description": "Sólo tú puedes acceder a tu billetera. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para mantener a salvo tu billetera y proteger tus fondos."
   },
   "setUpKeylessBackup": {
     "title": "Configurar el respaldo sin llave",
@@ -110,7 +110,7 @@
       },
       "completed": {
         "title": "Copia de seguridad completa",
-        "body": "Ahora puedes recuperar tu monedero con tu dirección de correo electrónico y tu número de teléfono."
+        "body": "Ahora puedes recuperar tu billetera con tu dirección de correo electrónico y tu número de teléfono."
       },
       "failed": {
         "title": "No está disponible la copia de seguridad sin llave",
@@ -575,7 +575,7 @@
   "close": "Cerrar",
   "home": "Inicio",
   "accountKey": "Recuperación",
-  "walletSecurity": "Seguridad de la cartera",
+  "walletSecurity": "Seguridad de la billetera",
   "addAndWithdraw": "Agregar y retirar",
   "settings": "Configuración",
   "help": "Ayuda",
@@ -1071,36 +1071,36 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Datos de la transacción",
     "readAccount": "{{dappName}} desea leer tu dirección de wallet de {{appName}}.",
-    "signPayloadTitle": "Verificar monedero",
-    "signPayload": "{{dappName}} quisiera verificar la propiedad de tu monedero.",
+    "signPayloadTitle": "Verificar billetera",
+    "signPayload": "{{dappName}} quisiera verificar la propiedad de tu billetera.",
     "signTransactionTitle": "Firmar la transacción",
     "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
     "sendTransactionTitle": "Enviar transacción",
     "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
-    "decryptPayloadTitle": "Descifrar con monedero",
+    "decryptPayloadTitle": "Descifrar con billetera",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
     "computeSharedSecret": "{{dappName}} desea generar secretos.",
     "transactionDataCopied": "Datos de transacción copiados",
     "unsupportedChain": {
-      "title": "Cadena sin soporte",
+      "title": "Cadena no soportada",
       "description": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo es la cadena activa en el lado de la dapp."
     },
     "session": {
       "failUnsupportedNamespace": {
-        "title": "Cadena sin soporte",
-        "description": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo está seleccionado en el lado de la dapp."
+        "title": "Cadena no soportada",
+        "description": "A {{dappName}} le gustaría conectarse con una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo está seleccionada en el lado de la dapp."
       },
       "warnUnsupportedChains": {
-        "title": "Cadena sin soporte",
-        "description": "{{dappName}} no especificó Celo como cadena compatible. Es posible que algunas funciones no funcionen como se esperaba."
+        "title": "Cadena no soportada",
+        "description": "{{dappName}} no especificó a Celo como cadena soportada. Es posible que algunas funciones no trabajen como se esperaba."
       },
       "warnSomeUnsupportedMethods": {
-        "title": "Métodos no admitidos",
-        "description": "{{dappName}} especifica algunos métodos que no son compatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
+        "title": "Métodos no soportados",
+        "description": "{{dappName}} especifica algunos métodos que no están soportados por {{appName}}. Es posible que algunas funciones no trabajen como se espera."
       },
       "warnSomeUnsupportedEvents": {
-        "title": "Eventos no admitidos",
-        "description": "{{dappName}} especifica algunos eventos que no son compatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
+        "title": "Eventos no soportados",
+        "description": "{{dappName}} especifica algunos eventos que no están soportados por{{appName}}. Es posible que algunas funciones no trabajen como se espera."
       }
     }
   },
@@ -1377,12 +1377,12 @@
       "title": "Tus recompensas",
       "description": "¡Ahora puedes reclamar recompensas de posiciones de dapp abiertas directamente en {{appName}}!",
       "claimButton": "Reclama",
-      "claimedLabel": "Reclamado",
+      "claimedLabel": "Reclamada",
       "rewardLabel": "Recompensa disponible",
       "claimSuccess": "¡Éxito! Has reclamado una recompensa",
-      "confirmingReward": "CONFIRMAR"
+      "confirmingReward": "CONFIRMANDO"
     },
-    "claimRewardFailure": "Se ha producido un error al reclamar tu recompensa, inténtalo de nuevo más tarde."
+    "claimRewardFailure": "Se ha producido un error al reclamar tu recompensa, inténtalo de nuevo más tarde"
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
@@ -1458,7 +1458,7 @@
     "cashOut": {
       "amountSpentInfo": "Retirarás <0></0> con tasas incluidas"
     },
-    "receiveAmount": "Recibe <0></0>"
+    "receiveAmount": "Recibir <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1802,7 +1802,7 @@
   },
   "nftGallery": {
     "title": "Coleccionables",
-    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu cartera"
+    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu billetera"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Ver en Celo Explorer",
@@ -1818,13 +1818,13 @@
   },
   "hooksPreview": {
     "modal": {
-      "title": "Ganchos Modo Vista Previa",
-      "message": "Confirma que deseas activar el modo de vista previa para los ganchos.\n\nEsta función sólo está destinada a los desarrolladores que crean ganchos. Si no eres desarrollador o no has activado esta acción, NO CONFIRMES.",
+      "title": "Modo de vista previa de hooks",
+      "message": "Confirma que deseas activar el modo de vista previa para los hooks.\n\nEsta función solo está destinada a los desarrolladores que crean hooks. Si no eres desarrollador o no has activado esta acción, NO CONFIRMES.",
       "cancel": "Cancelar",
       "confirm": "Confirmar"
     },
-    "invalidApiUrl": "URL API de previsualización de ganchos no válida",
-    "bannerTitle": "Vista previa de ganchos activada, pulsa para desactivarla"
+    "invalidApiUrl": "URL API de vista previa de hooks no válida",
+    "bannerTitle": "Vista previa de hooks activada, toca para desactivarla"
   },
   "assets": {
     "claimRewards": "Reclamar recompensas"
