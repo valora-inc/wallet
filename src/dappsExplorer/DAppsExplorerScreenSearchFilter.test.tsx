@@ -755,7 +755,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
         ...defaultExpectedDappOpenProps,
-        position: 2,
+        position: 2, // note the position explicitly does not take into account the number of favorites
       })
     })
 
