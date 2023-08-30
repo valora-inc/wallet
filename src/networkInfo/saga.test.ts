@@ -8,7 +8,6 @@ import { fetchUserLocationData } from 'src/networkInfo/saga'
 describe(fetchUserLocationData, () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })

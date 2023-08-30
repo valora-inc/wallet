@@ -1,5 +1,4 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import MockDate from 'mockdate'
 import React from 'react'
 import { CeloNewsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -18,9 +17,12 @@ const TEST_ARTICLE = {
   type: 'rss',
 }
 
-MockDate.set(new Date('2022-10-01T00:00:00.000Z'))
-
 describe('CeloNewsFeedItem', () => {
+  beforeAll(() => {
+    jest.useFakeTimers({
+      now: new Date('2022-10-01T00:00:00.000Z'),
+    })
+  })
   it('renders and behaves correctly', async () => {
     const tree = render(<CeloNewsFeedItem article={TEST_ARTICLE} />)
 

@@ -10,7 +10,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
@@ -113,7 +112,7 @@ describe('Dapps saga', () => {
           mostPopularDapps: ['churritofi'],
         })
       )
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         dappsFilterEnabled: true,
         dappsSearchEnabled: true,
       })
@@ -163,7 +162,7 @@ describe('Dapps saga', () => {
 
     it('saves an error', async () => {
       mockFetch.mockRejectOnce()
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         dappsFilterEnabled: true,
         dappsSearchEnabled: true,
       })

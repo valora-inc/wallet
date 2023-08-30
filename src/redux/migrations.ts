@@ -1209,4 +1209,13 @@ export const migrations = {
       cloudBackupCompleted: false,
     },
   }),
+  144: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      // set this to a non null value for existing users so that they do not get
+      // prompted for push notification permissions again
+      pushNotificationRequestedUnixTime: 1692878055000,
+    },
+  }),
 }

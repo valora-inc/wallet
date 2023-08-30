@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flex": 1,
       "justifyContent": "center",
@@ -14,7 +14,7 @@ exports[`renders correctly 1`] = `
 >
   <Text
     style={
-      Object {
+      {
         "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
@@ -31,7 +31,7 @@ exports[`renders correctly 1`] = `
 exports[`renders loading 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "flex": 1,
       "justifyContent": "center",
@@ -44,7 +44,7 @@ exports[`renders loading 1`] = `
     color="#42D689"
     size="large"
     style={
-      Object {
+      {
         "height": 108,
         "marginVertical": 20,
         "width": 108,
@@ -54,7 +54,7 @@ exports[`renders loading 1`] = `
   />
   <Text
     style={
-      Object {
+      {
         "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,

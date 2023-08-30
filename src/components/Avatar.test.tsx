@@ -15,7 +15,7 @@ const store = createMockStore({
   },
 })
 
-describe(Avatar, () => {
+describe('Avatar', () => {
   it('renders correctly with number and name', () => {
     const tree = render(
       <Provider store={store}>

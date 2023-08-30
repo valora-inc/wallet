@@ -1,13 +1,16 @@
 import firebase from '@react-native-firebase/app'
-import { expectSaga, SagaType } from 'redux-saga-test-plan'
-import { throwError } from 'redux-saga-test-plan/providers'
+import { PermissionsAndroid, Platform } from 'react-native'
+import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
-import { pushNotificationsEnabledSelector } from 'src/app/selectors'
+import {
+  pushNotificationRequestedUnixTimeSelector,
+  pushNotificationsEnabledSelector,
+} from 'src/app/selectors'
 import { Actions } from 'src/firebase/actions'
 import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/firebase'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -59,27 +62,45 @@ describe(takeWithInMemoryCache, () => {
 describe(initializeCloudMessaging, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    Platform.OS = 'ios' // default
   })
 
-  it('should track and throw error when messaging permission is denied', async () => {
-    const errorToRaise = new Error('No permission')
-    let catchedError
+  it('should track and throw error when messaging permission is denied on iOS', async () => {
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
+      .dispatch({ type: 'HOME/VISIT_HOME' })
+      .provide([
+        [call([app.messaging(), 'requestPermission']), 0],
+        [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
+      ])
+      .put(pushNotificationsPermissionChanged(false, true))
+      .run()
 
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      AppEvents.push_notifications_permission_changed,
+      { enabled: false }
+    )
+  })
+
+  it('should track when messaging permission is denied on Android API 33+ by the user', async () => {
+    Platform.OS = 'android'
+    Object.defineProperty(Platform, 'Version', {
+      get: jest.fn(() => 33),
+    })
+
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
         [
-          call([app.messaging(), 'hasPermission']),
-          firebase.messaging.AuthorizationStatus.NOT_DETERMINED,
+          call([PermissionsAndroid, 'request'], PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS),
+          'denied',
         ],
-        [call([app.messaging(), 'requestPermission']), throwError(errorToRaise)],
+        [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
       ])
+      .put(pushNotificationsPermissionChanged(false, true))
       .run()
-      .catch((error: Error) => {
-        catchedError = error
-      })
 
-    expect(errorToRaise).toEqual(catchedError)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       AppEvents.push_notifications_permission_changed,
       { enabled: false }
@@ -87,13 +108,10 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('handle account registration if firebase messaging is enabled', async () => {
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .provide([
+        [select(pushNotificationRequestedUnixTimeSelector), 123],
         [select(pushNotificationsEnabledSelector), true],
-        [
-          call([app.messaging(), 'hasPermission']),
-          firebase.messaging.AuthorizationStatus.AUTHORIZED,
-        ],
         [call([app.messaging(), 'getToken']), mockFcmToken],
         [call(handleUpdateAccountRegistration), null],
         [
@@ -110,17 +128,42 @@ describe(initializeCloudMessaging, () => {
     expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
-  it('should track when messaging permission is granted', async () => {
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+  it('should track when messaging permission is granted on iOS', async () => {
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .dispatch({ type: 'HOME/VISIT_HOME' })
       .provide([
+        [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
+        [call([app.messaging(), 'requestPermission']), 1],
+        [call([app.messaging(), 'getToken']), mockFcmToken],
+      ])
+      .put(pushNotificationsPermissionChanged(true, true))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      AppEvents.push_notifications_permission_changed,
+      { enabled: true }
+    )
+  })
+
+  it('should track when messaging permission is granted on Android API 33+ by the user', async () => {
+    Platform.OS = 'android'
+    Object.defineProperty(Platform, 'Version', {
+      get: jest.fn(() => 33),
+    })
+
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
+      .dispatch({ type: 'HOME/VISIT_HOME' })
+      .provide([
+        [select(pushNotificationRequestedUnixTimeSelector), null],
+        [select(pushNotificationsEnabledSelector), false],
         [
-          call([app.messaging(), 'hasPermission']),
-          firebase.messaging.AuthorizationStatus.NOT_DETERMINED,
+          call([PermissionsAndroid, 'request'], PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS),
+          'granted',
         ],
         [call([app.messaging(), 'getToken']), mockFcmToken],
       ])
-      .put(pushNotificationsPermissionChanged(true))
+      .put(pushNotificationsPermissionChanged(true, true))
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -130,12 +173,13 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('track when firebase messaging permission has changed between app sessions', async () => {
-    await expectSaga(initializeCloudMessaging as SagaType, app, mockAccount)
+    await expectSaga(initializeCloudMessaging, app, mockAccount)
       .provide([
+        [select(pushNotificationRequestedUnixTimeSelector), 123],
         [select(pushNotificationsEnabledSelector), true],
         [call([app.messaging(), 'hasPermission']), firebase.messaging.AuthorizationStatus.DENIED],
       ])
-      .put(pushNotificationsPermissionChanged(false))
+      .put(pushNotificationsPermissionChanged(false, false))
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(

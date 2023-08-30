@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { PaymentRequest } from 'src/paymentRequest/types'
+import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/types'
 import {
   decryptPaymentRequest,
   encryptPaymentRequest,
@@ -132,6 +132,11 @@ const encryptedPaymentReq: PaymentRequest = {
     'BNFXzyIGjZqqNyq6r35aV2HlMMqUbGnIqboReD77MwAlI5IyzqLQ99WF5B1bsZSVS1K+7trtJtKGhIdI1vbSJSsBAQEBAQEBAQEBAQEBAQEBBhjruDecYg9fsrPNcQbI3AkcvWra1MHIeOZlcycn7Vqtx+UVNR59A3kqdIDbLuGiBNFXzyIGjZqqNyq6r35aV2HlMMqUbGnIqboReD77MwAlI5IyzqLQ99WF5B1bsZSVS1K+7trtJtKGhIdI1vbSJSsBAQEBAQEBAQEBAQEBAQEBCVYJWqi/TZNXbAR9ziyX5MJCtfdulxA1tjlvHR/xpE6WnlC/kyXAfKIMqgKGJXchAQEBAQEBAQEBAQEBAQEBAXV31J+7haU0vKJ0SfJfe8mNaylt8oc5bKobMysx91ue1mBc8aLBawM5KfuZyKDBgckvD43PvjQ5',
 }
 
+const encryptedWritablePaymentReq: WriteablePaymentRequest = {
+  ...encryptedPaymentReq,
+  createdAt: new Date(encryptedPaymentReq.createdAt),
+}
+
 describe('transactionDataFromPaymentRequest', () => {
   const getStableTokens = ({
     cusdBalance,
@@ -204,22 +209,26 @@ describe('transactionDataFromPaymentRequest', () => {
 })
 
 describe('Encrypt Payment Request', () => {
+  const writableRequest: WriteablePaymentRequest = {
+    ...mockPaymentRequests[0],
+    createdAt: new Date(mockPaymentRequests[0].createdAt),
+  }
   it('Encrypts valid payment request', async () => {
-    await expectSaga(encryptPaymentRequest, req)
+    await expectSaga(encryptPaymentRequest, writableRequest)
       .provide([
         [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
         [call(doFetchDataEncryptionKey, mockAccount2), mockPublicDEK2],
       ])
-      .returns(encryptedPaymentReq)
+      .returns(encryptedWritablePaymentReq)
       .run()
   })
 
   it('Does not encrypt when a DEK is missing', async () => {
     const sanitizedReq = {
-      ...req,
+      ...writableRequest,
       requesterE164Number: undefined,
     }
-    await expectSaga(encryptPaymentRequest, req)
+    await expectSaga(encryptPaymentRequest, writableRequest)
       .provide([
         [call(doFetchDataEncryptionKey, mockAccount), mockPublicDEK],
         [call(doFetchDataEncryptionKey, mockAccount2), null],

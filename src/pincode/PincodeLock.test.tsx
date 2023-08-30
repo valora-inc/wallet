@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
@@ -7,11 +7,10 @@ import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { checkPin, getPincodeWithBiometry } from 'src/pincode/authentication'
 import PincodeLock from 'src/pincode/PincodeLock'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
+import { createMockStore } from 'test/utils'
 
-const mockedCheckPin = mocked(checkPin)
-const mockedGetPincodeWithBiometry = mocked(getPincodeWithBiometry)
+const mockedCheckPin = jest.mocked(checkPin)
+const mockedGetPincodeWithBiometry = jest.mocked(getPincodeWithBiometry)
 
 const pin = '123456'
 
@@ -51,9 +50,9 @@ describe('PincodeLock', () => {
       mockedGetPincodeWithBiometry.mockResolvedValueOnce(pin)
       renderComponentWithMockStore()
 
-      await flushMicrotasksQueue()
-
-      expect(mockedGetPincodeWithBiometry).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(mockedGetPincodeWithBiometry).toHaveBeenCalledTimes(1)
+      })
       expect(store.getActions()).toEqual([appUnlock()])
     })
 
@@ -61,8 +60,9 @@ describe('PincodeLock', () => {
       mockedGetPincodeWithBiometry.mockRejectedValueOnce('some error')
       const { getByText } = renderComponentWithMockStore()
 
-      await flushMicrotasksQueue()
-      expect(mockedGetPincodeWithBiometry).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(mockedGetPincodeWithBiometry).toHaveBeenCalledTimes(1)
+      })
       expect(getByText('confirmPin.title')).toBeTruthy()
       expect(store.getActions()).toEqual([])
     })
@@ -97,8 +97,11 @@ describe('PincodeLock', () => {
       const { getByTestId } = renderComponentWithMockStore()
 
       pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-      jest.runOnlyPendingTimers()
-      await flushMicrotasksQueue()
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
       expect(store.getActions()).toEqual([appUnlock()])
     })
 
@@ -107,8 +110,10 @@ describe('PincodeLock', () => {
       const { getByTestId, getByText } = renderComponentWithMockStore()
 
       pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-      jest.runOnlyPendingTimers()
-      await flushMicrotasksQueue()
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
       expect(getByText(`${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
       expect(store.getActions()).toEqual([])
     })

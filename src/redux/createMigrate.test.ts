@@ -79,8 +79,8 @@ describe(createMigrate, () => {
     expect(testMigrations[2]).toHaveBeenCalled()
     expect(testMigrations[3]).not.toHaveBeenCalled()
     expect(migratedSchema).toMatchInlineSnapshot(`
-      Object {
-        "_persist": Object {
+      {
+        "_persist": {
           "rehydrated": false,
           "version": 0,
         },

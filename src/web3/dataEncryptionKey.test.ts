@@ -6,9 +6,8 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { doFetchDataEncryptionKey, fetchDEKDecentrally } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
-import { mocked } from 'ts-jest/utils'
 
-const mockedDEK = mocked(DEK)
+const mockedDEK = jest.mocked(DEK)
 mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 const mockFetch = fetch as FetchMock

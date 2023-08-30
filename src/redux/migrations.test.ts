@@ -310,59 +310,59 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[15](v14Stub)
     expect(migratedSchema.identity.hasSeenVerificationNux).toEqual(true)
     expect(migratedSchema.identity).toMatchInlineSnapshot(`
-      Object {
-        "acceptedAttestationCodes": Array [],
-        "addressToDataEncryptionKey": Object {},
-        "addressToDisplayName": Object {},
-        "addressToE164Number": Object {},
+      {
+        "acceptedAttestationCodes": [],
+        "addressToDataEncryptionKey": {},
+        "addressToDisplayName": {},
+        "addressToE164Number": {},
         "askedContactsPermission": false,
-        "attestationInputStatus": Array [
+        "attestationInputStatus": [
           "Inputting",
           "Disabled",
           "Disabled",
         ],
-        "attestationsCode": Array [],
-        "contactMappingProgress": Object {
+        "attestationsCode": [],
+        "contactMappingProgress": {
           "current": 0,
           "total": 0,
         },
-        "e164NumberToAddress": Object {},
-        "e164NumberToSalt": Object {},
+        "e164NumberToAddress": {},
+        "e164NumberToSalt": {},
         "hasSeenVerificationNux": true,
-        "importContactsProgress": Object {
+        "importContactsProgress": {
           "current": 0,
           "status": 0,
           "total": 0,
         },
         "isLoadingImportContacts": false,
         "lastRevealAttempt": null,
-        "matchedContacts": Object {},
+        "matchedContacts": {},
         "numCompleteAttestations": 0,
-        "secureSendPhoneNumberMapping": Object {},
+        "secureSendPhoneNumberMapping": {},
         "startedVerification": false,
         "verificationFailed": false,
         "verificationStatus": 0,
-        "walletToAccountAddress": Object {},
+        "walletToAccountAddress": {},
       }
     `)
     expect(migratedSchema.verify).toMatchInlineSnapshot(`
-      Object {
+      {
         "TEMPORARY_override_withoutVerification": undefined,
-        "actionableAttestations": Array [],
-        "currentState": Object {
+        "actionableAttestations": [],
+        "currentState": {
           "type": "Idle",
         },
-        "komenci": Object {
+        "komenci": {
           "callbackUrl": undefined,
           "captchaToken": "",
-          "errorTimestamps": Array [],
+          "errorTimestamps": [],
           "sessionActive": false,
           "sessionToken": "",
           "unverifiedMtwAddress": null,
         },
         "komenciAvailable": "UNKNOWN",
         "retries": 0,
-        "status": Object {
+        "status": {
           "completed": 0,
           "isVerified": false,
           "komenci": true,
