@@ -19,8 +19,13 @@ import {
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
+  getProviderSelectionAnalyticsData,
   LegacyMobileMoneyProvider,
+  PaymentMethod,
 } from './utils'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import mocked = jest.mocked
+import { FiatExchangeEvents } from 'src/analytics/Events'
 
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
@@ -32,6 +37,7 @@ jest.mock('./utils', () => ({
   fetchProviders: jest.fn(),
   fetchLegacyMobileMoneyProviders: jest.fn(),
   fetchExchanges: jest.fn(),
+  getProviderSelectionAnalyticsData: jest.fn(),
 }))
 
 jest.mock('@coinbase/cbpay-js', () => {
@@ -43,6 +49,11 @@ jest.mock('src/firebase/firebase', () => ({
 }))
 
 jest.mock('src/statsig')
+
+jest.mock('src/localCurrency/selectors', () => ({
+  ...(jest.requireActual('src/localCurrency/selectors') as any),
+  getDefaultLocalCurrencyCode: jest.fn().mockReturnValue('MXN'),
+}))
 
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   {
@@ -144,6 +155,61 @@ describe(SelectProviderScreen, () => {
     )
     await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', Currency.Dollar))
   })
+  it('shows spinner and avoids publishing analytics event if quotes still loading', async () => {
+    const { getByTestId } = render(
+      <Provider
+        store={createMockStore({
+          ...MOCK_STORE_DATA,
+          fiatConnect: { ...MOCK_STORE_DATA.fiatConnect, quotesLoading: true },
+        })}
+      >
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    expect(getByTestId('QuotesLoading')).toBeTruthy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+  })
+  it('publishes analytics event if quotes done loading', async () => {
+    const mockAnalyticsData = {
+      centralizedExchangesAvailable: true,
+      coinbasePayAvailable: false,
+      totalOptions: 1,
+      paymentMethodsAvailable: {
+        [PaymentMethod.Bank]: false,
+        [PaymentMethod.Card]: false,
+        [PaymentMethod.MobileMoney]: false,
+        [PaymentMethod.Coinbase]: false,
+        [PaymentMethod.FiatConnectMobileMoney]: false,
+      },
+      transferCryptoAmount: 100,
+      cryptoType: CiCoCurrency.cUSD,
+      lowestFeeKycRequired: undefined,
+      lowestFeePaymentMethod: undefined,
+      lowestFeeProvider: undefined,
+      lowestFeeCryptoAmount: undefined,
+    }
+    mocked(getProviderSelectionAnalyticsData).mockReturnValue(mockAnalyticsData)
+    render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    await waitFor(() =>
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_providers_fetch_quotes_result,
+        {
+          ...mockAnalyticsData,
+          transferCryptoAmount: undefined,
+          fiatType: LocalCurrencyCode.USD,
+          defaultFiatType: LocalCurrencyCode.MXN,
+          flow: CICOFlow.CashIn,
+          cryptoAmount: undefined,
+          fiatAmount: AMOUNT_TO_CASH_IN,
+        }
+      )
+    )
+  })
+
   it('shows the provider sections (bank, card, mobile money), legacy mobile money, and exchange section', async () => {
     jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
