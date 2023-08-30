@@ -636,8 +636,8 @@
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi bạn của bạn thiết lập và nạp tiền vào ví {{appName}} của họ, cả hai bạn đều sẽ nhận được 0,5 cUSD."
+    "title": "Mời bạn bè và nhận phần thưởng",
+    "body": "Sau khi bạn của bạn thiết lập và nạp tiền vào ví {{appName}} của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -645,14 +645,14 @@
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
     "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}",
-    "help": "Để nhận tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và nạp tiền vào ví {{appName}} bằng CELO, cUSD, cEUR, cREAL, JMPT hoặc G$. <0>Xem tất cả các điều khoản</0>",
+    "help": "Để nhận phần thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và nạp tiền vào ví {{appName}} bằng CELO, cUSD, cEUR, cREAL, JMPT hoặc G$. <0>Xem tất cả các điều khoản</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "Nhận cUSD khi đạt Phần thưởng giới thiệu Valora",
-      "body": "Mời lên đến 25 người bạn tham gia {{appName}}. Trong thời gian quỹ phần thưởng vẫn còn hiệu lực, mỗi người sẽ nhận được 0,50 cUSD khi họ nạp tiền vào ví {{appName}} mới của mình."
+      "title": "Nhận cUSD khi đạt Tiền thưởng giới thiệu Valora",
+      "body": "Mời lên đến 25 người bạn tham gia {{appName}}. Trong thời gian quỹ tiền thưởng vẫn còn hiệu lực, mỗi người sẽ nhận được 0,50 cUSD khi họ nạp tiền vào ví {{appName}} mới của mình."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -1369,18 +1369,18 @@
   "dappShortcuts": {
     "rewards": {
       "title": "Phần thưởng của bạn",
-      "description": "Nhận phần thưởng có sẵn từ các lệnh giao dịch mở trên dapp"
+      "description": "Nhận tiền thưởng có sẵn từ các lệnh giao dịch mở trên dapp"
     },
     "claimRewardsScreen": {
-      "title": "Phần thưởng của bạn",
+      "title": "Tiền thưởng của bạn",
       "description": "Hiện bạn có thể nhận phần thưởng từ các lệnh giao dịch mở trên dapp trực tiếp trong {{appName}}!",
       "claimButton": "Nhận",
       "claimedLabel": "Đã nhận",
-      "rewardLabel": "Phần thưởng có sẵn",
-      "claimSuccess": "Thành công! Bạn đã nhận được phần thưởng",
+      "rewardLabel": "Tiền thưởng khả dụng",
+      "claimSuccess": "Thành công! Bạn đã nhận được tiền thưởng",
       "confirmingReward": "ĐANG XÁC NHẬN"
     },
-    "claimRewardFailure": "Đã xảy ra lỗi khi nhận phần thưởng, vui lòng thử lại sau"
+    "claimRewardFailure": "Đã xảy ra lỗi khi nhận tiền thưởng, vui lòng thử lại sau"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
@@ -1757,7 +1757,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora xuống, kết nối số điện thoại và nạp tiền vào ví của họ lần đầu, cả hai bạn đều sẽ nhận được 0,50 cUSD, trong thời gian quỹ phần thưởng còn hiệu lực."
+      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora xuống, kết nối số điện thoại và nạp tiền vào ví của họ lần đầu, cả hai bạn đều sẽ nhận được 0,50 cUSD, trong thời gian quỹ tiền thưởng còn hiệu lực."
     }
   },
   "celoNews": {
