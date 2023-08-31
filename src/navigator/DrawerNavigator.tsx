@@ -271,7 +271,11 @@ export default function DrawerNavigator({ route }: Props) {
         <Drawer.Screen
           name={Screens.NftGallery}
           component={NftGallery}
-          options={{ title: t('nftGallery.title') ?? undefined, drawerIcon: NFT }}
+          options={{
+            title: t('nftGallery.title') ?? undefined,
+            drawerIcon: NFT,
+            unmountOnBlur: false,
+          }}
         />
       )}
       {shouldShowSwapMenuInDrawerMenu ? (
