@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
+import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeScreenSelector } from 'src/app/selectors'
 import { dappsMinimalDisclaimerEnabledSelector, recentDappsSelector } from 'src/dapps/selectors'
@@ -13,6 +14,8 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'DApps'
 
+type ExtraAnalyticsProperties = Partial<AnalyticsPropertiesList[DappExplorerEvents.dapp_open]>
+
 // Open the dapp if deep linked, or require confirmation to open the dapp
 const useOpenDapp = () => {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
@@ -22,7 +25,7 @@ const useOpenDapp = () => {
   const [selectedDapp, setSelectedDapp] = useState<ActiveDapp | null>(null)
   const dispatch = useDispatch()
 
-  const extraAnalyticsPropertiesRef = useRef<Record<string, string | number>>({})
+  const extraAnalyticsPropertiesRef = useRef<ExtraAnalyticsProperties>({})
 
   const recentlyUsedDappsMode = activeScreen === Screens.WalletHome
 
@@ -46,10 +49,7 @@ const useOpenDapp = () => {
     }
   }
 
-  const openDapp = (
-    dapp: ActiveDapp,
-    extraAnalyticsProperties: Record<string, string | number> = {}
-  ) => {
+  const openDapp = (dapp: ActiveDapp, extraAnalyticsProperties: ExtraAnalyticsProperties = {}) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
       ...getEventProperties(dapp),
       ...extraAnalyticsProperties,
@@ -70,7 +70,7 @@ const useOpenDapp = () => {
 
   const onSelectDapp = (
     dapp: ActiveDapp,
-    extraAnalyticsProperties: Record<string, string | number> = {}
+    extraAnalyticsProperties: ExtraAnalyticsProperties = {}
   ) => {
     const dappEventProps = getEventProperties(dapp)
     ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
