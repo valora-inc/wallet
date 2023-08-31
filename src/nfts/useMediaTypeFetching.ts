@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react'
 import { Nft } from 'src/nfts/types'
 
 function useMediaTypeFetching(activeNft: Nft) {
-  const [fetchedMediaType, setFetchedMediaType] = useState<'image' | 'video' | 'text/html' | null>(
-    null
-  )
+  const [fetchedMediaType, setFetchedMediaType] = useState<'image' | 'video' | 'text/html'>('image')
   // This should use the useAsync hook instead of useState
 
   useEffect(() => {
