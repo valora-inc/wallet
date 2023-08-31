@@ -9,6 +9,7 @@ import { call } from 'typed-redux-saga'
 import { getAddress } from 'viem'
 
 // example usage
+// todo(ACT-786): build on this when implementing viem version of sendAndMonitorTransaction
 export function* send(
   recipientAddress: string,
   amount: BigNumber,

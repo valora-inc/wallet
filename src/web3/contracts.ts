@@ -5,7 +5,6 @@
  */
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
-import { normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
@@ -141,11 +140,7 @@ export function* getViemWallet(chain: Chain) {
   if (!privateKey) {
     throw new Error(`Private key not found for account ${walletAddress}`)
   }
-  const wallet = getLockableViemWallet(
-    keychainLock,
-    chain,
-    normalizeAddressWith0x(privateKey) as Address
-  )
+  const wallet = getLockableViemWallet(keychainLock, chain, privateKey as Address)
   Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
   viemWallets.set(chain, wallet)
   return wallet

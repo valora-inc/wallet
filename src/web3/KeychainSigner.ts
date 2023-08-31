@@ -16,7 +16,7 @@ const TAG = 'web3/KeychainSigner'
  * Implements the signer interface on top of the OS keychain
  */
 export class KeychainSigner implements Signer {
-  protected localSigner: LocalSigner | null = null
+  protected unlockedLocalSigner: LocalSigner | null = null
   constructor(protected account: KeychainAccount, protected lock: KeychainLock) {}
 
   async init(privateKey: string, passphrase: string) {
@@ -37,17 +37,17 @@ export class KeychainSigner implements Signer {
       throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
     }
 
-    return this.unlockedLocalSigner.signTransaction(addToV, encodedTx)
+    return this.localSigner.signTransaction(addToV, encodedTx)
   }
 
   async signPersonalMessage(data: string): Promise<{ v: number; r: Buffer; s: Buffer }> {
     Logger.info(`${TAG}@signPersonalMessage`, `Signing ${data}`)
-    return this.unlockedLocalSigner.signPersonalMessage(data)
+    return this.localSigner.signPersonalMessage(data)
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
     Logger.info(`${TAG}@signTypedData`, `Signing typed DATA:`, { address: this.account, typedData })
-    return this.unlockedLocalSigner.signTypedData(typedData)
+    return this.localSigner.signTypedData(typedData)
   }
 
   getNativeKey() {
@@ -55,30 +55,33 @@ export class KeychainSigner implements Signer {
   }
 
   async unlock(passphrase: string, duration: number): Promise<boolean> {
+    const unlocked = await this.lock.unlock(this.account.address, passphrase, duration)
+    if (!unlocked) {
+      return false
+    }
     const privateKey = await getStoredPrivateKey(this.account, passphrase)
     if (!privateKey) {
       return false
     }
-    this.localSigner = new LocalSigner(privateKey)
-    await this.lock.unlock(this.account.address, passphrase, duration)
+    this.unlockedLocalSigner = new LocalSigner(privateKey)
     return true
   }
 
   async decrypt(ciphertext: Buffer): Promise<Buffer> {
-    return this.unlockedLocalSigner.decrypt(ciphertext)
+    return this.localSigner.decrypt(ciphertext)
   }
 
   async computeSharedSecret(publicKey: string): Promise<Buffer> {
-    return this.unlockedLocalSigner.computeSharedSecret(publicKey)
+    return this.localSigner.computeSharedSecret(publicKey)
   }
 
-  protected get unlockedLocalSigner(): LocalSigner {
+  protected get localSigner(): LocalSigner {
     if (!this.lock.isUnlocked(this.account.address)) {
+      this.unlockedLocalSigner = null
+    }
+    if (!this.unlockedLocalSigner) {
       throw new Error('authentication needed: password or unlock')
     }
-    if (!this.localSigner) {
-      throw new Error('signer not initialized')
-    }
-    return this.localSigner
+    return this.unlockedLocalSigner
   }
 }
