@@ -276,7 +276,7 @@ export function useSimpleActions() {
                 ValoraAnalytics.track(HomeEvents.notification_select, {
                   notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.decline,
-                  notificationId: BundledNotificationIds.supercharging,
+                  notificationId: BundledNotificationIds.start_supercharging,
                 })
                 dispatch(dismissStartSupercharging())
               },
