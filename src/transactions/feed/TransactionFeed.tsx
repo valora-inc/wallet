@@ -12,7 +12,7 @@ import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-import { getAllowedChains } from 'src/transactions/feed/queryHelper'
+import { getAllowedNetworks } from 'src/transactions/feed/queryHelper'
 
 export type FeedTokenProperties = {
   status: TransactionStatus // for standby transactions
@@ -24,7 +24,7 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
   const transferTx = tx as StandbyTransaction
   return {
     __typename: 'TokenTransferV3',
-    chain: tx.chain,
+    network: tx.network,
     type: tx.type,
     status: tx.status,
     transactionHash: tx.hash || '',
@@ -57,10 +57,10 @@ function TransactionFeed() {
     mapStandbyTransactionToFeedTokenTransaction(tx)
   )
 
-  const allowedChains = getAllowedChains()
+  const allowedNetworks = getAllowedNetworks()
   const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions].filter(
     (tx) => {
-      return allowedChains.includes(tx.chain)
+      return allowedNetworks.includes(tx.network)
     }
   )
 
