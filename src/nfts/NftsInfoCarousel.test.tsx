@@ -4,12 +4,16 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
+import useMediaTypeFetching from 'src/nfts/useMediaTypeFetching'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata } from 'test/values'
 
 jest.mock('src/utils/Logger')
 jest.mock('react-native-video', () => 'ReactNativeVideo')
+jest.mock('src/nfts/useMediaTypeFetching')
+
+const mockMediaType = jest.mocked(useMediaTypeFetching)
 
 describe('NftsInfoCarousel', () => {
   beforeEach(() => {
@@ -17,6 +21,7 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('renders correctly with one Nft', () => {
+    mockMediaType.mockReturnValueOnce('video')
     const { queryByTestId, getByTestId, getByText } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
@@ -26,7 +31,7 @@ describe('NftsInfoCarousel', () => {
     )
 
     // Correct image source should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/Main-video')).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
@@ -42,6 +47,9 @@ describe('NftsInfoCarousel', () => {
   })
 
   it('renders correctly with two valid Nfts', () => {
+    mockMediaType.mockReturnValueOnce('video')
+    mockMediaType.mockReturnValueOnce('image')
+    mockMediaType.mockReturnValueOnce('video')
     const nft1Thumbnail = `NftsInfoCarousel/NftThumbnail/${mockNftAllFields.contractAddress}-${mockNftAllFields.tokenId}`
     const nft2Thumbnail = `NftsInfoCarousel/NftThumbnail/${mockNftMinimumFields.contractAddress}-${mockNftMinimumFields.tokenId}`
     const { getByTestId, getByText } = render(
@@ -58,7 +66,7 @@ describe('NftsInfoCarousel', () => {
     expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
 
     // Correct Nft Video and name should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/Main-video')).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
@@ -72,7 +80,7 @@ describe('NftsInfoCarousel', () => {
     // Toggle to Second Nft
     fireEvent.press(getByTestId(nft2Thumbnail))
     expect(getByText(mockNftMinimumFields.metadata!.name)).toBeTruthy()
-    expect(getByTestId('NftsInfoCarousel/MainImage')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/Main-image')).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftMinimumFields.media[0].gateway,
@@ -85,7 +93,7 @@ describe('NftsInfoCarousel', () => {
     // Return to first Nft
     fireEvent.press(getByTestId(nft1Thumbnail))
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
-    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/Main-video')).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
