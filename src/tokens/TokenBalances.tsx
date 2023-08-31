@@ -45,6 +45,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import SegmentedControl from 'src/tokens/SegmentedControl'
 import {
@@ -342,6 +343,8 @@ function TokenBalancesScreen({ navigation, route }: Props) {
         contentContainerStyle={{
           paddingBottom: insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
+          // Allow header scroll even when not enough assets or positions
+          minHeight: variables.height + listHeaderHeight,
         }}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
