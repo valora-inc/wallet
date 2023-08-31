@@ -392,6 +392,7 @@ export enum FiatExchangeEvents {
   cico_providers_quote_selected = 'cico_providers_quote_selected',
   cico_providers_exchanges_selected = 'cico_providers_exchanges_selected',
 
+  cico_providers_fetch_quotes_result = 'cico_providers_fetch_quotes_result',
   cico_providers_back = 'cico_providers_back',
   cico_providers_unavailable_impression = 'cico_providers_unavailable_impression',
   cico_providers_unavailable_selected = 'cico_providers_unavailable_selected',

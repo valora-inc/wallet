@@ -1063,6 +1063,15 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
   },
+  {
+    name: 'Dapp 3',
+    id: 'dapp3',
+    categories: ['1'],
+    categoryNames: ['Swap'],
+    description: 'Do something cool!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp3.png',
+    dappUrl: 'https://app.dapp3.org/',
+  },
 ]
 
 // Generate exchange rates
