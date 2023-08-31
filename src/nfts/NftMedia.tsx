@@ -131,8 +131,9 @@ export default function NftMedia({
 
   return (
     <>
-      {status === 'error' && ErrorComponent}
-      {mediaType === 'video' && animationUrl && (
+      {status === 'error' ? (
+        ErrorComponent
+      ) : mediaType === 'video' && animationUrl ? (
         <>
           <Video
             source={{
@@ -165,8 +166,7 @@ export default function NftMedia({
             <Placeholder mediaType="video" testID={`${testID}/VideoPlaceholder`} />
           </View>
         </>
-      )}
-      {mediaType === 'text/html' && animationUrl && (
+      ) : mediaType === 'text/html' && animationUrl ? (
         <WebView
           source={{ uri: animationUrl }}
           key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
@@ -174,8 +174,7 @@ export default function NftMedia({
           style={{ height, width: variables.width }}
           onLoadEnd={(event) => {
             if (event.nativeEvent.loading === false) {
-              // Give 1.5 seconds for HTML to actually load
-              setTimeout(() => handleLoadSuccess(), 1500)
+              handleLoadSuccess()
             }
           }}
           // Prevent the user from selecting within the webview
@@ -186,8 +185,7 @@ export default function NftMedia({
             <Placeholder testID={`${testID}/HTMLPlaceholder`} mediaType="text/html" />
           )}
         </WebView>
-      )}
-      {mediaType === 'image' && (
+      ) : (
         <FastImage
           key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
           testID={testID}
