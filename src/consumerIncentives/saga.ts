@@ -37,7 +37,7 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
   newTransactionContext,
-  Chain,
+  Network,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -89,7 +89,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       yield* put(
         addStandbyTransaction({
           context: newTransactionContext('Claim Reward', reward.txHash),
-          chain: Chain.Celo,
+          network: Network.Celo,
           type: TokenTransactionTypeV2.Received,
           status: TransactionStatus.Complete,
           value: reward.amount,

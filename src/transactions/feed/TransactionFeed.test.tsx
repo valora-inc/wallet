@@ -11,7 +11,7 @@ import {
   TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
-  Chain,
+  Network,
 } from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
@@ -23,7 +23,7 @@ jest.mock('src/statsig', () => ({
 const mockTransaction = (transactionHash: string): TokenTransaction => {
   return {
     __typename: 'TokenTransferV3',
-    chain: Chain.Celo,
+    network: Network.Celo,
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
     amount: {
       tokenAddress: mockCusdAddress,
@@ -43,7 +43,7 @@ const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
   {
     context: { id: 'test' },
-    chain: Chain.Celo,
+    network: Network.Celo,
     type: TokenTransactionTypeV2.Sent,
     status: TransactionStatus.Pending,
     value: '0.5',

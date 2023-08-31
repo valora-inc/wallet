@@ -28,7 +28,7 @@ import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
-import { Chain } from 'src/transactions/types'
+import { Network } from 'src/transactions/types'
 
 const TAG = 'FirebaseNotifications'
 
@@ -63,7 +63,7 @@ function handlePaymentReceived(transferNotification: TransferNotificationData) {
   navigate(Screens.TransactionDetailsScreen, {
     transaction: {
       __typename: 'TokenTransferV3',
-      chain: Chain.Celo,
+      network: Network.Celo,
       type: TokenTransactionTypeV2.Received,
       transactionHash: transferNotification.txHash,
       timestamp: new BigNumber(transferNotification.timestamp).toNumber(),

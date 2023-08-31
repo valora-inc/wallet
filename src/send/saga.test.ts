@@ -23,7 +23,7 @@ import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { TokenTransactionTypeV2, TransactionStatus, Chain } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus, Network } from 'src/transactions/types'
 import {
   getConnectedAccount,
   getConnectedUnlockedAccount,
@@ -305,7 +305,7 @@ describe(sendPaymentSaga, () => {
       .put(
         addStandbyTransaction({
           context: mockContext,
-          chain: Chain.Celo,
+          network: Network.Celo,
           type: TokenTransactionTypeV2.Sent,
           comment: sendAction.comment,
           status: TransactionStatus.Pending,

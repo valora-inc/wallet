@@ -12,7 +12,7 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesSelector } from 'src/transactions/reducer'
-import { TokenTransaction, Chain } from 'src/transactions/types'
+import { TokenTransaction, Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -62,10 +62,10 @@ const deduplicateTransactions = (
   return transactionsWithoutDuplicatedHash
 }
 
-export function getAllowedChains(): Array<Chain> {
+export function getAllowedNetworks(): Array<Network> {
   return getFeatureGate(StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS)
-    ? Object.values(Chain)
-    : [Chain.Celo]
+    ? Object.values(Network)
+    : [Network.Celo]
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -77,23 +77,23 @@ export function useFetchTransactions(): QueryHookResult {
 
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  const allowedChains = getAllowedChains()
+  const allowedNetworks = getAllowedNetworks()
 
   // Track cumulative transactions and most recent page info for all chains in one
   // piece of state so that they don't become out of sync.
   const [fetchedResult, setFetchedResult] = useState<{
     transactions: TokenTransaction[]
-    pageInfo: { [key in Chain]?: PageInfo | null }
-    hasTransactionsOnCurrentPage: { [key in Chain]?: boolean }
+    pageInfo: { [key in Network]?: PageInfo | null }
+    hasTransactionsOnCurrentPage: { [key in Network]?: boolean }
   }>({
     transactions: [],
-    pageInfo: allowedChains.reduce((acc, cur) => {
+    pageInfo: allowedNetworks.reduce((acc, cur) => {
       return {
         ...acc,
         [cur]: null,
       }
     }, {}),
-    hasTransactionsOnCurrentPage: allowedChains.reduce((acc, cur) => {
+    hasTransactionsOnCurrentPage: allowedNetworks.reduce((acc, cur) => {
       return {
         ...acc,
         [cur]: false,
@@ -108,16 +108,16 @@ export function useFetchTransactions(): QueryHookResult {
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-  const handleResult = (results: { [key in Chain]?: QueryResponse }, isPollResult: boolean) => {
+  const handleResult = (results: { [key in Network]?: QueryResponse }, isPollResult: boolean) => {
     Logger.info(TAG, `Fetched ${isPollResult ? 'new' : 'next page of'} transactions`)
 
-    for (const [chain, result] of Object.entries(results) as Array<[Chain, QueryResponse]>) {
+    for (const [network, result] of Object.entries(results) as Array<[Network, QueryResponse]>) {
       const returnedTransactions = result.data?.tokenTransactionsV3?.transactions ?? []
 
       const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
 
       // the initial feed fetch is from polling, exclude polled updates from that scenario
-      const isPolledUpdate = isPollResult && fetchedResult.pageInfo[chain] !== null
+      const isPolledUpdate = isPollResult && fetchedResult.pageInfo[network] !== null
 
       if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
         setFetchedResult((prev) => ({
@@ -126,10 +126,10 @@ export function useFetchTransactions(): QueryHookResult {
           // updates, as these variables are used for fetching the next pages
           pageInfo: isPolledUpdate
             ? prev.pageInfo
-            : { ...prev.pageInfo, [chain]: returnedPageInfo },
+            : { ...prev.pageInfo, [network]: returnedPageInfo },
           hasTransactionsOnCurrentPage: isPolledUpdate
             ? prev.hasTransactionsOnCurrentPage
-            : { ...prev.hasTransactionsOnCurrentPage, [chain]: returnedTransactions.length > 0 },
+            : { ...prev.hasTransactionsOnCurrentPage, [network]: returnedTransactions.length > 0 },
         }))
 
         if (isPollResult && returnedTransactions.length) {
@@ -168,8 +168,8 @@ export function useFetchTransactions(): QueryHookResult {
       const result = await queryTransactionsFeed({
         address,
         localCurrencyCode,
-        params: allowedChains.map((chain) => {
-          return { chain }
+        params: allowedNetworks.map((network) => {
+          return { network }
         }),
       })
       handleResult(result, true)
@@ -183,20 +183,20 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for more transactions if requested
   useAsync(
     async () => {
-      if (!fetchingMoreTransactions || !anyChainHasMorePages(fetchedResult.pageInfo)) {
+      if (!fetchingMoreTransactions || !anyNetworkHasMorePages(fetchedResult.pageInfo)) {
         setFetchingMoreTransactions(false)
         return
       }
-      // If we're requested to fetch more transactions, only fetch them for chains
+      // If we're requested to fetch more transactions, only fetch them for networks
       // that actually have further pages.
       const params: Array<{
-        chain: Chain
+        network: Network
         afterCursor?: string
-      }> = (Object.entries(fetchedResult.pageInfo) as Array<[Chain, PageInfo | null]>)
-        .map(([chain, pageInfo]) => {
-          return { chain, afterCursor: pageInfo?.endCursor }
+      }> = (Object.entries(fetchedResult.pageInfo) as Array<[Network, PageInfo | null]>)
+        .map(([network, pageInfo]) => {
+          return { network, afterCursor: pageInfo?.endCursor }
         })
-        .filter((chainParams) => fetchedResult.pageInfo[chainParams.chain]?.hasNextPage)
+        .filter((networkParams) => fetchedResult.pageInfo[networkParams.network]?.hasNextPage)
       const result = await queryTransactionsFeed({
         address,
         localCurrencyCode,
@@ -234,9 +234,9 @@ export function useFetchTransactions(): QueryHookResult {
     const { transactions, pageInfo, hasTransactionsOnCurrentPage } = fetchedResult
     if (
       !loading &&
-      anyChainHasMorePages(pageInfo) &&
+      anyNetworkHasMorePages(pageInfo) &&
       (transactions.length < MIN_NUM_TRANSACTIONS ||
-        !anyChainHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage))
+        !anyNetworkHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage))
     ) {
       setFetchingMoreTransactions(true)
     }
@@ -251,7 +251,7 @@ export function useFetchTransactions(): QueryHookResult {
       if (!fetchedResult.pageInfo) {
         dispatch(showError(ErrorMessages.FETCH_FAILED))
       } else if (
-        !anyChainHasMorePages(fetchedResult.pageInfo) &&
+        !anyNetworkHasMorePages(fetchedResult.pageInfo) &&
         fetchedResult.transactions.length > MIN_NUM_TRANSACTIONS
       ) {
         Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
@@ -262,17 +262,17 @@ export function useFetchTransactions(): QueryHookResult {
   }
 }
 
-function anyChainHasMorePages(pageInfo: { [key in Chain]?: PageInfo | null }): boolean {
+function anyNetworkHasMorePages(pageInfo: { [key in Network]?: PageInfo | null }): boolean {
   return Object.values(pageInfo).some((val) => !!val?.hasNextPage)
 }
 
-function anyChainHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
-  [key in Chain]?: boolean
+function anyNetworkHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
+  [key in Network]?: boolean
 }): boolean {
   return Object.values(hasTransactionsOnCurrentPage).some((hasTxs) => hasTxs)
 }
 
-// Queries for transactions feed for any number of chains in parallel,
+// Queries for transactions feed for any number of networks in parallel,
 // with optional pagination support.
 async function queryTransactionsFeed({
   address,
@@ -282,16 +282,16 @@ async function queryTransactionsFeed({
   address: string | null
   localCurrencyCode: string
   params: Array<{
-    chain: Chain
+    network: Network
     afterCursor?: string
   }>
-}): Promise<{ [key in Chain]?: QueryResponse }> {
+}): Promise<{ [key in Network]?: QueryResponse }> {
   const results = await Promise.all(
-    params.map(({ chain, afterCursor }) =>
+    params.map(({ network, afterCursor }) =>
       queryChainTransactionsFeed({
         address,
         localCurrencyCode,
-        chain,
+        network,
         afterCursor,
       })
     )
@@ -300,7 +300,7 @@ async function queryTransactionsFeed({
   return results.reduce((acc, result, index) => {
     return {
       ...acc,
-      [params[index].chain]: result,
+      [params[index].network]: result,
     }
   }, {})
 }
@@ -308,19 +308,19 @@ async function queryTransactionsFeed({
 async function queryChainTransactionsFeed({
   address,
   localCurrencyCode,
-  chain,
+  network,
   afterCursor,
 }: {
   address: string | null
   localCurrencyCode: string
-  chain: Chain
+  network: Network
   afterCursor?: string
 }) {
   Logger.info(`Request to fetch transactions with params:`, {
     address,
     localCurrencyCode,
     afterCursor,
-    chain,
+    network,
   })
 
   const response = await fetch(`${config.blockchainApiUrl}/graphql`, {
@@ -331,7 +331,7 @@ async function queryChainTransactionsFeed({
     },
     body: JSON.stringify({
       query: TRANSACTIONS_QUERY,
-      variables: { address, localCurrencyCode, chain, afterCursor },
+      variables: { address, localCurrencyCode, network, afterCursor },
     }),
   })
   const body = (await response.json()) as QueryResponse
@@ -344,7 +344,7 @@ async function queryChainTransactionsFeed({
       tokenTransactionsV3: {
         ...body.data.tokenTransactionsV3,
         transactions: body.data.tokenTransactionsV3.transactions.map((tx) => {
-          return { ...tx, chain }
+          return { ...tx, network }
         }),
       },
     },
@@ -352,8 +352,8 @@ async function queryChainTransactionsFeed({
 }
 
 export const TRANSACTIONS_QUERY = `
-  query UserTransactions($address: Address!, $localCurrencyCode: String, $afterCursor: String, $chain: Chain!) {
-    tokenTransactionsV3(address: $address, localCurrencyCode: $localCurrencyCode, afterCursor: $afterCursor, chain: $chain) {
+  query UserTransactions($address: Address!, $localCurrencyCode: String, $afterCursor: String, $network: Network!) {
+    tokenTransactionsV3(address: $address, localCurrencyCode: $localCurrencyCode, afterCursor: $afterCursor, network: $network) {
       pageInfo {
         startCursor
         endCursor

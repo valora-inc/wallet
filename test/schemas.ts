@@ -15,7 +15,7 @@ import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { TokenTransaction, Chain, StandbyTransaction } from 'src/transactions/types'
+import { TokenTransaction, Network, StandbyTransaction } from 'src/transactions/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2477,7 +2477,7 @@ export const v145Schema = {
     ...v144Schema.transactions,
     standbyTransactions: (v144Schema.transactions.standbyTransactions as StandbyTransaction[]).map(
       (tx) => {
-        return { ...tx, chain: Chain.Celo }
+        return { ...tx, network: Network.Celo }
       }
     ),
     transactions: (v144Schema.transactions.transactions as TokenTransaction[]).map((tx) => {
@@ -2490,7 +2490,7 @@ export const v145Schema = {
       return {
         ...tx,
         __typename,
-        chain: Chain.Celo,
+        network: Network.Celo,
       }
     }),
   },

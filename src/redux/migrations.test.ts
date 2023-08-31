@@ -3,7 +3,7 @@ import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Chain, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { Network, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import BigNumber from 'bignumber.js'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
@@ -1078,7 +1078,7 @@ describe('Redux persist migrations', () => {
         standbyTransactions: [
           {
             context: { id: 'test' },
-            chain: Chain.Celo,
+            network: Network.Celo,
             type: TokenTransactionTypeV2.Sent,
             status: TransactionStatus.Pending,
             value: '0.5',
@@ -1091,7 +1091,7 @@ describe('Redux persist migrations', () => {
         transactions: [
           {
             __typename: 'TokenTransferV3',
-            chain: Chain.Celo,
+            network: Network.Celo,
             type: TokenTransactionTypeV2.Sent,
             transactionHash: '123',
             timestamp: 456,
@@ -1111,7 +1111,7 @@ describe('Redux persist migrations', () => {
           },
           {
             __typename: 'NftTransferV3',
-            chain: Chain.Celo,
+            network: Network.Celo,
             type: TokenTransactionTypeV2.NftReceived,
             transactionHash: '123',
             timestamp: 456,
@@ -1121,7 +1121,7 @@ describe('Redux persist migrations', () => {
           },
           {
             __typename: 'TokenExchangeV3',
-            chain: Chain.Celo,
+            network: Network.Celo,
             type: TokenTransactionTypeV2.Exchange,
             transactionHash: '123',
             timestamp: 456,

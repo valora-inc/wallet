@@ -16,7 +16,7 @@ import {
   TokenTransactionTypeV2,
   TokenTransferMetadata,
   TransactionStatus,
-  Chain,
+  Network,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import {
@@ -64,7 +64,7 @@ describe('TransferFeedItem', () => {
         <TransferFeedItem
           transfer={{
             __typename: 'TokenTransferV3',
-            chain: Chain.Celo,
+            network: Network.Celo,
             type,
             status: TransactionStatus.Complete,
             transactionHash: MOCK_TX_HASH,

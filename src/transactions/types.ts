@@ -5,9 +5,9 @@ import { Nft } from 'src/nfts/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
-export enum Chain {
-  Celo = 'Celo',
-  Ethereum = 'Ethereum',
+export enum Network {
+  Celo = 'celo',
+  Ethereum = 'ethereum',
 }
 
 export interface StandbyTransactionLegacy {
@@ -23,7 +23,7 @@ export interface StandbyTransactionLegacy {
 }
 export interface StandbyTransaction {
   context: TransactionContext
-  chain: Chain
+  network: Network
   type: TokenTransferTypeV2
   status: TransactionStatus
   value: string
@@ -114,7 +114,7 @@ export enum TokenTransactionTypeV2 {
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
   __typename: 'TokenTransferV3'
-  chain: Chain
+  network: Network
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
@@ -134,7 +134,7 @@ export interface TokenTransferMetadata {
 
 export interface NftTransfer {
   __typename: 'NftTransferV3'
-  chain: Chain
+  network: Network
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
@@ -146,7 +146,7 @@ export interface NftTransfer {
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
   __typename: 'TokenExchangeV3'
-  chain: Chain
+  network: Network
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number

@@ -741,13 +741,6 @@
             },
             "type": "object"
         },
-        "Chain": {
-            "enum": [
-                "Celo",
-                "Ethereum"
-            ],
-            "type": "string"
-        },
         "CiCoCurrency": {
             "enum": [
                 "CELO",
@@ -1675,6 +1668,13 @@
             ],
             "type": "object"
         },
+        "Network": {
+            "enum": [
+                "celo",
+                "ethereum"
+            ],
+            "type": "string"
+        },
         "Nft": {
             "additionalProperties": false,
             "properties": {
@@ -1814,14 +1814,14 @@
                 "block": {
                     "type": "string"
                 },
-                "chain": {
-                    "$ref": "#/definitions/Chain"
-                },
                 "fees": {
                     "items": {
                         "$ref": "#/definitions/Fee"
                     },
                     "type": "array"
+                },
+                "network": {
+                    "$ref": "#/definitions/Network"
                 },
                 "nfts": {
                     "items": {
@@ -1842,7 +1842,7 @@
             "required": [
                 "__typename",
                 "block",
-                "chain",
+                "network",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2757,9 +2757,6 @@
                 "address": {
                     "type": "string"
                 },
-                "chain": {
-                    "$ref": "#/definitions/Chain"
-                },
                 "comment": {
                     "type": "string"
                 },
@@ -2768,6 +2765,9 @@
                 },
                 "hash": {
                     "type": "string"
+                },
+                "network": {
+                    "$ref": "#/definitions/Network"
                 },
                 "status": {
                     "$ref": "#/definitions/TransactionStatus"
@@ -2787,9 +2787,9 @@
             },
             "required": [
                 "address",
-                "chain",
                 "comment",
                 "context",
+                "network",
                 "status",
                 "timestamp",
                 "type",
@@ -4642,9 +4642,6 @@
                 "block": {
                     "type": "string"
                 },
-                "chain": {
-                    "$ref": "#/definitions/Chain"
-                },
                 "fees": {
                     "items": {
                         "$ref": "#/definitions/Fee"
@@ -4656,6 +4653,9 @@
                 },
                 "metadata": {
                     "$ref": "#/definitions/TokenExchangeMetadata"
+                },
+                "network": {
+                    "$ref": "#/definitions/Network"
                 },
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
@@ -4673,9 +4673,9 @@
             "required": [
                 "__typename",
                 "block",
-                "chain",
                 "fees",
                 "inAmount",
+                "network",
                 "outAmount",
                 "timestamp",
                 "transactionHash",
@@ -4737,9 +4737,6 @@
                 "block": {
                     "type": "string"
                 },
-                "chain": {
-                    "$ref": "#/definitions/Chain"
-                },
                 "fees": {
                     "items": {
                         "$ref": "#/definitions/Fee"
@@ -4748,6 +4745,9 @@
                 },
                 "metadata": {
                     "$ref": "#/definitions/TokenTransferMetadata"
+                },
+                "network": {
+                    "$ref": "#/definitions/Network"
                 },
                 "timestamp": {
                     "type": "number"
@@ -4764,9 +4764,9 @@
                 "address",
                 "amount",
                 "block",
-                "chain",
                 "fees",
                 "metadata",
+                "network",
                 "timestamp",
                 "transactionHash",
                 "type"
