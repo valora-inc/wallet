@@ -1189,7 +1189,11 @@ interface DappEventProperties extends DappProperties {
 
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
-  [DappExplorerEvents.dapp_open]: DappEventProperties
+  [DappExplorerEvents.dapp_open]: DappEventProperties & {
+    activeFilter?: string
+    activeSearchTerm?: string
+    position?: number
+  }
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: { section: DappSection }
