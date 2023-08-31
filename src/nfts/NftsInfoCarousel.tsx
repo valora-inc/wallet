@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -12,6 +12,7 @@ import { StackParamList } from 'src/navigator/types'
 import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
 import { Nft, NftOrigin } from 'src/nfts/types'
+import useMediaTypeFetching from 'src/nfts/useMediaTypeFetching'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -104,8 +105,8 @@ type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 export default function NftsInfoCarousel({ route }: Props) {
   const { nfts } = route.params
   const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
-  const [fetchedMediaType, setFetchedMediaType] = useState<'image' | 'video' | 'text/html'>('image')
   const { t } = useTranslation()
+  const fetchedMediaType = useMediaTypeFetching(activeNft)
 
   function pressExplorerLink() {
     navigate(Screens.WebViewScreen, {
@@ -116,31 +117,6 @@ export default function NftsInfoCarousel({ route }: Props) {
   function handleThumbnailPress(nft: Nft) {
     setActiveNft(nft)
   }
-
-  useEffect(() => {
-    const getMediaType = async () => {
-      if (!activeNft || !activeNft.metadata || !activeNft.metadata.animation_url) {
-        setFetchedMediaType('image')
-        return
-      }
-
-      try {
-        const response = await fetch(activeNft.metadata.animation_url)
-        const contentType = response.headers.get('content-type')
-
-        if (contentType?.includes('video')) {
-          setFetchedMediaType('video')
-        } else {
-          setFetchedMediaType('text/html')
-        }
-      } catch (error) {
-        // Handle any fetch errors
-        setFetchedMediaType('image')
-      }
-    }
-
-    getMediaType()
-  }, [activeNft])
 
   // Full page error screen shown when ntfs === []
   if (nfts.length === 0) {
