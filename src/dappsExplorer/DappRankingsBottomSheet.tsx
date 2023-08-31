@@ -16,7 +16,7 @@ export function DappRankingsBottomSheet({
   onPressDapp,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
-  onPressDapp: (dapp: ActiveDapp, index: number) => () => void
+  onPressDapp: (dapp: ActiveDapp, index: number) => void
 }) {
   const { t } = useTranslation()
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
@@ -49,7 +49,7 @@ export function DappRankingsBottomSheet({
         >
           <Touchable
             style={styles.popularDappCardContentContainer}
-            onPress={onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular }, index)}
+            onPress={() => onPressDapp({ ...dapp, openedFrom: DappSection.MostPopular }, index)}
             testID={`Dapp/${dapp.id}`}
           >
             <>

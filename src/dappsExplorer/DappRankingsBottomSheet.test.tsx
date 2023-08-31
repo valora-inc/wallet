@@ -23,7 +23,6 @@ describe('DappRankingsBottomSheet', () => {
 
   it('should render the correct list of ranked dapps', () => {
     const onPressSpy = jest.fn()
-    const onPressCreator = jest.fn(() => onPressSpy)
     const { getByText, getAllByTestId, getByTestId } = render(
       <Provider
         store={createMockStore({
@@ -34,7 +33,7 @@ describe('DappRankingsBottomSheet', () => {
           },
         })}
       >
-        <DappRankingsBottomSheet onPressDapp={onPressCreator} forwardedRef={{ current: null }} />
+        <DappRankingsBottomSheet onPressDapp={onPressSpy} forwardedRef={{ current: null }} />
       </Provider>
     )
 
@@ -45,14 +44,13 @@ describe('DappRankingsBottomSheet', () => {
 
     fireEvent.press(getByTestId('Dapp/dapp2'))
 
-    expect(onPressCreator).toHaveBeenCalledWith(
+    expect(onPressSpy).toHaveBeenCalledWith(
       {
         ...mockDappList[1],
         openedFrom: 'mostPopular',
       },
       0
     )
-    expect(onPressSpy).toHaveBeenCalled()
   })
 
   it('should favorite a dapp', () => {

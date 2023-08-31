@@ -126,7 +126,7 @@ export function DAppsExplorerScreenSearchFilter() {
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
-  const createOnPressDappHandler = (dapp: ActiveDapp, index: number) => () => {
+  const onPressDapp = (dapp: ActiveDapp, index: number) => {
     onSelectDapp(dapp, {
       position: 1 + index,
       activeFilter: selectedFilter,
@@ -257,7 +257,7 @@ export function DAppsExplorerScreenSearchFilter() {
                           : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
                       </Text>
                       <FavoriteDappsSection
-                        onPressDapp={createOnPressDappHandler}
+                        onPressDapp={onPressDapp}
                         filterId={selectedFilter}
                         searchTerm={searchTerm}
                       />
@@ -285,10 +285,7 @@ export function DAppsExplorerScreenSearchFilter() {
             renderItem={({ item: dapp, index }) => (
               <DappCard
                 dapp={dapp}
-                onPressDapp={createOnPressDappHandler(
-                  { ...dapp, openedFrom: DappSection.All },
-                  index
-                )}
+                onPressDapp={() => onPressDapp({ ...dapp, openedFrom: DappSection.All }, index)}
                 onFavoriteDapp={onFavoriteDapp}
               />
             )}
@@ -306,7 +303,7 @@ export function DAppsExplorerScreenSearchFilter() {
       {DappFavoritedToast}
       <DappRankingsBottomSheet
         forwardedRef={dappRankingsBottomSheetRef}
-        onPressDapp={createOnPressDappHandler}
+        onPressDapp={onPressDapp}
       />
     </SafeAreaView>
   )
