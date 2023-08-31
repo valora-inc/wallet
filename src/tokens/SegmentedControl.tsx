@@ -26,6 +26,9 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
           style={[
             styles.button,
             { backgroundColor: index === selectedIndex ? Colors.greenUI : Colors.gray1 },
+            index === 0 && { borderBottomEndRadius: 0, borderTopEndRadius: 0 },
+            index === values.length - 1 && { borderBottomStartRadius: 0, borderTopStartRadius: 0 },
+            index !== 0 && index !== values.length - 1 && { borderRadius: 0 },
           ]}
           onPress={handleSelectOption(value, index)}
         >
@@ -42,6 +45,7 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
 
 const styles = StyleSheet.create({
   container: {
+    overflow: 'hidden',
     flexDirection: 'row',
     borderRadius: 100,
     backgroundColor: Colors.gray1,
