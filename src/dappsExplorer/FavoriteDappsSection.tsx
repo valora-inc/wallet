@@ -8,7 +8,7 @@ import { searchDappList } from 'src/dappsExplorer/searchDappList'
 
 interface Props {
   filterId: string
-  onPressDapp: (dapp: ActiveDapp) => void
+  onPressDapp: (dapp: ActiveDapp, index: number) => void
   searchTerm: string
 }
 
@@ -26,12 +26,13 @@ export function FavoriteDappsSection({ filterId, onPressDapp, searchTerm }: Prop
   if (favoriteResults.length > 0) {
     return (
       <View testID="DAppsExplorerScreen/FavoriteDappsSection">
-        {favoriteResults.map((favoriteDapp) => (
+        {favoriteResults.map((favoriteDapp, index) => (
           <DappCard
             key={favoriteDapp.id}
             dapp={favoriteDapp}
-            section={DappSection.FavoritesDappScreen}
-            onPressDapp={onPressDapp}
+            onPressDapp={() =>
+              onPressDapp({ ...favoriteDapp, openedFrom: DappSection.FavoritesDappScreen }, index)
+            }
           />
         ))}
       </View>

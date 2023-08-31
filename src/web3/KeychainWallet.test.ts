@@ -8,6 +8,7 @@ import {
 import { Encrypt } from '@celo/utils/lib/ecies'
 import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
+import CryptoJS from 'crypto-js'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
 import { UNLOCK_DURATION } from 'src/web3/consts'
@@ -390,6 +391,45 @@ describe('KeychainWallet', () => {
           })
         })
       })
+    })
+  })
+
+  // This ensures private keys which were stored without the 0x prefix are still supported
+  describe('with a persisted account with a non normalized private key', () => {
+    const knownAddress = ACCOUNT_ADDRESS1
+    const otherAddress = ACCOUNT_ADDRESS2
+
+    beforeEach(async () => {
+      // Setup mocked keychain content with a private key without the 0x prefix
+      mockedKeychain.setItems({
+        'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
+          password: await CryptoJS.AES.encrypt(PRIVATE_KEY1, 'password').toString(),
+        },
+      })
+
+      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
+      await wallet.init()
+      await wallet.unlockAccount(knownAddress, 'password', 0)
+    })
+
+    it('can sign a transaction', async () => {
+      const signedTx: EncodedTransaction = await wallet.signTransaction({
+        from: knownAddress,
+        to: otherAddress,
+        chainId: CHAIN_ID,
+        value: ONE_CELO_IN_WEI,
+        nonce: 0,
+        gas: '10',
+        gasPrice: '99',
+        feeCurrency: '0x',
+        gatewayFeeRecipient: FEE_ADDRESS,
+        gatewayFee: '0x5678',
+        data: '0xabcdef',
+      })
+
+      // Check the signer is correct
+      const [, recoveredSigner] = recoverTransaction(signedTx.raw)
+      expect(normalizeAddressWith0x(recoveredSigner)).toBe(normalizeAddressWith0x(knownAddress))
     })
   })
 
