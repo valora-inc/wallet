@@ -5,6 +5,7 @@ function useMediaTypeFetching(activeNft: Nft) {
   const [fetchedMediaType, setFetchedMediaType] = useState<'image' | 'video' | 'text/html' | null>(
     null
   )
+  // This should use the useAsync hook instead of useState
 
   useEffect(() => {
     // If using in hook use the useAsync hook instead of async () =>
