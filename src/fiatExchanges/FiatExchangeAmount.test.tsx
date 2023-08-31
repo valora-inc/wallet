@@ -19,14 +19,9 @@ const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
   useMaxSendAmount: () => mockUseMaxSendAmount(),
 }))
-jest.mock('src/statsig', () => {
-  return {
-    getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
-    }),
-  }
-})
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(),
+}))
 
 const usdExchangeRates = {
   [Currency.Dollar]: '1',

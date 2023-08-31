@@ -10,9 +10,6 @@ import { mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => true),
-  getDynamicConfigParams: jest.fn().mockReturnValue({
-    show_native_tokens: false,
-  }),
 }))
 
 const mockCeloAddress = '0x471ece3750da237f93b8e339c536989b8978a438'

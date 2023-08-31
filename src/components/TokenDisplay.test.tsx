@@ -8,12 +8,10 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn().mockReturnValue({
-    show_native_tokens: false,
-  }),
+  getFeatureGate: jest.fn(() => false),
 }))
 
 describe('TokenDisplay', () => {
@@ -79,9 +77,7 @@ describe('TokenDisplay', () => {
       ).toThrow()
     })
     it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
-      jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-        show_native_tokens: true,
-      })
+      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
       expect(() =>
         render(
           <Provider store={store()}>

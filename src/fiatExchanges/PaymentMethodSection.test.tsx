@@ -38,14 +38,9 @@ const mockStore = createMockStore({
   },
 })
 
-jest.mock('src/statsig', () => {
-  return {
-    getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
-    }),
-  }
-})
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(),
+}))
 
 describe('PaymentMethodSection', () => {
   let props: PaymentMethodSectionProps

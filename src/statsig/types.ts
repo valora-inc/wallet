@@ -15,7 +15,6 @@ export enum StatsigLayers {
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
-  MULTI_CHAIN_FEATURES = 'multi_chain_features',
 }
 
 export enum StatsigFeatureGates {
@@ -31,6 +30,7 @@ export enum StatsigFeatureGates {
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   SHOW_MULTI_CHAIN_TRANSFERS = 'show_multi_chain_transfers',
+  SHOW_NATIVE_TOKENS = 'show_native_tokens',
 }
 
 export enum StatsigExperiments {

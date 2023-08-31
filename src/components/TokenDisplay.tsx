@@ -7,15 +7,14 @@ import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { getDynamicConfigParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { DynamicConfigs } from 'src/statsig/constants'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
 interface Props {
   amount: BigNumber.Value
-  tokenAddress?: string
+  tokenAddress?: string | null
   currency?: Currency
   showSymbol?: boolean
   showLocalAmount?: boolean
@@ -57,9 +56,7 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  const showNativeTokens = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  )['show_native_tokens']
+  const showNativeTokens = getFeatureGate(StatsigFeatureGates.SHOW_NATIVE_TOKENS)
   if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
     throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
   } else if (tokenAddress && currency) {

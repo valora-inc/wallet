@@ -42,15 +42,10 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
 }))
 
-jest.mock('src/statsig', () => {
-  return {
-    getExperimentParams: jest.fn(),
-    getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
-    }),
-  }
-})
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn(),
+  getFeatureGate: jest.fn(),
+}))
 
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   {

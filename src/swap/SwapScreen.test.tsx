@@ -37,9 +37,7 @@ jest.mock('react-native-localize', () => ({
 jest.mock('src/statsig', () => {
   return {
     getExperimentParams: (_: any) => mockExperimentParams(),
-    getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
-    }),
+    getFeatureGate: jest.fn(),
   }
 })
 

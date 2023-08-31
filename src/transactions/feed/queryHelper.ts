@@ -16,9 +16,8 @@ import { TokenTransaction, Chain } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getDynamicConfigParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { DynamicConfigs } from 'src/statsig/constants'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -64,9 +63,9 @@ const deduplicateTransactions = (
 }
 
 export function getAllowedChains(): Array<Chain> {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])[
-    'show_transfers_for_chains'
-  ]
+  return getFeatureGate(StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS)
+    ? Object.values(Chain)
+    : [Chain.Celo]
 }
 
 export function useFetchTransactions(): QueryHookResult {
