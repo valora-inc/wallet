@@ -541,6 +541,7 @@ interface EscrowEventsProperties {
     error: string
   }
 }
+
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
@@ -837,6 +838,22 @@ interface FiatExchangeEventsProperties {
     isLowestFee: boolean | undefined
   } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_fetch_quotes_result]: {
+    fiatType: LocalCurrencyCode
+    defaultFiatType: LocalCurrencyCode
+  } & Omit<ProviderSelectionAnalyticsData, 'transferCryptoAmount'> &
+    (
+      | {
+          flow: CICOFlow.CashOut
+          cryptoAmount: number // given by user
+          fiatAmount: undefined // exchange rate varies by provider
+        }
+      | {
+          flow: CICOFlow.CashIn
+          cryptoAmount: undefined // exchange rate varies by provider
+          fiatAmount: number // given by user
+        }
+    )
   [FiatExchangeEvents.cico_providers_exchanges_selected]: {
     flow: CICOFlow
   } & ProviderSelectionAnalyticsData
@@ -1004,6 +1021,7 @@ interface QrScreenProperties {
   }
   [QrScreenEvents.qr_scanner_open]: undefined
 }
+
 interface FiatConnectKycProperties {
   provider: string
   flow: CICOFlow
@@ -1174,7 +1192,11 @@ interface DappEventProperties extends DappProperties {
 
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
-  [DappExplorerEvents.dapp_open]: DappEventProperties
+  [DappExplorerEvents.dapp_open]: DappEventProperties & {
+    activeFilter?: string
+    activeSearchTerm?: string
+    position?: number
+  }
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: { section: DappSection }
@@ -1228,6 +1250,7 @@ export interface SwapTimeMetrics {
   quoteToTransactionElapsedTimeInMs?: number // The elapsed time since the quote was received until the swap transaction is sent to the blockchain
   quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
 }
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1287,6 +1310,7 @@ interface CeloNewsEventsProperties {
   }
   [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
+
 interface TokenBottomSheetEventsProperties {
   [TokenBottomSheetEvents.search_token]: {
     origin: TokenPickerOrigin
@@ -1352,6 +1376,7 @@ interface DappShortcutClaimRewardEvent {
   network: string
   shortcutId: string
 }
+
 interface DappShortcutsProperties {
   [DappShortcutsEvents.dapp_shortcuts_rewards_screen_open]: {
     numRewards: number

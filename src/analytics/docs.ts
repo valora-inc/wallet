@@ -355,6 +355,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_providers_unavailable_impression]: `User sees a blurb about providers unavailable`,
   [FiatExchangeEvents.cico_providers_unavailable_selected]: `User taps a blurb about providers unavailable`,
   [FiatExchangeEvents.cico_providers_new_info_opened]: `User taps on the new label and views the dialog`,
+  [FiatExchangeEvents.cico_providers_fetch_quotes_result]: `Information on fetch quotes result`,
 
   // Cash In Success Screen
   [FiatExchangeEvents.cash_in_success]: `Screen users are (most of the time) redirected to after cash in with external providers`,

@@ -44,10 +44,13 @@ describe('DappRankingsBottomSheet', () => {
 
     fireEvent.press(getByTestId('Dapp/dapp2'))
 
-    expect(onPressSpy).toHaveBeenCalledWith({
-      ...mockDappList[1],
-      openedFrom: 'mostPopular',
-    })
+    expect(onPressSpy).toHaveBeenCalledWith(
+      {
+        ...mockDappList[1],
+        openedFrom: 'mostPopular',
+      },
+      0
+    )
   })
 
   it('should favorite a dapp', () => {
