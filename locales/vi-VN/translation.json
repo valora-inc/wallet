@@ -1094,7 +1094,7 @@
       },
       "warnSomeUnsupportedMethods": {
         "title": "Các phương thức không được hỗ trợ",
-        "description": "{{dappName}} đã chỉ định một số phương thức không được {{appName}} hỗ trợ. Một số tính năng có thể không hoạt động như mong muốn."
+        "description": "{{dappName}} đã chỉ định một số phương pháp không được {{appName}} hỗ trợ. Một số tính năng có thể không hoạt động như mong muốn."
       },
       "warnSomeUnsupportedEvents": {
         "title": "Các sự kiện không được hỗ trợ",
