@@ -3,6 +3,7 @@
 import 'react-native-url-polyfill/auto'
 
 export interface Global {
+  BigInt: any
   btoa: any
   URL: any
   self: any
@@ -14,4 +15,5 @@ if (typeof global.self === 'undefined') {
   global.self = global
 }
 global.btoa = require('Base64').btoa
+global.BigInt = require('big-integer')
 require('crypto')
