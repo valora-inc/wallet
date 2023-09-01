@@ -196,9 +196,6 @@ export class KeychainLock {
   > = new Map()
 
   addAccount(account: KeychainAccount) {
-    if (this.locks.has(account.address)) {
-      throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
-    }
     this.locks.set(account.address, { account })
   }
 
