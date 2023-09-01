@@ -21,7 +21,7 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo-Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
-  "keylessBackupSettingsTitle": "E-Mail & Telefon Wiederherstellung",
+  "keylessBackupSettingsTitle": "E-Mail- und Telefonwiederherstellung",
   "setup": "Einrichten",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
@@ -79,8 +79,8 @@
     }
   },
   "walletSecurityPrimer": {
-    "title": "Bewahre dein Portemonnaie sicher auf",
-    "description": "Nur du kannst auf dein Portemonnaie zugreifen. Wenn dein Telefon verloren geht oder gestohlen wird, kann Valora es nicht für dich wiederherstellen.\n\nDu musst eine Methode einrichten, um dein Portemonnaie sicher aufzubewahren und dein Geld zu schützen."
+    "title": "Sorge für die Sicherheit deiner Wallet",
+    "description": "Nur du kannst auf deine Wallet zugreifen. Wenn du dein Telefon verloren hast oder es dir gestohlen wurde, kann Valora deine Wallet für dich nicht wiederherstellen.\n\nDu musst eine Methode einrichten, durch die deine Wallet sicher und dein Guthaben geschützt sind."
   },
   "setUpKeylessBackup": {
     "title": "Schlüssellose Sicherung einrichten",
@@ -106,17 +106,17 @@
   "keylessBackupStatus": {
     "setup": {
       "inProgress": {
-        "title": "Backup in Arbeit..."
+        "title": "Backup wird ausgeführt ..."
       },
       "completed": {
-        "title": "Sicherung abgeschlossen",
-        "body": "Jetzt kannst du deine Brieftasche mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
+        "title": "Backup abgeschlossen",
+        "body": "Du kannst jetzt deine Wallet mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
       },
       "failed": {
-        "title": "Schlüssellose Sicherung nicht verfügbar",
-        "body": "Du kannst später ein schlüsselloses Backup einrichten oder dein Konto jetzt schützen, indem du es manuell sicherst.",
-        "later": "Ich werde später ein Backup machen",
-        "manual": "Manuelle Sicherung"
+        "title": "Schlüsselloses Backup nicht verfügbar",
+        "body": "Du kannst das schlüssellose Backup zu einem späteren Zeitpunkt einrichten oder dein Konto jetzt durch ein manuelles Backup schützen.",
+        "later": "Ich führe das Backup später durch",
+        "manual": "Manuelles Backup"
       }
     }
   },
@@ -575,7 +575,7 @@
   "close": "Schließen",
   "home": "Startseite",
   "accountKey": "Wiederherstellung",
-  "walletSecurity": "Sicherheit der Brieftasche",
+  "walletSecurity": "Wallet-Sicherheit",
   "addAndWithdraw": "Guthaben",
   "settings": "Einstellungen",
   "help": "Hilfe",
@@ -636,8 +636,8 @@
     "body": "Ihr erhaltet ein exklusives NFT, sobald dein Freund seine {{appName}}-Wallet eingerichtet hat und seine Nummer damit verknüpft hat."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Freunde einladen und belohnt werden",
-    "body": "Sobald sie ihr {{appName}} Wallet einrichten und aufladen, erhaltet ihr beide 0,50 cUSD."
+    "title": "Lade Freunde ein und werde belohnt",
+    "body": "Sobald dein Freund seine {{appName}} Wallet eingerichtet und Geld darauf eingezahlt hat, erhaltet ihr beide 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
@@ -645,14 +645,14 @@
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
     "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
-    "help": "Um diese Belohnung zu erhalten, muss der Eingeladene den Download über den Empfehlungslink durchführen, seine Telefonnummer angeben und sein {{appName}} Wallet mit CELO, cUSD, cEUR, cREAL, JMPT oder G$ aufladen. <0>Alle Bedingungen anzeigen</0>",
+    "help": "Um diese Reward zu erhalten, muss die eingeladene Person den Download über den Empfehlungslink durchführen, ihre Telefonnummer angeben und sein {{appName}} Wallet mit CELO, cUSD, cEUR, cREAL, JMPT oder G$ aufladen. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Hol dir cUSD mit der Valora Empfehlungsprämie",
-      "body": "Lade bis zu 25 Freunde ein, {{appName}} beizutreten, und du bekommst jeweils 0,50 cUSD, wenn sie ihre neue {{appName}} Geldbörse aufladen, solange der Vorrat reicht."
+      "title": "Erhalte cUSD mit den Empfehlungs-Rewards von Valora",
+      "body": "Lade bis zu 25 Freunde zu {{appName}} ein und du erhältst jedes Mal 0,50 cUSD, wenn die eingeladenen Personen zum ersten Mal Geld in ihre {{appName}} Wallet einzahlen (solange das Geld reicht)."
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -968,7 +968,7 @@
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
-  "inviteWithRewardsCUSD": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Brieftasche. Es ist superschnell herunterzuladen und mit deiner Telefonnummer zu verbinden. Lade sie über diesen Link herunter und lade deine neue Wallet auf, um $0,50 zu erhalten 💫 \n\n{{link}} \n\nHandle jetzt, die Empfehlungsprämien sind begrenzt.",
+  "inviteWithRewardsCUSD": "Hallo! 👋 Ich benutze {{appName}} als meine Krypto-Wallet. Der Download und die Verknüpfung deiner Telefonnummer geht super schnell. Lade sie dir über diesen Link herunter und zahle Geld auf deine neue Wallet ein, um 0,50 USD zu erhalten 💫 \n\n{{link}} \n\nSchnell sein lohnt sich, denn die Rewards sind nur begrenzt verfügbar.",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1071,36 +1071,36 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Transaktionsdaten",
     "readAccount": "{{dappName}} möchte sich deine {{appName}} Wallet-Adresse lesen.",
-    "signPayloadTitle": "Brieftasche verifizieren",
-    "signPayload": "{{dappName}} möchte den Besitz deiner Brieftasche überprüfen.",
+    "signPayloadTitle": "Wallet verifizieren",
+    "signPayload": "{{dappName}} möchte das Eigentumsrecht an deiner Wallet überprüfen.",
     "signTransactionTitle": "Transaktion unterschreiben",
     "signTransaction": "{{dappName}} möchte sich eine Celo-Transaktion signieren.",
     "sendTransactionTitle": "Transaktion senden",
     "sendTransaction": "{{dappName}} möchte sich eine Celo-Transaktion senden.",
-    "decryptPayloadTitle": "Mit Brieftasche entschlüsseln",
+    "decryptPayloadTitle": "Mit Wallet entschlüsseln",
     "decryptPayload": "{{dappName}} möchte sich eine Daten-Nutzlast entschlüsseln.",
     "computeSharedSecret": "{{dappName}} möchte sich Geheimnisse erzeugen.",
     "transactionDataCopied": "Transaktionsdaten kopiert",
     "unsupportedChain": {
       "title": "Nicht unterstützte Kette",
-      "description": "{{dappName}} diese Aktion auf einer Kette anfordert, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
+      "description": "{{dappName}} fordert diese Aktion auf einer Kette an, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nicht unterstützte Kette",
-        "description": "{{dappName}} mit einer Kette verbinden möchte, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass Celo auf der Dapp-Seite ausgewählt ist."
+        "description": "{{dappName}} möchte sich mit einer Kette verbinden, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass Celo auf der Dapp-Seite ausgewählt ist."
       },
       "warnUnsupportedChains": {
         "title": "Nicht unterstützte Kette",
-        "description": "{{dappName}} Celo nicht als unterstützte Kette angegeben hat. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+        "description": "{{dappName}} hat Celo nicht als unterstützte Kette angegeben. Einige Features funktionieren möglicherweise nicht wie erwartet."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Nicht unterstützte Methoden",
-        "description": "{{dappName}} einige Methoden angegeben, die von {{appName}}nicht unterstützt werden. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+        "description": "{{dappName}} hat einige Methoden angegeben, die von {{appName}} nicht unterstützt werden. Einige Features funktionieren möglicherweise nicht wie erwartet."
       },
       "warnSomeUnsupportedEvents": {
         "title": "Nicht unterstützte Ereignisse",
-        "description": "{{dappName}} einige Ereignisse angegeben, die von {{appName}}nicht unterstützt werden. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+        "description": "{{dappName}} hat einige Ereignisse angegeben, die von {{appName}} nicht unterstützt werden. Einige Features funktionieren möglicherweise nicht wie erwartet."
       }
     }
   },
@@ -1375,14 +1375,14 @@
     },
     "claimRewardsScreen": {
       "title": "Deine Belohnungen",
-      "description": "Jetzt kannst du Belohnungen aus offenen Dapp-Positionen direkt auf {{appName}}einfordern!",
-      "claimButton": "Anspruch",
+      "description": "Jetzt kannst du Rewards aus offenen Dapp-Positionen direkt in {{appName}} einfordern!",
+      "claimButton": "Beanspruchen",
       "claimedLabel": "Beansprucht",
-      "rewardLabel": "Verfügbare Belohnung",
-      "claimSuccess": "Erfolg! Du hast eine Belohnung beansprucht",
+      "rewardLabel": "Reward verfügbar",
+      "claimSuccess": "Erfolg! Du hast eine Reward beansprucht",
       "confirmingReward": "BESTÄTIGUNG"
     },
-    "claimRewardFailure": "Beim Einfordern deiner Belohnung ist ein Fehler aufgetreten, bitte versuche es später noch einmal."
+    "claimRewardFailure": "Bei der Beanspruchung deiner Reward ist ein Fehler aufgetreten. Bitte versuche es später erneut."
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1453,12 +1453,12 @@
       "dismiss": "Verwerfen"
     },
     "cashIn": {
-      "amountSpentInfo": "Du zahlst <0></0> inklusive Gebühren"
+      "amountSpentInfo": "Du zahlst <0></0> einschließlich Gebühren"
     },
     "cashOut": {
-      "amountSpentInfo": "Du ziehst <0></0> inklusive Gebühren ab"
+      "amountSpentInfo": "Du hebst <0></0> einschließlich Gebühren ab"
     },
-    "receiveAmount": "Empfange <0></0>"
+    "receiveAmount": "Erhalte </0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1686,7 +1686,7 @@
     },
     "missingSwapImpactWarning": {
       "title": "Bevor du tauschst",
-      "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, weiterzumachen."
+      "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, fortzufahren."
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
   },
@@ -1758,8 +1758,8 @@
       "body": "Es sieht so aus, als wäre {{contactName}} nicht auf {{appName}}. Wenn du die Wallet-Adresse kennst, kannst du dennoch eine Zahlung oder stattdessen eine Einladung senden. \n\nNachdem die Wallet heruntergeladen und mit der Telefonnummer verbunden wurde, erhaltet ihr beide ein exklusives NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Lade {{contactName}} auf {{appName}} ein und erhalte 0,50 cUSD",
-      "body": "Es sieht so aus, als ob {{contactName}} nicht auf Valora ist. Du kannst trotzdem eine Zahlung senden, wenn du ihre Wallet-Adresse kennst, oder stattdessen eine Einladung schicken. \n\n Nachdem sie Valora heruntergeladen, ihre Telefonnummer angegeben und ihr Portemonnaie zum ersten Mal aufgeladen haben, erhaltet ihr beide 0,50 cUSD, solange das Geld reicht."
+      "title": "Lade {{contactName}} zu {{appName}} ein und erhalte 0,50 cUSD",
+      "body": "Es sieht so aus, dass {{contactName}} nicht auf Valora ist. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden. \n\nNachdem die Person Valora heruntergeladen hat, ihre Telefonnumer verknüpft hat und zum ersten Mal Geld auf ihr Wallet eingezahlt hat, erhaltet ihr beide 0,50 cUSD (solange das Geld reicht)."
     }
   },
   "celoNews": {
@@ -1802,7 +1802,7 @@
   },
   "nftGallery": {
     "title": "Sammlerstücke",
-    "noNfts": "Deine NFTs werden hier angezeigt, sobald du eine in deinem Portemonnaie hast"
+    "noNfts": "Deine NFTs werden hier angezeigt, sobald du einen NFT in deinem Wallet hast"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Auf Celo Explorer ansehen",
@@ -1818,13 +1818,13 @@
   },
   "hooksPreview": {
     "modal": {
-      "title": "Haken Vorschau-Modus",
-      "message": "Bitte bestätige, dass du den Vorschaumodus für Hooks aktivieren möchtest.\n\nDiese Funktion ist nur für Entwickler gedacht, die Hooks erstellen. Wenn du kein Entwickler bist oder diese Aktion nicht ausgelöst hast, BESTÄTIGE NICHT.",
+      "title": "Hooks-Vorschaumodus",
+      "message": "Bitte bestätige, dass du den Vorschaumodus für Hooks aktivieren möchtest.\n\nDiese Funktion ist nur für Entwickler gedacht, die an der Entwicklung von Hooks arbeiten. Wenn du kein Entwickler bist oder diese Aktion nicht ausgelöst hast, BESTÄTIGE BITTE NICHT.",
       "cancel": "Abbrechen",
       "confirm": "Bestätigen"
     },
-    "invalidApiUrl": "Ungültige Hooks Vorschau API URL",
-    "bannerTitle": "Hakenvorschau aktiviert, zum Deaktivieren antippen"
+    "invalidApiUrl": "Ungültige API-URL für die Hooks-Vorschau",
+    "bannerTitle": "Hooks-Vorschau aktiviert, zum Deaktivieren antippen"
   },
   "assets": {
     "claimRewards": "Belohnung beanspruchen"
