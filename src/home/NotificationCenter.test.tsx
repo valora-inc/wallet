@@ -958,7 +958,7 @@ describe('NotificationCenter', () => {
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: BundledNotificationIds.supercharging,
+        notificationId: BundledNotificationIds.start_supercharging,
       })
     })
   })
