@@ -71,7 +71,7 @@ module.exports = async ({ github, context }) => {
   // often the base translation file shows as changed due to the crowdin PR
   // becoming out of date with main, so update the branch before checking
   // the files changed
-  console.log(`Bringing PR #${pr.number} up to date with main branch`)
+  console.log(`Bringing PR #${pr.number} up to date with main branch - ignore`)
   await github.rest.pulls.updateBranch({
     owner,
     repo,
