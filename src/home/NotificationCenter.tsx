@@ -242,6 +242,7 @@ function Notifications({ navigation, setNotificationPositions }: NotificationsPr
 
   return (
     <Animated.FlatList
+      testID="NotificationCenter"
       style={styles.container}
       ListHeaderComponent={renderHeader}
       ListEmptyComponent={renderEmptyState}
@@ -256,6 +257,8 @@ function Notifications({ navigation, setNotificationPositions }: NotificationsPr
     />
   )
 }
+
+export const listGapHeight = Spacing.Thick24
 
 const styles = StyleSheet.create({
   container: {
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Thick24,
   },
   itemSeparator: {
-    height: Spacing.Thick24,
+    height: listGapHeight,
   },
   emptyStateContainer: {
     marginTop: 40,

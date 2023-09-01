@@ -1,17 +1,21 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
+import { TextMatch, TextMatchOptions } from '@testing-library/react-native/build/matches'
+import { GetByQuery } from '@testing-library/react-native/build/queries/makeQueries'
+import { CommonQueryOptions } from '@testing-library/react-native/build/queries/options'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
+import { minHeight } from 'src/components/MessagingCard'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
   BundledNotificationIds,
   NotificationBannerCTATypes,
   NotificationBannerTypes,
 } from 'src/home/NotificationBox'
-import NotificationCenter from 'src/home/NotificationCenter'
+import NotificationCenter, { listGapHeight } from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
@@ -30,6 +34,8 @@ jest.mock('src/navigator/NavigationService', () => ({
   ensurePincode: jest.fn(async () => true),
   navigate: jest.fn(),
 }))
+
+const DEVICE_HEIGHT = 850
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -125,6 +131,8 @@ const mockcUsdWithoutEnoughBalance = {
 describe('NotificationCenter', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.clearAllTimers()
+    jest.useRealTimers()
   })
 
   it('renders empty state when there is no notifications at all', () => {
@@ -139,16 +147,72 @@ describe('NotificationCenter', () => {
     expect(getByText('noNotificationsPlaceholder')).toBeTruthy()
   })
 
-  it('emits correct analytics event when opened', () => {
+  const layoutNotificationList = (
+    getByTestId: GetByQuery<TextMatch, CommonQueryOptions & TextMatchOptions>
+  ) => {
+    jest.useFakeTimers()
+
+    const notificationList = getByTestId('NotificationCenter')
+    const notificationItems = within(notificationList).getAllByTestId(/^NotificationView/)
+
+    // calculate each notification item vertical layout
+    notificationItems.forEach((notificationItem, index) => {
+      const isLastItem = index + 1 === notificationItems.length
+
+      const y = index * (minHeight + listGapHeight)
+      const height = isLastItem ? minHeight : minHeight + listGapHeight
+
+      fireEvent(notificationItem, 'layout', {
+        nativeEvent: {
+          layout: { height, y },
+        },
+      })
+    })
+
+    // calculate list vertical layout
+    fireEvent(notificationList, 'layout', {
+      nativeEvent: {
+        layout: { height: DEVICE_HEIGHT },
+      },
+    })
+  }
+
+  it('emits correct analytics events when opened', async () => {
     const store = createMockStore()
-    render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
+    layoutNotificationList(getByTestId)
+
+    act(() => jest.runAllTimers())
+
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
       notificationsCount: 4,
+    })
+
+    await waitFor(() => {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+        notificationId: 'backup',
+        notificationPosition: 0,
+      })
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+        notificationId: 'startSupercharging',
+        notificationPosition: 1,
+      })
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+        notificationId: 'getVerified',
+        notificationPosition: 2,
+      })
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+        notificationId: 'celoEducation',
+        notificationPosition: 3,
+      })
     })
   })
 
@@ -171,7 +235,7 @@ describe('NotificationCenter', () => {
       expect(getByText('backupKeyNotification2')).toBeTruthy()
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         account: {
@@ -180,18 +244,29 @@ describe('NotificationCenter', () => {
         },
       })
 
-      const { getByText } = render(
+      const { getByTestId, getByText } = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByText('backupKeyCTA'))
+      layoutNotificationList(getByTestId)
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
-        selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.backup_prompt,
+      // const user = userEvent.setup()
+      // await user.press(getByText('backupKeyCTA'))
+
+      await act(() => {
+        jest.runAllTimers()
+        fireEvent.press(getByText('backupKeyCTA'))
+      })
+
+      await waitFor(() => {
+        expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(3, HomeEvents.notification_select, {
+          notificationType: NotificationBannerTypes.bundled_notificaion,
+          selectedAction: NotificationBannerCTATypes.accept,
+          notificationId: BundledNotificationIds.backup_prompt,
+          notificationPosition: 0,
+        })
       })
     })
   })
