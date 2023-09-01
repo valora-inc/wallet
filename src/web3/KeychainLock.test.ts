@@ -31,6 +31,10 @@ describe('KeychainLock', () => {
     date = new Date()
     mockedKeychain.clearAllItems()
   })
+  it('addAccount throws if the account already exists', () => {
+    lock.addAccount({ address: mockAccount, createdAt: date })
+    expect(() => lock.addAccount({ address: mockAccount, createdAt: date })).toThrow()
+  })
   it('isUnlocked returns false if the account has not been added', () => {
     expect(lock.isUnlocked(mockAccount)).toBe(false)
   })

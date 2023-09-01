@@ -196,9 +196,16 @@ export class KeychainLock {
   > = new Map()
 
   addAccount(account: KeychainAccount) {
+    if (this.locks.has(account.address)) {
+      throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
+    }
     this.locks.set(account.address, { account })
   }
 
+  /**
+   * Unlocks an account for a given duration
+   * A duration of 0 means the account is unlocked indefinitely
+   * */
   async unlock(address: string, passphrase: string, duration: number) {
     Logger.debug(`${TAG}@unlock`, `Unlocking keychain for ${address} for ${duration} seconds`)
     if (!this.locks.has(address)) {
@@ -226,6 +233,7 @@ export class KeychainLock {
       return false
     }
 
+    // Unlock duration of 0 means the account is unlocked indefinitely
     if (unlockDuration === 0) {
       return true
     }

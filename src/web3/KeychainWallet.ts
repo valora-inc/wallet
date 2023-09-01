@@ -25,7 +25,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
 
   /**
    * This function does the very critical job of loading in accounts from the Keychain, for instance when the user restarts their app.
-   * TODO: decouple this logic from contractKit and move it into an wallet agnostic place like KeychainLock
+   * TODO: decouple this logic from contractKit and move it into a wallet agnostic place like KeychainLock
    */
   async loadAccountSigners(): Promise<Map<string, KeychainSigner>> {
     const accounts = await listStoredAccounts(this.importMnemonicAccount)
