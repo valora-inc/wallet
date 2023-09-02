@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20.json'
+import erc20 from 'src/abis/IERC20'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
@@ -18,15 +18,26 @@ export function* send(
 ) {
   const wallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
   Logger.debug('tokenAddress', tokenAddress, getAddress(tokenAddress))
-  const convertedAmount: string = yield* call(tokenAmountInSmallestUnit, amount, tokenAddress)
+  const convertedAmount = yield* call(tokenAmountInSmallestUnit, amount, tokenAddress)
   Logger.debug('convertedAmount', convertedAmount)
+
+  const simulateContractFn = () =>
+    publicClient.celo.simulateContract({
+      address: getAddress(tokenAddress),
+      abi: erc20.abi,
+      functionName: 'transfer',
+      account: wallet.account,
+      args: [getAddress(recipientAddress), BigInt(convertedAmount)],
+    })
+
+  const { request: req } = yield* call(simulateContractFn)
 
   const { request } = yield* call([publicClient.celo, 'simulateContract'], {
     address: getAddress(tokenAddress),
     abi: erc20.abi,
     functionName: 'transfer',
     account: wallet.account,
-    args: [recipientAddress, convertedAmount],
+    args: [getAddress(recipientAddress), BigInt(convertedAmount)],
   })
 
   const hash = yield* call([wallet, 'writeContract'], request)
