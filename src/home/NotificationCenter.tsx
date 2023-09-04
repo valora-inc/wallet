@@ -258,8 +258,6 @@ function Notifications({ navigation, setNotificationPositions }: NotificationsPr
   )
 }
 
-export const listGapHeight = Spacing.Thick24
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -276,7 +274,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Thick24,
   },
   itemSeparator: {
-    height: listGapHeight,
+    height: Spacing.Thick24,
   },
   emptyStateContainer: {
     marginTop: 40,

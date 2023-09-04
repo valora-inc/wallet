@@ -5,17 +5,17 @@ import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
-import { minHeight } from 'src/components/MessagingCard'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
   BundledNotificationIds,
   NotificationBannerCTATypes,
   NotificationBannerTypes,
 } from 'src/home/NotificationBox'
-import NotificationCenter, { listGapHeight } from 'src/home/NotificationCenter'
+import NotificationCenter from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
+import { Spacing } from 'src/styles/styles'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
@@ -129,6 +129,9 @@ const mockcUsdWithoutEnoughBalance = {
 }
 
 const layoutNotificationList = (screen: ReturnType<typeof render>) => {
+  const ITEM_HEIGHT = 144
+  const GAP_HEIGHT = Spacing.Thick24
+
   const notificationList = screen.getByTestId('NotificationCenter')
   const notificationItems = within(notificationList).getAllByTestId(/^NotificationView/)
 
@@ -136,8 +139,8 @@ const layoutNotificationList = (screen: ReturnType<typeof render>) => {
   notificationItems.forEach((notificationItem, index) => {
     const isLastItem = index + 1 === notificationItems.length
 
-    const y = index * (minHeight + listGapHeight)
-    const height = isLastItem ? minHeight : minHeight + listGapHeight
+    const y = index * (ITEM_HEIGHT + GAP_HEIGHT)
+    const height = isLastItem ? ITEM_HEIGHT : ITEM_HEIGHT + GAP_HEIGHT
 
     fireEvent(notificationItem, 'layout', {
       nativeEvent: {
