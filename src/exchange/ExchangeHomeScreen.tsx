@@ -17,7 +17,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import {
   getLocalCurrencyCode,
-  getLocalCurrencyToDollarsExchangeRate,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -28,6 +28,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { tokensBySymbolSelector } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 
 function navigateToGuide() {
@@ -74,7 +75,7 @@ function ExchangeHomeScreen() {
 
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
+  const localExchangeRate = useSelector(localCurrencyExchangeRatesSelector)?.[Currency.Dollar]
   const exchangeHistory = useSelector(exchangeHistorySelector)
 
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length

@@ -74,12 +74,6 @@ export const localCurrencyToUsdSelector = createSelector(
   (exchangeRates) => exchangeRates[Currency.Dollar]
 )
 
-// deprecated, please use |localCurrencyExchangeRatesSelector| instead.
-export function getLocalCurrencyToDollarsExchangeRate(state: RootState) {
-  const exchangeRates = localCurrencyExchangeRatesSelector(state)
-  return exchangeRates?.[Currency.Dollar]
-}
-
 export function shouldFetchCurrentRate(state: RootState): boolean {
   const { isLoading, lastSuccessfulUpdate } = state.localCurrency
 
