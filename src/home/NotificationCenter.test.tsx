@@ -1,7 +1,4 @@
-import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
-import { TextMatch, TextMatchOptions } from '@testing-library/react-native/build/matches'
-import { GetByQuery } from '@testing-library/react-native/build/queries/makeQueries'
-import { CommonQueryOptions } from '@testing-library/react-native/build/queries/options'
+import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -34,6 +31,8 @@ jest.mock('src/navigator/NavigationService', () => ({
   ensurePincode: jest.fn(async () => true),
   navigate: jest.fn(),
 }))
+
+jest.useFakeTimers()
 
 const DEVICE_HEIGHT = 850
 
@@ -88,6 +87,7 @@ const testReward = {
 }
 
 const superchargeSetUp = {
+  ...storeDataNotificationsDisabled,
   web3: {
     account: 'account',
   },
@@ -132,7 +132,6 @@ describe('NotificationCenter', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.clearAllTimers()
-    jest.useRealTimers()
   })
 
   it('renders empty state when there is no notifications at all', () => {
@@ -147,15 +146,11 @@ describe('NotificationCenter', () => {
     expect(getByText('noNotificationsPlaceholder')).toBeTruthy()
   })
 
-  const layoutNotificationList = (
-    getByTestId: GetByQuery<TextMatch, CommonQueryOptions & TextMatchOptions>
-  ) => {
-    jest.useFakeTimers()
-
-    const notificationList = getByTestId('NotificationCenter')
+  const layoutNotificationList = (screen: ReturnType<typeof render>) => {
+    const notificationList = screen.getByTestId('NotificationCenter')
     const notificationItems = within(notificationList).getAllByTestId(/^NotificationView/)
 
-    // calculate each notification item vertical layout
+    // compute each item layout
     notificationItems.forEach((notificationItem, index) => {
       const isLastItem = index + 1 === notificationItems.length
 
@@ -169,7 +164,7 @@ describe('NotificationCenter', () => {
       })
     })
 
-    // calculate list vertical layout
+    // compute list layout
     fireEvent(notificationList, 'layout', {
       nativeEvent: {
         layout: { height: DEVICE_HEIGHT },
@@ -179,40 +174,34 @@ describe('NotificationCenter', () => {
 
   it('emits correct analytics events when opened', async () => {
     const store = createMockStore()
-    const { getByTestId } = render(
+    const screen = render(
       <Provider store={store}>
         <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
       </Provider>
     )
 
-    layoutNotificationList(getByTestId)
+    layoutNotificationList(screen)
 
-    act(() => jest.runAllTimers())
+    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
       notificationsCount: 4,
     })
-
-    await waitFor(() => {
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-        notificationId: 'backup',
-        notificationPosition: 0,
-      })
-
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-        notificationId: 'startSupercharging',
-        notificationPosition: 1,
-      })
-
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-        notificationId: 'getVerified',
-        notificationPosition: 2,
-      })
-
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-        notificationId: 'celoEducation',
-        notificationPosition: 3,
-      })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+      notificationId: 'backup',
+      notificationPosition: 0,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+      notificationId: 'startSupercharging',
+      notificationPosition: 1,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+      notificationId: 'getVerified',
+      notificationPosition: 2,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+      notificationId: 'celoEducation',
+      notificationPosition: 3,
     })
   })
 
@@ -244,29 +233,23 @@ describe('NotificationCenter', () => {
         },
       })
 
-      const { getByTestId, getByText } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      layoutNotificationList(getByTestId)
+      layoutNotificationList(screen)
 
-      // const user = userEvent.setup()
-      // await user.press(getByText('backupKeyCTA'))
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
 
-      await act(() => {
-        jest.runAllTimers()
-        fireEvent.press(getByText('backupKeyCTA'))
-      })
+      fireEvent.press(screen.getByText('backupKeyCTA'))
 
-      await waitFor(() => {
-        expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(3, HomeEvents.notification_select, {
-          notificationType: NotificationBannerTypes.bundled_notificaion,
-          selectedAction: NotificationBannerCTATypes.accept,
-          notificationId: BundledNotificationIds.backup_prompt,
-          notificationPosition: 0,
-        })
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+        notificationType: NotificationBannerTypes.bundled_notificaion,
+        selectedAction: NotificationBannerCTATypes.accept,
+        notificationId: BundledNotificationIds.backup_prompt,
+        notificationPosition: 0,
       })
     })
   })
@@ -294,26 +277,32 @@ describe('NotificationCenter', () => {
       })
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore({
+        ...storeDataNotificationsDisabled,
         app: {
           requireCPV: true,
           numberVerified: true,
           phoneNumberVerified: false,
         },
       })
-      const { getByText } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByText('reverifyUsingCPVHomecard.buttonLabel'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.reverify_using_CPV,
+        notificationPosition: 0,
       })
     })
   })
@@ -337,7 +326,7 @@ describe('NotificationCenter', () => {
       expect(getByText('whatIsGold')).toBeTruthy()
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         account: {
@@ -346,22 +335,27 @@ describe('NotificationCenter', () => {
         },
       })
 
-      const { getByText } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByText('learnMore'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByText('learnMore'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.celo_asset_education,
+        notificationPosition: 0,
       })
     })
 
-    it('emits correct analytics event when notification is dismissed', () => {
+    it('emits correct analytics event when notification is dismissed', async () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         account: {
@@ -370,18 +364,23 @@ describe('NotificationCenter', () => {
         },
       })
 
-      const { getByText } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByText('dismiss'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByText('dismiss'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.celo_asset_education,
+        notificationPosition: 0,
       })
     })
   })
@@ -490,45 +489,6 @@ describe('NotificationCenter', () => {
       )
       fireEvent.press(cancelButton)
       expect(store.getActions().at(-1)).toEqual(cancelPaymentRequest('FAKE_ID_1'))
-    })
-
-    xit('emits correct analytics events when outgoing payment request buttons are pressed', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        paymentRequest: {
-          outgoingPaymentRequests: [mockPaymentRequests[0]],
-        },
-      })
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const remindButton = getByTestId(
-        'OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/remind/Button'
-      )
-      fireEvent.press(remindButton)
-      //expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.outgoing_tx_request,
-        selectedAction: NotificationBannerCTATypes.remind,
-        notificationPosition: 0,
-      })
-
-      const cancelButton = getByTestId(
-        'OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/cancel/Button'
-      )
-      fireEvent.press(cancelButton)
-      // expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.outgoing_tx_request,
-        selectedAction: NotificationBannerCTATypes.decline,
-        notificationPosition: 0,
-      })
     })
 
     it('renders outgoing payment requests in reverse chronological order', () => {
@@ -643,7 +603,7 @@ describe('NotificationCenter', () => {
       expect(getByText('notification.body')).toBeTruthy()
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         account: {
@@ -653,22 +613,27 @@ describe('NotificationCenter', () => {
         },
         identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
-      const { getByText } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByText('notification.cta'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByText('notification.cta'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.verification_prompt,
+        notificationPosition: 0,
       })
     })
 
-    it('emits correct analytics event when notification is dismissed', () => {
+    it('emits correct analytics event when notification is dismissed', async () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         account: {
@@ -678,18 +643,23 @@ describe('NotificationCenter', () => {
         },
         identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
-      const { getByText } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByText('dismiss'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByText('dismiss'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.verification_prompt,
+        notificationPosition: 0,
       })
     })
 
@@ -834,26 +804,29 @@ describe('NotificationCenter', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore(superchargeSetUp)
-      const { queryByTestId, getByTestId } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
 
       fireEvent.press(
-        getByTestId('claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button')
+        screen.getByTestId(
+          'claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button'
+        )
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.supercharge_available,
+        notificationPosition: 0,
       })
     })
   })
@@ -903,49 +876,59 @@ describe('NotificationCenter', () => {
       expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore({
         ...superchargeWithoutRewardsSetUp,
         tokens: {
           tokenBalances: mockcUsdBalance,
         },
       })
-      const { getByTestId } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
       fireEvent.press(
-        getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
+        screen.getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.supercharging,
+        notificationPosition: 0,
       })
     })
 
-    it('emits correct analytics event when notification is dismissed', () => {
+    it('emits correct analytics event when notification is dismissed', async () => {
       const store = createMockStore({
         ...superchargeWithoutRewardsSetUp,
         tokens: {
           tokenBalances: mockcUsdBalance,
         },
       })
-      const { getByTestId } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByTestId('keepSupercharging/CallToActions/dismiss/Button'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByTestId('keepSupercharging/CallToActions/dismiss/Button'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.supercharging,
+        notificationPosition: 0,
       })
     })
   })
@@ -954,6 +937,10 @@ describe('NotificationCenter', () => {
     it('renders start supercharging notification if number is not verified', () => {
       const store = createMockStore({
         ...superchargeWithoutRewardsSetUp,
+        account: {
+          ...superchargeWithoutRewardsSetUp.account,
+          dismissedStartSupercharging: false,
+        },
         tokens: {
           tokenBalances: mockcUsdBalance,
         },
@@ -981,6 +968,10 @@ describe('NotificationCenter', () => {
     it('renders start supercharging notification if user does not have enough balance', () => {
       const store = createMockStore({
         ...superchargeWithoutRewardsSetUp,
+        account: {
+          ...superchargeWithoutRewardsSetUp.account,
+          dismissedStartSupercharging: false,
+        },
         tokens: {
           tokenBalances: mockcUsdWithoutEnoughBalance,
         },
@@ -1022,9 +1013,13 @@ describe('NotificationCenter', () => {
       expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
     })
 
-    it('emits correct analytics event when CTA button is pressed', () => {
+    it('emits correct analytics event when CTA button is pressed', async () => {
       const store = createMockStore({
         ...superchargeWithoutRewardsSetUp,
+        account: {
+          ...superchargeWithoutRewardsSetUp.account,
+          dismissedStartSupercharging: false,
+        },
         tokens: {
           tokenBalances: mockcUsdBalance,
         },
@@ -1033,26 +1028,37 @@ describe('NotificationCenter', () => {
           numberVerified: false,
         },
       })
-      const { getByTestId } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
       fireEvent.press(
-        getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+        screen.getByTestId(
+          'startSupercharging/CallToActions/startSuperchargingNotificationStart/Button'
+        )
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.start_supercharging,
+        notificationPosition: 0,
       })
     })
 
-    it('emits correct analytics event when notification is dismissed', () => {
+    it('emits correct analytics event when notification is dismissed', async () => {
       const store = createMockStore({
         ...superchargeWithoutRewardsSetUp,
+        account: {
+          ...superchargeWithoutRewardsSetUp.account,
+          dismissedStartSupercharging: false,
+        },
         tokens: {
           tokenBalances: mockcUsdBalance,
         },
@@ -1061,18 +1067,23 @@ describe('NotificationCenter', () => {
           numberVerified: false,
         },
       })
-      const { getByTestId } = render(
+      const screen = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
       )
 
-      fireEvent.press(getByTestId('startSupercharging/CallToActions/dismiss/Button'))
+      layoutNotificationList(screen)
+
+      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+
+      fireEvent.press(screen.getByTestId('startSupercharging/CallToActions/dismiss/Button'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.start_supercharging,
+        notificationPosition: 0,
       })
     })
   })
