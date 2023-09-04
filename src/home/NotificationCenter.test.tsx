@@ -128,6 +128,32 @@ const mockcUsdWithoutEnoughBalance = {
   },
 }
 
+const layoutNotificationList = (screen: ReturnType<typeof render>) => {
+  const notificationList = screen.getByTestId('NotificationCenter')
+  const notificationItems = within(notificationList).getAllByTestId(/^NotificationView/)
+
+  // compute each item layout
+  notificationItems.forEach((notificationItem, index) => {
+    const isLastItem = index + 1 === notificationItems.length
+
+    const y = index * (minHeight + listGapHeight)
+    const height = isLastItem ? minHeight : minHeight + listGapHeight
+
+    fireEvent(notificationItem, 'layout', {
+      nativeEvent: {
+        layout: { height, y },
+      },
+    })
+  })
+
+  // compute list layout
+  fireEvent(notificationList, 'layout', {
+    nativeEvent: {
+      layout: { height: DEVICE_HEIGHT },
+    },
+  })
+}
+
 describe('NotificationCenter', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -145,32 +171,6 @@ describe('NotificationCenter', () => {
     expect(getByTestId('NotificationCenter/EmptyState')).toBeTruthy()
     expect(getByText('noNotificationsPlaceholder')).toBeTruthy()
   })
-
-  const layoutNotificationList = (screen: ReturnType<typeof render>) => {
-    const notificationList = screen.getByTestId('NotificationCenter')
-    const notificationItems = within(notificationList).getAllByTestId(/^NotificationView/)
-
-    // compute each item layout
-    notificationItems.forEach((notificationItem, index) => {
-      const isLastItem = index + 1 === notificationItems.length
-
-      const y = index * (minHeight + listGapHeight)
-      const height = isLastItem ? minHeight : minHeight + listGapHeight
-
-      fireEvent(notificationItem, 'layout', {
-        nativeEvent: {
-          layout: { height, y },
-        },
-      })
-    })
-
-    // compute list layout
-    fireEvent(notificationList, 'layout', {
-      nativeEvent: {
-        layout: { height: DEVICE_HEIGHT },
-      },
-    })
-  }
 
   it('emits correct analytics events when opened', async () => {
     const store = createMockStore()
