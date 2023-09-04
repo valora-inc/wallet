@@ -53,7 +53,7 @@ describe('OutgoingPaymentRequestListItem', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('emits correct analytics event when remind button is pressed', () => {
+  it('emits correct analytics event when CTA button is pressed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <OutgoingPaymentRequestListItem {...commonProps} />
@@ -73,7 +73,7 @@ describe('OutgoingPaymentRequestListItem', () => {
     })
   })
 
-  it('emits correct analytics event when cancel button is pressed', () => {
+  it('emits correct analytics event when notification is dismissed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <OutgoingPaymentRequestListItem {...commonProps} />

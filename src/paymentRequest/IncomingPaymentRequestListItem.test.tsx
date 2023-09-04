@@ -339,7 +339,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(navigate).toBeCalledTimes(0)
   })
 
-  it('emits correct analytics event when send button is pressed', () => {
+  it('emits correct analytics event when CTA button is pressed', () => {
     const store = createMockStore({
       identity: identityLoading,
       tokens: balances,
@@ -364,7 +364,7 @@ describe('IncomingPaymentRequestListItem', () => {
     })
   })
 
-  it('emits correct analytics event when decline button is pressed', () => {
+  it('emits correct analytics event when notification is dismissed', () => {
     const store = createMockStore({
       identity: identityLoading,
       tokens: balances,

@@ -77,7 +77,7 @@ describe('EscrowedPaymentReminderNotification', () => {
     expect(Share.share).toHaveBeenCalled()
   })
 
-  it('emits correct analytics event when remind button is pressed', () => {
+  it('emits correct analytics event when CTA button is pressed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <EscrowedPaymentListItem payment={mockEscrowedPayment} />
@@ -95,7 +95,7 @@ describe('EscrowedPaymentReminderNotification', () => {
     })
   })
 
-  it('emits correct analytics event when reclaim button is pressed', () => {
+  it('emits correct analytics event when notification is dismissed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <EscrowedPaymentListItem payment={mockEscrowedPayment} />
