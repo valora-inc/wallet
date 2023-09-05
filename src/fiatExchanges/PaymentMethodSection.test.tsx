@@ -38,7 +38,9 @@ const mockStore = createMockStore({
   },
 })
 
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(),
+}))
 
 describe('PaymentMethodSection', () => {
   let props: PaymentMethodSectionProps

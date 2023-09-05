@@ -5,6 +5,11 @@ import { Nft } from 'src/nfts/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
+export enum Network {
+  Celo = 'celo',
+  Ethereum = 'ethereum',
+}
+
 export interface StandbyTransactionLegacy {
   context: TransactionContext
   type: TransferTransactionType
@@ -18,10 +23,11 @@ export interface StandbyTransactionLegacy {
 }
 export interface StandbyTransaction {
   context: TransactionContext
+  network: Network
   type: TokenTransferTypeV2
   status: TransactionStatus
   value: string
-  tokenAddress: string
+  tokenAddress?: string
   comment: string
   timestamp: number
   address: Address
@@ -78,7 +84,7 @@ export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer
 
 export interface TokenAmount {
   value: BigNumber.Value
-  tokenAddress: string
+  tokenAddress?: string
   localAmount?: LocalAmount
 }
 
@@ -107,7 +113,8 @@ export enum TokenTransactionTypeV2 {
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
-  __typename: 'TokenTransferV2'
+  __typename: 'TokenTransferV3'
+  network: Network
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
@@ -126,7 +133,8 @@ export interface TokenTransferMetadata {
 }
 
 export interface NftTransfer {
-  __typename: 'NftTransferV2'
+  __typename: 'NftTransferV3'
+  network: Network
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
@@ -137,7 +145,8 @@ export interface NftTransfer {
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
-  __typename: 'TokenExchangeV2'
+  __typename: 'TokenExchangeV3'
+  network: Network
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
