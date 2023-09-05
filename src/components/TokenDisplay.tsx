@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
@@ -68,7 +68,7 @@ function TokenDisplay({
     currency! === Currency.Celo ? 'CELO' : currency!
   )
   const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
-  const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const showError = showLocalAmount
