@@ -75,7 +75,7 @@ export default class ExternalQuote extends NormalizedQuote {
     const fee = this.getFeeInFiat(usdToLocalRate, tokenInfo)
     return convertLocalToTokenAmount({
       localAmount: fee,
-      usdToLocalRate: usdToLocalRate,
+      usdToLocalRate,
       tokenInfo,
     })
   }

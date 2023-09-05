@@ -217,7 +217,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const analyticsData = getProviderSelectionAnalyticsData({
     normalizedQuotes,
     legacyMobileMoneyProviders,
-    usdToLocalRate: usdToLocalRate,
+    usdToLocalRate,
     tokenInfo,
     centralizedExchanges: exchanges,
     coinbasePayAvailable: coinbasePayVisible,
