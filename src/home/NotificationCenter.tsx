@@ -10,7 +10,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { reclaimInviteNotificationId } from 'src/escrow/utils'
 import type { Notification } from 'src/home/NotificationBox'
 import {
   INCOMING_PAYMENT_REQUESTS_PRIORITY,
@@ -29,10 +28,6 @@ import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
-import {
-  incomingPaymentRequestNotificationId,
-  outgoingPaymentRequestNotificationId,
-} from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
@@ -40,13 +35,12 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-type NotificationPositions = Record<string, number>
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
 export function useNotifications() {
   const dispatch = useDispatch()
   const recipientInfo = useSelector(recipientInfoSelector)
-  const [notificationPositions, setNotificationPositions] = useState<NotificationPositions>()
+  const [notificationPositions, setNotificationPositions] = useState<Record<string, number>>()
 
   const notifications: Notification[] = []
 
@@ -55,7 +49,7 @@ export function useNotifications() {
   if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
     for (const payment of reclaimableEscrowPayments) {
       const itemPriority = Number(`${INVITES_PRIORITY}.${payment.timestamp.toString()}`)
-      const itemId = reclaimInviteNotificationId(payment.paymentID)
+      const itemId = `reclaimInvite/${payment.paymentID}`
 
       notifications.push({
         element: (
@@ -65,7 +59,7 @@ export function useNotifications() {
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
-        id: reclaimInviteNotificationId(payment.paymentID),
+        id: itemId,
       })
     }
   }
@@ -79,7 +73,7 @@ export function useNotifications() {
       }
 
       const itemPriority = Number(`${INCOMING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
-      const itemId = incomingPaymentRequestNotificationId(request.uid)
+      const itemId = `incomingPaymentRequest/${request.uid}`
 
       notifications.push({
         element: (
@@ -89,7 +83,7 @@ export function useNotifications() {
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
-        id: incomingPaymentRequestNotificationId(request.uid),
+        id: itemId,
       })
     }
   }
@@ -109,7 +103,7 @@ export function useNotifications() {
       const requestee = getRecipientFromAddress(request.requesteeAddress, recipientInfo)
 
       const itemPriority = Number(`${OUTGOING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
-      const itemId = outgoingPaymentRequestNotificationId(request.uid)
+      const itemId = `outgoingPaymentRequest/${request.uid}`
 
       notifications.push({
         element: (
@@ -124,7 +118,7 @@ export function useNotifications() {
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-        id: outgoingPaymentRequestNotificationId(request.uid),
+        id: itemId,
       })
     }
   }

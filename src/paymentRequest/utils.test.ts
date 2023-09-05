@@ -5,8 +5,6 @@ import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/type
 import {
   decryptPaymentRequest,
   encryptPaymentRequest,
-  incomingPaymentRequestNotificationId,
-  outgoingPaymentRequestNotificationId,
   transactionDataFromPaymentRequest,
 } from 'src/paymentRequest/utils'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
@@ -245,15 +243,5 @@ describe('Decrypt Payment Request', () => {
 
   it('Handles unencrypted payment request correctly', () => {
     expect(decryptPaymentRequest(req, mockPrivateDEK, false)).toMatchObject(req)
-  })
-})
-
-describe('Notification Id Helpers', () => {
-  it('Generates correct notification id for incoming payment notification', () => {
-    expect(incomingPaymentRequestNotificationId('testId')).toBe('incomingPaymentRequest/testId')
-  })
-
-  it('Generates correct notification id for outgoing payment notification', () => {
-    expect(outgoingPaymentRequestNotificationId('testId')).toBe('outgoingPaymentRequest/testId')
   })
 })
