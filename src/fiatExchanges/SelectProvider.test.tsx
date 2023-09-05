@@ -149,6 +149,7 @@ describe(SelectProviderScreen, () => {
           ipAddress: MOCK_IP_ADDRESS,
         },
         walletAddress: mockAccount.toLowerCase(),
+        network: Network.Celo,
       })
     )
   })
