@@ -10,7 +10,6 @@ import {
 import {
   getLocalCurrencyCode,
   getLocalCurrencySymbol,
-  getLocalCurrencyToDollarsExchangeRate,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { CurrencyInfo } from 'src/localCurrency/types'
@@ -18,7 +17,7 @@ import useSelector from 'src/redux/useSelector'
 import { Currency } from 'src/utils/currencies'
 
 export function useDollarToLocalRate() {
-  return useSelector(getLocalCurrencyToDollarsExchangeRate)
+  return useSelector(localCurrencyExchangeRatesSelector)?.[Currency.Dollar]
 }
 
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
