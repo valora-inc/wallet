@@ -51,7 +51,8 @@ export function getLocalCurrencySymbol(state: RootState): LocalCurrencySymbol | 
   return LocalCurrencySymbol[getLocalCurrencyCode(state)]
 }
 
-export const localCurrencyExchangeRatesSelector = createSelector(
+// Deprecated, will be removed as we'll only store the USD to local currency rate
+const localCurrencyExchangeRatesSelector = createSelector(
   (state: RootState) => state.localCurrency.exchangeRates,
   (state: RootState) => state.localCurrency.fetchedCurrencyCode,
   getLocalCurrencyCode,

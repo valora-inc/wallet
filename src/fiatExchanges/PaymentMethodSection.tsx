@@ -15,10 +15,7 @@ import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import {
-  getLocalCurrencyCode,
-  localCurrencyExchangeRatesSelector,
-} from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -59,7 +56,7 @@ export function PaymentMethodSection({
   const sectionQuotes = normalizedQuotes.filter(
     (quote) => quote.getPaymentMethod() === paymentMethod
   )
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
+  const exchangeRates = useSelector(usdToLocalCurrencyRateSelector)!
   const tokenInfo = useTokenInfoBySymbol(cryptoType)
   const localCurrency = useSelector(getLocalCurrencyCode)
 

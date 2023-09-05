@@ -116,15 +116,11 @@ describe(convertLocalToTokenAmount, () => {
   const tokenInfo = {
     usdPrice: BigNumber(2),
   } as TokenBalance
-  const exchangeRates = {
-    [Currency.Dollar]: '20',
-    [Currency.Celo]: null,
-    [Currency.Euro]: null,
-  }
+  const usdToLocalRate = '20'
   it('returns null if there is no token usd price', () => {
     const tokenAmount = convertLocalToTokenAmount({
       localAmount: BigNumber(10),
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo: undefined,
     })
     expect(tokenAmount).toEqual(null)
@@ -133,10 +129,7 @@ describe(convertLocalToTokenAmount, () => {
   it('returns null if there is no usd exchange rate', () => {
     const tokenAmount = convertLocalToTokenAmount({
       localAmount: BigNumber(10),
-      exchangeRates: {
-        ...exchangeRates,
-        [Currency.Dollar]: null,
-      },
+      usdToLocalRate: null,
       tokenInfo,
     })
     expect(tokenAmount).toEqual(null)
@@ -145,7 +138,7 @@ describe(convertLocalToTokenAmount, () => {
   it('returns null if localAmount is null', () => {
     const tokenAmount = convertLocalToTokenAmount({
       localAmount: null,
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo,
     })
     expect(tokenAmount).toEqual(null)
@@ -154,7 +147,7 @@ describe(convertLocalToTokenAmount, () => {
   it('converts a local amount to a token amount', () => {
     const tokenAmount = convertLocalToTokenAmount({
       localAmount: BigNumber(10),
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo,
     })
     expect(tokenAmount).toEqual(new BigNumber(0.25))
@@ -165,15 +158,11 @@ describe(convertTokenToLocalAmount, () => {
   const tokenInfo = {
     usdPrice: BigNumber(2),
   } as TokenBalance
-  const exchangeRates = {
-    [Currency.Dollar]: '20',
-    [Currency.Celo]: null,
-    [Currency.Euro]: null,
-  }
+  const usdToLocalRate = '20'
   it('returns null if there is no token usd price', () => {
     const localAmount = convertTokenToLocalAmount({
       tokenAmount: BigNumber(10),
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo: undefined,
     })
     expect(localAmount).toEqual(null)
@@ -182,10 +171,7 @@ describe(convertTokenToLocalAmount, () => {
   it('returns null if there is no usd exchange rate', () => {
     const localAmount = convertTokenToLocalAmount({
       tokenAmount: BigNumber(10),
-      exchangeRates: {
-        ...exchangeRates,
-        [Currency.Dollar]: null,
-      },
+      usdToLocalRate: null,
       tokenInfo,
     })
     expect(localAmount).toEqual(null)
@@ -194,16 +180,16 @@ describe(convertTokenToLocalAmount, () => {
   it('returns null if localAmount is null', () => {
     const localAmount = convertTokenToLocalAmount({
       tokenAmount: null,
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo,
     })
     expect(localAmount).toEqual(null)
   })
 
-  it('converts a local amount to a token amount', () => {
+  it('converts a token amount to a local amount', () => {
     const localAmount = convertTokenToLocalAmount({
       tokenAmount: BigNumber(10),
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo,
     })
     expect(localAmount).toEqual(new BigNumber(400))
