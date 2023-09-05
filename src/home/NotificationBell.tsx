@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function NotificationBell({ style, size, testID }: Props) {
-  const notifications = useNotifications()
+  const { notifications } = useNotifications()
 
   const hasNotifications = notifications.length > 0
   const notificationMark = hasNotifications ? colors.greenUI : undefined
