@@ -27,7 +27,7 @@ export function useTokenInfoByCurrency(currency: Currency) {
 
 export function useLocalToTokenAmount(
   localAmount: BigNumber,
-  tokenAddress: string
+  tokenAddress?: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
@@ -40,7 +40,7 @@ export function useLocalToTokenAmount(
 
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
-  tokenAddress: string
+  tokenAddress?: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
@@ -59,7 +59,7 @@ export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
   return amount.multipliedBy(tokenInfo.usdPrice)
 }
 
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress: string) {
+export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
   const tokenInfo = useTokenInfo(tokenAddress)
   if (!tokenInfo?.usdPrice) {
     return null

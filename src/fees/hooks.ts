@@ -46,7 +46,7 @@ export function usePaidFees(fees: Fee[]) {
 // Returns the maximum amount a user can send, taking into acount gas fees required for the transaction
 // also optionally fetches new fee estimations if the current ones are missing or out of date
 export function useMaxSendAmount(
-  tokenAddress: string,
+  tokenAddress: string | undefined,
   feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true
 ) {
@@ -56,7 +56,7 @@ export function useMaxSendAmount(
 
   // Optionally Keep Fees Up to Date
   useEffect(() => {
-    if (!shouldRefresh) return
+    if (!shouldRefresh || !tokenAddress) return
     const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
     if (
       (feeType === FeeType.SWAP && balance.gt(0)) ||
@@ -75,7 +75,7 @@ export function useMaxSendAmount(
   // if CELO is selected then it actually returns undefined
   const feeTokenAddress = useFeeCurrency() ?? celoAddress
 
-  const usdFeeEstimate = feeEstimates[tokenAddress]?.[feeType]?.usdFee
+  const usdFeeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType]?.usdFee : undefined
   const feeEstimate =
     useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), tokenAddress) ?? new BigNumber(0)
 

@@ -6,6 +6,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { FiatExchangeFlow } from './utils'
+import { getFeatureGate } from 'src/statsig'
+import { Network } from 'src/transactions/types'
+
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(() => false),
+}))
 
 const mockScreenProps = (flow: FiatExchangeFlow) =>
   getMockStackScreenProps(Screens.FiatExchangeCurrency, {
@@ -32,6 +38,7 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'cUSD',
       flow: FiatExchangeFlow.CashIn,
+      network: Network.Celo,
     })
   })
   it('cEUR Flow', () => {
@@ -46,6 +53,7 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'cEUR',
       flow: FiatExchangeFlow.CashIn,
+      network: Network.Celo,
     })
   })
   it('CELO Flow', () => {
@@ -60,6 +68,23 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'CELO',
       flow: FiatExchangeFlow.CashIn,
+      network: Network.Celo,
+    })
+  })
+  it('ETH Flow', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <FiatExchangeCurrency {...mockScreenProps(FiatExchangeFlow.CashIn)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('radio/ETH'))
+    fireEvent.press(tree.getByText('next'))
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      currency: 'ETH',
+      flow: FiatExchangeFlow.CashIn,
+      network: Network.Ethereum,
     })
   })
   it('Spend Flow', () => {

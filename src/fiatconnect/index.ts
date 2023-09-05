@@ -139,6 +139,7 @@ export async function getFiatConnectQuotes(
   const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
   if (!fiatType) return []
   const cryptoType = WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO[digitalAsset]
+  if (!cryptoType) return []
   const quoteParams: CreateQuoteParams = {
     fiatType,
     cryptoType,

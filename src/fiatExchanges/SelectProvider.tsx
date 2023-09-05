@@ -73,6 +73,7 @@ import {
   PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
+import { Network } from 'src/transactions/types'
 import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
@@ -97,6 +98,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     selectedCrypto: digitalAsset,
     amount: { crypto: cryptoAmount, fiat: fiatAmount },
+    network,
   } = route.params
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
@@ -165,6 +167,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
+          network,
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
@@ -187,6 +190,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncExchanges.loading ||
     selectFiatConnectQuoteLoading
 
+  Logger.info(TAG, asyncProviders.result?.externalProviders)
   const normalizedQuotes = normalizeQuotes(
     flow,
     fiatConnectQuotes,
@@ -309,12 +313,14 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           analyticsData={analyticsData}
         />
       ))}
-      <LegacyMobileMoneySection
-        providers={legacyMobileMoneyProviders || []}
-        digitalAsset={digitalAsset}
-        flow={flow}
-        analyticsData={analyticsData}
-      />
+      {network === Network.Celo && (
+        <LegacyMobileMoneySection
+          providers={legacyMobileMoneyProviders || []}
+          digitalAsset={digitalAsset}
+          flow={flow}
+          analyticsData={analyticsData}
+        />
+      )}
       {coinbaseProvider && coinbasePayVisible && (
         <CoinbasePaymentSection
           cryptoAmount={cryptoAmount}

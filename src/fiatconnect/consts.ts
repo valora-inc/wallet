@@ -34,7 +34,7 @@ export const FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY: Record<FiatType, LocalCurr
   [FiatType.ZAR]: LocalCurrencyCode.ZAR,
 }
 
-export const WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO: Record<CiCoCurrency, CryptoType> = {
+export const WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO: Partial<Record<CiCoCurrency, CryptoType>> = {
   [CiCoCurrency.CELO]: CryptoType.CELO,
   [CiCoCurrency.cEUR]: CryptoType.cEUR,
   [CiCoCurrency.cUSD]: CryptoType.cUSD,

@@ -62,6 +62,7 @@ const cicoCurrencyTranslationKeys = {
   [CiCoCurrency.cEUR]: 'celoEuro',
   [CiCoCurrency.cUSD]: 'celoDollar',
   [CiCoCurrency.cREAL]: 'celoReal',
+  [CiCoCurrency.ETH]: 'ether',
 }
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
@@ -70,7 +71,7 @@ type Props = RouteProps
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { currency, flow } = route.params
+  const { currency, flow, network } = route.params
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -78,7 +79,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const { address } = useTokenInfoBySymbol(currency)!
+  const { address } = useTokenInfoBySymbol(currency) || {}
 
   const inputConvertedToCrypto =
     useLocalToTokenAmount(parsedInputAmount, address) || new BigNumber(0)
@@ -122,7 +123,7 @@ function FiatExchangeAmount({ route }: Props) {
     dispatch(fetchExchangeRate())
   }, [])
 
-  if (!address) {
+  if (!address && currency !== CiCoCurrency.ETH) {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
   }
@@ -173,6 +174,7 @@ function FiatExchangeAmount({ route }: Props) {
         flow,
         selectedCrypto: currency,
         amount,
+        network,
       })
     }
   }
