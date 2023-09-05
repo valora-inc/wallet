@@ -1668,6 +1668,13 @@
             ],
             "type": "object"
         },
+        "Network": {
+            "enum": [
+                "celo",
+                "ethereum"
+            ],
+            "type": "string"
+        },
         "Nft": {
             "additionalProperties": false,
             "properties": {
@@ -1801,7 +1808,7 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "NftTransferV2",
+                    "const": "NftTransferV3",
                     "type": "string"
                 },
                 "block": {
@@ -1812,6 +1819,9 @@
                         "$ref": "#/definitions/Fee"
                     },
                     "type": "array"
+                },
+                "network": {
+                    "$ref": "#/definitions/Network"
                 },
                 "nfts": {
                     "items": {
@@ -1832,6 +1842,7 @@
             "required": [
                 "__typename",
                 "block",
+                "network",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2755,6 +2766,9 @@
                 "hash": {
                     "type": "string"
                 },
+                "network": {
+                    "$ref": "#/definitions/Network"
+                },
                 "status": {
                     "$ref": "#/definitions/TransactionStatus"
                 },
@@ -2775,9 +2789,9 @@
                 "address",
                 "comment",
                 "context",
+                "network",
                 "status",
                 "timestamp",
-                "tokenAddress",
                 "type",
                 "value"
             ],
@@ -4614,7 +4628,6 @@
                 }
             },
             "required": [
-                "tokenAddress",
                 "value"
             ],
             "type": "object"
@@ -4623,7 +4636,7 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV2",
+                    "const": "TokenExchangeV3",
                     "type": "string"
                 },
                 "block": {
@@ -4640,6 +4653,9 @@
                 },
                 "metadata": {
                     "$ref": "#/definitions/TokenExchangeMetadata"
+                },
+                "network": {
+                    "$ref": "#/definitions/Network"
                 },
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
@@ -4659,6 +4675,7 @@
                 "block",
                 "fees",
                 "inAmount",
+                "network",
                 "outAmount",
                 "timestamp",
                 "transactionHash",
@@ -4708,7 +4725,7 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenTransferV2",
+                    "const": "TokenTransferV3",
                     "type": "string"
                 },
                 "address": {
@@ -4729,6 +4746,9 @@
                 "metadata": {
                     "$ref": "#/definitions/TokenTransferMetadata"
                 },
+                "network": {
+                    "$ref": "#/definitions/Network"
+                },
                 "timestamp": {
                     "type": "number"
                 },
@@ -4746,6 +4766,7 @@
                 "block",
                 "fees",
                 "metadata",
+                "network",
                 "timestamp",
                 "transactionHash",
                 "type"

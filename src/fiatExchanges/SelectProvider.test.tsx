@@ -48,7 +48,10 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
 }))
 
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn(),
+  getFeatureGate: jest.fn(),
+}))
 
 jest.mock('src/localCurrency/selectors', () => ({
   ...(jest.requireActual('src/localCurrency/selectors') as any),

@@ -8,6 +8,11 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { getFeatureGate } from 'src/statsig'
+
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(() => false),
+}))
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -47,15 +52,6 @@ describe('TokenDisplay', () => {
   }
 
   describe('when displaying tokens', () => {
-    it('throws when neither currency nor tokenAddress are supplied', () => {
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).toThrow()
-    })
     it('throws when both currency and tokenAddress are supplied', () => {
       expect(() =>
         render(
@@ -70,6 +66,25 @@ describe('TokenDisplay', () => {
           </Provider>
         )
       ).toThrow()
+    })
+    it('throws when neither currency nor tokenAddress are supplied', () => {
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
+          </Provider>
+        )
+      ).toThrow()
+    })
+    it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
+      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
+          </Provider>
+        )
+      ).not.toThrow()
     })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(
