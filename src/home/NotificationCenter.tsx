@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
@@ -41,24 +41,12 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 type NotificationPositions = Record<string, number>
-type NotificationCenterProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
-type NotificationsProps = {
-  navigation: NotificationCenterProps['navigation']
-  setNotificationPositions: React.Dispatch<React.SetStateAction<NotificationPositions>>
-}
-
-const NotificationCenterContext = createContext<{ notificationPositions?: NotificationPositions }>(
-  {}
-)
-
-export function useNotificationCenterContext() {
-  const context = useContext(NotificationCenterContext)
-  return context
-}
+type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
 export function useNotifications() {
   const dispatch = useDispatch()
   const recipientInfo = useSelector(recipientInfoSelector)
+  const [notificationPositions, setNotificationPositions] = useState<NotificationPositions>()
 
   const notifications: Notification[] = []
 
@@ -67,9 +55,15 @@ export function useNotifications() {
   if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
     for (const payment of reclaimableEscrowPayments) {
       const itemPriority = Number(`${INVITES_PRIORITY}.${payment.timestamp.toString()}`)
+      const itemId = reclaimInviteNotificationId(payment.paymentID)
 
       notifications.push({
-        element: <EscrowedPaymentListItem payment={payment} />,
+        element: (
+          <EscrowedPaymentListItem
+            payment={payment}
+            notificationPosition={notificationPositions?.[itemId]}
+          />
+        ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
         id: reclaimInviteNotificationId(payment.paymentID),
       })
@@ -85,9 +79,15 @@ export function useNotifications() {
       }
 
       const itemPriority = Number(`${INCOMING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
+      const itemId = incomingPaymentRequestNotificationId(request.uid)
 
       notifications.push({
-        element: <IncomingPaymentRequestListItem paymentRequest={request} />,
+        element: (
+          <IncomingPaymentRequestListItem
+            paymentRequest={request}
+            notificationPosition={notificationPositions?.[itemId]}
+          />
+        ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
         id: incomingPaymentRequestNotificationId(request.uid),
       })
@@ -109,6 +109,7 @@ export function useNotifications() {
       const requestee = getRecipientFromAddress(request.requesteeAddress, recipientInfo)
 
       const itemPriority = Number(`${OUTGOING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
+      const itemId = outgoingPaymentRequestNotificationId(request.uid)
 
       notifications.push({
         element: (
@@ -119,6 +120,7 @@ export function useNotifications() {
             comment={request.comment}
             cancelPaymentRequest={handleCancelPaymentRequest}
             updatePaymentRequestNotified={handleUpdatePaymentRequestNotified}
+            notificationPosition={notificationPositions?.[itemId]}
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
@@ -130,32 +132,31 @@ export function useNotifications() {
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification) => ({
-      element: <SimpleMessagingCard testID={notification.id} {...notification} />,
+      element: (
+        <SimpleMessagingCard
+          testID={notification.id}
+          {...notification}
+          notificationPosition={notificationPositions?.[notification.id]}
+        />
+      ),
       priority: notification.priority,
       id: notification.id,
     }))
   )
 
-  return notifications.sort((n1, n2) => n2.priority - n1.priority)
+  return {
+    notifications: notifications.sort((n1, n2) => n2.priority - n1.priority),
+    setNotificationPositions,
+  }
 }
 
-export default function NotificationCenter({ navigation }: NotificationCenterProps) {
-  const [notificationPositions, setNotificationPositions] = useState<NotificationPositions>({})
-
-  return (
-    <NotificationCenterContext.Provider value={{ notificationPositions }}>
-      <Notifications navigation={navigation} setNotificationPositions={setNotificationPositions} />
-    </NotificationCenterContext.Provider>
-  )
-}
-
-function Notifications({ navigation, setNotificationPositions }: NotificationsProps) {
+export default function Notifications({ navigation }: NotificationsProps) {
   const safeAreaInsets = useSafeAreaInsets()
 
   const { t } = useTranslation()
   const title = t('notifications')
 
-  const notifications = useNotifications()
+  const { notifications, setNotificationPositions } = useNotifications()
 
   const seenNotifications = useRef(new Set())
 

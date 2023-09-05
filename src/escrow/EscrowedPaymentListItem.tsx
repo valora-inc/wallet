@@ -7,9 +7,8 @@ import ContactCircle from 'src/components/ContactCircle'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { reclaimInviteNotificationId, useEscrowPaymentRecipient } from 'src/escrow/utils'
+import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { useNotificationCenterContext } from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -18,22 +17,21 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   payment: EscrowedPayment
+  notificationPosition?: number
 }
 
 const TAG = 'EscrowedPaymentListItem'
 
-function EscrowedPaymentListItem({ payment }: Props) {
+function EscrowedPaymentListItem({ payment, notificationPosition }: Props) {
   const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
   const tokenInfo = useTokenInfo(payment.tokenAddress)
-  const { notificationPositions } = useNotificationCenterContext()
-  const notificationId = reclaimInviteNotificationId(payment.paymentID)
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.remind,
-      notificationPosition: notificationPositions?.[notificationId],
+      notificationPosition,
     })
 
     try {
@@ -52,7 +50,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.reclaim,
-      notificationPosition: notificationPositions?.[notificationId],
+      notificationPosition,
     })
     navigate(Screens.ReclaimPaymentConfirmationScreen, { reclaimPaymentInput })
   }
