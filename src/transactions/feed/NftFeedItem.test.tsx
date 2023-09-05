@@ -6,7 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
-import { Fee, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { Fee, TokenTransactionTypeV2, Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockAccount, mockNftAllFields } from 'test/values'
@@ -35,7 +35,8 @@ describe('NftFeedItem', () => {
       <Provider store={store}>
         <NftFeedItem
           transaction={{
-            __typename: 'NftTransferV2',
+            __typename: 'NftTransferV3',
+            network: Network.Celo,
             type,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,

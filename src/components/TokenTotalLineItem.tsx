@@ -12,7 +12,7 @@ import { LocalAmount } from 'src/transactions/types'
 
 interface Props {
   tokenAmount: BigNumber
-  tokenAddress: string
+  tokenAddress?: string
   localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
   hideSign?: boolean
