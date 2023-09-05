@@ -69,7 +69,7 @@ export const localCurrencyExchangeRatesSelector = createSelector(
   }
 )
 
-export const localCurrencyToUsdSelector = createSelector(
+export const usdToLocalCurrencyRateSelector = createSelector(
   localCurrencyExchangeRatesSelector,
   (exchangeRates) => exchangeRates[Currency.Dollar]
 )
