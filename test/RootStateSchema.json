@@ -744,6 +744,7 @@
         "CiCoCurrency": {
             "enum": [
                 "CELO",
+                "ETH",
                 "cEUR",
                 "cREAL",
                 "cUSD"
