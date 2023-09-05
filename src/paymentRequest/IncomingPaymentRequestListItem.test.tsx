@@ -41,13 +41,6 @@ jest.mock('src/recipients/recipient', () => ({
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-jest.mock('src/home/NotificationCenter', () => ({
-  ...(jest.requireActual('src/home/NotificationCenter') as any),
-  useNotificationCenterContext: jest.fn(() => ({
-    notificationPositions: { ['incomingPaymentRequest/FAKE_ID_2']: 4 },
-  })),
-}))
-
 const mockPaymentRequest = mockPaymentRequests[1]
 
 const balances = {
@@ -92,6 +85,7 @@ const identityLoaded = {
 
 const props = {
   paymentRequest: mockPaymentRequest,
+  notificationPosition: 4,
 }
 
 describe('IncomingPaymentRequestListItem', () => {

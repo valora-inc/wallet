@@ -13,13 +13,6 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-jest.mock('src/home/NotificationCenter', () => ({
-  ...(jest.requireActual('src/home/NotificationCenter') as any),
-  useNotificationCenterContext: jest.fn(() => ({
-    notificationPositions: { ['outgoingPaymentRequest/1']: 4 },
-  })),
-}))
-
 const store = createMockStore()
 
 const commonProps = {
@@ -36,6 +29,7 @@ const commonProps = {
   },
   cancelPaymentRequest: noop as typeof cancelPaymentRequest,
   updatePaymentRequestNotified: noop as typeof updatePaymentRequestNotified,
+  notificationPosition: 4,
 }
 
 describe('OutgoingPaymentRequestListItem', () => {

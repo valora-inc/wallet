@@ -16,13 +16,6 @@ Share.share = jest.fn()
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-jest.mock('src/home/NotificationCenter', () => ({
-  ...(jest.requireActual('src/home/NotificationCenter') as any),
-  useNotificationCenterContext: jest.fn(() => ({
-    notificationPositions: { ['reclaimInvite/0x0000000000000000000000000000000000007E57']: 4 },
-  })),
-}))
-
 describe('EscrowedPaymentReminderNotification', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -80,7 +73,7 @@ describe('EscrowedPaymentReminderNotification', () => {
   it('emits correct analytics event when CTA button is pressed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <EscrowedPaymentListItem payment={mockEscrowedPayment} />
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} notificationPosition={4} />
       </Provider>
     )
 
@@ -98,7 +91,7 @@ describe('EscrowedPaymentReminderNotification', () => {
   it('emits correct analytics event when notification is dismissed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <EscrowedPaymentListItem payment={mockEscrowedPayment} />
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} notificationPosition={4} />
       </Provider>
     )
 
