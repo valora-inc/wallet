@@ -6,6 +6,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
+import { KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import networkConfig from 'src/web3/networkConfig'
 import {
@@ -217,10 +218,13 @@ describe('FiatConnect helpers', () => {
     })
   })
   describe('loginWithFiatConnectProvider', () => {
-    const wallet = new KeychainWallet({
-      address: 'some address',
-      createdAt: new Date(),
-    })
+    const wallet = new KeychainWallet(
+      {
+        address: 'some address',
+        createdAt: new Date(),
+      },
+      new KeychainLock()
+    )
     const fiatConnectClient = new FiatConnectClient(
       {
         baseUrl: 'some url',
