@@ -51,7 +51,7 @@ beforeEach(() => {
 })
 
 describe(localCurrencyHooks.useLocalCurrencyToShow, () => {
-  it('returns the expect value when the currency is known', async () => {
+  it('returns the expected values when the currency is known', async () => {
     render(
       <Provider store={createStore()}>
         <TestComponent amount={{ value: 15, currencyCode: 'cUSD' }} />
@@ -66,7 +66,7 @@ describe(localCurrencyHooks.useLocalCurrencyToShow, () => {
     })
   })
 
-  it('returns the expect value when the currency is unknown', async () => {
+  it('returns the expected values when the currency is unknown', async () => {
     render(
       <Provider store={createStore()}>
         <TestComponent amount={{ value: 15, currencyCode: 'cSomething' }} />
@@ -81,7 +81,7 @@ describe(localCurrencyHooks.useLocalCurrencyToShow, () => {
     })
   })
 
-  it('returns the expect value when the token is known', async () => {
+  it('returns the expected values when the token is known', async () => {
     render(
       <Provider store={createStore()}>
         <TestComponent amount={{ value: 15, currencyCode: 'T1' }} />
@@ -96,7 +96,7 @@ describe(localCurrencyHooks.useLocalCurrencyToShow, () => {
     })
   })
 
-  it('returns the expect value when the token is unknown', async () => {
+  it('returns the expected values when the token is unknown', async () => {
     render(
       <Provider store={createStore()}>
         <TestComponent amount={{ value: 15, currencyCode: 'SOMETHING' }} />
