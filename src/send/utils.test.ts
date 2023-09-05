@@ -5,7 +5,7 @@ import { select } from 'redux-saga-test-plan/matchers'
 import { SendOrigin } from 'src/analytics/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
-import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
@@ -44,7 +44,7 @@ describe('send/utils', () => {
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
-          [select(localCurrencyToUsdSelector), '1'],
+          [select(usdToLocalCurrencyRateSelector), '1'],
         ])
         .run()
       expect(navigate).toHaveBeenCalledWith(
@@ -69,7 +69,7 @@ describe('send/utils', () => {
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
-          [select(localCurrencyToUsdSelector), '1'],
+          [select(usdToLocalCurrencyRateSelector), '1'],
         ])
         .run()
       expect(navigate).toHaveBeenCalledWith(
@@ -95,7 +95,7 @@ describe('send/utils', () => {
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
-          [select(localCurrencyToUsdSelector), '1'],
+          [select(usdToLocalCurrencyRateSelector), '1'],
         ])
         .run()
       expect(navigate).toHaveBeenCalledWith(
@@ -123,7 +123,7 @@ describe('send/utils', () => {
           )
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
       ).rejects.toThrow("Precondition failed: Can't send tokens from payment data")
@@ -141,7 +141,7 @@ describe('send/utils', () => {
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
-          [select(localCurrencyToUsdSelector), '1'],
+          [select(usdToLocalCurrencyRateSelector), '1'],
         ])
         .run()
       expect(navigate).toHaveBeenCalledWith(
@@ -170,7 +170,7 @@ describe('send/utils', () => {
         .withState(createMockStore({}).getState())
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1'],
-          [select(localCurrencyToUsdSelector), '1'],
+          [select(usdToLocalCurrencyRateSelector), '1'],
         ])
         .run()
       expect(navigate).toHaveBeenCalledWith(
@@ -219,7 +219,7 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -245,7 +245,7 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -270,7 +270,7 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -293,7 +293,7 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -319,7 +319,7 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -341,7 +341,7 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(localCurrencyToUsdSelector), '1'],
+            [select(usdToLocalCurrencyRateSelector), '1'],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
