@@ -13,13 +13,21 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
+import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
+import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
+import {
+  ImportMnemonicAccount,
+  KeychainLock,
+  getStoredPrivateKey,
+  listStoredAccounts,
+} from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, select } from 'typed-redux-saga'
+import { Address, Chain } from 'viem'
 
 import Web3 from 'web3'
 
@@ -29,11 +37,14 @@ const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
+const viemWallets = new Map<Chain, ViemWallet>()
+
+const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
 
 async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new KeychainWallet(importMnemonicAccount)
+  const newWallet = new KeychainWallet(importMnemonicAccount, keychainLock)
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
@@ -107,6 +118,32 @@ async function waitForContractKit(tries: number) {
     }
   }
   return contractKit
+}
+
+// This code assumes that the account for walletAddress already exists in the Keychain
+// which is a responsibility currently handled by KeychainWallet
+export function* getViemWallet(chain: Chain) {
+  if (viemWallets.has(chain)) {
+    return viemWallets.get(chain) as ViemWallet
+  }
+  const walletAddress = yield* select(walletAddressSelector)
+  if (!walletAddress) {
+    throw new Error('Wallet address not found')
+  }
+  const accounts = yield* call(listStoredAccounts)
+  const account = accounts.find((a) => a.address === walletAddress)
+  if (!account) {
+    throw new Error(`Account ${walletAddress} not found in Keychain`)
+  }
+  const password = yield* call(getPasswordSaga, walletAddress, false, true)
+  const privateKey = yield* call(getStoredPrivateKey, account, password)
+  if (!privateKey) {
+    throw new Error(`Private key not found for account ${walletAddress}`)
+  }
+  const wallet = getLockableViemWallet(keychainLock, chain, privateKey as Address)
+  Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
+  viemWallets.set(chain, wallet)
+  return wallet
 }
 
 export function* getContractKit() {
