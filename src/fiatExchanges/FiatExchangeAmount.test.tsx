@@ -105,7 +105,7 @@ describe('FiatExchangeAmount cashIn', () => {
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      return gate === StatsigFeatureGates.SHOW_NATIVE_TOKENS ? true : false
+      return gate === StatsigFeatureGates.SHOW_NATIVE_TOKENS
     })
   })
 
