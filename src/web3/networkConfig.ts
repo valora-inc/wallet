@@ -3,10 +3,15 @@ import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
+import { Chain as ViemChain, celo, celoAlfajores } from 'viem/chains'
 
 export enum Testnets {
   alfajores = 'alfajores',
   mainnet = 'mainnet',
+}
+
+export enum Network {
+  celo = 'celo',
 }
 
 interface NetworkConfig {
@@ -52,6 +57,9 @@ interface NetworkConfig {
   cabIssueSmsCodeUrl: string
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
+  viemChain: {
+    [key in Network]: ViemChain
+  }
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -206,6 +214,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
+    viemChain: {
+      [Network.celo]: celoAlfajores,
+    },
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -255,6 +266,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
+    viemChain: {
+      [Network.celo]: celo,
+    },
   },
 }
 

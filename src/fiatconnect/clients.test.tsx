@@ -2,6 +2,7 @@ import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { getFiatConnectClient, getSiweSigningFunction } from 'src/fiatconnect/clients'
 import { getPassword } from 'src/pincode/authentication'
 import { getWalletAsync } from 'src/web3/contracts'
+import { KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 
 jest.mock('src/web3/contracts', () => ({
@@ -16,10 +17,13 @@ jest.mock('src/statsig', () => ({
 }))
 
 describe('getSigningFunction', () => {
-  const wallet = new KeychainWallet({
-    address: 'some address',
-    createdAt: new Date(),
-  })
+  const wallet = new KeychainWallet(
+    {
+      address: 'some address',
+      createdAt: new Date(),
+    },
+    new KeychainLock()
+  )
   beforeEach(() => {
     wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
     wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
