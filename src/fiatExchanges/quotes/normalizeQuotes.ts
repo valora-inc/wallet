@@ -13,7 +13,7 @@ import {
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -37,19 +37,15 @@ export function normalizeQuotes(
 
 export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
   // We can use a dummy exchange rate value here since its just a comparator
-  const exchangeRates = {
-    [Currency.Celo]: '1',
-    [Currency.Dollar]: '1',
-    [Currency.Euro]: '1',
-  }
+  const usdToLocalRate = '1'
   // also dummy token info. all we need is the usdPrice
   const dummyTokenInfo = {
     usdPrice: new BigNumber('1'),
   }
   const providerFee1 =
-    quote1.getFeeInFiat(exchangeRates, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
+    quote1.getFeeInFiat(usdToLocalRate, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
   const providerFee2 =
-    quote2.getFeeInFiat(exchangeRates, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
+    quote2.getFeeInFiat(usdToLocalRate, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
 
   return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
 }

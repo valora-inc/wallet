@@ -47,11 +47,7 @@ jest.mock('src/fiatExchanges/quotes/constants', () => {
   }
 })
 
-const mockExchangeRates = {
-  cGLD: '2',
-  cUSD: '2',
-  cEUR: '2',
-}
+const mockUsdToLocalRate = '2'
 
 const mockTokenInfo = {
   balance: new BigNumber('10'),
@@ -172,7 +168,7 @@ describe('FiatConnectQuote', () => {
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toBeNull()
+      expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toBeNull()
     })
     it('returns fee directly for cash out', () => {
       const quote = new FiatConnectQuote({
@@ -180,7 +176,7 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(0.53))
+      expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(0.53))
     })
     it('returns converted fee for cash in', () => {
       const quote = new FiatConnectQuote({
@@ -188,7 +184,7 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(0.265))
+      expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(0.265))
     })
   })
 
@@ -201,7 +197,7 @@ describe('FiatConnectQuote', () => {
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toBeNull()
+      expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toBeNull()
     })
     it('returns fee directly for cash in', () => {
       const quote = new FiatConnectQuote({
@@ -209,7 +205,7 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(0.53))
+      expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(0.53))
     })
     it('returns converted fee for cash out', () => {
       const quote = new FiatConnectQuote({
@@ -217,7 +213,7 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(1.06))
+      expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(1.06))
     })
   })
 

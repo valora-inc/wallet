@@ -15,10 +15,7 @@ import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import {
-  getLocalCurrencyCode,
-  localCurrencyExchangeRatesSelector,
-} from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -59,7 +56,7 @@ export function PaymentMethodSection({
   const sectionQuotes = normalizedQuotes.filter(
     (quote) => quote.getPaymentMethod() === paymentMethod
   )
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfoBySymbol(cryptoType)
   const localCurrency = useSelector(getLocalCurrencyCode)
 
@@ -224,7 +221,7 @@ export function PaymentMethodSection({
       }
     }
 
-    const feeAmount = !!tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
+    const feeAmount = !!tokenInfo && normalizedQuote.getFeeInCrypto(usdToLocalRate, tokenInfo)
 
     return (
       <>
@@ -254,7 +251,7 @@ export function PaymentMethodSection({
                 flow,
                 dispatch,
                 analyticsData,
-                tokenInfo && sectionQuotes[0].getFeeInCrypto(exchangeRates, tokenInfo)
+                tokenInfo && sectionQuotes[0].getFeeInCrypto(usdToLocalRate, tokenInfo)
               )
         }
       >
@@ -282,7 +279,7 @@ export function PaymentMethodSection({
                 flow,
                 dispatch,
                 analyticsData,
-                tokenInfo && normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo)
+                tokenInfo && normalizedQuote.getFeeInCrypto(usdToLocalRate, tokenInfo)
               )}
             >
               <View style={styles.expandedContainer}>
@@ -293,7 +290,7 @@ export function PaymentMethodSection({
                   <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
                   {index === 0 &&
                     !!tokenInfo &&
-                    normalizedQuote.getFeeInCrypto(exchangeRates, tokenInfo) && (
+                    normalizedQuote.getFeeInCrypto(usdToLocalRate, tokenInfo) && (
                       <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
                         {t('selectProviderScreen.bestRate')}
                       </Text>
