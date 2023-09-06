@@ -6,7 +6,7 @@ import {
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
   TOKEN_MIN_AMOUNT,
 } from 'src/config'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
@@ -181,10 +181,9 @@ export const defaultTokenToSendSelector = createSelector(
 )
 
 export const lastKnownTokenBalancesSelector = createSelector(
-  [tokensListSelector, tokensWithLastKnownUsdValueSelector, localCurrencyExchangeRatesSelector],
-  (tokensList, tokensWithLastKnownUsdValue, exchangeRate) => {
-    const usdRate = exchangeRate[Currency.Dollar]
-    if (!usdRate || tokensList.length === 0) {
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, usdToLocalCurrencyRateSelector],
+  (tokensList, tokensWithLastKnownUsdValue, usdToLocalRate) => {
+    if (!usdToLocalRate || tokensList.length === 0) {
       return null
     }
 
@@ -192,7 +191,7 @@ export const lastKnownTokenBalancesSelector = createSelector(
     for (const token of tokensWithLastKnownUsdValue) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.lastKnownUsdPrice ?? 0)
-        .multipliedBy(usdRate)
+        .multipliedBy(usdToLocalRate)
       totalBalance = totalBalance.plus(tokenAmount)
     }
 
@@ -204,17 +203,16 @@ export const totalTokenBalanceSelector = createSelector(
   [
     tokensListSelector,
     tokensWithUsdValueSelector,
-    localCurrencyExchangeRatesSelector,
+    usdToLocalCurrencyRateSelector,
     tokenFetchErrorSelector,
     tokenFetchLoadingSelector,
   ],
-  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError, tokenFetchLoading) => {
+  (tokensList, tokensWithUsdValue, usdToLocalRate, tokenFetchError, tokenFetchLoading) => {
     if (tokenFetchError || tokenFetchLoading) {
       return null
     }
 
-    const usdRate = exchangeRate[Currency.Dollar]
-    if (!usdRate || tokensList.length === 0) {
+    if (!usdToLocalRate || tokensList.length === 0) {
       return null
     }
     let totalBalance = new BigNumber(0)
@@ -222,7 +220,7 @@ export const totalTokenBalanceSelector = createSelector(
     for (const token of tokensWithUsdValue) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.usdPrice)
-        .multipliedBy(usdRate)
+        .multipliedBy(usdToLocalRate)
       totalBalance = totalBalance.plus(tokenAmount)
     }
 

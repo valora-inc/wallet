@@ -5,9 +5,9 @@ import {
   mockLegacyMobileMoneyProvider,
   mockTokenBalances,
 } from '../../test/values'
-import { CiCoCurrency, Currency } from '../utils/currencies'
+import { CiCoCurrency } from '../utils/currencies'
 import NormalizedQuote from './quotes/NormalizedQuote'
-import { PaymentMethod, getProviderSelectionAnalyticsData } from './utils'
+import { getProviderSelectionAnalyticsData, PaymentMethod } from './utils'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
@@ -29,11 +29,7 @@ describe('fiatExchanges utils', () => {
   const mockNormalizedQuote1 = new MockNormalizedQuote()
   const mockNormalizedQuote2 = new MockNormalizedQuote()
   const mockNormalizedQuote3 = new MockNormalizedQuote()
-  const exchangeRates: { [token in Currency]: string | null } = {
-    cUSD: '1',
-    cGLD: '2',
-    cEUR: '1.5',
-  } // not important because NormalizedQuote class is mocked
+  const usdToLocalRate = '1' // not important because NormalizedQuote class is mocked
   const normalizedQuotes = [mockNormalizedQuote1, mockNormalizedQuote2, mockNormalizedQuote3]
 
   mockNormalizedQuote1.getFeeInCrypto.mockReturnValue(new BigNumber(1))
@@ -59,7 +55,7 @@ describe('fiatExchanges utils', () => {
     it('returns analytics data aggregating all available payment methods', () => {
       const analyticsOutput = getProviderSelectionAnalyticsData({
         normalizedQuotes,
-        exchangeRates,
+        usdToLocalRate,
         legacyMobileMoneyProviders: [mockLegacyMobileMoneyProvider],
         centralizedExchanges: mockExchanges,
         coinbasePayAvailable: true,
@@ -96,7 +92,7 @@ describe('fiatExchanges utils', () => {
     it('returns correct count when some payment methods are unavailable', () => {
       const analyticsOutput = getProviderSelectionAnalyticsData({
         normalizedQuotes,
-        exchangeRates,
+        usdToLocalRate,
         legacyMobileMoneyProviders: [],
         centralizedExchanges: [],
         coinbasePayAvailable: false,

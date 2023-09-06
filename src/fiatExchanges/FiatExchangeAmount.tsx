@@ -32,8 +32,8 @@ import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
-import { HeaderTitleWithTokenBalance, emptyHeader } from 'src/navigator/Headers'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { emptyHeader, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -48,9 +48,9 @@ import {
   useTokenInfoBySymbol,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-import { CiCoCurrency, Currency, currencyForAnalytics } from 'src/utils/currencies'
+import { CiCoCurrency, currencyForAnalytics } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
+import Logger from 'src/utils/Logger'
 import { CICOFlow, isUserInputCrypto } from './utils'
 
 const TAG = 'FiatExchangeAmount'
@@ -85,7 +85,7 @@ function FiatExchangeAmount({ route }: Props) {
   const inputConvertedToLocalCurrency =
     useTokenToLocalAmount(parsedInputAmount, address) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const attemptReturnUserFlowLoading = useSelector(attemptReturnUserFlowLoadingSelector)
 
@@ -274,7 +274,7 @@ function FiatExchangeAmount({ route }: Props) {
       )}
       <Button
         onPress={onPressContinue}
-        showLoading={exchangeRates[Currency.Dollar] === null || attemptReturnUserFlowLoading}
+        showLoading={usdToLocalRate === null || attemptReturnUserFlowLoading}
         text={t('next')}
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('next') ?? undefined}

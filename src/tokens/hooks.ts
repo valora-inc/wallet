@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import {
   tokensByAddressSelector,
@@ -30,11 +30,11 @@ export function useLocalToTokenAmount(
   tokenAddress: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertLocalToTokenAmount({
     localAmount,
     tokenInfo,
-    exchangeRates,
+    usdToLocalRate,
   })
 }
 
@@ -43,11 +43,11 @@ export function useTokenToLocalAmount(
   tokenAddress: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertTokenToLocalAmount({
     tokenAmount,
     tokenInfo,
-    exchangeRates,
+    usdToLocalRate,
   })
 }
 
