@@ -17,6 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { Network } from 'src/transactions/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KycExpired>
 
@@ -55,6 +56,7 @@ function KycExpired({ route, navigation }: Props) {
         crypto: Number(quote.getCryptoAmount()),
         fiat: Number(quote.getFiatAmount()),
       },
+      network: Network.Celo,
     })
   }
 

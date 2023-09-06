@@ -15,6 +15,7 @@ import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-type
 import { navigate } from 'src/navigator/NavigationService'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import { kycTryAgain } from 'src/fiatconnect/slice'
+import { Network } from 'src/transactions/types'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect/kyc/getNavigationOptions')
@@ -110,6 +111,7 @@ describe('KycDenied', () => {
         crypto: Number(mockQuote.getCryptoAmount()),
         fiat: Number(mockQuote.getFiatAmount()),
       },
+      network: Network.Celo,
     })
   })
   it('pressing try again button dispatches action', () => {

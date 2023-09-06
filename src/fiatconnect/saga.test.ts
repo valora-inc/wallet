@@ -102,6 +102,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
+import { Network } from 'src/transactions/types'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
@@ -908,6 +909,7 @@ describe('Fiatconnect saga', () => {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
+        network: Network.Celo,
       })
     })
     it('invokes _checkFiatAccountAndNavigate directly if KYC is not required', async () => {
@@ -948,6 +950,7 @@ describe('Fiatconnect saga', () => {
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
         },
+        network: Network.Celo,
       })
     })
   })
@@ -992,6 +995,7 @@ describe('Fiatconnect saga', () => {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
+        network: Network.Celo,
       })
     })
     it('navigates to SelectProvider if _checkFiatAccountAndNavigate throws', async () => {
@@ -1021,6 +1025,7 @@ describe('Fiatconnect saga', () => {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
+        network: Network.Celo,
       })
     })
   })
@@ -1265,6 +1270,7 @@ describe('Fiatconnect saga', () => {
       },
       flow: CICOFlow.CashOut,
       selectedCrypto: CiCoCurrency.cUSD,
+      network: Network.Celo,
     }
     const params = attemptReturnUserFlow({
       ...selectProviderParams,

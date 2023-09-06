@@ -69,7 +69,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { CiCoCurrency, Currency, CurrencyOrCREAL } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, AnalyticsCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -797,21 +797,21 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
   [FiatExchangeEvents.cico_currency_chosen]: {
     flow: FiatExchangeFlow
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
   }
   [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_section_impression]: {

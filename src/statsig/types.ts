@@ -31,6 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   SHOW_MULTI_CHAIN_TRANSFERS = 'show_multi_chain_transfers',
   SHOW_NATIVE_TOKENS = 'show_native_tokens',
+  SHOW_ETH_IN_CICO = 'show_eth_in_cico',
 }
 
 export enum StatsigExperiments {

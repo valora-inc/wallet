@@ -23,6 +23,8 @@ import {
   mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
+import { Network } from 'src/transactions/types'
+
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
 
@@ -465,6 +467,7 @@ describe('ReviewScreen', () => {
           fiat: 100,
           crypto: 100,
         },
+        network: Network.Celo,
       })
     })
     describe.each([

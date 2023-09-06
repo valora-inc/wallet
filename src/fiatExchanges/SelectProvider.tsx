@@ -1,6 +1,5 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import _ from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
@@ -74,6 +73,8 @@ import {
   PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
+import { Network } from 'src/transactions/types'
+import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
 
@@ -97,6 +98,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     selectedCrypto: digitalAsset,
     amount: { crypto: cryptoAmount, fiat: fiatAmount },
+    network,
   } = route.params
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
@@ -165,6 +167,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
+          network,
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
@@ -309,12 +312,14 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           analyticsData={analyticsData}
         />
       ))}
-      <LegacyMobileMoneySection
-        providers={legacyMobileMoneyProviders || []}
-        digitalAsset={digitalAsset}
-        flow={flow}
-        analyticsData={analyticsData}
-      />
+      {network === Network.Celo && (
+        <LegacyMobileMoneySection
+          providers={legacyMobileMoneyProviders || []}
+          digitalAsset={digitalAsset}
+          flow={flow}
+          analyticsData={analyticsData}
+        />
+      )}
       {coinbaseProvider && coinbasePayVisible && (
         <CoinbasePaymentSection
           cryptoAmount={cryptoAmount}
