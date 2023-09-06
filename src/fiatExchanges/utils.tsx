@@ -11,7 +11,7 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -339,7 +339,7 @@ export function resolveCloudFunctionDigitalAsset(
  */
 export function getProviderSelectionAnalyticsData({
   normalizedQuotes,
-  exchangeRates,
+  usdToLocalRate,
   tokenInfo,
   legacyMobileMoneyProviders,
   centralizedExchanges,
@@ -348,7 +348,7 @@ export function getProviderSelectionAnalyticsData({
   cryptoType,
 }: {
   normalizedQuotes: NormalizedQuote[]
-  exchangeRates: { [token in Currency]: string | null }
+  usdToLocalRate: string | null
   tokenInfo?: TokenBalance
   legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
   centralizedExchanges?: ExternalExchangeProvider[]
@@ -373,7 +373,7 @@ export function getProviderSelectionAnalyticsData({
   for (const quote of normalizedQuotes) {
     paymentMethodsAvailable[quote.getPaymentMethod()] = true
     if (tokenInfo) {
-      const fee = quote.getFeeInCrypto(exchangeRates, tokenInfo)
+      const fee = quote.getFeeInCrypto(usdToLocalRate, tokenInfo)
       if (fee && (lowestFeeCryptoAmount === null || fee.isLessThan(lowestFeeCryptoAmount))) {
         lowestFeeCryptoAmount = fee
         lowestFeePaymentMethod = quote.getPaymentMethod()

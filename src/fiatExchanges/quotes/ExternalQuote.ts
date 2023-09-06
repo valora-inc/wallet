@@ -17,7 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount } from 'src/tokens/utils'
-import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 const strings = {
@@ -71,22 +71,16 @@ export default class ExternalQuote extends NormalizedQuote {
       : resolveCICOCurrency(this.quote.digitalAsset)!
   }
 
-  getFeeInCrypto(
-    exchangeRates: { [token in Currency]: string | null },
-    tokenInfo: TokenBalance
-  ): BigNumber | null {
-    const fee = this.getFeeInFiat(exchangeRates, tokenInfo)
+  getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {
+    const fee = this.getFeeInFiat(usdToLocalRate, tokenInfo)
     return convertLocalToTokenAmount({
       localAmount: fee,
-      exchangeRates,
+      usdToLocalRate,
       tokenInfo,
     })
   }
 
-  getFeeInFiat(
-    _exchangeRates: { [token in Currency]: string | null },
-    _tokenInfo: TokenBalance
-  ): BigNumber | null {
+  getFeeInFiat(_usdToLocalRate: string | null, _tokenInfo: TokenBalance): BigNumber | null {
     if (isSimplexQuote(this.quote)) {
       return new BigNumber(this.quote.fiat_money.total_amount).minus(
         new BigNumber(this.quote.fiat_money.base_amount)

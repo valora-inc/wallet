@@ -15,19 +15,6 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
-import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import {
-  PaymentMethodSection,
-  PaymentMethodSectionMethods,
-} from 'src/fiatExchanges/PaymentMethodSection'
-import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
-import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import {
-  ProviderSelectionAnalyticsData,
-  SelectProviderExchangesLink,
-  SelectProviderExchangesText,
-} from 'src/fiatExchanges/types'
 import {
   fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
@@ -36,12 +23,25 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
+import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import {
+  PaymentMethodSection,
+  PaymentMethodSectionMethods,
+} from 'src/fiatExchanges/PaymentMethodSection'
+import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import {
+  ProviderSelectionAnalyticsData,
+  SelectProviderExchangesLink,
+  SelectProviderExchangesText,
+} from 'src/fiatExchanges/types'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
   getDefaultLocalCurrencyCode,
   getLocalCurrencyCode,
-  localCurrencyExchangeRatesSelector,
+  usdToLocalCurrencyRateSelector,
 } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -56,9 +56,9 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
@@ -109,7 +109,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfoBySymbol(digitalAsset)
 
   const { t } = useTranslation()
@@ -220,7 +220,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const analyticsData = getProviderSelectionAnalyticsData({
     normalizedQuotes,
     legacyMobileMoneyProviders,
-    exchangeRates,
+    usdToLocalRate,
     tokenInfo,
     centralizedExchanges: exchanges,
     coinbasePayAvailable: coinbasePayVisible,
