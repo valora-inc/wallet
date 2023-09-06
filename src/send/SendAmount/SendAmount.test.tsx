@@ -13,7 +13,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SendAmount from 'src/send/SendAmount'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount2Invite,
@@ -193,7 +192,7 @@ describe('SendAmount', () => {
         localCurrency: {
           preferredCurrencyCode: LocalCurrencyCode.USD,
           fetchedCurrencyCode: LocalCurrencyCode.USD,
-          exchangeRates: { [Currency.Dollar]: '1' },
+          usdToLocalRate: '1',
         },
       })
       const { getByTestId } = render(
@@ -215,7 +214,7 @@ describe('SendAmount', () => {
         localCurrency: {
           preferredCurrencyCode: LocalCurrencyCode.USD,
           fetchedCurrencyCode: LocalCurrencyCode.USD,
-          exchangeRates: { [Currency.Dollar]: '1' },
+          usdToLocalRate: '1',
         },
         tokens: {
           tokenBalances: {

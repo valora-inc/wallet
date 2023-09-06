@@ -3276,9 +3276,6 @@
                 "error": {
                     "type": "boolean"
                 },
-                "exchangeRates": {
-                    "$ref": "#/definitions/{cGLD:string|null;cUSD:string|null;cEUR:string|null;}"
-                },
                 "fetchedCurrencyCode": {
                     "enum": [
                         "ARS",
@@ -3382,11 +3379,17 @@
                         "ZAR"
                     ],
                     "type": "string"
+                },
+                "usdToLocalRate": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
-                "exchangeRates",
-                "isLoading"
+                "isLoading",
+                "usdToLocalRate"
             ],
             "type": "object"
         },
@@ -5664,35 +5667,6 @@
                     "type": "object"
                 }
             },
-            "type": "object"
-        },
-        "{cGLD:string|null;cUSD:string|null;cEUR:string|null;}": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "cGLD": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "cUSD": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
             "type": "object"
         },
         "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {

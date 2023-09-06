@@ -58,7 +58,7 @@ export function* handleSendPaymentData(
     const currency: LocalCurrencyCode = data.currencyCode
       ? (data.currencyCode as LocalCurrencyCode)
       : yield* select(getLocalCurrencyCode)
-    const exchangeRate: string = yield* call(fetchExchangeRate, Currency.Dollar, currency)
+    const exchangeRate = yield* call(fetchExchangeRate, LocalCurrencyCode.USD, currency)
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
     const localCurrencyExchangeRate: string | null = yield* select(usdToLocalCurrencyRateSelector)
     const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
