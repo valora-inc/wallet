@@ -16,7 +16,7 @@ import { Currency } from 'src/utils/currencies'
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
   const amountCurrency = amount.currencyCode as Currency
-  const tokenInfo = useTokenInfoBySymbol(amountCurrency)
+  const tokenInfo = useTokenInfoBySymbol(amountCurrency === Currency.Celo ? 'CELO' : amountCurrency)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   let localCurrencyExchangeRate =
     convertTokenToLocalAmount({

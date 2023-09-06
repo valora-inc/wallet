@@ -24,6 +24,12 @@ function createStore(dollarExchange: string | null = '2') {
           usdPrice: '1',
           priceFetchedAt: Date.now(),
         },
+        '0xCELO': {
+          symbol: 'CELO',
+          balance: '0',
+          usdPrice: '5',
+          priceFetchedAt: Date.now(),
+        },
         '0xT1': {
           symbol: 'T1',
           balance: '0',
@@ -63,6 +69,22 @@ describe(localCurrencyHooks.useLocalCurrencyToShow, () => {
       amountCurrency: 'cUSD',
       localCurrencyCode: 'PHP',
       localCurrencyExchangeRate: '2',
+    })
+  })
+
+  // Special case for CELO because of the cGLD symbol/enum value used historically
+  it('returns the expected values when the currency is CELO', async () => {
+    render(
+      <Provider store={createStore()}>
+        <TestComponent amount={{ value: 15, currencyCode: Currency.Celo }} />
+      </Provider>
+    )
+
+    expect(useLocalCurrencyToShowSpy).toHaveReturnedTimes(1)
+    expect(useLocalCurrencyToShowSpy).toHaveReturnedWith({
+      amountCurrency: 'cGLD',
+      localCurrencyCode: 'PHP',
+      localCurrencyExchangeRate: '10',
     })
   })
 
