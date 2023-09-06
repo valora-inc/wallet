@@ -190,7 +190,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncExchanges.loading ||
     selectFiatConnectQuoteLoading
 
-  Logger.info(TAG, asyncProviders.result?.externalProviders)
   const normalizedQuotes = normalizeQuotes(
     flow,
     fiatConnectQuotes,

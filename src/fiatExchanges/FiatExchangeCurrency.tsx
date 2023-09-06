@@ -28,7 +28,7 @@ import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/c
 import { CICOFlow, FiatExchangeFlow } from './utils'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { Network } from 'src/transactions/types'
+import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -118,7 +118,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     navigate(Screens.FiatExchangeAmount, {
       currency: selectedCurrency,
       flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
-      network: selectedCurrency === CiCoCurrency.ETH ? Network.Ethereum : Network.Celo,
+      network: CiCoCurrencyNetworkMap[selectedCurrency],
     })
   }
 

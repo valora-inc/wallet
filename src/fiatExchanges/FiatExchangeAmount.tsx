@@ -123,6 +123,7 @@ function FiatExchangeAmount({ route }: Props) {
     dispatch(fetchExchangeRate())
   }, [])
 
+  //TODO: Remove ETH check here once ETH token information is available
   if (!address && currency !== CiCoCurrency.ETH) {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
