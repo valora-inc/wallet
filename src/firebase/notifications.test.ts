@@ -12,6 +12,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { Network } from 'src/transactions/types'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { mockRecipientInfo, mockTokenBalances } from 'test/values'
@@ -127,7 +128,8 @@ describe(handleNotification, () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, {
         transaction: {
-          __typename: 'TokenTransferV2',
+          __typename: 'TokenTransferV3',
+          network: Network.Celo,
           type: 'RECEIVED',
           transactionHash: '0xTXHASH',
           timestamp: 1,

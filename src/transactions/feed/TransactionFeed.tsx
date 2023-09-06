@@ -12,6 +12,7 @@ import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
+import { getAllowedNetworks } from 'src/transactions/feed/queryHelper'
 
 export type FeedTokenProperties = {
   status: TransactionStatus // for standby transactions
@@ -22,7 +23,8 @@ export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
   const transferTx = tx as StandbyTransaction
   return {
-    __typename: 'TokenTransferV2',
+    __typename: 'TokenTransferV3',
+    network: tx.network,
     type: tx.type,
     status: tx.status,
     transactionHash: tx.hash || '',
@@ -55,7 +57,12 @@ function TransactionFeed() {
     mapStandbyTransactionToFeedTokenTransaction(tx)
   )
 
-  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions]
+  const allowedNetworks = getAllowedNetworks()
+  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions].filter(
+    (tx) => {
+      return allowedNetworks.includes(tx.network)
+    }
+  )
 
   const sections = useMemo(() => {
     if (tokenTransactions.length === 0) {
@@ -71,11 +78,11 @@ function TransactionFeed() {
 
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
-      case 'TokenExchangeV2':
+      case 'TokenExchangeV3':
         return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
-      case 'TokenTransferV2':
+      case 'TokenTransferV3':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-      case 'NftTransferV2':
+      case 'NftTransferV3':
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     }
   }

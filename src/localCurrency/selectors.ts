@@ -51,7 +51,8 @@ export function getLocalCurrencySymbol(state: RootState): LocalCurrencySymbol | 
   return LocalCurrencySymbol[getLocalCurrencyCode(state)]
 }
 
-export const localCurrencyExchangeRatesSelector = createSelector(
+// Deprecated, will be removed as we'll only store the USD to local currency rate
+const localCurrencyExchangeRatesSelector = createSelector(
   (state: RootState) => state.localCurrency.exchangeRates,
   (state: RootState) => state.localCurrency.fetchedCurrencyCode,
   getLocalCurrencyCode,
@@ -69,16 +70,10 @@ export const localCurrencyExchangeRatesSelector = createSelector(
   }
 )
 
-export const localCurrencyToUsdSelector = createSelector(
+export const usdToLocalCurrencyRateSelector = createSelector(
   localCurrencyExchangeRatesSelector,
   (exchangeRates) => exchangeRates[Currency.Dollar]
 )
-
-// deprecated, please use |localCurrencyExchangeRatesSelector| instead.
-export function getLocalCurrencyToDollarsExchangeRate(state: RootState) {
-  const exchangeRates = localCurrencyExchangeRatesSelector(state)
-  return exchangeRates?.[Currency.Dollar]
-}
 
 export function shouldFetchCurrentRate(state: RootState): boolean {
   const { isLoading, lastSuccessfulUpdate } = state.localCurrency

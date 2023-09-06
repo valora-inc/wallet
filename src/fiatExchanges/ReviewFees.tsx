@@ -71,6 +71,7 @@ export default function ReviewFees({
     [CiCoCurrency.cUSD]: 'cUSD',
     [CiCoCurrency.cEUR]: 'cEUR',
     [CiCoCurrency.cREAL]: 'cREAL',
+    [CiCoCurrency.ETH]: 'ETH',
   }[currencyToBuy]
 
   return (

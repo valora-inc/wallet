@@ -2,17 +2,19 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
 interface Props {
   amount: BigNumber.Value
-  tokenAddress?: string
+  tokenAddress?: string | null
   currency?: Currency
   showSymbol?: boolean
   showLocalAmount?: boolean
@@ -54,15 +56,19 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  if (tokenAddress ? currency : !currency) {
+  const showNativeTokens = getFeatureGate(StatsigFeatureGates.SHOW_NATIVE_TOKENS)
+  if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
     throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
+  } else if (tokenAddress && currency) {
+    throw new Error('TokenDisplay must be passed tokenAddress, currency, or nethier, but not both')
   }
+
   const tokenInfoFromAddress = useTokenInfo(tokenAddress!)
   const tokenInfoFromCurrency = useTokenInfoBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
   )
   const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
-  const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const showError = showLocalAmount

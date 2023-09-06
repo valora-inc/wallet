@@ -83,6 +83,7 @@ import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
+import { Network } from 'src/transactions/types'
 
 const TAG = 'FiatConnectSaga'
 
@@ -405,6 +406,7 @@ export function* handleAttemptReturnUserFlow({
       flow,
       selectedCrypto,
       amount,
+      network: Network.Celo,
     })
   }
 }
@@ -724,6 +726,7 @@ export function* handleSelectFiatConnectQuote({
       flow: quote.flow,
       selectedCrypto: quote.getCryptoType(),
       amount: amount,
+      network: Network.Celo,
     })
   }
 }
@@ -777,6 +780,7 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
       flow: quote.flow,
       selectedCrypto: quote.getCryptoType(),
       amount: amount,
+      network: Network.Celo,
     })
     yield* delay(500) // to avoid screen flash
     yield* put(personaFinished())
