@@ -196,7 +196,7 @@ export class KeychainLock {
   > = new Map()
 
   addAccount(account: KeychainAccount) {
-    this.locks.set(account.address, { account })
+    this.locks.set(normalizeAddressWith0x(account.address), { account })
   }
 
   /**
@@ -204,16 +204,17 @@ export class KeychainLock {
    * A duration of 0 means the account is unlocked indefinitely
    * */
   async unlock(address: string, passphrase: string, duration: number) {
+    const normalizedAddress = normalizeAddressWith0x(address)
     Logger.debug(`${TAG}@unlock`, `Unlocking keychain for ${address} for ${duration} seconds`)
-    if (!this.locks.has(address)) {
+    if (!this.locks.has(normalizedAddress)) {
       return false
     }
-    const account = this.locks.get(address)!.account
+    const account = this.locks.get(normalizedAddress)!.account
     const privateKey = await getStoredPrivateKey(account, passphrase)
     if (!privateKey) {
       return false
     }
-    this.locks.set(address, {
+    this.locks.set(normalizedAddress, {
       account,
       unlockTime: Date.now(),
       unlockDuration: duration,
@@ -222,10 +223,11 @@ export class KeychainLock {
   }
 
   isUnlocked(address: string): boolean {
-    if (!this.locks.has(address)) {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    if (!this.locks.has(normalizedAddress)) {
       return false
     }
-    const { unlockTime, unlockDuration } = this.locks.get(address)!
+    const { unlockTime, unlockDuration } = this.locks.get(normalizedAddress)!
     if (unlockDuration === undefined || unlockTime === undefined) {
       return false
     }
@@ -245,10 +247,11 @@ export class KeychainLock {
    * @returns whether the update was successful
    */
   async updatePassphrase(address: string, oldPassphrase: string, newPassphrase: string) {
-    if (!this.locks.has(address)) {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    if (!this.locks.has(normalizedAddress)) {
       return false
     }
-    const account = this.locks.get(address)!.account
+    const account = this.locks.get(normalizedAddress)!.account
     const privateKey = await getStoredPrivateKey(account, oldPassphrase)
     if (!privateKey) {
       return false
