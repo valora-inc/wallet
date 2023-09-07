@@ -15,5 +15,7 @@ if (typeof global.self === 'undefined') {
   global.self = global
 }
 global.btoa = require('Base64').btoa
-global.BigInt = require('big-integer')
+if (typeof BigInt === 'undefined') {
+  global.BigInt = require('big-integer')
+}
 require('crypto')
