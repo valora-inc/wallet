@@ -9,7 +9,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
-import { TokenTransaction, Network, StandbyTransaction } from 'src/transactions/types'
+import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
@@ -1240,6 +1240,15 @@ export const migrations = {
           network: Network.Celo,
         }
       }),
+    },
+  }),
+  146: (state: any) => ({
+    ...state,
+    localCurrency: {
+      ..._.omit(state.localCurrency, 'exchangeRates'),
+      // We were previously fetching cUSD to local, but blockchain-api was returning USD to local
+      // assuming cUSD == USD, so it's correct to keep this rate here
+      usdToLocalRate: state.localCurrency.exchangeRates[Currency.Dollar],
     },
   }),
 }

@@ -28,7 +28,7 @@ describe('TotalLineItem', () => {
       <Provider
         store={createMockStore({
           localCurrency: {
-            exchangeRates: { [Currency.Dollar]: null },
+            usdToLocalRate: null,
           },
           ...storeOverrides,
         })}
@@ -87,7 +87,7 @@ describe('TotalLineItem', () => {
       const { queryByTestId } = renderComponent({
         storeOverrides: {
           localCurrency: {
-            exchangeRates: { [Currency.Dollar]: '1.5' },
+            usdToLocalRate: '1.5',
           },
         },
       })
