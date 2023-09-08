@@ -14,8 +14,8 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
+import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { TokenTransaction, Network, StandbyTransaction } from 'src/transactions/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2496,6 +2496,18 @@ export const v145Schema = {
   },
 }
 
+export const v146Schema = {
+  ...v145Schema,
+  _persist: {
+    ...v145Schema._persist,
+    version: 146,
+  },
+  localCurrency: {
+    ..._.omit(v145Schema.localCurrency, 'exchangeRates'),
+    usdToLocalRate: v145Schema.localCurrency.exchangeRates[Currency.Dollar],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v145Schema as Partial<RootState>
+  return v146Schema as Partial<RootState>
 }

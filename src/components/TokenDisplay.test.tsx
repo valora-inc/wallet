@@ -18,7 +18,7 @@ describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
     return createMockStore({
       localCurrency: {
-        exchangeRates: { [Currency.Dollar]: '0.10' },
+        usdToLocalRate: '0.10',
         preferredCurrencyCode: LocalCurrencyCode.BRL,
         fetchedCurrencyCode: LocalCurrencyCode.BRL,
       },

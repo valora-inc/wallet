@@ -4,7 +4,6 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { useAmountAsUsd, useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
 const tokenAddressWithPriceAndBalance = '0x001'
@@ -24,7 +23,7 @@ function TestComponent({ tokenAddress }: { tokenAddress: string }) {
   )
 }
 
-const store = (dollarExchange: string | null = '2') =>
+const store = (usdToLocalRate: string | null = '2') =>
   createMockStore({
     tokens: {
       tokenBalances: {
@@ -43,9 +42,7 @@ const store = (dollarExchange: string | null = '2') =>
       },
     },
     localCurrency: {
-      exchangeRates: {
-        [Currency.Dollar]: dollarExchange,
-      },
+      usdToLocalRate,
     },
   })
 

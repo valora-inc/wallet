@@ -1,10 +1,10 @@
+import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Network, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import BigNumber from 'bignumber.js'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
@@ -19,8 +19,9 @@ import {
   v132Schema,
   v133Schema,
   v136Schema,
-  v144Schema,
   v13Schema,
+  v144Schema,
+  v145Schema,
   v14Schema,
   v15Schema,
   v16Schema,
@@ -1151,6 +1152,16 @@ describe('Redux persist migrations', () => {
       },
     }
     const migratedSchema = migrations[145](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v145 to v146', () => {
+    const oldSchema = v145Schema
+    const migratedSchema = migrations[146](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.localCurrency.usdToLocalRate =
+      oldSchema.localCurrency.exchangeRates[Currency.Dollar]
+    delete expectedSchema.localCurrency.exchangeRates
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

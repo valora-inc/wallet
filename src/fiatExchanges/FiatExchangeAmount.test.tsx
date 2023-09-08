@@ -10,7 +10,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
@@ -25,23 +25,9 @@ jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
 }))
 
-const usdExchangeRates = {
-  [Currency.Dollar]: '1',
-  [Currency.Euro]: '1.2',
-  [Currency.Celo]: '3',
-}
-
-const eurExchangeRates = {
-  [Currency.Dollar]: '0.862',
-  [Currency.Euro]: '1',
-  [Currency.Celo]: '2.5',
-}
-
-const phpExchangeRates = {
-  [Currency.Dollar]: '50',
-  [Currency.Euro]: '60',
-  [Currency.Celo]: '150',
-}
+const usdToUsdRate = '1'
+const usdToEurRate = '0.862'
+const usdToPhpRate = '50'
 
 const mockTokens = {
   tokenBalances: {
@@ -76,7 +62,7 @@ const storeWithUSD = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
-    exchangeRates: usdExchangeRates,
+    usdToLocalRate: usdToUsdRate,
   },
   tokens: mockTokens,
 })
@@ -85,7 +71,7 @@ const storeWithEUR = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
     preferredCurrencyCode: LocalCurrencyCode.EUR,
-    exchangeRates: eurExchangeRates,
+    usdToLocalRate: usdToEurRate,
   },
   tokens: mockTokens,
 })
@@ -94,7 +80,7 @@ const storeWithPHP = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
-    exchangeRates: phpExchangeRates,
+    usdToLocalRate: usdToPhpRate,
   },
   tokens: mockTokens,
 })
@@ -328,7 +314,7 @@ describe('FiatExchangeAmount cashOut', () => {
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
-        exchangeRates: usdExchangeRates,
+        usdToLocalRate: usdToUsdRate,
       },
       fiatConnect: {
         cachedFiatAccountUses: [
@@ -378,7 +364,7 @@ describe('FiatExchangeAmount cashOut', () => {
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
-        exchangeRates: usdExchangeRates,
+        usdToLocalRate: usdToUsdRate,
       },
       fiatConnect: {
         cachedFiatAccountUses: [
