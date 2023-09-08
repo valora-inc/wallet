@@ -109,6 +109,7 @@
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",
     "@toruslabs/fetch-node-details": "^8.1.1",
     "@toruslabs/torus.js": "^6.4.1",
+    "@typescript-eslint/typescript-estree": "^6.6.0",
     "@walletconnect/react-native-compat": "^2.10.0",
     "@walletconnect/utils": "^2.10.0",
     "@walletconnect/web3wallet": "^1.9.0",
@@ -290,7 +291,7 @@
     "ts-node": "10.7.0",
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.69.0",
-    "typescript": "5.0.4",
+    "typescript": "^5.2.2",
     "typescript-json-schema": "^0.59.0"
   },
   "resolutions": {
