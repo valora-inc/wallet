@@ -57,7 +57,7 @@ export function* sendPayment({
     feeInfo
   )
 
-  // TODO: add standby transaction
+  // TODO(satish): add standby transaction
 
   try {
     // this returns a method which is then passed to call instead of directly
@@ -80,9 +80,10 @@ export function* sendPayment({
     const { request }: SimulateContractReturnType = yield* call(simulateContractMethod)
 
     const hash = yield* call([wallet, 'writeContract'], request)
+
     Logger.debug(TAG, 'Transaction successfully submitted. Hash:', hash)
 
-    // TODO: wait for receipt with a timeout, confirm tx and return
+    // TODO(satish): wait for receipt with a timeout, confirm tx and return
 
     return hash
   } catch (err) {
@@ -218,14 +219,14 @@ export function* getSendTxFeeDetails({
     recipientAddress,
     encryptedComment || ''
   )
-  // TODO(any): port this logic over from contractkit to use viem
+  // TODO(ACT-926): port this logic over from contractkit to use viem
   const { feeCurrency, gas, gasPrice } = yield* call(
     chooseTxFeeDetails,
     celoTx.txo,
     feeInfo.feeCurrency,
     // gas and gasPrice can either be BigNumber or string. Since these are
-    // stored in redux, BigNumbers are serialized as strings. TODO(any): ensure
-    // type is consistent when fee is read from redux
+    // stored in redux, BigNumbers are serialized as strings.
+    // TODO(ACT-925): ensure type is consistent when fee is read from redux
     Number(feeInfo.gas),
     feeInfo.gasPrice
   )
