@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import {
+  DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION,
   DEFAULT_BANK_SETTLEMENT_ESTIMATION,
   DEFAULT_CARD_SETTLEMENT_ESTIMATION,
   SettlementEstimation,
@@ -93,14 +94,19 @@ export default class ExternalQuote extends NormalizedQuote {
   }
 
   getKycInfo(): string | null {
-    return strings.idRequired
+    return this.getPaymentMethod() === PaymentMethod.Airtime ? 'Provider' : strings.idRequired
   }
 
   getTimeEstimation(): SettlementEstimation {
-    // payment method can only be bank or card
-    return this.getPaymentMethod() === PaymentMethod.Bank
-      ? DEFAULT_BANK_SETTLEMENT_ESTIMATION
-      : DEFAULT_CARD_SETTLEMENT_ESTIMATION
+    // payment method can be bank, card or airtime
+    switch (this.getPaymentMethod()) {
+      case PaymentMethod.Bank:
+        return DEFAULT_BANK_SETTLEMENT_ESTIMATION
+      case PaymentMethod.Airtime:
+        return DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION
+      default:
+        return DEFAULT_CARD_SETTLEMENT_ESTIMATION
+    }
   }
 
   navigate(): void {

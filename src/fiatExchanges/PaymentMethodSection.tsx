@@ -35,6 +35,7 @@ export type PaymentMethodSectionMethods =
   | PaymentMethod.Bank
   | PaymentMethod.Card
   | PaymentMethod.FiatConnectMobileMoney
+  | PaymentMethod.Airtime
 
 export interface PaymentMethodSectionProps {
   paymentMethod: PaymentMethodSectionMethods
