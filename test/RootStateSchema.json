@@ -744,6 +744,7 @@
         "CiCoCurrency": {
             "enum": [
                 "CELO",
+                "ETH",
                 "cEUR",
                 "cREAL",
                 "cUSD"
@@ -1984,7 +1985,8 @@
                                         "enum": [
                                             "IBANUserAction",
                                             "PIXUserAction",
-                                            "PSEUserAction"
+                                            "PSEUserAction",
+                                            "URLUserAction"
                                         ],
                                         "type": "string"
                                     }
@@ -2026,7 +2028,8 @@
                                         "enum": [
                                             "IBANUserAction",
                                             "PIXUserAction",
-                                            "PSEUserAction"
+                                            "PSEUserAction",
+                                            "URLUserAction"
                                         ],
                                         "type": "string"
                                     }
@@ -2068,7 +2071,8 @@
                                         "enum": [
                                             "IBANUserAction",
                                             "PIXUserAction",
-                                            "PSEUserAction"
+                                            "PSEUserAction",
+                                            "URLUserAction"
                                         ],
                                         "type": "string"
                                     }

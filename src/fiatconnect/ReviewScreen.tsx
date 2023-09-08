@@ -43,6 +43,7 @@ import { useLocalToTokenAmount, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency } from 'src/utils/currencies'
+import { Network } from 'src/transactions/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -125,6 +126,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
         },
+        network: Network.Celo,
       })
     } else if (previousScreen?.name === Screens.FiatConnectRefetchQuote) {
       navigateToFiatExchangeStart()
@@ -525,6 +527,7 @@ function PaymentMethod({
         fiat: parseFloat(normalizedQuote.getFiatAmount()),
         crypto: parseFloat(normalizedQuote.getCryptoAmount()),
       },
+      network: Network.Celo,
     })
   }
 
