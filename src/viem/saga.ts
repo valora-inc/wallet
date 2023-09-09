@@ -13,6 +13,7 @@ import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
+import { unlockAccount } from 'src/web3/saga'
 import { call } from 'typed-redux-saga'
 import { SimulateContractReturnType, getAddress } from 'viem'
 
@@ -46,6 +47,10 @@ export function* sendPayment({
   feeInfo: FeeInfo
 }) {
   const wallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
+  if (!wallet.account) {
+    // this should never happen
+    throw new Error('no account found in the wallet')
+  }
 
   Logger.debug(
     TAG,
@@ -79,6 +84,8 @@ export function* sendPayment({
     // but TSC doesn't like it when passed to writeContract
     const { request }: SimulateContractReturnType = yield* call(simulateContractMethod)
 
+    // unlock account before executing tx
+    yield* call(unlockAccount, wallet.account.address)
     const hash = yield* call([wallet, 'writeContract'], request)
 
     Logger.debug(TAG, 'Transaction successfully submitted. Hash:', hash)
@@ -125,24 +132,19 @@ function* getSimulateContractMethod({
 
   const convertedAmount = BigInt(yield* call(tokenAmountInSmallestUnit, amount, tokenAddress))
 
+  const encryptedComment = isStablecoin(tokenInfo)
+    ? yield* call(encryptComment, comment, recipientAddress, wallet.account.address, true)
+    : undefined
+
+  const { feeCurrency, gas, maxFeePerGas } = yield* call(getSendTxFeeDetails, {
+    recipientAddress,
+    amount,
+    tokenAddress,
+    feeInfo,
+    encryptedComment: encryptedComment || '',
+  })
+
   if (isStablecoin(tokenInfo)) {
-    const userAddress = wallet.account.address
-    const encryptedComment = yield* call(
-      encryptComment,
-      comment,
-      recipientAddress,
-      userAddress,
-      true
-    )
-
-    const { feeCurrency, gas, maxFeePerGas } = yield* call(getSendTxFeeDetails, {
-      recipientAddress,
-      amount,
-      tokenAddress,
-      feeInfo,
-      encryptedComment: encryptedComment || '',
-    })
-
     Logger.debug(TAG, 'Calling simulate contract for transferWithComment', {
       recipientAddress,
       convertedAmount,
@@ -163,13 +165,6 @@ function* getSimulateContractMethod({
         maxFeePerGas,
       })
   }
-
-  const { feeCurrency, gas, maxFeePerGas } = yield* call(getSendTxFeeDetails, {
-    recipientAddress,
-    amount,
-    tokenAddress,
-    feeInfo,
-  })
 
   Logger.debug(TAG, 'Calling simulate contract for transfer', {
     recipientAddress,

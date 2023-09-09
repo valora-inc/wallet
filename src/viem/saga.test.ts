@@ -12,6 +12,7 @@ import { publicClient } from 'src/viem'
 import { getSendTxFeeDetails, sendPayment } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
+import { UnlockResult, unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -58,6 +59,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(encryptComment), 'encryptedComment'],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
@@ -87,6 +89,7 @@ describe('sendPayment', () => {
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .not.call.fn(encryptComment)
@@ -95,6 +98,7 @@ describe('sendPayment', () => {
         amount: BigNumber(2),
         tokenAddress: mockCeloAddress,
         feeInfo: mockFeeInfo,
+        encryptedComment: '',
       })
       .returns(mockTxHash)
       .run()
@@ -130,6 +134,7 @@ describe('sendPayment', () => {
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       ])
       .throws(new Error('write error'))
       .run()
