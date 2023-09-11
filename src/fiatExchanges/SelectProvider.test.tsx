@@ -3,6 +3,8 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -11,22 +13,20 @@ import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
+import { Network } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockExchanges, mockFiatConnectQuotes, mockProviders } from 'test/values'
 import {
   CICOFlow,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   getProviderSelectionAnalyticsData,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
 } from './utils'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import mocked = jest.mocked
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import { Network } from 'src/transactions/types'
 
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
@@ -186,6 +186,7 @@ describe(SelectProviderScreen, () => {
         [PaymentMethod.MobileMoney]: false,
         [PaymentMethod.Coinbase]: false,
         [PaymentMethod.FiatConnectMobileMoney]: false,
+        [PaymentMethod.Airtime]: false,
       },
       transferCryptoAmount: 100,
       cryptoType: CiCoCurrency.cUSD,
