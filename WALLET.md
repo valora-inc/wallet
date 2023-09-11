@@ -158,7 +158,21 @@ If you are unable to run the app in the iOS Simulator, install Rosetta:
 
 ### Android
 
-Follow the official React Native [installation instructions](https://reactnative.dev/docs/environment-setup?platform=android).
+[Download and install Android Studio](https://developer.android.com/studio/index.html) and the following add-ons:
+
+- Android SDK
+- Android SDK Platform
+- Android Virtual Device
+
+Install the Android 13 (Tiramisu) SDK. It can be found can be installed through the SDK Manager in Android Studio.
+
+Configure the `ANDROID_HOME` environment variables by adding the following lines to your `~/.zprofile` or `~/.zshrc`. You can find the actual location of the SDK in the Android Studio "Preferences" dialog, under Appearance & Behavior → System Settings → Android SDK.
+
+```bash
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
 
 #### MacOS
 
