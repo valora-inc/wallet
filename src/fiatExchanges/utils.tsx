@@ -81,7 +81,7 @@ export interface RawProviderQuote {
   digitalAsset: string
   returnedAmount?: number
   fiatFee?: number
-  mobileCarrier?: string
+  extraReqs?: { mobileCarrier: 'Safaricom' | 'MTN' }
 }
 export interface LegacyMobileMoneyProvider {
   name: string

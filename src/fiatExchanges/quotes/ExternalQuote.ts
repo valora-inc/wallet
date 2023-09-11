@@ -93,8 +93,16 @@ export default class ExternalQuote extends NormalizedQuote {
     return null
   }
 
+  getReqsSubtitle(): string | null {
+    return !isSimplexQuote(this.quote) &&
+      this.getPaymentMethod() === PaymentMethod.Airtime &&
+      this.quote.extraReqs
+      ? this.quote.extraReqs.mobileCarrier
+      : this.getKycInfo()
+  }
+
   getKycInfo(): string | null {
-    return this.getPaymentMethod() === PaymentMethod.Airtime ? 'Provider' : strings.idRequired
+    return strings.idRequired
   }
 
   getTimeEstimation(): SettlementEstimation {
