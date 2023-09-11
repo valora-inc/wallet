@@ -21,10 +21,9 @@ import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { TokenTransaction } from 'src/transactions/types'
+import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { Network } from 'src/transactions/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -93,6 +92,7 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
+    fromModal?: boolean
   }
   [Screens.ErrorScreen]: {
     errorMessage?: string

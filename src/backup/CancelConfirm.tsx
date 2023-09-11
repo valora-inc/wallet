@@ -5,8 +5,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import Dialog from 'src/components/Dialog'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateHome } from 'src/navigator/NavigationService'
 import colors from 'src/styles/colors'
 
 interface Props {
@@ -32,7 +31,8 @@ export default function CancelConfirm({ screen }: Props) {
 
   const onProcrastinate = React.useCallback(() => {
     setOpenState(false)
-    navigate(Screens.WalletHome) // Use navigate instead of navigateHome to avoid app crash on iOS
+    // Specify fromModal to avoid app crash
+    navigateHome({ params: { fromModal: true } })
     ValoraAnalytics.track(OnboardingEvents.backup_delay_confirm)
   }, [screen, secondaryText])
 
