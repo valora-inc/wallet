@@ -537,7 +537,7 @@ describe('NotificationBox', () => {
     expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
   })
 
-  it('only renders notification marked for the home screen when showOnlyHomeScreenNotifications is true', () => {
+  it('only renders notifications marked for the home screen when showOnlyHomeScreenNotifications is true', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       home: {
