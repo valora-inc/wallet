@@ -87,17 +87,9 @@ _This is only for Valora employees._
 
 You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-mobile-alfajores`.)
 
-Install Google Cloud SDK:
-
-```
-brew install google-cloud-sdk
-```
-
-Log in with Google credentials (once you have access):
-
-```bash
-gcloud auth application-default login
-```
+Once you have access, install Google Cloud by running `brew install google-cloud-sdk`.
+Follow instructions [here](https://cloud.google.com/sdk/gcloud/reference/auth/login)
+for logging in with Google credentials.
 
 To test your GCP access, try running `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`.
 (You will not need to run this command on an ongoing basis, since it is done automatically as part of the `postinstall` script.)
