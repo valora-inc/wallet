@@ -1891,6 +1891,9 @@
                 },
                 "priority": {
                     "type": "number"
+                },
+                "showOnHomeScreen": {
+                    "type": "boolean"
                 }
             },
             "required": [
