@@ -76,7 +76,7 @@
     "@crowdin/ota-client": "^0.7.0",
     "@fiatconnect/fiatconnect-sdk": "^0.5.14",
     "@fiatconnect/fiatconnect-types": "^13.2.0",
-    "@gorhom/bottom-sheet": "^4.4.7",
+    "@gorhom/bottom-sheet": "^4.4.8",
     "@json-rpc-tools/utils": "^1.7.6",
     "@noble/secp256k1": "^1.7.1",
     "@react-native-async-storage/async-storage": "^1.19.3",
@@ -290,7 +290,7 @@
     "ts-node": "10.7.0",
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.69.0",
-    "typescript": "5.0.4",
+    "typescript": "^5.2.2",
     "typescript-json-schema": "^0.59.0"
   },
   "resolutions": {

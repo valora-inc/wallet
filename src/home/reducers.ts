@@ -21,6 +21,7 @@ export interface Notification {
   blockedCountries?: string[]
   openExternal?: boolean
   priority?: number
+  showOnHomeScreen?: boolean
 }
 
 export interface IdToNotification {

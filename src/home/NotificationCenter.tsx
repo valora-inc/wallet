@@ -113,11 +113,17 @@ export function useNotifications() {
     ...simpleActions.map((notification) => ({
       element: <SimpleMessagingCard testID={notification.id} {...notification} />,
       priority: notification.priority,
+      showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
     }))
   )
 
-  return notifications.sort((n1, n2) => n2.priority - n1.priority)
+  return (
+    notifications
+      .sort((n1, n2) => n2.priority - n1.priority)
+      // Hide notifications that should only be shown on the home screen
+      .filter((n) => !n.showOnHomeScreen)
+  )
 }
 
 export default function Notifications({ navigation }: NotificationsProps) {

@@ -15,6 +15,7 @@
     "jsx": "react",
     "lib": ["es7", "esnext", "dom"],
     "moduleResolution": "Node16",
+    "module": "Node16",
     "noEmit": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
