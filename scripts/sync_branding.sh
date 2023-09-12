@@ -30,7 +30,7 @@ if [[ "$branding" == "valora" ]]; then
   local_dir=branding/valora
   if [[ ! -e $local_dir ]] && 
     ( 
-      ! git clone git@github.com:$remote_path $local_dir ||
+      ! git clone git@github.com:$remote_path $local_dir &&
       ! git clone https://github.com/$remote_path $local_dir 
     ); then
     echo "Couldn't clone private branding. Will use default branding."
