@@ -95,6 +95,7 @@ export enum NotificationBannerCTATypes {
 export interface Notification {
   element: React.ReactElement
   priority: number
+  showOnHomeScreen?: boolean
   id: string
 }
 
@@ -337,6 +338,7 @@ export function useSimpleActions() {
       text: texts.body,
       icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
       priority: notification.priority ?? DEFAULT_PRIORITY,
+      showOnHomeScreen: notification.showOnHomeScreen,
       callToActions: [
         {
           text: texts.cta,
@@ -402,7 +404,11 @@ export function useSimpleActions() {
   return actions
 }
 
-export function useNotifications() {
+export function useNotifications({
+  showOnlyHomeScreenNotifications,
+}: {
+  showOnlyHomeScreenNotifications: boolean
+}) {
   const notifications: Notification[] = []
 
   // Pending outgoing invites in escrow
@@ -446,19 +452,31 @@ export function useNotifications() {
     ...simpleActions.map((notification, i) => ({
       element: <SimpleMessagingCard key={i} testID={notification.id} {...notification} />,
       priority: notification.priority,
+      showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
     }))
   )
 
-  return notifications.sort((n1, n2) => n2.priority - n1.priority)
+  return notifications
+    .sort((n1, n2) => n2.priority - n1.priority)
+    .filter((n) => {
+      if (showOnlyHomeScreenNotifications) {
+        return n.showOnHomeScreen
+      }
+      return true
+    })
 }
 
-function NotificationBox() {
+interface Props {
+  showOnlyHomeScreenNotifications: boolean
+}
+
+function NotificationBox({ showOnlyHomeScreenNotifications }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   // This variable tracks the last scrolled to notification, so that impression
   // events are not dispatched twice for the same notification
   const lastViewedIndex = useRef(-1)
-  const notifications = useNotifications()
+  const notifications = useNotifications({ showOnlyHomeScreenNotifications })
 
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
     const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)
