@@ -98,7 +98,6 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Setup Recovery Phrase', async () => {
-    await reloadReactNative()
     await openHamburger()
     await quickEducation()
 
