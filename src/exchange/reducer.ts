@@ -131,22 +131,6 @@ export const reducer = (
         ...state,
         history: historyReducer(state.history, action),
       }
-    case Actions.WITHDRAW_CELO:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case Actions.WITHDRAW_CELO_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case Actions.WITHDRAW_CELO_CANCELED:
-    case Actions.WITHDRAW_CELO_FAILED:
-      return {
-        ...state,
-        isLoading: false,
-      }
     default:
       return state
   }

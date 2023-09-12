@@ -7,11 +7,11 @@ import BigNumber from 'bignumber.js'
 import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
-import { FiatAccount } from 'src/fiatconnect/slice'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import { ExternalExchangeProvider } from 'src/exchange/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
+import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
+import { FiatAccount } from 'src/fiatconnect/slice'
 import { AddressValidationType } from 'src/identity/reducer'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -21,10 +21,9 @@ import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { TokenTransaction } from 'src/transactions/types'
+import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { Network } from 'src/transactions/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -110,11 +109,6 @@ export type StackParamList = {
   }
   [Screens.ExchangeTradeScreen]: {
     buyCelo: boolean
-  }
-  [Screens.ExternalExchanges]: {
-    isCashIn?: boolean
-    currency: CiCoCurrency
-    exchanges: ExternalExchangeProvider[]
   }
   [Screens.ExchangeQR]: {
     flow: CICOFlow
@@ -363,20 +357,6 @@ export type StackParamList = {
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
-  [Screens.WithdrawCeloQrScannerScreen]: {
-    onAddressScanned: (address: string) => void
-  }
-  [Screens.WithdrawCeloReviewScreen]: {
-    amount: BigNumber
-    recipientAddress: string
-    feeEstimate: BigNumber
-    isCashOut: boolean
-  }
-  [Screens.WithdrawCeloScreen]: {
-    isCashOut: boolean
-    amount?: BigNumber
-    recipientAddress?: string
-  }
   [Screens.WithdrawSpend]: undefined
   [Screens.TokenBalances]:
     | {

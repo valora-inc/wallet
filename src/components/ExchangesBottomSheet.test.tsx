@@ -1,10 +1,10 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { getElementText } from 'test/utils'
+import { ExternalExchangeProvider } from 'src/exchange/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getElementText } from 'test/utils'
 
 jest.mock('src/components/useShowOrHideAnimation')
 

@@ -25,7 +25,6 @@ export enum Screens {
   ExchangeHomeScreen = 'ExchangeHomeScreen',
   ExchangeReview = 'ExchangeReview',
   ExchangeTradeScreen = 'ExchangeTradeScreen',
-  ExternalExchanges = 'ExternalExchanges',
   ExchangeQR = 'ExchangeQR',
   FiatExchange = 'FiatExchange',
   FiatExchangeAmount = 'FiatExchangeAmount',
@@ -111,8 +110,5 @@ export enum Screens {
   WalletSecurityPrimerDrawer = 'WalletSecurityPrimerDrawer',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
-  WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
-  WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
-  WithdrawCeloScreen = 'WithdrawCeloScreen',
   WithdrawSpend = 'WithdrawSpend',
 }

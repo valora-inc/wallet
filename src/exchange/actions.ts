@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ExchangeRate } from 'src/exchange/reducer'
 import { Currency } from 'src/utils/currencies'
 
@@ -52,27 +51,6 @@ export interface UpdateCeloGoldExchangeRateHistory {
   exchangeRates: ExchangeRate[]
 }
 
-export interface WithdrawCeloAction {
-  type: Actions.WITHDRAW_CELO
-  amount: BigNumber
-  recipientAddress: string
-  isCashOut: boolean
-}
-
-export interface WithdrawCeloFailureAction {
-  type: Actions.WITHDRAW_CELO_FAILED
-  idx: string | undefined
-  error: ErrorMessages
-}
-
-export interface WithdrawCeloCanceledAction {
-  type: Actions.WITHDRAW_CELO_CANCELED
-}
-
-export interface WithdrawCeloSuccessAction {
-  type: Actions.WITHDRAW_CELO_SUCCESS
-}
-
 export const fetchExchangeRate = (
   makerToken?: Currency,
   makerAmount?: BigNumber
@@ -120,40 +98,8 @@ export const exchangeTokens = (
   takerToken,
 })
 
-export const withdrawCelo = (
-  amount: BigNumber,
-  recipientAddress: string,
-  isCashOut: boolean
-): WithdrawCeloAction => ({
-  type: Actions.WITHDRAW_CELO,
-  amount,
-  recipientAddress,
-  isCashOut,
-})
-
-export const withdrawCeloFailed = (
-  idx: string | undefined,
-  error: ErrorMessages
-): WithdrawCeloFailureAction => ({
-  type: Actions.WITHDRAW_CELO_FAILED,
-  idx,
-  error,
-})
-
-export const withdrawCeloCanceled = (): WithdrawCeloCanceledAction => ({
-  type: Actions.WITHDRAW_CELO_CANCELED,
-})
-
-export const withdrawCeloSuccess = (): WithdrawCeloSuccessAction => ({
-  type: Actions.WITHDRAW_CELO_SUCCESS,
-})
-
 export type ActionTypes =
   | SetExchangeRateAction
   | ExchangeTokensAction
   | SetTobinTaxAction
   | UpdateCeloGoldExchangeRateHistory
-  | WithdrawCeloAction
-  | WithdrawCeloFailureAction
-  | WithdrawCeloCanceledAction
-  | WithdrawCeloSuccessAction

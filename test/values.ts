@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
-  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
+  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -18,20 +18,20 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
+import { ExternalExchangeProvider } from 'src/exchange/types'
 import { FeeType } from 'src/fees/reducer'
-import {
-  FiatConnectProviderInfo,
-  FiatConnectQuoteError,
-  FiatConnectQuoteSuccess,
-  GetFiatConnectQuotesResponse,
-} from 'src/fiatconnect'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import {
   FetchProvidersOutput,
   LegacyMobileMoneyProvider,
   PaymentMethod,
 } from 'src/fiatExchanges/utils'
+import {
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+  GetFiatConnectQuotesResponse,
+} from 'src/fiatconnect'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
