@@ -4,40 +4,30 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
+import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 import { CICOFlow } from './utils'
+import { Network } from 'src/transactions/types'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
+const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
-  useMaxSendAmount: () => mockMaxSendAmount,
+  useMaxSendAmount: () => mockUseMaxSendAmount(),
 }))
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(),
+}))
 
-const usdExchangeRates = {
-  [Currency.Dollar]: '1',
-  [Currency.Euro]: '1.2',
-  [Currency.Celo]: '3',
-}
-
-const eurExchangeRates = {
-  [Currency.Dollar]: '0.862',
-  [Currency.Euro]: '1',
-  [Currency.Celo]: '2.5',
-}
-
-const phpExchangeRates = {
-  [Currency.Dollar]: '50',
-  [Currency.Euro]: '60',
-  [Currency.Celo]: '150',
-}
+const usdToUsdRate = '1'
+const usdToEurRate = '0.862'
+const usdToPhpRate = '50'
 
 const mockTokens = {
   tokenBalances: {
@@ -72,7 +62,7 @@ const storeWithUSD = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
-    exchangeRates: usdExchangeRates,
+    usdToLocalRate: usdToUsdRate,
   },
   tokens: mockTokens,
 })
@@ -81,7 +71,7 @@ const storeWithEUR = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
     preferredCurrencyCode: LocalCurrencyCode.EUR,
-    exchangeRates: eurExchangeRates,
+    usdToLocalRate: usdToEurRate,
   },
   tokens: mockTokens,
 })
@@ -90,7 +80,7 @@ const storeWithPHP = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
-    exchangeRates: phpExchangeRates,
+    usdToLocalRate: usdToPhpRate,
   },
   tokens: mockTokens,
 })
@@ -100,12 +90,59 @@ describe('FiatExchangeAmount cashIn', () => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      return gate === StatsigFeatureGates.SHOW_NATIVE_TOKENS
+    })
   })
+
+  it.each([
+    { currency: CiCoCurrency.cUSD, network: Network.Celo },
+    { currency: CiCoCurrency.cEUR, network: Network.Celo },
+    { currency: CiCoCurrency.ETH, network: Network.Ethereum },
+  ])(`disables the next button if the $currency amount is 0`, ({ currency, network }) => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency,
+      flow: CICOFlow.CashIn,
+      network,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
+  })
+
+  it.each([
+    { currency: CiCoCurrency.cUSD, network: Network.Celo, store: storeWithUSD },
+    { currency: CiCoCurrency.cEUR, network: Network.Celo, store: storeWithPHP },
+    { currency: CiCoCurrency.ETH, network: Network.Ethereum, store: storeWithUSD },
+  ])(
+    `enables the next button if the $currency amount is greater than 0`,
+    ({ currency, network, store }) => {
+      const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+        currency,
+        flow: CICOFlow.CashIn,
+        network,
+      })
+      const tree = render(
+        <Provider store={store}>
+          <FiatExchangeAmount {...mockScreenProps} />
+        </Provider>
+      )
+
+      fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
+      expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
+    }
+  )
 
   it('renders correctly with USD as app currency', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashIn,
+      network: Network.Celo,
     })
     const tree = render(
       <Provider store={storeWithUSD}>
@@ -119,6 +156,7 @@ describe('FiatExchangeAmount cashIn', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashIn,
+      network: Network.Celo,
     })
     const tree = render(
       <Provider store={storeWithEUR}>
@@ -127,89 +165,32 @@ describe('FiatExchangeAmount cashIn', () => {
     )
     expect(tree).toMatchSnapshot()
   })
-
-  it('disables the next button if the cUSD amount is 0', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.cUSD,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
-  })
-
-  it('disables the next button if the cEUR amount is 0', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.cEUR,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
-  })
-
-  it('enables the next button if the cUSD amount is greater than 0', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.cUSD,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
-    expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
-  })
-
-  it('enables the next button if the cEUR amount is greater than 0', () => {
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.cEUR,
-      flow: CICOFlow.CashIn,
-    })
-    const tree = render(
-      <Provider store={storeWithPHP}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
-    expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
-  })
 })
 
 describe('FiatExchangeAmount cashOut', () => {
   const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     currency: CiCoCurrency.cUSD,
     flow: CICOFlow.CashOut,
+    network: Network.Celo,
   })
 
   const mockScreenPropsEuro = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     currency: CiCoCurrency.cEUR,
     flow: CICOFlow.CashOut,
+    network: Network.Celo,
   })
 
   const mockScreenPropsCelo = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     currency: CiCoCurrency.CELO,
     flow: CICOFlow.CashOut,
+    network: Network.Celo,
   })
 
   beforeEach(() => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('displays correctly for cUSD when local currency is USD', () => {
@@ -248,7 +229,7 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly when the SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER feature flag is on', () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByText, queryByTestId, queryByText } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
@@ -325,6 +306,7 @@ describe('FiatExchangeAmount cashOut', () => {
         fiat: 750,
         crypto: 750,
       },
+      network: Network.Celo,
     })
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
@@ -332,7 +314,7 @@ describe('FiatExchangeAmount cashOut', () => {
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
-        exchangeRates: usdExchangeRates,
+        usdToLocalRate: usdToUsdRate,
       },
       fiatConnect: {
         cachedFiatAccountUses: [
@@ -352,6 +334,7 @@ describe('FiatExchangeAmount cashOut', () => {
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashOut,
+      network: Network.Celo,
     })
     const tree = render(
       <Provider store={store}>
@@ -381,7 +364,7 @@ describe('FiatExchangeAmount cashOut', () => {
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
-        exchangeRates: usdExchangeRates,
+        usdToLocalRate: usdToUsdRate,
       },
       fiatConnect: {
         cachedFiatAccountUses: [
@@ -401,6 +384,7 @@ describe('FiatExchangeAmount cashOut', () => {
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashOut,
+      network: Network.Celo,
     })
     const tree = render(
       <Provider store={store}>

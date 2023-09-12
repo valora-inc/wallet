@@ -7,7 +7,6 @@ import { Screens } from 'src/navigator/Screens'
 import { RegulatoryTerms as RegulatoryTermsClass } from 'src/onboarding/registration/RegulatoryTerms'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { createMockStore, getMockI18nProps } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/navigator/NavigationService', () => {
   return { navigate: jest.fn() }
@@ -34,7 +33,7 @@ describe('RegulatoryTermsScreen', () => {
     it('navigates to NameAndPicture', () => {
       const store = createMockStore({})
       const acceptTerms = jest.fn()
-      mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
+      jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
 
       const wrapper = render(
         <Provider store={store}>

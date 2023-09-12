@@ -3,253 +3,279 @@
 exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
 <View
   style={
-    Object {
-      "marginBottom": 16,
-    }
+    [
+      {
+        "backgroundColor": "#FFFFFF",
+        "padding": 16,
+      },
+      {
+        "borderRadius": 8,
+      },
+      undefined,
+      [
+        {
+          "borderColor": "#E6E6E6",
+          "borderWidth": 1,
+          "flex": 1,
+          "minHeight": 144,
+        },
+        {},
+      ],
+    ]
   }
+  testID="IncomingPaymentRequestNotification/FAKE_ID_2"
 >
   <View
     style={
-      Array [
-        Object {
-          "backgroundColor": "#FFFFFF",
-          "padding": 16,
-        },
-        Object {
-          "borderRadius": 8,
-        },
-        undefined,
-        Array [
-          Object {
-            "borderColor": "#E6E6E6",
-            "borderWidth": 1,
-            "flex": 1,
-            "minHeight": 144,
-          },
-          Object {},
-        ],
-      ]
+      {
+        "flex": 1,
+        "flexDirection": "row",
+      }
     }
-    testID="IncomingPaymentRequestNotification/FAKE_ID_2"
   >
     <View
       style={
-        Object {
+        {
           "flex": 1,
-          "flexDirection": "row",
+          "marginRight": 16,
         }
       }
+    >
+      <Text
+        numberOfLines={2}
+        style={
+          {
+            "color": "#666666",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 13,
+            "lineHeight": 16,
+            "marginBottom": 4,
+          }
+        }
+        testID="IncomingPaymentRequestNotification/FAKE_ID_2/Title"
+      >
+        incomingPaymentRequestNotificationTitle, {"name":"John Doe"}
+      </Text>
+      <Text
+        numberOfLines={1}
+        style={
+          {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 24,
+            "lineHeight": 28,
+            "marginBottom": 2,
+          }
+        }
+        testID="IncomingPaymentRequestNotification/FAKE_ID_2/Amount"
+      >
+        <Text
+          style={
+            [
+              undefined,
+              {
+                "color": undefined,
+              },
+            ]
+          }
+          testID="undefined/value"
+        >
+          ₱
+          240.58
+        </Text>
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
+          }
+        }
+        testID="IncomingPaymentRequestNotification/FAKE_ID_2/Details"
+      >
+        My Birthday Present. :) Am I not the best? Celebration. Bam!
+      </Text>
+    </View>
+    <View
+      style={{}}
     >
       <View
         style={
-          Object {
-            "flex": 1,
-            "marginRight": 16,
-          }
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
         }
-      >
-        <Text
-          numberOfLines={2}
-          style={
-            Object {
-              "color": "#666666",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 13,
-              "lineHeight": 16,
-              "marginBottom": 4,
-            }
-          }
-          testID="IncomingPaymentRequestNotification/FAKE_ID_2/Title"
-        >
-          incomingPaymentRequestNotificationTitle, {"name":"John Doe"}
-        </Text>
-        <Text
-          numberOfLines={1}
-          style={
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-SemiBold",
-              "fontSize": 24,
-              "lineHeight": 28,
-              "marginBottom": 2,
-            }
-          }
-          testID="IncomingPaymentRequestNotification/FAKE_ID_2/Amount"
-        >
-          <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
-            ₱
-            240.58
-          </Text>
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 14,
-              "lineHeight": 18,
-            }
-          }
-          testID="IncomingPaymentRequestNotification/FAKE_ID_2/Details"
-        >
-          My Birthday Present. :) Am I not the best? Celebration. Bam!
-        </Text>
-      </View>
-      <View
-        style={Object {}}
       >
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "center",
-                "flexDirection": "row",
                 "justifyContent": "center",
               },
-              undefined,
+              {
+                "backgroundColor": "hsl(0, 53%, 93%)",
+                "borderRadius": 20,
+                "height": 40,
+                "width": 40,
+              },
             ]
           }
         >
-          <View
+          <Text
+            allowFontScaling={false}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
+              [
+                {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 16,
                 },
-                Object {
-                  "backgroundColor": "hsl(0, 53%, 93%)",
-                  "borderRadius": 20,
-                  "height": 40,
-                  "width": 40,
+                {
+                  "color": "hsl(0, 67%, 24%)",
+                  "fontSize": 20,
                 },
               ]
             }
           >
-            <Text
-              allowFontScaling={false}
-              style={
-                Array [
-                  Object {
-                    "color": "#FFFFFF",
-                    "fontFamily": "Inter-Medium",
-                    "fontSize": 16,
-                  },
-                  Object {
-                    "color": "hsl(0, 67%, 24%)",
-                    "fontSize": 20,
-                  },
-                ]
-              }
-            >
-              J
-            </Text>
-          </View>
+            J
+          </Text>
         </View>
       </View>
     </View>
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "flex-start",
+      }
+    }
+    testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions"
+  >
     <View
-      style={
-        Object {
-          "flexDirection": "row",
-          "flexWrap": "wrap",
-          "justifyContent": "flex-start",
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
         }
       }
-      testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions"
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        {
+          "attribute": "selectableItemBackgroundBorderless",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/send/Button"
     >
-      <View
-        accessible={true}
-        focusable={true}
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackgroundBorderless",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
+      <Text
+        style={
+          [
+            {
+              "color": "#1AB775",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 16,
+              "lineHeight": 22,
+            },
+            {
+              "fontSize": 14,
+              "lineHeight": 16,
+              "marginRight": 24,
+              "minHeight": 16,
+              "minWidth": 48,
+            },
+          ]
         }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/send/Button"
       >
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#1AB775",
-                "fontFamily": "Inter-SemiBold",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "fontSize": 14,
-                "lineHeight": 16,
-                "marginRight": 24,
-                "minHeight": 16,
-                "minWidth": 48,
-              },
-            ]
-          }
-        >
-          send
-        </Text>
-      </View>
-      <View
-        accessible={true}
-        focusable={true}
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackgroundBorderless",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
+        send
+      </Text>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
         }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/decline/Button"
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        {
+          "attribute": "selectableItemBackgroundBorderless",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      testID="IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/decline/Button"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#1AB775",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 16,
+              "lineHeight": 22,
+            },
+            {
+              "fontSize": 14,
+              "lineHeight": 16,
+              "marginRight": 24,
+              "minHeight": 16,
+              "minWidth": 48,
+            },
+          ]
+        }
       >
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#1AB775",
-                "fontFamily": "Inter-SemiBold",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "fontSize": 14,
-                "lineHeight": 16,
-                "marginRight": 24,
-                "minHeight": 16,
-                "minWidth": 48,
-              },
-            ]
-          }
-        >
-          decline
-        </Text>
-      </View>
+        decline
+      </Text>
     </View>
   </View>
 </View>

@@ -3,8 +3,8 @@ import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import {
-  DappSelectedAction,
   dappSelected,
+  DappSelectedAction,
   fetchDappsList,
   fetchDappsListCompleted,
   fetchDappsListFailed,
@@ -13,8 +13,8 @@ import { DappCategory } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import Logger from 'src/utils/Logger'
 import { isDeepLink } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
@@ -69,45 +69,45 @@ export function* handleFetchDappsList() {
 
   const url = `${dappsListApiUrl}?language=${shortLanguage}&address=${address}&version=2`
 
-  const response = yield* call(fetch, url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
+  try {
+    const response = yield* call(fetch, url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
 
-  if (response.ok) {
-    try {
-      const result: {
-        applications: Application[]
-        categories: DappCategory[]
-        mostPopularDapps: string[]
-      } = yield* call([response, 'json'])
-
-      const dappsList = result.applications.map((application) => {
-        return {
-          id: application.id,
-          categories: application.categories,
-          name: application.name,
-          iconUrl: application.logoUrl,
-          description: application.description,
-          dappUrl: application.url.replace('{{address}}', address ?? ''),
-        }
-      })
-
-      yield* put(
-        fetchDappsListCompleted({
-          dapps: dappsList,
-          categories: result.categories,
-          mostPopularDappIds: result.mostPopularDapps,
-        })
-      )
-    } catch (error) {
-      Logger.error(TAG, 'Could not parse dapps response', error)
-      yield* put(fetchDappsListFailed({ error: 'Could not parse dapps' }))
+    if (!response.ok) {
+      throw new Error(`Could not fetch dapps: ${response.status}`)
     }
-  } else {
+
+    const result: {
+      applications: Application[]
+      categories: DappCategory[]
+      mostPopularDapps: string[]
+    } = yield* call([response, 'json'])
+
+    const dappsList = result.applications.map((application) => {
+      return {
+        id: application.id,
+        categories: application.categories,
+        name: application.name,
+        iconUrl: application.logoUrl,
+        description: application.description,
+        dappUrl: application.url.replace('{{address}}', address ?? ''),
+      }
+    })
+
+    yield* put(
+      fetchDappsListCompleted({
+        dapps: dappsList,
+        categories: result.categories,
+        mostPopularDappIds: result.mostPopularDapps,
+      })
+    )
+  } catch (error) {
+    Logger.error(TAG, 'Error fetching dapps', error)
     yield* put(fetchDappsListFailed({ error: 'Could not fetch dapps' }))
   }
 }

@@ -7,13 +7,12 @@ import {
 } from 'src/positions/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { mockPositions, mockShortcuts } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
 beforeEach(() => {
   jest.clearAllMocks()
-  mocked(getFeatureGate).mockReturnValue(true)
+  jest.mocked(getFeatureGate).mockReturnValue(true)
 })
 
 describe('totalPositionsBalanceUsdSelector', () => {
@@ -38,7 +37,7 @@ describe('totalPositionsBalanceUsdSelector', () => {
   })
 
   it("returns null if the feature isn't enabled", () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const state: any = {
       positions: {
         positions: [],
@@ -67,20 +66,20 @@ describe('positionsByBalanceUsdSelector', () => {
         }
       })
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "address": "0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf",
           "appId": "ubeswap",
           "balanceUsd": "4.0802397095730601528429330911456",
           "title": "G$ / cUSD",
         },
-        Object {
+        {
           "address": "0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00",
           "appId": "ubeswap",
           "balanceUsd": "2.5098739934779290118396726809999",
           "title": "MOO / CELO",
         },
-        Object {
+        {
           "address": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
           "appId": "ubeswap",
           "balanceUsd": "1.3207590254762067",
@@ -106,12 +105,12 @@ describe('positionsWithClaimableRewardsSelector', () => {
         return position.claimableShortcut
       })
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "appId": "ubeswap",
           "category": "claim",
-          "claimableTokens": Array [
-            Object {
+          "claimableTokens": [
+            {
               "address": "0x00be915b9dcf56a3cbe739d9b9c202ca692409ec",
               "balance": "0.098322815093446616",
               "category": "claimable",
@@ -121,7 +120,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "symbol": "UBE",
               "type": "base-token",
             },
-            Object {
+            {
               "address": "0x471ece3750da237f93b8e339c536989b8978a438",
               "balance": "0.950545800159603456",
               "category": "claimable",
@@ -135,7 +134,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
           "description": "Claim rewards for staked liquidity",
           "id": "claim-reward",
           "name": "Claim",
-          "networks": Array [
+          "networks": [
             "celo",
           ],
         },

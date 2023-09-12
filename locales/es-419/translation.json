@@ -79,8 +79,8 @@
     }
   },
   "walletSecurityPrimer": {
-    "title": "Mantén a salvo tu cartera",
-    "description": "Sólo tú puedes acceder a tu monedero. Si pierdes o te roban el teléfono, Valora no podrá recuperarlo por ti.\n\nTendrás que establecer un método para mantener a salvo tu monedero y proteger tus fondos."
+    "title": "Resguarda tu wallet",
+    "description": "Solo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para resguardar tu wallet y proteger tus fondos."
   },
   "setUpKeylessBackup": {
     "title": "Configurar el respaldo sin llave",
@@ -110,11 +110,11 @@
       },
       "completed": {
         "title": "Copia de seguridad completa",
-        "body": "Ahora puedes recuperar tu monedero con tu dirección de correo electrónico y tu número de teléfono."
+        "body": "Ya puedes recuperar tu wallet con tu dirección de correo electrónico y tu número de teléfono."
       },
       "failed": {
-        "title": "No está disponible la copia de seguridad sin llave",
-        "body": "Puedes configurar una copia de seguridad sin llave más adelante o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
+        "title": "Copia de seguridad sin llave no disponible",
+        "body": "Puedes configurar la copia de seguridad sin llave más adelante o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
@@ -575,7 +575,7 @@
   "close": "Cerrar",
   "home": "Inicio",
   "accountKey": "Recuperación",
-  "walletSecurity": "Seguridad de la cartera",
+  "walletSecurity": "Seguridad de la wallet",
   "addAndWithdraw": "Agregar y retirar",
   "settings": "Configuración",
   "help": "Ayuda",
@@ -1071,32 +1071,36 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Datos de la transacción",
     "readAccount": "{{dappName}} desea leer tu dirección de wallet de {{appName}}.",
-    "signPayload": "{{dappName}} desea aprobar una carga de datos.",
+    "signPayloadTitle": "Verificar wallet",
+    "signPayload": "{{dappName}} desea verificar la propiedad de tu wallet.",
+    "signTransactionTitle": "Firmar transacción",
     "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
+    "sendTransactionTitle": "Enviar transacción",
     "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
+    "decryptPayloadTitle": "Descifrar con wallet",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
     "computeSharedSecret": "{{dappName}} desea generar secretos.",
     "transactionDataCopied": "Datos de transacción copiados",
     "unsupportedChain": {
-      "title": "Cadena sin soporte",
-      "description": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo es la cadena activa en el lado de la dapp."
+      "title": "Cadena incompatible",
+      "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
     },
     "session": {
       "failUnsupportedNamespace": {
-        "title": "Cadena sin soporte",
-        "description": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Por favor, asegúrate de que Celo está seleccionado en el lado de la dapp."
+        "title": "Cadena incompatible",
+        "description": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
       },
       "warnUnsupportedChains": {
-        "title": "Cadena sin soporte",
-        "description": "{{dappName}} no especificó Celo como cadena compatible. Es posible que algunas funciones no funcionen como se esperaba."
+        "title": "Cadena incompatible",
+        "description": "{{dappName}} no cuenta a Celo entre sus cadenas compatibles. Es posible que algunas funciones no funcionen como se espera."
       },
       "warnSomeUnsupportedMethods": {
-        "title": "Métodos no admitidos",
-        "description": "{{dappName}} especifica algunos métodos que no son compatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
+        "title": "Métodos incompatibles",
+        "description": "{{dappName}} especifica algunos métodos incompatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
       },
       "warnSomeUnsupportedEvents": {
-        "title": "Eventos no admitidos",
-        "description": "{{dappName}} especifica algunos eventos que no son compatibles con {{appName}}. Es posible que algunas funciones no funcionen como se espera."
+        "title": "Eventos incompatibles",
+        "description": "{{dappName}} especifica algunos eventos que no están soportados por{{appName}}. Es posible que algunas funciones no trabajen como se espera."
       }
     }
   },
@@ -1135,6 +1139,7 @@
   "sent": "Enviados",
   "received": "Recibidos",
   "viewAll": "Ver todo",
+  "noNotificationsPlaceholder": "¡Ya estás al día!",
   "thanksForVerifying": "Gracias por completar la conexión",
   "goldIsWhereYouSave": "Convierte tus Celo Dollars en CELO",
   "dinner": "Cena",
@@ -1370,12 +1375,12 @@
     },
     "claimRewardsScreen": {
       "title": "Tus recompensas",
-      "description": "¡Ahora puedes reclamar recompensas de posiciones de dapp abiertas directamente en {{appName}}!",
-      "claimButton": "Reclama",
-      "claimedLabel": "Reclamado",
+      "description": "¡Ahora puedes reclamar las recompensas de tus posiciones de dapp abiertas directamente en {{appName}}!",
+      "claimButton": "Reclamar",
+      "claimedLabel": "Reclamada",
       "rewardLabel": "Recompensa disponible",
       "claimSuccess": "¡Éxito! Has reclamado una recompensa",
-      "confirmingReward": "CONFIRMAR"
+      "confirmingReward": "CONFIRMANDO"
     },
     "claimRewardFailure": "Se ha producido un error al reclamar tu recompensa, inténtalo de nuevo más tarde."
   },
@@ -1414,9 +1419,9 @@
   "merchantWalletUnlockError": "Algo salió mal al desbloquear tu wallet, vuelve a intentarlo",
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Algunos métodos de pago no están disponibles en tu región.",
-    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
-    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. <0>Más información.</0>",
+    "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región.",
+    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
+    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. <0>Más información.</0>",
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
@@ -1453,7 +1458,7 @@
     "cashOut": {
       "amountSpentInfo": "Retirarás <0></0> con tasas incluidas"
     },
-    "receiveAmount": "Recibe <0></0>"
+    "receiveAmount": "Recibir <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1679,6 +1684,10 @@
       "title": "Antes de cambiar",
       "body": "Intercambiar estos activos puede afectar el tipo de cambio. Si reduces el monto a cambiar, tal vez obtengas un mejor tipo de cambio."
     },
+    "missingSwapImpactWarning": {
+      "title": "Antes de cambiar",
+      "body": "No podemos estimar el valor de este intercambio. {{appName}} no se hace responsable si decides proceder."
+    },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1793,7 +1802,7 @@
   },
   "nftGallery": {
     "title": "Coleccionables",
-    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu cartera"
+    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu billetera"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Ver en Celo Explorer",
@@ -1809,13 +1818,13 @@
   },
   "hooksPreview": {
     "modal": {
-      "title": "Ganchos Modo Vista Previa",
-      "message": "Confirma que deseas activar el modo de vista previa para los ganchos.\n\nEsta función sólo está destinada a los desarrolladores que crean ganchos. Si no eres desarrollador o no has activado esta acción, NO CONFIRMES.",
+      "title": "Modo de vista previa de hooks",
+      "message": "Confirma que deseas activar el modo de vista previa para los hooks.\n\nEsta función solo está destinada a los desarrolladores que crean hooks. Si no eres desarrollador o no has activado esta acción, NO CONFIRMES.",
       "cancel": "Cancelar",
       "confirm": "Confirmar"
     },
-    "invalidApiUrl": "URL API de previsualización de ganchos no válida",
-    "bannerTitle": "Vista previa de ganchos activada, pulsa para desactivarla"
+    "invalidApiUrl": "URL de API de vista previa de hooks inválida",
+    "bannerTitle": "Vista previa de hooks activada, toca para desactivarla"
   },
   "assets": {
     "claimRewards": "Reclamar recompensas"

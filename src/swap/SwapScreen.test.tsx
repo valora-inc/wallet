@@ -37,6 +37,7 @@ jest.mock('react-native-localize', () => ({
 jest.mock('src/statsig', () => {
   return {
     getExperimentParams: (_: any) => mockExperimentParams(),
+    getFeatureGate: jest.fn(),
   }
 })
 
@@ -338,10 +339,14 @@ describe('SwapScreen', () => {
     const lowPriceImpactPrice = '13.12345' // within 4% price impact
     const highPriceImpactPrice = '12.44445' // more than 4% price impact
 
+    const lowPriceImpact = '1.88' // within 4% price impact
+    const highPriceImpact = '5.2' // more than 4% price impact
+
     mockFetch.mockResponseOnce(
       JSON.stringify({
         unvalidatedSwapTransaction: {
           price: highPriceImpactPrice,
+          estimatedPriceImpact: highPriceImpact,
         },
         details: {
           swapProvider: 'someProvider',
@@ -352,6 +357,7 @@ describe('SwapScreen', () => {
       JSON.stringify({
         unvalidatedSwapTransaction: {
           price: lowPriceImpactPrice,
+          estimatedPriceImpact: lowPriceImpact,
         },
         details: {
           swapProvider: 'someProvider',
@@ -380,7 +386,7 @@ describe('SwapScreen', () => {
         fromToken: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
         amount: '100000',
         amountType: 'sellAmount',
-        priceImpact: '0.04682955694316070516',
+        priceImpact: '0.052',
         provider: 'someProvider',
       }
     )
@@ -393,6 +399,69 @@ describe('SwapScreen', () => {
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 13.12345 cUSD')
     expect(queryByText('swapScreen.priceImpactWarning.title')).toBeFalsy()
+  })
+
+  it('should show and hide the missing price impact warning', async () => {
+    const lowPriceImpactPrice = '13.12345'
+    const highPriceImpactPrice = '12.44445'
+
+    mockFetch.mockResponseOnce(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: highPriceImpactPrice,
+          estimatedPriceImpact: null,
+        },
+        details: {
+          swapProvider: 'someProvider',
+        },
+      })
+    )
+    mockFetch.mockResponseOnce(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: lowPriceImpactPrice,
+          estimatedPriceImpact: '2.3',
+        },
+        details: {
+          swapProvider: 'someProvider',
+        },
+      })
+    )
+
+    const { getByTestId, swapFromContainer, swapToContainer, getByText, queryByText } =
+      renderScreen({})
+
+    // select 100000 CELO to cUSD swap
+    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
+    fireEvent.press(getByTestId('cUSDTouchable'))
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 12.44445 cUSD')
+    expect(getByText('swapScreen.missingSwapImpactWarning.title')).toBeTruthy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SwapEvents.swap_price_impact_warning_displayed,
+      {
+        toToken: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+        fromToken: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
+        amount: '100000',
+        amountType: 'sellAmount',
+        priceImpact: undefined,
+        provider: 'someProvider',
+      }
+    )
+
+    // select 100 CELO to cUSD swap
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 13.12345 cUSD')
+    expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
 
   it('should support from amount with comma as the decimal separator', async () => {
@@ -705,5 +774,15 @@ describe('SwapScreen', () => {
     )
 
     expect(getByTestId('SwapScreen/DrawerBar')).toBeTruthy()
+  })
+
+  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
+    mockExperimentParams.mockReturnValue({
+      swapBuyAmountEnabled: false,
+    })
+    const { swapFromContainer, swapToContainer } = renderScreen({})
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
   })
 })

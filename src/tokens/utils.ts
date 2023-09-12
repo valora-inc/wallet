@@ -84,35 +84,33 @@ function usdBalance(token: TokenBalance): BigNumber {
 export function convertLocalToTokenAmount({
   localAmount,
   tokenInfo,
-  exchangeRates,
+  usdToLocalRate,
 }: {
   localAmount: BigNumber | null
   tokenInfo: TokenBalance | undefined
-  exchangeRates: { [token in Currency]: string | null }
+  usdToLocalRate: string | null
 }) {
   const tokenUsdPrice = tokenInfo?.usdPrice
-  const localFiatPerDollar = exchangeRates[Currency.Dollar]
-  if (!tokenUsdPrice || !localFiatPerDollar || !localAmount) {
+  if (!tokenUsdPrice || !usdToLocalRate || !localAmount) {
     return null
   }
 
-  return localAmount.dividedBy(localFiatPerDollar).dividedBy(tokenUsdPrice)
+  return localAmount.dividedBy(usdToLocalRate).dividedBy(tokenUsdPrice)
 }
 
 export function convertTokenToLocalAmount({
   tokenAmount,
   tokenInfo,
-  exchangeRates,
+  usdToLocalRate,
 }: {
   tokenAmount: BigNumber | null
   tokenInfo: TokenBalance | undefined
-  exchangeRates: { [token in Currency]: string | null }
+  usdToLocalRate: string | null
 }) {
   const tokenUsdPrice = tokenInfo?.usdPrice
-  const localFiatPerDollar = exchangeRates[Currency.Dollar]
-  if (!tokenUsdPrice || !localFiatPerDollar || !tokenAmount) {
+  if (!tokenUsdPrice || !usdToLocalRate || !tokenAmount) {
     return null
   }
 
-  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(localFiatPerDollar)
+  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(usdToLocalRate)
 }

@@ -21,13 +21,14 @@ import { Actions, HandleBarcodeDetectedAction, QrCode, SendPaymentAction } from 
 import { sendPaymentSaga, watchQrCodeDetections } from 'src/send/saga'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
+import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus, Network } from 'src/transactions/types'
 import {
-  UnlockResult,
   getConnectedAccount,
   getConnectedUnlockedAccount,
   unlockAccount,
+  UnlockResult,
 } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -41,9 +42,9 @@ import {
   mockE164NumberInvite,
   mockFeeInfo,
   mockName,
-  mockQRCodeRecipient,
   mockQrCodeData,
   mockQrCodeData2,
+  mockQRCodeRecipient,
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
@@ -299,10 +300,12 @@ describe(sendPaymentSaga, () => {
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
         [call(getStableTokenContract, mockCusdAddress), mockContract],
+        [matchers.call.fn(sendTransactionAsync), undefined],
       ])
       .put(
         addStandbyTransaction({
           context: mockContext,
+          network: Network.Celo,
           type: TokenTransactionTypeV2.Sent,
           comment: sendAction.comment,
           status: TransactionStatus.Pending,
@@ -337,7 +340,6 @@ describe(sendPaymentSaga, () => {
   it('uploads symmetric keys if transaction sent successfully', async () => {
     const account = '0x000123'
     await expectSaga(sendPaymentSaga, sendAction)
-      .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(currentAccountSelector), account],

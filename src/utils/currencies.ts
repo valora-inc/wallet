@@ -11,17 +11,19 @@ export enum CiCoCurrency {
   cUSD = 'cUSD',
   cEUR = 'cEUR',
   cREAL = 'cREAL',
+  ETH = 'ETH',
 }
 
-// A small hack to keep data continuity as we onboard cREAL but move away from the Currency enum
-export type CurrencyOrCREAL = Currency | 'cReal'
+// A small hack to keep backwards compatibility for data analytics with old currency enums
+export type AnalyticsCurrency = Currency | 'cReal' | 'ETH'
 export const currencyForAnalytics: {
-  [key in CiCoCurrency]: CurrencyOrCREAL
+  [key in CiCoCurrency]: AnalyticsCurrency
 } = {
   [CiCoCurrency.CELO]: Currency.Celo,
   [CiCoCurrency.cEUR]: Currency.Euro,
   [CiCoCurrency.cUSD]: Currency.Dollar,
   [CiCoCurrency.cREAL]: 'cReal',
+  [CiCoCurrency.ETH]: 'ETH',
 }
 export interface CurrencyInfo {
   symbol: string
@@ -30,9 +32,6 @@ export interface CurrencyInfo {
 }
 
 type CurrencyObject = { [key in Currency]: CurrencyInfo }
-
-export type StableCurrency = Currency.Dollar | Currency.Euro
-export const STABLE_CURRENCIES: StableCurrency[] = [Currency.Dollar, Currency.Euro]
 
 export const CURRENCIES: CurrencyObject = {
   [Currency.Celo]: {
@@ -50,26 +49,6 @@ export const CURRENCIES: CurrencyObject = {
     displayDecimals: 2,
     cashTag: 'cEUR',
   },
-}
-
-// TODO: maybe combine this with resolveCurrency
-export function mapOldCurrencyToNew(currencyString: string): Currency {
-  const oldMapping: Record<string, any> = {
-    dollar: Currency.Dollar,
-    euro: Currency.Euro,
-    gold: Currency.Celo,
-  }
-  const currency = oldMapping[currencyString]
-  if (currency) {
-    return currency
-  }
-
-  if (currencyString in Currency) {
-    return currencyString as Currency
-  }
-
-  // Default value
-  return Currency.Dollar
 }
 
 export function resolveCurrency(currencyCode: string): Currency | undefined {

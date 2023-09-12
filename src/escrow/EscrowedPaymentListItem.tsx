@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Share, StyleSheet, View } from 'react-native'
+import { Share } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
@@ -70,29 +70,21 @@ function EscrowedPaymentListItem({ payment }: Props) {
   const nameToShow = recipient.name ?? t('unknown')
 
   return (
-    <View style={styles.container}>
-      <RequestMessagingCard
-        title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
-        amount={
-          <TokenDisplay
-            amount={divideByWei(payment.amount)}
-            tokenAddress={payment.tokenAddress}
-            testID="EscrowedPaymentListItem/amount"
-          />
-        }
-        details={payment.message}
-        icon={<ContactCircle recipient={recipient} />}
-        callToActions={getCTA()}
-        testID={'EscrowedPaymentListItem'}
-      />
-    </View>
+    <RequestMessagingCard
+      title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
+      amount={
+        <TokenDisplay
+          amount={divideByWei(payment.amount)}
+          tokenAddress={payment.tokenAddress}
+          testID="EscrowedPaymentListItem/amount"
+        />
+      }
+      details={payment.message}
+      icon={<ContactCircle recipient={recipient} />}
+      callToActions={getCTA()}
+      testID={'EscrowedPaymentListItem'}
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-})
 
 export default EscrowedPaymentListItem

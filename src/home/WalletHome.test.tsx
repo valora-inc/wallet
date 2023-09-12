@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -9,9 +9,8 @@ import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams } from 'src/statsig'
-import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
+import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 const mockBalances = {
   tokens: {
@@ -112,7 +111,6 @@ describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
 
   beforeEach(() => {
-    jest.useFakeTimers()
     jest.clearAllMocks()
     mockFetch.mockResponse(
       JSON.stringify({
@@ -154,42 +152,43 @@ describe('WalletHome', () => {
       },
     })
 
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     expect(tree.queryByTestId('startSupercharging')).toBeTruthy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "payload": undefined,
           "type": "supercharge/fetchAvailableRewards",
         },
-        Object {
+        {
           "type": "ALERT/HIDE",
         },
-        Object {
+        {
           "type": "HOME/VISIT_HOME",
         },
-        Object {
+        {
           "type": "SENTRY/INITIALIZE_SENTRY_USER_CONTEXT",
         },
-        Object {
+        {
           "action": null,
           "alertType": "message",
           "buttonMessage": null,
           "dismissAfter": 5000,
           "displayMethod": 0,
-          "message": "testnetAlert.1, {\\"testnet\\":\\"Alfajores\\"}",
-          "title": "testnetAlert.0, {\\"testnet\\":\\"Alfajores\\"}",
+          "message": "testnetAlert.1, {"testnet":"Alfajores"}",
+          "title": "testnetAlert.0, {"testnet":"Alfajores"}",
           "type": "ALERT/SHOW",
           "underlyingError": undefined,
         },
-        Object {
+        {
           "type": "HOME/REFRESH_BALANCES",
         },
-        Object {
+        {
           "type": "IDENTITY/IMPORT_CONTACTS",
         },
       ]
@@ -197,7 +196,8 @@ describe('WalletHome', () => {
   })
 
   it('hides sections', async () => {
-    mocked(getExperimentParams)
+    jest
+      .mocked(getExperimentParams)
       .mockReturnValueOnce({
         showHomeNavBar: false,
         showHomeActions: false,
@@ -221,8 +221,9 @@ describe('WalletHome', () => {
       },
     })
 
-    jest.runOnlyPendingTimers()
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
 
     const importContactsAction = store
       .getActions()
@@ -237,12 +238,14 @@ describe('WalletHome', () => {
   })
 
   it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
-    mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+    jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
     const { getByTestId } = renderScreen({
       ...zeroBalances,
     })
 
-    await flushMicrotasksQueue()
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
     await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
   })
 
@@ -269,7 +272,7 @@ describe('WalletHome', () => {
   })
 
   it('Renders actions, scanner, logo correctly  when experiment flag is on', () => {
-    mocked(getExperimentParams).mockReturnValueOnce({
+    jest.mocked(getExperimentParams).mockReturnValueOnce({
       showHomeNavBar: true,
       showHomeActions: true,
       showQrScanner: true,

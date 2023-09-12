@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
@@ -7,6 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
+import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { sendTransaction } from 'src/transactions/send'
@@ -38,8 +40,9 @@ jest.mock('src/transactions/send', () => ({
   sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
 }))
 
-const mockSwapTransaction = {
+const mockSwapTransaction: SwapTransaction = {
   buyAmount: '10000000000000000',
+  sellAmount: '10000000000000000',
   buyTokenAddress: mockCeloAddress,
   sellTokenAddress: mockCeurAddress,
   price: '1',
@@ -48,18 +51,28 @@ const mockSwapTransaction = {
   gas: '460533',
   allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
   estimatedPriceImpact: '0.1',
-}
+} as SwapTransaction // there are lots fields in this type that are not needed for testing
 
 const mockQuoteReceivedTimestamp = 1000000000000
 
-const mockSwap = {
+const mockSwap: PayloadAction<SwapInfo> = {
+  type: 'swap/swapStart',
   payload: {
     approveTransaction: {
       gas: '59480',
       from: mockAccount,
+      chainId: 42220,
+      data: '0x0',
+      to: '0xabc',
     },
     userInput: {
-      updatedField: 'TO',
+      updatedField: Field.TO,
+      fromToken: mockCeloAddress,
+      toToken: mockCeurAddress,
+      swapAmount: {
+        [Field.FROM]: '100',
+        [Field.TO]: '200',
+      },
     },
     unvalidatedSwapTransaction: {
       ...mockSwapTransaction,
@@ -89,6 +102,7 @@ describe(swapSubmitSaga, () => {
       [
         {
           ...mockTokenBalances[mockCeurAddress],
+          usdPrice: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       ],
@@ -129,6 +143,8 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
       quoteToTransactionElapsedTimeInMs: 10000,
+      estimatedBuyTokenUsdValue: undefined,
+      estimatedSellTokenUsdValue: 0.01,
     })
   })
 
@@ -159,6 +175,8 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
       quoteToTransactionElapsedTimeInMs: undefined,
+      estimatedBuyTokenUsdValue: undefined,
+      estimatedSellTokenUsdValue: 0.01,
     })
   })
 

@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
-  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
+  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -69,7 +69,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { CiCoCurrency, Currency, CurrencyOrCREAL, StableCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, AnalyticsCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -166,6 +166,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.notification_impression]: {
     notificationId: string
+    notificationPosition?: number
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
@@ -173,6 +174,7 @@ interface HomeEventsProperties {
   [HomeEvents.view_nft_home_assets]: undefined
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
   [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
+  [HomeEvents.notification_center_opened]: { notificationsCount: number }
 }
 
 interface SettingsEventsProperties {
@@ -232,6 +234,13 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_progress_completed_continue]: undefined
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: undefined
+  [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
+    backupAlreadyExists: boolean
+  }
+  [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_failed]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_setup_success]: undefined
+  [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -531,6 +540,7 @@ interface EscrowEventsProperties {
     error: string
   }
 }
+
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
@@ -738,15 +748,6 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-  [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
-  [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
-    currency: StableCurrency
-    makerAmount: number
-    exchangeRate: number
-  }
-  [CeloExchangeEvents.celo_fetch_exchange_rate_error]: {
-    error: string
-  }
 
   [CeloExchangeEvents.celo_withdraw_review]: {
     amount: string
@@ -796,21 +797,21 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
   [FiatExchangeEvents.cico_currency_chosen]: {
     flow: FiatExchangeFlow
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
   }
   [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
-    currency: CurrencyOrCREAL
+    currency: AnalyticsCurrency
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_section_impression]: {
@@ -836,6 +837,22 @@ interface FiatExchangeEventsProperties {
     isLowestFee: boolean | undefined
   } & ProviderSelectionAnalyticsData
   [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_fetch_quotes_result]: {
+    fiatType: LocalCurrencyCode
+    defaultFiatType: LocalCurrencyCode
+  } & Omit<ProviderSelectionAnalyticsData, 'transferCryptoAmount'> &
+    (
+      | {
+          flow: CICOFlow.CashOut
+          cryptoAmount: number // given by user
+          fiatAmount: undefined // exchange rate varies by provider
+        }
+      | {
+          flow: CICOFlow.CashIn
+          cryptoAmount: undefined // exchange rate varies by provider
+          fiatAmount: number // given by user
+        }
+    )
   [FiatExchangeEvents.cico_providers_exchanges_selected]: {
     flow: CICOFlow
   } & ProviderSelectionAnalyticsData
@@ -1003,6 +1020,7 @@ interface QrScreenProperties {
   }
   [QrScreenEvents.qr_scanner_open]: undefined
 }
+
 interface FiatConnectKycProperties {
   provider: string
   flow: CICOFlow
@@ -1173,7 +1191,11 @@ interface DappEventProperties extends DappProperties {
 
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
-  [DappExplorerEvents.dapp_open]: DappEventProperties
+  [DappExplorerEvents.dapp_open]: DappEventProperties & {
+    activeFilter?: string
+    activeSearchTerm?: string
+    position?: number
+  }
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: { section: DappSection }
@@ -1218,7 +1240,7 @@ interface SwapEvent {
 
 type SwapQuoteEvent = SwapEvent & {
   allowanceTarget: string
-  estimatedPriceImpact?: string
+  estimatedPriceImpact: string | null
   price: string
   provider: string
 }
@@ -1227,6 +1249,7 @@ export interface SwapTimeMetrics {
   quoteToTransactionElapsedTimeInMs?: number // The elapsed time since the quote was received until the swap transaction is sent to the blockchain
   quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
 }
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1257,6 +1280,8 @@ interface SwapEventsProperties {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
     SwapTimeMetrics & {
@@ -1264,11 +1289,13 @@ interface SwapEventsProperties {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
     }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact: string
+    priceImpact?: string
   }
 }
 
@@ -1282,6 +1309,7 @@ interface CeloNewsEventsProperties {
   }
   [CeloNewsEvents.celo_news_retry_tap]: undefined
 }
+
 interface TokenBottomSheetEventsProperties {
   [TokenBottomSheetEvents.search_token]: {
     origin: TokenPickerOrigin
@@ -1347,6 +1375,7 @@ interface DappShortcutClaimRewardEvent {
   network: string
   shortcutId: string
 }
+
 interface DappShortcutsProperties {
   [DappShortcutsEvents.dapp_shortcuts_rewards_screen_open]: {
     numRewards: number
@@ -1399,3 +1428,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties
+
+export type AnalyticsEventType = keyof AnalyticsPropertiesList

@@ -5,13 +5,14 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { openUrl } from 'src/app/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { handleNotification } from 'src/firebase/notifications'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { Network } from 'src/transactions/types'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { mockRecipientInfo, mockTokenBalances } from 'test/values'
@@ -22,8 +23,9 @@ describe(handleNotification, () => {
   })
 
   describe('with a simple notification', () => {
-    const message = {
+    const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
+      fcmOptions: {},
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
@@ -44,9 +46,10 @@ describe(handleNotification, () => {
   })
 
   describe("with a notification with an 'open url' semantic", () => {
-    const message = {
+    const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: { ou: 'https://celo.org' },
+      fcmOptions: {},
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
@@ -72,23 +75,24 @@ describe(handleNotification, () => {
     it('directly opens the url externally if the app is not already in the foreground and openExternal is true', async () => {
       await expectSaga(
         handleNotification,
-        { ...message, data: { ou: message.data.ou, openExternal: 'true' } },
+        { ...message, data: { ou: message.data!.ou, openExternal: 'true' } },
         NotificationReceiveState.AppColdStart
       )
-        .put(openUrl(message.data.ou, true, true))
+        .put(openUrl(message.data!.ou, true, true))
         .run()
     })
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
-    const message = {
+    const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: { ou: `celo://wallet/openScreen?screen=${Screens.WalletHome}` },
+      fcmOptions: {},
     }
 
     it('fires  an event to open the deep link', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
-        .put(openUrl(message.data.ou, false, true))
+        .put(openUrl(message.data!.ou, false, true))
         .run()
     })
   })
@@ -124,7 +128,8 @@ describe(handleNotification, () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, {
         transaction: {
-          __typename: 'TokenTransferV2',
+          __typename: 'TokenTransferV3',
+          network: Network.Celo,
           type: 'RECEIVED',
           transactionHash: '0xTXHASH',
           timestamp: 1,
@@ -146,7 +151,7 @@ describe(handleNotification, () => {
   })
 
   describe('with a payment request notification', () => {
-    const message = {
+    const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: {
         type: NotificationTypes.PAYMENT_REQUESTED,
@@ -155,6 +160,7 @@ describe(handleNotification, () => {
         amount: '10',
         comment: 'Pizza',
       },
+      fcmOptions: {},
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
@@ -224,13 +230,14 @@ describe(handleNotification, () => {
   })
 
   describe('with a kyc approved notification', () => {
-    const message = {
+    const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'KYC', body: 'Kyc Approved' },
       data: {
         type: NotificationTypes.FIAT_CONNECT_KYC_APPROVED,
         kycSchema: KycSchema.PersonalDataAndDocuments,
         providerId: 'test-provider',
       },
+      fcmOptions: {},
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {

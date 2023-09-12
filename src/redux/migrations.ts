@@ -9,7 +9,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
-import { TokenTransaction } from 'src/transactions/types'
+import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
@@ -812,8 +812,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      shouldShowRecoveryPhraseInSettings:
-        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+      shouldShowRecoveryPhraseInSettings: false,
     },
   }),
   73: (state: any) => state,
@@ -1199,4 +1198,57 @@ export const migrations = {
   139: (state: any) => state,
   140: (state: any) => state,
   141: (state: any) => state,
+  142: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'shouldShowRecoveryPhraseInSettings'),
+  }),
+  143: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      cloudBackupCompleted: false,
+    },
+  }),
+  144: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      // set this to a non null value for existing users so that they do not get
+      // prompted for push notification permissions again
+      pushNotificationRequestedUnixTime: 1692878055000,
+    },
+  }),
+  145: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: (state.transactions.standbyTransactions as StandbyTransaction[]).map(
+        (tx) => {
+          return { ...tx, network: Network.Celo }
+        }
+      ),
+      transactions: (state.transactions.transactions as TokenTransaction[]).map((tx) => {
+        const __typename = // @ts-ignore
+          tx.__typename === 'TokenTransferV2'
+            ? 'TokenTransferV3' // @ts-ignore
+            : tx.__typename === 'NftTransferV2'
+            ? 'NftTransferV3'
+            : 'TokenExchangeV3'
+        return {
+          ...tx,
+          __typename,
+          network: Network.Celo,
+        }
+      }),
+    },
+  }),
+  146: (state: any) => ({
+    ...state,
+    localCurrency: {
+      ..._.omit(state.localCurrency, 'exchangeRates'),
+      // We were previously fetching cUSD to local, but blockchain-api was returning USD to local
+      // assuming cUSD == USD, so it's correct to keep this rate here
+      usdToLocalRate: state.localCurrency.exchangeRates[Currency.Dollar],
+    },
+  }),
 }

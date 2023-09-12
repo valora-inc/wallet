@@ -3,10 +3,15 @@ import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
+import { Chain as ViemChain, celo, celoAlfajores } from 'viem/chains'
 
 export enum Testnets {
   alfajores = 'alfajores',
   mainnet = 'mainnet',
+}
+
+export enum Network {
+  celo = 'celo',
 }
 
 interface NetworkConfig {
@@ -51,6 +56,10 @@ interface NetworkConfig {
   getNftsByOwnerAddressUrl: string
   cabIssueSmsCodeUrl: string
   cabIssueValoraKeyshareUrl: string
+  cabStoreEncryptedMnemonicUrl: string
+  viemChain: {
+    [key in Network]: ViemChain
+  }
 }
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
@@ -149,6 +158,8 @@ const GET_NFTS_BY_OWNER_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
 
 const CAB_ISSUE_SMS_CODE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueSmsCode`
 const CAB_ISSUE_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueSmsCode`
+const CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/storeEncryptedMnemonic`
+const CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/storeEncryptedMnemonic`
 
 const CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
 const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
@@ -202,6 +213,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
+    cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
+    viemChain: {
+      [Network.celo]: celoAlfajores,
+    },
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -250,6 +265,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
+    cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
+    viemChain: {
+      [Network.celo]: celo,
+    },
   },
 }
 

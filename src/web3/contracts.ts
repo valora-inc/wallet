@@ -6,45 +6,56 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
+import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
-import WalletManager from 'src/web3/WalletManager'
+import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
+import {
+  ImportMnemonicAccount,
+  KeychainLock,
+  getStoredPrivateKey,
+  listStoredAccounts,
+} from 'src/web3/KeychainLock'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { PrimaryValoraWallet } from 'src/web3/types'
 import { call, select } from 'typed-redux-saga'
+import { Address, Chain } from 'viem'
+
 import Web3 from 'web3'
 
 const TAG = 'web3/contracts'
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 
-let walletManager: WalletManager | undefined
-let wallet: PrimaryValoraWallet | undefined
+let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
+const viemWallets = new Map<Chain, ViemWallet>()
+
+const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
 
-async function initWalletManager(importMnemonicAccount: ImportMnemonicAccount) {
+async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newManager = new WalletManager(importMnemonicAccount)
+  const newWallet = new KeychainWallet(importMnemonicAccount, keychainLock)
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
-  await newManager.init()
+  await newWallet.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
-  return newManager
+  return newWallet
 }
 
 export function* initContractKit() {
   try {
     ValoraAnalytics.track(ContractKitEvents.init_contractkit_start)
 
-    if (contractKit || wallet || walletManager) {
+    if (contractKit || wallet) {
       throw new Error('Kit not properly destroyed')
     }
 
@@ -60,9 +71,8 @@ export function* initContractKit() {
     }
     Logger.info(`${TAG}@initContractKit`, 'Initializing wallet', importMnemonicAccount)
 
-    walletManager = yield* call(initWalletManager, importMnemonicAccount)
-    const valoraCeloWallet = walletManager?.getContractKitWallet()
-    wallet = valoraCeloWallet
+    wallet = yield* call(initWallet, importMnemonicAccount)
+
     try {
       // This is to migrate the existing DEK that used to be stored in the geth keystore
       // Note that the DEK is also currently in the redux store, but it should change at some point
@@ -80,7 +90,7 @@ export function* initContractKit() {
       `Initialized wallet with accounts: ${wallet?.getAccounts()}`
     )
 
-    contractKit = newKitFromWeb3(web3, valoraCeloWallet?.getKeychainWallet())
+    contractKit = newKitFromWeb3(web3, wallet)
     Logger.info(`${TAG}@initContractKit`, 'Initialized kit')
     ValoraAnalytics.track(ContractKitEvents.init_contractkit_finish)
     return
@@ -94,7 +104,6 @@ export function destroyContractKit() {
   Logger.debug(`${TAG}@closeContractKit`)
   contractKit = undefined
   wallet = undefined
-  walletManager = undefined
 }
 
 async function waitForContractKit(tries: number) {
@@ -109,6 +118,32 @@ async function waitForContractKit(tries: number) {
     }
   }
   return contractKit
+}
+
+// This code assumes that the account for walletAddress already exists in the Keychain
+// which is a responsibility currently handled by KeychainWallet
+export function* getViemWallet(chain: Chain) {
+  if (viemWallets.has(chain)) {
+    return viemWallets.get(chain) as ViemWallet
+  }
+  const walletAddress = yield* select(walletAddressSelector)
+  if (!walletAddress) {
+    throw new Error('Wallet address not found')
+  }
+  const accounts = yield* call(listStoredAccounts)
+  const account = accounts.find((a) => a.address === walletAddress)
+  if (!account) {
+    throw new Error(`Account ${walletAddress} not found in Keychain`)
+  }
+  const password = yield* call(getPasswordSaga, walletAddress, false, true)
+  const privateKey = yield* call(getStoredPrivateKey, account, password)
+  if (!privateKey) {
+    throw new Error(`Private key not found for account ${walletAddress}`)
+  }
+  const wallet = getLockableViemWallet(keychainLock, chain, privateKey as Address)
+  Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
+  viemWallets.set(chain, wallet)
+  return wallet
 }
 
 export function* getContractKit() {
@@ -150,7 +185,7 @@ export function* getWallet() {
       initContractKitLock.release()
     }
   }
-  return wallet as PrimaryValoraWallet
+  return wallet as UnlockableWallet
 }
 
 // Used for cases where the wallet must be access outside of a saga

@@ -21,7 +21,7 @@
   "dataSaver": "Risparmio dati",
   "enableDataSaver": "Abilita Risparmio dati",
   "dataSaverDetail": "La modalità Risparmio dati ti consente di comunicare con la rete Celo attraverso un nodo attendibile. Puoi sempre selezionare un’altra modalità dalle impostazioni dell’app.",
-  "keylessBackupSettingsTitle": "Recupero di e-mail e telefoni",
+  "keylessBackupSettingsTitle": "Recupero tramite e-mail e telefono",
   "setup": "Imposta",
   "restartModalSwitchOff": {
     "header": "Riavvia per disabilitare Risparmio dati",
@@ -80,7 +80,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Tieni al sicuro il tuo portafoglio",
-    "description": "Solo tu puoi accedere al tuo portafoglio. Se il tuo telefono viene perso o rubato, Valora non può recuperarlo per te.\n\nDovrai impostare un metodo per tenere al sicuro il tuo portafoglio e proteggere i tuoi fondi."
+    "description": "Solo tu puoi accedere al tuo portafoglio. Se il tuo telefono viene smarrito o rubato, Valora non può recuperarlo per te.\n\nDovrai impostare un metodo per tenere al sicuro il tuo portafoglio e proteggere i tuoi fondi."
   },
   "setUpKeylessBackup": {
     "title": "Imposta il backup senza chiave",
@@ -110,12 +110,12 @@
       },
       "completed": {
         "title": "Backup completato",
-        "body": "Ora sei in grado di recuperare il tuo portafoglio con il tuo indirizzo e-mail e il tuo numero di telefono."
+        "body": "Ora potrai recuperare il tuo portafoglio tramite il tuo indirizzo e-mail e il tuo numero telefonico."
       },
       "failed": {
         "title": "Backup senza chiave non disponibile",
-        "body": "Puoi impostare un backup senza chiavi in un secondo momento o proteggere il tuo account ora eseguendo il backup manualmente.",
-        "later": "Farò un backup più tardi",
+        "body": "Puoi impostare un backup senza chiave in un secondo momento o proteggere immediatamente il tuo account eseguendo il backup manualmente.",
+        "later": "Eseguirò un backup in un secondo momento",
         "manual": "Backup manuale"
       }
     }
@@ -1071,32 +1071,36 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Dati della transazione",
     "readAccount": "{{dappName}} desidera leggere il tuo indirizzo del wallet {{appName}}.",
-    "signPayload": "{{dappName}} desidera firmare un carico di dati.",
+    "signPayloadTitle": "Verifica portafoglio",
+    "signPayload": "{{dappName}} vorrebbe verificare la proprietà del tuo portafoglio.",
+    "signTransactionTitle": "Firma la transazione",
     "signTransaction": "{{dappName}} desidera firmare una transazione Celo.",
+    "sendTransactionTitle": "Invia transazione",
     "sendTransaction": "{{dappName}} desidera inviare una transazione Celo.",
+    "decryptPayloadTitle": "Decripta con il portafoglio",
     "decryptPayload": "{{dappName}} desidera decriptare un carico di dati.",
     "computeSharedSecret": "{{dappName}} desidera generare dei segreti.",
     "transactionDataCopied": "Dati della transazione copiati",
     "unsupportedChain": {
-      "title": "Catena non supportata",
-      "description": "{{dappName}} sta richiedendo questa azione su una catena non supportata da {{appName}}. Assicurati che Celo sia la catena attiva sul lato della dapp."
+      "title": "Chain non supportata",
+      "description": "{{dappName}} richiede di eseguire questa azione su una chain non supportata da {{appName}}. Assicurati che Celo sia la chain attiva sul lato Dapp."
     },
     "session": {
       "failUnsupportedNamespace": {
-        "title": "Catena non supportata",
-        "description": "{{dappName}} Vorrei connettermi con una catena non supportata da {{appName}}. Assicurati che Celo sia selezionato sul lato dapp."
+        "title": "Chain non supportata",
+        "description": "{{dappName}} vorrebbe connettersi con una chain non supportata da {{appName}}. Assicurati che Celo sia selezionato sul lato Dapp."
       },
       "warnUnsupportedChains": {
-        "title": "Catena non supportata",
-        "description": "{{dappName}} non ha specificato Celo come catena supportata. Alcune funzioni potrebbero non funzionare come previsto."
+        "title": "Chain non supportata",
+        "description": "{{dappName}} non ha specificato Celo come chain supportata. Alcune funzionalità potrebbero non funzionare nel modo previsto."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Metodi non supportati",
-        "description": "{{dappName}} ha specificato alcuni metodi che non sono supportati da {{appName}}. Alcune funzioni potrebbero non funzionare come previsto."
+        "description": "{{dappName}} ha specificato alcuni metodi non supportati da {{appName}}. Alcune funzionalità potrebbero non funzionare nel modo previsto."
       },
       "warnSomeUnsupportedEvents": {
         "title": "Eventi non supportati",
-        "description": "{{dappName}} ha specificato alcuni eventi che non sono supportati da {{appName}}. Alcune funzioni potrebbero non funzionare come previsto."
+        "description": "{{dappName}} ha specificato alcuni eventi non supportati da {{appName}}. Alcune funzionalità potrebbero non funzionare nel modo previsto."
       }
     }
   },
@@ -1135,6 +1139,7 @@
   "sent": "Inviato",
   "received": "Ricevuto",
   "viewAll": "Visualizza tutto",
+  "noNotificationsPlaceholder": "Sei completamente concentrato!",
   "thanksForVerifying": "Grazie per aver eseguito il collegamento",
   "goldIsWhereYouSave": "CELO è dove puoi conservare i Celo Dollar e Celo Euro che possiedi",
   "dinner": "Cena",
@@ -1370,14 +1375,14 @@
     },
     "claimRewardsScreen": {
       "title": "Le tue ricompense",
-      "description": "Ora puoi richiedere le ricompense delle posizioni aperte nella dapp direttamente su {{appName}}!",
-      "claimButton": "Rivendicazione",
-      "claimedLabel": "Rivendicato",
-      "rewardLabel": "Premio disponibile",
-      "claimSuccess": "Successo! Hai richiesto una ricompensa",
+      "description": "Ora puoi richiedere le ricompense delle posizioni aperte nella Dapp direttamente su {{appName}}!",
+      "claimButton": "Richiedi",
+      "claimedLabel": "Richiesta",
+      "rewardLabel": "Ricompensa disponibile",
+      "claimSuccess": "Operazione riuscita! Hai richiesto una ricompensa",
       "confirmingReward": "CONFERMA"
     },
-    "claimRewardFailure": "Si è verificato un errore nel richiedere la tua ricompensa, riprova più tardi."
+    "claimRewardFailure": "Si è verificato un errore durante la richiesta della tua ricompensa, riprova più tardi"
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
@@ -1414,9 +1419,9 @@
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo wallet, riprova",
   "noMoreTransactions": "Non ci sono altre transazioni",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Gli acquisti sono gestiti dai nostri fornitori partner. Alcuni metodi di pagamento non sono disponibili nella tua area geografica.",
-    "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti dai partner su Celo. Alcuni metodi di pagamento non sono disponibili nella tua area geografica. <0>Altre informazioni.</0>",
-    "disclaimer": "I pagamenti sono gestiti dai partner su Celo. <0>Altre informazioni.</0>",
+    "somePaymentsUnavailable": "Gli acquisti sono gestiti dai nostri fornitori partner. Le tariffe possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica.",
+    "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti dai partner su Celo. Le tariffe possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica. <0>Altre informazioni.</0>",
+    "disclaimer": "I pagamenti sono gestiti dai partner su Celo. Le tariffe possono variare. <0>Altre informazioni.</0>",
     "learnMore": "Scopri di più.",
     "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",
@@ -1679,6 +1684,10 @@
       "title": "Prima di uno scambio",
       "body": "Scambiare questi asset può comportare un tasso di cambio sfavorevole. Riducendo l'importo, potresti ottenere un tasso migliore."
     },
+    "missingSwapImpactWarning": {
+      "title": "Prima di uno scambio",
+      "body": "Non possiamo stimare il valore di questo scambio. Qualora tu decida di procedere, {{appName}} non sarà responsabile."
+    },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1793,7 +1802,7 @@
   },
   "nftGallery": {
     "title": "Oggetti da collezione",
-    "noNfts": "I tuoi NFT verranno visualizzati qui una volta che ne avrai uno nel tuo portafoglio."
+    "noNfts": "I tuoi NFT saranno visualizzati qui, una volta che ne avrai uno nel tuo portafoglio"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Visualizza su Celo Explorer",
@@ -1809,13 +1818,13 @@
   },
   "hooksPreview": {
     "modal": {
-      "title": "Modalità di anteprima dei ganci",
-      "message": "Conferma di voler abilitare la modalità di anteprima per i ganci.\n\nQuesta funzione è destinata solo agli sviluppatori che creano ganci. Se non sei uno sviluppatore o non hai attivato questa azione, NON CONFERMARE.",
+      "title": "Modalità Anteprima hook",
+      "message": "Conferma di voler abilitare la modalità Anteprima hook.\n\nQuesta funzionalità è destinata solo agli sviluppatori che creano hook. Se non sei uno sviluppatore o non hai attivato questa azione, NON CONFERMARE.",
       "cancel": "Annulla",
       "confirm": "Conferma"
     },
-    "invalidApiUrl": "URL API di anteprima dei ganci non valido",
-    "bannerTitle": "Anteprima dei ganci abilitata, toccare per disabilitarla"
+    "invalidApiUrl": "URL dell'API Anteprima hook non valido",
+    "bannerTitle": "Anteprima hook abilitata, toccare per disabilitarla"
   },
   "assets": {
     "claimRewards": "Richiedi ora"

@@ -10,7 +10,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { swapStart } from 'src/swap/slice'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import { Field } from 'src/swap/types'
-import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
@@ -35,11 +34,7 @@ const mockSellAmount = '1000000000000000000'
 
 const store = {
   localCurrency: {
-    exchangeRates: {
-      [Currency.Dollar]: '1',
-      [Currency.Euro]: '1.2',
-      [Currency.Celo]: '3.1',
-    },
+    usdToLocalRate: '1',
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
   },

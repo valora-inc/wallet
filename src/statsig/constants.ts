@@ -32,6 +32,11 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY]: false,
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
+  [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
+  [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
+  [StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS]: false,
+  [StatsigFeatureGates.SHOW_NATIVE_TOKENS]: false,
+  [StatsigFeatureGates.SHOW_ETH_IN_CICO]: false,
 }
 
 export const ExperimentConfigs = {
@@ -79,6 +84,12 @@ export const ExperimentConfigs = {
       discoverCopyEnabled: false,
     },
   },
+  [StatsigExperiments.SWAP_BUY_AMOUNT]: {
+    experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
+    defaultValues: {
+      swapBuyAmountEnabled: true,
+    },
+  },
 }
 
 export const DynamicConfigs = {
@@ -87,6 +98,13 @@ export const DynamicConfigs = {
     defaultValues: {
       blockedAdjectives: [] as string[],
       blockedNouns: [] as string[],
+    },
+  },
+  [StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS]: {
+    configName: StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS,
+    defaultValues: {
+      default: 15,
+      cico: 30,
     },
   },
 }

@@ -1,10 +1,9 @@
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { getFiatConnectClient, getSiweSigningFunction } from 'src/fiatconnect/clients'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getPassword } from 'src/pincode/authentication'
 import { getWalletAsync } from 'src/web3/contracts'
-import ValoraCeloWallet from 'src/web3/ValoraCeloWallet'
-import KeychainAccountManager from 'src/web3/KeychainAccountManager'
+import { KeychainLock } from 'src/web3/KeychainLock'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
 
 jest.mock('src/web3/contracts', () => ({
   getWalletAsync: jest.fn(() => ({
@@ -13,14 +12,17 @@ jest.mock('src/web3/contracts', () => ({
 }))
 
 jest.mock('src/pincode/authentication')
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({ cico: 30 }),
+}))
 
 describe('getSigningFunction', () => {
-  const wallet = new ValoraCeloWallet(
+  const wallet = new KeychainWallet(
     {
-      address: 'fake-address',
+      address: 'some address',
       createdAt: new Date(),
     },
-    new KeychainAccountManager()
+    new KeychainLock()
   )
   beforeEach(() => {
     wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
@@ -47,7 +49,7 @@ describe('getSigningFunction', () => {
 })
 
 describe('getFiatConnectClient', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 
@@ -55,10 +57,7 @@ describe('getFiatConnectClient', () => {
     const fcClient = await getFiatConnectClient('provider1', 'https://provider1.url')
     expect(getWalletAsync).toHaveBeenCalled()
     expect(fcClient).toBeInstanceOf(FiatConnectClient)
-    expect(fcClient).toHaveProperty(
-      'config.timeout',
-      REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds * 1000
-    )
+    expect(fcClient).toHaveProperty('config.timeout', 30000)
   })
 
   it('returns an already existing client', async () => {

@@ -154,12 +154,12 @@ describe('DappShortcutsRewards', () => {
     fireEvent.press(getAllByTestId('DappShortcutsRewards/ClaimButton')[0])
 
     expect(mockStore.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "payload": Object {
+      [
+        {
+          "payload": {
             "appImage": "",
             "appName": "Ubeswap",
-            "data": Object {
+            "data": {
               "address": "0x0000000000000000000000000000000000007e57",
               "appId": "ubeswap",
               "network": "celo",

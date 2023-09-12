@@ -1071,9 +1071,13 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Transaction data",
     "readAccount": "{{dappName}} would like to read your {{appName}} wallet address.",
-    "signPayload": "{{dappName}} would like to sign a data payload.",
+    "signPayloadTitle": "Verify wallet",
+    "signPayload": "{{dappName}} would like to verify ownership of your wallet.",
+    "signTransactionTitle": "Sign transaction",
     "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "sendTransactionTitle": "Send transaction",
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "decryptPayloadTitle": "Decrypt with wallet",
     "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
     "computeSharedSecret": "{{dappName}} would like to generate secrets.",
     "transactionDataCopied": "Transaction data copied",
@@ -1135,6 +1139,7 @@
   "sent": "Sent",
   "received": "Received",
   "viewAll": "View All",
+  "noNotificationsPlaceholder": "You're all caught up!",
   "thanksForVerifying": "Thanks for connecting",
   "goldIsWhereYouSave": "CELO is where you can save Celo Dollars you have",
   "dinner": "Dinner",
@@ -1414,9 +1419,9 @@
   "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
   "noMoreTransactions": "There are no more transactions",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Purchases are powered by our partner providers. Some payment methods are unavailable in your region.",
-    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by partners on Celo. Some payment methods are unavailable in your region. <0>Learn more.</0>",
-    "disclaimer": "Payments are powered by partners on Celo. <0>Learn more.</0>",
+    "somePaymentsUnavailable": "Purchases are powered by our partner providers. Fees may vary. Some payment methods are unavailable in your region.",
+    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by partners on Celo. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
+    "disclaimer": "Payments are powered by partners on Celo. Fees may vary. <0>Learn more.</0>",
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
@@ -1678,6 +1683,10 @@
     "priceImpactWarning": {
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
+    },
+    "missingSwapImpactWarning": {
+      "title": "Before you swap",
+      "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
     },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
   },

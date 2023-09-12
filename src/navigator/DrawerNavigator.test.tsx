@@ -3,10 +3,9 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
@@ -17,7 +16,7 @@ jest.mock('src/statsig', () => ({
 
 describe('DrawerNavigator', () => {
   beforeEach(() => {
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       showAddWithdrawOnMenu: true,
       showSwapOnMenu: true,
       discoverCopyEnabled: false,
@@ -81,7 +80,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('hides add/withdraw menu item based on statsig experiment param', () => {
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       showAddWithdrawOnMenu: false,
     })
     const { queryByTestId } = render(
@@ -93,7 +92,7 @@ describe('DrawerNavigator', () => {
   })
 
   it('hides swap menu item based on statsig experiment param', () => {
-    mocked(getExperimentParams).mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       showSwapOnMenu: false,
     })
     const store = createMockStore({
@@ -108,6 +107,63 @@ describe('DrawerNavigator', () => {
     )
     expect(queryByTestId('DrawerItem/swapScreen.title')).toBeNull()
   })
+
+  it('shows recovery phrase if backup is not complete and cloud backup feature gate is false', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+        cloudBackupCompleted: false,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+      </Provider>
+    )
+    expect(queryByTestId('DrawerItem/accountKey')).toBeTruthy()
+    expect(queryByTestId('DrawerItem/walletSecurity')).toBeNull()
+  })
+
+  it('shows wallet security if backup is not complete and cloud backup feature gate is true', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+        cloudBackupCompleted: false,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+      </Provider>
+    )
+    expect(queryByTestId('DrawerItem/accountKey')).toBeNull()
+    expect(queryByTestId('DrawerItem/walletSecurity')).toBeTruthy()
+  })
+
+  it.each([
+    [true, false],
+    [false, true],
+    [true, true],
+  ])(
+    'hides wallet security and recovery phrase if at least one backup is complete',
+    (backupCompleted, cloudBackupCompleted) => {
+      const store = createMockStore({
+        account: {
+          backupCompleted,
+          cloudBackupCompleted,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+      expect(queryByTestId('DrawerItem/accountKey')).toBeNull()
+      expect(queryByTestId('DrawerItem/walletSecurity')).toBeNull()
+    }
+  )
 
   describe('phone number in drawer', () => {
     it('shows the phone number when the user is verified', () => {

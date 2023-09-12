@@ -9,15 +9,17 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const mockDate = 1588200517518
-global.Date.now = jest.fn(() => mockDate)
 
 jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
 }))
+
+beforeAll(() => {
+  jest.useFakeTimers({ now: mockDate })
+})
 
 const state: any = {
   tokens: {
@@ -71,11 +73,7 @@ const state: any = {
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
-    exchangeRates: {
-      [Currency.Dollar]: '0.86',
-      [Currency.Euro]: null,
-      [Currency.Celo]: null,
-    },
+    usdToLocalRate: '0.86',
   },
 }
 
@@ -107,8 +105,8 @@ describe('tokensByUsdBalanceSelector', () => {
   it('returns the tokens sorted by USD balance in descending order', () => {
     const tokens = tokensByUsdBalanceSelector(state)
     expect(tokens).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "address": "0x1",
           "balance": "10",
           "lastKnownUsdPrice": "10",
@@ -116,7 +114,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "priceFetchedAt": 1588200517518,
           "usdPrice": "10",
         },
-        Object {
+        {
           "address": "0xeur",
           "balance": "50",
           "isSupercharged": true,
@@ -126,7 +124,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "symbol": "cEUR",
           "usdPrice": "0.5",
         },
-        Object {
+        {
           "address": "0xusd",
           "balance": "0",
           "isSwappable": true,
@@ -135,7 +133,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "symbol": "cUSD",
           "usdPrice": "1",
         },
-        Object {
+        {
           "address": "0x4",
           "balance": "50",
           "isSupercharged": true,
@@ -145,7 +143,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "symbol": "TT",
           "usdPrice": null,
         },
-        Object {
+        {
           "address": "0x5",
           "balance": "50",
           "lastKnownUsdPrice": "500",
@@ -161,8 +159,8 @@ describe('tokensWithUsdValueSelector', () => {
   it('returns only the tokens that have a USD balance', () => {
     const tokens = tokensWithUsdValueSelector(state)
     expect(tokens).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "address": "0x1",
           "balance": "10",
           "lastKnownUsdPrice": "10",
@@ -170,7 +168,7 @@ describe('tokensWithUsdValueSelector', () => {
           "priceFetchedAt": 1588200517518,
           "usdPrice": "10",
         },
-        Object {
+        {
           "address": "0xeur",
           "balance": "50",
           "isSupercharged": true,
@@ -216,8 +214,8 @@ describe(totalTokenBalanceSelector, () => {
   describe(swappableTokensSelector, () => {
     it('should return the tokens that are swappable', () => {
       expect(swappableTokensSelector(state)).toMatchInlineSnapshot(`
-        Array [
-          Object {
+        [
+          {
             "address": "0xeur",
             "balance": "50",
             "isSupercharged": true,
@@ -227,7 +225,7 @@ describe(totalTokenBalanceSelector, () => {
             "symbol": "cEUR",
             "usdPrice": "0.5",
           },
-          Object {
+          {
             "address": "0xusd",
             "balance": "0",
             "isSwappable": true,
@@ -236,7 +234,7 @@ describe(totalTokenBalanceSelector, () => {
             "symbol": "cUSD",
             "usdPrice": "1",
           },
-          Object {
+          {
             "address": "0x4",
             "balance": "50",
             "isSupercharged": true,

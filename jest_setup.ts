@@ -1,7 +1,10 @@
 import '@testing-library/jest-native/extend-expect'
+import 'abort-controller/polyfill'
 import 'react-native-svg-mock'
 
-jest.useFakeTimers()
+beforeAll(() => {
+  jest.useFakeTimers()
+})
 
 if (typeof window !== 'object') {
   // @ts-ignore
@@ -19,8 +22,19 @@ jest.mock('react-native/Libraries/LayoutAnimation/LayoutAnimation.js')
 // Mock Animated Views this way otherwise we get a
 // `JavaScript heap out of memory` error when a ref is set (?!)
 // See https://github.com/callstack/react-native-testing-library/issues/539
-jest.mock('react-native/Libraries/Animated/components/AnimatedView.js', () => 'View')
-jest.mock('react-native/Libraries/Animated/components/AnimatedScrollView.js', () => 'RCTScrollView')
+jest.mock('react-native/Libraries/Animated/components/AnimatedView.js', () => ({
+  default: 'View',
+}))
+jest.mock('react-native/Libraries/Animated/components/AnimatedScrollView.js', () => ({
+  default: 'RCTScrollView',
+}))
+jest.mock('react-native-webview', () => {
+  const { View } = require('react-native')
+  return {
+    default: View,
+    WebView: View,
+  }
+})
 
 // Mock ToastAndroid as it's not done automatically
 jest.mock('react-native/Libraries/Components/ToastAndroid/ToastAndroid.android.js', () => ({

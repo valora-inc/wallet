@@ -1,10 +1,11 @@
 import { ensureLeading0x } from '@celo/utils/lib/address'
-import { PrimaryValoraWallet } from 'src/web3/types'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { networkTimeoutSecondsSelector } from 'src/app/selectors'
 import { FIATCONNECT_NETWORK } from 'src/config'
 import { getPassword } from 'src/pincode/authentication'
-import { store } from 'src/redux/store'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
 
@@ -19,7 +20,7 @@ const fiatConnectClients: Record<
  * @param wallet
  */
 export function getSiweSigningFunction(
-  wallet: PrimaryValoraWallet
+  wallet: UnlockableWallet
 ): (message: string) => Promise<string> {
   return async function (message: string): Promise<string> {
     const [account] = wallet.getAccounts()
@@ -41,7 +42,7 @@ export async function getFiatConnectClient(
     fiatConnectClients[providerId].url !== providerBaseUrl ||
     fiatConnectClients[providerId].apiKey !== providerApiKey
   ) {
-    const wallet = (await getWalletAsync()) as PrimaryValoraWallet
+    const wallet = (await getWalletAsync()) as UnlockableWallet
     const [account] = wallet.getAccounts()
     fiatConnectClients[providerId] = {
       url: providerBaseUrl,
@@ -52,7 +53,10 @@ export async function getFiatConnectClient(
           network: FIATCONNECT_NETWORK,
           accountAddress: account,
           apiKey: providerApiKey,
-          timeout: networkTimeoutSecondsSelector(store.getState()) * 1000,
+          timeout:
+            getDynamicConfigParams(
+              DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS]
+            ).cico * 1000,
         },
         getSiweSigningFunction(wallet)
       ),

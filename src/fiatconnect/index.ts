@@ -1,12 +1,16 @@
-import { PrimaryValoraWallet } from 'src/web3/types'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatType, QuoteErrorResponse, QuoteResponse } from '@fiatconnect/fiatconnect-types'
-import { WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO } from 'src/fiatconnect/consts'
 import { CICOFlow, isUserInputCrypto } from 'src/fiatExchanges/utils'
+import { WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO } from 'src/fiatconnect/consts'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency } from 'src/utils/currencies'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -46,12 +50,15 @@ export async function getFiatConnectProviders(
   address: string,
   providerList?: string
 ): Promise<FiatConnectProviderInfo[]> {
-  const response = await fetch(
+  const response = await fetchWithTimeout(
     `${networkConfig.getFiatConnectProvidersUrl}?` +
       new URLSearchParams({
         address,
         ...(!!providerList && { providers: providerList }),
-      })
+      }),
+    undefined,
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+      .cico * 1000
   )
   if (!response.ok) {
     Logger.error(TAG, `Failure response fetching FiatConnect providers: ${response}`)
@@ -69,7 +76,7 @@ export async function getFiatConnectProviders(
  * If the user's wallet is currently locked, will prompt for PIN entry.
  */
 export async function loginWithFiatConnectProvider(
-  wallet: PrimaryValoraWallet,
+  wallet: UnlockableWallet,
   fiatConnectClient: FiatConnectApiClient,
   forceLogin: boolean = false
 ): Promise<void> {
@@ -132,6 +139,7 @@ export async function getFiatConnectQuotes(
   const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
   if (!fiatType) return []
   const cryptoType = WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO[digitalAsset]
+  if (!cryptoType) return []
   const quoteParams: CreateQuoteParams = {
     fiatType,
     cryptoType,
@@ -147,7 +155,12 @@ export async function getFiatConnectQuotes(
     providers,
     quoteType: flow === CICOFlow.CashIn ? 'in' : 'out',
   }).toString()
-  const response = await fetch(`${networkConfig.getFiatConnectQuotesUrl}?${queryParams}`)
+  const response = await fetchWithTimeout(
+    `${networkConfig.getFiatConnectQuotesUrl}?${queryParams}`,
+    undefined,
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+      .cico * 1000
+  )
   if (!response.ok) {
     const err = await response.json()
     Logger.error(TAG, `Failure response fetching FiatConnect quotes: ${err} , returning empty list`)

@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
@@ -12,17 +12,17 @@ import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
   getOnboardingStepValues: () => ({ step: 1, totalSteps: 2 }),
-  onboardingPropsSelector: () => mockOnboardingProps,
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 
-const mockedSetPincodeWithBiometry = mocked(setPincodeWithBiometry)
+const mockedSetPincodeWithBiometry = jest.mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
 
@@ -65,8 +65,9 @@ describe('EnableBiometry', () => {
   it('should enable biometry', async () => {
     const { getByText } = renderComponent()
 
-    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    })
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
@@ -97,8 +98,9 @@ describe('EnableBiometry', () => {
       </Provider>
     )
 
-    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    })
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
@@ -111,8 +113,9 @@ describe('EnableBiometry', () => {
     mockedSetPincodeWithBiometry.mockRejectedValue('some error')
     const { getByText } = renderComponent()
 
-    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    })
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([])
@@ -125,8 +128,9 @@ describe('EnableBiometry', () => {
     mockedSetPincodeWithBiometry.mockRejectedValue('user canceled the operation')
     const { getByText } = renderComponent()
 
-    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
-    await flushMicrotasksQueue()
+    await act(() => {
+      fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    })
 
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([])

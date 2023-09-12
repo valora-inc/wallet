@@ -14,6 +14,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
+import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   mockCeloAddress,
@@ -2433,6 +2434,80 @@ export const v141Schema = {
   },
 }
 
+export const v142Schema = {
+  ...v141Schema,
+  _persist: {
+    ...v141Schema._persist,
+    version: 142,
+  },
+  app: _.omit(v141Schema.app, 'shouldShowRecoveryPhraseInSettings'),
+}
+
+export const v143Schema = {
+  ...v142Schema,
+  _persist: {
+    ...v142Schema._persist,
+    version: 143,
+  },
+  account: {
+    ...v142Schema.account,
+    cloudBackupCompleted: false,
+  },
+}
+
+export const v144Schema = {
+  ...v143Schema,
+  _persist: {
+    ...v143Schema._persist,
+    version: 144,
+  },
+  app: {
+    ...v143Schema.app,
+    pushNotificationRequestedUnixTime: 1692878055000,
+  },
+}
+
+export const v145Schema = {
+  ...v144Schema,
+  _persist: {
+    ...v144Schema._persist,
+    version: 145,
+  },
+  transactions: {
+    ...v144Schema.transactions,
+    standbyTransactions: (v144Schema.transactions.standbyTransactions as StandbyTransaction[]).map(
+      (tx) => {
+        return { ...tx, network: Network.Celo }
+      }
+    ),
+    transactions: (v144Schema.transactions.transactions as TokenTransaction[]).map((tx) => {
+      const __typename = // @ts-ignore
+        tx.__typename === 'TokenTransferV2'
+          ? 'TokenTransferV3' // @ts-ignore
+          : tx.__typename === 'NftTransferV2'
+          ? 'NftTransferV3'
+          : 'TokenExchangeV3'
+      return {
+        ...tx,
+        __typename,
+        network: Network.Celo,
+      }
+    }),
+  },
+}
+
+export const v146Schema = {
+  ...v145Schema,
+  _persist: {
+    ...v145Schema._persist,
+    version: 146,
+  },
+  localCurrency: {
+    ..._.omit(v145Schema.localCurrency, 'exchangeRates'),
+    usdToLocalRate: v145Schema.localCurrency.exchangeRates[Currency.Dollar],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v141Schema as Partial<RootState>
+  return v146Schema as Partial<RootState>
 }

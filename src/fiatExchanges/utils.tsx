@@ -7,11 +7,15 @@ import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
+import { Network } from 'src/transactions/types'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -39,12 +43,14 @@ export enum CloudFunctionDigitalAsset {
   CUSD = 'CUSD',
   CEUR = 'CEUR',
   CREAL = 'CREAL',
+  ETH = 'ETH',
 }
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
   digitalAsset: CloudFunctionDigitalAsset
+  network?: Network
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'
@@ -146,13 +152,14 @@ export const fetchProviders = async (
   try {
     const response = await fetchWithTimeout(
       networkConfig.providerFetchUrl,
-      composePostObject(requestData)
+      composePostObject(requestData),
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!response.ok) {
       throw Error(`Fetch failed with status ${response?.status}`)
     }
-
     return response.json()
   } catch (error) {
     Logger.error(`${TAG}:fetchProviders`, 'Failed to fetch providers', error)
@@ -182,7 +189,9 @@ export const fetchSimplexPaymentData = async (
           appVersion: DeviceInfo.getVersion(),
           userAgent: DeviceInfo.getUserAgentSync(),
         },
-      })
+      }),
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!response.ok) {
@@ -280,13 +289,18 @@ export async function fetchExchanges(
   // Standardize cGLD to CELO
 
   try {
-    const resp = await fetch(
-      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`
+    const resp = await fetchWithTimeout(
+      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`,
+      undefined,
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
     )
 
     if (!resp.ok) {
       throw Error(`Fetch exchanges failed with status ${resp?.status}`)
     }
+
+    Logger.debug(TAG, 'got exchanges')
 
     return resp.json()
   } catch (error) {
@@ -312,6 +326,7 @@ export function resolveCloudFunctionDigitalAsset(
     [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
     [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
     [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
+    [CiCoCurrency.ETH]: CloudFunctionDigitalAsset.ETH,
   }
   return mapping[currency]
 }
@@ -324,7 +339,7 @@ export function resolveCloudFunctionDigitalAsset(
  */
 export function getProviderSelectionAnalyticsData({
   normalizedQuotes,
-  exchangeRates,
+  usdToLocalRate,
   tokenInfo,
   legacyMobileMoneyProviders,
   centralizedExchanges,
@@ -333,7 +348,7 @@ export function getProviderSelectionAnalyticsData({
   cryptoType,
 }: {
   normalizedQuotes: NormalizedQuote[]
-  exchangeRates: { [token in Currency]: string | null }
+  usdToLocalRate: string | null
   tokenInfo?: TokenBalance
   legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
   centralizedExchanges?: ExternalExchangeProvider[]
@@ -358,7 +373,7 @@ export function getProviderSelectionAnalyticsData({
   for (const quote of normalizedQuotes) {
     paymentMethodsAvailable[quote.getPaymentMethod()] = true
     if (tokenInfo) {
-      const fee = quote.getFeeInCrypto(exchangeRates, tokenInfo)
+      const fee = quote.getFeeInCrypto(usdToLocalRate, tokenInfo)
       if (fee && (lowestFeeCryptoAmount === null || fee.isLessThan(lowestFeeCryptoAmount))) {
         lowestFeeCryptoAmount = fee
         lowestFeePaymentMethod = quote.getPaymentMethod()

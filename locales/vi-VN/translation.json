@@ -21,7 +21,7 @@
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với Celo Network qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
-  "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "keylessBackupSettingsTitle": "Khôi phục bằng email và số điện thoại",
   "setup": "Thiết lập",
   "restartModalSwitchOff": {
     "header": "Khởi động lại để tắt chế độ Tiết kiệm dữ liệu",
@@ -79,8 +79,8 @@
     }
   },
   "walletSecurityPrimer": {
-    "title": "Keep your wallet safe",
-    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
+    "title": "Bảo vệ an toàn ví của bạn",
+    "description": "Chỉ bạn mới có thể truy cập vào ví của mình. Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, Valora sẽ không thể khôi phục lại ví cho bạn.\n\nBạn sẽ phải thiết lập một phương thức bảo vệ an toàn cho ví và tiền của mình."
   },
   "setUpKeylessBackup": {
     "title": "Thiết lập chức năng sao lưu không dùng mã khóa",
@@ -106,17 +106,17 @@
   "keylessBackupStatus": {
     "setup": {
       "inProgress": {
-        "title": "Backup in progress..."
+        "title": "Đang sao lưu..."
       },
       "completed": {
-        "title": "Backup complete",
-        "body": "You are now able to recover your wallet with your email address and phone number."
+        "title": "Đã sao lưu xong",
+        "body": "Từ nay, bạn có thể khôi phục ví của mình bằng địa chỉ email và số điện thoại."
       },
       "failed": {
-        "title": "Keyless backup unavailable",
-        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
-        "later": "I'll backup later",
-        "manual": "Manual Backup"
+        "title": "Không hỗ trợ tính năng sao lưu không mã khóa",
+        "body": "Bạn có thể thiết lập sao lưu không dùng mã sau hoặc bảo vệ tài khoản của mình ngay bằng cách sao lưu theo cách thủ công.",
+        "later": "Tôi sẽ sao lưu sau",
+        "manual": "Sao lưu thủ công"
       }
     }
   },
@@ -575,7 +575,7 @@
   "close": "Đóng",
   "home": "Trang chủ",
   "accountKey": "Cụm từ khôi phục",
-  "walletSecurity": "Wallet Security",
+  "walletSecurity": "Bảo mật ví",
   "addAndWithdraw": "Nạp và rút tiền",
   "settings": "Cài đặt",
   "help": "Trợ giúp",
@@ -636,8 +636,8 @@
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invite friends and get rewarded",
-    "body": "Once they set up and fund their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "title": "Mời bạn bè và nhận tiền thưởng",
+    "body": "Sau khi bạn của bạn thiết lập và nạp tiền vào ví {{appName}} của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -645,14 +645,14 @@
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
     "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and fund their {{appName}} wallet with CELO, cUSD, cEUR, cREAL, JMPT, or G$. <0>View all terms</0>",
+    "help": "Để nhận tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và nạp tiền vào ví {{appName}} bằng CELO, cUSD, cEUR, cREAL, JMPT hoặc G$. <0>Xem tất cả các điều khoản</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "Get cUSD with Valora Referral Rewards",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they fund their new {{appName}} wallet, while funds last."
+      "title": "Nhận cUSD với Tiền thưởng giới thiệu Valora",
+      "body": "Mời lên đến 25 người bạn tham gia {{appName}}. Trong thời gian quỹ tiền thưởng vẫn còn hiệu lực, mỗi người sẽ nhận được 0,50 cUSD khi họ nạp tiền vào ví {{appName}} mới của mình."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -966,7 +966,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download and connect your phone number. Download through this link and fund your new wallet to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "Chào bạn! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Quy trình tải ứng dụng và kết nối số điện thoại vô cùng nhanh chóng. Hãy tải ứng dụng qua liên kết này và nạp tiền vào ví mới của bạn để được nhận 0,50 USD 💫\n\n{{link}} \n\nHãy nhanh tay, tiền thưởng có hạn.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -1069,32 +1069,36 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Thông tin giao dịch",
     "readAccount": "{{dappName}} muốn đọc địa chỉ ví {{appName}} của bạn.",
-    "signPayload": "{{dappName}} muốn ký một tải trọng dữ liệu.",
+    "signPayloadTitle": "Xác minh ví",
+    "signPayload": "{{dappName}} muốn xác minh chủ sở hữu ví của bạn.",
+    "signTransactionTitle": "Ký xác nhận giao dịch",
     "signTransaction": "{{dappName}} muốn ký giao dịch Celo.",
+    "sendTransactionTitle": "Gửi giao dịch",
     "sendTransaction": "{{dappName}} muốn xác nhận giao dịch Celo.",
+    "decryptPayloadTitle": "Giải mã bằng ví",
     "decryptPayload": "{{dappName}} muốn giải mã tải trọng dữ liệu.",
     "computeSharedSecret": "{{dappName}} muốn tạo bí mật.",
     "transactionDataCopied": "Dữ liệu giao dịch được sao chép",
     "unsupportedChain": {
-      "title": "Unsupported chain",
-      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+      "title": "Chuỗi không được hỗ trợ",
+      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp."
     },
     "session": {
       "failUnsupportedNamespace": {
-        "title": "Unsupported chain",
-        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+        "title": "Chuỗi không được hỗ trợ",
+        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo Celo được chọn trên dapp."
       },
       "warnUnsupportedChains": {
-        "title": "Unsupported chain",
-        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+        "title": "Chuỗi không được hỗ trợ",
+        "description": "Celo không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn."
       },
       "warnSomeUnsupportedMethods": {
-        "title": "Unsupported methods",
-        "description": "{{dappName}} specified some methods that are not supported by {{appName}}. Some features may not work as expected."
+        "title": "Các phương thức không được hỗ trợ",
+        "description": "{{dappName}} đã chỉ định một số phương pháp không được {{appName}} hỗ trợ. Một số tính năng có thể không hoạt động như mong muốn."
       },
       "warnSomeUnsupportedEvents": {
-        "title": "Unsupported events",
-        "description": "{{dappName}} specified some events that are not supported by {{appName}}. Some features may not work as expected."
+        "title": "Các sự kiện không được hỗ trợ",
+        "description": "{{dappName}} đã chỉ định một số sự kiện không được {{appName}} hỗ trợ. Một số tính năng có thể không hoạt động như mong muốn."
       }
     }
   },
@@ -1133,6 +1137,7 @@
   "sent": "Đã gửi",
   "received": "Đã nhận",
   "viewAll": "Xem tất cả",
+  "noNotificationsPlaceholder": "Bạn đã hoàn tất!",
   "thanksForVerifying": "Cảm ơn bạn đã kết nối",
   "goldIsWhereYouSave": "CELO là nơi bạn có thể tiết kiệm Đô la Celo của mình",
   "dinner": "Bữa tối",
@@ -1363,19 +1368,19 @@
   },
   "dappShortcuts": {
     "rewards": {
-      "title": "Your rewards",
-      "description": "Claim available rewards from open dapp positions"
+      "title": "Tiền thưởng của bạn",
+      "description": "Nhận tiền thưởng có sẵn từ các lệnh giao dịch mở trên dapp"
     },
     "claimRewardsScreen": {
-      "title": "Your rewards",
-      "description": "Now you can claim rewards from open dapp positions directly in {{appName}}!",
-      "claimButton": "Claim",
-      "claimedLabel": "Claimed",
-      "rewardLabel": "Available reward",
-      "claimSuccess": "Success! You claimed a reward",
-      "confirmingReward": "CONFIRMING"
+      "title": "Tiền thưởng của bạn",
+      "description": "Hiện bạn có thể nhận tiền thưởng từ các lệnh mở trên dapp trực tiếp trong {{appName}}!",
+      "claimButton": "Nhận",
+      "claimedLabel": "Đã nhận",
+      "rewardLabel": "Tiền thưởng khả dụng",
+      "claimSuccess": "Thành công! Bạn đã nhận được tiền thưởng",
+      "confirmingReward": "ĐANG XÁC NHẬN"
     },
-    "claimRewardFailure": "There was an error claiming your reward, please try again later"
+    "claimRewardFailure": "Đã xảy ra lỗi khi nhận tiền thưởng, vui lòng thử lại sau"
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp là gì?",
@@ -1412,9 +1417,9 @@
   "merchantWalletUnlockError": "Đã xảy ra lỗi khi mở khóa ví của bạn, vui lòng thử lại",
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
-    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
-    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. <0>Tìm hiểu thêm.</0>",
+    "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
+    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
+    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. <0>Tìm hiểu thêm.</0>",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
@@ -1446,12 +1451,12 @@
       "dismiss": "Bỏ qua"
     },
     "cashIn": {
-      "amountSpentInfo": "You'll pay <0></0> including fees"
+      "amountSpentInfo": "Bạn sẽ thanh toán <0></0> bao gồm phí"
     },
     "cashOut": {
-      "amountSpentInfo": "You'll withdraw <0></0> including fees"
+      "amountSpentInfo": "Bạn sẽ rút <0></0> bao gồm phí"
     },
-    "receiveAmount": "Receive <0></0>"
+    "receiveAmount": "Nhận <0></0>"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1677,6 +1682,10 @@
       "title": "Trước khi trao đổi",
       "body": "Việc trao đổi các tài sản này có thể dẫn đến bất lợi về tỷ giá quy đổi. Nếu giảm số tiền, bạn có thể nhận được tỷ giá tốt hơn."
     },
+    "missingSwapImpactWarning": {
+      "title": "Trước khi trao đổi",
+      "body": "Chúng tôi không thể ước tính giá trị của giao dịch trao đổi này. {{appName}} sẽ không chịu trách nhiệm nếu bạn chọn tiếp tục."
+    },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1747,8 +1756,8 @@
       "body": "Có vẻ như {{contactName}} không có trên {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải ví xuống và kết nối số điện thoại, cả hai bạn đều sẽ nhận được NFT độc quyền."
     },
     "rewardsActiveCUSD": {
-      "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and fund their wallet for the first time, you will both get 0.50 cUSD while funds last."
+      "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
+      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora xuống, kết nối số điện thoại và nạp tiền vào ví của họ lần đầu, cả hai bạn đều sẽ nhận được 0,50 cUSD, trong thời gian quỹ tiền thưởng còn hiệu lực."
     }
   },
   "celoNews": {
@@ -1790,8 +1799,8 @@
     "withdraw": "Rút tiền"
   },
   "nftGallery": {
-    "title": "Collectibles",
-    "noNfts": "Your NFTs will display here once you have one in your wallet"
+    "title": "Các bộ sưu tập",
+    "noNfts": "NFT của bạn sẽ hiển thị ở đây sau khi bạn có một NFT trong ví của mình"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Xem trên Celo Explorer",
@@ -1807,13 +1816,13 @@
   },
   "hooksPreview": {
     "modal": {
-      "title": "Hooks Preview Mode",
-      "message": "Please confirm that you'd like to enable preview mode for hooks.\n\nThis feature is only intended for developers building hooks. If you're not a developer or didn't trigger this action, DO NOT CONFIRM.",
+      "title": "Chế độ xem trước hook",
+      "message": "Vui lòng xác nhận rằng bạn muốn bật chế độ xem trước hook.\n\nTính năng này chỉ dành cho các nhà phát triển tạo hook. Nếu bạn không phải là nhà phát triển hoặc không kích hoạt chức năng này, VUI LÒNG KHÔNG XÁC NHẬN.",
       "cancel": "Hủy",
       "confirm": "Xác nhận"
     },
-    "invalidApiUrl": "Invalid hooks preview API URL",
-    "bannerTitle": "Hooks preview enabled, tap to disable"
+    "invalidApiUrl": "URL API xem trước hook không hợp lệ",
+    "bannerTitle": "Đã bật chế độ xem trước hook, hãy nhấn để tắt"
   },
   "assets": {
     "claimRewards": "Xác nhận tiền thưởng"

@@ -17,7 +17,7 @@ import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import {
   getLocalCurrencyCode,
   getLocalCurrencySymbol,
-  localCurrencyToUsdSelector,
+  usdToLocalCurrencyRateSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -53,7 +53,7 @@ function useTransactionCallbacks({
   const tokenInfo = useTokenInfo(transferTokenAddress)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
 
   const dispatch = useDispatch()

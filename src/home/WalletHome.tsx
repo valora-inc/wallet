@@ -18,13 +18,13 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
+import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -156,7 +156,13 @@ function WalletHome() {
 
   const notificationBoxSection = {
     data: [{}],
-    renderItem: () => <NotificationBox key={'NotificationBox'} />,
+    renderItem: () => (
+      <NotificationBox
+        key={'NotificationBox'}
+        // When the notification center is enabled, we only show high priority notifications marked for the home screen
+        showOnlyHomeScreenNotifications={showNotificationCenter}
+      />
+    ),
   }
   const tokenBalanceSection = {
     data: [{}],
@@ -168,7 +174,11 @@ function WalletHome() {
   }
 
   if (showHomeActions) {
-    sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
+    if (showNotificationCenter) {
+      sections.push(notificationBoxSection, tokenBalanceSection, actionsCarouselSection)
+    } else {
+      sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
+    }
   } else {
     sections.push(notificationBoxSection, tokenBalanceSection)
   }

@@ -3,7 +3,7 @@
 exports[`AppLoading renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    Array [
+    [
       "bottom",
       "left",
       "right",
@@ -11,7 +11,7 @@ exports[`AppLoading renders correctly 1`] = `
     ]
   }
   style={
-    Object {
+    {
       "alignItems": "center",
       "backgroundColor": "#42D689",
       "flex": 1,
@@ -22,7 +22,7 @@ exports[`AppLoading renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flex": 1,
         "justifyContent": "flex-end",

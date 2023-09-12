@@ -9,7 +9,6 @@ import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScre
 import { getExperimentParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig', () => ({
@@ -658,7 +657,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     })
 
     it('shows QR button when experiment enabled', () => {
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         showQrScanner: true,
       })
 
@@ -671,7 +670,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     })
 
     it('does not show QR button when experiment disabled', () => {
-      mocked(getExperimentParams).mockReturnValue({
+      jest.mocked(getExperimentParams).mockReturnValue({
         showQrScanner: false,
       })
       const { queryByTestId } = render(
@@ -680,6 +679,108 @@ describe(DAppsExplorerScreenSearchFilter, () => {
         </Provider>
       )
       expect(queryByTestId('DAppsExplorerScreen/QRScanButton')).toBeFalsy()
+    })
+  })
+
+  describe('dapp open analytics event properties', () => {
+    const defaultStoreProps = {
+      dappListApiUrl: 'http://url.com',
+      dappsList,
+      dappsCategories,
+      favoriteDappIds: [],
+      dappFavoritesEnabled: true,
+      dappsMinimalDisclaimerEnabled: true,
+    }
+    const defaultExpectedDappOpenProps = {
+      activeFilter: 'all',
+      activeSearchTerm: '',
+      categories: ['1'],
+      dappId: 'dapp3',
+      dappName: 'Dapp 3',
+      position: 3,
+      section: 'all',
+    }
+
+    it('should dispatch with no filter or search, from the normal list with confirmation bottom sheet', () => {
+      const store = createMockStore({
+        dapps: { ...defaultStoreProps, dappsMinimalDisclaimerEnabled: false },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('Dapp 3'))
+      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 3"}`))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+        DappExplorerEvents.dapp_open,
+        defaultExpectedDappOpenProps
+      )
+    })
+
+    it('should dispatch with no filter or search, from the normal list with no confirmation bottom sheet', () => {
+      const store = createMockStore({
+        dapps: defaultStoreProps,
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('Dapp 3'))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+        DappExplorerEvents.dapp_open,
+        defaultExpectedDappOpenProps
+      )
+    })
+
+    it('should dispatch with no filter or search, with favourites', () => {
+      const store = createMockStore({
+        dapps: {
+          ...defaultStoreProps,
+          favoriteDappIds: ['dapp1'],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('Dapp 3'))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
+        ...defaultExpectedDappOpenProps,
+        position: 2, // note the position explicitly does not take into account the number of favorites
+      })
+    })
+
+    it('should dispatch with filter and search', () => {
+      const store = createMockStore({
+        dapps: defaultStoreProps,
+      })
+      const { getByText, getByTestId, getAllByTestId } = render(
+        <Provider store={store}>
+          <DAppsExplorerScreenSearchFilter />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('SearchInput'), 'cool')
+      fireEvent.press(getByText(dappsCategories[0].name))
+
+      expect(getAllByTestId('DappCard')).toHaveLength(1)
+      fireEvent.press(getByText('Dapp 3'))
+
+      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
+        ...defaultExpectedDappOpenProps,
+        activeFilter: '1',
+        activeSearchTerm: 'cool',
+        position: 1,
+      })
     })
   })
 })

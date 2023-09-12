@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import {
   tokensByAddressSelector,
@@ -9,9 +9,10 @@ import {
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
-export function useTokenInfo(tokenAddress: string) {
+export function useTokenInfo(tokenAddress?: string | null) {
+  // TODO: Make this work with native tokens lacking a tokenAddress
   const tokens = useSelector(tokensByAddressSelector)
-  return tokens[tokenAddress]
+  return tokenAddress ? tokens[tokenAddress] : undefined
 }
 
 export function useTokenInfoBySymbol(symbol: string) {
@@ -26,27 +27,27 @@ export function useTokenInfoByCurrency(currency: Currency) {
 
 export function useLocalToTokenAmount(
   localAmount: BigNumber,
-  tokenAddress: string
+  tokenAddress?: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertLocalToTokenAmount({
     localAmount,
     tokenInfo,
-    exchangeRates,
+    usdToLocalRate,
   })
 }
 
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
-  tokenAddress: string
+  tokenAddress?: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertTokenToLocalAmount({
     tokenAmount,
     tokenInfo,
-    exchangeRates,
+    usdToLocalRate,
   })
 }
 
@@ -58,7 +59,7 @@ export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
   return amount.multipliedBy(tokenInfo.usdPrice)
 }
 
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress: string) {
+export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
   const tokenInfo = useTokenInfo(tokenAddress)
   if (!tokenInfo?.usdPrice) {
     return null

@@ -1,5 +1,4 @@
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Currency } from 'src/utils/currencies'
 
 export enum Actions {
   FETCH_CURRENT_RATE = 'LOCAL_CURRENCY/FETCH_CURRENT_RATE',
@@ -14,7 +13,7 @@ export interface FetchCurrentRateAction {
 export interface FetchCurrentRateSuccessAction {
   type: Actions.FETCH_CURRENT_RATE_SUCCESS
   currencyCode: LocalCurrencyCode
-  exchangeRates: { [token in Currency]: string }
+  usdToLocalRate: string
   now: number
 }
 
@@ -39,12 +38,12 @@ export const fetchCurrentRate = (): FetchCurrentRateAction => ({
 
 export const fetchCurrentRateSuccess = (
   currencyCode: LocalCurrencyCode,
-  exchangeRates: { [token in Currency]: string },
+  usdToLocalRate: string,
   now: number
 ): FetchCurrentRateSuccessAction => ({
   type: Actions.FETCH_CURRENT_RATE_SUCCESS,
   currencyCode,
-  exchangeRates,
+  usdToLocalRate,
   now,
 })
 

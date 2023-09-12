@@ -99,6 +99,7 @@ function ActionsCarousel() {
               }}
               style={styles.touchable}
               testID={`HomeAction-${name}`}
+              borderRadius={8}
             >
               <>
                 {icon}

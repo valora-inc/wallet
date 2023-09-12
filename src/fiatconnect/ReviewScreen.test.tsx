@@ -23,7 +23,8 @@ import {
   mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
+import { Network } from 'src/transactions/types'
+
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
 
@@ -140,7 +141,7 @@ describe('ReviewScreen', () => {
   beforeEach(() => {
     store = getStore({})
     store.dispatch = jest.fn()
-    mocked(getDefaultLocalCurrencyCode).mockReturnValue(LocalCurrencyCode.USD)
+    jest.mocked(getDefaultLocalCurrencyCode).mockReturnValue(LocalCurrencyCode.USD)
   })
   describe('cashIn', () => {
     it('shows fiat amount, transaction details and payment method', () => {
@@ -466,6 +467,7 @@ describe('ReviewScreen', () => {
           fiat: 100,
           crypto: 100,
         },
+        network: Network.Celo,
       })
     })
     describe.each([
@@ -484,7 +486,9 @@ describe('ReviewScreen', () => {
         expect(queryByText(disclaimer)).toBeFalsy()
       })
       it(`${accountType} shows disclaimer when quote fiat currency does not match locale currency`, () => {
-        mocked(getDefaultLocalCurrencyCode).mockReturnValue('Locale Currency' as LocalCurrencyCode)
+        jest
+          .mocked(getDefaultLocalCurrencyCode)
+          .mockReturnValue('Locale Currency' as LocalCurrencyCode)
         const { queryByText } = render(
           <Provider store={store}>
             <FiatConnectReviewScreen {...mockProps} />

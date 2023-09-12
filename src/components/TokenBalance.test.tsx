@@ -10,11 +10,9 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockPositions, mockTokenBalances } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/statsig')
 
@@ -28,15 +26,11 @@ const defaultStore = {
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,
     fetchedCurrencyCode: LocalCurrencyCode.USD,
-    exchangeRates: {
-      [Currency.Dollar]: '1',
-      [Currency.Euro]: null,
-      [Currency.Celo]: null,
-    },
+    usdToLocalRate: '1',
   },
 }
 
-mocked(getFeatureGate).mockReturnValue(true)
+jest.mocked(getFeatureGate).mockReturnValue(true)
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
@@ -407,9 +401,9 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "action": Object {
+      [
+        {
+          "action": {
             "type": "HOME/REFRESH_BALANCES",
           },
           "alertType": "toast",
@@ -443,9 +437,9 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "action": Object {
+      [
+        {
+          "action": {
             "type": "HOME/REFRESH_BALANCES",
           },
           "alertType": "toast",
@@ -466,9 +460,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       ...defaultStore,
       localCurrency: {
         error: true,
-        exchangeRates: {
-          [Currency.Dollar]: null,
-        },
+        usdToLocalRate: null,
       },
       positions: {
         positions: [],
@@ -485,9 +477,9 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "action": Object {
+      [
+        {
+          "action": {
             "type": "HOME/REFRESH_BALANCES",
           },
           "alertType": "toast",
@@ -508,9 +500,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       ...defaultStore,
       localCurrency: {
         error: true,
-        exchangeRates: {
-          [Currency.Dollar]: null,
-        },
+        usdToLocalRate: null,
       },
     })
 
@@ -524,9 +514,9 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "action": Object {
+      [
+        {
+          "action": {
             "type": "HOME/REFRESH_BALANCES",
           },
           "alertType": "toast",

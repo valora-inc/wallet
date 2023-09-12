@@ -1,4 +1,5 @@
 /* Shared mock values to facilitate testing */
+import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
@@ -52,7 +53,6 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { PrimaryValoraWallet } from 'src/web3/types'
 
 export const nullAddress = '0x0'
 
@@ -243,6 +243,12 @@ export const mockRecipient4: ContactRecipient = {
   recipientType: RecipientType.PhoneNumber,
 }
 
+export const mockPhoneRecipient: AddressRecipient = {
+  address: mockAccount2,
+  e164PhoneNumber: '+15551234567',
+  recipientType: RecipientType.Address,
+}
+
 export const mockE164NumberToInvitableRecipient = {
   [mockE164Number]: mockInvitableRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,
@@ -257,6 +263,7 @@ export const mockPhoneRecipientCache: NumberToRecipient = {
 
 export const mockValoraRecipientCache: AddressToRecipient = {
   [mockAccount]: mockRecipient,
+  [mockAccount2]: mockRecipient2,
   [mockAccountInvite]: mockRecipient2,
   [mockAccount2Invite]: mockRecipient3,
 }
@@ -343,7 +350,7 @@ export const mockPaymentRequests: PaymentRequest[] = [
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    createdAt: date,
+    createdAt: date + 1000,
     amount: '180.89',
     uid: 'FAKE_ID_2',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -355,8 +362,8 @@ export const mockPaymentRequests: PaymentRequest[] = [
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    createdAt: date,
-    amount: '180.89',
+    createdAt: date + 2000,
+    amount: '1234.56',
     uid: 'FAKE_ID_3',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
     requesteeAddress: mockAccount,
@@ -442,17 +449,18 @@ export const mockRecipientInfo: RecipientInfo = {
   addressToDisplayName: {},
 }
 
-export const mockWallet: PrimaryValoraWallet = {
+export const mockWallet: UnlockableWallet = {
   unlockAccount: jest.fn(),
   isAccountUnlocked: jest.fn(),
   addAccount: jest.fn(),
   getAccounts: jest.fn(),
+  removeAccount: jest.fn(),
   hasAccount: jest.fn(),
   signTransaction: jest.fn(),
   signTypedData: jest.fn(),
   signPersonalMessage: jest.fn(),
-  decryptMessage: jest.fn(),
-  updateAccount: jest.fn(),
+  decrypt: jest.fn(),
+  computeSharedSecret: jest.fn(),
 }
 
 export const makeExchangeRates = (
@@ -1054,6 +1062,15 @@ export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
     description: 'Lend and borrow tokens!',
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
+  },
+  {
+    name: 'Dapp 3',
+    id: 'dapp3',
+    categories: ['1'],
+    categoryNames: ['Swap'],
+    description: 'Do something cool!',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp3.png',
+    dappUrl: 'https://app.dapp3.org/',
   },
 ]
 

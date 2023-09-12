@@ -21,7 +21,7 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia łączenie się z Celo Network za pośrednictwem zaufanego węzła. Możesz włączyć lub wyłączyć ten tryb w każdej chwili w ustawieniach aplikacji.",
-  "keylessBackupSettingsTitle": "Odzyskiwanie poczty e-mail i telefonu",
+  "keylessBackupSettingsTitle": "Odzyskiwanie za pomocą adresu e-mail i telefonu",
   "setup": "Ustaw",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
@@ -80,7 +80,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Zadbaj o bezpieczeństwo swojego portfela",
-    "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie może go dla Ciebie odzyskać.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
+    "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie będzie mogła przywrócić dostępu.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
   "setUpKeylessBackup": {
     "title": "Skonfiguruj tworzenie kopii zapasowej bez klucza",
@@ -106,16 +106,16 @@
   "keylessBackupStatus": {
     "setup": {
       "inProgress": {
-        "title": "Kopia zapasowa w toku..."
+        "title": "Tworzenie kopii zapasowej w toku…"
       },
       "completed": {
-        "title": "Kopia zapasowa zakończona",
+        "title": "Tworzenie kopii zapasowej zakończone",
         "body": "Możesz teraz odzyskać swój portfel za pomocą adresu e-mail i numeru telefonu."
       },
       "failed": {
-        "title": "Bezkluczykowa kopia zapasowa niedostępna",
-        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub chronić swoje konto teraz, tworząc kopie zapasowe ręcznie.",
-        "later": "Zrobię kopię zapasową później",
+        "title": "Kopia zapasowa bez użycia klucza jest niedostępna",
+        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub zapewnić ochronę swojego konta już teraz, tworząc kopię zapasową ręcznie.",
+        "later": "Stworzę kopię zapasową później",
         "manual": "Ręczna kopia zapasowa"
       }
     }
@@ -636,8 +636,8 @@
     "body": "Po założeniu portfela w aplikacji {{appName}} i podłączeniu numeru oboje otrzymacie ekskluzywne NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Zaproś znajomych i otrzymuj nagrody",
-    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} oboje otrzymacie 0,50 cUSD."
+    "title": "Zapraszaj znajomych i otrzymuj nagrody",
+    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} Ty i znajomy otrzymacie 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -651,8 +651,8 @@
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Zdobądź cUSD z nagrodami za polecenie Valora",
-      "body": "Zaproś do 25 znajomych, aby dołączyli do {{appName}} , a każdy z nich otrzyma 0,50 cUSD, gdy zasilą swój nowy portfel {{appName}} , do wyczerpania środków."
+      "title": "Zdobądź cUSD dzięki nagrodom za polecenie Valory",
+      "body": "Zaproś do 25 znajomych, aby dołączyli do {{appName}}. Otrzymacie 0,50 cUSD, gdy znajomy zasili swój nowy portfel {{appName}} przed wyczerpaniem środków."
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -972,7 +972,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Cześć 👋 Używam {{appName}} jako mojego portfela kryptowalutowego. Pobieranie i podłączanie numeru telefonu jest bardzo szybkie. Pobierz przez ten link i zasil swój nowy portfel, aby otrzymać $0.50 💫 \n\n{{link}} \n\nDziałaj teraz, nagrody za polecenie są ograniczone.",
+  "inviteWithRewardsCUSD": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalutowego. Pobranie aplikacji i podłączanie numeru telefonu jest bardzo szybkie. Pobierz ją przez ten link i zasil swój nowy portfel, aby otrzymać 0,50 cUSD 💫 \n\n{{link}} \n\nZacznij działać już teraz, kwota nagród za polecenie jest ograniczona.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1075,32 +1075,36 @@
   "walletConnectRequest": {
     "transactionDataLabel": "Dane transakcyjne",
     "readAccount": "{{dappName}} chce przeczytać Twój adres portfela {{appName}}.",
-    "signPayload": "{{dappName}} chce podpisać ładunek danych.",
+    "signPayloadTitle": "Zweryfikuj portfel",
+    "signPayload": "{{dappName}} chce zweryfikować własność Twojego portfela.",
+    "signTransactionTitle": "Podpisz transakcję",
     "signTransaction": "{{dappName}} chce podpisać transakcję Celo.",
+    "sendTransactionTitle": "Wyślij transakcję",
     "sendTransaction": "{{dappName}} chce wysłać transakcję Celo.",
+    "decryptPayloadTitle": "Odszyfruj za pomocą portfela",
     "decryptPayload": "{{dappName}} chce odszyfrować ładunek danych.",
     "computeSharedSecret": "{{dappName}} chce wygenerować tajemnice.",
     "transactionDataCopied": "Dane transakcji zostały skopiowane",
     "unsupportedChain": {
       "title": "Nieobsługiwany łańcuch",
-      "description": "{{dappName}} żąda tej akcji na łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie aplikacji."
+      "description": "{{dappName}} żąda tej akcji w łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie dapp."
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nieobsługiwany łańcuch",
-        "description": "{{dappName}} chcesz połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest wybrane po stronie aplikacji."
+        "description": "{{dappName}} chce połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że po stronie dapp wybrano Celo."
       },
       "warnUnsupportedChains": {
         "title": "Nieobsługiwany łańcuch",
-        "description": "{{dappName}} nie określiła Celo jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+        "description": "Aplikacja {{dappName}} nie określiła Celo jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Nieobsługiwane metody",
-        "description": "{{dappName}} określono niektóre metody, które nie są obsługiwane przez {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+        "description": "Aplikacja {{dappName}} określiła niektóre metody, które nie są obsługiwane przez aplikację {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
       },
       "warnSomeUnsupportedEvents": {
         "title": "Nieobsługiwane zdarzenia",
-        "description": "{{dappName}} określono niektóre zdarzenia, które nie są obsługiwane przez {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+        "description": "Aplikacja {{dappName}} określiła niektóre zdarzenia, które nie są obsługiwane przez aplikację {{appName}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
       }
     }
   },
@@ -1139,6 +1143,7 @@
   "sent": "Wysłano",
   "received": "Otrzymano",
   "viewAll": "Zobacz wszystkie",
+  "noNotificationsPlaceholder": "Teraz już jesteś na bieżąco!",
   "thanksForVerifying": "Dziękujemy za połączenie",
   "goldIsWhereYouSave": "CELO to miejsce, w którym możesz zaoszczędzić swoje Celo Dolary",
   "dinner": "Kolacja",
@@ -1370,16 +1375,16 @@
   "dappShortcuts": {
     "rewards": {
       "title": "Twoje nagrody",
-      "description": "Odbierz dostępne nagrody z otwartych pozycji aplikacji"
+      "description": "Odbierz dostępne nagrody z otwartych pozycji dapp"
     },
     "claimRewardsScreen": {
       "title": "Twoje nagrody",
-      "description": "Teraz możesz odbierać nagrody z otwartych pozycji dapp bezpośrednio na {{appName}}!",
-      "claimButton": "Roszczenie",
-      "claimedLabel": "Roszczenie",
+      "description": "Teraz możesz odbierać nagrody z otwartych pozycji dapp bezpośrednio w aplikacji {{appName}}!",
+      "claimButton": "Odbierz",
+      "claimedLabel": "Odebrano",
       "rewardLabel": "Dostępna nagroda",
-      "claimSuccess": "Odniosłeś sukces! Odebrałeś nagrodę",
-      "confirmingReward": "POTWIERDZENIE"
+      "claimSuccess": "Sukces! Odebrano nagrodę",
+      "confirmingReward": "POTWIERDZANIE"
     },
     "claimRewardFailure": "Wystąpił błąd podczas odbierania nagrody, spróbuj ponownie później"
   },
@@ -1418,9 +1423,9 @@
   "merchantWalletUnlockError": "Coś poszło nie tak podczas odblokowywania portfela, spróbuj ponownie",
   "noMoreTransactions": "Nie ma więcej transakcji",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Zakupy są obsługiwane przez naszych partnerów. Niektóre metody płatności są niedostępne w Twoim regionie.",
-    "disclaimerWithSomePaymentsUnavailable": "Płatności są obsługiwane przez partnerów w Celo. Niektóre metody płatności są niedostępne w Twoim regionie. <0>Dowiedz się więcej.</0>",
-    "disclaimer": "Płatności są obsługiwane przez partnerów w Celo. <0>Dowiedz się więcej.</0>",
+    "somePaymentsUnavailable": "Zakupy są obsługiwane przez naszych partnerów. Opłaty mogą się różnić. Niektóre metody płatności są niedostępne w Twoim regionie.",
+    "disclaimerWithSomePaymentsUnavailable": "Płatności są obsługiwane przez partnerów w Celo. Opłaty mogą się różnić. Niektóre metody płatności są niedostępne w Twoim regionie. <0>Dowiedz się więcej.</0>",
+    "disclaimer": "Płatności są obsługiwane przez partnerów w Celo. Opłaty mogą się różnić. <0>Dowiedz się więcej.</0>",
     "learnMore": "Dowiedz się więcej.",
     "whyMissingPayments": "Dlaczego nie widzę więcej metod płatności?",
     "dismiss": "Odrzuć",
@@ -1683,6 +1688,10 @@
       "title": "Zanim dokonasz swapu",
       "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
+    "missingSwapImpactWarning": {
+      "title": "Zanim dokonasz swapu",
+      "body": "Nie możemy oszacować wartości tego swapu. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
+    },
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1753,8 +1762,8 @@
       "body": "Wygląda na to, że {{contactName}} nie korzysta z {{appName}}. Jeśli znasz adres jego/jej portfela, nadal możesz wysłać płatność lub zaproszenie. \n\n Po pobraniu portfela i podłączeniu numeru telefonu otrzymacie ekskluzywne NFT."
     },
     "rewardsActiveCUSD": {
-      "title": "Zaproś {{contactName}} na {{appName}} i zdobądź 0.50 cUSD",
-      "body": "Wygląda na to, że {{contactName}} nie jest na Valorze. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub zamiast tego wysłać zaproszenie. \n\n Po pobraniu Valory, podłączeniu numeru telefonu i zasileniu portfela po raz pierwszy, oboje otrzymacie 0,50 cUSD do wyczerpania środków."
+      "title": "Zaproś {{contactName}} do {{appName}} i zdobądź 0,50 cUSD",
+      "body": "Wygląda na to, że {{contactName}} nie jest w Valorze. Nadal możesz wysłać płatność, jeśli znasz adres jego/jej portfela, lub zamiast tego wysłać zaproszenie. \n\n Po pobraniu Valory, podłączeniu numeru telefonu i zasileniu portfela po raz pierwszy, otrzymacie po 0,50 cUSD, aż do wyczerpania środków."
     }
   },
   "celoNews": {
@@ -1797,7 +1806,7 @@
   },
   "nftGallery": {
     "title": "Kolekcje",
-    "noNfts": "Twoje NFT będą wyświetlane tutaj, gdy będziesz mieć je w portfelu."
+    "noNfts": "Twoje NFT będą wyświetlane tutaj, gdy będziesz mieć je w portfelu"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Wyświetl w Celo Explorer",
@@ -1814,11 +1823,11 @@
   "hooksPreview": {
     "modal": {
       "title": "Tryb podglądu haków",
-      "message": "Potwierdź, że chcesz włączyć tryb podglądu dla haków.\n\nTa funkcja jest przeznaczona tylko dla deweloperów tworzących haki. Jeśli nie jesteś deweloperem lub nie uruchomiłeś tej akcji, NIE POTWIERDZAJ.",
+      "message": "Potwierdź, że chcesz włączyć tryb podglądu dla haków.\n\nTa funkcja jest przeznaczona tylko dla deweloperów tworzących haki. Jeśli nie jesteś deweloperem lub nie uruchomiłeś(-aś) tej akcji, NIE POTWIERDZAJ.",
       "cancel": "Anuluj",
       "confirm": "Potwierdź"
     },
-    "invalidApiUrl": "Nieprawidłowy adres URL interfejsu API podglądu haków",
+    "invalidApiUrl": "Niepoprawny adres URL interfejsu API podglądu haków",
     "bannerTitle": "Podgląd haków włączony, dotknij, aby wyłączyć"
   },
   "assets": {

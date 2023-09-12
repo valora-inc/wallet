@@ -3,7 +3,7 @@
 exports[`NumberKeypad renders correctly with decimal separator 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "justifyContent": "center",
       "paddingHorizontal": 12,
@@ -13,7 +13,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -22,10 +22,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -43,7 +60,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -60,10 +77,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -81,7 +115,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -98,10 +132,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -119,7 +170,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -138,7 +189,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -147,10 +198,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -168,7 +236,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -185,10 +253,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -206,7 +291,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -223,10 +308,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -244,7 +346,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -263,7 +365,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -272,10 +374,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -293,7 +412,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -310,10 +429,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -331,7 +467,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -348,10 +484,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -369,7 +522,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -388,7 +541,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -397,10 +550,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -417,7 +587,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
     >
       <Text
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -434,10 +604,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -455,7 +642,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -472,10 +659,27 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -492,7 +696,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -508,7 +712,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         <svg
           fill="none"
           height={30}
-          style={Object {}}
+          style={{}}
           viewBox="0 0 35 18"
           width={30}
           xmlns="http://www.w3.org/2000/svg"
@@ -517,13 +721,13 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
             d="M1.82198 9.7422L9.57436 16.7422C9.75813 16.9081 9.99693 17 10.2445 17H33C33.5523 17 34 16.5523 34 16V2C34 1.44772 33.5523 1 33 1H10.2445C9.99693 1 9.75813 1.09186 9.57436 1.25779L1.82198 8.25779C1.38221 8.65488 1.38221 9.34512 1.82198 9.7422Z"
             stroke="#2E3338"
             strokeWidth="3"
-            style={Object {}}
+            style={{}}
           />
           <path
             d="M17 5L25 13M17 13L25 5"
             stroke="#2E3338"
             strokeWidth="3"
-            style={Object {}}
+            style={{}}
           />
         </svg>
       </View>
@@ -535,7 +739,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
 exports[`NumberKeypad renders correctly without decimal separator 1`] = `
 <View
   style={
-    Object {
+    {
       "alignItems": "center",
       "justifyContent": "center",
       "paddingHorizontal": 12,
@@ -545,7 +749,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -554,10 +758,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -575,7 +796,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -592,10 +813,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -613,7 +851,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -630,10 +868,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -651,7 +906,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -670,7 +925,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -679,10 +934,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -700,7 +972,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -717,10 +989,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -738,7 +1027,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -755,10 +1044,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -776,7 +1082,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -795,7 +1101,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -804,10 +1110,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
     }
   >
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -825,7 +1148,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -842,10 +1165,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -863,7 +1203,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -880,10 +1220,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -901,7 +1258,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -920,7 +1277,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
   </View>
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-around",
@@ -930,7 +1287,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "color": "#2E3338",
           "fontFamily": "Inter-Medium",
@@ -944,10 +1301,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       }
     />
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -965,7 +1339,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -982,10 +1356,27 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
-        Object {
+        {
           "attribute": "selectableItemBackgroundBorderless",
           "rippleRadius": undefined,
           "type": "ThemeAttrAndroid",
@@ -1002,7 +1393,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "alignItems": "center",
             "color": "#2E3338",
             "fontFamily": "Inter-Medium",
@@ -1018,7 +1409,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         <svg
           fill="none"
           height={30}
-          style={Object {}}
+          style={{}}
           viewBox="0 0 35 18"
           width={30}
           xmlns="http://www.w3.org/2000/svg"
@@ -1027,13 +1418,13 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
             d="M1.82198 9.7422L9.57436 16.7422C9.75813 16.9081 9.99693 17 10.2445 17H33C33.5523 17 34 16.5523 34 16V2C34 1.44772 33.5523 1 33 1H10.2445C9.99693 1 9.75813 1.09186 9.57436 1.25779L1.82198 8.25779C1.38221 8.65488 1.38221 9.34512 1.82198 9.7422Z"
             stroke="#2E3338"
             strokeWidth="3"
-            style={Object {}}
+            style={{}}
           />
           <path
             d="M17 5L25 13M17 13L25 5"
             stroke="#2E3338"
             strokeWidth="3"
-            style={Object {}}
+            style={{}}
           />
         </svg>
       </View>

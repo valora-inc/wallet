@@ -23,21 +23,46 @@ export function isSupportedEvent(event: string) {
   return Object.values(SupportedEvents).includes(event as SupportedEvents)
 }
 
-export function getDescriptionFromAction(t: TFunction, action: SupportedActions, dappName: string) {
-  const actionTranslations: { [x in SupportedActions]: string } = {
-    [SupportedActions.eth_signTransaction]: t('walletConnectRequest.signTransaction', { dappName }),
-    [SupportedActions.eth_sendTransaction]: t('walletConnectRequest.sendTransaction', { dappName }),
-    [SupportedActions.eth_signTypedData]: t('walletConnectRequest.signPayload', { dappName }),
-    [SupportedActions.eth_signTypedData_v4]: t('walletConnectRequest.signPayload', { dappName }),
-    [SupportedActions.eth_sign]: t('walletConnectRequest.signPayload', { dappName }),
-    [SupportedActions.personal_sign]: t('walletConnectRequest.signPayload', { dappName }),
-    [SupportedActions.personal_decrypt]: t('walletConnectRequest.decryptPayload', { dappName }),
+export function getDescriptionAndTitleFromAction(
+  t: TFunction,
+  action: SupportedActions,
+  dappName: string
+): { description: string; title: string } {
+  const actionTranslations: { [x in SupportedActions]: { description: string; title: string } } = {
+    [SupportedActions.eth_signTransaction]: {
+      description: t('walletConnectRequest.signTransaction', { dappName }),
+      title: t('walletConnectRequest.signTransactionTitle'),
+    },
+    [SupportedActions.eth_sendTransaction]: {
+      description: t('walletConnectRequest.sendTransaction', { dappName }),
+      title: t('walletConnectRequest.sendTransactionTitle'),
+    },
+    [SupportedActions.eth_signTypedData]: {
+      description: t('walletConnectRequest.signPayload', { dappName }),
+      title: t('walletConnectRequest.signPayloadTitle'),
+    },
+    [SupportedActions.eth_signTypedData_v4]: {
+      description: t('walletConnectRequest.signPayload', { dappName }),
+      title: t('walletConnectRequest.signPayloadTitle'),
+    },
+    [SupportedActions.eth_sign]: {
+      description: t('walletConnectRequest.signPayload', { dappName }),
+      title: t('walletConnectRequest.signPayloadTitle'),
+    },
+    [SupportedActions.personal_sign]: {
+      description: t('walletConnectRequest.signPayload', { dappName }),
+      title: t('walletConnectRequest.signPayloadTitle'),
+    },
+    [SupportedActions.personal_decrypt]: {
+      description: t('walletConnectRequest.decryptPayload', { dappName }),
+      title: t('walletConnectRequest.decryptPayloadTitle'),
+    },
   }
 
-  const translationId = actionTranslations[action]
-  if (!translationId) {
-    return ''
+  const translations = actionTranslations[action]
+  if (!translations) {
+    return { description: '', title: '' }
   }
 
-  return translationId
+  return translations
 }

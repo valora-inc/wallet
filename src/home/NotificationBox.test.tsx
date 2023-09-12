@@ -133,7 +133,7 @@ describe('NotificationBox', () => {
     })
     const tree = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -149,7 +149,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -171,7 +171,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(getByText('whatIsGold')).toBeTruthy()
@@ -191,12 +191,14 @@ describe('NotificationBox', () => {
     })
     const { getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
+    expect(getElementText(titleElement)).toBe(
+      'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
+    )
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
@@ -215,7 +217,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(getByText(/incomingPaymentRequestsSummaryTitle/)).toBeTruthy()
@@ -233,7 +235,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(getByText(/outgoingPaymentRequestsSummaryTitle/)).toBeTruthy()
@@ -251,7 +253,7 @@ describe('NotificationBox', () => {
     })
     const { getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -277,7 +279,7 @@ describe('NotificationBox', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(getByText('notification.body')).toBeTruthy()
@@ -289,7 +291,7 @@ describe('NotificationBox', () => {
     })
     const { queryByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(queryByText('notification.body')).toBeFalsy()
@@ -334,7 +336,7 @@ describe('NotificationBox', () => {
     })
     const { queryByText, getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(queryByText('Notification 1')).toBeFalsy()
@@ -381,7 +383,7 @@ describe('NotificationBox', () => {
     })
     const { queryByText, getByText } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
     expect(queryByText('Notification 1')).toBeTruthy()
@@ -406,7 +408,7 @@ describe('NotificationBox', () => {
     const store = createMockStore(superchargeSetUp)
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -429,7 +431,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -455,7 +457,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -477,7 +479,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -500,7 +502,7 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
@@ -526,12 +528,60 @@ describe('NotificationBox', () => {
     })
     const { queryByTestId } = render(
       <Provider store={store}>
-        <NotificationBox />
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
       </Provider>
     )
 
     expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
     expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
     expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+  })
+
+  it('only renders notifications marked for the home screen when showOnlyHomeScreenNotifications is true', () => {
+    const store = createMockStore({
+      ...storeDataNotificationsDisabled,
+      home: {
+        notifications: {
+          notification1: {
+            ...testNotification,
+            dismissed: true,
+            showOnHomeScreen: true,
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 1',
+              },
+            },
+          },
+          notification2: {
+            ...testNotification,
+            showOnHomeScreen: true, // This is the only one that should show
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 2',
+              },
+            },
+          },
+          notification3: {
+            ...testNotification,
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 3',
+              },
+            },
+          },
+        },
+      },
+    })
+    const { queryByText } = render(
+      <Provider store={store}>
+        <NotificationBox showOnlyHomeScreenNotifications={true} />
+      </Provider>
+    )
+    expect(queryByText('Notification 1')).toBeFalsy()
+    expect(queryByText('Notification 2')).toBeTruthy()
+    expect(queryByText('Notification 3')).toBeFalsy()
   })
 })

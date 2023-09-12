@@ -115,7 +115,7 @@
       "failed": {
         "title": "Anahtarsız yedekleme kullanılamıyor",
         "body": "Anahtarsız yedeklemeyi daha sonra ayarlayabilir veya manuel olarak yedekleyerek hesabınızı şimdi koruyabilirsiniz.",
-        "later": "Daha sonra yedekleyeceğim.",
+        "later": "Daha sonra yedekleyeceğim",
         "manual": "Manuel Yedekleme"
       }
     }
@@ -636,8 +636,8 @@
     "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Arkadaşlarınızı davet edin ve ödüllendirilin",
-    "body": "{{appName}} cüzdanlarını kurup para yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
+    "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
+    "body": "{{appName}} cüzdanlarını kurup para yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -645,14 +645,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
-    "help": "Bu ödülü almak için davetlinin yönlendirme bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanına CELO, cUSD, cEUR, cREAL, JMPT veya G$ ile para yatırması gerekmektedir. <0>Tüm şartları görüntüle</0>",
+    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanına CELO, cUSD, cEUR, cREAL, JMPT veya G$ cinsinden para yatırması gerekmektedir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "Valora Tavsiye Ödülleri ile cUSD kazanın",
-      "body": "En fazla 25 arkadaşınızı {{appName}} adresine katılmaya davet edin ve yeni {{appName}} cüzdanlarına para yatırdıklarında her biriniz 0,50 cUSD kazanacaksınız."
+      "title": "Valora Davet Ödülleri ile cUSD kazanın",
+      "body": "En fazla 25 arkadaşınızı {{appName}} uygulamasına katılmaya davet edin. Yeni {{appName}} cüzdanlarına para yatırdıklarında her biriniz 0,50 cUSD kazanacaksınız."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -968,7 +968,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Merhaba! 👋 Kripto cüzdanım olarak {{appName}} kullanıyorum. Telefon numaranızı indirmek ve bağlamak çok hızlı. Bu bağlantı üzerinden indirin ve 0,50 $ kazanmak için yeni cüzdanınıza para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, tavsiye ödülleri sınırlıdır.",
+  "inviteWithRewardsCUSD": "Merhaba! 👋 Kripto cüzdanım olarak {{appName}} kullanıyorum. İndirmesi ve telefon numaranızı bağlaması çok hızlı. Bu bağlantı üzerinden indirin ve 0,50 $ kazanmak için yeni cüzdanınıza para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, davet ödülleri sınırlıdır.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1071,20 +1071,24 @@
   "walletConnectRequest": {
     "transactionDataLabel": "İşlem verileri",
     "readAccount": "{{dappName}}, {{appName}} cüzdan adresinizi okumak istiyor.",
-    "signPayload": "{{dappName}} bir veri yükü imzalamak istiyor.",
+    "signPayloadTitle": "Cüzdanı doğrula",
+    "signPayload": "{{dappName}} cüzdanınızın sahipliğini doğrulamak istiyor.",
+    "signTransactionTitle": "İşlemi imzala",
     "signTransaction": "{{dappName}} bir Celo işlemini imzalamak istiyor.",
+    "sendTransactionTitle": "İşlem gönder",
     "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
+    "decryptPayloadTitle": "Cüzdan ile şifre çözme",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
     "transactionDataCopied": "İşlem verileri kopyalandı",
     "unsupportedChain": {
       "title": "Desteklenmeyen zincir",
-      "description": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyorum. Lütfen uygulama tarafında Celo'nun seçili olduğundan emin olun."
+        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen Celo'nun dapp tarafında seçili olduğundan emin olun."
       },
       "warnUnsupportedChains": {
         "title": "Desteklenmeyen zincir",
@@ -1092,11 +1096,11 @@
       },
       "warnSomeUnsupportedMethods": {
         "title": "Desteklenmeyen yöntemler",
-        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bazı yöntemleri belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
+        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bazı yöntemler belirtti. Bazı özellikler beklendiği gibi çalışmayabilir."
       },
       "warnSomeUnsupportedEvents": {
-        "title": "Desteklenmeyen olaylar",
-        "description": "{{dappName}} {{appName}}tarafından desteklenmeyen bazı olayları belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
+        "title": "Desteklenmeyen etkinlikler",
+        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bazı etkinlikler belirtmiştir. Bazı özellikler beklendiği gibi çalışmayabilir."
       }
     }
   },
@@ -1135,6 +1139,7 @@
   "sent": "Gönderildi",
   "received": "Alındı",
   "viewAll": "Tümünü Göster",
+  "noNotificationsPlaceholder": "Siz de katıldınız!",
   "thanksForVerifying": "Bağlandığınız için teşekkürler",
   "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dollar'larını biriktirebileceğiniz yerdir",
   "dinner": "Akşam Yemeği",
@@ -1370,8 +1375,8 @@
     },
     "claimRewardsScreen": {
       "title": "Ödülleriniz",
-      "description": "Artık açık dapp pozisyonlarından ödülleri doğrudan {{appName}}adresinden talep edebilirsiniz!",
-      "claimButton": "İddia",
+      "description": "Artık açık dapp pozisyonlarından ödülleri doğrudan {{appName}} uygulamasından talep edebilirsiniz!",
+      "claimButton": "Talep Et",
       "claimedLabel": "Talep Edildi",
       "rewardLabel": "Mevcut ödül",
       "claimSuccess": "Başarılı oldunuz! Bir ödül talep ettiniz",
@@ -1414,9 +1419,9 @@
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
-    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
-    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. <0>Daha fazla bilgi edinin.</0>",
+    "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
+    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1451,9 +1456,9 @@
       "amountSpentInfo": "Ücretler dahil <0></0> ödeyeceksiniz"
     },
     "cashOut": {
-      "amountSpentInfo": "Ücretler dahil <0></0> adresinden para çekeceksiniz"
+      "amountSpentInfo": "Ücretler dahil <0></0> para çekeceksiniz"
     },
-    "receiveAmount": "Almak <0></0>"
+    "receiveAmount": "<0></0> alın"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1679,6 +1684,10 @@
       "title": "Takas yapmadan önce",
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
+    "missingSwapImpactWarning": {
+      "title": "Takas yapmadan önce",
+      "body": "Bu takasın değerini tahmin edemiyoruz. Devam etmeyi seçerseniz {{appName}} sorumlu değildir."
+    },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>"
   },
   "swapTransactionDetailPage": {
@@ -1749,8 +1758,8 @@
       "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi cüzdanı indirdikten ve telefon numarasını bağladıktan sonra, ikiniz de özel bir NFT alacaksınız."
     },
     "rewardsActiveCUSD": {
-      "title": "{{contactName}} adresini {{appName}} adresine davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora'da değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Valora'yı indirdikten, telefon numaralarını bağladıktan ve cüzdanlarına ilk kez para yatırdıktan sonra, fonlar devam ettiği sürece ikiniz de 0,50 cUSD alacaksınız."
+      "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
+      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına ilk kez para yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1814,7 +1823,7 @@
       "cancel": "İptal",
       "confirm": "Onayla"
     },
-    "invalidApiUrl": "Geçersiz kanca önizleme API URL'si",
+    "invalidApiUrl": "Geçersiz kancalar önizleme API URL'si",
     "bannerTitle": "Kancalar önizlemesi etkin, devre dışı bırakmak için dokunun"
   },
   "assets": {

@@ -7,7 +7,7 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { dappFavoritesEnabledSelector, favoriteDappIdsSelector } from 'src/dapps/selectors'
 import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
-import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
+import { Dapp, DappSection } from 'src/dapps/types'
 import LinkArrow from 'src/icons/LinkArrow'
 import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
@@ -23,8 +23,7 @@ interface DappCardContentProps {
 }
 
 interface Props {
-  section: DappSection
-  onPressDapp: (dapp: ActiveDapp) => void
+  onPressDapp: () => void
   dapp: Dapp
   onFavoriteDapp?: (dapp: Dapp) => void
 }
@@ -85,14 +84,10 @@ export function DappCardContent({
   )
 }
 
-function DappCard({ dapp, section, onPressDapp, onFavoriteDapp }: Props) {
-  const onPress = () => {
-    onPressDapp({ ...dapp, openedFrom: section })
-  }
-
+function DappCard({ dapp, onPressDapp, onFavoriteDapp }: Props) {
   return (
     <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
-      <Touchable onPress={onPress} testID={`Dapp/${dapp.id}`}>
+      <Touchable onPress={onPressDapp} borderRadius={8} testID={`Dapp/${dapp.id}`}>
         <DappCardContent
           dapp={dapp}
           onFavoriteDapp={onFavoriteDapp}

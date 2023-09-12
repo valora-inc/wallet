@@ -3,30 +3,30 @@
 exports[`SummaryNotification renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "#FFFFFF",
         "padding": 16,
       },
-      Object {
+      {
         "borderRadius": 8,
       },
       undefined,
-      Array [
-        Object {
+      [
+        {
           "borderColor": "#E6E6E6",
           "borderWidth": 1,
           "flex": 1,
           "minHeight": 144,
         },
-        Object {},
+        {},
       ],
     ]
   }
 >
   <View
     style={
-      Object {
+      {
         "flex": 1,
         "flexDirection": "row",
       }
@@ -34,7 +34,7 @@ exports[`SummaryNotification renders correctly 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "width": 40,
         }
       }
@@ -43,7 +43,7 @@ exports[`SummaryNotification renders correctly 1`] = `
     </View>
     <View
       style={
-        Object {
+        {
           "flex": 1,
           "justifyContent": "space-between",
           "marginLeft": 16,
@@ -52,7 +52,7 @@ exports[`SummaryNotification renders correctly 1`] = `
     >
       <Text
         style={
-          Object {
+          {
             "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 18,
@@ -67,7 +67,7 @@ exports[`SummaryNotification renders correctly 1`] = `
       <Text
         numberOfLines={3}
         style={
-          Object {
+          {
             "color": "#505050",
             "flex": 1,
             "fontFamily": "Inter-Regular",
@@ -81,7 +81,7 @@ exports[`SummaryNotification renders correctly 1`] = `
       </Text>
       <View
         style={
-          Object {
+          {
             "flexDirection": "row",
             "flexWrap": "wrap",
             "justifyContent": "flex-start",
@@ -90,10 +90,27 @@ exports[`SummaryNotification renders correctly 1`] = `
         testID="undefined/CallToActions"
       >
         <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
-            Object {
+            {
               "attribute": "selectableItemBackgroundBorderless",
               "rippleRadius": undefined,
               "type": "ThemeAttrAndroid",
@@ -110,14 +127,14 @@ exports[`SummaryNotification renders correctly 1`] = `
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#1AB775",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                Object {
+                {
                   "fontSize": 14,
                   "lineHeight": 16,
                   "marginRight": 24,

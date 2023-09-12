@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { HomeEvents } from 'src/analytics/Events'
@@ -19,7 +19,7 @@ import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
-import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { getDisplayName, getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
@@ -135,41 +135,33 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
   }, [payButtonPressed, secureSendDetails])
 
   return (
-    <View style={styles.container}>
-      <RequestMessagingCard
-        testID={`IncomingPaymentRequestNotification/${paymentRequestId}`}
-        title={t('incomingPaymentRequestNotificationTitle', { name: requester.name })}
-        details={paymentRequest.comment}
-        amount={
-          <CurrencyDisplay
-            amount={{
-              value: paymentRequest.amount,
-              currencyCode: Currency.Dollar,
-            }}
-          />
-        }
-        icon={<ContactCircle recipient={requester} />}
-        callToActions={[
-          {
-            text: payButtonPressed ? (
-              <ActivityIndicator testID={'loading/paymentRequest'} />
-            ) : (
-              t('send')
-            ),
-            onPress: onPayButtonPressed,
-          },
-          {
-            text: t('decline'),
-            onPress: onDeclineButtonPressed,
-          },
-        ]}
-      />
-    </View>
+    <RequestMessagingCard
+      testID={`IncomingPaymentRequestNotification/${paymentRequestId}`}
+      title={t('incomingPaymentRequestNotificationTitle', { name: getDisplayName(requester, t) })}
+      details={paymentRequest.comment}
+      amount={
+        <CurrencyDisplay
+          amount={{
+            value: paymentRequest.amount,
+            currencyCode: Currency.Dollar,
+          }}
+        />
+      }
+      icon={<ContactCircle recipient={requester} />}
+      callToActions={[
+        {
+          text: payButtonPressed ? (
+            <ActivityIndicator testID={'loading/paymentRequest'} />
+          ) : (
+            t('send')
+          ),
+          onPress: onPayButtonPressed,
+        },
+        {
+          text: t('decline'),
+          onPress: onDeclineButtonPressed,
+        },
+      ]}
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-})

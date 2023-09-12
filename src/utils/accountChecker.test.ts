@@ -2,14 +2,13 @@ import * as Sentry from '@sentry/react-native'
 import * as Keychain from 'react-native-keychain'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
-import { clearStoredAccounts } from 'src/web3/KeychainSigner'
+import { clearStoredAccounts } from 'src/web3/KeychainLock'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
 
-jest.mock('src/web3/KeychainSigner')
+jest.mock('src/web3/KeychainLock')
 
-const mockedKeychain = mocked(Keychain)
+const mockedKeychain = jest.mocked(Keychain)
 
 beforeEach(() => {
   jest.clearAllMocks()

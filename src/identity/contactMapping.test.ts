@@ -11,6 +11,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { decentralizedVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
+  fetchAddressesAndValidate,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateWalletToAccountAddress,
@@ -51,7 +52,7 @@ jest.unmock('src/pincode/authentication')
 
 describe('Import Contacts Saga', () => {
   it('imports contacts and creates contact mappings correctly', async () => {
-    await expectSaga(doImportContactsWrapper, { doMatchmaking: false })
+    await expectSaga(doImportContactsWrapper)
       .provide([
         [call(getConnectedAccount), null],
         [call(getAllContacts), mockContactList],
@@ -69,7 +70,7 @@ describe('Import Contacts Saga', () => {
   })
 
   it('shows errors correctly', async () => {
-    await expectSaga(doImportContactsWrapper, { doMatchmaking: false })
+    await expectSaga(doImportContactsWrapper)
       .provide([
         [call(getConnectedAccount), null],
         [call(getAllContacts), throwError(new Error('fake error'))],
@@ -94,9 +95,7 @@ describe('Fetch Addresses Saga', () => {
       const updatedAccount = '0xAbC'
       mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [updatedAccount] } }))
 
-      await expectSaga(fetchAddressesAndValidateSaga, {
-        e164Number: mockE164Number,
-      })
+      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -133,9 +132,7 @@ describe('Fetch Addresses Saga', () => {
       const updatedAccounts = ['0xAbC', '0xdef']
       mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: updatedAccounts } }))
 
-      await expectSaga(fetchAddressesAndValidateSaga, {
-        e164Number: mockE164Number,
-      })
+      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -160,9 +157,7 @@ describe('Fetch Addresses Saga', () => {
       }
       mockFetch.mockReject()
 
-      await expectSaga(fetchAddressesAndValidateSaga, {
-        e164Number: mockE164Number,
-      })
+      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -179,9 +174,7 @@ describe('Fetch Addresses Saga', () => {
       }
       mockFetch.mockResponseOnce('', { status: 403 })
 
-      await expectSaga(fetchAddressesAndValidateSaga, {
-        e164Number: mockE164Number,
-      })
+      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), ['0x123']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -206,9 +199,7 @@ describe('Fetch Addresses Saga', () => {
       const updatedAccounts = ['0xAbC', '0xdef']
       mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: updatedAccounts } }))
 
-      await expectSaga(fetchAddressesAndValidateSaga, {
-        e164Number: mockE164Number,
-      })
+      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
           [call(fetchWalletAddressesDecentralized, mockE164Number), ['0xabc', '0xXyz']],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -234,9 +225,7 @@ describe('Fetch Addresses Saga', () => {
       const updatedAccount = '0xAbC'
       mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [updatedAccount] } }))
 
-      await expectSaga(fetchAddressesAndValidateSaga, {
-        e164Number: mockE164Number,
-      })
+      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
           [select(decentralizedVerificationEnabledSelector), false],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -282,9 +271,7 @@ describe('Fetch Addresses Saga', () => {
       getWalletAddress: jest.fn(() => mockWallet),
     }
 
-    await expectSaga(fetchAddressesAndValidateSaga, {
-      e164Number: mockE164Number,
-    })
+    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
       .provide([
         [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -339,9 +326,7 @@ describe('Fetch Addresses Saga', () => {
       getWalletAddress: jest.fn(() => mockWallet),
     }
 
-    await expectSaga(fetchAddressesAndValidateSaga, {
-      e164Number: mockE164Number,
-    })
+    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
       .provide([
         [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -394,9 +379,7 @@ describe('Fetch Addresses Saga', () => {
       getWalletAddress: jest.fn(() => NULL_ADDRESS),
     }
 
-    await expectSaga(fetchAddressesAndValidateSaga, {
-      e164Number: mockE164Number,
-    })
+    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
       .provide([
         [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -458,9 +441,7 @@ describe('Fetch Addresses Saga', () => {
       }),
     }
 
-    await expectSaga(fetchAddressesAndValidateSaga, {
-      e164Number: mockE164Number,
-    })
+    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
       .provide([
         [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), {}],
@@ -529,9 +510,7 @@ describe('Fetch Addresses Saga', () => {
       }),
     }
 
-    await expectSaga(fetchAddressesAndValidateSaga, {
-      e164Number: mockE164Number,
-    })
+    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
       .provide([
         [select(decentralizedVerificationEnabledSelector), true],
         [select(e164NumberToAddressSelector), {}],

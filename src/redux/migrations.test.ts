@@ -1,7 +1,9 @@
+import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
+import { Network, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
@@ -18,6 +20,8 @@ import {
   v133Schema,
   v136Schema,
   v13Schema,
+  v144Schema,
+  v145Schema,
   v14Schema,
   v15Schema,
   v16Schema,
@@ -310,59 +314,59 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[15](v14Stub)
     expect(migratedSchema.identity.hasSeenVerificationNux).toEqual(true)
     expect(migratedSchema.identity).toMatchInlineSnapshot(`
-      Object {
-        "acceptedAttestationCodes": Array [],
-        "addressToDataEncryptionKey": Object {},
-        "addressToDisplayName": Object {},
-        "addressToE164Number": Object {},
+      {
+        "acceptedAttestationCodes": [],
+        "addressToDataEncryptionKey": {},
+        "addressToDisplayName": {},
+        "addressToE164Number": {},
         "askedContactsPermission": false,
-        "attestationInputStatus": Array [
+        "attestationInputStatus": [
           "Inputting",
           "Disabled",
           "Disabled",
         ],
-        "attestationsCode": Array [],
-        "contactMappingProgress": Object {
+        "attestationsCode": [],
+        "contactMappingProgress": {
           "current": 0,
           "total": 0,
         },
-        "e164NumberToAddress": Object {},
-        "e164NumberToSalt": Object {},
+        "e164NumberToAddress": {},
+        "e164NumberToSalt": {},
         "hasSeenVerificationNux": true,
-        "importContactsProgress": Object {
+        "importContactsProgress": {
           "current": 0,
           "status": 0,
           "total": 0,
         },
         "isLoadingImportContacts": false,
         "lastRevealAttempt": null,
-        "matchedContacts": Object {},
+        "matchedContacts": {},
         "numCompleteAttestations": 0,
-        "secureSendPhoneNumberMapping": Object {},
+        "secureSendPhoneNumberMapping": {},
         "startedVerification": false,
         "verificationFailed": false,
         "verificationStatus": 0,
-        "walletToAccountAddress": Object {},
+        "walletToAccountAddress": {},
       }
     `)
     expect(migratedSchema.verify).toMatchInlineSnapshot(`
-      Object {
+      {
         "TEMPORARY_override_withoutVerification": undefined,
-        "actionableAttestations": Array [],
-        "currentState": Object {
+        "actionableAttestations": [],
+        "currentState": {
           "type": "Idle",
         },
-        "komenci": Object {
+        "komenci": {
           "callbackUrl": undefined,
           "captchaToken": "",
-          "errorTimestamps": Array [],
+          "errorTimestamps": [],
           "sessionActive": false,
           "sessionToken": "",
           "unverifiedMtwAddress": null,
         },
         "komenciAvailable": "UNKNOWN",
         "retries": 0,
-        "status": Object {
+        "status": {
           "completed": 0,
           "isVerified": false,
           "komenci": true,
@@ -987,6 +991,177 @@ describe('Redux persist migrations', () => {
     expectedSchema.walletConnect.pendingSessions = oldSchema.walletConnect.v2.pendingSessions
     delete expectedSchema.walletConnect.v1
     delete expectedSchema.walletConnect.v2
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from v144 to v145', () => {
+    // Ensure that all of TokenTransfer, TokenExchange, and NftTransfer migrate correctly.
+    // Namely, that the __typename is updated to V3 and that chain is added to each TX.
+    // Also check that chain is added to standby transactions.
+    const oldSchema = {
+      ...v144Schema,
+      transactions: {
+        ...v144Schema.transactions,
+        standbyTransactions: [
+          {
+            context: { id: 'test' },
+            type: TokenTransactionTypeV2.Sent,
+            status: TransactionStatus.Pending,
+            value: '0.5',
+            tokenAddress: 'mock-address',
+            comment: '',
+            timestamp: 1542300000,
+            address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+          },
+        ],
+        transactions: [
+          {
+            __typename: 'TokenTransferV2',
+            type: TokenTransactionTypeV2.Sent,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            address: 'some-address',
+            amount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            metadata: {},
+            fees: [],
+          },
+          {
+            __typename: 'NftTransferV2',
+            type: TokenTransactionTypeV2.NftReceived,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            nfts: [],
+            fees: [],
+          },
+          {
+            __typename: 'TokenExchangeV2',
+            type: TokenTransactionTypeV2.Exchange,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            inAmount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            outAmount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            metadata: {},
+            fees: [],
+          },
+        ],
+      },
+    }
+    const expectedSchema = {
+      ...v144Schema,
+      transactions: {
+        ...v144Schema.transactions,
+        standbyTransactions: [
+          {
+            context: { id: 'test' },
+            network: Network.Celo,
+            type: TokenTransactionTypeV2.Sent,
+            status: TransactionStatus.Pending,
+            value: '0.5',
+            tokenAddress: 'mock-address',
+            comment: '',
+            timestamp: 1542300000,
+            address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+          },
+        ],
+        transactions: [
+          {
+            __typename: 'TokenTransferV3',
+            network: Network.Celo,
+            type: TokenTransactionTypeV2.Sent,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            address: 'some-address',
+            amount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            metadata: {},
+            fees: [],
+          },
+          {
+            __typename: 'NftTransferV3',
+            network: Network.Celo,
+            type: TokenTransactionTypeV2.NftReceived,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            nfts: [],
+            fees: [],
+          },
+          {
+            __typename: 'TokenExchangeV3',
+            network: Network.Celo,
+            type: TokenTransactionTypeV2.Exchange,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            inAmount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            outAmount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            metadata: {},
+            fees: [],
+          },
+        ],
+      },
+    }
+    const migratedSchema = migrations[145](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v145 to v146', () => {
+    const oldSchema = v145Schema
+    const migratedSchema = migrations[146](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.localCurrency.usdToLocalRate =
+      oldSchema.localCurrency.exchangeRates[Currency.Dollar]
+    delete expectedSchema.localCurrency.exchangeRates
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

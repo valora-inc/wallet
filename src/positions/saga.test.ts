@@ -9,12 +9,12 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
-  _confirmEnableHooksPreview,
   executeShortcutSaga,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
   triggerShortcutSaga,
+  _confirmEnableHooksPreview,
 } from 'src/positions/saga'
 import {
   hooksApiUrlSelector,
@@ -43,7 +43,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
-import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
@@ -89,7 +88,7 @@ beforeEach(() => {
 describe(fetchPositionsSaga, () => {
   it('fetches positions successfully', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE))
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
       .provide([
@@ -102,7 +101,7 @@ describe(fetchPositionsSaga, () => {
   })
 
   it("skips fetching positions if the feature gate isn't enabled", async () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
 
     await expectSaga(fetchPositionsSaga)
       .provide([[select(walletAddressSelector), mockAccount]])
@@ -113,7 +112,7 @@ describe(fetchPositionsSaga, () => {
   })
 
   it('skips fetching positions if no address is available in the store', async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
       .provide([[select(walletAddressSelector), null]])
@@ -125,7 +124,7 @@ describe(fetchPositionsSaga, () => {
 
   it("dispatches an error if there's an error", async () => {
     mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchPositionsSaga)
       .provide([
@@ -141,7 +140,7 @@ describe(fetchPositionsSaga, () => {
 describe(fetchShortcutsSaga, () => {
   it('fetches shortcuts successfully', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
       .provide([
@@ -155,7 +154,7 @@ describe(fetchShortcutsSaga, () => {
 
   it('fetches shortcuts if the previous fetch attempt failed', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
       .provide([
@@ -168,7 +167,7 @@ describe(fetchShortcutsSaga, () => {
   })
 
   it("skips fetching shortcuts if the feature gate isn't enabled", async () => {
-    mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
 
     await expectSaga(fetchShortcutsSaga).run()
 
@@ -176,7 +175,7 @@ describe(fetchShortcutsSaga, () => {
   })
 
   it("skips fetching shortcuts if they've already been fetched", async () => {
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
       .provide([[select(shortcutsStatusSelector), 'success']])
@@ -187,7 +186,7 @@ describe(fetchShortcutsSaga, () => {
 
   it('updates the shortcuts status there is an error', async () => {
     mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
-    mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     await expectSaga(fetchShortcutsSaga)
       .provide([
@@ -279,13 +278,16 @@ describe(triggerShortcutSaga, () => {
       .run()
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shortcut.data),
-    })
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.hooksApiUrl}/triggerShortcut`,
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(shortcut.data),
+      })
+    )
   })
 
   it('should handle shortcut trigger failure', async () => {
@@ -298,13 +300,16 @@ describe(triggerShortcutSaga, () => {
       .run()
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.hooksApiUrl}/triggerShortcut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(shortcut.data),
-    })
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.hooksApiUrl}/triggerShortcut`,
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(shortcut.data),
+      })
+    )
   })
 })
 

@@ -14,6 +14,7 @@ export enum StatsigLayers {
 
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
+  WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
 }
 
 export enum StatsigFeatureGates {
@@ -26,6 +27,11 @@ export enum StatsigFeatureGates {
   SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
+  SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
+  SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
+  SHOW_MULTI_CHAIN_TRANSFERS = 'show_multi_chain_transfers',
+  SHOW_NATIVE_TOKENS = 'show_native_tokens',
+  SHOW_ETH_IN_CICO = 'show_eth_in_cico',
 }
 
 export enum StatsigExperiments {
@@ -35,6 +41,7 @@ export enum StatsigExperiments {
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   DAPP_MENU_ITEM_COPY = 'dapp_menu_item_copy',
+  SWAP_BUY_AMOUNT = 'swap_buy_amount',
 }
 
 export type StatsigParameter =
