@@ -102,6 +102,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     network,
   } = route.params
   const userLocation = useSelector(userLocationDataSelector)
+  // const userLocation = {countryCodeAlpha2: 'KE', region: 'some region', ipAddress: 'some ip address'} // TODO: Remove after testing
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const defaultCurrency = useSelector(getDefaultLocalCurrencyCode)
