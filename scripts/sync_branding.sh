@@ -28,10 +28,10 @@ if [[ "$branding" == "valora" ]]; then
   export GIT_TERMINAL_PROMPT=0
   remote_path=valora-inc/valora-app-branding.git
   local_dir=branding/valora
-  if [[ ! -e $local_dir ]] && 
+  if [[ ! -e "$local_dir" ]] && 
     ( 
-      ! git clone git@github.com:$remote_path $local_dir &&
-      ! git clone https://github.com/$remote_path $local_dir 
+      ! git clone "git@github.com:$remote_path" "$local_dir" &&
+      ! git clone "https://github.com/$remote_path" "$local_dir" 
     ); then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
