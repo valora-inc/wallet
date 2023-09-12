@@ -1,21 +1,36 @@
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { isStablecoin } from 'src/tokens/utils'
-import { chooseTxFeeDetails } from 'src/transactions/send'
-import { TransactionContext } from 'src/transactions/types'
+import {
+  addHashToStandbyTransaction,
+  addStandbyTransaction,
+  removeStandbyTransaction,
+  transactionConfirmedViem,
+  transactionFailed,
+} from 'src/transactions/actions'
+import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
+import {
+  Network,
+  TokenTransactionTypeV2,
+  TransactionContext,
+  TransactionStatus,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
-import { call } from 'typed-redux-saga'
-import { SimulateContractReturnType, getAddress } from 'viem'
+import { call, put } from 'typed-redux-saga'
+import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
 
@@ -62,8 +77,6 @@ export function* sendPayment({
     feeInfo
   )
 
-  // TODO(satish): add standby transaction
-
   try {
     // this returns a method which is then passed to call instead of directly
     // doing yield* call(publicClient.celo.simulateContract, args) because this
@@ -86,13 +99,23 @@ export function* sendPayment({
 
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
-    const hash = yield* call([wallet, 'writeContract'], request)
 
-    Logger.debug(TAG, 'Transaction successfully submitted. Hash:', hash)
+    yield* put(
+      addStandbyTransaction({
+        context,
+        network: Network.Celo,
+        type: TokenTransactionTypeV2.Sent,
+        comment,
+        status: TransactionStatus.Pending,
+        value: amount.negated().toString(),
+        tokenAddress,
+        timestamp: Math.floor(Date.now() / 1000),
+        address: recipientAddress,
+      })
+    )
 
-    // TODO(satish): wait for receipt with a timeout, confirm tx and return
-
-    return hash
+    const receipt = yield* call(sendAndMonitorTransaction, { context, wallet, request })
+    return receipt
   } catch (err) {
     Logger.warn(TAG, 'Transaction failed', err)
     throw err
@@ -230,5 +253,49 @@ export function* getSendTxFeeDetails({
     feeCurrency: feeCurrency ? getAddress(feeCurrency) : undefined,
     gas: gas ? BigInt(gas) : undefined,
     maxFeePerGas: gasPrice ? BigInt(Number(gasPrice)) : undefined,
+  }
+}
+
+export function* sendAndMonitorTransaction({
+  context,
+  wallet,
+  request,
+}: {
+  context: TransactionContext
+  wallet: ViemWallet
+  request: SimulateContractReturnType['request']
+}) {
+  Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
+
+  const sendTxMethod = function* () {
+    const hash = yield* call([wallet, 'writeContract'], request)
+    yield* put(addHashToStandbyTransaction(context.id, hash))
+    const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], { hash })
+    return receipt
+  }
+
+  try {
+    // Reuse existing method which times out the sendTxMethod and includes some
+    // grace period logic to handle app backgrounding when sending.
+    // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
+    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
+    const receipt = (yield* call(
+      wrapSendTransactionWithRetry,
+      sendTxMethod,
+      context
+    )) as unknown as TransactionReceipt
+
+    if (receipt.status === 'reverted') {
+      throw new Error('transaction reverted')
+    }
+    yield* put(transactionConfirmedViem(context.id))
+    yield* put(fetchTokenBalances({ showLoading: true }))
+    return receipt
+  } catch (error) {
+    Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
+    yield* put(removeStandbyTransaction(context.id))
+    yield* put(transactionFailed(context.id))
+    yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
+    throw error
   }
 }
