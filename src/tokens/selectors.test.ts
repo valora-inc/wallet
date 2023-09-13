@@ -9,7 +9,6 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const mockDate = 1588200517518
@@ -74,11 +73,7 @@ const state: any = {
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
-    exchangeRates: {
-      [Currency.Dollar]: '0.86',
-      [Currency.Euro]: null,
-      [Currency.Celo]: null,
-    },
+    usdToLocalRate: '0.86',
   },
 }
 

@@ -66,6 +66,11 @@ export enum NotificationBannerTypes {
   outgoing_tx_request = 'outgoing_tx_request',
   escrow_tx_summary = 'escrow_tx_summary',
   escrow_tx_pending = 'escrow_tx_pending',
+  remote_notification = 'remote_notification',
+  bundled_notificaion = 'bundled_notification',
+}
+
+export enum BundledNotificationIds {
   celo_asset_education = 'celo_asset_education',
   invite_prompt = 'invite_prompt',
   verification_prompt = 'verification_prompt',
@@ -90,6 +95,7 @@ export enum NotificationBannerCTATypes {
 export interface Notification {
   element: React.ReactElement
   priority: number
+  showOnHomeScreen?: boolean
   id: string
 }
 
@@ -140,8 +146,9 @@ export function useSimpleActions() {
           text: t('backupKeyCTA'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.backup_prompt,
+              notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
+              notificationId: BundledNotificationIds.backup_prompt,
             })
             ensurePincode()
               .then((pinIsCorrect) => {
@@ -169,8 +176,9 @@ export function useSimpleActions() {
           text: t('reverifyUsingCPVHomecard.buttonLabel'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.reverify_using_CPV,
+              notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
+              notificationId: BundledNotificationIds.reverify_using_CPV,
             })
             navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
           },
@@ -191,8 +199,9 @@ export function useSimpleActions() {
             text: t('superchargeNotificationStart'),
             onPress: () => {
               ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.supercharge_available,
+                notificationType: NotificationBannerTypes.bundled_notificaion,
                 selectedAction: NotificationBannerCTATypes.accept,
+                notificationId: BundledNotificationIds.supercharge_available,
               })
               navigate(Screens.ConsumerIncentivesHomeScreen)
               ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
@@ -214,8 +223,9 @@ export function useSimpleActions() {
               text: t('superchargingNotificationStart'),
               onPress: () => {
                 ValoraAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationBannerTypes.supercharging,
+                  notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.accept,
+                  notificationId: BundledNotificationIds.supercharging,
                 })
                 navigate(Screens.ConsumerIncentivesHomeScreen)
                 ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
@@ -228,8 +238,9 @@ export function useSimpleActions() {
               isSecondary: true,
               onPress: () => {
                 ValoraAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationBannerTypes.supercharging,
+                  notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.decline,
+                  notificationId: BundledNotificationIds.supercharging,
                 })
                 dispatch(dismissKeepSupercharging())
               },
@@ -249,8 +260,9 @@ export function useSimpleActions() {
               text: t('startSuperchargingNotificationStart'),
               onPress: () => {
                 ValoraAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationBannerTypes.start_supercharging,
+                  notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.accept,
+                  notificationId: BundledNotificationIds.start_supercharging,
                 })
                 navigate(Screens.ConsumerIncentivesHomeScreen)
                 ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
@@ -263,8 +275,9 @@ export function useSimpleActions() {
               isSecondary: true,
               onPress: () => {
                 ValoraAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationBannerTypes.supercharging,
+                  notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.decline,
+                  notificationId: BundledNotificationIds.start_supercharging,
                 })
                 dispatch(dismissStartSupercharging())
               },
@@ -286,8 +299,9 @@ export function useSimpleActions() {
           text: t('notification.cta'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.verification_prompt,
+              notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
+              notificationId: BundledNotificationIds.verification_prompt,
             })
             navigate(Screens.VerificationStartScreen, {
               hideOnboardingStep: true,
@@ -299,8 +313,9 @@ export function useSimpleActions() {
           isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.verification_prompt,
+              notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.decline,
+              notificationId: BundledNotificationIds.verification_prompt,
             })
             dispatch(dismissGetVerified())
           },
@@ -323,6 +338,7 @@ export function useSimpleActions() {
       text: texts.body,
       icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
       priority: notification.priority ?? DEFAULT_PRIORITY,
+      showOnHomeScreen: notification.showOnHomeScreen,
       callToActions: [
         {
           text: texts.cta,
@@ -362,8 +378,9 @@ export function useSimpleActions() {
           text: t('learnMore'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.celo_asset_education,
+              notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
+              notificationId: BundledNotificationIds.celo_asset_education,
             })
             navigate(Screens.GoldEducation)
           },
@@ -373,8 +390,9 @@ export function useSimpleActions() {
           isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.celo_asset_education,
+              notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.decline,
+              notificationId: BundledNotificationIds.celo_asset_education,
             })
             dispatch(dismissGoldEducation())
           },
@@ -386,7 +404,11 @@ export function useSimpleActions() {
   return actions
 }
 
-export function useNotifications() {
+export function useNotifications({
+  showOnlyHomeScreenNotifications,
+}: {
+  showOnlyHomeScreenNotifications: boolean
+}) {
   const notifications: Notification[] = []
 
   // Pending outgoing invites in escrow
@@ -430,19 +452,31 @@ export function useNotifications() {
     ...simpleActions.map((notification, i) => ({
       element: <SimpleMessagingCard key={i} testID={notification.id} {...notification} />,
       priority: notification.priority,
+      showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
     }))
   )
 
-  return notifications.sort((n1, n2) => n2.priority - n1.priority)
+  return notifications
+    .sort((n1, n2) => n2.priority - n1.priority)
+    .filter((n) => {
+      if (showOnlyHomeScreenNotifications) {
+        return n.showOnHomeScreen
+      }
+      return true
+    })
 }
 
-function NotificationBox() {
+interface Props {
+  showOnlyHomeScreenNotifications: boolean
+}
+
+function NotificationBox({ showOnlyHomeScreenNotifications }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   // This variable tracks the last scrolled to notification, so that impression
   // events are not dispatched twice for the same notification
   const lastViewedIndex = useRef(-1)
-  const notifications = useNotifications()
+  const notifications = useNotifications({ showOnlyHomeScreenNotifications })
 
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
     const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)

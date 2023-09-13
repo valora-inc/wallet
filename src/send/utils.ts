@@ -2,18 +2,18 @@ import { SendOrigin } from 'src/analytics/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount, convertLocalAmountToDollars } from 'src/localCurrency/convert'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
-import { getLocalCurrencyCode, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
-import { TransactionDataInput } from 'src/send/SendAmount'
 import { canSendTokensSelector } from 'src/send/selectors'
+import { TransactionDataInput } from 'src/send/SendAmount'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'send/utils'
@@ -58,9 +58,9 @@ export function* handleSendPaymentData(
     const currency: LocalCurrencyCode = data.currencyCode
       ? (data.currencyCode as LocalCurrencyCode)
       : yield* select(getLocalCurrencyCode)
-    const exchangeRate: string = yield* call(fetchExchangeRate, Currency.Dollar, currency)
+    const exchangeRate = yield* call(fetchExchangeRate, LocalCurrencyCode.USD, currency)
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-    const localCurrencyExchangeRate: string | null = yield* select(localCurrencyToUsdSelector)
+    const localCurrencyExchangeRate: string | null = yield* select(usdToLocalCurrencyRateSelector)
     const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
     const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
     if (!inputAmount || !tokenAmount) {

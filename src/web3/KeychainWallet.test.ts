@@ -12,6 +12,7 @@ import CryptoJS from 'crypto-js'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
 import { UNLOCK_DURATION } from 'src/web3/consts'
+import { KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
 
@@ -88,11 +89,13 @@ const MOCK_DATE = new Date(1482363367071)
 // https://github.com/celo-org/celo-monorepo/blob/325b4e3ce10912478330cae6cf793aabfdb2816a/packages/sdk/wallets/wallet-local/src/local-wallet.test.ts
 describe('KeychainWallet', () => {
   let wallet: KeychainWallet
+  let lock: KeychainLock
 
   beforeEach(async () => {
     jest.clearAllMocks()
     mockedKeychain.clearAllItems()
-    wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
+    lock = new KeychainLock()
+    wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT, lock)
     await wallet.init()
   })
 
@@ -150,8 +153,8 @@ describe('KeychainWallet', () => {
           password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY1,
         },
       })
-
-      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
+      lock = new KeychainLock()
+      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT, lock)
       await wallet.init()
     })
 
@@ -407,7 +410,7 @@ describe('KeychainWallet', () => {
         },
       })
 
-      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
+      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT, new KeychainLock())
       await wallet.init()
       await wallet.unlockAccount(knownAddress, 'password', 0)
     })
@@ -469,8 +472,8 @@ describe('KeychainWallet', () => {
                 password: KEYCHAIN_ENCRYPTED_MNEMONIC,
               },
             })
-
-            wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
+            lock = new KeychainLock()
+            wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, lock)
             await wallet.init()
           })
 
@@ -550,12 +553,15 @@ describe('KeychainWallet', () => {
                 password: KEYCHAIN_ENCRYPTED_MNEMONIC,
               },
             })
-
-            wallet = new KeychainWallet({
-              ...EXISTING_GETH_ACCOUNT,
-              // Even further future date
-              createdAt: new Date(2040, 5, 17),
-            })
+            lock = new KeychainLock()
+            wallet = new KeychainWallet(
+              {
+                ...EXISTING_GETH_ACCOUNT,
+                // Even further future date
+                createdAt: new Date(2040, 5, 17),
+              },
+              lock
+            )
             await wallet.init()
           })
 
@@ -600,8 +606,8 @@ describe('KeychainWallet', () => {
               password: KEYCHAIN_ENCRYPTED_ANOTHER_MNEMONIC,
             },
           })
-
-          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
+          lock = new KeychainLock()
+          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, lock)
           await wallet.init()
         })
 
@@ -640,8 +646,8 @@ describe('KeychainWallet', () => {
               password: 'unrelated password',
             },
           })
-
-          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
+          lock = new KeychainLock()
+          wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, lock)
           await wallet.init()
         })
 
@@ -688,8 +694,8 @@ describe('KeychainWallet', () => {
               'U2FsdGVkX19YfY4frblfqsNRCdYBYdPikW7ZVo6pz+L4GtcXqX/Tc0twYg6GRGdq5mCPQ26OgQ0V67rdf8+zORR8PcxoatGyaclbmqc8qQod1YwJ6hSjj7uDGug+rar9',
           },
         })
-
-        wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
+        lock = new KeychainLock()
+        wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT, lock)
         await wallet.init()
       })
 

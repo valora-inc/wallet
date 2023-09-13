@@ -14,7 +14,7 @@ export function CryptoAmount({
   currency: CiCoCurrency
   testID?: string
 }) {
-  const { address } = useTokenInfoBySymbol(currency)!
+  const { address } = useTokenInfoBySymbol(currency) ?? {}
   return (
     <TokenDisplay amount={amount} tokenAddress={address} showLocalAmount={false} testID={testID} />
   )

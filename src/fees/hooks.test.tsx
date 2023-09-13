@@ -17,7 +17,7 @@ import {
 
 interface ComponentProps {
   feeType: FeeType.SEND
-  tokenAddress: string
+  tokenAddress?: string
   shouldRefresh: boolean
 }
 function TestComponent({ feeType, tokenAddress, shouldRefresh }: ComponentProps) {
@@ -113,6 +113,10 @@ describe('useMaxSendAmount', () => {
       { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: true }
     )
     expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
+  })
+  it('returns zero when tokenAddress is undefined', () => {
+    const { getByTestId } = renderComponent({}, { feeType: FeeType.SEND, shouldRefresh: true })
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('0')
   })
   it('calls dispatch(estimateFee) when there is a feeEstimate error for the token', () => {
     const { getByTestId, store } = renderComponent(

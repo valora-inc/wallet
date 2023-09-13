@@ -15,7 +15,6 @@ import {
   watchSelectPreferredCurrency,
 } from 'src/localCurrency/saga'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { Currency } from 'src/utils/currencies'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
@@ -33,17 +32,9 @@ describe(watchFetchCurrentRate, () => {
     await expectSaga(watchFetchCurrentRate)
       .provide([
         [select(getLocalCurrencyCode), LocalCurrencyCode.PHP],
-        [call(fetchExchangeRate, Currency.Dollar, LocalCurrencyCode.PHP), '1.33'],
-        [call(fetchExchangeRate, Currency.Euro, LocalCurrencyCode.PHP), '2.12'],
-        [call(fetchExchangeRate, Currency.Celo, LocalCurrencyCode.PHP), '3.543'],
+        [call(fetchExchangeRate, LocalCurrencyCode.USD, LocalCurrencyCode.PHP), '1.33'],
       ])
-      .put(
-        fetchCurrentRateSuccess(
-          LocalCurrencyCode.PHP,
-          { [Currency.Dollar]: '1.33', [Currency.Euro]: '2.12', [Currency.Celo]: '3.543' },
-          now
-        )
-      )
+      .put(fetchCurrentRateSuccess(LocalCurrencyCode.PHP, '1.33', now))
       .dispatch(fetchCurrentRate())
       .run()
   })

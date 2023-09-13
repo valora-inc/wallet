@@ -10,10 +10,7 @@ import { exchangeHistorySelector } from 'src/exchange/reducer'
 import { withTranslation } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import {
-  getLocalCurrencyCode,
-  getLocalCurrencyToDollarsExchangeRate,
-} from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
@@ -182,7 +179,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
       getLocalCurrencyDisplayValue(amount, localCurrencyCode || LocalCurrencyCode.USD, true),
     [localCurrencyCode]
   )
-  const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
+  const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const dollarsToLocal = useCallback(
     (amount: BigNumber.Value | null) =>
       convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),

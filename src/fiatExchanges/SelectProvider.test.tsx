@@ -26,6 +26,7 @@ import {
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import mocked = jest.mocked
 import { FiatExchangeEvents } from 'src/analytics/Events'
+import { Network } from 'src/transactions/types'
 
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
@@ -48,7 +49,10 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
 }))
 
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn(),
+  getFeatureGate: jest.fn(),
+}))
 
 jest.mock('src/localCurrency/selectors', () => ({
   ...(jest.requireActual('src/localCurrency/selectors') as any),
@@ -84,6 +88,7 @@ const mockScreenProps = (
       crypto: AMOUNT_TO_CASH_IN,
       fiat: AMOUNT_TO_CASH_IN,
     },
+    network: Network.Celo,
   })
 
 const MOCK_STORE_DATA = {
@@ -144,6 +149,7 @@ describe(SelectProviderScreen, () => {
           ipAddress: MOCK_IP_ADDRESS,
         },
         walletAddress: mockAccount.toLowerCase(),
+        network: Network.Celo,
       })
     )
   })
