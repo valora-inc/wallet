@@ -1,7 +1,5 @@
 import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { getExperimentParams } from 'src/statsig'
+import { navigateHome } from 'src/navigator/NavigationService'
 
 jest.mock('src/statsig')
 
@@ -10,14 +8,7 @@ describe('navigateToFiatExchangeStart', () => {
     jest.clearAllMocks()
   })
 
-  it('navigates to FiatExchange if showAddWithdrawOnMenu is true', () => {
-    jest.mocked(getExperimentParams).mockReturnValueOnce({ showAddWithdrawOnMenu: true })
-    navigateToFiatExchangeStart()
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchange)
-  })
-
-  it('navigates to Home if showAddWithdrawOnMenu is false', () => {
-    jest.mocked(getExperimentParams).mockReturnValueOnce({ showAddWithdrawOnMenu: false })
+  it('navigates to Home', () => {
     navigateToFiatExchangeStart()
     expect(navigateHome).toHaveBeenCalledWith()
   })

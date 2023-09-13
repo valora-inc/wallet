@@ -56,16 +56,6 @@ export const ExperimentConfigs = {
       cashInBottomSheetEnabled: true,
     },
   },
-  [StatsigExperiments.HOME_SCREEN_ACTIONS]: {
-    experimentName: StatsigExperiments.HOME_SCREEN_ACTIONS,
-    defaultValues: {
-      showAddWithdrawOnMenu: true,
-      showSwapOnMenu: true,
-      showHomeActions: false,
-      showHomeNavBar: true,
-      showQrScanner: false,
-    },
-  },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {
     experimentName: StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS,
     defaultValues: {
