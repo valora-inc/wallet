@@ -2482,7 +2482,6 @@
                 "ExchangeQR",
                 "ExchangeReview",
                 "ExchangeTradeScreen",
-                "ExternalExchanges",
                 "FiatConnectLinkAccount",
                 "FiatConnectRefetchQuote",
                 "FiatConnectReview",
@@ -2567,9 +2566,6 @@
                 "WalletSecurityPrimerDrawer",
                 "WebViewScreen",
                 "Welcome",
-                "WithdrawCeloQrScannerScreen",
-                "WithdrawCeloReviewScreen",
-                "WithdrawCeloScreen",
                 "WithdrawSpend",
                 "XanpoolScreen"
             ],

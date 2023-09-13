@@ -20,13 +20,17 @@ interface Props {
 function ExchangeOption({
   exchange,
   onPress,
+  index,
 }: {
   exchange: ExternalExchangeProvider
   onPress: () => void
+  index: number
 }) {
   return (
     <Touchable onPress={onPress} testID={`${exchange.name}-Touchable`}>
-      <Text style={styles.exchangeText}>{exchange.name}</Text>
+      <Text testID={`exchange-${index}`} style={styles.exchangeText}>
+        {exchange.name}
+      </Text>
     </Touchable>
   )
 }
@@ -48,7 +52,11 @@ function ExchangesBottomSheet({ isVisible, onClose, onExchangeSelected, exchange
           return (
             <React.Fragment key={`exchange-${exchange.name}`}>
               {index > 0 && <View style={styles.separator} />}
-              <ExchangeOption exchange={exchange} onPress={getOnExchangePress(exchange)} />
+              <ExchangeOption
+                index={index}
+                exchange={exchange}
+                onPress={getOnExchangePress(exchange)}
+              />
             </React.Fragment>
           )
         })}
