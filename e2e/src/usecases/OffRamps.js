@@ -5,8 +5,9 @@ import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
 export default offRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
+    await waitForElementId('HomeActionsCarousel')
+    await element(by.id('HomeActionsCarousel')).scrollTo('right')
     await waitForElementId('HomeAction-Withdraw')
-    // await element(by.id('Hamburger')).tap()
     await element(by.id('HomeAction-Withdraw')).tap()
   })
 

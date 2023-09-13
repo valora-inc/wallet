@@ -18,6 +18,8 @@ import {
  * @return {{result: Error}}
  */
 async function navigateToFiatExchangeScreen() {
+  await waitForElementId('HomeActionsCarousel')
+  await element(by.id('HomeActionsCarousel')).scrollTo('right')
   await waitForElementId('HomeAction-Withdraw')
   await element(by.id('HomeAction-Withdraw')).tap()
 }
