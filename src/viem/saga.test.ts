@@ -34,6 +34,13 @@ import {
 } from 'test/values'
 import { getAddress } from 'viem'
 
+jest.mock('src/transactions/send', () => ({
+  chooseTxFeeDetails: jest.fn(),
+  wrapSendTransactionWithRetry: jest
+    .fn()
+    .mockImplementation((sendTxMethod, _context) => sendTxMethod()),
+}))
+
 const mockViemFeeInfo = {
   feeCurrency: getAddress(mockCusdAddress),
   gas: BigInt(mockFeeInfo.gas.toNumber()),
@@ -312,10 +319,10 @@ describe('sendAndMonitorTransaction', () => {
           throwError(new Error('wait failed')),
         ],
       ])
-      // .put(addHashToStandbyTransaction('txId', mockTxHash))
-      // .put(removeStandbyTransaction('txId'))
-      // .put(transactionFailed('txId'))
-      // .put(showError(ErrorMessages.TRANSACTION_FAILED))
+      .put(addHashToStandbyTransaction('txId', mockTxHash))
+      .put(removeStandbyTransaction('txId'))
+      .put(transactionFailed('txId'))
+      .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .throws(new Error('wait failed'))
       .run()
   })
