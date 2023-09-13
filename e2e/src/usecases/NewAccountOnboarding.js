@@ -49,7 +49,7 @@ export default NewAccountOnboarding = () => {
 
     // Arrived to Home screen
     await dismissCashInBottomSheet()
-    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+    await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
     // Able to open the drawer - testing https://github.com/valora-inc/wallet/issues/3043
     await waitForElementId('Hamburger')
@@ -87,7 +87,7 @@ export default NewAccountOnboarding = () => {
 
     // Navigated to Home screen
     await dismissCashInBottomSheet()
-    await waitFor(element(by.id('SendOrRequestBar')))
+    await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

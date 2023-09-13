@@ -1,16 +1,16 @@
+import { newKit } from '@celo/contractkit'
+import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
+import { KycStatus } from '@fiatconnect/fiatconnect-types'
+import fetch from 'node-fetch'
+import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
+import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import {
   dismissCashInBottomSheet,
   enterPinUiIfNecessary,
-  sleep,
   quickOnboarding,
+  sleep,
   waitForElementId,
 } from '../utils/utils'
-import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
-import { newKit } from '@celo/contractkit'
-import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
-import { MOCK_PROVIDER_BASE_URL, MOCK_PROVIDER_API_KEY } from 'react-native-dotenv'
-import fetch from 'node-fetch'
-import { KycStatus } from '@fiatconnect/fiatconnect-types'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)
@@ -18,9 +18,8 @@ import { KycStatus } from '@fiatconnect/fiatconnect-types'
  * @return {{result: Error}}
  */
 async function navigateToFiatExchangeScreen() {
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await element(by.id('add-and-withdraw')).tap()
+  await waitForElementId('HomeAction-Withdraw')
+  await element(by.id('HomeAction-Withdraw')).tap()
 }
 
 /**
@@ -83,7 +82,7 @@ async function submitTransfer(expectZeroBalance = false) {
   if (expectZeroBalance) {
     await dismissCashInBottomSheet()
   }
-  await expect(element(by.id('SendOrRequestBar'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
+  await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
 /**

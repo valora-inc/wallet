@@ -58,7 +58,7 @@ const verifySuccessfulConnection = async () => {
   await waitFor(element(by.text(`Success! Please go back to ${dappName} to continue`)))
     .toBeVisible()
     .withTimeout(15 * 1000)
-  await waitFor(element(by.id('SendOrRequestBar')))
+  await waitFor(element(by.id('HomeAction-Send')))
     .toBeVisible()
     .withTimeout(15 * 1000)
 }
