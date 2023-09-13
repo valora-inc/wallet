@@ -148,7 +148,7 @@ bundle exec pod install
 1. Run `yarn install` in the repository root.
 2. Run `yarn dev:ios` in the repository root.
 
-#### Install Rosetta
+#### Install Rosetta (M1 macs only)
 
 If you are unable to run the app in the iOS Simulator, install Rosetta:
 
