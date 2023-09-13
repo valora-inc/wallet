@@ -13662,10 +13662,10 @@ react-native-crypto@^2.0.1:
     pbkdf2 "3.0.8"
     public-encrypt "^4.0.0"
 
-react-native-device-info@^10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.2.0.tgz#be17a1b86cabbe53f4adde96b662204784d3cefd"
-  integrity sha512-7VycjFGaLKIZLDwCxSK5cWZdDOGqz3QxdGF57B/a4bW3gkrUFa5Gf0v7fUR9YL/VBJM0UwDiDH7pR9hkMQt+vw==
+react-native-device-info@^10.9.0:
+  version "10.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.9.0.tgz#5b378eea884a130db1d3ac637610f3a5ae7e8217"
+  integrity sha512-HqujZoNSkPGYZVs8ZsAwPkdY5UQt2jW0eg/wtW/kKbcAOp0KjUesgG7e1UISY4Z7Bx6LjZeKs0cqDzQI8AlOmw==
 
 react-native-dotenv@^3.2.0:
   version "3.2.0"
