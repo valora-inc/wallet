@@ -84,7 +84,7 @@ async function submitTransfer(expectZeroBalance = false) {
   if (expectZeroBalance) {
     await dismissCashInBottomSheet()
   }
-  await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
+  await expect(element(by.id('HomeAction-Withdraw'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
 /**
