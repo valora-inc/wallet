@@ -4276,6 +4276,9 @@
                 "name": {
                     "type": "string"
                 },
+                "network": {
+                    "type": "string"
+                },
                 "priceFetchedAt": {
                     "type": "number"
                 },
