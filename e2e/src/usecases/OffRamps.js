@@ -99,7 +99,7 @@ export default offRamps = () => {
       // Enter PIN if necessary
       await enterPinUiIfNecessary()
       // Assert we've arrived at the home screen
-      await waitForElementId('HomeAction-Send')
+      await waitForElementId('HomeAction-Withdraw')
       // flakey due to alfajores blockscout issues
       // We might want to fix to make the transaction feed { tx receipts } ∪ { blockscout txs }
       // Assert send transaction is present in feed
