@@ -350,7 +350,7 @@
   "celoEuro": "Celo 欧元",
   "celoReal": "Celo Real",
   "celoDollars": "Celo 美元",
-  "ether": "乙醚",
+  "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "点按以复制您的 {{appName}} CUSD 地址",
   "disclaimerFiat": "{{currency}} 价值为估计值。",
   "dollarsNotYetEnabledNote": "所有提供商暂不提供 Celo 美元。要获得 Celo 美元，请购买 CELO 并在 CELO 选项卡中将其兑换成 Celo 美元。",
