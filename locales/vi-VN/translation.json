@@ -350,6 +350,7 @@
   "celoEuro": "Euro Celo",
   "celoReal": "Celo Real",
   "celoDollars": "Đô la Celo",
+  "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "Nhấn để sao chép địa chỉ CUSD {{appName}} của bạn",
   "disclaimerFiat": "Giá trị {{currency}} chỉ là ước tính.",
   "dollarsNotYetEnabledNote": "Chưa nhà cung cấp nào có Đô la Celo. Để có Đô la Celo, hãy mua CELO và quy đổi thành Đô la Celo trong tab CELO.",
@@ -637,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi bạn của bạn thiết lập và nạp tiền vào ví {{appName}} của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD."
+    "body": "Once they set up and add $10 in cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -645,14 +646,14 @@
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
     "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}",
-    "help": "Để nhận tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và nạp tiền vào ví {{appName}} bằng CELO, cUSD, cEUR, cREAL, JMPT hoặc G$. <0>Xem tất cả các điều khoản</0>",
+    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold $10 or more in cUSD in their {{appName}} wallet for 7 days. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
       "title": "Nhận cUSD với Tiền thưởng giới thiệu Valora",
-      "body": "Mời lên đến 25 người bạn tham gia {{appName}}. Trong thời gian quỹ tiền thưởng vẫn còn hiệu lực, mỗi người sẽ nhận được 0,50 cUSD khi họ nạp tiền vào ví {{appName}} mới của mình."
+      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive $10 or more in cUSD, while funds last."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -966,7 +967,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Chào bạn! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Quy trình tải ứng dụng và kết nối số điện thoại vô cùng nhanh chóng. Hãy tải ứng dụng qua liên kết này và nạp tiền vào ví mới của bạn để được nhận 0,50 USD 💫\n\n{{link}} \n\nHãy nhanh tay, tiền thưởng có hạn.",
+  "inviteWithRewardsCUSD": "Hi! 👋 Valora is the easiest way to send money to the people you care about, no matter where they are. All you need is a phone number. Download through this link, connect your phone number and fund your new wallet with 10 cUSD to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -1757,7 +1758,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora xuống, kết nối số điện thoại và nạp tiền vào ví của họ lần đầu, cả hai bạn đều sẽ nhận được 0,50 cUSD, trong thời gian quỹ tiền thưởng còn hiệu lực."
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add $10 in cUSD to their wallet, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
