@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import TokenIcon from 'src/components/TokenIcon'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -42,7 +43,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
       onPress={onPress}
     >
       <View style={styles.row}>
-        <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
+        <TokenIcon token={position} viewStyle={styles.tokenImgContainer} />
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName} numberOfLines={1}>
             {position.displayProps.title}
@@ -106,7 +107,7 @@ export const TokenBalanceItem = ({
       onPress={onPress}
     >
       <View style={styles.row}>
-        <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
+        <TokenIcon token={token} viewStyle={styles.tokenImgContainer} />
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName}>{token.symbol}</Text>
           <Text style={styles.subtext}>{token.name}</Text>
@@ -146,10 +147,7 @@ export const TokenBalanceItem = ({
 }
 
 const styles = StyleSheet.create({
-  tokenImg: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
+  tokenImgContainer: {
     marginRight: Spacing.Regular16,
   },
   container: {
