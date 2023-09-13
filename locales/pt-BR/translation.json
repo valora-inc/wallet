@@ -504,7 +504,7 @@
   "firebaseFailed": "Não foi possível estabelecer uma conexão com o servidor. Suas informações de conta não podem ser atualizadas até que a conexão seja restabelecida.",
   "gasPriceUpdateFailed": "Não foi possível atualizar a taxa",
   "appUpdateAvailable": "Atualização de aplicativo disponível",
-  "appIsOutdated": "Sua versão atual está desatualizada, atualize para a versão mais recente",
+  "appIsOutdated": "Sua versão está desatualizada, atualize para a versão mais recente",
   "update": "Atualizar",
   "qrFailedNoAddress": "A leitura do código QR falhou. Motivo: endereço de conta não encontrado.",
   "qrFailedInvalidAddress": "A leitura do código QR falhou. Motivo: endereço de conta inválido.",
