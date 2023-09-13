@@ -350,7 +350,7 @@
   "celoEuro": "Celo 欧元",
   "celoReal": "Celo Real",
   "celoDollars": "Celo 美元",
-  "ether": "Ether",
+  "ether": "乙醚",
   "tapToCopyCeloDollarsAddress": "点按以复制您的 {{appName}} CUSD 地址",
   "disclaimerFiat": "{{currency}} 价值为估计值。",
   "dollarsNotYetEnabledNote": "所有提供商暂不提供 Celo 美元。要获得 Celo 美元，请购买 CELO 并在 CELO 选项卡中将其兑换成 Celo 美元。",
@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "Once they set up and add $10 in cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "一旦他们在 {{appName}} 钱包中设置并添加了 10 美元的 cUSD，你们都将收到 0.50 cUSD。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -646,14 +646,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold $10 or more in cUSD in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "要领取此奖励，受邀者必须通过推荐链接下载，连接电话号码，并在 {{appName}} 钱包中持有 10 美元或以上的 cUSD 达 7 天。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
       "title": "参加 Valora 推荐计划，赚取 cUSD 奖励",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive $10 or more in cUSD, while funds last."
+      "body": "邀请多达 25 位朋友加入 {{appName}} ，当他们添加或收到 10 美元或更多 cUSD 时，您每人将获得 0.50 cUSD，送完即止。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -967,7 +967,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 Valora is the easiest way to send money to the people you care about, no matter where they are. All you need is a phone number. Download through this link, connect your phone number and fund your new wallet with 10 cUSD to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "您好！👋 Valora 是向您关心的人汇款的最简单方式，无论他们身在何处。您只需要一个电话号码。通过此链接下载，连接您的电话号码，并用 10 cUSD 为您的新钱包充值，即可获得 0.50 美元 💫 \n\n{{link}} \n\n现在就行动，推荐奖励有限。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1758,7 +1758,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add $10 in cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "看来 {{contactName}} 不在 Valora 上。如果您知道他们的钱包地址，您仍然可以发送付款，或者发送邀请。 \n\n 在他们下载 Valora、连接电话号码并在钱包中添加 10 美元 cUSD 后，您和他们都将获得 0.50 cUSD，直到资金用完为止。"
     }
   },
   "celoNews": {
