@@ -2,11 +2,12 @@
 import { sleep } from '@celo/utils/lib/async'
 import {
   CommonActions,
+  createNavigationContainerRef,
   NavigationState,
   StackActions,
-  createNavigationContainerRef,
 } from '@react-navigation/native'
-import { MutableRefObject, createRef } from 'react'
+import { createRef, MutableRefObject } from 'react'
+import { Platform } from 'react-native'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -20,8 +21,8 @@ import {
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import { isUserCancelledError } from 'src/storage/keychain'
-import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'NavigationService'
 
@@ -226,12 +227,20 @@ interface NavigateHomeOptions {
   params?: StackParamList[Screens.DrawerNavigator]
 }
 
+/***
+ * Navigates to the home screen resetting the navigation stack by default
+ * If called from a modal make sure to pass fromModal: true. Otherwise it will cause a null pointer dereference and subsequent app crash
+ * TODO: stop using ReactNative modals and switch to react-navigation modals
+ */
 export function navigateHome(options?: NavigateHomeOptions) {
   const { params } = options ?? {}
-  navigationRef.current?.reset({
-    index: 0,
-    routes: [{ name: Screens.DrawerNavigator, params }],
-  })
+  const timeout = params?.fromModal && Platform.OS === 'ios' ? 500 : 0
+  setTimeout(() => {
+    navigationRef.current?.reset({
+      index: 0,
+      routes: [{ name: Screens.DrawerNavigator, params }],
+    })
+  }, timeout)
 }
 
 export function navigateToError(errorMessage: string, error?: Error) {

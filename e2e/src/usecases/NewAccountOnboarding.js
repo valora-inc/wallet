@@ -1,17 +1,43 @@
+import { getAddressChunks } from '@celo/utils/lib/address'
 import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
+  completeProtectWalletScreen,
   dismissCashInBottomSheet,
   enterPinUi,
+  quickOnboarding,
   scrollIntoView,
   sleep,
   waitForElementId,
-  quickOnboarding,
-  completeProtectWalletScreen,
 } from '../utils/utils'
-import { getAddressChunks } from '@celo/utils/lib/address'
 
 import jestExpect from 'expect'
+
+const quickEducation = async () => {
+  await element(by.id('DrawerItem/Recovery Phrase')).tap()
+  await enterPinUi()
+  await element(by.id('SetUpAccountKey')).tap()
+
+  // Go through education
+  for (let i = 0; i < 4; i++) {
+    await element(by.id('Education/progressButton')).tap()
+  }
+
+  await expect(element(by.id('AccountKeyWordsContainer'))).toBeVisible()
+}
+
+const arriveAtHomeScreen = async () => {
+  // Arrived to Home screen
+  await dismissCashInBottomSheet()
+  await expect(element(by.id('HomeAction-Send'))).toBeVisible()
+}
+
+const openHamburger = async () => {
+  // Able to open the drawer - testing https://github.com/valora-inc/wallet/issues/3043
+  await waitForElementId('Hamburger')
+  await element(by.id('Hamburger')).tap()
+  await waitForElementId('Drawer/Header')
+}
 
 export default NewAccountOnboarding = () => {
   let testRecoveryPhrase, testAccountAddress
@@ -48,27 +74,32 @@ export default NewAccountOnboarding = () => {
     await element(by.id('PhoneVerificationSkipHeader')).tap()
 
     // Arrived to Home screen
-    await dismissCashInBottomSheet()
-    await expect(element(by.id('HomeAction-Send'))).toBeVisible()
+    await arriveAtHomeScreen()
 
-    // Able to open the drawer - testing https://github.com/valora-inc/wallet/issues/3043
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await waitForElementId('Drawer/Header')
+    // Able to open the drawer
+    await openHamburger()
   })
 
-  // Ideally this wouldn't be dependent on the previous test
+  it('Should be able to exit recovery phrase flow', async () => {
+    await quickEducation()
+    await waitFor(element(by.text('Cancel')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    await element(by.text('Cancel')).tap()
+
+    // Cancel modal is shown
+    await waitFor(element(by.text('Set Up Later')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    await element(by.text('Set Up Later')).tap()
+
+    // App doesn't crash and we arrive at the home screen
+    await arriveAtHomeScreen()
+  })
+
   it('Setup Recovery Phrase', async () => {
-    await element(by.id('DrawerItem/Recovery Phrase')).tap()
-    await enterPinUi()
-    await element(by.id('SetUpAccountKey')).tap()
-
-    // Go through education
-    for (let i = 0; i < 4; i++) {
-      await element(by.id('Education/progressButton')).tap()
-    }
-
-    await expect(element(by.id('AccountKeyWordsContainer'))).toBeVisible()
+    await openHamburger()
+    await quickEducation()
 
     const attributes = await element(by.id('AccountKeyWordsContainer')).getAttributes()
     testRecoveryPhrase = attributes.label
