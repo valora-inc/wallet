@@ -134,12 +134,16 @@ export function useNotifications() {
         />
       ),
       priority: notification.priority,
+      showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
     }))
   )
 
   return {
-    notifications: notifications.sort((n1, n2) => n2.priority - n1.priority),
+    notifications: notifications
+      .sort((n1, n2) => n2.priority - n1.priority)
+      // Hide notifications that should only be shown on the home screen
+      .filter((n) => !n.showOnHomeScreen),
     setNotificationPositions,
   }
 }

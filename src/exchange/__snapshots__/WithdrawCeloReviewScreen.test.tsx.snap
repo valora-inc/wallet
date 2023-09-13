@@ -533,7 +533,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   testID="TotalLineItem/ExchangeRate/value"
                 >
                   $
-                  3.00
+                  6.65
                 </Text>
               </Text>
             </View>
@@ -570,7 +570,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             testID="TotalLineItem/Subtotal/value"
           >
             ₱
-            15.00
+            33.25
           </Text>
         </Text>
       </View>

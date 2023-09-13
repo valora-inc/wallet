@@ -10,6 +10,7 @@ export interface Props {
   icon?: ImageSourcePropType | React.ReactNode
   callToActions: CallToAction[]
   priority: number
+  showOnHomeScreen?: boolean
   testID?: string
   notificationPosition?: number
 }

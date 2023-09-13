@@ -680,7 +680,7 @@ describe('NotificationCenter', () => {
   })
 
   describe('remote notifications', () => {
-    it('renders all remote notifications that were not dismissed', () => {
+    it('renders all remote notifications that were not dismissed and not for the home screen', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
@@ -697,6 +697,7 @@ describe('NotificationCenter', () => {
             },
             notification2: {
               ...testNotification,
+              showOnHomeScreen: true,
               content: {
                 en: {
                   ...testNotification.content.en,
@@ -723,7 +724,7 @@ describe('NotificationCenter', () => {
         </Provider>
       )
       expect(queryByText('Notification 1')).toBeFalsy()
-      expect(queryByText('Notification 2')).toBeTruthy()
+      expect(queryByText('Notification 2')).toBeFalsy()
       expect(queryByText('Notification 3')).toBeTruthy()
 
       expect(store.getActions()).toEqual([fetchAvailableRewards()])

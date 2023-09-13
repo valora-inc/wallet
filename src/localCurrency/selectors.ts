@@ -9,7 +9,6 @@ import {
   LOCAL_CURRENCY_CODES,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { Currency } from 'src/utils/currencies'
 
 const MIN_UPDATE_INTERVAL = 12 * 3600 * 1000 // 12 hours
 
@@ -51,28 +50,16 @@ export function getLocalCurrencySymbol(state: RootState): LocalCurrencySymbol | 
   return LocalCurrencySymbol[getLocalCurrencyCode(state)]
 }
 
-export const localCurrencyExchangeRatesSelector = createSelector(
-  (state: RootState) => state.localCurrency.exchangeRates,
-  (state: RootState) => state.localCurrency.fetchedCurrencyCode,
-  getLocalCurrencyCode,
-  (exchangeRates, fetchedCurrencyCode, localCurrencyCode) => {
-    if (localCurrencyCode !== fetchedCurrencyCode) {
-      // This makes sure we don't return stale exchange rate when the currency code changed
-      return {
-        [Currency.Dollar]: null,
-        [Currency.Euro]: null,
-        [Currency.Celo]: null,
-      }
-    }
-
-    return exchangeRates
+export const usdToLocalCurrencyRateSelector = (state: RootState) => {
+  const localCurrencyCode = getLocalCurrencyCode(state)
+  const { usdToLocalRate, fetchedCurrencyCode } = state.localCurrency
+  if (localCurrencyCode !== fetchedCurrencyCode) {
+    // This makes sure we don't return a stale exchange rate when the currency code changed
+    return null
   }
-)
 
-export const usdToLocalCurrencyRateSelector = createSelector(
-  localCurrencyExchangeRatesSelector,
-  (exchangeRates) => exchangeRates[Currency.Dollar]
-)
+  return usdToLocalRate
+}
 
 export function shouldFetchCurrentRate(state: RootState): boolean {
   const { isLoading, lastSuccessfulUpdate } = state.localCurrency

@@ -229,7 +229,7 @@ export function HeaderTitleWithTokenBalance({
     <Trans i18nKey="balanceAvailable">
       <TokenDisplay
         amount={tokenInfo.balance}
-        tokenAddress={tokenInfo.address}
+        tokenAddress={tokenInfo?.address}
         showLocalAmount={showLocalAmount}
         style={styles.headerSubTitle}
       />

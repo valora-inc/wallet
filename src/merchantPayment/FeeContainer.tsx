@@ -6,8 +6,7 @@ import FeeDrawer from 'src/components/FeeDrawer'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { BASE_TAG } from 'src/merchantPayment/constants'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/slice'
@@ -23,10 +22,10 @@ export default function FeeContainer({ amount }: { amount: BigNumber }) {
   const tokenInfo = useTokenInfoBySymbol(Currency.Dollar)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const localToFeeExchangeRate = useCurrencyToLocalAmount(new BigNumber(1), Currency.Dollar)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const currencyInfo = {
     localCurrencyCode,
-    localExchangeRate: localToFeeExchangeRate?.toString() ?? '',
+    localExchangeRate: usdToLocalRate,
   }
   const tokenAddress = tokenInfo?.address
 

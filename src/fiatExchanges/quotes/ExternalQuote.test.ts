@@ -11,11 +11,7 @@ import { mockCusdAddress, mockProviders, mockProviderSelectionAnalyticsData } fr
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-const mockExchangeRates = {
-  cGLD: '2',
-  cUSD: '2',
-  cEUR: '2',
-}
+const mockUsdToLocalRate = '2'
 
 const mockTokenInfo = {
   balance: new BigNumber('10'),
@@ -89,7 +85,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(3))
+      expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(3))
     })
     it('returns converted fee for other', () => {
       const quote = new ExternalQuote({
@@ -97,7 +93,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(2.5))
+      expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(2.5))
     })
     it('returns null when fee is unspecified', () => {
       const quote = new ExternalQuote({
@@ -108,7 +104,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates, mockTokenInfo)).toEqual(null)
+      expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(null)
     })
   })
 
@@ -119,7 +115,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(6))
+      expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(6))
     })
     it('returns fee for other', () => {
       const quote = new ExternalQuote({
@@ -127,7 +123,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(new BigNumber(5))
+      expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(5))
     })
     it('returns null when fee is unspecified', () => {
       const quote = new ExternalQuote({
@@ -138,7 +134,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates, mockTokenInfo)).toEqual(null)
+      expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(null)
     })
   })
 

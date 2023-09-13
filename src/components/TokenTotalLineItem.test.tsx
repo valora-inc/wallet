@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { LocalAmount } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
@@ -21,7 +20,7 @@ describe('TokenTotalLineItem', () => {
     tokenAddress = defaultTokenAddress,
     localAmount,
     localCurrencyCode = LocalCurrencyCode.BRL,
-    localCurrencyExchangeRate = '1.5',
+    usdToLocalRate = '1.5',
     feeToAddInUsd = undefined,
     hideSign = undefined,
   }: {
@@ -29,7 +28,7 @@ describe('TokenTotalLineItem', () => {
     tokenAddress?: string
     localAmount?: LocalAmount
     localCurrencyCode?: LocalCurrencyCode
-    localCurrencyExchangeRate?: string
+    usdToLocalRate?: string
     feeToAddInUsd?: BigNumber
     hideSign?: boolean
   }) {
@@ -39,7 +38,7 @@ describe('TokenTotalLineItem', () => {
           localCurrency: {
             preferredCurrencyCode: LocalCurrencyCode.BRL,
             fetchedCurrencyCode: LocalCurrencyCode.BRL,
-            exchangeRates: { [Currency.Dollar]: localCurrencyExchangeRate },
+            usdToLocalRate,
           },
           tokens: {
             tokenBalances: {
@@ -84,7 +83,7 @@ describe('TokenTotalLineItem', () => {
   describe('When rendering with many decimals', () => {
     it('rounds appropiately', () => {
       const { getByTestId } = renderComponent({
-        localCurrencyExchangeRate: '1.333333333333333333',
+        usdToLocalRate: '1.333333333333333333',
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$13.33')
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
@@ -99,7 +98,7 @@ describe('TokenTotalLineItem', () => {
       const { getByTestId } = renderComponent({
         amount: new BigNumber(0.000123456),
         tokenAddress: mockBtcAddress,
-        localCurrencyExchangeRate: '1',
+        usdToLocalRate: '1',
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$8.02')
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(

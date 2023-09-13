@@ -169,10 +169,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return feeString !== undefined ? new BigNumber(feeString) : null
   }
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
-  getFeeInCrypto(
-    exchangeRates: { cGLD: string | null; cUSD: string | null; cEUR: string | null },
-    tokenInfo: TokenBalance
-  ): BigNumber | null {
+  getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {
     const fee = this._getFee()
     if (this.flow === CICOFlow.CashOut) {
       return fee
@@ -180,15 +177,12 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return convertLocalToTokenAmount({
       localAmount: fee,
       tokenInfo,
-      exchangeRates,
+      usdToLocalRate,
     })
   }
 
   // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
-  getFeeInFiat(
-    exchangeRates: { cGLD: string | null; cUSD: string | null; cEUR: string | null },
-    tokenInfo: TokenBalance
-  ): BigNumber | null {
+  getFeeInFiat(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {
     const fee = this._getFee()
     if (this.flow === CICOFlow.CashIn) {
       return fee
@@ -196,7 +190,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return convertTokenToLocalAmount({
       tokenAmount: fee,
       tokenInfo,
-      exchangeRates,
+      usdToLocalRate,
     })
   }
 

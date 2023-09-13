@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import {
   tokensByAddressSelector,
@@ -27,27 +27,27 @@ export function useTokenInfoByCurrency(currency: Currency) {
 
 export function useLocalToTokenAmount(
   localAmount: BigNumber,
-  tokenAddress: string
+  tokenAddress?: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertLocalToTokenAmount({
     localAmount,
     tokenInfo,
-    exchangeRates,
+    usdToLocalRate,
   })
 }
 
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
-  tokenAddress: string
+  tokenAddress?: string
 ): BigNumber | null {
   const tokenInfo = useTokenInfo(tokenAddress)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertTokenToLocalAmount({
     tokenAmount,
     tokenInfo,
-    exchangeRates,
+    usdToLocalRate,
   })
 }
 
@@ -59,7 +59,7 @@ export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
   return amount.multipliedBy(tokenInfo.usdPrice)
 }
 
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress: string) {
+export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
   const tokenInfo = useTokenInfo(tokenAddress)
   if (!tokenInfo?.usdPrice) {
     return null

@@ -21,7 +21,7 @@ import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { TokenTransaction } from 'src/transactions/types'
+import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
@@ -92,6 +92,7 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
+    fromModal?: boolean
   }
   [Screens.ErrorScreen]: {
     errorMessage?: string
@@ -123,6 +124,7 @@ export type StackParamList = {
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
     flow: CICOFlow
+    network: Network
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
@@ -266,6 +268,7 @@ export type StackParamList = {
   [Screens.SelectProvider]: {
     flow: CICOFlow
     selectedCrypto: CiCoCurrency
+    network: Network
     amount: {
       crypto: number
       fiat: number

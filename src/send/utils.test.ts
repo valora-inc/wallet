@@ -12,7 +12,6 @@ import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RecipientType } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handlePaymentDeeplink, handleSendPaymentData } from 'src/send/utils'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount2,
@@ -115,9 +114,7 @@ describe('send/utils', () => {
           .withState(
             createMockStore({
               localCurrency: {
-                exchangeRates: {
-                  [Currency.Dollar]: null,
-                },
+                usdToLocalRate: null,
               },
             }).getState()
           )
