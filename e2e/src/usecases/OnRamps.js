@@ -92,11 +92,10 @@ export default onRamps = () => {
         await element(by.id('FiatExchangeInput')).replaceText('20')
         await element(by.id('FiatExchangeNextButton')).tap()
         await expect(element(by.text('Select Payment Method'))).toBeVisible()
-        await waitForElementId('Exchanges')
-        await element(by.id('Exchanges')).tap()
-        await waitForElementId('accountBox')
+        await waitForElementId('bottomSheetLink')
+        await element(by.id('bottomSheetLink')).tap()
         // Exchanges start at index 0
-        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
+        await waitForElementId(`exchange-${exchanges.minExpected - 1}`)
       }
     )
   })
