@@ -198,7 +198,6 @@ export function PaymentMethodSection({
 
   const renderInfoText = (quote: NormalizedQuote) => {
     const reqsSubtitleInfo = quote.getReqsSubtitle()
-    // const reqsSubtitleInfo = quote.getKycInfo()
     const reqsSubtitleString = reqsSubtitleInfo ? `${reqsSubtitleInfo} | ` : ''
     return `${reqsSubtitleString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
