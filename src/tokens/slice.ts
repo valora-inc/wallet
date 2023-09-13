@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 
-interface BaseToken {
+export interface BaseToken {
   address: string
   decimals: number
   imageUrl: string
@@ -16,6 +16,7 @@ interface BaseToken {
   // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean
   minimumAppVersionToSwap?: string
+  network?: string
 }
 
 interface HistoricalUsdPrices {
