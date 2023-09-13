@@ -2,7 +2,6 @@ import { CeloTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call } from 'redux-saga/effects'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { encryptComment } from 'src/identity/commentEncryption'
@@ -167,18 +166,17 @@ describe('getSendTxFeeDetails', () => {
     })
       .withState(createMockStore().getState())
       .provide([
-        [call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment), celoTx],
-        [
-          call(
-            chooseTxFeeDetails,
-            celoTx.txo,
-            feeInfo.feeCurrency,
-            feeInfo.gas.toNumber(),
-            feeInfo.gasPrice
-          ),
-          mockFeeDetails,
-        ],
+        [matchers.call.fn(buildSendTx), celoTx],
+        [matchers.call.fn(chooseTxFeeDetails), mockFeeDetails],
       ])
+      .call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment)
+      .call(
+        chooseTxFeeDetails,
+        celoTx.txo,
+        feeInfo.feeCurrency,
+        feeInfo.gas.toNumber(),
+        feeInfo.gasPrice
+      )
       .returns(mockViemFeeInfo)
       .run()
   })
@@ -214,12 +212,17 @@ describe('getSendTxFeeDetails', () => {
     })
       .withState(createMockStore().getState())
       .provide([
-        [call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment), celoTx],
-        [
-          call(chooseTxFeeDetails, celoTx.txo, feeInfo.feeCurrency, feeInfo.gas, feeInfo.gasPrice),
-          mockFeeDetails,
-        ],
+        [matchers.call.fn(buildSendTx), celoTx],
+        [matchers.call.fn(chooseTxFeeDetails), mockFeeDetails],
       ])
+      .call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment)
+      .call(
+        chooseTxFeeDetails,
+        celoTx.txo,
+        feeInfo.feeCurrency,
+        Number(feeInfo.gas),
+        feeInfo.gasPrice
+      )
       .returns(mockViemFeeInfo)
       .run()
   })
