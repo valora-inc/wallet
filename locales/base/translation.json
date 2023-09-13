@@ -1437,6 +1437,7 @@
     "card": "Credit / Debit Card",
     "bank": "Bank Account",
     "mobileMoney": "Mobile Money",
+    "airtime": "Airtime",
     "minFee": "Min Fee",
     "numProviders": "{{count}} Providers",
     "fee": "Fee",

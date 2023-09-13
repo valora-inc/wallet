@@ -109,6 +109,8 @@ export function PaymentMethodSection({
         return t('selectProviderScreen.mobileMoney')
       case PaymentMethod.Bank:
         return t('selectProviderScreen.bank')
+      case PaymentMethod.Airtime:
+        return t('selectProviderScreen.airtime')
       default:
         // this should never happen
         throw new Error('invalid payment method')
@@ -195,9 +197,10 @@ export function PaymentMethodSection({
   }
 
   const renderInfoText = (quote: NormalizedQuote) => {
-    const kycInfo = quote.getKycInfo()
-    const kycString = kycInfo ? `${kycInfo} | ` : ''
-    return `${kycString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
+    const reqsSubtitleInfo = quote.getReqsSubtitle()
+    // const reqsSubtitleInfo = quote.getKycInfo()
+    const reqsSubtitleString = reqsSubtitleInfo ? `${reqsSubtitleInfo} | ` : ''
+    return `${reqsSubtitleString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
 
   const renderAmount = (normalizedQuote: NormalizedQuote, feePostFix: string) => {

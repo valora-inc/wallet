@@ -97,7 +97,7 @@ export default class ExternalQuote extends NormalizedQuote {
     return !isSimplexQuote(this.quote) &&
       this.getPaymentMethod() === PaymentMethod.Airtime &&
       this.quote.extraReqs
-      ? this.quote.extraReqs.mobileCarrier
+      ? this.quote.extraReqs.mobileCarrier ?? ''
       : this.getKycInfo()
   }
 
