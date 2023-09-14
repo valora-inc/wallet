@@ -11,10 +11,10 @@ export enum Network {
 }
 
 export enum NetworkId {
-  ['celo-mainnet'] = 'celo-mainnet',
-  ['celo-alfajores'] = 'celo-alfajores',
-  ['ethereum-mainnet'] = 'ethereum-mainnet',
-  ['ethereum-sepolia'] = 'ethereum-sepolia',
+  'celo-mainnet' = 'celo-mainnet',
+  'celo-alfajores' = 'celo-alfajores',
+  'ethereum-mainnet' = 'ethereum-mainnet',
+  'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
 export interface StandbyTransactionLegacy {
