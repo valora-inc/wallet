@@ -2,13 +2,25 @@ import { CeloTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { throwError } from 'redux-saga-test-plan/providers'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
+import { fetchTokenBalances } from 'src/tokens/slice'
+import {
+  Actions,
+  addHashToStandbyTransaction,
+  removeStandbyTransaction,
+  transactionConfirmedViem,
+  transactionFailed,
+} from 'src/transactions/actions'
 import { chooseTxFeeDetails } from 'src/transactions/send'
 import { publicClient } from 'src/viem'
-import { getSendTxFeeDetails, sendPayment } from 'src/viem/saga'
+import { ViemWallet } from 'src/viem/getLockableWallet'
+import { getSendTxFeeDetails, sendAndMonitorTransaction, sendPayment } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { UnlockResult, unlockAccount } from 'src/web3/saga'
@@ -22,18 +34,25 @@ import {
 } from 'test/values'
 import { getAddress } from 'viem'
 
+jest.mock('src/transactions/send', () => ({
+  chooseTxFeeDetails: jest.fn(),
+  wrapSendTransactionWithRetry: jest
+    .fn()
+    .mockImplementation((sendTxMethod, _context) => sendTxMethod()),
+}))
+
 const mockViemFeeInfo = {
   feeCurrency: getAddress(mockCusdAddress),
   gas: BigInt(mockFeeInfo.gas.toNumber()),
   maxFeePerGas: BigInt(mockFeeInfo.gasPrice.toNumber()),
 }
 
+const mockViemWallet = {
+  account: { address: mockAccount },
+  writeContract: jest.fn(),
+} as any as ViemWallet
+
 describe('sendPayment', () => {
-  const mockTxHash = '0x123456789'
-  const mockViemWallet = {
-    account: { address: mockAccount },
-    writeContract: jest.fn(),
-  }
   const simulateContractSpy = jest.spyOn(publicClient.celo, 'simulateContract')
 
   const mockSendPaymentArgs = {
@@ -48,7 +67,6 @@ describe('sendPayment', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     simulateContractSpy.mockResolvedValue({ request: 'req' as any } as any)
-    mockViemWallet.writeContract.mockResolvedValue(mockTxHash)
   })
 
   it('sends a payment successfully for stable token', async () => {
@@ -59,6 +77,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(encryptComment), 'encryptedComment'],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
@@ -69,7 +88,8 @@ describe('sendPayment', () => {
         feeInfo: mockFeeInfo,
         encryptedComment: 'encryptedComment',
       })
-      .returns(mockTxHash)
+      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
+      .returns('txReceipt')
       .run()
 
     expect(simulateContractSpy).toHaveBeenCalledWith({
@@ -89,6 +109,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .not.call.fn(encryptComment)
@@ -99,7 +120,8 @@ describe('sendPayment', () => {
         feeInfo: mockFeeInfo,
         encryptedComment: '',
       })
-      .returns(mockTxHash)
+      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
+      .returns('txReceipt')
       .run()
 
     expect(simulateContractSpy).toHaveBeenCalledWith({
@@ -121,21 +143,23 @@ describe('sendPayment', () => {
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
       ])
+      .not.put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
+      .not.call.fn(unlockAccount)
+      .not.call.fn(sendAndMonitorTransaction)
       .throws(new Error('simulate error'))
       .run()
   })
 
-  it('throws if writeContract fails', async () => {
-    mockViemWallet.writeContract.mockRejectedValue(new Error('write error'))
-
+  it('throws if sendAndMonitorTransaction fails', async () => {
     await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenAddress: mockCeloAddress })
       .withState(createMockStore().getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [matchers.call.fn(sendAndMonitorTransaction), throwError(new Error('tx failed'))],
       ])
-      .throws(new Error('write error'))
+      .throws(new Error('tx failed'))
       .run()
   })
 })
@@ -224,6 +248,82 @@ describe('getSendTxFeeDetails', () => {
         feeInfo.gasPrice
       )
       .returns(mockViemFeeInfo)
+      .run()
+  })
+})
+
+describe('sendAndMonitorTransaction', () => {
+  const mockTxHash = '0x12345678901234'
+  const mockTxReceipt = { status: 'success' }
+  const mockArgs = {
+    context: { id: 'txId' },
+    wallet: mockViemWallet,
+    request: {} as any,
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('confirms a transaction if successfully executed', async () => {
+    await expectSaga(sendAndMonitorTransaction, mockArgs)
+      .provide([
+        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
+        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+      ])
+      .put(addHashToStandbyTransaction('txId', mockTxHash))
+      .put(transactionConfirmedViem('txId'))
+      .put(fetchTokenBalances({ showLoading: true }))
+      .call([mockViemWallet, 'writeContract'], mockArgs.request)
+      .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
+      .returns(mockTxReceipt)
+      .run()
+  })
+
+  it('fails a transaction and removes standby tx if receipt status is reverted', async () => {
+    await expectSaga(sendAndMonitorTransaction, mockArgs)
+      .provide([
+        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
+        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), { status: 'reverted' }],
+      ])
+      .put(addHashToStandbyTransaction('txId', mockTxHash))
+      .put(removeStandbyTransaction('txId'))
+      .put(transactionFailed('txId'))
+      .put(showError(ErrorMessages.TRANSACTION_FAILED))
+      .call([mockViemWallet, 'writeContract'], mockArgs.request)
+      .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
+      .throws(new Error('transaction reverted'))
+      .run()
+  })
+
+  it('fails a transaction and removes standby tx if writeContract throws', async () => {
+    await expectSaga(sendAndMonitorTransaction, mockArgs)
+      .provide([
+        [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
+      ])
+      .not.put(addHashToStandbyTransaction('txId', mockTxHash))
+      .put(removeStandbyTransaction('txId'))
+      .put(transactionFailed('txId'))
+      .put(showError(ErrorMessages.TRANSACTION_FAILED))
+      .call([mockViemWallet, 'writeContract'], mockArgs.request)
+      .not.call.fn(publicClient.celo.waitForTransactionReceipt)
+      .throws(new Error('write failed'))
+      .run()
+  })
+
+  it('fails a transaction and removes standby tx if wait for receipt throws', async () => {
+    await expectSaga(sendAndMonitorTransaction, mockArgs)
+      .provide([
+        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
+        [
+          matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
+          throwError(new Error('wait failed')),
+        ],
+      ])
+      .put(addHashToStandbyTransaction('txId', mockTxHash))
+      .put(removeStandbyTransaction('txId'))
+      .put(transactionFailed('txId'))
+      .put(showError(ErrorMessages.TRANSACTION_FAILED))
+      .throws(new Error('wait failed'))
       .run()
   })
 })

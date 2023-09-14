@@ -20,6 +20,7 @@ import { getGasPrice } from 'src/web3/gas'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
 import { call, cancel, cancelled, delay, fork, join, race, select } from 'typed-redux-saga'
+import { TransactionReceipt, WaitForTransactionReceiptReturnType } from 'viem'
 
 const TAG = 'transactions/send'
 
@@ -255,12 +256,13 @@ export function* sendTransaction(
 }
 
 // SendTransactionMethod is a redux saga generator that takes a nonce and returns a receipt.
-export type SendTransactionMethod = (nonce?: number) => Generator<any, CeloTxReceipt, any>
+export type SendTransactionMethod<
+  T extends CeloTxReceipt | WaitForTransactionReceiptReturnType = CeloTxReceipt
+> = (nonce?: number) => Generator<any, T, any>
 
-export function* wrapSendTransactionWithRetry(
-  sendTxMethod: SendTransactionMethod,
-  context: TransactionContext
-) {
+export function* wrapSendTransactionWithRetry<
+  T extends CeloTxReceipt | TransactionReceipt = CeloTxReceipt
+>(sendTxMethod: SendTransactionMethod<T>, context: TransactionContext) {
   for (let i = 1; i <= TX_NUM_TRIES; i++) {
     try {
       // Spin tx send into a Task so that it does not get cancelled automatically on timeout.
