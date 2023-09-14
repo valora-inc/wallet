@@ -43,7 +43,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
       onPress={onPress}
     >
       <View style={styles.row}>
-        <TokenIcon token={position} viewStyle={styles.tokenImgContainer} />
+        <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName} numberOfLines={1}>
             {position.displayProps.title}
@@ -107,7 +107,7 @@ export const TokenBalanceItem = ({
       onPress={onPress}
     >
       <View style={styles.row}>
-        <TokenIcon token={token} viewStyle={styles.tokenImgContainer} />
+        <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName}>{token.symbol}</Text>
           <Text style={styles.subtext}>{token.name}</Text>
@@ -147,7 +147,10 @@ export const TokenBalanceItem = ({
 }
 
 const styles = StyleSheet.create({
-  tokenImgContainer: {
+  tokenImg: {
+    width: 32,
+    height: 32,
+    borderRadius: 20,
     marginRight: Spacing.Regular16,
   },
   container: {
