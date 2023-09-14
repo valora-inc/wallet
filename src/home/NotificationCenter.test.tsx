@@ -9,7 +9,7 @@ import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
   BundledNotificationIds,
   NotificationBannerCTATypes,
-  NotificationBannerTypes,
+  NotificationType,
 } from 'src/home/NotificationBox'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { navigate } from 'src/navigator/NavigationService'
@@ -189,7 +189,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('backupKeyCTA'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.backup_prompt,
       })
@@ -236,7 +236,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.reverify_using_CPV,
       })
@@ -280,7 +280,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('learnMore'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.celo_asset_education,
       })
@@ -304,7 +304,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('dismiss'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.celo_asset_education,
       })
@@ -548,7 +548,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('notification.cta'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.verification_prompt,
       })
@@ -573,7 +573,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('dismiss'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.verification_prompt,
       })
@@ -738,7 +738,7 @@ describe('NotificationCenter', () => {
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.supercharge_available,
       })
@@ -808,7 +808,7 @@ describe('NotificationCenter', () => {
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.supercharging,
       })
@@ -830,7 +830,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByTestId('keepSupercharging/CallToActions/dismiss/Button'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.supercharging,
       })
@@ -931,7 +931,7 @@ describe('NotificationCenter', () => {
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.start_supercharging,
       })
@@ -957,7 +957,7 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByTestId('startSupercharging/CallToActions/dismiss/Button'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationBannerTypes.bundled_notificaion,
+        notificationType: NotificationType.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.start_supercharging,
       })

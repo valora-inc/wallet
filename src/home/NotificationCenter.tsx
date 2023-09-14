@@ -10,20 +10,20 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import type { Notification } from 'src/home/NotificationBox'
 import {
   INCOMING_PAYMENT_REQUESTS_PRIORITY,
   INVITES_PRIORITY,
   OUTGOING_PAYMENT_REQUESTS_PRIORITY,
   useSimpleActions,
 } from 'src/home/NotificationBox'
+import { Notification, NotificationType } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
+import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
@@ -52,7 +52,8 @@ export function useNotifications() {
       notifications.push({
         element: <EscrowedPaymentListItem payment={payment} />,
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
-        id: `reclaimInvite/${payment.paymentID}`,
+        id: `${NotificationType.escrow_tx_summary}/${payment.paymentID}`,
+        type: NotificationType.escrow_tx_summary,
       })
     }
   }
@@ -70,7 +71,8 @@ export function useNotifications() {
       notifications.push({
         element: <IncomingPaymentRequestListItem paymentRequest={request} />,
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
-        id: `incomingPaymentRequest/${request.uid}`,
+        id: `${NotificationType.incoming_tx_request}/${request.uid}`,
+        type: NotificationType.incoming_tx_request,
       })
     }
   }
@@ -103,7 +105,8 @@ export function useNotifications() {
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-        id: `outgoingPaymentRequest/${request.uid}`,
+        id: `${NotificationType.outgoing_tx_request}/${request.uid}`,
+        type: NotificationType.outgoing_tx_request,
       })
     }
   }
@@ -115,6 +118,7 @@ export function useNotifications() {
       priority: notification.priority,
       showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
+      type: notification.type,
     }))
   )
 
@@ -172,6 +176,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
           ValoraAnalytics.track(HomeEvents.notification_impression, {
             notificationId: item.id,
+            notificationType: item.type,
             notificationPosition: index,
           })
         }
