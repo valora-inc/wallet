@@ -23,6 +23,8 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -248,11 +250,6 @@ export function* buildAndSendPayment(
   return { receipt, error }
 }
 
-// TODO(act-787): remove and replace with feature gate
-function shouldUseViemForSend() {
-  return false
-}
-
 /**
  * Sends a payment to an address with an encrypted comment and gives profile
  * access to the recipient
@@ -277,7 +274,7 @@ function* sendPayment(
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
-    if (shouldUseViemForSend()) {
+    if (getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SEND)) {
       yield* call(viemSendPayment, {
         context,
         recipientAddress,
