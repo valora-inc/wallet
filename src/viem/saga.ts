@@ -18,7 +18,6 @@ import {
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
-  Network,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
@@ -103,7 +102,7 @@ export function* sendPayment({
     yield* put(
       addStandbyTransaction({
         context,
-        network: Network.Celo,
+        networkId: networkConfig.defaultNetworkId,
         type: TokenTransactionTypeV2.Sent,
         comment,
         status: TransactionStatus.Pending,

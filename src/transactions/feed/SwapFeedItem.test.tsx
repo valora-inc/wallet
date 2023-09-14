@@ -8,7 +8,7 @@ import {
   TokenAmount,
   TokenExchangeMetadata,
   TokenTransactionTypeV2,
-  Network,
+  NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
@@ -38,7 +38,7 @@ describe('SwapFeedItem', () => {
         <SwapFeedItem
           exchange={{
             __typename: 'TokenExchangeV3',
-            network: Network.Celo,
+            networkId: NetworkId['celo-alfajores'],
             type: TokenTransactionTypeV2.SwapTransaction,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,

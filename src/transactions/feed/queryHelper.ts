@@ -12,7 +12,7 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesSelector } from 'src/transactions/reducer'
-import { TokenTransaction, Network, NetworkId } from 'src/transactions/types'
+import { TokenTransaction, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -41,6 +41,13 @@ export interface QueryResponse {
       pageInfo: PageInfo
     }
   }
+}
+
+const networkIdToGraphQlParam: Record<NetworkId, string> = {
+  [NetworkId['celo-alfajores']]: 'celo_alfajores',
+  [NetworkId['celo-mainnet']]: 'celo_mainnet',
+  [NetworkId['ethereum-sepolia']]: 'ethereum_sepolia',
+  [NetworkId['ethereum-mainnet']]: 'ethereum_mainnet',
 }
 
 const TAG = 'transactions/feed/queryHelper'
@@ -84,7 +91,7 @@ export function useFetchTransactions(): QueryHookResult {
   const [fetchedResult, setFetchedResult] = useState<{
     transactions: TokenTransaction[]
     pageInfo: { [key in NetworkId]?: PageInfo | null }
-    hasTransactionsOnCurrentPage: { [key in Network]?: boolean }
+    hasTransactionsOnCurrentPage: { [key in NetworkId]?: boolean }
   }>({
     transactions: [],
     pageInfo: allowedNetworkIds.reduce((acc, cur) => {
@@ -336,7 +343,12 @@ async function queryChainTransactionsFeed({
     },
     body: JSON.stringify({
       query: TRANSACTIONS_QUERY,
-      variables: { address, localCurrencyCode, networkId, afterCursor },
+      variables: {
+        address,
+        localCurrencyCode,
+        networkId: networkIdToGraphQlParam[networkId],
+        afterCursor,
+      },
     }),
   })
   const body = (await response.json()) as QueryResponse

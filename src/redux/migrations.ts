@@ -11,6 +11,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1249,6 +1250,28 @@ export const migrations = {
       // We were previously fetching cUSD to local, but blockchain-api was returning USD to local
       // assuming cUSD == USD, so it's correct to keep this rate here
       usdToLocalRate: state.localCurrency.exchangeRates[Currency.Dollar],
+    },
+  }),
+  147: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: (
+        state.transactions.standbyTransactions as (StandbyTransaction & { network: Network })[]
+      ).map((tx) => {
+        return {
+          ..._.omit(tx, 'network'),
+          networkId: networkConfig.networkToNetworkId[tx.network],
+        }
+      }),
+      transactions: (
+        state.transactions.transactions as (TokenTransaction & { network: Network })[]
+      ).map((tx) => {
+        return {
+          ..._.omit(tx, 'network'),
+          networkId: networkConfig.networkToNetworkId[tx.network],
+        }
+      }),
     },
   }),
 }
