@@ -5,6 +5,10 @@ import TokenIcon from 'src/components/TokenIcon'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
 
+// Setting up the mock token balances with expected additional values
+mockTokenBalances[mockCusdAddress].networkIconUrl =
+  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png'
+
 const CELO_TOKEN = mockTokenBalances[mockCeloAddress]
 const CUSD_TOKEN = mockTokenBalances[mockCusdAddress]
 

@@ -16,7 +16,7 @@ export interface BaseToken {
   // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean
   minimumAppVersionToSwap?: string
-  network?: string
+  networkIconUrl?: string
 }
 
 interface HistoricalUsdPrices {

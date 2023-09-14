@@ -4276,7 +4276,7 @@
                 "name": {
                     "type": "string"
                 },
-                "network": {
+                "networkIconUrl": {
                     "type": "string"
                 },
                 "priceFetchedAt": {
