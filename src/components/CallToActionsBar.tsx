@@ -4,7 +4,7 @@ import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
 
 export interface CallToAction {
-  onPress: (params?: { notificationPosition?: number }) => unknown
+  onPress: (params?: { index?: number }) => unknown
   text: string | React.ReactNode
   dim?: boolean
   isSecondary?: boolean
@@ -13,10 +13,10 @@ export interface CallToAction {
 interface Props {
   callToActions: CallToAction[]
   testID?: string
-  notificationPosition?: number
+  index?: number
 }
 
-export default function CallToActionsBar({ callToActions, testID, notificationPosition }: Props) {
+export default function CallToActionsBar({ callToActions, testID, index }: Props) {
   return (
     <View style={styles.container} testID={testID}>
       {callToActions.map((cta, i) => {
@@ -29,7 +29,7 @@ export default function CallToActionsBar({ callToActions, testID, notificationPo
                 ...styles.action,
                 ...(cta.isSecondary ? styles.secondaryAction : {}),
               }}
-              onPress={() => cta.onPress({ notificationPosition })}
+              onPress={() => cta.onPress({ index })}
             >
               {cta.text}
             </TextButton>

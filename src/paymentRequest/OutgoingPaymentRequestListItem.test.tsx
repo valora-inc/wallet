@@ -29,7 +29,7 @@ const commonProps = {
   },
   cancelPaymentRequest: noop as typeof cancelPaymentRequest,
   updatePaymentRequestNotified: noop as typeof updatePaymentRequestNotified,
-  notificationPosition: 4,
+  index: 4,
 }
 
 describe('OutgoingPaymentRequestListItem', () => {
@@ -63,7 +63,7 @@ describe('OutgoingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.remind,
-      notificationPosition: 4,
+      notificationPositionInList: 4,
     })
   })
 
@@ -83,7 +83,7 @@ describe('OutgoingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
-      notificationPosition: 4,
+      notificationPositionInList: 4,
     })
   })
 })

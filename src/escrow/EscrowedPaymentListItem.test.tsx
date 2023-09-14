@@ -73,7 +73,7 @@ describe('EscrowedPaymentReminderNotification', () => {
   it('emits correct analytics event when CTA button is pressed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <EscrowedPaymentListItem payment={mockEscrowedPayment} notificationPosition={4} />
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} index={4} />
       </Provider>
     )
 
@@ -84,14 +84,14 @@ describe('EscrowedPaymentReminderNotification', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.remind,
-      notificationPosition: 4,
+      notificationPositionInList: 4,
     })
   })
 
   it('emits correct analytics event when notification is dismissed', () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <EscrowedPaymentListItem payment={mockEscrowedPayment} notificationPosition={4} />
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} index={4} />
       </Provider>
     )
 
@@ -102,7 +102,7 @@ describe('EscrowedPaymentReminderNotification', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.reclaim,
-      notificationPosition: 4,
+      notificationPositionInList: 4,
     })
   })
 })

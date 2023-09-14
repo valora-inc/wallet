@@ -149,7 +149,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId: BundledNotificationIds.backup_prompt,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             ensurePincode()
               .then((pinIsCorrect) => {
@@ -180,7 +180,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId: BundledNotificationIds.reverify_using_CPV,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
           },
@@ -204,7 +204,7 @@ export function useSimpleActions() {
                 notificationType: NotificationBannerTypes.bundled_notificaion,
                 selectedAction: NotificationBannerCTATypes.accept,
                 notificationId: BundledNotificationIds.supercharge_available,
-                notificationPosition: params?.notificationPosition,
+                notificationPositionInList: params?.index,
               })
               navigate(Screens.ConsumerIncentivesHomeScreen)
               ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
@@ -229,7 +229,7 @@ export function useSimpleActions() {
                   notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.accept,
                   notificationId: BundledNotificationIds.supercharging,
-                  notificationPosition: params?.notificationPosition,
+                  notificationPositionInList: params?.index,
                 })
                 navigate(Screens.ConsumerIncentivesHomeScreen)
                 ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
@@ -245,7 +245,7 @@ export function useSimpleActions() {
                   notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.decline,
                   notificationId: BundledNotificationIds.supercharging,
-                  notificationPosition: params?.notificationPosition,
+                  notificationPositionInList: params?.index,
                 })
                 dispatch(dismissKeepSupercharging())
               },
@@ -268,7 +268,7 @@ export function useSimpleActions() {
                   notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.accept,
                   notificationId: BundledNotificationIds.start_supercharging,
-                  notificationPosition: params?.notificationPosition,
+                  notificationPositionInList: params?.index,
                 })
                 navigate(Screens.ConsumerIncentivesHomeScreen)
                 ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
@@ -284,7 +284,7 @@ export function useSimpleActions() {
                   notificationType: NotificationBannerTypes.bundled_notificaion,
                   selectedAction: NotificationBannerCTATypes.decline,
                   notificationId: BundledNotificationIds.start_supercharging,
-                  notificationPosition: params?.notificationPosition,
+                  notificationPositionInList: params?.index,
                 })
                 dispatch(dismissStartSupercharging())
               },
@@ -309,7 +309,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId: BundledNotificationIds.verification_prompt,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             navigate(Screens.VerificationStartScreen, {
               hideOnboardingStep: true,
@@ -324,7 +324,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId: BundledNotificationIds.verification_prompt,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             dispatch(dismissGetVerified())
           },
@@ -356,7 +356,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.remote_notification,
               selectedAction: NotificationBannerCTATypes.remote_notification_cta,
               notificationId: id,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
           },
@@ -369,7 +369,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.remote_notification,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId: id,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             dispatch(dismissNotification(id))
           },
@@ -392,7 +392,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId: BundledNotificationIds.celo_asset_education,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             navigate(Screens.GoldEducation)
           },
@@ -405,7 +405,7 @@ export function useSimpleActions() {
               notificationType: NotificationBannerTypes.bundled_notificaion,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId: BundledNotificationIds.celo_asset_education,
-              notificationPosition: params?.notificationPosition,
+              notificationPositionInList: params?.index,
             })
             dispatch(dismissGoldEducation())
           },

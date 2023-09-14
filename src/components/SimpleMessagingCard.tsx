@@ -12,7 +12,7 @@ export interface Props {
   priority: number
   showOnHomeScreen?: boolean
   testID?: string
-  notificationPosition?: number
+  index?: number
 }
 
 export default function SimpleMessagingCard({
@@ -20,7 +20,7 @@ export default function SimpleMessagingCard({
   icon: iconProp,
   callToActions,
   testID,
-  notificationPosition,
+  index,
 }: Props) {
   const icon = iconProp ? (
     React.isValidElement(iconProp) ? (
@@ -46,7 +46,7 @@ export default function SimpleMessagingCard({
           <CallToActionsBar
             callToActions={callToActions}
             testID={`${testID}/CallToActions`}
-            notificationPosition={notificationPosition}
+            index={index}
           />
         </View>
         {!!icon && <View style={styles.iconContainer}>{icon}</View>}

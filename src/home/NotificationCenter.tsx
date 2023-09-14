@@ -51,7 +51,7 @@ export function useNotifications() {
 
       notifications.push({
         element: (params?: { index?: number }) => (
-          <EscrowedPaymentListItem payment={payment} notificationPosition={params?.index} />
+          <EscrowedPaymentListItem payment={payment} index={params?.index} />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
         id: `reclaimInvite/${payment.paymentID}`,
@@ -71,10 +71,7 @@ export function useNotifications() {
 
       notifications.push({
         element: (params?: { index?: number }) => (
-          <IncomingPaymentRequestListItem
-            paymentRequest={request}
-            notificationPosition={params?.index}
-          />
+          <IncomingPaymentRequestListItem paymentRequest={request} index={params?.index} />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
         id: `incomingPaymentRequest/${request.uid}`,
@@ -107,7 +104,7 @@ export function useNotifications() {
             comment={request.comment}
             cancelPaymentRequest={handleCancelPaymentRequest}
             updatePaymentRequestNotified={handleUpdatePaymentRequestNotified}
-            notificationPosition={params?.index}
+            index={params?.index}
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
@@ -120,11 +117,7 @@ export function useNotifications() {
   notifications.push(
     ...simpleActions.map((notification) => ({
       element: (params?: { index?: number }) => (
-        <SimpleMessagingCard
-          testID={notification.id}
-          {...notification}
-          notificationPosition={params?.index}
-        />
+        <SimpleMessagingCard {...notification} testID={notification.id} index={params?.index} />
       ),
       priority: notification.priority,
       showOnHomeScreen: notification.showOnHomeScreen,

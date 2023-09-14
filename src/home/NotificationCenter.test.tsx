@@ -248,7 +248,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.backup_prompt,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
   })
@@ -297,7 +297,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.reverify_using_CPV,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
   })
@@ -342,7 +342,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.celo_asset_education,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
 
@@ -367,7 +367,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.celo_asset_education,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
   })
@@ -612,7 +612,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.verification_prompt,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
 
@@ -638,7 +638,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.verification_prompt,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
 
@@ -802,7 +802,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.supercharge_available,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
   })
@@ -873,7 +873,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.supercharging,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
 
@@ -896,7 +896,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.supercharging,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
   })
@@ -1012,7 +1012,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: BundledNotificationIds.start_supercharging,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
 
@@ -1043,7 +1043,7 @@ describe('NotificationCenter', () => {
         notificationType: NotificationBannerTypes.bundled_notificaion,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: BundledNotificationIds.start_supercharging,
-        notificationPosition: 0,
+        notificationPositionInList: 0,
       })
     })
   })

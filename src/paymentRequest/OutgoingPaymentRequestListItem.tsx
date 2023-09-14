@@ -19,29 +19,29 @@ interface OwnProps {
   comment?: string
   cancelPaymentRequest: typeof cancelPaymentRequest
   updatePaymentRequestNotified: typeof updatePaymentRequestNotified
-  notificationPosition?: number
+  index?: number
 }
 
 type Props = OwnProps & WithTranslation
 
 export class OutgoingPaymentRequestListItem extends React.Component<Props> {
   onRemind = () => {
-    const { id, t, notificationPosition } = this.props
+    const { id, t, index } = this.props
     this.props.updatePaymentRequestNotified(id, false)
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.remind,
-      notificationPosition: notificationPosition,
+      notificationPositionInList: index,
     })
     Logger.showMessage(t('reminderSent'))
   }
 
   onCancel = () => {
-    const { id, notificationPosition } = this.props
+    const { id, index } = this.props
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
-      notificationPosition: notificationPosition,
+      notificationPositionInList: index,
     })
     this.props.cancelPaymentRequest(id)
   }

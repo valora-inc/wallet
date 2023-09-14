@@ -17,12 +17,12 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   payment: EscrowedPayment
-  notificationPosition?: number
+  index?: number
 }
 
 const TAG = 'EscrowedPaymentListItem'
 
-function EscrowedPaymentListItem({ payment, notificationPosition }: Props) {
+function EscrowedPaymentListItem({ payment, index }: Props) {
   const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
   const tokenInfo = useTokenInfo(payment.tokenAddress)
@@ -31,7 +31,7 @@ function EscrowedPaymentListItem({ payment, notificationPosition }: Props) {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.remind,
-      notificationPosition,
+      notificationPositionInList: index,
     })
 
     try {
@@ -50,7 +50,7 @@ function EscrowedPaymentListItem({ payment, notificationPosition }: Props) {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.reclaim,
-      notificationPosition,
+      notificationPositionInList: index,
     })
     navigate(Screens.ReclaimPaymentConfirmationScreen, { reclaimPaymentInput })
   }

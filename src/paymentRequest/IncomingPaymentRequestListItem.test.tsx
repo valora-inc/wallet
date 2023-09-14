@@ -85,7 +85,7 @@ const identityLoaded = {
 
 const props = {
   paymentRequest: mockPaymentRequest,
-  notificationPosition: 4,
+  index: 4,
 }
 
 describe('IncomingPaymentRequestListItem', () => {
@@ -354,7 +354,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.pay,
-      notificationPosition: 4,
+      notificationPositionInList: 4,
     })
   })
 
@@ -379,7 +379,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
-      notificationPosition: 4,
+      notificationPositionInList: 4,
     })
   })
 })
