@@ -744,7 +744,7 @@ describe('SwapScreen', () => {
     expect(getByTestId('cUSDTouchable')).toBeTruthy()
     expect(getByTestId('cEURTouchable')).toBeTruthy()
     expect(getByTestId('CELOTouchable')).toBeTruthy()
-    expect(queryByTestId('POOFTouchable')).toBeFalsy()
+    expect(queryByTestId('POOFTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeFalsy()
   })
 
