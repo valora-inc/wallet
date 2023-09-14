@@ -93,7 +93,7 @@ export enum NotificationBannerCTATypes {
 }
 
 export interface Notification {
-  element: (params?: { index?: number }) => React.ReactElement
+  renderElement: (params?: { index?: number }) => React.ReactElement
   priority: number
   showOnHomeScreen?: boolean
   id: string
@@ -428,7 +428,7 @@ export function useNotifications({
   const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
   if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
     notifications.push({
-      element: () => (
+      renderElement: () => (
         <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />
       ),
       priority: INVITES_PRIORITY,
@@ -440,7 +440,7 @@ export function useNotifications({
   const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
   if (incomingPaymentRequests && incomingPaymentRequests.length) {
     notifications.push({
-      element: () => (
+      renderElement: () => (
         <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />
       ),
       priority: INCOMING_PAYMENT_REQUESTS_PRIORITY,
@@ -452,7 +452,7 @@ export function useNotifications({
   const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
   if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
     notifications.push({
-      element: () => (
+      renderElement: () => (
         <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />
       ),
       priority: OUTGOING_PAYMENT_REQUESTS_PRIORITY,
@@ -463,7 +463,9 @@ export function useNotifications({
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification, i) => ({
-      element: () => <SimpleMessagingCard key={i} testID={notification.id} {...notification} />,
+      renderElement: () => (
+        <SimpleMessagingCard key={i} testID={notification.id} {...notification} />
+      ),
       priority: notification.priority,
       showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
@@ -533,7 +535,7 @@ function NotificationBox({ showOnlyHomeScreenNotifications }: Props) {
             key={notification.id}
             style={styles.notificationContainer}
           >
-            {notification.element()}
+            {notification.renderElement()}
           </View>
         ))}
       </ScrollView>

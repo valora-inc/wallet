@@ -50,7 +50,7 @@ export function useNotifications() {
       const itemPriority = Number(`${INVITES_PRIORITY}.${payment.timestamp.toString()}`)
 
       notifications.push({
-        element: (params?: { index?: number }) => (
+        renderElement: (params?: { index?: number }) => (
           <EscrowedPaymentListItem payment={payment} index={params?.index} />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
@@ -70,7 +70,7 @@ export function useNotifications() {
       const itemPriority = Number(`${INCOMING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
 
       notifications.push({
-        element: (params?: { index?: number }) => (
+        renderElement: (params?: { index?: number }) => (
           <IncomingPaymentRequestListItem paymentRequest={request} index={params?.index} />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
@@ -96,7 +96,7 @@ export function useNotifications() {
       const itemPriority = Number(`${OUTGOING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
 
       notifications.push({
-        element: (params?: { index?: number }) => (
+        renderElement: (params?: { index?: number }) => (
           <OutgoingPaymentRequestListItem
             id={id}
             amount={request.amount}
@@ -116,7 +116,7 @@ export function useNotifications() {
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification) => ({
-      element: (params?: { index?: number }) => (
+      renderElement: (params?: { index?: number }) => (
         <SimpleMessagingCard {...notification} testID={notification.id} index={params?.index} />
       ),
       priority: notification.priority,
@@ -210,7 +210,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const renderItem = ({ item, index }: { item: Notification; index: number }) => {
     return (
       <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
-        {item.element({ index })}
+        {item.renderElement({ index })}
       </View>
     )
   }
