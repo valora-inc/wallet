@@ -141,6 +141,12 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const notifications = useNotifications()
 
+  // Changing onViewableItemsChanged on the fly is not supported.
+  // This is a workaround to provide handleViewableItemsChanged with
+  // actual notifications array while keeping its dependecy list empty.
+  const notificationsRef = useRef<Notification[]>([])
+  notificationsRef.current = notifications
+
   const seenNotifications = useRef(new Set())
 
   useEffect(() => {
@@ -173,13 +179,15 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const handleViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      viewableItems.forEach(({ item }, index) => {
+      viewableItems.forEach(({ item }: { item: Notification }) => {
         if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
           ValoraAnalytics.track(HomeEvents.notification_impression, {
             notificationId: item.id,
-            notificationPositionOnScreen: index,
+            notificationPositionInList: notificationsRef.current.findIndex(
+              ({ id }) => id === item.id
+            ),
           })
         }
       })

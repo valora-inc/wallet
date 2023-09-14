@@ -167,7 +167,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.notification_impression]: {
     notificationId: string
-    notificationPositionOnScreen?: number
+    notificationPositionInList?: number
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
