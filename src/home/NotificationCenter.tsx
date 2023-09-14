@@ -186,7 +186,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
           ValoraAnalytics.track(HomeEvents.notification_impression, {
             notificationId: item.id,
-            notificationPosition: index,
+            notificationPositionOnScreen: index,
           })
         }
       })

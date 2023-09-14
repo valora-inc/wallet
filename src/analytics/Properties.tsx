@@ -69,7 +69,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { CiCoCurrency, Currency, AnalyticsCurrency } from 'src/utils/currencies'
+import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -167,7 +167,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.notification_impression]: {
     notificationId: string
-    notificationPosition?: number
+    notificationPositionOnScreen?: number
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
