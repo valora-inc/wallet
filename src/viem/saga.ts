@@ -68,7 +68,7 @@ export function* sendPayment({
     // this returns a method which is then passed to call instead of directly
     // doing yield* call(publicClient.celo.simulateContract, args) because this
     // results in a long TS error
-    const simulateContractMethod = yield* call(getSimulateContractMethod, {
+    const simulateContractMethod = yield* call(getTransferSimulateContract, {
       wallet,
       tokenAddress,
       amount,
@@ -108,7 +108,7 @@ export function* sendPayment({
  * @param options an object containing the arguments
  * @returns a function that invokes the simulateContract method
  */
-function* getSimulateContractMethod({
+function* getTransferSimulateContract({
   wallet,
   tokenAddress,
   amount,
