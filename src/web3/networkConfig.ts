@@ -60,7 +60,6 @@ interface NetworkConfig {
   cabIssueSmsCodeUrl: string
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
-  supportedNetworkIds: NetworkId[]
   networkToNetworkId: Record<Network, NetworkId>
   defaultNetworkId: NetworkId
   viemChain: {
@@ -177,7 +176,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-alfajores'],
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
     },
-    supportedNetworkIds: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
@@ -237,7 +235,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-mainnet'],
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
     },
-    supportedNetworkIds: [NetworkId['celo-mainnet'], NetworkId['ethereum-mainnet']],
     defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,

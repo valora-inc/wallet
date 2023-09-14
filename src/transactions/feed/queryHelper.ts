@@ -43,13 +43,6 @@ export interface QueryResponse {
   }
 }
 
-const networkIdToGraphQlParam: Record<NetworkId, string> = {
-  [NetworkId['celo-alfajores']]: 'celo_alfajores',
-  [NetworkId['celo-mainnet']]: 'celo_mainnet',
-  [NetworkId['ethereum-sepolia']]: 'ethereum_sepolia',
-  [NetworkId['ethereum-mainnet']]: 'ethereum_mainnet',
-}
-
 const TAG = 'transactions/feed/queryHelper'
 
 // Query poll interval
@@ -71,7 +64,7 @@ const deduplicateTransactions = (
 
 export function getAllowedNetworkIds(): Array<NetworkId> {
   return getFeatureGate(StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS)
-    ? config.supportedNetworkIds
+    ? Object.values(config.networkToNetworkId)
     : [config.defaultNetworkId]
 }
 
@@ -228,8 +221,8 @@ export function useFetchTransactions(): QueryHookResult {
   )
 
   useEffect(() => {
-    // this hook does 2 1:
-    // things. ensures that we populate the entire screen with transactions on load
+    // this hook does 2 things:
+    // 1. ensures that we populate the entire screen with transactions on load
     //    so that future refetches can be correctly triggered by `onEndReached`,
     //    in the event that blockchain-api returns a small number of results for
     //    the first page(s)
@@ -346,7 +339,7 @@ async function queryChainTransactionsFeed({
       variables: {
         address,
         localCurrencyCode,
-        networkId: networkIdToGraphQlParam[networkId],
+        networkId: networkId.replaceAll('-', '_'), // GraphQL does not support hyphens in enum values
         afterCursor,
       },
     }),

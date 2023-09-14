@@ -38,6 +38,23 @@ const MOCK_CONTACT = {
   address: MOCK_ADDRESS,
 }
 
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      supportedNetworkIds: ['celo-alfajores', 'ethereum-sepolia'],
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
+
 describe('TransferFeedItem', () => {
   function renderScreen({
     storeOverrides = {},
