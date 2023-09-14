@@ -40,7 +40,6 @@ type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.Notific
 export function useNotifications() {
   const dispatch = useDispatch()
   const recipientInfo = useSelector(recipientInfoSelector)
-  const [notificationPositions, setNotificationPositions] = useState<Record<string, number>>()
 
   const notifications: Notification[] = []
 
@@ -49,17 +48,13 @@ export function useNotifications() {
   if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
     for (const payment of reclaimableEscrowPayments) {
       const itemPriority = Number(`${INVITES_PRIORITY}.${payment.timestamp.toString()}`)
-      const itemId = `reclaimInvite/${payment.paymentID}`
 
       notifications.push({
-        element: (
-          <EscrowedPaymentListItem
-            payment={payment}
-            notificationPosition={notificationPositions?.[itemId]}
-          />
+        element: (params?: { index?: number }) => (
+          <EscrowedPaymentListItem payment={payment} notificationPosition={params?.index} />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
-        id: itemId,
+        id: `reclaimInvite/${payment.paymentID}`,
       })
     }
   }
@@ -73,17 +68,16 @@ export function useNotifications() {
       }
 
       const itemPriority = Number(`${INCOMING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
-      const itemId = `incomingPaymentRequest/${request.uid}`
 
       notifications.push({
-        element: (
+        element: (params?: { index?: number }) => (
           <IncomingPaymentRequestListItem
             paymentRequest={request}
-            notificationPosition={notificationPositions?.[itemId]}
+            notificationPosition={params?.index}
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
-        id: itemId,
+        id: `incomingPaymentRequest/${request.uid}`,
       })
     }
   }
@@ -100,25 +94,24 @@ export function useNotifications() {
         continue
       }
 
+      const id = request.uid
       const requestee = getRecipientFromAddress(request.requesteeAddress, recipientInfo)
-
       const itemPriority = Number(`${OUTGOING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
-      const itemId = `outgoingPaymentRequest/${request.uid}`
 
       notifications.push({
-        element: (
+        element: (params?: { index?: number }) => (
           <OutgoingPaymentRequestListItem
-            id={request.uid}
+            id={id}
             amount={request.amount}
             requestee={requestee}
             comment={request.comment}
             cancelPaymentRequest={handleCancelPaymentRequest}
             updatePaymentRequestNotified={handleUpdatePaymentRequestNotified}
-            notificationPosition={notificationPositions?.[itemId]}
+            notificationPosition={params?.index}
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-        id: itemId,
+        id: `outgoingPaymentRequest/${id}`,
       })
     }
   }
@@ -126,11 +119,11 @@ export function useNotifications() {
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification) => ({
-      element: (
+      element: (params?: { index?: number }) => (
         <SimpleMessagingCard
           testID={notification.id}
           {...notification}
-          notificationPosition={notificationPositions?.[notification.id]}
+          notificationPosition={params?.index}
         />
       ),
       priority: notification.priority,
@@ -139,13 +132,12 @@ export function useNotifications() {
     }))
   )
 
-  return {
-    notifications: notifications
+  return (
+    notifications
       .sort((n1, n2) => n2.priority - n1.priority)
       // Hide notifications that should only be shown on the home screen
-      .filter((n) => !n.showOnHomeScreen),
-    setNotificationPositions,
-  }
+      .filter((n) => !n.showOnHomeScreen)
+  )
 }
 
 export default function Notifications({ navigation }: NotificationsProps) {
@@ -154,7 +146,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const { t } = useTranslation()
   const title = t('notifications')
 
-  const { notifications, setNotificationPositions } = useNotifications()
+  const notifications = useNotifications()
 
   const seenNotifications = useRef(new Set())
 
@@ -189,11 +181,6 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const handleViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
       viewableItems.forEach(({ item }, index) => {
-        setNotificationPositions((prevNotificationPositions) => ({
-          ...prevNotificationPositions,
-          [item.id]: index,
-        }))
-
         if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
@@ -227,10 +214,10 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const renderItemSeparator = () => <View style={styles.itemSeparator} />
 
-  const renderItem = ({ item }: { item: Notification }) => {
+  const renderItem = ({ item, index }: { item: Notification; index: number }) => {
     return (
       <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
-        {item.element}
+        {item.element({ index })}
       </View>
     )
   }
