@@ -125,6 +125,16 @@ export const reducer = (
           }
         }),
       }
+    case Actions.TRANSACTION_CONFIRMED_VIEM:
+      return {
+        ...state,
+        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
+          return {
+            ...tx,
+            status: TransactionStatus.Complete,
+          }
+        }),
+      }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,

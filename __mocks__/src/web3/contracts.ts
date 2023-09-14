@@ -42,3 +42,12 @@ export function* getWeb3() {
 export async function getWeb3Async() {
   return web3
 }
+
+const mockViemWallet = {
+  account: { address: '0x1234' },
+  writeContract: jest.fn().mockReturnValue('0x123456789'),
+}
+
+export function* getViemWallet() {
+  return mockViemWallet
+}
