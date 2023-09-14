@@ -12,7 +12,7 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesSelector } from 'src/transactions/reducer'
-import { TokenTransaction, Network } from 'src/transactions/types'
+import { TokenTransaction, Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -62,10 +62,10 @@ const deduplicateTransactions = (
   return transactionsWithoutDuplicatedHash
 }
 
-export function getAllowedNetworks(): Array<Network> {
+export function getAllowedNetworkIds(): Array<NetworkId> {
   return getFeatureGate(StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS)
-    ? Object.values(Network)
-    : [Network.Celo]
+    ? config.supportedNetworkIds
+    : [config.defaultNetworkId]
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -77,23 +77,23 @@ export function useFetchTransactions(): QueryHookResult {
 
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  const allowedNetworks = getAllowedNetworks()
+  const allowedNetworkIds = getAllowedNetworkIds()
 
   // Track cumulative transactions and most recent page info for all chains in one
   // piece of state so that they don't become out of sync.
   const [fetchedResult, setFetchedResult] = useState<{
     transactions: TokenTransaction[]
-    pageInfo: { [key in Network]?: PageInfo | null }
+    pageInfo: { [key in NetworkId]?: PageInfo | null }
     hasTransactionsOnCurrentPage: { [key in Network]?: boolean }
   }>({
     transactions: [],
-    pageInfo: allowedNetworks.reduce((acc, cur) => {
+    pageInfo: allowedNetworkIds.reduce((acc, cur) => {
       return {
         ...acc,
         [cur]: null,
       }
     }, {}),
-    hasTransactionsOnCurrentPage: allowedNetworks.reduce((acc, cur) => {
+    hasTransactionsOnCurrentPage: allowedNetworkIds.reduce((acc, cur) => {
       return {
         ...acc,
         [cur]: false,
@@ -108,16 +108,18 @@ export function useFetchTransactions(): QueryHookResult {
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-  const handleResult = (results: { [key in Network]?: QueryResponse }, isPollResult: boolean) => {
+  const handleResult = (results: { [key in NetworkId]?: QueryResponse }, isPollResult: boolean) => {
     Logger.info(TAG, `Fetched ${isPollResult ? 'new' : 'next page of'} transactions`)
 
-    for (const [network, result] of Object.entries(results) as Array<[Network, QueryResponse]>) {
+    for (const [networkId, result] of Object.entries(results) as Array<
+      [NetworkId, QueryResponse]
+    >) {
       const returnedTransactions = result.data?.tokenTransactionsV3?.transactions ?? []
 
       const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
 
       // the initial feed fetch is from polling, exclude polled updates from that scenario
-      const isPolledUpdate = isPollResult && fetchedResult.pageInfo[network] !== null
+      const isPolledUpdate = isPollResult && fetchedResult.pageInfo[networkId] !== null
 
       if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
         setFetchedResult((prev) => ({
@@ -126,10 +128,13 @@ export function useFetchTransactions(): QueryHookResult {
           // updates, as these variables are used for fetching the next pages
           pageInfo: isPolledUpdate
             ? prev.pageInfo
-            : { ...prev.pageInfo, [network]: returnedPageInfo },
+            : { ...prev.pageInfo, [networkId]: returnedPageInfo },
           hasTransactionsOnCurrentPage: isPolledUpdate
             ? prev.hasTransactionsOnCurrentPage
-            : { ...prev.hasTransactionsOnCurrentPage, [network]: returnedTransactions.length > 0 },
+            : {
+                ...prev.hasTransactionsOnCurrentPage,
+                [networkId]: returnedTransactions.length > 0,
+              },
         }))
 
         if (isPollResult && returnedTransactions.length) {
@@ -168,8 +173,8 @@ export function useFetchTransactions(): QueryHookResult {
       const result = await queryTransactionsFeed({
         address,
         localCurrencyCode,
-        params: allowedNetworks.map((network) => {
-          return { network }
+        params: allowedNetworkIds.map((networkId) => {
+          return { networkId }
         }),
       })
       handleResult(result, true)
@@ -190,13 +195,13 @@ export function useFetchTransactions(): QueryHookResult {
       // If we're requested to fetch more transactions, only fetch them for networks
       // that actually have further pages.
       const params: Array<{
-        network: Network
+        networkId: NetworkId
         afterCursor?: string
-      }> = (Object.entries(fetchedResult.pageInfo) as Array<[Network, PageInfo | null]>)
-        .map(([network, pageInfo]) => {
-          return { network, afterCursor: pageInfo?.endCursor }
+      }> = (Object.entries(fetchedResult.pageInfo) as Array<[NetworkId, PageInfo | null]>)
+        .map(([networkId, pageInfo]) => {
+          return { networkId, afterCursor: pageInfo?.endCursor }
         })
-        .filter((networkParams) => fetchedResult.pageInfo[networkParams.network]?.hasNextPage)
+        .filter((networkParams) => fetchedResult.pageInfo[networkParams.networkId]?.hasNextPage)
       const result = await queryTransactionsFeed({
         address,
         localCurrencyCode,
@@ -262,12 +267,12 @@ export function useFetchTransactions(): QueryHookResult {
   }
 }
 
-function anyNetworkHasMorePages(pageInfo: { [key in Network]?: PageInfo | null }): boolean {
+function anyNetworkHasMorePages(pageInfo: { [key in NetworkId]?: PageInfo | null }): boolean {
   return Object.values(pageInfo).some((val) => !!val?.hasNextPage)
 }
 
 function anyNetworkHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
-  [key in Network]?: boolean
+  [key in NetworkId]?: boolean
 }): boolean {
   return Object.values(hasTransactionsOnCurrentPage).some((hasTxs) => hasTxs)
 }
@@ -282,16 +287,16 @@ async function queryTransactionsFeed({
   address: string | null
   localCurrencyCode: string
   params: Array<{
-    network: Network
+    networkId: NetworkId
     afterCursor?: string
   }>
-}): Promise<{ [key in Network]?: QueryResponse }> {
+}): Promise<{ [key in NetworkId]?: QueryResponse }> {
   const results = await Promise.all(
-    params.map(({ network, afterCursor }) =>
+    params.map(({ networkId, afterCursor }) =>
       queryChainTransactionsFeed({
         address,
         localCurrencyCode,
-        network,
+        networkId,
         afterCursor,
       })
     )
@@ -300,7 +305,7 @@ async function queryTransactionsFeed({
   return results.reduce((acc, result, index) => {
     return {
       ...acc,
-      [params[index].network]: result,
+      [params[index].networkId]: result,
     }
   }, {})
 }
@@ -308,19 +313,19 @@ async function queryTransactionsFeed({
 async function queryChainTransactionsFeed({
   address,
   localCurrencyCode,
-  network,
+  networkId,
   afterCursor,
 }: {
   address: string | null
   localCurrencyCode: string
-  network: Network
+  networkId: NetworkId
   afterCursor?: string
 }) {
   Logger.info(`Request to fetch transactions with params:`, {
     address,
     localCurrencyCode,
     afterCursor,
-    network,
+    networkId,
   })
 
   const response = await fetch(`${config.blockchainApiUrl}/graphql`, {
@@ -331,11 +336,11 @@ async function queryChainTransactionsFeed({
     },
     body: JSON.stringify({
       query: TRANSACTIONS_QUERY,
-      variables: { address, localCurrencyCode, network, afterCursor },
+      variables: { address, localCurrencyCode, networkId, afterCursor },
     }),
   })
   const body = (await response.json()) as QueryResponse
-  // Augment the transactions with chain data, since this is not included by default
+  // Augment the transactions with networkId, since this is not included by default
   // from blockchain-api and is needed throughout the app.
   return {
     ...body,
@@ -344,7 +349,7 @@ async function queryChainTransactionsFeed({
       tokenTransactionsV3: {
         ...body.data.tokenTransactionsV3,
         transactions: body.data.tokenTransactionsV3.transactions.map((tx) => {
-          return { ...tx, network }
+          return { ...tx, networkId }
         }),
       },
     },
@@ -352,8 +357,8 @@ async function queryChainTransactionsFeed({
 }
 
 export const TRANSACTIONS_QUERY = `
-  query UserTransactions($address: Address!, $localCurrencyCode: String, $afterCursor: String, $network: Network!) {
-    tokenTransactionsV3(address: $address, localCurrencyCode: $localCurrencyCode, afterCursor: $afterCursor, network: $network) {
+  query UserTransactions($address: Address!, $localCurrencyCode: String, $afterCursor: String, $networkId: NetworkId!) {
+    tokenTransactionsV3(address: $address, localCurrencyCode: $localCurrencyCode, afterCursor: $afterCursor, networkId: $networkId) {
       pageInfo {
         startCursor
         endCursor

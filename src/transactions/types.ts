@@ -10,6 +10,13 @@ export enum Network {
   Ethereum = 'ethereum',
 }
 
+export enum NetworkId {
+  ['celo-mainnet'] = 'celo-mainnet',
+  ['celo-alfajores'] = 'celo-alfajores',
+  ['ethereum-mainnet'] = 'ethereum-mainnet',
+  ['ethereum-sepolia'] = 'ethereum-sepolia',
+}
+
 export interface StandbyTransactionLegacy {
   context: TransactionContext
   type: TransferTransactionType
@@ -23,7 +30,7 @@ export interface StandbyTransactionLegacy {
 }
 export interface StandbyTransaction {
   context: TransactionContext
-  network: Network
+  networkId: NetworkId
   type: TokenTransferTypeV2
   status: TransactionStatus
   value: string
@@ -114,7 +121,7 @@ export enum TokenTransactionTypeV2 {
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
   __typename: 'TokenTransferV3'
-  network: Network
+  networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
@@ -134,7 +141,7 @@ export interface TokenTransferMetadata {
 
 export interface NftTransfer {
   __typename: 'NftTransferV3'
-  network: Network
+  networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
@@ -146,7 +153,7 @@ export interface NftTransfer {
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
   __typename: 'TokenExchangeV3'
-  network: Network
+  networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
