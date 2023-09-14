@@ -18,6 +18,7 @@ export enum Actions {
   RESET_STANDBY_TRANSACTIONS = 'TRANSACTIONS/RESET_STANDBY_TRANSACTIONS',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
+  TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
   NEW_TRANSACTIONS_IN_FEED = 'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
@@ -59,6 +60,11 @@ export interface TransactionConfirmedAction {
   receipt: CeloTxReceipt
 }
 
+export interface TransactionConfirmedViemAction {
+  type: Actions.TRANSACTION_CONFIRMED_VIEM
+  txId: string
+}
+
 export interface TransactionFailedAction {
   type: Actions.TRANSACTION_FAILED
   txId: string
@@ -94,6 +100,7 @@ export type ActionTypes =
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
+  | TransactionConfirmedViemAction
   | UpdateInviteTransactionsAction
 
 export const addStandbyTransactionLegacy = (
@@ -133,6 +140,11 @@ export const transactionConfirmed = (
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
+})
+
+export const transactionConfirmedViem = (txId: string): TransactionConfirmedViemAction => ({
+  type: Actions.TRANSACTION_CONFIRMED_VIEM,
+  txId,
 })
 
 export const transactionFailed = (txId: string): TransactionFailedAction => ({
