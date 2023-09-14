@@ -6,12 +6,8 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import {
-  BundledNotificationIds,
-  NotificationBannerCTATypes,
-  NotificationType,
-} from 'src/home/NotificationBox'
 import NotificationCenter from 'src/home/NotificationCenter'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
@@ -189,9 +185,9 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('backupKeyCTA'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.backup_prompt,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.backup_prompt,
+        notificationId: NotificationType.backup_prompt,
       })
     })
   })
@@ -236,9 +232,9 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.reverify_using_CPV,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.reverify_using_CPV,
+        notificationId: NotificationType.reverify_using_CPV,
       })
     })
   })
@@ -280,9 +276,9 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('learnMore'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.celo_asset_education,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.celo_asset_education,
+        notificationId: NotificationType.celo_asset_education,
       })
     })
 
@@ -304,9 +300,9 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('dismiss'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.celo_asset_education,
         selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: BundledNotificationIds.celo_asset_education,
+        notificationId: NotificationType.celo_asset_education,
       })
     })
   })
@@ -548,9 +544,9 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('notification.cta'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.verification_prompt,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.verification_prompt,
+        notificationId: NotificationType.verification_prompt,
       })
     })
 
@@ -573,9 +569,9 @@ describe('NotificationCenter', () => {
       fireEvent.press(getByText('dismiss'))
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.verification_prompt,
         selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: BundledNotificationIds.verification_prompt,
+        notificationId: NotificationType.verification_prompt,
       })
     })
 
@@ -711,12 +707,12 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+      expect(getByTestId('NotificationView/supercharge_available')).toBeTruthy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
       fireEvent.press(
-        getByTestId('claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button')
+        getByTestId('supercharge_available/CallToActions/superchargeNotificationStart/Button')
       )
       expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
     })
@@ -729,18 +725,18 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+      expect(getByTestId('NotificationView/supercharge_available')).toBeTruthy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
       fireEvent.press(
-        getByTestId('claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button')
+        getByTestId('supercharge_available/CallToActions/superchargeNotificationStart/Button')
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.supercharge_available,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.supercharge_available,
+        notificationId: NotificationType.supercharge_available,
       })
     })
   })
@@ -759,12 +755,12 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeTruthy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+      expect(getByTestId('NotificationView/supercharging')).toBeTruthy()
+      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
       fireEvent.press(
-        getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
+        getByTestId('supercharging/CallToActions/superchargingNotificationStart/Button')
       )
       expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
     })
@@ -785,9 +781,9 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
     })
 
     it('emits correct analytics event when CTA button is pressed', () => {
@@ -804,13 +800,13 @@ describe('NotificationCenter', () => {
       )
 
       fireEvent.press(
-        getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
+        getByTestId('supercharging/CallToActions/superchargingNotificationStart/Button')
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.supercharging,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.supercharging,
+        notificationId: NotificationType.supercharging,
       })
     })
 
@@ -827,12 +823,12 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      fireEvent.press(getByTestId('keepSupercharging/CallToActions/dismiss/Button'))
+      fireEvent.press(getByTestId('supercharging/CallToActions/dismiss/Button'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.supercharging,
         selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: BundledNotificationIds.supercharging,
+        notificationId: NotificationType.supercharging,
       })
     })
   })
@@ -855,12 +851,12 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(getByTestId('NotificationView/start_supercharging')).toBeTruthy()
 
       fireEvent.press(
-        getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+        getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
       )
       expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
     })
@@ -878,12 +874,12 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(getByTestId('NotificationView/start_supercharging')).toBeTruthy()
 
       fireEvent.press(
-        getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+        getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
       )
       expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
     })
@@ -904,9 +900,9 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-      expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
     })
 
     it('emits correct analytics event when CTA button is pressed', () => {
@@ -927,13 +923,13 @@ describe('NotificationCenter', () => {
       )
 
       fireEvent.press(
-        getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+        getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.start_supercharging,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: BundledNotificationIds.start_supercharging,
+        notificationId: NotificationType.start_supercharging,
       })
     })
 
@@ -954,12 +950,12 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
-      fireEvent.press(getByTestId('startSupercharging/CallToActions/dismiss/Button'))
+      fireEvent.press(getByTestId('start_supercharging/CallToActions/dismiss/Button'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.bundled_notificaion,
+        notificationType: NotificationType.start_supercharging,
         selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: BundledNotificationIds.start_supercharging,
+        notificationId: NotificationType.start_supercharging,
       })
     })
   })

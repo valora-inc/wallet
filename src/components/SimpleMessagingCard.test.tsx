@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
+import { NotificationType } from 'src/home/types'
 
 describe(SimpleMessagingCard, () => {
   it('renders correctly', () => {
@@ -9,6 +10,7 @@ describe(SimpleMessagingCard, () => {
     const { getByText, getByTestId } = render(
       <SimpleMessagingCard
         id="someId"
+        type={NotificationType.remote_notification}
         text="Test"
         icon={<View testID="TestIcon" />}
         priority={10}
@@ -29,6 +31,7 @@ describe(SimpleMessagingCard, () => {
     const { getByTestId } = render(
       <SimpleMessagingCard
         id="someId"
+        type={NotificationType.remote_notification}
         text="Test"
         icon={{ uri: 'https://example.com/icon.png' }}
         priority={10}
@@ -46,6 +49,7 @@ describe(SimpleMessagingCard, () => {
     const { queryByTestId } = render(
       <SimpleMessagingCard
         id="someId"
+        type={NotificationType.remote_notification}
         text="Test"
         priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
