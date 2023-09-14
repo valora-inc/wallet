@@ -9,7 +9,9 @@ import { mockCeloAddress, mockCusdAddress, mockTokenBalances } from 'test/values
 const CELO_TOKEN = mockTokenBalances[mockCeloAddress]
 const CUSD_TOKEN = {
   ...mockTokenBalances[mockCusdAddress],
-  networkIconUrl: 'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png'
+  networkIconUrl:
+    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+}
 
 const store = createMockStore({
   tokens: {
