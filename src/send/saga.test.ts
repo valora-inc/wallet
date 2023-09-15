@@ -23,7 +23,7 @@ import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { TokenTransactionTypeV2, TransactionStatus, Network } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus, NetworkId } from 'src/transactions/types'
 import {
   getConnectedAccount,
   getConnectedUnlockedAccount,
@@ -60,6 +60,22 @@ jest.mock('src/transactions/types', () => {
     ...originalModule,
     newTransactionContext: (tag: string, description: string) =>
       mockNewTransactionContext(tag, description),
+  }
+})
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
   }
 })
 
@@ -305,7 +321,7 @@ describe(sendPaymentSaga, () => {
       .put(
         addStandbyTransaction({
           context: mockContext,
-          network: Network.Celo,
+          networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.Sent,
           comment: sendAction.comment,
           status: TransactionStatus.Pending,

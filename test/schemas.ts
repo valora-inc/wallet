@@ -23,6 +23,7 @@ import {
   mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
+import networkConfig from 'src/web3/networkConfig'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -2508,6 +2509,33 @@ export const v146Schema = {
   },
 }
 
+export const v147Schema = {
+  ...v146Schema,
+  _persist: {
+    ...v146Schema._persist,
+    version: 147,
+  },
+  transactions: {
+    ...v146Schema.transactions,
+    standbyTransactions: (
+      v146Schema.transactions.standbyTransactions as (StandbyTransaction & { network: Network })[]
+    ).map((tx) => {
+      return {
+        ..._.omit(tx, 'network'),
+        networkId: networkConfig.networkToNetworkId[tx.network],
+      }
+    }),
+    transactions: (
+      v146Schema.transactions.transactions as (TokenTransaction & { network: Network })[]
+    ).map((tx) => {
+      return {
+        ..._.omit(tx, 'network'),
+        networkId: networkConfig.networkToNetworkId[tx.network],
+      }
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v146Schema as Partial<RootState>
+  return v147Schema as Partial<RootState>
 }
