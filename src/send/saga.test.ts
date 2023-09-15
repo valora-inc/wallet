@@ -74,7 +74,6 @@ jest.mock('src/web3/networkConfig', () => {
         celo: 'celo-alfajores',
         ethereum: 'ethereuim-sepolia',
       },
-      supportedNetworkIds: ['celo-alfajores', 'ethereum-sepolia'],
       defaultNetworkId: 'celo-alfajores',
     },
   }
