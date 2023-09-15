@@ -32,8 +32,6 @@ jest.mock('src/navigator/NavigationService', () => ({
   navigate: jest.fn(),
 }))
 
-jest.useFakeTimers()
-
 const DEVICE_HEIGHT = 850
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
@@ -128,6 +126,13 @@ const mockcUsdWithoutEnoughBalance = {
   },
 }
 
+/**
+ * Use this function to trigger the onViewableItemsChanged callback within a FlatList or SectionList.
+ * It emulates the layout event, vital for calculating the currently viewable set of items.
+ *
+ * Note: In React Native's VirtualizedList, the onViewableItemsChanged callback is not fired immediately.
+ * Consider waiting for it to be fired when testing.
+ */
 const layoutNotificationList = (screen: ReturnType<typeof render>) => {
   const ITEM_HEIGHT = 144
   const GAP_HEIGHT = Spacing.Thick24
