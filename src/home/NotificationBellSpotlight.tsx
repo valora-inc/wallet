@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -22,6 +23,7 @@ const ARROW_SIZE = 8
 export default function NotificationBellSpotlight({ isVisible }: Props) {
   const insets = useSafeAreaInsets()
   const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   const handleDismiss = () => {
     dispatch(notificationSpotlightSeen())
@@ -47,12 +49,10 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
             { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE + ARROW_SIZE * 2 },
           ]}
         >
-          <Text style={styles.messageText}>
-            Introducing a new way to claim rewards, view alerts, and see updates in one place
-          </Text>
+          <Text style={styles.messageText}>{t('notificationCenterSpotlight.message')}</Text>
           <Button
             onPress={handleDismiss}
-            text="Got it"
+            text={t('notificationCenterSpotlight.cta')}
             touchableStyle={{ minWidth: 30 }}
             style={{ alignSelf: 'flex-end' }}
             size={BtnSizes.SMALL}
