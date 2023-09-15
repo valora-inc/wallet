@@ -145,7 +145,9 @@ export default function Notifications({ navigation }: NotificationsProps) {
   // This is a workaround to provide handleViewableItemsChanged with
   // actual notifications array while keeping its dependecy list empty.
   const notificationsRef = useRef<Notification[]>([])
-  notificationsRef.current = notifications
+  useEffect(() => {
+    notificationsRef.current = notifications
+  }, [notifications])
 
   const seenNotifications = useRef(new Set())
 
