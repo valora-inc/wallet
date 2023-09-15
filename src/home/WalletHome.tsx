@@ -125,6 +125,10 @@ function WalletHome() {
   }
 
   const shouldShowCashInBottomSheet = () => {
+    if (showNotificationSpotlight) {
+      return false
+    }
+
     // If user is in a sanctioned country do not show the cash in bottom sheet
     if (userInSanctionedCountry) {
       return false
