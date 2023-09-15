@@ -6,7 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
-import { Fee, TokenTransactionTypeV2, Network } from 'src/transactions/types'
+import { Fee, TokenTransactionTypeV2, NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockAccount, mockNftAllFields } from 'test/values'
@@ -14,6 +14,22 @@ import { mockAccount, mockNftAllFields } from 'test/values'
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 
 jest.mock('src/statsig')
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 describe('NftFeedItem', () => {
   function renderScreen({
@@ -36,7 +52,7 @@ describe('NftFeedItem', () => {
         <NftFeedItem
           transaction={{
             __typename: 'NftTransferV3',
-            network: Network.Celo,
+            networkId: NetworkId['celo-alfajores'],
             type,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,

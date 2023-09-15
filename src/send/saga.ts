@@ -38,7 +38,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
-  Network,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
@@ -54,6 +53,7 @@ import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import networkConfig from 'src/web3/networkConfig'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
@@ -218,7 +218,7 @@ export function* buildAndSendPayment(
   yield* put(
     addStandbyTransaction({
       context,
-      network: Network.Celo,
+      networkId: networkConfig.defaultNetworkId,
       type: TokenTransactionTypeV2.Sent,
       comment,
       status: TransactionStatus.Pending,

@@ -1,12 +1,18 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import { noop } from 'lodash'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
 import { RecipientType } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/analytics/ValoraAnalytics')
+
 const store = createMockStore()
 
 const commonProps = {
@@ -23,9 +29,14 @@ const commonProps = {
   },
   cancelPaymentRequest: noop as typeof cancelPaymentRequest,
   updatePaymentRequestNotified: noop as typeof updatePaymentRequestNotified,
+  index: 4,
 }
 
 describe('OutgoingPaymentRequestListItem', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
@@ -34,5 +45,39 @@ describe('OutgoingPaymentRequestListItem', () => {
     )
 
     expect(tree).toMatchSnapshot()
+  })
+
+  it('emits correct analytics event when CTA button is pressed', () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <OutgoingPaymentRequestListItem {...commonProps} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('remind'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      selectedAction: NotificationBannerCTATypes.remind,
+      notificationPositionInList: 4,
+    })
+  })
+
+  it('emits correct analytics event when notification is dismissed', () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <OutgoingPaymentRequestListItem {...commonProps} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('cancel'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      selectedAction: NotificationBannerCTATypes.decline,
+      notificationPositionInList: 4,
+    })
   })
 })
