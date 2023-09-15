@@ -3,7 +3,10 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
+import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
@@ -11,7 +14,13 @@ import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
 const store = createMockStore()
 Share.share = jest.fn()
 
+jest.mock('src/analytics/ValoraAnalytics')
+
 describe('EscrowedPaymentReminderNotification', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
@@ -59,5 +68,39 @@ describe('EscrowedPaymentReminderNotification', () => {
     })
 
     expect(Share.share).toHaveBeenCalled()
+  })
+
+  it('emits correct analytics event when CTA button is pressed', () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} index={4} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('remind'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      selectedAction: NotificationBannerCTATypes.remind,
+      notificationPositionInList: 4,
+    })
+  })
+
+  it('emits correct analytics event when notification is dismissed', () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <EscrowedPaymentListItem payment={mockEscrowedPayment} index={4} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('reclaim'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      selectedAction: NotificationBannerCTATypes.reclaim,
+      notificationPositionInList: 4,
+    })
   })
 })
