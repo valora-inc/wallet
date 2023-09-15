@@ -292,8 +292,12 @@ describe(sendPaymentSaga, () => {
   }
 
   beforeAll(() => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
     ;(toTransactionObject as jest.Mock).mockImplementation(() => jest.fn())
+  })
+
+  beforeEach(() => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.clearAllMocks()
   })
 
   it('sends a payment successfully with contract kit', async () => {
