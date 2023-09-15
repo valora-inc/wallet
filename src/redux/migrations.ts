@@ -9,9 +9,8 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
-import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import networkConfig from 'src/web3/networkConfig'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1223,24 +1222,8 @@ export const migrations = {
     ...state,
     transactions: {
       ...state.transactions,
-      standbyTransactions: (state.transactions.standbyTransactions as StandbyTransaction[]).map(
-        (tx) => {
-          return { ...tx, network: Network.Celo }
-        }
-      ),
-      transactions: (state.transactions.transactions as TokenTransaction[]).map((tx) => {
-        const __typename = // @ts-ignore
-          tx.__typename === 'TokenTransferV2'
-            ? 'TokenTransferV3' // @ts-ignore
-            : tx.__typename === 'NftTransferV2'
-            ? 'NftTransferV3'
-            : 'TokenExchangeV3'
-        return {
-          ...tx,
-          __typename,
-          network: Network.Celo,
-        }
-      }),
+      standbyTransactions: [],
+      transactions: [],
     },
   }),
   146: (state: any) => ({
@@ -1256,22 +1239,8 @@ export const migrations = {
     ...state,
     transactions: {
       ...state.transactions,
-      standbyTransactions: (
-        state.transactions.standbyTransactions as (StandbyTransaction & { network: Network })[]
-      ).map((tx) => {
-        return {
-          ..._.omit(tx, 'network'),
-          networkId: networkConfig.networkToNetworkId[tx.network],
-        }
-      }),
-      transactions: (
-        state.transactions.transactions as (TokenTransaction & { network: Network })[]
-      ).map((tx) => {
-        return {
-          ..._.omit(tx, 'network'),
-          networkId: networkConfig.networkToNetworkId[tx.network],
-        }
-      }),
+      standbyTransactions: [],
+      transactions: [],
     },
   }),
 }
