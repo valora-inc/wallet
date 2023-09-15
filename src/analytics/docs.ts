@@ -76,7 +76,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.drawer_address_copy]: ``,
   [HomeEvents.notification_scroll]: ``,
   [HomeEvents.notification_impression]: `when the notification appears on the user screen for the first time`,
-  [HomeEvents.notification_select]: `when user taps on notification button`,
+  [HomeEvents.notification_select]: `when user taps on notification CTA(s)`,
   [HomeEvents.notification_center_opened]: `when the notification center is opened`,
   [HomeEvents.transaction_feed_item_select]: ``,
   [HomeEvents.transaction_feed_address_copy]: ``,
