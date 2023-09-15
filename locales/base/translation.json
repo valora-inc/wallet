@@ -1442,6 +1442,7 @@
     "numProviders": "{{count}} Providers",
     "fee": "Fee",
     "idRequired": "ID Required",
+    "mobileCarrierRequirement": "{{carrier}} Required",
     "numDays": "1-3 Days",
     "oneHour": "Less Than 1 Hour",
     "xHours": "Less Than {{upperBound}} Hours",
