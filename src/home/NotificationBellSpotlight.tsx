@@ -36,7 +36,7 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
       style={styles.modal}
       useNativeDriverForBackdrop={true}
     >
-      <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+      <SafeAreaView style={styles.container} edges={['top']}>
         <NotificationBell
           style={[styles.bellContainer, { top: insets.top + VERTICAL_TOP_BAR_OFFSET }]}
         />
@@ -53,8 +53,8 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
           <Button
             onPress={handleDismiss}
             text={t('notificationCenterSpotlight.cta')}
-            touchableStyle={{ minWidth: 30 }}
-            style={{ alignSelf: 'flex-end' }}
+            touchableStyle={styles.buttonTouchable}
+            style={styles.button}
             size={BtnSizes.SMALL}
           />
         </View>
@@ -64,6 +64,9 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   modal: {
     margin: 0,
   },
@@ -97,5 +100,11 @@ const styles = StyleSheet.create({
   messageText: {
     ...fontStyles.small,
     marginBottom: Spacing.Small12,
+  },
+  buttonTouchable: {
+    minWidth: 64,
+  },
+  button: {
+    alignSelf: 'flex-end',
   },
 })
