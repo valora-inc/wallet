@@ -6,11 +6,18 @@ import { useDispatch } from 'react-redux'
 import { notificationSpotlightSeen } from 'src/app/actions'
 import Button, { BtnSizes } from 'src/components/Button'
 import NotificationBell from 'src/home/NotificationBell'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   isVisible: boolean
 }
+
+const VERTICAL_TOP_BAR_OFFSET = 4
+const HORIZONTAL_TOP_BAR_OFFSET = 4
+const SPOTLIGHT_SIZE = 48
+const ARROW_SIZE = 8
 
 export default function NotificationBellSpotlight({ isVisible }: Props) {
   const insets = useSafeAreaInsets()
@@ -23,16 +30,23 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
   return (
     <Modal
       isVisible={isVisible}
-      backdropOpacity={0.5}
+      backdropOpacity={0.7}
       style={styles.modal}
       useNativeDriverForBackdrop={true}
     >
       <SafeAreaView style={{ flex: 1 }} edges={['top']}>
-        <View style={[styles.bellContainer, { top: insets.top + 4 }]}>
-          <NotificationBell />
-        </View>
-        <View style={[styles.arrow, { top: insets.top + 4 + 48 }]} />
-        <View style={[styles.messageContainer, { top: insets.top + 4 + 48 + 16 }]}>
+        <NotificationBell
+          style={[styles.bellContainer, { top: insets.top + VERTICAL_TOP_BAR_OFFSET }]}
+        />
+        <View
+          style={[styles.arrow, { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE }]}
+        />
+        <View
+          style={[
+            styles.messageContainer,
+            { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE + ARROW_SIZE * 2 },
+          ]}
+        >
           <Text style={styles.messageText}>
             Introducing a new way to claim rewards, view alerts, and see updates in one place
           </Text>
@@ -56,34 +70,32 @@ const styles = StyleSheet.create({
   bellContainer: {
     borderRadius: 100,
     position: 'absolute',
-    height: 48,
-    width: 48,
-    right: 4,
+    height: SPOTLIGHT_SIZE,
+    width: SPOTLIGHT_SIZE,
+    right: HORIZONTAL_TOP_BAR_OFFSET,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: Colors.light,
   },
   arrow: {
     position: 'absolute',
-    right: 20,
-    backgroundColor: 'transparent',
+    right: Spacing.Regular16 + HORIZONTAL_TOP_BAR_OFFSET,
     width: 0,
     height: 0,
-    borderWidth: 8,
+    borderWidth: ARROW_SIZE,
     borderColor: 'transparent',
-    borderBottomColor: 'white',
+    borderBottomColor: Colors.light,
   },
   messageContainer: {
     width: '75%',
     position: 'absolute',
-    right: 4,
-    backgroundColor: 'white',
+    right: HORIZONTAL_TOP_BAR_OFFSET,
+    backgroundColor: Colors.light,
     borderRadius: 12,
-    padding: 16,
-    justifyContent: 'flex-end',
+    padding: Spacing.Regular16,
   },
   messageText: {
     ...fontStyles.small,
-    marginBottom: 12,
+    marginBottom: Spacing.Small12,
   },
 })
