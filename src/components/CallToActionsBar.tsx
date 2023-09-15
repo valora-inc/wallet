@@ -13,10 +13,14 @@ export interface CallToAction {
 interface Props {
   callToActions: CallToAction[]
   testID?: string
-  index?: number
+  positionInNotificationList?: number
 }
 
-export default function CallToActionsBar({ callToActions, testID, index }: Props) {
+export default function CallToActionsBar({
+  callToActions,
+  testID,
+  positionInNotificationList,
+}: Props) {
   return (
     <View style={styles.container} testID={testID}>
       {callToActions.map((cta, i) => {
@@ -29,7 +33,7 @@ export default function CallToActionsBar({ callToActions, testID, index }: Props
                 ...styles.action,
                 ...(cta.isSecondary ? styles.secondaryAction : {}),
               }}
-              onPress={() => cta.onPress({ index })}
+              onPress={() => cta.onPress({ index: positionInNotificationList })}
             >
               {cta.text}
             </TextButton>

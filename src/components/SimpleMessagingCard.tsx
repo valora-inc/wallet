@@ -46,7 +46,7 @@ export default function SimpleMessagingCard({
           <CallToActionsBar
             callToActions={callToActions}
             testID={`${testID}/CallToActions`}
-            index={index}
+            positionInNotificationList={index}
           />
         </View>
         {!!icon && <View style={styles.iconContainer}>{icon}</View>}
