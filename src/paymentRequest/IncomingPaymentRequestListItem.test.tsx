@@ -339,16 +339,13 @@ describe('IncomingPaymentRequestListItem', () => {
       tokens: balances,
     })
 
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <IncomingPaymentRequestListItem {...props} />
       </Provider>
     )
 
-    const remindButton = getByTestId(
-      'IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/send/Button'
-    )
-    fireEvent.press(remindButton)
+    fireEvent.press(getByText('send'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
@@ -364,16 +361,13 @@ describe('IncomingPaymentRequestListItem', () => {
       tokens: balances,
     })
 
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <IncomingPaymentRequestListItem {...props} />
       </Provider>
     )
 
-    const cancelButton = getByTestId(
-      'IncomingPaymentRequestNotification/FAKE_ID_2/CallToActions/decline/Button'
-    )
-    fireEvent.press(cancelButton)
+    fireEvent.press(getByText('decline'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {

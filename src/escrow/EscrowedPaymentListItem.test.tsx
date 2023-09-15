@@ -71,14 +71,13 @@ describe('EscrowedPaymentReminderNotification', () => {
   })
 
   it('emits correct analytics event when CTA button is pressed', () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <EscrowedPaymentListItem payment={mockEscrowedPayment} index={4} />
       </Provider>
     )
 
-    const remindButton = getByTestId('EscrowedPaymentListItem/CallToActions/remind/Button')
-    fireEvent.press(remindButton)
+    fireEvent.press(getByText('remind'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
@@ -89,14 +88,13 @@ describe('EscrowedPaymentReminderNotification', () => {
   })
 
   it('emits correct analytics event when notification is dismissed', () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <EscrowedPaymentListItem payment={mockEscrowedPayment} index={4} />
       </Provider>
     )
 
-    const cancelButton = getByTestId('EscrowedPaymentListItem/CallToActions/reclaim/Button')
-    fireEvent.press(cancelButton)
+    fireEvent.press(getByText('reclaim'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {

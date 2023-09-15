@@ -48,16 +48,13 @@ describe('OutgoingPaymentRequestListItem', () => {
   })
 
   it('emits correct analytics event when CTA button is pressed', () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <OutgoingPaymentRequestListItem {...commonProps} />
       </Provider>
     )
 
-    const remindButton = getByTestId(
-      'OutgoingPaymentRequestNotification/1/CallToActions/remind/Button'
-    )
-    fireEvent.press(remindButton)
+    fireEvent.press(getByText('remind'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
@@ -68,16 +65,13 @@ describe('OutgoingPaymentRequestListItem', () => {
   })
 
   it('emits correct analytics event when notification is dismissed', () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <OutgoingPaymentRequestListItem {...commonProps} />
       </Provider>
     )
 
-    const cancelButton = getByTestId(
-      'OutgoingPaymentRequestNotification/1/CallToActions/cancel/Button'
-    )
-    fireEvent.press(cancelButton)
+    fireEvent.press(getByText('cancel'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
