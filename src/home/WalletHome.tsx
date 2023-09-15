@@ -36,9 +36,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
@@ -58,7 +58,7 @@ function WalletHome() {
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
-  const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
+  const canShowNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -72,7 +72,8 @@ function WalletHome() {
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
 
-  const showNotificationCenter = true
+  const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
+  const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
 
   useEffect(() => {
     dispatch(visitHome())
