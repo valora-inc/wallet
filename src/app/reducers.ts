@@ -124,7 +124,6 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
-        showNotificationSpotlight: true, // TODO
       }
     }
     case Actions.SET_APP_STATE:
