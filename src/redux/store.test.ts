@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 146,
+          "version": 147,
         },
         "account": {
           "acceptedTerms": false,
@@ -175,6 +175,7 @@ describe('store state', () => {
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
+          "showNotificationSpotlight": true,
           "showPriceChangeIndicatorInBalances": false,
           "showSwapMenuInDrawerMenu": false,
           "skipVerification": false,

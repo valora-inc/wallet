@@ -1251,4 +1251,11 @@ export const migrations = {
       usdToLocalRate: state.localCurrency.exchangeRates[Currency.Dollar],
     },
   }),
+  147: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showNotificationSpotlight: true, // true for all upgrading users
+    },
+  }),
 }

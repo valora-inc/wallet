@@ -2508,6 +2508,18 @@ export const v146Schema = {
   },
 }
 
+export const v147Schema = {
+  ...v146Schema,
+  _persist: {
+    ...v146Schema._persist,
+    version: 147,
+  },
+  app: {
+    ...v146Schema.app,
+    showNotificationSpotlight: true,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v146Schema as Partial<RootState>
+  return v147Schema as Partial<RootState>
 }
