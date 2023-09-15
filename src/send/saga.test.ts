@@ -19,16 +19,18 @@ import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { Actions, HandleBarcodeDetectedAction, QrCode, SendPaymentAction } from 'src/send/actions'
 import { sendPaymentSaga, watchQrCodeDetections } from 'src/send/saga'
+import { getFeatureGate } from 'src/statsig'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { TokenTransactionTypeV2, TransactionStatus, Network } from 'src/transactions/types'
+import { Network, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import {
+  UnlockResult,
   getConnectedAccount,
   getConnectedUnlockedAccount,
   unlockAccount,
-  UnlockResult,
 } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -42,14 +44,15 @@ import {
   mockE164NumberInvite,
   mockFeeInfo,
   mockName,
+  mockQRCodeRecipient,
   mockQrCodeData,
   mockQrCodeData2,
-  mockQRCodeRecipient,
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
 
 jest.mock('@celo/connect')
+jest.mock('src/statsig/')
 
 const mockNewTransactionContext = jest.fn()
 
@@ -289,10 +292,11 @@ describe(sendPaymentSaga, () => {
   }
 
   beforeAll(() => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     ;(toTransactionObject as jest.Mock).mockImplementation(() => jest.fn())
   })
 
-  it('sends a payment successfully', async () => {
+  it('sends a payment successfully with contract kit', async () => {
     await expectSaga(sendPaymentSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
@@ -324,6 +328,30 @@ describe(sendPaymentSaga, () => {
       amount.times(1e18).toFixed(0),
       expect.any(String)
     )
+  })
+
+  it('sends a payment successfully with viem', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    await expectSaga(sendPaymentSaga, sendAction)
+      .withState(createMockStore({}).getState())
+      .provide([
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [matchers.call.fn(viemSendPayment), undefined],
+      ])
+      .put(completePaymentRequest('123'))
+      .call(viemSendPayment, {
+        context: { id: 'mock' },
+        recipientAddress: sendAction.recipient.address,
+        amount: sendAction.amount,
+        tokenAddress: sendAction.tokenAddress,
+        comment: sendAction.comment,
+        feeInfo: sendAction.feeInfo,
+      })
+      .not.call.fn(sendAndMonitorTransaction)
+      .run()
+
+    expect(mockContract.methods.transferWithComment).not.toHaveBeenCalled()
+    expect(mockContract.methods.transfer).not.toHaveBeenCalled()
   })
 
   it('fails if user cancels PIN input', async () => {

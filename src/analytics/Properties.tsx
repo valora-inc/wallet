@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -69,10 +69,11 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
-import { CiCoCurrency, Currency, AnalyticsCurrency } from 'src/utils/currencies'
+import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
+type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -622,8 +623,8 @@ interface SendEventsProperties {
   }
   [SendEvents.send_secure_edit]: undefined
 
-  [SendEvents.send_tx_start]: undefined
-  [SendEvents.send_tx_complete]: {
+  [SendEvents.send_tx_start]: Web3LibraryProps
+  [SendEvents.send_tx_complete]: Web3LibraryProps & {
     txId: string
     recipientAddress: string
     amount: string
