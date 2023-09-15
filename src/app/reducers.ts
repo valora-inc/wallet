@@ -220,6 +220,7 @@ export const appReducer = (
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
         requireCPV: action.configValues.requireCPV,
+        decentralizedVerificationEnabled: action.configValues.decentralizedVerificationEnabled,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {
