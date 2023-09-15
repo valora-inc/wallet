@@ -26,7 +26,7 @@ import {
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import mocked = jest.mocked
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
@@ -149,7 +149,7 @@ describe(SelectProviderScreen, () => {
           ipAddress: MOCK_IP_ADDRESS,
         },
         walletAddress: mockAccount.toLowerCase(),
-        network: Network.Celo,
+        networkId: NetworkId['celo-alfajores'],
       })
     )
   })
