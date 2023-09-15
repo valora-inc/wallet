@@ -8,12 +8,28 @@ import {
   TokenAmount,
   TokenExchangeMetadata,
   TokenTransactionTypeV2,
-  Network,
+  NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 describe('SwapFeedItem', () => {
   function renderScreen({
@@ -38,7 +54,7 @@ describe('SwapFeedItem', () => {
         <SwapFeedItem
           exchange={{
             __typename: 'TokenExchangeV3',
-            network: Network.Celo,
+            networkId: NetworkId['celo-alfajores'],
             type: TokenTransactionTypeV2.SwapTransaction,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,

@@ -37,7 +37,6 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
   newTransactionContext,
-  Network,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -49,6 +48,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
@@ -89,7 +89,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       yield* put(
         addStandbyTransaction({
           context: newTransactionContext('Claim Reward', reward.txHash),
-          network: Network.Celo,
+          networkId: networkConfig.defaultNetworkId,
           type: TokenTransactionTypeV2.Received,
           status: TransactionStatus.Complete,
           value: reward.amount,
