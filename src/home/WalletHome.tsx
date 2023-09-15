@@ -7,7 +7,11 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import {
+  appStateSelector,
+  phoneNumberVerifiedSelector,
+  showNotificationSpotlightSelector,
+} from 'src/app/selectors'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -23,6 +27,7 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
+import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
@@ -31,9 +36,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
@@ -53,6 +58,7 @@ function WalletHome() {
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
+  const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -66,7 +72,7 @@ function WalletHome() {
     ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
   )
 
-  const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
+  const showNotificationCenter = true
 
   useEffect(() => {
     dispatch(visitHome())
@@ -230,6 +236,7 @@ function WalletHome() {
         testID="WalletHome/SectionList"
       />
       {showHomeNavBar && <SendOrRequestBar />}
+      <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>

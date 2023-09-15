@@ -57,6 +57,7 @@ export interface State {
   pushNotificationRequestedUnixTime: number | null
   pushNotificationsEnabled: boolean
   inAppReviewLastInteractionTimestamp: number | null
+  showNotificationSpotlight: boolean
 }
 
 const initialState = {
@@ -106,6 +107,7 @@ const initialState = {
   pushNotificationRequestedUnixTime: null,
   pushNotificationsEnabled: false,
   inAppReviewLastInteractionTimestamp: null,
+  showNotificationSpotlight: false,
 }
 
 export const appReducer = (
@@ -122,6 +124,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        showNotificationSpotlight: true, // TODO
       }
     }
     case Actions.SET_APP_STATE:
@@ -257,6 +260,11 @@ export const appReducer = (
       return {
         ...state,
         hapticFeedbackEnabled: action.hapticFeedbackEnabled,
+      }
+    case Actions.NOTIFICATION_SPOTLIGHT_SEEN:
+      return {
+        ...state,
+        showNotificationSpotlight: false,
       }
     case Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED:
       return {
