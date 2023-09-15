@@ -62,6 +62,13 @@ const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 const SUPERCHARGE_INFO_PRIORITY = 440
 const REVERIFY_ON_CPV_PRIORITY = 990
 
+interface SimpleAction extends SimpleMessagingCardProps {
+  id: string
+  priority: number
+  showOnHomeScreen?: boolean
+  type: NotificationType
+}
+
 export function useSimpleActions() {
   const {
     backupCompleted,
@@ -96,7 +103,7 @@ export function useSimpleActions() {
 
   const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
 
-  const actions: SimpleMessagingCardProps[] = []
+  const actions: SimpleAction[] = []
   if (!backupCompleted) {
     actions.push({
       id: NotificationType.backup_prompt,

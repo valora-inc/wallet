@@ -2,18 +2,13 @@ import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
 import MessagingCard from 'src/components/MessagingCard'
-import { NotificationType } from 'src/home/types'
 import fontStyles from 'src/styles/fonts'
 
 export interface Props {
-  id: string
   text: string
   icon?: ImageSourcePropType | React.ReactNode
   callToActions: CallToAction[]
-  priority: number
-  showOnHomeScreen?: boolean
   testID?: string
-  type: NotificationType
 }
 
 export default function SimpleMessagingCard({
