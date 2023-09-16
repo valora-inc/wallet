@@ -13770,6 +13770,11 @@ react-native-kill-packager@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-kill-packager/-/react-native-kill-packager-1.0.0.tgz#8d5dc706429805800298acabca45598d0d39b391"
   integrity sha1-jV3HBkKYBYACmKyrykVZjQ05s5E=
 
+react-native-launch-arguments@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-launch-arguments/-/react-native-launch-arguments-4.0.1.tgz#6d83c05c8de948db5eed8e75fbf76c28431b0c2d"
+  integrity sha512-sP2Vd+IEtApGiSDboyx8Dqnjj6IlPRA/M8KEoip4r5gidOvGcF/JGVJh9kIlgAchXheH7SWXvtmgvP0dJopikg==
+
 react-native-linear-gradient@^2.8.3:
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"

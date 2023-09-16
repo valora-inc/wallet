@@ -162,6 +162,7 @@
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-in-app-review": "^4.3.3",
     "react-native-keychain": "8.0.0",
+    "react-native-launch-arguments": "^4.0.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-localize": "^2.1.7",
     "react-native-mail": "^6.1.1",
@@ -411,6 +412,10 @@
     "configurations": {
       "ios.debug": {
         "device": "simulator",
+        "app": "ios.debug"
+      },
+      "ios.debug.14.5": {
+        "device": "simulator.14.5",
         "app": "ios.debug"
       },
       "ios.release": {

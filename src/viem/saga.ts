@@ -171,8 +171,8 @@ function* getTransferSimulateContract({
       recipientAddress,
       convertedAmount,
       feeCurrency,
-      gas,
-      maxFeePerGas,
+      gas: gas?.toString(),
+      maxFeePerGas: maxFeePerGas?.toString(),
     })
 
     return () =>
@@ -192,8 +192,8 @@ function* getTransferSimulateContract({
     recipientAddress,
     convertedAmount,
     feeCurrency,
-    gas,
-    maxFeePerGas,
+    gas: gas?.toString(),
+    maxFeePerGas: maxFeePerGas?.toString(),
   })
 
   return () =>
