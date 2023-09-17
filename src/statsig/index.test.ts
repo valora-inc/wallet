@@ -1,3 +1,4 @@
+import { LaunchArguments } from 'react-native-launch-arguments'
 import { store } from 'src/redux/store'
 import { DynamicConfigs, ExperimentConfigs, FeatureGates } from 'src/statsig/constants'
 import {
@@ -5,6 +6,7 @@ import {
   getExperimentParams,
   getFeatureGate,
   patchUpdateStatsigUser,
+  setupOverridesFromLaunchArgs,
 } from 'src/statsig/index'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -15,6 +17,7 @@ import { getMockStoreData } from 'test/utils'
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
+jest.mock('src/config', () => ({ ...jest.requireActual('src/config'), isE2EEnv: true }))
 
 const mockStore = jest.mocked(store)
 const MOCK_ACCOUNT = '0x000000000000000000000000000000000000000000'
@@ -258,6 +261,26 @@ describe('Statsig helpers', () => {
           loadTime: 1234,
         },
       })
+    })
+  })
+
+  describe('setupOverridesFromLaunchArgs', () => {
+    it('only cleans up overrides if no override is set', () => {
+      jest.mocked(LaunchArguments.value).mockReturnValue({})
+      setupOverridesFromLaunchArgs()
+      expect(Statsig.removeGateOverride).toHaveBeenCalledWith()
+      expect(Statsig.overrideGate).not.toHaveBeenCalled()
+    })
+
+    it('cleans up and sets up gate overrides if set', () => {
+      jest
+        .mocked(LaunchArguments.value)
+        .mockReturnValue({ statsigGateOverrides: 'gate1=true,gate2=false' })
+      setupOverridesFromLaunchArgs()
+      expect(Statsig.removeGateOverride).toHaveBeenCalledWith()
+      expect(Statsig.overrideGate).toHaveBeenCalledTimes(2)
+      expect(Statsig.overrideGate).toHaveBeenCalledWith('gate1', true)
+      expect(Statsig.overrideGate).toHaveBeenCalledWith('gate2', false)
     })
   })
 })
