@@ -40,17 +40,18 @@ import {
   TransactionContext,
   TransactionStatus,
   newTransactionContext,
-  Network,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
+import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import networkConfig from 'src/web3/networkConfig'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
@@ -215,7 +216,7 @@ export function* buildAndSendPayment(
   yield* put(
     addStandbyTransaction({
       context,
-      network: Network.Celo,
+      networkId: networkConfig.defaultNetworkId,
       type: TokenTransactionTypeV2.Sent,
       comment,
       status: TransactionStatus.Pending,
@@ -247,6 +248,11 @@ export function* buildAndSendPayment(
   return { receipt, error }
 }
 
+// TODO(act-787): remove and replace with feature gate
+function shouldUseViemForSend() {
+  return false
+}
+
 /**
  * Sends a payment to an address with an encrypted comment and gives profile
  * access to the recipient
@@ -271,15 +277,26 @@ function* sendPayment(
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
-    yield* call(
-      buildAndSendPayment,
-      context,
-      recipientAddress,
-      amount,
-      tokenAddress,
-      comment,
-      feeInfo
-    )
+    if (shouldUseViemForSend()) {
+      yield* call(viemSendPayment, {
+        context,
+        recipientAddress,
+        amount,
+        tokenAddress,
+        comment,
+        feeInfo,
+      })
+    } else {
+      yield* call(
+        buildAndSendPayment,
+        context,
+        recipientAddress,
+        amount,
+        tokenAddress,
+        comment,
+        feeInfo
+      )
+    }
 
     ValoraAnalytics.track(SendEvents.send_tx_complete, {
       txId: context.id,
