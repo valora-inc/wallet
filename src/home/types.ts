@@ -34,7 +34,7 @@ export enum NotificationBannerCTATypes {
 }
 
 export interface Notification {
-  element: React.ReactElement
+  renderElement: (params?: { index?: number }) => React.ReactElement
   priority: number
   showOnHomeScreen?: boolean
   id: string

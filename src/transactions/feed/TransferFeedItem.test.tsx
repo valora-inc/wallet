@@ -16,7 +16,7 @@ import {
   TokenTransactionTypeV2,
   TokenTransferMetadata,
   TransactionStatus,
-  Network,
+  NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import {
@@ -37,6 +37,22 @@ const MOCK_CONTACT = {
   contactId: 'contactId',
   address: MOCK_ADDRESS,
 }
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 describe('TransferFeedItem', () => {
   function renderScreen({
@@ -64,7 +80,7 @@ describe('TransferFeedItem', () => {
         <TransferFeedItem
           transfer={{
             __typename: 'TokenTransferV3',
-            network: Network.Celo,
+            networkId: NetworkId['celo-alfajores'],
             type,
             status: TransactionStatus.Complete,
             transactionHash: MOCK_TX_HASH,

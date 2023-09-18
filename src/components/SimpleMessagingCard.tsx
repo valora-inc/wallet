@@ -9,6 +9,7 @@ export interface Props {
   icon?: ImageSourcePropType | React.ReactNode
   callToActions: CallToAction[]
   testID?: string
+  index?: number
 }
 
 export default function SimpleMessagingCard({
@@ -16,6 +17,7 @@ export default function SimpleMessagingCard({
   icon: iconProp,
   callToActions,
   testID,
+  index,
 }: Props) {
   const icon = iconProp ? (
     React.isValidElement(iconProp) ? (
@@ -38,7 +40,11 @@ export default function SimpleMessagingCard({
           <Text style={styles.text} testID={`${testID}/Text`}>
             {text}
           </Text>
-          <CallToActionsBar callToActions={callToActions} testID={`${testID}/CallToActions`} />
+          <CallToActionsBar
+            callToActions={callToActions}
+            testID={`${testID}/CallToActions`}
+            positionInNotificationList={index}
+          />
         </View>
         {!!icon && <View style={styles.iconContainer}>{icon}</View>}
       </View>

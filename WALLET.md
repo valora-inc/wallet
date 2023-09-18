@@ -3,15 +3,16 @@
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Setup](#setup)
+  - [Prerequisites](#prerequisites)
+  - [Repository secrets](#repository-secrets)
   - [iOS](#ios)
     - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
     - [Install Xcode](#install-xcode)
-    - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
-    - [Install on an M1](#install-on-an-m1)
+    - [Install Ruby, Cocoapods, Bundler, and download project dependencies](#install-ruby-cocoapods-bundler-and-download-project-dependencies)
+    - [Install Rosetta (M1 macs only)](#install-rosetta-m1-macs-only)
   - [Android](#android)
-    - [Install Java](#install-java)
-    - [Install Android Dev Tools](#install-android-dev-tools)
-    - [Optional: Install an Android emulator](#optional-install-an-android-emulator)
+    - [MacOS](#macos)
+    - [Linux](#linux)
 - [Running the mobile wallet](#running-the-mobile-wallet)
   - [iOS](#ios-1)
   - [Android](#android-1)
@@ -51,9 +52,27 @@ The app uses [React Native][react native].
 
 ## Setup
 
-**You must have the [monorepo](https://github.com/celo-org/celo-monorepo) successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions](https://github.com/celo-org/celo-monorepo/blob/master/SETUP.md).
+### Prerequisites
 
-Next, install [watchman][watchman] and [jq][jq]
+Install [Homebrew](https://brew.sh) if you are on macOS.
+
+Install [NVM](https://github.com/nvm-sh/nvm#install--update-script) if you don't have any Node version manager.
+
+Install Node version listed in [.nvmrc](.nvmrc) and make it default (example for NVM):
+
+```bash
+# Check actual version number in .nvmrc
+nvm install 16.20.2
+nvm alias default 16.20.2
+```
+
+Install Yarn
+
+```bash
+npm install --global yarn
+```
+
+Install [watchman][watchman] and [jq][jq]
 
 ```bash
 # On a mac
@@ -101,9 +120,19 @@ We do not recommend installing Xcode through the App Store as it can auto update
 
 Note that using the method above, you can have multiple versions of Xcode installed in parallel if you'd like. Simply use different names for the different version of Xcode in your computer's `Applications` folder (e.g., `Xcode10.3.app` and `Xcode11.app`).
 
-#### Install Cocopods, Bundler, and download project dependencies
+#### Install Ruby, Cocoapods, Bundler, and download project dependencies
 
-If you are on an M1, please read [how to setup the environment on an M1](#install-on-an-m1) before you continue.
+Install Ruby 2.7 and make it global
+
+```bash
+brew install rbenv ruby-build
+
+# run and follow the printed instructions:
+rbenv init
+
+rbenv install 2.7.8
+rbenv global 2.7.8
+```
 
 Make sure you are in the `ios` directory of the repository root before running the following:
 
@@ -117,140 +146,55 @@ bundle install
 bundle exec pod install
 ```
 
-If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
-
 1. Run `yarn install` in the repository root.
 2. Run `yarn dev:ios` in the repository root.
 
-And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
+#### Install Rosetta (M1 macs only)
 
-#### Install on an M1
-
-Currently it is not possible to install the wallet natively. There are a few problems that need to be addressed before being able to run the repo on an M1:
-
-1. The M1 comes with a preinstalled version of Ruby that doesn't work with this repository.
-
-2. The build process that gets executed with `yarn dev:ios` is not able to finish with `nvm` installed.
-
-3. Running the necessary scripts with an M1-native node version will not work.
-
-4. It is currently not possible to run the repository in the integrated VSCode terminal.
-
-5. It is not possible to run the repository when the containing folder is located anywhere within `Documents` or `Desktop`.
-
-##### Solution
-
-1. Make sure all necessary software (VS Code, Terminal/iTerm2, XCode, Simulator) is running with Rosetta. You can verify this by typing `arch` in your terminal.
-
-```console
-$ arch
--> i386
-```
-
-2. Reinstall `brew` with x86_64 architecture:
-
-```console
-arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-```
-
-3. (optional) add your different brew installation paths as aliases to your `.zshrc`:
+If you are unable to run the app in the iOS Simulator, install Rosetta:
 
 ```bash
-alias ibrew='arch -x86_64 /usr/local/bin/brew'
-alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
+/usr/sbin/softwareupdate --install-rosetta --agree-to-license
 ```
-
-4. Install [`rbenv`](https://github.com/rbenv/rbenv) on Intel architecture:
-
-```console
-ibrew install rbenv
-```
-
-4.1. Add rbenv initialization to your shell. For instance in `.zshrc` or `.bashrc`:
-
-```bash
-eval "$(rbenv init -)"
-```
-
-5. Install ruby version 2.7.6 with `rbenv` and set it as the main version:
-
-```console
-rbenv install 2.7.6
-rbenv global 2.7.6
-```
-
-6. Install the required node version from [`.nvmrc`](/.nvmrc) with Intel architecture (If you have it installed under M1 architecture already, uninstall):
-
-```console
-(nvm uninstall 16.5.0)
-nvm install 16.5.0
-nvm use
-```
-
-Verify that node is using x64 architecture:
-
-```console
-node -e 'console.log(process.arch)'
--> x64
-```
-
-7. The build script will fail if `node` + `npm` and `yarn` have been installed through `brew`. Please uninstall them through brew (the nvm installations will still be there) and install them through `nvm`:
-
-```console
-
-brew uninstall npm yarn node
-
-which node
-->  /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
-
-nvm install-latest-npm
-which npm
--> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
-
-npm install -g yarn
- which yarn
--> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
-```
-
-8. Now verify that everything is correct for the build:
-
-```console
-which ruby
--> /opt/homebrew/opt/rbenv/shims/ruby
-
-which node
--> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
-
-node -e 'console.log(process.arch)'
--> x64
-
-which npm
--> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
-
-which yarn
--> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
-
-```
-
-Now follow [the steps for iOS installation](#install-cocopods-bundler-and-download-project-dependencies).
 
 ### Android
 
-#### Install Java
+[Download and install Android Studio](https://developer.android.com/studio/index.html) and the following add-ons:
 
-We need Java to be able to build and deploy the mobile app to Android devices. Android currently builds with Java 11.
+- Android SDK
+- Android SDK Platform
+- Android Virtual Device
 
-##### MacOS
+Install the Android 13 (Tiramisu) SDK. It can be found can be installed through the SDK Manager in Android Studio.
 
-Install by running the following:
+Configure the `ANDROID_HOME` environment variables by adding the following lines to your `~/.zprofile` or `~/.zshrc`. You can find the actual location of the SDK in the Android Studio "Preferences" dialog, under Appearance & Behavior → System Settings → Android SDK.
 
 ```bash
-brew install cask
-brew tap homebrew/cask-versions
-brew install --cask zulu11
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 ```
 
-Optionally, install Jenv to manage multiple Java versions:
+#### MacOS
+
+After installing Andoid Studio, add the [Android NDK][android ndk] (if you run into issues with the toolchain, try using version: 22.x).
+
+Make sure these lines are in your shell profile (`~/.bash_profile`, `~/.zshrc` etc.):
+
+_Note that these paths may differ on your machine. You can find the path to the SDK and NDK via the [Android Studio menu](https://stackoverflow.com/questions/40520324/how-to-find-the-path-to-ndk)._
+
+```bash
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export ANDROID_NDK=$ANDROID_HOME/ndk-bundle
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+# this is an optional gradle configuration that should make builds faster
+export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
+```
+
+(optional) You may want install Jenv to manage multiple Java versions:
 
 ```bash
 brew install jenv
@@ -259,47 +203,13 @@ eval "$(jenv init -)"
 jenv add /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 ```
 
-##### Linux
+#### Linux
 
-Install by running the following:
+Install Java by running the following:
 
 ```
 sudo apt install openjdk-11-jdk
 ```
-
-#### Install Android Dev Tools
-
-##### MacOS
-
-Install the Android SDK and platform tools:
-
-```bash
-brew install --cask android-sdk
-brew install --cask android-platform-tools
-```
-
-Next install [Android Studio][android studio] and add the [Android NDK][android ndk] (if you run into issues with the toolchain, try using version: 22.x).
-
-Execute the following (and make sure the lines are in your `~/.bash_profile`).
-
-_Note that these paths may differ on your machine. You can find the path to the SDK and NDK via the [Android Studio menu](https://stackoverflow.com/questions/40520324/how-to-find-the-path-to-ndk)._
-
-```bash
-export ANDROID_HOME=${YOUR_ANDROID_SDK_PATH}
-export ANDROID_NDK=$ANDROID_HOME/ndk-bundle
-export ANDROID_SDK_ROOT=$ANDROID_HOME
-# this is an optional gradle configuration that should make builds faster
-export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
-export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
-```
-
-Then install the Android 31 platform:
-
-```bash
-sdkmanager 'platforms;android-31'
-```
-
-##### Linux
 
 You can download the complete Android Studio and SDK from the [Android Developer download site](https://developer.android.com/studio/#downloads).
 
@@ -316,7 +226,7 @@ export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gr
 export TERM_PROGRAM=xterm  # or whatever your favorite terminal is
 ```
 
-#### Optional: Install an Android emulator
+##### Optional: Install an Android emulator
 
 ##### Configure an emulator using the Android SDK Manager
 

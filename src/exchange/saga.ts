@@ -23,7 +23,6 @@ import {
   TransactionContext,
   TransactionStatus,
   newTransactionContext,
-  Network,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
@@ -32,6 +31,7 @@ import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { call, put, select, spawn, takeEvery } from 'typed-redux-saga'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'exchange/saga'
 
@@ -70,7 +70,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
     yield* put(
       addStandbyTransaction({
         context,
-        network: Network.Celo,
+        networkId: networkConfig.defaultNetworkId,
         type: TokenTransactionTypeV2.Sent,
         comment: '',
         status: TransactionStatus.Pending,

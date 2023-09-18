@@ -29,9 +29,10 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   paymentRequest: PaymentRequest
+  index?: number
 }
 
-export default function IncomingPaymentRequestListItem({ paymentRequest }: Props) {
+export default function IncomingPaymentRequestListItem({ paymentRequest, index }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
@@ -62,6 +63,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
       notificationType: NotificationType.incoming_tx_request,
       notificationId: `${NotificationType.incoming_tx_request}/${paymentRequest.uid}`,
       selectedAction: NotificationBannerCTATypes.pay,
+      notificationPositionInList: index,
     })
   }
 
@@ -70,6 +72,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
       notificationType: NotificationType.incoming_tx_request,
       notificationId: `${NotificationType.incoming_tx_request}/${paymentRequest.uid}`,
       selectedAction: NotificationBannerCTATypes.decline,
+      notificationPositionInList: index,
     })
     dispatch(declinePaymentRequest(paymentRequestId))
     Logger.showMessage(t('requestDeclined'))
