@@ -88,9 +88,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: `${Colors.dark}CC`, // 80% opacity
   },
-  modal: {
-    margin: 0,
-  },
   bellContainer: {
     borderRadius: 100,
     position: 'absolute',
