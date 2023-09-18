@@ -1,11 +1,12 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import Modal from 'react-native-modal'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { notificationSpotlightSeen } from 'src/app/actions'
 import Button, { BtnSizes } from 'src/components/Button'
+import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import NotificationBell from 'src/home/NotificationBell'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -25,47 +26,67 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
+  const [isDisplayed, setIsDisplayed] = useState(isVisible)
+  const progress = useSharedValue(0)
+  const animatedOpacity = useAnimatedStyle(() => ({
+    opacity: 1 * progress.value,
+  }))
+
+  useShowOrHideAnimation(
+    progress,
+    isVisible,
+    () => {
+      setIsDisplayed(true)
+    },
+    () => {
+      setIsDisplayed(false)
+    }
+  )
+
   const handleDismiss = () => {
     dispatch(notificationSpotlightSeen())
   }
 
+  if (!isDisplayed) {
+    return null
+  }
+
   return (
-    <Modal
-      isVisible={isVisible}
-      backdropOpacity={0.7}
-      style={styles.modal}
-      useNativeDriverForBackdrop={true}
-    >
-      <SafeAreaView style={styles.container} edges={['top']}>
-        <NotificationBell
-          style={[styles.bellContainer, { top: insets.top + VERTICAL_TOP_BAR_OFFSET }]}
+    <Animated.View style={[styles.background, animatedOpacity]}>
+      <View style={[styles.bellContainer, { top: insets.top + VERTICAL_TOP_BAR_OFFSET }]}>
+        <NotificationBell />
+      </View>
+      <View
+        style={[styles.arrow, { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE }]}
+      />
+      <View
+        style={[
+          styles.messageContainer,
+          { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE + ARROW_SIZE * 2 },
+        ]}
+      >
+        <Text style={styles.messageText}>{t('notificationCenterSpotlight.message')}</Text>
+        <Button
+          onPress={handleDismiss}
+          text={t('notificationCenterSpotlight.cta')}
+          touchableStyle={styles.buttonTouchable}
+          style={styles.button}
+          size={BtnSizes.SMALL}
         />
-        <View
-          style={[styles.arrow, { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE }]}
-        />
-        <View
-          style={[
-            styles.messageContainer,
-            { top: insets.top + VERTICAL_TOP_BAR_OFFSET + SPOTLIGHT_SIZE + ARROW_SIZE * 2 },
-          ]}
-        >
-          <Text style={styles.messageText}>{t('notificationCenterSpotlight.message')}</Text>
-          <Button
-            onPress={handleDismiss}
-            text={t('notificationCenterSpotlight.cta')}
-            touchableStyle={styles.buttonTouchable}
-            style={styles.button}
-            size={BtnSizes.SMALL}
-          />
-        </View>
-      </SafeAreaView>
-    </Modal>
+      </View>
+    </Animated.View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: `${Colors.dark}CC`, // 80% opacity
   },
   modal: {
     margin: 0,
