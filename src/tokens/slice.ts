@@ -2,16 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
+import { Network } from 'src/transactions/types'
 
 export interface BaseToken {
   address: string
+  tokenId: string
   decimals: number
   imageUrl: string
   name: string
   symbol: string
+  network: Network
   priceFetchedAt?: number
   // This field is for tokens that are part of the core contracts that allow paying for fees and
   // making transfers with a comment.
+  isNative?: boolean
   isCoreToken?: boolean
   // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean

@@ -29,15 +29,15 @@ export const tokensByAddressSelector = createSelector(
   (state: RootState) => state.tokens.tokenBalances,
   (storedBalances) => {
     const tokenBalances: TokenBalances = {}
-    for (const [tokenAddress, storedState] of Object.entries(storedBalances)) {
-      if (!storedState || storedState.balance === null) {
+    for (const storedState of Object.values(storedBalances)) {
+      if (!storedState || storedState.balance === null || !storedState.address) {
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
 
       const tokenUsdPriceIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
-      tokenBalances[tokenAddress] = {
+      tokenBalances[storedState.address] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
         usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
