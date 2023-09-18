@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { notificationSpotlightSeen } from 'src/app/actions'
 import Button, { BtnSizes } from 'src/components/Button'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
@@ -45,6 +47,7 @@ export default function NotificationBellSpotlight({ isVisible }: Props) {
 
   const handleDismiss = () => {
     dispatch(notificationSpotlightSeen())
+    ValoraAnalytics.track(HomeEvents.notification_center_spotlight_dismiss)
   }
 
   if (!isDisplayed) {
