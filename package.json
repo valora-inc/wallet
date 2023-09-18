@@ -414,10 +414,6 @@
         "device": "simulator",
         "app": "ios.debug"
       },
-      "ios.debug.14.5": {
-        "device": "simulator.14.5",
-        "app": "ios.debug"
-      },
       "ios.release": {
         "device": "simulator",
         "app": "ios.release"
