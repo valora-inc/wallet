@@ -5,7 +5,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
 import { RecipientType } from 'src/recipients/recipient'
@@ -58,7 +58,7 @@ describe('OutgoingPaymentRequestListItem', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      notificationType: NotificationType.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.remind,
       notificationPositionInList: 4,
     })
@@ -75,7 +75,7 @@ describe('OutgoingPaymentRequestListItem', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      notificationType: NotificationType.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
       notificationPositionInList: 4,
     })

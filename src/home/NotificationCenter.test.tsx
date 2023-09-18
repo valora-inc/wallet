@@ -769,7 +769,7 @@ describe('NotificationCenter', () => {
   describe('claim supercharge rewards', () => {
     it('renders claim rewards notification when there are supercharge rewards', () => {
       const store = createMockStore(superchargeSetUp)
-      const { queryByTestId, getByText } = render(
+      const { queryByTestId, getByText, getByTestId } = render(
         <Provider store={store}>
           <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
         </Provider>
