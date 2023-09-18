@@ -13,7 +13,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockExchanges, mockFiatConnectQuotes, mockProviders } from 'test/values'
@@ -27,8 +27,6 @@ import {
   getProviderSelectionAnalyticsData,
 } from './utils'
 import mocked = jest.mocked
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import { Network, NetworkId } from 'src/transactions/types'
 
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'

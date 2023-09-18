@@ -61,6 +61,7 @@ import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
@@ -75,10 +76,6 @@ import {
   getProviderSelectionAnalyticsData,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
-import { Network } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
-
-import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
 
