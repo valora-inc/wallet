@@ -112,7 +112,6 @@ export type StackParamList = {
     buyCelo: boolean
   }
   [Screens.ExternalExchanges]: {
-    isCashIn?: boolean
     currency: CiCoCurrency
     exchanges: ExternalExchangeProvider[]
   }
@@ -363,20 +362,6 @@ export type StackParamList = {
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
-  [Screens.WithdrawCeloQrScannerScreen]: {
-    onAddressScanned: (address: string) => void
-  }
-  [Screens.WithdrawCeloReviewScreen]: {
-    amount: BigNumber
-    recipientAddress: string
-    feeEstimate: BigNumber
-    isCashOut: boolean
-  }
-  [Screens.WithdrawCeloScreen]: {
-    isCashOut: boolean
-    amount?: BigNumber
-    recipientAddress?: string
-  }
   [Screens.WithdrawSpend]: undefined
   [Screens.TokenBalances]:
     | {

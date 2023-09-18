@@ -15,6 +15,19 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
+import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import {
+  PaymentMethodSection,
+  PaymentMethodSectionMethods,
+} from 'src/fiatExchanges/PaymentMethodSection'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
+import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import {
+  ProviderSelectionAnalyticsData,
+  SelectProviderExchangesLink,
+  SelectProviderExchangesText,
+} from 'src/fiatExchanges/types'
 import {
   fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
@@ -23,19 +36,6 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
-import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
-import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import {
-  PaymentMethodSection,
-  PaymentMethodSectionMethods,
-} from 'src/fiatExchanges/PaymentMethodSection'
-import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import {
-  ProviderSelectionAnalyticsData,
-  SelectProviderExchangesLink,
-  SelectProviderExchangesText,
-} from 'src/fiatExchanges/types'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
@@ -48,45 +48,38 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { Network } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
+  FiatExchangeFlow,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
-  FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
-import { Network } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 
 import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
-
-function getAddFundsCryptoExchangeExperimentParams() {
-  return getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
-  )
-}
 
 const paymentMethodSections: PaymentMethodSectionMethods[] = [
   PaymentMethod.Card,
@@ -442,7 +435,10 @@ function ExchangesSection({
   const { addFundsExchangesText: exchangesText, addFundsExchangesLink: exchangesLink } =
     useMemo(() => {
       if (flow === CICOFlow.CashIn) {
-        return getAddFundsCryptoExchangeExperimentParams()
+        return {
+          addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
+          addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
+        }
       }
       return {
         addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
@@ -464,7 +460,6 @@ function ExchangesSection({
     } else {
       navigate(Screens.ExternalExchanges, {
         currency: selectedCurrency,
-        isCashIn: flow === CICOFlow.CashIn,
         exchanges,
       })
     }

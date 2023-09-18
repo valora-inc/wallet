@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 147,
+          "version": 148,
         },
         "account": {
           "acceptedTerms": false,
@@ -214,7 +214,6 @@ describe('store state', () => {
             "lastTimeUpdated": 0,
             "range": 2592000000,
           },
-          "isLoading": false,
           "tobinTax": "0",
         },
         "fees": {

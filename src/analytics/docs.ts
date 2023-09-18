@@ -372,7 +372,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.external_exchange_link]: ``,
   [FiatExchangeEvents.cico_external_exchanges_back]: ``,
   [FiatExchangeEvents.cico_cash_out_copy_address]: ``,
-  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: `When withdraw bar is tapped from cash out CELO`,
 
   // External Exchanges QR Code Screen
   [FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open]: ``,

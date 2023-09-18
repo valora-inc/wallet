@@ -416,7 +416,6 @@ export enum FiatExchangeEvents {
   external_exchange_link = 'external_exchange_link',
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
-  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue',
 
   // External Exchanges QR Code Screen
   cico_exchange_qr_bottom_sheet_open = 'cico_exchange_qr_bottom_sheet_open',

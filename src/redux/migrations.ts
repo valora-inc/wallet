@@ -1274,4 +1274,8 @@ export const migrations = {
       }),
     },
   }),
+  148: (state: any) => ({
+    ...state,
+    exchange: _.omit(state.exchange, 'isLoading'),
+  }),
 }
