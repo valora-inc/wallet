@@ -65,13 +65,10 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSelector(swappableTokensSelector)
   const swappableTokens = useMemo(() => {
-    const tokensWithUsdPrice = supportedTokens.filter(
-      (token) => token.usdPrice && token.usdPrice.gt(0)
-    )
     if (!swappingNonNativeTokensEnabled) {
-      return tokensWithUsdPrice.filter((token) => token.isCoreToken)
+      return supportedTokens.filter((token) => token.isCoreToken)
     }
-    return tokensWithUsdPrice
+    return supportedTokens
   }, [supportedTokens])
 
   const swapInfo = useSelector(swapInfoSelector)
@@ -321,10 +318,14 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       exchangeRate.toTokenAddress !== toToken?.address ||
       !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
 
-  const showPriceImpactWarning =
-    !fetchingSwapQuote && !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
   const showMisingPriceImpactWarning =
-    !fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact
+    (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
+    !fromToken?.usdPrice ||
+    !toToken?.usdPrice
+  const showPriceImpactWarning =
+    !fetchingSwapQuote &&
+    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
+    !showMisingPriceImpactWarning
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={edges}>

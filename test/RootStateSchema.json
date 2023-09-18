@@ -1669,10 +1669,12 @@
             ],
             "type": "object"
         },
-        "Network": {
+        "NetworkId": {
             "enum": [
-                "celo",
-                "ethereum"
+                "celo-alfajores",
+                "celo-mainnet",
+                "ethereum-mainnet",
+                "ethereum-sepolia"
             ],
             "type": "string"
         },
@@ -1821,8 +1823,8 @@
                     },
                     "type": "array"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "nfts": {
                     "items": {
@@ -1843,7 +1845,7 @@
             "required": [
                 "__typename",
                 "block",
-                "network",
+                "networkId",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -1891,6 +1893,9 @@
                 },
                 "priority": {
                     "type": "number"
+                },
+                "showOnHomeScreen": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -1985,7 +1990,8 @@
                                         "enum": [
                                             "IBANUserAction",
                                             "PIXUserAction",
-                                            "PSEUserAction"
+                                            "PSEUserAction",
+                                            "URLUserAction"
                                         ],
                                         "type": "string"
                                     }
@@ -2027,7 +2033,8 @@
                                         "enum": [
                                             "IBANUserAction",
                                             "PIXUserAction",
-                                            "PSEUserAction"
+                                            "PSEUserAction",
+                                            "URLUserAction"
                                         ],
                                         "type": "string"
                                     }
@@ -2069,7 +2076,8 @@
                                         "enum": [
                                             "IBANUserAction",
                                             "PIXUserAction",
-                                            "PSEUserAction"
+                                            "PSEUserAction",
+                                            "URLUserAction"
                                         ],
                                         "type": "string"
                                     }
@@ -2767,8 +2775,8 @@
                 "hash": {
                     "type": "string"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "status": {
                     "$ref": "#/definitions/TransactionStatus"
@@ -2790,7 +2798,7 @@
                 "address",
                 "comment",
                 "context",
-                "network",
+                "networkId",
                 "status",
                 "timestamp",
                 "type",
@@ -3277,9 +3285,6 @@
                 "error": {
                     "type": "boolean"
                 },
-                "exchangeRates": {
-                    "$ref": "#/definitions/{cGLD:string|null;cUSD:string|null;cEUR:string|null;}"
-                },
                 "fetchedCurrencyCode": {
                     "enum": [
                         "ARS",
@@ -3383,11 +3388,17 @@
                         "ZAR"
                     ],
                     "type": "string"
+                },
+                "usdToLocalRate": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
-                "exchangeRates",
-                "isLoading"
+                "isLoading",
+                "usdToLocalRate"
             ],
             "type": "object"
         },
@@ -4267,6 +4278,9 @@
                 "name": {
                     "type": "string"
                 },
+                "networkIconUrl": {
+                    "type": "string"
+                },
                 "priceFetchedAt": {
                     "type": "number"
                 },
@@ -4655,8 +4669,8 @@
                 "metadata": {
                     "$ref": "#/definitions/TokenExchangeMetadata"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
@@ -4676,7 +4690,7 @@
                 "block",
                 "fees",
                 "inAmount",
-                "network",
+                "networkId",
                 "outAmount",
                 "timestamp",
                 "transactionHash",
@@ -4747,8 +4761,8 @@
                 "metadata": {
                     "$ref": "#/definitions/TokenTransferMetadata"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "timestamp": {
                     "type": "number"
@@ -4767,7 +4781,7 @@
                 "block",
                 "fees",
                 "metadata",
-                "network",
+                "networkId",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -5665,35 +5679,6 @@
                     "type": "object"
                 }
             },
-            "type": "object"
-        },
-        "{cGLD:string|null;cUSD:string|null;cEUR:string|null;}": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "cGLD": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "cUSD": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
             "type": "object"
         },
         "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {

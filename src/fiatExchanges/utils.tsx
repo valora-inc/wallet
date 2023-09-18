@@ -16,6 +16,7 @@ import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
+import { NetworkId } from 'src/transactions/types'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -51,7 +52,7 @@ interface ProviderRequestData {
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
   digitalAsset: CloudFunctionDigitalAsset
-  network?: Network
+  networkId?: NetworkId
   fiatAmount?: number
   digitalAssetAmount?: number
   txType: 'buy' | 'sell'

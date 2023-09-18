@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 145,
+          "version": 147,
         },
         "account": {
           "acceptedTerms": false,
@@ -278,14 +278,10 @@ describe('store state', () => {
         },
         "localCurrency": {
           "error": false,
-          "exchangeRates": {
-            "cEUR": null,
-            "cGLD": null,
-            "cUSD": "1.33",
-          },
           "fetchedCurrencyCode": "PHP",
           "isLoading": false,
           "preferredCurrencyCode": "PHP",
+          "usdToLocalRate": "1.33",
         },
         "networkInfo": {
           "connected": false,

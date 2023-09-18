@@ -29,9 +29,10 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   paymentRequest: PaymentRequest
+  index?: number
 }
 
-export default function IncomingPaymentRequestListItem({ paymentRequest }: Props) {
+export default function IncomingPaymentRequestListItem({ paymentRequest, index }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
@@ -61,6 +62,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.pay,
+      notificationPositionInList: index,
     })
   }
 
@@ -68,6 +70,7 @@ export default function IncomingPaymentRequestListItem({ paymentRequest }: Props
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.decline,
+      notificationPositionInList: index,
     })
     dispatch(declinePaymentRequest(paymentRequestId))
     Logger.showMessage(t('requestDeclined'))

@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockTestTokenAddress } from 'test/values'
 import SendOrRequestBar from './SendOrRequestBar'
@@ -19,9 +18,7 @@ describe('SendOrRequestBar', () => {
         },
       },
       localCurrency: {
-        exchangeRates: {
-          [Currency.Dollar]: '1',
-        },
+        usdToLocalRate: '1',
       },
     })
     const { getByTestId } = render(
@@ -45,9 +42,7 @@ describe('SendOrRequestBar', () => {
         },
       },
       localCurrency: {
-        exchangeRates: {
-          [Currency.Dollar]: '1',
-        },
+        usdToLocalRate: '1',
       },
     })
     const { getByTestId } = render(
@@ -71,9 +66,7 @@ describe('SendOrRequestBar', () => {
         },
       },
       localCurrency: {
-        exchangeRates: {
-          [Currency.Dollar]: null,
-        },
+        usdToLocalRate: null,
       },
     })
     const { getByTestId } = render(

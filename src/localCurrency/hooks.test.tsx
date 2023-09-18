@@ -14,7 +14,7 @@ function TestComponent({ amount }: { amount: MoneyAmount }) {
   return null
 }
 
-function createStore(dollarExchange: string | null = '2') {
+function createStore(usdToLocalRate: string | null = '2') {
   return createMockStore({
     tokens: {
       tokenBalances: {
@@ -45,9 +45,7 @@ function createStore(dollarExchange: string | null = '2') {
       },
     },
     localCurrency: {
-      exchangeRates: {
-        [Currency.Dollar]: dollarExchange,
-      },
+      usdToLocalRate,
     },
   })
 }

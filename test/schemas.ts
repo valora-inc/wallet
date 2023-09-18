@@ -14,8 +14,8 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
+import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { TokenTransaction, Network, StandbyTransaction } from 'src/transactions/types'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -23,6 +23,7 @@ import {
   mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
+import networkConfig from 'src/web3/networkConfig'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -2496,6 +2497,45 @@ export const v145Schema = {
   },
 }
 
+export const v146Schema = {
+  ...v145Schema,
+  _persist: {
+    ...v145Schema._persist,
+    version: 146,
+  },
+  localCurrency: {
+    ..._.omit(v145Schema.localCurrency, 'exchangeRates'),
+    usdToLocalRate: v145Schema.localCurrency.exchangeRates[Currency.Dollar],
+  },
+}
+
+export const v147Schema = {
+  ...v146Schema,
+  _persist: {
+    ...v146Schema._persist,
+    version: 147,
+  },
+  transactions: {
+    ...v146Schema.transactions,
+    standbyTransactions: (
+      v146Schema.transactions.standbyTransactions as (StandbyTransaction & { network: Network })[]
+    ).map((tx) => {
+      return {
+        ..._.omit(tx, 'network'),
+        networkId: networkConfig.networkToNetworkId[tx.network],
+      }
+    }),
+    transactions: (
+      v146Schema.transactions.transactions as (TokenTransaction & { network: Network })[]
+    ).map((tx) => {
+      return {
+        ..._.omit(tx, 'network'),
+        networkId: networkConfig.networkToNetworkId[tx.network],
+      }
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v145Schema as Partial<RootState>
+  return v147Schema as Partial<RootState>
 }

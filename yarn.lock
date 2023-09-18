@@ -1984,13 +1984,13 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.13.tgz#412d7a1c7799dd8735efe85e6dae8487ea54ad30"
-  integrity sha512-ufqYnb/LyC9x62rSfa3Jw5qENk9E7PCpxkmkUaq0O0JcZhYqyqn48TmrwBAa0bj5BsvqOGc/TJS7WrJ6jJvWcw==
+"@fiatconnect/fiatconnect-sdk@^0.5.14":
+  version "0.5.14"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.14.tgz#0dcb20bdfb5e0e033591f7116cc4db5c43a62170"
+  integrity sha512-ZtMb3T3EudYVh6EOi6cI+jTVa4Czp3r0j1tcqmM2oZG2h+OSngc5uzbJmIf7IWBvEP0aQqifoYscIcFakCHvRA==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.1.3"
+    "@fiatconnect/fiatconnect-types" "^13.2.0"
     cross-fetch "^4.0.0"
     ethers "^5.7.2"
     fetch-cookie "^2.1.0"
@@ -1999,17 +1999,17 @@
     tslib "^2.6.2"
     zod "^3.22.2"
 
-"@fiatconnect/fiatconnect-types@^13.1.3":
-  version "13.1.3"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.1.3.tgz#59c3155044d306a9c3c40605ad769da433581359"
-  integrity sha512-MOM/MMrvNF+oP7IIlSIYzDeZPwdk3+iKpiCgedqyTO2CMyCzMnLfOu4vQHMSB2WT2fe8NbAmTD7Ez0aQdfkAwA==
+"@fiatconnect/fiatconnect-types@^13.2.0":
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.2.0.tgz#9c0aa7f267f882416a7388b11e9b2c10c0741f5e"
+  integrity sha512-/xfheL/vAgNjHQyIYvIzJRNulO67mtsd5eVu5BQ/mZvmvL8KVd7JoOscCR9lSsrFumVcB7VlP/IA5t+2Mgx2oQ==
   dependencies:
     zod "^3.22.2"
 
-"@gorhom/bottom-sheet@^4.4.7":
-  version "4.4.7"
-  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz#fc80b3f0b7ebab056ce226f3aa3a89b2db8660dd"
-  integrity sha512-ukTuTqDQi2heo68hAJsBpUQeEkdqP9REBcn47OpuvPKhdPuO1RBOOADjqXJNCnZZRcY+HqbnGPMSLFVc31zylQ==
+"@gorhom/bottom-sheet@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.5.0.tgz#2d8396e00b9f0f101b060371f91c6430762fcc1a"
+  integrity sha512-YmTVZUuyqTm3w8a2GC9YZZQ9ZcORsoIE7rM8/k/XZitS8juBGa0kyG3lPmwjNdvQuDwRpd536+df3YVJK4z50A==
   dependencies:
     "@gorhom/portal" "1.0.14"
     invariant "^2.2.4"
@@ -4304,10 +4304,10 @@
     pino "7.11.0"
     tslib "1.14.1"
 
-"@walletconnect/react-native-compat@^2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.10.0.tgz#6254b23a22d371e7890ed957cf7950ee5b9eafc7"
-  integrity sha512-7u0ykp1gz+7UoYp3miAfm6fTjsDUEHjGB2RXSeYjCX5ikVN6rJl0USMzBmM52pYTtAVFG9QT25Tt2bGk2rHOjw==
+"@walletconnect/react-native-compat@^2.10.1":
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.10.1.tgz#39b6f1912c44bf1b0e9ce02ba63e4a30b92d6044"
+  integrity sha512-KZLj7wBcmnrzkqATZdW+OgrPvoceua54cgG460cpo3Yh81af+T51j3YFfpe7naCPW+EFX6SU5dpmMIe8jNfVjQ==
   dependencies:
     events "3.3.0"
     fast-text-encoding "^1.0.6"
@@ -12147,10 +12147,10 @@ node-environment-flags@1.0.5:
     object.getownpropertydescriptors "^2.0.3"
     semver "^5.7.0"
 
-node-fetch@^2.0.0-alpha.8, node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.13, node-fetch@^2.6.7:
-  version "2.6.13"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.13.tgz#a20acbbec73c2e09f9007de5cda17104122e0010"
-  integrity sha512-StxNAxh15zr77QvvkmveSQ8uCQ4+v5FkvNTj0OESmiHu+VRi/gXArXtkWMElOsOUNLtUEvI4yS+rdtOHZTwlQA==
+node-fetch@^2.0.0-alpha.8, node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7, node-fetch@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
+  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -13662,10 +13662,10 @@ react-native-crypto@^2.0.1:
     pbkdf2 "3.0.8"
     public-encrypt "^4.0.0"
 
-react-native-device-info@^10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.2.0.tgz#be17a1b86cabbe53f4adde96b662204784d3cefd"
-  integrity sha512-7VycjFGaLKIZLDwCxSK5cWZdDOGqz3QxdGF57B/a4bW3gkrUFa5Gf0v7fUR9YL/VBJM0UwDiDH7pR9hkMQt+vw==
+react-native-device-info@^10.9.0:
+  version "10.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.9.0.tgz#5b378eea884a130db1d3ac637610f3a5ae7e8217"
+  integrity sha512-HqujZoNSkPGYZVs8ZsAwPkdY5UQt2jW0eg/wtW/kKbcAOp0KjUesgG7e1UISY4Z7Bx6LjZeKs0cqDzQI8AlOmw==
 
 react-native-dotenv@^3.2.0:
   version "3.2.0"
@@ -13674,10 +13674,10 @@ react-native-dotenv@^3.2.0:
   dependencies:
     dotenv "^10.0.0"
 
-react-native-email-link@^1.14.6:
-  version "1.14.6"
-  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.6.tgz#f681a48a611d50b25a9b01c2154cc186c6e246b8"
-  integrity sha512-XsWgdSMgxutKrm6WJRLKd1DxQpFt2x6xLuIhmAE5CdMMjNKadsUM5Evub9+otTBhlphSerePAwzSaNoBXpisLg==
+react-native-email-link@^1.14.7:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.7.tgz#5f7cb10f6eb0e8e0f642306484542c5c8bc6d833"
+  integrity sha512-BHhakcPGkVgYeSXd/j/OICC9nGFHe0RFv7b3+PvNhstOyjXoUHBX+qftuUzNqFeeMcktfGMlzl2CacA6nKUvKQ==
 
 react-native-exit-app@^1.1.0:
   version "1.1.0"
@@ -13770,10 +13770,10 @@ react-native-kill-packager@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-kill-packager/-/react-native-kill-packager-1.0.0.tgz#8d5dc706429805800298acabca45598d0d39b391"
   integrity sha1-jV3HBkKYBYACmKyrykVZjQ05s5E=
 
-react-native-linear-gradient@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.6.2.tgz#56598a76832724b2afa7889747635b5c80948f38"
-  integrity sha512-Z8Xxvupsex+9BBFoSYS87bilNPWcRfRsGC0cpJk72Nxb5p2nEkGSBv73xZbEHnW2mUFvP+huYxrVvjZkr/gRjQ==
+react-native-linear-gradient@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
+  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
 react-native-localize@^2.1.7:
   version "2.1.7"
@@ -16261,15 +16261,15 @@ typescript-tuple@^2.2.1:
   dependencies:
     typescript-compare "^0.0.2"
 
-typescript@5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
-  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
-
 typescript@^3.6.4:
   version "3.9.10"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
+
+typescript@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
+  integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
 
 typescript@~4.9.5:
   version "4.9.5"

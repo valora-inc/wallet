@@ -1,10 +1,15 @@
+import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
+import {
+  Network,
+  NetworkId,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Network, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import BigNumber from 'bignumber.js'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,
@@ -19,8 +24,10 @@ import {
   v132Schema,
   v133Schema,
   v136Schema,
-  v144Schema,
   v13Schema,
+  v144Schema,
+  v145Schema,
+  v146Schema,
   v14Schema,
   v15Schema,
   v16Schema,
@@ -1151,6 +1158,123 @@ describe('Redux persist migrations', () => {
       },
     }
     const migratedSchema = migrations[145](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v145 to v146', () => {
+    const oldSchema = v145Schema
+    const migratedSchema = migrations[146](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.localCurrency.usdToLocalRate =
+      oldSchema.localCurrency.exchangeRates[Currency.Dollar]
+    delete expectedSchema.localCurrency.exchangeRates
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v146 to v147', () => {
+    const oldSchema = {
+      ...v146Schema,
+      transactions: {
+        ...v146Schema.transactions,
+        standbyTransactions: [
+          {
+            context: { id: 'test' },
+            network: Network.Celo,
+            type: TokenTransactionTypeV2.Sent,
+            status: TransactionStatus.Pending,
+            value: '0.5',
+            tokenAddress: 'mock-address',
+            comment: '',
+            timestamp: 1542300000,
+            address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+          },
+        ],
+        transactions: [
+          {
+            __typename: 'TokenTransferV3',
+            type: TokenTransactionTypeV2.Sent,
+            network: Network.Celo,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            address: 'some-address',
+            amount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            metadata: {},
+            fees: [],
+          },
+          {
+            __typename: 'NftTransferV3',
+            network: Network.Ethereum,
+            type: TokenTransactionTypeV2.NftReceived,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            nfts: [],
+            fees: [],
+          },
+        ],
+      },
+    }
+    const expectedSchema = {
+      ...v146Schema,
+      transactions: {
+        ...v146Schema.transactions,
+        standbyTransactions: [
+          {
+            context: { id: 'test' },
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.Sent,
+            status: TransactionStatus.Pending,
+            value: '0.5',
+            tokenAddress: 'mock-address',
+            comment: '',
+            timestamp: 1542300000,
+            address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+          },
+        ],
+        transactions: [
+          {
+            __typename: 'TokenTransferV3',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.Sent,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            address: 'some-address',
+            amount: {
+              value: new BigNumber(0),
+              tokenAddress: 'some-token-address',
+              localAmount: {
+                value: new BigNumber(1),
+                currencyCode: 'USD',
+                exchangeRate: '1',
+              },
+            },
+            metadata: {},
+            fees: [],
+          },
+          {
+            __typename: 'NftTransferV3',
+            networkId: NetworkId['ethereum-sepolia'],
+            type: TokenTransactionTypeV2.NftReceived,
+            transactionHash: '123',
+            timestamp: 456,
+            block: '789',
+            nfts: [],
+            fees: [],
+          },
+        ],
+      },
+    }
+    const migratedSchema = migrations[147](oldSchema)
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

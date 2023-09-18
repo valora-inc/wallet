@@ -50,7 +50,9 @@ export function useNotifications() {
       const itemPriority = Number(`${INVITES_PRIORITY}.${payment.timestamp.toString()}`)
 
       notifications.push({
-        element: <EscrowedPaymentListItem payment={payment} />,
+        renderElement: (params?: { index?: number }) => (
+          <EscrowedPaymentListItem payment={payment} index={params?.index} />
+        ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
         id: `reclaimInvite/${payment.paymentID}`,
       })
@@ -68,7 +70,9 @@ export function useNotifications() {
       const itemPriority = Number(`${INCOMING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
 
       notifications.push({
-        element: <IncomingPaymentRequestListItem paymentRequest={request} />,
+        renderElement: (params?: { index?: number }) => (
+          <IncomingPaymentRequestListItem paymentRequest={request} index={params?.index} />
+        ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
         id: `incomingPaymentRequest/${request.uid}`,
       })
@@ -87,23 +91,24 @@ export function useNotifications() {
         continue
       }
 
+      const id = request.uid
       const requestee = getRecipientFromAddress(request.requesteeAddress, recipientInfo)
-
       const itemPriority = Number(`${OUTGOING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
 
       notifications.push({
-        element: (
+        renderElement: (params?: { index?: number }) => (
           <OutgoingPaymentRequestListItem
-            id={request.uid}
+            id={id}
             amount={request.amount}
             requestee={requestee}
             comment={request.comment}
             cancelPaymentRequest={handleCancelPaymentRequest}
             updatePaymentRequestNotified={handleUpdatePaymentRequestNotified}
+            index={params?.index}
           />
         ),
         priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-        id: `outgoingPaymentRequest/${request.uid}`,
+        id: `outgoingPaymentRequest/${id}`,
       })
     }
   }
@@ -111,13 +116,21 @@ export function useNotifications() {
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification) => ({
-      element: <SimpleMessagingCard testID={notification.id} {...notification} />,
+      renderElement: (params?: { index?: number }) => (
+        <SimpleMessagingCard {...notification} testID={notification.id} index={params?.index} />
+      ),
       priority: notification.priority,
+      showOnHomeScreen: notification.showOnHomeScreen,
       id: notification.id,
     }))
   )
 
-  return notifications.sort((n1, n2) => n2.priority - n1.priority)
+  return (
+    notifications
+      .sort((n1, n2) => n2.priority - n1.priority)
+      // Hide notifications that should only be shown on the home screen
+      .filter((n) => !n.showOnHomeScreen)
+  )
 }
 
 export default function Notifications({ navigation }: NotificationsProps) {
@@ -127,6 +140,14 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const title = t('notifications')
 
   const notifications = useNotifications()
+
+  // Changing onViewableItemsChanged on the fly is not supported.
+  // This is a workaround to provide handleViewableItemsChanged with
+  // actual notifications array while keeping its dependecy list empty.
+  const notificationsRef = useRef<Notification[]>([])
+  useEffect(() => {
+    notificationsRef.current = notifications
+  }, [notifications])
 
   const seenNotifications = useRef(new Set())
 
@@ -160,13 +181,15 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const handleViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      viewableItems.forEach(({ item }, index) => {
+      viewableItems.forEach(({ item }: { item: Notification }) => {
         if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
           ValoraAnalytics.track(HomeEvents.notification_impression, {
             notificationId: item.id,
-            notificationPosition: index,
+            notificationPositionInList: notificationsRef.current.findIndex(
+              ({ id }) => id === item.id
+            ),
           })
         }
       })
@@ -194,10 +217,10 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   const renderItemSeparator = () => <View style={styles.itemSeparator} />
 
-  const renderItem = ({ item }: { item: Notification }) => {
+  const renderItem = ({ item, index }: { item: Notification; index: number }) => {
     return (
       <View testID={`NotificationView/${item.id}`} key={item.id} style={styles.listItem}>
-        {item.element}
+        {item.renderElement({ index })}
       </View>
     )
   }
@@ -208,6 +231,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
 
   return (
     <Animated.FlatList
+      testID="NotificationCenter"
       style={styles.container}
       ListHeaderComponent={renderHeader}
       ListEmptyComponent={renderEmptyState}
