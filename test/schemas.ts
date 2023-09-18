@@ -16,6 +16,7 @@ import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -2514,6 +2515,33 @@ export const v147Schema = {
     ...v146Schema._persist,
     version: 147,
   },
+  transactions: {
+    ...v146Schema.transactions,
+    standbyTransactions: (
+      v146Schema.transactions.standbyTransactions as (StandbyTransaction & { network: Network })[]
+    ).map((tx) => {
+      return {
+        ..._.omit(tx, 'network'),
+        networkId: networkConfig.networkToNetworkId[tx.network],
+      }
+    }),
+    transactions: (
+      v146Schema.transactions.transactions as (TokenTransaction & { network: Network })[]
+    ).map((tx) => {
+      return {
+        ..._.omit(tx, 'network'),
+        networkId: networkConfig.networkToNetworkId[tx.network],
+      }
+    }),
+  },
+}
+
+export const v148Schema = {
+  ...v147Schema,
+  _persist: {
+    ...v147Schema._persist,
+    version: 148,
+  },
   app: {
     ...v146Schema.app,
     showNotificationSpotlight: true,
@@ -2521,5 +2549,5 @@ export const v147Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v147Schema as Partial<RootState>
+  return v148Schema as Partial<RootState>
 }

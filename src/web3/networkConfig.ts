@@ -3,15 +3,18 @@ import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
-import { Chain as ViemChain, celo, celoAlfajores } from 'viem/chains'
+import { NetworkId, Network } from 'src/transactions/types'
+import {
+  Chain as ViemChain,
+  celo,
+  celoAlfajores,
+  mainnet as ethereum,
+  sepolia as ethereumSepolia,
+} from 'viem/chains'
 
 export enum Testnets {
   alfajores = 'alfajores',
   mainnet = 'mainnet',
-}
-
-export enum Network {
-  celo = 'celo',
 }
 
 interface NetworkConfig {
@@ -57,6 +60,8 @@ interface NetworkConfig {
   cabIssueSmsCodeUrl: string
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
+  networkToNetworkId: Record<Network, NetworkId>
+  defaultNetworkId: NetworkId
   viemChain: {
     [key in Network]: ViemChain
   }
@@ -167,6 +172,11 @@ const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValor
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
+    networkToNetworkId: {
+      [Network.Celo]: NetworkId['celo-alfajores'],
+      [Network.Ethereum]: NetworkId['ethereum-sepolia'],
+    },
+    defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
@@ -215,11 +225,17 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
     viemChain: {
-      [Network.celo]: celoAlfajores,
+      [Network.Celo]: celoAlfajores,
+      [Network.Ethereum]: ethereumSepolia,
     },
   },
   [Testnets.mainnet]: {
     networkId: '42220',
+    networkToNetworkId: {
+      [Network.Celo]: NetworkId['celo-mainnet'],
+      [Network.Ethereum]: NetworkId['ethereum-mainnet'],
+    },
+    defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     hooksApiUrl: HOOKS_API_URL_MAINNET,
@@ -267,7 +283,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
     viemChain: {
-      [Network.celo]: celo,
+      [Network.Celo]: celo,
+      [Network.Ethereum]: ethereum,
     },
   },
 }

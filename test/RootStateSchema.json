@@ -1669,10 +1669,12 @@
             ],
             "type": "object"
         },
-        "Network": {
+        "NetworkId": {
             "enum": [
-                "celo",
-                "ethereum"
+                "celo-alfajores",
+                "celo-mainnet",
+                "ethereum-mainnet",
+                "ethereum-sepolia"
             ],
             "type": "string"
         },
@@ -1821,8 +1823,8 @@
                     },
                     "type": "array"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "nfts": {
                     "items": {
@@ -1843,7 +1845,7 @@
             "required": [
                 "__typename",
                 "block",
-                "network",
+                "networkId",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2773,8 +2775,8 @@
                 "hash": {
                     "type": "string"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "status": {
                     "$ref": "#/definitions/TransactionStatus"
@@ -2796,7 +2798,7 @@
                 "address",
                 "comment",
                 "context",
-                "network",
+                "networkId",
                 "status",
                 "timestamp",
                 "type",
@@ -4671,8 +4673,8 @@
                 "metadata": {
                     "$ref": "#/definitions/TokenExchangeMetadata"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
@@ -4692,7 +4694,7 @@
                 "block",
                 "fees",
                 "inAmount",
-                "network",
+                "networkId",
                 "outAmount",
                 "timestamp",
                 "transactionHash",
@@ -4763,8 +4765,8 @@
                 "metadata": {
                     "$ref": "#/definitions/TokenTransferMetadata"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "timestamp": {
                     "type": "number"
@@ -4783,7 +4785,7 @@
                 "block",
                 "fees",
                 "metadata",
-                "network",
+                "networkId",
                 "timestamp",
                 "transactionHash",
                 "type"
