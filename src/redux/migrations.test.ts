@@ -1294,7 +1294,7 @@ describe('Redux persist migrations', () => {
       ...v149Schema,
       app: {
         ...v149Schema.app,
-        activeScreen: null,
+        activeScreen: 'Main',
       },
     })
   })

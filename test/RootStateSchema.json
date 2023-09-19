@@ -2532,7 +2532,6 @@
                 "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
-                "SetClock",
                 "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",

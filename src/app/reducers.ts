@@ -22,7 +22,7 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  activeScreen: Screens | null
+  activeScreen: Screens
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   superchargeApy: number

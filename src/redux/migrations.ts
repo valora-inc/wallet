@@ -1286,9 +1286,9 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      activeScreen: Object.values(Screens).includes(state.app.activeScreen) // should be very rare (removed screens do not exist in prev app version)
+      activeScreen: Object.values(Screens).includes(state.app.activeScreen)
         ? state.app.activeScreen
-        : null,
+        : 'Main', // same as initial state. should be very rare, since removed screens were not present in prev app version.
     },
   }),
 }
