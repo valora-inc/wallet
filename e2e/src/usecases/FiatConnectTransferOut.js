@@ -88,7 +88,7 @@ async function submitTransfer(expectZeroBalance = false) {
   if (expectZeroBalance) {
     await dismissCashInBottomSheet()
   }
-  await expect(element(by.id('HomeAction-Withdraw'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
+  await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
 /**
@@ -307,6 +307,9 @@ export const fiatConnectKycTransferOut = () => {
 
     await element(by.text('Continue')).tap()
 
+    // Somehow this sleep is needed to make the test pass
+    // waitFor doesn't work here !?
+    await sleep(1000)
     await element(by.text('Done')).tap() // End of Persona flow
 
     // Check that Mock Provider info is defined
