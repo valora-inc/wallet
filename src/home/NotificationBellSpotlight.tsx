@@ -23,6 +23,9 @@ const HORIZONTAL_TOP_BAR_OFFSET = 4
 const SPOTLIGHT_SIZE = 48
 const ARROW_SIZE = 8
 
+// Note: this component should not be repurposed for other spotlights, it is
+// dependent on the position of the notification bell and the layout will break
+// if real notification bell position changes.
 export default function NotificationBellSpotlight({ isVisible }: Props) {
   const insets = useSafeAreaInsets()
   const dispatch = useDispatch()
