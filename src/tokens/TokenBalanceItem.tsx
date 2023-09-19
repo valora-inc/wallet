@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -20,7 +19,6 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
     amountInUsd ?? 0
   )
   const showAmount = amountInLocalCurrency.isGreaterThan(0)
-  const { t } = useTranslation()
 
   return (
     <Touchable>
