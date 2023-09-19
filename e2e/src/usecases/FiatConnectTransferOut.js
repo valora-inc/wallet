@@ -125,12 +125,14 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   const { address: walletAddress } = await generateKeys(mnemonic)
   await quickOnboarding(mnemonic) // ends on home screen
   await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
-  await navigateToFiatExchangeScreen()
-
-  // FiatExchange
+  // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()
     .withTimeout(60000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+
+  await navigateToFiatExchangeScreen()
+
+  // FiatExchange
   await waitForElementId('cashOut')
   await element(by.id('cashOut')).tap()
 
