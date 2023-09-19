@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "Once they set up and add 10 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "一旦他们设置并在 {{appName}} 钱包中添加 10 cUSD，你们都将收到 0.50 cUSD。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -646,14 +646,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "要领取此奖励，受邀者必须通过推荐链接下载、连接电话号码并在 {{appName}} 钱包中持有 10 cUSD 或以上达 7 天。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
       "title": "参加 Valora 推荐计划，赚取 cUSD 奖励",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
+      "body": "邀请多达 25 位朋友加入 {{appName}} ，当他们加入或收到 10 cUSD 或以上时，您每人将获得 0.50 cUSD，送完即止。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -1758,7 +1758,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "看来 {{contactName}} 不在 Valora 上。如果您知道他们的钱包地址，您仍然可以发送付款，或者发送邀请。 \n\n 在他们下载 Valora、连接电话号码并在钱包中添加 10 cUSD 后，您和他们都将获得 0.50 cUSD，直到资金用完为止。"
     }
   },
   "celoNews": {
@@ -1829,8 +1829,8 @@
     "claimRewards": "领取奖励"
   },
   "notificationCenterSpotlight": {
-    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
-    "cta": "Got it"
+    "message": "推出一种新方法，可在一个地方申请奖励、查看警报和查看更新",
+    "cta": "明白"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
