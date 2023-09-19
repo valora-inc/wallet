@@ -1,7 +1,6 @@
 import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
-import { isE2EEnv } from 'src/config'
 import { FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
@@ -137,10 +136,9 @@ interface ExpectedLaunchArgs {
 }
 
 export function setupOverridesFromLaunchArgs() {
-  if (isE2EEnv) {
+  try {
     Logger.debug(TAG, 'Cleaning up local overrides')
     Statsig.removeGateOverride() // remove all gate overrides
-    Logger.debug(TAG, 'Local overrides cleaned up')
     const { statsigGateOverrides } = LaunchArguments.value<ExpectedLaunchArgs>()
     if (statsigGateOverrides) {
       Logger.debug(TAG, 'Setting up gate overrides', statsigGateOverrides)
@@ -148,7 +146,8 @@ export function setupOverridesFromLaunchArgs() {
         const [gate, value] = gateOverride.split('=')
         Statsig.overrideGate(gate, value === 'true')
       })
-      Logger.debug(TAG, 'Gate overrides setup')
     }
+  } catch (err) {
+    Logger.debug(TAG, 'Overrides setup failed', err)
   }
 }

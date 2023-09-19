@@ -42,6 +42,7 @@ import {
   DEFAULT_APP_LANGUAGE,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX,
   FETCH_TIMEOUT_DURATION,
+  isE2EEnv,
 } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -144,11 +145,6 @@ export function* appInit() {
     ),
   ])
 
-  // setup statsig overrides for E2E tests
-  Logger.debug(`${TAG}@appInit`, 'Setting up statsig overrides')
-  setupOverridesFromLaunchArgs()
-  Logger.debug(`${TAG}@appInit`, 'Statsig overrides setup')
-
   // This step is important if the user is offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
   const sentryNetworkErrors = yield* select(sentryNetworkErrorsSelector)
@@ -156,6 +152,11 @@ export function* appInit() {
 
   const supportedBiometryType = yield* call(Keychain.getSupportedBiometryType)
   yield* put(setSupportedBiometryType(supportedBiometryType))
+
+  // setup statsig overrides for E2E tests
+  if (isE2EEnv) {
+    setupOverridesFromLaunchArgs()
+  }
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
