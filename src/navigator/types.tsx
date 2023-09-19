@@ -120,7 +120,6 @@ export type StackParamList = {
     flow: CICOFlow
     exchanges: ExternalExchangeProvider[]
   }
-  [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
     flow: CICOFlow
