@@ -35,10 +35,14 @@ async function navigateToFiatExchangeScreen() {
 async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
   const kit = newKit(ALFAJORES_FORNO_URL)
   const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
+  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
   kit.connection.addAccount(senderPrivateKey)
   const tokenContract = await kit.contracts.getStableToken(stableToken)
   const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
-  await tokenContract.transfer(recipientAddress, amountWei.toString()).send({ from: senderAddress })
+  const receipt = await tokenContract
+    .transfer(recipientAddress, amountWei.toString())
+    .sendAndWaitForReceipt({ from: senderAddress })
+  console.log('Funding TX receipt', receipt)
 }
 
 /**
