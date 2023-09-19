@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Приглашайте друзей и получайте вознаграждение",
-    "body": "Once they set up and add 10 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Как только они установят и пополнят свой кошелёк {{appName}} на 10 cUSD, вы оба получите по 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Пригласить друга",
@@ -646,14 +646,14 @@
     "button": "Отправить приглашение",
     "error": "Возникла проблема с созданием ссылки",
     "share": "Привет! Я использую криптовалютный кошелек {{appName}}. Это просто! Ознакомиться с этим способом можно по ссылке: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "Чтобы получить это вознаграждение, приглашённый должен загрузиться по реферальной ссылке, подключить свой номер телефона и в течение 7 дней держать в своём кошельке {{appName}} 10 cUSD или больше. <0>Посмотреть все условия</0>",
     "rewardsActive": {
       "title": "Приглашайте друзей и собирайте NFT",
       "body": "Предложите своим друзьям и родственникам скачать {{appName}}, а в награду и вы, и приглашенный вами участник получите эксклюзивный NFT"
     },
     "rewardsActiveCUSD": {
       "title": "Получайте cUSD с реферальными вознаграждениями Valora",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
+      "body": "Пригласи до 25 друзей присоединиться к {{appName}} , и ты будешь получать по 0,50 cUSD, когда они добавят или получат 10 cUSD или больше, пока есть средства."
     }
   },
   "getReward": "Получить ${{reward}}",
@@ -1764,7 +1764,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Пригласите {{contactName}} в {{appName}} и получите 0,50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Похоже, что {{contactName}} нет на Valora. Ты всё ещё можешь отправить платёж, если знаешь адрес их кошелька, или вместо этого отправить приглашение. \n\n После того как они скачают Valora, подключат свой номер телефона и пополнят свой кошелёк на 10 cUSD, вы оба получите по 0,50 cUSD, пока хватит средств."
     }
   },
   "celoNews": {
@@ -1835,8 +1835,8 @@
     "claimRewards": "Заявить о вознаграждениях"
   },
   "notificationCenterSpotlight": {
-    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
-    "cta": "Got it"
+    "message": "Представляем новый способ заявлять о вознаграждениях, просматривать оповещения и видеть обновления в одном месте",
+    "cta": "Понял"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
