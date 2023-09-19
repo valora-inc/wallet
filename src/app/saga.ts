@@ -77,7 +77,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate, patchUpdateStatsigUser, setupOverridesFromLaunchArgs } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
 import { ensureError } from 'src/utils/ensureError'
@@ -145,7 +145,7 @@ export function* appInit() {
   ])
 
   // setup statsig overrides for E2E tests
-  setupOverridesFromLaunchArgs()
+  // setupOverridesFromLaunchArgs()
 
   // This step is important if the user is offline and unable to fetch remote
   // config values, we can use the persisted value instead of an empty one
