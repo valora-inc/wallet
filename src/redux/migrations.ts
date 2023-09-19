@@ -1274,4 +1274,11 @@ export const migrations = {
       }),
     },
   }),
+  148: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      tokenBalances: {},
+    },
+  }),
 }

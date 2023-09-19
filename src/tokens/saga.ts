@@ -30,7 +30,7 @@ import {
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { TransactionContext, TransactionStatus, Network } from 'src/transactions/types'
+import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
@@ -239,14 +239,14 @@ export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
   const chainsToFetch = getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
-    ? Object.values(Network)
-    : [Network.Celo]
+    ? Object.values(networkConfig.networkToNetworkId)
+    : [networkConfig.defaultNetworkId]
   const userBalances = await Promise.all(
-    chainsToFetch.map((network) => {
-      return apolloClient.query<UserBalancesResponse, { address: string; network: string }>({
+    chainsToFetch.map((networkId) => {
+      return apolloClient.query<UserBalancesResponse, { address: string; networkId: string }>({
         query: gql`
-          query FetchUserBalances($address: Address!, $network: Network) {
-            userBalances(address: $address, network: $network) {
+          query FetchUserBalances($address: Address!, $networkId: NetworkId) {
+            userBalances(address: $address, networkId: $networkId) {
               balances {
                 tokenId
                 tokenAddress
@@ -257,7 +257,7 @@ export async function fetchTokenBalancesForAddress(
         `,
         variables: {
           address,
-          network,
+          networkId: networkId.replaceAll('-', '_'), // GraphQL does not support hyphens in enum values
         },
         fetchPolicy: 'network-only',
         errorPolicy: 'all',
@@ -270,7 +270,7 @@ export async function fetchTokenBalancesForAddress(
   )
 }
 
-async function getTokensInfo(): Promise<StoredTokenBalances> {
+export async function getTokensInfo(): Promise<StoredTokenBalances> {
   const response = await fetchWithTimeout(networkConfig.getTokensInfoUrl)
   if (!response.ok) {
     Logger.error(TAG, `Failure response fetching token info: ${response}`)

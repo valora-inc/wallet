@@ -1,5 +1,5 @@
 import { StoredTokenBalances } from 'src/tokens/slice'
-import { Network } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 
 // alfajores addresses
 const cUSD = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase()
@@ -16,7 +16,7 @@ export function e2eTokens(): StoredTokenBalances {
       name: 'Celo Dollars',
       symbol: 'cUSD',
       usdPrice: '1',
-      network: Network.Celo,
+      networkId: NetworkId['celo-alfajores'],
       balance: null,
       isCoreToken: true,
       priceFetchedAt: Date.now(),
@@ -29,7 +29,7 @@ export function e2eTokens(): StoredTokenBalances {
       name: 'Celo Euros',
       symbol: 'cEUR',
       usdPrice: '1.18',
-      network: Network.Celo,
+      networkId: NetworkId['celo-alfajores'],
       balance: null,
       isCoreToken: true,
       priceFetchedAt: Date.now(),
@@ -42,7 +42,7 @@ export function e2eTokens(): StoredTokenBalances {
       name: 'Celo native token',
       symbol: 'CELO',
       usdPrice: '6.5',
-      network: Network.Celo,
+      networkId: NetworkId['celo-alfajores'],
       balance: null,
       isCoreToken: true,
       priceFetchedAt: Date.now(),

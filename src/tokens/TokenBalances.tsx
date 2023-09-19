@@ -53,7 +53,7 @@ import {
   totalTokenBalanceSelector,
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -64,11 +64,11 @@ interface SectionData {
 }
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
-    SectionList
-  )
+  Animated.createAnimatedComponent<
+    SectionListProps<TokenBalanceWithAddress | Position, SectionData>
+  >(SectionList)
 
-const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
+const assetIsPosition = (asset: Position | TokenBalanceWithAddress): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 export enum AssetViewType {
@@ -241,7 +241,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
+    const sections: SectionListData<TokenBalanceWithAddress | Position, SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -257,7 +257,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalance | Position, SectionData>
+    section: SectionListData<TokenBalanceWithAddress | Position, SectionData>
   }) => {
     if (section.appName) {
       return (
@@ -271,7 +271,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     return null
   }
 
-  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
+  const renderAssetItem = ({ item }: { item: TokenBalanceWithAddress | Position }) => {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
     }

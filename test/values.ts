@@ -53,6 +53,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { NetworkId } from 'src/transactions/types'
 
 export const nullAddress = '0x0'
 
@@ -118,6 +119,14 @@ export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLo
 export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
 export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
 export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
+
+export const mockCusdTokenId = `celo-alfajores:${mockCusdAddress}`
+export const mockCeurTokenId = `celo-alfajores:${mockCeurAddress}`
+export const mockCeloTokenId = `celo-alfajores:native`
+export const mockPoofTokenId = `celo-alfajores:${mockPoofAddress}`
+export const mockTestTokenTokenId = `celo-alfajores:${mockTestTokenAddress}`
+export const mockCrealTokenId = `celo-alfajores:${mockCrealAddress}`
+export const mockWBTCTokenId = `celo-alfajores:${mockWBTCAddress}`
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -487,9 +496,11 @@ export const makeExchangeRates = (
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
   // NOTE: important to keep 'symbol' fields in this object matching their counterparts from here: https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json ,
   //  particularly for CICO currencies
-  [mockPoofAddress]: {
+  [mockPoofTokenId]: {
     usdPrice: '0.1',
     address: mockPoofAddress,
+    tokenId: mockPoofTokenId,
+    networkId: NetworkId['celo-alfajores'],
     symbol: 'POOF',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
@@ -498,9 +509,11 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '5',
     priceFetchedAt: Date.now(),
   },
-  [mockCeurAddress]: {
+  [mockCeurTokenId]: {
     usdPrice: '1.16',
     address: mockCeurAddress,
+    tokenId: mockCeurTokenId,
+    networkId: NetworkId['celo-alfajores'],
     symbol: 'cEUR',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
@@ -510,9 +523,11 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
   },
-  [mockCusdAddress]: {
+  [mockCusdTokenId]: {
     usdPrice: '1.001',
     address: mockCusdAddress,
+    tokenId: mockCusdTokenId,
+    networkId: NetworkId['celo-alfajores'],
     symbol: 'cUSD',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
@@ -522,9 +537,11 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
   },
-  [mockCeloAddress]: {
+  [mockCeloTokenId]: {
     usdPrice: '13.25085583155252100584',
     address: mockCeloAddress,
+    tokenId: mockCeloTokenId,
+    networkId: NetworkId['celo-alfajores'],
     symbol: 'CELO', // NOT cGLD, see https://github.com/valora-inc/address-metadata/blob/c84ef7056fa066ef86f9b4eb295ae248f363f67a/src/data/mainnet/tokens-info.json#L173
     imageUrl:
       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
@@ -534,9 +551,11 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
   },
-  [mockCrealAddress]: {
+  [mockCrealTokenId]: {
     usdPrice: '0.17',
     address: mockCrealAddress,
+    tokenId: mockCrealTokenId,
+    networkId: NetworkId['celo-alfajores'],
     symbol: 'cREAL',
     imageUrl:
       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cREAL.png',

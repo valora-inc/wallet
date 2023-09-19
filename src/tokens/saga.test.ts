@@ -4,12 +4,12 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import {
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
+  getTokensInfo,
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
@@ -23,22 +23,25 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockPoofAddress,
+  mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
 
-const mockFirebaseTokenInfo: StoredTokenBalances = {
-  [mockPoofAddress]: {
-    ...mockTokenBalances[mockPoofAddress],
+const mockBlockchainApiTokenInfo: StoredTokenBalances = {
+  [mockPoofTokenId]: {
+    ...mockTokenBalances[mockPoofTokenId],
     balance: null,
   },
-  [mockCusdAddress]: {
-    ...mockTokenBalances[mockCusdAddress],
+  [mockCusdTokenId]: {
+    ...mockTokenBalances[mockCusdTokenId],
     balance: null,
   },
   [mockCeurAddress]: {
-    ...mockTokenBalances[mockCeurAddress],
+    ...mockTokenBalances[mockCeurTokenId],
     balance: null,
   },
 }
@@ -46,11 +49,13 @@ const mockFirebaseTokenInfo: StoredTokenBalances = {
 const fetchBalancesResponse = [
   {
     tokenAddress: mockPoofAddress,
+    tokenId: mockPoofTokenId,
     balance: (5 * Math.pow(10, 18)).toString(),
     decimals: '18',
   },
   {
     tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
     balance: '0',
     decimals: '18',
   },
@@ -59,20 +64,20 @@ const fetchBalancesResponse = [
 
 describe(fetchTokenBalancesSaga, () => {
   const tokenBalancesAfterUpdate: StoredTokenBalances = {
-    ...mockFirebaseTokenInfo,
-    [mockPoofAddress]: {
-      ...(mockFirebaseTokenInfo[mockPoofAddress] as StoredTokenBalance),
+    ...mockBlockchainApiTokenInfo,
+    [mockPoofTokenId]: {
+      ...(mockBlockchainApiTokenInfo[mockPoofTokenId] as StoredTokenBalance),
       balance: '5', // should convert to ethers (rather than keep in wei)
     },
-    [mockCusdAddress]: {
-      ...(mockFirebaseTokenInfo[mockCusdAddress] as StoredTokenBalance),
+    [mockCusdTokenId]: {
+      ...(mockBlockchainApiTokenInfo[mockCusdTokenId] as StoredTokenBalance),
       balance: '0',
     },
   }
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
@@ -84,10 +89,10 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(walletAddressSelector), null],
-        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
-      .not.call(readOnceFromFirebase, 'tokensInfo')
+      .not.call(getTokensInfo)
       .not.put(setTokenBalances(tokenBalancesAfterUpdate))
       .run()
   })
@@ -95,7 +100,7 @@ describe(fetchTokenBalancesSaga, () => {
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
       ])
@@ -110,6 +115,7 @@ describe(fetchTokenBalancesSaga, () => {
 
 describe(tokenAmountInSmallestUnit, () => {
   const mockAddress = '0xMockAddress'
+  const mockTokenId = `celo-alfajores:${mockAddress}`
 
   it('map to token amount successfully', async () => {
     await expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
@@ -117,8 +123,9 @@ describe(tokenAmountInSmallestUnit, () => {
         createMockStore({
           tokens: {
             tokenBalances: {
-              [mockAddress]: {
+              [mockTokenId]: {
                 address: mockAddress,
+                tokenId: mockTokenId,
                 decimals: 5,
               },
             },

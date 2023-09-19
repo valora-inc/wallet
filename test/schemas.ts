@@ -2536,6 +2536,18 @@ export const v147Schema = {
   },
 }
 
+export const v148Schema = {
+  ...v147Schema,
+  _persist: {
+    ...v147Schema._persist,
+    version: 148,
+  },
+  tokens: {
+    ...v147Schema.tokens,
+    tokenBalances: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v147Schema as Partial<RootState>
+  return v148Schema as Partial<RootState>
 }

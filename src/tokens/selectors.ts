@@ -8,17 +8,17 @@ import {
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalance, TokenBalances } from 'src/tokens/slice'
+import { TokenBalance, TokenBalancesWithAddress, TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
-type TokenBalanceWithUsdPrice = TokenBalance & {
+type TokenBalanceWithUsdPrice = TokenBalanceWithAddress & {
   usdPrice: BigNumber
 }
 
 export type CurrencyTokens = {
-  [currency in Currency]: TokenBalance | undefined
+  [currency in Currency]: TokenBalanceWithAddress | undefined
 }
 
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
@@ -28,9 +28,9 @@ export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 export const tokensByAddressSelector = createSelector(
   (state: RootState) => state.tokens.tokenBalances,
   (storedBalances) => {
-    const tokenBalances: TokenBalances = {}
+    const tokenBalances: TokenBalancesWithAddress = {}
     for (const storedState of Object.values(storedBalances)) {
-      if (!storedState || storedState.balance === null || !storedState.address) {
+      if (!storedState || storedState.balance === null || storedState.address === null) {
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
@@ -39,6 +39,7 @@ export const tokensByAddressSelector = createSelector(
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
       tokenBalances[storedState.address] = {
         ...storedState,
+        address: storedState.address, // TS complains if this isn't explicitly included, despite it necessarily being non-null
         balance: new BigNumber(storedState.balance),
         usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
         lastKnownUsdPrice: !usdPrice.isNaN() ? usdPrice : null,
@@ -57,7 +58,7 @@ export const tokensBySymbolSelector = createSelector(
   (
     tokens
   ): {
-    [symbol: string]: TokenBalance
+    [symbol: string]: TokenBalanceWithAddress
   } => {
     return tokens.reduce(
       (acc, token) => ({

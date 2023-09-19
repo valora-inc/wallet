@@ -68,6 +68,11 @@ const state: any = {
         usdPrice: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
       },
+      ['0x6']: {
+        balance: '50',
+        usdPrice: '500',
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+      },
     },
   },
   localCurrency: {

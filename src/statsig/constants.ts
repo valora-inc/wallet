@@ -37,6 +37,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS]: false,
   [StatsigFeatureGates.SHOW_NATIVE_TOKENS]: false,
   [StatsigFeatureGates.SHOW_ETH_IN_CICO]: false,
+  [StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES]: false,
 }
 
 export const ExperimentConfigs = {
