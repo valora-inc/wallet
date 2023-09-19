@@ -29,8 +29,6 @@ import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
-import SendOrRequestBar from 'src/home/SendOrRequestBar'
-import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -67,10 +65,6 @@ function WalletHome() {
   const dispatch = useDispatch()
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
-
-  const { showHomeActions, showHomeNavBar, showQrScanner } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
-  )
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
@@ -184,14 +178,10 @@ function WalletHome() {
     renderItem: () => <ActionsCarousel key={'ActionsCarousel'} />,
   }
 
-  if (showHomeActions) {
-    if (showNotificationCenter) {
-      sections.push(notificationBoxSection, tokenBalanceSection, actionsCarouselSection)
-    } else {
-      sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
-    }
+  if (showNotificationCenter) {
+    sections.push(notificationBoxSection, tokenBalanceSection, actionsCarouselSection)
   } else {
-    sections.push(notificationBoxSection, tokenBalanceSection)
+    sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
   }
 
   sections.push({
@@ -206,26 +196,16 @@ function WalletHome() {
 
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
-      {showQrScanner && (
-        <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
-      )}
+      <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
       {showNotificationCenter && (
-        <NotificationBell testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
+        <NotificationBell testID={'WalletHome/NotificationBell'} style={styles.topRightElement} />
       )}
     </View>
   )
 
   return (
-    <SafeAreaView
-      testID="WalletHome"
-      style={styles.container}
-      edges={!showHomeNavBar ? ['top'] : undefined}
-    >
-      <DrawerTopBar
-        middleElement={showHomeActions ? undefined : <Logo testID="WalletHome/Logo" />}
-        rightElement={topRightElements}
-        scrollPosition={scrollPosition}
-      />
+    <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
+      <DrawerTopBar rightElement={topRightElements} scrollPosition={scrollPosition} />
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
@@ -235,12 +215,11 @@ function WalletHome() {
         onRefresh={onRefresh}
         refreshing={isLoading}
         style={styles.container}
-        contentContainerStyle={!showHomeNavBar ? { paddingBottom: insets.bottom } : undefined}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
         sections={sections}
         keyExtractor={keyExtractor}
         testID="WalletHome/SectionList"
       />
-      {showHomeNavBar && <SendOrRequestBar />}
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}

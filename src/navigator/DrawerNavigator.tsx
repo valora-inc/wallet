@@ -20,7 +20,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
-import FiatExchange from 'src/account/FiatExchange'
 import {
   backupCompletedSelector,
   cloudBackupCompletedSelector,
@@ -46,14 +45,12 @@ import WalletHome from 'src/home/WalletHome'
 import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
 import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
-import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
 import { NFT } from 'src/icons/navigator/NFT'
 import { Settings } from 'src/icons/navigator/Settings'
-import { Swap } from 'src/icons/navigator/Swap'
 import Invite from 'src/invite/Invite'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import DrawerItem from 'src/navigator/DrawerItem'
@@ -61,7 +58,6 @@ import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
 import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
@@ -71,7 +67,6 @@ import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -216,16 +211,11 @@ export default function DrawerNavigator({ route }: Props) {
 
   const backupCompleted = useSelector(backupCompletedSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
-  const { showAddWithdrawOnMenu, showSwapOnMenu } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
-  )
   const { discoverCopyEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.DAPP_MENU_ITEM_COPY]
   )
 
   const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
-
-  const shouldShowSwapMenuInDrawerMenu = useSelector(isAppSwapsEnabledSelector) && showSwapOnMenu
 
   const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
 
@@ -233,15 +223,6 @@ export default function DrawerNavigator({ route }: Props) {
   const anyBackupCompleted = backupCompleted || cloudBackupCompleted
   const showWalletSecurity = !anyBackupCompleted && cloudBackupGate
   const showRecoveryPhrase = !anyBackupCompleted && !cloudBackupGate
-
-  // ExchangeHomeScreen
-  const celoMenuItem = (
-    <Drawer.Screen
-      name={Screens.ExchangeHomeScreen}
-      component={ExchangeHomeScreen}
-      options={{ title: t('celoGold') ?? undefined, drawerIcon: Gold }}
-    />
-  )
 
   return (
     <Drawer.Navigator
@@ -274,15 +255,11 @@ export default function DrawerNavigator({ route }: Props) {
           options={{ title: t('nftGallery.title') ?? undefined, drawerIcon: NFT }}
         />
       )}
-      {shouldShowSwapMenuInDrawerMenu ? (
-        <Drawer.Screen
-          name={Screens.SwapScreen}
-          component={SwapScreen}
-          options={{ title: t('swapScreen.title') ?? undefined, drawerIcon: Swap }}
-        />
-      ) : (
-        celoMenuItem
-      )}
+      <Drawer.Screen
+        name={Screens.ExchangeHomeScreen}
+        component={ExchangeHomeScreen}
+        options={{ title: t('celoGold') ?? undefined, drawerIcon: Gold }}
+      />
 
       {!!dappsListUrl && (
         <Drawer.Screen
@@ -348,24 +325,11 @@ export default function DrawerNavigator({ route }: Props) {
           initialParams={{ showDrawerTopBar: true }}
         />
       )}
-      {showAddWithdrawOnMenu && (
-        <Drawer.Screen
-          name={Screens.FiatExchange}
-          component={FiatExchange}
-          options={{ title: t('addAndWithdraw') ?? undefined, drawerIcon: AddWithdraw }}
-        />
-      )}
       <Drawer.Screen
         name={Screens.Invite}
         component={Invite}
         options={{ title: t('invite') ?? undefined, drawerIcon: InviteIcon }}
       />
-
-      {
-        // When swap is enabled, the celo menu item is here
-        shouldShowSwapMenuInDrawerMenu && celoMenuItem
-      }
-
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}

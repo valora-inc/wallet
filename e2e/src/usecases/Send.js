@@ -18,10 +18,10 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from bottom bar', async () => {
-      await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+      await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30 * 1000)
-      await element(by.id('SendOrRequestBar/SendButton')).tap()
+      await element(by.id('HomeAction-Send')).tap()
       await waitFor(element(by.id('SendSearchInput')))
         .toBeVisible()
         .withTimeout(10 * 1000)
@@ -120,7 +120,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.id('errorBanner'))).not.toBeVisible()
-      await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+      await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30 * 1000)
     })
@@ -134,10 +134,10 @@ export default Send = () => {
 
   it('Then should be able to perform Nomspace lookup', async () => {
     await reloadReactNative()
-    await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+    await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(30 * 1000)
-    await element(by.id('SendOrRequestBar/SendButton')).tap()
+    await element(by.id('HomeAction-Send')).tap()
     // Look for an address and tap on it.
     await element(by.id('SearchInput')).tap()
     await element(by.id('SearchInput')).replaceText('Hello.nom')
