@@ -131,3 +131,6 @@ export const pushNotificationRequestedUnixTimeSelector = (state: RootState) =>
 
 export const inAppReviewLastInteractionTimestampSelector = (state: RootState) =>
   state.app.inAppReviewLastInteractionTimestamp
+
+export const showNotificationSpotlightSelector = (state: RootState) =>
+  state.app.showNotificationSpotlight

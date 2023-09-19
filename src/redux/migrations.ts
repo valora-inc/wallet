@@ -1274,4 +1274,11 @@ export const migrations = {
       }),
     },
   }),
+  148: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showNotificationSpotlight: true, // true for all upgrading users
+    },
+  }),
 }

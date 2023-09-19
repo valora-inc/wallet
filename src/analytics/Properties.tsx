@@ -169,6 +169,7 @@ interface HomeEventsProperties {
     notificationId: string
     notificationPositionInList?: number
   }
+  [HomeEvents.notification_center_spotlight_dismiss]: undefined
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }

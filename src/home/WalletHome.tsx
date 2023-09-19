@@ -7,7 +7,11 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import {
+  appStateSelector,
+  phoneNumberVerifiedSelector,
+  showNotificationSpotlightSelector,
+} from 'src/app/selectors'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -23,6 +27,7 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
+import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
@@ -53,6 +58,7 @@ function WalletHome() {
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
+  const canShowNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -67,6 +73,7 @@ function WalletHome() {
   )
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
+  const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
 
   useEffect(() => {
     dispatch(visitHome())
@@ -119,6 +126,10 @@ function WalletHome() {
   }
 
   const shouldShowCashInBottomSheet = () => {
+    if (showNotificationSpotlight) {
+      return false
+    }
+
     // If user is in a sanctioned country do not show the cash in bottom sheet
     if (userInSanctionedCountry) {
       return false
@@ -230,6 +241,7 @@ function WalletHome() {
         testID="WalletHome/SectionList"
       />
       {showHomeNavBar && <SendOrRequestBar />}
+      <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
