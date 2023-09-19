@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "Once they set up and add 10 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Kurulum yapıp {{appName}} cüzdanlarına 10 cUSD eklediklerinde, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -646,14 +646,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "Bu ödülü almak için davetlinin yönlendirme bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 7 gün boyunca 10 cUSD veya daha fazlasını tutması gerekir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
       "title": "Valora Davet Ödülleri ile cUSD kazanın",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
+      "body": "En fazla 25 arkadaşınızı {{appName}} adresine katılmaya davet edin ve her biriniz 10 cUSD veya daha fazla para eklediklerinde veya aldıklarında 0,50 cUSD kazanın."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -1760,7 +1760,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Görünüşe göre {{contactName}} Valora'da değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Valora'yı indirdikten, telefon numaralarını bağladıktan ve cüzdanlarına 10 cUSD ekledikten sonra, para bitene kadar ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1831,8 +1831,8 @@
     "claimRewards": "Ödüllerinizi Alın"
   },
   "notificationCenterSpotlight": {
-    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
-    "cta": "Got it"
+    "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
+    "cta": "Anladım."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
