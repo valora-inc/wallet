@@ -16,7 +16,7 @@ export default Send = () => {
         })
       })
 
-      it('Then should navigate to send search input from bottom bar', async () => {
+      it('Then should navigate to send search input from home action', async () => {
         await waitFor(element(by.id('HomeAction-Send')))
           .toBeVisible()
           .withTimeout(30 * 1000)

@@ -52,7 +52,7 @@ import {
 } from 'test/values'
 
 jest.mock('@celo/connect')
-jest.mock('src/statsig/')
+jest.mock('src/statsig')
 
 const mockNewTransactionContext = jest.fn()
 
