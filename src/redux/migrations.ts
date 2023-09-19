@@ -1276,6 +1276,13 @@ export const migrations = {
   }),
   148: (state: any) => ({
     ...state,
+    app: {
+      ...state.app,
+      showNotificationSpotlight: true, // true for all upgrading users
+    },
+  }),
+  149: (state: any) => ({
+    ...state,
     tokens: {
       ...state.tokens,
       tokenBalances: {},

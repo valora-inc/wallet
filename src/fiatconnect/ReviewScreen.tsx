@@ -15,25 +15,24 @@ import { FormatType } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import Touchable from 'src/components/Touchable'
-import { estimateFee, FeeEstimateState, FeeType } from 'src/fees/reducer'
+import { FeeEstimateState, FeeType, estimateFee } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
-import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
-import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import {
   getDefaultLocalCurrencyCode,
   usdToLocalCurrencyRateSelector,
 } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -42,8 +41,8 @@ import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { Network } from 'src/transactions/types'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -129,7 +128,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         network: Network.Celo,
       })
     } else if (previousScreen?.name === Screens.FiatConnectRefetchQuote) {
-      navigateToFiatExchangeStart()
+      navigateHome()
     } else {
       navigateBack()
     }
@@ -649,7 +648,7 @@ FiatConnectReviewScreen.navigationOptions = ({
           flow: route.params.flow,
           provider: route.params.normalizedQuote.getProviderId(),
         })
-        navigateToFiatExchangeStart()
+        navigateHome()
       }}
       style={styles.cancelBtn}
     />

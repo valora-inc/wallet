@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
@@ -81,7 +81,8 @@ describe('EscrowedPaymentReminderNotification', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      notificationType: NotificationType.escrow_tx_pending,
+      notificationId: `${NotificationType.escrow_tx_pending}/0x0000000000000000000000000000000000007E57`,
       selectedAction: NotificationBannerCTATypes.remind,
       notificationPositionInList: 4,
     })
@@ -98,7 +99,8 @@ describe('EscrowedPaymentReminderNotification', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      notificationType: NotificationType.escrow_tx_pending,
+      notificationId: `${NotificationType.escrow_tx_pending}/0x0000000000000000000000000000000000007E57`,
       selectedAction: NotificationBannerCTATypes.reclaim,
       notificationPositionInList: 4,
     })
