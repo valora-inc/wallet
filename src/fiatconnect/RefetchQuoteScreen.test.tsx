@@ -4,14 +4,11 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
 import { refetchQuote } from 'src/fiatconnect/slice'
-import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-
-jest.mock('src/fiatExchanges/navigator')
 
 const store = createMockStore()
 
@@ -33,8 +30,8 @@ describe('RefetchQuoteScreen', () => {
         <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
-    expect(navigateToFiatExchangeStart).toHaveBeenCalledTimes(1)
-    expect(navigateToFiatExchangeStart).toHaveBeenCalledWith()
+    expect(navigateHome).toHaveBeenCalledTimes(1)
+    expect(navigateHome).toHaveBeenCalledWith()
     expect(store.dispatch).not.toHaveBeenCalled()
   })
 
@@ -65,8 +62,8 @@ describe('RefetchQuoteScreen', () => {
         <FiatConnectRefetchQuoteScreen {...props} />
       </Provider>
     )
-    expect(navigateToFiatExchangeStart).toHaveBeenCalledTimes(1)
-    expect(navigateToFiatExchangeStart).toHaveBeenCalledWith()
+    expect(navigateHome).toHaveBeenCalledTimes(1)
+    expect(navigateHome).toHaveBeenCalledWith()
     expect(store.dispatch).toHaveBeenCalledWith(
       refetchQuote({
         flow: CICOFlow.CashOut,

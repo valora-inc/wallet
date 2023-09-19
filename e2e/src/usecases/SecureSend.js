@@ -1,10 +1,10 @@
 import { reloadReactNative } from '../utils/retries'
 import {
+  addComment,
   enterPinUiIfNecessary,
   inputNumberKeypad,
   scrollIntoView,
   sleep,
-  addComment,
 } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
@@ -19,10 +19,10 @@ export default SecureSend = () => {
 
   it('Send cUSD to phone number with multiple mappings', async () => {
     let randomContent = faker.lorem.words()
-    await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+    await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(30000)
-    await element(by.id('SendOrRequestBar/SendButton')).tap()
+    await element(by.id('HomeAction-Send')).tap()
 
     // Look for an address and tap on it.
     await element(by.id('SearchInput')).tap()
@@ -73,7 +73,7 @@ export default SecureSend = () => {
     await enterPinUiIfNecessary()
 
     // Return to home screen.
-    await waitFor(element(by.id('SendOrRequestBar')))
+    await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(30 * 1000)
 

@@ -1,16 +1,16 @@
+import { newKit } from '@celo/contractkit'
+import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
+import { KycStatus } from '@fiatconnect/fiatconnect-types'
+import fetch from 'node-fetch'
+import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
+import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import {
   dismissCashInBottomSheet,
   enterPinUiIfNecessary,
-  sleep,
   quickOnboarding,
+  sleep,
   waitForElementId,
 } from '../utils/utils'
-import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
-import { newKit } from '@celo/contractkit'
-import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
-import { MOCK_PROVIDER_BASE_URL, MOCK_PROVIDER_API_KEY } from 'react-native-dotenv'
-import fetch from 'node-fetch'
-import { KycStatus } from '@fiatconnect/fiatconnect-types'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)
@@ -18,9 +18,10 @@ import { KycStatus } from '@fiatconnect/fiatconnect-types'
  * @return {{result: Error}}
  */
 async function navigateToFiatExchangeScreen() {
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await element(by.id('add-and-withdraw')).tap()
+  await waitForElementId('HomeActionsCarousel')
+  await element(by.id('HomeActionsCarousel')).scrollTo('right')
+  await waitForElementId('HomeAction-Withdraw')
+  await element(by.id('HomeAction-Withdraw')).tap()
 }
 
 /**
@@ -34,10 +35,14 @@ async function navigateToFiatExchangeScreen() {
 async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
   const kit = newKit(ALFAJORES_FORNO_URL)
   const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
+  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
   kit.connection.addAccount(senderPrivateKey)
   const tokenContract = await kit.contracts.getStableToken(stableToken)
   const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
-  await tokenContract.transfer(recipientAddress, amountWei.toString()).send({ from: senderAddress })
+  const receipt = await tokenContract
+    .transfer(recipientAddress, amountWei.toString())
+    .sendAndWaitForReceipt({ from: senderAddress })
+  console.log('Funding TX receipt', receipt)
 }
 
 /**
@@ -83,7 +88,7 @@ async function submitTransfer(expectZeroBalance = false) {
   if (expectZeroBalance) {
     await dismissCashInBottomSheet()
   }
-  await expect(element(by.id('SendOrRequestBar'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
+  await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
 /**
@@ -124,12 +129,14 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   const { address: walletAddress } = await generateKeys(mnemonic)
   await quickOnboarding(mnemonic) // ends on home screen
   await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
-  await navigateToFiatExchangeScreen()
-
-  // FiatExchange
+  // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()
     .withTimeout(60000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+
+  await navigateToFiatExchangeScreen()
+
+  // FiatExchange
   await waitForElementId('cashOut')
   await element(by.id('cashOut')).tap()
 
@@ -300,6 +307,9 @@ export const fiatConnectKycTransferOut = () => {
 
     await element(by.text('Continue')).tap()
 
+    // Somehow this sleep is needed to make the test pass
+    // waitFor doesn't work here !?
+    await sleep(1000)
     await element(by.text('Done')).tap() // End of Persona flow
 
     // Check that Mock Provider info is defined
