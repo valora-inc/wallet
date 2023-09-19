@@ -6,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
 import { listItemRenderer } from 'src/escrow/EscrowedPaymentListScreen'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { notificationInvite } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -21,7 +21,8 @@ function EscrowedPaymentReminderSummaryNotification({ payments }: Props) {
 
   const onReview = () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_summary,
+      notificationType: NotificationType.escrow_tx_summary,
+      notificationId: NotificationType.escrow_tx_summary,
       selectedAction: NotificationBannerCTATypes.review,
     })
     navigate(Screens.EscrowedPaymentListScreen)
