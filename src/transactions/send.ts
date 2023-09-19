@@ -6,7 +6,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { coreTokensSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import {
   SendTransactionLogEvent,
   SendTransactionLogEventType,
@@ -118,7 +118,7 @@ export function* chooseTxFeeDetails(
   gas?: number,
   gasPrice?: BigNumber
 ) {
-  const coreTokens: TokenBalance[] = yield* select(coreTokensSelector)
+  const coreTokens: TokenBalanceWithAddress[] = yield* select(coreTokensSelector)
   const tokenInfo = coreTokens.find(
     (token) =>
       token.address === preferredFeeCurrency || (token.symbol === 'CELO' && !preferredFeeCurrency)
