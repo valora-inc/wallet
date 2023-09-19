@@ -8,7 +8,7 @@ import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -17,19 +17,22 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   payment: EscrowedPayment
+  index?: number
 }
 
 const TAG = 'EscrowedPaymentListItem'
 
-function EscrowedPaymentListItem({ payment }: Props) {
+function EscrowedPaymentListItem({ payment, index }: Props) {
   const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
   const tokenInfo = useTokenInfo(payment.tokenAddress)
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      notificationType: NotificationType.escrow_tx_pending,
+      notificationId: `${NotificationType.escrow_tx_pending}/${payment.paymentID}`,
       selectedAction: NotificationBannerCTATypes.remind,
+      notificationPositionInList: index,
     })
 
     try {
@@ -46,8 +49,10 @@ function EscrowedPaymentListItem({ payment }: Props) {
   const onReclaimPayment = () => {
     const reclaimPaymentInput = payment
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      notificationType: NotificationType.escrow_tx_pending,
+      notificationId: `${NotificationType.escrow_tx_pending}/${payment.paymentID}`,
       selectedAction: NotificationBannerCTATypes.reclaim,
+      notificationPositionInList: index,
     })
     navigate(Screens.ReclaimPaymentConfirmationScreen, { reclaimPaymentInput })
   }

@@ -74,6 +74,8 @@ import {
   resolveCloudFunctionDigitalAsset,
 } from './utils'
 import { Network } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
+
 import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
@@ -167,7 +169,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-          network,
+          networkId: networkConfig.networkToNetworkId[network],
         }),
         fetchLegacyMobileMoneyProviders(),
       ])

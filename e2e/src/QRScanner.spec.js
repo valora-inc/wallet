@@ -11,8 +11,8 @@ describe(':ios: Given QR Scanner', () => {
   describe('When opening QR scanner', () => {
     it('Then should display QR code', async () => {
       await reloadReactNative()
-      await waitForElementId('SendOrRequestBar/QRCode')
-      await element(by.id('SendOrRequestBar/QRCode')).tap()
+      await waitForElementId('HomeAction-Receive')
+      await element(by.id('HomeAction-Receive')).tap()
       await waitForElementId('QRCode')
       await expect(element(by.id('QRCode'))).toBeVisible()
     })
@@ -34,16 +34,16 @@ describe(':ios: Given QR Scanner', () => {
     it('Then should be able to close QR code scanner', async () => {
       await waitForElementId('Times')
       await element(by.id('Times')).tap()
-      await waitForElementId('SendOrRequestBar')
-      await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+      await waitForElementId('HomeAction-Send')
+      await expect(element(by.id('HomeAction-Send'))).toBeVisible()
     })
   })
 
   describe("When 'scanning' QR", () => {
     beforeEach(async () => {
       await reloadReactNative()
-      await waitForElementId('SendOrRequestBar/QRCode')
-      await element(by.id('SendOrRequestBar/QRCode')).tap()
+      await waitForElementId('HomeAction-Receive')
+      await element(by.id('HomeAction-Receive')).tap()
       await waitForElementId('Scan')
       await element(by.id('Scan')).tap()
       await waitForElementId('CameraScanInfo')

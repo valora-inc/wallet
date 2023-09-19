@@ -39,9 +39,6 @@ import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -73,9 +70,6 @@ export function DAppsExplorerScreenSearchFilter() {
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
   const [selectedFilter, setSelectedFilter] = useState('all')
-  const { showQrScanner } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
-  )
 
   // Some state lifted up from all and favorite sections
   const [searchTerm, setSearchTerm] = useState('')
@@ -171,9 +165,7 @@ export function DAppsExplorerScreenSearchFilter() {
   return (
     <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={['top']}>
       <DrawerTopBar
-        rightElement={
-          showQrScanner ? <QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} /> : undefined
-        }
+        rightElement={<QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} />}
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         scrollPosition={scrollPosition}
       />

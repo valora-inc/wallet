@@ -91,7 +91,7 @@ export default NewAccountPhoneVerification = () => {
       }
 
       // Assert we've arrived at the home screen
-      await waitFor(element(by.id('SendOrRequestBar')))
+      await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(45 * 1000)
 
@@ -150,7 +150,7 @@ export default NewAccountPhoneVerification = () => {
       }
 
       // Assert we've arrived at the home screen
-      await waitFor(element(by.id('SendOrRequestBar')))
+      await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30 * 1000)
 
@@ -180,7 +180,7 @@ export default NewAccountPhoneVerification = () => {
 
     // Assert we've arrived at the home screen
     await dismissCashInBottomSheet()
-    await waitForElementId('SendOrRequestBar')
+    await waitForElementId('HomeAction-Send')
 
     // Assert that 'Connect phone number' is present in settings
     await waitForElementId('Hamburger')
