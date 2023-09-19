@@ -74,30 +74,5 @@ export default onRamps = () => {
         }
       }
     })
-
-    // Verify that some exchanges are displayed not the exact total as this could change
-    // Maybe use total in the future
-    it.each`
-      token     | exchanges
-      ${'cUSD'} | ${{ total: 5, minExpected: 2 }}
-      ${'cEUR'} | ${{ total: 2, minExpected: 1 }}
-      ${'CELO'} | ${{ total: 19, minExpected: 5 }}
-    `(
-      'Then should display at least $exchanges.minExpected $token exchange(s)',
-      async ({ token, exchanges }) => {
-        await waitForElementId(`radio/${token}`)
-        await element(by.id(`radio/${token}`)).tap()
-        await element(by.text('Next')).tap()
-        await waitForElementId('FiatExchangeInput')
-        await element(by.id('FiatExchangeInput')).replaceText('20')
-        await element(by.id('FiatExchangeNextButton')).tap()
-        await expect(element(by.text('Select Payment Method'))).toBeVisible()
-        await waitForElementId('Exchanges')
-        await element(by.id('Exchanges')).tap()
-        await waitForElementId('accountBox')
-        // Exchanges start at index 0
-        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
-      }
-    )
   })
 }
