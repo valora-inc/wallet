@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 148,
+          "version": 149,
         },
         "account": {
           "acceptedTerms": false,
