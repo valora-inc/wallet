@@ -59,6 +59,7 @@ describe('OutgoingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationType.outgoing_tx_request,
+      notificationId: `${NotificationType.outgoing_tx_request}/1`,
       selectedAction: NotificationBannerCTATypes.remind,
       notificationPositionInList: 4,
     })
@@ -76,6 +77,7 @@ describe('OutgoingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationType.outgoing_tx_request,
+      notificationId: `${NotificationType.outgoing_tx_request}/1`,
       selectedAction: NotificationBannerCTATypes.decline,
       notificationPositionInList: 4,
     })

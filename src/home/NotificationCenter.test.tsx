@@ -192,19 +192,23 @@ describe('NotificationCenter', () => {
       notificationsCount: 4,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-      notificationId: 'backup',
+      notificationId: NotificationType.backup_prompt,
+      notificationType: NotificationType.backup_prompt,
       notificationPositionInList: 0,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-      notificationId: 'startSupercharging',
+      notificationId: NotificationType.start_supercharging,
+      notificationType: NotificationType.start_supercharging,
       notificationPositionInList: 1,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-      notificationId: 'getVerified',
+      notificationId: NotificationType.verification_prompt,
+      notificationType: NotificationType.verification_prompt,
       notificationPositionInList: 2,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-      notificationId: 'celoEducation',
+      notificationId: NotificationType.celo_asset_education,
+      notificationType: NotificationType.celo_asset_education,
       notificationPositionInList: 3,
     })
   })

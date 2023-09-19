@@ -350,6 +350,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationType.incoming_tx_request,
+      notificationId: `${NotificationType.incoming_tx_request}/FAKE_ID_2`,
       selectedAction: NotificationBannerCTATypes.pay,
       notificationPositionInList: 4,
     })
@@ -372,6 +373,7 @@ describe('IncomingPaymentRequestListItem', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationType.incoming_tx_request,
+      notificationId: `${NotificationType.incoming_tx_request}/FAKE_ID_2`,
       selectedAction: NotificationBannerCTATypes.decline,
       notificationPositionInList: 4,
     })
