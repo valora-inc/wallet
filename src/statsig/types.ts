@@ -37,7 +37,6 @@ export enum StatsigFeatureGates {
 export enum StatsigExperiments {
   ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE = 'add_funds_crypto_exchange_qr_code',
   CHOOSE_YOUR_ADVENTURE = 'choose_your_adventure',
-  HOME_SCREEN_ACTIONS = 'home_screen_actions',
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   DAPP_MENU_ITEM_COPY = 'dapp_menu_item_copy',

@@ -2,14 +2,15 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { notificationSpotlightSeen } from 'src/app/actions'
 import { dappSelected } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams } from 'src/statsig'
-import { createMockStore, RecursivePartial } from 'test/utils'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { RecursivePartial, createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
 
 const mockBalances = {
@@ -94,10 +95,7 @@ const recentDappIds = [dapp.id, deepLinkedDapp.id]
 
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(() => ({
-    showHomeNavBar: true,
-    showHomeActions: false,
     cashInBottomSheetEnabled: true,
-    showQrScanner: false,
   })),
   getFeatureGate: jest.fn().mockReturnValue(false),
 }))
@@ -156,17 +154,20 @@ describe('WalletHome', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(tree.queryByTestId('startSupercharging')).toBeTruthy()
-    expect(tree.queryByTestId('HomeTokenBalance')).toBeTruthy()
+    expect(tree.getByTestId('start_supercharging')).toBeTruthy()
+    expect(tree.getByTestId('HomeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
+    expect(tree.queryByTestId('HomeActionsCarousel')).toBeTruthy()
+    expect(tree.queryByTestId('WalletHome/QRScanButton')).toBeTruthy()
+    expect(tree.queryByTestId('WalletHome/Logo')).toBeFalsy()
     expect(store.getActions()).toMatchInlineSnapshot(`
       [
         {
-          "payload": undefined,
-          "type": "supercharge/fetchAvailableRewards",
+          "type": "ALERT/HIDE",
         },
         {
-          "type": "ALERT/HIDE",
+          "payload": undefined,
+          "type": "supercharge/fetchAvailableRewards",
         },
         {
           "type": "HOME/VISIT_HOME",
@@ -196,15 +197,9 @@ describe('WalletHome', () => {
   })
 
   it('hides sections', async () => {
-    jest
-      .mocked(getExperimentParams)
-      .mockReturnValueOnce({
-        showHomeNavBar: false,
-        showHomeActions: false,
-      })
-      .mockReturnValueOnce({
-        cashInBottomSheetEnabled: false,
-      })
+    jest.mocked(getExperimentParams).mockReturnValueOnce({
+      cashInBottomSheetEnabled: false,
+    })
 
     const { queryByTestId } = renderScreen({ ...zeroBalances })
     expect(queryByTestId('SendOrRequestBar')).toBeFalsy()
@@ -263,28 +258,6 @@ describe('WalletHome', () => {
     expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
 
-  it('Does not render actions and scanner when experiment flag is off', () => {
-    const { queryByTestId } = renderScreen()
-
-    expect(queryByTestId('HomeActionsCarousel')).toBeFalsy()
-    expect(queryByTestId('WalletHome/QRScanButton')).toBeFalsy()
-    expect(queryByTestId('WalletHome/Logo')).toBeTruthy()
-  })
-
-  it('Renders actions, scanner, logo correctly  when experiment flag is on', () => {
-    jest.mocked(getExperimentParams).mockReturnValueOnce({
-      showHomeNavBar: true,
-      showHomeActions: true,
-      showQrScanner: true,
-    })
-
-    const { queryByTestId } = renderScreen()
-
-    expect(queryByTestId('HomeActionsCarousel')).toBeTruthy()
-    expect(queryByTestId('WalletHome/QRScanButton')).toBeTruthy()
-    expect(queryByTestId('WalletHome/Logo')).toBeFalsy()
-  })
-
   describe('recently used dapps', () => {
     const store = createMockStore({
       dapps: {
@@ -293,19 +266,32 @@ describe('WalletHome', () => {
         maxNumRecentDapps: 4,
       },
     })
+    const scrollEvent = {
+      nativeEvent: {
+        contentOffset: { y: 500 },
+        // Dimensions of the scrollable content
+        contentSize: { height: 500, width: 100 },
+        // Dimensions of the device
+        layoutMeasurement: { height: 100, width: 100 },
+      },
+    }
 
     beforeEach(() => {
       store.clearActions()
     })
 
-    it('should show the open dapp confirmation on press of external dapp', () => {
-      const { getAllByTestId, getByText } = render(
+    it('should show the open dapp confirmation on press of external dapp', async () => {
+      const { getAllByTestId, getByText, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
         </Provider>
       )
 
-      const dapps = getAllByTestId('RecentlyUsedDapps/Dapp')
+      const scrollView = getByTestId('WalletHome/SectionList')
+      // Scroll needed to make sure the recently used dapps are rendered
+      fireEvent.scroll(scrollView, scrollEvent)
+
+      const dapps = await waitFor(() => getAllByTestId('RecentlyUsedDapps/Dapp'))
       fireEvent.press(dapps[0])
 
       expect(dapps).toHaveLength(2)
@@ -320,14 +306,19 @@ describe('WalletHome', () => {
       )
     })
 
-    it('should open the dapp directly if it is deep linked', () => {
-      const { getAllByTestId, queryByText } = render(
+    it('should open the dapp directly if it is deep linked', async () => {
+      const { getAllByTestId, queryByText, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
         </Provider>
       )
 
-      fireEvent.press(getAllByTestId('RecentlyUsedDapps/Dapp')[1])
+      const scrollView = getByTestId('WalletHome/SectionList')
+      // Scroll needed to make sure the recently used dapps are rendered
+      fireEvent.scroll(scrollView, scrollEvent)
+
+      const dapps = await waitFor(() => getAllByTestId('RecentlyUsedDapps/Dapp'))
+      fireEvent.press(dapps[1])
 
       expect(
         queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
@@ -337,6 +328,80 @@ describe('WalletHome', () => {
           dappSelected({ dapp: { ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed } }),
         ])
       )
+    })
+  })
+
+  describe('notification center spotlight', () => {
+    beforeEach(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
+
+    it('does not display the spotlight if the feature is disabled', () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      const { queryByTestId } = renderScreen({
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(queryByTestId('notificationCenterSpotlight.message')).toBeFalsy()
+      expect(queryByTestId('notificationCenterSpotlight.cta')).toBeFalsy()
+    })
+
+    it('shows the spotlight if the feature is enabled for an upgrading user', () => {
+      const { getByText } = renderScreen({
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(getByText('notificationCenterSpotlight.message')).toBeTruthy()
+      expect(getByText('notificationCenterSpotlight.cta')).toBeTruthy()
+    })
+
+    it('can be dismissed correctly', () => {
+      const { store, getByText } = renderScreen({
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      store.clearActions()
+      fireEvent.press(getByText('notificationCenterSpotlight.cta'))
+
+      expect(store.getActions()).toEqual([notificationSpotlightSeen()])
+    })
+
+    it('shows the cash in bottom sheet after the spotlight for an eligible user', async () => {
+      jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+
+      const { getByText, queryByTestId, rerender, getByTestId } = renderScreen({
+        ...zeroBalances,
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(getByText('notificationCenterSpotlight.message')).toBeTruthy()
+      expect(queryByTestId('cashInBtn')).toBeFalsy()
+
+      rerender(
+        <Provider
+          store={createMockStore({
+            ...zeroBalances,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          })}
+        >
+          <WalletHome />
+        </Provider>
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+      await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
     })
   })
 })
