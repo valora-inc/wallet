@@ -350,7 +350,7 @@
   "celoEuro": "Celo Euro",
   "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
-  "ether": "Ether",
+  "ether": "Éter",
   "tapToCopyCeloDollarsAddress": "Toque para copiar seu endereço cUSD da {{appName}} ",
   "disclaimerFiat": "Os valores de {{currency}} são estimativos.",
   "dollarsNotYetEnabledNote": "Os Celo Dollars ainda não estão disponíveis em nenhum fornecedor. Para obter Celo Dollars, adquira o CELO e troque por Celo Dollars na aba CELO.",
@@ -504,7 +504,7 @@
   "firebaseFailed": "Não foi possível estabelecer uma conexão com o servidor. Suas informações de conta não podem ser atualizadas até que a conexão seja restabelecida.",
   "gasPriceUpdateFailed": "Não foi possível atualizar a taxa",
   "appUpdateAvailable": "Atualização de aplicativo disponível",
-  "appIsOutdated": "Sua versão atual está desatualizada, atualize para a versão mais recente",
+  "appIsOutdated": "Sua versão está desatualizada, atualize para a versão mais recente",
   "update": "Atualizar",
   "qrFailedNoAddress": "A leitura do código QR falhou. Motivo: endereço de conta não encontrado.",
   "qrFailedInvalidAddress": "A leitura do código QR falhou. Motivo: endereço de conta inválido.",
@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Convide amigos e receba recompensas",
-    "body": "Once they set up and add $10 in cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Once they set up and add 10 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -646,14 +646,14 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold $10 or more in cUSD in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
       "title": "Ganhe cUSD com Valora Referral Rewards",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive $10 or more in cUSD, while funds last."
+      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -969,7 +969,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 Valora is the easiest way to send money to the people you care about, no matter where they are. All you need is a phone number. Download through this link, connect your phone number and fund your new wallet with 10 cUSD to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "Olá! 👋 Valora é a maneira mais fácil de enviar dinheiro para as pessoas de quem gosta, não importa onde elas estejam. Tudo o que precisas é de um número de telefone. Faça o download através deste link, conecte seu número de telefone e financie sua nova carteira com 10 cUSD para obter US $ 0,50 💫 \n\n{{link}} \n\nAja agora, as recompensas de referência são limitadas.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1760,7 +1760,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Convide {{contactName}} para a {{appName}} e receba 0,50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add $10 in cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
@@ -1829,6 +1829,10 @@
   },
   "assets": {
     "claimRewards": "Reivindicar Recompensas"
+  },
+  "notificationCenterSpotlight": {
+    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
+    "cta": "Got it"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
