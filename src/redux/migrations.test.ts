@@ -28,7 +28,7 @@ import {
   v144Schema,
   v145Schema,
   v146Schema,
-  v147Schema,
+  v148Schema,
   v14Schema,
   v15Schema,
   v16Schema,
@@ -1278,9 +1278,9 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[147](oldSchema)
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
-  it('works from 147 to 148', () => {
-    const oldSchema = v147Schema
-    const migratedSchema = migrations[148](oldSchema)
+  it('works from 148 to 149', () => {
+    const oldSchema = v148Schema
+    const migratedSchema = migrations[149](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.exchange.isLoading
     expect(migratedSchema).toStrictEqual(expectedSchema)

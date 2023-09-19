@@ -2542,11 +2542,23 @@ export const v148Schema = {
     ...v147Schema._persist,
     version: 148,
   },
+  app: {
+    ...v146Schema.app,
+    showNotificationSpotlight: true,
+  },
+}
+
+export const v149Schema = {
+  ...v148Schema,
+  _persist: {
+    ...v148Schema._persist,
+    version: 149,
+  },
   exchange: {
-    ..._.omit(v147Schema.exchange, 'isLoading'),
+    ..._.omit(v148Schema.exchange, 'isLoading'),
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v148Schema as Partial<RootState>
+  return v149Schema as Partial<RootState>
 }

@@ -78,6 +78,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.notification_impression]: `when the notification appears on the user screen for the first time`,
   [HomeEvents.notification_select]: `when user taps on notification CTA(s)`,
   [HomeEvents.notification_center_opened]: `when the notification center is opened`,
+  [HomeEvents.notification_center_spotlight_dismiss]: `when the user taps "got it" on the app update notification center spotlight`,
   [HomeEvents.transaction_feed_item_select]: ``,
   [HomeEvents.transaction_feed_address_copy]: ``,
   [HomeEvents.view_token_balances]: ``,

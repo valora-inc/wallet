@@ -2975,6 +2975,9 @@
                 "sessionId": {
                     "type": "string"
                 },
+                "showNotificationSpotlight": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
@@ -3050,6 +3053,7 @@
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
+                "showNotificationSpotlight",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipVerification",

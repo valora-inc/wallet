@@ -62,7 +62,7 @@ const TYPING_DEBOUNCE_MILLSECONDS = 300
 async function resolveId(id: string) {
   const resolveIdUrl = networkConfig.resolveId
   try {
-    const response = await fetch(`${resolveIdUrl}?id=${id}`)
+    const response = await fetch(`${resolveIdUrl}?id=${encodeURIComponent(id)}`)
     if (response.ok) {
       return await response.json()
     }

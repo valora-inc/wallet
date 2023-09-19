@@ -175,6 +175,7 @@ describe('store state', () => {
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
+          "showNotificationSpotlight": true,
           "showPriceChangeIndicatorInBalances": false,
           "showSwapMenuInDrawerMenu": false,
           "skipVerification": false,
