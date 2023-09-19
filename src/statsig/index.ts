@@ -138,13 +138,17 @@ interface ExpectedLaunchArgs {
 
 export function setupOverridesFromLaunchArgs() {
   if (isE2EEnv) {
+    Logger.debug(TAG, 'Cleaning up local overrides')
     Statsig.removeGateOverride() // remove all gate overrides
+    Logger.debug(TAG, 'Local overrides cleaned up')
     const { statsigGateOverrides } = LaunchArguments.value<ExpectedLaunchArgs>()
     if (statsigGateOverrides) {
+      Logger.debug(TAG, 'Setting up gate overrides', statsigGateOverrides)
       statsigGateOverrides.split(',').forEach((gateOverride) => {
         const [gate, value] = gateOverride.split('=')
         Statsig.overrideGate(gate, value === 'true')
       })
+      Logger.debug(TAG, 'Gate overrides setup')
     }
   }
 }
