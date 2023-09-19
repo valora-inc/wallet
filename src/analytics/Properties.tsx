@@ -60,8 +60,7 @@ import {
 import { DappSection } from 'src/dapps/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { HomeActionName } from 'src/home/types'
+import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
@@ -156,16 +155,17 @@ interface HomeEventsProperties {
 
   [HomeEvents.notification_scroll]: {
     // TODO: Pass in notificationType and make param required
-    notificationType?: NotificationBannerTypes
+    notificationType?: NotificationType
     direction: ScrollDirection
   }
   [HomeEvents.notification_select]: {
-    notificationType: NotificationBannerTypes
+    notificationType: NotificationType
     selectedAction: NotificationBannerCTATypes
-    notificationId?: string
+    notificationId: string
     notificationPositionInList?: number
   }
   [HomeEvents.notification_impression]: {
+    notificationType: string
     notificationId: string
     notificationPositionInList?: number
   }

@@ -2,14 +2,13 @@ import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
 
-import jestExpect from 'expect'
-
 export default offRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await element(by.id('add-and-withdraw')).tap()
+    await waitForElementId('HomeActionsCarousel')
+    await element(by.id('HomeActionsCarousel')).scrollTo('right')
+    await waitForElementId('HomeAction-Withdraw')
+    await element(by.id('HomeAction-Withdraw')).tap()
   })
 
   describe('When on Add & Withdraw', () => {

@@ -6,7 +6,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
-import { getExperimentParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
 
@@ -15,7 +14,6 @@ jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(() => ({
     dappsFilterEnabled: true,
     dappsSearchEnabled: true,
-    showQrScanner: false,
   })),
   getFeatureGate: jest.fn(() => true),
 }))
@@ -48,11 +46,14 @@ describe(DAppsExplorerScreenSearchFilter, () => {
   })
 
   it('renders correctly and fires the correct actions on press dapp', () => {
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText, getByTestId } = render(
       <Provider store={defaultStore}>
         <DAppsExplorerScreenSearchFilter />
       </Provider>
     )
+
+    // Shows the QR button
+    expect(getByTestId('DAppsExplorerScreen/QRScanButton')).toBeTruthy()
 
     expect(defaultStore.getActions()).toEqual([fetchDappsList()])
     expect(queryByText('featuredDapp')).toBeFalsy()
@@ -573,6 +574,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           <DAppsExplorerScreenSearchFilter />
         </Provider>
       )
+
       // Search for 'tokens'
       fireEvent.changeText(getByTestId('SearchInput'), 'tokens')
 
@@ -654,31 +656,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       expect(within(allDappsSection).getByText(dappsList[0].description)).toBeTruthy()
       expect(within(allDappsSection).queryByText(dappsList[1].name)).toBeFalsy()
       expect(within(allDappsSection).queryByText(dappsList[1].description)).toBeFalsy()
-    })
-
-    it('shows QR button when experiment enabled', () => {
-      jest.mocked(getExperimentParams).mockReturnValue({
-        showQrScanner: true,
-      })
-
-      const { getByTestId } = render(
-        <Provider store={defaultStore}>
-          <DAppsExplorerScreenSearchFilter />
-        </Provider>
-      )
-      expect(getByTestId('DAppsExplorerScreen/QRScanButton')).toBeTruthy()
-    })
-
-    it('does not show QR button when experiment disabled', () => {
-      jest.mocked(getExperimentParams).mockReturnValue({
-        showQrScanner: false,
-      })
-      const { queryByTestId } = render(
-        <Provider store={defaultStore}>
-          <DAppsExplorerScreenSearchFilter />
-        </Provider>
-      )
-      expect(queryByTestId('DAppsExplorerScreen/QRScanButton')).toBeFalsy()
     })
   })
 
