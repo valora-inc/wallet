@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invitez des amis pour être récompensé",
-    "body": "Once they set up and add 10 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Une fois qu'ils se seront installés et qu'ils auront ajouté 10 cUSD à leur portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -646,14 +646,14 @@
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
     "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "Pour obtenir cette récompense, l'invité doit télécharger via le lien de parrainage, connecter son numéro de téléphone et conserver 10 cUSD ou plus dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
     "rewardsActive": {
       "title": "Invitez des amis et collectez des NFTs",
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
       "title": "Obtenez cUSD avec Valora Referral Rewards",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
+      "body": "Invite jusqu'à 25 amis à rejoindre {{appName}} et tu recevras chacun 0,50 cUSD lorsqu'ils ajouteront ou recevront 10 cUSD ou plus, jusqu'à épuisement des fonds."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -1760,7 +1760,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invitez {{contactName}} à {{appName}} et recevez 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "On dirait que {{contactName}} n'est pas sur Valora. Tu peux toujours envoyer un paiement si tu connais l'adresse de son portefeuille, ou envoyer une invitation à la place. \n\n Après avoir téléchargé Valora, connecté son numéro de téléphone et ajouté 10 cUSD à son portefeuille, vous recevrez tous les deux 0,50 cUSD jusqu'à épuisement des fonds."
     }
   },
   "celoNews": {
@@ -1831,8 +1831,8 @@
     "claimRewards": "Réclamer les récompenses"
   },
   "notificationCenterSpotlight": {
-    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
-    "cta": "Got it"
+    "message": "Introduction d'une nouvelle façon de réclamer des récompenses, de consulter les alertes et de voir les mises à jour en un seul endroit.",
+    "cta": "Je l'ai"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
