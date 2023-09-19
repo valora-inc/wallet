@@ -24,7 +24,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
-        testID="NotificationView/backup"
+        testID="NotificationView/backup_prompt"
       >
         <View
           style={
@@ -229,7 +229,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
-        testID="NotificationView/incomingPaymentRequest"
+        testID="NotificationView/incoming_tx_request"
       >
         <View
           style={
@@ -396,7 +396,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
-        testID="NotificationView/startSupercharging"
+        testID="NotificationView/start_supercharging"
       >
         <View
           style={
@@ -420,7 +420,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
-          testID="startSupercharging"
+          testID="start_supercharging"
         >
           <View
             style={
@@ -447,7 +447,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="startSupercharging/Text"
+                testID="start_supercharging/Text"
               >
                 startSuperchargingNotificationBody
               </Text>
@@ -459,7 +459,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="startSupercharging/CallToActions"
+                testID="start_supercharging/CallToActions"
               >
                 <View
                   accessibilityState={
@@ -495,7 +495,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="startSupercharging/CallToActions/startSuperchargingNotificationStart/Button"
+                  testID="start_supercharging/CallToActions/startSuperchargingNotificationStart/Button"
                 >
                   <Text
                     style={
@@ -553,7 +553,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="startSupercharging/CallToActions/dismiss/Button"
+                  testID="start_supercharging/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -603,7 +603,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="startSupercharging/Icon"
+                testID="start_supercharging/Icon"
               />
             </View>
           </View>
@@ -616,7 +616,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
-        testID="NotificationView/getVerified"
+        testID="NotificationView/verification_prompt"
       >
         <View
           style={
@@ -640,7 +640,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
-          testID="getVerified"
+          testID="verification_prompt"
         >
           <View
             style={
@@ -667,7 +667,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="getVerified/Text"
+                testID="verification_prompt/Text"
               >
                 notification.body
               </Text>
@@ -679,7 +679,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="getVerified/CallToActions"
+                testID="verification_prompt/CallToActions"
               >
                 <View
                   accessibilityState={
@@ -715,7 +715,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="getVerified/CallToActions/notification.cta/Button"
+                  testID="verification_prompt/CallToActions/notification.cta/Button"
                 >
                   <Text
                     style={
@@ -773,7 +773,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="getVerified/CallToActions/dismiss/Button"
+                  testID="verification_prompt/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -823,7 +823,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="getVerified/Icon"
+                testID="verification_prompt/Icon"
               />
             </View>
           </View>
@@ -1030,7 +1030,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
-        testID="NotificationView/celoEducation"
+        testID="NotificationView/celo_asset_education"
       >
         <View
           style={
@@ -1054,7 +1054,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
-          testID="celoEducation"
+          testID="celo_asset_education"
         >
           <View
             style={
@@ -1081,7 +1081,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="celoEducation/Text"
+                testID="celo_asset_education/Text"
               >
                 whatIsGold
               </Text>
@@ -1093,7 +1093,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="celoEducation/CallToActions"
+                testID="celo_asset_education/CallToActions"
               >
                 <View
                   accessibilityState={
@@ -1129,7 +1129,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="celoEducation/CallToActions/learnMore/Button"
+                  testID="celo_asset_education/CallToActions/learnMore/Button"
                 >
                   <Text
                     style={
@@ -1187,7 +1187,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="celoEducation/CallToActions/dismiss/Button"
+                  testID="celo_asset_education/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -1237,7 +1237,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="celoEducation/Icon"
+                testID="celo_asset_education/Icon"
               />
             </View>
           </View>

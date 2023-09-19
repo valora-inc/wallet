@@ -412,12 +412,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeTruthy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
     fireEvent.press(
-      getByTestId('claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button')
+      getByTestId('supercharge_available/CallToActions/superchargeNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -435,12 +435,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeTruthy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
     fireEvent.press(
-      getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
+      getByTestId('supercharging/CallToActions/superchargingNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -461,9 +461,9 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
   })
 
   it('renders start supercharging notification if number is not verified', () => {
@@ -483,12 +483,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeTruthy()
 
     fireEvent.press(
-      getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+      getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -506,12 +506,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeTruthy()
 
     fireEvent.press(
-      getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+      getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -532,9 +532,9 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
   })
 
   it('only renders notifications marked for the home screen when showOnlyHomeScreenNotifications is true', () => {

@@ -11,7 +11,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType, SecureSendDetails } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -60,7 +60,8 @@ export default function IncomingPaymentRequestListItem({ paymentRequest, index }
     }
 
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.incoming_tx_request,
+      notificationType: NotificationType.incoming_tx_request,
+      notificationId: `${NotificationType.incoming_tx_request}/${paymentRequest.uid}`,
       selectedAction: NotificationBannerCTATypes.pay,
       notificationPositionInList: index,
     })
@@ -68,7 +69,8 @@ export default function IncomingPaymentRequestListItem({ paymentRequest, index }
 
   const onDeclineButtonPressed = () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.incoming_tx_request,
+      notificationType: NotificationType.incoming_tx_request,
+      notificationId: `${NotificationType.incoming_tx_request}/${paymentRequest.uid}`,
       selectedAction: NotificationBannerCTATypes.decline,
       notificationPositionInList: index,
     })
