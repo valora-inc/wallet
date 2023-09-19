@@ -40,8 +40,125 @@ const standards = {
     color: colors.dark,
   },
 }
-// Figma Font Styles
-const fontStyles = StyleSheet.create({
+
+/**
+ * Figma TypeScale Styles
+ */
+export const typeScale = StyleSheet.create({
+  displayLarge: {
+    fontFamily: Inter.Regular,
+    fontSize: 80,
+    lineHeight: 80,
+    fontWeight: '700',
+    letterSpacing: -3,
+  },
+  displayMedium: {
+    fontFamily: Inter.Regular,
+    fontSize: 56,
+    lineHeight: 64,
+    fontWeight: '700',
+    letterSpacing: -2,
+  },
+  displaySmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 40,
+    lineHeight: 48,
+    fontWeight: '700',
+    letterSpacing: -2,
+  },
+  titleLarge: {
+    fontFamily: Inter.Regular,
+    fontSize: 32,
+    lineHeight: 40,
+    fontWeight: '700',
+    letterSpacing: -1,
+  },
+  titleMedium: {
+    fontFamily: Inter.Regular,
+    fontSize: 24,
+    lineHeight: 32,
+    fontWeight: '700',
+  },
+  titleSmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 20,
+    lineHeight: 28,
+    fontWeight: '700',
+  },
+  labelLarge: {
+    fontFamily: Inter.Regular,
+    fontSize: 18,
+    lineHeight: 28,
+    fontWeight: '500',
+  },
+  labelMedium: {
+    fontFamily: Inter.Regular,
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
+  },
+  labelSmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '500',
+  },
+  labelXSmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: '500',
+    letterSpacing: 1,
+  },
+  labelXXSmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 10,
+    lineHeight: 12,
+    fontWeight: '500',
+    letterSpacing: 2,
+  },
+  bodyLarge: {
+    fontFamily: Inter.Regular,
+    fontSize: 18,
+    lineHeight: 28,
+    fontWeight: '400',
+    paragraphSpacing: 18,
+  },
+  bodyMedium: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+    paragraphSpacing: 16,
+  },
+  bodySmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '400',
+    paragraphSpacing: 14,
+  },
+  bodyXSmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: '400',
+    letterSpacing: 1,
+    paragraphSpacing: 12,
+  },
+  bodyXXSmall: {
+    fontFamily: Inter.Regular,
+    fontSize: 10,
+    lineHeight: 12,
+    fontWeight: '400',
+    letterSpacing: 2,
+  },
+})
+
+/***
+ * @deprecated
+ * Use typeScale instead
+ */
+export const fontStyles = StyleSheet.create({
   h1: {
     fontSize: 26,
     lineHeight: 32,
@@ -123,6 +240,7 @@ const fontStyles = StyleSheet.create({
   },
 })
 
+// TODO: export typeScale as default when all components are updated
 export default fontStyles
 
 // map of deprecated font names to new font styles.
