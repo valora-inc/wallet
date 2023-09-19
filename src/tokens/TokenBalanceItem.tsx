@@ -26,7 +26,6 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
         <TokenIcon token={token} viewStyle={{ marginRight: Spacing.Small12 }} />
         <View style={{ flex: 1, gap: 2 }}>
           <View style={styles.line}>
-            {/* Rename 'Celo Native Asset' to Celo in Address Metadata*/}
             <Text numberOfLines={1} style={styles.label}>
               {token.name}
             </Text>
