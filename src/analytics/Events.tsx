@@ -44,6 +44,7 @@ export enum HomeEvents {
   home_action_pressed = 'home_action_pressed',
   notification_bell_pressed = 'notification_bell_pressed',
   notification_center_opened = 'notification_center_opened',
+  notification_center_spotlight_dismiss = 'notification_center_spotlight_dismiss',
 }
 
 export enum SettingsEvents {
