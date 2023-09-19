@@ -2,14 +2,13 @@ import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
 
-import jestExpect from 'expect'
-
 export default offRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await element(by.id('add-and-withdraw')).tap()
+    await waitForElementId('HomeActionsCarousel')
+    await element(by.id('HomeActionsCarousel')).scrollTo('right')
+    await waitForElementId('HomeAction-Withdraw')
+    await element(by.id('HomeAction-Withdraw')).tap()
   })
 
   describe('When on Add & Withdraw', () => {
@@ -100,7 +99,7 @@ export default offRamps = () => {
       // Enter PIN if necessary
       await enterPinUiIfNecessary()
       // Assert we've arrived at the home screen
-      await waitForElementId('SendOrRequestBar')
+      await waitForElementId('HomeAction-Withdraw')
       // flakey due to alfajores blockscout issues
       // We might want to fix to make the transaction feed { tx receipts } ∪ { blockscout txs }
       // Assert send transaction is present in feed

@@ -8,7 +8,7 @@ import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -29,7 +29,8 @@ function EscrowedPaymentListItem({ payment, index }: Props) {
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      notificationType: NotificationType.escrow_tx_pending,
+      notificationId: `${NotificationType.escrow_tx_pending}/${payment.paymentID}`,
       selectedAction: NotificationBannerCTATypes.remind,
       notificationPositionInList: index,
     })
@@ -48,7 +49,8 @@ function EscrowedPaymentListItem({ payment, index }: Props) {
   const onReclaimPayment = () => {
     const reclaimPaymentInput = payment
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.escrow_tx_pending,
+      notificationType: NotificationType.escrow_tx_pending,
+      notificationId: `${NotificationType.escrow_tx_pending}/${payment.paymentID}`,
       selectedAction: NotificationBannerCTATypes.reclaim,
       notificationPositionInList: index,
     })

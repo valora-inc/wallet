@@ -37,6 +37,7 @@ export enum Actions {
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
+  NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
 }
 
 export interface SetAppState {
@@ -164,6 +165,10 @@ export interface inAppReviewRequested {
   inAppReviewLastInteractionTimestamp: number | null
 }
 
+export interface NotificationSpotlightSeen {
+  type: Actions.NOTIFICATION_SPOTLIGHT_SEEN
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -190,6 +195,7 @@ export type ActionTypes =
   | HapticFeedbackSet
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
+  | NotificationSpotlightSeen
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -348,5 +354,11 @@ export const inAppReviewRequested = (
   return {
     type: Actions.IN_APP_REVIEW_REQUESTED,
     inAppReviewLastInteractionTimestamp,
+  }
+}
+
+export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
+  return {
+    type: Actions.NOTIFICATION_SPOTLIGHT_SEEN,
   }
 }

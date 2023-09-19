@@ -17,8 +17,6 @@ jest.mock('src/statsig', () => ({
 describe('DrawerNavigator', () => {
   beforeEach(() => {
     jest.mocked(getExperimentParams).mockReturnValue({
-      showAddWithdrawOnMenu: true,
-      showSwapOnMenu: true,
       discoverCopyEnabled: false,
     })
   })
@@ -41,10 +39,10 @@ describe('DrawerNavigator', () => {
     expect(queryByTestId('Drawer/Username')).toBeTruthy()
 
     expect(queryByTestId('DrawerItem/home')).toBeTruthy()
-    expect(queryByTestId('DrawerItem/swapScreen.title')).toBeTruthy()
+    expect(queryByTestId('DrawerItem/swapScreen.title')).toBeFalsy()
     expect(queryByTestId('DrawerItem/dappsScreen.title')).toBeTruthy()
     expect(queryByTestId('DrawerItem/celoGold')).toBeTruthy()
-    expect(queryByTestId('DrawerItem/addAndWithdraw')).toBeTruthy()
+    expect(queryByTestId('DrawerItem/addAndWithdraw')).toBeFalsy()
     expect(queryByTestId('DrawerItem/invite')).toBeTruthy()
     expect(queryByTestId('DrawerItem/settings')).toBeTruthy()
     expect(queryByTestId('DrawerItem/help')).toBeTruthy()
@@ -77,35 +75,6 @@ describe('DrawerNavigator', () => {
       </Provider>
     )
     expect(queryByTestId('DrawerItem/dappsScreen.title')).toBeNull()
-  })
-
-  it('hides add/withdraw menu item based on statsig experiment param', () => {
-    jest.mocked(getExperimentParams).mockReturnValue({
-      showAddWithdrawOnMenu: false,
-    })
-    const { queryByTestId } = render(
-      <Provider store={createMockStore()}>
-        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
-      </Provider>
-    )
-    expect(queryByTestId('DrawerItem/addAndWithdraw')).toBeNull()
-  })
-
-  it('hides swap menu item based on statsig experiment param', () => {
-    jest.mocked(getExperimentParams).mockReturnValue({
-      showSwapOnMenu: false,
-    })
-    const store = createMockStore({
-      app: {
-        showSwapMenuInDrawerMenu: true,
-      },
-    })
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={DrawerNavigator}></MockedNavigator>
-      </Provider>
-    )
-    expect(queryByTestId('DrawerItem/swapScreen.title')).toBeNull()
   })
 
   it('shows recovery phrase if backup is not complete and cloud backup feature gate is false', () => {

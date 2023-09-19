@@ -1,15 +1,12 @@
+import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementId } from '../utils/utils'
-import jestExpect from 'expect'
 
 export default onRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await element(by.id('add-and-withdraw')).tap()
-    await waitForElementId('addFunds')
-    await element(by.id('addFunds')).tap()
+    await waitForElementId('HomeAction-Add')
+    await element(by.id('HomeAction-Add')).tap()
   })
 
   describe('When Add Funds selected', () => {
@@ -28,6 +25,9 @@ export default onRamps = () => {
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
+      // TODO(jeanregisser): remove this once we fix the underlying issue
+      // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1695131047003169
+      await dismissBanners()
       await expect(element(by.text('Select Payment Method'))).toBeVisible()
       // Check IF Single Card Provider
       if (await isElementVisible('Card/singleProvider')) {

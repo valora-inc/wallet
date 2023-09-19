@@ -7,7 +7,11 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import {
+  appStateSelector,
+  phoneNumberVerifiedSelector,
+  showNotificationSpotlightSelector,
+} from 'src/app/selectors'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -23,9 +27,8 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
+import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
-import SendOrRequestBar from 'src/home/SendOrRequestBar'
-import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -53,6 +56,7 @@ function WalletHome() {
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
+  const canShowNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -62,11 +66,8 @@ function WalletHome() {
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
-  const { showHomeActions, showHomeNavBar, showQrScanner } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.HOME_SCREEN_ACTIONS]
-  )
-
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
+  const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
 
   useEffect(() => {
     dispatch(visitHome())
@@ -119,6 +120,10 @@ function WalletHome() {
   }
 
   const shouldShowCashInBottomSheet = () => {
+    if (showNotificationSpotlight) {
+      return false
+    }
+
     // If user is in a sanctioned country do not show the cash in bottom sheet
     if (userInSanctionedCountry) {
       return false
@@ -173,14 +178,10 @@ function WalletHome() {
     renderItem: () => <ActionsCarousel key={'ActionsCarousel'} />,
   }
 
-  if (showHomeActions) {
-    if (showNotificationCenter) {
-      sections.push(notificationBoxSection, tokenBalanceSection, actionsCarouselSection)
-    } else {
-      sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
-    }
+  if (showNotificationCenter) {
+    sections.push(notificationBoxSection, tokenBalanceSection, actionsCarouselSection)
   } else {
-    sections.push(notificationBoxSection, tokenBalanceSection)
+    sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
   }
 
   sections.push({
@@ -195,26 +196,16 @@ function WalletHome() {
 
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
-      {showQrScanner && (
-        <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
-      )}
+      <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
       {showNotificationCenter && (
-        <NotificationBell testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
+        <NotificationBell testID={'WalletHome/NotificationBell'} style={styles.topRightElement} />
       )}
     </View>
   )
 
   return (
-    <SafeAreaView
-      testID="WalletHome"
-      style={styles.container}
-      edges={!showHomeNavBar ? ['top'] : undefined}
-    >
-      <DrawerTopBar
-        middleElement={showHomeActions ? undefined : <Logo testID="WalletHome/Logo" />}
-        rightElement={topRightElements}
-        scrollPosition={scrollPosition}
-      />
+    <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
+      <DrawerTopBar rightElement={topRightElements} scrollPosition={scrollPosition} />
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
@@ -224,12 +215,12 @@ function WalletHome() {
         onRefresh={onRefresh}
         refreshing={isLoading}
         style={styles.container}
-        contentContainerStyle={!showHomeNavBar ? { paddingBottom: insets.bottom } : undefined}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
         sections={sections}
         keyExtractor={keyExtractor}
         testID="WalletHome/SectionList"
       />
-      {showHomeNavBar && <SendOrRequestBar />}
+      <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>

@@ -6,13 +6,12 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
-import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
@@ -20,7 +19,6 @@ import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
 jest.mock('src/analytics/ValoraAnalytics')
-jest.mock('src/fiatExchanges/navigator')
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -175,7 +173,7 @@ describe('FiatDetailsScreen', () => {
     const { getByText } = render(<Provider store={store}>{headerRight}</Provider>)
 
     fireEvent.press(getByText('cancel'))
-    expect(navigateToFiatExchangeStart).toHaveBeenCalled()
+    expect(navigateHome).toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_fiat_details_cancel,
       {
