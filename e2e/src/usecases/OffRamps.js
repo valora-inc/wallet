@@ -114,28 +114,11 @@ export default offRamps = () => {
       await element(by.id('FiatExchangeNextButton')).tap()
       await waitForElementId('Exchanges')
       await element(by.id('Exchanges')).tap()
-      await element(by.id('WithdrawCeloButton')).tap()
-      await element(by.id('AccountAddress')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-      await element(by.id('CeloAmount')).replaceText(randomAmount)
-      //TODO: Investigate why sleep is needed
-      await sleep(1000)
-      await element(by.id('WithdrawReviewButton')).tap()
-      // Confirm withdrawal for randomAmount
-      await element(by.id('ConfirmWithdrawButton')).tap()
-      // Enter PIN if necessary
-      await enterPinUiIfNecessary()
-      // Assert we've arrived at the home screen
-      await waitForElementId('SendOrRequestBar')
-      // flakey due to alfajores blockscout issues
-      // We might want to fix to make the transaction feed { tx receipts } ∪ { blockscout txs }
-      // Assert send transaction is present in feed
-      // const target = element(
-      //   by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))
-      // ).atIndex(0)
-      // await waitFor(target)
-      //   .toBeVisible()
-      //   .withTimeout(30 * 1000)
-      // await expect(target).toBeVisible()
+      await element(by.id('SendBar')).tap()
+      await waitFor(element(by.id('SendSearchInput')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+      // Send e2e test should cover the rest of this flow
     })
   })
 }
