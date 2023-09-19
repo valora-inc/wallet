@@ -2,14 +2,15 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { notificationSpotlightSeen } from 'src/app/actions'
 import { dappSelected } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams } from 'src/statsig'
-import { createMockStore, RecursivePartial } from 'test/utils'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { RecursivePartial, createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
 
 const mockBalances = {
@@ -327,6 +328,80 @@ describe('WalletHome', () => {
           dappSelected({ dapp: { ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed } }),
         ])
       )
+    })
+  })
+
+  describe('notification center spotlight', () => {
+    beforeEach(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
+
+    it('does not display the spotlight if the feature is disabled', () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      const { queryByTestId } = renderScreen({
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(queryByTestId('notificationCenterSpotlight.message')).toBeFalsy()
+      expect(queryByTestId('notificationCenterSpotlight.cta')).toBeFalsy()
+    })
+
+    it('shows the spotlight if the feature is enabled for an upgrading user', () => {
+      const { getByText } = renderScreen({
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(getByText('notificationCenterSpotlight.message')).toBeTruthy()
+      expect(getByText('notificationCenterSpotlight.cta')).toBeTruthy()
+    })
+
+    it('can be dismissed correctly', () => {
+      const { store, getByText } = renderScreen({
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      store.clearActions()
+      fireEvent.press(getByText('notificationCenterSpotlight.cta'))
+
+      expect(store.getActions()).toEqual([notificationSpotlightSeen()])
+    })
+
+    it('shows the cash in bottom sheet after the spotlight for an eligible user', async () => {
+      jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+
+      const { getByText, queryByTestId, rerender, getByTestId } = renderScreen({
+        ...zeroBalances,
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(getByText('notificationCenterSpotlight.message')).toBeTruthy()
+      expect(queryByTestId('cashInBtn')).toBeFalsy()
+
+      rerender(
+        <Provider
+          store={createMockStore({
+            ...zeroBalances,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          })}
+        >
+          <WalletHome />
+        </Provider>
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+      await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
     })
   })
 })

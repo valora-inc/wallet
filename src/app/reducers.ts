@@ -57,6 +57,7 @@ export interface State {
   pushNotificationRequestedUnixTime: number | null
   pushNotificationsEnabled: boolean
   inAppReviewLastInteractionTimestamp: number | null
+  showNotificationSpotlight: boolean
 }
 
 const initialState = {
@@ -106,6 +107,7 @@ const initialState = {
   pushNotificationRequestedUnixTime: null,
   pushNotificationsEnabled: false,
   inAppReviewLastInteractionTimestamp: null,
+  showNotificationSpotlight: false,
 }
 
 export const appReducer = (
@@ -258,6 +260,11 @@ export const appReducer = (
       return {
         ...state,
         hapticFeedbackEnabled: action.hapticFeedbackEnabled,
+      }
+    case Actions.NOTIFICATION_SPOTLIGHT_SEEN:
+      return {
+        ...state,
+        showNotificationSpotlight: false,
       }
     case Actions.PUSH_NOTIFICATIONS_PERMISSION_CHANGED:
       return {
