@@ -119,7 +119,7 @@ export default Send = () => {
         await element(by.id('ConfirmButton')).tap()
         await enterPinUiIfNecessary()
         await expect(element(by.id('errorBanner'))).not.toBeVisible()
-        await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+        await waitFor(element(by.id('HomeAction-Send')))
           .toBeVisible()
           .withTimeout(30 * 1000)
       })
