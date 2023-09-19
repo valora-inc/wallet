@@ -12,6 +12,7 @@ import { Position } from 'src/positions/types'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
+import { Screens } from 'src/navigator/Screens'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1279,6 +1280,15 @@ export const migrations = {
     app: {
       ...state.app,
       showNotificationSpotlight: true, // true for all upgrading users
+    },
+  }),
+  149: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      activeScreen: Object.values(Screens).includes(state.app.activeScreen) // should be very rare (removed screens do not exist in prev app version)
+        ? state.app.activeScreen
+        : null,
     },
   }),
 }
