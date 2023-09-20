@@ -423,7 +423,7 @@ export function* _getQuotes({
   fiatAmount: number
   flow: CICOFlow
   providerIds?: string[]
-}) {
+}): Generator<any, (FiatConnectQuoteSuccess | FiatConnectQuoteError)[], any> {
   const userLocation: UserLocationData = yield* select(userLocationDataSelector)
   const localCurrency: LocalCurrencyCode = yield* select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield* select(fiatConnectCashInEnabledSelector)
