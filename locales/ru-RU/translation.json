@@ -350,7 +350,7 @@
   "celoEuro": "Celo Euro",
   "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
-  "ether": "Эфир",
+  "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "Коснитесь, чтобы скопировать свой адрес CUSD {{appName}}",
   "disclaimerFiat": "Суммы {{currency}} являются приблизительными.",
   "dollarsNotYetEnabledNote": "Celo Dollars пока недоступны для поставщиков. Чтобы получить Celo Dollars, приобретите CELO и обменяйте их на Celo Dollars на вкладке CELO.",
