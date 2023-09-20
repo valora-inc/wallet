@@ -5,15 +5,15 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
-  KycSchema,
   KycStatus as FiatConnectKycStatus,
+  KycSchema,
   TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
-import { throwError } from 'redux-saga-test-plan/providers'
+import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
@@ -24,9 +24,25 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
-import { fetchQuotes, FiatConnectQuoteSuccess, getFiatConnectProviders } from 'src/fiatconnect'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import {
+  FiatConnectProviderInfo,
+  FiatConnectQuoteSuccess,
+  fetchQuotes,
+  getFiatConnectProviders,
+} from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
+  _checkFiatAccountAndNavigate,
+  _getFiatAccount,
+  _getQuotes,
+  _getSpecificQuote,
+  _initiateSendTxToProvider,
+  _initiateTransferWithProvider,
+  _selectQuoteAndFiatAccount,
+  _selectQuoteMatchingFiatAccount,
   fetchFiatAccountsSaga,
   handleAttemptReturnUserFlow,
   handleCreateFiatConnectTransfer,
@@ -37,14 +53,6 @@ import {
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
   handleSubmitFiatAccount,
-  _checkFiatAccountAndNavigate,
-  _getFiatAccount,
-  _getQuotes,
-  _getSpecificQuote,
-  _initiateSendTxToProvider,
-  _initiateTransferWithProvider,
-  _selectQuoteAndFiatAccount,
-  _selectQuoteMatchingFiatAccount,
 } from 'src/fiatconnect/saga'
 import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
@@ -56,7 +64,9 @@ import {
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
   createFiatConnectTransferTxProcessing,
+  fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
+  fetchFiatConnectProvidersFailed,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
@@ -75,9 +85,6 @@ import {
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
 import { FiatConnectTxError } from 'src/fiatconnect/types'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { deleteKyc, getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -87,9 +94,9 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { newTransactionContext, TransactionContext } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { Network, TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockCeloAddress,
@@ -102,7 +109,6 @@ import {
   mockTokenBalances,
 } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
-import { Network } from 'src/transactions/types'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
@@ -680,6 +686,55 @@ describe('Fiatconnect saga', () => {
       })
     })
 
+    it('fetches providers if null initially', async () => {
+      jest.mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
+      const providers = (
+        firstValue: FiatConnectProviderInfo[] | null,
+        restValue: FiatConnectProviderInfo[] | null
+      ) => {
+        let callCount = 0
+        return () => (++callCount == 1 ? firstValue : restValue)
+      }
+      await expectSaga(
+        handleFetchFiatConnectQuotes,
+        fetchFiatConnectQuotes({
+          flow: CICOFlow.CashIn,
+          digitalAsset: CiCoCurrency.CELO,
+          cryptoAmount: 3,
+          fiatAmount: 2,
+          providerIds: ['provider-one'],
+        })
+      )
+        .provide([
+          [select(userLocationDataSelector), { countryCodeAlpha2: 'MX' }],
+          [select(getLocalCurrencyCode), 'USD'],
+          [select(fiatConnectCashInEnabledSelector), false],
+          [select(fiatConnectCashOutEnabledSelector), true],
+          [
+            select(fiatConnectProvidersSelector),
+            dynamic(providers(null, mockFiatConnectProviderInfo)),
+          ],
+          [select(walletAddressSelector), '0xabc'],
+        ])
+        .put(fetchFiatConnectProviders())
+        .dispatch(fetchFiatConnectProvidersCompleted({ providers: mockFiatConnectProviderInfo }))
+        .put(fetchFiatConnectQuotesCompleted({ quotes: mockFiatConnectQuotes }))
+        .run()
+
+      expect(fetchQuotes).toHaveBeenCalledWith({
+        country: 'MX',
+        cryptoAmount: 3,
+        fiatAmount: 2,
+        digitalAsset: 'CELO',
+        fiatConnectCashInEnabled: false,
+        fiatConnectCashOutEnabled: true,
+        flow: CICOFlow.CashIn,
+        localCurrency: 'USD',
+        fiatConnectProviders: [mockFiatConnectProviderInfo[1]],
+        address: '0xabc',
+      })
+    })
+
     it('saves an error', async () => {
       jest.mocked(fetchQuotes).mockRejectedValue({})
       await expectSaga(
@@ -715,7 +770,7 @@ describe('Fiatconnect saga', () => {
         address: '0xabc',
       })
     })
-    it('saves an error when providers is null', async () => {
+    it('saves an error when providers is null and fetching them fails', async () => {
       jest.mocked(fetchQuotes).mockResolvedValue(mockFiatConnectQuotes)
       await expectSaga(
         handleFetchFiatConnectQuotes,
@@ -732,7 +787,10 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectCashInEnabledSelector), false],
           [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), null],
+          [select(walletAddressSelector), '0xabc'],
         ])
+        .put(fetchFiatConnectProviders())
+        .dispatch(fetchFiatConnectProvidersFailed())
         .put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
         .run()
 
@@ -1145,6 +1203,7 @@ describe('Fiatconnect saga', () => {
       jest.mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(walletAddressSelector), null]])
+        .put(fetchFiatConnectProvidersFailed())
         .run()
       expect(getFiatConnectProviders).not.toHaveBeenCalled()
       expect(Logger.error).toHaveBeenCalled()
@@ -1153,6 +1212,7 @@ describe('Fiatconnect saga', () => {
       jest.mocked(getFiatConnectProviders).mockRejectedValue(new Error('error'))
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(walletAddressSelector), '0xabc']])
+        .put(fetchFiatConnectProvidersFailed())
         .run()
       expect(getFiatConnectProviders).toHaveBeenCalledWith('0xabc')
       expect(Logger.error).toHaveBeenCalled()
