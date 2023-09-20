@@ -5,9 +5,12 @@ import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { useAmountAsUsd, useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { createMockStore } from 'test/utils'
+import { NetworkId } from 'src/transactions/types'
 
 const tokenAddressWithPriceAndBalance = '0x001'
+const tokenIdWithPriceAndBalance = `celo-alfajores:${tokenAddressWithPriceAndBalance}`
 const tokenAddressWithoutBalance = '0x002'
+const tokenIdWithoutBalance = `celo-alfajores:${tokenAddressWithoutBalance}`
 
 function TestComponent({ tokenAddress }: { tokenAddress: string }) {
   const tokenAmount = useLocalToTokenAmount(new BigNumber(1), tokenAddress)
@@ -27,13 +30,19 @@ const store = (usdToLocalRate: string | null = '2') =>
   createMockStore({
     tokens: {
       tokenBalances: {
-        [tokenAddressWithPriceAndBalance]: {
+        [tokenIdWithPriceAndBalance]: {
+          address: tokenAddressWithPriceAndBalance,
+          tokenId: tokenIdWithPriceAndBalance,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'T1',
           balance: '0',
           usdPrice: '5',
           priceFetchedAt: Date.now(),
         },
-        [tokenAddressWithoutBalance]: {
+        [tokenIdWithoutBalance]: {
+          address: tokenAddressWithoutBalance,
+          tokenId: tokenIdWithoutBalance,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'T2',
           usdPrice: '5',
           balance: null,

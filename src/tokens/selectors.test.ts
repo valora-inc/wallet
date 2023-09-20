@@ -10,6 +10,7 @@ import {
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { NetworkId } from 'src/transactions/types'
 
 const mockDate = 1588200517518
 
@@ -24,7 +25,9 @@ beforeAll(() => {
 const state: any = {
   tokens: {
     tokenBalances: {
-      ['0xusd']: {
+      ['celo-alfajores:0xusd']: {
+        tokenId: 'celo-alfajores:0xusd',
+        networkId: NetworkId['celo-alfajores'],
         address: '0xusd',
         balance: '0',
         usdPrice: '1',
@@ -32,7 +35,9 @@ const state: any = {
         priceFetchedAt: mockDate,
         isSwappable: true,
       },
-      ['0xeur']: {
+      ['celo-alfajores:0xeur']: {
+        tokenId: 'celo-alfajores:0xeur',
+        networkId: NetworkId['celo-alfajores'],
         address: '0xeur',
         balance: '50',
         usdPrice: '0.5',
@@ -41,20 +46,26 @@ const state: any = {
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.0.0',
       },
-      ['0x1']: {
+      ['celo-alfajores:0x1']: {
+        tokenId: 'celo-alfajores:0x1',
+        networkId: NetworkId['celo-alfajores'],
         address: '0x1',
         balance: '10',
         usdPrice: '10',
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.20.0',
       },
-      ['0x3']: {
+      ['celo-alfajores:0x2']: {
+        tokenId: 'celo-alfajores:0x2',
+        networkId: NetworkId['celo-alfajores'],
         address: '0x2',
         usdPrice: '100',
         balance: null,
         priceFetchedAt: mockDate,
       },
-      ['0x4']: {
+      ['celo-alfajores:0x4']: {
+        tokenId: 'celo-alfajores:0x4',
+        networkId: NetworkId['celo-alfajores'],
         address: '0x4',
         symbol: 'TT',
         balance: '50',
@@ -62,13 +73,17 @@ const state: any = {
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.10.0',
       },
-      ['0x5']: {
+      ['celo-alfajores:0x5']: {
+        tokenId: 'celo-alfajores:0x5',
+        networkId: NetworkId['celo-alfajores'],
         address: '0x5',
         balance: '50',
         usdPrice: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
       },
-      ['0x6']: {
+      ['celo-alfajores:0x6']: {
+        tokenId: 'celo-alfajores:0x6',
+        networkId: NetworkId['celo-alfajores'],
         balance: '50',
         usdPrice: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
@@ -116,7 +131,9 @@ describe('tokensByUsdBalanceSelector', () => {
           "balance": "10",
           "lastKnownUsdPrice": "10",
           "minimumAppVersionToSwap": "1.20.0",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588200517518,
+          "tokenId": "celo-alfajores:0x1",
           "usdPrice": "10",
         },
         {
@@ -125,8 +142,10 @@ describe('tokensByUsdBalanceSelector', () => {
           "isSupercharged": true,
           "lastKnownUsdPrice": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
+          "tokenId": "celo-alfajores:0xeur",
           "usdPrice": "0.5",
         },
         {
@@ -134,8 +153,10 @@ describe('tokensByUsdBalanceSelector', () => {
           "balance": "0",
           "isSwappable": true,
           "lastKnownUsdPrice": "1",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588200517518,
           "symbol": "cUSD",
+          "tokenId": "celo-alfajores:0xusd",
           "usdPrice": "1",
         },
         {
@@ -144,15 +165,19 @@ describe('tokensByUsdBalanceSelector', () => {
           "isSupercharged": true,
           "lastKnownUsdPrice": null,
           "minimumAppVersionToSwap": "1.10.0",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588200517518,
           "symbol": "TT",
+          "tokenId": "celo-alfajores:0x4",
           "usdPrice": null,
         },
         {
           "address": "0x5",
           "balance": "50",
           "lastKnownUsdPrice": "500",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588027717518,
+          "tokenId": "celo-alfajores:0x5",
           "usdPrice": null,
         },
       ]
@@ -170,7 +195,9 @@ describe('tokensWithUsdValueSelector', () => {
           "balance": "10",
           "lastKnownUsdPrice": "10",
           "minimumAppVersionToSwap": "1.20.0",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588200517518,
+          "tokenId": "celo-alfajores:0x1",
           "usdPrice": "10",
         },
         {
@@ -179,8 +206,10 @@ describe('tokensWithUsdValueSelector', () => {
           "isSupercharged": true,
           "lastKnownUsdPrice": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
+          "networkId": "celo-alfajores",
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
+          "tokenId": "celo-alfajores:0xeur",
           "usdPrice": "0.5",
         },
       ]
@@ -226,8 +255,10 @@ describe(totalTokenBalanceSelector, () => {
             "isSupercharged": true,
             "lastKnownUsdPrice": "0.5",
             "minimumAppVersionToSwap": "1.0.0",
+            "networkId": "celo-alfajores",
             "priceFetchedAt": 1588200517518,
             "symbol": "cEUR",
+            "tokenId": "celo-alfajores:0xeur",
             "usdPrice": "0.5",
           },
           {
@@ -235,8 +266,10 @@ describe(totalTokenBalanceSelector, () => {
             "balance": "0",
             "isSwappable": true,
             "lastKnownUsdPrice": "1",
+            "networkId": "celo-alfajores",
             "priceFetchedAt": 1588200517518,
             "symbol": "cUSD",
+            "tokenId": "celo-alfajores:0xusd",
             "usdPrice": "1",
           },
           {
@@ -245,8 +278,10 @@ describe(totalTokenBalanceSelector, () => {
             "isSupercharged": true,
             "lastKnownUsdPrice": null,
             "minimumAppVersionToSwap": "1.10.0",
+            "networkId": "celo-alfajores",
             "priceFetchedAt": 1588200517518,
             "symbol": "TT",
+            "tokenId": "celo-alfajores:0x4",
             "usdPrice": null,
           },
         ]

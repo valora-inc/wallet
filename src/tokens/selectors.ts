@@ -30,7 +30,7 @@ export const tokensByAddressSelector = createSelector(
   (storedBalances) => {
     const tokenBalances: TokenBalancesWithAddress = {}
     for (const storedState of Object.values(storedBalances)) {
-      if (!storedState || storedState.balance === null || storedState.address === null) {
+      if (!storedState || storedState.balance === null || !storedState.address) {
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)

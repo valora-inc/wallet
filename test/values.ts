@@ -568,8 +568,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
-  [mockPoofAddress]: {
-    ...mockTokenBalances[mockPoofAddress],
+  [mockPoofTokenId]: {
+    ...mockTokenBalances[mockPoofTokenId],
     historicalUsdPrices: {
       lastDay: {
         price: '0.15',
