@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.67.0",
+  "version": "1.68.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -162,6 +162,7 @@
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-in-app-review": "^4.3.3",
     "react-native-keychain": "8.0.0",
+    "react-native-launch-arguments": "^4.0.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-localize": "^2.1.7",
     "react-native-mail": "^6.1.1",
