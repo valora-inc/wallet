@@ -420,16 +420,26 @@ export const TRANSACTIONS_QUERY = `
     transactionHash
     timestamp
     block
-    fees {
-      type
-      amount {
-        value
-        tokenAddress
-        localAmount {
+    nfts {
+      tokenId
+      contractAddress
+      tokenUri
+      ownerAddress
+      metadata {
+        name
+        description
+        image
+        id
+        dna
+        date
+        attributes {
+          trait_type
           value
-          currencyCode
-          exchangeRate
         }
+      }
+      media {
+        raw
+        gateway
       }
     }
   }
