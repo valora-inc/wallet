@@ -8,10 +8,8 @@ describe(SimpleMessagingCard, () => {
     const onPress = jest.fn()
     const { getByText, getByTestId } = render(
       <SimpleMessagingCard
-        id="someId"
         text="Test"
         icon={<View testID="TestIcon" />}
-        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
       />
     )
@@ -28,10 +26,8 @@ describe(SimpleMessagingCard, () => {
     const onPress = jest.fn()
     const { getByTestId } = render(
       <SimpleMessagingCard
-        id="someId"
         text="Test"
         icon={{ uri: 'https://example.com/icon.png' }}
-        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
         testID="Card"
       />
@@ -45,9 +41,7 @@ describe(SimpleMessagingCard, () => {
     const onPress = jest.fn()
     const { queryByTestId } = render(
       <SimpleMessagingCard
-        id="someId"
         text="Test"
-        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
         testID="Card"
       />

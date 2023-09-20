@@ -37,6 +37,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS]: false,
   [StatsigFeatureGates.SHOW_NATIVE_TOKENS]: false,
   [StatsigFeatureGates.SHOW_ETH_IN_CICO]: false,
+  [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
 }
 
 export const ExperimentConfigs = {
@@ -54,16 +55,6 @@ export const ExperimentConfigs = {
       onboardingNameScreenEnabled: true,
       chooseAdventureEnabled: false,
       cashInBottomSheetEnabled: true,
-    },
-  },
-  [StatsigExperiments.HOME_SCREEN_ACTIONS]: {
-    experimentName: StatsigExperiments.HOME_SCREEN_ACTIONS,
-    defaultValues: {
-      showAddWithdrawOnMenu: true,
-      showSwapOnMenu: true,
-      showHomeActions: false,
-      showHomeNavBar: true,
-      showQrScanner: false,
     },
   },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {

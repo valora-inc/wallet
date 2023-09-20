@@ -1833,5 +1833,9 @@
   },
   "assets": {
     "claimRewards": "Claim Rewards"
+  },
+  "notificationCenterSpotlight": {
+    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
+    "cta": "Got it"
   }
 }

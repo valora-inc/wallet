@@ -5,7 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { withTranslation } from 'src/i18n'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
@@ -29,7 +29,8 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
     const { id, t, index } = this.props
     this.props.updatePaymentRequestNotified(id, false)
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      notificationType: NotificationType.outgoing_tx_request,
+      notificationId: `${NotificationType.outgoing_tx_request}/${id}`,
       selectedAction: NotificationBannerCTATypes.remind,
       notificationPositionInList: index,
     })
@@ -39,7 +40,8 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
   onCancel = () => {
     const { id, index } = this.props
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.outgoing_tx_request,
+      notificationType: NotificationType.outgoing_tx_request,
+      notificationId: `${NotificationType.outgoing_tx_request}/${id}`,
       selectedAction: NotificationBannerCTATypes.decline,
       notificationPositionInList: index,
     })

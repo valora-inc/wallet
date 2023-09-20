@@ -11,9 +11,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -60,8 +60,7 @@ import {
 import { DappSection } from 'src/dapps/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { HomeActionName } from 'src/home/types'
+import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
@@ -73,6 +72,7 @@ import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
+type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -156,19 +156,21 @@ interface HomeEventsProperties {
 
   [HomeEvents.notification_scroll]: {
     // TODO: Pass in notificationType and make param required
-    notificationType?: NotificationBannerTypes
+    notificationType?: NotificationType
     direction: ScrollDirection
   }
   [HomeEvents.notification_select]: {
-    notificationType: NotificationBannerTypes
+    notificationType: NotificationType
     selectedAction: NotificationBannerCTATypes
-    notificationId?: string
-    notificationPositionInList?: number
-  }
-  [HomeEvents.notification_impression]: {
     notificationId: string
     notificationPositionInList?: number
   }
+  [HomeEvents.notification_impression]: {
+    notificationType: string
+    notificationId: string
+    notificationPositionInList?: number
+  }
+  [HomeEvents.notification_center_spotlight_dismiss]: undefined
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
@@ -623,8 +625,8 @@ interface SendEventsProperties {
   }
   [SendEvents.send_secure_edit]: undefined
 
-  [SendEvents.send_tx_start]: undefined
-  [SendEvents.send_tx_complete]: {
+  [SendEvents.send_tx_start]: Web3LibraryProps
+  [SendEvents.send_tx_complete]: Web3LibraryProps & {
     txId: string
     recipientAddress: string
     amount: string

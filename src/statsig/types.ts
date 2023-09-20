@@ -32,12 +32,12 @@ export enum StatsigFeatureGates {
   SHOW_MULTI_CHAIN_TRANSFERS = 'show_multi_chain_transfers',
   SHOW_NATIVE_TOKENS = 'show_native_tokens',
   SHOW_ETH_IN_CICO = 'show_eth_in_cico',
+  USE_VIEM_FOR_SEND = 'use_viem_for_send',
 }
 
 export enum StatsigExperiments {
   ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE = 'add_funds_crypto_exchange_qr_code',
   CHOOSE_YOUR_ADVENTURE = 'choose_your_adventure',
-  HOME_SCREEN_ACTIONS = 'home_screen_actions',
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   DAPP_MENU_ITEM_COPY = 'dapp_menu_item_copy',

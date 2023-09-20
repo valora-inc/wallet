@@ -208,7 +208,7 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
 
     // Assert on Wallet Home Screen
     await dismissCashInBottomSheet()
-    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+    await expect(element(by.id('HomeAction-Send'))).toBeVisible()
   } catch {} // Don't throw an error just silently continue
 }
 
