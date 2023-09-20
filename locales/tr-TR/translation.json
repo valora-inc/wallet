@@ -350,7 +350,7 @@
   "celoEuro": "Celo Eurosu",
   "celoReal": "Celo Real",
   "celoDollars": "Celo Dollars",
-  "ether": "Eter",
+  "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
   "dollarsNotYetEnabledNote": "Celo Dollar henüz hiçbir sağlayıcıda mevcut değil. Celo Dollar almak için CELO satın alın ve CELO sekmesinde Celo Dollar'a dönüştürün.",
