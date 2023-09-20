@@ -50,25 +50,25 @@ export const typeScale = StyleSheet.create({
     fontFamily: Inter.Bold,
     fontSize: 80,
     lineHeight: 80,
-    letterSpacing: -3,
+    letterSpacing: -2.4,
   },
   displayMedium: {
     fontFamily: Inter.Bold,
     fontSize: 56,
     lineHeight: 64,
-    letterSpacing: -2,
+    letterSpacing: -1.12,
   },
   displaySmall: {
     fontFamily: Inter.Bold,
     fontSize: 40,
     lineHeight: 48,
-    letterSpacing: -2,
+    letterSpacing: -0.8,
   },
   titleLarge: {
     fontFamily: Inter.Bold,
     fontSize: 32,
     lineHeight: 40,
-    letterSpacing: -1,
+    letterSpacing: -0.32,
   },
   titleMedium: {
     fontFamily: Inter.Bold,
@@ -99,13 +99,13 @@ export const typeScale = StyleSheet.create({
     fontFamily: Inter.Medium,
     fontSize: 12,
     lineHeight: 16,
-    letterSpacing: 1,
+    letterSpacing: 0.16,
   },
   labelXXSmall: {
     fontFamily: Inter.Medium,
     fontSize: 10,
     lineHeight: 12,
-    letterSpacing: 2,
+    letterSpacing: 0.2,
   },
   bodyLarge: {
     fontFamily: Inter.Regular,
@@ -129,14 +129,14 @@ export const typeScale = StyleSheet.create({
     fontFamily: Inter.Regular,
     fontSize: 12,
     lineHeight: 16,
-    letterSpacing: 1,
+    letterSpacing: 0.12,
     paragraphSpacing: 12,
   },
   bodyXXSmall: {
     fontFamily: Inter.Regular,
     fontSize: 10,
     lineHeight: 12,
-    letterSpacing: 2,
+    letterSpacing: 0.2,
   },
 })
 
