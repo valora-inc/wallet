@@ -136,7 +136,6 @@ export const typeScale = StyleSheet.create({
     fontFamily: Inter.Regular,
     fontSize: 10,
     lineHeight: 12,
-    fontWeight: '400',
     letterSpacing: 2,
   },
 })
