@@ -32,6 +32,7 @@ export enum StatsigFeatureGates {
   SHOW_MULTI_CHAIN_TRANSFERS = 'show_multi_chain_transfers',
   SHOW_NATIVE_TOKENS = 'show_native_tokens',
   SHOW_ETH_IN_CICO = 'show_eth_in_cico',
+  USE_VIEM_FOR_SEND = 'use_viem_for_send',
 }
 
 export enum StatsigExperiments {

@@ -158,7 +158,7 @@ function* getTransferSimulateContract({
     ? yield* call(encryptComment, comment, recipientAddress, wallet.account.address, true)
     : undefined
 
-  const { feeCurrency, gas, maxFeePerGas } = yield* call(getSendTxFeeDetails, {
+  const feeFields = yield* call(getSendTxFeeDetails, {
     recipientAddress,
     amount,
     tokenAddress,
@@ -167,12 +167,12 @@ function* getTransferSimulateContract({
   })
 
   if (isStablecoin(tokenInfo)) {
-    Logger.debug(TAG, 'Calling simulate contract for transferWithComment', {
+    Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {
       recipientAddress,
       convertedAmount,
-      feeCurrency,
-      gas,
-      maxFeePerGas,
+      feeCurrency: feeFields.feeCurrency,
+      gas: feeFields.gas?.toString(),
+      maxFeePerGas: feeFields.maxFeePerGas?.toString(),
     })
 
     return () =>
@@ -182,18 +182,16 @@ function* getTransferSimulateContract({
         functionName: 'transferWithComment',
         account: wallet.account,
         args: [getAddress(recipientAddress), convertedAmount, encryptedComment || ''],
-        feeCurrency,
-        gas,
-        maxFeePerGas,
+        ...feeFields,
       })
   }
 
-  Logger.debug(TAG, 'Calling simulate contract for transfer', {
+  Logger.debug(TAG, 'Calling simulate contract for transfer with new fee fields', {
     recipientAddress,
     convertedAmount,
-    feeCurrency,
-    gas,
-    maxFeePerGas,
+    feeCurrency: feeFields.feeCurrency,
+    gas: feeFields.gas?.toString(),
+    maxFeePerGas: feeFields.maxFeePerGas?.toString(),
   })
 
   return () =>
@@ -203,9 +201,7 @@ function* getTransferSimulateContract({
       functionName: 'transfer',
       account: wallet.account,
       args: [getAddress(recipientAddress), convertedAmount],
-      feeCurrency,
-      gas,
-      maxFeePerGas,
+      ...feeFields,
     })
 }
 
@@ -249,7 +245,11 @@ export function* getSendTxFeeDetails({
   )
   // Return fields in format compatible with viem
   return {
-    feeCurrency: feeCurrency ? getAddress(feeCurrency) : undefined,
+    // Don't include the feeCurrency field if not present. Otherwise viem throws
+    // saying feeCurrency is required for CIP-42 transactions. Not setting the
+    // field at all bypasses this check and the tx succeeds with fee paid with
+    // CELO.
+    ...(feeCurrency && { feeCurrency: getAddress(feeCurrency) }),
     gas: gas ? BigInt(gas) : undefined,
     maxFeePerGas: gasPrice ? BigInt(Number(gasPrice)) : undefined,
   }

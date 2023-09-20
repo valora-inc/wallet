@@ -23,6 +23,8 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -248,11 +250,6 @@ export function* buildAndSendPayment(
   return { receipt, error }
 }
 
-// TODO(act-787): remove and replace with feature gate
-function shouldUseViemForSend() {
-  return false
-}
-
 /**
  * Sends a payment to an address with an encrypted comment and gives profile
  * access to the recipient
@@ -273,11 +270,13 @@ function* sendPayment(
   feeInfo: FeeInfo
 ) {
   const context = newTransactionContext(TAG, 'Send payment')
+  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SEND)
+  const web3Library = useViem ? 'viem' : 'contract-kit'
 
   try {
-    ValoraAnalytics.track(SendEvents.send_tx_start)
+    ValoraAnalytics.track(SendEvents.send_tx_start, { web3Library })
 
-    if (shouldUseViemForSend()) {
+    if (useViem) {
       yield* call(viemSendPayment, {
         context,
         recipientAddress,
@@ -304,6 +303,7 @@ function* sendPayment(
       amount: amount.toString(),
       usdAmount: usdAmount?.toString(),
       tokenAddress,
+      web3Library,
     })
   } catch (err) {
     const error = ensureError(err)

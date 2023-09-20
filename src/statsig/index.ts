@@ -1,4 +1,5 @@
 import * as _ from 'lodash'
+import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { FeatureGates } from 'src/statsig/constants'
 import {
@@ -127,5 +128,26 @@ export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
     await Statsig.updateUser(_.merge(defaultUser, statsigUser))
   } catch (error) {
     Logger.error(TAG, 'Failed to update Statsig user', error)
+  }
+}
+
+interface ExpectedLaunchArgs {
+  statsigGateOverrides?: string // format: gate_1=true,gate_2=false
+}
+
+export function setupOverridesFromLaunchArgs() {
+  try {
+    Logger.debug(TAG, 'Cleaning up local overrides')
+    Statsig.removeGateOverride() // remove all gate overrides
+    const { statsigGateOverrides } = LaunchArguments.value<ExpectedLaunchArgs>()
+    if (statsigGateOverrides) {
+      Logger.debug(TAG, 'Setting up gate overrides', statsigGateOverrides)
+      statsigGateOverrides.split(',').forEach((gateOverride) => {
+        const [gate, value] = gateOverride.split('=')
+        Statsig.overrideGate(gate, value === 'true')
+      })
+    }
+  } catch (err) {
+    Logger.debug(TAG, 'Overrides setup failed', err)
   }
 }
