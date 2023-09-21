@@ -1543,7 +1543,7 @@
             ],
             "type": "object"
         },
-        "HistoricalUsdPrices": {
+        "HistoricalPricesUsd": {
             "additionalProperties": false,
             "properties": {
                 "lastDay": {
@@ -4267,8 +4267,8 @@
                 "decimals": {
                     "type": "number"
                 },
-                "historicalUsdPrices": {
-                    "$ref": "#/definitions/HistoricalUsdPrices"
+                "historicalPricesUsd": {
+                    "$ref": "#/definitions/HistoricalPricesUsd"
                 },
                 "imageUrl": {
                     "type": "string"
@@ -4297,13 +4297,13 @@
                 "priceFetchedAt": {
                     "type": "number"
                 },
+                "priceUsd": {
+                    "type": "string"
+                },
                 "symbol": {
                     "type": "string"
                 },
                 "tokenId": {
-                    "type": "string"
-                },
-                "usdPrice": {
                     "type": "string"
                 }
             },
@@ -4314,9 +4314,9 @@
                 "imageUrl",
                 "name",
                 "networkId",
+                "priceUsd",
                 "symbol",
-                "tokenId",
-                "usdPrice"
+                "tokenId"
             ],
             "type": "object"
         },

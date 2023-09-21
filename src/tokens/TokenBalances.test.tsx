@@ -63,7 +63,7 @@ const storeWithHistoricalPrices = {
         balance: '50',
         priceUsd: '2',
         priceFetchedAt: Date.now(),
-        historicalPriceUsds: {
+        historicalPricesUsd: {
           lastDay: {
             price: '1.3',
             at: Date.now() - ONE_DAY_IN_MILLIS,

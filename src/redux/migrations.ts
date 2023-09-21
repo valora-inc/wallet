@@ -1288,4 +1288,11 @@ export const migrations = {
       tokenBalances: {},
     },
   }),
+  150: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      tokenBalances: {},
+    },
+  }),
 }

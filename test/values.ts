@@ -570,7 +570,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
 export const mockTokenBalancesWithHistoricalPrices = {
   [mockPoofTokenId]: {
     ...mockTokenBalances[mockPoofTokenId],
-    historicalUsdPrices: {
+    historicalPricesUsd: {
       lastDay: {
         price: '0.15',
         at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -579,7 +579,7 @@ export const mockTokenBalancesWithHistoricalPrices = {
   },
   '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
     ...mockTokenBalances['0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'],
-    historicalUsdPrices: {
+    historicalPricesUsd: {
       lastDay: {
         price: '1.14',
         at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -588,7 +588,7 @@ export const mockTokenBalancesWithHistoricalPrices = {
   },
   '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
     ...mockTokenBalances['0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'],
-    historicalUsdPrices: {
+    historicalPricesUsd: {
       lastDay: {
         price: '0.99',
         at: Date.now() - ONE_DAY_IN_MILLIS,
