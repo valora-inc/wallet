@@ -99,7 +99,7 @@ export const typeScale = StyleSheet.create({
     fontFamily: Inter.Medium,
     fontSize: 12,
     lineHeight: 16,
-    letterSpacing: 0.16,
+    letterSpacing: 0.12,
   },
   labelXXSmall: {
     fontFamily: Inter.Medium,
