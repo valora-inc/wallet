@@ -2560,7 +2560,7 @@
                 "WithdrawCeloQrScannerScreen",
                 "WithdrawCeloReviewScreen",
                 "WithdrawCeloScreen",
-                "WithdrawSpend",
+                "WithdrawSpend"
             ],
             "type": "string"
         },
