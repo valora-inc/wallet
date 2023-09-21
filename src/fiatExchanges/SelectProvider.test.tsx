@@ -217,7 +217,7 @@ describe(SelectProviderScreen, () => {
     )
   })
 
-  it('shows the provider sections (bank, card, mobile money), legacy mobile money, and exchange section', async () => {
+  it('shows the provider sections (bank, card, mobile money, airtime), legacy mobile money, and exchange section', async () => {
     jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
@@ -239,6 +239,7 @@ describe(SelectProviderScreen, () => {
     expect(getByText('selectProviderScreen.bank')).toBeTruthy()
     expect(getByText('selectProviderScreen.card')).toBeTruthy()
     expect(getByText('selectProviderScreen.mobileMoney')).toBeTruthy()
+    expect(getByText('selectProviderScreen.airtime')).toBeTruthy()
     expect(getByTestId('Exchanges')).toBeTruthy()
     expect(getByTestId('LegacyMobileMoneySection')).toBeTruthy()
 
