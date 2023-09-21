@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   SafeAreaView,
@@ -29,6 +29,8 @@ import { CICOFlow, FiatExchangeFlow } from './utils'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
+import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
+import { useDispatch } from 'react-redux'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -98,10 +100,16 @@ function CurrencyRadioItem({
 
 function FiatExchangeCurrency({ route, navigation }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { flow } = route.params
 
   const [selectedCurrency, setSelectedCurrency] = useState<CiCoCurrency>(CiCoCurrency.cUSD)
   const showEth = getFeatureGate(StatsigFeatureGates.SHOW_ETH_IN_CICO)
+
+  // Fetch FiatConnect providers silently in the background early in the CICO funnel
+  useEffect(() => {
+    dispatch(fetchFiatConnectProviders())
+  }, [])
 
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_currency_chosen, {
