@@ -213,10 +213,10 @@ function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
     (token) =>
       token.address === feeInfo.feeCurrency || (token.symbol === 'CELO' && !feeInfo.feeCurrency)
   )
-  if (!tokenInfo?.usdPrice) {
-    throw new Error(`Missing tokenInfo or tokenInfo.usdPrice for ${feeInfo.feeCurrency}`)
+  if (!tokenInfo?.priceUsd) {
+    throw new Error(`Missing tokenInfo or tokenInfo.priceUsd for ${feeInfo.feeCurrency}`)
   }
-  return feeInfo.fee.times(tokenInfo.usdPrice).div(1e18)
+  return feeInfo.fee.times(tokenInfo.priceUsd).div(1e18)
 }
 
 export async function calculateFee(

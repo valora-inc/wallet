@@ -22,7 +22,7 @@ const mockBalances = {
         decimals: 18,
         balance: '1',
         isCoreToken: true,
-        usdPrice: '1',
+        priceUsd: '1',
         priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
@@ -30,7 +30,7 @@ const mockBalances = {
         symbol: 'cEUR',
         decimals: 18,
         balance: '0',
-        usdPrice: '1',
+        priceUsd: '1',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },

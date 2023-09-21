@@ -5,15 +5,16 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
 import { FeeEstimateState } from 'src/fees/reducer'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import { createFiatConnectTransfer, FiatAccount, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import { FiatAccount, createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Network } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
@@ -23,7 +24,6 @@ import {
   mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
-import { Network } from 'src/transactions/types'
 
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
@@ -111,7 +111,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           address: mockCusdAddress,
           symbol: 'cUSD',
           balance: '200',
-          usdPrice: '1',
+          priceUsd: '1',
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },
@@ -119,7 +119,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           address: mockCeurAddress,
           symbol: 'cEUR',
           balance: '100',
-          usdPrice: '1.2',
+          priceUsd: '1.2',
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },
@@ -127,7 +127,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           address: mockCeloAddress,
           symbol: 'CELO',
           balance: '200',
-          usdPrice: '5',
+          priceUsd: '5',
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },

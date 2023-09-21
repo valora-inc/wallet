@@ -27,7 +27,7 @@ const store = createMockStore({
       [mockCusdAddress]: {
         address: mockCusdAddress,
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: '100',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
@@ -35,7 +35,7 @@ const store = createMockStore({
       [mockCeurAddress]: {
         address: mockCeurAddress,
         symbol: 'cEUR',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         balance: '0',
         isCoreToken: true,
         priceFetchedAt: Date.now(),

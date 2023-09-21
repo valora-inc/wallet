@@ -36,7 +36,7 @@ const storeData = {
       [mockCusdAddress]: {
         address: mockCusdAddress,
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: BALANCE_VALID,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
@@ -44,7 +44,7 @@ const storeData = {
       [mockCeurAddress]: {
         address: mockCeurAddress,
         symbol: 'cEUR',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         balance: '10',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
@@ -75,7 +75,7 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 const mockTransactionData2 = {
   type: mockTransactionDataLegacy.type,
   recipient: mockTransactionDataLegacy.recipient,
-  amount: new BigNumber('3.706766917293233083'), // AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1 (usdPrice of cUSD)
+  amount: new BigNumber('3.706766917293233083'), // AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1 (priceUsd of cUSD)
   tokenAddress: mockCusdAddress,
   reason: '',
 }
@@ -221,7 +221,7 @@ describe('SendAmount', () => {
             [mockCusdAddress]: {
               address: mockCusdAddress,
               symbol: 'cUSD',
-              usdPrice: '1',
+              priceUsd: '1',
               balance: '22.85789012',
               isCoreToken: true,
               priceFetchedAt: Date.now(),
@@ -270,14 +270,14 @@ describe('SendAmount', () => {
             [mockCusdAddress]: {
               address: mockCusdAddress,
               symbol: 'cUSD',
-              usdPrice: '1',
+              priceUsd: '1',
               balance: '0',
               priceFetchedAt: Date.now(),
             },
             [mockCeurAddress]: {
               address: mockCeurAddress,
               symbol: 'cEUR',
-              usdPrice: '1.2',
+              priceUsd: '1.2',
               balance: '10.12',
               priceFetchedAt: Date.now(),
             },
@@ -444,7 +444,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCeurAddress,
-          tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (usdPrice of cEUR)
+          tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (priceUsd of cEUR)
         },
       })
     })

@@ -30,7 +30,7 @@ const state = createMockStore({
     tokenBalances: {
       [mockCusdAddress]: {
         balance: '00',
-        usdPrice: '1',
+        priceUsd: '1',
         symbol: 'cUSD',
         address: mockCusdAddress,
         isCoreToken: true,
@@ -38,7 +38,7 @@ const state = createMockStore({
       },
       [mockCeurAddress]: {
         balance: '0',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         symbol: 'cEUR',
         address: mockCeurAddress,
         isCoreToken: true,
@@ -46,7 +46,7 @@ const state = createMockStore({
       },
       [mockCeloAddress]: {
         balance: '5',
-        usdPrice: '3.5',
+        priceUsd: '3.5',
         symbol: 'CELO',
         address: mockCeloAddress,
         isCoreToken: true,
@@ -147,7 +147,7 @@ describe(handleRequest, () => {
             tokenBalances: {
               [mockCusdAddress]: {
                 balance: '10',
-                usdPrice: '1',
+                priceUsd: '1',
                 symbol: 'cUSD',
                 address: mockCusdAddress,
                 isCoreToken: true,
@@ -155,7 +155,7 @@ describe(handleRequest, () => {
               },
               [mockCeurAddress]: {
                 balance: '0',
-                usdPrice: '1.2',
+                priceUsd: '1.2',
                 symbol: 'cEUR',
                 address: mockCeurAddress,
                 isCoreToken: true,
@@ -163,7 +163,7 @@ describe(handleRequest, () => {
               },
               [mockCeloAddress]: {
                 balance: '0',
-                usdPrice: '3.5',
+                priceUsd: '3.5',
                 symbol: 'CELO',
                 address: mockCeloAddress,
                 isCoreToken: true,
@@ -249,7 +249,7 @@ describe(handleRequest, () => {
             tokenBalances: {
               [mockCusdAddress]: {
                 balance: '0',
-                usdPrice: '1',
+                priceUsd: '1',
                 symbol: 'cUSD',
                 address: mockCusdAddress,
                 isCoreToken: true,
@@ -257,7 +257,7 @@ describe(handleRequest, () => {
               },
               [mockCeurAddress]: {
                 balance: '10',
-                usdPrice: '1.2',
+                priceUsd: '1.2',
                 symbol: 'cEUR',
                 address: mockCeurAddress,
                 isCoreToken: true,
@@ -265,7 +265,7 @@ describe(handleRequest, () => {
               },
               [mockCeloAddress]: {
                 balance: '0',
-                usdPrice: '3.5',
+                priceUsd: '3.5',
                 symbol: 'CELO',
                 address: mockCeloAddress,
                 isCoreToken: true,

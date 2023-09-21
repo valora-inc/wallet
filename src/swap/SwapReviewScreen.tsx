@@ -71,10 +71,10 @@ export function SwapReviewScreen() {
       return new BigNumber(0)
     }
 
-    const celoUsdPrice = tokensByAddress[celoAddress]?.usdPrice
-    const feeCurrencyUsdPrice = tokensByAddress[feeCurrency]?.usdPrice
+    const celoPriceUsd = tokensByAddress[celoAddress]?.priceUsd
+    const feeCurrencyPriceUsd = tokensByAddress[feeCurrency]?.priceUsd
 
-    if (!celoUsdPrice || !feeCurrencyUsdPrice) {
+    if (!celoPriceUsd || !feeCurrencyPriceUsd) {
       return new BigNumber(0)
     }
 
@@ -84,13 +84,13 @@ export function SwapReviewScreen() {
       )
     )
 
-    if (!tokensByAddress[feeCurrency]?.usdPrice || !tokensByAddress[celoAddress]?.usdPrice) {
+    if (!tokensByAddress[feeCurrency]?.priceUsd || !tokensByAddress[celoAddress]?.priceUsd) {
       return new BigNumber(0)
     }
 
     // This is only an estimate, we are assuming the estimated fee in non celo token
     // should be the same as the estimated fee in celo token in usd value.
-    return estimatedCeloFeeAmount.dividedBy(feeCurrencyUsdPrice).multipliedBy(celoUsdPrice)
+    return estimatedCeloFeeAmount.dividedBy(feeCurrencyPriceUsd).multipliedBy(celoPriceUsd)
   }
 
   const estimatedFeeAmount = estimateFeeAmount()

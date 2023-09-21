@@ -23,7 +23,7 @@ export interface BaseToken {
   networkIconUrl?: string
 }
 
-interface HistoricalUsdPrices {
+interface HistoricalPricesUsd {
   lastDay: {
     price: BigNumber.Value
     at: number
@@ -33,8 +33,8 @@ interface HistoricalUsdPrices {
 // Stored variant stores numbers as strings because BigNumber is not serializable.
 export interface StoredTokenBalance extends BaseToken {
   balance: string | null
-  usdPrice: string
-  historicalUsdPrices?: HistoricalUsdPrices
+  priceUsd: string
+  historicalPricesUsd?: HistoricalPricesUsd
 }
 
 export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
@@ -43,9 +43,9 @@ export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
 
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
-  usdPrice: BigNumber | null
-  lastKnownUsdPrice: BigNumber | null
-  historicalUsdPrices?: HistoricalUsdPrices
+  priceUsd: BigNumber | null
+  lastKnownPriceUsd: BigNumber | null
+  historicalPricesUsd?: HistoricalPricesUsd
 }
 
 // The "WithAddress" suffixed types are legacy types, for places in the wallet

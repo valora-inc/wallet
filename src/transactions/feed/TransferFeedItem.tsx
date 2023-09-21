@@ -33,7 +33,7 @@ function TransferFeedItem({ transfer }: Props) {
   }
 
   const tokenInfo = useTokenInfo(amount.tokenAddress)
-  const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
+  const showTokenAmount = !amount.localAmount && !tokenInfo?.priceUsd
   const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}

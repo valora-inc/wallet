@@ -320,8 +320,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 
   const showMisingPriceImpactWarning =
     (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    !fromToken?.usdPrice ||
-    !toToken?.usdPrice
+    !fromToken?.priceUsd ||
+    !toToken?.priceUsd
   const showPriceImpactWarning =
     !fetchingSwapQuote &&
     !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&

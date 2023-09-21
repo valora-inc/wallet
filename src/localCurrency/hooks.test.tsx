@@ -3,9 +3,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { MoneyAmount } from 'src/apollo/types'
 import * as localCurrencyHooks from 'src/localCurrency/hooks'
+import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { NetworkId } from 'src/transactions/types'
 
 const useLocalCurrencyToShowSpy = jest.spyOn(localCurrencyHooks, 'useLocalCurrencyToShow')
 
@@ -24,7 +24,7 @@ function createStore(usdToLocalRate: string | null = '2') {
           address: '0xcUSD',
           symbol: 'cUSD',
           balance: '0',
-          usdPrice: '1',
+          priceUsd: '1',
           priceFetchedAt: Date.now(),
         },
         'celo-alfajores:native': {
@@ -32,7 +32,7 @@ function createStore(usdToLocalRate: string | null = '2') {
           address: '0xCELO',
           symbol: 'CELO',
           balance: '0',
-          usdPrice: '5',
+          priceUsd: '5',
           priceFetchedAt: Date.now(),
         },
         'celo-alfajores:0xT1': {
@@ -40,14 +40,14 @@ function createStore(usdToLocalRate: string | null = '2') {
           address: '0xT1',
           symbol: 'T1',
           balance: '0',
-          usdPrice: '5',
+          priceUsd: '5',
           priceFetchedAt: Date.now(),
         },
         'celo-alfajores:0xT2': {
           networkId: NetworkId['celo-alfajores'],
           address: '0xT2',
           symbol: 'T2',
-          usdPrice: '5',
+          priceUsd: '5',
           balance: null,
           priceFetchedAt: Date.now(),
         },

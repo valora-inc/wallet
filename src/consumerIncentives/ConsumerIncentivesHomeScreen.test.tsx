@@ -29,7 +29,7 @@ const CUSD_TOKEN_BALANCE = {
   tokenId: mockCusdTokenId,
   networkId: NetworkId['celo-alfajores'],
   balance: '50',
-  usdPrice: '1',
+  priceUsd: '1',
   symbol: 'cUSD',
   decimals: 18,
   imageUrl: '',

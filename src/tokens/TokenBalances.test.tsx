@@ -7,6 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
+import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
@@ -18,11 +19,10 @@ import {
   mockCusdTokenId,
   mockPositions,
   mockTestTokenAddress,
-  mockTokenBalances,
   mockTestTokenTokenId,
+  mockTokenBalances,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => {
   return {
@@ -61,9 +61,9 @@ const storeWithHistoricalPrices = {
         networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '50',
-        usdPrice: '2',
+        priceUsd: '2',
         priceFetchedAt: Date.now(),
-        historicalUsdPrices: {
+        historicalPriceUsds: {
           lastDay: {
             price: '1.3',
             at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -81,7 +81,7 @@ const storeWithPositions = {
   tokens: {
     tokenBalances: {
       [mockCeurTokenId]: {
-        usdPrice: '1.16',
+        priceUsd: '1.16',
         address: mockCeurAddress,
         tokenId: mockCeurTokenId,
         networkId: NetworkId['celo-alfajores'],
@@ -95,7 +95,7 @@ const storeWithPositions = {
         priceFetchedAt: Date.now(),
       },
       [mockCusdTokenId]: {
-        usdPrice: '1.001',
+        priceUsd: '1.001',
         address: mockCusdAddress,
         tokenId: mockCusdTokenId,
         networkId: NetworkId['celo-alfajores'],

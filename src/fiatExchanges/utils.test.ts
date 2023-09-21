@@ -7,7 +7,7 @@ import {
 } from '../../test/values'
 import { CiCoCurrency } from '../utils/currencies'
 import NormalizedQuote from './quotes/NormalizedQuote'
-import { getProviderSelectionAnalyticsData, PaymentMethod } from './utils'
+import { PaymentMethod, getProviderSelectionAnalyticsData } from './utils'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
@@ -63,8 +63,8 @@ describe('fiatExchanges utils', () => {
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
           ...mockTokenBalances[mockCusdAddress],
-          lastKnownUsdPrice: new BigNumber('1'),
-          usdPrice: new BigNumber('1'),
+          lastKnownPriceUsd: new BigNumber('1'),
+          priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       })
@@ -100,8 +100,8 @@ describe('fiatExchanges utils', () => {
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
           ...mockTokenBalances[mockCusdAddress],
-          lastKnownUsdPrice: new BigNumber('1'),
-          usdPrice: new BigNumber('1'),
+          lastKnownPriceUsd: new BigNumber('1'),
+          priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       })
