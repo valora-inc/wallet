@@ -317,7 +317,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FeeEvents.estimate_fee_success]: ``,
   [FeeEvents.fetch_tobin_tax_failed]: ``,
   [TransactionEvents.transaction_start]: `when a transaction is about to be submitted to the blockchain`,
-  [TransactionEvents.transaction_gas_estimated]: `when gas is estimated for a transaction or an already estimated gas is used in a transaction about to be submitted`,
+  [TransactionEvents.transaction_gas_estimated]: `when gas is estimated for a transaction or an already estimated gas is used in a transaction about to be submitted (only for contract-kit)`,
   [TransactionEvents.transaction_hash_received]: `when a hash is received for a transaction`,
   [TransactionEvents.transaction_receipt_received]: `when a receipt is received for a transaction`,
   [TransactionEvents.transaction_confirmed]: `when a transaction is confirmed by the blockchain`,
