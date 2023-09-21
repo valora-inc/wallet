@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "เชิญเพื่อนแล้วรับรางวัล",
-    "body": "Once they set up and add $10 in cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Once they set up and add 10 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "เชิญเพื่อน",
@@ -646,14 +646,14 @@
     "button": "แบ่งปันคำเชิญ",
     "error": "มีปัญหาในการสร้างลิงก์ที่แบ่งปันได้",
     "share": "สวัสดี ฉันกำลังใช้ {{appName}} เป็นกระเป๋าเงินคริปโตของฉัน ลองใช้แอปได้ง่ายๆ และฉันต้องการเชิญคุณเข้าไปดูลิงก์นี้: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold $10 or more in cUSD in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
     "rewardsActive": {
       "title": "เชิญเพื่อนและสะสม NFT",
       "body": "เชิญเพื่อนและครอบครัวให้ดาวน์โหลด {{appName}} ซึ่งคุณแต่ละคนจะได้รับ NFT พิเศษ"
     },
     "rewardsActiveCUSD": {
       "title": "รับ cUSD ด้วยรางวัลแนะนำเพื่อนจาก Valora",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive $10 or more in cUSD, while funds last."
+      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
     }
   },
   "getReward": "รับ ${{reward}}",
@@ -1758,7 +1758,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "เชิญ {{contactName}} ให้มาใช้ {{appName}} แล้วรับไปเลย 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add $10 in cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
@@ -1827,6 +1827,10 @@
   },
   "assets": {
     "claimRewards": "ขอรับรางวัล"
+  },
+  "notificationCenterSpotlight": {
+    "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
+    "cta": "Got it"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

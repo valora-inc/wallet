@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita amici e ricevi ricompense",
-    "body": "Once they set up and add $10 in cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Una volta che si saranno registrati e avranno aggiunto 10 cUSD al loro portafoglio {{appName}} , riceverete entrambi 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
@@ -646,14 +646,14 @@
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
     "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold $10 or more in cUSD in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "Per riscuotere questa ricompensa, l'invitato deve scaricare attraverso il link di riferimento, collegare il proprio numero di telefono e conservare 10 cUSD o più nel proprio portafoglio {{appName}} per 7 giorni. <0>Visualizza tutti i termini</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
       "title": "Ottieni cUSD con Valora Referral Rewards",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive $10 or more in cUSD, while funds last."
+      "body": "Invita fino a 25 amici a iscriversi a {{appName}} e ognuno di voi riceverà 0,50 cUSD quando aggiungerà o riceverà 10 cUSD o più, fino ad esaurimento fondi."
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -969,7 +969,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 Valora is the easiest way to send money to the people you care about, no matter where they are. All you need is a phone number. Download through this link, connect your phone number and fund your new wallet with 10 cUSD to get $0.50 💫 \n\n{{link}} \n\nAct now, referral rewards are limited.",
+  "inviteWithRewardsCUSD": "Ciao! 👋 Valora è il modo più semplice per inviare denaro alle persone a cui tieni, indipendentemente da dove si trovino. Tutto ciò che ti serve è un numero di telefono. Scarica questo link, collega il tuo numero di telefono e ricarica il tuo nuovo portafoglio con 10 cUSD per ottenere 0,50$ 💫 \n\n{{link}} \n\nAgisci subito, le ricompense dei referral sono limitate.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1760,7 +1760,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita {{contactName}} in {{appName}} e riceverete 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add $10 in cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Sembra che {{contactName}} non sia su Valora. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avranno scaricato Valora, collegato il loro numero di telefono e aggiunto 10 cUSD al loro portafoglio, riceverete entrambi 0,50 cUSD fino ad esaurimento fondi."
     }
   },
   "celoNews": {
@@ -1829,6 +1829,10 @@
   },
   "assets": {
     "claimRewards": "Richiedi ora"
+  },
+  "notificationCenterSpotlight": {
+    "message": "Introduzione di un nuovo modo per richiedere i premi, visualizzare gli avvisi e vedere gli aggiornamenti in un unico posto",
+    "cta": "Capito"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
