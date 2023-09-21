@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import _ from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
@@ -75,8 +76,6 @@ import {
   resolveCloudFunctionDigitalAsset,
 } from './utils'
 
-import _ from 'lodash'
-
 const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
@@ -91,6 +90,7 @@ const paymentMethodSections: PaymentMethodSectionMethods[] = [
   PaymentMethod.Card,
   PaymentMethod.Bank,
   PaymentMethod.FiatConnectMobileMoney,
+  PaymentMethod.Airtime,
 ]
 
 export default function SelectProviderScreen({ route, navigation }: Props) {
