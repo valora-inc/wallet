@@ -42,6 +42,7 @@ import {
   DEFAULT_APP_LANGUAGE,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX,
   FETCH_TIMEOUT_DURATION,
+  isE2EEnv,
 } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -76,7 +77,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser, setupOverridesFromLaunchArgs } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
 import { ensureError } from 'src/utils/ensureError'
@@ -150,6 +151,11 @@ export function* appInit() {
 
   const supportedBiometryType = yield* call(Keychain.getSupportedBiometryType)
   yield* put(setSupportedBiometryType(supportedBiometryType))
+
+  // setup statsig overrides for E2E tests
+  if (isE2EEnv) {
+    setupOverridesFromLaunchArgs()
+  }
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
