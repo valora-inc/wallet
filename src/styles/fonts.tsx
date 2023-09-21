@@ -111,26 +111,22 @@ export const typeScale = StyleSheet.create({
     fontFamily: Inter.Regular,
     fontSize: 18,
     lineHeight: 28,
-    paragraphSpacing: 18,
   },
   bodyMedium: {
     fontFamily: Inter.Regular,
     fontSize: 16,
     lineHeight: 24,
-    paragraphSpacing: 16,
   },
   bodySmall: {
     fontFamily: Inter.Regular,
     fontSize: 14,
     lineHeight: 20,
-    paragraphSpacing: 14,
   },
   bodyXSmall: {
     fontFamily: Inter.Regular,
     fontSize: 12,
     lineHeight: 16,
     letterSpacing: 0.12,
-    paragraphSpacing: 12,
   },
   bodyXXSmall: {
     fontFamily: Inter.Regular,
