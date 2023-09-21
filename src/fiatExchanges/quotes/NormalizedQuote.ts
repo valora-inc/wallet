@@ -13,6 +13,7 @@ export default abstract class NormalizedQuote {
   abstract getFeeInFiat(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null
   abstract getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null
   abstract getCryptoType(): CiCoCurrency
+  abstract getReqsSubtitle(): string | null
   abstract getKycInfo(): string | null
   abstract getTimeEstimation(): SettlementEstimation
   abstract getProviderName(): string
