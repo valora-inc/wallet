@@ -33,7 +33,7 @@ import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import { emptyHeader, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
+import { HeaderTitleWithTokenBalance, emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -48,9 +48,9 @@ import {
   useTokenInfoBySymbol,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
+import Logger from 'src/utils/Logger'
 import { CiCoCurrency, currencyForAnalytics } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
-import Logger from 'src/utils/Logger'
 import { CICOFlow, isUserInputCrypto } from './utils'
 
 const TAG = 'FiatExchangeAmount'

@@ -3,11 +3,11 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
-  FeeType as QuoteFeeType,
   FiatAccountSchema,
   FiatConnectError,
   FiatType,
   KycSchema,
+  FeeType as QuoteFeeType,
   TransferType,
 } from '@fiatconnect/fiatconnect-types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -716,6 +716,26 @@ export const mockProviders: FetchProvidersOutput[] = [
     cashIn: false,
     cashOut: true,
   },
+  {
+    name: 'Fonbnk',
+    restricted: false,
+    paymentMethods: [PaymentMethod.Airtime],
+    url: 'https://www.fakewebsite.com/',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ffonbnk.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ffonbnk.png?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: [
+      {
+        paymentMethod: PaymentMethod.Airtime,
+        digitalAsset: 'cusd',
+        returnedAmount: 93,
+        fiatFee: 7,
+        extraReqs: { mobileCarrier: 'MTN' },
+      },
+    ],
+  },
 ]
 
 export const mockFiatConnectProviderImage =
@@ -1256,6 +1276,7 @@ export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData 
     [PaymentMethod.Coinbase]: true,
     [PaymentMethod.MobileMoney]: true,
     [PaymentMethod.FiatConnectMobileMoney]: false,
+    [PaymentMethod.Airtime]: false,
   },
   transferCryptoAmount: 10.0,
   cryptoType: CiCoCurrency.cUSD,

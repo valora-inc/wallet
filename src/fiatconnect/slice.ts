@@ -321,6 +321,9 @@ export const slice = createSlice({
     ) => {
       state.providers = action.payload.providers
     },
+    fetchFiatConnectProvidersFailed: () => {
+      // no state update
+    },
     kycTryAgain: (state, action: PayloadAction<KycTryAgainAction>) => {
       state.kycTryAgainLoading = true
     },
@@ -380,6 +383,7 @@ export const {
   cacheFiatConnectTransfer,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
+  fetchFiatConnectProvidersFailed,
   submitFiatAccount,
   submitFiatAccountKycApproved,
   submitFiatAccountCompleted,
