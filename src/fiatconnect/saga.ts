@@ -45,6 +45,7 @@ import {
   createFiatConnectTransferTxProcessing,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
+  fetchFiatConnectProvidersFailed,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
@@ -75,15 +76,14 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { newTransactionContext } from 'src/transactions/types'
+import { Network, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
+import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
-import { Network } from 'src/transactions/types'
 
 const TAG = 'FiatConnectSaga'
 
@@ -423,18 +423,27 @@ export function* _getQuotes({
   fiatAmount: number
   flow: CICOFlow
   providerIds?: string[]
-}) {
+}): Generator<any, (FiatConnectQuoteSuccess | FiatConnectQuoteError)[], any> {
   const userLocation: UserLocationData = yield* select(userLocationDataSelector)
   const localCurrency: LocalCurrencyCode = yield* select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield* select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield* select(fiatConnectCashOutEnabledSelector)
-  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield* select(
+  let fiatConnectProviders: FiatConnectProviderInfo[] | null = yield* select(
     fiatConnectProvidersSelector
   )
   const address: string | null = yield* select(walletAddressSelector)
   // null fiatConnectProviders means the providers have never successfully been fetched
   if (!fiatConnectProviders) {
-    throw new Error('Error fetching fiatconnect providers')
+    // Try to fetch providers again
+    yield* put(fetchFiatConnectProviders())
+    yield* race({
+      success: take(fetchFiatConnectProvidersCompleted.type),
+      failure: take(fetchFiatConnectProvidersFailed.type),
+    })
+    fiatConnectProviders = yield* select(fiatConnectProvidersSelector)
+    if (!fiatConnectProviders) {
+      throw new Error('Error fetching fiatconnect providers')
+    }
   }
   if (!address) {
     throw new Error('Cannot fetch quotes without an address')
@@ -889,6 +898,7 @@ export function* handleFetchFiatConnectProviders() {
     yield* put(fetchFiatConnectProvidersCompleted({ providers }))
   } catch (error) {
     Logger.error(TAG, 'Error in *handleFetchFiatConnectProviders ', error)
+    yield* put(fetchFiatConnectProvidersFailed())
   }
 }
 
