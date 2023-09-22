@@ -721,32 +721,32 @@ interface TransactionEventsProperties {
     txId: string
     description?: string
     fornoMode?: boolean
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_gas_estimated]: {
     txId: string
     estimatedGas: number
     prefilled: boolean
     feeCurrencyAddress?: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_hash_received]: {
     txId: string
     txHash: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_confirmed]: {
     txId: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_receipt_received]: {
     txId: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_error]: {
     txId: string
     error: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_exception]: {
     txId: string
     error: string
     feeCurrencyAddress?: string
-  }
+  } & Web3LibraryProps
 }
 
 interface CeloExchangeEventsProperties {

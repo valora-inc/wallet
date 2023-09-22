@@ -43,6 +43,7 @@ const TX_TIMEOUT_GRACE_PERIOD = 5000
 
 const getLogger = (context: TransactionContext) => {
   const txId = context.id
+  const web3Library = 'contract-kit'
   const tag = context.tag ?? TAG
   return (event: SendTransactionLogEvent) => {
     switch (event.type) {
@@ -52,6 +53,7 @@ const getLogger = (context: TransactionContext) => {
           txId,
           description: context.description,
           fornoMode: true,
+          web3Library,
         })
         break
       case SendTransactionLogEventType.EstimatedGas:
@@ -66,6 +68,7 @@ const getLogger = (context: TransactionContext) => {
           estimatedGas: event.gas,
           prefilled: event.prefilled,
           feeCurrencyAddress: event.feeCurrencyAddress,
+          web3Library,
         })
         break
       case SendTransactionLogEventType.TransactionHashReceived:
@@ -73,6 +76,7 @@ const getLogger = (context: TransactionContext) => {
         ValoraAnalytics.track(TransactionEvents.transaction_hash_received, {
           txId,
           txHash: event.hash,
+          web3Library,
         })
         break
       case SendTransactionLogEventType.Confirmed:
@@ -80,17 +84,18 @@ const getLogger = (context: TransactionContext) => {
           Logger.warn(tag, `Transaction id ${txId} extra confirmation received: ${event.number}`)
         }
         Logger.debug(tag, `Transaction confirmed with id: ${txId}`)
-        ValoraAnalytics.track(TransactionEvents.transaction_confirmed, { txId })
+        ValoraAnalytics.track(TransactionEvents.transaction_confirmed, { txId, web3Library })
         break
       case SendTransactionLogEventType.ReceiptReceived:
         Logger.debug(tag, `Transaction id ${txId} received receipt:`, event.receipt)
-        ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, { txId })
+        ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, { txId, web3Library })
         break
       case SendTransactionLogEventType.Failed:
         Logger.error(tag, `Transaction failed: ${txId}`, event.error)
         ValoraAnalytics.track(TransactionEvents.transaction_error, {
           txId,
           error: event.error.message,
+          web3Library,
         })
         break
       case SendTransactionLogEventType.Exception:
@@ -99,6 +104,7 @@ const getLogger = (context: TransactionContext) => {
           txId,
           error: event.error.message,
           feeCurrencyAddress: event.feeCurrencyAddress,
+          web3Library,
         })
         break
       default:
