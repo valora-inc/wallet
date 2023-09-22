@@ -43,7 +43,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
-import { width } from 'src/styles/variables'
+import variables from 'src/styles/variables'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import {
   stalePriceSelector,
@@ -349,7 +349,9 @@ function TabBar({
   // On a smaller device, if there are more than two tabs, use smaller gaps
   // between tabs
   const gap =
-    items.length > 2 && width < DEVICE_WIDTH_BREAKPOINT ? Spacing.Smallest8 : Spacing.Regular16
+    items.length > 2 && variables.width < DEVICE_WIDTH_BREAKPOINT
+      ? Spacing.Smallest8
+      : Spacing.Regular16
 
   return (
     <View style={[styles.tabBarContainer, { gap }]} testID="Assets/TabBar">
