@@ -111,6 +111,7 @@ import ValidateRecipientIntro, {
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import SwapScreen from 'src/swap/SwapScreen'
+import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import Logger from 'src/utils/Logger'
@@ -552,6 +553,16 @@ const nftScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const assetScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.Assets}
+      component={AssetsScreen}
+      options={AssetsScreen.navigationOptions}
+    />
+  </>
+)
+
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
@@ -615,6 +626,7 @@ export function MainStackScreen() {
       {generalScreens(Stack)}
       {swapScreens(Stack)}
       {nftScreens(Stack)}
+      {assetScreens(Stack)}
     </Stack.Navigator>
   )
 }

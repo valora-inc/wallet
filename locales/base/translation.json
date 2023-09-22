@@ -1832,7 +1832,12 @@
     "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "assets": {
-    "claimRewards": "Claim Rewards"
+    "claimRewards": "Claim Rewards",
+    "tabBar": {
+      "assets": "Assets",
+      "collectibles": "Collectibles",
+      "dappPositions": "Dapp Positions"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
