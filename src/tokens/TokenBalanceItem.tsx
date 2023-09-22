@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
@@ -80,19 +80,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   amount: {
-    ...fontStyles.regular600,
+    ...typeScale.labelMedium,
   },
   subAmount: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray3,
   },
   label: {
-    ...fontStyles.regular600,
+    ...typeScale.labelMedium,
     overflow: 'hidden',
     flexShrink: 1,
   },
   subLabel: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     overflow: 'hidden',
     flexShrink: 1,
     color: colors.gray3,
