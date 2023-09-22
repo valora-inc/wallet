@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'
+import { TransactionEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
@@ -23,6 +25,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getViemWallet } from 'src/web3/contracts'
@@ -266,10 +269,22 @@ export function* sendAndMonitorTransaction({
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
+  const commonTxAnalyticsProps = { txId: context.id, web3Library: 'viem' as const }
+
+  ValoraAnalytics.track(TransactionEvents.transaction_start, {
+    ...commonTxAnalyticsProps,
+    description: context.description,
+  })
+
   const sendTxMethod = function* () {
     const hash = yield* call([wallet, 'writeContract'], request)
+    ValoraAnalytics.track(TransactionEvents.transaction_hash_received, {
+      ...commonTxAnalyticsProps,
+      txHash: hash,
+    })
     yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], { hash })
+    ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt
   }
 
@@ -287,11 +302,17 @@ export function* sendAndMonitorTransaction({
     if (receipt.status === 'reverted') {
       throw new Error('transaction reverted')
     }
+    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(transactionConfirmedViem(context.id))
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
-  } catch (error) {
+  } catch (err) {
+    const error = ensureError(err)
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
+    ValoraAnalytics.track(TransactionEvents.transaction_exception, {
+      ...commonTxAnalyticsProps,
+      error: error.message,
+    })
     yield* put(removeStandbyTransaction(context.id))
     yield* put(transactionFailed(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
