@@ -2565,9 +2565,17 @@ export const v149Schema = {
     ...v148Schema._persist,
     version: 149,
   },
+}
+
+export const v150Schema = {
+  ...v149Schema,
+  _persist: {
+    ...v149Schema._persist,
+    version: 150,
+  },
   tokens: {
-    ...v148Schema.tokens,
-    tokenBalances: Object.values(v148Schema.tokens.tokenBalances).reduce(
+    ...v149Schema.tokens,
+    tokenBalances: Object.values(v149Schema.tokens.tokenBalances).reduce(
       (acc: Record<string, any>, tokenInfo: any) => {
         const newTokenInfo = updateTestTokenInfo(tokenInfo)
         return {
@@ -2581,5 +2589,5 @@ export const v149Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v149Schema as Partial<RootState>
+  return v150Schema as Partial<RootState>
 }

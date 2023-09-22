@@ -28,6 +28,7 @@ import {
   v144Schema,
   v145Schema,
   v146Schema,
+  v148Schema,
   v14Schema,
   v15Schema,
   v16Schema,
@@ -1276,5 +1277,23 @@ describe('Redux persist migrations', () => {
     }
     const migratedSchema = migrations[147](oldSchema)
     expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from v148 to v149', () => {
+    expect(
+      migrations[149]({
+        ...v148Schema,
+        app: {
+          ...v148Schema.app,
+          activeScreen: 'AppLoading',
+        },
+      })
+    ).toStrictEqual({
+      ...v148Schema,
+      app: {
+        ...v148Schema.app,
+        activeScreen: 'Main',
+      },
+    })
   })
 })
