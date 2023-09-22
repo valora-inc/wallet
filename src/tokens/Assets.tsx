@@ -358,7 +358,7 @@ function TabBar({
           testID="Assets/TabBarItem"
           key={value}
           onPress={handleSelectOption(value, index)}
-          style={{ flexShrink: 1 }}
+          style={styles.tabBarTouchable}
         >
           <Text
             style={[index === selectedIndex ? styles.tabBarItemSelected : styles.tabBarItem]}
@@ -406,6 +406,9 @@ const styles = StyleSheet.create({
   },
   tabBarContainer: {
     flexDirection: 'row',
+  },
+  tabBarTouchable: {
+    flexShrink: 1,
   },
   tabBarItem: {
     ...typeScale.bodyMedium,
