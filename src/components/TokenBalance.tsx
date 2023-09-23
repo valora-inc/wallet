@@ -340,10 +340,6 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   arrow: {
-  totalBalance: {
-    ...typeScale.titleLarge,
-    color: Colors.dark,
-  },
     paddingTop: 3,
   },
   exchangeArrow: {
@@ -353,7 +349,7 @@ const styles = StyleSheet.create({
     ...fontStyles.largeNumber,
   },
   totalBalance: {
-    ...typeScale.displaySmall,
+    ...typeScale.titleLarge,
     color: Colors.dark,
   },
   exchangeBalance: {
