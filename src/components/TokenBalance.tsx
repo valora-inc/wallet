@@ -340,6 +340,10 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   arrow: {
+  totalBalance: {
+    ...typeScale.titleLarge,
+    color: Colors.dark,
+  },
     paddingTop: 3,
   },
   exchangeArrow: {
