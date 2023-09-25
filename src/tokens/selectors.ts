@@ -40,6 +40,7 @@ export const tokensByAddressSelector = createSelector(
       tokenBalances[storedState.address] = {
         ...storedState,
         address: storedState.address, // TS complains if this isn't explicitly included, despite it necessarily being non-null
+        name: storedState.bridge ? `${storedState.name} (${storedState.bridge})` : storedState.name,
         balance: new BigNumber(storedState.balance),
         usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
         lastKnownUsdPrice: !usdPrice.isNaN() ? usdPrice : null,

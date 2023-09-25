@@ -2460,6 +2460,7 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
+                "Assets",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -4250,6 +4251,9 @@
                         "null",
                         "string"
                     ]
+                },
+                "bridge": {
+                    "type": "string"
                 },
                 "decimals": {
                     "type": "number"
