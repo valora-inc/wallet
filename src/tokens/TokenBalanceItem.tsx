@@ -66,7 +66,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
               >
                 <Trans i18nKey={'assets.bridge'} tOptions={{ bridge: token.bridge }}>
                   <Text />
-                </ Trans>
+                </Trans>
               </Text>
             </View>
           )}
