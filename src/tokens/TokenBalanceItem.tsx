@@ -64,7 +64,9 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
                 numberOfLines={1}
                 style={[styles.subLabel, { color: colors.informational }]}
               >
-                <Trans i18nKey={'assets.bridge'} tOptions={{ bridge: token.bridge }} />
+                <Trans i18nKey={'assets.bridge'} tOptions={{ bridge: token.bridge }}>
+                  <Text />
+                </ Trans>
               </Text>
             </View>
           )}
