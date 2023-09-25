@@ -2460,7 +2460,6 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
-                "Assets",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -4939,9 +4938,6 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
-                        "isScam": {
-                            "type": "boolean"
-                        },
                         "origin": {
                             "type": "string"
                         },
