@@ -24,7 +24,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
     <Touchable>
       <View style={styles.container}>
         <TokenIcon token={token} viewStyle={{ marginRight: Spacing.Small12 }} />
-        <View style={{ flex: 1, gap: 2 }}>
+        <View style={styles.textContainer}>
           <View style={styles.line}>
             <Text numberOfLines={1} style={styles.label}>
               {token.name}
@@ -96,5 +96,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flexShrink: 1,
     color: colors.gray3,
+  },
+  textContainer: {
+    flex: 1,
+    gap: 2,
   },
 })
