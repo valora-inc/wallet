@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { Trans } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -51,14 +52,17 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
               </Text>
             )}
           </View>
-          {/* Bridged Token Placeholder Pending Design Feedback - Add friendly name to Address Metadata */}
-          {/* {token.isBridged && (
+          {token.bridge && (
             <View style={styles.line}>
-              <Text numberOfLines={1} style={[styles.subLabel, { color: colors.informational }]}>
-                Bridged via {token.networkName}
-              </Text>r
+              <Text
+                testID="BridgeLabel"
+                numberOfLines={1}
+                style={[styles.subLabel, { color: colors.informational }]}
+              >
+                <Trans i18nKey={'assets.bridge'} tOptions={{ bridge: token.bridge }} />
+              </Text>
             </View>
-          )} */}
+          )}
         </View>
       </View>
     </Touchable>
