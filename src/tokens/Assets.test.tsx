@@ -69,7 +69,7 @@ const storeWithPositionsAndClaimableRewards = {
 }
 
 describe('AssetsScreen', () => {
-  it('renders assets and collectibles tabs when positions is disabled', () => {
+  it('renders tokens and collectibles tabs when positions is disabled', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const store = createMockStore(storeWithPositions)
 
@@ -86,7 +86,7 @@ describe('AssetsScreen', () => {
 
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
     expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(2)
-    expect(getByText('assets.tabBar.assets')).toBeTruthy()
+    expect(getByText('assets.tabBar.tokens')).toBeTruthy()
     expect(getByText('assets.tabBar.collectibles')).toBeTruthy()
     expect(queryByText('assets.tabBar.dappPositions')).toBeFalsy()
 
@@ -94,7 +94,7 @@ describe('AssetsScreen', () => {
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
   })
 
-  it('renders assets, collectibles and dapp positions tabs when positions is enabled', () => {
+  it('renders tokens, collectibles and dapp positions tabs when positions is enabled', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
 
@@ -110,7 +110,7 @@ describe('AssetsScreen', () => {
 
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
     expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(3)
-    expect(getByText('assets.tabBar.assets')).toBeTruthy()
+    expect(getByText('assets.tabBar.tokens')).toBeTruthy()
     expect(getByText('assets.tabBar.collectibles')).toBeTruthy()
     expect(queryByText('assets.tabBar.dappPositions')).toBeTruthy()
 
@@ -135,7 +135,7 @@ describe('AssetsScreen', () => {
 
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
     expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(2)
-    expect(getByText('assets.tabBar.assets')).toBeTruthy()
+    expect(getByText('assets.tabBar.tokens')).toBeTruthy()
     expect(getByText('assets.tabBar.collectibles')).toBeTruthy()
     expect(queryByText('assets.tabBar.dappPositions')).toBeFalsy()
 
@@ -180,7 +180,7 @@ describe('AssetsScreen', () => {
     expect(getAllByTestId('PositionItem')).toHaveLength(3)
     expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
 
-    fireEvent.press(getByText('assets.tabBar.assets'))
+    fireEvent.press(getByText('assets.tabBar.tokens'))
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
@@ -229,7 +229,7 @@ describe('AssetsScreen', () => {
     expect(getByText('assets.claimRewards')).toBeTruthy()
     fireEvent.press(getByText('assets.tabBar.collectibles'))
     expect(queryByText('assets.claimRewards')).toBeFalsy()
-    fireEvent.press(getByText('assets.tabBar.assets'))
+    fireEvent.press(getByText('assets.tabBar.tokens'))
     expect(getByText('assets.claimRewards')).toBeTruthy()
   })
 

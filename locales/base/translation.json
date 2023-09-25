@@ -1834,7 +1834,7 @@
   "assets": {
     "claimRewards": "Claim Rewards",
     "tabBar": {
-      "assets": "Assets",
+      "tokens": "Tokens",
       "collectibles": "Collectibles",
       "dappPositions": "Dapp Positions"
     }

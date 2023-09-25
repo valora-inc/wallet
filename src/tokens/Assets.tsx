@@ -68,7 +68,7 @@ const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 export enum AssetTabType {
-  Assets = 0,
+  Tokens = 0,
   Collectibles = 1,
   Positions = 2,
 }
@@ -82,7 +82,7 @@ const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 function AssetsScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
 
-  const activeTab = route.params?.activeTab ?? AssetTabType.Assets
+  const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
@@ -264,7 +264,7 @@ function AssetsScreen({ navigation, route }: Props) {
   }
 
   const tabBarItems = useMemo(() => {
-    const items = [t('assets.tabBar.assets'), t('assets.tabBar.collectibles')]
+    const items = [t('assets.tabBar.tokens'), t('assets.tabBar.collectibles')]
     if (displayPositions) {
       items.push(t('assets.tabBar.dappPositions'))
     }
@@ -293,7 +293,7 @@ function AssetsScreen({ navigation, route }: Props) {
           }}
           // ensure header is above the scrollbar on ios overscroll
           scrollIndicatorInsets={{ top: listHeaderHeight }}
-          sections={activeTab === AssetTabType.Assets ? [{ data: tokenItems }] : positionSections}
+          sections={activeTab === AssetTabType.Tokens ? [{ data: tokenItems }] : positionSections}
           renderItem={renderAssetItem}
           renderSectionHeader={renderSectionHeader}
           // TODO(ACT-912): use tokenId once available
