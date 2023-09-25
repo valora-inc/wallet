@@ -60,9 +60,10 @@ interface SectionData {
   appName?: string
 }
 
-const AnimatedSectionList = Animated.createAnimatedComponent<
-  SectionListProps<TokenBalance | Position, SectionData>
->(SectionList<TokenBalance | Position, SectionData>)
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
+    SectionList
+  )
 
 const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
