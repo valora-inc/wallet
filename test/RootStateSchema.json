@@ -4248,6 +4248,9 @@
                         "string"
                     ]
                 },
+                "bridge": {
+                    "type": "string"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -4270,6 +4273,9 @@
                     "type": "string"
                 },
                 "networkIconUrl": {
+                    "type": "string"
+                },
+                "networkName": {
                     "type": "string"
                 },
                 "priceFetchedAt": {
