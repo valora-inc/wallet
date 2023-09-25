@@ -36,10 +36,15 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
             </Text>
           </View>
           <View style={styles.line}>
-            {/* TODO: get network name from token Network */}
-            <Text numberOfLines={1} style={styles.subLabel}>
-              Celo Network
-            </Text>
+            {token.networkName ? (
+              <Text numberOfLines={1} style={styles.subLabel} testID="NetworkLabel">
+                <Trans i18nKey={'assets.networkName'} tOptions={{ networkName: token.networkName }}>
+                  <Text />
+                </Trans>
+              </Text>
+            ) : (
+              <View />
+            )}
             {/* Local value - only display if we have a usd price and local exchange rate */}
             {showAmount ? (
               <Text numberOfLines={1} style={styles.subAmount}>

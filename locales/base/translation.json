@@ -1833,7 +1833,8 @@
   },
   "assets": {
     "claimRewards": "Claim Rewards",
-    "bridge": "Bridged via <0>{{bridge}}</0>"
+    "bridge": "Bridged via <0>{{bridge}}</0>",
+    "networkName": "<0>{{networkName}}</0> Network"
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
