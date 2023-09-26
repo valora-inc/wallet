@@ -67,4 +67,18 @@ describe('TokenBalanceItem', () => {
     expect(getByText('₱13.30')).toBeTruthy()
     expect(getByTestId('NetworkLabel')).toBeTruthy()
   })
+
+  it('displays correctly when no usd price is available', () => {
+    mockTokenInfo.usdPrice = null
+
+    const { getByText } = render(
+      <Provider store={createMockStore({})}>
+        <TokenBalanceItem token={mockTokenInfo} />
+      </Provider>
+    )
+
+    expect(getByText('Celo Dollar')).toBeTruthy()
+    expect(getByText('10.00 cUSD')).toBeTruthy()
+    expect(getByText('--')).toBeTruthy()
+  })
 })
