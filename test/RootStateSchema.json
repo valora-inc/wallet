@@ -4281,11 +4281,11 @@
                 "networkIconUrl": {
                     "type": "string"
                 },
-                "networkName": {
-                    "type": "string"
-                },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
+                },
+                "networkName": {
+                    "type": "string"
                 },
                 "priceFetchedAt": {
                     "type": "number"
