@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { Trans } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -12,7 +12,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
-export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
+const TokenBalanceText = (token: TokenBalance) => {
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const amountInUsd = token?.usdPrice?.multipliedBy(token.balance)
@@ -20,17 +20,33 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
     amountInUsd ?? 0
   )
   const showAmount = amountInLocalCurrency.isGreaterThan(0)
+  if (!showAmount) {
+    return (
+      <Text numberOfLines={1} style={styles.subAmount}>
+        --
+      </Text>
+    )
+  } else {
+    return (
+      <Text numberOfLines={1} style={styles.subAmount}>
+        {localCurrencySymbol}
+        {formatValueToDisplay(amountInLocalCurrency.absoluteValue())}
+      </Text>
+    )
+  }
+}
 
+export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
+  const { t } = useTranslation()
   return (
     <Touchable>
       <View style={styles.container}>
         <TokenIcon token={token} viewStyle={styles.marginRight} />
         <View style={styles.textContainer}>
           <View style={styles.line}>
-            <Text numberOfLines={1} style={styles.label}>
+            <Text numberOfLines={1} style={[styles.label, styles.marginRight]}>
               {token.name}
             </Text>
-            {/* Consider moving formatValueToDisplay out of TokenDisplay */}
             <Text numberOfLines={1} style={styles.amount}>
               {formatValueToDisplay(token.balance)} {token.symbol}
             </Text>
@@ -38,37 +54,21 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
           <View style={styles.line}>
             {token.networkName ? (
               <Text numberOfLines={1} style={styles.subLabel} testID="NetworkLabel">
-                <Trans i18nKey={'assets.networkName'} tOptions={{ networkName: token.networkName }}>
-                  <Text />
-                </Trans>
+                {t('assets.networkName')}
               </Text>
             ) : (
               <View />
             )}
-            {/* Local value - only display if we have a usd price and local exchange rate */}
-            {showAmount ? (
-              <Text numberOfLines={1} style={styles.subAmount}>
-                {localCurrencySymbol}
-                {formatValueToDisplay(amountInLocalCurrency.absoluteValue())}
-              </Text>
-            ) : (
-              <Text numberOfLines={1} style={styles.subAmount}>
-                --
-              </Text>
-            )}
+            {TokenBalanceText(token)}
           </View>
           {token.bridge && (
-            <View style={styles.line}>
-              <Text
-                testID="BridgeLabel"
-                numberOfLines={1}
-                style={[styles.subLabel, { color: colors.informational }]}
-              >
-                <Trans i18nKey={'assets.bridge'} tOptions={{ bridge: token.bridge }}>
-                  <Text />
-                </Trans>
-              </Text>
-            </View>
+            <Text
+              testID="BridgeLabel"
+              numberOfLines={1}
+              style={[styles.subLabel, { color: colors.informational }]}
+            >
+              {t('assets.bridge')}
+            </Text>
           )}
         </View>
       </View>
