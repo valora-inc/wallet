@@ -55,3 +55,9 @@ export const DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION: SettlementEstimation = 
 export const DEFAULT_CARD_SETTLEMENT_ESTIMATION: SettlementEstimation = {
   settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
 }
+
+export const DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION: SettlementEstimation = {
+  settlementTime: SettlementTime.X_TO_Y_DAYS,
+  lowerBound: 0,
+  upperBound: 2,
+}

@@ -1,4 +1,3 @@
-import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementId } from '../utils/utils'
 
@@ -25,9 +24,6 @@ export default onRamps = () => {
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
-      // TODO(jeanregisser): remove this once we fix the underlying issue
-      // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1695131047003169
-      await dismissBanners()
       await expect(element(by.text('Select Payment Method'))).toBeVisible()
       // Check IF Single Card Provider
       if (await isElementVisible('Card/singleProvider')) {

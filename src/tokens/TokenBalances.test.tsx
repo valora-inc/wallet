@@ -7,7 +7,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
-import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
@@ -19,10 +18,11 @@ import {
   mockCusdTokenId,
   mockPositions,
   mockTestTokenAddress,
-  mockTestTokenTokenId,
   mockTokenBalances,
+  mockTestTokenTokenId,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => {
   return {

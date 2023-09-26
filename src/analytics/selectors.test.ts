@@ -3,6 +3,7 @@ import { getCurrentUserTraits } from 'src/analytics/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { getMockStoreData } from 'test/utils'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig')
 

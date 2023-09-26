@@ -46,6 +46,7 @@ describe('normalizeQuotes', () => {
       ['provider-three', 4.22],
       ['Moonpay', 5],
       ['Simplex', 6],
+      ['Fonbnk', 7],
       ['Moonpay', 10],
     ])
   })
@@ -66,6 +67,7 @@ describe('normalizeQuotes', () => {
       ['provider-three', 100],
       ['Ramp', 100],
       ['Moonpay', 95],
+      ['Fonbnk', 93],
       ['Moonpay', 90],
       ['Simplex', 25],
     ])

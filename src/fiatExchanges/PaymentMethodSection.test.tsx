@@ -201,8 +201,8 @@ describe('PaymentMethodSection', () => {
 
   it('shows new label for multiple providers in expanded view', async () => {
     // make simplex and moonpay card quotes new
-    jest.spyOn(props.normalizedQuotes[2], 'isProviderNew').mockReturnValue(true)
     jest.spyOn(props.normalizedQuotes[3], 'isProviderNew').mockReturnValue(true)
+    jest.spyOn(props.normalizedQuotes[4], 'isProviderNew').mockReturnValue(true)
 
     const { queryByText, queryByTestId, getByText, getByTestId } = render(
       <Provider store={mockStore}>

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { useAmountAsUsd, useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
+import { NetworkId } from 'src/transactions/types'
 
 const tokenAddressWithPriceAndBalance = '0x001'
 const tokenIdWithPriceAndBalance = `celo-alfajores:${tokenAddressWithPriceAndBalance}`

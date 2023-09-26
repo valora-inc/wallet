@@ -15,7 +15,7 @@ describe('FiatExchange', () => {
         <FiatExchange />
       </Provider>
     )
-    expect(store.dispatch).toHaveBeenCalledWith(fetchFiatConnectProviders())
+    expect(store.dispatch).not.toHaveBeenCalledWith(fetchFiatConnectProviders())
     expect(tree.queryByTestId('FiatExchange/DrawerBar')).toBeTruthy()
     expect(tree.queryByTestId('FiatExchangeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('addFunds')).toBeTruthy()
@@ -29,7 +29,7 @@ describe('FiatExchange', () => {
         <FiatExchangeSection showAddFunds={false} showDrawerTopNav={false} />
       </Provider>
     )
-    expect(store.dispatch).toHaveBeenCalledWith(fetchFiatConnectProviders())
+    expect(store.dispatch).not.toHaveBeenCalledWith(fetchFiatConnectProviders())
     expect(tree.queryByTestId('FiatExchange/DrawerBar')).toBeFalsy()
     expect(tree.queryByTestId('FiatExchangeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('addFunds')).toBeFalsy()

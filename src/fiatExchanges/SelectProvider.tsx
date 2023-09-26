@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import _ from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
@@ -15,27 +16,26 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
-import {
-  fiatConnectProvidersSelector,
-  fiatConnectQuotesErrorSelector,
-  fiatConnectQuotesLoadingSelector,
-  fiatConnectQuotesSelector,
-  selectFiatConnectQuoteLoadingSelector,
-} from 'src/fiatconnect/selectors'
-import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
-import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import {
   PaymentMethodSection,
   PaymentMethodSectionMethods,
 } from 'src/fiatExchanges/PaymentMethodSection'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import {
   ProviderSelectionAnalyticsData,
   SelectProviderExchangesLink,
   SelectProviderExchangesText,
 } from 'src/fiatExchanges/types'
+import {
+  fiatConnectQuotesErrorSelector,
+  fiatConnectQuotesLoadingSelector,
+  fiatConnectQuotesSelector,
+  selectFiatConnectQuoteLoadingSelector,
+} from 'src/fiatconnect/selectors'
+import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
@@ -56,27 +56,25 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { Network } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
+  FiatExchangeFlow,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
-  FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
   resolveCloudFunctionDigitalAsset,
 } from './utils'
-import { Network } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
-
-import _ from 'lodash'
 
 const TAG = 'SelectProviderScreen'
 
@@ -92,6 +90,7 @@ const paymentMethodSections: PaymentMethodSectionMethods[] = [
   PaymentMethod.Card,
   PaymentMethod.Bank,
   PaymentMethod.FiatConnectMobileMoney,
+  PaymentMethod.Airtime,
 ]
 
 export default function SelectProviderScreen({ route, navigation }: Props) {
@@ -109,7 +108,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
-  const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfoBySymbol(digitalAsset)
@@ -118,13 +116,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
   const appId = appIdResponse.result
-
-  // If there is no FC providers in the redux cache, try to fetch again
-  useEffect(() => {
-    if (!fiatConnectProviders) {
-      dispatch(fetchFiatConnectProviders())
-    }
-  }, [fiatConnectProviders])
 
   useEffect(() => {
     dispatch(
@@ -135,7 +126,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         fiatAmount,
       })
     )
-  }, [flow, digitalAsset, cryptoAmount, fiatConnectProviders])
+  }, [flow, digitalAsset, cryptoAmount])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {

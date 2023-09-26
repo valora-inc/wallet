@@ -12,6 +12,7 @@ import { Position } from 'src/positions/types'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
+import { Screens } from 'src/navigator/Screens'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1283,12 +1284,21 @@ export const migrations = {
   }),
   149: (state: any) => ({
     ...state,
+    app: {
+      ...state.app,
+      activeScreen: Object.values(Screens).includes(state.app.activeScreen)
+        ? state.app.activeScreen
+        : 'Main', // same as initial state. should be very rare, since removed screens were not present in prev app version.
+    },
+  }),
+  150: (state: any) => ({
+    ...state,
     tokens: {
       ...state.tokens,
       tokenBalances: {},
     },
   }),
-  150: (state: any) => ({
+  151: (state: any) => ({
     ...state,
     tokens: {
       ...state.tokens,

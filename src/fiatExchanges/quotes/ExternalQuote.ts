@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js'
 import {
+  DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION,
   DEFAULT_BANK_SETTLEMENT_ESTIMATION,
   DEFAULT_CARD_SETTLEMENT_ESTIMATION,
+  DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
   SettlementEstimation,
 } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
@@ -24,6 +26,16 @@ const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
   numDays: i18n.t('selectProviderScreen.numDays'),
   idRequired: i18n.t('selectProviderScreen.idRequired'),
+  mobileCarrierRequirement: 'selectProviderScreen.mobileCarrierRequirement',
+}
+
+const paymentMethodToSettlementTime = {
+  [PaymentMethod.Bank]: DEFAULT_BANK_SETTLEMENT_ESTIMATION,
+  [PaymentMethod.Card]: DEFAULT_CARD_SETTLEMENT_ESTIMATION,
+  [PaymentMethod.Airtime]: DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION,
+  [PaymentMethod.MobileMoney]: DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
+  [PaymentMethod.FiatConnectMobileMoney]: DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
+  [PaymentMethod.Coinbase]: DEFAULT_CARD_SETTLEMENT_ESTIMATION,
 }
 
 export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is SimplexQuote =>
@@ -92,15 +104,20 @@ export default class ExternalQuote extends NormalizedQuote {
     return null
   }
 
+  getReqsSubtitle(): string | null {
+    return !isSimplexQuote(this.quote) &&
+      this.getPaymentMethod() === PaymentMethod.Airtime &&
+      this.quote.extraReqs?.mobileCarrier
+      ? i18n.t(strings.mobileCarrierRequirement, this.quote.extraReqs.mobileCarrier)
+      : this.getKycInfo()
+  }
+
   getKycInfo(): string | null {
     return strings.idRequired
   }
 
   getTimeEstimation(): SettlementEstimation {
-    // payment method can only be bank or card
-    return this.getPaymentMethod() === PaymentMethod.Bank
-      ? DEFAULT_BANK_SETTLEMENT_ESTIMATION
-      : DEFAULT_CARD_SETTLEMENT_ESTIMATION
+    return paymentMethodToSettlementTime[this.getPaymentMethod()]
   }
 
   navigate(): void {

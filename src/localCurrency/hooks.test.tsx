@@ -6,6 +6,7 @@ import * as localCurrencyHooks from 'src/localCurrency/hooks'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
+import { NetworkId } from 'src/transactions/types'
 
 const useLocalCurrencyToShowSpy = jest.spyOn(localCurrencyHooks, 'useLocalCurrencyToShow')
 

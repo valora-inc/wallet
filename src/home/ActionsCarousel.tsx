@@ -8,12 +8,12 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { HomeActionName } from 'src/home/types'
-import HomeActionsAdd from 'src/icons/home-actions/Add'
-import HomeActionsReceive from 'src/icons/home-actions/Receive'
-import HomeActionsRequest from 'src/icons/home-actions/Request'
-import HomeActionsSend from 'src/icons/home-actions/Send'
-import HomeActionsSwap from 'src/icons/home-actions/Swap'
-import HomeActionsWithdraw from 'src/icons/home-actions/Withdraw'
+import QuickActionsAdd from 'src/icons/quick-actions/Add'
+import QuickActionsReceive from 'src/icons/quick-actions/Receive'
+import QuickActionsRequest from 'src/icons/quick-actions/Request'
+import QuickActionsSend from 'src/icons/quick-actions/Send'
+import QuickActionsSwap from 'src/icons/quick-actions/Swap'
+import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
@@ -29,7 +29,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Send,
       title: t('homeActions.send'),
-      icon: <HomeActionsSend />,
+      icon: <QuickActionsSend color={Colors.onboardingGreen} />,
       onPress: () => {
         navigate(Screens.Send)
       },
@@ -37,7 +37,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Receive,
       title: t('homeActions.receive'),
-      icon: <HomeActionsReceive />,
+      icon: <QuickActionsReceive color={Colors.onboardingGreen} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
@@ -47,7 +47,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Add,
       title: t('homeActions.add'),
-      icon: <HomeActionsAdd />,
+      icon: <QuickActionsAdd color={Colors.onboardingGreen} />,
       onPress: () => {
         navigate(Screens.FiatExchangeCurrency, {
           flow: FiatExchangeFlow.CashIn,
@@ -57,7 +57,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Swap,
       title: t('homeActions.swap'),
-      icon: <HomeActionsSwap />,
+      icon: <QuickActionsSwap color={Colors.onboardingGreen} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -66,7 +66,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Request,
       title: t('homeActions.request'),
-      icon: <HomeActionsRequest />,
+      icon: <QuickActionsRequest color={Colors.onboardingGreen} />,
       onPress: () => {
         navigate(Screens.Send, { isOutgoingPaymentRequest: true })
       },
@@ -74,7 +74,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Withdraw,
       title: t('homeActions.withdraw'),
-      icon: <HomeActionsWithdraw />,
+      icon: <QuickActionsWithdraw color={Colors.onboardingGreen} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },

@@ -21,6 +21,7 @@ export interface BaseToken {
   isSwappable?: boolean
   minimumAppVersionToSwap?: string
   networkIconUrl?: string
+  bridge?: string
 }
 
 interface HistoricalPricesUsd {
@@ -41,6 +42,10 @@ export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
   address: string
 }
 
+export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
+  address: string
+}
+
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   priceUsd: BigNumber | null
@@ -55,10 +60,24 @@ export interface TokenBalanceWithAddress extends TokenBalance {
   address: string
 }
 
+// The "WithAddress" suffixed types are legacy types, for places in the wallet
+// that require an address to be present. As we move to multichain, (where address
+// is not guaranteed,) existing code should be updated to use the "address optional" types.
+
+/**
+ * @deprecated use `TokenBalance` for new code
+ */
+export interface TokenBalanceWithAddress extends TokenBalance {
+  address: string
+}
+
 export interface StoredTokenBalances {
   [tokenId: string]: StoredTokenBalance | undefined
 }
 
+/**
+ * @deprecated use `StoredTokenBalances` for new code
+ */
 export interface StoredTokenBalancesWithAddress {
   [tokenId: string]: StoredTokenBalance | undefined
 }
@@ -71,6 +90,9 @@ export interface TokenBalances {
   [tokenId: string]: TokenBalance | undefined
 }
 
+/**
+ * @deprecated use `TokenBalances` for new code
+ */
 export interface TokenBalancesWithAddress {
   [tokenId: string]: TokenBalanceWithAddress | undefined
 }
