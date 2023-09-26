@@ -1,7 +1,6 @@
 import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { getMockStoreData } from 'test/utils'
-import { NetworkId } from 'src/transactions/types'
 
 const DEFAULT_SUPERCHARGE_CONFIG = {
   minBalance: 10,

@@ -24,7 +24,6 @@ import {
   mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 

@@ -4,7 +4,6 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { useAmountAsUsd, useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { NetworkId } from 'src/transactions/types'
 

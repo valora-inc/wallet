@@ -54,7 +54,6 @@ import { StoredTokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { NetworkId } from 'src/transactions/types'
 
 export const nullAddress = '0x0'
 
