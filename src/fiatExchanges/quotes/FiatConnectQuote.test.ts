@@ -21,10 +21,12 @@ import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
   mockCusdAddress,
+  mockCusdTokenId,
   mockFiatConnectProviderInfo,
   mockFiatConnectQuotes,
   mockProviderSelectionAnalyticsData,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/contracts', () => ({
@@ -54,6 +56,8 @@ const mockTokenInfo = {
   usdPrice: new BigNumber('1'),
   lastKnownUsdPrice: new BigNumber('1'),
   symbol: 'cUSD',
+  tokenId: mockCusdTokenId,
+  networkId: NetworkId['celo-alfajores'],
   address: mockCusdAddress,
   isCoreToken: true,
   priceFetchedAt: Date.now(),

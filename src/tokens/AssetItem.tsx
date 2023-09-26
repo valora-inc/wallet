@@ -11,7 +11,7 @@ import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
@@ -77,7 +77,7 @@ export const TokenBalanceItem = ({
   token,
   showPriceChangeIndicatorInBalances,
 }: {
-  token: TokenBalance
+  token: TokenBalanceWithAddress
   showPriceChangeIndicatorInBalances: boolean
 }) => {
   const isHistoricalPriceUpdated = () => {

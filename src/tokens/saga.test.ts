@@ -4,12 +4,12 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import {
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
+  getTokensInfo,
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
@@ -23,22 +23,57 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockPoofAddress,
+  mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
+import { FetchMock } from 'jest-fetch-mock'
+import Logger from 'src/utils/Logger'
+import { apolloClient } from 'src/apollo'
+import { getFeatureGate } from 'src/statsig'
+import { ApolloQueryResult } from 'apollo-client'
 
-const mockFirebaseTokenInfo: StoredTokenBalances = {
-  [mockPoofAddress]: {
-    ...mockTokenBalances[mockPoofAddress],
+jest.mock('src/statsig')
+jest.mock('src/apollo', () => {
+  return {
+    apolloClient: {
+      query: jest.fn(),
+    },
+  }
+})
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereum-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
+jest.mock('src/utils/Logger')
+
+const mockFetch = fetch as FetchMock
+
+const mockBlockchainApiTokenInfo: StoredTokenBalances = {
+  [mockPoofTokenId]: {
+    ...mockTokenBalances[mockPoofTokenId],
     balance: null,
   },
-  [mockCusdAddress]: {
-    ...mockTokenBalances[mockCusdAddress],
+  [mockCusdTokenId]: {
+    ...mockTokenBalances[mockCusdTokenId],
     balance: null,
   },
   [mockCeurAddress]: {
-    ...mockTokenBalances[mockCeurAddress],
+    ...mockTokenBalances[mockCeurTokenId],
     balance: null,
   },
 }
@@ -46,33 +81,55 @@ const mockFirebaseTokenInfo: StoredTokenBalances = {
 const fetchBalancesResponse = [
   {
     tokenAddress: mockPoofAddress,
+    tokenId: mockPoofTokenId,
     balance: (5 * Math.pow(10, 18)).toString(),
     decimals: '18',
   },
   {
     tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
     balance: '0',
     decimals: '18',
   },
   // cEUR intentionally missing
 ]
 
+describe('getTokensInfo', () => {
+  beforeEach(() => {
+    mockFetch.resetMocks()
+  })
+  it('returns payload if response OK', async () => {
+    mockFetch.mockResponseOnce('{"some": "data"}')
+
+    const result = await getTokensInfo()
+    expect(result).toEqual({
+      some: 'data',
+    })
+  })
+  it('throws if request does not complete within timeout', async () => {
+    mockFetch.mockResponseOnce('error!', { status: 500, statusText: 'some error' })
+    await expect(getTokensInfo()).rejects.toEqual(
+      new Error('Failure response fetching token info. 500  some error')
+    )
+    expect(Logger.error).toHaveBeenCalledTimes(1)
+  })
+})
 describe(fetchTokenBalancesSaga, () => {
   const tokenBalancesAfterUpdate: StoredTokenBalances = {
-    ...mockFirebaseTokenInfo,
-    [mockPoofAddress]: {
-      ...(mockFirebaseTokenInfo[mockPoofAddress] as StoredTokenBalance),
+    ...mockBlockchainApiTokenInfo,
+    [mockPoofTokenId]: {
+      ...(mockBlockchainApiTokenInfo[mockPoofTokenId] as StoredTokenBalance),
       balance: '5', // should convert to ethers (rather than keep in wei)
     },
-    [mockCusdAddress]: {
-      ...(mockFirebaseTokenInfo[mockCusdAddress] as StoredTokenBalance),
+    [mockCusdTokenId]: {
+      ...(mockBlockchainApiTokenInfo[mockCusdTokenId] as StoredTokenBalance),
       balance: '0',
     },
   }
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
@@ -84,10 +141,10 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(walletAddressSelector), null],
-        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
-      .not.call(readOnceFromFirebase, 'tokensInfo')
+      .not.call(getTokensInfo)
       .not.put(setTokenBalances(tokenBalancesAfterUpdate))
       .run()
   })
@@ -95,7 +152,7 @@ describe(fetchTokenBalancesSaga, () => {
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), mockFirebaseTokenInfo],
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
       ])
@@ -108,8 +165,48 @@ describe(fetchTokenBalancesSaga, () => {
   })
 })
 
+describe(fetchTokenBalancesForAddress, () => {
+  it('returns token balances for a single chain', async () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
+    jest
+      .mocked(apolloClient.query)
+      .mockImplementation(async (payload: any): Promise<ApolloQueryResult<unknown>> => {
+        return {
+          data: {
+            userBalances: {
+              balances: [`${payload.variables.networkId} balance`],
+            },
+          },
+        } as ApolloQueryResult<unknown>
+      })
+    const result = await fetchTokenBalancesForAddress('some-address')
+    expect(result).toHaveLength(1),
+      expect(result).toEqual(expect.arrayContaining(['celo_alfajores balance']))
+  })
+  it('returns token balances for multiple chains', async () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    jest
+      .mocked(apolloClient.query)
+      .mockImplementation(async (payload: any): Promise<ApolloQueryResult<unknown>> => {
+        return {
+          data: {
+            userBalances: {
+              balances: [`${payload.variables.networkId} balance`],
+            },
+          },
+        } as ApolloQueryResult<unknown>
+      })
+    const result = await fetchTokenBalancesForAddress('some-address')
+    expect(result).toHaveLength(2),
+      expect(result).toEqual(
+        expect.arrayContaining(['celo_alfajores balance', 'ethereum_sepolia balance'])
+      )
+  })
+})
+
 describe(tokenAmountInSmallestUnit, () => {
   const mockAddress = '0xMockAddress'
+  const mockTokenId = `celo-alfajores:${mockAddress}`
 
   it('map to token amount successfully', async () => {
     await expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
@@ -117,8 +214,9 @@ describe(tokenAmountInSmallestUnit, () => {
         createMockStore({
           tokens: {
             tokenBalances: {
-              [mockAddress]: {
+              [mockTokenId]: {
                 address: mockAddress,
+                tokenId: mockTokenId,
                 decimals: 5,
               },
             },
