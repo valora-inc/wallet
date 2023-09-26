@@ -4240,13 +4240,19 @@
             "additionalProperties": false,
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "balance": {
                     "type": [
                         "null",
                         "string"
                     ]
+                },
+                "bridge": {
+                    "type": "string"
                 },
                 "decimals": {
                     "type": "number"
@@ -4258,6 +4264,9 @@
                     "type": "string"
                 },
                 "isCoreToken": {
+                    "type": "boolean"
+                },
+                "isNative": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4272,10 +4281,16 @@
                 "networkIconUrl": {
                     "type": "string"
                 },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
                 "priceFetchedAt": {
                     "type": "number"
                 },
                 "symbol": {
+                    "type": "string"
+                },
+                "tokenId": {
                     "type": "string"
                 },
                 "usdPrice": {
@@ -4288,7 +4303,9 @@
                 "decimals",
                 "imageUrl",
                 "name",
+                "networkId",
                 "symbol",
+                "tokenId",
                 "usdPrice"
             ],
             "type": "object"

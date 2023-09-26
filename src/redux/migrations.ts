@@ -1291,4 +1291,11 @@ export const migrations = {
         : 'Main', // same as initial state. should be very rare, since removed screens were not present in prev app version.
     },
   }),
+  150: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      tokenBalances: {},
+    },
+  }),
 }

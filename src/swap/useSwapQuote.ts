@@ -4,7 +4,7 @@ import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount } from 'src/swap/types'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -30,8 +30,8 @@ const useSwapQuote = () => {
 
   const refreshQuote = useAsyncCallback(
     async (
-      fromToken: TokenBalance,
-      toToken: TokenBalance,
+      fromToken: TokenBalanceWithAddress,
+      toToken: TokenBalanceWithAddress,
       swapAmount: ParsedSwapAmount,
       updatedField: Field
     ) => {

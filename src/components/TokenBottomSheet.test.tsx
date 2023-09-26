@@ -8,20 +8,30 @@ import TokenBottomSheet, {
   DEBOUCE_WAIT_TIME,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { createMockStore, getElementText } from 'test/utils'
-import { mockCeurAddress, mockCusdAddress, mockTestTokenAddress } from 'test/values'
+import {
+  mockCeurAddress,
+  mockCusdAddress,
+  mockTestTokenAddress,
+  mockCeurTokenId,
+  mockCusdTokenId,
+  mockTestTokenTokenId,
+} from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/components/useShowOrHideAnimation')
 jest.mock('src/analytics/ValoraAnalytics')
 
-const tokens: TokenBalance[] = [
+const tokens: TokenBalanceWithAddress[] = [
   {
     balance: new BigNumber('10'),
     usdPrice: new BigNumber('1'),
     lastKnownUsdPrice: new BigNumber('1'),
     symbol: 'cUSD',
     address: mockCusdAddress,
+    tokenId: mockCusdTokenId,
+    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     priceFetchedAt: Date.now(),
     decimals: 18,
@@ -34,6 +44,8 @@ const tokens: TokenBalance[] = [
     lastKnownUsdPrice: new BigNumber('1.2'),
     symbol: 'cEUR',
     address: mockCeurAddress,
+    tokenId: mockCeurTokenId,
+    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     priceFetchedAt: Date.now(),
     decimals: 18,
@@ -46,6 +58,8 @@ const tokens: TokenBalance[] = [
     usdPrice: null,
     lastKnownUsdPrice: new BigNumber('1'),
     address: mockTestTokenAddress,
+    tokenId: mockTestTokenTokenId,
+    networkId: NetworkId['celo-alfajores'],
     priceFetchedAt: Date.now(),
     decimals: 18,
     name: 'Test Token',
@@ -56,28 +70,34 @@ const tokens: TokenBalance[] = [
 const mockStore = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         balance: '10',
         usdPrice: '1',
         symbol: 'cUSD',
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
         name: 'Celo Dollar',
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         balance: '20',
         usdPrice: '1.2',
         symbol: 'cEUR',
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
         name: 'Celo Euro',
       },
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         balance: '10',
         symbol: 'TT',
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
         priceFetchedAt: Date.now(),
         name: 'Test Token',
       },

@@ -13,7 +13,7 @@ import Times from 'src/icons/Times'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -29,12 +29,18 @@ interface Props {
   origin: TokenPickerOrigin
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
-  tokens: TokenBalance[]
+  tokens: TokenBalanceWithAddress[]
   searchEnabled?: boolean
   title: string
 }
 
-function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
+function TokenOption({
+  tokenInfo,
+  onPress,
+}: {
+  tokenInfo: TokenBalanceWithAddress
+  onPress: () => void
+}) {
   return (
     <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
       <View style={styles.tokenOptionContainer}>

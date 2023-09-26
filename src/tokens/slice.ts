@@ -2,14 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
+import { NetworkId } from 'src/transactions/types'
 
 export interface BaseToken {
-  address: string
+  address: string | null
+  tokenId: string
   decimals: number
   imageUrl: string
   name: string
   symbol: string
+  networkId: NetworkId
   priceFetchedAt?: number
+  isNative?: boolean
   // This field is for tokens that are part of the core contracts that allow paying for fees and
   // making transfers with a comment.
   isCoreToken?: boolean
@@ -17,6 +21,7 @@ export interface BaseToken {
   isSwappable?: boolean
   minimumAppVersionToSwap?: string
   networkIconUrl?: string
+  bridge?: string
 }
 
 interface HistoricalUsdPrices {
@@ -33,6 +38,10 @@ export interface StoredTokenBalance extends BaseToken {
   historicalUsdPrices?: HistoricalUsdPrices
 }
 
+export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
+  address: string
+}
+
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
@@ -40,8 +49,26 @@ export interface TokenBalance extends BaseToken {
   historicalUsdPrices?: HistoricalUsdPrices
 }
 
+// The "WithAddress" suffixed types are legacy types, for places in the wallet
+// that require an address to be present. As we move to multichain, (where address
+// is not guaranteed,) existing code should be updated to use the "address optional" types.
+
+/**
+ * @deprecated use `TokenBalance` for new code
+ */
+export interface TokenBalanceWithAddress extends TokenBalance {
+  address: string
+}
+
 export interface StoredTokenBalances {
-  [address: string]: StoredTokenBalance | undefined
+  [tokenId: string]: StoredTokenBalance | undefined
+}
+
+/**
+ * @deprecated use `StoredTokenBalances` for new code
+ */
+export interface StoredTokenBalancesWithAddress {
+  [tokenId: string]: StoredTokenBalance | undefined
 }
 
 export interface TokenLoadingAction {
@@ -49,7 +76,14 @@ export interface TokenLoadingAction {
 }
 
 export interface TokenBalances {
-  [address: string]: TokenBalance | undefined
+  [tokenId: string]: TokenBalance | undefined
+}
+
+/**
+ * @deprecated use `TokenBalances` for new code
+ */
+export interface TokenBalancesWithAddress {
+  [tokenId: string]: TokenBalanceWithAddress | undefined
 }
 
 export interface State {

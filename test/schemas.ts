@@ -24,8 +24,19 @@ import {
   mockPositions,
   mockTestTokenAddress,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
+
+function updateTestTokenInfo(tokenInfo: any): any {
+  const isNative = tokenInfo.symbol === 'CELO'
+  return {
+    ...tokenInfo,
+    tokenId: `celo-alfajores:${isNative ? 'native' : tokenInfo.address}`,
+    isNative,
+    networkId: NetworkId['celo-alfajores'],
+  }
+}
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -2556,6 +2567,27 @@ export const v149Schema = {
   },
 }
 
+export const v150Schema = {
+  ...v149Schema,
+  _persist: {
+    ...v149Schema._persist,
+    version: 150,
+  },
+  tokens: {
+    ...v149Schema.tokens,
+    tokenBalances: Object.values(v149Schema.tokens.tokenBalances).reduce(
+      (acc: Record<string, any>, tokenInfo: any) => {
+        const newTokenInfo = updateTestTokenInfo(tokenInfo)
+        return {
+          ...acc,
+          [newTokenInfo.tokenId]: newTokenInfo,
+        }
+      },
+      {}
+    ),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v149Schema as Partial<RootState>
+  return v150Schema as Partial<RootState>
 }

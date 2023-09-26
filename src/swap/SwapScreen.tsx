@@ -35,7 +35,7 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { swappableTokensSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_FROM_TOKEN_SYMBOL = 'CELO'
@@ -86,8 +86,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     return swappableTokens[0] ?? CELO
   }, [swappableTokens])
 
-  const [fromToken, setFromToken] = useState<TokenBalance | undefined>(defaultFromToken)
-  const [toToken, setToToken] = useState<TokenBalance | undefined>()
+  const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(defaultFromToken)
+  const [toToken, setToToken] = useState<TokenBalanceWithAddress | undefined>()
 
   // Raw input values (can contain region specific decimal separators)
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
