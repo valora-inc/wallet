@@ -54,7 +54,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
           <View style={styles.line}>
             {token.networkName ? (
               <Text numberOfLines={1} style={styles.subLabel} testID="NetworkLabel">
-                {t('assets.networkName')}
+                {t('assets.networkName', { networkName: token.networkName })}
               </Text>
             ) : (
               <View />
@@ -67,7 +67,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
               numberOfLines={1}
               style={[styles.subLabel, { color: colors.informational }]}
             >
-              {t('assets.bridge')}
+              {t('assets.bridge', { bridge: token.bridge })}
             </Text>
           )}
         </View>
