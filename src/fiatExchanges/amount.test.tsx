@@ -8,7 +8,7 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
-jest.mock('src/components/TokenDisplay')
+jest.mock('src/components/NonNativeTokenDisplay')
 jest.mock('src/components/CurrencyDisplay')
 
 describe('CryptoAmount', () => {

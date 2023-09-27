@@ -91,6 +91,9 @@ export const tokensListWithAddressSelector = createSelector(tokensByAddressSelec
   return Object.values(tokens).map((token) => token!)
 })
 
+/**
+ * @deprecated
+ */
 export const tokensBySymbolSelector = createSelector(
   tokensListWithAddressSelector,
   (
@@ -114,6 +117,9 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
   ) as TokenBalanceWithPriceUsd[]
 })
 
+/**
+ * @deprecated
+ */
 export const tokensWithLastKnownUsdValueSelector = createSelector(
   tokensListWithAddressSelector,
   (tokens) => {
@@ -156,25 +162,40 @@ export const tokensWithTokenBalanceAndAddressSelector = createSelector(
   }
 )
 
+/**
+ * @deprecated
+ */
 export const tokensSortedToShowInSendSelector = createSelector(
   tokensWithTokenBalanceAndAddressSelector,
   (tokens) => tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
 )
 
 // Tokens sorted by usd balance (descending)
+/**
+ * @deprecated
+ */
 export const tokensByUsdBalanceSelector = createSelector(
   tokensListWithAddressSelector,
   (tokensList) => tokensList.sort(sortByUsdBalance)
 )
 
+/**
+ * @deprecated
+ */
 export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
 })
 
+/**
+ * @deprecated
+ */
 export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
 })
 
+/**
+ * @deprecated
+ */
 export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
@@ -192,6 +213,9 @@ function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenB
   }
 }
 
+/**
+ * @deprecated
+ */
 export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   const appVersion = deviceInfoModule.getVersion()
 
@@ -205,6 +229,9 @@ export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector
     .sort(tokenCompareByUsdBalanceThenByName)
 })
 
+/**
+ * @deprecated
+ */
 export const tokensByCurrencySelector = createSelector(
   tokensListWithAddressSelector,
   (tokens): CurrencyTokens => {
@@ -221,6 +248,9 @@ export const tokensByCurrencySelector = createSelector(
 )
 
 // Returns the token with the highest usd balance to use as default.
+/**
+ * @deprecated
+ */
 export const defaultTokenToSendSelector = createSelector(
   tokensSortedToShowInSendSelector,
   stablecoinsSelector,
@@ -233,6 +263,9 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
+/**
+ * @deprecated
+ */
 export const lastKnownTokenBalancesSelector = createSelector(
   [
     tokensListWithAddressSelector,

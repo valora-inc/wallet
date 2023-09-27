@@ -40,7 +40,6 @@ import {
   tokenFetchErrorSelector,
   tokenFetchLoadingSelector,
   tokensInfoUnavailableSelector,
-  tokensWithTokenBalanceAndAddressSelector,
   tokensWithTokenBalanceSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
@@ -250,7 +249,7 @@ export function HomeTokenBalance() {
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokenBalances = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
 
   const onViewBalances = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {

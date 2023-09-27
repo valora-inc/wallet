@@ -40,22 +40,25 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         ...defaultStore,
         tokens: {
           tokenBalances: {
-            '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+            'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762': {
               priceUsd: '0.1',
+              tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
               address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               symbol: 'POOF',
               balance: '5',
               priceFetchedAt: Date.now(),
             },
-            '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+            'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
               priceUsd: '1.16',
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
             },
-            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
+              tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
               priceFetchedAt: Date.now(),
@@ -83,14 +86,16 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         tokens: {
           // FiatExchangeTokenBalance requires 2 balances to display the View Balances button
           tokenBalances: {
-            '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+            'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762': {
               priceUsd: '0.1',
+              tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
               address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               symbol: 'POOF',
               balance: '5',
               priceFetchedAt: Date.now(),
             },
-            '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+            'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
@@ -199,14 +204,16 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         ...defaultStore,
         tokens: {
           tokenBalances: {
-            '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+            'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
             },
-            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+              tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
@@ -236,14 +243,16 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         ...defaultStore,
         tokens: {
           tokenBalances: {
-            '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+            'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
             },
-            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+              tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
@@ -312,7 +321,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       const store = createMockStore({
         tokens: {
           tokenBalances: {
-            '0xcelo': {
+            'celo-alfajores:native': {
+              tokenId: 'celo-alfajores:native',
               name: 'Celo',
               address: '0xcelo',
               symbol: 'CELO',
@@ -321,7 +331,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
               isCoreToken: true,
             },
-            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+              tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
@@ -350,7 +361,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       const store = createMockStore({
         tokens: {
           tokenBalances: {
-            '0xcelo': {
+            'celo-alfajores:native': {
+              tokenId: 'celo-alfajores:native',
               name: 'Celo',
               address: '0xcelo',
               symbol: 'CELO',
@@ -359,7 +371,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
               isCoreToken: true,
             },
-            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+              tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',

@@ -44,6 +44,9 @@ export function formatValueToDisplay(value: BigNumber) {
   return text
 }
 
+/**
+ * @deprecated use TokenDisplay instead
+ */
 function NonNativeTokenDisplay({
   amount,
   tokenAddress,

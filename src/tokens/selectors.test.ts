@@ -8,6 +8,8 @@ import {
   tokensListWithAddressSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
+  tokensByIdSelector,
+  tokensListSelector,
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -89,6 +91,7 @@ const state: any = {
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
       },
       ['celo-alfajores:0x6']: {
+        name: '0x6 token',
         tokenId: 'celo-alfajores:0x6',
         networkId: NetworkId['celo-alfajores'],
         balance: '50',
@@ -104,6 +107,21 @@ const state: any = {
   },
 }
 
+describe(tokensByIdSelector, () => {
+  describe('when fetching tokens by id', () => {
+    it('returns the right tokens', () => {
+      const tokensById = tokensByIdSelector(state)
+      expect(Object.keys(tokensById).length).toEqual(6)
+      expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
+      expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
+      expect(tokensById['celo-alfajores:0x4']?.symbol).toEqual('TT')
+      expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
+      expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
+      expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+    })
+  })
+})
+
 describe(tokensByAddressSelector, () => {
   describe('when fetching tokens by address', () => {
     it('returns the right tokens', () => {
@@ -118,8 +136,23 @@ describe(tokensByAddressSelector, () => {
   })
 })
 
+describe(tokensListSelector, () => {
+  describe('when fetching tokens with id as a list', () => {
+    it('returns the right tokens', () => {
+      const tokens = tokensListSelector(state)
+      expect(tokens.length).toEqual(6)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x4')?.symbol).toEqual('TT')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x1')?.name).toEqual('0x1 token')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x5')?.name).toEqual('0x5 token')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x6')?.name).toEqual('0x6 token')
+    })
+  })
+})
+
 describe(tokensListWithAddressSelector, () => {
-  describe('when fetching tokens as a list', () => {
+  describe('when fetching tokens with address as a list', () => {
     it('returns the right tokens', () => {
       const tokens = tokensListWithAddressSelector(state)
       expect(tokens.length).toEqual(5)
@@ -206,18 +239,6 @@ describe('tokensWithUsdValueSelector', () => {
     expect(tokens).toMatchInlineSnapshot(`
       [
         {
-          "address": "0x1",
-          "balance": "10",
-          "bridge": "somebridge",
-          "lastKnownPriceUsd": "10",
-          "minimumAppVersionToSwap": "1.20.0",
-          "name": "0x1 token (somebridge)",
-          "networkId": "celo-alfajores",
-          "priceFetchedAt": 1588200517518,
-          "priceUsd": "10",
-          "tokenId": "celo-alfajores:0x1",
-        },
-        {
           "address": "0xeur",
           "balance": "50",
           "isSupercharged": true,
@@ -229,6 +250,18 @@ describe('tokensWithUsdValueSelector', () => {
           "priceUsd": "0.5",
           "symbol": "cEUR",
           "tokenId": "celo-alfajores:0xeur",
+        },
+        {
+          "address": "0x1",
+          "balance": "10",
+          "bridge": "somebridge",
+          "lastKnownPriceUsd": "10",
+          "minimumAppVersionToSwap": "1.20.0",
+          "name": "0x1 token",
+          "networkId": "celo-alfajores",
+          "priceFetchedAt": 1588200517518,
+          "priceUsd": "10",
+          "tokenId": "celo-alfajores:0x1",
         },
       ]
     `)
