@@ -8,7 +8,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockCeloAddress, mockTokenBalances } from 'test/values'
+import { mockCeloTokenId, mockTokenBalances } from 'test/values'
 
 const SAMPLE_ADDRESS = '0xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
 const SAMPLE_BALANCE = '55.00001'
@@ -19,8 +19,8 @@ const mockScreenProps = getMockStackScreenProps(Screens.WithdrawCeloScreen, { is
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockCeloAddress]: {
-        ...mockTokenBalances[mockCeloAddress],
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
         balance: SAMPLE_BALANCE,
       },
     },

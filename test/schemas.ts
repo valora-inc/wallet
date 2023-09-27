@@ -14,7 +14,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
-import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 import {
@@ -26,6 +26,16 @@ import {
 } from 'test/values'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
+
+function updateTestTokenInfo(tokenInfo: any): any {
+  const isNative = tokenInfo.symbol === 'CELO'
+  return {
+    ...tokenInfo,
+    tokenId: `celo-alfajores:${isNative ? 'native' : tokenInfo.address}`,
+    isNative,
+    networkId: NetworkId['celo-alfajores'],
+  }
+}
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -2556,6 +2566,50 @@ export const v149Schema = {
   },
 }
 
+export const v150Schema = {
+  ...v149Schema,
+  _persist: {
+    ...v149Schema._persist,
+    version: 150,
+  },
+  tokens: {
+    ...v149Schema.tokens,
+    tokenBalances: Object.values(v149Schema.tokens.tokenBalances).reduce(
+      (acc: Record<string, any>, tokenInfo: any) => {
+        const newTokenInfo = updateTestTokenInfo(tokenInfo)
+        return {
+          ...acc,
+          [newTokenInfo.tokenId]: newTokenInfo,
+        }
+      },
+      {}
+    ),
+  },
+}
+
+export const v151Schema = {
+  ...v150Schema,
+  _persist: {
+    ...v150Schema._persist,
+    version: 151,
+  },
+  tokens: {
+    ...v150Schema.tokens,
+    tokenBalances: Object.values(v150Schema.tokens.tokenBalances).reduce(
+      (acc: Record<string, any>, tokenInfo: any) => {
+        return {
+          ...acc,
+          [tokenInfo.tokenId]: {
+            ..._.omit(tokenInfo, 'usdPrice'),
+            priceUsd: tokenInfo.usdPrice,
+          },
+        }
+      },
+      {}
+    ),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v149Schema as Partial<RootState>
+  return v151Schema as Partial<RootState>
 }

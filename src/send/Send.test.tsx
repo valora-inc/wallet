@@ -9,7 +9,9 @@ import Send from 'src/send/Send'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeloAddress,
+  mockCeloTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockE164NumberInvite,
   mockRecipient,
@@ -43,12 +45,12 @@ const defaultStore = {
   },
   tokens: {
     tokenBalances: {
-      [mockCeloAddress]: {
-        ...mockTokenBalances[mockCeloAddress],
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
         balance: '20.0',
       },
-      [mockCusdAddress]: {
-        ...mockTokenBalances[mockCusdAddress],
+      [mockCusdTokenId]: {
+        ...mockTokenBalances[mockCusdTokenId],
         balance: '10.0',
       },
     },

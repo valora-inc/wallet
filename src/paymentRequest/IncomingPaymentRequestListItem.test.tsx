@@ -18,7 +18,9 @@ import { createMockStore, getElementText } from 'test/utils'
 import {
   mockAccount3,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockPaymentRequests,
   mockPhoneRecipient,
@@ -46,8 +48,8 @@ const mockPaymentRequest = mockPaymentRequests[1]
 const balances = {
   tokenBalances: {
     ...mockTokenBalances,
-    [mockCusdAddress]: {
-      ...mockTokenBalances[mockCusdAddress],
+    [mockCusdTokenId]: {
+      ...mockTokenBalances[mockCusdTokenId],
       balance: '200',
     },
   },
@@ -173,8 +175,8 @@ describe('IncomingPaymentRequestListItem', () => {
       tokens: {
         tokenBalances: {
           ...mockTokenBalances,
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '200',
           },
         },
@@ -194,8 +196,8 @@ describe('IncomingPaymentRequestListItem', () => {
       tokens: {
         tokenBalances: {
           ...mockTokenBalances,
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '200',
           },
         },

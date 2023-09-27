@@ -11,7 +11,7 @@ import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
@@ -77,14 +77,14 @@ export const TokenBalanceItem = ({
   token,
   showPriceChangeIndicatorInBalances,
 }: {
-  token: TokenBalance
+  token: TokenBalanceWithAddress
   showPriceChangeIndicatorInBalances: boolean
 }) => {
   const isHistoricalPriceUpdated = () => {
     return (
-      token.historicalUsdPrices?.lastDay &&
+      token.historicalPricesUsd?.lastDay &&
       TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES >
-        Math.abs(token.historicalUsdPrices.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
+        Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
     )
   }
 
@@ -94,7 +94,7 @@ export const TokenBalanceItem = ({
       address: token.address,
       title: token.symbol,
       description: token.name,
-      balanceUsd: token.balance.multipliedBy(token.usdPrice ?? 0).toNumber(),
+      balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
     })
   }
 
@@ -121,15 +121,15 @@ export const TokenBalanceItem = ({
           showSymbol={false}
           testID={`tokenBalance:${token.symbol}`}
         />
-        {token.usdPrice?.gt(0) && (
+        {token.priceUsd?.gt(0) && (
           <View style={styles.tokenContainer}>
             {showPriceChangeIndicatorInBalances &&
-              token.historicalUsdPrices &&
+              token.historicalPricesUsd &&
               isHistoricalPriceUpdated() && (
                 <PercentageIndicator
                   testID={`percentageIndicator:${token.symbol}`}
-                  comparedValue={token.historicalUsdPrices.lastDay.price}
-                  currentValue={token.usdPrice}
+                  comparedValue={token.historicalPricesUsd.lastDay.price}
+                  currentValue={token.priceUsd}
                 />
               )}
             <TokenDisplay

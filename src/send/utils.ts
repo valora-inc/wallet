@@ -11,7 +11,7 @@ import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
@@ -39,10 +39,10 @@ export function* handleSendPaymentData(
     })
   )
 
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalanceWithAddress[] = yield* select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
-  if (!tokenInfo?.usdPrice) {
+  if (!tokenInfo?.priceUsd) {
     navigate(Screens.SendAmount, {
       recipient,
       isFromScan,
@@ -62,7 +62,7 @@ export function* handleSendPaymentData(
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
     const localCurrencyExchangeRate: string | null = yield* select(usdToLocalCurrencyRateSelector)
     const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
-    const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
+    const tokenAmount = dollarAmount?.times(tokenInfo.priceUsd)
     if (!inputAmount || !tokenAmount) {
       Logger.warn(TAG, '@handleSendPaymentData null amount')
       return

@@ -15,7 +15,7 @@ import {
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
 } from 'src/tokens/selectors'
-import { TokenBalance, TokenBalances } from 'src/tokens/slice'
+import { TokenBalanceWithAddress, TokenBalancesWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
@@ -49,7 +49,7 @@ export function* estimateFeeSaga({
 }: ReturnType<typeof estimateFee>) {
   Logger.debug(`${TAG}/estimateFeeSaga`, `updating for ${feeType} ${tokenAddress} `)
 
-  const tokenBalances: TokenBalances = yield* select(tokensByAddressSelector)
+  const tokenBalances: TokenBalancesWithAddress = yield* select(tokensByAddressSelector)
   const tokenInfo = tokenBalances[tokenAddress]
 
   if (!tokenInfo?.balance || tokenInfo.balance.isEqualTo(0)) {
@@ -213,10 +213,10 @@ function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
     (token) =>
       token.address === feeInfo.feeCurrency || (token.symbol === 'CELO' && !feeInfo.feeCurrency)
   )
-  if (!tokenInfo?.usdPrice) {
-    throw new Error(`Missing tokenInfo or tokenInfo.usdPrice for ${feeInfo.feeCurrency}`)
+  if (!tokenInfo?.priceUsd) {
+    throw new Error(`Missing tokenInfo or tokenInfo.priceUsd for ${feeInfo.feeCurrency}`)
   }
-  return feeInfo.fee.times(tokenInfo.usdPrice).div(1e18)
+  return feeInfo.fee.times(tokenInfo.priceUsd).div(1e18)
 }
 
 export async function calculateFee(
@@ -241,7 +241,7 @@ export function* fetchFeeCurrencySaga() {
   return fetchFeeCurrency(tokens)
 }
 
-export function fetchFeeCurrency(tokens: TokenBalance[]) {
+export function fetchFeeCurrency(tokens: TokenBalanceWithAddress[]) {
   for (const token of tokens) {
     if (!token.isCoreToken) {
       continue

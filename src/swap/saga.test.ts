@@ -20,6 +20,7 @@ import {
   mockAccount,
   mockCeloAddress,
   mockCeurAddress,
+  mockCeurTokenId,
   mockContract,
   mockTokenBalances,
 } from 'test/values'
@@ -101,8 +102,8 @@ describe(swapSubmitSaga, () => {
       select(swappableTokensSelector),
       [
         {
-          ...mockTokenBalances[mockCeurAddress],
-          usdPrice: new BigNumber('1'),
+          ...mockTokenBalances[mockCeurTokenId],
+          priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       ],

@@ -1543,7 +1543,7 @@
             ],
             "type": "object"
         },
-        "HistoricalUsdPrices": {
+        "HistoricalPricesUsd": {
             "additionalProperties": false,
             "properties": {
                 "lastDay": {
@@ -4240,7 +4240,10 @@
             "additionalProperties": false,
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "balance": {
                     "type": [
@@ -4248,16 +4251,22 @@
                         "string"
                     ]
                 },
+                "bridge": {
+                    "type": "string"
+                },
                 "decimals": {
                     "type": "number"
                 },
-                "historicalUsdPrices": {
-                    "$ref": "#/definitions/HistoricalUsdPrices"
+                "historicalPricesUsd": {
+                    "$ref": "#/definitions/HistoricalPricesUsd"
                 },
                 "imageUrl": {
                     "type": "string"
                 },
                 "isCoreToken": {
+                    "type": "boolean"
+                },
+                "isNative": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4272,13 +4281,19 @@
                 "networkIconUrl": {
                     "type": "string"
                 },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
                 "priceFetchedAt": {
                     "type": "number"
+                },
+                "priceUsd": {
+                    "type": "string"
                 },
                 "symbol": {
                     "type": "string"
                 },
-                "usdPrice": {
+                "tokenId": {
                     "type": "string"
                 }
             },
@@ -4288,8 +4303,10 @@
                 "decimals",
                 "imageUrl",
                 "name",
+                "networkId",
+                "priceUsd",
                 "symbol",
-                "usdPrice"
+                "tokenId"
             ],
             "type": "object"
         },
