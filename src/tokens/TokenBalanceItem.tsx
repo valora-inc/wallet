@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { AssetsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
@@ -12,10 +14,10 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
-const TokenBalanceText = (token: TokenBalance) => {
+const TokenBalanceInLocalCurrency = (token: TokenBalance) => {
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const amountInUsd = token?.usdPrice?.multipliedBy(token.balance)
+  const amountInUsd = token?.priceUsd?.multipliedBy(token.balance)
   const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
     amountInUsd ?? 0
   )
@@ -59,7 +61,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
             ) : (
               <View />
             )}
-            {TokenBalanceText(token)}
+            {TokenBalanceInLocalCurrency(token)}
           </View>
           {token.bridge && (
             <Text
@@ -80,8 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: Spacing.Thick24,
-    marginBottom: Spacing.Large32,
     flex: 1,
   },
   line: {

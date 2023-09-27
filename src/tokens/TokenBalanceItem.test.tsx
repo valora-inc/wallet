@@ -13,7 +13,7 @@ describe('TokenBalanceItem', () => {
   beforeEach(() => {
     mockTokenInfo = {
       balance: new BigNumber('10'),
-      usdPrice: new BigNumber('1'),
+      priceUsd: new BigNumber('1'),
       lastKnownUsdPrice: new BigNumber('1'),
       symbol: 'cUSD',
       address: mockCusdAddress,
@@ -69,7 +69,7 @@ describe('TokenBalanceItem', () => {
   })
 
   it('displays correctly when no usd price is available', () => {
-    mockTokenInfo.usdPrice = null
+    mockTokenInfo.priceUsd = null
 
     const { getByText } = render(
       <Provider store={createMockStore({})}>
