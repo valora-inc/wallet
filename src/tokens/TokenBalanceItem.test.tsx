@@ -1,7 +1,9 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { AssetsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { createMockStore } from 'test/utils'
@@ -80,5 +82,24 @@ describe('TokenBalanceItem', () => {
     expect(getByText('Celo Dollar')).toBeTruthy()
     expect(getByText('10.00 cUSD')).toBeTruthy()
     expect(getByText('--')).toBeTruthy()
+  })
+
+  it('tracks data about the asset when tapped', () => {
+    const { getByText } = render(
+      <Provider store={createMockStore({})}>
+        <TokenBalanceItem token={mockTokenInfo} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('Celo Dollar'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
+      address: mockCusdAddress,
+      assetType: 'token',
+      balanceUsd: 10,
+      description: 'Celo Dollar',
+      title: 'cUSD',
+    })
   })
 })

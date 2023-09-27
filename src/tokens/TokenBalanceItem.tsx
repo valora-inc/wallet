@@ -40,8 +40,19 @@ const TokenBalanceInLocalCurrency = (token: TokenBalance) => {
 
 export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
   const { t } = useTranslation()
+
+  const onPress = () => {
+    ValoraAnalytics.track(AssetsEvents.tap_asset, {
+      assetType: 'token',
+      address: token.address,
+      title: token.symbol,
+      description: token.name,
+      balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
+    })
+  }
+
   return (
-    <Touchable>
+    <Touchable onPress={onPress}>
       <View style={styles.container}>
         <TokenIcon token={token} viewStyle={styles.marginRight} />
         <View style={styles.textContainer}>
