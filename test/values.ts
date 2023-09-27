@@ -19,12 +19,6 @@ import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
-import {
-  FiatConnectProviderInfo,
-  FiatConnectQuoteError,
-  FiatConnectQuoteSuccess,
-  GetFiatConnectQuotesResponse,
-} from 'src/fiatconnect'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import {
@@ -32,6 +26,12 @@ import {
   LegacyMobileMoneyProvider,
   PaymentMethod,
 } from 'src/fiatExchanges/utils'
+import {
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+  GetFiatConnectQuotesResponse,
+} from 'src/fiatconnect'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
@@ -51,9 +51,9 @@ import {
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { NetworkId } from 'src/transactions/types'
 
 export const nullAddress = '0x0'
 
@@ -497,7 +497,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
   // NOTE: important to keep 'symbol' fields in this object matching their counterparts from here: https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json ,
   //  particularly for CICO currencies
   [mockPoofTokenId]: {
-    usdPrice: '0.1',
+    priceUsd: '0.1',
     address: mockPoofAddress,
     tokenId: mockPoofTokenId,
     networkId: NetworkId['celo-alfajores'],
@@ -510,7 +510,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
   },
   [mockCeurTokenId]: {
-    usdPrice: '1.16',
+    priceUsd: '1.16',
     address: mockCeurAddress,
     tokenId: mockCeurTokenId,
     networkId: NetworkId['celo-alfajores'],
@@ -524,7 +524,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
   },
   [mockCusdTokenId]: {
-    usdPrice: '1.001',
+    priceUsd: '1.001',
     address: mockCusdAddress,
     tokenId: mockCusdTokenId,
     networkId: NetworkId['celo-alfajores'],
@@ -538,7 +538,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
   },
   [mockCeloTokenId]: {
-    usdPrice: '13.25085583155252100584',
+    priceUsd: '13.25085583155252100584',
     address: mockCeloAddress,
     tokenId: mockCeloTokenId,
     networkId: NetworkId['celo-alfajores'],
@@ -552,7 +552,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
   },
   [mockCrealTokenId]: {
-    usdPrice: '0.17',
+    priceUsd: '0.17',
     address: mockCrealAddress,
     tokenId: mockCrealTokenId,
     networkId: NetworkId['celo-alfajores'],
@@ -570,7 +570,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
 export const mockTokenBalancesWithHistoricalPrices = {
   [mockPoofTokenId]: {
     ...mockTokenBalances[mockPoofTokenId],
-    historicalUsdPrices: {
+    historicalPricesUsd: {
       lastDay: {
         price: '0.15',
         at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -579,7 +579,7 @@ export const mockTokenBalancesWithHistoricalPrices = {
   },
   '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
     ...mockTokenBalances['0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'],
-    historicalUsdPrices: {
+    historicalPricesUsd: {
       lastDay: {
         price: '1.14',
         at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -588,7 +588,7 @@ export const mockTokenBalancesWithHistoricalPrices = {
   },
   '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
     ...mockTokenBalances['0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'],
-    historicalUsdPrices: {
+    historicalPricesUsd: {
       lastDay: {
         price: '0.99',
         at: Date.now() - ONE_DAY_IN_MILLIS,

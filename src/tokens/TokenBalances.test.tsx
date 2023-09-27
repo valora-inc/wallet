@@ -61,9 +61,9 @@ const storeWithHistoricalPrices = {
         networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '50',
-        usdPrice: '2',
+        priceUsd: '2',
         priceFetchedAt: Date.now(),
-        historicalUsdPrices: {
+        historicalPricesUsd: {
           lastDay: {
             price: '1.3',
             at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -81,7 +81,7 @@ const storeWithPositions = {
   tokens: {
     tokenBalances: {
       [mockCeurTokenId]: {
-        usdPrice: '1.16',
+        priceUsd: '1.16',
         address: mockCeurAddress,
         tokenId: mockCeurTokenId,
         networkId: NetworkId['celo-alfajores'],
@@ -95,7 +95,7 @@ const storeWithPositions = {
         priceFetchedAt: Date.now(),
       },
       [mockCusdTokenId]: {
-        usdPrice: '1.001',
+        priceUsd: '1.001',
         address: mockCusdAddress,
         tokenId: mockCusdTokenId,
         networkId: NetworkId['celo-alfajores'],

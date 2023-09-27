@@ -53,18 +53,18 @@ export function useTokenToLocalAmount(
 
 export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
   const tokenInfo = useTokenInfo(tokenAddress)
-  if (!tokenInfo?.usdPrice) {
+  if (!tokenInfo?.priceUsd) {
     return null
   }
-  return amount.multipliedBy(tokenInfo.usdPrice)
+  return amount.multipliedBy(tokenInfo.priceUsd)
 }
 
 export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
   const tokenInfo = useTokenInfo(tokenAddress)
-  if (!tokenInfo?.usdPrice) {
+  if (!tokenInfo?.priceUsd) {
     return null
   }
-  return amount.div(tokenInfo.usdPrice)
+  return amount.div(tokenInfo.priceUsd)
 }
 
 export function useConvertBetweenTokens(
@@ -74,10 +74,10 @@ export function useConvertBetweenTokens(
 ) {
   const tokenBalances = useSelector(tokensByAddressSelector)
 
-  const tokenUsdPrice = tokenBalances[tokenAddress ?? '']?.usdPrice
-  const newTokenUsdPrice = tokenBalances[newTokenAddress]?.usdPrice
-  if (!amount || !tokenUsdPrice || !newTokenUsdPrice) {
+  const tokenPriceUsd = tokenBalances[tokenAddress ?? '']?.priceUsd
+  const newTokenPriceUsd = tokenBalances[newTokenAddress]?.priceUsd
+  if (!amount || !tokenPriceUsd || !newTokenPriceUsd) {
     return null
   }
-  return amount.multipliedBy(tokenUsdPrice).dividedBy(newTokenUsdPrice)
+  return amount.multipliedBy(tokenPriceUsd).dividedBy(newTokenPriceUsd)
 }

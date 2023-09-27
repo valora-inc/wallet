@@ -21,8 +21,8 @@ const mockUsdToLocalRate = '2'
 
 const mockTokenInfo = {
   balance: new BigNumber('10'),
-  usdPrice: new BigNumber('1'),
-  lastKnownUsdPrice: new BigNumber('1'),
+  priceUsd: new BigNumber('1'),
+  lastKnownPriceUsd: new BigNumber('1'),
   symbol: 'cUSD',
   address: mockCusdAddress,
   tokenId: mockCusdTokenId,

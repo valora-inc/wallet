@@ -10,7 +10,7 @@ export function getHigherBalanceCurrency(
   let maxCurrency: Currency | undefined
   let maxUsdBalance: BigNumber | null = null
   for (const currency of currencies) {
-    const usdBalance = tokens[currency]?.balance.multipliedBy(tokens[currency]?.usdPrice ?? 0)
+    const usdBalance = tokens[currency]?.balance.multipliedBy(tokens[currency]?.priceUsd ?? 0)
     if (usdBalance?.gt(maxUsdBalance ?? 0)) {
       maxCurrency = currency
       maxUsdBalance = usdBalance
@@ -20,8 +20,8 @@ export function getHigherBalanceCurrency(
 }
 
 export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
+  const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
   return token2UsdBalance.comparedTo(token1UsdBalance)
 }
 
@@ -61,14 +61,14 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
 
   // Show non-native tokens without usd price in the bottom of the list.
   // And show stable tokens without usd price at the bottom of their category.
-  if (!token1.usdPrice && !token2.usdPrice) {
+  if (!token1.priceUsd && !token2.priceUsd) {
     return token2.balance.comparedTo(token1.balance)
   }
 
-  if (!token1.usdPrice) {
+  if (!token1.priceUsd) {
     return 1
   }
-  if (!token2.usdPrice) {
+  if (!token2.priceUsd) {
     return -1
   }
 
@@ -77,8 +77,8 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
 }
 
 function usdBalance(token: TokenBalance): BigNumber {
-  // We check that usdPrice is not null before calling this.
-  return token.usdPrice!.times(token.balance)
+  // We check that priceUsd is not null before calling this.
+  return token.priceUsd!.times(token.balance)
 }
 
 export function convertLocalToTokenAmount({
@@ -90,12 +90,12 @@ export function convertLocalToTokenAmount({
   tokenInfo: TokenBalance | undefined
   usdToLocalRate: string | null
 }) {
-  const tokenUsdPrice = tokenInfo?.usdPrice
-  if (!tokenUsdPrice || !usdToLocalRate || !localAmount) {
+  const tokenPriceUsd = tokenInfo?.priceUsd
+  if (!tokenPriceUsd || !usdToLocalRate || !localAmount) {
     return null
   }
 
-  return localAmount.dividedBy(usdToLocalRate).dividedBy(tokenUsdPrice)
+  return localAmount.dividedBy(usdToLocalRate).dividedBy(tokenPriceUsd)
 }
 
 export function convertTokenToLocalAmount({
@@ -107,10 +107,10 @@ export function convertTokenToLocalAmount({
   tokenInfo: TokenBalance | undefined
   usdToLocalRate: string | null
 }) {
-  const tokenUsdPrice = tokenInfo?.usdPrice
-  if (!tokenUsdPrice || !usdToLocalRate || !tokenAmount) {
+  const tokenPriceUsd = tokenInfo?.priceUsd
+  if (!tokenPriceUsd || !usdToLocalRate || !tokenAmount) {
     return null
   }
 
-  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(usdToLocalRate)
+  return tokenAmount.multipliedBy(tokenPriceUsd).multipliedBy(usdToLocalRate)
 }

@@ -92,7 +92,7 @@ const defaultState = {
       [mockCeloAddress]: {
         address: mockCeloAddress,
         symbol: 'CELO',
-        usdPrice: '0.6959536890241361', // matches data in mockPositions
+        priceUsd: '0.6959536890241361', // matches data in mockPositions
         balance: '10',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
@@ -100,14 +100,14 @@ const defaultState = {
       [mockUbeAddress]: {
         address: mockUbeAddress,
         symbol: 'UBE',
-        usdPrice: '0.00904673476946796903', // matches data in mockPositions
+        priceUsd: '0.00904673476946796903', // matches data in mockPositions
         balance: '10',
         priceFetchedAt: Date.now(),
       },
       [mockCusdAddress]: {
         address: mockCusdAddress,
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
         isCoreToken: true,

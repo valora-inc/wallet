@@ -106,7 +106,7 @@ const mockcUsdBalance = {
     isCoreToken: true,
     balance: '100',
     symbol: 'cUSD',
-    usdPrice: '1',
+    priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
 }
@@ -117,7 +117,7 @@ const mockcUsdWithoutEnoughBalance = {
     isCoreToken: true,
     balance: '5',
     symbol: 'cUSD',
-    usdPrice: '1',
+    priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
 }

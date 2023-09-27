@@ -9,16 +9,16 @@ import TokenBottomSheet, {
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCeurAddress,
-  mockCusdAddress,
-  mockTestTokenAddress,
   mockCeurTokenId,
+  mockCusdAddress,
   mockCusdTokenId,
+  mockTestTokenAddress,
   mockTestTokenTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/components/useShowOrHideAnimation')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -26,8 +26,8 @@ jest.mock('src/analytics/ValoraAnalytics')
 const tokens: TokenBalanceWithAddress[] = [
   {
     balance: new BigNumber('10'),
-    usdPrice: new BigNumber('1'),
-    lastKnownUsdPrice: new BigNumber('1'),
+    priceUsd: new BigNumber('1'),
+    lastKnownPriceUsd: new BigNumber('1'),
     symbol: 'cUSD',
     address: mockCusdAddress,
     tokenId: mockCusdTokenId,
@@ -40,8 +40,8 @@ const tokens: TokenBalanceWithAddress[] = [
   },
   {
     balance: new BigNumber('20'),
-    usdPrice: new BigNumber('1.2'),
-    lastKnownUsdPrice: new BigNumber('1.2'),
+    priceUsd: new BigNumber('1.2'),
+    lastKnownPriceUsd: new BigNumber('1.2'),
     symbol: 'cEUR',
     address: mockCeurAddress,
     tokenId: mockCeurTokenId,
@@ -55,8 +55,8 @@ const tokens: TokenBalanceWithAddress[] = [
   {
     balance: new BigNumber('10'),
     symbol: 'TT',
-    usdPrice: null,
-    lastKnownUsdPrice: new BigNumber('1'),
+    priceUsd: null,
+    lastKnownPriceUsd: new BigNumber('1'),
     address: mockTestTokenAddress,
     tokenId: mockTestTokenTokenId,
     networkId: NetworkId['celo-alfajores'],
@@ -72,7 +72,7 @@ const mockStore = createMockStore({
     tokenBalances: {
       [mockCusdTokenId]: {
         balance: '10',
-        usdPrice: '1',
+        priceUsd: '1',
         symbol: 'cUSD',
         address: mockCusdAddress,
         tokenId: mockCusdTokenId,
@@ -83,7 +83,7 @@ const mockStore = createMockStore({
       },
       [mockCeurTokenId]: {
         balance: '20',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         symbol: 'cEUR',
         address: mockCeurAddress,
         tokenId: mockCeurTokenId,

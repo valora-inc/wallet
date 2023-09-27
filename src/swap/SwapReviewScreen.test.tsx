@@ -56,7 +56,7 @@ const store = {
     tokenBalances: {
       [mockCeloAddress]: {
         balance: '5',
-        usdPrice: '3.1',
+        priceUsd: '3.1',
         symbol: 'CELO',
         address: mockCeloAddress,
         priceFetchedAt: Date.now(),
@@ -65,7 +65,7 @@ const store = {
       },
       [mockCusdAddress]: {
         balance: '10',
-        usdPrice: '1',
+        priceUsd: '1',
         symbol: 'cUSD',
         address: mockCusdAddress,
         isCoreToken: true,
@@ -74,7 +74,7 @@ const store = {
       },
       [mockCeurAddress]: {
         balance: '20',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         symbol: 'cEUR',
         address: mockCeurAddress,
         isCoreToken: true,
@@ -83,7 +83,7 @@ const store = {
       },
       [mockWBTCAddress]: {
         balance: '0',
-        usdPrice: '20000',
+        priceUsd: '20000',
         symbol: 'WBTC',
         address: mockWBTCAddress,
         isCoreToken: false,

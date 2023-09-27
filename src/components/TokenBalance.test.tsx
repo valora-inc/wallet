@@ -41,14 +41,14 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         tokens: {
           tokenBalances: {
             '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-              usdPrice: '0.1',
+              priceUsd: '0.1',
               address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               symbol: 'POOF',
               balance: '5',
               priceFetchedAt: Date.now(),
             },
             '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-              usdPrice: '1.16',
+              priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
@@ -84,14 +84,14 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           // FiatExchangeTokenBalance requires 2 balances to display the View Balances button
           tokenBalances: {
             '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-              usdPrice: '0.1',
+              priceUsd: '0.1',
               address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               symbol: 'POOF',
               balance: '5',
               priceFetchedAt: Date.now(),
             },
             '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-              usdPrice: '1.16',
+              priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
@@ -193,14 +193,14 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   )
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
-    'renders correctly with one token balance and another token without usdPrice with balance and zero positions',
+    'renders correctly with one token balance and another token without priceUsd with balance and zero positions',
     async (TokenBalanceComponent) => {
       const store = createMockStore({
         ...defaultStore,
         tokens: {
           tokenBalances: {
             '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-              usdPrice: '1.16',
+              priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
@@ -230,14 +230,14 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   )
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
-    'renders correctly with one token balance and another token without usdPrice with balance and some positions',
+    'renders correctly with one token balance and another token without priceUsd with balance and some positions',
     async (TokenBalanceComponent) => {
       const store = createMockStore({
         ...defaultStore,
         tokens: {
           tokenBalances: {
             '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-              usdPrice: '1.16',
+              priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               symbol: 'cEUR',
               balance: '7',
@@ -317,7 +317,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               address: '0xcelo',
               symbol: 'CELO',
               balance: '1',
-              usdPrice: '0.90',
+              priceUsd: '0.90',
               priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
               isCoreToken: true,
             },
@@ -355,7 +355,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               address: '0xcelo',
               symbol: 'CELO',
               balance: '1',
-              usdPrice: '0.90',
+              priceUsd: '0.90',
               priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
               isCoreToken: true,
             },

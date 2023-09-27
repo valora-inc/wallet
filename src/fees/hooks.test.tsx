@@ -3,10 +3,10 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { useMaxSendAmount } from 'src/fees/hooks'
-import { estimateFee, FeeType } from 'src/fees/reducer'
+import { FeeType, estimateFee } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
-import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import {
   emptyFees,
   mockCeloAddress,
@@ -56,7 +56,7 @@ describe('useMaxSendAmount', () => {
             address: mockCusdAddress,
             symbol: 'cUSD',
             balance: '200',
-            usdPrice: '1',
+            priceUsd: '1',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
@@ -64,7 +64,7 @@ describe('useMaxSendAmount', () => {
             address: mockCeurAddress,
             symbol: 'cEUR',
             balance: '100',
-            usdPrice: '1.2',
+            priceUsd: '1.2',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
@@ -72,7 +72,7 @@ describe('useMaxSendAmount', () => {
             address: mockCeloAddress,
             symbol: 'CELO',
             balance: '200',
-            usdPrice: '5',
+            priceUsd: '5',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },

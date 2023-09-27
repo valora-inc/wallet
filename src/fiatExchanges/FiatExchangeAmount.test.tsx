@@ -4,18 +4,18 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
+import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { Network } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
-import { Network } from 'src/transactions/types'
-import { StatsigFeatureGates } from 'src/statsig/types'
 
 const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
@@ -35,7 +35,7 @@ const mockTokens = {
       address: mockCusdAddress,
       symbol: 'cUSD',
       balance: '200',
-      usdPrice: '1',
+      priceUsd: '1',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
@@ -43,7 +43,7 @@ const mockTokens = {
       address: mockCeurAddress,
       symbol: 'cEUR',
       balance: '100',
-      usdPrice: '1.2',
+      priceUsd: '1.2',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
@@ -51,7 +51,7 @@ const mockTokens = {
       address: mockCeloAddress,
       symbol: 'CELO',
       balance: '200',
-      usdPrice: '5',
+      priceUsd: '5',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
