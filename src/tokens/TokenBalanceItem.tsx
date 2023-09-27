@@ -44,7 +44,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
   const onPress = () => {
     ValoraAnalytics.track(AssetsEvents.tap_asset, {
       assetType: 'token',
-      address: token.address,
+      tokenId: token.tokenId,
       title: token.symbol,
       description: token.name,
       balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),

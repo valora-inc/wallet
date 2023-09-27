@@ -1341,6 +1341,13 @@ interface AssetsEventsProperties {
         description: string
         balanceUsd: number
       }
+    | {
+        assetType: 'token'
+        tokenId: string
+        title: string // Example: 'cUSD'
+        description: string
+        balanceUsd: number
+      }
   [AssetsEvents.tap_claim_rewards]: undefined
 }
 

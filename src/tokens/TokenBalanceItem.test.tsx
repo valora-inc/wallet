@@ -18,12 +18,12 @@ describe('TokenBalanceItem', () => {
       priceUsd: new BigNumber('1'),
       lastKnownUsdPrice: new BigNumber('1'),
       symbol: 'cUSD',
-      address: mockCusdAddress,
       isCoreToken: true,
       priceFetchedAt: Date.now(),
       decimals: 18,
       name: 'Celo Dollar',
       imageUrl: '',
+      tokenId: `celo-alfajores:${mockCusdAddress}`,
     } as any
   })
 
@@ -95,7 +95,7 @@ describe('TokenBalanceItem', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
-      address: mockCusdAddress,
+      tokenId: `celo-alfajores:${mockCusdAddress}`,
       assetType: 'token',
       balanceUsd: 10,
       description: 'Celo Dollar',
