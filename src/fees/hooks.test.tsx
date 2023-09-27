@@ -10,10 +10,26 @@ import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import {
   emptyFees,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFeeInfo,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 interface ComponentProps {
   feeType: FeeType.SEND
@@ -52,24 +68,30 @@ describe('useMaxSendAmount', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
-          [mockCusdAddress]: {
+          [mockCusdTokenId]: {
             address: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cUSD',
             balance: '200',
             priceUsd: '1',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
-          [mockCeurAddress]: {
+          [mockCeurTokenId]: {
             address: mockCeurAddress,
+            tokenId: mockCeurTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cEUR',
             balance: '100',
             priceUsd: '1.2',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
-          [mockCeloAddress]: {
+          [mockCeloTokenId]: {
             address: mockCeloAddress,
+            tokenId: mockCeloTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'CELO',
             balance: '200',
             priceUsd: '5',
