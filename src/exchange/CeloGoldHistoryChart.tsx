@@ -205,7 +205,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   })
 
   const currentGoldRateInLocalCurrency =
-    tokensBySymbol.CGLD?.lastKnownUsdPrice?.toNumber() ||
+    tokensBySymbol.CGLD?.lastKnownPriceUsd?.toNumber() ||
     chartData[chartData.length - 1].amount ||
     null
   const oldestGoldRateInLocalCurrency = chartData[0].amount

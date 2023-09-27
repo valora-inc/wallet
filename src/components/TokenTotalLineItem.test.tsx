@@ -5,7 +5,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { NetworkId, LocalAmount } from 'src/transactions/types'
+import { LocalAmount, NetworkId } from 'src/transactions/types'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
@@ -48,7 +48,7 @@ describe('TokenTotalLineItem', () => {
                 address: mockCusdAddress,
                 tokenId: mockCusdTokenId,
                 symbol: 'cUSD',
-                usdPrice: '1',
+                priceUsd: '1',
                 balance: '10',
                 priceFetchedAt: Date.now(),
               },
@@ -57,7 +57,7 @@ describe('TokenTotalLineItem', () => {
                 address: mockBtcAddress,
                 tokenId: mockBtcTokenId,
                 symbol: 'WBTC',
-                usdPrice: '65000',
+                priceUsd: '65000',
                 balance: '0.5',
                 priceFetchedAt: Date.now(),
               },

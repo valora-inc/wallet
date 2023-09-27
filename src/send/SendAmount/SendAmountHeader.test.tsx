@@ -24,19 +24,19 @@ function renderComponent({
             [mockCusdAddress]: {
               address: mockCusdAddress,
               symbol: 'cUSD',
-              usdPrice: '1',
+              priceUsd: '1',
               balance: cUsdBalance ?? '10',
             },
             [mockCeurAddress]: {
               address: mockCeurAddress,
               symbol: 'cEUR',
-              usdPrice: '1.2',
+              priceUsd: '1.2',
               balance: '20',
             },
             [mockCeloAddress]: {
               address: mockCeloAddress,
               symbol: 'CELO',
-              usdPrice: '5',
+              priceUsd: '5',
               balance: '0',
             },
           },

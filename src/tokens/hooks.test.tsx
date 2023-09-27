@@ -36,7 +36,7 @@ const store = (usdToLocalRate: string | null = '2') =>
           networkId: NetworkId['celo-alfajores'],
           symbol: 'T1',
           balance: '0',
-          usdPrice: '5',
+          priceUsd: '5',
           priceFetchedAt: Date.now(),
         },
         [tokenIdWithoutBalance]: {
@@ -44,7 +44,7 @@ const store = (usdToLocalRate: string | null = '2') =>
           tokenId: tokenIdWithoutBalance,
           networkId: NetworkId['celo-alfajores'],
           symbol: 'T2',
-          usdPrice: '5',
+          priceUsd: '5',
           balance: null,
           priceFetchedAt: Date.now(),
         },

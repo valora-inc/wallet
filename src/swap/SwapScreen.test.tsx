@@ -51,13 +51,13 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           address: mockCeurAddress,
           symbol: 'cEUR',
           priceFetchedAt: now,
-          historicalUsdPrices: {
+          historicalPricesUsd: {
             lastDay: {
               at: 1658057880747,
               price: '5.03655958698530226301',
             },
           },
-          usdPrice: '5.03655958698530226301',
+          priceUsd: '5.03655958698530226301',
           decimals: 18,
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cEUR.png',
@@ -67,7 +67,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           balance: '0',
         },
         [mockCusdAddress]: {
-          usdPrice: '1',
+          priceUsd: '1',
           isCoreToken: true,
           isSwappable: true,
           address: mockCusdAddress,
@@ -77,7 +77,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cUSD.png',
           decimals: 18,
           balance: cUSDBalance,
-          historicalUsdPrices: {
+          historicalPricesUsd: {
             lastDay: {
               at: 1658057880747,
               price: '1',
@@ -89,13 +89,13 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           address: mockCeloAddress,
           symbol: 'CELO',
           priceFetchedAt: now,
-          historicalUsdPrices: {
+          historicalPricesUsd: {
             lastDay: {
               at: 1658057880747,
               price: '13.05584965485329753569',
             },
           },
-          usdPrice: '13.05584965485329753569',
+          priceUsd: '13.05584965485329753569',
           decimals: 18,
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
@@ -105,7 +105,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           balance: celoBalance,
         },
         [mockTestTokenAddress]: {
-          // no usdPrice
+          // no priceUsd
           address: mockTestTokenAddress,
           symbol: 'TT',
           decimals: 18,
@@ -117,7 +117,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           balance: '100',
         },
         [mockPoofAddress]: {
-          // no usdPrice
+          // no priceUsd
           address: mockPoofAddress,
           symbol: 'POOF',
           decimals: 18,
@@ -335,7 +335,7 @@ describe('SwapScreen', () => {
   })
 
   it('should show and hide the price impact warning', async () => {
-    // mock usdPrice data: CELO price ~$13, cUSD price = $1
+    // mock priceUsd data: CELO price ~$13, cUSD price = $1
     const lowPriceImpactPrice = '13.12345' // within 4% price impact
     const highPriceImpactPrice = '12.44445' // more than 4% price impact
 

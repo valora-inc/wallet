@@ -111,8 +111,8 @@ function SendAmount(props: Props) {
   const [transferTokenAddress, setTransferToken] = useState(defaultTokenOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
-  const tokenHasUsdPrice = !!tokenInfo?.usdPrice
-  const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
+  const tokenHasPriceUsd = !!tokenInfo?.priceUsd
+  const showInputInLocalAmount = usingLocalAmount && tokenHasPriceUsd
 
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType = FeeType.SEND
@@ -201,7 +201,7 @@ function SendAmount(props: Props) {
           tokenAddress={transferTokenAddress}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
-          tokenHasUsdPrice={tokenHasUsdPrice}
+          tokenHasPriceUsd={tokenHasPriceUsd}
         />
         <AmountKeypad
           amount={amount}

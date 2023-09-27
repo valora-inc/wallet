@@ -38,8 +38,8 @@ export const transactionDataFromPaymentRequest = ({
   const usdRequested = new BigNumber(paymentRequest.amount)
 
   if (
-    cUsdTokenInfo.usdPrice &&
-    usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.usdPrice))
+    cUsdTokenInfo.priceUsd &&
+    usdRequested.isLessThanOrEqualTo(cUsdTokenInfo.balance.multipliedBy(cUsdTokenInfo.priceUsd))
   ) {
     return {
       comment: paymentRequest.comment,
@@ -51,14 +51,14 @@ export const transactionDataFromPaymentRequest = ({
       paymentRequestId: paymentRequest.uid || '',
     }
   } else if (
-    cEurTokenInfo.usdPrice &&
-    usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.usdPrice))
+    cEurTokenInfo.priceUsd &&
+    usdRequested.isLessThanOrEqualTo(cEurTokenInfo.balance.multipliedBy(cEurTokenInfo.priceUsd))
   ) {
     return {
       comment: paymentRequest.comment,
       recipient: requester,
-      inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
-      tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.usdPrice),
+      inputAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.priceUsd),
+      tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.priceUsd),
       amountIsInLocalCurrency: false,
       tokenAddress: cEurTokenInfo.address,
       paymentRequestId: paymentRequest.uid || '',

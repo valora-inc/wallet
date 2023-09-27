@@ -21,14 +21,14 @@ describe('MerchantPaymentScreen', () => {
           [mockCeloAddress]: {
             address: mockCeloAddress,
             symbol: 'CELO',
-            usdPrice: '.6',
+            priceUsd: '.6',
             balance: '2',
             priceFetchedAt: Date.now(),
           },
           [mockCusdAddress]: {
             address: mockCusdAddress,
             symbol: 'cUSD',
-            usdPrice: '1',
+            priceUsd: '1',
             balance: '10',
             priceFetchedAt: Date.now(),
           },

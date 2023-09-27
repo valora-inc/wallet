@@ -16,7 +16,7 @@ const state = (override?: { celoBalance: string }) =>
       tokenBalances: {
         [mockCusdAddress]: {
           balance: '0',
-          usdPrice: '1',
+          priceUsd: '1',
           symbol: 'cUSD',
           address: mockCusdAddress,
           isCoreToken: true,
@@ -24,7 +24,7 @@ const state = (override?: { celoBalance: string }) =>
         },
         [mockCeurAddress]: {
           balance: '1',
-          usdPrice: '1.2',
+          priceUsd: '1.2',
           symbol: 'cEUR',
           address: mockCeurAddress,
           isCoreToken: true,
@@ -32,7 +32,7 @@ const state = (override?: { celoBalance: string }) =>
         },
         [mockCeloAddress]: {
           balance: override?.celoBalance ?? '0',
-          usdPrice: '3.5',
+          priceUsd: '3.5',
           symbol: 'CELO',
           address: mockCeloAddress,
           isCoreToken: true,

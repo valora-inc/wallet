@@ -103,7 +103,7 @@ describe(swapSubmitSaga, () => {
       [
         {
           ...mockTokenBalances[mockCeurTokenId],
-          usdPrice: new BigNumber('1'),
+          priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       ],

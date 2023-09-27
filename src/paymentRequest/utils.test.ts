@@ -149,14 +149,14 @@ describe('transactionDataFromPaymentRequest', () => {
       {
         ...mockTokenBalances[mockCusdTokenId],
         balance: BigNumber(cusdBalance),
-        usdPrice: BigNumber(1),
-        lastKnownUsdPrice: null,
+        priceUsd: BigNumber(1),
+        lastKnownPriceUsd: null,
       },
       {
         ...mockTokenBalances[mockCeurTokenId],
         balance: BigNumber(ceurBalance),
-        usdPrice: BigNumber(1),
-        lastKnownUsdPrice: null,
+        priceUsd: BigNumber(1),
+        lastKnownPriceUsd: null,
       },
     ]
   }

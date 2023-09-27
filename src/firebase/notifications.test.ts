@@ -175,8 +175,8 @@ describe(handleNotification, () => {
       const tokenBalances = Object.values(mockTokenBalances).map((tokenBalance) => ({
         ...tokenBalance,
         balance: BigNumber(11), // Balance in usd is larger than requested amount
-        usdPrice: BigNumber(1),
-        lastKnownUsdPrice: null,
+        priceUsd: BigNumber(1),
+        lastKnownPriceUsd: null,
       }))
 
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
@@ -213,8 +213,8 @@ describe(handleNotification, () => {
       const tokenBalances = Object.values(mockTokenBalances).map((tokenBalance) => ({
         ...tokenBalance,
         balance: BigNumber(1), // Balance in usd is smaller than requested amount
-        usdPrice: BigNumber(1),
-        lastKnownUsdPrice: null,
+        priceUsd: BigNumber(1),
+        lastKnownPriceUsd: null,
       }))
 
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)

@@ -42,7 +42,7 @@ export function* handleSendPaymentData(
   const tokens: TokenBalanceWithAddress[] = yield* select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
-  if (!tokenInfo?.usdPrice) {
+  if (!tokenInfo?.priceUsd) {
     navigate(Screens.SendAmount, {
       recipient,
       isFromScan,
@@ -62,7 +62,7 @@ export function* handleSendPaymentData(
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
     const localCurrencyExchangeRate: string | null = yield* select(usdToLocalCurrencyRateSelector)
     const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
-    const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
+    const tokenAmount = dollarAmount?.times(tokenInfo.priceUsd)
     if (!inputAmount || !tokenAmount) {
       Logger.warn(TAG, '@handleSendPaymentData null amount')
       return

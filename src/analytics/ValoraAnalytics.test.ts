@@ -41,7 +41,7 @@ const state = getMockStoreData({
       [mockCusdAddress]: {
         address: mockCusdAddress,
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
@@ -49,7 +49,7 @@ const state = getMockStoreData({
       [mockCeurAddress]: {
         address: mockCeurAddress,
         symbol: 'cEUR',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         balance: '20',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
@@ -57,7 +57,7 @@ const state = getMockStoreData({
       [mockCeloAddress]: {
         address: mockCeloAddress,
         symbol: 'CELO',
-        usdPrice: '5',
+        priceUsd: '5',
         balance: '0',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
@@ -71,14 +71,14 @@ const state = getMockStoreData({
       '0xMOO': {
         address: '0xMOO',
         symbol: 'MOO',
-        usdPrice: '4',
+        priceUsd: '4',
         balance: '0',
         priceFetchedAt: Date.now(),
       },
       '0xUBE': {
         address: '0xUBE',
         symbol: 'UBE',
-        usdPrice: '2',
+        priceUsd: '2',
         balance: '1',
         priceFetchedAt: Date.now(),
       },

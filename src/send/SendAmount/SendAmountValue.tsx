@@ -19,7 +19,7 @@ interface Props {
   isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
-  tokenHasUsdPrice: boolean
+  tokenHasPriceUsd: boolean
 }
 
 function SendAmountValue({
@@ -30,7 +30,7 @@ function SendAmountValue({
   isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
-  tokenHasUsdPrice,
+  tokenHasPriceUsd,
 }: Props) {
   const { t } = useTranslation()
 
@@ -102,7 +102,7 @@ function SendAmountValue({
               </View>
             )}
           </View>
-          {tokenHasUsdPrice && (
+          {tokenHasPriceUsd && (
             <View style={styles.valueContainer} testID="SecondaryAmountContainer">
               {!usingLocalAmount && (
                 <View style={styles.symbolContainer}>
@@ -136,7 +136,7 @@ function SendAmountValue({
             </View>
           )}
         </View>
-        {tokenHasUsdPrice ? (
+        {tokenHasPriceUsd ? (
           <Touchable
             onPress={onSwapInput}
             borderless={true}

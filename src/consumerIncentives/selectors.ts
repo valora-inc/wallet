@@ -28,7 +28,7 @@ export const superchargeInfoSelector = createSelector(
       superchargeTokenConfigByToken
     )) {
       const tokenInfo = tokensByAddress[tokenAddress.toLowerCase()]
-      if (!tokenInfo || !tokenInfo.usdPrice) {
+      if (!tokenInfo || !tokenInfo.priceUsd) {
         continue
       }
 
@@ -40,7 +40,7 @@ export const superchargeInfoSelector = createSelector(
         tokenInfo.balance.toNumber(),
         superchargeTokenConfig.maxBalance
       )
-      const superchargeableUsdBalance = tokenInfo.usdPrice.times(superchargeableBalance).toNumber()
+      const superchargeableUsdBalance = tokenInfo.priceUsd.times(superchargeableBalance).toNumber()
       if (
         !superchargeInfo.superchargeUsdBalance ||
         superchargeableUsdBalance > superchargeInfo.superchargeUsdBalance
