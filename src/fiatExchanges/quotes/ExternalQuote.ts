@@ -26,7 +26,6 @@ const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
   numDays: i18n.t('selectProviderScreen.numDays'),
   idRequired: i18n.t('selectProviderScreen.idRequired'),
-  // mobileCarrierRequirement: 'selectProviderScreen.mobileCarrierRequirement',
 }
 
 const paymentMethodToSettlementTime = {
