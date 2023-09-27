@@ -2,14 +2,14 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { useTokenInfoByAddress, useTokenToLocalAmount } from 'src/tokens/hooks'
 
 interface Props {
   inputAmount: string
@@ -36,7 +36,7 @@ function SendAmountValue({
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
 
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)

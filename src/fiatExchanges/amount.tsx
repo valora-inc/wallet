@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
-import TokenDisplay from 'src/components/TokenDisplay'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { CiCoCurrency } from 'src/utils/currencies'
 
 export function CryptoAmount({
@@ -14,9 +14,14 @@ export function CryptoAmount({
   currency: CiCoCurrency
   testID?: string
 }) {
-  const { address } = useTokenInfoBySymbol(currency) ?? {}
+  const { address } = useTokenInfoWithAddressBySymbol(currency) ?? {}
   return (
-    <TokenDisplay amount={amount} tokenAddress={address} showLocalAmount={false} testID={testID} />
+    <NonNativeTokenDisplay
+      amount={amount}
+      tokenAddress={address}
+      showLocalAmount={false}
+      testID={testID}
+    />
   )
 }
 

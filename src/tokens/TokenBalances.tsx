@@ -53,7 +53,7 @@ import {
   totalTokenBalanceSelector,
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -64,11 +64,11 @@ interface SectionData {
 }
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<
-    SectionListProps<TokenBalanceWithAddress | Position, SectionData>
-  >(SectionList)
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
+    SectionList
+  )
 
-const assetIsPosition = (asset: Position | TokenBalanceWithAddress): asset is Position =>
+const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 export enum AssetViewType {
@@ -241,7 +241,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalanceWithAddress | Position, SectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -257,7 +257,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalanceWithAddress | Position, SectionData>
+    section: SectionListData<TokenBalance | Position, SectionData>
   }) => {
     if (section.appName) {
       return (
@@ -271,7 +271,14 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     return null
   }
 
-  const renderAssetItem = ({ item }: { item: TokenBalanceWithAddress | Position }) => {
+  const keyExtractor = (item: TokenBalance | Position) => {
+    if (assetIsPosition(item)) {
+      return item.address
+    }
+    return item.tokenId
+  }
+
+  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
     }
@@ -349,7 +356,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
         sections={sections}
         renderItem={renderAssetItem}
         renderSectionHeader={renderSectionHeader}
-        keyExtractor={(item) => item.address}
+        keyExtractor={keyExtractor}
         onScroll={handleScroll}
         scrollEventThrottle={16}
         ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}

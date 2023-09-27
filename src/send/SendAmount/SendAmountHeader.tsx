@@ -9,8 +9,8 @@ import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigat
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { stablecoinsSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 interface Props {
@@ -28,9 +28,9 @@ function SendAmountHeader({
 }: Props) {
   const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
   const stableTokens = useSelector(stablecoinsSelector)
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
 
   const onTokenSelected = (token: string) => {
     setShowCurrencyPicker(false)

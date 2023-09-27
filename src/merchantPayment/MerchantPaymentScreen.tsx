@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import ContactCircle from 'src/components/ContactCircle'
 import ReviewFrame from 'src/components/ReviewFrame'
-import TokenDisplay from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import { BASE_TAG } from 'src/merchantPayment/constants'
 import FeeContainer from 'src/merchantPayment/FeeContainer'
 import { PaymentStatus, useMerchantPayments } from 'src/merchantPayment/hooks'
@@ -133,7 +133,7 @@ function MerchantPaymentScreen({ route }: Props) {
                 <Text style={styles.displayName}>{businessInformation?.name}</Text>
               </View>
             </View>
-            <TokenDisplay
+            <NonNativeTokenDisplay
               style={styles.amount}
               amount={amount}
               tokenAddress={tokenAddress}

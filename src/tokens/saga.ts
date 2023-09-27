@@ -18,7 +18,7 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Actions } from 'src/stableToken/actions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
-import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
+import { lastKnownTokenBalancesSelector, tokensListWithAddressSelector } from 'src/tokens/selectors'
 import {
   fetchTokenBalances,
   fetchTokenBalancesFailure,
@@ -241,6 +241,7 @@ export async function fetchTokenBalancesForAddress(
   const chainsToFetch = getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
     ? Object.values(networkConfig.networkToNetworkId)
     : [networkConfig.defaultNetworkId]
+  Logger.info(TAG, chainsToFetch)
   const userBalances = await Promise.all(
     chainsToFetch.map((networkId) => {
       return apolloClient.query<UserBalancesResponse, { address: string; networkId: string }>({
@@ -291,7 +292,9 @@ export function* fetchTokenBalancesSaga() {
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv ? e2eTokens() : yield* call(getTokensInfo)
+    Logger.info(TAG, JSON.stringify(tokens, null, 4))
     const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
+    Logger.info(TAG, JSON.stringify(tokenBalances, null, 4))
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find((t) => t.tokenId === token.tokenId)
       if (!tokenBalance) {
@@ -316,7 +319,7 @@ export function* fetchTokenBalancesSaga() {
 }
 
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   if (!tokenInfo) {
     throw Error(`Couldnt find token info for address ${tokenAddress}.`)
@@ -327,7 +330,7 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 export function* getTokenInfo(tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   return tokenInfo
 }

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import TokenDisplay from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
@@ -18,7 +18,7 @@ describe('CryptoAmount', () => {
         <CryptoAmount amount={10} currency={CiCoCurrency.cUSD} testID="cryptoAmt" />
       </Provider>
     )
-    expect(TokenDisplay).toHaveBeenCalledWith(
+    expect(NonNativeTokenDisplay).toHaveBeenCalledWith(
       {
         amount: 10,
         showLocalAmount: false,

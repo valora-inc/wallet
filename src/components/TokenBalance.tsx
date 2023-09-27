@@ -17,7 +17,7 @@ import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { isE2EEnv } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
@@ -40,6 +40,7 @@ import {
   tokenFetchErrorSelector,
   tokenFetchLoadingSelector,
   tokensInfoUnavailableSelector,
+  tokensWithTokenBalanceAndAddressSelector,
   tokensWithTokenBalanceSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
@@ -249,7 +250,7 @@ export function HomeTokenBalance() {
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+  const tokenBalances = useSelector(tokensWithTokenBalanceAndAddressSelector)
 
   const onViewBalances = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {

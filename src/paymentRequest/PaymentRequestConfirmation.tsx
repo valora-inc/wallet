@@ -12,7 +12,7 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import ReviewFrame from 'src/components/ReviewFrame'
-import TokenDisplay from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -126,7 +126,7 @@ function PaymentRequestConfirmation({ route }: Props) {
               <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
             </View>
           </View>
-          <TokenDisplay
+          <NonNativeTokenDisplay
             style={styles.amount}
             amount={tokenAmount}
             tokenAddress={transactionData.tokenAddress}

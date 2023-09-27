@@ -3,11 +3,11 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay, { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 
 interface Props {
@@ -28,7 +28,7 @@ export default function TokenTotalLineItem({
   title,
 }: Props) {
   const { t } = useTranslation()
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const feeInToken = tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined
 
   return (
@@ -37,7 +37,7 @@ export default function TokenTotalLineItem({
         title={title ?? t('total')}
         textStyle={fontStyles.regular600}
         amount={
-          <TokenDisplay
+          <NonNativeTokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenAddress={tokenAddress}
             localAmount={localAmount}
@@ -55,7 +55,7 @@ export default function TokenTotalLineItem({
                   LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
                 }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
               ) : (
-                <TokenDisplay
+                <NonNativeTokenDisplay
                   amount={new BigNumber(1)}
                   tokenAddress={tokenAddress}
                   showLocalAmount={true}
@@ -65,7 +65,7 @@ export default function TokenTotalLineItem({
           </Text>
         }
         amount={
-          <TokenDisplay
+          <NonNativeTokenDisplay
             amount={tokenAmount}
             tokenAddress={tokenAddress}
             showLocalAmount={false}

@@ -31,7 +31,7 @@ import {
   rewardsSendersSelector,
 } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
   inviteTransactionsSelector,
@@ -120,7 +120,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const inviteRewardSenders = useSelector(inviteRewardsSendersSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const commentKey = useSelector(dataEncryptionKeySelector)
-  const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
   const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
 
@@ -226,7 +226,7 @@ export function isTokenTxTypeSent(type: TokenTransactionTypeV2) {
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
 function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
   const { t } = useTranslation()
-  const tokenInfo = useTokenInfo(amount.tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(amount.tokenAddress)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const account = useMemo(

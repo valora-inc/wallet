@@ -4,17 +4,14 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
+import { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
 import { Currency } from 'src/utils/currencies'
-
-const DEFAULT_DISPLAY_DECIMALS = 2
 
 interface Props {
   amount: BigNumber.Value
-  tokenAddress?: string | null
+  tokenId?: string
   currency?: Currency
   showSymbol?: boolean
   showLocalAmount?: boolean
@@ -25,29 +22,9 @@ interface Props {
   testID?: string
 }
 
-function calculateDecimalsToShow(value: BigNumber) {
-  const exponent = value?.e ?? 0
-  if (exponent >= 0) {
-    return DEFAULT_DISPLAY_DECIMALS
-  }
-
-  return Math.abs(exponent) + 1
-}
-
-// Formats |value| so that it shows at least 2 significant figures and at least 2 decimal places without trailing zeros.
-export function formatValueToDisplay(value: BigNumber) {
-  let decimals = calculateDecimalsToShow(value)
-  let text = value.toFormat(decimals)
-  while (text[text.length - 1] === '0' && decimals-- > 2) {
-    text = text.substring(0, text.length - 1)
-  }
-  return text
-}
-
 function TokenDisplay({
   amount,
-  tokenAddress,
-  currency,
+  tokenId,
   showLocalAmount = true,
   showSymbol = true,
   showExplicitPositiveSign = false,
@@ -55,19 +32,17 @@ function TokenDisplay({
   localAmount,
   style,
   testID,
+  currency,
 }: Props) {
-  const showNativeTokens = getFeatureGate(StatsigFeatureGates.SHOW_NATIVE_TOKENS)
-  if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
-    throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
-  } else if (tokenAddress && currency) {
-    throw new Error('TokenDisplay must be passed tokenAddress, currency, or nethier, but not both')
+  if (tokenId ? currency : !currency) {
+    throw new Error('TokenDisplay must be passed either "currency" or "tokenId" and not both')
   }
 
-  const tokenInfoFromAddress = useTokenInfo(tokenAddress!)
+  const tokenInfoFromId = useTokenInfo(tokenId!)
   const tokenInfoFromCurrency = useTokenInfoBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
   )
-  const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
+  const tokenInfo = tokenInfoFromId || tokenInfoFromCurrency
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 

@@ -9,14 +9,16 @@ import {
 } from 'src/localCurrency/selectors'
 import { CurrencyInfo } from 'src/localCurrency/types'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
   const amountCurrency = amount.currencyCode as Currency
-  const tokenInfo = useTokenInfoBySymbol(amountCurrency === Currency.Celo ? 'CELO' : amountCurrency)
+  const tokenInfo = useTokenInfoWithAddressBySymbol(
+    amountCurrency === Currency.Celo ? 'CELO' : amountCurrency
+  )
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   let localCurrencyExchangeRate =
     convertTokenToLocalAmount({

@@ -5,13 +5,13 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
-import TokenDisplay from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -25,7 +25,7 @@ const TAG = 'EscrowedPaymentListItem'
 function EscrowedPaymentListItem({ payment, index }: Props) {
   const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
-  const tokenInfo = useTokenInfo(payment.tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(payment.tokenAddress)
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
@@ -78,7 +78,7 @@ function EscrowedPaymentListItem({ payment, index }: Props) {
     <RequestMessagingCard
       title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
       amount={
-        <TokenDisplay
+        <NonNativeTokenDisplay
           amount={divideByWei(payment.amount)}
           tokenAddress={payment.tokenAddress}
           testID="EscrowedPaymentListItem/amount"

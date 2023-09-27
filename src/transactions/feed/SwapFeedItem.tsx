@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenDisplay from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import SwapIcon from 'src/icons/SwapIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -11,7 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { TokenExchange } from 'src/transactions/types'
 
 interface Props {
@@ -20,8 +20,8 @@ interface Props {
 
 function SwapFeedItem({ exchange }: Props) {
   const { t } = useTranslation()
-  const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenAddress)
-  const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenAddress)
+  const incomingTokenInfo = useTokenInfoByAddress(exchange.inAmount.tokenAddress)
+  const outgoingTokenInfo = useTokenInfoByAddress(exchange.outAmount.tokenAddress)
 
   const handleTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
@@ -44,7 +44,7 @@ function SwapFeedItem({ exchange }: Props) {
           </Text>
         </View>
         <View style={styles.tokenAmountContainer}>
-          <TokenDisplay
+          <NonNativeTokenDisplay
             amount={exchange.inAmount.value}
             tokenAddress={exchange.inAmount.tokenAddress}
             showLocalAmount={false}
@@ -54,7 +54,7 @@ function SwapFeedItem({ exchange }: Props) {
             style={[styles.amount, { color: colors.greenUI }]}
             testID={'SwapFeedItem/incomingAmount'}
           />
-          <TokenDisplay
+          <NonNativeTokenDisplay
             amount={-exchange.outAmount.value}
             tokenAddress={exchange.outAmount.tokenAddress}
             showLocalAmount={false}

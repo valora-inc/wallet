@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import FeeDrawer from 'src/components/FeeDrawer'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { usePaidFees } from 'src/fees/hooks'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
@@ -49,7 +49,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       <LineItemRow
         title={isCeloWithdrawal ? t('amountCeloWithdrawn') : t('amountSent')}
         amount={
-          <TokenDisplay
+          <NonNativeTokenDisplay
             amount={amount.value}
             tokenAddress={amount.tokenAddress}
             localAmount={amount.localAmount}

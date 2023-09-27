@@ -5,7 +5,7 @@ import {
   swappableTokensSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
-  tokensListSelector,
+  tokensListWithAddressSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
@@ -118,10 +118,10 @@ describe(tokensByAddressSelector, () => {
   })
 })
 
-describe(tokensListSelector, () => {
+describe(tokensListWithAddressSelector, () => {
   describe('when fetching tokens as a list', () => {
     it('returns the right tokens', () => {
-      const tokens = tokensListSelector(state)
+      const tokens = tokensListWithAddressSelector(state)
       expect(tokens.length).toEqual(5)
       expect(tokens.find((t) => t.address === '0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.address === '0xeur')?.symbol).toEqual('cEUR')

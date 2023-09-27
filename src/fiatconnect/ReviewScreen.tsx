@@ -38,8 +38,8 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useLocalToTokenAmount, useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { useLocalToTokenAmount, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
+import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -63,12 +63,12 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   )
 
   const feeType = FeeType.SEND
-  const tokenList: TokenBalance[] = useSelector(tokensListSelector)
+  const tokenList: TokenBalance[] = useSelector(tokensListWithAddressSelector)
   const cryptoType = normalizedQuote.getCryptoTypeString()
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
-  const usdTokenInfo = useTokenInfoBySymbol(CiCoCurrency.cUSD)!
+  const usdTokenInfo = useTokenInfoWithAddressBySymbol(CiCoCurrency.cUSD)!
   const networkFee =
     useLocalToTokenAmount(
       feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
@@ -301,7 +301,7 @@ function ReceiveAmount({
 }) {
   const { t } = useTranslation()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())!
+  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())!
   const { receiveDisplay } = getDisplayAmounts({
     flow,
     normalizedQuote,
@@ -424,7 +424,7 @@ function TransactionDetails({
   feeEstimate: FeeEstimateState | undefined
 }) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
+  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
 
   const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
     getDisplayAmounts({

@@ -29,7 +29,7 @@ import variables from 'src/styles/variables'
 import {
   useAmountAsUsd,
   useLocalToTokenAmount,
-  useTokenInfo,
+  useTokenInfoByAddress,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
 import { defaultTokenToSendSelector } from 'src/tokens/selectors'
@@ -110,7 +110,7 @@ function SendAmount(props: Props) {
   const defaultToken = useSelector(defaultTokenToSendSelector)
   const [transferTokenAddress, setTransferToken] = useState(defaultTokenOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-  const tokenInfo = useTokenInfo(transferTokenAddress)!
+  const tokenInfo = useTokenInfoByAddress(transferTokenAddress)!
   const tokenHasPriceUsd = !!tokenInfo?.priceUsd
   const showInputInLocalAmount = usingLocalAmount && tokenHasPriceUsd
 
