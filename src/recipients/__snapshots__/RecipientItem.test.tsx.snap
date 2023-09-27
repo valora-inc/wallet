@@ -131,6 +131,14 @@ exports[`RecipientItem renders correctly 1`] = `
         14155550000
       </Text>
     </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+        }
+      }
+    />
   </View>
 </View>
 `;

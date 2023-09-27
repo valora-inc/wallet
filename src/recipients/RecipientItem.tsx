@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import { Recipient, getDisplayDetail, getDisplayName } from 'src/recipients/recipient'
@@ -31,6 +31,9 @@ function RecipientItem({ recipient, onSelectRecipient, loading }: Props) {
             {getDisplayName(recipient, t)}
           </Text>
           {recipient.name && <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>}
+        </View>
+        <View style={styles.rightIconContainer}>
+          {loading ? <ActivityIndicator size="small" color={colors.greenUI} /> : null}
         </View>
       </View>
     </Touchable>
