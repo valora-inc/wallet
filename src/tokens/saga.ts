@@ -289,8 +289,7 @@ export function* fetchTokenBalancesSaga() {
       return
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
-    // In e2e environment we use a static token list since we can't access Firebase.
-    const tokens: StoredTokenBalances = isE2EEnv ? e2eTokens() : yield* call(getTokensInfo)
+    const tokens = yield* call(getTokensInfo)
     const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find((t) => t.tokenId === token.tokenId)
