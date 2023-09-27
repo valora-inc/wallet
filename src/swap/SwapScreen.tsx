@@ -318,14 +318,14 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
       exchangeRate.toTokenAddress !== toToken?.address ||
       !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
 
-  const showMisingPriceImpactWarning =
+  const showMissingPriceImpactWarning =
     (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    !fromToken?.priceUsd ||
-    !toToken?.priceUsd
+    (fromToken && !fromToken.priceUsd) ||
+    (toToken && !toToken.priceUsd)
   const showPriceImpactWarning =
     !fetchingSwapQuote &&
     !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
-    !showMisingPriceImpactWarning
+    !showMissingPriceImpactWarning
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
@@ -398,7 +398,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
               style={styles.warning}
             />
           )}
-          {showMisingPriceImpactWarning && (
+          {showMissingPriceImpactWarning && (
             <Warning
               title={t('swapScreen.missingSwapImpactWarning.title')}
               description={t('swapScreen.missingSwapImpactWarning.body')}
