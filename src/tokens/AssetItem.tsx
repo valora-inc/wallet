@@ -15,7 +15,6 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import Logger from 'src/utils/Logger'
 
 export const PositionItem = ({ position }: { position: Position }) => {
   const balanceInDecimal =
@@ -93,7 +92,7 @@ export const TokenBalanceItem = ({
         Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
     )
   }
-  Logger.info('ASDF', token)
+
   const onPress = () => {
     ValoraAnalytics.track(AssetsEvents.tap_asset, {
       assetType: 'token',

@@ -241,7 +241,6 @@ export async function fetchTokenBalancesForAddress(
   const chainsToFetch = getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
     ? Object.values(networkConfig.networkToNetworkId)
     : [networkConfig.defaultNetworkId]
-  Logger.info(TAG, chainsToFetch)
   const userBalances = await Promise.all(
     chainsToFetch.map((networkId) => {
       return apolloClient.query<UserBalancesResponse, { address: string; networkId: string }>({
