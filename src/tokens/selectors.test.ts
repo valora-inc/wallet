@@ -95,6 +95,14 @@ const state: any = {
         priceUsd: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
       },
+      ['ethereum-sepolia:0x7']: {
+        tokenId: 'ethereum-sepolia:0x7',
+        networkId: NetworkId['ethereum-sepolia'],
+        address: '0x7',
+        balance: '50',
+        priceUsd: '500',
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+      },
     },
   },
   localCurrency: {
