@@ -33,7 +33,7 @@ export const tokensByAddressSelector = createSelector(
       if (!storedState || storedState.balance === null || !storedState.address) {
         continue
       }
-      const priceUsd = new BigNumber(storedState.priceUsd)
+      const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
 
       const tokenPriceUsdIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
