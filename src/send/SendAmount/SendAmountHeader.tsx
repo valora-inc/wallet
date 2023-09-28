@@ -5,7 +5,7 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet from 'src/components/TokenBottomSheet'
-import { TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 
 import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
@@ -14,6 +14,7 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
+import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
   tokenId: string
@@ -34,7 +35,7 @@ function SendAmountHeader({
   const stableTokens = useSelector(stablecoinsSelector)
   const tokenInfo = useTokenInfo(tokenId)
 
-  const onTokenSelected = (tokenId: string) => {
+  const onTokenSelected = ({ tokenId }: TokenBalance) => {
     setShowCurrencyPicker(false)
     onChangeToken(tokenId)
   }

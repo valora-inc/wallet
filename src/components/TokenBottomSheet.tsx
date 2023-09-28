@@ -7,7 +7,6 @@ import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import SearchInput from 'src/components/SearchInput'
-import { DEBOUCE_WAIT_TIME, TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -17,12 +16,21 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
-interface Props {
+export enum TokenPickerOrigin {
+  Send = 'Send',
+  SendConfirmation = 'SendConfirmation',
+  Exchange = 'Exchange',
+  Swap = 'Swap',
+}
+
+export const DEBOUCE_WAIT_TIME = 200
+
+interface Props<T extends TokenBalance> {
   isVisible: boolean
   origin: TokenPickerOrigin
-  onTokenSelected: (tokenId: string) => void
+  onTokenSelected: (token: T) => void
   onClose: () => void
-  tokens: TokenBalance[]
+  tokens: T[]
   searchEnabled?: boolean
   title: string
 }
@@ -79,7 +87,7 @@ function NoResults({
 }
 
 // TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
-function TokenBottomSheet({
+function TokenBottomSheet<T extends TokenBalance>({
   isVisible,
   origin,
   onTokenSelected,
@@ -87,7 +95,7 @@ function TokenBottomSheet({
   tokens,
   searchEnabled,
   title,
-}: Props) {
+}: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
   const { t } = useTranslation()
@@ -101,12 +109,13 @@ function TokenBottomSheet({
     onClose()
   }
 
-  const onTokenPressed = (tokenId: string) => () => {
+  const onTokenPressed = (token: T) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      tokenId,
+      tokenAddress: token.address,
+      tokenId: token.tokenId,
     })
-    onTokenSelected(tokenId)
+    onTokenSelected(token)
     resetSearchState()
   }
 
@@ -175,7 +184,7 @@ function TokenBottomSheet({
             return (
               <React.Fragment key={`token-${tokenInfo.address}`}>
                 {index > 0 && <View style={styles.separator} />}
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.tokenId)} />
+                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
               </React.Fragment>
             )
           })
