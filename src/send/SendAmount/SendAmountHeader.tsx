@@ -4,37 +4,39 @@ import { Text } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet from 'src/components/TokenBottomSheet'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
+
 import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import { stablecoinsSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 interface Props {
-  tokenAddress: string
+  tokenId: string
   isOutgoingPaymentRequest: boolean
-  onChangeToken: (token: string) => void
+  onChangeToken: (tokenId: string) => void
   disallowCurrencyChange: boolean
 }
 
 function SendAmountHeader({
-  tokenAddress,
+  tokenId,
   isOutgoingPaymentRequest,
   onChangeToken,
   disallowCurrencyChange,
 }: Props) {
   const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
 
-  const onTokenSelected = (token: string) => {
+  const onTokenSelected = (tokenId: string) => {
     setShowCurrencyPicker(false)
-    onChangeToken(token)
+    onChangeToken(tokenId)
   }
 
   const openCurrencyPicker = () => setShowCurrencyPicker(true)
@@ -83,7 +85,7 @@ function SendAmountHeader({
         title={title}
         right={
           canChangeToken && (
-            <TokenPickerSelector tokenAddress={tokenAddress} onChangeToken={openCurrencyPicker} />
+            <TokenPickerSelector tokenId={tokenId} onChangeToken={openCurrencyPicker} />
           )
         }
       />

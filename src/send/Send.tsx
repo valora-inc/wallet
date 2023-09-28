@@ -13,7 +13,8 @@ import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet from 'src/components/TokenBottomSheet'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
@@ -33,7 +34,7 @@ import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { stablecoinsSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
@@ -59,7 +60,7 @@ function Send({ route }: Props) {
   const allRecipients = useSelector(phoneRecipientCacheSelector)
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [searchQuery, setSearchQuery] = useState('')
@@ -161,7 +162,7 @@ function Send({ route }: Props) {
     [isOutgoingPaymentRequest, searchQuery]
   )
 
-  const onTokenSelected = (token: string) => {
+  const onTokenSelected = (tokenId: string) => {
     setShowCurrencyPicker(false)
     if (!recipient) {
       return
@@ -169,7 +170,7 @@ function Send({ route }: Props) {
 
     navigate(Screens.SendAmount, {
       isFromScan: false,
-      defaultTokenOverride: token,
+      defaultTokenOverride: tokenId,
       recipient,
       isOutgoingPaymentRequest,
       origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,

@@ -9,13 +9,13 @@ import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfoByAddress, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 
 interface Props {
   inputAmount: string
   tokenAmount: BigNumber
   usingLocalAmount: boolean
-  tokenAddress: string
+  tokenId: string
   isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
@@ -26,7 +26,7 @@ function SendAmountValue({
   inputAmount,
   tokenAmount,
   usingLocalAmount,
-  tokenAddress,
+  tokenId,
   isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
@@ -36,8 +36,8 @@ function SendAmountValue({
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
+  const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
 
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
 

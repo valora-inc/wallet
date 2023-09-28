@@ -25,7 +25,7 @@ import { useRecipientVerificationStatus } from 'src/recipients/hooks'
 import { Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { roundUp } from 'src/utils/formatting'
 
 interface Props {
@@ -34,7 +34,7 @@ interface Props {
   tokenAmount: BigNumber
   usdAmount: BigNumber | null
   inputIsInLocalCurrency: boolean
-  transferTokenAddress: string
+  transferTokenId: string
   origin: SendOrigin
   isFromScan: boolean
 }
@@ -46,11 +46,11 @@ function useTransactionCallbacks({
   tokenAmount,
   usdAmount,
   inputIsInLocalCurrency,
-  transferTokenAddress,
+  transferTokenId,
   origin,
   isFromScan,
 }: Props) {
-  const tokenInfo = useTokenInfoByAddress(transferTokenAddress)
+  const tokenInfo = useTokenInfo(transferTokenId)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -64,9 +64,9 @@ function useTransactionCallbacks({
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
-      tokenAddress: transferTokenAddress,
+      tokenAddress: tokenInfo!.address,
     }),
-    [recipient, tokenAmount, transferTokenAddress]
+    [recipient, tokenAmount, transferTokenId]
   )
 
   const continueAnalyticsParams = useMemo(() => {
@@ -78,7 +78,7 @@ function useTransactionCallbacks({
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
       localCurrencyAmount: localAmount?.toString() ?? null,
-      underlyingTokenAddress: transferTokenAddress,
+      underlyingTokenAddress: tokenInfo!.address,
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: usdAmount?.toString() ?? null,
@@ -90,7 +90,7 @@ function useTransactionCallbacks({
     localCurrencyExchangeRate,
     localCurrencyCode,
     localAmount,
-    transferTokenAddress,
+    transferTokenId,
     tokenAmount,
     usdAmount,
   ])
@@ -103,7 +103,7 @@ function useTransactionCallbacks({
 
   const feeType = FeeType.SEND
   const estimateFeeDollars =
-    useSelector(getFeeEstimateDollars(feeType, transferTokenAddress)) ?? new BigNumber(0)
+    useSelector(getFeeEstimateDollars(feeType, tokenInfo!.address!)) ?? new BigNumber(0)
 
   const minimumAmount = roundUp(usdAmount?.plus(estimateFeeDollars) ?? estimateFeeDollars)
 
@@ -154,7 +154,7 @@ function useTransactionCallbacks({
     addressValidationType,
     localAmount,
     tokenInfo?.balance,
-    transferTokenAddress,
+    transferTokenId,
     getTransactionData,
     origin,
   ])

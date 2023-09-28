@@ -10,7 +10,7 @@ import useSelector from 'src/redux/useSelector'
 import { canSendTokensSelector } from 'src/send/selectors'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
-import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { CiCoCurrency } from 'src/utils/currencies'
 
 interface Props {
@@ -20,13 +20,13 @@ interface Props {
 
 export default function SendBar({ selectedCurrency, skipImport }: Props) {
   const canSendTokens = useSelector(canSendTokensSelector)
-  const tokenInfo = useTokenInfoWithAddressBySymbol(selectedCurrency ?? '')
+  const tokenInfo = useTokenInfoBySymbol(selectedCurrency ?? '')
 
   const onPressSend = () => {
     navigate(Screens.Send, {
       skipContactsImport: skipImport,
-      defaultTokenOverride: tokenInfo?.address,
-      forceTokenAddress: !!tokenInfo?.address,
+      defaultTokenOverride: tokenInfo?.tokenId,
+      forceTokenAddress: !!tokenInfo?.tokenId,
     })
     ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
   }

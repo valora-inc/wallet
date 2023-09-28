@@ -6,6 +6,7 @@ import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
 import BackChevronCentered from 'src/icons/BackChevronCentered'
 import Times from 'src/icons/Times'
@@ -216,7 +217,7 @@ export function HeaderTitleWithBalance({
   )
 }
 
-export function HeaderTitleWithTokenBalance({
+export function HeaderTitleWithTokenBalanceByAddress({
   title,
   showLocalAmount,
   tokenInfo,
@@ -230,6 +231,31 @@ export function HeaderTitleWithTokenBalance({
       <NonNativeTokenDisplay
         amount={tokenInfo.balance}
         tokenAddress={tokenInfo?.address}
+        showLocalAmount={showLocalAmount}
+        style={styles.headerSubTitle}
+      />
+    </Trans>
+  ) : (
+    '-'
+  )
+
+  return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
+}
+
+export function HeaderTitleWithTokenBalance({
+  title,
+  showLocalAmount,
+  tokenInfo,
+}: {
+  title: string | React.ReactNode
+  tokenInfo: TokenBalance | undefined
+  showLocalAmount: boolean
+}) {
+  const subTitle = tokenInfo ? (
+    <Trans i18nKey="balanceAvailable">
+      <TokenDisplay
+        amount={tokenInfo.balance}
+        tokenId={tokenInfo?.tokenId}
         showLocalAmount={showLocalAmount}
         style={styles.headerSubTitle}
       />
