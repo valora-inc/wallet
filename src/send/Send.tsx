@@ -9,12 +9,11 @@ import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
-import TokenBottomSheet from 'src/components/TokenBottomSheet'
-import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
@@ -23,22 +22,22 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
+import { Recipient, filterRecipientFactory, sortRecipients } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
-import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
-import { TokenBalance } from 'src/tokens/slice'
 
 const SEARCH_THROTTLE_TIME = 100
 
@@ -231,6 +230,10 @@ function Send({ route }: Props) {
     sortFirstStableThenCeloThenOthersByUsdBalance
   )
 
+  // TODO: Remove this once we have remote config for tokens
+  const enabledNetworks = ['celo-mainnet', 'celo-alfajores']
+  const filteredTokens = sortedTokens.filter((token) => enabledNetworks.includes(token.networkId))
+
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
@@ -256,7 +259,7 @@ function Send({ route }: Props) {
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
-        tokens={sortedTokens}
+        tokens={filteredTokens}
         title={t('selectToken')}
       />
     </SafeAreaView>
