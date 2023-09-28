@@ -4304,7 +4304,6 @@
                 "imageUrl",
                 "name",
                 "networkId",
-                "priceUsd",
                 "symbol",
                 "tokenId"
             ],
