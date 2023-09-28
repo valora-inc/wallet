@@ -12,6 +12,7 @@ import { TokenBalance, TokenBalanceWithAddress, TokenBalancesWithAddress } from 
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
+import networkConfig from 'src/web3/networkConfig'
 
 type TokenBalanceWithPriceUsd = TokenBalanceWithAddress & {
   priceUsd: BigNumber
@@ -30,7 +31,12 @@ export const tokensByAddressSelector = createSelector(
   (storedBalances) => {
     const tokenBalances: TokenBalancesWithAddress = {}
     for (const storedState of Object.values(storedBalances)) {
-      if (!storedState || storedState.balance === null || !storedState.address) {
+      if (
+        !storedState ||
+        storedState.balance === null ||
+        !storedState.address ||
+        storedState.networkId !== networkConfig.defaultNetworkId
+      ) {
         continue
       }
       const priceUsd = new BigNumber(storedState.priceUsd)
