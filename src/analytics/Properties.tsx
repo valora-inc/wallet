@@ -52,7 +52,7 @@ import {
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
@@ -641,8 +641,8 @@ interface SendEventsProperties {
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    tokenAddress?: string
-    tokenId?: string
+    tokenAddress: string | null
+    tokenId: string
   }
   [SendEvents.max_pressed]: {
     tokenId: string

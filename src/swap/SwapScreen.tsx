@@ -14,9 +14,7 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import TokenBottomSheetByAddress, {
-  TokenPickerOrigin,
-} from 'src/components/TokenBottomSheetByAddress'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
@@ -238,7 +236,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     setSelectingToken(null)
   }
 
-  const handleSelectToken = (tokenAddress: string) => {
+  const handleSelectToken = ({ address: tokenAddress }: TokenBalanceWithAddress) => {
     const selectedToken = swappableTokens.find((token) => token.address === tokenAddress)
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
@@ -421,7 +419,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         />
         <KeyboardSpacer topSpacing={Spacing.Regular16} />
       </KeyboardAwareScrollView>
-      <TokenBottomSheetByAddress
+      <TokenBottomSheet
         isVisible={!!selectingToken}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}

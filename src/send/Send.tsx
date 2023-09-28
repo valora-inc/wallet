@@ -14,7 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import TokenBottomSheet from 'src/components/TokenBottomSheet'
-import { TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
@@ -38,6 +38,7 @@ import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
+import { TokenBalance } from 'src/tokens/slice'
 
 const SEARCH_THROTTLE_TIME = 100
 
@@ -162,7 +163,7 @@ function Send({ route }: Props) {
     [isOutgoingPaymentRequest, searchQuery]
   )
 
-  const onTokenSelected = (tokenId: string) => {
+  const onTokenSelected = ({ tokenId }: TokenBalance) => {
     setShowCurrencyPicker(false)
     if (!recipient) {
       return
