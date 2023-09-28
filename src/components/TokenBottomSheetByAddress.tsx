@@ -1,53 +1,66 @@
 import { debounce } from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
+import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import SearchInput from 'src/components/SearchInput'
-import { DEBOUCE_WAIT_TIME, TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import Times from 'src/icons/Times'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
+
+export enum TokenPickerOrigin {
+  Send = 'Send',
+  SendConfirmation = 'SendConfirmation',
+  Exchange = 'Exchange',
+  Swap = 'Swap',
+}
+
+export const DEBOUCE_WAIT_TIME = 200
 
 interface Props {
   isVisible: boolean
   origin: TokenPickerOrigin
-  onTokenSelected: (tokenId: string) => void
+  onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
-  tokens: TokenBalance[]
+  tokens: TokenBalanceWithAddress[]
   searchEnabled?: boolean
   title: string
 }
 
-function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
+function TokenOption({
+  tokenInfo,
+  onPress,
+}: {
+  tokenInfo: TokenBalanceWithAddress
+  onPress: () => void
+}) {
   return (
     <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
       <View style={styles.tokenOptionContainer}>
-        <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
+        <Image source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
         <View style={styles.tokenNameContainer}>
           <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
           <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
         </View>
         <View style={styles.tokenBalanceContainer}>
-          <TokenDisplay
+          <NonNativeTokenDisplay
             style={styles.localBalance}
             amount={tokenInfo.balance}
-            tokenId={tokenInfo.tokenId}
+            tokenAddress={tokenInfo.address}
             showLocalAmount={true}
             testID={`Local${tokenInfo.symbol}Balance`}
           />
-          <TokenDisplay
+          <NonNativeTokenDisplay
             style={styles.currencyBalance}
             amount={tokenInfo.balance}
-            tokenId={tokenInfo.tokenId}
+            tokenAddress={tokenInfo.address}
             showLocalAmount={false}
             testID={`${tokenInfo.symbol}Balance`}
           />
@@ -58,7 +71,7 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
 }
 
 function NoResults({
-  testID = 'TokenBottomSheet/NoResult',
+  testID = 'TokenBottomSheetByAddress/NoResult',
   searchTerm,
 }: {
   testID?: string
@@ -79,7 +92,10 @@ function NoResults({
 }
 
 // TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
-function TokenBottomSheet({
+/**
+ * @deprecated use TokenBottomSheet.tsx instead
+ */
+function TokenBottomSheetByAddress({
   isVisible,
   origin,
   onTokenSelected,
@@ -101,12 +117,12 @@ function TokenBottomSheet({
     onClose()
   }
 
-  const onTokenPressed = (tokenId: string) => () => {
+  const onTokenPressed = (tokenAddress: string) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      tokenId,
+      tokenAddress,
     })
-    onTokenSelected(tokenId)
+    onTokenSelected(tokenAddress)
     resetSearchState()
   }
 
@@ -175,7 +191,7 @@ function TokenBottomSheet({
             return (
               <React.Fragment key={`token-${tokenInfo.address}`}>
                 {index > 0 && <View style={styles.separator} />}
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.tokenId)} />
+                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
               </React.Fragment>
             )
           })
@@ -185,7 +201,7 @@ function TokenBottomSheet({
   )
 }
 
-TokenBottomSheet.navigationOptions = {}
+TokenBottomSheetByAddress.navigationOptions = {}
 
 const styles = StyleSheet.create({
   title: {
@@ -252,4 +268,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TokenBottomSheet
+export default TokenBottomSheetByAddress

@@ -4,9 +4,11 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenBottomSheet from 'src/components/TokenBottomSheet'
-import { DEBOUCE_WAIT_TIME, TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
-import { TokenBalance } from 'src/tokens/slice'
+import TokenBottomSheetByAddress, {
+  DEBOUCE_WAIT_TIME,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheetByAddress'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getElementText } from 'test/utils'
 import {
@@ -21,7 +23,7 @@ import {
 jest.mock('src/components/useShowOrHideAnimation')
 jest.mock('src/analytics/ValoraAnalytics')
 
-const tokens: TokenBalance[] = [
+const tokens: TokenBalanceWithAddress[] = [
   {
     balance: new BigNumber('10'),
     priceUsd: new BigNumber('1'),
@@ -114,7 +116,7 @@ describe('TokenBottomSheet', () => {
   function renderPicker(visible: boolean, searchEnabled: boolean = false) {
     return render(
       <Provider store={mockStore}>
-        <TokenBottomSheet
+        <TokenBottomSheetByAddress
           title="testTitle"
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
@@ -143,13 +145,13 @@ describe('TokenBottomSheet', () => {
     const { getByTestId } = renderPicker(true)
 
     fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCusdTokenId)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCusdAddress)
 
     fireEvent.press(getByTestId('cEURTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCeurTokenId)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCeurAddress)
 
     fireEvent.press(getByTestId('TTTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockTestTokenTokenId)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockTestTokenAddress)
   })
 
   it('handles taps on the background correctly', () => {
