@@ -42,7 +42,20 @@ export function useTokenInfoByCurrency(currency: Currency) {
   return tokens[currency]
 }
 
-export function useLocalToTokenAmount(
+export function useLocalToTokenAmount(localAmount: BigNumber, tokenId: string): BigNumber | null {
+  const tokenInfo = useTokenInfo(tokenId)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+  return convertLocalToTokenAmount({
+    localAmount,
+    tokenInfo,
+    usdToLocalRate,
+  })
+}
+
+/**
+ * @deprecated use useLocalToTokenAmount
+ */
+export function useLocalToTokenAmountByAddress(
   localAmount: BigNumber,
   tokenAddress?: string
 ): BigNumber | null {
@@ -55,7 +68,20 @@ export function useLocalToTokenAmount(
   })
 }
 
-export function useTokenToLocalAmount(
+export function useTokenToLocalAmount(tokenAmount: BigNumber, tokenId: string): BigNumber | null {
+  const tokenInfo = useTokenInfo(tokenId)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+  return convertTokenToLocalAmount({
+    tokenAmount,
+    tokenInfo,
+    usdToLocalRate,
+  })
+}
+
+/**
+ * @deprecated use useLocalToTokenAmount
+ */
+export function useTokenToLocalAmountByAddress(
   tokenAmount: BigNumber,
   tokenAddress?: string
 ): BigNumber | null {
@@ -68,7 +94,18 @@ export function useTokenToLocalAmount(
   })
 }
 
-export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
+export function useAmountAsUsd(amount: BigNumber, tokenId: string) {
+  const tokenInfo = useTokenInfo(tokenId)
+  if (!tokenInfo?.priceUsd) {
+    return null
+  }
+  return amount.multipliedBy(tokenInfo.priceUsd)
+}
+
+/**
+ * @deprecated use useAmountAsUsdByAddress
+ */
+export function useAmountAsUsdByAddress(amount: BigNumber, tokenAddress: string) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   if (!tokenInfo?.priceUsd) {
     return null
