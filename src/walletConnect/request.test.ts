@@ -5,7 +5,28 @@ import { handleRequest } from 'src/walletConnect/request'
 import { getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockWallet } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockWallet,
+} from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const signTransactionRequest = {
   method: SupportedActions.eth_signTransaction,
@@ -28,27 +49,33 @@ const state = createMockStore({
   web3: { account: '0xWALLET', mtwAddress: undefined },
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         balance: '00',
         priceUsd: '1',
         symbol: 'cUSD',
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         balance: '0',
         priceUsd: '1.2',
         symbol: 'cEUR',
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCeloAddress]: {
+      [mockCeloTokenId]: {
         balance: '5',
         priceUsd: '3.5',
         symbol: 'CELO',
         address: mockCeloAddress,
+        tokenId: mockCeloTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
@@ -145,27 +172,33 @@ describe(handleRequest, () => {
           web3: { account: '0xWALLET', mtwAddress: undefined },
           tokens: {
             tokenBalances: {
-              [mockCusdAddress]: {
+              [mockCusdTokenId]: {
                 balance: '10',
                 priceUsd: '1',
                 symbol: 'cUSD',
                 address: mockCusdAddress,
+                tokenId: mockCusdTokenId,
+                networkId: NetworkId['celo-alfajores'],
                 isCoreToken: true,
                 priceFetchedAt: Date.now(),
               },
-              [mockCeurAddress]: {
+              [mockCeurTokenId]: {
                 balance: '0',
                 priceUsd: '1.2',
                 symbol: 'cEUR',
                 address: mockCeurAddress,
+                tokenId: mockCeurTokenId,
+                networkId: NetworkId['celo-alfajores'],
                 isCoreToken: true,
                 priceFetchedAt: Date.now(),
               },
-              [mockCeloAddress]: {
+              [mockCeloTokenId]: {
                 balance: '0',
                 priceUsd: '3.5',
                 symbol: 'CELO',
                 address: mockCeloAddress,
+                tokenId: mockCeloTokenId,
+                networkId: NetworkId['celo-alfajores'],
                 isCoreToken: true,
                 priceFetchedAt: Date.now(),
               },
@@ -247,27 +280,33 @@ describe(handleRequest, () => {
           web3: { account: '0xWALLET', mtwAddress: undefined },
           tokens: {
             tokenBalances: {
-              [mockCusdAddress]: {
+              [mockCusdTokenId]: {
                 balance: '0',
                 priceUsd: '1',
                 symbol: 'cUSD',
                 address: mockCusdAddress,
+                tokenId: mockCusdTokenId,
+                networkId: NetworkId['celo-alfajores'],
                 isCoreToken: true,
                 priceFetchedAt: Date.now(),
               },
-              [mockCeurAddress]: {
+              [mockCeurTokenId]: {
                 balance: '10',
                 priceUsd: '1.2',
                 symbol: 'cEUR',
                 address: mockCeurAddress,
+                tokenId: mockCeurTokenId,
+                networkId: NetworkId['celo-alfajores'],
                 isCoreToken: true,
                 priceFetchedAt: Date.now(),
               },
-              [mockCeloAddress]: {
+              [mockCeloTokenId]: {
                 balance: '0',
                 priceUsd: '3.5',
                 symbol: 'CELO',
                 address: mockCeloAddress,
+                tokenId: mockCeloTokenId,
+                networkId: NetworkId['celo-alfajores'],
                 isCoreToken: true,
                 priceFetchedAt: Date.now(),
               },

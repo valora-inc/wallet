@@ -14,11 +14,13 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
   mockCusdAddress,
+  mockCusdTokenId,
   mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
   mockProviders,
   mockProviderSelectionAnalyticsData,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -26,8 +28,10 @@ const mockStore = createMockStore({
   },
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
         priceUsd: '1',
         balance: '10',
@@ -36,6 +40,18 @@ const mockStore = createMockStore({
       },
     },
   },
+})
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
 })
 
 jest.mock('src/statsig', () => ({
