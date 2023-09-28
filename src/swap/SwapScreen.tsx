@@ -14,7 +14,9 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheetByAddress, {
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheetByAddress'
 import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
@@ -419,7 +421,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         />
         <KeyboardSpacer topSpacing={Spacing.Regular16} />
       </KeyboardAwareScrollView>
-      <TokenBottomSheet
+      <TokenBottomSheetByAddress
         isVisible={!!selectingToken}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
