@@ -64,7 +64,7 @@ function useTransactionCallbacks({
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
-      tokenAddress: tokenInfo!.address,
+      tokenAddress: tokenInfo!.address!,
     }),
     [recipient, tokenAmount, transferTokenId]
   )
@@ -78,7 +78,7 @@ function useTransactionCallbacks({
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
       localCurrencyAmount: localAmount?.toString() ?? null,
-      underlyingTokenAddress: tokenInfo!.address,
+      underlyingTokenAddress: tokenInfo!.address!,
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: usdAmount?.toString() ?? null,

@@ -82,9 +82,9 @@ function FiatExchangeAmount({ route }: Props) {
   const { address } = useTokenInfoWithAddressBySymbol(currency) || {}
 
   const inputConvertedToCrypto =
-    useLocalToTokenAmount(parsedInputAmount, address) || new BigNumber(0)
+    useLocalToTokenAmount(parsedInputAmount, address!) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
-    useTokenToLocalAmount(parsedInputAmount, address) || new BigNumber(0)
+    useTokenToLocalAmount(parsedInputAmount, address!) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
