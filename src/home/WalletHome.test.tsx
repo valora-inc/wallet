@@ -11,13 +11,36 @@ import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { RecursivePartial, createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockProviders } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockProviders,
+} from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const mockBalances = {
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
         decimals: 18,
         balance: '1',
@@ -25,8 +48,10 @@ const mockBalances = {
         priceUsd: '1',
         priceFetchedAt: Date.now(),
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
         decimals: 18,
         balance: '0',
@@ -41,22 +66,28 @@ const mockBalances = {
 const zeroBalances = {
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
         decimals: 18,
         balance: '0',
         isCoreToken: true,
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
         decimals: 18,
         balance: '0',
         isCoreToken: true,
       },
-      [mockCeloAddress]: {
+      [mockCeloTokenId]: {
         address: mockCeloAddress,
+        tokenId: mockCeloTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'CELO',
         decimals: 18,
         balance: '0',

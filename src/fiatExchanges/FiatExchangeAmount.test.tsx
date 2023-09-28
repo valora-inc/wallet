@@ -14,8 +14,17 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockMaxSendAmount,
+} from 'test/values'
 import { CICOFlow } from './utils'
+import { NetworkId } from 'src/transactions/types'
 
 const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
@@ -24,6 +33,21 @@ jest.mock('src/fees/hooks', () => ({
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
 }))
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const usdToUsdRate = '1'
 const usdToEurRate = '0.862'
@@ -31,24 +55,30 @@ const usdToPhpRate = '50'
 
 const mockTokens = {
   tokenBalances: {
-    [mockCusdAddress]: {
+    [mockCusdTokenId]: {
       address: mockCusdAddress,
+      tokenId: mockCusdTokenId,
+      networkId: NetworkId['celo-alfajores'],
       symbol: 'cUSD',
       balance: '200',
       priceUsd: '1',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
-    [mockCeurAddress]: {
+    [mockCeurTokenId]: {
       address: mockCeurAddress,
+      tokenId: mockCeurTokenId,
+      networkId: NetworkId['celo-alfajores'],
       symbol: 'cEUR',
       balance: '100',
       priceUsd: '1.2',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
-    [mockCeloAddress]: {
+    [mockCeloTokenId]: {
       address: mockCeloAddress,
+      tokenId: mockCeloTokenId,
+      networkId: NetworkId['celo-alfajores'],
       symbol: 'CELO',
       balance: '200',
       priceUsd: '5',

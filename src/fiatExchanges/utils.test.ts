@@ -14,7 +14,7 @@ class MockNormalizedQuote extends NormalizedQuote {
   getFeeInCrypto = jest.fn()
   getFeeInFiat = jest.fn()
   getKycInfo = jest.fn()
-  getReqsSubtitle = jest.fn()
+  getMobileCarrier = jest.fn()
   getPaymentMethod = jest.fn()
   getProviderId = jest.fn()
   getProviderLogo = jest.fn()

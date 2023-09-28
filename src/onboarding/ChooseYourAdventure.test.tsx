@@ -83,7 +83,7 @@ describe('ChooseYourAdventure', () => {
     })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 1,
-      name: AdventureCardName.Dapp,
+      cardName: AdventureCardName.Dapp,
       cardOrder: expectedCardOrder,
     })
     fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.add'))
@@ -94,7 +94,7 @@ describe('ChooseYourAdventure', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 2,
-      name: AdventureCardName.Add,
+      cardName: AdventureCardName.Add,
       cardOrder: expectedCardOrder,
     })
 
@@ -104,7 +104,7 @@ describe('ChooseYourAdventure', () => {
     })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 3,
-      name: AdventureCardName.Learn,
+      cardName: AdventureCardName.Learn,
       cardOrder: expectedCardOrder,
     })
 
@@ -113,7 +113,7 @@ describe('ChooseYourAdventure', () => {
     expect(navigate).toHaveBeenLastCalledWith(Screens.Profile)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 4,
-      name: AdventureCardName.Profile,
+      cardName: AdventureCardName.Profile,
       cardOrder: expectedCardOrder,
     })
 

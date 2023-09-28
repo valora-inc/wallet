@@ -14,6 +14,18 @@ import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const mockDate = 1588200517518
 
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
+
 jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
 }))
@@ -91,6 +103,14 @@ const state: any = {
       ['celo-alfajores:0x6']: {
         tokenId: 'celo-alfajores:0x6',
         networkId: NetworkId['celo-alfajores'],
+        balance: '50',
+        priceUsd: '500',
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+      },
+      ['ethereum-sepolia:0x7']: {
+        tokenId: 'ethereum-sepolia:0x7',
+        networkId: NetworkId['ethereum-sepolia'],
+        address: '0x7',
         balance: '50',
         priceUsd: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
