@@ -4,8 +4,10 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenBottomSheet from 'src/components/TokenBottomSheet'
-import { DEBOUCE_WAIT_TIME, TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  DEBOUCE_WAIT_TIME,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getElementText } from 'test/utils'
@@ -143,13 +145,19 @@ describe('TokenBottomSheet', () => {
     const { getByTestId } = renderPicker(true)
 
     fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCusdTokenId)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockCusdTokenId)
+    )
 
     fireEvent.press(getByTestId('cEURTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCeurTokenId)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockCeurTokenId)
+    )
 
     fireEvent.press(getByTestId('TTTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockTestTokenTokenId)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockTestTokenTokenId)
+    )
   })
 
   it('handles taps on the background correctly', () => {
