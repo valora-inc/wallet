@@ -12,67 +12,53 @@ interface Props {
   testID?: string
   comparedValue: BigNumber.Value
   currentValue: BigNumber.Value
-  textStyle?: TextStyle
+  percentageTextStyle?: TextStyle
+  suffixText?: string
+  suffixTextStyle?: TextStyle
   DownIcon?: IconComponentType
   UpIcon?: IconComponentType
-}
-
-function usePercentageInfo(
-  comparedValue: BigNumber,
-  currentValue: BigNumber,
-  DownIcon: IconComponentType,
-  UpIcon: IconComponentType,
-  testID: string
-): {
-  indicator?: React.ReactElement
-  style: TextStyle
-  percentageString: string
-} {
-  const percentage = currentValue.dividedBy(comparedValue).multipliedBy(100).minus(100)
-  const comparison = percentage.comparedTo(0)
-  const percentageString = `${percentage.abs().toFixed(2)}%`
-  switch (comparison) {
-    case -1:
-      return {
-        indicator: <DownIcon color={Colors.warning} testID={`${testID}:DownIndicator`} />,
-        style: styles.decreasedText,
-        percentageString,
-      }
-    case 1:
-      return {
-        indicator: <UpIcon color={Colors.greenUI} testID={`${testID}:UpIndicator`} />,
-        style: styles.increasedText,
-        percentageString,
-      }
-    case 0:
-    default:
-      return {
-        style: styles.noChangeText,
-        percentageString,
-      }
-  }
+  NoChangeIcon?: IconComponentType
 }
 
 function PercentageIndicator({
   comparedValue,
   currentValue,
   testID = 'PercentageIndicator',
+  percentageTextStyle = fontStyles.small,
+  suffixText,
+  suffixTextStyle = fontStyles.small,
   DownIcon = DownIndicator,
   UpIcon = UpIndicator,
-  textStyle = fontStyles.small,
+  NoChangeIcon,
 }: Props) {
-  const { indicator, style, percentageString } = usePercentageInfo(
-    new BigNumber(comparedValue),
-    new BigNumber(currentValue),
-    DownIcon,
-    UpIcon,
-    testID
-  )
+  const percentage = new BigNumber(currentValue)
+    .dividedBy(new BigNumber(comparedValue))
+    .multipliedBy(100)
+    .minus(100)
+  const comparison = percentage.comparedTo(0)
+  const percentageString = `${percentage.abs().toFixed(2)}%`
+
+  let indicator: React.ReactElement | undefined
+  let color: Colors
+
+  if (comparison > 0) {
+    color = Colors.greenUI
+    indicator = <UpIcon color={color} testID={`${testID}:UpIndicator`} />
+  } else if (comparison < 0) {
+    color = Colors.warning
+    indicator = <DownIcon color={color} testID={`${testID}:DownIndicator`} />
+  } else {
+    color = Colors.gray3
+    indicator = NoChangeIcon && (
+      <NoChangeIcon color={color} testID={`${testID}:NoChangeIndicator`} />
+    )
+  }
 
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.indicator}>{indicator}</View>
-      <Text style={[textStyle, style]}>{percentageString}</Text>
+      <Text style={[percentageTextStyle, { color }]}>{percentageString}</Text>
+      {suffixText && <Text style={[suffixTextStyle, { color }]}>{suffixText}</Text>}
     </View>
   )
 }
@@ -80,19 +66,10 @@ function PercentageIndicator({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    gap: 4,
   },
   indicator: {
     justifyContent: 'center',
-    marginRight: 4,
-  },
-  increasedText: {
-    color: Colors.greenUI,
-  },
-  decreasedText: {
-    color: Colors.warning,
-  },
-  noChangeText: {
-    color: Colors.gray4,
   },
 })
 
