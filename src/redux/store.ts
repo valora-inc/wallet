@@ -126,7 +126,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'positions',
           'home',
           // "exchange",
-          // "tokens",
+          'tokens',
           'transactions',
           'web3',
           'identity',

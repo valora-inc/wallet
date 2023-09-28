@@ -11,8 +11,8 @@ import { RootState } from 'src/redux/reducers'
 import { TokenBalance, TokenBalanceWithAddress, TokenBalancesWithAddress } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
-import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 import networkConfig from 'src/web3/networkConfig'
+import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
 type TokenBalanceWithPriceUsd = TokenBalanceWithAddress & {
   priceUsd: BigNumber

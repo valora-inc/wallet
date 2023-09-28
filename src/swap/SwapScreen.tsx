@@ -1,16 +1,17 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { Edge, SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -19,8 +20,6 @@ import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
@@ -44,13 +43,10 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
-function SwapScreen() {
-  return <SwapScreenSection showDrawerTopNav={true} />
-}
-
-export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: boolean }) {
+export function SwapScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -230,6 +226,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     // ensure that the keyboard is dismissed before animating token bottom sheet
     Keyboard.dismiss()
     setSelectingToken(fieldType)
+    tokenBottomSheetRef.current?.snapToIndex(0)
   }
 
   const handleCloseTokenSelect = () => {
@@ -258,6 +255,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     }
 
     setSelectingToken(null)
+    tokenBottomSheetRef.current?.close()
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
@@ -311,7 +309,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
   const exchangeRateUpdatePending =
     exchangeRate &&
     (exchangeRate.fromTokenAddress !== fromToken?.address ||
@@ -328,17 +325,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     !showMissingPriceImpactWarning
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
-      {showDrawerTopNav && (
-        <DrawerTopBar
-          testID={'SwapScreen/DrawerBar'}
-          middleElement={
-            <View style={styles.headerContainer}>
-              <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-            </View>
-          }
-        />
-      )}
+    <SafeAreaView style={styles.safeAreaContainer} edges={['bottom']}>
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
@@ -420,7 +407,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         <KeyboardSpacer topSpacing={Spacing.Regular16} />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
-        isVisible={!!selectingToken}
+        forwardedRef={tokenBottomSheetRef}
+        snapPoints={['90%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}

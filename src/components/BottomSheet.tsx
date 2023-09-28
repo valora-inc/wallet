@@ -12,12 +12,22 @@ interface Props {
   title: string
   description?: string | null
   children?: React.ReactNode | React.ReactNode[]
+  onClose?: () => void
+  snapPoints?: (string | number)[]
   testId: string
 }
 
 export type BottomSheetRefType = GorhomBottomSheet
 
-const BottomSheet = ({ forwardedRef, title, description, children, testId }: Props) => {
+const BottomSheet = ({
+  forwardedRef,
+  title,
+  description,
+  children,
+  onClose,
+  snapPoints,
+  testId,
+}: Props) => {
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
       <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
@@ -29,10 +39,12 @@ const BottomSheet = ({ forwardedRef, title, description, children, testId }: Pro
     <GorhomBottomSheet
       ref={forwardedRef}
       index={-1}
-      enableDynamicSizing
+      enableDynamicSizing={!snapPoints}
+      snapPoints={snapPoints}
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={styles.handle}
+      onClose={onClose}
     >
       <BottomSheetScrollView testId={testId}>
         <Text style={styles.title}>{title}</Text>
