@@ -3,9 +3,13 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { useAmountAsUsd, useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { createMockStore } from 'test/utils'
+import {
+  useAmountAsUsdByAddress,
+  useLocalToTokenAmountByAddress,
+  useTokenToLocalAmountByAddress,
+} from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
+import { createMockStore } from 'test/utils'
 
 const tokenAddressWithPriceAndBalance = '0x001'
 const tokenIdWithPriceAndBalance = `celo-alfajores:${tokenAddressWithPriceAndBalance}`
@@ -13,9 +17,9 @@ const tokenAddressWithoutBalance = '0x002'
 const tokenIdWithoutBalance = `celo-alfajores:${tokenAddressWithoutBalance}`
 
 function TestComponent({ tokenAddress }: { tokenAddress: string }) {
-  const tokenAmount = useLocalToTokenAmount(new BigNumber(1), tokenAddress)
-  const localAmount = useTokenToLocalAmount(new BigNumber(1), tokenAddress)
-  const usdAmount = useAmountAsUsd(new BigNumber(1), tokenAddress)
+  const tokenAmount = useLocalToTokenAmountByAddress(new BigNumber(1), tokenAddress)
+  const localAmount = useTokenToLocalAmountByAddress(new BigNumber(1), tokenAddress)
+  const usdAmount = useAmountAsUsdByAddress(new BigNumber(1), tokenAddress)
 
   return (
     <View>
