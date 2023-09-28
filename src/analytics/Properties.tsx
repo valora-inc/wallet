@@ -52,7 +52,7 @@ import {
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheetByAddress'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
@@ -637,17 +637,18 @@ interface SendEventsProperties {
     error: string
   }
   [SendEvents.token_dropdown_opened]: {
-    currentTokenAddress: string
+    currentTokenId: string
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    tokenAddress: string
+    tokenAddress?: string
+    tokenId?: string
   }
   [SendEvents.max_pressed]: {
-    tokenAddress: string
+    tokenId: string
   }
   [SendEvents.swap_input_pressed]: {
-    tokenAddress: string
+    tokenId: string
     swapToLocalAmount: boolean
   }
   [SendEvents.check_account_alert_shown]: undefined
