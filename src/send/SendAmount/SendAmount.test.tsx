@@ -224,13 +224,14 @@ describe('SendAmount', () => {
         },
         tokens: {
           tokenBalances: {
-            [mockCusdAddress]: {
+            [mockCusdTokenId]: {
               address: mockCusdAddress,
               symbol: 'cUSD',
               priceUsd: '1',
               balance: '22.85789012',
               isCoreToken: true,
               priceFetchedAt: Date.now(),
+              tokenId: mockCusdTokenId,
             },
           },
         },
@@ -273,19 +274,21 @@ describe('SendAmount', () => {
         ...storeData,
         tokens: {
           tokenBalances: {
-            [mockCusdAddress]: {
+            [mockCusdTokenId]: {
               address: mockCusdAddress,
               symbol: 'cUSD',
               priceUsd: '1',
               balance: '0',
               priceFetchedAt: Date.now(),
+              tokenId: mockCusdTokenId,
             },
-            [mockCeurAddress]: {
+            [mockCeurTokenId]: {
               address: mockCeurAddress,
               symbol: 'cEUR',
               priceUsd: '1.2',
               balance: '10.12',
               priceFetchedAt: Date.now(),
+              tokenId: mockCeurTokenId,
             },
           },
         },
@@ -317,7 +320,7 @@ describe('SendAmount', () => {
           <SendAmount
             {...mockScreenProps({
               isOutgoingPaymentRequest: false,
-              defaultTokenOverride: mockTestTokenAddress,
+              defaultTokenOverride: mockTestTokenTokenId,
               forceTokenAddress: true,
             })}
           />
@@ -435,7 +438,7 @@ describe('SendAmount', () => {
           <SendAmount
             {...mockScreenProps({
               forceTokenAddress: true,
-              defaultTokenOverride: mockCeurAddress,
+              defaultTokenOverride: mockCeurTokenId,
             })}
           />
         </Provider>
