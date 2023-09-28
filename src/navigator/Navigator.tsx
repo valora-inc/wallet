@@ -1,15 +1,11 @@
+import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  useBottomSheetDynamicSnapPoints,
-} from '@gorhom/bottom-sheet'
-import {
-  createNativeStackNavigator,
   NativeStackNavigationOptions,
+  createNativeStackNavigator,
 } from '@react-navigation/native-stack'
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
-import { LayoutChangeEvent, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
@@ -30,22 +26,13 @@ import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
-import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
+import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
-import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
-import KycDenied from 'src/fiatconnect/kyc/KycDenied'
-import KycExpired from 'src/fiatconnect/kyc/KycExpired'
-import KycPending from 'src/fiatconnect/kyc/KycPending'
-import KycLanding from 'src/fiatconnect/KycLanding'
-import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
-import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
-import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -61,14 +48,23 @@ import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import WithdrawSpend from 'src/fiatExchanges/WithdrawSpend'
+import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import KycLanding from 'src/fiatconnect/KycLanding'
+import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
+import FiatConnectRefetchQuoteScreen from 'src/fiatconnect/RefetchQuoteScreen'
+import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import KycExpired from 'src/fiatconnect/kyc/KycExpired'
+import KycPending from 'src/fiatconnect/kyc/KycPending'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
-import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import Language from 'src/language/Language'
@@ -83,9 +79,9 @@ import {
   noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
-import { getInitialRoute } from 'src/navigator/initialRoute'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
@@ -686,26 +682,16 @@ const mainScreenNavOptions = () => ({
   headerShown: false,
 })
 
-function nativeBottomSheets(
-  BottomSheet: typeof RootStack,
-  handleContentLayout: (event: LayoutChangeEvent) => void
-) {
+function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
     <>
-      <BottomSheet.Screen name={Screens.WalletConnectRequest}>
-        {(props) => <WalletConnectRequest handleContentLayout={handleContentLayout} {...props} />}
-      </BottomSheet.Screen>
-      <BottomSheet.Screen name={Screens.DappKitAccountScreen}>
-        {(props) => <DappKitAccountScreen handleContentLayout={handleContentLayout} {...props} />}
-      </BottomSheet.Screen>
-      <BottomSheet.Screen name={Screens.DappKitSignTxScreen}>
-        {(props) => <DappKitSignTxScreen handleContentLayout={handleContentLayout} {...props} />}
-      </BottomSheet.Screen>
-      <BottomSheet.Screen name={Screens.DappShortcutTransactionRequest}>
-        {(props) => (
-          <DappShortcutTransactionRequest handleContentLayout={handleContentLayout} {...props} />
-        )}
-      </BottomSheet.Screen>
+      <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
+      <BottomSheet.Screen name={Screens.DappKitAccountScreen} component={DappKitAccountScreen} />
+      <BottomSheet.Screen name={Screens.DappKitSignTxScreen} component={DappKitSignTxScreen} />
+      <BottomSheet.Screen
+        name={Screens.DappShortcutTransactionRequest}
+        component={DappShortcutTransactionRequest}
+      />
     </>
   )
 }
@@ -731,10 +717,6 @@ function ModalStackScreen() {
 }
 
 function RootStackScreen() {
-  const initialBottomSheetSnapPoints = React.useMemo(() => ['CONTENT_HEIGHT'], [])
-  const { animatedHandleHeight, animatedSnapPoints, animatedContentHeight, handleContentLayout } =
-    useBottomSheetDynamicSnapPoints(initialBottomSheetSnapPoints)
-
   const renderBackdrop = React.useCallback(
     (props: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop opacity={0.25} appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
@@ -750,13 +732,11 @@ function RootStackScreen() {
     <RootStack.Navigator
       screenOptions={{
         backdropComponent: renderBackdrop,
-        handleHeight: animatedHandleHeight,
-        snapPoints: animatedSnapPoints,
-        contentHeight: animatedContentHeight,
+        enableDynamicSizing: true,
       }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
-      {nativeBottomSheets(RootStack, handleContentLayout)}
+      {nativeBottomSheets(RootStack)}
     </RootStack.Navigator>
   )
 }

@@ -4,7 +4,6 @@ import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import BigNumber from 'bignumber.js'
-import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
@@ -35,10 +34,6 @@ interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
   isFromScan: boolean
-}
-
-export interface BottomSheetParams {
-  handleContentLayout(event: LayoutChangeEvent): void
 }
 
 export type StackParamList = {

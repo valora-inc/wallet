@@ -15,7 +15,7 @@ import { DappConnectInfo } from 'src/dapps/types'
 import CopyIcon from 'src/icons/CopyIcon'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { BottomSheetParams, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
@@ -28,9 +28,9 @@ import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen> & BottomSheetParams
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
-const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
+const DappKitSignTxScreen = ({ route }: Props) => {
   const { dappKitRequest } = route.params
   const { dappName, txs, callback } = dappKitRequest
 
@@ -74,7 +74,7 @@ const DappKitSignTxScreen = ({ route, handleContentLayout }: Props) => {
   }
 
   return (
-    <BottomSheetScrollView handleContentLayout={handleContentLayout}>
+    <BottomSheetScrollView>
       <RequestContent
         type="confirm"
         onAccept={handleAllow}
