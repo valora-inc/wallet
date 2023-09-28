@@ -117,7 +117,7 @@ function SendAmount(props: Props) {
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType = FeeType.SEND
   const shouldFetchNewFee = !isOutgoingPaymentRequest
-  const maxBalance = useMaxSendAmount(transferTokenId, feeType, shouldFetchNewFee)
+  const maxBalance = useMaxSendAmount(tokenInfo.address!, feeType, shouldFetchNewFee)
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenId)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
   const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()
