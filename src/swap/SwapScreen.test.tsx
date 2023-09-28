@@ -18,11 +18,17 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockPoofAddress,
+  mockPoofTokenId,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 const mockFetch = fetch as FetchMock
 const mockExperimentParams = jest.fn()
@@ -33,6 +39,18 @@ const mockGetNumberFormatSettings = jest.fn()
 jest.mock('react-native-localize', () => ({
   getNumberFormatSettings: () => mockGetNumberFormatSettings(),
 }))
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 jest.mock('src/statsig', () => {
   return {
@@ -47,8 +65,10 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
   const store = createMockStore({
     tokens: {
       tokenBalances: {
-        [mockCeurAddress]: {
+        [mockCeurTokenId]: {
           address: mockCeurAddress,
+          tokenId: mockCeurTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'cEUR',
           priceFetchedAt: now,
           historicalPricesUsd: {
@@ -66,11 +86,13 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           name: 'Celo Euro',
           balance: '0',
         },
-        [mockCusdAddress]: {
+        [mockCusdTokenId]: {
           priceUsd: '1',
           isCoreToken: true,
           isSwappable: true,
           address: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+          networkId: NetworkId['celo-alfajores'],
           priceFetchedAt: now,
           symbol: 'cUSD',
           imageUrl:
@@ -85,8 +107,10 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           },
           name: 'Celo Dollar',
         },
-        [mockCeloAddress]: {
+        [mockCeloTokenId]: {
           address: mockCeloAddress,
+          tokenId: mockCeloTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'CELO',
           priceFetchedAt: now,
           historicalPricesUsd: {
@@ -104,9 +128,11 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           name: 'Celo native asset',
           balance: celoBalance,
         },
-        [mockTestTokenAddress]: {
+        [mockTestTokenTokenId]: {
           // no priceUsd
           address: mockTestTokenAddress,
+          tokenId: mockTestTokenTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'TT',
           decimals: 18,
           imageUrl:
@@ -116,9 +142,11 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           name: 'Test Token',
           balance: '100',
         },
-        [mockPoofAddress]: {
+        [mockPoofTokenId]: {
           // no priceUsd
           address: mockPoofAddress,
+          tokenId: mockPoofTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'POOF',
           decimals: 18,
           imageUrl: `https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/POOF.png`,
