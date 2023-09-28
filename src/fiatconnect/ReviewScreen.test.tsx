@@ -19,12 +19,27 @@ import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 jest.mock('src/localCurrency/selectors', () => {
   const originalModule = jest.requireActual('src/localCurrency/selectors')
 
@@ -107,24 +122,30 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
     },
     tokens: {
       tokenBalances: {
-        [mockCusdAddress]: {
+        [mockCusdTokenId]: {
           address: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'cUSD',
           balance: '200',
           priceUsd: '1',
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },
-        [mockCeurAddress]: {
+        [mockCeurTokenId]: {
           address: mockCeurAddress,
+          tokenId: mockCeurTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'cEUR',
           balance: '100',
           priceUsd: '1.2',
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },
-        [mockCeloAddress]: {
+        [mockCeloTokenId]: {
           address: mockCeloAddress,
+          tokenId: mockCeloTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'CELO',
           balance: '200',
           priceUsd: '5',

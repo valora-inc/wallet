@@ -194,8 +194,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
     })
   }
 
-  getReqsSubtitle(): string | null {
-    return this.getKycInfo()
+  getMobileCarrier(): string | undefined {
+    return undefined
   }
 
   getKycInfo(): string | null {
