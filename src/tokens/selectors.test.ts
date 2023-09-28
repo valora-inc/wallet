@@ -4,12 +4,12 @@ import {
   defaultTokenToSendSelector,
   swappableTokensSelector,
   tokensByAddressSelector,
+  tokensByIdSelector,
   tokensByUsdBalanceSelector,
+  tokensListSelector,
   tokensListWithAddressSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
-  tokensByIdSelector,
-  tokensListSelector,
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -271,7 +271,7 @@ describe('tokensWithUsdValueSelector', () => {
 describe(defaultTokenToSendSelector, () => {
   describe('when fetching the token with the highest balance', () => {
     it('returns the right token', () => {
-      expect(defaultTokenToSendSelector(state)).toEqual('0x1')
+      expect(defaultTokenToSendSelector(state)).toEqual('celo-alfajores:0x1')
     })
   })
 })

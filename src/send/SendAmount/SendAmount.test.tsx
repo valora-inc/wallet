@@ -18,9 +18,12 @@ import {
   mockAccount2Invite,
   mockAccountInvite,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164NumberInvite,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
@@ -33,24 +36,27 @@ const BALANCE_VALID = '23.85'
 const storeData = {
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
         symbol: 'cUSD',
         priceUsd: '1',
         balance: BALANCE_VALID,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
         symbol: 'cEUR',
         priceUsd: '1.2',
         balance: '10',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
         symbol: 'TT',
         balance: '50',
       },
