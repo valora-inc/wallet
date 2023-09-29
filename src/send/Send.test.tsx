@@ -10,7 +10,6 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
-  mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
   mockE164NumberInvite,
@@ -136,7 +135,7 @@ describe('Send', () => {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: false,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenOverride: mockCusdAddress,
+      defaultTokenOverride: mockCusdTokenId,
       isFromScan: false,
     })
   })
