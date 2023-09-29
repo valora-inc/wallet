@@ -28,9 +28,12 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import variables from 'src/styles/variables'
 import {
   useAmountAsUsd,
+  useAmountAsUsdByAddress,
   useLocalToTokenAmount,
+  useLocalToTokenAmountByAddress,
   useTokenInfo,
   useTokenToLocalAmount,
+  useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
 import { defaultTokenToSendSelector } from 'src/tokens/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
@@ -56,12 +59,22 @@ const { decimalSeparator } = getNumberFormatSettings()
 export function useInputAmounts(
   inputAmount: string,
   usingLocalAmount: boolean,
-  tokenId: string,
+  tokenId?: string,
+  tokenAddress?: string,
   inputTokenAmount?: BigNumber
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId)
-  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId)
+
+  if (!tokenId && !tokenAddress) {
+    throw new Error('Either tokenId or tokenAddress must be provided')
+  }
+
+  const localToToken = tokenId
+    ? useLocalToTokenAmount(parsedAmount, tokenId)
+    : useLocalToTokenAmountByAddress(parsedAmount, tokenAddress)
+  const tokenToLocal = tokenId
+    ? useTokenToLocalAmount(parsedAmount, tokenId)
+    : useTokenToLocalAmountByAddress(parsedAmount, tokenAddress)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
   // when using the local amount, the "inputAmount" value received here was
@@ -75,9 +88,15 @@ export function useInputAmounts(
   // then back to token amount, it could be 15.000000001.
   const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
   const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
+
   const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
 
-  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
+  const usdAmount = tokenId
+    ? useAmountAsUsd(tokenAmount, tokenId)
+    : // @ts-expect-error if tokenId is undefined, tokenAddress is defined
+      useAmountAsUsdByAddress(tokenAmount, tokenAddress)
+
+  console.log('Tom - useInputAmounts - localAmount, tokenAmount, usdAmount', localAmount, tokenAmount, usdAmount)
 
   return {
     localAmount,
@@ -126,6 +145,7 @@ function SendAmount(props: Props) {
     rawAmount,
     showInputInLocalAmount,
     transferTokenId,
+    undefined,
     isUsingMaxAmount ? maxBalance : undefined
   )
 

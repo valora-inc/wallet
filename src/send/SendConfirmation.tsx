@@ -110,6 +110,7 @@ function SendConfirmation(props: Props) {
   const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
+    undefined,
     tokenAddress,
     inputTokenAmount
   )

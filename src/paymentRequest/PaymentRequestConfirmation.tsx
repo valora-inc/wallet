@@ -49,6 +49,7 @@ function PaymentRequestConfirmation({ route }: Props) {
   const { tokenAmount, usdAmount } = useInputAmounts(
     transactionData.inputAmount.toString(),
     transactionData.amountIsInLocalCurrency,
+    undefined,
     transactionData.tokenAddress
   )
 
