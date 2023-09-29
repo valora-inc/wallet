@@ -138,12 +138,17 @@ function TokenBottomSheet({
     [searchTerm, tokens]
   )
 
+  const handleClose = () => {
+    setSearchTerm('')
+    onClose?.()
+  }
+
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
       snapPoints={snapPoints}
       title={title}
-      onClose={onClose}
+      onClose={handleClose}
       testId="TokenBottomSheet"
     >
       <View>
