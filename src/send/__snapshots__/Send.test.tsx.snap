@@ -894,26 +894,55 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 }
               >
-                <svg
-                  fill="none"
-                  height={25}
-                  style={{}}
-                  viewBox="0 0 25 25"
-                  width={25}
+                <View
+                  style={
+                    [
+                      {
+                        "shadowColor": "rgba(46, 51, 56, 0.15)",
+                        "shadowOffset": {
+                          "height": 0,
+                          "width": 0,
+                        },
+                        "shadowOpacity": 1,
+                        "shadowRadius": 2,
+                      },
+                      undefined,
+                    ]
+                  }
                 >
-                  <path
-                    d="M9.86842 22.3684C13.8653 22.3684 17.1053 19.1284 17.1053 15.1316C17.1053 11.1348 13.8653 7.89476 9.86842 7.89476C5.87158 7.89476 2.63158 11.1348 2.63158 15.1316C2.63158 19.1284 5.87158 22.3684 9.86842 22.3684ZM9.86842 25C4.41842 25 0 20.5816 0 15.1316C0 9.6816 4.41842 5.26318 9.86842 5.26318C15.3184 5.26318 19.7368 9.6816 19.7368 15.1316C19.7368 20.5816 15.3184 25 9.86842 25Z"
-                    style={{}}
-                  />
-                  <path
-                    d="M15.1316 17.1053C19.1284 17.1053 22.3684 13.8653 22.3684 9.86842C22.3684 5.87158 19.1284 2.63158 15.1316 2.63158C11.1348 2.63158 7.89476 5.87158 7.89476 9.86842C7.89476 13.8653 11.1348 17.1053 15.1316 17.1053ZM15.1316 19.7368C9.6816 19.7368 5.26318 15.3184 5.26318 9.86842C5.26318 4.41842 9.6816 0 15.1316 0C20.5816 0 25 4.41842 25 9.86842C25 15.3184 20.5816 19.7368 15.1316 19.7368Z"
-                    style={{}}
-                  />
-                  <path
-                    d="M15.4577 19.7369C16.1419 18.9077 16.6324 17.9361 16.8932 16.8932C17.9361 16.6324 18.9077 16.1421 19.7369 15.4579C19.699 16.6658 19.439 17.8563 18.9695 18.9698C17.8561 19.439 16.6656 19.6992 15.4577 19.7369ZM8.10687 8.10687C7.06397 8.36766 6.09239 8.85792 5.26318 9.54213C5.30108 8.33424 5.56108 7.14371 6.03055 6.03029C7.14397 5.56108 8.3345 5.30082 9.54239 5.26318C8.85818 6.09239 8.36766 7.06397 8.10687 8.10687Z"
-                    style={{}}
-                  />
-                </svg>
+                  <svg
+                    fill="none"
+                    height={32}
+                    viewBox="0 0 32 32"
+                    width={32}
+                  >
+                    <g>
+                      <path
+                        d="M18.39 26.77c1.072-8.36 5.002-13.12 10.943-17.434l-3.037-4.003c-3.886 2.98-8.13 7.205-10.095 13.032-1.608-4.76-4.958-8.94-10.363-13.032L2.667 9.425C9.41 14.228 12.807 19.61 13.744 26.77h4.646z"
+                        fill="#42D689"
+                      />
+                    </g>
+                    <defs>
+                      <linearGradient
+                        gradientUnits="userSpaceOnUse"
+                        id="prefix__paint0_linear"
+                        x1={34.337}
+                        x2={28.937}
+                        y1={10.054}
+                        y2={30.49}
+                      >
+                        <stop
+                          offset={0.118}
+                          stopColor="#35D07F"
+                        />
+                        <stop
+                          offset={0.802}
+                          stopColor="#FBCC5C"
+                        />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </View>
               </View>
             </View>
           </View>
@@ -1101,26 +1130,55 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     }
                   }
                 >
-                  <svg
-                    fill="none"
-                    height={25}
-                    style={{}}
-                    viewBox="0 0 25 25"
-                    width={25}
+                  <View
+                    style={
+                      [
+                        {
+                          "shadowColor": "rgba(46, 51, 56, 0.15)",
+                          "shadowOffset": {
+                            "height": 0,
+                            "width": 0,
+                          },
+                          "shadowOpacity": 1,
+                          "shadowRadius": 2,
+                        },
+                        undefined,
+                      ]
+                    }
                   >
-                    <path
-                      d="M9.86842 22.3684C13.8653 22.3684 17.1053 19.1284 17.1053 15.1316C17.1053 11.1348 13.8653 7.89476 9.86842 7.89476C5.87158 7.89476 2.63158 11.1348 2.63158 15.1316C2.63158 19.1284 5.87158 22.3684 9.86842 22.3684ZM9.86842 25C4.41842 25 0 20.5816 0 15.1316C0 9.6816 4.41842 5.26318 9.86842 5.26318C15.3184 5.26318 19.7368 9.6816 19.7368 15.1316C19.7368 20.5816 15.3184 25 9.86842 25Z"
-                      style={{}}
-                    />
-                    <path
-                      d="M15.1316 17.1053C19.1284 17.1053 22.3684 13.8653 22.3684 9.86842C22.3684 5.87158 19.1284 2.63158 15.1316 2.63158C11.1348 2.63158 7.89476 5.87158 7.89476 9.86842C7.89476 13.8653 11.1348 17.1053 15.1316 17.1053ZM15.1316 19.7368C9.6816 19.7368 5.26318 15.3184 5.26318 9.86842C5.26318 4.41842 9.6816 0 15.1316 0C20.5816 0 25 4.41842 25 9.86842C25 15.3184 20.5816 19.7368 15.1316 19.7368Z"
-                      style={{}}
-                    />
-                    <path
-                      d="M15.4577 19.7369C16.1419 18.9077 16.6324 17.9361 16.8932 16.8932C17.9361 16.6324 18.9077 16.1421 19.7369 15.4579C19.699 16.6658 19.439 17.8563 18.9695 18.9698C17.8561 19.439 16.6656 19.6992 15.4577 19.7369ZM8.10687 8.10687C7.06397 8.36766 6.09239 8.85792 5.26318 9.54213C5.30108 8.33424 5.56108 7.14371 6.03055 6.03029C7.14397 5.56108 8.3345 5.30082 9.54239 5.26318C8.85818 6.09239 8.36766 7.06397 8.10687 8.10687Z"
-                      style={{}}
-                    />
-                  </svg>
+                    <svg
+                      fill="none"
+                      height={32}
+                      viewBox="0 0 32 32"
+                      width={32}
+                    >
+                      <g>
+                        <path
+                          d="M18.39 26.77c1.072-8.36 5.002-13.12 10.943-17.434l-3.037-4.003c-3.886 2.98-8.13 7.205-10.095 13.032-1.608-4.76-4.958-8.94-10.363-13.032L2.667 9.425C9.41 14.228 12.807 19.61 13.744 26.77h4.646z"
+                          fill="#42D689"
+                        />
+                      </g>
+                      <defs>
+                        <linearGradient
+                          gradientUnits="userSpaceOnUse"
+                          id="prefix__paint0_linear"
+                          x1={34.337}
+                          x2={28.937}
+                          y1={10.054}
+                          y2={30.49}
+                        >
+                          <stop
+                            offset={0.118}
+                            stopColor="#35D07F"
+                          />
+                          <stop
+                            offset={0.802}
+                            stopColor="#FBCC5C"
+                          />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </View>
                 </View>
               </View>
             </View>
@@ -1298,6 +1356,488 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         ]
       }
     />
+  </View>
+  <View
+    accessibilityHint="Tap to close the Bottom Sheet"
+    accessibilityLabel="Bottom Sheet backdrop"
+    accessibilityRole="button"
+    accessible={true}
+    collapsable={false}
+    handlerTag={1}
+    handlerType="TapGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    pointerEvents="auto"
+    style={
+      [
+        {
+          "backgroundColor": "black",
+        },
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        undefined,
+      ]
+    }
+  />
+  <View
+    onLayout={[Function]}
+    pointerEvents="box-none"
+    style={
+      [
+        undefined,
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "bottom": 0,
+          "overflow": "hidden",
+          "top": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          undefined,
+          {
+            "flexDirection": "column-reverse",
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        accessibilityLabel="Bottom Sheet"
+        accessibilityRole="adjustable"
+        accessible={true}
+        pointerEvents="none"
+        style={
+          [
+            {
+              "backgroundColor": "white",
+              "borderRadius": 15,
+            },
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+          ]
+        }
+      />
+      <View
+        pointerEvents="box-none"
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          collapsable={false}
+          handlerTag={2}
+          handlerType="PanGestureHandler"
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          style={
+            [
+              {},
+              undefined,
+            ]
+          }
+        >
+          <RCTScrollView
+            onLayout={[Function]}
+            scrollEnabled={false}
+          >
+            <View>
+              <View
+                onLayout={[Function]}
+                style={
+                  [
+                    {
+                      "padding": 24,
+                    },
+                    {
+                      "paddingBottom": 24,
+                    },
+                    undefined,
+                  ]
+                }
+                testID="TokenBottomSheet"
+              >
+                <Text
+                  style={
+                    [
+                      {
+                        "color": "#2E3338",
+                        "fontFamily": "Jost-Medium",
+                        "fontSize": 22,
+                        "lineHeight": 28,
+                      },
+                      {
+                        "paddingBottom": 12,
+                      },
+                    ]
+                  }
+                >
+                  selectToken
+                </Text>
+                <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    {
+                      "attribute": "selectableItemBackground",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cUSDTouchable"
+                >
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "paddingVertical": 16,
+                      }
+                    }
+                  >
+                    <Image
+                      source={
+                        {
+                          "uri": "https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png",
+                        }
+                      }
+                      style={
+                        {
+                          "borderRadius": 20,
+                          "height": 40,
+                          "marginRight": 12,
+                          "width": 40,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-start",
+                          "flex": 3,
+                          "flexShrink": 1,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          {
+                            "color": "#2E3338",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          }
+                        }
+                      >
+                        cUSD
+                      </Text>
+                      <Text
+                        style={
+                          {
+                            "color": "#666666",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 14,
+                            "lineHeight": 18,
+                          }
+                        }
+                      >
+                        Celo Dollar
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 2,
+                          "flexShrink": 1,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          {
+                            "color": "#2E3338",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          }
+                        }
+                        testID="LocalcUSDBalance"
+                      >
+                        ₱
+                        13.31
+                      </Text>
+                      <Text
+                        style={
+                          {
+                            "color": "#666666",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 14,
+                            "lineHeight": 18,
+                          }
+                        }
+                        testID="cUSDBalance"
+                      >
+                        10.00
+                         cUSD
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={
+                    {
+                      "backgroundColor": "#E6E6E6",
+                      "height": 1,
+                      "width": "100%",
+                    }
+                  }
+                />
+                <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    {
+                      "attribute": "selectableItemBackground",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="CELOTouchable"
+                >
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "paddingVertical": 16,
+                      }
+                    }
+                  >
+                    <Image
+                      source={
+                        {
+                          "uri": "https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png",
+                        }
+                      }
+                      style={
+                        {
+                          "borderRadius": 20,
+                          "height": 40,
+                          "marginRight": 12,
+                          "width": 40,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-start",
+                          "flex": 3,
+                          "flexShrink": 1,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          {
+                            "color": "#2E3338",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          }
+                        }
+                      >
+                        CELO
+                      </Text>
+                      <Text
+                        style={
+                          {
+                            "color": "#666666",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 14,
+                            "lineHeight": 18,
+                          }
+                        }
+                      >
+                        Celo native asset
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 2,
+                          "flexShrink": 1,
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          {
+                            "color": "#2E3338",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          }
+                        }
+                        testID="LocalCELOBalance"
+                      >
+                        ₱
+                        352.47
+                      </Text>
+                      <Text
+                        style={
+                          {
+                            "color": "#666666",
+                            "flexShrink": 1,
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 14,
+                            "lineHeight": 18,
+                          }
+                        }
+                        testID="CELOBalance"
+                      >
+                        20.00
+                         CELO
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </RCTScrollView>
+        </View>
+      </View>
+      <View
+        accessibilityHint="Drag up or down to extend or minimize the Bottom Sheet"
+        accessibilityLabel="Bottom Sheet handle"
+        accessibilityRole="adjustable"
+        accessible={true}
+        collapsable={false}
+        handlerTag={3}
+        handlerType="PanGestureHandler"
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onLayout={[Function]}
+      >
+        <View
+          style={
+            [
+              {
+                "padding": 10,
+              },
+              [
+                undefined,
+              ],
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignSelf": "center",
+                  "backgroundColor": "rgba(0, 0, 0, 0.75)",
+                  "borderRadius": 4,
+                  "height": 4,
+                  "width": 56.25,
+                },
+                [
+                  {
+                    "backgroundColor": "#DFDBCE",
+                    "width": 40,
+                  },
+                ],
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
   </View>
 </RNCSafeAreaView>
 `;
