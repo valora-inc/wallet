@@ -10,9 +10,10 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import SwapScreen from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
-import SwapScreen, { SwapScreenSection } from 'src/swap/SwapScreen'
 import { Field } from 'src/swap/types'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
@@ -28,7 +29,6 @@ import {
   mockTestTokenAddress,
   mockTestTokenTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const mockFetch = fetch as FetchMock
 const mockExperimentParams = jest.fn()
@@ -161,7 +161,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
 
   const tree = render(
     <Provider store={store}>
-      <SwapScreenSection showDrawerTopNav={showDrawerTopNav} />
+      <SwapScreen />
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
@@ -201,11 +201,10 @@ describe('SwapScreen', () => {
   })
 
   it('should display the correct elements on load', () => {
-    const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({})
+    const { getByText, swapFromContainer, swapToContainer } = renderScreen({})
 
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.review')).toBeDisabled()
-    expect(queryByTestId('SwapScreen/DrawerBar')).toBeTruthy()
 
     expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
@@ -792,16 +791,6 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
-  })
-
-  it('SwapScreen component renders the top drawer', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapScreen />
-      </Provider>
-    )
-
-    expect(getByTestId('SwapScreen/DrawerBar')).toBeTruthy()
   })
 
   it('should disable buy amount input when swap buy amount experiment is set is false', () => {

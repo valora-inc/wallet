@@ -329,7 +329,11 @@ export function SwapScreen() {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
+      <CustomHeader
+        style={{ paddingHorizontal: variables.contentPadding }}
+        left={<BackButton />}
+        title={t('swapScreen.title')}
+      />
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
@@ -431,9 +435,6 @@ export function SwapScreen() {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-  },
-  headerContainer: {
-    alignItems: 'center',
   },
   contentContainer: {
     padding: Spacing.Regular16,

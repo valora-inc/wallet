@@ -1,7 +1,8 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -11,7 +12,6 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -24,7 +24,7 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
-const mockOnChangeToken = jest.fn()
+const mockOnOpenCurrencyPicker = jest.fn()
 
 function renderComponent({
   tokenAddress,
@@ -71,7 +71,7 @@ function renderComponent({
       <SendAmountHeader
         tokenAddress={tokenAddress}
         isOutgoingPaymentRequest={false}
-        onChangeToken={mockOnChangeToken}
+        onOpenCurrencyPicker={mockOnOpenCurrencyPicker}
         disallowCurrencyChange={disallowCurrencyChange}
       />
     </Provider>
@@ -89,7 +89,7 @@ describe('SendAmountHeader', () => {
       cUsdBalance: '0',
     })
 
-    expect(queryByTestId('onChangeToken')).toBeNull()
+    expect(queryByTestId('TokenPickerSelector')).toBeNull()
     expect(getByText('sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
@@ -98,17 +98,9 @@ describe('SendAmountHeader', () => {
       tokenAddress: mockCeurAddress,
     })
 
-    const tokenPicker = getByTestId('onChangeToken')
-    expect(tokenPicker).not.toBeNull()
     expect(getByText('send')).toBeDefined()
 
-    await act(() => {
-      fireEvent.press(tokenPicker)
-    })
-
-    await waitFor(() => expect(getByTestId('BottomSheetContainer')).toBeVisible())
-
-    fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdAddress)
+    fireEvent.press(getByTestId('TokenPickerSelector'))
+    expect(mockOnOpenCurrencyPicker).toHaveBeenCalled()
   })
 })
