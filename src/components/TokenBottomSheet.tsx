@@ -25,13 +25,13 @@ export const DEBOUCE_WAIT_TIME = 200
 
 interface Props {
   forwardedRef: RefObject<BottomSheetRefType>
-  snapPoints: (string | number)[]
   origin: TokenPickerOrigin
   onTokenSelected: (tokenAddress: string) => void
-  onClose?: () => void
   tokens: TokenBalanceWithAddress[]
-  searchEnabled?: boolean
   title: string
+  onClose?: () => void
+  searchEnabled?: boolean
+  snapPoints?: (string | number)[]
 }
 
 function TokenOption({

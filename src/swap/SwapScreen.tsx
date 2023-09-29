@@ -11,8 +11,10 @@ import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
+import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
+import CustomHeader from 'src/components/header/CustomHeader'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
@@ -28,6 +30,7 @@ import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
@@ -325,7 +328,8 @@ export function SwapScreen() {
     !showMissingPriceImpactWarning
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer} edges={['bottom']}>
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
@@ -408,7 +412,7 @@ export function SwapScreen() {
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
-        snapPoints={['90%']}
+        snapPoints={['80%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}

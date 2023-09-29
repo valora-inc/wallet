@@ -551,11 +551,7 @@ const generalScreens = (Navigator: typeof Stack) => (
 
 const swapScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.SwapScreenWithBack}
-      component={SwapScreen}
-      options={headerWithBackButton}
-    />
+    <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
     <Navigator.Screen
       name={Screens.SwapReviewScreen}
       component={SwapReviewScreen}
