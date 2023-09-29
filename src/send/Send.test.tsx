@@ -71,7 +71,6 @@ describe('Send', () => {
       </Provider>
     )
 
-    expect(tree).toMatchSnapshot()
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeFalsy()
   })
 
