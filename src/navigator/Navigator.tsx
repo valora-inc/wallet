@@ -733,6 +733,7 @@ function RootStackScreen() {
       screenOptions={{
         backdropComponent: renderBackdrop,
         enableDynamicSizing: true,
+        snapPoints: ['CONTENT_HEIGHT'],
       }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
