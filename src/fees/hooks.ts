@@ -5,7 +5,7 @@ import { estimateFee, FeeType } from 'src/fees/reducer'
 import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfoByAddress, useUsdToTokenAmount } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenInfoByAddress, useUsdToTokenAmount } from 'src/tokens/hooks'
 import {
   celoAddressSelector,
   tokensByCurrencySelector,
@@ -43,9 +43,60 @@ export function usePaidFees(fees: Fee[]) {
   }
 }
 
-// Returns the maximum amount a user can send, taking into acount gas fees required for the transaction
-// also optionally fetches new fee estimations if the current ones are missing or out of date
 export function useMaxSendAmount(
+  tokenId: string,
+  feeType: FeeType.SEND | FeeType.SWAP,
+  shouldRefresh: boolean = true
+) {
+  const dispatch = useDispatch()
+  const balance = useTokenInfo(tokenId)?.balance ?? new BigNumber(0)
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const tokenInfo = useTokenInfo(tokenId)
+
+  // Optionally Keep Fees Up to Date
+  useEffect(() => {
+    if (!shouldRefresh || !tokenInfo?.address) return
+    const feeEstimate = feeEstimates[tokenInfo.address]?.[feeType]
+    if (
+      (feeType === FeeType.SWAP && balance.gt(0)) ||
+      !feeEstimate ||
+      feeEstimate.error ||
+      feeEstimate.lastUpdated < Date.now() - ONE_HOUR_IN_MILLIS
+    ) {
+      dispatch(estimateFee({ feeType, tokenAddress: tokenInfo.address }))
+    }
+  }, [tokenId, shouldRefresh])
+
+  const celoAddress = useSelector(celoAddressSelector)
+
+  // useFeeCurrency chooses which crypto will be used to pay gas fees. It looks at the valid fee currencies (cUSD, cEUR, CELO)
+  // in order of highest balance and selects the first one that has more than a minimum threshhold of balance
+  // if CELO is selected then it actually returns undefined
+  const feeTokenAddress = useFeeCurrency() ?? celoAddress
+
+  const usdFeeEstimate = tokenInfo?.address
+    ? feeEstimates[tokenInfo.address]?.[feeType]?.usdFee
+    : undefined
+  const feeEstimate =
+    useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), tokenInfo?.address ?? undefined) ??
+    new BigNumber(0)
+
+  if (!balance) {
+    return new BigNumber(0)
+  }
+  // For example, if you are sending cUSD but you have more CELO this will be true
+  if (tokenInfo?.address !== feeTokenAddress) {
+    return balance
+  }
+  return balance.minus(feeEstimate)
+}
+
+// Returns the maximum amount a user can send, taking into account gas fees required for the transaction
+// also optionally fetches new fee estimations if the current ones are missing or out of date
+/**
+ * @deprecated use useMaxSendAmount instead
+ */
+export function useMaxSendAmountByAddress(
   tokenAddress: string | undefined,
   feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true

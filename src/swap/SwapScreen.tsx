@@ -17,7 +17,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
@@ -96,7 +96,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
-  const maxFromAmountUnchecked = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
+  const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
     ? new BigNumber(0)
     : maxFromAmountUnchecked

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType, estimateFee } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
@@ -21,7 +21,7 @@ interface ComponentProps {
   shouldRefresh: boolean
 }
 function TestComponent({ feeType, tokenAddress, shouldRefresh }: ComponentProps) {
-  const max = useMaxSendAmount(tokenAddress, feeType, shouldRefresh)
+  const max = useMaxSendAmountByAddress(tokenAddress, feeType, shouldRefresh)
   return (
     <View>
       <Text testID="maxSendAmount">{max.toString()}</Text>
@@ -40,7 +40,7 @@ const mockFeeEstimates = (error: boolean = false, lastUpdated: number = Date.now
   },
 })
 
-describe('useMaxSendAmount', () => {
+describe('useMaxSendAmountByAddress', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })

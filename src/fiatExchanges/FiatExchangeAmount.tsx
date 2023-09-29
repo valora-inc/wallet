@@ -21,7 +21,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
@@ -97,7 +97,7 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
+  const maxWithdrawAmount = useMaxSendAmountByAddress(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
