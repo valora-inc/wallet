@@ -96,8 +96,6 @@ export function useInputAmounts(
     : // @ts-expect-error if tokenId is undefined, tokenAddress is defined
       useAmountAsUsdByAddress(tokenAmount, tokenAddress)
 
-  console.log('Tom - useInputAmounts - localAmount, tokenAmount, usdAmount', localAmount, tokenAmount, usdAmount)
-
   return {
     localAmount,
     tokenAmount,
