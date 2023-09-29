@@ -103,7 +103,7 @@ export function useAmountAsUsd(amount: BigNumber, tokenId: string) {
 }
 
 /**
- * @deprecated use useAmountAsUsdByAddress
+ * @deprecated use useAmountAsUsd
  */
 export function useAmountAsUsdByAddress(amount: BigNumber, tokenAddress: string) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
