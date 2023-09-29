@@ -38,9 +38,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import { useInputAmountsByAddress } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
-import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -107,10 +107,9 @@ function SendConfirmation(props: Props) {
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
+  const { localAmount, tokenAmount, usdAmount } = useInputAmountsByAddress(
     inputAmount.toString(),
     amountIsInLocalCurrency,
-    undefined,
     tokenAddress,
     inputTokenAmount
   )

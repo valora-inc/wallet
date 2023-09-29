@@ -11,8 +11,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
-import ReviewFrame from 'src/components/ReviewFrame'
 import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import ReviewFrame from 'src/components/ReviewFrame'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -21,7 +21,7 @@ import { writePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequestStatus } from 'src/paymentRequest/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { useInputAmounts } from 'src/send/SendAmount'
+import { useInputAmountsByAddress } from 'src/send/SendAmount'
 import { useRecipientToSendTo } from 'src/send/SendConfirmation'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
@@ -46,10 +46,9 @@ function PaymentRequestConfirmation({ route }: Props) {
   const requesterE164Number = useSelector(e164NumberSelector)
 
   const recipient = useRecipientToSendTo(transactionData.recipient)
-  const { tokenAmount, usdAmount } = useInputAmounts(
+  const { tokenAmount, usdAmount } = useInputAmountsByAddress(
     transactionData.inputAmount.toString(),
     transactionData.amountIsInLocalCurrency,
-    undefined,
     transactionData.tokenAddress
   )
 

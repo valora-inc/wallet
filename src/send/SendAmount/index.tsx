@@ -59,22 +59,40 @@ const { decimalSeparator } = getNumberFormatSettings()
 export function useInputAmounts(
   inputAmount: string,
   usingLocalAmount: boolean,
-  tokenId?: string,
-  tokenAddress?: string,
+  tokenId: string,
   inputTokenAmount?: BigNumber
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId)
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId)
 
-  if (!tokenId && !tokenAddress) {
-    throw new Error('Either tokenId or tokenAddress must be provided')
+  const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
+
+  const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
+  const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
+
+  const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
+
+  return {
+    localAmount,
+    tokenAmount,
+    usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
+}
 
-  const localToToken = tokenId
-    ? useLocalToTokenAmount(parsedAmount, tokenId)
-    : useLocalToTokenAmountByAddress(parsedAmount, tokenAddress)
-  const tokenToLocal = tokenId
-    ? useTokenToLocalAmount(parsedAmount, tokenId)
-    : useTokenToLocalAmountByAddress(parsedAmount, tokenAddress)
+/**
+ * @deprecated Use useInputAmounts instead
+ */
+export function useInputAmountsByAddress(
+  inputAmount: string,
+  usingLocalAmount: boolean,
+  tokenAddress: string,
+  inputTokenAmount?: BigNumber
+) {
+  const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const localToToken = useLocalToTokenAmountByAddress(parsedAmount, tokenAddress)
+  const tokenToLocal = useTokenToLocalAmountByAddress(parsedAmount, tokenAddress)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
   // when using the local amount, the "inputAmount" value received here was
@@ -91,10 +109,7 @@ export function useInputAmounts(
 
   const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
 
-  const usdAmount = tokenId
-    ? useAmountAsUsd(tokenAmount, tokenId)
-    : // @ts-expect-error if tokenId is undefined, tokenAddress is defined
-      useAmountAsUsdByAddress(tokenAmount, tokenAddress)
+  const usdAmount = useAmountAsUsdByAddress(tokenAmount, tokenAddress)
 
   return {
     localAmount,
@@ -143,7 +158,6 @@ function SendAmount(props: Props) {
     rawAmount,
     showInputInLocalAmount,
     transferTokenId,
-    undefined,
     isUsingMaxAmount ? maxBalance : undefined
   )
 
