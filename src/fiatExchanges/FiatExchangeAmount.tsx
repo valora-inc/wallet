@@ -44,9 +44,10 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import {
-  useLocalToTokenAmount,
+  useLocalToTokenAmountByAddress,
   useTokenInfoWithAddressBySymbol,
   useTokenToLocalAmount,
+  useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, currencyForAnalytics } from 'src/utils/currencies'
@@ -82,9 +83,9 @@ function FiatExchangeAmount({ route }: Props) {
   const { address } = useTokenInfoWithAddressBySymbol(currency) || {}
 
   const inputConvertedToCrypto =
-    useLocalToTokenAmount(parsedInputAmount, address!) || new BigNumber(0)
+    useLocalToTokenAmountByAddress(parsedInputAmount, address!) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
-    useTokenToLocalAmount(parsedInputAmount, address!) || new BigNumber(0)
+    useTokenToLocalAmountByAddress(parsedInputAmount, address!) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
