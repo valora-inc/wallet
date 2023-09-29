@@ -196,7 +196,7 @@
     "redux-saga": "^1.2.3",
     "reselect": "^4.1.8",
     "seedrandom": "^3.0.5",
-    "statsig-react-native": "^4.9.2",
+    "statsig-react-native": "^4.11.0",
     "svgs": "^4.2.0",
     "tslib": "^2.6.2",
     "typed-redux-saga": "^1.5.0",
