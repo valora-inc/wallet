@@ -148,11 +148,9 @@ function TokenBottomSheet({
       forwardedRef={forwardedRef}
       snapPoints={snapPoints}
       title={title}
-      onClose={handleClose}
-      testId="TokenBottomSheet"
-    >
-      <View>
-        {searchEnabled && (
+      stickyTitle={searchEnabled}
+      stickyHeaderComponent={
+        searchEnabled && (
           <SearchInput
             placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
             value={searchTerm}
@@ -163,23 +161,25 @@ function TokenBottomSheet({
             style={styles.searchInput}
             returnKeyType={'search'}
           />
-        )}
-
-        {tokenList.length == 0 ? (
-          searchEnabled ? (
-            <NoResults searchTerm={searchTerm} />
-          ) : null
-        ) : (
-          tokenList.map((tokenInfo, index) => {
-            return (
-              <React.Fragment key={`token-${tokenInfo.address}`}>
-                {index > 0 && <View style={styles.separator} />}
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-              </React.Fragment>
-            )
-          })
-        )}
-      </View>
+        )
+      }
+      onClose={handleClose}
+      testId="TokenBottomSheet"
+    >
+      {tokenList.length == 0 ? (
+        searchEnabled ? (
+          <NoResults searchTerm={searchTerm} />
+        ) : null
+      ) : (
+        tokenList.map((tokenInfo, index) => {
+          return (
+            <React.Fragment key={`token-${tokenInfo.address}`}>
+              {index > 0 && <View style={styles.separator} />}
+              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+            </React.Fragment>
+          )
+        })
+      )}
     </BottomSheet>
   )
 }
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
   },
   searchInput: {
-    marginVertical: Spacing.Regular16,
+    marginTop: Spacing.Regular16,
   },
   iconContainer: {
     marginRight: Spacing.Small12,
