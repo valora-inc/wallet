@@ -14,7 +14,11 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
-const TokenBalanceInLocalCurrency = (token: TokenBalance) => {
+interface Props {
+  token: TokenBalance
+}
+
+const TokenBalanceInLocalCurrency = ({ token }: Props) => {
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const amountInUsd = token?.priceUsd?.multipliedBy(token.balance)
@@ -72,7 +76,7 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
             ) : (
               <View />
             )}
-            {TokenBalanceInLocalCurrency(token)}
+            <TokenBalanceInLocalCurrency token={token} />
           </View>
           {token.bridge && (
             <Text
