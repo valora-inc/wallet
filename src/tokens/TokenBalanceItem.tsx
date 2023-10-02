@@ -1,24 +1,22 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { useSelector } from 'react-redux'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
-interface Props {
+interface TProps {
   token: TokenBalance
 }
 
-const TokenBalanceInLocalCurrency = ({ token }: Props) => {
+const TokenBalanceInLocalCurrency = ({ token }: TProps) => {
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const amountInUsd = token?.priceUsd?.multipliedBy(token.balance)
@@ -42,22 +40,18 @@ const TokenBalanceInLocalCurrency = ({ token }: Props) => {
   }
 }
 
-export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
-  const { t } = useTranslation()
+interface Props {
+  token: TokenBalance
+  onPress?: () => void
+  containerStyle?: ViewStyle
+}
 
-  const onPress = () => {
-    ValoraAnalytics.track(AssetsEvents.tap_asset, {
-      assetType: 'token',
-      tokenId: token.tokenId,
-      title: token.symbol,
-      description: token.name,
-      balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
-    })
-  }
+export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
+  const { t } = useTranslation()
 
   return (
     <Touchable onPress={onPress}>
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         <TokenIcon token={token} viewStyle={styles.marginRight} />
         <View style={styles.textContainer}>
           <View style={styles.line}>
@@ -95,6 +89,8 @@ export const TokenBalanceItem = ({ token }: { token: TokenBalance }) => {
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: Spacing.Thick24,
+    marginBottom: Spacing.Large32,
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,

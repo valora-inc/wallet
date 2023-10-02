@@ -85,9 +85,19 @@ describe('TokenBalanceItem', () => {
   })
 
   it('tracks data about the asset when tapped', () => {
+    const onPress = () => {
+      ValoraAnalytics.track(AssetsEvents.tap_asset, {
+        assetType: 'token',
+        tokenId: mockTokenInfo.tokenId,
+        title: mockTokenInfo.symbol,
+        description: mockTokenInfo.name,
+        balanceUsd: mockTokenInfo.balance.multipliedBy(mockTokenInfo.priceUsd ?? 0).toNumber(),
+      })
+    }
+
     const { getByText } = render(
       <Provider store={createMockStore({})}>
-        <TokenBalanceItem token={mockTokenInfo} />
+        <TokenBalanceItem token={mockTokenInfo} onPress={onPress} />
       </Provider>
     )
 
