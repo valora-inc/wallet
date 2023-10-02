@@ -56,17 +56,15 @@ import { sortByUsdBalance } from 'src/tokens/utils'
 const DEVICE_WIDTH_BREAKPOINT = 340
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
-interface SectionData {
-  appName?: string
+interface PositionsSectionData {
+  appName: string
 }
 
-const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
-    SectionList
-  )
+const AnimatedTokensSectionList =
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance>>(SectionList)
 
-const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
-  'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
+const AnimatedPositionsSectionList =
+  Animated.createAnimatedComponent<SectionListProps<Position, PositionsSectionData>>(SectionList)
 
 export enum AssetTabType {
   Tokens = 0,
@@ -229,7 +227,7 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
+    const sections: SectionListData<Position, PositionsSectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -239,38 +237,30 @@ function AssetsScreen({ navigation, route }: Props) {
     return sections
   }, [positions])
 
-  const renderSectionHeader = ({
+  const renderPositionSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalance | Position, SectionData>
+    section: SectionListData<Position, PositionsSectionData>
   }) => {
-    if (section.appName) {
-      return (
-        <View style={styles.positionSectionHeaderContainer}>
-          <Text style={styles.positionSectionHeaderText}>
-            {section.appName.toLocaleUpperCase()}
-          </Text>
-        </View>
-      )
-    }
-    return null
-  }
-
-  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
-    if (assetIsPosition(item)) {
-      return <PositionItem position={item} />
-    }
-    // TODO(ACT-912) replace with new asset component
-    return <TokenBalanceItem token={item} showPriceChangeIndicatorInBalances={false} />
+    return (
+      <View style={styles.positionSectionHeaderContainer}>
+        <Text style={styles.positionSectionHeaderText}>{section.appName.toLocaleUpperCase()}</Text>
+      </View>
+    )
   }
 
   const tabBarItems = useMemo(() => {
     const items = [t('assets.tabBar.tokens'), t('assets.tabBar.collectibles')]
-    if (displayPositions) {
+    if (showPositions) {
       items.push(t('assets.tabBar.dappPositions'))
     }
     return items
-  }, [t, displayPositions])
+  }, [t, showPositions])
+
+  const sectionListContentContainerStyle = {
+    paddingBottom: insets.bottom,
+    opacity: listHeaderHeight > 0 ? 1 : 0,
+  }
 
   return (
     <>
@@ -286,24 +276,41 @@ function AssetsScreen({ navigation, route }: Props) {
         </View>
         <TabBar items={tabBarItems} selectedIndex={activeTab} onChange={handleChangeActiveView} />
       </Animated.View>
-      {activeTab !== AssetTabType.Collectibles && (
-        <AnimatedSectionList
-          contentContainerStyle={{
-            paddingBottom: insets.bottom,
-            opacity: listHeaderHeight > 0 ? 1 : 0,
-          }}
+      {activeTab === AssetTabType.Tokens && (
+        <AnimatedTokensSectionList
+          contentContainerStyle={sectionListContentContainerStyle}
           // ensure header is above the scrollbar on ios overscroll
           scrollIndicatorInsets={{ top: listHeaderHeight }}
-          sections={activeTab === AssetTabType.Tokens ? [{ data: tokenItems }] : positionSections}
-          renderItem={renderAssetItem}
-          renderSectionHeader={renderSectionHeader}
-          // TODO(ACT-912): use tokenId once available
-          keyExtractor={(item) => item.address}
+          sections={[{ data: tokenItems }]}
+          renderItem={({ item }: { item: TokenBalance }) => (
+            // TODO(ACT-912) replace with new asset component
+            <TokenBalanceItem token={item} showPriceChangeIndicatorInBalances={false} />
+          )}
+          keyExtractor={(item) => item.tokenId}
           onScroll={handleScroll}
           scrollEventThrottle={16}
           ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
         />
       )}
+      {activeTab === AssetTabType.Positions &&
+        (positions.length > 0 ? (
+          <AnimatedPositionsSectionList
+            contentContainerStyle={sectionListContentContainerStyle}
+            // ensure header is above the scrollbar on ios overscroll
+            scrollIndicatorInsets={{ top: listHeaderHeight }}
+            sections={positionSections}
+            renderItem={({ item }: { item: Position }) => <PositionItem position={item} />}
+            renderSectionHeader={renderPositionSectionHeader}
+            keyExtractor={(item) => item.address}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
+          />
+        ) : (
+          <View style={styles.noPositionsView}>
+            <Text style={styles.noPositionsText}>{t('assets.noPositions')}</Text>
+          </View>
+        ))}
       {/* TODO(ACT-918): render collectibles */}
       {showClaimRewards && (
         <Animated.View
@@ -420,6 +427,16 @@ const styles = StyleSheet.create({
   tabBarItemSelected: {
     ...typeScale.labelMedium,
     color: Colors.dark,
+  },
+  noPositionsView: {
+    flex: 1,
+    justifyContent: 'center',
+    marginHorizontal: Spacing.Thick24,
+  },
+  noPositionsText: {
+    color: Colors.gray3,
+    textAlign: 'center',
+    ...typeScale.bodySmall,
   },
 })
 
