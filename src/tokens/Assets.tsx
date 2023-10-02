@@ -46,12 +46,12 @@ import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import {
-  stalePriceSelector,
-  tokensWithTokenBalanceSelector,
-  totalTokenBalanceSelector,
-} from 'src/tokens/selectors'
+  useTokenPricesAreStale,
+  useTokensWithTokenBalance,
+  useTotalTokenBalance,
+} from 'src/tokens/hooks'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
-import { sortByUsdBalance } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 
@@ -83,13 +83,15 @@ function AssetsScreen({ navigation, route }: Props) {
 
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
-  const tokens = useSelector(tokensWithTokenBalanceSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useTokensWithTokenBalance(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
-  const tokensAreStale = useSelector(stalePriceSelector)
+  const totalTokenBalanceLocal = useTotalTokenBalance(supportedNetworkIds) ?? new BigNumber(0)
+  const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
 
   const insets = useSafeAreaInsets()
 
+  // TODO: Update this to filter out unsupported networks once positions support non-Celo chains
   const positions = useSelector(positionsSelector)
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
@@ -101,6 +103,7 @@ function AssetsScreen({ navigation, route }: Props) {
     positionsWithClaimableRewards.length > 0 &&
     activeTab !== AssetTabType.Collectibles
 
+  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
