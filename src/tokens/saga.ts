@@ -17,7 +17,6 @@ import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Actions } from 'src/stableToken/actions'
-
 import { lastKnownTokenBalancesSelector, tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'

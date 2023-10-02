@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import NonNativeTokenDisplay, { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -44,7 +44,7 @@ export default function SwapContent({ exchange }: Props) {
     <View style={styles.contentContainer}>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapTo')}</Text>
-        <NonNativeTokenDisplay
+        <LegacyTokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.inAmount.value}
           tokenAddress={exchange.inAmount.tokenAddress}
@@ -56,7 +56,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapFrom')}</Text>
-        <NonNativeTokenDisplay
+        <LegacyTokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.outAmount.value}
           tokenAddress={exchange.outAmount.tokenAddress}
@@ -77,7 +77,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.estimatedFee')}</Text>
-        <NonNativeTokenDisplay
+        <LegacyTokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.fees[0].amount.value}
           tokenAddress={exchange.fees[0].amount.tokenAddress}

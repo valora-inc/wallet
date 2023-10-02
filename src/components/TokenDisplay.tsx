@@ -4,15 +4,13 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
-import { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
-import { Currency } from 'src/utils/currencies'
+import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 
 interface Props {
   amount: BigNumber.Value
-  tokenId?: string
-  currency?: Currency
+  tokenId: string
   showSymbol?: boolean
   showLocalAmount?: boolean
   hideSign?: boolean
@@ -32,20 +30,10 @@ function TokenDisplay({
   localAmount,
   style,
   testID,
-  currency,
 }: Props) {
-  if (tokenId ? currency : !currency) {
-    throw new Error('TokenDisplay must be passed either "currency" or "tokenId" and not both')
-  }
-
-  const tokenInfoFromId = useTokenInfo(tokenId!)
-  const tokenInfoFromCurrency = useTokenInfoBySymbol(
-    currency! === Currency.Celo ? 'CELO' : currency!
-  )
-  const tokenInfo = tokenInfoFromId || tokenInfoFromCurrency
+  const tokenInfo = useTokenInfo(tokenId)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
   const showError = showLocalAmount
     ? !localAmount && (!tokenInfo?.priceUsd || !localCurrencyExchangeRate)
     : !tokenInfo?.symbol

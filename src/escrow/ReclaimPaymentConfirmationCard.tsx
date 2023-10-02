@@ -6,7 +6,7 @@ import Avatar from 'src/components/Avatar'
 import { SecurityFeeIcon } from 'src/components/FeeIcon'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
@@ -49,7 +49,7 @@ export default function ReclaimPaymentConfirmationCard({
       <HorizontalLine />
       <LineItemRow
         title={t('amount')}
-        amount={<NonNativeTokenDisplay amount={amount} tokenAddress={tokenAddress} />}
+        amount={<LegacyTokenDisplay amount={amount} tokenAddress={tokenAddress} />}
         testID={'ReclaimAmount'}
       />
       <LineItemRow
@@ -57,7 +57,7 @@ export default function ReclaimPaymentConfirmationCard({
         titleIcon={<SecurityFeeIcon />}
         amount={
           feeEstimate?.feeInfo?.fee && (
-            <NonNativeTokenDisplay
+            <LegacyTokenDisplay
               amount={divideByWei(feeEstimate.feeInfo.fee)}
               tokenAddress={feeToken?.address ?? ''}
               testID={'ReclaimFee'}

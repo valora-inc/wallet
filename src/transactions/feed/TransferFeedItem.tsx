@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -55,7 +55,7 @@ function TransferFeedItem({ transfer }: Props) {
           </Text>
         </View>
         <View style={styles.amountContainer}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={amount.value}
             tokenAddress={amount.tokenAddress}
             localAmount={customLocalAmount ?? amount.localAmount}
@@ -65,7 +65,7 @@ function TransferFeedItem({ transfer }: Props) {
             testID={'TransferFeedItem/amount'}
           />
           {!showTokenAmount && (
-            <NonNativeTokenDisplay
+            <LegacyTokenDisplay
               amount={amount.value}
               tokenAddress={amount.tokenAddress}
               showLocalAmount={false}

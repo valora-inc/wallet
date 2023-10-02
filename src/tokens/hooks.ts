@@ -4,12 +4,16 @@ import useSelector from 'src/redux/useSelector'
 import {
   tokensByAddressSelector,
   tokensByCurrencySelector,
-  tokensByIdSelector,
-  tokensListSelector,
+  tokensByIdSelectorWrapper,
+  tokensListSelectorWrapper,
+  totalTokenBalanceSelectorWrapper,
   tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
+import { NetworkId } from 'src/transactions/types'
+import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
+import networkConfig from 'src/web3/networkConfig'
 
 /**
  * @deprecated use useTokenInfo and select using tokenId
@@ -20,20 +24,52 @@ export function useTokenInfoByAddress(tokenAddress?: string | null) {
   return tokenAddress ? tokens[tokenAddress] : undefined
 }
 
+export function useTokensWithUsdValue(networkIds: NetworkId[]) {
+  return useSelector(tokensListSelectorWrapper(networkIds))
+}
+
+export function useTotalTokenBalance(networkIds: NetworkId[]) {
+  return useSelector(totalTokenBalanceSelectorWrapper(networkIds))
+}
+
+export function useTokensWithTokenBalance(networkIds: NetworkId[]) {
+  const tokens = useSelector(tokensListSelectorWrapper(networkIds))
+  return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
+}
+
+export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
+  const totalBalance = useSelector(totalTokenBalanceSelectorWrapper(networkIds))
+  return totalBalance === null
+}
+export function useTokenPricesAreStale(networkIds: NetworkId[]) {
+  const tokens = useSelector(tokensListSelectorWrapper(networkIds))
+  // If no tokens then prices cannot be stale
+  if (tokens.length === 0) return false
+  // Put tokens with priceUsd into an array
+  const tokensWithUsdValue = tokens.filter((tokenInfo) => tokenInfo.priceUsd !== null)
+  // If tokens with usd value exist, check the time price was fetched and if ANY are stale - return true
+  // Else tokens usd values are not present so we know prices are stale - return true
+  if (tokensWithUsdValue.length > 0) {
+    return tokensWithUsdValue.some(
+      (tokenInfo) =>
+        (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+    )
+  } else {
+    return true
+  }
+}
+
 export function useTokenInfo(tokenId: string) {
-  return useSelector(tokensByIdSelector)[tokenId]
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  const tokens = useSelector(tokensByIdSelectorWrapper(networkIds))
+  return tokens[tokenId]
 }
 
 /**
- * @deprecated use useTokenInfoBySymbol
+ * @deprecated
  */
 export function useTokenInfoWithAddressBySymbol(symbol: string) {
   const tokens = useSelector(tokensListWithAddressSelector)
-  return tokens.find((tokenInfo) => tokenInfo.symbol === symbol)
-}
-
-export function useTokenInfoBySymbol(symbol: string) {
-  const tokens = useSelector(tokensListSelector)
   return tokens.find((tokenInfo) => tokenInfo.symbol === symbol)
 }
 

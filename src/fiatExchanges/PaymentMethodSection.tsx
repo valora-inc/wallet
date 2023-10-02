@@ -6,7 +6,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
@@ -230,7 +230,7 @@ export function PaymentMethodSection({
       <>
         {feeAmount ? (
           <Text>
-            <NonNativeTokenDisplay
+            <LegacyTokenDisplay
               amount={feeAmount}
               tokenAddress={tokenInfo?.address}
               showLocalAmount={flow === CICOFlow.CashIn}
