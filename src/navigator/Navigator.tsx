@@ -729,7 +729,7 @@ function RootStackScreen() {
       screenOptions={{
         backdropComponent: renderBackdrop,
         enableDynamicSizing: true,
-        snapPoints: ['CONTENT_HEIGHT'],
+        snapPoints: ['CONTENT_HEIGHT'], // prevent bottom sheets from having an extra snap point at the default of 66%
       }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
