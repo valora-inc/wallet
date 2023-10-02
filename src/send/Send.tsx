@@ -235,10 +235,6 @@ function Send({ route }: Props) {
     sortFirstStableThenCeloThenOthersByUsdBalance
   )
 
-  // TODO: Remove this once we have remote config for tokens
-  const enabledNetworks = ['celo-mainnet', 'celo-alfajores']
-  const filteredTokens = sortedTokens.filter((token) => enabledNetworks.includes(token.networkId))
-
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
@@ -264,7 +260,7 @@ function Send({ route }: Props) {
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
-        tokens={filteredTokens}
+        tokens={sortedTokens}
         title={t('selectToken')}
       />
     </SafeAreaView>
