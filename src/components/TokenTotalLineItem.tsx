@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import NonNativeTokenDisplay, { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -37,7 +37,7 @@ export default function TokenTotalLineItem({
         title={title ?? t('total')}
         textStyle={fontStyles.regular600}
         amount={
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenAddress={tokenAddress}
             localAmount={localAmount}
@@ -55,7 +55,7 @@ export default function TokenTotalLineItem({
                   LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
                 }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
               ) : (
-                <NonNativeTokenDisplay
+                <LegacyTokenDisplay
                   amount={new BigNumber(1)}
                   tokenAddress={tokenAddress}
                   showLocalAmount={true}
@@ -65,7 +65,7 @@ export default function TokenTotalLineItem({
           </Text>
         }
         amount={
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={tokenAmount}
             tokenAddress={tokenAddress}
             showLocalAmount={false}

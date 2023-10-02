@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import SwapIcon from 'src/icons/SwapIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -44,7 +44,7 @@ function SwapFeedItem({ exchange }: Props) {
           </Text>
         </View>
         <View style={styles.tokenAmountContainer}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={exchange.inAmount.value}
             tokenAddress={exchange.inAmount.tokenAddress}
             showLocalAmount={false}
@@ -54,7 +54,7 @@ function SwapFeedItem({ exchange }: Props) {
             style={[styles.amount, { color: colors.greenUI }]}
             testID={'SwapFeedItem/incomingAmount'}
           />
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={-exchange.outAmount.value}
             tokenAddress={exchange.outAmount.tokenAddress}
             showLocalAmount={false}

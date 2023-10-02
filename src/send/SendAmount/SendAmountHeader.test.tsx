@@ -2,6 +2,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -12,6 +13,17 @@ import {
   mockCusdTokenId,
 } from 'test/values'
 
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 const mockOnChangeToken = jest.fn()
 
 function renderComponent({
@@ -31,6 +43,7 @@ function renderComponent({
             [mockCusdTokenId]: {
               address: mockCusdAddress,
               tokenId: mockCusdTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cUSD',
               priceUsd: '1',
               balance: cUsdBalance ?? '10',
@@ -38,6 +51,7 @@ function renderComponent({
             [mockCeurTokenId]: {
               address: mockCeurAddress,
               tokenId: mockCeurTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               priceUsd: '1.2',
               balance: '20',
@@ -45,6 +59,7 @@ function renderComponent({
             [mockCeloTokenId]: {
               address: mockCeloAddress,
               tokenId: mockCeloTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'CELO',
               priceUsd: '5',
               balance: '0',

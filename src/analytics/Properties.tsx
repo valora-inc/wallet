@@ -393,7 +393,7 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
   [OnboardingEvents.protect_wallet_complete]: undefined
   [OnboardingEvents.cya_button_press]: {
-    name: string
+    cardName: AdventureCardName
     position: number
     cardOrder: AdventureCardName[]
   }

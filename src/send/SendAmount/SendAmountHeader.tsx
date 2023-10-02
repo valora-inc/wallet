@@ -4,17 +4,19 @@ import { Text } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import TokenBottomSheet from 'src/components/TokenBottomSheet'
-import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 
 import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
-import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
+import { useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
+import { stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import {
+  getSupportedNetworkIdsForSend,
+  sortFirstStableThenCeloThenOthersByUsdBalance,
+} from 'src/tokens/utils'
 
 interface Props {
   tokenId: string
@@ -31,7 +33,8 @@ function SendAmountHeader({
 }: Props) {
   const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForSend()
+  const tokensWithBalance = useTokensWithTokenBalance(supportedNetworkIds)
   const stableTokens = useSelector(stablecoinsSelector)
   const tokenInfo = useTokenInfo(tokenId)
 

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import {
   useAmountAsUsdByAddress,
   useLocalToTokenAmountByAddress,
+  useTokenPricesAreStale,
   useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
@@ -20,17 +21,19 @@ function TestComponent({ tokenAddress }: { tokenAddress: string }) {
   const tokenAmount = useLocalToTokenAmountByAddress(new BigNumber(1), tokenAddress)
   const localAmount = useTokenToLocalAmountByAddress(new BigNumber(1), tokenAddress)
   const usdAmount = useAmountAsUsdByAddress(new BigNumber(1), tokenAddress)
+  const tokenPricesAreStale = useTokenPricesAreStale([NetworkId['celo-alfajores']])
 
   return (
     <View>
       <Text testID="tokenAmount">{tokenAmount?.toNumber()}</Text>
       <Text testID="localAmount">{localAmount?.toNumber()}</Text>
       <Text testID="usdAmount">{usdAmount?.toNumber()}</Text>
+      <Text testID="pricesStale">{tokenPricesAreStale}</Text>
     </View>
   )
 }
 
-const store = (usdToLocalRate: string | null = '2') =>
+const store = (usdToLocalRate: string | null, priceFetchedAt: number) =>
   createMockStore({
     tokens: {
       tokenBalances: {
@@ -41,7 +44,7 @@ const store = (usdToLocalRate: string | null = '2') =>
           symbol: 'T1',
           balance: '0',
           priceUsd: '5',
-          priceFetchedAt: Date.now(),
+          priceFetchedAt,
         },
         [tokenIdWithoutBalance]: {
           address: tokenAddressWithoutBalance,
@@ -50,7 +53,7 @@ const store = (usdToLocalRate: string | null = '2') =>
           symbol: 'T2',
           priceUsd: '5',
           balance: null,
-          priceFetchedAt: Date.now(),
+          priceFetchedAt,
         },
       },
     },
@@ -62,7 +65,7 @@ const store = (usdToLocalRate: string | null = '2') =>
 describe('token to fiat exchanges', () => {
   it('maps correctly if all the info is available', async () => {
     const { getByTestId } = render(
-      <Provider store={store()}>
+      <Provider store={store('2', Date.now())}>
         <TestComponent tokenAddress={tokenAddressWithPriceAndBalance} />
       </Provider>
     )
@@ -73,11 +76,13 @@ describe('token to fiat exchanges', () => {
     expect(localAmount.props.children).toEqual(10)
     const usdAmount = getByTestId('usdAmount')
     expect(usdAmount.props.children).toEqual(5)
+    const pricesStale = getByTestId('pricesStale')
+    expect(pricesStale.props.children).toEqual(false)
   })
 
   it('returns undefined if there is no balance set', async () => {
     const { getByTestId } = render(
-      <Provider store={store()}>
+      <Provider store={store('2', Date.now())}>
         <TestComponent tokenAddress={tokenAddressWithoutBalance} />
       </Provider>
     )
@@ -88,11 +93,13 @@ describe('token to fiat exchanges', () => {
     expect(localAmount.props.children).toBeUndefined()
     const usdAmount = getByTestId('usdAmount')
     expect(usdAmount.props.children).toBeUndefined()
+    const pricesStale = getByTestId('pricesStale')
+    expect(pricesStale.props.children).toEqual(false)
   })
 
   it('returns undefined if there is no exchange rate', async () => {
     const { getByTestId } = render(
-      <Provider store={store(null)}>
+      <Provider store={store(null, Date.now())}>
         <TestComponent tokenAddress={tokenAddressWithPriceAndBalance} />
       </Provider>
     )
@@ -105,11 +112,13 @@ describe('token to fiat exchanges', () => {
     // USD amount doesn't use the exchange rate
     const usdAmount = getByTestId('usdAmount')
     expect(usdAmount.props.children).toEqual(5)
+    const pricesStale = getByTestId('pricesStale')
+    expect(pricesStale.props.children).toEqual(false)
   })
 
   it('returns undefined if the token doesnt exist', async () => {
     const { getByTestId } = render(
-      <Provider store={store()}>
+      <Provider store={store('2', Date.now())}>
         <TestComponent tokenAddress={'0x000'} />
       </Provider>
     )
@@ -120,5 +129,18 @@ describe('token to fiat exchanges', () => {
     expect(localAmount.props.children).toBeUndefined()
     const usdAmount = getByTestId('usdAmount')
     expect(usdAmount.props.children).toBeUndefined()
+    const pricesStale = getByTestId('pricesStale')
+    expect(pricesStale.props.children).toEqual(false)
+  })
+
+  it('shows prices are stale', async () => {
+    const { getByTestId } = render(
+      <Provider store={store('2', Date.now() - 100000000)}>
+        <TestComponent tokenAddress={tokenAddressWithPriceAndBalance} />
+      </Provider>
+    )
+
+    const pricesStale = getByTestId('pricesStale')
+    expect(pricesStale.props.children).toEqual(true)
   })
 })

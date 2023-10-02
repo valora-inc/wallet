@@ -33,9 +33,13 @@ import { SendSearchInput } from 'src/send/SendSearchInput'
 import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { useTokensWithTokenBalance } from 'src/tokens/hooks'
+import { stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
+import {
+  getSupportedNetworkIdsForSend,
+  sortFirstStableThenCeloThenOthersByUsdBalance,
+} from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
 
@@ -60,7 +64,8 @@ function Send({ route }: Props) {
   const allRecipients = useSelector(phoneRecipientCacheSelector)
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForSend()
+  const tokensWithBalance = useTokensWithTokenBalance(supportedNetworkIds)
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [searchQuery, setSearchQuery] = useState('')

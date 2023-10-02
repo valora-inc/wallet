@@ -6,7 +6,7 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -53,7 +53,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
       </View>
       <View style={styles.balances}>
         {balanceUsd.gt(0) || balanceUsd.lt(0) ? (
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={balanceUsd}
             currency={Currency.Dollar}
             style={styles.tokenAmt}
@@ -64,7 +64,7 @@ export const PositionItem = ({ position }: { position: Position }) => {
           <Text style={styles.tokenAmt}>-</Text>
         )}
         {balanceInDecimal && (
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={balanceInDecimal}
             // Hack to display the token balance without having said token in the base token list
             currency={Currency.Celo}

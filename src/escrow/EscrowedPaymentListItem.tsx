@@ -5,7 +5,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -78,7 +78,7 @@ function EscrowedPaymentListItem({ payment, index }: Props) {
     <RequestMessagingCard
       title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
       amount={
-        <NonNativeTokenDisplay
+        <LegacyTokenDisplay
           amount={divideByWei(payment.amount)}
           tokenAddress={payment.tokenAddress}
           testID="EscrowedPaymentListItem/amount"

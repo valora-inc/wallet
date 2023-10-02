@@ -47,7 +47,7 @@ export function formatValueToDisplay(value: BigNumber) {
 /**
  * @deprecated use TokenDisplay instead
  */
-function NonNativeTokenDisplay({
+function LegacyTokenDisplay({
   amount,
   tokenAddress,
   currency,
@@ -61,9 +61,13 @@ function NonNativeTokenDisplay({
 }: Props) {
   const showNativeTokens = getFeatureGate(StatsigFeatureGates.SHOW_NATIVE_TOKENS)
   if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
-    throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
+    throw new Error(
+      'LegacyTokenDisplay must be passed either "currency" or "tokenAddress" and not both'
+    )
   } else if (tokenAddress && currency) {
-    throw new Error('TokenDisplay must be passed tokenAddress, currency, or nethier, but not both')
+    throw new Error(
+      'LegacyTokenDisplay must be passed tokenAddress, currency, or nethier, but not both'
+    )
   }
 
   const tokenInfoFromAddress = useTokenInfoByAddress(tokenAddress!)
@@ -106,4 +110,4 @@ function NonNativeTokenDisplay({
   )
 }
 
-export default NonNativeTokenDisplay
+export default LegacyTokenDisplay

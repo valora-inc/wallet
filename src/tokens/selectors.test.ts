@@ -4,17 +4,29 @@ import {
   defaultTokenToSendSelector,
   swappableTokensSelector,
   tokensByAddressSelector,
-  tokensByIdSelector,
+  tokensByIdSelectorWrapper,
   tokensByUsdBalanceSelector,
-  tokensListSelector,
+  tokensListSelectorWrapper,
   tokensListWithAddressSelector,
-  tokensWithUsdValueSelector,
-  totalTokenBalanceSelector,
+  tokensWithUsdValueSelectorWrapper,
+  totalTokenBalanceSelectorWrapper,
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const mockDate = 1588200517518
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
@@ -98,6 +110,14 @@ const state: any = {
         priceUsd: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
       },
+      ['ethereum-sepolia:0x7']: {
+        name: '0x7 token',
+        tokenId: 'ethereum-sepolia:0x7',
+        networkId: NetworkId['ethereum-sepolia'],
+        balance: '50',
+        priceUsd: '500',
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+      },
     },
   },
   localCurrency: {
@@ -107,10 +127,10 @@ const state: any = {
   },
 }
 
-describe(tokensByIdSelector, () => {
+describe(tokensByIdSelectorWrapper, () => {
   describe('when fetching tokens by id', () => {
     it('returns the right tokens', () => {
-      const tokensById = tokensByIdSelector(state)
+      const tokensById = tokensByIdSelectorWrapper([NetworkId['celo-alfajores']])(state)
       expect(Object.keys(tokensById).length).toEqual(6)
       expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
       expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
@@ -136,17 +156,21 @@ describe(tokensByAddressSelector, () => {
   })
 })
 
-describe(tokensListSelector, () => {
+describe(tokensListSelectorWrapper, () => {
   describe('when fetching tokens with id as a list', () => {
     it('returns the right tokens', () => {
-      const tokens = tokensListSelector(state)
-      expect(tokens.length).toEqual(6)
+      const tokens = tokensListSelectorWrapper([
+        NetworkId['celo-alfajores'],
+        NetworkId['ethereum-sepolia'],
+      ])(state)
+      expect(tokens.length).toEqual(7)
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x4')?.symbol).toEqual('TT')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x1')?.name).toEqual('0x1 token')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x5')?.name).toEqual('0x5 token')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x6')?.name).toEqual('0x6 token')
+      expect(tokens.find((t) => t.tokenId === 'ethereum-sepolia:0x7')?.name).toEqual('0x7 token')
     })
   })
 })
@@ -233,9 +257,9 @@ describe('tokensByUsdBalanceSelector', () => {
   })
 })
 
-describe('tokensWithUsdValueSelector', () => {
+describe('tokensWithUsdValueSelectorWrapper', () => {
   it('returns only the tokens that have a USD balance', () => {
-    const tokens = tokensWithUsdValueSelector(state)
+    const tokens = tokensWithUsdValueSelectorWrapper([NetworkId['celo-alfajores']])(state)
     expect(tokens).toMatchInlineSnapshot(`
       [
         {
@@ -276,15 +300,17 @@ describe(defaultTokenToSendSelector, () => {
   })
 })
 
-describe(totalTokenBalanceSelector, () => {
+describe(totalTokenBalanceSelectorWrapper, () => {
   describe('when fetching the total token balance', () => {
     it('returns the right amount', () => {
-      expect(totalTokenBalanceSelector(state)).toEqual(new BigNumber(107.5))
+      expect(totalTokenBalanceSelectorWrapper([NetworkId['celo-alfajores']])(state)).toEqual(
+        new BigNumber(107.5)
+      )
     })
 
     it('returns null if there was an error fetching and theres no cached info', () => {
       expect(
-        totalTokenBalanceSelector({
+        totalTokenBalanceSelectorWrapper([NetworkId['celo-alfajores']])({
           ...state,
           tokens: {
             tokenBalances: {},

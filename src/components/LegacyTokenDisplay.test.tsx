@@ -3,18 +3,19 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import NonNativeTokenDisplay, { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))
 
-describe('TokenDisplay', () => {
+describe('LegacyTokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
     return createMockStore({
       localCurrency: {
@@ -29,6 +30,7 @@ describe('TokenDisplay', () => {
             symbol: 'cUSD',
             balance: '50',
             priceUsd: '1',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
           ['0xeur']: {
@@ -36,6 +38,7 @@ describe('TokenDisplay', () => {
             symbol: 'cEUR',
             balance: '50',
             priceUsd: '1.2',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
           ['0xcelo']: {
@@ -43,6 +46,7 @@ describe('TokenDisplay', () => {
             symbol: 'CELO',
             balance: '10',
             priceUsd: '5',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
         },
@@ -56,7 +60,7 @@ describe('TokenDisplay', () => {
       expect(() =>
         render(
           <Provider store={store()}>
-            <NonNativeTokenDisplay
+            <LegacyTokenDisplay
               showLocalAmount={false}
               amount={10}
               tokenAddress={'0xusd'}
@@ -71,7 +75,7 @@ describe('TokenDisplay', () => {
       expect(() =>
         render(
           <Provider store={store()}>
-            <NonNativeTokenDisplay showLocalAmount={false} amount={10} testID="test" />
+            <LegacyTokenDisplay showLocalAmount={false} amount={10} testID="test" />
           </Provider>
         )
       ).toThrow()
@@ -81,7 +85,7 @@ describe('TokenDisplay', () => {
       expect(() =>
         render(
           <Provider store={store()}>
-            <NonNativeTokenDisplay showLocalAmount={false} amount={10} testID="test" />
+            <LegacyTokenDisplay showLocalAmount={false} amount={10} testID="test" />
           </Provider>
         )
       ).not.toThrow()
@@ -89,7 +93,7 @@ describe('TokenDisplay', () => {
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             amount={10}
             tokenAddress={'0xusd'}
@@ -103,7 +107,7 @@ describe('TokenDisplay', () => {
     it('shows local amount when showLocalAmount is true', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             amount={10}
             tokenAddress={'0xusd'}
@@ -117,7 +121,7 @@ describe('TokenDisplay', () => {
     it('shows local amount when showLocalAmount is true and token is not cUSD', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             amount={10}
             tokenAddress={'0xcelo'}
@@ -131,7 +135,7 @@ describe('TokenDisplay', () => {
     it('shows more decimals up to the', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             amount={0.00000182421}
             tokenAddress={'0xusd'}
@@ -145,7 +149,7 @@ describe('TokenDisplay', () => {
     it('hides the symbol when showSymbol is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
@@ -160,7 +164,7 @@ describe('TokenDisplay', () => {
     it('hides the fiat symbol when showSymbol is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
@@ -175,7 +179,7 @@ describe('TokenDisplay', () => {
     it('uses the localAmount if set', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={10}
             tokenAddress={'0xcelo'}
             localAmount={{
@@ -193,7 +197,7 @@ describe('TokenDisplay', () => {
     it('shows explicit plus sign', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             showExplicitPositiveSign={true}
             amount={10}
@@ -208,7 +212,7 @@ describe('TokenDisplay', () => {
     it('shows negative values', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             amount={-10}
             tokenAddress={'0xusd'}
@@ -222,7 +226,7 @@ describe('TokenDisplay', () => {
     it('shows a dash when the token doesnt exist', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
+          <LegacyTokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('-')
@@ -231,7 +235,7 @@ describe('TokenDisplay', () => {
     it('doesnt show error when the token doesnt exist if theres a localAmount', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             amount={10}
             tokenAddress={'0xdoesntexist'}
             localAmount={{
@@ -249,7 +253,7 @@ describe('TokenDisplay', () => {
     it('hides the sign', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             hideSign={true}
             amount={-10}

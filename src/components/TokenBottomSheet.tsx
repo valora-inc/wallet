@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -64,14 +64,14 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
           </View>
         ) : (
           <View style={styles.tokenBalanceContainer}>
-            <NonNativeTokenDisplay
+            <LegacyTokenDisplay
               style={styles.localBalance}
               amount={tokenInfo.balance}
               tokenAddress={tokenInfo.address}
               showLocalAmount={true}
               testID={`Local${tokenInfo.symbol}Balance`}
             />
-            <NonNativeTokenDisplay
+            <LegacyTokenDisplay
               style={styles.currencyBalance}
               amount={tokenInfo.balance}
               tokenAddress={tokenInfo.address}

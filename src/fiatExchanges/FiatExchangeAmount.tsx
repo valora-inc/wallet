@@ -18,7 +18,7 @@ import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import LineItemRow from 'src/components/LineItemRow'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { useMaxSendAmountByAddress } from 'src/fees/hooks'
@@ -251,7 +251,7 @@ function FiatExchangeAmount({ route }: Props) {
               <>
                 {`${t(displayCurrencyKey)} @ `}
                 {
-                  <NonNativeTokenDisplay
+                  <LegacyTokenDisplay
                     amount={BigNumber(1)}
                     tokenAddress={address}
                     showLocalAmount={true}
@@ -261,7 +261,7 @@ function FiatExchangeAmount({ route }: Props) {
               </>
             }
             amount={
-              <NonNativeTokenDisplay
+              <LegacyTokenDisplay
                 amount={inputCryptoAmount}
                 tokenAddress={address}
                 showLocalAmount={inputIsCrypto}

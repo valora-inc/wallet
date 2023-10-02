@@ -4,11 +4,11 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { formatValueToDisplay } from 'src/components/NonNativeTokenDisplay'
+import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { NetworkId } from 'src/transactions/types'
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -26,6 +26,7 @@ describe('TokenDisplay', () => {
             symbol: 'cUSD',
             balance: '50',
             priceUsd: '1',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
           ['celo-alfajores:0xeur']: {
@@ -34,14 +35,15 @@ describe('TokenDisplay', () => {
             symbol: 'cEUR',
             balance: '50',
             priceUsd: '1.2',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
-          ['celo-alfajores:native']: {
-            address: '0xcelo',
-            tokenId: 'celo-alfajores:native',
-            symbol: 'CELO',
+          ['ethereum-sepolia:native']: {
+            tokenId: 'ethereum-sepolia:native',
+            symbol: 'ETH',
             balance: '10',
             priceUsd: '5',
+            networkId: NetworkId['ethereum-sepolia'],
             priceFetchedAt: Date.now(),
           },
         },
@@ -51,30 +53,6 @@ describe('TokenDisplay', () => {
   }
 
   describe('when displaying tokens', () => {
-    it('throws when both currency and tokenId are supplied', () => {
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay
-              showLocalAmount={false}
-              amount={10}
-              tokenId={'celo-alfajores:0xusd'}
-              currency={Currency.Celo}
-              testID="test"
-            />
-          </Provider>
-        )
-      ).toThrow()
-    })
-    it('throws when neither currency nor tokenId are supplied', () => {
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).toThrow()
-    })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
@@ -109,7 +87,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay
             showLocalAmount={true}
             amount={10}
-            tokenId={'celo-alfajores:native'}
+            tokenId={'ethereum-sepolia:native'}
             testID="test"
           />
         </Provider>
@@ -166,7 +144,7 @@ describe('TokenDisplay', () => {
         <Provider store={store()}>
           <TokenDisplay
             amount={10}
-            tokenId={'celo-alfajores:native'}
+            tokenId={'ethereum-sepolia:native'}
             localAmount={{
               currencyCode: LocalCurrencyCode.PHP,
               exchangeRate: '0.5',

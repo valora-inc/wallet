@@ -18,7 +18,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
-import NonNativeTokenDisplay from 'src/components/NonNativeTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeType } from 'src/fees/reducer'
@@ -286,7 +286,7 @@ function SendConfirmation(props: Props) {
               )}
             </View>
           </View>
-          <NonNativeTokenDisplay
+          <LegacyTokenDisplay
             testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}
