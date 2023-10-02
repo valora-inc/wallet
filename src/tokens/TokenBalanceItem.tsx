@@ -7,6 +7,7 @@ import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -63,9 +64,9 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
             </Text>
           </View>
           <View style={styles.line}>
-            {token.networkName ? (
+            {token.networkId in NETWORK_NAMES ? (
               <Text numberOfLines={1} style={styles.subLabel} testID="NetworkLabel">
-                {t('assets.networkName', { networkName: token.networkName })}
+                {t('assets.networkName', { networkName: NETWORK_NAMES[token.networkId] })}
               </Text>
             ) : (
               <View />

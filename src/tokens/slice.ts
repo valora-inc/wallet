@@ -22,7 +22,6 @@ export interface BaseToken {
   minimumAppVersionToSwap?: string
   networkIconUrl?: string
   bridge?: string
-  networkName?: string
 }
 
 interface HistoricalPricesUsd {
