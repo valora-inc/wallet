@@ -134,7 +134,7 @@ function useErrorMessageWithRefresh() {
 
 // TODO(ACT-919): replace with feature gate
 function showMultichainAssetsScreen() {
-  return true
+  return false
 }
 
 export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
