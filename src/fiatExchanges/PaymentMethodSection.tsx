@@ -197,7 +197,11 @@ export function PaymentMethodSection({
   }
 
   const renderInfoText = (quote: NormalizedQuote) => {
-    const reqsSubtitleInfo = quote.getReqsSubtitle()
+    const mobileCarrier = quote.getMobileCarrier()
+    const mobileCarrierRequirement = t('selectProviderScreen.mobileCarrierRequirement', {
+      carrier: mobileCarrier,
+    })
+    const reqsSubtitleInfo = mobileCarrier ? mobileCarrierRequirement : quote.getKycInfo()
     const reqsSubtitleString = reqsSubtitleInfo ? `${reqsSubtitleInfo} | ` : ''
     return `${reqsSubtitleString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }

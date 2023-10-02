@@ -15,10 +15,15 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockWBTCAddress,
+  mockWBTCTokenId,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 const mockFetch = fetch as FetchMock
 const mockFeeCurrency = jest.fn()
@@ -54,38 +59,46 @@ const store = {
   },
   tokens: {
     tokenBalances: {
-      [mockCeloAddress]: {
+      [mockCeloTokenId]: {
         balance: '5',
         priceUsd: '3.1',
         symbol: 'CELO',
         address: mockCeloAddress,
+        tokenId: mockCeloTokenId,
+        networkId: NetworkId['celo-alfajores'],
         priceFetchedAt: Date.now(),
         isCoreToken: true,
         decimals: 18,
       },
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         balance: '10',
         priceUsd: '1',
         symbol: 'cUSD',
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
         decimals: 18,
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         balance: '20',
         priceUsd: '1.2',
         symbol: 'cEUR',
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: true,
         priceFetchedAt: Date.now(),
         decimals: 18,
       },
-      [mockWBTCAddress]: {
+      [mockWBTCTokenId]: {
         balance: '0',
         priceUsd: '20000',
         symbol: 'WBTC',
         address: mockWBTCAddress,
+        tokenId: mockWBTCTokenId,
+        networkId: NetworkId['celo-alfajores'],
         isCoreToken: false,
         priceFetchedAt: Date.now(),
         decimals: 8,

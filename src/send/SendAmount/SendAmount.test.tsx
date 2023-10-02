@@ -18,12 +18,28 @@ import {
   mockAccount2Invite,
   mockAccountInvite,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164NumberInvite,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
@@ -33,24 +49,30 @@ const BALANCE_VALID = '23.85'
 const storeData = {
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
         priceUsd: '1',
         balance: BALANCE_VALID,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
         priceUsd: '1.2',
         balance: '10',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '50',
       },
@@ -218,8 +240,10 @@ describe('SendAmount', () => {
         },
         tokens: {
           tokenBalances: {
-            [mockCusdAddress]: {
+            [mockCusdTokenId]: {
               address: mockCusdAddress,
+              tokenId: mockCusdTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cUSD',
               priceUsd: '1',
               balance: '22.85789012',

@@ -5,7 +5,7 @@ import { ActivityIndicator, StyleSheet, Text } from 'react-native'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { Screens } from 'src/navigator/Screens'
-import { BottomSheetParams, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -14,10 +14,9 @@ import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest> &
-  BottomSheetParams
+type Props = BottomSheetScreenProps<StackParamList, Screens.WalletConnectRequest>
 
-function WalletConnectRequest({ route: { params }, handleContentLayout }: Props) {
+function WalletConnectRequest({ route: { params } }: Props) {
   const { t } = useTranslation()
 
   return (
@@ -28,7 +27,6 @@ function WalletConnectRequest({ route: { params }, handleContentLayout }: Props)
           ? styles.loadingTimeoutContainer
           : undefined
       }
-      handleContentLayout={handleContentLayout}
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>
