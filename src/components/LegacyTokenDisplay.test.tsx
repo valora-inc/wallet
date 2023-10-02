@@ -9,12 +9,13 @@ import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))
 
-describe('TokenDisplay', () => {
+describe('LegacyTokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
     return createMockStore({
       localCurrency: {
@@ -29,6 +30,7 @@ describe('TokenDisplay', () => {
             symbol: 'cUSD',
             balance: '50',
             priceUsd: '1',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
           ['0xeur']: {
@@ -36,6 +38,7 @@ describe('TokenDisplay', () => {
             symbol: 'cEUR',
             balance: '50',
             priceUsd: '1.2',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
           ['0xcelo']: {
@@ -43,6 +46,7 @@ describe('TokenDisplay', () => {
             symbol: 'CELO',
             balance: '10',
             priceUsd: '5',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
         },
