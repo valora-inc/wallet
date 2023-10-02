@@ -13,25 +13,8 @@ import { getFeatureGate } from 'src/statsig'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockPositions, mockTokenBalances } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig')
-
-jest.mock('src/web3/networkConfig', () => {
-  const originalModule = jest.requireActual('src/web3/networkConfig')
-  return {
-    __esModule: true,
-    ...originalModule,
-    default: {
-      ...originalModule.default,
-      networkToNetworkId: {
-        celo: 'celo-alfajores',
-        ethereum: 'ethereuim-sepolia',
-      },
-      defaultNetworkId: 'celo-alfajores',
-    },
-  }
-})
 
 const defaultStore = {
   tokens: {
@@ -61,7 +44,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               priceUsd: '0.1',
               tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
               address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'POOF',
               balance: '5',
               priceFetchedAt: Date.now(),
@@ -70,7 +52,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               priceUsd: '1.16',
               tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
@@ -78,7 +59,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'TT',
               balance: '10',
               priceFetchedAt: Date.now(),
@@ -110,16 +90,14 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               priceUsd: '0.1',
               tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
               address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'POOF',
               balance: '5',
               priceFetchedAt: Date.now(),
             },
             'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
@@ -227,18 +205,16 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         tokens: {
           tokenBalances: {
             'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
             },
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
-              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
-              networkId: NetworkId['celo-alfajores'],
+              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
             },
@@ -268,18 +244,16 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         tokens: {
           tokenBalances: {
             'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               priceUsd: '1.16',
               address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               balance: '7',
               priceFetchedAt: Date.now(),
             },
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
-              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
-              networkId: NetworkId['celo-alfajores'],
+              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
             },
@@ -351,7 +325,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               tokenId: 'celo-alfajores:native',
               name: 'Celo',
               address: '0xcelo',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'CELO',
               balance: '1',
               priceUsd: '0.90',
@@ -359,9 +332,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               isCoreToken: true,
             },
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
-              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
-              networkId: NetworkId['celo-alfajores'],
+              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
             },
@@ -393,7 +365,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               tokenId: 'celo-alfajores:native',
               name: 'Celo',
               address: '0xcelo',
-              networkId: NetworkId['celo-alfajores'],
               symbol: 'CELO',
               balance: '1',
               priceUsd: '0.90',
@@ -401,9 +372,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               isCoreToken: true,
             },
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
-              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               tokenId: 'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8',
-              networkId: NetworkId['celo-alfajores'],
+              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
               symbol: 'TT',
               balance: '10',
             },

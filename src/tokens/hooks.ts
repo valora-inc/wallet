@@ -7,7 +7,6 @@ import {
   tokensByIdSelectorWrapper,
   tokensListSelectorWrapper,
   totalTokenBalanceSelectorWrapper,
-  tokensWithUsdValueSelectorWrapper,
   tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
@@ -26,7 +25,7 @@ export function useTokenInfoByAddress(tokenAddress?: string | null) {
 }
 
 export function useTokensWithUsdValue(networkIds: NetworkId[]) {
-  return useSelector(tokensWithUsdValueSelectorWrapper(networkIds))
+  return useSelector(tokensListSelectorWrapper(networkIds))
 }
 
 export function useTotalTokenBalance(networkIds: NetworkId[]) {

@@ -13,43 +13,27 @@ import { buildSendTx } from 'src/send/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
-import { mockCeurAddress, mockCeurTokenId, mockCusdAddress, mockCusdTokenId } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
+import { mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const GAS_AMOUNT = 500000
 
 jest.mock('@celo/connect')
-jest.mock('src/web3/networkConfig', () => {
-  const originalModule = jest.requireActual('src/web3/networkConfig')
-  return {
-    ...originalModule,
-    __esModule: true,
-    default: {
-      ...originalModule.default,
-      defaultNetworkId: 'celo-alfajores',
-    },
-  }
-})
 
 const mockTxo = jest.fn()
 
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockCusdTokenId]: {
+      [mockCusdAddress]: {
         address: mockCusdAddress,
-        tokenId: mockCusdTokenId,
-        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
         priceUsd: '1',
         balance: '100',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCeurTokenId]: {
+      [mockCeurAddress]: {
         address: mockCeurAddress,
-        tokenId: mockCeurTokenId,
-        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
         priceUsd: '1.2',
         balance: '0',

@@ -9,32 +9,14 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCusdAddress,
-  mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
   mockPaymentRequests,
   mockTokenBalances,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
-
-jest.mock('src/web3/networkConfig', () => {
-  const originalModule = jest.requireActual('src/web3/networkConfig')
-  return {
-    __esModule: true,
-    ...originalModule,
-    default: {
-      ...originalModule.default,
-      networkToNetworkId: {
-        celo: 'celo-alfajores',
-        ethereum: 'ethereuim-sepolia',
-      },
-      defaultNetworkId: 'celo-alfajores',
-    },
-  }
-})
 
 const testNotification = {
   ctaUri: 'https://celo.org',
@@ -115,10 +97,8 @@ const superchargeWithoutRewardsSetUp = {
 }
 
 const mockcUsdBalance = {
-  [mockCusdTokenId]: {
+  [mockCusdAddress]: {
     address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     balance: '100',
     symbol: 'cUSD',
@@ -128,10 +108,8 @@ const mockcUsdBalance = {
 }
 
 const mockcUsdWithoutEnoughBalance = {
-  [mockCusdTokenId]: {
+  [mockCusdAddress]: {
     address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     balance: '5',
     symbol: 'cUSD',

@@ -18,7 +18,6 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -33,7 +32,7 @@ export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 /**
  * Selector-like functions suffixed with "wrapper" are higher-order functions which return a selector
  * that only looks at tokens from the specified networkIds. These functions should not be called
- * directly from components, but instead from within hooks.
+ * directly from components, but instead from within hooks
  */
 export const tokensByIdSelectorWrapper = (networkIds: NetworkId[]) =>
   createSelector(
@@ -48,7 +47,7 @@ export const tokensByIdSelectorWrapper = (networkIds: NetworkId[]) =>
         ) {
           continue
         }
-        const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
+        const priceUsd = new BigNumber(storedState.priceUsd)
         const tokenPriceUsdIsStale =
           (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
         tokenBalances[storedState.tokenId] = {
@@ -71,15 +70,10 @@ export const tokensByAddressSelector = createSelector(
   (storedBalances) => {
     const tokenBalances: TokenBalancesWithAddress = {}
     for (const storedState of Object.values(storedBalances)) {
-      if (
-        !storedState ||
-        storedState.balance === null ||
-        !storedState.address ||
-        storedState.networkId !== networkConfig.defaultNetworkId
-      ) {
+      if (!storedState || storedState.balance === null || !storedState.address) {
         continue
       }
-      const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
+      const priceUsd = new BigNumber(storedState.priceUsd)
 
       const tokenPriceUsdIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE

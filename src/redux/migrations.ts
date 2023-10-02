@@ -1305,5 +1305,4 @@ export const migrations = {
       tokenBalances: {},
     },
   }),
-  152: (state: any) => state,
 }

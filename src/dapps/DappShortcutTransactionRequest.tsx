@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { BottomSheetParams, StackParamList } from 'src/navigator/types'
 import { triggeredShortcutsStatusSelector } from 'src/positions/selectors'
 import { denyExecuteShortcut, executeShortcut } from 'src/positions/slice'
 import { Colors } from 'src/styles/colors'
@@ -17,9 +17,10 @@ import Logger from 'src/utils/Logger'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.DappShortcutTransactionRequest>
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappShortcutTransactionRequest> &
+  BottomSheetParams
 
-function DappShortcutTransactionRequest({ route: { params } }: Props) {
+function DappShortcutTransactionRequest({ route: { params }, handleContentLayout }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -77,7 +78,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
   }
 
   return (
-    <BottomSheetScrollView>
+    <BottomSheetScrollView handleContentLayout={handleContentLayout}>
       {pendingAcceptShortcut?.transactions?.length ? (
         <RequestContent
           type="confirm"

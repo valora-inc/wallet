@@ -107,7 +107,7 @@ function ChooseYourAdventure() {
       const onPress = () => {
         ValoraAnalytics.track(OnboardingEvents.cya_button_press, {
           position: index + 1,
-          cardName: name,
+          name,
           cardOrder,
         })
         goToNextScreen()

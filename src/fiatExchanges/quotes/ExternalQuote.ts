@@ -26,6 +26,7 @@ const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
   numDays: i18n.t('selectProviderScreen.numDays'),
   idRequired: i18n.t('selectProviderScreen.idRequired'),
+  mobileCarrierRequirement: 'selectProviderScreen.mobileCarrierRequirement',
 }
 
 const paymentMethodToSettlementTime = {
@@ -103,12 +104,12 @@ export default class ExternalQuote extends NormalizedQuote {
     return null
   }
 
-  getMobileCarrier(): string | undefined {
+  getReqsSubtitle(): string | null {
     return !isSimplexQuote(this.quote) &&
       this.getPaymentMethod() === PaymentMethod.Airtime &&
       this.quote.extraReqs?.mobileCarrier
-      ? this.quote.extraReqs.mobileCarrier
-      : undefined
+      ? i18n.t(strings.mobileCarrierRequirement, this.quote.extraReqs.mobileCarrier)
+      : this.getKycInfo()
   }
 
   getKycInfo(): string | null {

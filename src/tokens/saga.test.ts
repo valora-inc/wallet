@@ -35,7 +35,6 @@ import Logger from 'src/utils/Logger'
 import { apolloClient } from 'src/apollo'
 import { getFeatureGate } from 'src/statsig'
 import { ApolloQueryResult } from 'apollo-client'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig')
 jest.mock('src/apollo', () => {
@@ -218,7 +217,6 @@ describe(tokenAmountInSmallestUnit, () => {
               [mockTokenId]: {
                 address: mockAddress,
                 tokenId: mockTokenId,
-                networkId: NetworkId['celo-alfajores'],
                 decimals: 5,
               },
             },

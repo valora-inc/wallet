@@ -1,6 +1,9 @@
-import GorhomBottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
+import GorhomBottomSheet, {
+  BottomSheetBackdrop,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Colors from 'src/styles/colors'
@@ -18,6 +21,10 @@ interface Props {
 export type BottomSheetRefType = GorhomBottomSheet
 
 const BottomSheet = ({ forwardedRef, title, description, children, testId }: Props) => {
+  const initialSnapPoints = useMemo(() => ['CONTENT_HEIGHT'], [])
+  const { animatedHandleHeight, animatedSnapPoints, animatedContentHeight, handleContentLayout } =
+    useBottomSheetDynamicSnapPoints(initialSnapPoints)
+
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
       <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
@@ -29,12 +36,14 @@ const BottomSheet = ({ forwardedRef, title, description, children, testId }: Pro
     <GorhomBottomSheet
       ref={forwardedRef}
       index={-1}
-      enableDynamicSizing
+      snapPoints={animatedSnapPoints}
+      handleHeight={animatedHandleHeight}
+      contentHeight={animatedContentHeight}
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={styles.handle}
     >
-      <BottomSheetScrollView testId={testId}>
+      <BottomSheetScrollView handleContentLayout={handleContentLayout} testId={testId}>
         <Text style={styles.title}>{title}</Text>
         {description && <Text style={styles.description}>{description}</Text>}
         {children}

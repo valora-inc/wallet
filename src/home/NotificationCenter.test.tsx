@@ -16,25 +16,12 @@ import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockCusdAddress,
-  mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
   mockEscrowedPayment,
   mockPaymentRequests,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
-jest.mock('src/web3/networkConfig', () => {
-  const originalModule = jest.requireActual('src/web3/networkConfig')
-  return {
-    ...originalModule,
-    __esModule: true,
-    default: {
-      ...originalModule.default,
-      defaultNetworkId: 'celo-alfajores',
-    },
-  }
-})
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/navigator/NavigationService', () => ({
   ensurePincode: jest.fn(async () => true),
@@ -114,10 +101,8 @@ const superchargeWithoutRewardsSetUp = {
 }
 
 const mockcUsdBalance = {
-  [mockCusdTokenId]: {
+  [mockCusdAddress]: {
     address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     balance: '100',
     symbol: 'cUSD',
@@ -127,10 +112,8 @@ const mockcUsdBalance = {
 }
 
 const mockcUsdWithoutEnoughBalance = {
-  [mockCusdTokenId]: {
+  [mockCusdAddress]: {
     address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     balance: '5',
     symbol: 'cUSD',

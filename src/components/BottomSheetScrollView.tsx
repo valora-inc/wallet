@@ -2,9 +2,10 @@ import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom
 import React, { useEffect, useState } from 'react'
 import { Keyboard, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { BottomSheetParams } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
 
-interface Props {
+interface Props extends BottomSheetParams {
   containerStyle?: StyleProp<ViewStyle>
   testId?: string
   children: React.ReactNode
@@ -12,12 +13,16 @@ interface Props {
 
 const BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT = 24
 
-function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
+function BottomSheetScrollView({ handleContentLayout, containerStyle, testId, children }: Props) {
   const [scrollEnabled, setScrollEnabled] = useState(false)
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
 
   const scrollEnabledContentHeight = height - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    handleContentLayout(event)
+  }
 
   const handleScrollEnabled = (event: LayoutChangeEvent) => {
     if (event.nativeEvent.layout.height > scrollEnabledContentHeight) {
@@ -36,6 +41,7 @@ function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
         maxHeight: scrollEnabledContentHeight - insets.top,
       }}
       scrollEnabled={scrollEnabled}
+      onLayout={handleLayout}
     >
       <View
         style={[
