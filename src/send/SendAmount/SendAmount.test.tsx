@@ -293,19 +293,21 @@ describe('SendAmount', () => {
           tokenBalances: {
             [mockCusdTokenId]: {
               address: mockCusdAddress,
+              tokenId: mockCusdTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cUSD',
               priceUsd: '1',
               balance: '0',
               priceFetchedAt: Date.now(),
-              tokenId: mockCusdTokenId,
             },
             [mockCeurTokenId]: {
               address: mockCeurAddress,
+              tokenId: mockCeurTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               priceUsd: '1.2',
               balance: '10.12',
               priceFetchedAt: Date.now(),
-              tokenId: mockCeurTokenId,
             },
           },
         },
