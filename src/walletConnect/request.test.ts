@@ -1,8 +1,10 @@
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga/effects'
+import { NetworkId } from 'src/transactions/types'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
-import { getWallet } from 'src/web3/contracts'
+import { getViemWallet, getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -12,9 +14,9 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockViemWallet,
   mockWallet,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -106,28 +108,25 @@ describe(handleRequest, () => {
 
   it('supports personal_sign', async () => {
     await expectSaga(handleRequest, personalSignRequest)
-      .provide([[call(getWallet), mockWallet]])
+      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
       .withState(state)
-      .call(unlockAccount, '0xwallet')
-      .call([mockWallet, 'signPersonalMessage'], '0xwallet', 'Some message')
+      .call([mockViemWallet, 'signMessage'], 'Some message')
       .run()
   })
 
   it('supports eth_signTypedData', async () => {
     await expectSaga(handleRequest, signTypedDataRequest)
-      .provide([[call(getWallet), mockWallet]])
+      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
       .withState(state)
-      .call(unlockAccount, '0xwallet')
-      .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
+      .call([mockViemWallet, 'signTypedData'], { message: 'Some typed data' })
       .run()
   })
 
   it('supports eth_signTypedData_v4', async () => {
     await expectSaga(handleRequest, signTypedDataV4Request)
-      .provide([[call(getWallet), mockWallet]])
+      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
       .withState(state)
-      .call(unlockAccount, '0xwallet')
-      .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
+      .call([mockViemWallet, 'signTypedData'], { message: 'Some typed data' })
       .run()
   })
 
@@ -138,10 +137,9 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC' }],
         })
-          .provide([[call(getWallet), mockWallet]])
+          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
           .withState(state)
-          .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], {
+          .call([mockViemWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
@@ -158,10 +156,9 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC', __skip_normalization: true }],
         })
-          .provide([[call(getWallet), mockWallet]])
+          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
           .withState(state)
-          .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], { from: '0xTEST', data: '0xABC' })
+          .call([mockViemWallet, 'signTransaction'], { from: '0xTEST', data: '0xABC' })
           .run()
       })
 
@@ -210,10 +207,9 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 }],
         })
-          .provide([[call(getWallet), mockWallet]])
+          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
           .withState(state)
-          .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], {
+          .call([mockViemWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: mockCusdAddress,
@@ -231,10 +227,9 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 }],
         })
-          .provide([[call(getWallet), mockWallet]])
+          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
           .withState(state)
-          .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], {
+          .call([mockViemWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
@@ -260,10 +255,9 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [txParams],
         })
-          .provide([[call(getWallet), mockWallet]])
+          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
           .withState(state)
-          .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], {
+          .call([mockViemWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
             chainId: '0xafc8', // 45000 as a hex string
@@ -318,10 +312,9 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC' }],
         })
-          .provide([[call(getWallet), mockWallet]])
+          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
           .withState(state)
-          .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], {
+          .call([mockViemWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: mockCeurAddress,

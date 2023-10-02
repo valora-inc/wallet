@@ -1,4 +1,4 @@
-import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
+import { CeloTx, CeloTxReceipt } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
@@ -6,8 +6,10 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
-import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
+import { getContractKit, getViemWallet, getWallet, getWeb3 } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
@@ -26,7 +28,9 @@ export interface WalletResponseSuccess {
 
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield* call(getWalletAddress)
-  const wallet: UnlockableWallet = yield* call(getWallet)
+  const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
+  //console.log('---', { wallet })
+  const legacyWallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)
@@ -76,14 +80,14 @@ export function* handleRequest({ method, params }: { method: string; params: any
         tx = yield* call(normalizer.populate.bind(normalizer), rawTx)
       }
 
-      return (yield* call([wallet, 'signTransaction'], tx)) as EncodedTransaction
+      return (yield* call([wallet, 'signTransaction'], tx)) as string
     }
     case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:
-      return (yield* call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
+      return (yield* call([wallet, 'signTypedData'], JSON.parse(params[1]))) as string
     case SupportedActions.personal_decrypt:
       return (yield* call(
-        wallet.decrypt.bind(wallet),
+        legacyWallet.decrypt.bind(wallet),
         account,
         Buffer.from(params[1])
       )) as unknown as string
@@ -110,7 +114,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       return receipt.transactionHash
     }
     case SupportedActions.personal_sign:
-      return (yield* call([wallet, 'signPersonalMessage'], account, params[0])) as string
+      return (yield* call([wallet, 'signMessage'], params[0])) as string
     case SupportedActions.eth_sign:
       const web3: Web3 = yield* call(getWeb3)
       return (yield* call(web3.eth.sign.bind(web3), params[1], account)) as string
