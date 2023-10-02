@@ -50,7 +50,7 @@ import {
   tokensWithTokenBalanceSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import { sortByUsdBalance } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
@@ -87,6 +87,7 @@ function AssetsScreen({ navigation, route }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
   const tokensAreStale = useSelector(stalePriceSelector)
+
   const insets = useSafeAreaInsets()
 
   const positions = useSelector(positionsSelector)
@@ -284,7 +285,10 @@ function AssetsScreen({ navigation, route }: Props) {
           sections={[{ data: tokenItems }]}
           renderItem={({ item }: { item: TokenBalance }) => (
             // TODO(ACT-912) replace with new asset component
-            <TokenBalanceItem token={item} showPriceChangeIndicatorInBalances={false} />
+            <TokenBalanceItem
+              token={item as TokenBalanceWithAddress}
+              showPriceChangeIndicatorInBalances={false}
+            />
           )}
           keyExtractor={(item) => item.tokenId}
           onScroll={handleScroll}

@@ -6,9 +6,17 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetsScreen from 'src/tokens/Assets'
+import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockCeurAddress, mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
+import {
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockPositions,
+  mockShortcuts,
+} from 'test/values'
 
 jest.mock('src/statsig', () => {
   return {
@@ -22,8 +30,9 @@ jest.mock('src/statsig', () => {
 const storeWithTokenBalances = {
   tokens: {
     tokenBalances: {
-      [mockCeurAddress]: {
-        usdPrice: '1.16',
+      [mockCeurTokenId]: {
+        tokenId: mockCeurTokenId,
+        priceUsd: '1.16',
         address: mockCeurAddress,
         symbol: 'cEUR',
         imageUrl:
@@ -33,9 +42,11 @@ const storeWithTokenBalances = {
         balance: '5',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        networkId: NetworkId['celo-alfajores'],
       },
-      [mockCusdAddress]: {
-        usdPrice: '1.001',
+      [mockCusdTokenId]: {
+        tokenId: mockCusdTokenId,
+        priceUsd: '1.001',
         address: mockCusdAddress,
         symbol: 'cUSD',
         imageUrl:
@@ -45,6 +56,7 @@ const storeWithTokenBalances = {
         balance: '10',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
+        networkId: NetworkId['celo-alfajores'],
       },
     },
   },
@@ -118,29 +130,34 @@ describe('AssetsScreen', () => {
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
   })
 
-  it('hides dapp positions tab if feature gate is enabled but there are no positions', () => {
+  it('shows dapp positions tab with message if feature gate is enabled but there are no positions', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithTokenBalances)
 
-    const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByText, queryByTestId } =
-      render(
-        <Provider store={store}>
-          <MockedNavigator component={AssetsScreen} />
-        </Provider>
-      )
+    const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
 
     expect(getByTestId('AssetsTokenBalance')).toBeTruthy()
     expect(queryByTestId('AssetsTokenBalance/Info')).toBeFalsy()
     expect(getByTestId('AssetsTokenBalance')).toHaveTextContent('₱21.03')
 
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
-    expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(2)
+    expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(3)
     expect(getByText('assets.tabBar.tokens')).toBeTruthy()
     expect(getByText('assets.tabBar.collectibles')).toBeTruthy()
-    expect(queryByText('assets.tabBar.dappPositions')).toBeFalsy()
+    expect(getByText('assets.tabBar.dappPositions')).toBeTruthy()
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+
+    fireEvent.press(getByText('assets.tabBar.dappPositions'))
+
+    expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
+    expect(getByText('assets.noPositions')).toBeTruthy()
   })
 
   it('renders collectibles on selecting the collectibles tab', () => {
