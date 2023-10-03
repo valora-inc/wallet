@@ -243,6 +243,13 @@ function AssetsScreen({ navigation, route }: Props) {
     return sections
   }, [positions])
 
+  const sections =
+    activeTab === AssetTabType.Tokens
+      ? [{ data: tokenItems }]
+      : activeTab === AssetTabType.Positions
+      ? positionSections
+      : []
+
   const renderSectionHeader = ({
     section,
   }: {
@@ -296,30 +303,30 @@ function AssetsScreen({ navigation, route }: Props) {
         </View>
         <TabBar items={tabBarItems} selectedIndex={activeTab} onChange={handleChangeActiveView} />
       </Animated.View>
-      {(activeTab === AssetTabType.Tokens ||
-        (activeTab === AssetTabType.Positions && positions.length > 0)) && (
-        <AnimatedSectionList
-          contentContainerStyle={{
-            paddingBottom: insets.bottom,
-            opacity: listHeaderHeight > 0 ? 1 : 0,
-          }}
-          // ensure header is above the scrollbar on ios overscroll
-          scrollIndicatorInsets={{ top: listHeaderHeight }}
-          // @ts-ignore can't get the SectionList to accept a union type :(
-          sections={activeTab === AssetTabType.Tokens ? [{ data: tokenItems }] : positionSections}
-          renderItem={renderAssetItem}
-          renderSectionHeader={renderSectionHeader}
-          keyExtractor={keyExtractor}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
-        />
-      )}
-      {activeTab === AssetTabType.Positions && positions.length === 0 && (
-        <View style={styles.noPositionsView}>
-          <Text style={styles.noPositionsText}>{t('assets.noPositions')}</Text>
-        </View>
-      )}
+
+      <AnimatedSectionList
+        contentContainerStyle={{
+          paddingBottom: insets.bottom,
+          opacity: listHeaderHeight > 0 ? 1 : 0,
+        }}
+        // ensure header is above the scroll\bar on ios overscroll
+        scrollIndicatorInsets={{ top: listHeaderHeight }}
+        // @ts-ignore can't get the SectionList to accept a union type :(
+        sections={sections}
+        renderItem={renderAssetItem}
+        renderSectionHeader={renderSectionHeader}
+        keyExtractor={keyExtractor}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
+        ListEmptyComponent={
+          activeTab === AssetTabType.Positions ? (
+            <View style={styles.noPositionsView}>
+              <Text style={styles.noPositionsText}>{t('assets.noPositions')}</Text>
+            </View>
+          ) : null
+        }
+      />
       {/* TODO(ACT-918): render collectibles */}
       {showClaimRewards && (
         <Animated.View
@@ -438,8 +445,7 @@ const styles = StyleSheet.create({
     color: Colors.dark,
   },
   noPositionsView: {
-    flex: 1,
-    justifyContent: 'center',
+    marginTop: '32%',
     marginHorizontal: Spacing.Thick24,
   },
   noPositionsText: {
