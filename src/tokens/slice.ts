@@ -22,10 +22,6 @@ export interface BaseToken {
   minimumAppVersionToSwap?: string
   networkIconUrl?: string
   bridge?: string
-  infoUrl?: string
-  isCashInEligible?: boolean
-  isCashOutEligible?: boolean
-  isStableCoin?: boolean
 }
 
 interface HistoricalPricesUsd {
