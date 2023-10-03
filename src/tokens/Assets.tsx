@@ -86,9 +86,9 @@ function AssetsScreen({ navigation, route }: Props) {
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const tokens = useTokensWithTokenBalance(supportedNetworkIds)
+  const tokens = useTokensWithTokenBalance()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useTotalTokenBalance(supportedNetworkIds) ?? new BigNumber(0)
+  const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
 
   const insets = useSafeAreaInsets()
@@ -283,11 +283,11 @@ function AssetsScreen({ navigation, route }: Props) {
 
   const tabBarItems = useMemo(() => {
     const items = [t('assets.tabBar.tokens'), t('assets.tabBar.collectibles')]
-    if (showPositions) {
+    if (displayPositions) {
       items.push(t('assets.tabBar.dappPositions'))
     }
     return items
-  }, [t, showPositions])
+  }, [t, displayPositions])
 
   return (
     <>
@@ -319,13 +319,6 @@ function AssetsScreen({ navigation, route }: Props) {
         onScroll={handleScroll}
         scrollEventThrottle={16}
         ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
-        ListEmptyComponent={
-          activeTab === AssetTabType.Positions ? (
-            <View style={styles.noPositionsView}>
-              <Text style={styles.noPositionsText}>{t('assets.noPositions')}</Text>
-            </View>
-          ) : null
-        }
       />
       {/* TODO(ACT-918): render collectibles */}
       {showClaimRewards && (
@@ -443,15 +436,6 @@ const styles = StyleSheet.create({
   tabBarItemSelected: {
     ...typeScale.labelMedium,
     color: Colors.dark,
-  },
-  noPositionsView: {
-    marginTop: '32%',
-    marginHorizontal: Spacing.Thick24,
-  },
-  noPositionsText: {
-    color: Colors.gray3,
-    textAlign: 'center',
-    ...typeScale.bodySmall,
   },
 })
 

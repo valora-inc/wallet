@@ -130,34 +130,29 @@ describe('AssetsScreen', () => {
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
   })
 
-  it('shows dapp positions tab with message if feature gate is enabled but there are no positions', () => {
+  it('hides dapp positions if feature gate is enabled but there are no positions', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithTokenBalances)
 
-    const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
+    const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByTestId, queryByText } =
+      render(
+        <Provider store={store}>
+          <MockedNavigator component={AssetsScreen} />
+        </Provider>
+      )
 
     expect(getByTestId('AssetsTokenBalance')).toBeTruthy()
     expect(queryByTestId('AssetsTokenBalance/Info')).toBeFalsy()
     expect(getByTestId('AssetsTokenBalance')).toHaveTextContent('₱21.03')
 
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
-    expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(3)
+    expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(2)
     expect(getByText('assets.tabBar.tokens')).toBeTruthy()
     expect(getByText('assets.tabBar.collectibles')).toBeTruthy()
-    expect(getByText('assets.tabBar.dappPositions')).toBeTruthy()
+    expect(queryByText('assets.tabBar.dappPositions')).toBeFalsy()
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
-
-    fireEvent.press(getByText('assets.tabBar.dappPositions'))
-
-    expect(queryAllByTestId('PositionItem')).toHaveLength(0)
-    expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
-    expect(getByText('assets.noPositions')).toBeTruthy()
   })
 
   it('renders collectibles on selecting the collectibles tab', () => {
