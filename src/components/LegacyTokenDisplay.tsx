@@ -35,6 +35,7 @@ function calculateDecimalsToShow(value: BigNumber) {
 }
 
 // Formats |value| so that it shows at least 2 significant figures and at least 2 decimal places without trailing zeros.
+// TODO: Move this into TokenDisplay.tsx once LegacyTokenDisplay is removed
 export function formatValueToDisplay(value: BigNumber) {
   let decimals = calculateDecimalsToShow(value)
   let text = value.toFormat(decimals)
