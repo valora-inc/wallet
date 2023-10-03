@@ -9,6 +9,11 @@ export enum IconSize {
   MEDIUM = 'medium',
 }
 
+const IconSizesToPixels = {
+  [IconSize.SMALL]: 20,
+  [IconSize.MEDIUM]: 32,
+}
+
 interface Props {
   token: BaseToken
   viewStyle?: StyleProp<ViewStyle>
@@ -33,7 +38,7 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
       ) : (
         <DefaultToken
           testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
-          size={size === IconSize.MEDIUM ? 32 : 20}
+          size={IconSizesToPixels[size]}
         />
       )}
 
@@ -58,13 +63,13 @@ const styles = StyleSheet.create({
     left: 0,
   },
   mediumTokenImage: {
-    width: 32,
-    height: 32,
+    width: IconSizesToPixels[IconSize.MEDIUM],
+    height: IconSizesToPixels[IconSize.MEDIUM],
     borderRadius: 20,
   },
   smallTokenImage: {
-    width: 20,
-    height: 20,
+    width: IconSizesToPixels[IconSize.SMALL],
+    height: IconSizesToPixels[IconSize.SMALL],
     borderRadius: 10,
   },
   networkImage: {
