@@ -46,18 +46,18 @@ export default Send = () => {
       it('Then tapping a token should navigate to send amount', async () => {
         await element(by.id('CELOBalance')).tap()
         await expect(element(by.id('MaxButton'))).toBeVisible()
-        await expect(element(by.id('onChangeToken'))).toBeVisible()
+        await expect(element(by.id('TokenPickerSelector'))).toBeVisible()
         await expect(element(by.id('SwapInput'))).toBeVisible()
       })
 
       it('Then should be able to change token', async () => {
-        await element(by.id('onChangeToken')).tap()
+        await element(by.id('TokenPickerSelector')).tap()
         await element(by.id('CELOTouchable')).tap()
         await expect(element(by.text('CELO')).atIndex(0)).toBeVisible()
-        await element(by.id('onChangeToken')).tap()
+        await element(by.id('TokenPickerSelector')).tap()
         await element(by.id('cUSDTouchable')).tap()
         await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
-        await element(by.id('onChangeToken')).tap()
+        await element(by.id('TokenPickerSelector')).tap()
         await element(by.id('cEURTouchable')).tap()
         await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
       })

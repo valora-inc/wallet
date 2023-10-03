@@ -375,7 +375,7 @@ describe('SendAmount', () => {
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
       expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
 
-      fireEvent.press(wrapper.getByTestId('onChangeToken'))
+      fireEvent.press(wrapper.getByTestId('TokenPickerSelector'))
       fireEvent.press(wrapper.getByTestId('cEURTouchable'))
 
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱0')
