@@ -50,21 +50,23 @@ import {
   useTokensWithTokenBalance,
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
-interface PositionsSectionData {
-  appName: string
+interface SectionData {
+  appName?: string
 }
 
-const AnimatedTokensSectionList =
-  Animated.createAnimatedComponent<SectionListProps<TokenBalance>>(SectionList)
+const AnimatedSectionList =
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
+    SectionList
+  )
 
-const AnimatedPositionsSectionList =
-  Animated.createAnimatedComponent<SectionListProps<Position, PositionsSectionData>>(SectionList)
+const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
+  'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 export enum AssetTabType {
   Tokens = 0,
@@ -231,7 +233,7 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<Position, PositionsSectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -241,16 +243,35 @@ function AssetsScreen({ navigation, route }: Props) {
     return sections
   }, [positions])
 
-  const renderPositionSectionHeader = ({
+  const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<Position, PositionsSectionData>
+    section: SectionListData<TokenBalance | Position, SectionData>
   }) => {
-    return (
-      <View style={styles.positionSectionHeaderContainer}>
-        <Text style={styles.positionSectionHeaderText}>{section.appName.toLocaleUpperCase()}</Text>
-      </View>
-    )
+    if (section.appName) {
+      return (
+        <View style={styles.positionSectionHeaderContainer}>
+          <Text style={styles.positionSectionHeaderText}>
+            {section.appName.toLocaleUpperCase()}
+          </Text>
+        </View>
+      )
+    }
+    return null
+  }
+
+  const keyExtractor = (item: TokenBalance | Position) => {
+    if (assetIsPosition(item)) {
+      return item.address
+    }
+    return item.tokenId
+  }
+
+  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
+    if (assetIsPosition(item)) {
+      return <PositionItem position={item} />
+    }
+    return <TokenBalanceItem token={item} showPriceChangeIndicatorInBalances={false} />
   }
 
   const tabBarItems = useMemo(() => {
@@ -260,11 +281,6 @@ function AssetsScreen({ navigation, route }: Props) {
     }
     return items
   }, [t, showPositions])
-
-  const sectionListContentContainerStyle = {
-    paddingBottom: insets.bottom,
-    opacity: listHeaderHeight > 0 ? 1 : 0,
-  }
 
   return (
     <>
@@ -280,44 +296,30 @@ function AssetsScreen({ navigation, route }: Props) {
         </View>
         <TabBar items={tabBarItems} selectedIndex={activeTab} onChange={handleChangeActiveView} />
       </Animated.View>
-      {activeTab === AssetTabType.Tokens && (
-        <AnimatedTokensSectionList
-          contentContainerStyle={sectionListContentContainerStyle}
+      {(activeTab === AssetTabType.Tokens ||
+        (activeTab === AssetTabType.Positions && positions.length > 0)) && (
+        <AnimatedSectionList
+          contentContainerStyle={{
+            paddingBottom: insets.bottom,
+            opacity: listHeaderHeight > 0 ? 1 : 0,
+          }}
           // ensure header is above the scrollbar on ios overscroll
           scrollIndicatorInsets={{ top: listHeaderHeight }}
-          sections={[{ data: tokenItems }]}
-          renderItem={({ item }: { item: TokenBalance }) => (
-            // TODO(ACT-912) replace with new asset component
-            <TokenBalanceItem
-              token={item as TokenBalanceWithAddress}
-              showPriceChangeIndicatorInBalances={false}
-            />
-          )}
-          keyExtractor={(item) => item.tokenId}
+          // @ts-ignore can't get the SectionList to accept a union type :(
+          sections={activeTab === AssetTabType.Tokens ? [{ data: tokenItems }] : positionSections}
+          renderItem={renderAssetItem}
+          renderSectionHeader={renderSectionHeader}
+          keyExtractor={keyExtractor}
           onScroll={handleScroll}
           scrollEventThrottle={16}
           ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
         />
       )}
-      {activeTab === AssetTabType.Positions &&
-        (positions.length > 0 ? (
-          <AnimatedPositionsSectionList
-            contentContainerStyle={sectionListContentContainerStyle}
-            // ensure header is above the scrollbar on ios overscroll
-            scrollIndicatorInsets={{ top: listHeaderHeight }}
-            sections={positionSections}
-            renderItem={({ item }: { item: Position }) => <PositionItem position={item} />}
-            renderSectionHeader={renderPositionSectionHeader}
-            keyExtractor={(item) => item.address}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
-          />
-        ) : (
-          <View style={styles.noPositionsView}>
-            <Text style={styles.noPositionsText}>{t('assets.noPositions')}</Text>
-          </View>
-        ))}
+      {activeTab === AssetTabType.Positions && positions.length === 0 && (
+        <View style={styles.noPositionsView}>
+          <Text style={styles.noPositionsText}>{t('assets.noPositions')}</Text>
+        </View>
+      )}
       {/* TODO(ACT-918): render collectibles */}
       {showClaimRewards && (
         <Animated.View

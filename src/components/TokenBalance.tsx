@@ -34,15 +34,15 @@ import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenPricesAreStale } from 'src/tokens/hooks'
+import {
+  useTokenPricesAreStale,
+  useTokensInfoUnavailable,
+  useTokensWithTokenBalance,
+  useTokensWithUsdValue,
+  useTotalTokenBalance,
+} from 'src/tokens/hooks'
 import { tokenFetchErrorSelector, tokenFetchLoadingSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
-import {
-  useTokensWithUsdValue,
-  useTokensInfoUnavailable,
-  useTotalTokenBalance,
-  useTokensWithTokenBalance,
-} from 'src/tokens/hooks'
 
 function TokenBalance({
   style = styles.balance,
