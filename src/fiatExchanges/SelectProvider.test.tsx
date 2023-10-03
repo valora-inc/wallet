@@ -11,8 +11,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import { Network, NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -348,11 +346,7 @@ describe(SelectProviderScreen, () => {
       jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     })
 
-    it('renders crypto exchange and navigates to exchanges screen regardless of statsig param for cash outs', async () => {
-      jest.mocked(getExperimentParams).mockReturnValue({
-        addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
-        addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
-      })
+    it('renders for cash outs', async () => {
       const { queryByText, getByText, getByTestId } = render(
         <Provider store={mockStore}>
           <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut)} />
@@ -371,16 +365,11 @@ describe(SelectProviderScreen, () => {
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.ExternalExchanges, {
         currency: Currency.Dollar,
-        isCashIn: false,
         exchanges: mockExchanges,
       })
     })
 
-    it('renders based on params from statsig for cash ins', async () => {
-      jest.mocked(getExperimentParams).mockReturnValue({
-        addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
-        addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
-      })
+    it('renders for cash ins', async () => {
       const { queryByText, getByText, getByTestId } = render(
         <Provider store={mockStore}>
           <SelectProviderScreen {...mockScreenProps()} />
@@ -393,10 +382,6 @@ describe(SelectProviderScreen, () => {
       expect(queryByText('selectProviderScreen.viewExchanges')).toBeFalsy()
       expect(queryByText('selectProviderScreen.depositFrom')).toBeTruthy()
       expect(queryByText('selectProviderScreen.cryptoExchangeOrWallet')).toBeTruthy()
-      expect(getExperimentParams).toHaveBeenCalledTimes(1)
-      expect(getExperimentParams).toHaveBeenCalledWith(
-        ExperimentConfigs[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
-      )
 
       fireEvent.press(getByText('selectProviderScreen.cryptoExchangeOrWallet'))
       expect(navigate).toHaveBeenCalledTimes(1)

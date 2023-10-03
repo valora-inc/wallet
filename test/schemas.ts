@@ -2618,6 +2618,17 @@ export const v152Schema = {
   },
 }
 
+export const v153Schema = {
+  ...v152Schema,
+  _persist: {
+    ...v152Schema._persist,
+    version: 153,
+  },
+  exchange: {
+    ..._.omit(v148Schema.exchange, 'isLoading'),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v152Schema as Partial<RootState>
+  return v153Schema as Partial<RootState>
 }

@@ -794,7 +794,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
   [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
-  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
   [FiatExchangeEvents.cico_landing_token_balance]: { totalBalance?: string }
   [FiatExchangeEvents.cico_landing_select_flow]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
@@ -1327,7 +1326,7 @@ interface AssetsEventsProperties {
   [AssetsEvents.tap_asset]:
     | {
         assetType: 'token'
-        address: string
+        address: string | null
         title: string // Example: 'cUSD'
         description: string
         balanceUsd: number

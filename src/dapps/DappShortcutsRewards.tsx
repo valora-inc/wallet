@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappShortcutsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
-import TokenDisplay from 'src/components/TokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -128,7 +128,7 @@ function DappShortcutsRewards() {
               {item.claimableShortcut.claimableTokens.map((token, index) => (
                 <React.Fragment key={token.address}>
                   {index > 0 && ', '}
-                  <TokenDisplay
+                  <LegacyTokenDisplay
                     amount={token.balance}
                     tokenAddress={token.address}
                     showLocalAmount={false}
@@ -137,7 +137,7 @@ function DappShortcutsRewards() {
               ))}
             </Text>
             {claimableValueUsd.gt(0) && (
-              <TokenDisplay
+              <LegacyTokenDisplay
                 style={styles.rewardFiatAmount}
                 amount={claimableValueUsd}
                 currency={Currency.Dollar}

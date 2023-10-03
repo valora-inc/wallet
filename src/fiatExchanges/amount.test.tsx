@@ -2,13 +2,13 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import TokenDisplay from 'src/components/TokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
-jest.mock('src/components/TokenDisplay')
+jest.mock('src/components/LegacyTokenDisplay')
 jest.mock('src/components/CurrencyDisplay')
 
 describe('CryptoAmount', () => {
@@ -18,7 +18,7 @@ describe('CryptoAmount', () => {
         <CryptoAmount amount={10} currency={CiCoCurrency.cUSD} testID="cryptoAmt" />
       </Provider>
     )
-    expect(TokenDisplay).toHaveBeenCalledWith(
+    expect(LegacyTokenDisplay).toHaveBeenCalledWith(
       {
         amount: 10,
         showLocalAmount: false,

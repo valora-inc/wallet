@@ -19,7 +19,6 @@ import { dappKitSaga } from 'src/dappkit/dappkit'
 import { dappsSaga } from 'src/dapps/saga'
 import { escrowSaga } from 'src/escrow/saga'
 import { Actions as ExchangeActions } from 'src/exchange/actions'
-import { exchangeSaga } from 'src/exchange/saga'
 import { feesSaga } from 'src/fees/saga'
 import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
@@ -127,7 +126,6 @@ export function* rootSaga() {
     yield* spawn(feesSaga)
     yield* spawn(stableTokenSaga)
     yield* spawn(sendSaga)
-    yield* spawn(exchangeSaga)
     yield* spawn(paymentRequestSaga)
     yield* spawn(escrowSaga)
     yield* spawn(importSaga)

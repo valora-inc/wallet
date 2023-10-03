@@ -3,14 +3,26 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import TokenDisplay from 'src/components/TokenDisplay'
-import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
+import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
+import {
+  mockCusdTokenId,
+  mockCusdAddress,
+  mockCeurTokenId,
+  mockCeurAddress,
+  mockCeloTokenId,
+  mockCeloAddress,
+} from 'test/values'
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(() => false),
+}))
 
-describe('TokenDisplay', () => {
+describe('LegacyTokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
     return createMockStore({
       localCurrency: {
@@ -20,30 +32,31 @@ describe('TokenDisplay', () => {
       },
       tokens: {
         tokenBalances: {
-          ['celo-alfajores:0xusd']: {
-            address: '0xusd',
-            tokenId: 'celo-alfajores:0xusd',
+          [mockCusdTokenId]: {
+            address: mockCusdAddress,
+            tokenId: mockCusdTokenId,
             symbol: 'cUSD',
             balance: '50',
             priceUsd: '1',
             networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
-          ['celo-alfajores:0xeur']: {
-            address: '0xeur',
-            tokenId: 'celo-alfajores:0xeur',
+          [mockCeurTokenId]: {
+            address: mockCeurAddress,
+            tokenId: mockCeurTokenId,
             symbol: 'cEUR',
             balance: '50',
             priceUsd: '1.2',
             networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
-          ['ethereum-sepolia:native']: {
-            tokenId: 'ethereum-sepolia:native',
-            symbol: 'ETH',
+          [mockCeloTokenId]: {
+            address: mockCeloAddress,
+            tokenId: mockCeloTokenId,
+            symbol: 'CELO',
             balance: '10',
             priceUsd: '5',
-            networkId: NetworkId['ethereum-sepolia'],
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
         },
@@ -53,13 +66,47 @@ describe('TokenDisplay', () => {
   }
 
   describe('when displaying tokens', () => {
+    it('throws when both currency and tokenAddress are supplied', () => {
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <LegacyTokenDisplay
+              showLocalAmount={false}
+              amount={10}
+              tokenAddress={mockCusdAddress}
+              currency={Currency.Celo}
+              testID="test"
+            />
+          </Provider>
+        )
+      ).toThrow()
+    })
+    it('throws when neither currency nor tokenAddress are supplied', () => {
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <LegacyTokenDisplay showLocalAmount={false} amount={10} testID="test" />
+          </Provider>
+        )
+      ).toThrow()
+    })
+    it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
+      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+      expect(() =>
+        render(
+          <Provider store={store()}>
+            <LegacyTokenDisplay showLocalAmount={false} amount={10} testID="test" />
+          </Provider>
+        )
+      ).not.toThrow()
+    })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             amount={10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -70,10 +117,10 @@ describe('TokenDisplay', () => {
     it('shows local amount when showLocalAmount is true', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             amount={10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -84,10 +131,10 @@ describe('TokenDisplay', () => {
     it('shows local amount when showLocalAmount is true and token is not cUSD', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             amount={10}
-            tokenId={'ethereum-sepolia:native'}
+            tokenAddress={mockCeloAddress}
             testID="test"
           />
         </Provider>
@@ -98,10 +145,10 @@ describe('TokenDisplay', () => {
     it('shows more decimals up to the', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             amount={0.00000182421}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -112,11 +159,11 @@ describe('TokenDisplay', () => {
     it('hides the symbol when showSymbol is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -127,11 +174,11 @@ describe('TokenDisplay', () => {
     it('hides the fiat symbol when showSymbol is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -142,9 +189,9 @@ describe('TokenDisplay', () => {
     it('uses the localAmount if set', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             amount={10}
-            tokenId={'ethereum-sepolia:native'}
+            tokenAddress={mockCusdAddress}
             localAmount={{
               currencyCode: LocalCurrencyCode.PHP,
               exchangeRate: '0.5',
@@ -160,11 +207,11 @@ describe('TokenDisplay', () => {
     it('shows explicit plus sign', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             showExplicitPositiveSign={true}
             amount={10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -175,10 +222,10 @@ describe('TokenDisplay', () => {
     it('shows negative values', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             amount={-10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -189,7 +236,7 @@ describe('TokenDisplay', () => {
     it('shows a dash when the token doesnt exist', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay amount={10} tokenId={'celo-alfajores:does-not-exist'} testID="test" />
+          <LegacyTokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('-')
@@ -198,9 +245,9 @@ describe('TokenDisplay', () => {
     it('doesnt show error when the token doesnt exist if theres a localAmount', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             amount={10}
-            tokenId={'celo-alfajores:does-not-exist'}
+            tokenAddress={'0xdoesntexist'}
             localAmount={{
               currencyCode: LocalCurrencyCode.PHP,
               exchangeRate: '0.5',
@@ -216,11 +263,11 @@ describe('TokenDisplay', () => {
     it('hides the sign', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             showLocalAmount={true}
             hideSign={true}
             amount={-10}
-            tokenId={'celo-alfajores:0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>

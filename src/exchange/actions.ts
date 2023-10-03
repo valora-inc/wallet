@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ExchangeRate } from 'src/exchange/reducer'
 import { Currency } from 'src/utils/currencies'
 
@@ -11,10 +10,6 @@ export enum Actions {
   EXCHANGE_TOKENS = 'EXCHANGE/EXCHANGE_TOKENS',
   FETCH_TOBIN_TAX = 'EXCHANGE/FETCH_TOBIN_TAX',
   SET_TOBIN_TAX = 'EXCHANGE/SET_TOBIN_TAX',
-  WITHDRAW_CELO = 'EXCHANGE/WITHDRAW_CELO',
-  WITHDRAW_CELO_SUCCESS = 'EXCHANGE/WITHDRAW_CELO_SUCCESS',
-  WITHDRAW_CELO_FAILED = 'EXCHANGE/WITHDRAW_CELO_FAILED',
-  WITHDRAW_CELO_CANCELED = 'EXCHANGE/WITHDRAW_CELO_CANCELED',
 }
 
 export interface FetchExchangeRateAction {
@@ -50,27 +45,6 @@ export interface UpdateCeloGoldExchangeRateHistory {
   type: Actions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY
   timestamp: number
   exchangeRates: ExchangeRate[]
-}
-
-export interface WithdrawCeloAction {
-  type: Actions.WITHDRAW_CELO
-  amount: BigNumber
-  recipientAddress: string
-  isCashOut: boolean
-}
-
-export interface WithdrawCeloFailureAction {
-  type: Actions.WITHDRAW_CELO_FAILED
-  idx: string | undefined
-  error: ErrorMessages
-}
-
-export interface WithdrawCeloCanceledAction {
-  type: Actions.WITHDRAW_CELO_CANCELED
-}
-
-export interface WithdrawCeloSuccessAction {
-  type: Actions.WITHDRAW_CELO_SUCCESS
 }
 
 export const fetchExchangeRate = (
@@ -120,40 +94,8 @@ export const exchangeTokens = (
   takerToken,
 })
 
-export const withdrawCelo = (
-  amount: BigNumber,
-  recipientAddress: string,
-  isCashOut: boolean
-): WithdrawCeloAction => ({
-  type: Actions.WITHDRAW_CELO,
-  amount,
-  recipientAddress,
-  isCashOut,
-})
-
-export const withdrawCeloFailed = (
-  idx: string | undefined,
-  error: ErrorMessages
-): WithdrawCeloFailureAction => ({
-  type: Actions.WITHDRAW_CELO_FAILED,
-  idx,
-  error,
-})
-
-export const withdrawCeloCanceled = (): WithdrawCeloCanceledAction => ({
-  type: Actions.WITHDRAW_CELO_CANCELED,
-})
-
-export const withdrawCeloSuccess = (): WithdrawCeloSuccessAction => ({
-  type: Actions.WITHDRAW_CELO_SUCCESS,
-})
-
 export type ActionTypes =
   | SetExchangeRateAction
   | ExchangeTokensAction
   | SetTobinTaxAction
   | UpdateCeloGoldExchangeRateHistory
-  | WithdrawCeloAction
-  | WithdrawCeloFailureAction
-  | WithdrawCeloCanceledAction
-  | WithdrawCeloSuccessAction

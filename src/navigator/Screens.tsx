@@ -98,8 +98,5 @@ export enum Screens {
   WalletSecurityPrimerDrawer = 'WalletSecurityPrimerDrawer',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
-  WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
-  WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
-  WithdrawCeloScreen = 'WithdrawCeloScreen',
   WithdrawSpend = 'WithdrawSpend',
 }

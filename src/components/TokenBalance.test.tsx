@@ -59,8 +59,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           tokenBalances: {
             'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762': {
               priceUsd: '0.1',
-              address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
+              address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               networkId: NetworkId['celo-alfajores'],
               symbol: 'POOF',
               balance: '5',
@@ -68,8 +68,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
             },
             'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
               priceUsd: '1.16',
-              address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+              address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
               networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               balance: '7',
@@ -108,8 +108,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           tokenBalances: {
             'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762': {
               priceUsd: '0.1',
-              address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
+              address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
               networkId: NetworkId['celo-alfajores'],
               symbol: 'POOF',
               balance: '5',
@@ -347,10 +347,10 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       const store = createMockStore({
         tokens: {
           tokenBalances: {
-            'celo-alfajores:0xcelo': {
+            'celo-alfajores:native': {
+              tokenId: 'celo-alfajores:native',
               name: 'Celo',
               address: '0xcelo',
-              tokenId: 'celo-alfajores:0xcelo',
               networkId: NetworkId['celo-alfajores'],
               symbol: 'CELO',
               balance: '1',
@@ -389,10 +389,10 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       const store = createMockStore({
         tokens: {
           tokenBalances: {
-            'celo-alfajores:0xcelo': {
+            'celo-alfajores:native': {
+              tokenId: 'celo-alfajores:native',
               name: 'Celo',
               address: '0xcelo',
-              tokenId: 'celo-alfajores:0xcelo',
               networkId: NetworkId['celo-alfajores'],
               symbol: 'CELO',
               balance: '1',

@@ -1,7 +1,7 @@
 import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useState } from 'react'
 import { Keyboard, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -10,20 +10,12 @@ interface Props {
   children: React.ReactNode
 }
 
-const BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT = 24
-
 function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
-  const [scrollEnabled, setScrollEnabled] = useState(false)
-  const { height } = useSafeAreaFrame()
+  const [containerHeight, setContainerHeight] = useState(0)
+  const [contentHeight, setContentHeight] = useState(0)
+
   const insets = useSafeAreaInsets()
-
-  const scrollEnabledContentHeight = height - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT
-
-  const handleScrollEnabled = (event: LayoutChangeEvent) => {
-    if (event.nativeEvent.layout.height > scrollEnabledContentHeight) {
-      setScrollEnabled(true)
-    }
-  }
+  const scrollEnabled = contentHeight > containerHeight
 
   // Dismiss keyboard on mount
   useEffect(() => {
@@ -32,10 +24,10 @@ function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
 
   return (
     <RNBottomSheetScrollView
-      style={{
-        maxHeight: scrollEnabledContentHeight - insets.top,
-      }}
       scrollEnabled={scrollEnabled}
+      onLayout={(event: LayoutChangeEvent) => {
+        setContainerHeight(event.nativeEvent.layout.height)
+      }}
     >
       <View
         style={[
@@ -43,7 +35,9 @@ function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
           { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
           containerStyle,
         ]}
-        onLayout={handleScrollEnabled}
+        onLayout={(event: LayoutChangeEvent) => {
+          setContentHeight(event.nativeEvent.layout.height)
+        }}
         testID={testId}
       >
         {children}

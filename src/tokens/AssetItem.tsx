@@ -6,12 +6,13 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
@@ -52,14 +53,18 @@ export const PositionItem = ({ position }: { position: Position }) => {
       </View>
       <View style={styles.balances}>
         {balanceUsd.gt(0) || balanceUsd.lt(0) ? (
-          <TokenDisplay amount={balanceUsd} currency={Currency.Dollar} style={styles.tokenAmt} />
+          <LegacyTokenDisplay
+            amount={balanceUsd}
+            currency={Currency.Dollar}
+            style={styles.tokenAmt}
+          />
         ) : (
           // If the balance is 0 / NaN, display a dash instead
           // as it means we don't have a price for at least one of the underlying tokens
           <Text style={styles.tokenAmt}>-</Text>
         )}
         {balanceInDecimal && (
-          <TokenDisplay
+          <LegacyTokenDisplay
             amount={balanceInDecimal}
             // Hack to display the token balance without having said token in the base token list
             currency={Currency.Celo}
@@ -77,7 +82,7 @@ export const TokenBalanceItem = ({
   token,
   showPriceChangeIndicatorInBalances,
 }: {
-  token: TokenBalanceWithAddress
+  token: TokenBalance
   showPriceChangeIndicatorInBalances: boolean
 }) => {
   const isHistoricalPriceUpdated = () => {
@@ -115,7 +120,7 @@ export const TokenBalanceItem = ({
       <View style={styles.balances}>
         <TokenDisplay
           amount={new BigNumber(token.balance)}
-          tokenAddress={token.address}
+          tokenId={token.tokenId}
           style={styles.tokenAmt}
           showLocalAmount={false}
           showSymbol={false}
@@ -134,7 +139,7 @@ export const TokenBalanceItem = ({
               )}
             <TokenDisplay
               amount={new BigNumber(token.balance!)}
-              tokenAddress={token.address}
+              tokenId={token.tokenId}
               style={{ ...styles.subtext, marginLeft: 8 }}
               testID={`tokenLocalBalance:${token.symbol}`}
             />
