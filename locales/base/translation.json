@@ -1837,8 +1837,7 @@
       "tokens": "Tokens",
       "collectibles": "Collectibles",
       "dappPositions": "Dapp Positions"
-    },
-    "noPositions": "Your dapp positions will display here once you have one in your wallet"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
