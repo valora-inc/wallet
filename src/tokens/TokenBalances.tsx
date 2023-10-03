@@ -89,9 +89,9 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const activeView = route.params?.activeView ?? AssetViewType.WalletAssets
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const tokens = useTokensWithTokenBalance(supportedNetworkIds)
+  const tokens = useTokensWithTokenBalance()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useTotalTokenBalance(supportedNetworkIds) ?? new BigNumber(0)
+  const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(

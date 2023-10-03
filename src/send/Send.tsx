@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { throttle } from 'lodash'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleSheet } from 'react-native'
@@ -12,6 +12,7 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import ContactPermission from 'src/icons/ContactPermission'
@@ -65,7 +66,10 @@ function Send({ route }: Props) {
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokensWithBalance = useTokensWithTokenBalance(supportedNetworkIds)
+  const tokensWithBalance = useTokensWithTokenBalance()
+  const supportedTokensWithBalance = tokensWithBalance.filter(
+    (token) => token.address && supportedNetworkIds.includes(token.networkId)
+  )
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [searchQuery, setSearchQuery] = useState('')
@@ -73,10 +77,8 @@ function Send({ route }: Props) {
   const [allFiltered, setAllFiltered] = useState(() => sortRecipients(Object.values(allRecipients)))
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
   const [showInviteModal, setShowInviteModal] = useState(false)
-  const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
 
-  const closeCurrencyPicker = () => setShowCurrencyPicker(false)
-
+  const currencyPickerBottomSheetRef = useRef<BottomSheetRefType>(null)
   const dispatch = useDispatch()
 
   const recentRecipientsFilter = useMemo(
@@ -145,7 +147,7 @@ function Send({ route }: Props) {
         origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
       })
     } else {
-      setShowCurrencyPicker(true)
+      currencyPickerBottomSheetRef.current?.snapToIndex(0)
     }
   }, [recipient, recipientVerificationStatus])
 
@@ -168,7 +170,8 @@ function Send({ route }: Props) {
   )
 
   const onTokenSelected = ({ tokenId }: TokenBalance) => {
-    setShowCurrencyPicker(false)
+    currencyPickerBottomSheetRef.current?.close()
+
     if (!recipient) {
       return
     }
@@ -231,7 +234,7 @@ function Send({ route }: Props) {
     return null
   }
 
-  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
+  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : supportedTokensWithBalance).sort(
     sortFirstStableThenCeloThenOthersByUsdBalance
   )
 
@@ -256,10 +259,9 @@ function Send({ route }: Props) {
         <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
       )}
       <TokenBottomSheet
-        isVisible={showingCurrencyPicker}
+        forwardedRef={currencyPickerBottomSheetRef}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
-        onClose={closeCurrencyPicker}
         tokens={sortedTokens}
         title={t('selectToken')}
       />

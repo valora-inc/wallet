@@ -10,7 +10,7 @@ import TokenBottomSheet, {
 } from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
-import { createMockStore, getElementText } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import {
   mockCeurAddress,
   mockCeurTokenId,
@@ -20,7 +20,6 @@ import {
   mockTestTokenTokenId,
 } from 'test/values'
 
-jest.mock('src/components/useShowOrHideAnimation')
 jest.mock('src/analytics/ValoraAnalytics')
 
 const tokens: TokenBalance[] = [
@@ -106,22 +105,20 @@ const mockStore = createMockStore({
 })
 
 const onTokenSelectedMock = jest.fn()
-const onCloseMock = jest.fn()
 
 describe('TokenBottomSheet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  function renderPicker(visible: boolean, searchEnabled: boolean = false) {
+  function renderBottomSheet(searchEnabled: boolean = false) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
           title="testTitle"
-          isVisible={visible}
+          forwardedRef={{ current: null }}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
-          onClose={onCloseMock}
           tokens={tokens}
           searchEnabled={searchEnabled}
         />
@@ -130,19 +127,17 @@ describe('TokenBottomSheet', () => {
   }
 
   it('renders correctly', () => {
-    const { getByTestId } = renderPicker(true)
+    const { getByTestId } = renderBottomSheet()
 
-    expect(getByTestId('BottomSheetContainer')).toBeTruthy()
-
-    expect(getElementText(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
-    expect(getElementText(getByTestId('LocalcUSDBalance'))).toBe('₱13.30')
-    expect(getElementText(getByTestId('cEURBalance'))).toBe('20.00 cEUR')
-    expect(getElementText(getByTestId('LocalcEURBalance'))).toBe('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
-    expect(getElementText(getByTestId('TTBalance'))).toBe('10.00 TT')
+    expect(getByTestId('cUSDBalance')).toHaveTextContent('10.00 cUSD')
+    expect(getByTestId('LocalcUSDBalance')).toHaveTextContent('₱13.30')
+    expect(getByTestId('cEURBalance')).toHaveTextContent('20.00 cEUR')
+    expect(getByTestId('LocalcEURBalance')).toHaveTextContent('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
+    expect(getByTestId('TTBalance')).toHaveTextContent('10.00 TT')
   })
 
   it('handles the choosing of a token correctly', () => {
-    const { getByTestId } = renderPicker(true)
+    const { getByTestId } = renderBottomSheet()
 
     fireEvent.press(getByTestId('cUSDTouchable'))
     expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
@@ -160,26 +155,14 @@ describe('TokenBottomSheet', () => {
     )
   })
 
-  it('handles taps on the background correctly', () => {
-    const { getByTestId } = renderPicker(true)
-
-    fireEvent.press(getByTestId('BackgroundTouchable'))
-    expect(onCloseMock).toHaveBeenCalled()
-  })
-
-  it('renders nothing if not visible', () => {
-    const { queryByTestId } = renderPicker(false)
-    expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
-  })
-
   it('renders and behaves correctly when the search is enabled', () => {
-    const { getByPlaceholderText, queryByTestId } = renderPicker(true, true)
+    const { getByPlaceholderText, getByTestId, queryByTestId } = renderBottomSheet(true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
 
-    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
-    expect(queryByTestId('cEURTouchable')).toBeTruthy()
-    expect(queryByTestId('TTTouchable')).toBeTruthy()
+    expect(getByTestId('cUSDTouchable')).toBeTruthy()
+    expect(getByTestId('cEURTouchable')).toBeTruthy()
+    expect(getByTestId('TTTouchable')).toBeTruthy()
 
     fireEvent.changeText(searchInput, 'Celo')
     // Wait for the analytics debounce
@@ -191,8 +174,8 @@ describe('TokenBottomSheet', () => {
       searchInput: 'Celo',
     })
 
-    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
-    expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    expect(getByTestId('cUSDTouchable')).toBeTruthy()
+    expect(getByTestId('cEURTouchable')).toBeTruthy()
     expect(queryByTestId('TTTouchable')).toBeNull()
 
     fireEvent.changeText(searchInput, 'Test')
@@ -207,7 +190,7 @@ describe('TokenBottomSheet', () => {
 
     expect(queryByTestId('cUSDTouchable')).toBeNull()
     expect(queryByTestId('cEURTouchable')).toBeNull()
-    expect(queryByTestId('TTTouchable')).toBeTruthy()
+    expect(getByTestId('TTTouchable')).toBeTruthy()
 
     fireEvent.changeText(searchInput, 'Usd')
     // Wait for the analytics debounce
@@ -219,13 +202,13 @@ describe('TokenBottomSheet', () => {
       searchInput: 'Usd',
     })
 
-    expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+    expect(getByTestId('cUSDTouchable')).toBeTruthy()
     expect(queryByTestId('cEURTouchable')).toBeNull()
     expect(queryByTestId('TTTouchable')).toBeNull()
   })
 
   it('does not send events for temporary search inputs', () => {
-    const { getByPlaceholderText } = renderPicker(true, true)
+    const { getByPlaceholderText } = renderBottomSheet(true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
 
     fireEvent.changeText(searchInput, 'TemporaryInput')

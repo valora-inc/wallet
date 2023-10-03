@@ -3,7 +3,7 @@ import { spawn, takeEvery } from 'redux-saga/effects'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { rootSaga } from 'src/redux/sagas'
-import { setupStore, _persistConfig } from 'src/redux/store'
+import { _persistConfig, setupStore } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 152,
+          "version": 153,
         },
         "account": {
           "acceptedTerms": false,
@@ -215,7 +215,6 @@ describe('store state', () => {
             "lastTimeUpdated": 0,
             "range": 2592000000,
           },
-          "isLoading": false,
           "tobinTax": "0",
         },
         "fees": {

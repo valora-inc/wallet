@@ -8,11 +8,11 @@ import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/sli
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { Screens } from 'src/navigator/Screens'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1306,4 +1306,8 @@ export const migrations = {
     },
   }),
   152: (state: any) => state,
+  153: (state: any) => ({
+    ...state,
+    exchange: _.omit(state.exchange, 'isLoading'),
+  }),
 }

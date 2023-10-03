@@ -1,17 +1,20 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { Edge, SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
+import BackButton from 'src/components/BackButton'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
+import CustomHeader from 'src/components/header/CustomHeader'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
@@ -19,8 +22,6 @@ import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { styles as headerStyles } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
@@ -29,6 +30,7 @@ import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
@@ -44,13 +46,10 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
-function SwapScreen() {
-  return <SwapScreenSection showDrawerTopNav={true} />
-}
-
-export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: boolean }) {
+export function SwapScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -230,6 +229,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     // ensure that the keyboard is dismissed before animating token bottom sheet
     Keyboard.dismiss()
     setSelectingToken(fieldType)
+    tokenBottomSheetRef.current?.snapToIndex(0)
   }
 
   const handleCloseTokenSelect = () => {
@@ -258,6 +258,7 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     }
 
     setSelectingToken(null)
+    tokenBottomSheetRef.current?.close()
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
@@ -311,7 +312,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const edges: Edge[] | undefined = showDrawerTopNav ? undefined : ['bottom']
   const exchangeRateUpdatePending =
     exchangeRate &&
     (exchangeRate.fromTokenAddress !== fromToken?.address ||
@@ -328,17 +328,12 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
     !showMissingPriceImpactWarning
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer} edges={edges}>
-      {showDrawerTopNav && (
-        <DrawerTopBar
-          testID={'SwapScreen/DrawerBar'}
-          middleElement={
-            <View style={styles.headerContainer}>
-              <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
-            </View>
-          }
-        />
-      )}
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <CustomHeader
+        style={{ paddingHorizontal: variables.contentPadding }}
+        left={<BackButton />}
+        title={t('swapScreen.title')}
+      />
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
@@ -420,7 +415,8 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
         <KeyboardSpacer topSpacing={Spacing.Regular16} />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
-        isVisible={!!selectingToken}
+        forwardedRef={tokenBottomSheetRef}
+        snapPoints={['80%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
@@ -439,9 +435,6 @@ export function SwapScreenSection({ showDrawerTopNav }: { showDrawerTopNav: bool
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-  },
-  headerContainer: {
-    alignItems: 'center',
   },
   contentContainer: {
     padding: Spacing.Regular16,

@@ -15,12 +15,11 @@ import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 /**
  * @deprecated use useTokenInfo and select using tokenId
  */
 export function useTokenInfoByAddress(tokenAddress?: string | null) {
-  // TODO: Make this work with native tokens lacking a tokenAddress
   const tokens = useSelector(tokensByAddressSelector)
   return tokenAddress ? tokens[tokenAddress] : undefined
 }
@@ -29,12 +28,14 @@ export function useTokensWithUsdValue(networkIds: NetworkId[]) {
   return useSelector(tokensWithUsdValueSelectorWrapper(networkIds))
 }
 
-export function useTotalTokenBalance(networkIds: NetworkId[]) {
-  return useSelector(totalTokenBalanceSelectorWrapper(networkIds))
+export function useTotalTokenBalance() {
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  return useSelector(totalTokenBalanceSelectorWrapper(supportedNetworkIds))
 }
 
-export function useTokensWithTokenBalance(networkIds: NetworkId[]) {
-  const tokens = useSelector(tokensListSelectorWrapper(networkIds))
+export function useTokensWithTokenBalance() {
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
 

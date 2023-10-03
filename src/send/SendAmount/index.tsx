@@ -1,7 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -10,7 +10,9 @@ import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AmountKeypad from 'src/components/AmountKeypad'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { NUMBER_INPUT_MAX_DECIMALS, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -35,8 +37,13 @@ import {
   useTokenToLocalAmount,
   useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
-import { defaultTokenToSendSelector } from 'src/tokens/selectors'
-import { fetchTokenBalances } from 'src/tokens/slice'
+import {
+  defaultTokenToSendSelector,
+  stablecoinsSelector,
+  tokensWithTokenBalanceAndAddressSelector,
+} from 'src/tokens/selectors'
+import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
+import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 const LOCAL_CURRENCY_MAX_DECIMALS = 2
 const TOKEN_MAX_DECIMALS = 8
@@ -133,16 +140,20 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
 function SendAmount(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const currencyPickerBottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const defaultToken = useSelector(defaultTokenToSendSelector)
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const stableTokens = useSelector(stablecoinsSelector)
 
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress, defaultTokenOverride } =
     props.route.params
-  const defaultToken = useSelector(defaultTokenToSendSelector)
   const [transferTokenId, setTransferTokenId] = useState(defaultTokenOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-  const tokenInfo = useTokenInfo(transferTokenId)!
+  const tokenInfo = useTokenInfo(transferTokenId)
   const tokenHasPriceUsd = !!tokenInfo?.priceUsd
   const showInputInLocalAmount = usingLocalAmount && tokenHasPriceUsd
 
@@ -215,12 +226,29 @@ function SendAmount(props: Props) {
     setRawAmount(updatedAmount)
   }
 
+  const sortedTokens = useMemo(
+    () =>
+      (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
+        sortFirstStableThenCeloThenOthersByUsdBalance
+      ),
+    [isOutgoingPaymentRequest, stableTokens, tokensWithBalance]
+  )
+
+  const handleShowCurrencyPicker = () => {
+    currencyPickerBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const handleTokenSelected = (token: TokenBalance) => {
+    setTransferTokenId(token.tokenId)
+    currencyPickerBottomSheetRef.current?.close()
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
         tokenId={transferTokenId}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-        onChangeToken={setTransferTokenId}
+        onOpenCurrencyPicker={handleShowCurrencyPicker}
         disallowCurrencyChange={!!forceTokenAddress}
       />
       <DisconnectBanner />
@@ -250,6 +278,13 @@ function SendAmount(props: Props) {
         onPress={onReviewButtonPressed}
         disabled={!isAmountValid || reviewButtonPressed}
         testID="Review"
+      />
+      <TokenBottomSheet
+        forwardedRef={currencyPickerBottomSheetRef}
+        origin={TokenPickerOrigin.Send}
+        onTokenSelected={handleTokenSelected}
+        tokens={sortedTokens}
+        title={t('selectToken')}
       />
     </SafeAreaView>
   )

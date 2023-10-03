@@ -1,17 +1,16 @@
 import { debounce } from 'lodash'
-import React, { useCallback, useState } from 'react'
+import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
-import Times from 'src/icons/Times'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -27,13 +26,14 @@ export enum TokenPickerOrigin {
 export const DEBOUCE_WAIT_TIME = 200
 
 interface Props<T extends TokenBalance> {
-  isVisible: boolean
+  forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
   onTokenSelected: (token: T) => void
-  onClose: () => void
-  tokens: T[]
-  searchEnabled?: boolean
   title: string
+  onClose?: () => void
+  searchEnabled?: boolean
+  snapPoints?: (string | number)[]
+  tokens: T[]
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -93,22 +93,22 @@ function NoResults({
   searchTerm: string
 }) {
   return (
-    <View testID={testID} style={styles.viewContainer}>
+    <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.onboardingBlue} />
       </View>
-      <Text style={styles.text}>
+      <Text style={styles.noResultsText}>
         <Trans i18nKey="tokenBottomSheet.noTokenInResult" tOptions={{ searchTerm }}>
-          <Text style={styles.text} />
+          <Text style={styles.noResultsText} />
         </Trans>
       </Text>
     </View>
   )
 }
 
-// TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
 function TokenBottomSheet<T extends TokenBalance>({
-  isVisible,
+  forwardedRef,
+  snapPoints,
   origin,
   onTokenSelected,
   onClose,
@@ -120,15 +120,6 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const { t } = useTranslation()
 
-  const resetSearchState = () => {
-    setSearchTerm('')
-  }
-
-  const onCloseBottomSheet = () => {
-    resetSearchState()
-    onClose()
-  }
-
   const onTokenPressed = (token: T) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
@@ -136,7 +127,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       tokenId: token.tokenId,
     })
     onTokenSelected(token)
-    resetSearchState()
+    setSearchTerm('')
   }
 
   const sendAnalytics = useCallback(
@@ -149,87 +140,80 @@ function TokenBottomSheet<T extends TokenBalance>({
     []
   )
 
-  const tokenList = tokens.filter((tokenInfo) => {
-    if (searchTerm.length === 0) {
-      return true
-    }
-
-    return (
-      tokenInfo.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tokenInfo.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })
-
-  const titleComponent = <Text style={styles.title}>{title}</Text>
-
-  const searchInput = (
-    <SearchInput
-      placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-      value={searchTerm}
-      onChangeText={(text) => {
-        setSearchTerm(text)
-        sendAnalytics(text)
-      }}
-      style={styles.searchInput}
-      returnKeyType={'search'}
-    />
+  const tokenList = useMemo(
+    () =>
+      tokens.filter((tokenInfo) => {
+        if (searchTerm.length === 0) {
+          return true
+        }
+        return (
+          tokenInfo.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          tokenInfo.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      }),
+    [searchTerm, tokens]
   )
 
-  const stickyHeader = (
-    <>
-      <View style={styles.stickyHeader}>
-        <View style={{ flex: 10 }}>{titleComponent}</View>
-        <Touchable style={{ flex: 1 }} onPress={onCloseBottomSheet}>
-          <Times />
-        </Touchable>
-      </View>
-      {searchEnabled && searchInput}
-    </>
-  )
+  const handleClose = () => {
+    setSearchTerm('')
+    onClose?.()
+  }
 
   return (
-    <BottomSheetLegacy
-      isVisible={isVisible}
-      onBackgroundPress={onCloseBottomSheet}
-      stickyHeader={searchEnabled ? stickyHeader : titleComponent}
-      fullHeight={searchEnabled}
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      snapPoints={snapPoints}
+      title={title}
+      stickyTitle={searchEnabled}
+      stickyHeaderComponent={
+        searchEnabled && (
+          <SearchInput
+            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+            value={searchTerm}
+            onChangeText={(text) => {
+              setSearchTerm(text)
+              sendAnalytics(text)
+            }}
+            style={styles.searchInput}
+            returnKeyType={'search'}
+          />
+        )
+      }
+      onClose={handleClose}
+      testId="TokenBottomSheet"
     >
-      <View>
-        {tokenList.length == 0 ? (
-          searchEnabled ? (
-            <NoResults searchTerm={searchTerm} />
-          ) : null
-        ) : (
-          tokenList.map((tokenInfo, index) => {
-            return (
-              <React.Fragment key={`token-${tokenInfo.address}`}>
-                {index > 0 && <View style={styles.separator} />}
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
-              </React.Fragment>
-            )
-          })
-        )}
-      </View>
-    </BottomSheetLegacy>
+      {tokenList.length == 0 ? (
+        searchEnabled ? (
+          <NoResults searchTerm={searchTerm} />
+        ) : null
+      ) : (
+        tokenList.map((tokenInfo, index) => {
+          return (
+            // Duplicate keys could happen with token.address
+            <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
+              {index > 0 && <View style={styles.separator} />}
+              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
+            </React.Fragment>
+          )
+        })
+      )}
+    </BottomSheet>
   )
 }
 
 TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
-  title: {
-    ...fontStyles.h2,
-  },
   tokenOptionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: Spacing.Regular16,
   },
   tokenImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    marginRight: 10,
+    marginRight: Spacing.Small12,
   },
   tokenNameContainer: {
     flex: 3,
@@ -256,28 +240,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
   },
   searchInput: {
-    marginVertical: Spacing.Regular16,
+    marginTop: Spacing.Regular16,
   },
   iconContainer: {
-    flex: 1,
+    marginRight: Spacing.Small12,
   },
-  text: {
+  noResultsText: {
     ...fontStyles.regular500,
-    flex: 10,
-    textAlignVertical: 'center',
-  },
-  viewContainer: {
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: Spacing.Thick24,
-    marginHorizontal: Spacing.Thick24,
-    marginTop: Spacing.Large32,
   },
-  stickyHeader: {
-    alignItems: 'center',
+  noResultsContainer: {
+    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: Spacing.Regular16,
   },
 })
 

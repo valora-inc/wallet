@@ -54,7 +54,7 @@ function TokenBalance({
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useTotalTokenBalance(supportedNetworkIds)
+  const totalTokenBalanceLocal = useTotalTokenBalance()
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
@@ -197,9 +197,8 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 export function HomeTokenBalance() {
   const { t } = useTranslation()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const totalBalance = useTotalTokenBalance(supportedNetworkIds)
-  const tokenBalances = useTokensWithTokenBalance(supportedNetworkIds)
+  const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   useErrorMessageWithRefresh()
 
@@ -251,9 +250,8 @@ export function HomeTokenBalance() {
 
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const totalBalance = useTotalTokenBalance(supportedNetworkIds)
-  const tokenBalances = useTokensWithTokenBalance(supportedNetworkIds)
+  const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   const onViewBalances = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {

@@ -30,9 +30,6 @@ import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionReq
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
-import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
-import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
-import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -113,7 +110,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
-import SwapScreenWithBack from 'src/swap/SwapScreenWithBack'
+import SwapScreen from 'src/swap/SwapScreen'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import Logger from 'src/utils/Logger'
@@ -287,26 +284,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.MerchantPayment}
       component={MerchantPaymentScreen}
       options={headerWithBackButton}
-    />
-  </>
-)
-
-const exchangeScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.WithdrawCeloScreen}
-      component={WithdrawCeloScreen}
-      options={WithdrawCeloScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.WithdrawCeloQrScannerScreen}
-      component={WithdrawCeloQrScannerScreen}
-      options={WithdrawCeloQrScannerScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.WithdrawCeloReviewScreen}
-      component={WithdrawCeloReviewScreen}
-      options={WithdrawCeloReviewScreen.navigationOptions}
     />
   </>
 )
@@ -551,11 +528,7 @@ const generalScreens = (Navigator: typeof Stack) => (
 
 const swapScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.SwapScreenWithBack}
-      component={SwapScreenWithBack}
-      options={headerWithBackButton}
-    />
+    <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
     <Navigator.Screen
       name={Screens.SwapReviewScreen}
       component={SwapReviewScreen}
@@ -636,7 +609,6 @@ export function MainStackScreen() {
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
       {verificationScreens(Stack)}
-      {exchangeScreens(Stack)}
       {backupScreens(Stack)}
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}

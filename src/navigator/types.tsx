@@ -3,7 +3,6 @@ import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
@@ -94,7 +93,6 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExternalExchanges]: {
-    isCashIn?: boolean
     currency: CiCoCurrency
     exchanges: ExternalExchangeProvider[]
   }
@@ -320,20 +318,6 @@ export type StackParamList = {
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
-  [Screens.WithdrawCeloQrScannerScreen]: {
-    onAddressScanned: (address: string) => void
-  }
-  [Screens.WithdrawCeloReviewScreen]: {
-    amount: BigNumber
-    recipientAddress: string
-    feeEstimate: BigNumber
-    isCashOut: boolean
-  }
-  [Screens.WithdrawCeloScreen]: {
-    isCashOut: boolean
-    amount?: BigNumber
-    recipientAddress?: string
-  }
   [Screens.WithdrawSpend]: undefined
   [Screens.TokenBalances]:
     | {

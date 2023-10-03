@@ -23,7 +23,7 @@ function TokenPickerSelector({ tokenId, onChangeToken }: Props) {
   }
 
   return (
-    <Touchable style={styles.touchable} onPress={onButtonPressed} testID="onChangeToken">
+    <Touchable style={styles.touchable} onPress={onButtonPressed} testID="TokenPickerSelector">
       <View style={styles.container}>
         <Text allowFontScaling={false} style={styles.token}>
           {tokenInfo?.symbol}

@@ -1,4 +1,4 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
@@ -24,7 +24,7 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
-const mockOnChangeToken = jest.fn()
+const mockOnOpenCurrencyPicker = jest.fn()
 
 function renderComponent({
   tokenId,
@@ -71,7 +71,7 @@ function renderComponent({
       <SendAmountHeader
         tokenId={tokenId}
         isOutgoingPaymentRequest={false}
-        onChangeToken={mockOnChangeToken}
+        onOpenCurrencyPicker={mockOnOpenCurrencyPicker}
         disallowCurrencyChange={disallowCurrencyChange}
       />
     </Provider>
@@ -89,7 +89,7 @@ describe('SendAmountHeader', () => {
       cUsdBalance: '0',
     })
 
-    expect(queryByTestId('onChangeToken')).toBeNull()
+    expect(queryByTestId('TokenPickerSelector')).toBeNull()
     expect(getByText('sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
@@ -98,17 +98,9 @@ describe('SendAmountHeader', () => {
       tokenId: mockCeurTokenId,
     })
 
-    const tokenPicker = getByTestId('onChangeToken')
-    expect(tokenPicker).not.toBeNull()
     expect(getByText('send')).toBeDefined()
 
-    await act(() => {
-      fireEvent.press(tokenPicker)
-    })
-
-    await waitFor(() => expect(getByTestId('BottomSheetContainer')).toBeVisible())
-
-    fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdTokenId)
+    fireEvent.press(getByTestId('TokenPickerSelector'))
+    expect(mockOnOpenCurrencyPicker).toHaveBeenCalled()
   })
 })
