@@ -26,7 +26,6 @@ export interface State {
     range: number
     lastTimeUpdated: number
   }
-  isLoading: boolean
 }
 
 export const initialState = {
@@ -39,7 +38,6 @@ export const initialState = {
     range: 30 * 24 * 60 * 60 * 1000, // 30 days
     lastTimeUpdated: 0,
   },
-  isLoading: false,
 }
 
 export const exchangeRatesSelector = (state: RootState) => state.exchange.exchangeRates
@@ -112,7 +110,6 @@ export const reducer = (
           ...persisted.history,
         },
         exchangeRates: initialState.exchangeRates,
-        isLoading: false,
       }
     }
 
@@ -130,22 +127,6 @@ export const reducer = (
       return {
         ...state,
         history: historyReducer(state.history, action),
-      }
-    case Actions.WITHDRAW_CELO:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case Actions.WITHDRAW_CELO_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case Actions.WITHDRAW_CELO_CANCELED:
-    case Actions.WITHDRAW_CELO_FAILED:
-      return {
-        ...state,
-        isLoading: false,
       }
     default:
       return state

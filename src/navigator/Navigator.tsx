@@ -30,9 +30,6 @@ import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionReq
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
-import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
-import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
-import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -287,26 +284,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.MerchantPayment}
       component={MerchantPaymentScreen}
       options={headerWithBackButton}
-    />
-  </>
-)
-
-const exchangeScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.WithdrawCeloScreen}
-      component={WithdrawCeloScreen}
-      options={WithdrawCeloScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.WithdrawCeloQrScannerScreen}
-      component={WithdrawCeloQrScannerScreen}
-      options={WithdrawCeloQrScannerScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.WithdrawCeloReviewScreen}
-      component={WithdrawCeloReviewScreen}
-      options={WithdrawCeloReviewScreen.navigationOptions}
     />
   </>
 )
@@ -632,7 +609,6 @@ export function MainStackScreen() {
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
       {verificationScreens(Stack)}
-      {exchangeScreens(Stack)}
       {backupScreens(Stack)}
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
