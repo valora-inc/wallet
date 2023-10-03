@@ -8,7 +8,7 @@ export interface BaseToken {
   address: string | null
   tokenId: string
   decimals: number
-  imageUrl: string
+  imageUrl?: string
   name: string
   symbol: string
   networkId: NetworkId
@@ -22,6 +22,10 @@ export interface BaseToken {
   minimumAppVersionToSwap?: string
   networkIconUrl?: string
   bridge?: string
+  infoUrl?: string
+  isCashInEligible?: boolean
+  isCashOutEligible?: boolean
+  isStableCoin?: boolean
 }
 
 interface HistoricalPricesUsd {
