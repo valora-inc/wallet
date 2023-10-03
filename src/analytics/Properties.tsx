@@ -1326,7 +1326,7 @@ interface AssetsEventsProperties {
   [AssetsEvents.tap_asset]:
     | {
         assetType: 'token'
-        address: string
+        address: string | null
         title: string // Example: 'cUSD'
         description: string
         balanceUsd: number

@@ -5,7 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import colors from 'src/styles/colors'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 
 interface Props {
   tokenAddress: string
@@ -13,7 +13,7 @@ interface Props {
 }
 
 function TokenPickerSelector({ tokenAddress, onChangeToken }: Props) {
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
 
   const onButtonPressed = () => {
     onChangeToken()

@@ -14,7 +14,7 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { convertLocalToTokenAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
@@ -44,7 +44,7 @@ export function* handleSendPaymentData(
     })
   )
 
-  const tokens: TokenBalanceWithAddress[] = yield* select(tokensListSelector)
+  const tokens: TokenBalanceWithAddress[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
   if (!tokenInfo?.priceUsd) {

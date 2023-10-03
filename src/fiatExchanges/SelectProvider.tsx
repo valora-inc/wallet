@@ -54,7 +54,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -103,7 +103,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoBySymbol(digitalAsset)
+  const tokenInfo = useTokenInfoWithAddressBySymbol(digitalAsset)
 
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)

@@ -17,9 +17,9 @@ import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Actions } from 'src/stableToken/actions'
+import { lastKnownTokenBalancesSelector, tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -314,7 +314,7 @@ export function* fetchTokenBalancesSaga() {
 }
 
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   if (!tokenInfo) {
     throw Error(`Couldnt find token info for address ${tokenAddress}.`)
@@ -325,7 +325,7 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 export function* getTokenInfo(tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   return tokenInfo
 }

@@ -5,7 +5,7 @@ import { estimateFee, FeeType } from 'src/fees/reducer'
 import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
+import { useTokenInfoByAddress, useUsdToTokenAmount } from 'src/tokens/hooks'
 import {
   celoAddressSelector,
   tokensByCurrencySelector,
@@ -51,7 +51,7 @@ export function useMaxSendAmount(
   shouldRefresh: boolean = true
 ) {
   const dispatch = useDispatch()
-  const balance = useTokenInfo(tokenAddress)?.balance ?? new BigNumber(0)
+  const balance = useTokenInfoByAddress(tokenAddress)?.balance ?? new BigNumber(0)
   const feeEstimates = useSelector(feeEstimatesSelector)
 
   // Optionally Keep Fees Up to Date

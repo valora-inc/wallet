@@ -17,7 +17,7 @@ import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -34,15 +34,15 @@ import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { useTokenPricesAreStale } from 'src/tokens/hooks'
+import { tokenFetchErrorSelector, tokenFetchLoadingSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import {
-  stalePriceSelector,
-  tokenFetchErrorSelector,
-  tokenFetchLoadingSelector,
-  tokensInfoUnavailableSelector,
-  tokensWithTokenBalanceSelector,
-  tokensWithUsdValueSelector,
-  totalTokenBalanceSelector,
-} from 'src/tokens/selectors'
+  useTokensWithUsdValue,
+  useTokensInfoUnavailable,
+  useTotalTokenBalance,
+  useTokensWithTokenBalance,
+} from 'src/tokens/hooks'
 
 function TokenBalance({
   style = styles.balance,
@@ -51,12 +51,14 @@ function TokenBalance({
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
 }) {
-  const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector)
+  const totalTokenBalanceLocal = useTotalTokenBalance()
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
-  const tokensAreStale = useSelector(stalePriceSelector)
+  const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
+  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal =
@@ -105,7 +107,8 @@ function TokenBalance({
 function useErrorMessageWithRefresh() {
   const { t } = useTranslation()
 
-  const tokensInfoUnavailable = useSelector(tokensInfoUnavailableSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokensInfoUnavailable = useTokensInfoUnavailable(supportedNetworkIds)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const localCurrencyError = useSelector(localCurrencyExchangeRateErrorSelector)
 
@@ -193,8 +196,9 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 
 export function HomeTokenBalance() {
   const { t } = useTranslation()
-  const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+
+  const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   useErrorMessageWithRefresh()
 
@@ -246,8 +250,8 @@ export function HomeTokenBalance() {
 
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
-  const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+  const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   const onViewBalances = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {

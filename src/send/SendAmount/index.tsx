@@ -31,13 +31,13 @@ import variables from 'src/styles/variables'
 import {
   useAmountAsUsd,
   useLocalToTokenAmount,
-  useTokenInfo,
+  useTokenInfoByAddress,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
 import {
   defaultTokenToSendSelector,
   stablecoinsSelector,
-  tokensWithTokenBalanceSelector,
+  tokensWithTokenBalanceAndAddressSelector,
 } from 'src/tokens/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
@@ -111,7 +111,7 @@ function SendAmount(props: Props) {
   const currencyPickerBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const defaultToken = useSelector(defaultTokenToSendSelector)
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [amount, setAmount] = useState('')
@@ -123,7 +123,7 @@ function SendAmount(props: Props) {
     defaultTokenOverride ?? defaultToken
   )
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-  const tokenInfo = useTokenInfo(transferTokenAddress)!
+  const tokenInfo = useTokenInfoByAddress(transferTokenAddress)!
   const tokenHasPriceUsd = !!tokenInfo?.priceUsd
   const showInputInLocalAmount = usingLocalAmount && tokenHasPriceUsd
 

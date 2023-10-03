@@ -8,8 +8,8 @@ import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigat
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
 
 interface Props {
   tokenAddress: string
@@ -25,8 +25,8 @@ function SendAmountHeader({
   disallowCurrencyChange,
 }: Props) {
   const { t } = useTranslation()
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
 
   const backButtonEventName = isOutgoingPaymentRequest
     ? RequestEvents.request_amount_back

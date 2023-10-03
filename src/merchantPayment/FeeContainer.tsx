@@ -8,7 +8,7 @@ import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { BASE_TAG } from 'src/merchantPayment/constants'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -19,7 +19,7 @@ export default function FeeContainer({ amount }: { amount: BigNumber }) {
 
   const dispatch = useDispatch()
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const tokenInfo = useTokenInfoBySymbol(Currency.Dollar)
+  const tokenInfo = useTokenInfoWithAddressBySymbol(Currency.Dollar)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)

@@ -6,7 +6,7 @@ import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
-import TokenDisplay from 'src/components/TokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
@@ -50,14 +50,14 @@ function TokenOption({
           <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
         </View>
         <View style={styles.tokenBalanceContainer}>
-          <TokenDisplay
+          <LegacyTokenDisplay
             style={styles.localBalance}
             amount={tokenInfo.balance}
             tokenAddress={tokenInfo.address}
             showLocalAmount={true}
             testID={`Local${tokenInfo.symbol}Balance`}
           />
-          <TokenDisplay
+          <LegacyTokenDisplay
             style={styles.currencyBalance}
             amount={tokenInfo.balance}
             tokenAddress={tokenInfo.address}
