@@ -29,7 +29,6 @@ export interface WalletResponseSuccess {
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   console.log('---', { method, params })
   const account: string = yield* call(getWalletAddress)
-  // TODO: get chain from request?
   const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
   const legacyWallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)
