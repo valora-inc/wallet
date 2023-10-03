@@ -46,7 +46,6 @@ import variables from 'src/styles/variables'
 import {
   useLocalToTokenAmountByAddress,
   useTokenInfoWithAddressBySymbol,
-  useTokenToLocalAmount,
   useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
@@ -106,7 +105,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const cUSDToken = useTokenInfoWithAddressBySymbol(CiCoCurrency.cUSD)!
   const localCurrencyMaxAmount =
-    useTokenToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.address) ||
+    useTokenToLocalAmountByAddress(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.address) ||
     new BigNumber(0)
 
   let overLocalLimitDisplayString = ''
