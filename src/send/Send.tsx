@@ -67,8 +67,8 @@ function Send({ route }: Props) {
 
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokensWithBalance = useTokensWithTokenBalance()
-  const supportedTokensWithBalance = tokensWithBalance.filter(
-    (token) => token.address && supportedNetworkIds.includes(token.networkId)
+  const supportedTokensWithBalance = tokensWithBalance.filter((token) =>
+    supportedNetworkIds.includes(token.networkId)
   )
   const stableTokens = useSelector(stablecoinsSelector)
 
