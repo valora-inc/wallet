@@ -29,7 +29,6 @@ export interface WalletResponseSuccess {
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield* call(getWalletAddress)
   const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
-  //console.log('---', { wallet })
   const legacyWallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
