@@ -71,7 +71,7 @@ function LegacyTokenDisplay({
     )
   }
 
-  const tokenInfoFromAddress = useTokenInfoByAddress(tokenAddress!)
+  const tokenInfoFromAddress = useTokenInfoByAddress(tokenAddress)
   const tokenInfoFromCurrency = useTokenInfoWithAddressBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
   )
