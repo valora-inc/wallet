@@ -1,7 +1,4 @@
-import {
-  Actions as ExchangeActions,
-  ActionTypes as ExchangeActionTypes,
-} from 'src/exchange/actions'
+import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -80,7 +77,6 @@ export const reducer = (
           ...(state.standbyTransactionsLegacy || []),
         ],
       }
-    case ExchangeActions.WITHDRAW_CELO_FAILED:
     case Actions.REMOVE_STANDBY_TRANSACTION:
       return {
         ...state,

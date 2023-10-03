@@ -2557,9 +2557,6 @@
                 "WalletSecurityPrimerDrawer",
                 "WebViewScreen",
                 "Welcome",
-                "WithdrawCeloQrScannerScreen",
-                "WithdrawCeloReviewScreen",
-                "WithdrawCeloScreen",
                 "WithdrawSpend"
             ],
             "type": "string"
@@ -4076,9 +4073,6 @@
                     ],
                     "type": "object"
                 },
-                "isLoading": {
-                    "type": "boolean"
-                },
                 "tobinTax": {
                     "type": [
                         "null",
@@ -4089,7 +4083,6 @@
             "required": [
                 "exchangeRates",
                 "history",
-                "isLoading",
                 "tobinTax"
             ],
             "type": "object"

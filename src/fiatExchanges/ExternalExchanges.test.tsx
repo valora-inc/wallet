@@ -29,7 +29,6 @@ describe('ExternalExchanges', () => {
   // ExternalExchanges Screen will always have providers passed in via props
   it('shows list of available exchanges', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
-      isCashIn: true,
       currency: CiCoCurrency.cUSD,
       exchanges: mockExchanges,
     })
