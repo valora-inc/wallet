@@ -309,7 +309,7 @@ function AssetsScreen({ navigation, route }: Props) {
           paddingBottom: insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
         }}
-        // ensure header is above the scroll\bar on ios overscroll
+        // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
         // @ts-ignore can't get the SectionList to accept a union type :(
         sections={sections}
