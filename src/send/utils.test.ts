@@ -16,7 +16,9 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount2,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
   mockQRCodeRecipient,
   mockUriData,
@@ -70,7 +72,7 @@ describe('send/utils', () => {
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
           isOutgoingPaymentRequest: undefined,
           forceTokenAddress: true,
-          defaultTokenOverride: mockCeurAddress,
+          defaultTokenOverride: mockCeurTokenId,
         })
       )
     })
@@ -310,7 +312,7 @@ describe('send/utils', () => {
               recipientType: RecipientType.Address,
             },
             forceTokenAddress: true,
-            defaultTokenOverride: mockCeloAddress,
+            defaultTokenOverride: mockCeloTokenId,
           })
         )
       })
