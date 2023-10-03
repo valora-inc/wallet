@@ -4,11 +4,11 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
@@ -72,10 +72,10 @@ function TokenDisplay({
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const showError = showLocalAmount
-    ? !localAmount && (!tokenInfo?.usdPrice || !localCurrencyExchangeRate)
+    ? !localAmount && (!tokenInfo?.priceUsd || !localCurrencyExchangeRate)
     : !tokenInfo?.symbol
 
-  const amountInUsd = tokenInfo?.usdPrice?.multipliedBy(amount)
+  const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(amount)
   const amountInLocalCurrency = localAmount
     ? new BigNumber(localAmount.value)
     : new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(amountInUsd ?? 0)

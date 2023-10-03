@@ -7,7 +7,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockProviders, mockProviderSelectionAnalyticsData } from 'test/values'
+import {
+  mockCusdAddress,
+  mockProviders,
+  mockProviderSelectionAnalyticsData,
+  mockCusdTokenId,
+} from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -15,10 +21,12 @@ const mockUsdToLocalRate = '2'
 
 const mockTokenInfo = {
   balance: new BigNumber('10'),
-  usdPrice: new BigNumber('1'),
-  lastKnownUsdPrice: new BigNumber('1'),
+  priceUsd: new BigNumber('1'),
+  lastKnownPriceUsd: new BigNumber('1'),
   symbol: 'cUSD',
   address: mockCusdAddress,
+  tokenId: mockCusdTokenId,
+  networkId: NetworkId['celo-alfajores'],
   isCoreToken: true,
   priceFetchedAt: Date.now(),
   decimals: 18,

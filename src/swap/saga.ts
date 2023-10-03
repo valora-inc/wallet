@@ -61,12 +61,12 @@ function calculateEstimatedUsdValue({
   tokenInfo: TokenBalance
   tokenAmount: string
 }): number | undefined {
-  if (!tokenInfo.usdPrice) {
+  if (!tokenInfo.priceUsd) {
     return undefined
   }
 
   const amount = valueToBigNumber(tokenAmount)
-  return tokenInfo.usdPrice.times(amount.shiftedBy(-tokenInfo.decimals)).toNumber()
+  return tokenInfo.priceUsd.times(amount.shiftedBy(-tokenInfo.decimals)).toNumber()
 }
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {

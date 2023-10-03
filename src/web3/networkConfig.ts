@@ -62,6 +62,7 @@ interface NetworkConfig {
   cabStoreEncryptedMnemonicUrl: string
   networkToNetworkId: Record<Network, NetworkId>
   defaultNetworkId: NetworkId
+  getTokensInfoUrl: string
   viemChain: {
     [key in Network]: ViemChain
   }
@@ -69,6 +70,9 @@ interface NetworkConfig {
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
 const CLOUD_FUNCTIONS_MAINNET = 'https://api.mainnet.valora.xyz'
+
+const BLOCKCHAIN_API_STAGING = 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com'
+const BLOCKCHAIN_API_MAINNET = 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com'
 
 const ALLOWED_MTW_IMPLEMENTATIONS_MAINNET: Address[] = [
   '0x6511FB5DBfe95859d8759AdAd5503D656E2555d7',
@@ -82,6 +86,9 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
   '0x6511FB5DBfe95859d8759AdAd5503D656E2555d7'
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
+
+const GET_TOKENS_INFO_URL_ALFAJORES = `${BLOCKCHAIN_API_STAGING}/tokensInfo`
+const GET_TOKENS_INFO_URL_MAINNET = `${BLOCKCHAIN_API_MAINNET}/tokensInfo`
 
 const FETCH_EXCHANGES_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchanges`
 const FETCH_EXCHANGES_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchanges`
@@ -178,14 +185,14 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
-    blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
+    blockchainApiUrl: BLOCKCHAIN_API_STAGING,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     hooksApiUrl: HOOKS_API_URL_ALFAJORES,
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
-      'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
+      BLOCKCHAIN_API_STAGING,
       CLOUD_FUNCTIONS_STAGING,
       'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     ],
@@ -224,6 +231,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
+    getTokensInfoUrl: GET_TOKENS_INFO_URL_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
@@ -236,14 +244,14 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
     },
     defaultNetworkId: NetworkId['celo-mainnet'],
-    blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
+    blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     hooksApiUrl: HOOKS_API_URL_MAINNET,
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
-      'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
+      BLOCKCHAIN_API_MAINNET,
       CLOUD_FUNCTIONS_MAINNET,
       'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     ],
@@ -282,6 +290,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
+    getTokensInfoUrl: GET_TOKENS_INFO_URL_MAINNET,
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,

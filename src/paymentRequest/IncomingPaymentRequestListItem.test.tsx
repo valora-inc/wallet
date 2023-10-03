@@ -8,7 +8,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { AddressValidationType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,7 +18,9 @@ import { createMockStore, getElementText } from 'test/utils'
 import {
   mockAccount3,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockPaymentRequests,
   mockPhoneRecipient,
@@ -46,8 +48,8 @@ const mockPaymentRequest = mockPaymentRequests[1]
 const balances = {
   tokenBalances: {
     ...mockTokenBalances,
-    [mockCusdAddress]: {
-      ...mockTokenBalances[mockCusdAddress],
+    [mockCusdTokenId]: {
+      ...mockTokenBalances[mockCusdTokenId],
       balance: '200',
     },
   },
@@ -173,8 +175,8 @@ describe('IncomingPaymentRequestListItem', () => {
       tokens: {
         tokenBalances: {
           ...mockTokenBalances,
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '200',
           },
         },
@@ -194,8 +196,8 @@ describe('IncomingPaymentRequestListItem', () => {
       tokens: {
         tokenBalances: {
           ...mockTokenBalances,
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '200',
           },
         },
@@ -349,7 +351,8 @@ describe('IncomingPaymentRequestListItem', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.incoming_tx_request,
+      notificationType: NotificationType.incoming_tx_request,
+      notificationId: `${NotificationType.incoming_tx_request}/FAKE_ID_2`,
       selectedAction: NotificationBannerCTATypes.pay,
       notificationPositionInList: 4,
     })
@@ -371,7 +374,8 @@ describe('IncomingPaymentRequestListItem', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.incoming_tx_request,
+      notificationType: NotificationType.incoming_tx_request,
+      notificationId: `${NotificationType.incoming_tx_request}/FAKE_ID_2`,
       selectedAction: NotificationBannerCTATypes.decline,
       notificationPositionInList: 4,
     })

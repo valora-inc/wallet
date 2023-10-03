@@ -1,11 +1,30 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+} from 'test/values'
 
-const mockOnChangeToken = jest.fn()
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
+const mockOnOpenCurrencyPicker = jest.fn()
 
 function renderComponent({
   tokenAddress,
@@ -21,22 +40,28 @@ function renderComponent({
       store={createMockStore({
         tokens: {
           tokenBalances: {
-            [mockCusdAddress]: {
+            [mockCusdTokenId]: {
               address: mockCusdAddress,
+              tokenId: mockCusdTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cUSD',
-              usdPrice: '1',
+              priceUsd: '1',
               balance: cUsdBalance ?? '10',
             },
-            [mockCeurAddress]: {
+            [mockCeurTokenId]: {
               address: mockCeurAddress,
+              tokenId: mockCeurTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
-              usdPrice: '1.2',
+              priceUsd: '1.2',
               balance: '20',
             },
-            [mockCeloAddress]: {
+            [mockCeloTokenId]: {
               address: mockCeloAddress,
+              tokenId: mockCeloTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'CELO',
-              usdPrice: '5',
+              priceUsd: '5',
               balance: '0',
             },
           },
@@ -46,7 +71,7 @@ function renderComponent({
       <SendAmountHeader
         tokenAddress={tokenAddress}
         isOutgoingPaymentRequest={false}
-        onChangeToken={mockOnChangeToken}
+        onOpenCurrencyPicker={mockOnOpenCurrencyPicker}
         disallowCurrencyChange={disallowCurrencyChange}
       />
     </Provider>
@@ -64,7 +89,7 @@ describe('SendAmountHeader', () => {
       cUsdBalance: '0',
     })
 
-    expect(queryByTestId('onChangeToken')).toBeNull()
+    expect(queryByTestId('TokenPickerSelector')).toBeNull()
     expect(getByText('sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
@@ -73,17 +98,9 @@ describe('SendAmountHeader', () => {
       tokenAddress: mockCeurAddress,
     })
 
-    const tokenPicker = getByTestId('onChangeToken')
-    expect(tokenPicker).not.toBeNull()
     expect(getByText('send')).toBeDefined()
 
-    await act(() => {
-      fireEvent.press(tokenPicker)
-    })
-
-    await waitFor(() => expect(getByTestId('BottomSheetContainer')).toBeVisible())
-
-    fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdAddress)
+    fireEvent.press(getByTestId('TokenPickerSelector'))
+    expect(mockOnOpenCurrencyPicker).toHaveBeenCalled()
   })
 })

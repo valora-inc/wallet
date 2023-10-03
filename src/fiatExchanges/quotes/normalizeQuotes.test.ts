@@ -37,7 +37,7 @@ describe('normalizeQuotes', () => {
     expect(
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
-        quote.getFeeInCrypto('1', { usdPrice: BigNumber('1') } as TokenBalance)?.toNumber(),
+        quote.getFeeInCrypto('1', { priceUsd: BigNumber('1') } as TokenBalance)?.toNumber(),
       ])
     ).toEqual([
       ['Ramp', 0],
@@ -46,6 +46,7 @@ describe('normalizeQuotes', () => {
       ['provider-three', 4.22],
       ['Moonpay', 5],
       ['Simplex', 6],
+      ['Fonbnk', 7],
       ['Moonpay', 10],
     ])
   })
@@ -66,6 +67,7 @@ describe('normalizeQuotes', () => {
       ['provider-three', 100],
       ['Ramp', 100],
       ['Moonpay', 95],
+      ['Fonbnk', 93],
       ['Moonpay', 90],
       ['Simplex', 25],
     ])
@@ -82,7 +84,7 @@ describe('normalizeQuotes', () => {
     expect(
       normalizedQuotes.map((quote) => [
         quote.getProviderId(),
-        quote.getFeeInCrypto('1', { usdPrice: BigNumber('1') } as TokenBalance)?.toNumber(),
+        quote.getFeeInCrypto('1', { priceUsd: BigNumber('1') } as TokenBalance)?.toNumber(),
       ])
     ).toEqual([
       ['provider-one', 0.97],

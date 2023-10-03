@@ -14,6 +14,8 @@ import {
   mockAccount,
   mockAccount2,
   mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdTokenId,
   mockCusdAddress,
   mockE164Number,
   mockName,
@@ -145,16 +147,16 @@ describe('transactionDataFromPaymentRequest', () => {
   }): TokenBalance[] => {
     return [
       {
-        ...mockTokenBalances[mockCusdAddress],
+        ...mockTokenBalances[mockCusdTokenId],
         balance: BigNumber(cusdBalance),
-        usdPrice: BigNumber(1),
-        lastKnownUsdPrice: null,
+        priceUsd: BigNumber(1),
+        lastKnownPriceUsd: null,
       },
       {
-        ...mockTokenBalances[mockCeurAddress],
+        ...mockTokenBalances[mockCeurTokenId],
         balance: BigNumber(ceurBalance),
-        usdPrice: BigNumber(1),
-        lastKnownUsdPrice: null,
+        priceUsd: BigNumber(1),
+        lastKnownPriceUsd: null,
       },
     ]
   }

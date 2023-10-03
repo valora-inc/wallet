@@ -8,11 +8,16 @@ import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 import {
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockPositions,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('@segment/analytics-react-native')
 jest.mock('@segment/analytics-react-native-plugin-adjust')
@@ -27,6 +32,17 @@ jest.mock('src/config', () => ({
 }))
 jest.mock('statsig-react-native')
 jest.mock('src/statsig')
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
@@ -38,47 +54,59 @@ const mockStore = jest.mocked(store)
 const state = getMockStoreData({
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         balance: '20',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
       },
-      [mockCeloAddress]: {
+      [mockCeloTokenId]: {
         address: mockCeloAddress,
+        tokenId: mockCeloTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'CELO',
-        usdPrice: '5',
+        priceUsd: '5',
         balance: '0',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
       },
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '10',
         priceFetchedAt: Date.now(),
       },
-      '0xMOO': {
+      'celo-alfajores:0xMOO': {
         address: '0xMOO',
+        tokenId: 'celo-alfajores:0xMOO',
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'MOO',
-        usdPrice: '4',
+        priceUsd: '4',
         balance: '0',
         priceFetchedAt: Date.now(),
       },
-      '0xUBE': {
+      'celo-alfajores:0xUBE': {
         address: '0xUBE',
+        tokenId: 'celo-alfajores:0xUBE',
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'UBE',
-        usdPrice: '2',
+        priceUsd: '2',
         balance: '1',
         priceFetchedAt: Date.now(),
       },

@@ -9,14 +9,32 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
   mockPaymentRequests,
   mockTokenBalances,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const testNotification = {
   ctaUri: 'https://celo.org',
@@ -97,23 +115,27 @@ const superchargeWithoutRewardsSetUp = {
 }
 
 const mockcUsdBalance = {
-  [mockCusdAddress]: {
+  [mockCusdTokenId]: {
     address: mockCusdAddress,
+    tokenId: mockCusdTokenId,
+    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     balance: '100',
     symbol: 'cUSD',
-    usdPrice: '1',
+    priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
 }
 
 const mockcUsdWithoutEnoughBalance = {
-  [mockCusdAddress]: {
+  [mockCusdTokenId]: {
     address: mockCusdAddress,
+    tokenId: mockCusdTokenId,
+    networkId: NetworkId['celo-alfajores'],
     isCoreToken: true,
     balance: '5',
     symbol: 'cUSD',
-    usdPrice: '1',
+    priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
 }
@@ -412,12 +434,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeTruthy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
     fireEvent.press(
-      getByTestId('claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button')
+      getByTestId('supercharge_available/CallToActions/superchargeNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -435,12 +457,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeTruthy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
 
     fireEvent.press(
-      getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
+      getByTestId('supercharging/CallToActions/superchargingNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -461,9 +483,9 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
   })
 
   it('renders start supercharging notification if number is not verified', () => {
@@ -483,12 +505,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeTruthy()
 
     fireEvent.press(
-      getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+      getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -506,12 +528,12 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeTruthy()
 
     fireEvent.press(
-      getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+      getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
     )
     expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
   })
@@ -532,9 +554,9 @@ describe('NotificationBox', () => {
       </Provider>
     )
 
-    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
-    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
   })
 
   it('only renders notifications marked for the home screen when showOnlyHomeScreenNotifications is true', () => {

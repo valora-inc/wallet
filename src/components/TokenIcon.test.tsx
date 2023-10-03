@@ -3,12 +3,12 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import TokenIcon from 'src/components/TokenIcon'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
+import { mockCeloTokenId, mockCusdTokenId, mockTokenBalances } from 'test/values'
 
 // Setting up the mock token balances with expected additional values
-const CELO_TOKEN = mockTokenBalances[mockCeloAddress]
+const CELO_TOKEN = mockTokenBalances[mockCeloTokenId]
 const CUSD_TOKEN = {
-  ...mockTokenBalances[mockCusdAddress],
+  ...mockTokenBalances[mockCusdTokenId],
   networkIconUrl:
     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
 }

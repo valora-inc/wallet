@@ -10,18 +10,24 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import SwapScreen from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
-import SwapScreen, { SwapScreenSection } from 'src/swap/SwapScreen'
 import { Field } from 'src/swap/types'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockPoofAddress,
+  mockPoofTokenId,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
 } from 'test/values'
 
 const mockFetch = fetch as FetchMock
@@ -33,6 +39,18 @@ const mockGetNumberFormatSettings = jest.fn()
 jest.mock('react-native-localize', () => ({
   getNumberFormatSettings: () => mockGetNumberFormatSettings(),
 }))
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 jest.mock('src/statsig', () => {
   return {
@@ -47,17 +65,19 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
   const store = createMockStore({
     tokens: {
       tokenBalances: {
-        [mockCeurAddress]: {
+        [mockCeurTokenId]: {
           address: mockCeurAddress,
+          tokenId: mockCeurTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'cEUR',
           priceFetchedAt: now,
-          historicalUsdPrices: {
+          historicalPricesUsd: {
             lastDay: {
               at: 1658057880747,
               price: '5.03655958698530226301',
             },
           },
-          usdPrice: '5.03655958698530226301',
+          priceUsd: '5.03655958698530226301',
           decimals: 18,
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cEUR.png',
@@ -66,18 +86,20 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           name: 'Celo Euro',
           balance: '0',
         },
-        [mockCusdAddress]: {
-          usdPrice: '1',
+        [mockCusdTokenId]: {
+          priceUsd: '1',
           isCoreToken: true,
           isSwappable: true,
           address: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+          networkId: NetworkId['celo-alfajores'],
           priceFetchedAt: now,
           symbol: 'cUSD',
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cUSD.png',
           decimals: 18,
           balance: cUSDBalance,
-          historicalUsdPrices: {
+          historicalPricesUsd: {
             lastDay: {
               at: 1658057880747,
               price: '1',
@@ -85,17 +107,19 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           },
           name: 'Celo Dollar',
         },
-        [mockCeloAddress]: {
+        [mockCeloTokenId]: {
           address: mockCeloAddress,
+          tokenId: mockCeloTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'CELO',
           priceFetchedAt: now,
-          historicalUsdPrices: {
+          historicalPricesUsd: {
             lastDay: {
               at: 1658057880747,
               price: '13.05584965485329753569',
             },
           },
-          usdPrice: '13.05584965485329753569',
+          priceUsd: '13.05584965485329753569',
           decimals: 18,
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
@@ -104,9 +128,11 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           name: 'Celo native asset',
           balance: celoBalance,
         },
-        [mockTestTokenAddress]: {
-          // no usdPrice
+        [mockTestTokenTokenId]: {
+          // no priceUsd
           address: mockTestTokenAddress,
+          tokenId: mockTestTokenTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'TT',
           decimals: 18,
           imageUrl:
@@ -116,9 +142,11 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
           name: 'Test Token',
           balance: '100',
         },
-        [mockPoofAddress]: {
-          // no usdPrice
+        [mockPoofTokenId]: {
+          // no priceUsd
           address: mockPoofAddress,
+          tokenId: mockPoofTokenId,
+          networkId: NetworkId['celo-alfajores'],
           symbol: 'POOF',
           decimals: 18,
           imageUrl: `https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/POOF.png`,
@@ -133,7 +161,7 @@ const renderScreen = ({ celoBalance = '10', cUSDBalance = '20.456', showDrawerTo
 
   const tree = render(
     <Provider store={store}>
-      <SwapScreenSection showDrawerTopNav={showDrawerTopNav} />
+      <SwapScreen />
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
@@ -173,11 +201,10 @@ describe('SwapScreen', () => {
   })
 
   it('should display the correct elements on load', () => {
-    const { getByText, swapFromContainer, swapToContainer, queryByTestId } = renderScreen({})
+    const { getByText, swapFromContainer, swapToContainer } = renderScreen({})
 
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.review')).toBeDisabled()
-    expect(queryByTestId('SwapScreen/DrawerBar')).toBeTruthy()
 
     expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
@@ -335,7 +362,7 @@ describe('SwapScreen', () => {
   })
 
   it('should show and hide the price impact warning', async () => {
-    // mock usdPrice data: CELO price ~$13, cUSD price = $1
+    // mock priceUsd data: CELO price ~$13, cUSD price = $1
     const lowPriceImpactPrice = '13.12345' // within 4% price impact
     const highPriceImpactPrice = '12.44445' // more than 4% price impact
 
@@ -764,16 +791,6 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
-  })
-
-  it('SwapScreen component renders the top drawer', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapScreen />
-      </Provider>
-    )
-
-    expect(getByTestId('SwapScreen/DrawerBar')).toBeTruthy()
   })
 
   it('should disable buy amount input when swap buy amount experiment is set is false', () => {

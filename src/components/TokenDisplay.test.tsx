@@ -6,13 +6,25 @@ import { Provider } from 'react-redux'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -24,25 +36,31 @@ describe('TokenDisplay', () => {
       },
       tokens: {
         tokenBalances: {
-          ['0xusd']: {
+          ['celo-alfajores:0xusd']: {
             address: '0xusd',
+            tokenId: 'celo-alfajores:0xusd',
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cUSD',
             balance: '50',
-            usdPrice: '1',
+            priceUsd: '1',
             priceFetchedAt: Date.now(),
           },
-          ['0xeur']: {
+          ['celo-alfajores:0xeur']: {
             address: '0xeur',
+            tokenId: 'celo-alfajores:0xeur',
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cEUR',
             balance: '50',
-            usdPrice: '1.2',
+            priceUsd: '1.2',
             priceFetchedAt: Date.now(),
           },
-          ['0xcelo']: {
+          ['celo-alfajores:0xcelo']: {
             address: '0xcelo',
+            tokenId: 'celo-alfajores:0xcelo',
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'CELO',
             balance: '10',
-            usdPrice: '5',
+            priceUsd: '5',
             priceFetchedAt: Date.now(),
           },
         },

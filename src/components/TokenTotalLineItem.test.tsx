@@ -5,11 +5,12 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { LocalAmount } from 'src/transactions/types'
+import { LocalAmount, NetworkId } from 'src/transactions/types'
 import { createMockStore, getElementText } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const mockBtcAddress = '0xbtc'
+const mockBtcTokenId = `celo-alfajores:${mockBtcAddress}`
 
 const defaultAmount = new BigNumber(10)
 const defaultTokenAddress = mockCusdAddress
@@ -42,15 +43,21 @@ describe('TokenTotalLineItem', () => {
           },
           tokens: {
             tokenBalances: {
-              [mockCusdAddress]: {
+              [mockCusdTokenId]: {
+                networkId: NetworkId['celo-alfajores'],
+                address: mockCusdAddress,
+                tokenId: mockCusdTokenId,
                 symbol: 'cUSD',
-                usdPrice: '1',
+                priceUsd: '1',
                 balance: '10',
                 priceFetchedAt: Date.now(),
               },
-              [mockBtcAddress]: {
+              [mockBtcTokenId]: {
+                networkId: NetworkId['celo-alfajores'],
+                address: mockBtcAddress,
+                tokenId: mockBtcTokenId,
                 symbol: 'WBTC',
-                usdPrice: '65000',
+                priceUsd: '65000',
                 balance: '0.5',
                 priceFetchedAt: Date.now(),
               },

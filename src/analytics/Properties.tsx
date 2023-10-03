@@ -60,8 +60,7 @@ import {
 import { DappSection } from 'src/dapps/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { HomeActionName } from 'src/home/types'
+import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
@@ -73,6 +72,7 @@ import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
+type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -156,16 +156,17 @@ interface HomeEventsProperties {
 
   [HomeEvents.notification_scroll]: {
     // TODO: Pass in notificationType and make param required
-    notificationType?: NotificationBannerTypes
+    notificationType?: NotificationType
     direction: ScrollDirection
   }
   [HomeEvents.notification_select]: {
-    notificationType: NotificationBannerTypes
+    notificationType: NotificationType
     selectedAction: NotificationBannerCTATypes
-    notificationId?: string
+    notificationId: string
     notificationPositionInList?: number
   }
   [HomeEvents.notification_impression]: {
+    notificationType: string
     notificationId: string
     notificationPositionInList?: number
   }
@@ -392,7 +393,7 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
   [OnboardingEvents.protect_wallet_complete]: undefined
   [OnboardingEvents.cya_button_press]: {
-    name: string
+    cardName: AdventureCardName
     position: number
     cardOrder: AdventureCardName[]
   }
@@ -624,8 +625,8 @@ interface SendEventsProperties {
   }
   [SendEvents.send_secure_edit]: undefined
 
-  [SendEvents.send_tx_start]: undefined
-  [SendEvents.send_tx_complete]: {
+  [SendEvents.send_tx_start]: Web3LibraryProps
+  [SendEvents.send_tx_complete]: Web3LibraryProps & {
     txId: string
     recipientAddress: string
     amount: string
@@ -720,32 +721,32 @@ interface TransactionEventsProperties {
     txId: string
     description?: string
     fornoMode?: boolean
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_gas_estimated]: {
     txId: string
     estimatedGas: number
     prefilled: boolean
     feeCurrencyAddress?: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_hash_received]: {
     txId: string
     txHash: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_confirmed]: {
     txId: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_receipt_received]: {
     txId: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_error]: {
     txId: string
     error: string
-  }
+  } & Web3LibraryProps
   [TransactionEvents.transaction_exception]: {
     txId: string
     error: string
     feeCurrencyAddress?: string
-  }
+  } & Web3LibraryProps
 }
 
 interface CeloExchangeEventsProperties {

@@ -1543,7 +1543,7 @@
             ],
             "type": "object"
         },
-        "HistoricalUsdPrices": {
+        "HistoricalPricesUsd": {
             "additionalProperties": false,
             "properties": {
                 "lastDay": {
@@ -2460,7 +2460,6 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
-                "AppLoading",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -2482,15 +2481,12 @@
                 "EscrowedPaymentListScreen",
                 "ExchangeHomeScreen",
                 "ExchangeQR",
-                "ExchangeReview",
-                "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectLinkAccount",
                 "FiatConnectRefetchQuote",
                 "FiatConnectReview",
                 "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
-                "FiatExchange",
                 "FiatExchangeAmount",
                 "FiatExchangeCurrency",
                 "GoldEducation",
@@ -2510,7 +2506,6 @@
                 "Main",
                 "MainModal",
                 "MerchantPayment",
-                "MoonPayScreen",
                 "NameAndPicture",
                 "NftGallery",
                 "NftsInfoCarousel",
@@ -2520,8 +2515,6 @@
                 "OutgoingPaymentRequestListScreen",
                 "PaymentRequestConfirmation",
                 "PhoneNumberLookupQuota",
-                "PhotosEducation",
-                "PhotosNUX",
                 "PincodeEnter",
                 "PincodeSet",
                 "Profile",
@@ -2529,7 +2522,6 @@
                 "QRCode",
                 "QRNavigator",
                 "QRScanner",
-                "RampScreen",
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
                 "SanctionedCountryErrorScreen",
@@ -2540,7 +2532,6 @@
                 "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
-                "SetClock",
                 "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
@@ -2551,12 +2542,9 @@
                 "SupportContact",
                 "SwapExecuteScreen",
                 "SwapReviewScreen",
-                "SwapScreen",
                 "SwapScreenWithBack",
-                "Sync",
                 "TokenBalances",
                 "TransactionDetailsScreen",
-                "TransakScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
                 "ValidateRecipientIntro",
@@ -2569,8 +2557,7 @@
                 "WalletSecurityPrimerDrawer",
                 "WebViewScreen",
                 "Welcome",
-                "WithdrawSpend",
-                "XanpoolScreen"
+                "WithdrawSpend"
             ],
             "type": "string"
         },
@@ -4246,7 +4233,10 @@
             "additionalProperties": false,
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "balance": {
                     "type": [
@@ -4254,16 +4244,22 @@
                         "string"
                     ]
                 },
+                "bridge": {
+                    "type": "string"
+                },
                 "decimals": {
                     "type": "number"
                 },
-                "historicalUsdPrices": {
-                    "$ref": "#/definitions/HistoricalUsdPrices"
+                "historicalPricesUsd": {
+                    "$ref": "#/definitions/HistoricalPricesUsd"
                 },
                 "imageUrl": {
                     "type": "string"
                 },
                 "isCoreToken": {
+                    "type": "boolean"
+                },
+                "isNative": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4278,13 +4274,19 @@
                 "networkIconUrl": {
                     "type": "string"
                 },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
                 "priceFetchedAt": {
                     "type": "number"
+                },
+                "priceUsd": {
+                    "type": "string"
                 },
                 "symbol": {
                     "type": "string"
                 },
-                "usdPrice": {
+                "tokenId": {
                     "type": "string"
                 }
             },
@@ -4294,8 +4296,9 @@
                 "decimals",
                 "imageUrl",
                 "name",
+                "networkId",
                 "symbol",
-                "usdPrice"
+                "tokenId"
             ],
             "type": "object"
         },
@@ -4927,6 +4930,9 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
+                        "isScam": {
+                            "type": "boolean"
+                        },
                         "origin": {
                             "type": "string"
                         },

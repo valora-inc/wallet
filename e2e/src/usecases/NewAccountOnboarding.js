@@ -1,15 +1,15 @@
+import { getAddressChunks } from '@celo/utils/lib/address'
 import { EXAMPLE_NAME } from '../utils/consts'
-import { launchApp, reloadReactNative } from '../utils/retries'
+import { launchApp } from '../utils/retries'
 import {
+  completeProtectWalletScreen,
   dismissCashInBottomSheet,
   enterPinUi,
+  quickOnboarding,
   scrollIntoView,
   sleep,
   waitForElementId,
-  quickOnboarding,
-  completeProtectWalletScreen,
 } from '../utils/utils'
-import { getAddressChunks } from '@celo/utils/lib/address'
 
 import jestExpect from 'expect'
 
@@ -29,7 +29,7 @@ const quickEducation = async () => {
 const arriveAtHomeScreen = async () => {
   // Arrived to Home screen
   await dismissCashInBottomSheet()
-  await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+  await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 }
 
 const openHamburger = async () => {
@@ -118,7 +118,7 @@ export default NewAccountOnboarding = () => {
 
     // Navigated to Home screen
     await dismissCashInBottomSheet()
-    await waitFor(element(by.id('SendOrRequestBar')))
+    await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

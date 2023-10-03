@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import _ from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
@@ -29,13 +30,12 @@ import {
   SelectProviderExchangesText,
 } from 'src/fiatExchanges/types'
 import {
-  fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
-import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import {
@@ -75,8 +75,6 @@ import {
   resolveCloudFunctionDigitalAsset,
 } from './utils'
 
-import _ from 'lodash'
-
 const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
@@ -85,6 +83,7 @@ const paymentMethodSections: PaymentMethodSectionMethods[] = [
   PaymentMethod.Card,
   PaymentMethod.Bank,
   PaymentMethod.FiatConnectMobileMoney,
+  PaymentMethod.Airtime,
 ]
 
 export default function SelectProviderScreen({ route, navigation }: Props) {
@@ -102,7 +101,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
-  const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfoBySymbol(digitalAsset)
@@ -111,13 +109,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
   const appId = appIdResponse.result
-
-  // If there is no FC providers in the redux cache, try to fetch again
-  useEffect(() => {
-    if (!fiatConnectProviders) {
-      dispatch(fetchFiatConnectProviders())
-    }
-  }, [fiatConnectProviders])
 
   useEffect(() => {
     dispatch(
@@ -128,7 +119,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         fiatAmount,
       })
     )
-  }, [flow, digitalAsset, cryptoAmount, fiatConnectProviders])
+  }, [flow, digitalAsset, cryptoAmount])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {

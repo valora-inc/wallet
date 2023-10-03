@@ -6,8 +6,9 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppTokenPosition } from 'src/positions/types'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockPositions } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId, mockPositions } from 'test/values'
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -80,8 +81,10 @@ describe('PositionItem', () => {
 describe('TokenBalanceItem', () => {
   const mockTokenInfo = {
     balance: new BigNumber('10'),
-    usdPrice: new BigNumber('1'),
-    lastKnownUsdPrice: new BigNumber('1'),
+    tokenId: mockCusdTokenId,
+    priceUsd: new BigNumber('1'),
+    networkId: NetworkId['celo-alfajores'],
+    lastKnownPriceUsd: new BigNumber('1'),
     symbol: 'cUSD',
     address: mockCusdAddress,
     isCoreToken: true,

@@ -42,6 +42,7 @@ import {
   DEFAULT_APP_LANGUAGE,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX,
   FETCH_TIMEOUT_DURATION,
+  isE2EEnv,
 } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
@@ -49,7 +50,6 @@ import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
-import { navigateToFiatExchangeStart } from 'src/fiatExchanges/navigator'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import {
   appVersionDeprecationChannel,
@@ -65,7 +65,7 @@ import {
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -77,7 +77,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
+import { getFeatureGate, patchUpdateStatsigUser, setupOverridesFromLaunchArgs } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
 import { ensureError } from 'src/utils/ensureError'
@@ -151,6 +151,11 @@ export function* appInit() {
 
   const supportedBiometryType = yield* call(Keychain.getSupportedBiometryType)
   yield* put(setSupportedBiometryType(supportedBiometryType))
+
+  // setup statsig overrides for E2E tests
+  if (isE2EEnv) {
+    setupOverridesFromLaunchArgs()
+  }
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
 }
@@ -354,7 +359,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.CashInSuccess, { provider: cicoSuccessParam.split('/')[0] })
       // Some providers append transaction information to the redirect links so can't check for strict equality
     } else if (rawParams.path.startsWith('/cash-in-failure')) {
-      navigateToFiatExchangeStart()
+      navigateHome()
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.

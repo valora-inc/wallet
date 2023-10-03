@@ -194,6 +194,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     })
   }
 
+  getMobileCarrier(): string | undefined {
+    return undefined
+  }
+
   getKycInfo(): string | null {
     return this.quoteResponseKycSchema ? kycStrings[this.quoteResponseKycSchema.kycSchema] : null
   }

@@ -6,7 +6,7 @@ import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockCeurAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
+import { mockCeurTokenId, mockCusdTokenId, mockTokenBalances } from 'test/values'
 
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
   currency: Currency.Dollar,
@@ -29,12 +29,12 @@ describe(BidaliScreen, () => {
       account: { e164PhoneNumber: null },
       tokens: {
         tokenBalances: {
-          [mockCusdAddress]: {
-            ...mockTokenBalances[mockCusdAddress],
+          [mockCusdTokenId]: {
+            ...mockTokenBalances[mockCusdTokenId],
             balance: '10',
           },
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '5',
           },
         },
@@ -70,12 +70,12 @@ describe(BidaliScreen, () => {
       account: { e164PhoneNumber: '+14155556666' },
       tokens: {
         tokenBalances: {
-          [mockCusdAddress]: {
-            ...mockTokenBalances[mockCusdAddress],
+          [mockCusdTokenId]: {
+            ...mockTokenBalances[mockCusdTokenId],
             balance: '10',
           },
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '5',
           },
         },
@@ -110,12 +110,12 @@ describe(BidaliScreen, () => {
       account: { e164PhoneNumber: '+14155556666' },
       tokens: {
         tokenBalances: {
-          [mockCusdAddress]: {
-            ...mockTokenBalances[mockCusdAddress],
+          [mockCusdTokenId]: {
+            ...mockTokenBalances[mockCusdTokenId],
             balance: '10',
           },
-          [mockCeurAddress]: {
-            ...mockTokenBalances[mockCeurAddress],
+          [mockCeurTokenId]: {
+            ...mockTokenBalances[mockCeurTokenId],
             balance: '9',
           },
         },

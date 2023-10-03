@@ -70,7 +70,7 @@ export default RestoreAccountOnboarding = () => {
       await element(by.id('PhoneVerificationSkipHeader')).tap()
 
       // verify that we land on the home screen
-      await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+      await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
       await waitForElementId('Hamburger')

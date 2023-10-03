@@ -13,12 +13,16 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockPositions,
   mockTestTokenAddress,
   mockTokenBalances,
+  mockTestTokenTokenId,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => {
   return {
@@ -33,8 +37,10 @@ const storeWithoutHistoricalPrices = {
   tokens: {
     tokenBalances: {
       ...mockTokenBalances,
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '50',
       },
@@ -49,13 +55,15 @@ const storeWithHistoricalPrices = {
   tokens: {
     tokenBalances: {
       ...mockTokenBalancesWithHistoricalPrices,
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '50',
-        usdPrice: '2',
+        priceUsd: '2',
         priceFetchedAt: Date.now(),
-        historicalUsdPrices: {
+        historicalPricesUsd: {
           lastDay: {
             price: '1.3',
             at: Date.now() - ONE_DAY_IN_MILLIS,
@@ -72,9 +80,11 @@ const storeWithHistoricalPrices = {
 const storeWithPositions = {
   tokens: {
     tokenBalances: {
-      [mockCeurAddress]: {
-        usdPrice: '1.16',
+      [mockCeurTokenId]: {
+        priceUsd: '1.16',
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
         imageUrl:
           'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
@@ -84,9 +94,11 @@ const storeWithPositions = {
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCusdAddress]: {
-        usdPrice: '1.001',
+      [mockCusdTokenId]: {
+        priceUsd: '1.001',
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
         imageUrl:
           'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',

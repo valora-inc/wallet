@@ -1,15 +1,11 @@
 import { reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementId } from '../utils/utils'
-import jestExpect from 'expect'
 
 export default onRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await element(by.id('add-and-withdraw')).tap()
-    await waitForElementId('addFunds')
-    await element(by.id('addFunds')).tap()
+    await waitForElementId('HomeAction-Add')
+    await element(by.id('HomeAction-Add')).tap()
   })
 
   describe('When Add Funds selected', () => {

@@ -3,8 +3,6 @@ import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import BigNumber from 'bignumber.js'
-import { LayoutChangeEvent } from 'react-native'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
@@ -14,7 +12,6 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
@@ -36,10 +33,6 @@ interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
   isFromScan: boolean
-}
-
-export interface BottomSheetParams {
-  handleContentLayout(event: LayoutChangeEvent): void
 }
 
 export type StackParamList = {
@@ -99,18 +92,6 @@ export type StackParamList = {
   }
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
-  [Screens.ExchangeReview]: {
-    makerToken: Currency
-    takerToken: Currency
-    celoAmount: BigNumber
-    stableAmount: BigNumber
-    inputToken: Currency
-    inputTokenDisplayName: string
-    inputAmount: BigNumber
-  }
-  [Screens.ExchangeTradeScreen]: {
-    buyCelo: boolean
-  }
   [Screens.ExternalExchanges]: {
     currency: CiCoCurrency
     exchanges: ExternalExchangeProvider[]
@@ -119,7 +100,6 @@ export type StackParamList = {
     flow: CICOFlow
     exchanges: ExternalExchangeProvider[]
   }
-  [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
     flow: CICOFlow
@@ -170,26 +150,6 @@ export type StackParamList = {
   [Screens.KycPending]: {
     flow: CICOFlow
     quote: FiatConnectQuote
-  }
-  [Screens.MoonPayScreen]: {
-    localAmount: number
-    currencyCode: LocalCurrencyCode
-    currencyToBuy: CiCoCurrency
-  }
-  [Screens.XanpoolScreen]: {
-    localAmount: number
-    currencyCode: LocalCurrencyCode
-    currencyToBuy: CiCoCurrency
-  }
-  [Screens.RampScreen]: {
-    localAmount: number
-    currencyCode: LocalCurrencyCode
-    currencyToBuy: CiCoCurrency
-  }
-  [Screens.TransakScreen]: {
-    localAmount: number
-    currencyCode: LocalCurrencyCode
-    currencyToBuy: CiCoCurrency
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
@@ -246,8 +206,6 @@ export type StackParamList = {
     onBuy: () => void
     onSkip: () => void
   }
-  [Screens.PhotosEducation]: undefined
-  [Screens.PhotosNUX]: undefined
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
@@ -304,8 +262,6 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
-  [Screens.Sync]: undefined
-  [Screens.SwapScreen]: undefined
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
   [Screens.SwapScreenWithBack]: undefined

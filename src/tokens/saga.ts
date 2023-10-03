@@ -12,34 +12,37 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv } from 'src/config'
+import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Actions } from 'src/stableToken/actions'
-import { e2eTokens } from 'src/tokens/e2eTokens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
 import {
-  fetchTokenBalances,
-  fetchTokenBalancesFailure,
-  setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
+  fetchTokenBalances,
+  fetchTokenBalancesFailure,
+  setTokenBalances,
 } from 'src/tokens/slice'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
-import Logger from 'src/utils/Logger'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+
 import * as utf8 from 'utf8'
 
 const TAG = 'tokens/saga'
@@ -220,7 +223,8 @@ export async function getStableTokenContract(tokenAddress: string) {
 }
 
 export interface FetchedTokenBalance {
-  tokenAddress: string
+  tokenId: string
+  tokenAddress?: string
   balance: string
 }
 
@@ -233,25 +237,47 @@ interface UserBalancesResponse {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
-    query: gql`
-      query FetchUserBalances($address: Address!) {
-        userBalances(address: $address) {
-          balances {
-            tokenAddress
-            balance
+  const chainsToFetch = getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
+    ? Object.values(networkConfig.networkToNetworkId)
+    : [networkConfig.defaultNetworkId]
+  const userBalances = await Promise.all(
+    chainsToFetch.map((networkId) => {
+      return apolloClient.query<UserBalancesResponse, { address: string; networkId: string }>({
+        query: gql`
+          query FetchUserBalances($address: Address!, $networkId: NetworkId) {
+            userBalances(address: $address, networkId: $networkId) {
+              balances {
+                tokenId
+                tokenAddress
+                balance
+              }
+            }
           }
-        }
-      }
-    `,
-    variables: {
-      address,
-    },
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all',
-  })
+        `,
+        variables: {
+          address,
+          networkId: networkId.replaceAll('-', '_'), // GraphQL does not support hyphens in enum values
+        },
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+      })
+    })
+  )
+  return userBalances.reduce(
+    (acc, response) => acc.concat(response.data.userBalances.balances),
+    [] as FetchedTokenBalance[]
+  )
+}
 
-  return response.data.userBalances.balances
+export async function getTokensInfo(): Promise<StoredTokenBalances> {
+  const response = await fetchWithTimeout(networkConfig.getTokensInfoUrl)
+  if (!response.ok) {
+    Logger.error(TAG, `Failure response fetching token info: ${response}`)
+    throw new Error(
+      `Failure response fetching token info. ${response.status}  ${response.statusText}`
+    )
+  }
+  return await response.json()
 }
 
 export function* fetchTokenBalancesSaga() {
@@ -262,15 +288,10 @@ export function* fetchTokenBalancesSaga() {
       return
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
-    // In e2e environment we use a static token list since we can't access Firebase.
-    const tokens: StoredTokenBalances = isE2EEnv
-      ? e2eTokens()
-      : yield* call(readOnceFromFirebase, 'tokensInfo')
+    const tokens = yield* call(getTokensInfo)
     const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
-      const tokenBalance = tokenBalances.find(
-        (t) => t.tokenAddress.toLowerCase() === token.address.toLowerCase()
-      )
+      const tokenBalance = tokenBalances.find((t) => t.tokenId === token.tokenId)
       if (!tokenBalance) {
         token.balance = '0'
       } else {

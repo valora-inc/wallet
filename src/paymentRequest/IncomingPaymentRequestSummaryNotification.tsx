@@ -4,7 +4,7 @@ import { Image } from 'react-native'
 import { connect } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
+import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { withTranslation } from 'src/i18n'
 import { notificationIncomingRequest } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
@@ -35,7 +35,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
 export class IncomingPaymentRequestSummaryNotification extends React.Component<Props> {
   onReview = () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
-      notificationType: NotificationBannerTypes.incoming_tx_request,
+      notificationType: NotificationType.incoming_tx_request,
+      notificationId: NotificationType.incoming_tx_request,
       selectedAction: NotificationBannerCTATypes.review,
     })
     navigate(Screens.IncomingPaymentRequestListScreen)

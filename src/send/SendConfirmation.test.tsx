@@ -27,15 +27,20 @@ import {
   mockAccount2Invite,
   mockAccountInvite,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockFeeInfo,
   mockGasPrice,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 const mockDekFeeGas = new BigNumber(100000)
 
@@ -45,6 +50,18 @@ const mockGetGasPrice = getGasPrice as jest.Mock
 jest.mock('src/web3/dataEncryptionKey', () => ({
   getRegisterDekTxGas: () => mockDekFeeGas,
 }))
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: {
@@ -90,35 +107,43 @@ describe('SendConfirmation', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
-          [mockCusdAddress]: {
+          [mockCusdTokenId]: {
             address: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cUSD',
             balance: '200',
-            usdPrice: '1',
+            priceUsd: '1',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
-          [mockCeurAddress]: {
+          [mockCeurTokenId]: {
             address: mockCeurAddress,
+            tokenId: mockCeurTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cEUR',
             balance: '100',
-            usdPrice: '1.2',
+            priceUsd: '1.2',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
-          [mockCeloAddress]: {
+          [mockCeloTokenId]: {
             address: mockCeloAddress,
+            tokenId: mockCeloTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'CELO',
             balance: '20',
-            usdPrice: '5',
+            priceUsd: '5',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
-          [mockTestTokenAddress]: {
+          [mockTestTokenTokenId]: {
             address: mockTestTokenAddress,
+            tokenId: mockTestTokenTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'TT',
             balance: '10',
-            usdPrice: '0.1234',
+            priceUsd: '0.1234',
             priceFetchedAt: Date.now(),
           },
         },
@@ -171,19 +196,23 @@ describe('SendConfirmation', () => {
     const { getByText, getByTestId } = renderScreen({
       tokens: {
         tokenBalances: {
-          [mockCusdAddress]: {
+          [mockCusdTokenId]: {
             address: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cUSD',
             balance: '2',
-            usdPrice: '1',
+            priceUsd: '1',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
-          [mockCeurAddress]: {
+          [mockCeurTokenId]: {
             address: mockCeurAddress,
+            tokenId: mockCeurTokenId,
+            networkId: NetworkId['celo-alfajores'],
             symbol: 'cEUR',
             balance: '100',
-            usdPrice: '1.2',
+            priceUsd: '1.2',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
@@ -372,6 +401,7 @@ describe('SendConfirmation', () => {
     fireEvent.press(getByTestId('ConfirmButton'))
 
     const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
+
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         sendPayment(

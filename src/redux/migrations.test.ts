@@ -1278,11 +1278,22 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[147](oldSchema)
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
-  it('works from 148 to 149', () => {
-    const oldSchema = v148Schema
-    const migratedSchema = migrations[149](oldSchema)
-    const expectedSchema: any = _.cloneDeep(oldSchema)
-    delete expectedSchema.exchange.isLoading
-    expect(migratedSchema).toStrictEqual(expectedSchema)
+
+  it('works from v148 to v149', () => {
+    expect(
+      migrations[149]({
+        ...v148Schema,
+        app: {
+          ...v148Schema.app,
+          activeScreen: 'AppLoading',
+        },
+      })
+    ).toStrictEqual({
+      ...v148Schema,
+      app: {
+        ...v148Schema.app,
+        activeScreen: 'Main',
+      },
+    })
   })
 })

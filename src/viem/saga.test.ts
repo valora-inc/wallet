@@ -165,7 +165,7 @@ describe('sendPayment', () => {
 })
 
 describe('getSendTxFeeDetails', () => {
-  it('calls buildSendTx and chooseTxFeeDetails with the expected values', async () => {
+  it('calls buildSendTx and chooseTxFeeDetails with the expected values and returns fee in viem format', async () => {
     const recipientAddress = mockAccount
     const amount = new BigNumber(10)
     const tokenAddress = mockCusdAddress
@@ -202,6 +202,40 @@ describe('getSendTxFeeDetails', () => {
         feeInfo.gasPrice
       )
       .returns(mockViemFeeInfo)
+      .run()
+  })
+
+  it('does not include feeCurrency if it is undefined', async () => {
+    const recipientAddress = mockAccount
+    const amount = new BigNumber(10)
+    const tokenAddress = mockCusdAddress
+    const feeInfo = mockFeeInfo
+    const celoTx = {
+      txo: 'test',
+    } as unknown as CeloTransactionObject<unknown>
+    const encryptedComment = 'test'
+
+    const mockFeeDetails = {
+      feeCurrency: undefined,
+      gas: feeInfo.gas,
+      gasPrice: feeInfo.gasPrice,
+    }
+
+    await expectSaga(getSendTxFeeDetails, {
+      recipientAddress,
+      amount,
+      tokenAddress,
+      feeInfo,
+      encryptedComment,
+    })
+      .withState(createMockStore().getState())
+      .provide([
+        [matchers.call.fn(buildSendTx), celoTx],
+        [matchers.call.fn(chooseTxFeeDetails), mockFeeDetails],
+      ])
+      .call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment)
+      .call(chooseTxFeeDetails, celoTx.txo, undefined, feeInfo.gas.toNumber(), feeInfo.gasPrice)
+      .returns({ gas: mockViemFeeInfo.gas, maxFeePerGas: mockViemFeeInfo.maxFeePerGas })
       .run()
   })
 

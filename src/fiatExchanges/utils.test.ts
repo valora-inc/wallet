@@ -7,13 +7,14 @@ import {
 } from '../../test/values'
 import { CiCoCurrency } from '../utils/currencies'
 import NormalizedQuote from './quotes/NormalizedQuote'
-import { getProviderSelectionAnalyticsData, PaymentMethod } from './utils'
+import { PaymentMethod, getProviderSelectionAnalyticsData } from './utils'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
   getFeeInCrypto = jest.fn()
   getFeeInFiat = jest.fn()
   getKycInfo = jest.fn()
+  getMobileCarrier = jest.fn()
   getPaymentMethod = jest.fn()
   getProviderId = jest.fn()
   getProviderLogo = jest.fn()
@@ -29,24 +30,34 @@ describe('fiatExchanges utils', () => {
   const mockNormalizedQuote1 = new MockNormalizedQuote()
   const mockNormalizedQuote2 = new MockNormalizedQuote()
   const mockNormalizedQuote3 = new MockNormalizedQuote()
+  const mockNormalizedQuote4 = new MockNormalizedQuote()
   const usdToLocalRate = '1' // not important because NormalizedQuote class is mocked
-  const normalizedQuotes = [mockNormalizedQuote1, mockNormalizedQuote2, mockNormalizedQuote3]
+  const normalizedQuotes = [
+    mockNormalizedQuote1,
+    mockNormalizedQuote2,
+    mockNormalizedQuote3,
+    mockNormalizedQuote4,
+  ]
 
   mockNormalizedQuote1.getFeeInCrypto.mockReturnValue(new BigNumber(1))
   mockNormalizedQuote2.getFeeInCrypto.mockReturnValue(new BigNumber(2))
   mockNormalizedQuote3.getFeeInCrypto.mockReturnValue(null)
+  mockNormalizedQuote4.getFeeInCrypto.mockReturnValue(new BigNumber(4))
 
   mockNormalizedQuote1.getPaymentMethod.mockReturnValue(PaymentMethod.Card)
   mockNormalizedQuote2.getPaymentMethod.mockReturnValue(PaymentMethod.Bank)
   mockNormalizedQuote3.getPaymentMethod.mockReturnValue(PaymentMethod.FiatConnectMobileMoney)
+  mockNormalizedQuote4.getPaymentMethod.mockReturnValue(PaymentMethod.Airtime)
 
   mockNormalizedQuote1.getKycInfo.mockReturnValue('idRequired')
   mockNormalizedQuote2.getKycInfo.mockReturnValue(null)
   mockNormalizedQuote3.getKycInfo.mockReturnValue(null)
+  mockNormalizedQuote4.getKycInfo.mockReturnValue(null)
 
   mockNormalizedQuote1.getProviderId.mockReturnValue('mock-provider-1')
   mockNormalizedQuote2.getProviderId.mockReturnValue('mock-provider-2')
   mockNormalizedQuote3.getProviderId.mockReturnValue('mock-provider-3')
+  mockNormalizedQuote4.getProviderId.mockReturnValue('mock-provider-4')
 
   afterEach(() => {
     jest.clearAllMocks()
@@ -63,8 +74,8 @@ describe('fiatExchanges utils', () => {
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
           ...mockTokenBalances[mockCusdAddress],
-          lastKnownUsdPrice: new BigNumber('1'),
-          usdPrice: new BigNumber('1'),
+          lastKnownPriceUsd: new BigNumber('1'),
+          priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       })
@@ -74,12 +85,13 @@ describe('fiatExchanges utils', () => {
         centralizedExchangesAvailable: true,
         coinbasePayAvailable: true,
         cryptoType: CiCoCurrency.cUSD,
-        totalOptions: 6, // centralized exchanges counts as 1, plus 1 legacy mobile money provider, 1 coinbase pay and 3 normalized quotes
+        totalOptions: 7, // centralized exchanges counts as 1, plus 1 legacy mobile money provider, 1 coinbase pay and 4 normalized quotes
         lowestFeeCryptoAmount: 1.0,
         lowestFeeKycRequired: true,
         lowestFeePaymentMethod: 'Card',
         lowestFeeProvider: 'mock-provider-1',
         paymentMethodsAvailable: {
+          Airtime: true,
           Bank: true,
           Card: true,
           MobileMoney: true,
@@ -100,8 +112,8 @@ describe('fiatExchanges utils', () => {
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
           ...mockTokenBalances[mockCusdAddress],
-          lastKnownUsdPrice: new BigNumber('1'),
-          usdPrice: new BigNumber('1'),
+          lastKnownPriceUsd: new BigNumber('1'),
+          priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
       })
@@ -111,12 +123,13 @@ describe('fiatExchanges utils', () => {
         centralizedExchangesAvailable: false,
         coinbasePayAvailable: false,
         cryptoType: CiCoCurrency.cUSD,
-        totalOptions: 3, // 3 normalized quotes only
+        totalOptions: 4, // 4 normalized quotes only
         lowestFeeCryptoAmount: 1.0,
         lowestFeeKycRequired: true,
         lowestFeePaymentMethod: 'Card',
         lowestFeeProvider: 'mock-provider-1',
         paymentMethodsAvailable: {
+          Airtime: true,
           Bank: true,
           Card: true,
           MobileMoney: false,
