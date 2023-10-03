@@ -4,11 +4,11 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
@@ -71,7 +71,7 @@ function LegacyTokenDisplay({
     )
   }
 
-  const tokenInfoFromAddress = useTokenInfoByAddress(tokenAddress!)
+  const tokenInfoFromAddress = useTokenInfoByAddress(tokenAddress)
   const tokenInfoFromCurrency = useTokenInfoWithAddressBySymbol(
     currency! === Currency.Celo ? 'CELO' : currency!
   )

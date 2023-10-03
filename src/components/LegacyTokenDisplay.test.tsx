@@ -6,11 +6,18 @@ import { Provider } from 'react-redux'
 import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { Currency } from 'src/utils/currencies'
-import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
-
+import { Currency } from 'src/utils/currencies'
+import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+} from 'test/values'
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))
@@ -25,24 +32,27 @@ describe('LegacyTokenDisplay', () => {
       },
       tokens: {
         tokenBalances: {
-          ['0xusd']: {
-            address: '0xusd',
+          [mockCusdTokenId]: {
+            address: mockCusdAddress,
+            tokenId: mockCusdTokenId,
             symbol: 'cUSD',
             balance: '50',
             priceUsd: '1',
             networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
-          ['0xeur']: {
-            address: '0xeur',
+          [mockCeurTokenId]: {
+            address: mockCeurAddress,
+            tokenId: mockCeurTokenId,
             symbol: 'cEUR',
             balance: '50',
             priceUsd: '1.2',
             networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
-          ['0xcelo']: {
-            address: '0xcelo',
+          [mockCeloTokenId]: {
+            address: mockCeloAddress,
+            tokenId: mockCeloTokenId,
             symbol: 'CELO',
             balance: '10',
             priceUsd: '5',
@@ -63,7 +73,7 @@ describe('LegacyTokenDisplay', () => {
             <LegacyTokenDisplay
               showLocalAmount={false}
               amount={10}
-              tokenAddress={'0xusd'}
+              tokenAddress={mockCusdAddress}
               currency={Currency.Celo}
               testID="test"
             />
@@ -96,7 +106,7 @@ describe('LegacyTokenDisplay', () => {
           <LegacyTokenDisplay
             showLocalAmount={false}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -110,7 +120,7 @@ describe('LegacyTokenDisplay', () => {
           <LegacyTokenDisplay
             showLocalAmount={true}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -124,7 +134,7 @@ describe('LegacyTokenDisplay', () => {
           <LegacyTokenDisplay
             showLocalAmount={true}
             amount={10}
-            tokenAddress={'0xcelo'}
+            tokenAddress={mockCeloAddress}
             testID="test"
           />
         </Provider>
@@ -138,7 +148,7 @@ describe('LegacyTokenDisplay', () => {
           <LegacyTokenDisplay
             showLocalAmount={false}
             amount={0.00000182421}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -153,7 +163,7 @@ describe('LegacyTokenDisplay', () => {
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -168,7 +178,7 @@ describe('LegacyTokenDisplay', () => {
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -181,7 +191,7 @@ describe('LegacyTokenDisplay', () => {
         <Provider store={store()}>
           <LegacyTokenDisplay
             amount={10}
-            tokenAddress={'0xcelo'}
+            tokenAddress={mockCusdAddress}
             localAmount={{
               currencyCode: LocalCurrencyCode.PHP,
               exchangeRate: '0.5',
@@ -201,7 +211,7 @@ describe('LegacyTokenDisplay', () => {
             showLocalAmount={true}
             showExplicitPositiveSign={true}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -215,7 +225,7 @@ describe('LegacyTokenDisplay', () => {
           <LegacyTokenDisplay
             showLocalAmount={true}
             amount={-10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>
@@ -257,7 +267,7 @@ describe('LegacyTokenDisplay', () => {
             showLocalAmount={true}
             hideSign={true}
             amount={-10}
-            tokenAddress={'0xusd'}
+            tokenAddress={mockCusdAddress}
             testID="test"
           />
         </Provider>

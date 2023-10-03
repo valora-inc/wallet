@@ -11,11 +11,14 @@ import {
   tokensWithUsdValueSelectorWrapper,
   totalTokenBalanceSelectorWrapper,
 } from 'src/tokens/selectors'
-import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
+import {
+  convertLocalToTokenAmount,
+  convertTokenToLocalAmount,
+  getSupportedNetworkIdsForTokenBalances,
+} from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 /**
  * @deprecated use useTokenInfo and select using tokenId
  */
