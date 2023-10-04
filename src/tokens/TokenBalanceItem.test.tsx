@@ -69,7 +69,7 @@ describe('TokenBalanceItem', () => {
     expect(getByTestId('NetworkLabel')).toBeTruthy()
   })
 
-  it('tracks data about the asset when tapped', () => {
+  it('correctly triggers optional onPress prop', () => {
     const onPress = () => {
       ValoraAnalytics.track(AssetsEvents.tap_asset, {
         assetType: 'token',
