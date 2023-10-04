@@ -71,7 +71,7 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
     )
   }
 
-  return typeof onPress !== undefined ? (
+  return onPress ? (
     <Touchable onPress={onPress}>
       <Content token={token} containerStyle={containerStyle} />
     </Touchable>
