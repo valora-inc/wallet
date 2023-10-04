@@ -1828,7 +1828,9 @@
     "bannerTitle": "挂钩预览已启用，点击即可禁用"
   },
   "assets": {
-    "claimRewards": "领取奖励"
+    "claimRewards": "领取奖励",
+    "bridge": "通过 {{bridge}}进行桥接",
+    "networkName": "{{networkName}} 网络"
   },
   "notificationCenterSpotlight": {
     "message": "推出一种新方法，可在一个地方申请奖励、查看警报和查看更新",
