@@ -1830,7 +1830,9 @@
     "bannerTitle": "Hooks-Vorschau aktiviert, zum Deaktivieren antippen"
   },
   "assets": {
-    "claimRewards": "Belohnung beanspruchen"
+    "claimRewards": "Belohnung beanspruchen",
+    "bridge": "Überbrückt über {{bridge}}",
+    "networkName": "{{networkName}} Netzwerk"
   },
   "notificationCenterSpotlight": {
     "message": "Einführung einer neuen Möglichkeit, Belohnungen einzufordern, Benachrichtigungen anzuzeigen und Updates an einem Ort zu sehen",
