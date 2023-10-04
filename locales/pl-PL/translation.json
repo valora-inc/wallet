@@ -1834,7 +1834,9 @@
     "bannerTitle": "Podgląd haków włączony, dotknij, aby wyłączyć"
   },
   "assets": {
-    "claimRewards": "Odbierz nagrody"
+    "claimRewards": "Odbierz nagrody",
+    "bridge": "Połączony przez {{bridge}}",
+    "networkName": "{{networkName}} Sieć"
   },
   "notificationCenterSpotlight": {
     "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu.",
