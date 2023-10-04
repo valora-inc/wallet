@@ -4453,10 +4453,10 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-Base64@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/Base64/-/Base64-1.2.0.tgz#9ce62001c31c51f90ce91ab768f6fc9b737ab128"
-  integrity sha512-ZjJhVKZWYWbiq9Sf2HqcXS5qLiaHAvJcq3yc+j0gBgIMasMY/hAHxum30QxrXEG13TNUMwZhuWTT3fIFC4UBJw==
+Base64@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/Base64/-/Base64-1.3.0.tgz#a06b2631425c93256fe24f8741039b639c583ad4"
+  integrity sha512-7BjEEmnnW5pm6mBXKQ8CfQFeVjSoFnB507R86mKaJqa2i8CvosDy/dj+9RpbD0A22XQ+hGb0FHO+226C0QXRGw==
 
 abbrev@1:
   version "1.1.1"
