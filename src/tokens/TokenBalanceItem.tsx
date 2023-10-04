@@ -1,45 +1,14 @@
-import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { useSelector } from 'react-redux'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
-
-interface TProps {
-  token: TokenBalance
-}
-
-const TokenBalanceInLocalCurrency = ({ token }: TProps) => {
-  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const amountInUsd = token?.priceUsd?.multipliedBy(token.balance)
-  const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
-    amountInUsd ?? 0
-  )
-  const showAmount = amountInLocalCurrency.isGreaterThan(0)
-  if (!showAmount) {
-    return (
-      <Text numberOfLines={1} style={styles.subAmount}>
-        --
-      </Text>
-    )
-  } else {
-    return (
-      <Text numberOfLines={1} style={styles.subAmount}>
-        {localCurrencySymbol}
-        {formatValueToDisplay(amountInLocalCurrency.absoluteValue())}
-      </Text>
-    )
-  }
-}
 
 interface Props {
   token: TokenBalance
@@ -59,19 +28,34 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
             <Text numberOfLines={1} style={[styles.label, styles.marginRight]}>
               {token.name}
             </Text>
-            <Text numberOfLines={1} style={styles.amount}>
-              {formatValueToDisplay(token.balance)} {token.symbol}
-            </Text>
+            <TokenDisplay
+              style={styles.amount}
+              amount={token.balance}
+              tokenId={token.tokenId}
+              showSymbol={true}
+              hideSign={true}
+              showLocalAmount={false}
+            />
           </View>
           <View style={styles.line}>
             {token.networkId in NETWORK_NAMES ? (
-              <Text numberOfLines={1} style={styles.subLabel} testID="NetworkLabel">
+              <Text
+                numberOfLines={1}
+                style={[styles.subLabel, styles.marginRight]}
+                testID="NetworkLabel"
+              >
                 {t('assets.networkName', { networkName: NETWORK_NAMES[token.networkId] })}
               </Text>
             ) : (
               <View />
             )}
-            <TokenBalanceInLocalCurrency token={token} />
+            <TokenDisplay
+              style={styles.subAmount}
+              amount={token.balance}
+              tokenId={token.tokenId}
+              showSymbol={false}
+              hideSign={true}
+            />
           </View>
           {token.bridge && (
             <Text

@@ -16,7 +16,7 @@ describe('TokenBalanceItem', () => {
     mockTokenInfo = {
       balance: new BigNumber('10'),
       priceUsd: new BigNumber('1'),
-      lastKnownUsdPrice: new BigNumber('1'),
+      lastKnownPriceUsd: new BigNumber('1'),
       symbol: 'cUSD',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
@@ -24,11 +24,12 @@ describe('TokenBalanceItem', () => {
       name: 'Celo Dollar',
       imageUrl: '',
       tokenId: `celo-alfajores:${mockCusdAddress}`,
+      networkId: 'celo-alfajores',
     } as any
   })
 
   it('displays correctly', () => {
-    const { getByText, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={createMockStore({})}>
         <TokenBalanceItem token={mockTokenInfo} />
       </Provider>
@@ -37,8 +38,8 @@ describe('TokenBalanceItem', () => {
     expect(getByText('Celo Dollar')).toBeTruthy()
     expect(getByText('10.00 cUSD')).toBeTruthy()
     expect(getByText('₱13.30')).toBeTruthy()
+    expect(getByTestId('NetworkLabel')).toBeTruthy()
     expect(queryByTestId('BridgeLabel')).toBeFalsy()
-    expect(queryByTestId('NetworkLabel')).toBeFalsy()
   })
 
   it('displays correctly when token is bridged', () => {
@@ -56,8 +57,6 @@ describe('TokenBalanceItem', () => {
   })
 
   it('displays correctly when the token network is provided', () => {
-    mockTokenInfo.networkName = 'Celo'
-
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore({})}>
         <TokenBalanceItem token={mockTokenInfo} />
@@ -68,20 +67,6 @@ describe('TokenBalanceItem', () => {
     expect(getByText('10.00 cUSD')).toBeTruthy()
     expect(getByText('₱13.30')).toBeTruthy()
     expect(getByTestId('NetworkLabel')).toBeTruthy()
-  })
-
-  it('displays correctly when no usd price is available', () => {
-    mockTokenInfo.priceUsd = null
-
-    const { getByText } = render(
-      <Provider store={createMockStore({})}>
-        <TokenBalanceItem token={mockTokenInfo} />
-      </Provider>
-    )
-
-    expect(getByText('Celo Dollar')).toBeTruthy()
-    expect(getByText('10.00 cUSD')).toBeTruthy()
-    expect(getByText('--')).toBeTruthy()
   })
 
   it('tracks data about the asset when tapped', () => {
