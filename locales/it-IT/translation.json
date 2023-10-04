@@ -1830,7 +1830,9 @@
     "bannerTitle": "Anteprima hook abilitata, toccare per disabilitarla"
   },
   "assets": {
-    "claimRewards": "Richiedi ora"
+    "claimRewards": "Richiedi ora",
+    "bridge": "Collegato tramite {{bridge}}",
+    "networkName": "{{networkName}} Rete"
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere i premi, visualizzare gli avvisi e vedere gli aggiornamenti in un unico posto",
