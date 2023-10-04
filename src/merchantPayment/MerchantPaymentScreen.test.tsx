@@ -4,15 +4,9 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import {
-  makeExchangeRates,
-  mockCeloAddress,
-  mockCeloTokenId,
-  mockCusdAddress,
-  mockCusdTokenId,
-} from 'test/values'
 import { NetworkId } from 'src/transactions/types'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockCeloAddress, mockCeloTokenId, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -30,7 +24,6 @@ const mockScreenProps = getMockStackScreenProps(Screens.MerchantPayment, {
   apiBase: 'https://example.com',
   referenceId: '123',
 })
-const exchangeRates = makeExchangeRates('0.11', '10')
 
 describe('MerchantPaymentScreen', () => {
   it('renders correctly', () => {
@@ -57,7 +50,6 @@ describe('MerchantPaymentScreen', () => {
           },
         },
       },
-      exchange: { exchangeRates },
     })
 
     const tree = render(
