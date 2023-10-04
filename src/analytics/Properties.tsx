@@ -1343,7 +1343,7 @@ interface AssetsEventsProperties {
     | {
         assetType: 'token'
         address?: string
-        networkId: string
+        networkId: NetworkId
         tokenId: string
         title: string // Example: 'cUSD'
         description: string
