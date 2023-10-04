@@ -19,8 +19,8 @@ interface Props {
 export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
   const { t } = useTranslation()
 
-  return (
-    <Touchable onPress={onPress}>
+  const Content = ({ token, containerStyle }: Props) => {
+    return (
       <View style={[styles.container, containerStyle]}>
         <TokenIcon token={token} viewStyle={styles.marginRight} />
         <View style={styles.textContainer}>
@@ -68,7 +68,15 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
           )}
         </View>
       </View>
+    )
+  }
+
+  return typeof onPress !== undefined ? (
+    <Touchable onPress={onPress}>
+      <Content token={token} containerStyle={containerStyle} />
     </Touchable>
+  ) : (
+    <Content token={token} containerStyle={containerStyle} />
   )
 }
 
