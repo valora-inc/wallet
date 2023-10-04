@@ -44,7 +44,8 @@ import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
+import { PositionItem } from 'src/tokens/AssetItem'
+import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import {
   useTokenPricesAreStale,
   useTokensWithTokenBalance,
@@ -278,7 +279,7 @@ function AssetsScreen({ navigation, route }: Props) {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
     }
-    return <TokenBalanceItem token={item} showPriceChangeIndicatorInBalances={false} />
+    return <TokenBalanceItem token={item} />
   }
 
   const tabBarItems = useMemo(() => {
