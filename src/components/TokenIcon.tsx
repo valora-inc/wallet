@@ -9,9 +9,17 @@ export enum IconSize {
   MEDIUM = 'medium',
 }
 
-const IconSizesToPixels = {
-  [IconSize.SMALL]: 20,
-  [IconSize.MEDIUM]: 32,
+const IconSizeToStyle = {
+  [IconSize.SMALL]: {
+    tokenImageSize: 20,
+    networkImageSize: 8,
+    networkImagePosition: 13,
+  },
+  [IconSize.MEDIUM]: {
+    tokenImageSize: 32,
+    networkImageSize: 12,
+    networkImagePosition: 20,
+  },
 }
 
 interface Props {
@@ -22,6 +30,8 @@ interface Props {
 }
 
 export default function TokenIcon({ token, viewStyle, testID, size = IconSize.MEDIUM }: Props) {
+  const { tokenImageSize, networkImageSize, networkImagePosition } = IconSizeToStyle[size]
+
   return (
     <View testID={testID} style={viewStyle}>
       {token.imageUrl ? (
@@ -31,14 +41,18 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
           }}
           style={[
             styles.tokenImage,
-            size === IconSize.MEDIUM ? styles.mediumTokenImage : styles.smallTokenImage,
+            {
+              width: tokenImageSize,
+              height: tokenImageSize,
+              borderRadius: tokenImageSize / 2,
+            },
           ]}
           testID={testID ? `${testID}/TokenIcon` : 'TokenIcon'}
         />
       ) : (
         <DefaultToken
           testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
-          size={IconSizesToPixels[size]}
+          size={tokenImageSize}
         />
       )}
 
@@ -47,7 +61,13 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
           source={{ uri: token.networkIconUrl }}
           style={[
             styles.networkImage,
-            size === IconSize.MEDIUM ? styles.mediumNetworkImage : styles.smallNetworkImage,
+            {
+              width: networkImageSize,
+              height: networkImageSize,
+              borderRadius: networkImageSize / 2,
+              top: networkImagePosition,
+              left: networkImagePosition,
+            },
           ]}
           testID={testID ? `${testID}/NetworkIcon` : 'NetworkIcon'}
         />
@@ -62,31 +82,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
   },
-  mediumTokenImage: {
-    width: IconSizesToPixels[IconSize.MEDIUM],
-    height: IconSizesToPixels[IconSize.MEDIUM],
-    borderRadius: 20,
-  },
-  smallTokenImage: {
-    width: IconSizesToPixels[IconSize.SMALL],
-    height: IconSizesToPixels[IconSize.SMALL],
-    borderRadius: 10,
-  },
   networkImage: {
     position: 'absolute',
-  },
-  mediumNetworkImage: {
-    width: 12,
-    height: 12,
-    borderRadius: 8,
-    top: 20,
-    left: 20,
-  },
-  smallNetworkImage: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    top: 13,
-    left: 13,
   },
 })
