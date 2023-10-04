@@ -17,7 +17,6 @@ import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
@@ -471,27 +470,6 @@ export const mockWallet: UnlockableWallet = {
   decrypt: jest.fn(),
   computeSharedSecret: jest.fn(),
 }
-
-export const makeExchangeRates = (
-  celoToDollarExchangeRate: string,
-  dollarToCeloExchangeRate: string
-): ExchangeRates => ({
-  [Currency.Celo]: {
-    [Currency.Dollar]: celoToDollarExchangeRate,
-    [Currency.Euro]: '',
-    [Currency.Celo]: '',
-  },
-  [Currency.Dollar]: {
-    [Currency.Celo]: dollarToCeloExchangeRate,
-    [Currency.Euro]: '',
-    [Currency.Dollar]: '',
-  },
-  [Currency.Euro]: {
-    [Currency.Celo]: '',
-    [Currency.Euro]: '',
-    [Currency.Dollar]: '',
-  },
-})
 
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
   // NOTE: important to keep 'symbol' fields in this object matching their counterparts from here: https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json ,
