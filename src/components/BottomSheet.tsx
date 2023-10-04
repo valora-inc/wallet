@@ -1,7 +1,7 @@
 import GorhomBottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useRef } from 'react'
+import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Colors from 'src/styles/colors'
@@ -39,6 +39,7 @@ const BottomSheet = ({
 }: Props) => {
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -46,6 +47,18 @@ const BottomSheet = ({
     ),
     []
   )
+
+  // fires before bottom sheet animation starts
+  const handleAnimate = (fromIndex: number, toIndex: number) => {
+    if (toIndex === -1 || fromIndex === -1) {
+      Keyboard.dismiss()
+    }
+  }
+
+  const handleClose = () => {
+    onClose?.()
+    scrollViewRef.current?.scrollTo({ y: 0, animated: false })
+  }
 
   const hasStickyHeader = stickyTitle || stickyHeaderComponent
 
@@ -58,7 +71,8 @@ const BottomSheet = ({
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={styles.handle}
-      onClose={onClose}
+      onAnimate={handleAnimate}
+      onClose={handleClose}
       maxDynamicContentSize={height - insets.top}
     >
       {hasStickyHeader && (
@@ -68,6 +82,7 @@ const BottomSheet = ({
         </View>
       )}
       <BottomSheetScrollView
+        forwardedRef={scrollViewRef}
         containerStyle={hasStickyHeader ? { paddingTop: 0 } : undefined}
         testId={testId}
       >

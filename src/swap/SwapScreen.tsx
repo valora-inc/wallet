@@ -2,7 +2,7 @@ import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -226,8 +226,6 @@ export function SwapScreen() {
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
-    // ensure that the keyboard is dismissed before animating token bottom sheet
-    Keyboard.dismiss()
     setSelectingToken(fieldType)
     tokenBottomSheetRef.current?.snapToIndex(0)
   }
@@ -320,8 +318,7 @@ export function SwapScreen() {
 
   const showMissingPriceImpactWarning =
     (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    (fromToken && !fromToken.priceUsd) ||
-    (toToken && !toToken.priceUsd)
+    (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd))
   const showPriceImpactWarning =
     !fetchingSwapQuote &&
     !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
@@ -416,7 +413,7 @@ export function SwapScreen() {
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
-        snapPoints={['80%']}
+        snapPoints={['90%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         onClose={handleCloseTokenSelect}
