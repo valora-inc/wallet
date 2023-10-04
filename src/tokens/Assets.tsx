@@ -383,7 +383,6 @@ function TabBar({
           <Text
             style={[index === selectedIndex ? styles.tabBarItemSelected : styles.tabBarItem]}
             numberOfLines={1}
-            ellipsizeMode="tail"
           >
             {value}
           </Text>
