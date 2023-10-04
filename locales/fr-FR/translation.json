@@ -1830,7 +1830,9 @@
     "bannerTitle": "Aperçu des hooks activé, appuyez pour désactiver"
   },
   "assets": {
-    "claimRewards": "Réclamer les récompenses"
+    "claimRewards": "Réclamer les récompenses",
+    "bridge": "Ponté via {{bridge}}",
+    "networkName": "{{networkName}} Réseau"
   },
   "notificationCenterSpotlight": {
     "message": "Introduction d'une nouvelle façon de réclamer des récompenses, de consulter les alertes et de voir les mises à jour en un seul endroit.",
