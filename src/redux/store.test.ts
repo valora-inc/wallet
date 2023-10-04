@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 153,
+          "version": 154,
         },
         "account": {
           "acceptedTerms": false,
@@ -207,7 +207,6 @@ describe('store state', () => {
           "sentEscrowedPayments": [],
         },
         "exchange": {
-          "exchangeRates": null,
           "history": {
             "aggregatedExchangeRates": [],
             "celoGoldExchangeRates": [],
@@ -215,7 +214,6 @@ describe('store state', () => {
             "lastTimeUpdated": 0,
             "range": 2592000000,
           },
-          "tobinTax": "0",
         },
         "fees": {
           "estimates": {},

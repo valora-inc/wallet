@@ -264,7 +264,7 @@ export type StackParamList = {
     | undefined
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
-  [Screens.SwapScreenWithBack]: undefined
+  [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }

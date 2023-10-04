@@ -2625,10 +2625,21 @@ export const v153Schema = {
     version: 153,
   },
   exchange: {
-    ..._.omit(v148Schema.exchange, 'isLoading'),
+    ..._.omit(v152Schema.exchange, 'isLoading'),
+  },
+}
+
+export const v154Schema = {
+  ...v153Schema,
+  _persist: {
+    ...v153Schema._persist,
+    version: 154,
+  },
+  exchange: {
+    ..._.omit(v153Schema.exchange, 'exchangeRates', 'tobinTax'),
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v153Schema as Partial<RootState>
+  return v154Schema as Partial<RootState>
 }
