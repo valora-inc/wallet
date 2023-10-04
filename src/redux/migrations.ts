@@ -1310,4 +1310,10 @@ export const migrations = {
     ...state,
     exchange: _.omit(state.exchange, 'isLoading'),
   }),
+  154: (state: any) => ({
+    ...state,
+    exchange: {
+      ..._.omit(state.exchange, 'exchangeRates', 'tobinTax'),
+    },
+  }),
 }
