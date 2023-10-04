@@ -1830,7 +1830,9 @@
     "bannerTitle": "Kancalar önizlemesi etkin, devre dışı bırakmak için dokunun"
   },
   "assets": {
-    "claimRewards": "Ödüllerinizi Alın"
+    "claimRewards": "Ödüllerinizi Alın",
+    "bridge": "{{bridge}}üzerinden köprülenmiştir",
+    "networkName": "{{networkName}} Şebeke"
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
