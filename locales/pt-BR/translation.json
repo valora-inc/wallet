@@ -1830,7 +1830,9 @@
     "bannerTitle": "Visualização de hooks ativada, toque para desativar"
   },
   "assets": {
-    "claimRewards": "Reivindicar Recompensas"
+    "claimRewards": "Reivindicar Recompensas",
+    "bridge": "Ponte via {{bridge}}",
+    "networkName": "{{networkName}} Rede"
   },
   "notificationCenterSpotlight": {
     "message": "Introdução de uma nova forma de solicitar recompensas, ver alertas e ver actualizações num único local",
