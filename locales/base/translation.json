@@ -1833,6 +1833,8 @@
   },
   "assets": {
     "claimRewards": "Claim Rewards",
+    "bridge": "Bridged via {{bridge}}",
+    "networkName": "{{networkName}} Network",
     "tabBar": {
       "tokens": "Tokens",
       "collectibles": "Collectibles",
