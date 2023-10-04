@@ -1830,7 +1830,9 @@
     "bannerTitle": "Vista previa de hooks activada, toca para desactivarla"
   },
   "assets": {
-    "claimRewards": "Reclamar recompensas"
+    "claimRewards": "Reclamar recompensas",
+    "bridge": "Puenteado a través de {{bridge}}",
+    "networkName": "{{networkName}} Red"
   },
   "notificationCenterSpotlight": {
     "message": "Presentamos una nueva forma de reclamar recompensas, ver alertas y actualizaciones en un solo lugar",
