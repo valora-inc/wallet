@@ -74,6 +74,8 @@ describe('TokenBalanceItem', () => {
       ValoraAnalytics.track(AssetsEvents.tap_asset, {
         assetType: 'token',
         tokenId: mockTokenInfo.tokenId,
+        networkId: mockTokenInfo.networkId,
+        address: mockTokenInfo.address,
         title: mockTokenInfo.symbol,
         description: mockTokenInfo.name,
         balanceUsd: mockTokenInfo.balance.multipliedBy(mockTokenInfo.priceUsd ?? 0).toNumber(),
@@ -90,8 +92,10 @@ describe('TokenBalanceItem', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
-      tokenId: `celo-alfajores:${mockCusdAddress}`,
       assetType: 'token',
+      tokenId: `celo-alfajores:${mockCusdAddress}`,
+      networkId: mockTokenInfo.networkId,
+      address: mockTokenInfo.address,
       balanceUsd: 10,
       description: 'Celo Dollar',
       title: 'cUSD',

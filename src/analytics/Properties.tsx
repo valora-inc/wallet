@@ -1342,6 +1342,8 @@ interface AssetsEventsProperties {
       }
     | {
         assetType: 'token'
+        address?: string
+        networkId: string
         tokenId: string
         title: string // Example: 'cUSD'
         description: string
