@@ -1830,7 +1830,9 @@
     "bannerTitle": "Hooks preview enabled, tap to disable"
   },
   "assets": {
-    "claimRewards": "Claim Rewards"
+    "claimRewards": "Claim Rewards",
+    "bridge": "Bridged via {{bridge}}",
+    "networkName": "{{networkName}} Network"
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
