@@ -83,7 +83,8 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: Spacing.Thick24,
-    marginBottom: Spacing.Large32,
+    marginTop: Spacing.Regular16,
+    marginBottom: Spacing.Regular16,
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
