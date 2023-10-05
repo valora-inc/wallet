@@ -1836,7 +1836,12 @@
   "assets": {
     "claimRewards": "Odbierz nagrody",
     "bridge": "Połączony przez {{bridge}}",
-    "networkName": "{{networkName}} Sieć"
+    "networkName": "{{networkName}} Sieć",
+    "tabBar": {
+      "tokens": "Żetony",
+      "collectibles": "Kolekcje",
+      "dappPositions": "Pozycje Dapp"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu.",
