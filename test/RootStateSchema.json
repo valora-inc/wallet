@@ -4226,6 +4226,9 @@
                 "priceUsd": {
                     "type": "string"
                 },
+                "showZeroBalance": {
+                    "type": "boolean"
+                },
                 "symbol": {
                     "type": "string"
                 },
