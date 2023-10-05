@@ -1832,7 +1832,12 @@
   "assets": {
     "claimRewards": "Richiedi ora",
     "bridge": "Collegato tramite {{bridge}}",
-    "networkName": "{{networkName}} Rete"
+    "networkName": "{{networkName}} Rete",
+    "tabBar": {
+      "tokens": "Gettoni",
+      "collectibles": "Oggetti da collezione",
+      "dappPositions": "Posizioni Dapp"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere i premi, visualizzare gli avvisi e vedere gli aggiornamenti in un unico posto",
