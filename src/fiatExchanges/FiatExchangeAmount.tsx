@@ -20,7 +20,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
