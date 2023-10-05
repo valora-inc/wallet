@@ -1834,7 +1834,14 @@
     "bannerTitle": "Попередній перегляд для обробників увімкнуто, натисніть, щоб вимкнути"
   },
   "assets": {
-    "claimRewards": "Запит винагороди"
+    "claimRewards": "Запит винагороди",
+    "bridge": "Зв'язок через {{bridge}}",
+    "networkName": "{{networkName}} Мережа",
+    "tabBar": {
+      "tokens": "Жетони.",
+      "collectibles": "Колекційні предмети",
+      "dappPositions": "Позиції Dapp"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Представляємо новий спосіб отримувати винагороди, переглядати сповіщення та оновлення в одному місці",

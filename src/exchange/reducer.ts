@@ -15,8 +15,6 @@ export interface ExchangeRate {
 export type ExchangeRates = Record<Currency, Record<Currency, string>>
 
 export interface State {
-  exchangeRates: ExchangeRates | null
-  tobinTax: string | null
   history: {
     // TODO this should be remove once we have aggregation on
     // blockchain api side
@@ -29,8 +27,6 @@ export interface State {
 }
 
 export const initialState = {
-  exchangeRates: null,
-  tobinTax: null,
   history: {
     celoGoldExchangeRates: [],
     aggregatedExchangeRates: [],
@@ -40,7 +36,6 @@ export const initialState = {
   },
 }
 
-export const exchangeRatesSelector = (state: RootState) => state.exchange.exchangeRates
 export const exchangeHistorySelector = (state: RootState) => state.exchange.history
 
 function aggregateExchangeRates(
@@ -109,20 +104,8 @@ export const reducer = (
           ...initialState.history,
           ...persisted.history,
         },
-        exchangeRates: initialState.exchangeRates,
       }
     }
-
-    case Actions.SET_EXCHANGE_RATE:
-      return {
-        ...state,
-        exchangeRates: action.exchangeRates,
-      }
-    case Actions.SET_TOBIN_TAX:
-      return {
-        ...state,
-        tobinTax: action.tobinTax,
-      }
     case Actions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY:
       return {
         ...state,

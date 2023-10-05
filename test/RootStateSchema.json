@@ -1101,26 +1101,6 @@
             ],
             "type": "object"
         },
-        "ExchangeRates": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                },
-                "cGLD": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                },
-                "cUSD": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "Fee": {
             "additionalProperties": false,
             "properties": {
@@ -2405,26 +2385,6 @@
             ],
             "type": "string"
         },
-        "Record<Currency,string>": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "type": "string"
-                },
-                "cGLD": {
-                    "type": "string"
-                },
-                "cUSD": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -2460,6 +2420,7 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
+                "Assets",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -4029,16 +3990,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "exchangeRates": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ExchangeRates"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
                 "history": {
                     "additionalProperties": false,
                     "properties": {
@@ -4072,18 +4023,10 @@
                         "range"
                     ],
                     "type": "object"
-                },
-                "tobinTax": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 }
             },
             "required": [
-                "exchangeRates",
-                "history",
-                "tobinTax"
+                "history"
             ],
             "type": "object"
         },
@@ -4294,7 +4237,6 @@
                 "address",
                 "balance",
                 "decimals",
-                "imageUrl",
                 "name",
                 "networkId",
                 "symbol",

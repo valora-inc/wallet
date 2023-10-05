@@ -611,6 +611,7 @@ export enum TokenBottomSheetEvents {
 export enum AssetsEvents {
   show_asset_balance_info = 'show_asset_balance_info',
   view_wallet_assets = 'view_wallet_assets',
+  view_collectibles = 'view_collectibles',
   view_dapp_positions = 'view_dapp_positions',
   tap_asset = 'tap_asset',
   tap_claim_rewards = 'tap_claim_rewards',

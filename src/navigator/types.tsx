@@ -17,6 +17,7 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
+import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -264,7 +265,7 @@ export type StackParamList = {
     | undefined
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
-  [Screens.SwapScreenWithBack]: undefined
+  [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
@@ -322,6 +323,11 @@ export type StackParamList = {
   [Screens.TokenBalances]:
     | {
         activeView: AssetViewType
+      }
+    | undefined
+  [Screens.Assets]:
+    | {
+        activeTab: AssetTabType
       }
     | undefined
 }

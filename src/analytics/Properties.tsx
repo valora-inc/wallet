@@ -68,6 +68,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
+import { NetworkId } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -1322,6 +1323,7 @@ interface TokenBottomSheetEventsProperties {
 interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
+  [AssetsEvents.view_collectibles]: undefined
   [AssetsEvents.view_dapp_positions]: undefined
   [AssetsEvents.tap_asset]:
     | {
@@ -1337,6 +1339,15 @@ interface AssetsEventsProperties {
         appId: string // Example: 'ubeswap'
         address: string
         title: string // Example: MOO / CELO
+        description: string
+        balanceUsd: number
+      }
+    | {
+        assetType: 'token'
+        address?: string
+        networkId: NetworkId
+        tokenId: string
+        title: string // Example: 'cUSD'
         description: string
         balanceUsd: number
       }
