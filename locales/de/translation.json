@@ -1832,7 +1832,12 @@
   "assets": {
     "claimRewards": "Belohnung beanspruchen",
     "bridge": "Überbrückt über {{bridge}}",
-    "networkName": "{{networkName}} Netzwerk"
+    "networkName": "{{networkName}} Netzwerk",
+    "tabBar": {
+      "tokens": "Wertmarken",
+      "collectibles": "Sammlerstücke",
+      "dappPositions": "Dapp Positionen"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Einführung einer neuen Möglichkeit, Belohnungen einzufordern, Benachrichtigungen anzuzeigen und Updates an einem Ort zu sehen",
