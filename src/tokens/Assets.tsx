@@ -34,7 +34,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { nftsErrorSelector, nftsLoadingSelector } from 'src/nfts/selectors'
+import { nftsErrorSelector, nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import {
   positionsSelector,
@@ -121,7 +121,7 @@ function AssetsScreen({ navigation, route }: Props) {
   // NFT Selectors
   const nftsError = useSelector(nftsErrorSelector)
   const nftsLoading = useSelector(nftsLoadingSelector)
-  const nfts = [] as Nft[] // useSelector(nftsWithMetadataSelector)
+  const nfts = useSelector(nftsWithMetadataSelector)
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
