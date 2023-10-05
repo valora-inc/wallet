@@ -1836,7 +1836,12 @@
   "assets": {
     "claimRewards": "Заявить о вознаграждениях",
     "bridge": "Стыковка через {{bridge}}",
-    "networkName": "{{networkName}} Сеть"
+    "networkName": "{{networkName}} Сеть",
+    "tabBar": {
+      "tokens": "Токены",
+      "collectibles": "Коллекционные предметы",
+      "dappPositions": "Dapp-позиции"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Представляем новый способ заявлять о вознаграждениях, просматривать оповещения и видеть обновления в одном месте",
