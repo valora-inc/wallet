@@ -1323,6 +1323,7 @@ interface TokenBottomSheetEventsProperties {
 interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
+  [AssetsEvents.view_collectibles]: undefined
   [AssetsEvents.view_dapp_positions]: undefined
   [AssetsEvents.tap_asset]:
     | {
