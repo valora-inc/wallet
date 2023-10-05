@@ -1832,7 +1832,12 @@
   "assets": {
     "claimRewards": "Ödüllerinizi Alın",
     "bridge": "{{bridge}}üzerinden köprülenmiştir",
-    "networkName": "{{networkName}} Şebeke"
+    "networkName": "{{networkName}} Şebeke",
+    "tabBar": {
+      "tokens": "Jetonlar",
+      "collectibles": "Koleksiyon Ürünleri",
+      "dappPositions": "Dapp Pozisyonları"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
