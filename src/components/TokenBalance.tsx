@@ -31,7 +31,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
@@ -132,6 +132,11 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
+// TODO(ACT-919): replace with feature gate
+function showMultichainAssetsScreen() {
+  return false
+}
+
 export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   const { t } = useTranslation()
 
@@ -182,7 +187,10 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
             </TouchableOpacity>
           )}
         </View>
-        <TokenBalance singleTokenViewEnabled={false} />
+        <TokenBalance
+          style={showMultichainAssetsScreen() ? styles.totalBalance : styles.balance}
+          singleTokenViewEnabled={false}
+        />
 
         {shouldRenderInfoComponent && (
           <Animated.View style={[styles.totalAssetsInfoContainer, animatedStyles]}>
@@ -206,7 +214,7 @@ export function HomeTokenBalance() {
     ValoraAnalytics.track(HomeEvents.view_token_balances, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(Screens.TokenBalances)
+    navigate(showMultichainAssetsScreen() ? Screens.Assets : Screens.TokenBalances)
   }
 
   const onCloseDialog = () => {
@@ -243,7 +251,7 @@ export function HomeTokenBalance() {
           </TouchableOpacity>
         )}
       </View>
-      <TokenBalance />
+      <TokenBalance style={showMultichainAssetsScreen() ? styles.totalBalance : styles.balance} />
     </View>
   )
 }
@@ -284,7 +292,7 @@ const styles = StyleSheet.create({
     margin: variables.contentPadding,
   },
   totalAssets: {
-    ...fontStyles.regular600,
+    ...typeScale.labelMedium,
     color: Colors.gray5,
     marginRight: 4,
   },
@@ -339,6 +347,10 @@ const styles = StyleSheet.create({
   },
   balance: {
     ...fontStyles.largeNumber,
+  },
+  totalBalance: {
+    ...typeScale.titleLarge,
+    color: Colors.dark,
   },
   exchangeBalance: {
     ...fontStyles.large500,

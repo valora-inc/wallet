@@ -21,7 +21,7 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
 
   const Content = ({ token, containerStyle }: Props) => {
     return (
-      <View style={[styles.container, containerStyle]}>
+      <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
         <TokenIcon token={token} viewStyle={styles.marginRight} />
         <View style={styles.textContainer}>
           <View style={styles.line}>

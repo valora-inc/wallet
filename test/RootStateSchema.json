@@ -2420,6 +2420,7 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
+                "Assets",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
