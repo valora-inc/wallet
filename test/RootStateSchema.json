@@ -2505,6 +2505,7 @@
                 "SwapReviewScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
+                "TokenDetails",
                 "TransactionDetailsScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
@@ -4199,10 +4200,22 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "infoUrl": {
+                    "type": "string"
+                },
+                "isCashInEligible": {
+                    "type": "boolean"
+                },
+                "isCashOutEligible": {
+                    "type": "boolean"
+                },
                 "isCoreToken": {
                     "type": "boolean"
                 },
                 "isNative": {
+                    "type": "boolean"
+                },
+                "isStableCoin": {
                     "type": "boolean"
                 },
                 "isSwappable": {
