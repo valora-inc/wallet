@@ -9,7 +9,7 @@ import {
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockPositions, mockTokenBalances } from 'test/values'
@@ -48,6 +48,9 @@ const defaultStore = {
 }
 
 jest.mocked(getFeatureGate).mockReturnValue(true)
+jest.mocked(getDynamicConfigParams).mockReturnValue({
+  showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+})
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(

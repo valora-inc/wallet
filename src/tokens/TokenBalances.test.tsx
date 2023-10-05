@@ -5,7 +5,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
@@ -28,7 +28,7 @@ jest.mock('src/statsig', () => {
   return {
     getFeatureGate: jest.fn(),
     getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
+      showBalances: ['celo-alfajores'],
     }),
   }
 })
@@ -191,6 +191,9 @@ describe('TokenBalancesScreen', () => {
   })
 
   it('renders the correct components when there are positions', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
 
@@ -211,6 +214,9 @@ describe('TokenBalancesScreen', () => {
   })
 
   it('renders the correct information in positions', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
 
