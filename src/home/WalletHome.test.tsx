@@ -129,6 +129,11 @@ jest.mock('src/statsig', () => ({
     cashInBottomSheetEnabled: true,
   })),
   getFeatureGate: jest.fn().mockReturnValue(false),
+  getDynamicConfigParams: jest.fn(() => ({
+    enableCico: ['celo-alfajores'],
+    showBalances: ['celo-alfajores'],
+    showTransfers: ['celo-alfajores'],
+  })),
 }))
 
 jest.mock('src/fiatExchanges/utils', () => ({
