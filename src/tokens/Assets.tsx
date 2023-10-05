@@ -299,6 +299,7 @@ function AssetsScreen({ navigation, route }: Props) {
   const NftItem = ({ item, index }: { item: Nft; index: number }) => {
     return (
       <View
+        testID="NftItem"
         style={[
           styles.nftsTouchableContainer,
           // For even indexes, add right margin; for odd indexes, add left margin.

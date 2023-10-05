@@ -14,8 +14,11 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockNftAllFields,
+  mockNftMinimumFields,
+  mockNftNullMetadata,
   mockPositions,
-  mockShortcuts,
+  mockShortcuts
 } from 'test/values'
 
 jest.mock('src/statsig', () => {
@@ -77,6 +80,15 @@ const storeWithPositionsAndClaimableRewards = {
   positions: {
     positions: mockPositions,
     shortcuts: mockShortcuts,
+  },
+}
+
+const storeWithNfts = {
+  ...storeWithTokenBalances,
+  nfts: {
+    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nftsLoading: false,
+    nftsError: null,
   },
 }
 
@@ -156,7 +168,7 @@ describe('AssetsScreen', () => {
   })
 
   it('renders collectibles on selecting the collectibles tab', () => {
-    const store = createMockStore(storeWithTokenBalances)
+    const store = createMockStore(storeWithNfts)
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
@@ -172,6 +184,7 @@ describe('AssetsScreen', () => {
     // TODO(ACT-918): assert nfts are displayed here
     expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('NftItem')).toHaveLength(2)
   })
 
   it('renders dapp positions on selecting the tab', () => {
