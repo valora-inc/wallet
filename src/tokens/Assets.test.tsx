@@ -18,7 +18,7 @@ import {
   mockNftMinimumFields,
   mockNftNullMetadata,
   mockPositions,
-  mockShortcuts
+  mockShortcuts,
 } from 'test/values'
 
 jest.mock('src/statsig', () => {
