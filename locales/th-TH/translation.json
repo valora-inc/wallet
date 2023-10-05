@@ -1830,7 +1830,12 @@
   "assets": {
     "claimRewards": "ขอรับรางวัล",
     "bridge": "Bridged via {{bridge}}",
-    "networkName": "{{networkName}} Network"
+    "networkName": "{{networkName}} Network",
+    "tabBar": {
+      "tokens": "Tokens",
+      "collectibles": "ของสะสม",
+      "dappPositions": "Dapp Positions"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
