@@ -34,7 +34,11 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
-import { nftsErrorSelector, nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
+import {
+  nftsErrorSelector,
+  nftsLoadingSelector,
+  nftsWithMetadataSelector,
+} from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import {
   positionsSelector,
@@ -414,7 +418,6 @@ function AssetsScreen({ navigation, route }: Props) {
         ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
         ListEmptyComponent={renderEmptyState}
       />
-      {/* TODO(ACT-918): render collectibles */}
       {showClaimRewards && (
         <Animated.View
           style={[
@@ -476,7 +479,6 @@ function TabBar({
           <Text
             style={[index === selectedIndex ? styles.tabBarItemSelected : styles.tabBarItem]}
             numberOfLines={1}
-            ellipsizeMode="tail"
           >
             {value}
           </Text>
