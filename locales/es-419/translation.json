@@ -1832,7 +1832,12 @@
   "assets": {
     "claimRewards": "Reclamar recompensas",
     "bridge": "Puenteado a través de {{bridge}}",
-    "networkName": "{{networkName}} Red"
+    "networkName": "{{networkName}} Red",
+    "tabBar": {
+      "tokens": "Fichas",
+      "collectibles": "Coleccionables",
+      "dappPositions": "Puestos Dapp"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Presentamos una nueva forma de reclamar recompensas, ver alertas y actualizaciones en un solo lugar",
