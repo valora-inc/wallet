@@ -8,7 +8,7 @@ export interface BaseToken {
   address: string | null
   tokenId: string
   decimals: number
-  imageUrl: string
+  imageUrl?: string
   name: string
   symbol: string
   networkId: NetworkId

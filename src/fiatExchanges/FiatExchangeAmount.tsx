@@ -20,8 +20,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
-import { fetchExchangeRate } from 'src/exchange/actions'
-import { useMaxSendAmountByAddress } from 'src/fees/hooks'
+import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
@@ -118,10 +117,6 @@ function FiatExchangeAmount({ route }: Props) {
   )
 
   const dispatch = useDispatch()
-
-  React.useEffect(() => {
-    dispatch(fetchExchangeRate())
-  }, [])
 
   //TODO: Remove ETH check here once ETH token information is available
   if (!address && currency !== CiCoCurrency.ETH) {

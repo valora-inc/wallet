@@ -1,4 +1,5 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -24,6 +25,7 @@ import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
@@ -40,13 +42,14 @@ import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
-const DEFAULT_FROM_TOKEN_SYMBOL = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
 }
 
-export function SwapScreen() {
+type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
+
+export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -73,17 +76,13 @@ export function SwapScreen() {
   const swapInfo = useSelector(swapInfoSelector)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
-  const CELO = useMemo(
-    () =>
-      swappableTokens.find(
-        (token) => token.symbol === DEFAULT_FROM_TOKEN_SYMBOL && token.isCoreToken
-      ),
-    [swappableTokens]
-  )
-
+  const fromTokenId = route.params?.fromTokenId
   const defaultFromToken = useMemo(() => {
-    return swappableTokens[0] ?? CELO
-  }, [swappableTokens])
+    const fromToken = fromTokenId
+      ? swappableTokens.find((token) => token.tokenId === fromTokenId)
+      : undefined
+    return fromToken ?? swappableTokens[0]
+  }, [swappableTokens, fromTokenId])
 
   const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(defaultFromToken)
   const [toToken, setToToken] = useState<TokenBalanceWithAddress | undefined>()

@@ -1,14 +1,12 @@
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
-import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
@@ -61,11 +59,6 @@ function ExchangeHomeScreen() {
     }),
     []
   )
-
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchExchangeRate())
-  }, [])
 
   const { t } = useTranslation()
 

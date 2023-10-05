@@ -15,11 +15,10 @@ import {
   useLinkBuilder,
 } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
-import { useDispatch } from 'react-redux'
 import {
   backupCompletedSelector,
   cloudBackupCompletedSelector,
@@ -39,7 +38,6 @@ import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
-import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
 import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
@@ -165,12 +163,6 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
-
-  const dispatch = useDispatch()
-  useEffect(() => {
-    // Needed for the local CELO balance display
-    dispatch(fetchExchangeRate())
-  }, [])
 
   return (
     <DrawerContentScrollView {...props}>
