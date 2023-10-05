@@ -226,11 +226,10 @@ export function SwapScreen({ route }: Props) {
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
     setSelectingToken(fieldType)
-    tokenBottomSheetRef.current?.snapToIndex(0)
-  }
 
-  const handleCloseTokenSelect = () => {
-    setSelectingToken(null)
+    requestAnimationFrame(() => {
+      tokenBottomSheetRef.current?.snapToIndex(0)
+    })
   }
 
   const handleSelectToken = (tokenAddress: string) => {
@@ -255,7 +254,9 @@ export function SwapScreen({ route }: Props) {
     }
 
     setSelectingToken(null)
-    tokenBottomSheetRef.current?.close()
+    requestAnimationFrame(() => {
+      tokenBottomSheetRef.current?.close()
+    })
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
@@ -415,7 +416,6 @@ export function SwapScreen({ route }: Props) {
         snapPoints={['90%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
-        onClose={handleCloseTokenSelect}
         searchEnabled={swappingNonNativeTokensEnabled}
         tokens={swappableTokens}
         title={

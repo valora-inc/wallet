@@ -14,7 +14,13 @@ export default function SearchInput({ style, ...passThroughProps }: Props) {
       <View style={styles.iconContainer}>
         <Search />
       </View>
-      <TextInput {...passThroughProps} inputStyle={styles.input} testID="SearchInput" />
+      <TextInput
+        {...passThroughProps}
+        inputStyle={styles.input}
+        autoCorrect={false}
+        spellCheck={false}
+        testID="SearchInput"
+      />
     </View>
   )
 }
