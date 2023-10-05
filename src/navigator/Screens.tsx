@@ -86,6 +86,7 @@ export enum Screens {
   SwapExecuteScreen = 'SwapExecuteScreen',
   SwapReviewScreen = 'SwapReviewScreen',
   TokenBalances = 'TokenBalances',
+  TokenDetails = 'TokenDetails',
   TransactionDetailsScreen = 'TransactionDetailsScreen',
   UpgradeScreen = 'UpgradeScreen',
   ValidateRecipientAccount = 'ValidateRecipientAccount',

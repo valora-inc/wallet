@@ -1,11 +1,13 @@
 import BigNumber from 'bignumber.js'
-import { CurrencyTokens } from 'src/tokens/selectors'
-import { Currency } from 'src/utils/currencies'
-import { TokenBalance } from './slice'
-import { NetworkId } from 'src/transactions/types'
+import { TokenProperties } from 'src/analytics/Properties'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { CurrencyTokens } from 'src/tokens/selectors'
+import { NetworkId } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -123,4 +125,30 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
   return getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
     ? Object.values(networkConfig.networkToNetworkId)
     : [networkConfig.defaultNetworkId]
+}
+
+export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
+  return {
+    symbol: token.symbol,
+    address: token.address,
+    balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
+    networkId: token.networkId,
+    tokenId: token.tokenId,
+  }
+}
+
+/**
+ * Checks whether the historical price is updated and is one day old +/- 1 hour.
+ * Used for showing / hiding the price delta on legacy Assets and TokenDetails
+ * pages
+ *
+ * @param {TokenBalance} token
+ * @returns {boolean}
+ */
+export function isHistoricalPriceUpdated(token: TokenBalance) {
+  return (
+    !!token.historicalPricesUsd?.lastDay &&
+    ONE_HOUR_IN_MILLIS >
+      Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
+  )
 }

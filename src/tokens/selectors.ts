@@ -10,15 +10,15 @@ import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import {
   TokenBalance,
+  TokenBalanceWithAddress,
   TokenBalances,
   TokenBalancesWithAddress,
-  TokenBalanceWithAddress,
 } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
-import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
-import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -190,7 +190,7 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
-function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
+export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
   const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
   const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
   const priceUsdComparison = token2UsdBalance.comparedTo(token1UsdBalance)
