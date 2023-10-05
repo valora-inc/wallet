@@ -1832,7 +1832,12 @@
   "assets": {
     "claimRewards": "Réclamer les récompenses",
     "bridge": "Ponté via {{bridge}}",
-    "networkName": "{{networkName}} Réseau"
+    "networkName": "{{networkName}} Réseau",
+    "tabBar": {
+      "tokens": "Jetons",
+      "collectibles": "Objets de collection",
+      "dappPositions": "Positions de Dapp"
+    }
   },
   "notificationCenterSpotlight": {
     "message": "Introduction d'une nouvelle façon de réclamer des récompenses, de consulter les alertes et de voir les mises à jour en un seul endroit.",
