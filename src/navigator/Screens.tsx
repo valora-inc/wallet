@@ -1,6 +1,7 @@
 export enum Screens {
   AccountKeyEducation = 'AccountKeyEducation',
   AccounSetupFailureScreen = 'AccounSetupFailureScreen',
+  Assets = 'Assets',
   BackupComplete = 'BackupComplete',
   BackupIntroduction = 'BackupIntroduction',
   BackupPhrase = 'BackupPhrase',
@@ -98,8 +99,5 @@ export enum Screens {
   WalletSecurityPrimerDrawer = 'WalletSecurityPrimerDrawer',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
-  WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
-  WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
-  WithdrawCeloScreen = 'WithdrawCeloScreen',
   WithdrawSpend = 'WithdrawSpend',
 }

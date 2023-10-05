@@ -142,7 +142,7 @@ export function setupOverridesFromLaunchArgs() {
     const { statsigGateOverrides } = LaunchArguments.value<ExpectedLaunchArgs>()
     if (statsigGateOverrides) {
       Logger.debug(TAG, 'Setting up gate overrides', statsigGateOverrides)
-      statsigGateOverrides.split(',').forEach((gateOverride) => {
+      statsigGateOverrides.split(',').forEach((gateOverride: string) => {
         const [gate, value] = gateOverride.split('=')
         Statsig.overrideGate(gate, value === 'true')
       })

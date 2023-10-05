@@ -68,6 +68,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
+import { NetworkId } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -393,7 +394,7 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
   [OnboardingEvents.protect_wallet_complete]: undefined
   [OnboardingEvents.cya_button_press]: {
-    name: string
+    cardName: AdventureCardName
     position: number
     cardOrder: AdventureCardName[]
   }
@@ -794,7 +795,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
   [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
-  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
   [FiatExchangeEvents.cico_landing_token_balance]: { totalBalance?: string }
   [FiatExchangeEvents.cico_landing_select_flow]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
@@ -1323,11 +1323,12 @@ interface TokenBottomSheetEventsProperties {
 interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
+  [AssetsEvents.view_collectibles]: undefined
   [AssetsEvents.view_dapp_positions]: undefined
   [AssetsEvents.tap_asset]:
     | {
         assetType: 'token'
-        address: string
+        address: string | null
         title: string // Example: 'cUSD'
         description: string
         balanceUsd: number
@@ -1338,6 +1339,15 @@ interface AssetsEventsProperties {
         appId: string // Example: 'ubeswap'
         address: string
         title: string // Example: MOO / CELO
+        description: string
+        balanceUsd: number
+      }
+    | {
+        assetType: 'token'
+        address?: string
+        networkId: NetworkId
+        tokenId: string
+        title: string // Example: 'cUSD'
         description: string
         balanceUsd: number
       }

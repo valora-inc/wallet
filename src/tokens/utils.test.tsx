@@ -14,19 +14,19 @@ describe(getHigherBalanceCurrency, () => {
     [Currency.Dollar]: {
       symbol: 'cUSD',
       isCoreToken: true,
-      usdPrice: new BigNumber(1),
+      priceUsd: new BigNumber(1),
       balance: new BigNumber(2),
     },
     [Currency.Euro]: {
       symbol: 'cEUR',
       isCoreToken: true,
-      usdPrice: new BigNumber(1.5),
+      priceUsd: new BigNumber(1.5),
       balance: new BigNumber(1),
     },
     [Currency.Celo]: {
       symbol: 'CELO',
       isCoreToken: true,
-      usdPrice: new BigNumber(5),
+      priceUsd: new BigNumber(5),
       balance: new BigNumber(1),
     },
   } as CurrencyTokens
@@ -56,43 +56,43 @@ describe(sortFirstStableThenCeloThenOthersByUsdBalance, () => {
     {
       symbol: 'cUSD',
       isCoreToken: true,
-      usdPrice: new BigNumber(1),
+      priceUsd: new BigNumber(1),
       balance: new BigNumber(2),
     },
     {
       symbol: 'cEUR',
       isCoreToken: true,
-      usdPrice: new BigNumber(1.5),
+      priceUsd: new BigNumber(1.5),
       balance: new BigNumber(1),
     },
     {
       symbol: 'CELO',
       isCoreToken: true,
-      usdPrice: new BigNumber(5),
+      priceUsd: new BigNumber(5),
       balance: new BigNumber(1),
     },
     {
       symbol: 'wBIT',
       isCoreToken: false,
-      usdPrice: new BigNumber(5000),
+      priceUsd: new BigNumber(5000),
       balance: new BigNumber(1),
     },
     {
       symbol: 'wETH',
       isCoreToken: false,
-      usdPrice: new BigNumber(3000),
+      priceUsd: new BigNumber(3000),
       balance: new BigNumber(1),
     },
     {
       symbol: 'TT2',
       isCoreToken: false,
-      usdPrice: undefined,
+      priceUsd: undefined,
       balance: new BigNumber(5),
     },
     {
       symbol: 'TT',
       isCoreToken: false,
-      usdPrice: undefined,
+      priceUsd: undefined,
       balance: new BigNumber(2),
     },
   ]
@@ -114,7 +114,7 @@ describe(sortFirstStableThenCeloThenOthersByUsdBalance, () => {
 
 describe(convertLocalToTokenAmount, () => {
   const tokenInfo = {
-    usdPrice: BigNumber(2),
+    priceUsd: BigNumber(2),
   } as TokenBalance
   const usdToLocalRate = '20'
   it('returns null if there is no token usd price', () => {
@@ -156,7 +156,7 @@ describe(convertLocalToTokenAmount, () => {
 
 describe(convertTokenToLocalAmount, () => {
   const tokenInfo = {
-    usdPrice: BigNumber(2),
+    priceUsd: BigNumber(2),
   } as TokenBalance
   const usdToLocalRate = '20'
   it('returns null if there is no token usd price', () => {

@@ -47,16 +47,17 @@ import fontStyles from 'src/styles/fonts'
 import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import SegmentedControl from 'src/tokens/SegmentedControl'
-import {
-  stalePriceSelector,
-  tokensWithTokenBalanceSelector,
-  totalTokenBalanceSelector,
-  visualizeNFTsEnabledInHomeAssetsPageSelector,
-} from 'src/tokens/selectors'
+import { visualizeNFTsEnabledInHomeAssetsPageSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import {
+  useTokenPricesAreStale,
+  useTotalTokenBalance,
+  useTokensWithTokenBalance,
+} from 'src/tokens/hooks'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
 interface SectionData {
@@ -87,10 +88,11 @@ function TokenBalancesScreen({ navigation, route }: Props) {
 
   const activeView = route.params?.activeView ?? AssetViewType.WalletAssets
 
-  const tokens = useSelector(tokensWithTokenBalanceSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useTokensWithTokenBalance()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector) ?? new BigNumber(0)
-  const tokensAreStale = useSelector(stalePriceSelector)
+  const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
+  const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
     visualizeNFTsEnabledInHomeAssetsPageSelector
@@ -99,6 +101,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
 
+  // TODO: Update this to filter out unsupported networks once positions support non-Celo chains
   const positions = useSelector(positionsSelector)
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
@@ -107,6 +110,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
   const showClaimRewards = dappShortcutsEnabled && positionsWithClaimableRewards.length > 0
 
+  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
@@ -271,6 +275,13 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     return null
   }
 
+  const keyExtractor = (item: TokenBalance | Position) => {
+    if (assetIsPosition(item)) {
+      return item.address
+    }
+    return item.tokenId
+  }
+
   const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
@@ -349,7 +360,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
         sections={sections}
         renderItem={renderAssetItem}
         renderSectionHeader={renderSectionHeader}
-        keyExtractor={(item) => item.address}
+        keyExtractor={keyExtractor}
         onScroll={handleScroll}
         scrollEventThrottle={16}
         ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}

@@ -17,7 +17,8 @@ import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/slice'
 import { createMockStore } from 'test/utils'
-import { mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockCeurAddress, mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 interface TokenBalances {
   [address: string]: StoredTokenBalance
@@ -25,8 +26,10 @@ interface TokenBalances {
 
 const CUSD_TOKEN_BALANCE = {
   address: mockCusdAddress,
+  tokenId: mockCusdTokenId,
+  networkId: NetworkId['celo-alfajores'],
   balance: '50',
-  usdPrice: '1',
+  priceUsd: '1',
   symbol: 'cUSD',
   decimals: 18,
   imageUrl: '',
@@ -36,10 +39,10 @@ const CUSD_TOKEN_BALANCE = {
 }
 
 const ONLY_CUSD_BALANCE: TokenBalances = {
-  [mockCusdAddress]: CUSD_TOKEN_BALANCE,
+  [mockCusdTokenId]: CUSD_TOKEN_BALANCE,
 }
 const NO_BALANCES: TokenBalances = {
-  [mockCusdAddress]: {
+  [mockCusdTokenId]: {
     ...CUSD_TOKEN_BALANCE,
     balance: '5',
   },

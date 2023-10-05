@@ -6,7 +6,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
-import TokenDisplay from 'src/components/TokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
@@ -20,7 +20,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { CiCoCurrency } from 'src/utils/currencies'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
@@ -58,7 +58,7 @@ export function PaymentMethodSection({
     (quote) => quote.getPaymentMethod() === paymentMethod
   )
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoBySymbol(cryptoType)
+  const tokenInfo = useTokenInfoWithAddressBySymbol(cryptoType)
   const localCurrency = useSelector(getLocalCurrencyCode)
 
   const showReceiveAmountFeatureGate = getFeatureGate(
@@ -197,7 +197,11 @@ export function PaymentMethodSection({
   }
 
   const renderInfoText = (quote: NormalizedQuote) => {
-    const reqsSubtitleInfo = quote.getReqsSubtitle()
+    const mobileCarrier = quote.getMobileCarrier()
+    const mobileCarrierRequirement = t('selectProviderScreen.mobileCarrierRequirement', {
+      carrier: mobileCarrier,
+    })
+    const reqsSubtitleInfo = mobileCarrier ? mobileCarrierRequirement : quote.getKycInfo()
     const reqsSubtitleString = reqsSubtitleInfo ? `${reqsSubtitleInfo} | ` : ''
     return `${reqsSubtitleString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
@@ -230,7 +234,7 @@ export function PaymentMethodSection({
       <>
         {feeAmount ? (
           <Text>
-            <TokenDisplay
+            <LegacyTokenDisplay
               amount={feeAmount}
               tokenAddress={tokenInfo?.address}
               showLocalAmount={flow === CICOFlow.CashIn}

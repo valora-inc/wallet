@@ -1,4 +1,3 @@
-import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import {
   QRCodeDataType,
   QRCodeStyle,
@@ -37,18 +36,12 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS]: false,
   [StatsigFeatureGates.SHOW_NATIVE_TOKENS]: false,
   [StatsigFeatureGates.SHOW_ETH_IN_CICO]: false,
+  [StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
 }
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]: {
-    experimentName: StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE,
-    defaultValues: {
-      addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
-      addFundsExchangesLink: SelectProviderExchangesLink.ExternalExchangesScreen,
-    },
-  },
   [StatsigExperiments.CHOOSE_YOUR_ADVENTURE]: {
     experimentName: StatsigExperiments.CHOOSE_YOUR_ADVENTURE,
     defaultValues: {

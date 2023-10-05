@@ -11,7 +11,7 @@ import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors
 import { DappConnectInfo } from 'src/dapps/types'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { BottomSheetParams, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import Logger from 'src/utils/Logger'
@@ -20,10 +20,9 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen> &
-  BottomSheetParams
+type Props = BottomSheetScreenProps<StackParamList, Screens.DappKitAccountScreen>
 
-const DappKitAccountScreen = ({ route, handleContentLayout }: Props) => {
+const DappKitAccountScreen = ({ route }: Props) => {
   const { dappKitRequest } = route.params
 
   const account = useSelector(currentAccountSelector)
@@ -58,7 +57,7 @@ const DappKitAccountScreen = ({ route, handleContentLayout }: Props) => {
   }
 
   return (
-    <BottomSheetScrollView handleContentLayout={handleContentLayout}>
+    <BottomSheetScrollView>
       <RequestContent
         type="confirm"
         onAccept={handleAllow}

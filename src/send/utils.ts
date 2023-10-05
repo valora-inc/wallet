@@ -1,6 +1,10 @@
 import { SendOrigin } from 'src/analytics/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount, convertLocalAmountToDollars } from 'src/localCurrency/convert'
+import {
+  convertDollarsToLocalAmount,
+  convertLocalAmountToDollars,
+  convertToMaxSupportedPrecision,
+} from 'src/localCurrency/convert'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -10,8 +14,9 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { tokensListSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import { tokensListWithAddressSelector } from 'src/tokens/selectors'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { convertLocalToTokenAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
@@ -39,10 +44,10 @@ export function* handleSendPaymentData(
     })
   )
 
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalanceWithAddress[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
-  if (!tokenInfo?.usdPrice) {
+  if (!tokenInfo?.priceUsd) {
     navigate(Screens.SendAmount, {
       recipient,
       isFromScan,
@@ -60,9 +65,14 @@ export function* handleSendPaymentData(
       : yield* select(getLocalCurrencyCode)
     const exchangeRate = yield* call(fetchExchangeRate, LocalCurrencyCode.USD, currency)
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-    const localCurrencyExchangeRate: string | null = yield* select(usdToLocalCurrencyRateSelector)
-    const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
-    const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
+    const usdToLocalRate = yield* select(usdToLocalCurrencyRateSelector)
+    const localAmount = convertDollarsToLocalAmount(dollarAmount, usdToLocalRate)
+    const inputAmount = localAmount && convertToMaxSupportedPrecision(localAmount)
+    const tokenAmount = convertLocalToTokenAmount({
+      localAmount: inputAmount,
+      tokenInfo,
+      usdToLocalRate,
+    })
     if (!inputAmount || !tokenAmount) {
       Logger.warn(TAG, '@handleSendPaymentData null amount')
       return

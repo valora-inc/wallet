@@ -1101,26 +1101,6 @@
             ],
             "type": "object"
         },
-        "ExchangeRates": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                },
-                "cGLD": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                },
-                "cUSD": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "Fee": {
             "additionalProperties": false,
             "properties": {
@@ -1543,7 +1523,7 @@
             ],
             "type": "object"
         },
-        "HistoricalUsdPrices": {
+        "HistoricalPricesUsd": {
             "additionalProperties": false,
             "properties": {
                 "lastDay": {
@@ -2405,26 +2385,6 @@
             ],
             "type": "string"
         },
-        "Record<Currency,string>": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "type": "string"
-                },
-                "cGLD": {
-                    "type": "string"
-                },
-                "cUSD": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -2460,6 +2420,7 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
+                "Assets",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -2557,9 +2518,6 @@
                 "WalletSecurityPrimerDrawer",
                 "WebViewScreen",
                 "Welcome",
-                "WithdrawCeloQrScannerScreen",
-                "WithdrawCeloReviewScreen",
-                "WithdrawCeloScreen",
                 "WithdrawSpend"
             ],
             "type": "string"
@@ -4032,16 +3990,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "exchangeRates": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ExchangeRates"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
                 "history": {
                     "additionalProperties": false,
                     "properties": {
@@ -4075,22 +4023,10 @@
                         "range"
                     ],
                     "type": "object"
-                },
-                "isLoading": {
-                    "type": "boolean"
-                },
-                "tobinTax": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 }
             },
             "required": [
-                "exchangeRates",
-                "history",
-                "isLoading",
-                "tobinTax"
+                "history"
             ],
             "type": "object"
         },
@@ -4240,7 +4176,10 @@
             "additionalProperties": false,
             "properties": {
                 "address": {
-                    "type": "string"
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "balance": {
                     "type": [
@@ -4248,16 +4187,22 @@
                         "string"
                     ]
                 },
+                "bridge": {
+                    "type": "string"
+                },
                 "decimals": {
                     "type": "number"
                 },
-                "historicalUsdPrices": {
-                    "$ref": "#/definitions/HistoricalUsdPrices"
+                "historicalPricesUsd": {
+                    "$ref": "#/definitions/HistoricalPricesUsd"
                 },
                 "imageUrl": {
                     "type": "string"
                 },
                 "isCoreToken": {
+                    "type": "boolean"
+                },
+                "isNative": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4272,13 +4217,19 @@
                 "networkIconUrl": {
                     "type": "string"
                 },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
                 "priceFetchedAt": {
                     "type": "number"
+                },
+                "priceUsd": {
+                    "type": "string"
                 },
                 "symbol": {
                     "type": "string"
                 },
-                "usdPrice": {
+                "tokenId": {
                     "type": "string"
                 }
             },
@@ -4286,10 +4237,10 @@
                 "address",
                 "balance",
                 "decimals",
-                "imageUrl",
                 "name",
+                "networkId",
                 "symbol",
-                "usdPrice"
+                "tokenId"
             ],
             "type": "object"
         },

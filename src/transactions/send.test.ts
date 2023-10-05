@@ -8,33 +8,59 @@ import {
   shouldTxFailureRetry,
 } from 'src/transactions/send'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+} from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const state = (override?: { celoBalance: string }) =>
   createMockStore({
     tokens: {
       tokenBalances: {
-        [mockCusdAddress]: {
+        [mockCusdTokenId]: {
           balance: '0',
-          usdPrice: '1',
+          priceUsd: '1',
           symbol: 'cUSD',
           address: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+          networkId: NetworkId['celo-alfajores'],
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },
-        [mockCeurAddress]: {
+        [mockCeurTokenId]: {
           balance: '1',
-          usdPrice: '1.2',
+          priceUsd: '1.2',
           symbol: 'cEUR',
           address: mockCeurAddress,
+          tokenId: mockCeurTokenId,
+          networkId: NetworkId['celo-alfajores'],
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },
-        [mockCeloAddress]: {
+        [mockCeloTokenId]: {
           balance: override?.celoBalance ?? '0',
-          usdPrice: '3.5',
+          priceUsd: '3.5',
           symbol: 'CELO',
           address: mockCeloAddress,
+          tokenId: mockCeloTokenId,
+          networkId: NetworkId['celo-alfajores'],
           isCoreToken: true,
           priceFetchedAt: Date.now(),
         },

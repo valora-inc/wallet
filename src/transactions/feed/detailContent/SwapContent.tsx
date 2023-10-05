@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,7 +13,7 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenExchange } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -24,7 +24,7 @@ export interface Props {
 // Note that this is tested from TransactionDetailsScreen.test.tsx
 export default function SwapContent({ exchange }: Props) {
   const { t } = useTranslation()
-  const tokensList = useSelector(tokensListSelector)
+  const tokensList = useSelector(tokensListWithAddressSelector)
 
   const fromTokenSymbol = tokensList.find(
     (token) => token.address === exchange.outAmount.tokenAddress
@@ -44,7 +44,7 @@ export default function SwapContent({ exchange }: Props) {
     <View style={styles.contentContainer}>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapTo')}</Text>
-        <TokenDisplay
+        <LegacyTokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.inAmount.value}
           tokenAddress={exchange.inAmount.tokenAddress}
@@ -56,7 +56,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapFrom')}</Text>
-        <TokenDisplay
+        <LegacyTokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.outAmount.value}
           tokenAddress={exchange.outAmount.tokenAddress}
@@ -77,7 +77,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.estimatedFee')}</Text>
-        <TokenDisplay
+        <LegacyTokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.fees[0].amount.value}
           tokenAddress={exchange.fees[0].amount.tokenAddress}

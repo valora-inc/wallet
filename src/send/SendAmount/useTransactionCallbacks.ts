@@ -25,7 +25,7 @@ import { useRecipientVerificationStatus } from 'src/recipients/hooks'
 import { Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { roundUp } from 'src/utils/formatting'
 
 interface Props {
@@ -50,7 +50,7 @@ function useTransactionCallbacks({
   origin,
   isFromScan,
 }: Props) {
-  const tokenInfo = useTokenInfo(transferTokenAddress)
+  const tokenInfo = useTokenInfoByAddress(transferTokenAddress)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)

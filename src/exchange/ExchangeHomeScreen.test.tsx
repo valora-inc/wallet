@@ -2,17 +2,13 @@ import { render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
-import { ExchangeRates } from 'src/exchange/reducer'
 import { createMockStore } from 'test/utils'
 import {
   exchangePriceHistory,
-  makeExchangeRates,
   mockCeloAddress,
   mockCusdAddress,
   mockTokenBalances,
 } from 'test/values'
-
-const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 const store = createMockStore({
   tokens: {
@@ -32,7 +28,6 @@ const store = createMockStore({
     },
   },
   exchange: {
-    exchangeRates,
     history: exchangePriceHistory,
   },
 })

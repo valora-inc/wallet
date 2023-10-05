@@ -3,12 +3,18 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import TokenIcon from 'src/components/TokenIcon'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCusdAddress, mockTokenBalances } from 'test/values'
+import { mockCeloTokenId, mockCusdTokenId, mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 // Setting up the mock token balances with expected additional values
-const CELO_TOKEN = mockTokenBalances[mockCeloAddress]
+const CELO_TOKEN = mockTokenBalances[mockCeloTokenId]
 const CUSD_TOKEN = {
-  ...mockTokenBalances[mockCusdAddress],
+  ...mockTokenBalances[mockCusdTokenId],
+  networkIconUrl:
+    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+}
+const NO_IMAGE_TOKEN = {
+  ...mockTokenBalances[mockPoofTokenId],
+  imageUrl: undefined,
   networkIconUrl:
     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
 }
@@ -43,6 +49,18 @@ describe('TokenIcon', () => {
     expect(getByTestId('TokenIcon')).toHaveProp('source', {
       uri: CUSD_TOKEN.imageUrl,
     })
+    expect(getByTestId('NetworkIcon')).toHaveProp('source', {
+      uri: CELO_TOKEN.imageUrl,
+    })
+  })
+
+  it('renders correctly with default icon if no token icon is present', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <TokenIcon token={NO_IMAGE_TOKEN} />
+      </Provider>
+    )
+    expect(getByTestId('DefaultTokenIcon')).toBeTruthy()
     expect(getByTestId('NetworkIcon')).toHaveProp('source', {
       uri: CELO_TOKEN.imageUrl,
     })

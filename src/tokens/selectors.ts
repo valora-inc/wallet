@@ -8,56 +8,115 @@ import {
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalance, TokenBalances } from 'src/tokens/slice'
+import {
+  TokenBalance,
+  TokenBalances,
+  TokenBalancesWithAddress,
+  TokenBalanceWithAddress,
+} from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
+import { NetworkId } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 
-type TokenBalanceWithUsdPrice = TokenBalance & {
-  usdPrice: BigNumber
+type TokenBalanceWithPriceUsd = TokenBalance & {
+  priceUsd: BigNumber
 }
-
 export type CurrencyTokens = {
-  [currency in Currency]: TokenBalance | undefined
+  [currency in Currency]: TokenBalanceWithAddress | undefined
 }
 
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
-// This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
+/**
+ * Selector-like functions suffixed with "wrapper" are higher-order functions which return a selector
+ * that only looks at tokens from the specified networkIds. These functions should not be called
+ * directly from components, but instead from within hooks
+ */
+export const tokensByIdSelectorWrapper = (networkIds: NetworkId[]) =>
+  createSelector(
+    (state: RootState) => state.tokens.tokenBalances,
+    (storedBalances) => {
+      const tokenBalances: TokenBalances = {}
+      for (const storedState of Object.values(storedBalances)) {
+        if (
+          !storedState ||
+          storedState.balance === null ||
+          !networkIds.includes(storedState.networkId)
+        ) {
+          continue
+        }
+        const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
+        const tokenPriceUsdIsStale =
+          (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+        tokenBalances[storedState.tokenId] = {
+          ...storedState,
+          balance: new BigNumber(storedState.balance),
+          priceUsd: priceUsd.isNaN() || tokenPriceUsdIsStale ? null : priceUsd,
+          lastKnownPriceUsd: !priceUsd.isNaN() ? priceUsd : null,
+        }
+      }
+      return tokenBalances
+    }
+  )
+
+// This selector maps priceUsd and balance fields from string to BigNumber and filters tokens without those values
+/**
+ * @deprecated use tokensByIdSelector instead
+ */
 export const tokensByAddressSelector = createSelector(
   (state: RootState) => state.tokens.tokenBalances,
   (storedBalances) => {
-    const tokenBalances: TokenBalances = {}
-    for (const [tokenAddress, storedState] of Object.entries(storedBalances)) {
-      if (!storedState || storedState.balance === null) {
+    const tokenBalances: TokenBalancesWithAddress = {}
+    for (const storedState of Object.values(storedBalances)) {
+      if (
+        !storedState ||
+        storedState.balance === null ||
+        !storedState.address ||
+        storedState.networkId !== networkConfig.defaultNetworkId
+      ) {
         continue
       }
-      const usdPrice = new BigNumber(storedState.usdPrice)
+      const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
 
-      const tokenUsdPriceIsStale =
+      const tokenPriceUsdIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
-      tokenBalances[tokenAddress] = {
+      tokenBalances[storedState.address] = {
         ...storedState,
+        address: storedState.address, // TS complains if this isn't explicitly included, despite it necessarily being non-null
+        name: storedState.bridge ? `${storedState.name} (${storedState.bridge})` : storedState.name,
         balance: new BigNumber(storedState.balance),
-        usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
-        lastKnownUsdPrice: !usdPrice.isNaN() ? usdPrice : null,
+        priceUsd: priceUsd.isNaN() || tokenPriceUsdIsStale ? null : priceUsd,
+        lastKnownPriceUsd: !priceUsd.isNaN() ? priceUsd : null,
       }
     }
     return tokenBalances
   }
 )
 
-export const tokensListSelector = createSelector(tokensByAddressSelector, (tokens) => {
+export const tokensListSelectorWrapper = (networkIds: NetworkId[]) =>
+  createSelector(tokensByIdSelectorWrapper(networkIds), (tokens) => {
+    return Object.values(tokens).map((token) => token!)
+  })
+
+/**
+ * @deprecated use tokensListSelector instead
+ */
+export const tokensListWithAddressSelector = createSelector(tokensByAddressSelector, (tokens) => {
   return Object.values(tokens).map((token) => token!)
 })
 
+/**
+ * @deprecated
+ */
 export const tokensBySymbolSelector = createSelector(
-  tokensListSelector,
+  tokensListWithAddressSelector,
   (
     tokens
   ): {
-    [symbol: string]: TokenBalance
+    [symbol: string]: TokenBalanceWithAddress
   } => {
     return tokens.reduce(
       (acc, token) => ({
@@ -69,76 +128,84 @@ export const tokensBySymbolSelector = createSelector(
   }
 )
 
-export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
-  return tokens.filter((tokenInfo) =>
-    tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
-  ) as TokenBalanceWithUsdPrice[]
-})
-
-export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
-  return tokens.filter((tokenInfo) =>
-    tokenInfo.balance
-      .multipliedBy(tokenInfo.lastKnownUsdPrice ?? 0)
-      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
-  )
-})
-
-export const stalePriceSelector = createSelector(tokensListSelector, (tokens) => {
-  // If no tokens then prices cannot be stale
-  if (tokens.length === 0) return false
-  // Put tokens with usdPrice into an array
-  const tokensWithUsdValue = tokens.filter((tokenInfo) => tokenInfo.usdPrice !== null)
-  // If tokens with usd value exist, check the time price was fetched and if ANY are stale - return true
-  // Else tokens usd values are not present so we know prices are stale - return true
-  if (tokensWithUsdValue.length > 0) {
-    return tokensWithUsdValue.some(
-      (tokenInfo) =>
-        (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+/**
+ * @deprecated
+ */
+export const tokensWithLastKnownUsdValueSelector = createSelector(
+  tokensListWithAddressSelector,
+  (tokens) => {
+    return tokens.filter((tokenInfo) =>
+      tokenInfo.balance
+        .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
+        .gt(STABLE_TRANSACTION_MIN_AMOUNT)
     )
-  } else {
-    return true
   }
-})
+)
 
-export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
-})
+/**
+ * @deprecated use tokensWithTokenBalanceSelector instead
+ */
+export const tokensWithTokenBalanceAndAddressSelector = createSelector(
+  tokensListWithAddressSelector,
+  (tokens) => {
+    return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
+  }
+)
 
+/**
+ * @deprecated
+ */
 export const tokensSortedToShowInSendSelector = createSelector(
-  tokensWithTokenBalanceSelector,
+  tokensWithTokenBalanceAndAddressSelector,
   (tokens) => tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
 )
 
 // Tokens sorted by usd balance (descending)
-export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) =>
-  tokensList.sort(sortByUsdBalance)
+/**
+ * @deprecated
+ */
+export const tokensByUsdBalanceSelector = createSelector(
+  tokensListWithAddressSelector,
+  (tokensList) => tokensList.sort(sortByUsdBalance)
 )
 
+/**
+ * @deprecated
+ */
 export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
 })
 
+/**
+ * @deprecated
+ */
 export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
 })
 
+/**
+ * @deprecated
+ */
 export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
 function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
-  const usdPriceComparison = token2UsdBalance.comparedTo(token1UsdBalance)
-  if (usdPriceComparison === 0) {
+  const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
+  const priceUsdComparison = token2UsdBalance.comparedTo(token1UsdBalance)
+  if (priceUsdComparison === 0) {
     const token1Name = token1.name ?? 'ZZ'
     const token2Name = token2.name ?? 'ZZ'
     return token1Name.localeCompare(token2Name)
   } else {
-    return usdPriceComparison
+    return priceUsdComparison
   }
 }
 
+/**
+ * @deprecated
+ */
 export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   const appVersion = deviceInfoModule.getVersion()
 
@@ -152,8 +219,11 @@ export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector
     .sort(tokenCompareByUsdBalanceThenByName)
 })
 
+/**
+ * @deprecated
+ */
 export const tokensByCurrencySelector = createSelector(
-  tokensListSelector,
+  tokensListWithAddressSelector,
   (tokens): CurrencyTokens => {
     const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
     const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
@@ -168,6 +238,9 @@ export const tokensByCurrencySelector = createSelector(
 )
 
 // Returns the token with the highest usd balance to use as default.
+/**
+ * @deprecated
+ */
 export const defaultTokenToSendSelector = createSelector(
   tokensSortedToShowInSendSelector,
   stablecoinsSelector,
@@ -180,8 +253,15 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
+/**
+ * @deprecated
+ */
 export const lastKnownTokenBalancesSelector = createSelector(
-  [tokensListSelector, tokensWithLastKnownUsdValueSelector, usdToLocalCurrencyRateSelector],
+  [
+    tokensListWithAddressSelector,
+    tokensWithLastKnownUsdValueSelector,
+    usdToLocalCurrencyRateSelector,
+  ],
   (tokensList, tokensWithLastKnownUsdValue, usdToLocalRate) => {
     if (!usdToLocalRate || tokensList.length === 0) {
       return null
@@ -190,7 +270,7 @@ export const lastKnownTokenBalancesSelector = createSelector(
     let totalBalance = new BigNumber(0)
     for (const token of tokensWithLastKnownUsdValue) {
       const tokenAmount = new BigNumber(token.balance)
-        .multipliedBy(token.lastKnownUsdPrice ?? 0)
+        .multipliedBy(token.lastKnownPriceUsd ?? 0)
         .multipliedBy(usdToLocalRate)
       totalBalance = totalBalance.plus(tokenAmount)
     }
@@ -199,43 +279,51 @@ export const lastKnownTokenBalancesSelector = createSelector(
   }
 )
 
-export const totalTokenBalanceSelector = createSelector(
-  [
-    tokensListSelector,
-    tokensWithUsdValueSelector,
-    usdToLocalCurrencyRateSelector,
-    tokenFetchErrorSelector,
-    tokenFetchLoadingSelector,
-  ],
-  (tokensList, tokensWithUsdValue, usdToLocalRate, tokenFetchError, tokenFetchLoading) => {
-    if (tokenFetchError || tokenFetchLoading) {
-      return null
+export const tokensWithUsdValueSelectorWrapper = (networkIds: NetworkId[]) =>
+  createSelector(tokensListSelectorWrapper(networkIds), (tokens) => {
+    return tokens.filter((tokenInfo) =>
+      tokenInfo.balance.multipliedBy(tokenInfo.priceUsd ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
+    ) as TokenBalanceWithPriceUsd[]
+  })
+
+export const totalTokenBalanceSelectorWrapper = (networkIds: NetworkId[]) =>
+  createSelector(
+    [
+      tokensListSelectorWrapper(networkIds),
+      tokensWithUsdValueSelectorWrapper(networkIds),
+      usdToLocalCurrencyRateSelector,
+      tokenFetchErrorSelector,
+      tokenFetchLoadingSelector,
+    ],
+    (tokensList, tokensWithUsdValue, usdToLocalRate, tokenFetchError, tokenFetchLoading) => {
+      if (tokenFetchError || tokenFetchLoading) {
+        return null
+      }
+
+      if (!usdToLocalRate || tokensList.length === 0) {
+        return null
+      }
+      let totalBalance = new BigNumber(0)
+
+      for (const token of tokensWithUsdValue.filter((token) =>
+        networkIds.includes(token.networkId)
+      )) {
+        const tokenAmount = new BigNumber(token.balance)
+          .multipliedBy(token.priceUsd)
+          .multipliedBy(usdToLocalRate)
+        totalBalance = totalBalance.plus(tokenAmount)
+      }
+
+      return totalBalance
     }
+  )
 
-    if (!usdToLocalRate || tokensList.length === 0) {
-      return null
-    }
-    let totalBalance = new BigNumber(0)
-
-    for (const token of tokensWithUsdValue) {
-      const tokenAmount = new BigNumber(token.balance)
-        .multipliedBy(token.usdPrice)
-        .multipliedBy(usdToLocalRate)
-      totalBalance = totalBalance.plus(tokenAmount)
-    }
-
-    return totalBalance
-  }
-)
-
-export const tokensInfoUnavailableSelector = createSelector(
-  totalTokenBalanceSelector,
-  (totalBalance) => {
+export const tokensInfoUnavailableSelectorWrapper = (networkIds: NetworkId[]) =>
+  createSelector(totalTokenBalanceSelectorWrapper(networkIds), (totalBalance) => {
     // The total balance is null if there was an error fetching the tokens
     // info and there are no cached values
     return totalBalance === null
-  }
-)
+  })
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage

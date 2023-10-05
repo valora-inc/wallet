@@ -4,18 +4,27 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
+import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { Network } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
-import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockMaxSendAmount } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockMaxSendAmount,
+} from 'test/values'
 import { CICOFlow } from './utils'
-import { Network } from 'src/transactions/types'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 
 const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
@@ -24,6 +33,21 @@ jest.mock('src/fees/hooks', () => ({
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
 }))
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default: {
+      ...originalModule.default,
+      networkToNetworkId: {
+        celo: 'celo-alfajores',
+        ethereum: 'ethereuim-sepolia',
+      },
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const usdToUsdRate = '1'
 const usdToEurRate = '0.862'
@@ -31,27 +55,33 @@ const usdToPhpRate = '50'
 
 const mockTokens = {
   tokenBalances: {
-    [mockCusdAddress]: {
+    [mockCusdTokenId]: {
       address: mockCusdAddress,
+      tokenId: mockCusdTokenId,
+      networkId: NetworkId['celo-alfajores'],
       symbol: 'cUSD',
       balance: '200',
-      usdPrice: '1',
+      priceUsd: '1',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
-    [mockCeurAddress]: {
+    [mockCeurTokenId]: {
       address: mockCeurAddress,
+      tokenId: mockCeurTokenId,
+      networkId: NetworkId['celo-alfajores'],
       symbol: 'cEUR',
       balance: '100',
-      usdPrice: '1.2',
+      priceUsd: '1.2',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
-    [mockCeloAddress]: {
+    [mockCeloTokenId]: {
       address: mockCeloAddress,
+      tokenId: mockCeloTokenId,
+      networkId: NetworkId['celo-alfajores'],
       symbol: 'CELO',
       balance: '200',
-      usdPrice: '5',
+      priceUsd: '5',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },

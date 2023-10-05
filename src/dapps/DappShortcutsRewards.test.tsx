@@ -6,14 +6,28 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockPositions, mockShortcuts } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId, mockPositions, mockShortcuts } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => true),
 }))
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const mockCeloAddress = '0x471ece3750da237f93b8e339c536989b8978a438'
 const mockUbeAddress = '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec'
+const mockCeloTokenId = `celo-alfajores:${mockCeloAddress}`
+const mockUbeTokenId = `celo-alfajores:${mockUbeAddress}`
 
 const getPositionWithClaimableBalance = (balance?: string): Position => ({
   type: 'contract-position',
@@ -89,25 +103,31 @@ const defaultState = {
   },
   tokens: {
     tokenBalances: {
-      [mockCeloAddress]: {
+      [mockCeloTokenId]: {
         address: mockCeloAddress,
+        tokenId: mockCeloTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'CELO',
-        usdPrice: '0.6959536890241361', // matches data in mockPositions
+        priceUsd: '0.6959536890241361', // matches data in mockPositions
         balance: '10',
         priceFetchedAt: Date.now(),
         isCoreToken: true,
       },
-      [mockUbeAddress]: {
+      [mockUbeTokenId]: {
         address: mockUbeAddress,
+        tokenId: mockUbeTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'UBE',
-        usdPrice: '0.00904673476946796903', // matches data in mockPositions
+        priceUsd: '0.00904673476946796903', // matches data in mockPositions
         balance: '10',
         priceFetchedAt: Date.now(),
       },
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
         isCoreToken: true,

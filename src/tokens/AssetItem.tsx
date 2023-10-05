@@ -6,6 +6,7 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -52,14 +53,18 @@ export const PositionItem = ({ position }: { position: Position }) => {
       </View>
       <View style={styles.balances}>
         {balanceUsd.gt(0) || balanceUsd.lt(0) ? (
-          <TokenDisplay amount={balanceUsd} currency={Currency.Dollar} style={styles.tokenAmt} />
+          <LegacyTokenDisplay
+            amount={balanceUsd}
+            currency={Currency.Dollar}
+            style={styles.tokenAmt}
+          />
         ) : (
           // If the balance is 0 / NaN, display a dash instead
           // as it means we don't have a price for at least one of the underlying tokens
           <Text style={styles.tokenAmt}>-</Text>
         )}
         {balanceInDecimal && (
-          <TokenDisplay
+          <LegacyTokenDisplay
             amount={balanceInDecimal}
             // Hack to display the token balance without having said token in the base token list
             currency={Currency.Celo}
@@ -82,9 +87,9 @@ export const TokenBalanceItem = ({
 }) => {
   const isHistoricalPriceUpdated = () => {
     return (
-      token.historicalUsdPrices?.lastDay &&
+      token.historicalPricesUsd?.lastDay &&
       TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES >
-        Math.abs(token.historicalUsdPrices.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
+        Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
     )
   }
 
@@ -94,7 +99,7 @@ export const TokenBalanceItem = ({
       address: token.address,
       title: token.symbol,
       description: token.name,
-      balanceUsd: token.balance.multipliedBy(token.usdPrice ?? 0).toNumber(),
+      balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
     })
   }
 
@@ -115,26 +120,26 @@ export const TokenBalanceItem = ({
       <View style={styles.balances}>
         <TokenDisplay
           amount={new BigNumber(token.balance)}
-          tokenAddress={token.address}
+          tokenId={token.tokenId}
           style={styles.tokenAmt}
           showLocalAmount={false}
           showSymbol={false}
           testID={`tokenBalance:${token.symbol}`}
         />
-        {token.usdPrice?.gt(0) && (
+        {token.priceUsd?.gt(0) && (
           <View style={styles.tokenContainer}>
             {showPriceChangeIndicatorInBalances &&
-              token.historicalUsdPrices &&
+              token.historicalPricesUsd &&
               isHistoricalPriceUpdated() && (
                 <PercentageIndicator
                   testID={`percentageIndicator:${token.symbol}`}
-                  comparedValue={token.historicalUsdPrices.lastDay.price}
-                  currentValue={token.usdPrice}
+                  comparedValue={token.historicalPricesUsd.lastDay.price}
+                  currentValue={token.priceUsd}
                 />
               )}
             <TokenDisplay
               amount={new BigNumber(token.balance!)}
-              tokenAddress={token.address}
+              tokenId={token.tokenId}
               style={{ ...styles.subtext, marginLeft: 8 }}
               testID={`tokenLocalBalance:${token.symbol}`}
             />

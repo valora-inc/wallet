@@ -417,7 +417,6 @@ export enum FiatExchangeEvents {
   external_exchange_link = 'external_exchange_link',
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
-  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue',
 
   // External Exchanges QR Code Screen
   cico_exchange_qr_bottom_sheet_open = 'cico_exchange_qr_bottom_sheet_open',
@@ -612,6 +611,7 @@ export enum TokenBottomSheetEvents {
 export enum AssetsEvents {
   show_asset_balance_info = 'show_asset_balance_info',
   view_wallet_assets = 'view_wallet_assets',
+  view_collectibles = 'view_collectibles',
   view_dapp_positions = 'view_dapp_positions',
   tap_asset = 'tap_asset',
   tap_claim_rewards = 'tap_claim_rewards',

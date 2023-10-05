@@ -18,12 +18,28 @@ import {
   mockAccount2Invite,
   mockAccountInvite,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164NumberInvite,
   mockTestTokenAddress,
+  mockTestTokenTokenId,
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
@@ -33,24 +49,30 @@ const BALANCE_VALID = '23.85'
 const storeData = {
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
+      [mockCusdTokenId]: {
         address: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cUSD',
-        usdPrice: '1',
+        priceUsd: '1',
         balance: BALANCE_VALID,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockCeurAddress]: {
+      [mockCeurTokenId]: {
         address: mockCeurAddress,
+        tokenId: mockCeurTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'cEUR',
-        usdPrice: '1.2',
+        priceUsd: '1.2',
         balance: '10',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
-      [mockTestTokenAddress]: {
+      [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
         symbol: 'TT',
         balance: '50',
       },
@@ -75,7 +97,7 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 const mockTransactionData2 = {
   type: mockTransactionDataLegacy.type,
   recipient: mockTransactionDataLegacy.recipient,
-  amount: new BigNumber('3.706766917293233083'), // AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1 (usdPrice of cUSD)
+  amount: new BigNumber('3.706766917293233083'), // AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1 (priceUsd of cUSD)
   tokenAddress: mockCusdAddress,
   reason: '',
 }
@@ -218,10 +240,12 @@ describe('SendAmount', () => {
         },
         tokens: {
           tokenBalances: {
-            [mockCusdAddress]: {
+            [mockCusdTokenId]: {
               address: mockCusdAddress,
+              tokenId: mockCusdTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cUSD',
-              usdPrice: '1',
+              priceUsd: '1',
               balance: '22.85789012',
               isCoreToken: true,
               priceFetchedAt: Date.now(),
@@ -270,14 +294,14 @@ describe('SendAmount', () => {
             [mockCusdAddress]: {
               address: mockCusdAddress,
               symbol: 'cUSD',
-              usdPrice: '1',
+              priceUsd: '1',
               balance: '0',
               priceFetchedAt: Date.now(),
             },
             [mockCeurAddress]: {
               address: mockCeurAddress,
               symbol: 'cEUR',
-              usdPrice: '1.2',
+              priceUsd: '1.2',
               balance: '10.12',
               priceFetchedAt: Date.now(),
             },
@@ -351,7 +375,7 @@ describe('SendAmount', () => {
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
       expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
 
-      fireEvent.press(wrapper.getByTestId('onChangeToken'))
+      fireEvent.press(wrapper.getByTestId('TokenPickerSelector'))
       fireEvent.press(wrapper.getByTestId('cEURTouchable'))
 
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱0')
@@ -444,7 +468,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCeurAddress,
-          tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (usdPrice of cEUR)
+          tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (priceUsd of cEUR)
         },
       })
     })

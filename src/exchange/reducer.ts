@@ -15,8 +15,6 @@ export interface ExchangeRate {
 export type ExchangeRates = Record<Currency, Record<Currency, string>>
 
 export interface State {
-  exchangeRates: ExchangeRates | null
-  tobinTax: string | null
   history: {
     // TODO this should be remove once we have aggregation on
     // blockchain api side
@@ -26,12 +24,9 @@ export interface State {
     range: number
     lastTimeUpdated: number
   }
-  isLoading: boolean
 }
 
 export const initialState = {
-  exchangeRates: null,
-  tobinTax: null,
   history: {
     celoGoldExchangeRates: [],
     aggregatedExchangeRates: [],
@@ -39,10 +34,8 @@ export const initialState = {
     range: 30 * 24 * 60 * 60 * 1000, // 30 days
     lastTimeUpdated: 0,
   },
-  isLoading: false,
 }
 
-export const exchangeRatesSelector = (state: RootState) => state.exchange.exchangeRates
 export const exchangeHistorySelector = (state: RootState) => state.exchange.history
 
 function aggregateExchangeRates(
@@ -111,41 +104,12 @@ export const reducer = (
           ...initialState.history,
           ...persisted.history,
         },
-        exchangeRates: initialState.exchangeRates,
-        isLoading: false,
       }
     }
-
-    case Actions.SET_EXCHANGE_RATE:
-      return {
-        ...state,
-        exchangeRates: action.exchangeRates,
-      }
-    case Actions.SET_TOBIN_TAX:
-      return {
-        ...state,
-        tobinTax: action.tobinTax,
-      }
     case Actions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY:
       return {
         ...state,
         history: historyReducer(state.history, action),
-      }
-    case Actions.WITHDRAW_CELO:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case Actions.WITHDRAW_CELO_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case Actions.WITHDRAW_CELO_CANCELED:
-    case Actions.WITHDRAW_CELO_FAILED:
-      return {
-        ...state,
-        isLoading: false,
       }
     default:
       return state

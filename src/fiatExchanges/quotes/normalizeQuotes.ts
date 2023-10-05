@@ -38,9 +38,9 @@ export function normalizeQuotes(
 export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
   // We can use a dummy exchange rate value here since its just a comparator
   const usdToLocalRate = '1'
-  // also dummy token info. all we need is the usdPrice
+  // also dummy token info. all we need is the priceUsd
   const dummyTokenInfo = {
-    usdPrice: new BigNumber('1'),
+    priceUsd: new BigNumber('1'),
   }
   const providerFee1 =
     quote1.getFeeInFiat(usdToLocalRate, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)

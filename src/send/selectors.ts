@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { numberVerifiedCentrallySelector } from 'src/app/selectors'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
 import { InviteRewardsType } from './types'
 
 export const getRecentPayments = (state: RootState) => {
@@ -35,7 +35,7 @@ export const inviteRewardsActiveSelector = createSelector(
 )
 
 export const canSendTokensSelector = createSelector(
-  tokensWithTokenBalanceSelector,
+  tokensWithTokenBalanceAndAddressSelector,
   usdToLocalCurrencyRateSelector,
   (tokensList, usdExchangeRate) => {
     return tokensList.length > 0 && usdExchangeRate !== null

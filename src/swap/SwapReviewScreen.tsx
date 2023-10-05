@@ -14,7 +14,7 @@ import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
-import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { useFeeCurrency } from 'src/fees/hooks'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -71,10 +71,10 @@ export function SwapReviewScreen() {
       return new BigNumber(0)
     }
 
-    const celoUsdPrice = tokensByAddress[celoAddress]?.usdPrice
-    const feeCurrencyUsdPrice = tokensByAddress[feeCurrency]?.usdPrice
+    const celoPriceUsd = tokensByAddress[celoAddress]?.priceUsd
+    const feeCurrencyPriceUsd = tokensByAddress[feeCurrency]?.priceUsd
 
-    if (!celoUsdPrice || !feeCurrencyUsdPrice) {
+    if (!celoPriceUsd || !feeCurrencyPriceUsd) {
       return new BigNumber(0)
     }
 
@@ -84,13 +84,13 @@ export function SwapReviewScreen() {
       )
     )
 
-    if (!tokensByAddress[feeCurrency]?.usdPrice || !tokensByAddress[celoAddress]?.usdPrice) {
+    if (!tokensByAddress[feeCurrency]?.priceUsd || !tokensByAddress[celoAddress]?.priceUsd) {
       return new BigNumber(0)
     }
 
     // This is only an estimate, we are assuming the estimated fee in non celo token
     // should be the same as the estimated fee in celo token in usd value.
-    return estimatedCeloFeeAmount.dividedBy(feeCurrencyUsdPrice).multipliedBy(celoUsdPrice)
+    return estimatedCeloFeeAmount.dividedBy(feeCurrencyPriceUsd).multipliedBy(celoPriceUsd)
   }
 
   const estimatedFeeAmount = estimateFeeAmount()
@@ -233,14 +233,14 @@ export function SwapReviewScreen() {
               <View style={styles.tallRow}>
                 <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
                 <View style={styles.tokenDisplayView}>
-                  <TokenDisplay
+                  <LegacyTokenDisplay
                     style={styles.amountText}
                     amount={fromAmountInWei}
                     tokenAddress={fromToken}
                     showLocalAmount={false}
                     testID={'FromSwapAmountToken'}
                   />
-                  <TokenDisplay
+                  <LegacyTokenDisplay
                     style={styles.amountSubText}
                     amount={fromAmountInWei}
                     tokenAddress={fromToken}
@@ -252,7 +252,7 @@ export function SwapReviewScreen() {
               <View style={styles.tallRow}>
                 <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
                 <View style={styles.tokenDisplayView}>
-                  <TokenDisplay
+                  <LegacyTokenDisplay
                     style={[styles.amountText, { color: colors.greenUI }]}
                     amount={toAmountInWei}
                     tokenAddress={toToken}
@@ -294,7 +294,7 @@ export function SwapReviewScreen() {
               <View style={styles.row}>
                 <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
                 <View style={styles.tokenDisplayView}>
-                  <TokenDisplay
+                  <LegacyTokenDisplay
                     style={styles.transactionDetailsRightText}
                     amount={estimatedFeeAmount}
                     tokenAddress={feeCurrency}
