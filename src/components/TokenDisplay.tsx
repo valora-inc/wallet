@@ -6,7 +6,28 @@ import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/loca
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
-import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
+
+const DEFAULT_DISPLAY_DECIMALS = 2
+
+function calculateDecimalsToShow(value: BigNumber) {
+  const exponent = value?.e ?? 0
+  if (exponent >= 0) {
+    return DEFAULT_DISPLAY_DECIMALS
+  }
+
+  return Math.abs(exponent) + 1
+}
+
+// Formats |value| so that it shows at least 2 significant figures and at least 2 decimal places without trailing zeros.
+// TODO: Move this into TokenDisplay.tsx once LegacyTokenDisplay is removed
+export function formatValueToDisplay(value: BigNumber) {
+  let decimals = calculateDecimalsToShow(value)
+  let text = value.toFormat(decimals)
+  while (text[text.length - 1] === '0' && decimals-- > 2) {
+    text = text.substring(0, text.length - 1)
+  }
+  return text
+}
 
 interface Props {
   amount: BigNumber.Value
