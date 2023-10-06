@@ -11,6 +11,7 @@ import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/Met
 import { compressedPubKey, deriveDek } from '@celo/cryptographic-utils'
 import {
   ensureLeading0x,
+  eqAddress,
   hexToBuffer,
   normalizeAddressWith0x,
   privateKeyToAddress,
@@ -262,6 +263,31 @@ export function* registerAccountDek() {
     // Registration will be re-attempted on next payment send
     Logger.error(`${TAG}@registerAccountDek`, 'Failure registering DEK', error)
   }
+}
+
+// Check if account address and DEK match what's in
+// the Accounts contract
+export async function isAccountUpToDate(
+  accountsWrapper: AccountsWrapper,
+  accountAddress: string,
+  walletAddress: string,
+  dataKey: string
+) {
+  if (!accountAddress || !dataKey) {
+    return false
+  }
+
+  const [onchainWalletAddress, onchainDEK] = await Promise.all([
+    accountsWrapper.getWalletAddress(accountAddress),
+    accountsWrapper.getDataEncryptionKey(accountAddress),
+  ])
+  Logger.debug(`${TAG}/isAccountUpToDate`, `DEK associated with account ${onchainDEK}`)
+  return (
+    onchainWalletAddress &&
+    onchainDEK &&
+    eqAddress(onchainWalletAddress, walletAddress) &&
+    eqAddress(onchainDEK, dataKey)
+  )
 }
 
 export async function getRegisterDekTxGas(account: string, currency: Currency) {
