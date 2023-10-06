@@ -7,7 +7,6 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
@@ -492,7 +491,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+      paymentDeepLinkHandler: '',
     },
   }),
   40: (state: any) => {
@@ -1037,7 +1036,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+      paymentDeepLinkHandler: '',
     },
   }),
   110: (state: any) => ({
@@ -1317,6 +1316,10 @@ export const migrations = {
     },
   }),
   155: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'paymentDeepLinkHandler'),
+  }),
+  156: (state: any) => ({
     ...state,
     transactions: {
       ...state.transactions,
