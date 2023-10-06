@@ -362,7 +362,7 @@ function AssetsScreen({ navigation, route }: Props) {
       case AssetTabType.Positions:
         return null
       case AssetTabType.Collectibles:
-        if (nftsError) return <NftsLoadError testID="Assets/NftsLoadErrorScreen" />
+        if (nftsError) return <NftsLoadError testID="Assets/NftsLoadError" />
         else if (nftsLoading) return null
         else
           return (

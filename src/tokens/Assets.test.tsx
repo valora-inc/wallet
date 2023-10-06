@@ -187,6 +187,44 @@ describe('AssetsScreen', () => {
     expect(queryAllByTestId('NftItem')).toHaveLength(2)
   })
 
+  it('renders collectibles error', () => {
+    const store = createMockStore({
+      nfts: {
+        nftsLoading: false,
+        nfts: [],
+        nftsError: 'Error fetching nfts',
+      },
+    })
+
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+    expect(getByTestId('Assets/NftsLoadError')).toBeTruthy()
+  })
+
+  it('renders no collectables text', () => {
+    const store = createMockStore({
+      nfts: {
+        nftsLoading: false,
+        nfts: [],
+        nftsError: null,
+      },
+    })
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+    expect(getByText('nftGallery.noNfts')).toBeTruthy()
+  })
+
   it('renders dapp positions on selecting the tab', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
