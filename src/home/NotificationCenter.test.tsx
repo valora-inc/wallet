@@ -279,7 +279,6 @@ describe('NotificationCenter', () => {
     it('renders reverify notification if decentrally verified and not CPV', () => {
       const store = createMockStore({
         app: {
-          requireCPV: true,
           numberVerified: true,
           phoneNumberVerified: false,
         },
@@ -302,7 +301,6 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         app: {
-          requireCPV: true,
           numberVerified: true,
           phoneNumberVerified: false,
         },
