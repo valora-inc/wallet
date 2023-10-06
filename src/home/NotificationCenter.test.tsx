@@ -99,7 +99,7 @@ const superchargeSetUp = {
     account: 'account',
   },
   app: {
-    numberVerified: true,
+    phoneNumberVerified: true,
   },
   supercharge: {
     availableRewards: [testReward],
@@ -926,7 +926,7 @@ describe('NotificationCenter', () => {
         },
         app: {
           ...superchargeWithoutRewardsSetUp.app,
-          numberVerified: false,
+          phoneNumberVerified: false,
         },
       })
       const { queryByTestId, getByText, getByTestId } = render(
@@ -1003,7 +1003,7 @@ describe('NotificationCenter', () => {
         },
         app: {
           ...superchargeWithoutRewardsSetUp.app,
-          numberVerified: false,
+          phoneNumberVerified: false,
         },
       })
       const { getByText } = render(
@@ -1034,7 +1034,7 @@ describe('NotificationCenter', () => {
         },
         app: {
           ...superchargeWithoutRewardsSetUp.app,
-          numberVerified: false,
+          phoneNumberVerified: false,
         },
       })
       const { getByText } = render(
