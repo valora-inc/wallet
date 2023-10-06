@@ -21,6 +21,7 @@ function createStore(usdToLocalRate: string | null = '2') {
       tokenBalances: {
         'celo-alfajores:0xcUSD': {
           networkId: NetworkId['celo-alfajores'],
+          tokenId: 'celo-alfajores:0xcUSD',
           address: '0xcUSD',
           symbol: 'cUSD',
           balance: '0',
@@ -29,6 +30,7 @@ function createStore(usdToLocalRate: string | null = '2') {
         },
         'celo-alfajores:native': {
           networkId: NetworkId['celo-alfajores'],
+          tokenId: 'celo-alfajores:native',
           address: '0xCELO',
           symbol: 'CELO',
           balance: '0',
@@ -37,6 +39,7 @@ function createStore(usdToLocalRate: string | null = '2') {
         },
         'celo-alfajores:0xT1': {
           networkId: NetworkId['celo-alfajores'],
+          tokenId: 'celo-alfajores:0xT1',
           address: '0xT1',
           symbol: 'T1',
           balance: '0',
@@ -45,6 +48,7 @@ function createStore(usdToLocalRate: string | null = '2') {
         },
         'celo-alfajores:0xT2': {
           networkId: NetworkId['celo-alfajores'],
+          tokenId: 'celo-alfajores:0xT2',
           address: '0xT2',
           symbol: 'T2',
           priceUsd: '5',
