@@ -1316,4 +1316,8 @@ export const migrations = {
       ..._.omit(state.exchange, 'exchangeRates', 'tobinTax'),
     },
   }),
+  155: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'requireCPV'),
+  }),
 }
