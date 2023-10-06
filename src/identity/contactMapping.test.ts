@@ -8,7 +8,6 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { decentralizedVerificationEnabledSelector } from 'src/app/selectors'
 import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   fetchAddressesAndValidate,
@@ -16,11 +15,7 @@ import {
   updateE164PhoneNumberAddresses,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import {
-  doImportContactsWrapper,
-  fetchAddressesAndValidateSaga,
-  fetchWalletAddressesDecentralized,
-} from 'src/identity/contactMapping'
+import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { AddressValidationType } from 'src/identity/reducer'
 import {
@@ -97,7 +92,6 @@ describe('Fetch Addresses Saga', () => {
 
       await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
-          [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(walletAddressSelector), '0xxyz'],
           [call(retrieveSignedMessage), 'some signed message'],
@@ -134,7 +128,6 @@ describe('Fetch Addresses Saga', () => {
 
       await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
-          [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
@@ -159,7 +152,6 @@ describe('Fetch Addresses Saga', () => {
 
       await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
         .provide([
-          [call(fetchWalletAddressesDecentralized, mockE164Number), []],
           [select(e164NumberToAddressSelector), mockE164NumberToAddress],
           [select(walletAddressSelector), mockAccount],
           [call(retrieveSignedMessage), 'some signed message'],
@@ -167,245 +159,6 @@ describe('Fetch Addresses Saga', () => {
         .put(showErrorOrFallback(expect.anything(), ErrorMessages.ADDRESS_LOOKUP_FAILURE))
         .run()
     })
-
-    it('returns the decentralised mapping if the centralised service fails', async () => {
-      const mockE164NumberToAddress = {
-        [mockE164Number]: [mockAccount.toLowerCase()],
-      }
-      mockFetch.mockResponseOnce('', { status: 403 })
-
-      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-        .provide([
-          [call(fetchWalletAddressesDecentralized, mockE164Number), ['0x123']],
-          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(walletAddressSelector), mockAccount],
-          [call(retrieveSignedMessage), 'some signed message'],
-          [select(secureSendPhoneNumberMappingSelector), {}],
-        ])
-        .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-        .put(
-          updateE164PhoneNumberAddresses(
-            { [mockE164Number]: ['0x123'] },
-            { '0x123': mockE164Number }
-          )
-        )
-        .run()
-    })
-
-    it('combines addresses fetched from central and decentral mapping correctly', async () => {
-      const mockE164NumberToAddress = {
-        [mockE164Number]: [mockAccount.toLowerCase()],
-      }
-      const updatedAccounts = ['0xAbC', '0xdef']
-      mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: updatedAccounts } }))
-
-      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-        .provide([
-          [call(fetchWalletAddressesDecentralized, mockE164Number), ['0xabc', '0xXyz']],
-          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(walletAddressSelector), mockAccount],
-          [call(retrieveSignedMessage), 'some signed message'],
-          [select(secureSendPhoneNumberMappingSelector), {}],
-        ])
-        .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-        .put(
-          updateE164PhoneNumberAddresses(
-            { [mockE164Number]: ['0xabc', '0xdef', '0xxyz'] },
-            { '0xabc': mockE164Number, '0xdef': mockE164Number, '0xxyz': mockE164Number }
-          )
-        )
-        .put(requireSecureSend(mockE164Number, AddressValidationType.PARTIAL))
-        .run()
-    })
-
-    it('bypasses the decentralised lookup if odis v1 is disabled', async () => {
-      const mockE164NumberToAddress = {
-        [mockE164Number]: [mockAccount.toLowerCase()],
-      }
-      const updatedAccount = '0xAbC'
-      mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [updatedAccount] } }))
-
-      await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-        .provide([
-          [select(decentralizedVerificationEnabledSelector), false],
-          [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-          [select(walletAddressSelector), '0xxyz'],
-          [call(retrieveSignedMessage), 'some signed message'],
-          [select(secureSendPhoneNumberMappingSelector), {}],
-        ])
-        .put(
-          updateE164PhoneNumberAddresses(
-            { [mockE164Number]: ['0xabc'] },
-            { '0xabc': mockE164Number }
-          )
-        )
-        .run()
-
-      expect(mockFetch).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  it('fetches and caches addresses correctly when walletAddress === accountAddress', async () => {
-    const contractKit = await getContractKitAsync()
-    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
-
-    const mockWallet = mockAccount
-
-    const mockE164NumberToAddress = {
-      [mockE164Number]: [mockAccount.toLowerCase()],
-    }
-
-    const mockAccountsForIdentifier: string[] = [mockAccount]
-
-    const mockStats: AttestationStat = {
-      completed: 3,
-      total: 3,
-    }
-
-    const mockAttestationsWrapper = {
-      lookupAccountsForIdentifier: jest.fn(() => mockAccountsForIdentifier),
-      getAttestationStat: jest.fn(() => mockStats),
-    }
-
-    const mockAccountsWrapper = {
-      getWalletAddress: jest.fn(() => mockWallet),
-    }
-
-    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-      .provide([
-        [select(decentralizedVerificationEnabledSelector), true],
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [call(fetchLostAccounts), []],
-        [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapper,
-        ],
-        [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(walletAddressSelector), mockAccount],
-        [select(secureSendPhoneNumberMappingSelector), {}],
-      ])
-      .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-      .put(updateWalletToAccountAddress({ [mockWallet.toLowerCase()]: mockAccount.toLowerCase() }))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {
-            [mockE164Number]: [mockWallet.toLowerCase()],
-          },
-          {
-            [mockWallet.toLowerCase()]: mockE164Number,
-          }
-        )
-      )
-      .run()
-  })
-
-  it('fetches and caches addresses correctly when walletAddress !== accountAddress', async () => {
-    const contractKit = await getContractKitAsync()
-    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
-
-    const mockWallet = mockAccount2
-
-    const mockE164NumberToAddress = {
-      [mockE164Number]: [mockAccount.toLowerCase()],
-    }
-
-    const mockAccountsForIdentifier: string[] = [mockAccount]
-
-    const mockStats: AttestationStat = {
-      completed: 3,
-      total: 3,
-    }
-
-    const mockAttestationsWrapper = {
-      lookupAccountsForIdentifier: jest.fn(() => mockAccountsForIdentifier),
-      getAttestationStat: jest.fn(() => mockStats),
-    }
-
-    const mockAccountsWrapper = {
-      getWalletAddress: jest.fn(() => mockWallet),
-    }
-
-    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-      .provide([
-        [select(decentralizedVerificationEnabledSelector), true],
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [call(fetchLostAccounts), []],
-        [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapper,
-        ],
-        [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(walletAddressSelector), mockAccount],
-        [select(secureSendPhoneNumberMappingSelector), {}],
-      ])
-      .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-      .put(updateWalletToAccountAddress({ [mockWallet.toLowerCase()]: mockAccount.toLowerCase() }))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {
-            [mockE164Number]: [mockWallet.toLowerCase()],
-          },
-          {
-            [mockWallet.toLowerCase()]: mockE164Number,
-          }
-        )
-      )
-      .run()
-  })
-
-  it('fetches and caches addresses correctly when there is not a registered walletAddress', async () => {
-    const contractKit = await getContractKitAsync()
-    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
-
-    const mockE164NumberToAddress = {
-      [mockE164Number]: [mockAccount.toLowerCase()],
-    }
-
-    const mockAccountsForIdentifier: string[] = [mockAccount]
-
-    const mockStats: AttestationStat = {
-      completed: 3,
-      total: 3,
-    }
-
-    const mockAttestationsWrapper = {
-      lookupAccountsForIdentifier: jest.fn(() => mockAccountsForIdentifier),
-      getAttestationStat: jest.fn(() => mockStats),
-    }
-
-    const mockAccountsWrapper = {
-      getWalletAddress: jest.fn(() => NULL_ADDRESS),
-    }
-
-    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-      .provide([
-        [select(decentralizedVerificationEnabledSelector), true],
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [call(fetchLostAccounts), []],
-        [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapper,
-        ],
-        [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(walletAddressSelector), mockAccount],
-        [select(secureSendPhoneNumberMappingSelector), {}],
-      ])
-      .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-      .put(updateWalletToAccountAddress({ [mockAccount.toLowerCase()]: mockAccount.toLowerCase() }))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {
-            [mockE164Number]: [mockAccount.toLowerCase()],
-          },
-          {
-            [mockAccount.toLowerCase()]: mockE164Number,
-          }
-        )
-      )
-      .run()
   })
 
   it('requires SecureSend with partial verification when a new adddress is added and last 4 digits are unique', async () => {

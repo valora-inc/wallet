@@ -1,10 +1,9 @@
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
-import { Actions, ActionTypes } from 'src/identity/actions'
+import { ActionTypes, Actions } from 'src/identity/actions'
 import { ImportContactsStatus } from 'src/identity/types'
-import { removeKeyFromMapping } from 'src/identity/utils'
-import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { REHYDRATE, getRehydratePayload } from 'src/redux/persist-helper'
 
 export interface AddressToE164NumberType {
   [address: string]: string | null
@@ -122,14 +121,6 @@ export const reducer = (
         },
       }
     }
-    case Actions.REVOKE_VERIFICATION_STATE:
-      return {
-        ...state,
-        walletToAccountAddress: removeKeyFromMapping(
-          state.walletToAccountAddress,
-          action.walletAddress
-        ),
-      }
     case Actions.SET_SEEN_VERIFICATION_NUX:
       return {
         ...state,

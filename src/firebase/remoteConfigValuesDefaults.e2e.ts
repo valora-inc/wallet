@@ -67,5 +67,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
   superchargeV1Addresses: [],
-  decentralizedVerificationEnabled: true,
 }
