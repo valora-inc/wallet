@@ -10,7 +10,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
@@ -120,9 +119,6 @@ describe('FiatExchangeAmount cashIn', () => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
-    jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      return gate === StatsigFeatureGates.SHOW_NATIVE_TOKENS
-    })
   })
 
   it.each([

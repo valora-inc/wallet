@@ -43,6 +43,12 @@ export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
   const totalBalance = useSelector(totalTokenBalanceSelectorWrapper(networkIds))
   return totalBalance === null
 }
+
+export function useTokensList() {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  return useSelector(tokensListSelectorWrapper(networkIds))
+}
+
 export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   const tokens = useSelector(tokensListSelectorWrapper(networkIds))
   // If no tokens then prices cannot be stale

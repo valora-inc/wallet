@@ -2640,6 +2640,19 @@ export const v154Schema = {
   },
 }
 
+export const v155Schema = {
+  ...v154Schema,
+  _persist: {
+    ...v154Schema._persist,
+    version: 155,
+  },
+  transactions: {
+    ...v154Schema.transactions,
+    standbyTransactions: [],
+    transactions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v154Schema as Partial<RootState>
+  return v155Schema as Partial<RootState>
 }

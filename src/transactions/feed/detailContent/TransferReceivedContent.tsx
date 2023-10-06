@@ -11,7 +11,8 @@ import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import networkConfig from 'src/web3/networkConfig'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import { TokenTransfer } from 'src/transactions/types'
@@ -25,11 +26,10 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
-  const tokensByCurrency = useSelector(tokensByCurrencySelector)
-  const celoAddress = tokensByCurrency[Currency.Celo]?.address
+  const celoTokenId = useTokenInfo(networkConfig.coreCeloTokenIds[Currency.Celo])?.tokenId
   const celoEducationUri = useSelector((state) => state.app.celoEducationUri)
 
-  const isCeloTx = amount.tokenAddress === celoAddress
+  const isCeloTx = amount.tokenId === celoTokenId
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
 
   const openLearnMore = () => {
@@ -53,7 +53,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
       <HorizontalLine />
       <TokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
-        tokenAddress={amount.tokenAddress}
+        tokenId={amount.tokenId}
         localAmount={amount.localAmount}
         feeToAddInUsd={undefined}
         hideSign={true}

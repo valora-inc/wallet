@@ -33,7 +33,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { call, put } from 'typed-redux-saga'
 import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
-
+import { getTokenId } from 'src/tokens/utils'
 const TAG = 'viem/saga'
 
 /**
@@ -111,6 +111,7 @@ export function* sendPayment({
         status: TransactionStatus.Pending,
         value: amount.negated().toString(),
         tokenAddress,
+        tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
         timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,
       })

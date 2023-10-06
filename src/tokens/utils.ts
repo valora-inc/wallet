@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { TokenBalance } from './slice'
-import { NetworkId } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import networkConfig from 'src/web3/networkConfig'
@@ -123,4 +123,15 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
   return getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
     ? Object.values(networkConfig.networkToNetworkId)
     : [networkConfig.defaultNetworkId]
+}
+
+export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {
+  if (
+    (networkId === networkConfig.networkToNetworkId[Network.Celo] &&
+      tokenAddress === networkConfig.celoTokenAddress) ||
+    !tokenAddress
+  ) {
+    return `${networkId}:native`
+  }
+  return `${networkId}:${tokenAddress}`
 }

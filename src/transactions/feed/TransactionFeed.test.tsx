@@ -14,7 +14,7 @@ import {
   NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
@@ -26,6 +26,7 @@ const mockTransaction = (transactionHash: string): TokenTransaction => {
     networkId: NetworkId['celo-alfajores'],
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
     amount: {
+      tokenId: mockCusdTokenId,
       tokenAddress: mockCusdAddress,
       value: '0.1',
     },
@@ -48,6 +49,7 @@ const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
     status: TransactionStatus.Pending,
     value: '0.5',
     tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
     comment: '',
     timestamp: 1542300000,
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',

@@ -21,7 +21,9 @@ import {
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import {
   mockCeloAddress,
+  mockCeloTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFiatConnectQuotes,
   mockName,
   mockTestTokenAddress,
@@ -61,6 +63,7 @@ describe('TransferFeedItem', () => {
     type = TokenTransactionTypeV2.Sent,
     amount = {
       tokenAddress: mockCusdAddress,
+      tokenId: mockCusdTokenId,
       value: 10,
     },
     metadata = {},
@@ -444,6 +447,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId } = renderScreen({
       amount: {
         tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
         value: 10,
         localAmount: {
           currencyCode: LocalCurrencyCode.PHP,
@@ -465,6 +469,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId, queryByTestId } = renderScreen({
       amount: {
         tokenAddress: mockTestTokenAddress,
+        tokenId: mockCusdTokenId,
         value: 10,
       },
       storeOverrides: {
@@ -495,6 +500,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId, queryByTestId } = renderScreen({
       amount: {
         tokenAddress: mockCeloAddress,
+        tokenId: mockCeloTokenId,
         value: 10,
         localAmount: {
           currencyCode: 'EUR',
@@ -541,6 +547,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.Sent,
       amount: {
+        tokenId: mockCusdTokenId,
         tokenAddress: mockCusdAddress,
         value: transferTotalCost,
       },
