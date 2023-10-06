@@ -8,7 +8,6 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   fetchAddressesAndValidate,
   requireSecureSend,
@@ -16,7 +15,6 @@ import {
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
-import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { AddressValidationType } from 'src/identity/reducer'
 import {
   e164NumberToAddressSelector,

@@ -31,7 +31,6 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
   PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
-  PHONE_NUMBER_VERIFICATION_MIGRATED = 'APP/PHONE_NUMBER_VERIFICATION_MIGRATED',
   PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
@@ -135,10 +134,6 @@ export interface PhoneNumberVerificationCompleted {
   countryCode: string | null
 }
 
-export interface PhoneNumberVerificationMigrated {
-  type: Actions.PHONE_NUMBER_VERIFICATION_MIGRATED
-}
-
 export interface PhoneNumberRevoked {
   type: Actions.PHONE_NUMBER_REVOKED
   e164PhoneNumber: string
@@ -189,7 +184,6 @@ export type ActionTypes =
   | AppUnmounted
   | AndroidMobileServicesAvailabilityChecked
   | PhoneNumberVerificationCompleted
-  | PhoneNumberVerificationMigrated
   | PhoneNumberRevoked
   | InviteLinkConsumed
   | HapticFeedbackSet
@@ -307,12 +301,6 @@ export const phoneNumberVerificationCompleted = (
     type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED,
     e164PhoneNumber,
     countryCode,
-  }
-}
-
-export const phoneNumberVerificationMigrated = (): PhoneNumberVerificationMigrated => {
-  return {
-    type: Actions.PHONE_NUMBER_VERIFICATION_MIGRATED,
   }
 }
 

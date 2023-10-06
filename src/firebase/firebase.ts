@@ -372,22 +372,6 @@ export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')
 }
 
-export async function fetchLostAccounts() {
-  if (!FIREBASE_ENABLED) {
-    return []
-  }
-  return firebase
-    .database()
-    .ref('lostAccounts')
-    .once(VALUE_CHANGE_HOOK)
-    .then((snapshot) => snapshot.val())
-    .then((values) => values.map((address: string) => address.toLowerCase()))
-    .catch((error) => {
-      Logger.error(TAG, 'Error fetching lost accounts', error)
-      return []
-    })
-}
-
 export async function fetchRewardsSenders() {
   return fetchListFromFirebase('rewardsSenders')
 }
