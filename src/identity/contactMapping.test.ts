@@ -1,5 +1,3 @@
-import { eqAddress, NULL_ADDRESS } from '@celo/base'
-import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -12,7 +10,6 @@ import {
   fetchAddressesAndValidate,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
-  updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -24,20 +21,10 @@ import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { contactsToRecipients } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
 import { getAllContacts } from 'src/utils/contacts'
-import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import {
-  mockAccount,
-  mockAccount2,
-  mockAccount3,
-  mockAccountInvite,
-  mockContactList,
-  mockContactWithPhone2,
-  mockE164Number,
-  mockE164NumberHash,
-} from 'test/values'
+import { mockAccount, mockContactList, mockContactWithPhone2, mockE164Number } from 'test/values'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
 const mockFetch = fetch as FetchMock
@@ -157,143 +144,5 @@ describe('Fetch Addresses Saga', () => {
         .put(showErrorOrFallback(expect.anything(), ErrorMessages.ADDRESS_LOOKUP_FAILURE))
         .run()
     })
-  })
-
-  it('requires SecureSend with partial verification when a new adddress is added and last 4 digits are unique', async () => {
-    const contractKit = await getContractKitAsync()
-    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
-
-    const mockWallet = mockAccount
-    const mockWallet2 = mockAccount2
-
-    const mockAccountsForIdentifier: string[] = [mockAccount, mockAccount2]
-
-    const mockStats: AttestationStat = {
-      completed: 3,
-      total: 3,
-    }
-
-    const mockAttestationsWrapper = {
-      lookupAccountsForIdentifier: jest.fn(() => mockAccountsForIdentifier),
-      getAttestationStat: jest.fn(() => mockStats),
-    }
-
-    const mockAccountsWrapper = {
-      getWalletAddress: jest.fn((address) => {
-        if (eqAddress(address, mockAccount)) {
-          return mockWallet
-        }
-
-        if (eqAddress(address, mockAccount2)) {
-          return mockWallet2
-        }
-
-        return NULL_ADDRESS
-      }),
-    }
-
-    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-      .provide([
-        [select(decentralizedVerificationEnabledSelector), true],
-        [select(e164NumberToAddressSelector), {}],
-        [call(fetchLostAccounts), []],
-        [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapper,
-        ],
-        [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(walletAddressSelector), mockAccountInvite],
-        [select(secureSendPhoneNumberMappingSelector), {}],
-      ])
-      .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-      .put(
-        updateWalletToAccountAddress({
-          [mockWallet.toLowerCase()]: mockAccount.toLowerCase(),
-          [mockWallet2.toLowerCase()]: mockAccount2.toLowerCase(),
-        })
-      )
-      .put(requireSecureSend(mockE164Number, AddressValidationType.PARTIAL))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {
-            [mockE164Number]: [mockWallet.toLowerCase(), mockWallet2.toLowerCase()],
-          },
-          {
-            [mockWallet.toLowerCase()]: mockE164Number,
-            [mockWallet2.toLowerCase()]: mockE164Number,
-          }
-        )
-      )
-      .run()
-  })
-
-  it('requires SecureSend with full verification when a new adddress is added and last 4 digits are not unique', async () => {
-    const contractKit = await getContractKitAsync()
-    mockFetch.mockResponseOnce(JSON.stringify({ data: { addresses: [] } }))
-
-    const mockWallet = mockAccount
-    const mockWallet3 = mockAccount3
-
-    const mockAccountsForIdentifier: string[] = [mockAccount, mockAccount3]
-
-    const mockStats: AttestationStat = {
-      completed: 3,
-      total: 3,
-    }
-
-    const mockAttestationsWrapper = {
-      lookupAccountsForIdentifier: jest.fn(() => mockAccountsForIdentifier),
-      getAttestationStat: jest.fn(() => mockStats),
-    }
-
-    const mockAccountsWrapper = {
-      getWalletAddress: jest.fn((address) => {
-        if (eqAddress(address, mockAccount)) {
-          return mockWallet
-        }
-
-        if (eqAddress(address, mockAccount3)) {
-          return mockWallet3
-        }
-
-        return NULL_ADDRESS
-      }),
-    }
-
-    await expectSaga(fetchAddressesAndValidateSaga, fetchAddressesAndValidate(mockE164Number))
-      .provide([
-        [select(decentralizedVerificationEnabledSelector), true],
-        [select(e164NumberToAddressSelector), {}],
-        [call(fetchLostAccounts), []],
-        [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapper,
-        ],
-        [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [select(walletAddressSelector), mockAccountInvite],
-        [select(secureSendPhoneNumberMappingSelector), {}],
-      ])
-      .put(updateE164PhoneNumberAddresses({ [mockE164Number]: undefined }, {}))
-      .put(
-        updateWalletToAccountAddress({
-          [mockWallet.toLowerCase()]: mockAccount.toLowerCase(),
-          [mockWallet3.toLowerCase()]: mockAccount3.toLowerCase(),
-        })
-      )
-      .put(requireSecureSend(mockE164Number, AddressValidationType.FULL))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {
-            [mockE164Number]: [mockWallet.toLowerCase(), mockWallet3.toLowerCase()],
-          },
-          {
-            [mockWallet.toLowerCase()]: mockE164Number,
-            [mockWallet3.toLowerCase()]: mockE164Number,
-          }
-        )
-      )
-      .run()
   })
 })

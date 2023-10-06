@@ -1,12 +1,10 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import { FetchMock } from 'jest-fetch-mock/types'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -16,7 +14,6 @@ import {
   inviteLinkConsumed,
   openDeepLink,
   openUrl,
-  phoneNumberVerificationMigrated,
   setAppState,
   setSupportedBiometryType,
 } from 'src/app/actions'
@@ -26,15 +23,12 @@ import {
   handleOpenUrl,
   handleSetAppState,
   requestInAppReview,
-  runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inAppReviewLastInteractionTimestampSelector,
-  inviterAddressSelector,
   sentryNetworkErrorsSelector,
-  shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
@@ -46,11 +40,9 @@ import {
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
-import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
@@ -63,12 +55,7 @@ import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
-import networkConfig from 'src/web3/networkConfig'
-import {
-  dataEncryptionKeySelector,
-  mtwAddressSelector,
-  walletAddressSelector,
-} from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/dappkit/dappkit')
@@ -86,7 +73,6 @@ jest.mock('react-native-in-app-review', () => ({
 const mockRequestInAppReview = jest.fn()
 const mockIsInAppReviewAvailable = jest.fn()
 
-const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
 
 jest.mock('src/i18n', () => ({
@@ -459,119 +445,6 @@ describe('handleSetAppState', () => {
         .not.call(patchUpdateStatsigUser)
         .run()
     })
-  })
-})
-
-describe('runCentralPhoneVerificationMigration', () => {
-  beforeEach(() => {
-    mockFetch.resetMocks()
-  })
-
-  it('should run successfully', async () => {
-    mockFetch.mockResponse(JSON.stringify({ message: 'OK' }))
-
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), '0x123'],
-        [select(mtwAddressSelector), undefined],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), 'someSignedMessage'],
-        [
-          call(fetchPhoneHashPrivate, '+31619777888'),
-          { pepper: 'somePepper', phoneHash: 'somePhoneHash' },
-        ],
-      ])
-      .put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.migratePhoneVerificationUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
-      },
-      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","inviterAddress":"0x123"}',
-    })
-  })
-
-  it('should warn if the verification service fails', async () => {
-    mockFetch.mockResponse(JSON.stringify({ message: 'Not OK' }), { status: 500 })
-
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), undefined],
-        [select(mtwAddressSelector), '0x123'],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), 'someSignedMessage'],
-        [
-          call(fetchPhoneHashPrivate, '+31619777888'),
-          { pepper: 'somePepper', phoneHash: 'somePhoneHash' },
-        ],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.migratePhoneVerificationUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
-      },
-      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
-    })
-    expect(Logger.warn).toHaveBeenCalled()
-  })
-
-  it('should not run if migration conditions are not met', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), false],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-  })
-
-  // this is true for users who created accounts before app version 1.32 and
-  // have never unlocked their account to generate the signed message
-  it('should not run if migration conditions there is no signed message', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), undefined],
-        [select(mtwAddressSelector), undefined],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), null],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-  })
-
-  it('should not run if no DEK can be found', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), null],
-        [select(shouldRunVerificationMigrationSelector), true],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-    expect(Logger.warn).toHaveBeenCalled()
   })
 })
 

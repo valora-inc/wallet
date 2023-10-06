@@ -531,7 +531,6 @@
   "addressLookupFailure": "Failed to look up phone number address",
   "saltFetchFailure": "Failed to retrieve phone number secret",
   "saltQuotaExceededError": "Your phone number lookup quota is used up",
-  "odisInsufficientBalance": "Please connect your number",
   "ordinals": [
     "zeroth",
     "first",
