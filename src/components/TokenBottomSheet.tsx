@@ -30,7 +30,6 @@ interface Props<T extends TokenBalance> {
   origin: TokenPickerOrigin
   onTokenSelected: (token: T) => void
   title: string
-  onClose?: () => void
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
   tokens: T[]
@@ -111,7 +110,6 @@ function TokenBottomSheet<T extends TokenBalance>({
   snapPoints,
   origin,
   onTokenSelected,
-  onClose,
   tokens,
   searchEnabled,
   title,
@@ -156,7 +154,6 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const handleClose = () => {
     setSearchTerm('')
-    onClose?.()
   }
 
   return (
@@ -176,6 +173,12 @@ function TokenBottomSheet<T extends TokenBalance>({
             }}
             style={styles.searchInput}
             returnKeyType={'search'}
+            // disable autoCorrect and spellCheck since the search terms here
+            // are token names which autoCorrect would get in the way of. This
+            // combination also hides the keyboard suggestions bar from the top
+            // of the iOS keyboard, preserving screen real estate.
+            autoCorrect={false}
+            spellCheck={false}
           />
         )
       }

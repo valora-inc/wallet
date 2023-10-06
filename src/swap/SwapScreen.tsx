@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -225,14 +225,15 @@ export function SwapScreen({ route }: Props) {
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
-    // ensure that the keyboard is dismissed before animating token bottom sheet
-    Keyboard.dismiss()
     setSelectingToken(fieldType)
-    tokenBottomSheetRef.current?.snapToIndex(0)
-  }
 
-  const handleCloseTokenSelect = () => {
-    setSelectingToken(null)
+    // use requestAnimationFrame so that the bottom sheet open animation is done
+    // after the selectingToken value is updated, so that the title of the
+    // bottom sheet (which depends on selectingToken) does not change on the
+    // screen
+    requestAnimationFrame(() => {
+      tokenBottomSheetRef.current?.snapToIndex(0)
+    })
   }
 
   const handleSelectToken = ({ address: tokenAddress }: TokenBalanceWithAddress) => {
@@ -257,7 +258,14 @@ export function SwapScreen({ route }: Props) {
     }
 
     setSelectingToken(null)
-    tokenBottomSheetRef.current?.close()
+
+    // use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+    // animation can be synchronised and starts after the state changes above.
+    // without this, the keyboard animation lags behind the state updates while
+    // the bottom sheet does not
+    requestAnimationFrame(() => {
+      tokenBottomSheetRef.current?.close()
+    })
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
@@ -319,8 +327,7 @@ export function SwapScreen({ route }: Props) {
 
   const showMissingPriceImpactWarning =
     (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    (fromToken && !fromToken.priceUsd) ||
-    (toToken && !toToken.priceUsd)
+    (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd))
   const showPriceImpactWarning =
     !fetchingSwapQuote &&
     !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
@@ -415,10 +422,9 @@ export function SwapScreen({ route }: Props) {
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
-        snapPoints={['80%']}
+        snapPoints={['90%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
-        onClose={handleCloseTokenSelect}
         searchEnabled={swappingNonNativeTokensEnabled}
         tokens={swappableTokens}
         title={
