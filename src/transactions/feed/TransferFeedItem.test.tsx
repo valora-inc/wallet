@@ -469,7 +469,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId, queryByTestId } = renderScreen({
       amount: {
         tokenAddress: mockTestTokenAddress,
-        tokenId: mockCusdTokenId,
+        tokenId: mockTestTokenTokenId,
         value: 10,
       },
       storeOverrides: {

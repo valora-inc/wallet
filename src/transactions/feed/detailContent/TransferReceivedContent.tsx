@@ -26,7 +26,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
-  const celoTokenId = useTokenInfo(networkConfig.coreCeloTokenIds[Currency.Celo])?.tokenId
+  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
   const celoEducationUri = useSelector((state) => state.app.celoEducationUri)
 
   const isCeloTx = amount.tokenId === celoTokenId

@@ -25,7 +25,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
-  const celoTokenId = useTokenInfo(networkConfig.coreCeloTokenIds[Currency.Celo])?.tokenId
+  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
 
   const isCeloWithdrawal = amount.tokenId === celoTokenId
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)

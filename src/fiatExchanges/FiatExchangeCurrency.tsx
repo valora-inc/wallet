@@ -31,6 +31,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { useDispatch } from 'react-redux'
+import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -125,6 +126,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     }
     navigate(Screens.FiatExchangeAmount, {
       currency: selectedCurrency,
+      tokenId: networkConfig.currencyToTokenId[selectedCurrency],
       flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
       network: CiCoCurrencyNetworkMap[selectedCurrency],
     })

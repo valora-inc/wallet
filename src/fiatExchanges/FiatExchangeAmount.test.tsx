@@ -20,6 +20,7 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockEthTokenId,
   mockMaxSendAmount,
 } from 'test/values'
 import { CICOFlow } from './utils'
@@ -122,12 +123,13 @@ describe('FiatExchangeAmount cashIn', () => {
   })
 
   it.each([
-    { currency: CiCoCurrency.cUSD, network: Network.Celo },
-    { currency: CiCoCurrency.cEUR, network: Network.Celo },
-    { currency: CiCoCurrency.ETH, network: Network.Ethereum },
-  ])(`disables the next button if the $currency amount is 0`, ({ currency, network }) => {
+    { currency: CiCoCurrency.cUSD, tokenId: mockCusdTokenId, network: Network.Celo },
+    { currency: CiCoCurrency.cEUR, tokenId: mockCeurTokenId, network: Network.Celo },
+    { currency: CiCoCurrency.ETH, tokenId: mockEthTokenId, network: Network.Ethereum },
+  ])(`disables the next button if the $currency amount is 0`, ({ currency, network, tokenId }) => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency,
+      tokenId,
       flow: CICOFlow.CashIn,
       network,
     })
@@ -142,14 +144,30 @@ describe('FiatExchangeAmount cashIn', () => {
   })
 
   it.each([
-    { currency: CiCoCurrency.cUSD, network: Network.Celo, store: storeWithUSD },
-    { currency: CiCoCurrency.cEUR, network: Network.Celo, store: storeWithPHP },
-    { currency: CiCoCurrency.ETH, network: Network.Ethereum, store: storeWithUSD },
+    {
+      currency: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
+      network: Network.Celo,
+      store: storeWithUSD,
+    },
+    {
+      currency: CiCoCurrency.cEUR,
+      tokenId: mockCeurTokenId,
+      network: Network.Celo,
+      store: storeWithPHP,
+    },
+    {
+      currency: CiCoCurrency.ETH,
+      tokenId: mockEthTokenId,
+      network: Network.Ethereum,
+      store: storeWithUSD,
+    },
   ])(
     `enables the next button if the $currency amount is greater than 0`,
-    ({ currency, network, store }) => {
+    ({ currency, tokenId, network, store }) => {
       const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
         currency,
+        tokenId,
         flow: CICOFlow.CashIn,
         network,
       })
@@ -167,6 +185,7 @@ describe('FiatExchangeAmount cashIn', () => {
   it('renders correctly with USD as app currency', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
       flow: CICOFlow.CashIn,
       network: Network.Celo,
     })
@@ -181,6 +200,7 @@ describe('FiatExchangeAmount cashIn', () => {
   it('renders correctly with EUR as app currency', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
       flow: CICOFlow.CashIn,
       network: Network.Celo,
     })
@@ -196,18 +216,21 @@ describe('FiatExchangeAmount cashIn', () => {
 describe('FiatExchangeAmount cashOut', () => {
   const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     currency: CiCoCurrency.cUSD,
+    tokenId: mockCusdTokenId,
     flow: CICOFlow.CashOut,
     network: Network.Celo,
   })
 
   const mockScreenPropsEuro = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     currency: CiCoCurrency.cEUR,
+    tokenId: mockCeurTokenId,
     flow: CICOFlow.CashOut,
     network: Network.Celo,
   })
 
   const mockScreenPropsCelo = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     currency: CiCoCurrency.CELO,
+    tokenId: mockCeloTokenId,
     flow: CICOFlow.CashOut,
     network: Network.Celo,
   })
@@ -358,6 +381,7 @@ describe('FiatExchangeAmount cashOut', () => {
     })
     store.dispatch = jest.fn()
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      tokenId: mockCusdTokenId,
       currency: CiCoCurrency.cUSD,
       flow: CICOFlow.CashOut,
       network: Network.Celo,
@@ -409,6 +433,7 @@ describe('FiatExchangeAmount cashOut', () => {
     store.dispatch = jest.fn()
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
       flow: CICOFlow.CashOut,
       network: Network.Celo,
     })

@@ -29,7 +29,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsSc
 
 function useHeaderTitle(transaction: TokenTransaction) {
   const { t } = useTranslation()
-  const celoTokenId = useTokenInfo(networkConfig.coreCeloTokenIds[Currency.Celo])?.tokenId
+  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
   const rewardsSenders = useSelector(rewardsSendersSelector)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)

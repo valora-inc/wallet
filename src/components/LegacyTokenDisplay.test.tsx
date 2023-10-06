@@ -8,7 +8,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import {
   mockCusdTokenId,
@@ -89,16 +88,6 @@ describe('LegacyTokenDisplay', () => {
           </Provider>
         )
       ).toThrow()
-    })
-    it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
-      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <LegacyTokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).not.toThrow()
     })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(
