@@ -1,10 +1,7 @@
-import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { createSelector } from 'reselect'
 import { IdentifierToE164NumberType } from 'src/identity/reducer'
 import { RootState } from 'src/redux/reducers'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
-import { Currency } from 'src/utils/currencies'
 
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
 export const addressToE164NumberSelector = (state: RootState) => state.identity.addressToE164Number
@@ -32,14 +29,5 @@ export const identifierToE164NumberSelector = createSelector(
       }
     }
     return identifierToE164Numbers
-  }
-)
-
-export const isBalanceSufficientForSigRetrievalSelector = createSelector(
-  tokensByCurrencySelector,
-  (tokens) => {
-    const cusdBalance = tokens[Currency.Dollar]?.balance
-    const celoBalance = tokens[Currency.Celo]?.balance
-    return isBalanceSufficientForSigRetrieval(cusdBalance || 0, celoBalance || 0)
   }
 )

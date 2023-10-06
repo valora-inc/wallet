@@ -9,11 +9,8 @@ import { ContractKit } from '@celo/contractkit/lib/kit'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { compressedPubKey, deriveDek } from '@celo/cryptographic-utils'
-import { OdisUtils } from '@celo/identity'
-import { AuthSigner } from '@celo/identity/lib/odis/query'
 import {
   ensureLeading0x,
-  eqAddress,
   hexToBuffer,
   normalizeAddressWith0x,
   privateKeyToAddress,
@@ -26,7 +23,6 @@ import DeviceInfo from 'react-native-device-info'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { features } from 'src/flags'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
@@ -268,31 +264,6 @@ export function* registerAccountDek() {
   }
 }
 
-// Check if account address and DEK match what's in
-// the Accounts contract
-export async function isAccountUpToDate(
-  accountsWrapper: AccountsWrapper,
-  accountAddress: string,
-  walletAddress: string,
-  dataKey: string
-) {
-  if (!accountAddress || !dataKey) {
-    return false
-  }
-
-  const [onchainWalletAddress, onchainDEK] = await Promise.all([
-    accountsWrapper.getWalletAddress(accountAddress),
-    accountsWrapper.getDataEncryptionKey(accountAddress),
-  ])
-  Logger.debug(`${TAG}/isAccountUpToDate`, `DEK associated with account ${onchainDEK}`)
-  return (
-    onchainWalletAddress &&
-    onchainDEK &&
-    eqAddress(onchainWalletAddress, walletAddress) &&
-    eqAddress(onchainDEK, dataKey)
-  )
-}
-
 export async function getRegisterDekTxGas(account: string, currency: Currency) {
   try {
     Logger.debug(`${TAG}/getRegisterDekTxGas`, 'Getting gas estimate for tx')
@@ -307,49 +278,6 @@ export async function getRegisterDekTxGas(account: string, currency: Currency) {
     Logger.warn(`${TAG}/getRegisterDekTxGas`, 'Failed to estimate DEK tx gas', error)
     throw Error(ErrorMessages.INSUFFICIENT_BALANCE)
   }
-}
-
-export function* getAuthSignerForAccount(accountAddress: string, walletAddress: string) {
-  const contractKit = yield* call(getContractKit)
-
-  if (features.PNP_USE_DEK_FOR_AUTH) {
-    // Use the DEK for authentication if the current DEK is registered with this account
-    const accountsWrapper: AccountsWrapper = yield* call([
-      contractKit.contracts,
-      contractKit.contracts.getAccounts,
-    ])
-    const privateDataKey: string | null = yield* select(dataEncryptionKeySelector)
-    if (!privateDataKey) {
-      Logger.error(TAG + '/getAuthSignerForAccount', 'Missing comment key, should never happen.')
-    } else {
-      const publicDataKey = compressedPubKey(hexToBuffer(privateDataKey))
-      const upToDate = yield* call(
-        isAccountUpToDate,
-        accountsWrapper,
-        accountAddress,
-        walletAddress,
-        publicDataKey
-      )
-      if (!upToDate) {
-        Logger.error(TAG + '/getAuthSignerForAccount', `DEK mismatch.`)
-      } else {
-        Logger.info(TAG + '/getAuthSignerForAccount', 'Using DEK for authentication')
-        const encyptionKeySigner: AuthSigner = {
-          authenticationMethod: OdisUtils.Query.AuthenticationMethod.ENCRYPTION_KEY,
-          rawKey: privateDataKey,
-        }
-        return encyptionKeySigner
-      }
-    }
-  }
-
-  // Fallback to using wallet key
-  Logger.info(TAG + '/getAuthSignerForAccount', 'Using wallet key for authentication')
-  const walletKeySigner: AuthSigner = {
-    authenticationMethod: OdisUtils.Query.AuthenticationMethod.WALLET_KEY,
-    contractKit,
-  }
-  return walletKeySigner
 }
 
 export function* importDekIfNecessary(wallet: UnlockableWallet | undefined) {

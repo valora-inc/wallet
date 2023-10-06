@@ -269,8 +269,6 @@
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
-                                "odisInsufficientBalance",
-                                "odisQuotaError",
                                 "paymentRequestFailed",
                                 "paymentRequestUpdateFailed",
                                 "personaAccountEndpointFail",
