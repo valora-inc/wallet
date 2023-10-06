@@ -52,11 +52,6 @@
     "body": "You will no longer be able to access your funds or your Recovery Phrase from this device. There is no way to recover your Recovery Phrase if you haven't written it down.",
     "resetNow": "Reset Now"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Are you sure you want to disconnect your phone number?",
-    "body": "Once disconnected, you will not be able to reconnect your phone number to this wallet again.",
-    "revoke": "Disconnect"
-  },
   "protectWallet": {
     "title": "Protect Your Wallet",
     "subtitle": "Protect your wallet",
