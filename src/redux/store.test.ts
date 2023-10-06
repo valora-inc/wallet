@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 154,
+          "version": 155,
         },
         "account": {
           "acceptedTerms": false,
@@ -155,7 +155,6 @@ describe('store state', () => {
           "minVersion": null,
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
-          "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
