@@ -17,7 +17,6 @@ import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
-import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -43,6 +42,7 @@ import {
 } from 'src/tokens/hooks'
 import { tokenFetchErrorSelector, tokenFetchLoadingSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 function TokenBalance({
   style = styles.balance,
