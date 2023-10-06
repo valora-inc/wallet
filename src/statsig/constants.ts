@@ -92,7 +92,7 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]: {
     configName: StatsigDynamicConfigs.MULTI_CHAIN_FEATURES,
     defaultValues: {
-      enableCico: [networkConfig.defaultNetworkId],
+      showCico: [networkConfig.defaultNetworkId],
       showBalances: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
     },

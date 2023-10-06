@@ -49,7 +49,7 @@ const defaultStore = {
 
 jest.mocked(getFeatureGate).mockReturnValue(true)
 jest.mocked(getDynamicConfigParams).mockReturnValue({
-  showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+  showBalances: [NetworkId['celo-alfajores']],
 })
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {

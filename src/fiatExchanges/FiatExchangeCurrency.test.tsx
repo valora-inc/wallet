@@ -13,7 +13,7 @@ import { getDynamicConfigParams } from 'src/statsig'
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(() => {
     return {
-      enableCico: ['celo-alfajores'],
+      showCico: ['celo-alfajores'],
     }
   }),
 }))
@@ -84,7 +84,7 @@ describe('FiatExchangeCurrency', () => {
   })
   it('ETH Flow', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      enableCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
     const store = createMockStore({})
     const tree = render(

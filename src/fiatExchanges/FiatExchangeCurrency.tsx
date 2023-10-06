@@ -110,7 +110,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   // TODO: Update this to actually respect all possible networkIds correctly
   const showEth = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).enableCico.includes(networkConfig.networkToNetworkId[Network.Ethereum])
+  ).showCico.includes(networkConfig.networkToNetworkId[Network.Ethereum])
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {

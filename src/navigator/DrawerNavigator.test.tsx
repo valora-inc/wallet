@@ -11,9 +11,7 @@ jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
   getFeatureGate: jest.fn().mockReturnValue(false),
   getDynamicConfigParams: jest.fn(() => ({
-    enableCico: ['celo-alfajores'],
     showBalances: ['celo-alfajores'],
-    showTransfers: ['celo-alfajores'],
   })),
 }))
 

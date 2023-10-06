@@ -19,7 +19,7 @@ import { mockCusdAddress } from 'test/values'
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
   getDynamicConfigParams: jest.fn(() => ({
-    enableCico: ['celo-alfajores'],
+    showCico: ['celo-alfajores'],
     showBalances: ['celo-alfajores'],
     showTransfers: ['celo-alfajores'],
   })),
