@@ -5,8 +5,6 @@ import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { select } from 'typed-redux-saga'
 
-export const LOOKUP_GAS_FEE_ESTIMATE = 0.03
-
 // Get the wallet user's own phone hash details if they're cached
 // null otherwise
 export function* getUserSelfPhoneHashDetails() {

@@ -56,7 +56,6 @@ export enum Screens {
   OnboardingSuccessScreen = 'OnboardingSuccessScreen',
   OutgoingPaymentRequestListScreen = 'OutgoingPaymentRequestListScreen',
   PaymentRequestConfirmation = 'PaymentRequestConfirmation',
-  PhoneNumberLookupQuota = 'PhoneNumberLookupQuota',
   PincodeEnter = 'PincodeEnter',
   PincodeSet = 'PincodeSet',
   Profile = 'Profile',
