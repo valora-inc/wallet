@@ -180,13 +180,19 @@ function SendAmount(props: Props) {
       )
     )
     setRawAmount(maxAmountValue?.toFixed() ?? '')
-    ValoraAnalytics.track(SendEvents.max_pressed, { tokenId: transferTokenId })
+    ValoraAnalytics.track(SendEvents.max_pressed, {
+      tokenId: transferTokenId,
+      tokenAddress: tokenInfo?.address ?? null,
+      networkId: tokenInfo?.networkId ?? null,
+    })
   }
   const onSwapInput = () => {
     onAmountChange('')
     setUsingLocalAmount(!usingLocalAmount)
     ValoraAnalytics.track(SendEvents.swap_input_pressed, {
       tokenId: transferTokenId,
+      tokenAddress: tokenInfo?.address ?? null,
+      networkId: tokenInfo?.networkId ?? null,
       swapToLocalAmount: !usingLocalAmount,
     })
   }

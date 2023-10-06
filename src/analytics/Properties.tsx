@@ -639,18 +639,25 @@ interface SendEventsProperties {
   }
   [SendEvents.token_dropdown_opened]: {
     currentTokenId: string
+    currentTokenAddress: string | null
+    currentNetworkId: NetworkId | null
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    tokenAddress: string | null
     tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.max_pressed]: {
     tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.swap_input_pressed]: {
-    tokenId: string
     swapToLocalAmount: boolean
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined

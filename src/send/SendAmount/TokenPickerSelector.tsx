@@ -19,6 +19,8 @@ function TokenPickerSelector({ tokenId, onChangeToken }: Props) {
     onChangeToken()
     ValoraAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: tokenId,
+      currentNetworkId: tokenInfo?.networkId ?? null,
+      currentTokenAddress: tokenInfo?.address ?? null,
     })
   }
 

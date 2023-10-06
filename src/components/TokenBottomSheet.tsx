@@ -123,6 +123,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       origin,
       tokenAddress: token.address,
       tokenId: token.tokenId,
+      networkId: token.networkId,
     })
     onTokenSelected(token)
     setSearchTerm('')
