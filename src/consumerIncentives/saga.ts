@@ -43,7 +43,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
-import { default as config, default as networkConfig } from 'src/web3/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
@@ -219,8 +219,8 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
 
   try {
     const superchargeRewardsUrl = superchargeV2Enabled
-      ? config.fetchAvailableSuperchargeRewardsV2
-      : config.fetchAvailableSuperchargeRewards
+      ? networkConfig.fetchAvailableSuperchargeRewardsV2
+      : networkConfig.fetchAvailableSuperchargeRewards
 
     const response = yield* call(
       fetchWithTimeout,
