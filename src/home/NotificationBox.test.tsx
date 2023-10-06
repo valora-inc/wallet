@@ -100,7 +100,7 @@ const superchargeSetUp = {
     account: 'account',
   },
   app: {
-    numberVerified: true,
+    phoneNumberVerified: true,
   },
   supercharge: {
     availableRewards: [testReward],
@@ -495,7 +495,7 @@ describe('NotificationBox', () => {
       },
       app: {
         ...superchargeWithoutRewardsSetUp.app,
-        numberVerified: false,
+        phoneNumberVerified: false,
       },
     })
     const { queryByTestId, getByTestId } = render(
