@@ -51,12 +51,17 @@ const BottomSheet = ({
   // fires before bottom sheet animation starts
   const handleAnimate = (fromIndex: number, toIndex: number) => {
     if (toIndex === -1 || fromIndex === -1) {
+      // ensure that the keyboard dismiss animation starts at the same time as
+      // the bottom sheet
       Keyboard.dismiss()
     }
   }
 
   const handleClose = () => {
     onClose?.()
+    // reset scroll position after sheet is closed for the next time it is
+    // reopened (the bottom sheet is not re-mounted on close, so we need to do
+    // this manually)
     scrollViewRef.current?.scrollTo({ y: 0, animated: false })
   }
 

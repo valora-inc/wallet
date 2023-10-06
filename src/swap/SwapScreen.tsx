@@ -227,6 +227,10 @@ export function SwapScreen({ route }: Props) {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
     setSelectingToken(fieldType)
 
+    // use requestAnimationFrame so that the bottom sheet open animation is done
+    // after the selectingToken value is updated, so that the title of the
+    // bottom sheet (which depends on selectingToken) does not change on the
+    // screen
     requestAnimationFrame(() => {
       tokenBottomSheetRef.current?.snapToIndex(0)
     })
@@ -254,6 +258,11 @@ export function SwapScreen({ route }: Props) {
     }
 
     setSelectingToken(null)
+
+    // use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+    // animation can be synchronised and starts after the state changes above.
+    // without this, the keyboard animation lags behind the state updates while
+    // the bottom sheet does not
     requestAnimationFrame(() => {
       tokenBottomSheetRef.current?.close()
     })
