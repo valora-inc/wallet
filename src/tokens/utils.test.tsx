@@ -6,8 +6,11 @@ import {
   convertTokenToLocalAmount,
   getHigherBalanceCurrency,
   sortFirstStableThenCeloThenOthersByUsdBalance,
+  getTokenId,
 } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
+import { NetworkId } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 
 describe(getHigherBalanceCurrency, () => {
   const tokens = {
@@ -193,5 +196,24 @@ describe(convertTokenToLocalAmount, () => {
       tokenInfo,
     })
     expect(localAmount).toEqual(new BigNumber(400))
+  })
+})
+
+describe(getTokenId, () => {
+  it('returns Celo native token correctly', () => {
+    const tokenId = getTokenId(NetworkId['celo-alfajores'], networkConfig.celoTokenAddress)
+    expect(tokenId).toEqual('celo-alfajores:native')
+  })
+  it('returns normal Celo token correctly', () => {
+    const tokenId = getTokenId(NetworkId['celo-alfajores'], '0xsomeaddress')
+    expect(tokenId).toEqual('celo-alfajores:0xsomeaddress')
+  })
+  it('returns Ethereum native token correctly', () => {
+    const tokenId = getTokenId(NetworkId['ethereum-sepolia'])
+    expect(tokenId).toEqual('ethereum-sepolia:native')
+  })
+  it('returns normal Ethereum token correctly', () => {
+    const tokenId = getTokenId(NetworkId['ethereum-sepolia'], '0xsomeaddress')
+    expect(tokenId).toEqual('ethereum-sepolia:0xsomeaddress')
   })
 })
