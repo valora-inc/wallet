@@ -6,6 +6,7 @@ const ZENDESK_PROJECT_NAME = 'valoraapp'
 
 export interface DeviceInfo {
   version: string
+  systemVersion: string
   buildNumber: string
   apiLevel: number
   os: 'ios' | 'android' | 'windows' | 'macos' | 'web'
@@ -79,6 +80,10 @@ export function _generateCustomFields(deviceInfo: DeviceInfo) {
     {
       id: 5381862498317,
       value: deviceInfo.apiLevel.toString(),
+    },
+    {
+      id: 20129806706445,
+      value: deviceInfo.systemVersion,
     },
     {
       id: 15494972694029,

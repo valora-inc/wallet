@@ -91,6 +91,7 @@ function SupportContact({ route }: Props) {
     setInProgress(true)
     const deviceInfo = {
       version: DeviceInfo.getVersion(),
+      systemVersion: DeviceInfo.getSystemVersion(),
       buildNumber: DeviceInfo.getBuildNumber(),
       apiLevel: DeviceInfo.getApiLevelSync(),
       os: Platform.OS,
