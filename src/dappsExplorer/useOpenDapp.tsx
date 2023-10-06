@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react'
+import { Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
@@ -55,6 +56,7 @@ const useOpenDapp = () => {
       ...extraAnalyticsProperties,
     })
     dispatch(dappSelected({ dapp }))
+    Keyboard.dismiss()
   }
 
   const onOpenDapp = () => {

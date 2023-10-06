@@ -1,33 +1,31 @@
-import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom-sheet'
-import React, { useEffect, useState } from 'react'
-import { Keyboard, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { BottomSheetScrollView as GorhomBottomSheetScrollView } from '@gorhom/bottom-sheet'
+import React, { useState } from 'react'
+import { LayoutChangeEvent, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>
   testId?: string
+  forwardedRef?: React.RefObject<ScrollView>
   children: React.ReactNode
 }
 
-function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
+function BottomSheetScrollView({ forwardedRef, containerStyle, testId, children }: Props) {
   const [containerHeight, setContainerHeight] = useState(0)
   const [contentHeight, setContentHeight] = useState(0)
 
   const insets = useSafeAreaInsets()
   const scrollEnabled = contentHeight > containerHeight
 
-  // Dismiss keyboard on mount
-  useEffect(() => {
-    Keyboard.dismiss()
-  }, [])
-
   return (
-    <RNBottomSheetScrollView
+    <GorhomBottomSheetScrollView
+      ref={forwardedRef}
       scrollEnabled={scrollEnabled}
       onLayout={(event: LayoutChangeEvent) => {
         setContainerHeight(event.nativeEvent.layout.height)
       }}
+      keyboardShouldPersistTaps="always"
     >
       <View
         style={[
@@ -42,7 +40,7 @@ function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
       >
         {children}
       </View>
-    </RNBottomSheetScrollView>
+    </GorhomBottomSheetScrollView>
   )
 }
 
