@@ -2085,13 +2085,6 @@
             },
             "type": "object"
         },
-        "PaymentDeepLinkHandler": {
-            "enum": [
-                "",
-                "merchant"
-            ],
-            "type": "string"
-        },
         "PaymentInfo": {
             "additionalProperties": false,
             "properties": {
@@ -2878,9 +2871,6 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
-                "paymentDeepLinkHandler": {
-                    "$ref": "#/definitions/PaymentDeepLinkHandler"
-                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -2990,7 +2980,6 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
-                "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",

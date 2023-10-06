@@ -10,7 +10,6 @@ import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
@@ -1066,7 +1065,7 @@ export const v39Schema = {
   },
   app: {
     ...v38Schema.app,
-    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    paymentDeepLinkHandler: '',
   },
 }
 
@@ -2042,7 +2041,7 @@ export const v109Schema = {
   },
   app: {
     ...v108Schema.app,
-    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    paymentDeepLinkHandler: '',
   },
 }
 
@@ -2640,6 +2639,15 @@ export const v154Schema = {
   },
 }
 
+export const v155Schema = {
+  ...v154Schema,
+  _persist: {
+    ...v154Schema._persist,
+    version: 155,
+  },
+  app: _.omit(v154Schema.app, 'paymentDeepLinkHandler'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v154Schema as Partial<RootState>
+  return v155Schema as Partial<RootState>
 }
