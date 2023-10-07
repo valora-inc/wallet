@@ -46,6 +46,8 @@ import { CiCoCurrency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
+const MAX_ACTION_BUTTONS = 3
+
 export default function TokenDetailsScreen({ route }: Props) {
   const { tokenId } = route.params
   const { t } = useTranslation()
@@ -140,6 +142,7 @@ function Actions({ token }: { token: TokenBalance }) {
       text: t('tokenDetails.actions.send'),
       iconComponent: QuickActionsSend,
       onPress: () => {
+        // TODO: this should change to passing tokenId when #4242 is merged
         navigate(Screens.Send, { defaultTokenOverride: token.address! })
       },
       visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
@@ -193,13 +196,16 @@ function Actions({ token }: { token: TokenBalance }) {
     },
   }
 
-  const actionButtons = actions.length > 3 ? [actions[0], actions[1], moreAction] : actions
+  const actionButtons =
+    actions.length > MAX_ACTION_BUTTONS ? [actions[0], actions[1], moreAction] : actions
 
   return (
     <View
       style={[
         styles.actions,
-        { gap: actionButtons.length === 3 ? Spacing.Smallest8 : Spacing.Regular16 },
+        {
+          gap: actionButtons.length === MAX_ACTION_BUTTONS ? Spacing.Smallest8 : Spacing.Regular16,
+        },
       ]}
     >
       {actionButtons.map((action) => (

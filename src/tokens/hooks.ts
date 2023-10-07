@@ -77,7 +77,7 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
 }
 
 export function useSendableTokens() {
-  // TODO: get this from statsig
+  // TODO: get this from statsig when #4265 is merged
   const networkIdsForSend = [networkConfig.defaultNetworkId]
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSend))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
@@ -85,7 +85,7 @@ export function useSendableTokens() {
 
 export function useSwappableTokens() {
   const appVersion = DeviceInfo.getVersion()
-  // TODO: get this from statsig
+  // TODO: get this from statsig when #4265 is merged
   const networkIdsForSwap = [networkConfig.defaultNetworkId]
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSwap))
   return tokens
@@ -103,14 +103,14 @@ function isCiCoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
 }
 
 export function useCashInTokens() {
-  // TODO: get this from statsig
+  // TODO: get this from statsig when #4265 is merged
   const networkIdsForCico = [networkConfig.defaultNetworkId]
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
   return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCiCoToken(tokenInfo.symbol))
 }
 
 export function useCashOutTokens() {
-  // TODO: get this from statsig
+  // TODO: get this from statsig when #4265 is merged
   const networkIdsForCico = [networkConfig.defaultNetworkId]
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
   return tokens.filter(
