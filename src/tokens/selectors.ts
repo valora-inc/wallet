@@ -62,37 +62,27 @@ export const tokensByIdSelectorWrapper = (networkIds: NetworkId[]) =>
     }
   )
 
-// This selector maps priceUsd and balance fields from string to BigNumber and filters tokens without those values
 /**
+ * Get an object mapping token addresses to token metadata, the user's balance, and its price
+ *
+ * NOTE: includes only tokens from the default network
+ *
  * @deprecated use tokensByIdSelector instead
  */
 export const tokensByAddressSelector = createSelector(
-  (state: RootState) => state.tokens.tokenBalances,
-  (storedBalances) => {
-    const tokenBalances: TokenBalancesWithAddress = {}
-    for (const storedState of Object.values(storedBalances)) {
-      if (
-        !storedState ||
-        storedState.balance === null ||
-        !storedState.address ||
-        storedState.networkId !== networkConfig.defaultNetworkId
-      ) {
-        continue
-      }
-      const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
-
-      const tokenPriceUsdIsStale =
-        (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
-      tokenBalances[storedState.address] = {
-        ...storedState,
-        address: storedState.address, // TS complains if this isn't explicitly included, despite it necessarily being non-null
-        name: storedState.bridge ? `${storedState.name} (${storedState.bridge})` : storedState.name,
-        balance: new BigNumber(storedState.balance),
-        priceUsd: priceUsd.isNaN() || tokenPriceUsdIsStale ? null : priceUsd,
-        lastKnownPriceUsd: !priceUsd.isNaN() ? priceUsd : null,
+  tokensByIdSelectorWrapper([networkConfig.defaultNetworkId]),
+  (tokens) => {
+    const output: TokenBalancesWithAddress = {}
+    for (const token of Object.values(tokens)) {
+      if (token?.address) {
+        output[token.address] = {
+          ...token,
+          address: token.address,
+          name: token.bridge ? `${token.name} (${token.bridge})` : token.name, // to make sure we show the bridge names even if the old token balances UI (which lacks a "bridge" line) is being used
+        }
       }
     }
-    return tokenBalances
+    return output
   }
 )
 

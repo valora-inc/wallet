@@ -45,6 +45,15 @@ export function useTokensWithTokenBalance() {
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
 
+export function useTokensForAssetsScreen() {
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
+
+  return tokens.filter(
+    (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
+  )
+}
+
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
   const totalBalance = useSelector(totalTokenBalanceSelectorWrapper(networkIds))
   return totalBalance === null

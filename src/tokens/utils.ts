@@ -127,6 +127,11 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
     : [networkConfig.defaultNetworkId]
 }
 
+export function showAssetDetailsScreen() {
+  // TODO(ACT-919): get from feature gate
+  return false
+}
+
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
   return {
     symbol: token.symbol,

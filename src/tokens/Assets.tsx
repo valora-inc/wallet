@@ -48,7 +48,7 @@ import { PositionItem } from 'src/tokens/AssetItem'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import {
   useTokenPricesAreStale,
-  useTokensWithTokenBalance,
+  useTokensForAssetsScreen,
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
@@ -91,7 +91,7 @@ function AssetsScreen({ navigation, route }: Props) {
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const tokens = useTokensWithTokenBalance()
+  const tokens = useTokensForAssetsScreen()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
