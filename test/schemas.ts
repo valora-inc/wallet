@@ -2654,7 +2654,7 @@ export const v156Schema = {
     ...v155Schema._persist,
     version: 156,
   },
-  app: _.omit(v154Schema.app, 'requireCPV'),
+  app: _.omit(v155Schema.app, 'requireCPV'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
