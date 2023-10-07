@@ -71,15 +71,6 @@ export function useTokenInfo(tokenId: string) {
 }
 
 /**
- * @deprecated only used in the old CICO send bar and should be removed when that is updated to multi-chain support
- */
-export function useTokenInfoBySymbol(symbol: string) {
-  const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens = useSelector(tokensListSelectorWrapper(networkIds))
-  return tokens.find((tokenInfo) => tokenInfo.symbol === symbol)
-}
-
-/**
  * @deprecated
  */
 export function useTokenInfoWithAddressBySymbol(symbol: string) {
