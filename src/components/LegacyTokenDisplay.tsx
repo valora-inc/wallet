@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { StyleProp, Text, TextStyle } from 'react-native'
+import { StyleProp, TextStyle } from 'react-native'
 import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -52,10 +52,10 @@ function LegacyTokenDisplay({
     currency! === Currency.Celo ? 'CELO' : currency!
   )
   const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
-  return tokenInfo ? (
+  return (
     <TokenDisplay
       amount={amount}
-      tokenId={tokenInfo.tokenId}
+      tokenId={tokenInfo?.tokenId}
       showLocalAmount={showLocalAmount}
       showSymbol={showSymbol}
       showExplicitPositiveSign={showExplicitPositiveSign}
@@ -64,10 +64,6 @@ function LegacyTokenDisplay({
       style={style}
       testID={testID}
     />
-  ) : (
-    <Text style={style} testID={testID}>
-      '-'
-    </Text>
   )
 }
 

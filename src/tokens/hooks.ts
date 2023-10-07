@@ -16,6 +16,7 @@ import { NetworkId } from 'src/transactions/types'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
 import networkConfig from 'src/web3/networkConfig'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
+import { TokenBalance } from 'src/tokens/slice'
 /**
  * @deprecated use useTokenInfo and select using tokenId
  */
@@ -61,10 +62,10 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   }
 }
 
-export function useTokenInfo(tokenId: string) {
+export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
   const tokens = useSelector(tokensByIdSelectorWrapper(networkIds))
-  return tokens[tokenId]
+  return tokenId ? tokens[tokenId] : undefined
 }
 
 /**

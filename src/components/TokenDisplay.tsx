@@ -30,7 +30,7 @@ export function formatValueToDisplay(value: BigNumber) {
 
 interface Props {
   amount: BigNumber.Value
-  tokenId: string
+  tokenId?: string
   showSymbol?: boolean
   showLocalAmount?: boolean
   hideSign?: boolean
