@@ -217,31 +217,6 @@ export function HeaderTitleWithBalance({
   )
 }
 
-export function HeaderTitleWithTokenBalanceByAddress({
-  title,
-  showLocalAmount,
-  tokenInfo,
-}: {
-  title: string | React.ReactNode
-  tokenInfo: TokenBalance | undefined
-  showLocalAmount: boolean
-}) {
-  const subTitle = tokenInfo ? (
-    <Trans i18nKey="balanceAvailable">
-      <LegacyTokenDisplay
-        amount={tokenInfo.balance}
-        tokenAddress={tokenInfo?.address}
-        showLocalAmount={showLocalAmount}
-        style={styles.headerSubTitle}
-      />
-    </Trans>
-  ) : (
-    '-'
-  )
-
-  return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
-}
-
 export function HeaderTitleWithTokenBalance({
   title,
   showLocalAmount,

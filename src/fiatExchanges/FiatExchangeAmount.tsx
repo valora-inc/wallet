@@ -32,7 +32,7 @@ import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import { HeaderTitleWithTokenBalanceByAddress, emptyHeader } from 'src/navigator/Headers'
+import { HeaderTitleWithTokenBalance, emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -324,7 +324,7 @@ function FiatExchangeAmountHeader({
 }) {
   const tokenInfo = useTokenInfoWithAddressBySymbol(currency)
   return (
-    <HeaderTitleWithTokenBalanceByAddress
+    <HeaderTitleWithTokenBalance
       tokenInfo={tokenInfo}
       title={title}
       showLocalAmount={showLocalAmount}
