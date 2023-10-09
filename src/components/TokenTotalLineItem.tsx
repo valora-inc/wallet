@@ -3,17 +3,16 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
+import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 
 interface Props {
   tokenAmount: BigNumber
-  tokenAddress?: string
   tokenId?: string
   localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
@@ -23,7 +22,6 @@ interface Props {
 
 export default function TokenTotalLineItem({
   tokenAmount,
-  tokenAddress,
   tokenId,
   localAmount,
   feeToAddInUsd,
@@ -31,12 +29,7 @@ export default function TokenTotalLineItem({
   title,
 }: Props) {
   const { t } = useTranslation()
-  // This non-null assertion is a stopgap while this component supports
-  // both tokenId and tokenAddress.
-  // TODO: Remove this assertion, make tokenId required, and remove address support
-  const tokenInfoById = useTokenInfo(tokenId!)
-  const tokenInfoByAddress = useTokenInfoByAddress(tokenAddress)
-  const tokenInfo = tokenInfoById ?? tokenInfoByAddress
+  const tokenInfo = useTokenInfo(tokenId)
   const feeInToken = tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined
 
   return (
@@ -45,23 +38,13 @@ export default function TokenTotalLineItem({
         title={title ?? t('total')}
         textStyle={fontStyles.regular600}
         amount={
-          tokenId ? (
-            <TokenDisplay
-              amount={tokenAmount.plus(feeInToken ?? 0)}
-              tokenId={tokenId}
-              localAmount={localAmount}
-              hideSign={hideSign}
-              testID="TotalLineItem/Total"
-            />
-          ) : (
-            <LegacyTokenDisplay
-              amount={tokenAmount.plus(feeInToken ?? 0)}
-              tokenAddress={tokenAddress}
-              localAmount={localAmount}
-              hideSign={hideSign}
-              testID="TotalLineItem/Total"
-            />
-          )
+          <TokenDisplay
+            amount={tokenAmount.plus(feeInToken ?? 0)}
+            tokenId={tokenId}
+            localAmount={localAmount}
+            hideSign={hideSign}
+            testID="TotalLineItem/Total"
+          />
         }
       />
       <LineItemRow
@@ -72,36 +55,20 @@ export default function TokenTotalLineItem({
                 `${
                   LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
                 }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
-              ) : tokenId ? (
-                <TokenDisplay amount={new BigNumber(1)} tokenId={tokenId} showLocalAmount={true} />
               ) : (
-                <LegacyTokenDisplay
-                  amount={new BigNumber(1)}
-                  tokenAddress={tokenAddress}
-                  showLocalAmount={true}
-                />
+                <TokenDisplay amount={new BigNumber(1)} tokenId={tokenId} showLocalAmount={true} />
               )}
             </Trans>
           </Text>
         }
         amount={
-          tokenId ? (
-            <TokenDisplay
-              amount={tokenAmount}
-              tokenId={tokenId}
-              showLocalAmount={false}
-              hideSign={hideSign}
-              testID="TotalLineItem/Subtotal"
-            />
-          ) : (
-            <LegacyTokenDisplay
-              amount={tokenAmount}
-              tokenAddress={tokenAddress}
-              showLocalAmount={false}
-              hideSign={hideSign}
-              testID="TotalLineItem/Subtotal"
-            />
-          )
+          <TokenDisplay
+            amount={tokenAmount}
+            tokenId={tokenId}
+            showLocalAmount={false}
+            hideSign={hideSign}
+            testID="TotalLineItem/Subtotal"
+          />
         }
         style={styles.subtotal}
         textStyle={styles.subtotalText}

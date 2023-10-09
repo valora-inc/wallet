@@ -5,7 +5,7 @@ import { StyleSheet, Text } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import HorizontalLine from 'src/components/HorizontalLine'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { CELO_LOGO_URL } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
@@ -50,7 +50,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
         <Text style={styles.learnMore}>{t('learnMore')}</Text>
       </Touchable>
       <HorizontalLine />
-      <TokenTotalLineItem
+      <LegacyTokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
         tokenAddress={amount.tokenAddress}
         localAmount={amount.localAmount}

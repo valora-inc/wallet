@@ -79,10 +79,10 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   }
 }
 
-export function useTokenInfo(tokenId: string) {
+export function useTokenInfo(tokenId?: string) {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
   const tokens = useSelector(tokensByIdSelectorWrapper(networkIds))
-  return tokens[tokenId]
+  return tokenId ? tokens[tokenId] : undefined
 }
 
 /**

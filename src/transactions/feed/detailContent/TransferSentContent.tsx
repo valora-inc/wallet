@@ -67,7 +67,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       />
       <TokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
-        tokenAddress={amount.tokenAddress}
+        tokenId={amount.tokenId}
         localAmount={
           amount.localAmount
             ? {

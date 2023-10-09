@@ -10,7 +10,7 @@ import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 
 interface Props {
   amount: BigNumber.Value
-  tokenId: string
+  tokenId?: string
   showSymbol?: boolean
   showLocalAmount?: boolean
   hideSign?: boolean
