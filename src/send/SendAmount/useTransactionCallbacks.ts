@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { hideAlert, showError } from 'src/alert/actions'
-import { RequestEvents, SendEvents } from 'src/analytics/Events'
+import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -39,7 +39,7 @@ interface Props {
   isFromScan: boolean
 }
 
-// This hook returns two functions, onSend and onRequest that should be called when the user presses the button to continue.
+// This hook returns an onSend callback, which should be called when the user presses the button to continue.
 function useTransactionCallbacks({
   recipient,
   localAmount,
@@ -159,23 +159,7 @@ function useTransactionCallbacks({
     origin,
   ])
 
-  const onRequest = useCallback(() => {
-    const transactionData = getTransactionData()
-
-    if (addressValidationType !== AddressValidationType.NONE && !recipient.address) {
-      navigate(Screens.ValidateRecipientIntro, {
-        transactionData,
-        addressValidationType,
-        isOutgoingPaymentRequest: true,
-        origin,
-      })
-    } else {
-      ValoraAnalytics.track(RequestEvents.request_amount_continue, continueAnalyticsParams)
-      navigate(Screens.PaymentRequestConfirmation, { transactionData, isFromScan })
-    }
-  }, [addressValidationType, getTransactionData])
-
-  return { onSend, onRequest }
+  return { onSend }
 }
 
 export default useTransactionCallbacks

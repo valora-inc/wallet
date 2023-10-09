@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
-import { RequestEvents, SendEvents } from 'src/analytics/Events'
+import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
@@ -34,7 +34,7 @@ import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { stablecoinsSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
@@ -45,7 +45,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
-  const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceTokenAddress = route.params?.forceTokenAddress
   const defaultTokenOverride = route.params?.defaultTokenOverride
   const { t } = useTranslation()
@@ -61,7 +60,6 @@ function Send({ route }: Props) {
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
   const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
-  const stableTokens = useSelector(stablecoinsSelector)
 
   const [searchQuery, setSearchQuery] = useState('')
   const [hasGivenContactPermission, setHasGivenContactPermission] = useState(true)
@@ -134,8 +132,7 @@ function Send({ route }: Props) {
         defaultTokenOverride,
         forceTokenAddress,
         recipient,
-        isOutgoingPaymentRequest,
-        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+        origin: SendOrigin.AppSendFlow, // todo remove origin? if this is the only usage
       })
     } else {
       currencyPickerBottomSheetRef.current?.snapToIndex(0)
@@ -146,18 +143,13 @@ function Send({ route }: Props) {
     (recipient: Recipient) => {
       dispatch(hideAlert())
 
-      ValoraAnalytics.track(
-        isOutgoingPaymentRequest
-          ? RequestEvents.request_select_recipient
-          : SendEvents.send_select_recipient,
-        {
-          usedSearchBar: searchQuery.length > 0,
-          recipientType: recipient.recipientType,
-        }
-      )
+      ValoraAnalytics.track(SendEvents.send_select_recipient, {
+        usedSearchBar: searchQuery.length > 0,
+        recipientType: recipient.recipientType,
+      })
       setSelectedRecipient(recipient)
     },
-    [isOutgoingPaymentRequest, searchQuery]
+    [searchQuery]
   )
 
   const onTokenSelected = (token: string) => {
@@ -171,8 +163,7 @@ function Send({ route }: Props) {
       isFromScan: false,
       defaultTokenOverride: token,
       recipient,
-      isOutgoingPaymentRequest,
-      origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      origin: SendOrigin.AppSendFlow,
     })
   }
 
@@ -225,13 +216,11 @@ function Send({ route }: Props) {
     return null
   }
 
-  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
-    sortFirstStableThenCeloThenOthersByUsdBalance
-  )
+  const sortedTokens = tokensWithBalance.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
 
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
-      <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
+      <SendHeader />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
       {inviteRewardsActive && hasGivenContactPermission && <InviteRewardsBanner />}
@@ -242,7 +231,6 @@ function Send({ route }: Props) {
         defaultCountryCode={defaultCountryCode}
         listHeaderComponent={renderListHeader}
         onSelectRecipient={onSelectRecipient}
-        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
         selectedRecipient={recipient}
         recipientVerificationStatus={recipientVerificationStatus}
       />

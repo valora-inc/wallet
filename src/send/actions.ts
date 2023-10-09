@@ -27,7 +27,6 @@ export interface HandleBarcodeDetectedAction {
   data: QrCode
   scanIsForSecureSend?: boolean
   transactionData?: TransactionDataInput
-  isOutgoingPaymentRequest?: boolean
   requesterAddress?: string
 }
 
@@ -80,14 +79,12 @@ export const handleBarcodeDetected = (
   data: QrCode,
   scanIsForSecureSend?: boolean,
   transactionData?: TransactionDataInput,
-  isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ): HandleBarcodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
   data,
   scanIsForSecureSend,
   transactionData,
-  isOutgoingPaymentRequest,
   requesterAddress,
 })
 

@@ -233,7 +233,6 @@ export type StackParamList = {
   }
   [Screens.Send]:
     | {
-        isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
         forceTokenAddress?: boolean
         defaultTokenOverride?: string
@@ -241,7 +240,6 @@ export type StackParamList = {
     | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
-    isOutgoingPaymentRequest?: boolean
     isFromScan: boolean
     origin: SendOrigin
     forceTokenAddress?: boolean
@@ -272,14 +270,12 @@ export type StackParamList = {
   [Screens.ValidateRecipientIntro]: {
     transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
-    isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
     transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
-    isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
@@ -342,7 +338,6 @@ export type QRTabParamList = {
     | {
         scanIsForSecureSend?: true
         transactionData?: TransactionDataInput
-        isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
     | undefined

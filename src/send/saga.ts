@@ -120,7 +120,6 @@ export function* watchQrCodeDetections() {
     const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
 
     const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
-    const isOutgoingPaymentRequest = action.isOutgoingPaymentRequest
     let secureSendTxData
     let requesterAddress
 
@@ -136,7 +135,6 @@ export function* watchQrCodeDetections() {
         e164NumberToAddress,
         recipientInfo,
         secureSendTxData,
-        isOutgoingPaymentRequest,
         requesterAddress
       )
     } catch (error) {
