@@ -34,7 +34,7 @@ import { SendSearchInput } from 'src/send/SendSearchInput'
 import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { useTokensWithTokenBalance } from 'src/tokens/hooks'
+import { useTokensForSend } from 'src/tokens/hooks'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import {
@@ -66,10 +66,7 @@ function Send({ route }: Props) {
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokensWithBalance = useTokensWithTokenBalance()
-  const supportedTokensWithBalance = tokensWithBalance.filter((token) =>
-    supportedNetworkIds.includes(token.networkId)
-  )
+  const tokensForSend = useTokensForSend()
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [searchQuery, setSearchQuery] = useState('')
@@ -234,7 +231,7 @@ function Send({ route }: Props) {
     return null
   }
 
-  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : supportedTokensWithBalance).sort(
+  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensForSend).sort(
     sortFirstStableThenCeloThenOthersByUsdBalance
   )
 

@@ -96,6 +96,7 @@ export const DynamicConfigs = {
       showCico: [networkConfig.defaultNetworkId],
       showBalances: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
+      showSend: [networkConfig.defaultNetworkId],
     },
   },
 }

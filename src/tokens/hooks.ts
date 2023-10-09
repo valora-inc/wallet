@@ -14,6 +14,7 @@ import {
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
+  getSupportedNetworkIdsForSend,
   getSupportedNetworkIdsForTokenBalances,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -38,6 +39,12 @@ export function useTotalTokenBalance() {
 
 export function useTokensWithTokenBalance() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
+  return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
+}
+
+export function useTokensForSend() {
+  const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
