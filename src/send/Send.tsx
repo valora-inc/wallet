@@ -37,10 +37,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useTokensForSend } from 'src/tokens/hooks'
 import { stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import {
-  getSupportedNetworkIdsForSend,
-  sortFirstStableThenCeloThenOthersByUsdBalance,
-} from 'src/tokens/utils'
+import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
 
@@ -65,7 +62,6 @@ function Send({ route }: Props) {
   const allRecipients = useSelector(phoneRecipientCacheSelector)
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
-  const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokensForSend = useTokensForSend()
   const stableTokens = useSelector(stablecoinsSelector)
 
