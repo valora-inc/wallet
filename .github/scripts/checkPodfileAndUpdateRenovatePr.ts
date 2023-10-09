@@ -25,10 +25,8 @@ if (
 ) {
   console.log('Renovate PR, pushing Podfile changes')
   $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
-  $.exec('git log')
   $.exec(`git checkout -b ${branchName}`)
-  $.exec('git log')
-  $.exec(`git pull origin ${branchName} --ff-only`)
+  $.exec(`git reset --hard origin/${branchName}`)
   // this assumes the diff is from Podfile.lock only
   $.exec('git add ios/Podfile.lock')
   $.exec('git config user.email "valorabot@valoraapp.com"')
