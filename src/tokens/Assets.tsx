@@ -383,7 +383,7 @@ function AssetsScreen({ navigation, route }: Props) {
         else if (nftsLoading) return null
         else
           return (
-            <View>
+            <View style={{ marginTop: listHeaderHeight }}>
               <Text style={styles.noNftsText}>{t('nftGallery.noNfts')}</Text>
             </View>
           )
