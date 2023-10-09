@@ -64,8 +64,10 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
+const NUM_OF_NFTS_PER_ROW = 2
 
-const nftImageSize = (variables.width - Spacing.Regular16 * 3) / 2
+const nftImageSize =
+  (variables.width - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW + 1)) / NUM_OF_NFTS_PER_ROW
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
 interface SectionData {
@@ -142,7 +144,7 @@ function AssetsScreen({ navigation, route }: Props) {
   const nftsLoading = useSelector(nftsLoadingSelector)
   const nfts = useSelector(nftsWithMetadataSelector)
   // Group nfts into pairs for use in the section list
-  const nftsGrouped = groupArrayByN(nfts, 2)
+  const nftsGrouped = groupArrayByN(nfts, NUM_OF_NFTS_PER_ROW)
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
@@ -345,7 +347,7 @@ function AssetsScreen({ navigation, route }: Props) {
     )
   }
 
-  const NftPairing = ({ item }: { item: Nft[] }) => {
+  const NftGroup = ({ item }: { item: Nft[] }) => {
     return (
       <View style={styles.nftsPairingContainer}>
         {item.map((nft, index) => (
@@ -367,7 +369,7 @@ function AssetsScreen({ navigation, route }: Props) {
     } else if ('balance' in item) {
       return <TokenBalanceItem token={item} />
     } else {
-      return <NftPairing item={item} />
+      return <NftGroup item={item} />
     }
   }
 
