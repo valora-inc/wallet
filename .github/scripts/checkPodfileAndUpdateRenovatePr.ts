@@ -24,6 +24,8 @@ if (
   lastCommitAuthor === RENOVATE_USER
 ) {
   console.log('Renovate PR, pushing Podfile changes')
+  $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
+  $.exec(`git checkout -b ${branchName}`)
   // this assumes the diff is from Podfile.lock only
   $.exec('git add ios/Podfile.lock')
   $.exec('git config user.email "valorabot@valoraapp.com"')
@@ -31,8 +33,6 @@ if (
   $.exec('git commit -m "update podfile.lock"')
 
   // ensure that we are using ssh
-  $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
-  $.exec(`git checkout -b ${branchName}`)
   $.exec(`git push --set-upstream origin ${branchName}`)
 } else {
   console.log('Not a renovate PR')
