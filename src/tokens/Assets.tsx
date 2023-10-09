@@ -420,8 +420,9 @@ function AssetsScreen({ navigation, route }: Props) {
             opacity: listHeaderHeight > 0 ? 1 : 0,
           },
           activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
-          activeTab === AssetTabType.Collectibles &&
-            nftsError ? { alignItems: 'center' } : { paddingLeft: Spacing.Regular16 },
+          activeTab === AssetTabType.Collectibles && nftsError
+            ? { alignItems: 'center' }
+            : { paddingLeft: Spacing.Regular16 },
         ]}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
