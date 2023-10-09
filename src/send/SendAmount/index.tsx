@@ -52,7 +52,6 @@ export interface TransactionDataInput {
   tokenAddress: string
   tokenAmount: BigNumber
   comment?: string
-  paymentRequestId?: string
 }
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.SendAmount>

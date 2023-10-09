@@ -183,10 +183,6 @@ export type StackParamList = {
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
-  [Screens.PaymentRequestConfirmation]: {
-    transactionData: TransactionDataInput
-    isFromScan: boolean
-  }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean

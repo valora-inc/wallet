@@ -66,7 +66,6 @@ jest.mock('src/web3/networkConfig', () => {
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: {
     ...mockTokenTransactionData,
-    paymentRequestId: '123',
   },
   origin: SendOrigin.AppSendFlow,
   isFromScan: false,
@@ -404,16 +403,7 @@ describe('SendConfirmation', () => {
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPayment(
-          inputAmount,
-          tokenAddress,
-          inputAmount,
-          '',
-          recipient,
-          mockFeeInfo,
-          false,
-          '123'
-        ),
+        sendPayment(inputAmount, tokenAddress, inputAmount, '', recipient, mockFeeInfo, false),
       ])
     )
   })

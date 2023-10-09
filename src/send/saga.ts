@@ -9,7 +9,6 @@ import { FeeInfo, calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -321,7 +320,6 @@ export function* sendPaymentSaga({
   recipient,
   feeInfo,
   fromModal,
-  paymentRequestId,
 }: SendPaymentAction) {
   try {
     yield* call(getConnectedUnlockedAccount)
@@ -344,9 +342,6 @@ export function* sendPaymentSaga({
       navigateHome()
     }
 
-    if (paymentRequestId) {
-      yield* put(completePaymentRequest(paymentRequestId))
-    }
     yield* put(sendPaymentSuccess(amount))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
