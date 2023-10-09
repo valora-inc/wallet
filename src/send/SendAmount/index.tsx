@@ -34,12 +34,9 @@ import {
   useTokenInfo,
   useTokenInfoByAddress,
   useTokenToLocalAmount,
+  useTokensForSend,
 } from 'src/tokens/hooks'
-import {
-  defaultTokenToSendSelector,
-  stablecoinsSelector,
-  tokensWithTokenBalanceAndAddressSelector,
-} from 'src/tokens/selectors'
+import { defaultTokenToSendSelector, stablecoinsSelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
@@ -126,7 +123,7 @@ function SendAmount(props: Props) {
   const currencyPickerBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const defaultToken = useSelector(defaultTokenToSendSelector)
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokensForSend = useTokensForSend()
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [amount, setAmount] = useState('')
@@ -217,10 +214,10 @@ function SendAmount(props: Props) {
 
   const sortedTokens = useMemo(
     () =>
-      (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
+      (isOutgoingPaymentRequest ? stableTokens : tokensForSend).sort(
         sortFirstStableThenCeloThenOthersByUsdBalance
       ),
-    [isOutgoingPaymentRequest, stableTokens, tokensWithBalance]
+    [isOutgoingPaymentRequest, stableTokens, tokensForSend]
   )
 
   const handleShowCurrencyPicker = () => {
