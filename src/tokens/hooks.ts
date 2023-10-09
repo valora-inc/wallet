@@ -19,6 +19,8 @@ import {
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
+import { TokenBalance } from 'src/tokens/slice'
+
 /**
  * @deprecated use useTokenInfo and select using tokenId
  */
@@ -73,10 +75,10 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   }
 }
 
-export function useTokenInfo(tokenId: string) {
+export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
   const tokens = useSelector(tokensByIdSelectorWrapper(networkIds))
-  return tokens[tokenId]
+  return tokenId ? tokens[tokenId] : undefined
 }
 
 /**
