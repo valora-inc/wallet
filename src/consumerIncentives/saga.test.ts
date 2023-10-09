@@ -5,7 +5,7 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
 import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedCentrallySelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
   claimRewardsSaga,
   fetchAvailableRewardsSaga,
@@ -135,7 +135,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
       await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
         .provide([
-          [select(numberVerifiedCentrallySelector), true],
+          [select(phoneNumberVerifiedSelector), true],
           [select(superchargeV2EnabledSelector), version === '2'],
           [select(walletAddressSelector), userAddress],
           [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
@@ -156,7 +156,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
       .provide([
-        [select(numberVerifiedCentrallySelector), true],
+        [select(phoneNumberVerifiedSelector), true],
         [select(superchargeV2EnabledSelector), true],
         [select(walletAddressSelector), userAddress],
         [
@@ -184,7 +184,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
-        [select(numberVerifiedCentrallySelector), true],
+        [select(phoneNumberVerifiedSelector), true],
         [select(superchargeV2EnabledSelector), version === '2'],
         [select(walletAddressSelector), userAddress],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), error],
@@ -199,7 +199,7 @@ describe('fetchAvailableRewardsSaga', () => {
   it('skips fetching rewards for an unverified user for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
-        [select(numberVerifiedCentrallySelector), false],
+        [select(phoneNumberVerifiedSelector), false],
         [select(superchargeV2EnabledSelector), true],
         [select(walletAddressSelector), userAddress],
       ])
@@ -210,7 +210,7 @@ describe('fetchAvailableRewardsSaga', () => {
   it('displays an error if a user is not properly verified for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
-        [select(numberVerifiedCentrallySelector), true],
+        [select(phoneNumberVerifiedSelector), true],
         [select(superchargeV2EnabledSelector), true],
         [select(walletAddressSelector), userAddress],
         [

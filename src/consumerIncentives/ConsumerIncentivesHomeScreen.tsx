@@ -8,6 +8,7 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   numberVerifiedDecentrallySelector,
+  phoneNumberVerifiedSelector,
   superchargeTokenConfigByTokenSelector,
 } from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
@@ -20,14 +21,13 @@ import {
   availableRewardsSelector,
   superchargeInfoSelector,
   superchargeRewardsLoadingSelector,
-  userIsVerifiedForSuperchargeSelector,
 } from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
-  isSuperchargePendingRewardsV2,
   SuperchargePendingReward,
   SuperchargePendingRewardV2,
   SuperchargeTokenConfig,
+  isSuperchargePendingRewardsV2,
 } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -89,7 +89,7 @@ function SuperchargeInstructions() {
   const { t } = useTranslation()
   const [tokenDetailsVisible, setTokenDetailsVisible] = useState(false)
 
-  const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
+  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
   const { superchargeApy } = useSelector((state) => state.app)
@@ -236,7 +236,7 @@ export default function ConsumerIncentivesHomeScreen() {
     dispatch(fetchAvailableRewards())
   }, [])
 
-  const userIsVerified = useSelector(userIsVerifiedForSuperchargeSelector)
+  const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } =
     useSelector(superchargeInfoSelector)
 

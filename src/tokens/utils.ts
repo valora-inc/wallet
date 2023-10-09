@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -120,9 +121,13 @@ export function convertTokenToLocalAmount({
 }
 
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
-    ? Object.values(networkConfig.networkToNetworkId)
-    : [networkConfig.defaultNetworkId]
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showBalances
+}
+
+export function showAssetDetailsScreen() {
+  // TODO(ACT-919): get from feature gate
+  return false
 }
 
 export function getSupportedNetworkIdsForSend(): NetworkId[] {

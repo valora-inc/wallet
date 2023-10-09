@@ -8,9 +8,12 @@ import {
   useLocalToTokenAmountByAddress,
   useTokenPricesAreStale,
   useTokenToLocalAmountByAddress,
+  useTokensForAssetsScreen,
 } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
+import { mockCeloTokenId, mockCusdTokenId, mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 const tokenAddressWithPriceAndBalance = '0x001'
 const tokenIdWithPriceAndBalance = `celo-alfajores:${tokenAddressWithPriceAndBalance}`
@@ -31,6 +34,12 @@ function TestComponent({ tokenAddress }: { tokenAddress: string }) {
       <Text testID="pricesStale">{tokenPricesAreStale}</Text>
     </View>
   )
+}
+
+function TokenHookTestComponent({ hook }: { hook: () => TokenBalance[] }) {
+  const tokens = hook()
+
+  return <Text testID="tokenIDs">{tokens.map((token) => token.tokenId)}</Text>
 }
 
 const store = (usdToLocalRate: string | null, priceFetchedAt: number) =>
@@ -142,5 +151,21 @@ describe('token to fiat exchanges', () => {
 
     const pricesStale = getByTestId('pricesStale')
     expect(pricesStale.props.children).toEqual(true)
+  })
+
+  it('useTokensForAssetsScreen returns tokens with balance and tokens with showZeroBalance set to true', () => {
+    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <TokenHookTestComponent hook={useTokensForAssetsScreen} />
+      </Provider>
+    )
+
+    expect(getByTestId('tokenIDs').props.children).toEqual([
+      mockPoofTokenId,
+      mockCusdTokenId,
+      mockCeloTokenId,
+    ])
   })
 })
