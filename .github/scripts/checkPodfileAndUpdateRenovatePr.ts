@@ -1,0 +1,39 @@
+import * as $ from 'shelljs'
+
+const RENOVATE_USER = 'renovate[bot]'
+
+const exitCode = $.exec('git diff --exit-code').code
+if (exitCode === 0) {
+  console.log('No diff found')
+  process.exit(0)
+}
+
+console.log('Diff found')
+
+$.config.fatal = true
+
+const lastCommitAuthor = $.exec('git log -1 --pretty=format:%an', { silent: true }).stdout.trim()
+const branchName = process.env.GITHUB_HEAD_REF
+
+// Check if this is invoked from a PR, branch name starts with renovate and the
+// last commit was from renovate (to avoid infinite loop, in case a diff is
+// generated every time).
+if (
+  process.env.GITHUB_EVENT_NAME === 'pull_request' &&
+  branchName?.startsWith('renovate/') &&
+  lastCommitAuthor === RENOVATE_USER
+) {
+  console.log('Renovate PR, pushing Podfile changes')
+  // this assumes the diff is from Podfile.lock only
+  $.exec('git add ios/Podfile.lock')
+  $.exec('git config user.email "valorabot@valoraapp.com"')
+  $.exec('git config user.name "valora-bot"')
+  $.exec('git commit -m "update podfile.lock"')
+  $.exec(`git push --set-upstream origin ${branchName}`)
+} else {
+  console.log('Not a renovate PR')
+}
+
+// Exit with non-zero exit code regardless, since a new commit on the renovate
+// PR will trigger a new job anyway.
+process.exit(exitCode)
