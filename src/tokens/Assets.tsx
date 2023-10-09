@@ -421,7 +421,7 @@ function AssetsScreen({ navigation, route }: Props) {
           },
           activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
           activeTab === AssetTabType.Collectibles &&
-            !nftsError && { paddingLeft: Spacing.Regular16 },
+            nftsError ? { alignItems: 'center' } : { paddingLeft: Spacing.Regular16 },
         ]}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
