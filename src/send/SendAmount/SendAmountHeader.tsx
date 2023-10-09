@@ -5,11 +5,9 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
-import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo, useTokensForSend } from 'src/tokens/hooks'
 
 interface Props {
   tokenId: string
@@ -25,8 +23,7 @@ function SendAmountHeader({
   disallowCurrencyChange,
 }: Props) {
   const { t } = useTranslation()
-  // TODO: make this use tokenId
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokensForSend = useTokensForSend()
   const tokenInfo = useTokenInfo(tokenId)
 
   const backButtonEventName = isOutgoingPaymentRequest
@@ -34,7 +31,7 @@ function SendAmountHeader({
     : SendEvents.send_amount_back
 
   const canChangeToken =
-    (tokensWithBalance.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
+    (tokensForSend.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
 
   const title = useMemo(() => {
     let titleText

@@ -8,7 +8,6 @@ import { Screens } from 'src/navigator/Screens'
 import Send from 'src/send/Send'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
-  mockCeloAddress,
   mockCeloTokenId,
   mockCusdTokenId,
   mockE164Number,
@@ -55,6 +54,15 @@ const defaultStore = {
     },
   },
 }
+
+jest.mock('src/statsig', () => {
+  return {
+    getFeatureGate: jest.fn(),
+    getDynamicConfigParams: jest.fn(() => ({
+      showSend: ['celo-alfajores'],
+    })),
+  }
+})
 
 describe('Send', () => {
   beforeEach(() => {
@@ -147,7 +155,7 @@ describe('Send', () => {
         <Send
           {...mockScreenProps({
             isOutgoingPaymentRequest: true,
-            defaultTokenOverride: mockCeloAddress,
+            defaultTokenOverride: mockCeloTokenId,
             forceTokenAddress: true,
           })}
         />
@@ -161,7 +169,7 @@ describe('Send', () => {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: true,
       origin: SendOrigin.AppRequestFlow,
-      defaultTokenOverride: mockCeloAddress,
+      defaultTokenOverride: mockCeloTokenId,
       forceTokenAddress: true,
       isFromScan: false,
     })
