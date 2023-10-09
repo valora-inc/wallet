@@ -3,6 +3,9 @@ import DeviceInfo from 'react-native-device-info'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import {
   tokenCompareByUsdBalanceThenByName,
   tokensByAddressSelector,
@@ -13,6 +16,7 @@ import {
   tokensWithUsdValueSelectorWrapper,
   totalTokenBalanceSelectorWrapper,
 } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
@@ -22,6 +26,7 @@ import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
+
 /**
  * @deprecated use useTokenInfo and select using tokenId
  */
@@ -103,15 +108,17 @@ function isCiCoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
 }
 
 export function useCashInTokens() {
-  // TODO: get this from statsig when #4265 is merged
-  const networkIdsForCico = [networkConfig.defaultNetworkId]
+  const networkIdsForCico = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showCico
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
   return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCiCoToken(tokenInfo.symbol))
 }
 
 export function useCashOutTokens() {
-  // TODO: get this from statsig when #4265 is merged
-  const networkIdsForCico = [networkConfig.defaultNetworkId]
+  const networkIdsForCico = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showCico
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
   return tokens.filter(
     (tokenInfo) =>
@@ -121,10 +128,10 @@ export function useCashOutTokens() {
   )
 }
 
-export function useTokenInfo(tokenId: string) {
+export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
   const tokens = useSelector(tokensByIdSelectorWrapper(networkIds))
-  return tokens[tokenId]
+  return tokenId ? tokens[tokenId] : undefined
 }
 
 /**

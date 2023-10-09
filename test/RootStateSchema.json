@@ -2889,9 +2889,6 @@
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
-                "requireCPV": {
-                    "type": "boolean"
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -2985,7 +2982,6 @@
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
-                "requireCPV",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",

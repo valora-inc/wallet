@@ -10,6 +10,9 @@ import { createMockStore } from 'test/utils'
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
   getFeatureGate: jest.fn().mockReturnValue(false),
+  getDynamicConfigParams: jest.fn(() => ({
+    showBalances: ['celo-alfajores'],
+  })),
 }))
 
 // TODO avoid rendering WalletHome as we're mostly interested in testing the menu here
@@ -138,7 +141,6 @@ describe('DrawerNavigator', () => {
     it('shows the phone number when the user is verified', () => {
       const store = createMockStore({
         app: {
-          requireCPV: true,
           numberVerified: false,
           phoneNumberVerified: true,
         },
@@ -155,30 +157,9 @@ describe('DrawerNavigator', () => {
       expect(getByText('+1 302-306-1234')).toBeTruthy()
     })
 
-    it("shows the phone number when the user is verified decentrally and we don't require CPV", () => {
+    it('hides the phone number when the user is verified decentrally', () => {
       const store = createMockStore({
         app: {
-          requireCPV: false,
-          numberVerified: true,
-          phoneNumberVerified: false,
-        },
-        account: {
-          e164PhoneNumber: '+13023061234',
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
-        </Provider>
-      )
-
-      expect(getByText('+1 302-306-1234')).toBeTruthy()
-    })
-
-    it('hides the phone number when the user is verified decentrally and we require CPV', () => {
-      const store = createMockStore({
-        app: {
-          requireCPV: true,
           numberVerified: true,
           phoneNumberVerified: false,
         },
@@ -198,7 +179,6 @@ describe('DrawerNavigator', () => {
     it('shows no phone number when the user is not verified', () => {
       const store = createMockStore({
         app: {
-          requireCPV: true,
           numberVerified: false,
           phoneNumberVerified: false,
         },

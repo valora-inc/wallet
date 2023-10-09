@@ -28,7 +28,7 @@ jest.mock('src/statsig', () => {
   return {
     getFeatureGate: jest.fn(),
     getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
+      showBalances: ['celo-alfajores'],
     }),
   }
 })
