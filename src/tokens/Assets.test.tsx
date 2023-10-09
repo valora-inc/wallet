@@ -178,10 +178,10 @@ describe('AssetsScreen', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('NftItem')).toHaveLength(0)
 
     fireEvent.press(getByText('assets.tabBar.collectibles'))
 
-    // TODO(ACT-918): assert nfts are displayed here
     expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
     expect(queryAllByTestId('NftItem')).toHaveLength(2)
