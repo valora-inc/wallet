@@ -123,3 +123,8 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
   return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
     .showBalances
 }
+
+export function showAssetDetailsScreen() {
+  // TODO(ACT-919): get from feature gate
+  return false
+}
