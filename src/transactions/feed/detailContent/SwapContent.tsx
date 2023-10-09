@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -16,6 +16,7 @@ import { Spacing } from 'src/styles/styles'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenExchange } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 export interface Props {
   exchange: TokenExchange
