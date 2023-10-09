@@ -30,6 +30,8 @@ jobs:
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
       - uses: actions/checkout@v3
         with:
+          # checkout PR head instead of merge commit so we can push changes on renovate PRs
+          # https://github.com/actions/checkout/tree/v3.6.0#checkout-pull-request-head-commit-instead-of-merge-commit
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v3
         with:

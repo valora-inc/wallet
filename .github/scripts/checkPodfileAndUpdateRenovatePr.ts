@@ -1,6 +1,6 @@
 import * as $ from 'shelljs'
 
-const RENOVATE_USER = 'Satish Ravi'
+const RENOVATE_USER = 'renovate[bot]'
 
 const exitCode = $.exec('git diff --exit-code').code
 if (exitCode === 0) {
@@ -20,16 +20,14 @@ const branchName = process.env.GITHUB_HEAD_REF
 // generated every time).
 if (
   process.env.GITHUB_EVENT_NAME === 'pull_request' &&
-  branchName?.startsWith('satish/') &&
+  branchName?.startsWith('renovate/') &&
   lastCommitAuthor === RENOVATE_USER
 ) {
   console.log('Renovate PR, pushing Podfile changes')
   $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
   $.exec(`git checkout -b ${branchName}`)
   $.exec('git fetch')
-  $.exec('git log')
   $.exec(`git pull origin ${branchName} --ff-only`)
-  $.exec('git log')
   // this assumes the diff is from Podfile.lock only
   $.exec('git add ios/Podfile.lock')
   $.exec('git config user.email "valorabot@valoraapp.com"')
