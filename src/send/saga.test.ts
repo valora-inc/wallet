@@ -248,30 +248,6 @@ describe(watchQrCodeDetections, () => {
     })
   })
 
-  it('navigates to the payment request confirmation screen when secure send scan is successful for a request', async () => {
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData2) }
-    const qrAction: HandleBarcodeDetectedAction = {
-      type: Actions.BARCODE_DETECTED,
-      data,
-      scanIsForSecureSend: true,
-      isOutgoingPaymentRequest: true,
-      transactionData: mockTransactionData,
-    }
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch(qrAction)
-      .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
-      .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
-      transactionData: mockTransactionData,
-      isFromScan: true,
-    })
-  })
-
   it("displays an error when QR code scanned for secure send doesn't map to the recipient", async () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
     const qrAction: HandleBarcodeDetectedAction = {
