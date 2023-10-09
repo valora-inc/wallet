@@ -32,6 +32,7 @@ if (
 
   // ensure that we are using ssh
   $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
+  $.exec(`git checkout -b ${branchName}`)
   $.exec(`git push --set-upstream origin ${branchName}`)
 } else {
   console.log('Not a renovate PR')
