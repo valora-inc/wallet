@@ -1321,6 +1321,10 @@ export const migrations = {
   }),
   156: (state: any) => ({
     ...state,
+    app: _.omit(state.app, 'requireCPV'),
+  }),
+  157: (state: any) => ({
+    ...state,
     transactions: {
       ...state.transactions,
       standbyTransactions: [],

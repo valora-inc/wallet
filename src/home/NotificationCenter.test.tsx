@@ -99,7 +99,7 @@ const superchargeSetUp = {
     account: 'account',
   },
   app: {
-    numberVerified: true,
+    phoneNumberVerified: true,
   },
   supercharge: {
     availableRewards: [testReward],
@@ -279,7 +279,6 @@ describe('NotificationCenter', () => {
     it('renders reverify notification if decentrally verified and not CPV', () => {
       const store = createMockStore({
         app: {
-          requireCPV: true,
           numberVerified: true,
           phoneNumberVerified: false,
         },
@@ -302,7 +301,6 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         app: {
-          requireCPV: true,
           numberVerified: true,
           phoneNumberVerified: false,
         },
@@ -928,7 +926,7 @@ describe('NotificationCenter', () => {
         },
         app: {
           ...superchargeWithoutRewardsSetUp.app,
-          numberVerified: false,
+          phoneNumberVerified: false,
         },
       })
       const { queryByTestId, getByText, getByTestId } = render(
@@ -1005,7 +1003,7 @@ describe('NotificationCenter', () => {
         },
         app: {
           ...superchargeWithoutRewardsSetUp.app,
-          numberVerified: false,
+          phoneNumberVerified: false,
         },
       })
       const { getByText } = render(
@@ -1036,7 +1034,7 @@ describe('NotificationCenter', () => {
         },
         app: {
           ...superchargeWithoutRewardsSetUp.app,
-          numberVerified: false,
+          phoneNumberVerified: false,
         },
       })
       const { getByText } = render(

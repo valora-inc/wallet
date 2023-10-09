@@ -79,19 +79,11 @@ export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinba
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
 
-export const numberVerifiedCentrallySelector = (state: RootState) => state.app.phoneNumberVerified
-
-const requireCPVSelector = (state: RootState) => state.app.requireCPV
-
-export const phoneNumberVerifiedSelector = createSelector(
-  [numberVerifiedCentrallySelector, numberVerifiedDecentrallySelector, requireCPVSelector],
-  (numberVerifiedCentrally, numberVerifiedDecentrally, requireCPV) =>
-    requireCPV ? numberVerifiedCentrally : numberVerifiedCentrally || numberVerifiedDecentrally
-)
+export const phoneNumberVerifiedSelector = (state: RootState) => state.app.phoneNumberVerified
 
 export const phoneVerificationStatusSelector = createSelector(
   numberVerifiedDecentrallySelector,
-  numberVerifiedCentrallySelector,
+  phoneNumberVerifiedSelector,
   (numberVerifiedDecentralized, numberVerifiedCentralized) => {
     return {
       numberVerifiedDecentralized,
@@ -105,7 +97,7 @@ export const decentralizedVerificationEnabledSelector = (state: RootState) =>
 
 export const shouldRunVerificationMigrationSelector = createSelector(
   [
-    numberVerifiedCentrallySelector,
+    phoneNumberVerifiedSelector,
     numberVerifiedDecentrallySelector,
     decentralizedVerificationEnabledSelector,
   ],

@@ -2892,9 +2892,6 @@
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
-                "requireCPV": {
-                    "type": "boolean"
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -2988,7 +2985,6 @@
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
-                "requireCPV",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
@@ -4217,6 +4213,9 @@
                 },
                 "priceUsd": {
                     "type": "string"
+                },
+                "showZeroBalance": {
+                    "type": "boolean"
                 },
                 "symbol": {
                     "type": "string"

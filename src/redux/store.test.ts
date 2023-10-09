@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 156,
+          "version": 157,
         },
         "account": {
           "acceptedTerms": false,
@@ -160,7 +160,6 @@ describe('store state', () => {
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
-          "requireCPV": false,
           "requirePinOnAppOpen": false,
           "rewardPillText": {
             "de": "Belohnungen",
