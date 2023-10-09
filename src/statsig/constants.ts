@@ -6,6 +6,7 @@ import {
   StatsigFeatureGates,
   StatsigLayers,
 } from 'src/statsig/types'
+import networkConfig from 'src/web3/networkConfig'
 
 export const LayerParams = {
   // TODO(ACT-659): refactor to imitate defaultExperimentParamValues (more type safe, less boilerplate)
@@ -33,9 +34,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
-  [StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS]: false,
-  [StatsigFeatureGates.SHOW_ETH_IN_CICO]: false,
-  [StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
 }
 
@@ -88,6 +86,14 @@ export const DynamicConfigs = {
     defaultValues: {
       default: 15,
       cico: 30,
+    },
+  },
+  [StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]: {
+    configName: StatsigDynamicConfigs.MULTI_CHAIN_FEATURES,
+    defaultValues: {
+      showCico: [networkConfig.defaultNetworkId],
+      showBalances: [networkConfig.defaultNetworkId],
+      showTransfers: [networkConfig.defaultNetworkId],
     },
   },
 }

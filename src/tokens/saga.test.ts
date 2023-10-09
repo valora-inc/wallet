@@ -33,7 +33,7 @@ import {
 import { FetchMock } from 'jest-fetch-mock'
 import Logger from 'src/utils/Logger'
 import { apolloClient } from 'src/apollo'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { ApolloQueryResult } from 'apollo-client'
 import { NetworkId } from 'src/transactions/types'
 
@@ -168,7 +168,9 @@ describe(fetchTokenBalancesSaga, () => {
 
 describe(fetchTokenBalancesForAddress, () => {
   it('returns token balances for a single chain', async () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: [NetworkId['celo-alfajores']],
+    })
     jest
       .mocked(apolloClient.query)
       .mockImplementation(async (payload: any): Promise<ApolloQueryResult<unknown>> => {
@@ -185,7 +187,9 @@ describe(fetchTokenBalancesForAddress, () => {
       expect(result).toEqual(expect.arrayContaining(['celo_alfajores balance']))
   })
   it('returns token balances for multiple chains', async () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
     jest
       .mocked(apolloClient.query)
       .mockImplementation(async (payload: any): Promise<ApolloQueryResult<unknown>> => {

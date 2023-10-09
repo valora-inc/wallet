@@ -26,12 +26,14 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
 import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { useDispatch } from 'react-redux'
 import networkConfig from 'src/web3/networkConfig'
+import { Network } from 'src/transactions/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -105,7 +107,10 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const { flow } = route.params
 
   const [selectedCurrency, setSelectedCurrency] = useState<CiCoCurrency>(CiCoCurrency.cUSD)
-  const showEth = getFeatureGate(StatsigFeatureGates.SHOW_ETH_IN_CICO)
+  // TODO: Update this to actually respect all possible networkIds correctly
+  const showEth = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showCico.includes(networkConfig.networkToNetworkId[Network.Ethereum])
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {
