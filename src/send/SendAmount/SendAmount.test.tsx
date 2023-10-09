@@ -115,7 +115,6 @@ const mockScreenProps = ({
     isFromScan: false,
     defaultTokenIdOverride,
     recipient: mockTransactionData.recipient,
-    isOutgoingPaymentRequest,
     origin: SendOrigin.AppSendFlow,
     forceTokenId,
   })

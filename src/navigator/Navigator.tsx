@@ -89,11 +89,6 @@ import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
 import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScreen'
 import Welcome from 'src/onboarding/welcome/Welcome'
-import IncomingPaymentRequestListScreen from 'src/paymentRequest/IncomingPaymentRequestListScreen'
-import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPaymentRequestListScreen'
-import PaymentRequestConfirmation, {
-  paymentConfirmationScreenNavOptions,
-} from 'src/paymentRequest/PaymentRequestConfirmation'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
@@ -255,21 +250,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.ValidateRecipientAccount}
       component={ValidateRecipientAccount}
       options={validateRecipientAccountScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.PaymentRequestConfirmation}
-      component={PaymentRequestConfirmation}
-      options={paymentConfirmationScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.IncomingPaymentRequestListScreen}
-      component={IncomingPaymentRequestListScreen}
-      options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.OutgoingPaymentRequestListScreen}
-      component={OutgoingPaymentRequestListScreen}
-      options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.EscrowedPaymentListScreen}

@@ -168,7 +168,7 @@ describe('Send', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: true,
-      origin: SendOrigin.AppRequestFlow,
+      origin: SendOrigin.AppSendFlow,
       defaultTokenIdOverride: mockCeloTokenId,
       forceTokenId: true,
       isFromScan: false,

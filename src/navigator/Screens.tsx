@@ -54,7 +54,6 @@ export enum Screens {
   OnboardingRecoveryPhrase = 'OnboardingRecoveryPhrase',
   OnboardingSuccessScreen = 'OnboardingSuccessScreen',
   OutgoingPaymentRequestListScreen = 'OutgoingPaymentRequestListScreen',
-  PaymentRequestConfirmation = 'PaymentRequestConfirmation',
   PhoneNumberLookupQuota = 'PhoneNumberLookupQuota',
   PincodeEnter = 'PincodeEnter',
   PincodeSet = 'PincodeSet',

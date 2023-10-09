@@ -184,10 +184,6 @@ export type StackParamList = {
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
-  [Screens.PaymentRequestConfirmation]: {
-    transactionData: TransactionDataInput
-    isFromScan: boolean
-  }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean
@@ -234,7 +230,6 @@ export type StackParamList = {
   }
   [Screens.Send]:
     | {
-        isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
         forceTokenId?: boolean
         defaultTokenIdOverride?: string
@@ -242,7 +237,6 @@ export type StackParamList = {
     | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
-    isOutgoingPaymentRequest?: boolean
     isFromScan: boolean
     origin: SendOrigin
     forceTokenId?: boolean
@@ -274,14 +268,12 @@ export type StackParamList = {
   [Screens.ValidateRecipientIntro]: {
     transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
-    isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
     transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
-    isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
@@ -344,7 +336,6 @@ export type QRTabParamList = {
     | {
         scanIsForSecureSend?: true
         transactionData?: TransactionDataInput
-        isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
     | undefined

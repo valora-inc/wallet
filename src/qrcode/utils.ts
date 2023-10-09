@@ -126,7 +126,6 @@ export function* handleBarcode(
   e164NumberToAddress: E164NumberToAddressType,
   recipientInfo: RecipientInfo,
   secureSendTxData?: TransactionDataInput,
-  isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
   const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, barcode.data)
@@ -169,22 +168,16 @@ export function* handleBarcode(
     if (!success) {
       return
     }
-    if (isOutgoingPaymentRequest) {
-      navigate(Screens.PaymentRequestConfirmation, {
-        transactionData: secureSendTxData,
-        isFromScan: true,
-      })
-    } else {
-      navigate(Screens.SendConfirmation, {
-        transactionData: secureSendTxData,
-        origin: SendOrigin.AppSendFlow,
-        isFromScan: true,
-      })
-    }
+    navigate(Screens.SendConfirmation, {
+      transactionData: secureSendTxData,
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+    })
+
     return
   }
 
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
-  yield* call(handleSendPaymentData, qrData, true, cachedRecipient, isOutgoingPaymentRequest)
+  yield* call(handleSendPaymentData, qrData, true, cachedRecipient)
 }
