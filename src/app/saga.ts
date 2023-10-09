@@ -56,13 +56,11 @@ import {
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
-import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { Actions as SendActions } from 'src/send/actions'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
@@ -232,7 +230,6 @@ export interface RemoteConfigValues {
   maxNumRecentDapps: number
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
-  paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
@@ -325,11 +322,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     const pathParts = rawParams.path.split('/')
-    if (rawParams.path.startsWith('/payment')) {
-      // TODO: contact our merchant partner and come up
-      // with something that doesn't match /pay, maybe /merchantPay ?
-      yield* call(paymentDeepLinkHandlerMerchant, deepLink)
-    } else if (rawParams.path.startsWith('/pay')) {
+    if (rawParams.path.startsWith('/pay')) {
       yield* call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield* call(handleDappkitDeepLink, deepLink)

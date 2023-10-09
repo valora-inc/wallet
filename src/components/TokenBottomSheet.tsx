@@ -5,8 +5,8 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import SearchInput from 'src/components/SearchInput'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import SearchInput from 'src/components/SearchInput'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
@@ -29,7 +29,6 @@ interface Props {
   onTokenSelected: (tokenAddress: string) => void
   tokens: TokenBalanceWithAddress[]
   title: string
-  onClose?: () => void
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
 }
@@ -96,7 +95,6 @@ function TokenBottomSheet({
   snapPoints,
   origin,
   onTokenSelected,
-  onClose,
   tokens,
   searchEnabled,
   title,
@@ -140,7 +138,6 @@ function TokenBottomSheet({
 
   const handleClose = () => {
     setSearchTerm('')
-    onClose?.()
   }
 
   return (
@@ -160,6 +157,12 @@ function TokenBottomSheet({
             }}
             style={styles.searchInput}
             returnKeyType={'search'}
+            // disable autoCorrect and spellCheck since the search terms here
+            // are token names which autoCorrect would get in the way of. This
+            // combination also hides the keyboard suggestions bar from the top
+            // of the iOS keyboard, preserving screen real estate.
+            autoCorrect={false}
+            spellCheck={false}
           />
         )
       }

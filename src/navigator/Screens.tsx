@@ -47,7 +47,6 @@ export enum Screens {
   Licenses = 'Licenses',
   Main = 'Main',
   MainModal = 'MainModal',
-  MerchantPayment = 'MerchantPayment',
   NameAndPicture = 'NameAndPicture',
   NotificationCenter = 'NotificationCenter',
   NftGallery = 'NftGallery',

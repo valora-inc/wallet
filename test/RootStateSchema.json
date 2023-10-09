@@ -2083,13 +2083,6 @@
             },
             "type": "object"
         },
-        "PaymentDeepLinkHandler": {
-            "enum": [
-                "",
-                "merchant"
-            ],
-            "type": "string"
-        },
         "PaymentInfo": {
             "additionalProperties": false,
             "properties": {
@@ -2464,7 +2457,6 @@
                 "Licenses",
                 "Main",
                 "MainModal",
-                "MerchantPayment",
                 "NameAndPicture",
                 "NftGallery",
                 "NftsInfoCarousel",
@@ -2875,9 +2867,6 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
-                "paymentDeepLinkHandler": {
-                    "$ref": "#/definitions/PaymentDeepLinkHandler"
-                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -2984,7 +2973,6 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
-                "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
@@ -4218,6 +4206,9 @@
                 },
                 "priceUsd": {
                     "type": "string"
+                },
+                "showZeroBalance": {
+                    "type": "boolean"
                 },
                 "symbol": {
                     "type": "string"
