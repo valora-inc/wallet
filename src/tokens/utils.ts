@@ -5,7 +5,7 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { TokenBalance } from './slice'
 
@@ -155,4 +155,8 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
     ONE_HOUR_IN_MILLIS >
       Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
   )
+}
+
+export function isCicoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
+  return Object.values(CiCoCurrency).some((cicoSymbol) => cicoSymbol === tokenSymbol)
 }

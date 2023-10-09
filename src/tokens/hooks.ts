@@ -21,9 +21,10 @@ import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
   getSupportedNetworkIdsForTokenBalances,
+  isCicoToken,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -82,16 +83,18 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
 }
 
 export function useSendableTokens() {
-  // TODO: get this from statsig when #4265 is merged
-  const networkIdsForSend = [networkConfig.defaultNetworkId]
+  const networkIdsForSend = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showSend
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSend))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
 
 export function useSwappableTokens() {
   const appVersion = DeviceInfo.getVersion()
-  // TODO: get this from statsig when #4265 is merged
-  const networkIdsForSwap = [networkConfig.defaultNetworkId]
+  const networkIdsForSwap = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showSwap
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSwap))
   return tokens
     .filter(
@@ -103,16 +106,12 @@ export function useSwappableTokens() {
     .sort(tokenCompareByUsdBalanceThenByName)
 }
 
-function isCiCoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
-  return Object.values(CiCoCurrency).some((cicoSymbol) => cicoSymbol === tokenSymbol)
-}
-
 export function useCashInTokens() {
   const networkIdsForCico = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showCico
   const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
-  return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCiCoToken(tokenInfo.symbol))
+  return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
 }
 
 export function useCashOutTokens() {
@@ -124,7 +123,7 @@ export function useCashOutTokens() {
     (tokenInfo) =>
       tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
       tokenInfo.isCashOutEligible &&
-      isCiCoToken(tokenInfo.symbol)
+      isCicoToken(tokenInfo.symbol)
   )
 }
 

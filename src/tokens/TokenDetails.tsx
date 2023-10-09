@@ -40,9 +40,8 @@ import {
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsActionName } from 'src/tokens/types'
-import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
+import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -135,6 +134,20 @@ function Actions({ token }: { token: TokenBalance }) {
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
+
+  const onPressCicoAction = (flow: CICOFlow) => {
+    const tokenSymbol = token.symbol
+    // this should always be true given that we only show Add / Withdraw if a
+    // token is CiCoCurrency, but adding it here to ensure type safety
+    if (isCicoToken(tokenSymbol)) {
+      navigate(Screens.FiatExchangeAmount, {
+        currency: tokenSymbol,
+        flow,
+        network: Network.Celo,
+      })
+    }
+  }
 
   const actions = [
     {
@@ -164,11 +177,7 @@ function Actions({ token }: { token: TokenBalance }) {
       text: t('tokenDetails.actions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
-        navigate(Screens.FiatExchangeAmount, {
-          currency: token.symbol as CiCoCurrency,
-          flow: CICOFlow.CashIn,
-          network: Network.Celo,
-        })
+        onPressCicoAction(CICOFlow.CashIn)
       },
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
@@ -177,13 +186,9 @@ function Actions({ token }: { token: TokenBalance }) {
       text: t('tokenDetails.actions.withdraw'),
       iconComponent: QuickActionsWithdraw,
       onPress: () => {
-        navigate(Screens.FiatExchangeAmount, {
-          currency: token.symbol as CiCoCurrency,
-          flow: CICOFlow.CashOut,
-          network: Network.Celo,
-        })
+        onPressCicoAction(CICOFlow.CashOut)
       },
-      visible: !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
+      visible: showWithdraw,
     },
   ].filter((action) => action.visible)
 
@@ -196,8 +201,12 @@ function Actions({ token }: { token: TokenBalance }) {
     },
   }
 
+  // if there are 4 actions or 3 actions and one of them is withdraw, show the
+  // More button. The withdraw condition exists to avoid the overflow
   const actionButtons =
-    actions.length > MAX_ACTION_BUTTONS ? [actions[0], actions[1], moreAction] : actions
+    actions.length > MAX_ACTION_BUTTONS || (actions.length === MAX_ACTION_BUTTONS && showWithdraw)
+      ? [actions[0], actions[1], moreAction]
+      : actions
 
   return (
     <View

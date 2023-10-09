@@ -258,7 +258,7 @@ describe('TokenDetails', () => {
     expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
   })
 
-  it('hides swap action if token is swappable, has balance but feature gate is false', () => {
+  it('hides swap action and shows more action if token is swappable, has balance and CICO token but swapfeature gate is false', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -283,7 +283,7 @@ describe('TokenDetails', () => {
     expect(getByTestId('TokenDetails/Action/Send')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Swap')).toBeFalsy()
     expect(getByTestId('TokenDetails/Action/Add')).toBeTruthy()
-    expect(getByTestId('TokenDetails/Action/Withdraw')).toBeTruthy()
-    expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
+    expect(getByTestId('TokenDetails/Action/More')).toBeTruthy()
+    expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
   })
 })
