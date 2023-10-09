@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
-import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import networkConfig from 'src/web3/networkConfig'
 import { TokenBalance } from './slice'
+import { NetworkId } from 'src/transactions/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -120,9 +120,8 @@ export function convertTokenToLocalAmount({
 }
 
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
-    ? Object.values(networkConfig.networkToNetworkId)
-    : [networkConfig.defaultNetworkId]
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showBalances
 }
 
 export function showAssetDetailsScreen() {
