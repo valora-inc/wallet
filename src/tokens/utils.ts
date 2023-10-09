@@ -3,9 +3,9 @@ import { CurrencyTokens } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { TokenBalance } from './slice'
 import { NetworkId } from 'src/transactions/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
-import networkConfig from 'src/web3/networkConfig'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -120,7 +120,11 @@ export function convertTokenToLocalAmount({
 }
 
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
-    ? Object.values(networkConfig.networkToNetworkId)
-    : [networkConfig.defaultNetworkId]
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showBalances
+}
+
+export function showAssetDetailsScreen() {
+  // TODO(ACT-919): get from feature gate
+  return false
 }

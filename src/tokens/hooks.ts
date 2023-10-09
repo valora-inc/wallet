@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import {
@@ -6,17 +7,20 @@ import {
   tokensByCurrencySelector,
   tokensByIdSelectorWrapper,
   tokensListSelectorWrapper,
-  totalTokenBalanceSelectorWrapper,
-  tokensWithUsdValueSelectorWrapper,
   tokensListWithAddressSelector,
+  tokensWithUsdValueSelectorWrapper,
+  totalTokenBalanceSelectorWrapper,
 } from 'src/tokens/selectors'
-import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
-import { Currency } from 'src/utils/currencies'
+import {
+  convertLocalToTokenAmount,
+  convertTokenToLocalAmount,
+  getSupportedNetworkIdsForTokenBalances,
+} from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
-import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
+import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import { TokenBalance } from 'src/tokens/slice'
+
 /**
  * @deprecated use useTokenInfo and select using tokenId
  */
@@ -38,6 +42,15 @@ export function useTokensWithTokenBalance() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
+}
+
+export function useTokensForAssetsScreen() {
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
+
+  return tokens.filter(
+    (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
+  )
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {

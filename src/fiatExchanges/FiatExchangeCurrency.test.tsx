@@ -5,13 +5,17 @@ import FiatExchangeCurrency from 'src/fiatExchanges/FiatExchangeCurrency'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { FiatExchangeFlow } from './utils'
+import { getDynamicConfigParams } from 'src/statsig'
 
 jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(() => false),
+  getDynamicConfigParams: jest.fn(() => {
+    return {
+      showCico: ['celo-alfajores'],
+    }
+  }),
 }))
 
 const mockScreenProps = (flow: FiatExchangeFlow) =>
@@ -79,7 +83,9 @@ describe('FiatExchangeCurrency', () => {
     })
   })
   it('ETH Flow', () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
     const store = createMockStore({})
     const tree = render(
       <Provider store={store}>

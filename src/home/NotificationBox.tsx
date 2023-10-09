@@ -24,10 +24,7 @@ import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import {
-  superchargeInfoSelector,
-  userIsVerifiedForSuperchargeSelector,
-} from 'src/consumerIncentives/selectors'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -81,13 +78,12 @@ export function useSimpleActions() {
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
-  const numberVerifiedForSupercharge = useSelector(userIsVerifiedForSuperchargeSelector)
   const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
 
   const extraNotifications = useSelector(getExtraNotifications)
 
   const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
-  const isSupercharging = numberVerifiedForSupercharge && hasBalanceForSupercharge
+  const isSupercharging = phoneNumberVerified && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
