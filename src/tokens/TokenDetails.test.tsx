@@ -9,6 +9,16 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockCeloTokenId, mockPoofTokenId, mockTokenBalances } from 'test/values'
 
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn(() => {
+    return {
+      showCico: ['celo-alfajores'],
+      showSend: ['celo-alfajores'],
+      showSwap: ['celo-alfajores'],
+    }
+  }),
+}))
+
 describe('TokenDetails', () => {
   it('renders title, balance and token balance item', () => {
     const store = createMockStore({
