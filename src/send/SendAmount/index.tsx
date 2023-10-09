@@ -72,6 +72,15 @@ export function useInputAmounts(
   const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId!)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
+  // when using the local amount, the "inputAmount" value received here was
+  // already converted once from the token value. if we calculate the token
+  // value by converting again from local to token, we introduce rounding
+  // precision errors. most of the time this is fine but when pressing the "max"
+  // button and using the max token value this becomes a problem because the
+  // precision error introduced may result in a higher token value than
+  // original, preventing the user from sending the amount e.g. the max token
+  // balance could be something like 15.00, after conversion to local currency
+  // then back to token amount, it could be 15.000000001.
 
   const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
   const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
