@@ -263,7 +263,6 @@ export interface RemoteConfigValues {
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
   superchargeV1Addresses: string[]
-  requireCPV: boolean
   decentralizedVerificationEnabled: boolean
 }
 

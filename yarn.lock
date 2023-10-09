@@ -1957,27 +1957,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.14":
-  version "0.5.14"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.14.tgz#0dcb20bdfb5e0e033591f7116cc4db5c43a62170"
-  integrity sha512-ZtMb3T3EudYVh6EOi6cI+jTVa4Czp3r0j1tcqmM2oZG2h+OSngc5uzbJmIf7IWBvEP0aQqifoYscIcFakCHvRA==
+"@fiatconnect/fiatconnect-sdk@^0.5.16":
+  version "0.5.16"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.16.tgz#341957c21922eb8b94ae657c246793ac36593da8"
+  integrity sha512-CSSzkmqsrnnUb5eWqmdv18isACt8n/nBS+h6SiJPRiJJkbWxnnbUUKWlyQ3ODRQ19KwNw3u0ytlKd4qtBZSq4g==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.2.0"
+    "@fiatconnect/fiatconnect-types" "^13.2.1"
     cross-fetch "^4.0.0"
     ethers "^5.7.2"
     fetch-cookie "^2.1.0"
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
     tslib "^2.6.2"
-    zod "^3.22.2"
+    zod "^3.22.3"
 
-"@fiatconnect/fiatconnect-types@^13.2.0":
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.2.0.tgz#9c0aa7f267f882416a7388b11e9b2c10c0741f5e"
-  integrity sha512-/xfheL/vAgNjHQyIYvIzJRNulO67mtsd5eVu5BQ/mZvmvL8KVd7JoOscCR9lSsrFumVcB7VlP/IA5t+2Mgx2oQ==
+"@fiatconnect/fiatconnect-types@^13.2.1":
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.2.1.tgz#ca09f37fdc18deb5b250383c028011f6795e910c"
+  integrity sha512-dxaGPV/ZvC+U+ulE60G7DkVckYCGvJgQCCUAx9mcWS4K3s8nfwlogEDUUozcTe5d5aHEeYj1iCA4xqDbJbH76w==
   dependencies:
-    zod "^3.22.2"
+    zod "^3.22.3"
 
 "@gorhom/bottom-sheet@^4.5.1":
   version "4.5.1"
@@ -3115,10 +3115,15 @@
     "@sentry/utils" "7.37.2"
     tslib "^1.9.3"
 
-"@sentry/types@7.37.2", "@sentry/types@^7.29.0":
+"@sentry/types@7.37.2":
   version "7.37.2"
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.37.2.tgz#99fd76230d7c1d3c6901ed4c0bea35be7d6fe26d"
   integrity sha512-SxKQOCX94ZaQM4C2ysNjHdJsjYapu/NYZCz1cnPyCdDvYfhwiVge1uq6ZHiQ/ARfxAAOmc3R4Mh3VvEz7WUOdw==
+
+"@sentry/types@^7.73.0":
+  version "7.73.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.73.0.tgz#6d811bbe413d319df0a592a672d6d72a94a8e716"
+  integrity sha512-/v8++bly8jW7r4cP2wswYiiVpn7eLLcqwnfPUMeCQze4zj3F3nTRIKc9BGHzU0V+fhHa3RwRC2ksqTGq1oJMDg==
 
 "@sentry/utils@7.37.2":
   version "7.37.2"
@@ -17929,7 +17934,7 @@ zen-observable@^0.8.0:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.9.tgz#0475c760ff0eda046bbdfa4dc3f95d392807ac53"
   integrity sha512-Y9kPzjGvIZ5jchSlqlCpBW3I82zBBL4z+ulXDRVA1NwsKzjt5kwAi+gOYIy0htNkfuehGZZtP5mRXHRV6TjDWw==
 
-zod@^3.22.2:
-  version "3.22.3"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.3.tgz#2fbc96118b174290d94e8896371c95629e87a060"
-  integrity sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==
+zod@^3.22.3:
+  version "3.22.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
+  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
