@@ -144,7 +144,6 @@
     "react-native-android-open-settings": "^1.3.0",
     "react-native-auth0": "^2.17.4",
     "react-native-bip39": "https://github.com/celo-org/react-native-bip39#65facae",
-    "react-native-blind-threshold-bls": "https://github.com/valora-inc/react-native-blind-threshold-bls#e7305cc",
     "react-native-camera": "^4.2.1",
     "react-native-config": "^1.5.1",
     "react-native-contacts": "https://github.com/celo-org/react-native-contacts#9940121",

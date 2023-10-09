@@ -503,8 +503,6 @@ PODS:
   - react-native-adjust (4.33.0):
     - Adjust (= 4.33.3)
     - React-Core
-  - react-native-blind-threshold-bls (1.0.0):
-    - React-Core
   - react-native-camera (4.2.1):
     - React-Core
     - react-native-camera/RCT (= 4.2.1)
@@ -826,7 +824,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-adjust (from `../node_modules/react-native-adjust`)
-  - react-native-blind-threshold-bls (from `../node_modules/react-native-blind-threshold-bls`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
@@ -997,8 +994,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-adjust:
     :path: "../node_modules/react-native-adjust"
-  react-native-blind-threshold-bls:
-    :path: "../node_modules/react-native-blind-threshold-bls"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-config:
@@ -1193,7 +1188,6 @@ SPEC CHECKSUMS:
   React-jsinspector: ec4dcbfb1f4e72f04f826a0301eceee5fa7ca540
   React-logger: 35538accacf2583693fbc3ee8b53e69a1776fcee
   react-native-adjust: 5f5966b51459bf8cb074bf8ebc1307a2bfb7b1da
-  react-native-blind-threshold-bls: 96b94b001aca9386ab033b26741614046044e80d
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
