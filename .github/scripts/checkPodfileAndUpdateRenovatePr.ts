@@ -29,6 +29,9 @@ if (
   $.exec('git config user.email "valorabot@valoraapp.com"')
   $.exec('git config user.name "valora-bot"')
   $.exec('git commit -m "update podfile.lock"')
+
+  // ensure that we are using ssh
+  $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
   $.exec(`git push --set-upstream origin ${branchName}`)
 } else {
   console.log('Not a renovate PR')
