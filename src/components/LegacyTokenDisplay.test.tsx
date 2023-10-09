@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import LegacyTokenDisplay, { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
@@ -18,6 +18,7 @@ import {
   mockCeloTokenId,
   mockCeloAddress,
 } from 'test/values'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))
