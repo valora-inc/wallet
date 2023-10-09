@@ -1323,4 +1323,8 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'requireCPV'),
   }),
+  157: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'decentralizedVerificationEnabled'),
+  }),
 }
