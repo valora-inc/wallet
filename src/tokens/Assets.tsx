@@ -61,11 +61,7 @@ import {
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import {
-  getSupportedNetworkIdsForTokenBalances,
-  getTokenAnalyticsProps,
-  sortByUsdBalance,
-} from 'src/tokens/utils'
+import { getSupportedNetworkIdsForTokenBalances, getTokenAnalyticsProps } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 const NUM_OF_NFTS_PER_ROW = 2
@@ -263,7 +259,6 @@ function AssetsScreen({ navigation, route }: Props) {
     )
   }
 
-  const tokenItems = useMemo(() => tokens.sort(sortByUsdBalance), [tokens])
   const positionSections = useMemo(() => {
     const positionsByDapp = new Map<string, Position[]>()
     positions.forEach((position) => {
@@ -286,7 +281,7 @@ function AssetsScreen({ navigation, route }: Props) {
 
   const sections =
     activeTab === AssetTabType.Tokens
-      ? [{ data: tokenItems }]
+      ? [{ data: tokens }]
       : activeTab === AssetTabType.Positions
       ? positionSections
       : nfts.length
