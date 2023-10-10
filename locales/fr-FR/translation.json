@@ -1836,6 +1836,19 @@
     "message": "Introduction d'une nouvelle façon de réclamer des récompenses, de consulter les alertes et de voir les mises à jour en un seul endroit.",
     "cta": "Je l'ai"
   },
+  "tokenDetails": {
+    "yourBalance": "Ton équilibre",
+    "learnMore": "En savoir plus sur {{tokenName}}",
+    "priceUnavailable": "Prix non disponible",
+    "priceDeltaSuffix": "Aujourd'hui",
+    "actions": {
+      "send": "Envoyer",
+      "swap": "Échanger",
+      "add": "Ajouter",
+      "withdraw": "Retirer",
+      "more": "Plus d'informations"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
