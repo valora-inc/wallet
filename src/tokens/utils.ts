@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { TokenProperties } from 'src/analytics/Properties'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -127,8 +127,7 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
 }
 
 export function showAssetDetailsScreen() {
-  // TODO(ACT-919): get from feature gate
-  return false
+  return getFeatureGate(StatsigFeatureGates.SHOW_ASSET_PAGE_REDESIGN)
 }
 
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
