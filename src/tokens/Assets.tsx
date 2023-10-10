@@ -84,7 +84,7 @@ const assetIsPosition = (asset: Position | TokenBalance | Nft[]): asset is Posit
 
 /**
  * Helper function to group an array into chunks of size n
- * Used with Nfts to group them into pairs for use in the section list
+ * Used with Nfts to group them for use in the section list
  */
 const groupArrayByN = (arr: any[], n: number) => {
   return arr.reduce((result, item, index) => {
