@@ -51,7 +51,7 @@ export function useMaxSendAmount(
   const dispatch = useDispatch()
   const balance = useTokenInfo(tokenId)?.balance ?? new BigNumber(0)
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const tokenInfo = useTokenInfo(tokenId!)
+  const tokenInfo = useTokenInfo(tokenId)
 
   // Optionally Keep Fees Up to Date
   useEffect(() => {
