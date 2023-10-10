@@ -1840,6 +1840,19 @@
     "message": "Представляем новый способ заявлять о вознаграждениях, просматривать оповещения и видеть обновления в одном месте",
     "cta": "Понял"
   },
+  "tokenDetails": {
+    "yourBalance": "Твой баланс",
+    "learnMore": "Узнай больше о сайте {{tokenName}}",
+    "priceUnavailable": "Цена недоступна",
+    "priceDeltaSuffix": "Сегодня",
+    "actions": {
+      "send": "Отправить",
+      "swap": "Обменять",
+      "add": "Внести",
+      "withdraw": "Вывести",
+      "more": "Подробнее"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
