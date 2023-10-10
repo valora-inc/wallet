@@ -2497,6 +2497,7 @@
                 "SwapReviewScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
+                "TokenDetails",
                 "TransactionDetailsScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
@@ -2888,9 +2889,6 @@
                 "rampCashInButtonExpEnabled": {
                     "type": "boolean"
                 },
-                "requireCPV": {
-                    "type": "boolean"
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -2984,7 +2982,6 @@
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
-                "requireCPV",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
@@ -4187,10 +4184,22 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "infoUrl": {
+                    "type": "string"
+                },
+                "isCashInEligible": {
+                    "type": "boolean"
+                },
+                "isCashOutEligible": {
+                    "type": "boolean"
+                },
                 "isCoreToken": {
                     "type": "boolean"
                 },
                 "isNative": {
+                    "type": "boolean"
+                },
+                "isStableCoin": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4213,6 +4222,9 @@
                 },
                 "priceUsd": {
                     "type": "string"
+                },
+                "showZeroBalance": {
+                    "type": "boolean"
                 },
                 "symbol": {
                     "type": "string"

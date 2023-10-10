@@ -49,8 +49,8 @@ jobs:
       - name: Install CocoaPods dependencies
         working-directory: ios
         run: bundle exec pod install || bundle exec pod install --repo-update
-      - name: Fail if someone forgot to commit "Podfile.lock"
-        run: git diff --exit-code
+      - name: Fail if someone forgot to commit "Podfile.lock" and push changes if PR is from renovate
+        run: yarn ts-node ./.github/scripts/checkPodfileAndUpdateRenovatePr.ts
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create iOS E2E .env File

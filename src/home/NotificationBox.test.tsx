@@ -100,7 +100,7 @@ const superchargeSetUp = {
     account: 'account',
   },
   app: {
-    numberVerified: true,
+    phoneNumberVerified: true,
   },
   supercharge: {
     availableRewards: [testReward],
@@ -164,7 +164,6 @@ describe('NotificationBox', () => {
   it('renders reverify notification if decentrally verified and not CPV', () => {
     const store = createMockStore({
       app: {
-        requireCPV: true,
         numberVerified: true,
         phoneNumberVerified: false,
       },
@@ -496,7 +495,7 @@ describe('NotificationBox', () => {
       },
       app: {
         ...superchargeWithoutRewardsSetUp.app,
-        numberVerified: false,
+        phoneNumberVerified: false,
       },
     })
     const { queryByTestId, getByTestId } = render(

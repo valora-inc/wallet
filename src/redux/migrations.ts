@@ -1319,4 +1319,8 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'paymentDeepLinkHandler'),
   }),
+  156: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'requireCPV'),
+  }),
 }

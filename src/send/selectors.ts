@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { numberVerifiedCentrallySelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
@@ -29,7 +29,7 @@ export const inviteRewardsTypeSelector = (state: RootState) => {
 }
 
 export const inviteRewardsActiveSelector = createSelector(
-  [inviteRewardsTypeSelector, numberVerifiedCentrallySelector],
+  [inviteRewardsTypeSelector, phoneNumberVerifiedSelector],
   (inviteRewardsType, numberCentrallyVerified) =>
     inviteRewardsType !== InviteRewardsType.NONE && numberCentrallyVerified
 )

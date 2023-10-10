@@ -5,20 +5,20 @@ import {
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
 import {
-  numberVerifiedCentrallySelector,
+  phoneNumberVerifiedSelector,
   skipVerificationSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import { getExperimentParams } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments } from 'src/statsig/types'
-import { updateStatsigAndNavigate } from 'src/onboarding/actions'
-import { StackParamList } from 'src/navigator/types'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
@@ -79,7 +79,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const choseToRestoreAccount = choseToRestoreAccountSelector(state)
   const supportedBiometryType = supportedBiometryTypeSelector(state)
   const skipVerification = skipVerificationSelector(state)
-  const numberAlreadyVerifiedCentrally = numberVerifiedCentrallySelector(state)
+  const numberAlreadyVerifiedCentrally = phoneNumberVerifiedSelector(state)
   const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
   )

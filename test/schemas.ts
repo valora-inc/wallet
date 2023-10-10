@@ -2648,6 +2648,15 @@ export const v155Schema = {
   app: _.omit(v154Schema.app, 'paymentDeepLinkHandler'),
 }
 
+export const v156Schema = {
+  ...v155Schema,
+  _persist: {
+    ...v155Schema._persist,
+    version: 156,
+  },
+  app: _.omit(v155Schema.app, 'requireCPV'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v155Schema as Partial<RootState>
+  return v156Schema as Partial<RootState>
 }

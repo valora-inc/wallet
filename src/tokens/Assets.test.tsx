@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -14,6 +15,9 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockNftAllFields,
+  mockNftMinimumFields,
+  mockNftNullMetadata,
   mockPositions,
   mockShortcuts,
 } from 'test/values'
@@ -21,9 +25,9 @@ import {
 jest.mock('src/statsig', () => {
   return {
     getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn().mockReturnValue({
-      show_native_tokens: false,
-    }),
+    getDynamicConfigParams: jest.fn(() => ({
+      showBalances: ['celo-alfajores'],
+    })),
   }
 })
 
@@ -80,7 +84,20 @@ const storeWithPositionsAndClaimableRewards = {
   },
 }
 
+const storeWithNfts = {
+  ...storeWithTokenBalances,
+  nfts: {
+    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nftsLoading: false,
+    nftsError: null,
+  },
+}
+
 describe('AssetsScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders tokens and collectibles tabs when positions is disabled', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const store = createMockStore(storeWithPositions)
@@ -156,7 +173,7 @@ describe('AssetsScreen', () => {
   })
 
   it('renders collectibles on selecting the collectibles tab', () => {
-    const store = createMockStore(storeWithTokenBalances)
+    const store = createMockStore(storeWithNfts)
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
@@ -166,12 +183,51 @@ describe('AssetsScreen', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('NftItem')).toHaveLength(0)
 
     fireEvent.press(getByText('assets.tabBar.collectibles'))
 
-    // TODO(ACT-918): assert nfts are displayed here
     expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('NftItem')).toHaveLength(2)
+  })
+
+  it('renders collectibles error', () => {
+    const store = createMockStore({
+      nfts: {
+        nftsLoading: false,
+        nfts: [],
+        nftsError: 'Error fetching nfts',
+      },
+    })
+
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+    expect(getByTestId('Assets/NftsLoadError')).toBeTruthy()
+  })
+
+  it('renders no collectables text', () => {
+    const store = createMockStore({
+      nfts: {
+        nftsLoading: false,
+        nfts: [],
+        nftsError: null,
+      },
+    })
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+    expect(getByText('nftGallery.noNfts')).toBeTruthy()
   })
 
   it('renders dapp positions on selecting the tab', () => {
@@ -196,6 +252,24 @@ describe('AssetsScreen', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+  })
+
+  it('clicking a token navigates to the token details screen and fires analytics event', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore(storeWithPositions)
+
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
+
+    fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.TokenDetails, { tokenId: mockCusdTokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
   it('hides claim rewards if feature gate is false', () => {

@@ -6,7 +6,7 @@ import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedCentrallySelector, skipVerificationSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, skipVerificationSelector } from 'src/app/selectors'
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -15,7 +15,7 @@ import {
   importBackupPhraseFailure,
   importBackupPhraseSuccess,
 } from 'src/import/actions'
-import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
+import { MNEMONIC_AUTOCORRECT_TIMEOUT, importBackupPhraseSaga } from 'src/import/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
@@ -127,7 +127,7 @@ describe('Import wallet saga', () => {
           [select(recoveringFromStoreWipeSelector), false],
           [select(skipVerificationSelector), false],
           [call(initializeAccountSaga), undefined],
-          [select(numberVerifiedCentrallySelector), false],
+          [select(phoneNumberVerifiedSelector), false],
         ])
         .put(setBackupCompleted())
         .put(refreshAllBalances())
