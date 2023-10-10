@@ -570,7 +570,7 @@ interface SendEventsProperties {
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
-        underlyingTokenAddress: string
+        underlyingTokenAddress: string | null
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
@@ -689,7 +689,7 @@ interface RequestEventsProperties {
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
-        underlyingTokenAddress: string
+        underlyingTokenAddress: string | null
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null

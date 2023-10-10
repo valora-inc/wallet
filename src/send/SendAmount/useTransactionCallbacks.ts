@@ -78,7 +78,7 @@ function useTransactionCallbacks({
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
       localCurrencyAmount: localAmount?.toString() ?? null,
-      underlyingTokenAddress: tokenInfo!.address!,
+      underlyingTokenAddress: tokenInfo?.address ?? null,
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: usdAmount?.toString() ?? null,
