@@ -24,10 +24,15 @@ if (
   lastCommitAuthor === RENOVATE_USER
 ) {
   console.log('Renovate PR, pushing Podfile changes')
+  // Since github checkouts the PR as a single "merge commit", this doesn't have
+  // the complete PR branch. Stash the changes and reset the branch to the HEAD
+  // of the PR and apply changes on top.
+  $.exec('git stash')
   $.exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
   $.exec(`git checkout -b ${branchName}`)
   $.exec('git fetch')
-  $.exec(`git pull origin ${branchName} --ff-only`)
+  $.exec(`git reset --hard origin/${branchName}`)
+  $.exec('git stash pop')
   // this assumes the diff is from Podfile.lock only
   $.exec('git add ios/Podfile.lock')
   $.exec('git config user.email "valorabot@valoraapp.com"')
