@@ -98,7 +98,6 @@ export const DynamicConfigs = {
       showSend: [networkConfig.defaultNetworkId],
       showSwap: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
-      showSend: [networkConfig.defaultNetworkId],
     },
   },
 }
