@@ -1834,5 +1834,18 @@
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
     "cta": "Got it"
   },
+  "tokenDetails": {
+    "yourBalance": "Your balance",
+    "learnMore": "Learn more about {{tokenName}}",
+    "priceUnavailable": "Price Unavailable",
+    "priceDeltaSuffix": "Today",
+    "actions": {
+      "send": "Gửi",
+      "swap": "Trao đổi",
+      "add": "Nạp",
+      "withdraw": "Rút tiền",
+      "more": "More"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
