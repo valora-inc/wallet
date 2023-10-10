@@ -67,7 +67,8 @@ const DEVICE_WIDTH_BREAKPOINT = 340
 const NUM_OF_NFTS_PER_ROW = 2
 
 const nftImageSize =
-  ((variables.width - Spacing.Thick24 * 2) - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW - 1)) / NUM_OF_NFTS_PER_ROW
+  (variables.width - Spacing.Thick24 * 2 - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW - 1)) /
+  NUM_OF_NFTS_PER_ROW
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
 interface SectionData {
