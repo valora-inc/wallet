@@ -67,7 +67,7 @@ const DEVICE_WIDTH_BREAKPOINT = 340
 const NUM_OF_NFTS_PER_ROW = 2
 
 const nftImageSize =
-  (variables.width - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW + 1)) / NUM_OF_NFTS_PER_ROW
+  ((variables.width - Spacing.Thick24 * 2) - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW - 1)) / NUM_OF_NFTS_PER_ROW
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
 interface SectionData {
@@ -422,7 +422,7 @@ function AssetsScreen({ navigation, route }: Props) {
           activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
           activeTab === AssetTabType.Collectibles && nftsError
             ? { alignItems: 'center' }
-            : { paddingLeft: Spacing.Regular16 },
+            : { paddingLeft: Spacing.Thick24 },
         ]}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
