@@ -1,6 +1,6 @@
 import * as $ from 'shelljs'
 
-const RENOVATE_USER = 'Satish Ravi'
+const RENOVATE_USER = 'renovate[bot]'
 
 const exitCode = $.exec('git diff --exit-code').code
 if (exitCode === 0) {
@@ -20,7 +20,7 @@ const branchName = process.env.GITHUB_HEAD_REF
 // generated every time).
 if (
   process.env.GITHUB_EVENT_NAME === 'pull_request' &&
-  branchName?.startsWith('satish/') &&
+  branchName?.startsWith('renovate/') &&
   lastCommitAuthor === RENOVATE_USER
 ) {
   console.log('Renovate PR, pushing Podfile changes')
