@@ -6,7 +6,6 @@ import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -44,41 +43,22 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
           <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
           <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
         </View>
-        {tokenInfo.tokenId ? (
-          <View style={styles.tokenBalanceContainer}>
-            <TokenDisplay
-              style={styles.localBalance}
-              amount={tokenInfo.balance}
-              tokenId={tokenInfo.tokenId}
-              showLocalAmount={true}
-              testID={`Local${tokenInfo.symbol}Balance`}
-            />
-            <TokenDisplay
-              style={styles.currencyBalance}
-              amount={tokenInfo.balance}
-              tokenId={tokenInfo.tokenId}
-              showLocalAmount={false}
-              testID={`${tokenInfo.symbol}Balance`}
-            />
-          </View>
-        ) : (
-          <View style={styles.tokenBalanceContainer}>
-            <LegacyTokenDisplay
-              style={styles.localBalance}
-              amount={tokenInfo.balance}
-              tokenAddress={tokenInfo.address}
-              showLocalAmount={true}
-              testID={`Local${tokenInfo.symbol}Balance`}
-            />
-            <LegacyTokenDisplay
-              style={styles.currencyBalance}
-              amount={tokenInfo.balance}
-              tokenAddress={tokenInfo.address}
-              showLocalAmount={false}
-              testID={`${tokenInfo.symbol}Balance`}
-            />
-          </View>
-        )}
+        <View style={styles.tokenBalanceContainer}>
+          <TokenDisplay
+            style={styles.localBalance}
+            amount={tokenInfo.balance}
+            tokenId={tokenInfo.tokenId}
+            showLocalAmount={true}
+            testID={`Local${tokenInfo.symbol}Balance`}
+          />
+          <TokenDisplay
+            style={styles.currencyBalance}
+            amount={tokenInfo.balance}
+            tokenId={tokenInfo.tokenId}
+            showLocalAmount={false}
+            testID={`${tokenInfo.symbol}Balance`}
+          />
+        </View>
       </View>
     </Touchable>
   )
