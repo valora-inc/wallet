@@ -74,9 +74,6 @@ export const WALLET_BALANCE_UPPER_BOUND = new BigNumber('1e10')
 
 export const TIME_UNTIL_TOKEN_INFO_BECOMES_STALE = 12 * ONE_HOUR_IN_MILLIS
 
-// The amount of time
-export const TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES = ONE_HOUR_IN_MILLIS
-
 export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'
     ? 'https://forno.celo.org/'
