@@ -24,6 +24,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
+import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
@@ -31,6 +32,14 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import NftMedia from 'src/nfts/NftMedia'
+import NftsLoadError from 'src/nfts/NftsLoadError'
+import {
+  nftsErrorSelector,
+  nftsLoadingSelector,
+  nftsWithMetadataSelector,
+} from 'src/nfts/selectors'
+import { Nft, NftOrigin } from 'src/nfts/types'
 import {
   positionsSelector,
   positionsWithClaimableRewardsSelector,
@@ -59,6 +68,11 @@ import {
 } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
+const NUM_OF_NFTS_PER_ROW = 2
+
+const nftImageSize =
+  (variables.width - Spacing.Thick24 * 2 - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW - 1)) /
+  NUM_OF_NFTS_PER_ROW
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
 interface SectionData {
@@ -66,12 +80,27 @@ interface SectionData {
 }
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position, SectionData>>(
+  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position | Nft[], SectionData>>(
     SectionList
   )
 
-const assetIsPosition = (asset: Position | TokenBalance): asset is Position =>
+const assetIsPosition = (asset: Position | TokenBalance | Nft[]): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
+
+/**
+ * Helper function to group an array into chunks of size n
+ * Used with Nfts to group them for use in the section list
+ */
+const groupArrayByN = (arr: any[], n: number) => {
+  return arr.reduce((result, item, index) => {
+    if (index % n === 0) {
+      result.push([item])
+    } else {
+      result[Math.floor(index / n)].push(item)
+    }
+    return result
+  }, [])
+}
 
 export enum AssetTabType {
   Tokens = 0,
@@ -114,6 +143,13 @@ function AssetsScreen({ navigation, route }: Props) {
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
+
+  // NFT Selectors
+  const nftsError = useSelector(nftsErrorSelector)
+  const nftsLoading = useSelector(nftsLoadingSelector)
+  const nfts = useSelector(nftsWithMetadataSelector)
+  // Group nfts for use in the section list
+  const nftsGrouped = groupArrayByN(nfts, NUM_OF_NFTS_PER_ROW)
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
@@ -238,7 +274,7 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position, SectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position | Nft, SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -253,12 +289,14 @@ function AssetsScreen({ navigation, route }: Props) {
       ? [{ data: tokenItems }]
       : activeTab === AssetTabType.Positions
       ? positionSections
+      : nfts.length
+      ? [{ data: nftsGrouped }]
       : []
 
   const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalance | Position, SectionData>
+    section: SectionListData<TokenBalance | Position | Nft[], SectionData>
   }) => {
     if (section.appName) {
       return (
@@ -272,31 +310,102 @@ function AssetsScreen({ navigation, route }: Props) {
     return null
   }
 
-  const keyExtractor = (item: TokenBalance | Position) => {
+  const keyExtractor = (item: TokenBalance | Position | Nft[]) => {
     if (assetIsPosition(item)) {
       return item.address
+    } else if ('balance' in item) {
+      return item.tokenId
+    } else {
+      return `${item[0]!.contractAddress}-${item[0]!.tokenId}`
     }
-    return item.tokenId
   }
 
-  const renderAssetItem = ({ item }: { item: TokenBalance | Position }) => {
+  const NftItem = ({ item, index }: { item: Nft; index: number }) => {
+    return (
+      <View testID="NftItem" style={styles.nftsTouchableContainer}>
+        <Touchable
+          borderless={false}
+          onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+          style={styles.nftsTouchableIcon}
+        >
+          <NftMedia
+            nft={item}
+            testID="NftGallery/NftImage"
+            width={nftImageSize}
+            height={nftImageSize}
+            ErrorComponent={
+              <View style={styles.nftsErrorView}>
+                <ImageErrorIcon />
+                {item.metadata?.name && (
+                  <Text numberOfLines={2} style={styles.nftsNoMetadataText}>
+                    {item.metadata.name}
+                  </Text>
+                )}
+              </View>
+            }
+            origin={NftOrigin.Assets}
+            borderRadius={Spacing.Regular16}
+            mediaType="image"
+          />
+        </Touchable>
+      </View>
+    )
+  }
+
+  const NftGroup = ({ item }: { item: Nft[] }) => {
+    return (
+      <View style={styles.nftsPairingContainer}>
+        {item.map((nft, index) => (
+          <NftItem key={index} item={nft} index={index} />
+        ))}
+      </View>
+    )
+  }
+
+  const renderAssetItem = ({
+    item,
+    index,
+  }: {
+    item: TokenBalance | Position | Nft[]
+    index: number
+  }) => {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
+    } else if ('balance' in item) {
+      return (
+        <TokenBalanceItem
+          token={item}
+          onPress={() => {
+            navigate(Screens.TokenDetails, { tokenId: item.tokenId })
+            ValoraAnalytics.track(AssetsEvents.tap_asset, {
+              ...getTokenAnalyticsProps(item),
+              title: item.symbol,
+              description: item.name,
+              assetType: 'token',
+            })
+          }}
+        />
+      )
+    } else {
+      return <NftGroup item={item} />
     }
-    return (
-      <TokenBalanceItem
-        token={item}
-        onPress={() => {
-          navigate(Screens.TokenDetails, { tokenId: item.tokenId })
-          ValoraAnalytics.track(AssetsEvents.tap_asset, {
-            ...getTokenAnalyticsProps(item),
-            title: item.symbol,
-            description: item.name,
-            assetType: 'token',
-          })
-        }}
-      />
-    )
+  }
+
+  const renderEmptyState = () => {
+    switch (activeTab) {
+      case AssetTabType.Tokens:
+      case AssetTabType.Positions:
+        return null
+      case AssetTabType.Collectibles:
+        if (nftsError) return <NftsLoadError testID="Assets/NftsLoadError" />
+        else if (nftsLoading) return null
+        else
+          return (
+            <View style={{ marginTop: listHeaderHeight }}>
+              <Text style={styles.noNftsText}>{t('nftGallery.noNfts')}</Text>
+            </View>
+          )
+    }
   }
 
   const tabBarItems = useMemo(() => {
@@ -323,10 +432,16 @@ function AssetsScreen({ navigation, route }: Props) {
       </Animated.View>
 
       <AnimatedSectionList
-        contentContainerStyle={{
-          paddingBottom: insets.bottom,
-          opacity: listHeaderHeight > 0 ? 1 : 0,
-        }}
+        contentContainerStyle={[
+          {
+            paddingBottom: insets.bottom,
+            opacity: listHeaderHeight > 0 ? 1 : 0,
+          },
+          activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
+          activeTab === AssetTabType.Collectibles && nftsError
+            ? { alignItems: 'center' }
+            : { paddingLeft: Spacing.Thick24 },
+        ]}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
         // @ts-ignore can't get the SectionList to accept a union type :(
@@ -336,9 +451,14 @@ function AssetsScreen({ navigation, route }: Props) {
         keyExtractor={keyExtractor}
         onScroll={handleScroll}
         scrollEventThrottle={16}
+        ItemSeparatorComponent={() =>
+          activeTab === AssetTabType.Collectibles ? (
+            <View style={{ height: Spacing.Regular16 }} />
+          ) : null
+        }
         ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
+        ListEmptyComponent={renderEmptyState}
       />
-      {/* TODO(ACT-918): render collectibles */}
       {showClaimRewards && (
         <Animated.View
           style={[
@@ -453,6 +573,38 @@ const styles = StyleSheet.create({
   tabBarItemSelected: {
     ...typeScale.labelMedium,
     color: Colors.dark,
+  },
+  nftsPairingContainer: {
+    flexDirection: 'row',
+    gap: Spacing.Regular16,
+  },
+  nftsContentContainer: {
+    alignItems: 'flex-start',
+  },
+  nftsErrorView: {
+    width: nftImageSize,
+    height: nftImageSize,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.gray2,
+    borderRadius: Spacing.Regular16,
+  },
+  nftsNoMetadataText: {
+    ...typeScale.titleLarge,
+    textAlign: 'center',
+  },
+  nftsTouchableContainer: {
+    overflow: 'hidden',
+    borderRadius: Spacing.Regular16,
+  },
+  nftsTouchableIcon: {
+    borderRadius: Spacing.Regular16,
+  },
+  noNftsText: {
+    ...typeScale.labelMedium,
+    color: Colors.gray3,
+    textAlign: 'center',
   },
 })
 

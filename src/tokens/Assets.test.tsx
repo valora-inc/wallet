@@ -15,6 +15,9 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockNftAllFields,
+  mockNftMinimumFields,
+  mockNftNullMetadata,
   mockPositions,
   mockShortcuts,
 } from 'test/values'
@@ -78,6 +81,15 @@ const storeWithPositionsAndClaimableRewards = {
   positions: {
     positions: mockPositions,
     shortcuts: mockShortcuts,
+  },
+}
+
+const storeWithNfts = {
+  ...storeWithTokenBalances,
+  nfts: {
+    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nftsLoading: false,
+    nftsError: null,
   },
 }
 
@@ -161,7 +173,7 @@ describe('AssetsScreen', () => {
   })
 
   it('renders collectibles on selecting the collectibles tab', () => {
-    const store = createMockStore(storeWithTokenBalances)
+    const store = createMockStore(storeWithNfts)
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
@@ -171,12 +183,51 @@ describe('AssetsScreen', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('NftItem')).toHaveLength(0)
 
     fireEvent.press(getByText('assets.tabBar.collectibles'))
 
-    // TODO(ACT-918): assert nfts are displayed here
     expect(queryAllByTestId('TokenBalanceItem')).toHaveLength(0)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+    expect(queryAllByTestId('NftItem')).toHaveLength(2)
+  })
+
+  it('renders collectibles error', () => {
+    const store = createMockStore({
+      nfts: {
+        nftsLoading: false,
+        nfts: [],
+        nftsError: 'Error fetching nfts',
+      },
+    })
+
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+    expect(getByTestId('Assets/NftsLoadError')).toBeTruthy()
+  })
+
+  it('renders no collectables text', () => {
+    const store = createMockStore({
+      nfts: {
+        nftsLoading: false,
+        nfts: [],
+        nftsError: null,
+      },
+    })
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+    expect(getByText('nftGallery.noNfts')).toBeTruthy()
   })
 
   it('renders dapp positions on selecting the tab', () => {
