@@ -7,7 +7,12 @@ import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockCeloTokenId, mockPoofTokenId, mockTokenBalances } from 'test/values'
+import {
+  exchangePriceHistory,
+  mockCeloTokenId,
+  mockPoofTokenId,
+  mockTokenBalances,
+} from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(() => {
@@ -41,6 +46,7 @@ describe('TokenDetails', () => {
     expect(getByText('tokenDetails.yourBalance')).toBeTruthy()
     expect(getByTestId('TokenBalanceItem')).toBeTruthy()
     expect(queryByTestId('TokenDetails/LearnMore')).toBeFalsy()
+    expect(queryByTestId('TokenDetails/Chart')).toBeFalsy()
   })
 
   it('renders learn more if token has infoUrl', () => {
@@ -159,6 +165,27 @@ describe('TokenDetails', () => {
 
     expect(getByTestId('TokenDetails/PriceDelta')).toBeTruthy()
     expect(queryByText('tokenDetails.priceUnavailable')).toBeFalsy()
+  })
+
+  it('renders chart if token is native (celo)', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockCeloTokenId]: mockTokenBalances[mockCeloTokenId],
+        },
+      },
+      exchange: {
+        history: exchangePriceHistory,
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    expect(getByTestId('TokenDetails/Chart')).toBeTruthy()
   })
 
   it('renders send action only if token has balance, is not swappable and not a CICO token', () => {
