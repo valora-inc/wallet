@@ -605,7 +605,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     color: Colors.gray3,
     textAlign: 'center',
-    paddingHorizontal: Spacing.Regular16,
   },
 })
 
