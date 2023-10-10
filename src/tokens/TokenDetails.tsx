@@ -202,10 +202,11 @@ function Actions({ token }: { token: TokenBalance }) {
   }
 
   // if there are 4 actions or 3 actions and one of them is withdraw, show the
-  // More button. The withdraw condition exists to avoid the overflow
+  // More button. The withdraw condition exists to avoid the visual overflow,
+  // since the icon + withdraw text is bigger
   const actionButtons =
     actions.length > MAX_ACTION_BUTTONS || (actions.length === MAX_ACTION_BUTTONS && showWithdraw)
-      ? [actions[0], actions[1], moreAction]
+      ? [...actions.slice(0, MAX_ACTION_BUTTONS), moreAction]
       : actions
 
   return (
