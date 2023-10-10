@@ -1,8 +1,13 @@
 import BigNumber from 'bignumber.js'
+import DeviceInfo from 'react-native-device-info'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import {
+  tokenCompareByUsdBalanceThenByName,
   tokensByAddressSelector,
   tokensByCurrencySelector,
   tokensByIdSelectorWrapper,
@@ -11,15 +16,17 @@ import {
   tokensWithUsdValueSelectorWrapper,
   totalTokenBalanceSelectorWrapper,
 } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
   getSupportedNetworkIdsForTokenBalances,
+  isCicoToken,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
-import { TokenBalance } from 'src/tokens/slice'
 
 /**
  * @deprecated use useTokenInfo and select using tokenId
@@ -73,6 +80,51 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   } else {
     return true
   }
+}
+
+export function useSendableTokens() {
+  const networkIdsForSend = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showSend
+  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSend))
+  return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
+}
+
+export function useSwappableTokens() {
+  const appVersion = DeviceInfo.getVersion()
+  const networkIdsForSwap = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showSwap
+  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSwap))
+  return tokens
+    .filter(
+      (tokenInfo) =>
+        tokenInfo.isSwappable ||
+        (tokenInfo.minimumAppVersionToSwap &&
+          !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+    )
+    .sort(tokenCompareByUsdBalanceThenByName)
+}
+
+export function useCashInTokens() {
+  const networkIdsForCico = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showCico
+  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
+  return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
+}
+
+export function useCashOutTokens() {
+  const networkIdsForCico = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showCico
+  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
+  return tokens.filter(
+    (tokenInfo) =>
+      tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
+      tokenInfo.isCashOutEligible &&
+      isCicoToken(tokenInfo.symbol)
+  )
 }
 
 export function useTokenInfo(tokenId?: string): TokenBalance | undefined {

@@ -1837,5 +1837,18 @@
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
     "cta": "Got it"
+  },
+  "tokenDetails": {
+    "yourBalance": "Your balance",
+    "learnMore": "Learn more about {{tokenName}}",
+    "priceUnavailable": "Price Unavailable",
+    "priceDeltaSuffix": "Today",
+    "actions": {
+      "send": "Send",
+      "swap": "Swap",
+      "add": "Add",
+      "withdraw": "Withdraw",
+      "more": "More"
+    }
   }
 }

@@ -52,7 +52,11 @@ import {
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
+import {
+  getSupportedNetworkIdsForTokenBalances,
+  getTokenAnalyticsProps,
+  sortByUsdBalance,
+} from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 
@@ -279,7 +283,20 @@ function AssetsScreen({ navigation, route }: Props) {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
     }
-    return <TokenBalanceItem token={item} />
+    return (
+      <TokenBalanceItem
+        token={item}
+        onPress={() => {
+          navigate(Screens.TokenDetails, { tokenId: item.tokenId })
+          ValoraAnalytics.track(AssetsEvents.tap_asset, {
+            ...getTokenAnalyticsProps(item),
+            title: item.symbol,
+            description: item.name,
+            assetType: 'token',
+          })
+        }}
+      />
+    )
   }
 
   const tabBarItems = useMemo(() => {
