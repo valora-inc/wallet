@@ -52,14 +52,14 @@ export function useTokensForAssetsScreen() {
   return tokens
     .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
     .sort((token1, token2) => {
+      // Sorts by usd balance, then token balance, then zero balance natives by
+      // network id, then zero balance non natives by network id
       const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
-
       if (usdBalanceCompare) {
         return usdBalanceCompare
       }
 
       const balanceCompare = token2.balance.comparedTo(token1.balance)
-
       if (balanceCompare) {
         return balanceCompare
       }
