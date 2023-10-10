@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -93,6 +94,10 @@ const storeWithNfts = {
 }
 
 describe('AssetsScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders tokens and collectibles tabs when positions is disabled', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const store = createMockStore(storeWithPositions)
@@ -247,6 +252,24 @@ describe('AssetsScreen', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+  })
+
+  it('clicking a token navigates to the token details screen and fires analytics event', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore(storeWithPositions)
+
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
+
+    fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.TokenDetails, { tokenId: mockCusdTokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
   it('hides claim rewards if feature gate is false', () => {

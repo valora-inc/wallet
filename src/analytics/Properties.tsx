@@ -68,6 +68,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
+import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
@@ -1320,6 +1321,14 @@ interface TokenBottomSheetEventsProperties {
   }
 }
 
+export interface TokenProperties {
+  symbol: string
+  address: string | null
+  balanceUsd: number
+  networkId: NetworkId
+  tokenId: string
+}
+
 interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
@@ -1342,16 +1351,16 @@ interface AssetsEventsProperties {
         description: string
         balanceUsd: number
       }
-    | {
+    | ({
         assetType: 'token'
-        address?: string
-        networkId: NetworkId
-        tokenId: string
         title: string // Example: 'cUSD'
         description: string
-        balanceUsd: number
-      }
+      } & TokenProperties)
   [AssetsEvents.tap_claim_rewards]: undefined
+  [AssetsEvents.tap_token_details_action]: {
+    action: TokenDetailsActionName
+  } & TokenProperties
+  [AssetsEvents.tap_token_details_learn_more]: TokenProperties
 }
 
 interface NftsEventsProperties {
