@@ -49,7 +49,7 @@ export function useMaxSendAmount(
   shouldRefresh: boolean = true
 ) {
   const dispatch = useDispatch()
-  const balance = useTokenInfo(tokenId!)?.balance ?? new BigNumber(0)
+  const balance = useTokenInfo(tokenId)?.balance ?? new BigNumber(0)
   const feeEstimates = useSelector(feeEstimatesSelector)
   const tokenInfo = useTokenInfo(tokenId!)
 
