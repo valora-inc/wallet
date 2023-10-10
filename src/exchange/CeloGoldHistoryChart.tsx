@@ -2,7 +2,14 @@ import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { WithTranslation } from 'react-i18next'
-import { ActivityIndicator, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  LayoutChangeEvent,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 import { Circle, G, Line, Text as SvgText } from 'react-native-svg'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -24,10 +31,12 @@ const CHART_WIDTH = variables.width
 const CHART_HEIGHT = 180
 const CHART_MIN_VERTICAL_RANGE = 0.1 // one cent
 const CHART_DOMAIN_PADDING = { y: [30, 30] as [number, number], x: [5, 5] as [number, number] }
-const CHART_PADDING = { left: variables.contentPadding, right: variables.contentPadding }
 
 interface OwnProps {
   testID?: string
+  color?: colors
+  containerStyle?: ViewStyle
+  chartPadding?: number
 }
 
 type Props = WithTranslation & OwnProps
@@ -92,7 +101,8 @@ function ChartAwareSvgText({
 
 function renderPointOnChart(
   chartData: Array<{ amount: number | BigNumber; displayValue: string }>,
-  chartWidth: number
+  chartWidth: number,
+  color: colors
 ) {
   let lowestRateIdx = 0,
     highestRateIdx = 0
@@ -112,7 +122,7 @@ function renderPointOnChart(
         result.push(
           <G key={idx + 'dot'}>
             <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.gray2} strokeWidth="1" />
-            <Circle cx={x} cy={y} r="4" fill={colors.goldUI} />
+            <Circle cx={x} cy={y} r="4" fill={color} />
           </G>
         )
         break
@@ -120,7 +130,7 @@ function renderPointOnChart(
       case chartData.length - 1:
         result.push(
           <G key={idx + 'dot'}>
-            <Circle cx={x} cy={y} r="4" fill={colors.goldUI} />
+            <Circle cx={x} cy={y} r="4" fill={color} />
           </G>
         )
         break
@@ -164,15 +174,21 @@ function renderPointOnChart(
   }
 }
 
-function Loader() {
+function Loader({ color }: { color: colors }) {
   return (
     <View style={styles.loader}>
-      <ActivityIndicator size="large" color={colors.goldUI} />
+      <ActivityIndicator size="large" color={color} />
     </View>
   )
 }
 
-function CeloGoldHistoryChart({ testID, i18n }: Props) {
+function CeloGoldHistoryChart({
+  testID,
+  i18n,
+  color = colors.goldUI,
+  containerStyle,
+  chartPadding = variables.contentPadding,
+}: Props) {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const displayLocalCurrency = useCallback(
     (amount: BigNumber.Value) =>
@@ -193,7 +209,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   }, [])
 
   if (!exchangeHistory.aggregatedExchangeRates?.length) {
-    return <Loader />
+    return <Loader color={color} />
   }
 
   const chartData = exchangeHistory.aggregatedExchangeRates.map((exchangeRate) => {
@@ -210,7 +226,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
     null
   const oldestGoldRateInLocalCurrency = chartData[0].amount
   if (oldestGoldRateInLocalCurrency === null || currentGoldRateInLocalCurrency === null) {
-    return <Loader />
+    return <Loader color={color} />
   }
   // We need displayValue to show min/max on the chart. In case the
   // current value is min/max we do not need to show it once again,
@@ -219,7 +235,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
     amount: currentGoldRateInLocalCurrency,
     displayValue: displayLocalCurrency(currentGoldRateInLocalCurrency),
   })
-  const RenderPoint = renderPointOnChart(chartData, CHART_WIDTH)
+  const RenderPoint = renderPointOnChart(chartData, CHART_WIDTH, color)
 
   const values = chartData.map((el) => el.amount)
   const min = Math.min(...values)
@@ -236,11 +252,11 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   const latestExchangeRate = _.last(exchangeHistory.aggregatedExchangeRates)!
 
   return (
-    <View style={styles.container} onTouchStart={onTap} testID={testID}>
+    <View style={[styles.container, containerStyle]} onTouchStart={onTap} testID={testID}>
       <VictoryGroup
         domainPadding={CHART_DOMAIN_PADDING}
         singleQuadrantDomainPadding={false}
-        padding={CHART_PADDING}
+        padding={{ left: chartPadding, right: chartPadding }}
         width={CHART_WIDTH}
         height={CHART_HEIGHT}
         data={chartData.map((el) => el.amount)}
@@ -252,11 +268,11 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
         <VictoryLine
           interpolation="monotoneX"
           style={{
-            data: { stroke: colors.goldUI },
+            data: { stroke: color },
           }}
         />
       </VictoryGroup>
-      <View style={styles.range}>
+      <View style={[styles.range, { paddingHorizontal: chartPadding }]}>
         <Text style={styles.timeframe}>
           {formatFeedDate(latestExchangeRate.timestamp - exchangeHistory.range, i18n)}
         </Text>
@@ -281,7 +297,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   range: {
-    paddingHorizontal: variables.contentPadding,
     marginTop: variables.contentPadding,
     justifyContent: 'space-between',
     flexDirection: 'row',
