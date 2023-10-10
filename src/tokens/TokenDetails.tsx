@@ -206,7 +206,7 @@ function Actions({ token }: { token: TokenBalance }) {
   // since the icon + withdraw text is bigger
   const actionButtons =
     actions.length > MAX_ACTION_BUTTONS || (actions.length === MAX_ACTION_BUTTONS && showWithdraw)
-      ? [...actions.slice(0, MAX_ACTION_BUTTONS), moreAction]
+      ? [...actions.slice(0, MAX_ACTION_BUTTONS - 1), moreAction]
       : actions
 
   return (
