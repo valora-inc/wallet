@@ -22,7 +22,7 @@ const mockScreenProps = (params: {
   isOutgoingPaymentRequest?: boolean
   skipContactsImport?: boolean
   forceTokenAddress?: boolean
-  defaultTokenOverride?: string
+  defaultTokenIdOverride?: string
 }) => getMockStackScreenProps(Screens.Send, params)
 
 const defaultStore = {
@@ -142,7 +142,7 @@ describe('Send', () => {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: false,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenOverride: mockCusdTokenId,
+      defaultTokenIdOverride: mockCusdTokenId,
       isFromScan: false,
     })
   })
@@ -155,7 +155,7 @@ describe('Send', () => {
         <Send
           {...mockScreenProps({
             isOutgoingPaymentRequest: true,
-            defaultTokenOverride: mockCeloTokenId,
+            defaultTokenIdOverride: mockCeloTokenId,
             forceTokenAddress: true,
           })}
         />
@@ -169,7 +169,7 @@ describe('Send', () => {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: true,
       origin: SendOrigin.AppRequestFlow,
-      defaultTokenOverride: mockCeloTokenId,
+      defaultTokenIdOverride: mockCeloTokenId,
       forceTokenAddress: true,
       isFromScan: false,
     })

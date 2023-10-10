@@ -129,9 +129,9 @@ function SendAmount(props: Props) {
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
-  const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress, defaultTokenOverride } =
+  const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress, defaultTokenIdOverride } =
     props.route.params
-  const [transferTokenId, setTransferTokenId] = useState(defaultTokenOverride ?? defaultToken)
+  const [transferTokenId, setTransferTokenId] = useState(defaultTokenIdOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenId)
   const tokenHasPriceUsd = !!tokenInfo?.priceUsd

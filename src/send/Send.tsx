@@ -49,7 +49,7 @@ function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceTokenAddress = route.params?.forceTokenAddress
-  const defaultTokenOverride = route.params?.defaultTokenOverride
+  const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
   const { t } = useTranslation()
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
@@ -130,10 +130,10 @@ function Send({ route }: Props) {
 
     // Only show currency picker once we know that the recipient is verified,
     // and only if the user is permitted to change tokens.
-    if (defaultTokenOverride) {
+    if (defaultTokenIdOverride) {
       navigate(Screens.SendAmount, {
         isFromScan: false,
-        defaultTokenOverride,
+        defaultTokenIdOverride,
         forceTokenAddress,
         recipient,
         isOutgoingPaymentRequest,
@@ -171,7 +171,7 @@ function Send({ route }: Props) {
 
     navigate(Screens.SendAmount, {
       isFromScan: false,
-      defaultTokenOverride: tokenId,
+      defaultTokenIdOverride: tokenId,
       recipient,
       isOutgoingPaymentRequest,
       origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,

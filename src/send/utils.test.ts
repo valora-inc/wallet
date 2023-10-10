@@ -72,7 +72,7 @@ describe('send/utils', () => {
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
           isOutgoingPaymentRequest: undefined,
           forceTokenAddress: true,
-          defaultTokenOverride: mockCeurTokenId,
+          defaultTokenIdOverride: mockCeurTokenId,
         })
       )
     })
@@ -312,7 +312,7 @@ describe('send/utils', () => {
               recipientType: RecipientType.Address,
             },
             forceTokenAddress: true,
-            defaultTokenOverride: mockCeloTokenId,
+            defaultTokenIdOverride: mockCeloTokenId,
           })
         )
       })

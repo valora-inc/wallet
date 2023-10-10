@@ -54,7 +54,7 @@ export function* handleSendPaymentData(
       isFromScan,
       isOutgoingPaymentRequest,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenOverride: data.token ? tokenInfo?.tokenId : undefined,
+      defaultTokenIdOverride: data.token ? tokenInfo?.tokenId : undefined,
       forceTokenAddress: !!(data.token && tokenInfo?.tokenId),
     })
     return
@@ -101,7 +101,7 @@ export function* handleSendPaymentData(
       isFromScan,
       isOutgoingPaymentRequest,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenOverride: data.token ? tokenInfo?.tokenId : undefined,
+      defaultTokenIdOverride: data.token ? tokenInfo?.tokenId : undefined,
       forceTokenAddress: !!(data.token && tokenInfo?.tokenId),
     })
   }
