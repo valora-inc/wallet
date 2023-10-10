@@ -103,7 +103,7 @@ function useTransactionCallbacks({
 
   const feeType = FeeType.SEND
   const estimateFeeDollars =
-    useSelector(getFeeEstimateDollars(feeType, tokenInfo!.address!)) ?? new BigNumber(0)
+    useSelector(getFeeEstimateDollars(feeType, tokenInfo)) ?? new BigNumber(0)
 
   const minimumAmount = roundUp(usdAmount?.plus(estimateFeeDollars) ?? estimateFeeDollars)
 

@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { FeeType } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
+import { TokenBalance } from 'src/tokens/slice'
 import { divideByWei } from 'src/utils/formatting'
 
 export function getFeeInTokens(feeInWei: BigNumber.Value | null | undefined) {
@@ -9,12 +10,16 @@ export function getFeeInTokens(feeInWei: BigNumber.Value | null | undefined) {
 
 export const feeEstimatesSelector = (state: RootState) => state.fees.estimates
 
-export function getFeeEstimateDollars(feeType: FeeType | null, tokenAddress: string) {
+export function getFeeEstimateDollars(
+  feeType: FeeType | null,
+  tokenInfo: TokenBalance | undefined
+) {
   return (state: RootState) => {
-    if (!feeType) {
+    // TODO: Handle cases where address is null ex: Ethereum
+    if (!feeType || !tokenInfo?.address) {
       return null
     }
-    const fee = state.fees.estimates[tokenAddress]?.[feeType]?.usdFee
+    const fee = state.fees.estimates[tokenInfo.address]?.[feeType]?.usdFee
     return fee ? new BigNumber(fee) : null
   }
 }
