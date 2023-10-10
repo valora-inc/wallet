@@ -1834,5 +1834,18 @@
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
     "cta": "Got it"
   },
+  "tokenDetails": {
+    "yourBalance": "Your balance",
+    "learnMore": "Learn more about {{tokenName}}",
+    "priceUnavailable": "Price Unavailable",
+    "priceDeltaSuffix": "Today",
+    "actions": {
+      "send": "ส่ง",
+      "swap": "สว็อป",
+      "add": "เพิ่ม",
+      "withdraw": "ถอน",
+      "more": "More"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

@@ -1840,6 +1840,19 @@
     "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu.",
     "cta": "Rozumiem"
   },
+  "tokenDetails": {
+    "yourBalance": "Twoje saldo",
+    "learnMore": "Dowiedz się więcej o {{tokenName}}",
+    "priceUnavailable": "Cena niedostępna",
+    "priceDeltaSuffix": "Dzisiaj",
+    "actions": {
+      "send": "Wysyłaj",
+      "swap": "Zamieniaj",
+      "add": "Dodaj",
+      "withdraw": "Wycofaj",
+      "more": "Więcej"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

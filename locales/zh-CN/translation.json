@@ -1834,5 +1834,18 @@
     "message": "推出一种新方法，可在一个地方申请奖励、查看警报和查看更新",
     "cta": "明白"
   },
+  "tokenDetails": {
+    "yourBalance": "您的余额",
+    "learnMore": "进一步了解 {{tokenName}}",
+    "priceUnavailable": "价格不详",
+    "priceDeltaSuffix": "今天",
+    "actions": {
+      "send": "发送",
+      "swap": "交换",
+      "add": "添加",
+      "withdraw": "提取",
+      "more": "更多信息"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
