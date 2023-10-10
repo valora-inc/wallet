@@ -52,7 +52,7 @@ import {
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 
@@ -223,7 +223,6 @@ function AssetsScreen({ navigation, route }: Props) {
     )
   }
 
-  const tokenItems = useMemo(() => tokens.sort(sortByUsdBalance), [tokens])
   const positionSections = useMemo(() => {
     const positionsByDapp = new Map<string, Position[]>()
     positions.forEach((position) => {
@@ -246,7 +245,7 @@ function AssetsScreen({ navigation, route }: Props) {
 
   const sections =
     activeTab === AssetTabType.Tokens
-      ? [{ data: tokenItems }]
+      ? [{ data: tokens }]
       : activeTab === AssetTabType.Positions
       ? positionSections
       : []

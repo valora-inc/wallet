@@ -530,6 +530,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
+    isNative: true,
   },
   [mockCrealTokenId]: {
     priceUsd: '0.17',

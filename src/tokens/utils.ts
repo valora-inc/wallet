@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
+import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { TokenBalance } from './slice'
-import { NetworkId } from 'src/transactions/types'
-import { getDynamicConfigParams } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { DynamicConfigs } from 'src/statsig/constants'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -80,9 +80,8 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   return usdBalance(token2).comparedTo(usdBalance(token1))
 }
 
-function usdBalance(token: TokenBalance): BigNumber {
-  // We check that priceUsd is not null before calling this.
-  return token.priceUsd!.times(token.balance)
+export function usdBalance(token: TokenBalance): BigNumber {
+  return token.balance.times(token.priceUsd ?? 0)
 }
 
 export function convertLocalToTokenAmount({
@@ -126,5 +125,5 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
 
 export function showAssetDetailsScreen() {
   // TODO(ACT-919): get from feature gate
-  return false
+  return true
 }

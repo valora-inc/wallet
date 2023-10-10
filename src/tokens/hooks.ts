@@ -11,15 +11,16 @@ import {
   tokensWithUsdValueSelectorWrapper,
   totalTokenBalanceSelectorWrapper,
 } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
   getSupportedNetworkIdsForTokenBalances,
+  usdBalance,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { TokenBalance } from 'src/tokens/slice'
 
 /**
  * @deprecated use useTokenInfo and select using tokenId
@@ -48,9 +49,30 @@ export function useTokensForAssetsScreen() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
 
-  return tokens.filter(
-    (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
-  )
+  return tokens
+    .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
+    .sort((token1, token2) => {
+      const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
+
+      if (usdBalanceCompare) {
+        return usdBalanceCompare
+      }
+
+      const balanceCompare = token2.balance.comparedTo(token1.balance)
+
+      if (balanceCompare) {
+        return balanceCompare
+      }
+
+      if (token1.isNative && !token2.isNative) {
+        return -1
+      }
+      if (!token1.isNative && token2.isNative) {
+        return 1
+      }
+
+      return token1.networkId.localeCompare(token2.networkId)
+    })
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
