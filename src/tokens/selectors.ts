@@ -180,7 +180,7 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
-function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
+export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
   const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
   const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
   const priceUsdComparison = token2UsdBalance.comparedTo(token1UsdBalance)
