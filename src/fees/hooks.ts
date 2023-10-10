@@ -65,7 +65,7 @@ export function useMaxSendAmount(
     ) {
       dispatch(estimateFee({ feeType, tokenAddress: tokenInfo.address }))
     }
-  }, [tokenId, shouldRefresh])
+  }, [tokenInfo, shouldRefresh])
 
   const celoAddress = useSelector(celoAddressSelector)
 
