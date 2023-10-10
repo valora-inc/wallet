@@ -10,6 +10,9 @@ import { createMockStore } from 'test/utils'
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
   getFeatureGate: jest.fn().mockReturnValue(false),
+  getDynamicConfigParams: jest.fn(() => ({
+    showBalances: ['celo-alfajores'],
+  })),
 }))
 
 // TODO avoid rendering WalletHome as we're mostly interested in testing the menu here

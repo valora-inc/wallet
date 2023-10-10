@@ -9,7 +9,7 @@ import {
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import * as tokenUtils from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -49,6 +49,9 @@ const defaultStore = {
 }
 
 jest.mocked(getFeatureGate).mockReturnValue(true)
+jest.mocked(getDynamicConfigParams).mockReturnValue({
+  showBalances: [NetworkId['celo-alfajores']],
+})
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   const showAssetDetailsScreenSpy = jest.spyOn(tokenUtils, 'showAssetDetailsScreen')

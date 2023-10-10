@@ -1,16 +1,12 @@
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { StyleProp, Text, TextStyle } from 'react-native'
-import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import useSelector from 'src/redux/useSelector'
+import { StyleProp, TextStyle } from 'react-native'
 import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-
-const DEFAULT_DISPLAY_DECIMALS = 2
+import TokenDisplay from 'src/components/TokenDisplay'
 
 interface Props {
   amount: BigNumber.Value
@@ -23,26 +19,6 @@ interface Props {
   localAmount?: LocalAmount
   style?: StyleProp<TextStyle>
   testID?: string
-}
-
-function calculateDecimalsToShow(value: BigNumber) {
-  const exponent = value?.e ?? 0
-  if (exponent >= 0) {
-    return DEFAULT_DISPLAY_DECIMALS
-  }
-
-  return Math.abs(exponent) + 1
-}
-
-// Formats |value| so that it shows at least 2 significant figures and at least 2 decimal places without trailing zeros.
-// TODO: Move this into TokenDisplay.tsx once LegacyTokenDisplay is removed
-export function formatValueToDisplay(value: BigNumber) {
-  let decimals = calculateDecimalsToShow(value)
-  let text = value.toFormat(decimals)
-  while (text[text.length - 1] === '0' && decimals-- > 2) {
-    text = text.substring(0, text.length - 1)
-  }
-  return text
 }
 
 /**
@@ -76,38 +52,18 @@ function LegacyTokenDisplay({
     currency! === Currency.Celo ? 'CELO' : currency!
   )
   const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
-  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
-  const showError = showLocalAmount
-    ? !localAmount && (!tokenInfo?.priceUsd || !localCurrencyExchangeRate)
-    : !tokenInfo?.symbol
-
-  const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(amount)
-  const amountInLocalCurrency = localAmount
-    ? new BigNumber(localAmount.value)
-    : new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(amountInUsd ?? 0)
-  const fiatSymbol = localAmount
-    ? LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
-    : localCurrencySymbol
-
-  const amountToShow = showLocalAmount ? amountInLocalCurrency : new BigNumber(amount)
-
-  const sign = hideSign ? '' : amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
-
   return (
-    <Text style={style} testID={testID}>
-      {showError ? (
-        '-'
-      ) : (
-        <>
-          {sign}
-          {showLocalAmount && fiatSymbol}
-          {formatValueToDisplay(amountToShow.absoluteValue())}
-          {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol ?? ''}`}
-        </>
-      )}
-    </Text>
+    <TokenDisplay
+      amount={amount}
+      tokenId={tokenInfo?.tokenId}
+      showLocalAmount={showLocalAmount}
+      showSymbol={showSymbol}
+      showExplicitPositiveSign={showExplicitPositiveSign}
+      hideSign={hideSign}
+      localAmount={localAmount}
+      style={style}
+      testID={testID}
+    />
   )
 }
 

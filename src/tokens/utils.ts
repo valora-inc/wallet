@@ -1,10 +1,12 @@
 import BigNumber from 'bignumber.js'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { TokenProperties } from 'src/analytics/Properties'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
-import networkConfig from 'src/web3/networkConfig'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
@@ -120,12 +122,41 @@ export function convertTokenToLocalAmount({
 }
 
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
-    ? Object.values(networkConfig.networkToNetworkId)
-    : [networkConfig.defaultNetworkId]
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showBalances
 }
 
 export function showAssetDetailsScreen() {
   // TODO(ACT-919): get from feature gate
   return false
+}
+
+export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
+  return {
+    symbol: token.symbol,
+    address: token.address,
+    balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
+    networkId: token.networkId,
+    tokenId: token.tokenId,
+  }
+}
+
+/**
+ * Checks whether the historical price is updated and is one day old +/- 1 hour.
+ * Used for showing / hiding the price delta on legacy Assets and TokenDetails
+ * pages
+ *
+ * @param {TokenBalance} token
+ * @returns {boolean}
+ */
+export function isHistoricalPriceUpdated(token: TokenBalance) {
+  return (
+    !!token.historicalPricesUsd?.lastDay &&
+    ONE_HOUR_IN_MILLIS >
+      Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
+  )
+}
+
+export function isCicoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
+  return Object.values(CiCoCurrency).some((cicoSymbol) => cicoSymbol === tokenSymbol)
 }

@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import Touchable from 'src/components/Touchable'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -10,6 +9,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfoByAddress, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 interface Props {
   inputAmount: string

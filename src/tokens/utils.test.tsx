@@ -5,9 +5,12 @@ import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
   getHigherBalanceCurrency,
+  isHistoricalPriceUpdated,
   sortFirstStableThenCeloThenOthersByUsdBalance,
 } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
+import { mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 describe(getHigherBalanceCurrency, () => {
   const tokens = {
@@ -193,5 +196,74 @@ describe(convertTokenToLocalAmount, () => {
       tokenInfo,
     })
     expect(localAmount).toEqual(new BigNumber(400))
+  })
+})
+
+describe(isHistoricalPriceUpdated, () => {
+  const mockTokenBalance: TokenBalance = {
+    ...mockTokenBalances[mockPoofTokenId],
+    balance: new BigNumber(0),
+    lastKnownPriceUsd: new BigNumber(0),
+    priceUsd: new BigNumber(0),
+  }
+
+  it('returns false if no historical price is set', () => {
+    expect(isHistoricalPriceUpdated(mockTokenBalance)).toEqual(false)
+  })
+
+  it('returns false if historical price is more than 25h old', () => {
+    expect(
+      isHistoricalPriceUpdated({
+        ...mockTokenBalance,
+        historicalPricesUsd: {
+          lastDay: {
+            at: Date.now() - ONE_DAY_IN_MILLIS - 2 * ONE_HOUR_IN_MILLIS,
+            price: new BigNumber(0),
+          },
+        },
+      })
+    ).toEqual(false)
+  })
+
+  it('returns true if historical price is one day old', () => {
+    expect(
+      isHistoricalPriceUpdated({
+        ...mockTokenBalance,
+        historicalPricesUsd: {
+          lastDay: {
+            at: Date.now() - ONE_DAY_IN_MILLIS,
+            price: new BigNumber(0),
+          },
+        },
+      })
+    ).toEqual(true)
+  })
+
+  it('returns true if historical price is one day + 30 min old', () => {
+    expect(
+      isHistoricalPriceUpdated({
+        ...mockTokenBalance,
+        historicalPricesUsd: {
+          lastDay: {
+            at: Date.now() - ONE_DAY_IN_MILLIS - ONE_HOUR_IN_MILLIS / 2,
+            price: new BigNumber(0),
+          },
+        },
+      })
+    ).toEqual(true)
+  })
+
+  it('returns true if historical price is one day - 30 min old', () => {
+    expect(
+      isHistoricalPriceUpdated({
+        ...mockTokenBalance,
+        historicalPricesUsd: {
+          lastDay: {
+            at: Date.now() - ONE_DAY_IN_MILLIS + ONE_HOUR_IN_MILLIS / 2,
+            price: new BigNumber(0),
+          },
+        },
+      })
+    ).toEqual(true)
   })
 })
