@@ -1836,6 +1836,19 @@
     "message": "Introduzione di un nuovo modo per richiedere i premi, visualizzare gli avvisi e vedere gli aggiornamenti in un unico posto",
     "cta": "Capito"
   },
+  "tokenDetails": {
+    "yourBalance": "Il tuo equilibrio",
+    "learnMore": "Per saperne di più su {{tokenName}}",
+    "priceUnavailable": "Prezzo non disponibile",
+    "priceDeltaSuffix": "Oggi",
+    "actions": {
+      "send": "Invia",
+      "swap": "Scambia",
+      "add": "Aggiungi",
+      "withdraw": "Preleva",
+      "more": "Altro"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
