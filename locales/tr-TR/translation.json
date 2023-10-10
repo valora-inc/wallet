@@ -1836,6 +1836,19 @@
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
     "cta": "Anladım."
   },
+  "tokenDetails": {
+    "yourBalance": "Bakiyeniz",
+    "learnMore": "{{tokenName}}hakkında daha fazla bilgi edinin",
+    "priceUnavailable": "Fiyat Mevcut Değil",
+    "priceDeltaSuffix": "Bugün",
+    "actions": {
+      "send": "Gönder",
+      "swap": "Swap",
+      "add": "Ekle",
+      "withdraw": "Çek",
+      "more": "Daha fazla"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
