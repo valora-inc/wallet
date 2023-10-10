@@ -129,7 +129,7 @@ export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
   tokenId: string | undefined
 ): BigNumber | null {
-  const tokenInfo = useTokenInfo(tokenId!)
+  const tokenInfo = useTokenInfo(tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertTokenToLocalAmount({
     tokenAmount,
