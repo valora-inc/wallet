@@ -150,7 +150,7 @@ export function useTokenToLocalAmountByAddress(
 }
 
 export function useAmountAsUsd(amount: BigNumber, tokenId: string | undefined) {
-  const tokenInfo = useTokenInfo(tokenId!)
+  const tokenInfo = useTokenInfo(tokenId)
   if (!tokenInfo?.priceUsd) {
     return null
   }
