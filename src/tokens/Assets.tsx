@@ -148,7 +148,7 @@ function AssetsScreen({ navigation, route }: Props) {
   const nftsError = useSelector(nftsErrorSelector)
   const nftsLoading = useSelector(nftsLoadingSelector)
   const nfts = useSelector(nftsWithMetadataSelector)
-  // Group nfts into pairs for use in the section list
+  // Group nfts for use in the section list
   const nftsGrouped = groupArrayByN(nfts, NUM_OF_NFTS_PER_ROW)
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
