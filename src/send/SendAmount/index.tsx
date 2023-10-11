@@ -65,8 +65,8 @@ export function useInputAmounts(
   inputTokenAmount?: BigNumber
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId!)
-  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId!)
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId)
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
   // when using the local amount, the "inputAmount" value received here was
@@ -83,7 +83,7 @@ export function useInputAmounts(
   const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
 
   const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
-  const usdAmount = useAmountAsUsd(tokenAmount, tokenId!)
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
 
   return {
     localAmount,
