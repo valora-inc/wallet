@@ -9,10 +9,10 @@ import {
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import * as tokenUtils from 'src/tokens/utils'
+import { getDynamicConfigParams } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { Statsig } from 'statsig-react-native'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockPositions, mockTokenBalances } from 'test/values'
 
@@ -48,16 +48,14 @@ const defaultStore = {
   },
 }
 
-jest.mocked(getFeatureGate).mockReturnValue(true)
+// jest.mocked(getFeatureGate).mockReturnValue(true)
+jest.spyOn(Statsig, 'checkGate').mockReturnValue(true)
 jest.mocked(getDynamicConfigParams).mockReturnValue({
   showBalances: [NetworkId['celo-alfajores']],
 })
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
-  const showAssetDetailsScreenSpy = jest.spyOn(tokenUtils, 'showAssetDetailsScreen')
-
   beforeEach(() => {
-    showAssetDetailsScreenSpy.mockReturnValue(false)
     jest.clearAllMocks()
   })
 
@@ -153,7 +151,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
     'navigates to Assets screen on View Balances tap if AssetDetails feature gate is true',
     async (TokenBalanceComponent) => {
-      showAssetDetailsScreenSpy.mockReturnValue(true)
+      // showAssetDetailsScreenSpy.mockReturnValue(true)
       const store = createMockStore({
         ...defaultStore,
         tokens: {
@@ -217,7 +215,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   )
 
   it('HomeTokenBalance shows View Assets link if balance is zero and feature gate is true', async () => {
-    showAssetDetailsScreenSpy.mockReturnValue(true)
+    // showAssetDetailsScreenSpy.mockReturnValue(true)
     const store = createMockStore({
       ...defaultStore,
       tokens: {

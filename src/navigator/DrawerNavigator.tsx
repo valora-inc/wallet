@@ -65,7 +65,6 @@ import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { showAssetDetailsScreen } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -211,7 +210,8 @@ export default function DrawerNavigator({ route }: Props) {
   const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
   const shouldShowNftGallery =
-    getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY) && !showAssetDetailsScreen()
+    getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY) &&
+    !getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
 
   const cloudBackupGate = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
   const anyBackupCompleted = backupCompleted || cloudBackupCompleted

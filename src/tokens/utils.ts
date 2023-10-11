@@ -1,15 +1,13 @@
 import BigNumber from 'bignumber.js'
 import { TokenProperties } from 'src/analytics/Properties'
 import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs, FeatureGates } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { Network, NetworkId } from 'src/transactions/types'
-import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
-import { Statsig } from 'statsig-react-native'
 import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
@@ -137,16 +135,6 @@ export function getTokenId(networkId: NetworkId, tokenAddress?: string): string 
     return `${networkId}:native`
   }
   return `${networkId}:${tokenAddress}`
-}
-
-export function showAssetDetailsScreen() {
-  const featureGateName = StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-  try {
-    return Statsig.checkGate(featureGateName)
-  } catch (error) {
-    Logger.warn('Statsig', `Error getting feature gate: ${featureGateName}`, error)
-    return FeatureGates[featureGateName]
-  }
 }
 
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
