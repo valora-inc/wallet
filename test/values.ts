@@ -501,6 +501,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockCusdTokenId]: {
     priceUsd: '1.001',
@@ -516,6 +518,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockCeloTokenId]: {
     priceUsd: '13.25085583155252100584',
@@ -531,6 +535,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isCoreToken: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockCrealTokenId]: {
     priceUsd: '0.17',
@@ -545,6 +551,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
+    isCashInEligible: true,
   },
 }
 

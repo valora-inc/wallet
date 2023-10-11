@@ -3,13 +3,13 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import { formatValueToDisplay } from 'src/components/LegacyTokenDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 interface Props {
   tokenAmount: BigNumber

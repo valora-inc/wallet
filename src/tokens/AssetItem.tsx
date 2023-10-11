@@ -4,17 +4,16 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
+import { isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 export const PositionItem = ({ position }: { position: Position }) => {
   const balanceInDecimal =
@@ -85,14 +84,6 @@ export const TokenBalanceItem = ({
   token: TokenBalance
   showPriceChangeIndicatorInBalances: boolean
 }) => {
-  const isHistoricalPriceUpdated = () => {
-    return (
-      token.historicalPricesUsd?.lastDay &&
-      TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES >
-        Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
-    )
-  }
-
   const onPress = () => {
     ValoraAnalytics.track(AssetsEvents.tap_asset, {
       assetType: 'token',
@@ -130,7 +121,7 @@ export const TokenBalanceItem = ({
           <View style={styles.tokenContainer}>
             {showPriceChangeIndicatorInBalances &&
               token.historicalPricesUsd &&
-              isHistoricalPriceUpdated() && (
+              isHistoricalPriceUpdated(token) && (
                 <PercentageIndicator
                   testID={`percentageIndicator:${token.symbol}`}
                   comparedValue={token.historicalPricesUsd.lastDay.price}
