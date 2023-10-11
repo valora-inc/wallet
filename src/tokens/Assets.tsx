@@ -269,7 +269,7 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position | Nft, SectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position | Nft[], SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -432,10 +432,7 @@ function AssetsScreen({ navigation, route }: Props) {
             paddingBottom: insets.bottom,
             opacity: listHeaderHeight > 0 ? 1 : 0,
           },
-          activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
-          activeTab === AssetTabType.Collectibles && nftsError
-            ? { alignItems: 'center' }
-            : { paddingLeft: Spacing.Thick24 },
+          activeTab === AssetTabType.Collectibles && !nftsError && { paddingLeft: Spacing.Thick24 },
         ]}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
