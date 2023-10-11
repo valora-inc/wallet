@@ -34,6 +34,7 @@ export interface StandbyTransaction {
   type: TokenTransferTypeV2
   status: TransactionStatus
   value: string
+  tokenId: string
   tokenAddress?: string
   comment: string
   timestamp: number
@@ -93,6 +94,7 @@ export interface TokenAmount {
   value: BigNumber.Value
   tokenAddress?: string
   localAmount?: LocalAmount
+  tokenId: string
 }
 
 export interface LocalAmount {

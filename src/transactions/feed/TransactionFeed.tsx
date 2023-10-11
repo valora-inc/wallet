@@ -32,6 +32,7 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
     block: '',
     address: transferTx.address,
     amount: {
+      tokenId: transferTx.tokenId,
       value: transferTx.value,
       tokenAddress: transferTx.tokenAddress,
     },

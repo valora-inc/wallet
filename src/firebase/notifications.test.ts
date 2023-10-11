@@ -136,6 +136,7 @@ describe(handleNotification, () => {
           block: '42',
           address: '0xtest',
           amount: {
+            tokenId: 'celo-alfajores:0xCUSD',
             value: '10',
             tokenAddress: '0xCUSD',
           },

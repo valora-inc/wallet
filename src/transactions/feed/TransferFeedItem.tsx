@@ -4,14 +4,14 @@ import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
@@ -32,7 +32,7 @@ function TransferFeedItem({ transfer }: Props) {
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
-  const tokenInfo = useTokenInfoByAddress(amount.tokenAddress)
+  const tokenInfo = useTokenInfo(amount.tokenId)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.priceUsd
   const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
@@ -55,9 +55,9 @@ function TransferFeedItem({ transfer }: Props) {
           </Text>
         </View>
         <View style={styles.amountContainer}>
-          <LegacyTokenDisplay
+          <TokenDisplay
             amount={amount.value}
-            tokenAddress={amount.tokenAddress}
+            tokenId={amount.tokenId}
             localAmount={customLocalAmount ?? amount.localAmount}
             showExplicitPositiveSign={true}
             showLocalAmount={!showTokenAmount}
@@ -65,9 +65,9 @@ function TransferFeedItem({ transfer }: Props) {
             testID={'TransferFeedItem/amount'}
           />
           {!showTokenAmount && (
-            <LegacyTokenDisplay
+            <TokenDisplay
               amount={amount.value}
-              tokenAddress={amount.tokenAddress}
+              tokenId={amount.tokenId}
               showLocalAmount={false}
               showSymbol={true}
               hideSign={true}

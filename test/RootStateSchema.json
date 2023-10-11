@@ -2725,6 +2725,9 @@
                 "tokenAddress": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/TokenTransferTypeV2"
                 },
@@ -2739,6 +2742,7 @@
                 "networkId",
                 "status",
                 "timestamp",
+                "tokenId",
                 "type",
                 "value"
             ],
@@ -4580,11 +4584,15 @@
                 "tokenAddress": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "value": {
                     "$ref": "#/definitions/BigNumber.Value"
                 }
             },
             "required": [
+                "tokenId",
                 "value"
             ],
             "type": "object"

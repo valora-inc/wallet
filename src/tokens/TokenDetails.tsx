@@ -152,6 +152,7 @@ function Actions({ token }: { token: TokenBalance }) {
     if (isCicoToken(tokenSymbol)) {
       navigate(Screens.FiatExchangeAmount, {
         currency: tokenSymbol,
+        tokenId: token.tokenId,
         flow,
         network: Network.Celo,
       })

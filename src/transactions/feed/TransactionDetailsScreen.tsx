@@ -10,7 +10,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import networkConfig from 'src/web3/networkConfig'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
   TokenExchange,
@@ -28,8 +29,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsSc
 
 function useHeaderTitle(transaction: TokenTransaction) {
   const { t } = useTranslation()
-  const tokensByCurrency = useSelector(tokensByCurrencySelector)
-  const celoAddress = tokensByCurrency[Currency.Celo]?.address
+  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
   const rewardsSenders = useSelector(rewardsSendersSelector)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
@@ -37,14 +37,14 @@ function useHeaderTitle(transaction: TokenTransaction) {
   switch (transaction.type) {
     case TokenTransactionTypeV2.Exchange:
       // TODO: Change this to show any exchanges, not just CELO sell/purchase.
-      const isCeloSell = (transaction as TokenExchange).inAmount.tokenAddress === celoAddress
+      const isCeloSell = (transaction as TokenExchange).inAmount.tokenId === celoTokenId
       return isCeloSell ? t('soldGold') : t('purchasedGold')
     case TokenTransactionTypeV2.Sent:
-      const isCeloSend = (transaction as TokenTransfer).amount.tokenAddress === celoAddress
+      const isCeloSend = (transaction as TokenTransfer).amount.tokenId === celoTokenId
       return isCeloSend ? t('transactionHeaderWithdrewCelo') : t('transactionHeaderSent')
     case TokenTransactionTypeV2.Received:
       const transfer = transaction as TokenTransfer
-      const isCeloReception = transfer.amount.tokenAddress === celoAddress
+      const isCeloReception = transfer.amount.tokenId === celoTokenId
       const isCoinbasePaySenders = coinbasePaySenders.includes(transfer.address)
       if (
         rewardsSenders.includes(transfer.address) ||

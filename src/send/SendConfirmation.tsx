@@ -19,7 +19,7 @@ import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
@@ -172,7 +172,7 @@ function SendConfirmation(props: Props) {
           totalFee={totalFeeInUsd}
           showLocalAmount={true}
         />
-        <TokenTotalLineItem
+        <LegacyTokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenAddress={tokenAddress}
           feeToAddInUsd={totalFeeInUsd}
