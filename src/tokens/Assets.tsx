@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Regular16,
   },
   nftsNoMetadataText: {
-    ...typeScale.titleLarge,
+    ...typeScale.labelSmall,
     textAlign: 'center',
   },
   nftsTouchableContainer: {
