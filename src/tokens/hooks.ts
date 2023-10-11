@@ -22,6 +22,7 @@ import {
   convertTokenToLocalAmount,
   getSupportedNetworkIdsForTokenBalances,
   isCicoToken,
+  usdBalance,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -55,9 +56,30 @@ export function useTokensForAssetsScreen() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
 
-  return tokens.filter(
-    (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
-  )
+  return tokens
+    .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
+    .sort((token1, token2) => {
+      // Sorts by usd balance, then token balance, then zero balance natives by
+      // network id, then zero balance non natives by network id
+      const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
+      if (usdBalanceCompare) {
+        return usdBalanceCompare
+      }
+
+      const balanceCompare = token2.balance.comparedTo(token1.balance)
+      if (balanceCompare) {
+        return balanceCompare
+      }
+
+      if (token1.isNative && !token2.isNative) {
+        return -1
+      }
+      if (!token1.isNative && token2.isNative) {
+        return 1
+      }
+
+      return token1.networkId.localeCompare(token2.networkId)
+    })
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {

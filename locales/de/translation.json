@@ -1836,6 +1836,19 @@
     "message": "Einführung einer neuen Möglichkeit, Belohnungen einzufordern, Benachrichtigungen anzuzeigen und Updates an einem Ort zu sehen",
     "cta": "Ich hab's"
   },
+  "tokenDetails": {
+    "yourBalance": "Dein Saldo",
+    "learnMore": "Erfahre mehr über {{tokenName}}",
+    "priceUnavailable": "Preis nicht verfügbar",
+    "priceDeltaSuffix": "Heute",
+    "actions": {
+      "send": "Senden",
+      "swap": "Tauschen",
+      "add": "Hinzufügen",
+      "withdraw": "Abheben",
+      "more": "Mehr"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

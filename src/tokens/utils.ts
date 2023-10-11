@@ -83,9 +83,8 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   return usdBalance(token2).comparedTo(usdBalance(token1))
 }
 
-function usdBalance(token: TokenBalance): BigNumber {
-  // We check that priceUsd is not null before calling this.
-  return token.priceUsd!.times(token.balance)
+export function usdBalance(token: TokenBalance): BigNumber {
+  return token.balance.times(token.priceUsd ?? 0)
 }
 
 export function convertLocalToTokenAmount({

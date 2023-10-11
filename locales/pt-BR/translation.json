@@ -1836,6 +1836,19 @@
     "message": "Introdução de uma nova forma de solicitar recompensas, ver alertas e ver actualizações num único local",
     "cta": "Já está"
   },
+  "tokenDetails": {
+    "yourBalance": "Seu saldo",
+    "learnMore": "Saiba mais sobre {{tokenName}}",
+    "priceUnavailable": "Preço indisponível",
+    "priceDeltaSuffix": "Hoje",
+    "actions": {
+      "send": "Enviar",
+      "swap": "Trocar",
+      "add": "Adicionar",
+      "withdraw": "Sacar",
+      "more": "Mais"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
