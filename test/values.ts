@@ -536,6 +536,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     showZeroBalance: true,
     isCashInEligible: true,
     isCashOutEligible: true,
+    isNative: true,
   },
   [mockCrealTokenId]: {
     priceUsd: '0.17',
