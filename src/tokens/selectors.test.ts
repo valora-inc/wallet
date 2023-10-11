@@ -6,10 +6,10 @@ import {
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListWithAddressSelector,
-  tokensWithUsdValueSelectorWrapper,
-  totalTokenBalanceSelectorWrapper,
-  tokensByIdSelectorWrapper,
-  tokensListSelectorWrapper,
+  tokensWithUsdValueSelector,
+  totalTokenBalanceSelector,
+  tokensByIdSelector,
+  tokensListSelector,
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -127,10 +127,10 @@ const state: any = {
   },
 }
 
-describe(tokensByIdSelectorWrapper, () => {
+describe(tokensByIdSelector, () => {
   describe('when fetching tokens by id', () => {
     it('returns the right tokens', () => {
-      const tokensById = tokensByIdSelectorWrapper([NetworkId['celo-alfajores']])(state)
+      const tokensById = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
       expect(Object.keys(tokensById).length).toEqual(6)
       expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
       expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
@@ -156,13 +156,13 @@ describe(tokensByAddressSelector, () => {
   })
 })
 
-describe(tokensListSelectorWrapper, () => {
+describe(tokensListSelector, () => {
   describe('when fetching tokens with id as a list', () => {
     it('returns the right tokens', () => {
-      const tokens = tokensListSelectorWrapper([
+      const tokens = tokensListSelector(state, [
         NetworkId['celo-alfajores'],
         NetworkId['ethereum-sepolia'],
-      ])(state)
+      ])
       expect(tokens.length).toEqual(7)
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
@@ -257,9 +257,9 @@ describe('tokensByUsdBalanceSelector', () => {
   })
 })
 
-describe('tokensWithUsdValueSelectorWrapper', () => {
+describe('tokensWithUsdValueSelector', () => {
   it('returns only the tokens that have a USD balance', () => {
-    const tokens = tokensWithUsdValueSelectorWrapper([NetworkId['celo-alfajores']])(state)
+    const tokens = tokensWithUsdValueSelector(state, [NetworkId['celo-alfajores']])
     expect(tokens).toMatchInlineSnapshot(`
       [
         {
@@ -300,25 +300,24 @@ describe(defaultTokenToSendSelector, () => {
   })
 })
 
-describe(totalTokenBalanceSelectorWrapper, () => {
+describe(totalTokenBalanceSelector, () => {
   describe('when fetching the total token balance', () => {
     it('returns the right amount', () => {
-      expect(totalTokenBalanceSelectorWrapper([NetworkId['celo-alfajores']])(state)).toEqual(
+      expect(totalTokenBalanceSelector(state, [NetworkId['celo-alfajores']])).toEqual(
         new BigNumber(107.5)
       )
     })
 
     it('returns null if there was an error fetching and theres no cached info', () => {
-      expect(
-        totalTokenBalanceSelectorWrapper([NetworkId['celo-alfajores']])({
-          ...state,
-          tokens: {
-            tokenBalances: {},
-            error: true,
-            loading: false,
-          },
-        } as any)
-      ).toBeNull()
+      const errorState = {
+        ...state,
+        tokens: {
+          tokenBalances: {},
+          error: true,
+          loading: false,
+        },
+      } as any
+      expect(totalTokenBalanceSelector(errorState, [NetworkId['celo-alfajores']])).toBeNull()
     })
   })
 
