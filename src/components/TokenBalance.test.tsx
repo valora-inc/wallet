@@ -48,8 +48,6 @@ const defaultStore = {
   },
 }
 
-// jest.mocked(getFeatureGate).mockReturnValue(true)
-// jest.spyOn(Statsig, 'checkGate').mockReturnValue(false)
 jest.mocked(getDynamicConfigParams).mockReturnValue({
   showBalances: [NetworkId['celo-alfajores']],
 })
