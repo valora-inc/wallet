@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next'
 import FeeDrawer from 'src/components/FeeDrawer'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { usePaidFees } from 'src/fees/hooks'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import networkConfig from 'src/web3/networkConfig'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import { TokenTransfer } from 'src/transactions/types'
@@ -24,10 +25,9 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
-  const tokensByCurrency = useSelector(tokensByCurrencySelector)
-  const celoAddress = tokensByCurrency[Currency.Celo]?.address
+  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
 
-  const isCeloWithdrawal = amount.tokenAddress === celoAddress
+  const isCeloWithdrawal = amount.tokenId === celoTokenId
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
 
   const { securityFee, dekFee, totalFee, feeCurrency } = usePaidFees(fees)
@@ -49,9 +49,9 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       <LineItemRow
         title={isCeloWithdrawal ? t('amountCeloWithdrawn') : t('amountSent')}
         amount={
-          <LegacyTokenDisplay
+          <TokenDisplay
             amount={amount.value}
-            tokenAddress={amount.tokenAddress}
+            tokenId={amount.tokenId}
             localAmount={amount.localAmount}
             hideSign={true}
             testID="SentAmount"
@@ -67,7 +67,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       />
       <TokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
-        tokenAddress={amount.tokenAddress}
+        tokenId={amount.tokenId}
         localAmount={
           amount.localAmount
             ? {

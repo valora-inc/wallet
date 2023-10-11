@@ -22,6 +22,7 @@ import {
   convertTokenToLocalAmount,
   getSupportedNetworkIdsForTokenBalances,
   isCicoToken,
+  usdBalance,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -55,15 +56,42 @@ export function useTokensForAssetsScreen() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
 
-  return tokens.filter(
-    (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
-  )
+  return tokens
+    .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
+    .sort((token1, token2) => {
+      // Sorts by usd balance, then token balance, then zero balance natives by
+      // network id, then zero balance non natives by network id
+      const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
+      if (usdBalanceCompare) {
+        return usdBalanceCompare
+      }
+
+      const balanceCompare = token2.balance.comparedTo(token1.balance)
+      if (balanceCompare) {
+        return balanceCompare
+      }
+
+      if (token1.isNative && !token2.isNative) {
+        return -1
+      }
+      if (!token1.isNative && token2.isNative) {
+        return 1
+      }
+
+      return token1.networkId.localeCompare(token2.networkId)
+    })
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
   const totalBalance = useSelector(totalTokenBalanceSelectorWrapper(networkIds))
   return totalBalance === null
 }
+
+export function useTokensList() {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  return useSelector(tokensListSelectorWrapper(networkIds))
+}
+
 export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   const tokens = useSelector(tokensListSelectorWrapper(networkIds))
   // If no tokens then prices cannot be stale
@@ -148,7 +176,7 @@ export function useTokenInfoByCurrency(currency: Currency) {
 
 export function useLocalToTokenAmount(
   localAmount: BigNumber,
-  tokenAddress?: string
+  tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -161,7 +189,7 @@ export function useLocalToTokenAmount(
 
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
-  tokenAddress?: string
+  tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -180,7 +208,7 @@ export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
   return amount.multipliedBy(tokenInfo.priceUsd)
 }
 
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
+export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string | null) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   if (!tokenInfo?.priceUsd) {
     return null

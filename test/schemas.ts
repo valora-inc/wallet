@@ -2657,6 +2657,19 @@ export const v156Schema = {
   app: _.omit(v155Schema.app, 'requireCPV'),
 }
 
+export const v157Schema = {
+  ...v156Schema,
+  _persist: {
+    ...v156Schema._persist,
+    version: 157,
+  },
+  transactions: {
+    ...v156Schema.transactions,
+    standbyTransactions: [],
+    transactions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v156Schema as Partial<RootState>
+  return v157Schema as Partial<RootState>
 }

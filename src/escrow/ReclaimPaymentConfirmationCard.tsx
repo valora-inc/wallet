@@ -7,7 +7,7 @@ import { SecurityFeeIcon } from 'src/components/FeeIcon'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import { FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { MobileRecipient } from 'src/recipients/recipient'
@@ -69,7 +69,7 @@ export default function ReclaimPaymentConfirmationCard({
         hasError={!!feeEstimate?.error}
       />
       <HorizontalLine />
-      <TokenTotalLineItem
+      <LegacyTokenTotalLineItem
         title={t('totalRefunded')}
         tokenAmount={totalAmount}
         tokenAddress={tokenAddress}

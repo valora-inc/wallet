@@ -40,6 +40,7 @@ import {
   mockAccountInvite,
   mockContract,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockE164NumberInvite,
   mockFeeInfo,
@@ -335,6 +336,7 @@ describe(sendPaymentSaga, () => {
           status: TransactionStatus.Pending,
           value: amount.negated().toString(),
           tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockQRCodeRecipient.address,
         })

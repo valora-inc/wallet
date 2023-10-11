@@ -13,6 +13,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
+import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -77,9 +78,17 @@ export default function TokenDetailsScreen({ route }: Props) {
           testID="TokenDetails/Balance"
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
+        {token.isNative && token.symbol === 'CELO' && (
+          <CeloGoldHistoryChart
+            color={Colors.dark}
+            containerStyle={styles.chartContainer}
+            chartPadding={Spacing.Thick24}
+            testID="TokenDetails/Chart"
+          />
+        )}
         <Actions token={token} />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
-        <TokenBalanceItem token={token} containerStyle={styles.tokenBalanceItem} />
+        <TokenBalanceItem token={token} />
         {token.infoUrl && (
           <LearnMore
             tokenName={token.name}
@@ -143,6 +152,7 @@ function Actions({ token }: { token: TokenBalance }) {
     if (isCicoToken(tokenSymbol)) {
       navigate(Screens.FiatExchangeAmount, {
         currency: tokenSymbol,
+        tokenId: token.tokenId,
         flow,
         network: Network.Celo,
       })
@@ -273,12 +283,12 @@ function LearnMore({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: Spacing.Thick24,
   },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: Spacing.Smallest8,
+    marginHorizontal: Spacing.Thick24,
   },
   tokenName: {
     ...typeScale.labelLarge,
@@ -290,11 +300,17 @@ const styles = StyleSheet.create({
   balance: {
     ...typeScale.titleLarge,
     color: Colors.dark,
+    marginHorizontal: Spacing.Thick24,
+  },
+  chartContainer: {
+    marginTop: 40,
+    marginBottom: 0,
   },
   actions: {
     flexDirection: 'row',
     marginTop: 40,
     marginBottom: Spacing.Regular16,
+    marginHorizontal: Spacing.Thick24,
   },
   actionButton: {
     flexGrow: 1,
@@ -310,14 +326,13 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     color: Colors.dark,
     marginTop: Spacing.Regular16,
-  },
-  tokenBalanceItem: {
-    marginHorizontal: 0,
+    marginHorizontal: Spacing.Thick24,
   },
   learnMoreContainer: {
     borderTopColor: Colors.gray2,
     borderTopWidth: 1,
     paddingTop: Spacing.Regular16,
+    marginHorizontal: Spacing.Thick24,
   },
   learnMoreTouchableContainer: {
     flexDirection: 'row',
@@ -330,6 +345,7 @@ const styles = StyleSheet.create({
   },
   priceInfo: {
     marginTop: Spacing.Tiny4,
+    marginHorizontal: Spacing.Thick24,
   },
   priceInfoText: {
     ...typeScale.labelSmall,
