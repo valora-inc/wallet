@@ -92,12 +92,7 @@ export function* sendPayment({
       feeInfo,
     })
 
-    // Explicit type is specified here. The actual return type of this function is
-    // something like
-    // SimulateContractReturnType<typeof stableToken.abi, 'transferWithComment'>
-    // | SimulateContractReturnType<typeof erc20.abi, 'transfer'>
-    // but TSC doesn't like it when passed to writeContract
-    const { request }: SimulateContractReturnType = yield* call(simulateContractMethod)
+    const { request } = yield* call(simulateContractMethod)
 
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
@@ -117,7 +112,13 @@ export function* sendPayment({
       })
     )
 
-    const receipt = yield* call(sendAndMonitorTransaction, { context, wallet, request })
+    const receipt = yield* call(sendAndMonitorTransaction, {
+      context,
+      wallet,
+      // Cast for now otherwise TS complains about the type of request
+      // TODO: investigate more and fix
+      request: request as SimulateContractReturnType['request'],
+    })
     return receipt
   } catch (err) {
     Logger.warn(TAG, 'Transaction failed', err)
