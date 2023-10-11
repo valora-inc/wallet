@@ -65,6 +65,7 @@ export function useMaxSendAmount(
     ) {
       dispatch(estimateFee({ feeType, tokenAddress: tokenInfo.address }))
     }
+    // TODO: remove ?.tokenId once PR #4296 is merged
   }, [tokenInfo?.tokenId, shouldRefresh])
 
   const celoAddress = useSelector(celoAddressSelector)
