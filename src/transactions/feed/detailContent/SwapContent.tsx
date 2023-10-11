@@ -2,10 +2,10 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,10 +13,9 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { tokensListWithAddressSelector } from 'src/tokens/selectors'
+import { useTokensList } from 'src/tokens/hooks'
 import { TokenExchange } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 export interface Props {
   exchange: TokenExchange
@@ -25,13 +24,13 @@ export interface Props {
 // Note that this is tested from TransactionDetailsScreen.test.tsx
 export default function SwapContent({ exchange }: Props) {
   const { t } = useTranslation()
-  const tokensList = useSelector(tokensListWithAddressSelector)
+  const tokensList = useTokensList()
 
   const fromTokenSymbol = tokensList.find(
-    (token) => token.address === exchange.outAmount.tokenAddress
+    (token) => token.tokenId === exchange.outAmount.tokenId
   )?.symbol
   const toTokenSymbol = tokensList.find(
-    (token) => token.address === exchange.inAmount.tokenAddress
+    (token) => token.tokenId === exchange.inAmount.tokenId
   )?.symbol
 
   const onPressTxDetails = () => {
@@ -45,10 +44,10 @@ export default function SwapContent({ exchange }: Props) {
     <View style={styles.contentContainer}>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapTo')}</Text>
-        <LegacyTokenDisplay
+        <TokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.inAmount.value}
-          tokenAddress={exchange.inAmount.tokenAddress}
+          tokenId={exchange.inAmount.tokenId}
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
@@ -57,10 +56,10 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapFrom')}</Text>
-        <LegacyTokenDisplay
+        <TokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.outAmount.value}
-          tokenAddress={exchange.outAmount.tokenAddress}
+          tokenId={exchange.outAmount.tokenId}
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
@@ -78,10 +77,10 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.estimatedFee')}</Text>
-        <LegacyTokenDisplay
+        <TokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.fees[0].amount.value}
-          tokenAddress={exchange.fees[0].amount.tokenAddress}
+          tokenId={exchange.fees[0].amount.tokenId}
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}

@@ -86,6 +86,12 @@ export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
   const totalBalance = useSelector((state) => totalTokenBalanceSelector(state, networkIds))
   return totalBalance === null
 }
+
+export function useTokensList() {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  return useSelector(tokensListSelectorWrapper(networkIds))
+}
+
 export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   const tokens = useSelector((state) => tokensListSelector(state, networkIds))
   // If no tokens then prices cannot be stale
@@ -170,7 +176,7 @@ export function useTokenInfoByCurrency(currency: Currency) {
 
 export function useLocalToTokenAmount(
   localAmount: BigNumber,
-  tokenAddress?: string
+  tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -183,7 +189,7 @@ export function useLocalToTokenAmount(
 
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
-  tokenAddress?: string
+  tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -202,7 +208,7 @@ export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
   return amount.multipliedBy(tokenInfo.priceUsd)
 }
 
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
+export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string | null) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   if (!tokenInfo?.priceUsd) {
     return null

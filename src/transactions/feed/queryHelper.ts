@@ -394,6 +394,7 @@ export const TRANSACTIONS_QUERY = `
     amount {
       value
       tokenAddress
+      tokenId
       localAmount {
         value
         currencyCode
@@ -405,6 +406,7 @@ export const TRANSACTIONS_QUERY = `
       amount {
         value
         tokenAddress
+        tokenId
         localAmount {
           value
           currencyCode
@@ -457,6 +459,7 @@ export const TRANSACTIONS_QUERY = `
     inAmount {
       value
       tokenAddress
+      tokenId
       localAmount {
         value
         currencyCode
@@ -466,6 +469,7 @@ export const TRANSACTIONS_QUERY = `
     outAmount {
       value
       tokenAddress
+      tokenId
       localAmount {
         value
         currencyCode
@@ -477,6 +481,7 @@ export const TRANSACTIONS_QUERY = `
       amount {
         value
         tokenAddress
+        tokenId
         localAmount {
           value
           currencyCode

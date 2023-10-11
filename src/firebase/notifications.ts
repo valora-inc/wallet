@@ -29,6 +29,7 @@ import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
 import networkConfig from 'src/web3/networkConfig'
+import { getTokenId } from 'src/tokens/utils'
 
 const TAG = 'FirebaseNotifications'
 
@@ -70,6 +71,7 @@ function handlePaymentReceived(transferNotification: TransferNotificationData) {
       block: transferNotification.blockNumber,
       address,
       amount: {
+        tokenId: getTokenId(networkConfig.defaultNetworkId, transferNotification.tokenAddress),
         value: transferNotification.value,
         tokenAddress: transferNotification.tokenAddress,
       },
