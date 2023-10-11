@@ -432,6 +432,7 @@ function AssetsScreen({ navigation, route }: Props) {
             paddingBottom: insets.bottom,
             opacity: listHeaderHeight > 0 ? 1 : 0,
           },
+          activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
           activeTab === AssetTabType.Collectibles && !nftsError && { paddingLeft: Spacing.Thick24 },
         ]}
         // ensure header is above the scrollbar on ios overscroll
