@@ -11,6 +11,7 @@ import {
   mainnet as ethereum,
   sepolia as ethereumSepolia,
 } from 'viem/chains'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export enum Testnets {
   alfajores = 'alfajores',
@@ -66,7 +67,29 @@ interface NetworkConfig {
   viemChain: {
     [key in Network]: ViemChain
   }
+  currencyToTokenId: {
+    [key in CiCoCurrency | Currency]: string
+  }
+  celoTokenAddress: string
 }
+
+const CELO_TOKEN_ADDRESS_STAGING = '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9'
+const CELO_TOKEN_ADDRESS_MAINNET = '0x471ece3750da237f93b8e339c536989b8978a438'
+
+const CELO_TOKEN_ID_STAGING = `${NetworkId['celo-alfajores']}:native`
+const CELO_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:native`
+
+const CUSD_TOKEN_ID_STAGING = `${NetworkId['celo-alfajores']}:0x874069fa1eb16d44d622f2e0ca25eea172369bc1`
+const CUSD_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:0x765de816845861e75a25fca122bb6898b8b1282a`
+
+const CEUR_TOKEN_ID_STAGING = `${NetworkId['celo-alfajores']}:0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f`
+const CEUR_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73`
+
+const CREAL_TOKEN_ID_STAGING = `${NetworkId['celo-alfajores']}:0xe4d517785d091d3c54818832db6094bcc2744545`
+const CREAL_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:0xe8537a3d056da446677b9e9d6c5db704eaab4787`
+
+const ETH_TOKEN_ID_STAGING = `${NetworkId['ethereum-sepolia']}:native`
+const ETH_TOKEN_ID_MAINNET = `${NetworkId['ethereum-mainnet']}:native`
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
 const CLOUD_FUNCTIONS_MAINNET = 'https://api.mainnet.valora.xyz'
@@ -236,6 +259,15 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
     },
+    currencyToTokenId: {
+      [CiCoCurrency.CELO]: CELO_TOKEN_ID_STAGING,
+      [CiCoCurrency.cUSD]: CUSD_TOKEN_ID_STAGING,
+      [CiCoCurrency.cEUR]: CEUR_TOKEN_ID_STAGING,
+      [CiCoCurrency.cREAL]: CREAL_TOKEN_ID_STAGING,
+      [CiCoCurrency.ETH]: ETH_TOKEN_ID_STAGING,
+      [Currency.Celo]: CELO_TOKEN_ID_STAGING,
+    },
+    celoTokenAddress: CELO_TOKEN_ADDRESS_STAGING,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -295,6 +327,15 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,
     },
+    currencyToTokenId: {
+      [CiCoCurrency.CELO]: CELO_TOKEN_ID_MAINNET,
+      [CiCoCurrency.cUSD]: CUSD_TOKEN_ID_MAINNET,
+      [CiCoCurrency.cEUR]: CEUR_TOKEN_ID_MAINNET,
+      [CiCoCurrency.cREAL]: CREAL_TOKEN_ID_MAINNET,
+      [CiCoCurrency.ETH]: ETH_TOKEN_ID_MAINNET,
+      [Currency.Celo]: CELO_TOKEN_ID_MAINNET,
+    },
+    celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
   },
 }
 

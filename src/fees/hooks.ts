@@ -46,7 +46,7 @@ export function usePaidFees(fees: Fee[]) {
 // Returns the maximum amount a user can send, taking into acount gas fees required for the transaction
 // also optionally fetches new fee estimations if the current ones are missing or out of date
 export function useMaxSendAmount(
-  tokenAddress: string | undefined,
+  tokenAddress: string | undefined | null,
   feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true
 ) {

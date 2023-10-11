@@ -2929,10 +2929,10 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.2.1.tgz#9403f51c17cae37edf870c6bc0c81c1ece5ccef8"
   integrity sha512-1dgmkh+3so0+LlBWRhGA33ua4MYr7tUOj+a9Si28vUi0IUFNbff1T3sgpeDJI/LaC75bBYnQ0A3wXjn0OrRNBA==
 
-"@reduxjs/toolkit@^1.9.6":
-  version "1.9.6"
-  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.9.6.tgz#fc968b45fe5b17ff90932c4556960d9c1078365a"
-  integrity sha512-Gc4ikl90ORF4viIdAkY06JNUnODjKfGxZRwATM30EdHq8hLSVoSrwXne5dd739yenP5bJxAX7tLuOWK5RPGtrw==
+"@reduxjs/toolkit@^1.9.7":
+  version "1.9.7"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.9.7.tgz#7fc07c0b0ebec52043f8cb43510cf346405f78a6"
+  integrity sha512-t7v8ZPxhhKgOKtU+uyJT13lu4vL7az5aFi4IdoDs/eS548edn2M8Ik9h8fxgvMjGoAUVFSt6ZC1P5cWmQ014QQ==
   dependencies:
     immer "^9.0.21"
     redux "^4.2.1"
@@ -4282,10 +4282,10 @@
     pino "7.11.0"
     tslib "1.14.1"
 
-"@walletconnect/react-native-compat@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.10.1.tgz#39b6f1912c44bf1b0e9ce02ba63e4a30b92d6044"
-  integrity sha512-KZLj7wBcmnrzkqATZdW+OgrPvoceua54cgG460cpo3Yh81af+T51j3YFfpe7naCPW+EFX6SU5dpmMIe8jNfVjQ==
+"@walletconnect/react-native-compat@^2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.10.2.tgz#079ece15badc415fdd97ce216f5912175d864526"
+  integrity sha512-g9Be7wEmlvLj40061I+bya/dxcSPzGTt6xGMqZIt324EEX96Er5lJ26JcuFw6qYo4iRmICW8UwLWhXEJ3cqO+Q==
   dependencies:
     events "3.3.0"
     fast-text-encoding "^1.0.6"

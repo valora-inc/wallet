@@ -11,7 +11,7 @@ import {
   NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockCeurTokenId, mockCusdTokenId } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 
@@ -77,11 +77,11 @@ describe('SwapFeedItem', () => {
   it('renders correctly for cUSD to cEUR swap', async () => {
     const { getByTestId } = renderScreen({
       inAmount: {
-        tokenAddress: mockCeurAddress,
+        tokenId: mockCeurTokenId,
         value: 2.93,
       },
       outAmount: {
-        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
         value: 2.87,
       },
     })
@@ -97,11 +97,11 @@ describe('SwapFeedItem', () => {
   it('renders correctly for cEUR to cUSD swap', async () => {
     const { getByTestId } = renderScreen({
       inAmount: {
-        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
         value: 17.87,
       },
       outAmount: {
-        tokenAddress: mockCeurAddress,
+        tokenId: mockCeurTokenId,
         value: 17.54,
       },
     })

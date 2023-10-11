@@ -6,6 +6,7 @@ import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
 import BackChevronCentered from 'src/icons/BackChevronCentered'
 import Times from 'src/icons/Times'
@@ -227,9 +228,9 @@ export function HeaderTitleWithTokenBalance({
 }) {
   const subTitle = tokenInfo ? (
     <Trans i18nKey="balanceAvailable">
-      <LegacyTokenDisplay
+      <TokenDisplay
         amount={tokenInfo.balance}
-        tokenAddress={tokenInfo?.address}
+        tokenId={tokenInfo.tokenId}
         showLocalAmount={showLocalAmount}
         style={styles.headerSubTitle}
       />

@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js'
+import { CurrencyTokens } from 'src/tokens/selectors'
+import { NetworkId, Network } from 'src/transactions/types'
+import { TokenBalance } from './slice'
 import { TokenProperties } from 'src/analytics/Properties'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs, FeatureGates } from 'src/statsig/constants'
@@ -10,6 +13,7 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { Statsig } from 'statsig-react-native'
 import { TokenBalance } from './slice'
+import networkConfig from 'src/web3/networkConfig'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -84,9 +88,8 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   return usdBalance(token2).comparedTo(usdBalance(token1))
 }
 
-function usdBalance(token: TokenBalance): BigNumber {
-  // We check that priceUsd is not null before calling this.
-  return token.priceUsd!.times(token.balance)
+export function usdBalance(token: TokenBalance): BigNumber {
+  return token.balance.times(token.priceUsd ?? 0)
 }
 
 export function convertLocalToTokenAmount({
@@ -126,6 +129,17 @@ export function convertTokenToLocalAmount({
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
   return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
     .showBalances
+}
+
+export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {
+  if (
+    (networkId === networkConfig.networkToNetworkId[Network.Celo] &&
+      tokenAddress === networkConfig.celoTokenAddress) ||
+    !tokenAddress
+  ) {
+    return `${networkId}:native`
+  }
+  return `${networkId}:${tokenAddress}`
 }
 
 export function showAssetDetailsScreen() {
