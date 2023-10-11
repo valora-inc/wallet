@@ -58,16 +58,21 @@ function useTransactionCallbacks({
 
   const dispatch = useDispatch()
 
-  const getTransactionData = useCallback(
-    (): TransactionDataInput => ({
+  const getTransactionData = useCallback((): TransactionDataInput => {
+    // TODO(ACT-904): Remove this once we have a better way to handle Eth sends
+    if (!tokenInfo?.address) {
+      throw new Error(
+        'getTransactionData cannot be called on token without an address ex: Ethereum'
+      )
+    }
+    return {
       recipient,
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
-      tokenAddress: tokenInfo!.address!,
-    }),
-    [recipient, tokenAmount, transferTokenId]
-  )
+      tokenAddress: tokenInfo.address,
+    }
+  }, [recipient, tokenAmount, transferTokenId, tokenInfo])
 
   const continueAnalyticsParams = useMemo(() => {
     return {
