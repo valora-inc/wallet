@@ -1,19 +1,16 @@
 import BigNumber from 'bignumber.js'
-import { CurrencyTokens } from 'src/tokens/selectors'
-import { NetworkId, Network } from 'src/transactions/types'
-import { TokenBalance } from './slice'
 import { TokenProperties } from 'src/analytics/Properties'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs, FeatureGates } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
-import { NetworkId } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import { Statsig } from 'statsig-react-native'
 import { TokenBalance } from './slice'
-import networkConfig from 'src/web3/networkConfig'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
