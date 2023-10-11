@@ -36,7 +36,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
   [StatsigFeatureGates.SHOW_NATIVE_TOKENS]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
-  [StatsigFeatureGates.SHOW_ASSET_PAGE_REDESIGN]: false,
+  [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
 }
 
 export const ExperimentConfigs = {

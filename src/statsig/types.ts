@@ -32,7 +32,7 @@ export enum StatsigFeatureGates {
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   SHOW_NATIVE_TOKENS = 'show_native_tokens',
   USE_VIEM_FOR_SEND = 'use_viem_for_send',
-  SHOW_ASSET_PAGE_REDESIGN = 'show_asset_page_redesign',
+  SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
 }
 
 export enum StatsigExperiments {
