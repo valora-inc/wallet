@@ -89,7 +89,7 @@ export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
 
 export function useTokensList() {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  return useSelector(tokensListSelectorWrapper(networkIds))
+  return useSelector((state) => tokensListSelector(state, networkIds))
 }
 
 export function useTokenPricesAreStale(networkIds: NetworkId[]) {
