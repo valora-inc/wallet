@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Regular16,
   },
   nftsContentContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   nftsErrorView: {
     width: nftImageSize,
