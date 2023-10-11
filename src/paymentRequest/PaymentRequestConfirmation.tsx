@@ -12,8 +12,8 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import ReviewFrame from 'src/components/ReviewFrame'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -102,7 +102,10 @@ function PaymentRequestConfirmation({ route }: Props) {
   const renderFooter = () => {
     return (
       <View style={styles.feeContainer}>
-        <TokenTotalLineItem tokenAmount={tokenAmount} tokenAddress={transactionData.tokenAddress} />
+        <LegacyTokenTotalLineItem
+          tokenAmount={tokenAmount}
+          tokenAddress={transactionData.tokenAddress}
+        />
       </View>
     )
   }

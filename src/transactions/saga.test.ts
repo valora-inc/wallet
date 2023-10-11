@@ -7,7 +7,7 @@ import { TokenTransaction, TokenTransactionTypeV2, NetworkId } from 'src/transac
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -18,6 +18,7 @@ const mockInviteTransaction: TokenTransaction = {
   address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
   amount: {
     tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
     value: '0.1',
   },
   block: '8648978',

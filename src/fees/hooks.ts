@@ -97,7 +97,7 @@ export function useMaxSendAmount(
  * @deprecated use useMaxSendAmount instead
  */
 export function useMaxSendAmountByAddress(
-  tokenAddress: string | undefined,
+  tokenAddress: string | undefined | null,
   feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true
 ) {

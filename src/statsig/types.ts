@@ -30,7 +30,6 @@ export enum StatsigFeatureGates {
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
-  SHOW_NATIVE_TOKENS = 'show_native_tokens',
   USE_VIEM_FOR_SEND = 'use_viem_for_send',
   MULTI_CHAIN_SEND = 'multi_chain_send',
 }

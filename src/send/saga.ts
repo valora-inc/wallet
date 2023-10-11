@@ -54,6 +54,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import networkConfig from 'src/web3/networkConfig'
+import { getTokenId } from 'src/tokens/utils'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
@@ -224,6 +225,7 @@ export function* buildAndSendPayment(
       status: TransactionStatus.Pending,
       value: amount.negated().toString(),
       tokenAddress,
+      tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
       timestamp: Math.floor(Date.now() / 1000),
       address: recipientAddress,
     })

@@ -4,9 +4,9 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
@@ -18,7 +18,6 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
 } from 'test/values'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))
@@ -90,16 +89,6 @@ describe('LegacyTokenDisplay', () => {
           </Provider>
         )
       ).toThrow()
-    })
-    it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
-      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <LegacyTokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).not.toThrow()
     })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(

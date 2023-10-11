@@ -25,8 +25,11 @@ import {
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
+  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockDisplayNumber2,
   mockE164Number2,
 } from 'test/values'
@@ -74,6 +77,7 @@ describe('TransactionDetailsScreen', () => {
     amount = {
       value: 10,
       tokenAddress: mockCusdAddress,
+      tokenId: mockCusdTokenId,
       localAmount: {
         currencyCode: 'EUR',
         exchangeRate: '0.4',
@@ -107,10 +111,12 @@ describe('TransactionDetailsScreen', () => {
     inAmount = {
       value: 34,
       tokenAddress: mockCeurAddress,
+      tokenId: mockCeurTokenId,
     },
     outAmount = {
       value: 17,
       tokenAddress: mockCusdAddress,
+      tokenId: mockCusdTokenId,
     },
     metadata = {},
     fees = [],
@@ -145,6 +151,7 @@ describe('TransactionDetailsScreen', () => {
             amount: {
               value: '0.01',
               tokenAddress: mockCeloAddress,
+              tokenId: mockCeloTokenId,
               localAmount: {
                 value: '0.04',
                 currencyCode: 'EUR',
@@ -216,6 +223,7 @@ describe('TransactionDetailsScreen', () => {
             amount: {
               value: 0.1,
               tokenAddress: mockCusdAddress,
+              tokenId: mockCusdTokenId,
             },
           },
         ],

@@ -131,6 +131,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     }
     navigate(Screens.FiatExchangeAmount, {
       currency: selectedCurrency,
+      tokenId: networkConfig.currencyToTokenId[selectedCurrency],
       flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
       network: CiCoCurrencyNetworkMap[selectedCurrency],
     })

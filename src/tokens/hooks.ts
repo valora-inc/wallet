@@ -93,6 +93,12 @@ export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
   const totalBalance = useSelector(totalTokenBalanceSelectorWrapper(networkIds))
   return totalBalance === null
 }
+
+export function useTokensList() {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  return useSelector(tokensListSelectorWrapper(networkIds))
+}
+
 export function useTokenPricesAreStale(networkIds: NetworkId[]) {
   const tokens = useSelector(tokensListSelectorWrapper(networkIds))
   // If no tokens then prices cannot be stale
@@ -193,7 +199,7 @@ export function useLocalToTokenAmount(
  */
 export function useLocalToTokenAmountByAddress(
   localAmount: BigNumber,
-  tokenAddress?: string
+  tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   return useLocalToTokenAmount(localAmount, tokenInfo?.tokenId)
@@ -217,7 +223,7 @@ export function useTokenToLocalAmount(
  */
 export function useTokenToLocalAmountByAddress(
   tokenAmount: BigNumber,
-  tokenAddress?: string
+  tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   return useTokenToLocalAmount(tokenAmount, tokenInfo?.tokenId)

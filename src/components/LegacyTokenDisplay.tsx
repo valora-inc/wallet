@@ -2,8 +2,6 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleProp, TextStyle } from 'react-native'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -36,14 +34,9 @@ function LegacyTokenDisplay({
   style,
   testID,
 }: Props) {
-  const showNativeTokens = getFeatureGate(StatsigFeatureGates.SHOW_NATIVE_TOKENS)
-  if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
+  if (tokenAddress ? currency : !currency) {
     throw new Error(
       'LegacyTokenDisplay must be passed either "currency" or "tokenAddress" and not both'
-    )
-  } else if (tokenAddress && currency) {
-    throw new Error(
-      'LegacyTokenDisplay must be passed tokenAddress, currency, or nethier, but not both'
     )
   }
 
