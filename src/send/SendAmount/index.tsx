@@ -129,7 +129,7 @@ function SendAmount(props: Props) {
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
-  const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress, defaultTokenIdOverride } =
+  const { isOutgoingPaymentRequest, recipient, origin, forceTokenId, defaultTokenIdOverride } =
     props.route.params
   const [transferTokenId, setTransferTokenId] = useState(defaultTokenIdOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
@@ -235,7 +235,7 @@ function SendAmount(props: Props) {
         tokenId={transferTokenId}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
         onOpenCurrencyPicker={handleShowCurrencyPicker}
-        disallowCurrencyChange={!!forceTokenAddress}
+        disallowCurrencyChange={!!forceTokenId}
       />
       <DisconnectBanner />
       <View style={styles.contentContainer}>

@@ -105,11 +105,11 @@ const mockTransactionData2 = {
 const mockScreenProps = ({
   defaultTokenIdOverride,
   isOutgoingPaymentRequest,
-  forceTokenAddress,
+  forceTokenId,
 }: {
   defaultTokenIdOverride?: string
   isOutgoingPaymentRequest?: boolean
-  forceTokenAddress?: boolean
+  forceTokenId?: boolean
 }) =>
   getMockStackScreenProps(Screens.SendAmount, {
     isFromScan: false,
@@ -117,7 +117,7 @@ const mockScreenProps = ({
     recipient: mockTransactionData.recipient,
     isOutgoingPaymentRequest,
     origin: SendOrigin.AppSendFlow,
-    forceTokenAddress,
+    forceTokenId,
   })
 
 const enterAmount = (wrapper: RenderAPI, text: string) => {
@@ -340,7 +340,7 @@ describe('SendAmount', () => {
             {...mockScreenProps({
               isOutgoingPaymentRequest: false,
               defaultTokenIdOverride: mockTestTokenTokenId,
-              forceTokenAddress: true,
+              forceTokenId: true,
             })}
           />
         </Provider>
@@ -456,7 +456,7 @@ describe('SendAmount', () => {
         <Provider store={store}>
           <SendAmount
             {...mockScreenProps({
-              forceTokenAddress: true,
+              forceTokenId: true,
               defaultTokenIdOverride: mockCeurTokenId,
             })}
           />

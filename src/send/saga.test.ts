@@ -127,7 +127,7 @@ describe(watchQrCodeDetections, () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
-      forceTokenAddress: false,
+      forceTokenId: false,
     })
   })
 
@@ -158,7 +158,7 @@ describe(watchQrCodeDetections, () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
-      forceTokenAddress: false,
+      forceTokenId: false,
     })
   })
 
@@ -191,7 +191,7 @@ describe(watchQrCodeDetections, () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
-      forceTokenAddress: false,
+      forceTokenId: false,
     })
   })
 

@@ -48,7 +48,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
-  const forceTokenAddress = route.params?.forceTokenAddress
+  const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
   const { t } = useTranslation()
 
@@ -134,7 +134,7 @@ function Send({ route }: Props) {
       navigate(Screens.SendAmount, {
         isFromScan: false,
         defaultTokenIdOverride,
-        forceTokenAddress,
+        forceTokenId,
         recipient,
         isOutgoingPaymentRequest,
         origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,

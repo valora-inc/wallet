@@ -26,7 +26,7 @@ export default function SendBar({ selectedCurrency, skipImport }: Props) {
     navigate(Screens.Send, {
       skipContactsImport: skipImport,
       defaultTokenIdOverride: tokenInfo?.tokenId,
-      forceTokenAddress: !!tokenInfo?.tokenId,
+      forceTokenId: !!tokenInfo?.tokenId,
     })
     ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
   }

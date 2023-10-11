@@ -50,7 +50,7 @@ describe('send/utils', () => {
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
           isOutgoingPaymentRequest: undefined,
-          forceTokenAddress: false,
+          forceTokenId: false,
         })
       )
     })
@@ -71,7 +71,7 @@ describe('send/utils', () => {
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
           isOutgoingPaymentRequest: undefined,
-          forceTokenAddress: true,
+          forceTokenId: true,
           defaultTokenIdOverride: mockCeurTokenId,
         })
       )
@@ -93,7 +93,7 @@ describe('send/utils', () => {
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
           isOutgoingPaymentRequest: undefined,
-          forceTokenAddress: false,
+          forceTokenId: false,
         })
       )
     })
@@ -215,7 +215,7 @@ describe('send/utils', () => {
           expect.objectContaining({
             origin: SendOrigin.AppSendFlow,
             recipient: mockQRCodeRecipient,
-            forceTokenAddress: false,
+            forceTokenId: false,
           })
         )
       })
@@ -311,7 +311,7 @@ describe('send/utils', () => {
               address: mockUriData[1].address.toLowerCase(),
               recipientType: RecipientType.Address,
             },
-            forceTokenAddress: true,
+            forceTokenId: true,
             defaultTokenIdOverride: mockCeloTokenId,
           })
         )
@@ -329,7 +329,7 @@ describe('send/utils', () => {
               address: mockUriData[2].address.toLowerCase(),
               recipientType: RecipientType.Address,
             },
-            forceTokenAddress: false,
+            forceTokenId: false,
           })
         )
       })

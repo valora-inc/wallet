@@ -21,7 +21,7 @@ import {
 const mockScreenProps = (params: {
   isOutgoingPaymentRequest?: boolean
   skipContactsImport?: boolean
-  forceTokenAddress?: boolean
+  forceTokenId?: boolean
   defaultTokenIdOverride?: string
 }) => getMockStackScreenProps(Screens.Send, params)
 
@@ -156,7 +156,7 @@ describe('Send', () => {
           {...mockScreenProps({
             isOutgoingPaymentRequest: true,
             defaultTokenIdOverride: mockCeloTokenId,
-            forceTokenAddress: true,
+            forceTokenId: true,
           })}
         />
       </Provider>
@@ -170,7 +170,7 @@ describe('Send', () => {
       isOutgoingPaymentRequest: true,
       origin: SendOrigin.AppRequestFlow,
       defaultTokenIdOverride: mockCeloTokenId,
-      forceTokenAddress: true,
+      forceTokenId: true,
       isFromScan: false,
     })
   })
