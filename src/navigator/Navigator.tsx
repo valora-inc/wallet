@@ -113,6 +113,7 @@ import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
+import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
@@ -675,6 +676,10 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
       <BottomSheet.Screen
         name={Screens.DappShortcutTransactionRequest}
         component={DappShortcutTransactionRequest}
+      />
+      <BottomSheet.Screen
+        name={Screens.TokenDetailsMoreActions}
+        component={TokenDetailsMoreActions}
       />
     </>
   )

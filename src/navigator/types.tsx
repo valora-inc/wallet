@@ -3,6 +3,7 @@ import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
+import { TokenProperties } from 'src/analytics/Properties'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
@@ -19,6 +20,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
+import { TokenDetailsAction } from 'src/tokens/types'
 import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -266,6 +268,10 @@ export type StackParamList = {
   [Screens.SwapReviewScreen]: undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TokenDetails]: { tokenId: string }
+  [Screens.TokenDetailsMoreActions]: {
+    tokenProperties: TokenProperties
+    actions: TokenDetailsAction[]
+  }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }

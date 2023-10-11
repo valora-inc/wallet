@@ -128,7 +128,7 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
 
 export function showAssetDetailsScreen() {
   // TODO(ACT-919): get from feature gate
-  return false
+  return true
 }
 
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {

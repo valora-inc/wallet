@@ -40,7 +40,7 @@ import {
   useTokenInfo,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { TokenDetailsActionName } from 'src/tokens/types'
+import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 
@@ -144,6 +144,7 @@ function Actions({ token }: { token: TokenBalance }) {
   const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
+  const analyticsProperties = getTokenAnalyticsProps(token)
 
   const onPressCicoAction = (flow: CICOFlow) => {
     const tokenSymbol = token.symbol
@@ -158,10 +159,11 @@ function Actions({ token }: { token: TokenBalance }) {
     }
   }
 
-  const actions = [
+  const actions: (TokenDetailsAction & { visible: boolean })[] = [
     {
       name: TokenDetailsActionName.Send,
-      text: t('tokenDetails.actions.send'),
+      title: t('tokenDetails.actions.send'),
+      description: t('tokenDetails.actionDescriptions.send'),
       iconComponent: QuickActionsSend,
       onPress: () => {
         // TODO: this should change to passing tokenId when #4242 is merged
@@ -171,7 +173,8 @@ function Actions({ token }: { token: TokenBalance }) {
     },
     {
       name: TokenDetailsActionName.Swap,
-      text: t('tokenDetails.actions.swap'),
+      title: t('tokenDetails.actions.swap'),
+      description: t('tokenDetails.actionDescriptions.swap'),
       iconComponent: QuickActionsSwap,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
@@ -183,7 +186,8 @@ function Actions({ token }: { token: TokenBalance }) {
     },
     {
       name: TokenDetailsActionName.Add,
-      text: t('tokenDetails.actions.add'),
+      title: t('tokenDetails.actions.add'),
+      description: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
         onPressCicoAction(CICOFlow.CashIn)
@@ -192,7 +196,8 @@ function Actions({ token }: { token: TokenBalance }) {
     },
     {
       name: TokenDetailsActionName.Withdraw,
-      text: t('tokenDetails.actions.withdraw'),
+      title: t('tokenDetails.actions.withdraw'),
+      description: t('tokenDetails.actionDescriptions.withdraw'),
       iconComponent: QuickActionsWithdraw,
       onPress: () => {
         onPressCicoAction(CICOFlow.CashOut)
@@ -203,10 +208,10 @@ function Actions({ token }: { token: TokenBalance }) {
 
   const moreAction = {
     name: TokenDetailsActionName.More,
-    text: t('tokenDetails.actions.more'),
+    title: t('tokenDetails.actions.more'),
     iconComponent: QuickActionsMore,
     onPress: () => {
-      // TODO(ACT-917): open bottom sheet
+      navigate(Screens.TokenDetailsMoreActions, { tokenId: token.tokenId, actions })
     },
   }
 
@@ -230,11 +235,11 @@ function Actions({ token }: { token: TokenBalance }) {
       {actionButtons.map((action) => (
         <Button
           key={action.name}
-          text={action.text}
+          text={action.title}
           onPress={() => {
             ValoraAnalytics.track(AssetsEvents.tap_token_details_action, {
               action: action.name,
-              ...getTokenAnalyticsProps(token),
+              ...analyticsProperties,
             })
             action.onPress()
           }}
