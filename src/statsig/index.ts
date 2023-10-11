@@ -85,7 +85,6 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
-  console.log('!!!CALLED FOR ' + featureGateName)
   try {
     return Statsig.checkGate(featureGateName)
   } catch (error) {
