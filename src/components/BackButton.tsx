@@ -11,6 +11,7 @@ function BackButton(props: Props) {
     <View style={[styles.container, props.style]}>
       <TopBarIconButton
         {...props}
+        style={styles.button}
         icon={<BackChevron color={props.color} height={props.height} />}
       />
     </View>
@@ -25,6 +26,13 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  button: {
+    // Quick hack to workaround hitSlop set for the internal Touchable component not working
+    // I tried removing the parent view, but it didn't help either
+    paddingHorizontal: 16,
+    paddingVertical: 12, // vertical padding slightly smaller so the ripple effect isn't cut off
+    left: -16,
   },
 })
 
