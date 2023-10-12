@@ -160,8 +160,8 @@ export function* sendPayment({
       // The assumption here is that if the call throws, then the actual execution would result
       // in a revert. I'm not positive that this assumption holds, however.
       // TODO (ACT-922): Fill in fee estimation for native token transfers (non-Celo)
-      const callMethod = async () =>
-        await publicClient[network].call({
+      const callMethod = () =>
+        publicClient[network].call({
           account: wallet.account,
           to: getAddress(recipientAddress),
           data: '0x00',
