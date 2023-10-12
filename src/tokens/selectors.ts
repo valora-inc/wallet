@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import deviceInfoModule from 'react-native-device-info'
-import { createSelector, EqualityFn } from 'reselect'
+import { createSelector } from 'reselect'
 import {
   STABLE_TRANSACTION_MIN_AMOUNT,
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
