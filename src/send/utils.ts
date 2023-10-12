@@ -14,7 +14,7 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { tokensListSelectorWrapper } from 'src/tokens/selectors'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
@@ -45,7 +45,9 @@ export function* handleSendPaymentData(
   )
 
   const supportedNetworkIds = yield* select(getSupportedNetworkIdsForSend)
-  const tokens: TokenBalance[] = yield* select(tokensListSelectorWrapper(supportedNetworkIds))
+  const tokens: TokenBalance[] = yield* select((state) =>
+    tokensListSelector(state, supportedNetworkIds)
+  )
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
   if (!tokenInfo?.priceUsd) {

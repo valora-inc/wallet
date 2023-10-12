@@ -55,7 +55,7 @@ export function useTokensWithTokenBalance() {
 
 export function useTokensForSend() {
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
+  const tokens = useSelector((state) => tokensListSelector(state, supportedNetworkIds))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
 
