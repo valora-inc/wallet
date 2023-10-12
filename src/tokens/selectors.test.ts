@@ -139,6 +139,12 @@ describe(tokensByIdSelector, () => {
       expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
       expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
     })
+    it('avoids unnecessary recomputation', () => {
+      const tokensById = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
+      const tokensById2 = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
+      expect(tokensById).toEqual(tokensById2)
+      expect(tokensByIdSelector.recomputations()).toEqual(1)
+    })
   })
 })
 
