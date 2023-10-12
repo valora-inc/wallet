@@ -10,11 +10,11 @@ import {
   tokenCompareByUsdBalanceThenByName,
   tokensByAddressSelector,
   tokensByCurrencySelector,
-  tokensByIdSelectorWrapper,
-  tokensListSelectorWrapper,
+  tokensByIdSelector,
+  tokensListSelector,
   tokensListWithAddressSelector,
-  tokensWithUsdValueSelectorWrapper,
-  totalTokenBalanceSelectorWrapper,
+  tokensWithUsdValueSelector,
+  totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import {
@@ -38,23 +38,23 @@ export function useTokenInfoByAddress(tokenAddress?: string | null) {
 }
 
 export function useTokensWithUsdValue(networkIds: NetworkId[]) {
-  return useSelector(tokensWithUsdValueSelectorWrapper(networkIds))
+  return useSelector((state) => tokensWithUsdValueSelector(state, networkIds))
 }
 
 export function useTotalTokenBalance() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  return useSelector(totalTokenBalanceSelectorWrapper(supportedNetworkIds))
+  return useSelector((state) => totalTokenBalanceSelector(state, supportedNetworkIds))
 }
 
 export function useTokensWithTokenBalance() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
+  const tokens = useSelector((state) => tokensListSelector(state, supportedNetworkIds))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
 
 export function useTokensForAssetsScreen() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const tokens = useSelector(tokensListSelectorWrapper(supportedNetworkIds))
+  const tokens = useSelector((state) => tokensListSelector(state, supportedNetworkIds))
 
   return tokens
     .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
@@ -83,17 +83,17 @@ export function useTokensForAssetsScreen() {
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
-  const totalBalance = useSelector(totalTokenBalanceSelectorWrapper(networkIds))
+  const totalBalance = useSelector((state) => totalTokenBalanceSelector(state, networkIds))
   return totalBalance === null
 }
 
 export function useTokensList() {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  return useSelector(tokensListSelectorWrapper(networkIds))
+  return useSelector((state) => tokensListSelector(state, networkIds))
 }
 
 export function useTokenPricesAreStale(networkIds: NetworkId[]) {
-  const tokens = useSelector(tokensListSelectorWrapper(networkIds))
+  const tokens = useSelector((state) => tokensListSelector(state, networkIds))
   // If no tokens then prices cannot be stale
   if (tokens.length === 0) return false
   // Put tokens with priceUsd into an array
@@ -114,7 +114,7 @@ export function useSendableTokens() {
   const networkIdsForSend = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSend
-  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSend))
+  const tokens = useSelector((state) => tokensListSelector(state, networkIdsForSend))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
 
@@ -123,7 +123,7 @@ export function useSwappableTokens() {
   const networkIdsForSwap = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSwap
-  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForSwap))
+  const tokens = useSelector((state) => tokensListSelector(state, networkIdsForSwap))
   return tokens
     .filter(
       (tokenInfo) =>
@@ -138,7 +138,7 @@ export function useCashInTokens() {
   const networkIdsForCico = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showCico
-  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
+  const tokens = useSelector((state) => tokensListSelector(state, networkIdsForCico))
   return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
 }
 
@@ -146,7 +146,7 @@ export function useCashOutTokens() {
   const networkIdsForCico = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showCico
-  const tokens = useSelector(tokensListSelectorWrapper(networkIdsForCico))
+  const tokens = useSelector((state) => tokensListSelector(state, networkIdsForCico))
   return tokens.filter(
     (tokenInfo) =>
       tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
@@ -157,7 +157,7 @@ export function useCashOutTokens() {
 
 export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens = useSelector(tokensByIdSelectorWrapper(networkIds))
+  const tokens = useSelector((state) => tokensByIdSelector(state, networkIds))
   return tokenId ? tokens[tokenId] : undefined
 }
 

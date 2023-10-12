@@ -6,7 +6,7 @@ import { ReactTestInstance } from 'react-test-renderer'
 import { MockStoreEnhanced } from 'redux-mock-store'
 import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
-import { initialState, State } from 'src/consumerIncentives/slice'
+import { State, initialState } from 'src/consumerIncentives/slice'
 import {
   ONE_CUSD_REWARD_RESPONSE,
   ONE_CUSD_REWARD_RESPONSE_V2,
@@ -15,11 +15,13 @@ import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import { StoredTokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCusdAddress, mockCusdTokenId } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
+jest.mock('src/statsig')
 interface TokenBalances {
   [address: string]: StoredTokenBalance
 }
@@ -336,5 +338,27 @@ describe('ConsumerIncentivesHomeScreen', () => {
         "type": "supercharge/fetchAvailableRewards",
       }
     `)
+  })
+
+  it('hides the disclaimer and CTA once a user has claimed rewards in a restricted environment', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+
+    const { queryByTestId, queryByText } = render(
+      <Provider
+        store={createStore({
+          numberVerified: true,
+          tokenBalances: ONLY_CUSD_BALANCE,
+          supercharge: {
+            ...initialState,
+            availableRewards: [],
+          },
+        })}
+      >
+        <ConsumerIncentivesHomeScreen />
+      </Provider>
+    )
+
+    expect(queryByTestId('ConsumerIncentives/CTA')).toBeFalsy()
+    expect(queryByText('superchargeDisclaimer')).toBeFalsy()
   })
 })
