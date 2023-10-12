@@ -571,7 +571,7 @@ interface SendEventsProperties {
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
-        underlyingTokenAddress: string
+        underlyingTokenAddress: string | null
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
@@ -639,18 +639,26 @@ interface SendEventsProperties {
     error: string
   }
   [SendEvents.token_dropdown_opened]: {
-    currentTokenAddress: string
+    currentTokenId: string
+    currentTokenAddress: string | null
+    currentNetworkId: NetworkId | null
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    tokenAddress: string
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.max_pressed]: {
-    tokenAddress: string
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.swap_input_pressed]: {
-    tokenAddress: string
     swapToLocalAmount: boolean
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -682,7 +690,7 @@ interface RequestEventsProperties {
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
-        underlyingTokenAddress: string
+        underlyingTokenAddress: string | null
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null

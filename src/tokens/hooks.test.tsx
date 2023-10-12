@@ -5,14 +5,14 @@ import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { getDynamicConfigParams } from 'src/statsig'
 import {
-  useAmountAsUsd,
+  useAmountAsUsdByAddress,
   useCashInTokens,
   useCashOutTokens,
-  useLocalToTokenAmount,
+  useLocalToTokenAmountByAddress,
   useSendableTokens,
   useSwappableTokens,
   useTokenPricesAreStale,
-  useTokenToLocalAmount,
+  useTokenToLocalAmountByAddress,
   useTokensForAssetsScreen,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
@@ -56,9 +56,9 @@ const tokenIdWithoutBalance = `celo-alfajores:${tokenAddressWithoutBalance}`
 const ethTokenId = 'ethereum-sepolia:native'
 
 function TestComponent({ tokenAddress }: { tokenAddress: string }) {
-  const tokenAmount = useLocalToTokenAmount(new BigNumber(1), tokenAddress)
-  const localAmount = useTokenToLocalAmount(new BigNumber(1), tokenAddress)
-  const usdAmount = useAmountAsUsd(new BigNumber(1), tokenAddress)
+  const tokenAmount = useLocalToTokenAmountByAddress(new BigNumber(1), tokenAddress)
+  const localAmount = useTokenToLocalAmountByAddress(new BigNumber(1), tokenAddress)
+  const usdAmount = useAmountAsUsdByAddress(new BigNumber(1), tokenAddress)
   const tokenPricesAreStale = useTokenPricesAreStale([NetworkId['celo-alfajores']])
 
   return (

@@ -236,8 +236,8 @@ export type StackParamList = {
     | {
         isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
-        forceTokenAddress?: boolean
-        defaultTokenOverride?: string
+        forceTokenId?: boolean
+        defaultTokenIdOverride?: string
       }
     | undefined
   [Screens.SendAmount]: {
@@ -245,8 +245,8 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan: boolean
     origin: SendOrigin
-    forceTokenAddress?: boolean
-    defaultTokenOverride?: string
+    forceTokenId?: boolean
+    defaultTokenIdOverride?: string
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams

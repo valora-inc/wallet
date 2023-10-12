@@ -21,7 +21,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
 import { SWAP_LEARN_MORE } from 'src/config'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -94,7 +94,7 @@ export function SwapScreen({ route }: Props) {
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
-  const maxFromAmountUnchecked = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
+  const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
     ? new BigNumber(0)
     : maxFromAmountUnchecked
@@ -236,7 +236,7 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const handleSelectToken = (tokenAddress: string) => {
+  const handleSelectToken = ({ address: tokenAddress }: TokenBalanceWithAddress) => {
     const selectedToken = swappableTokens.find((token) => token.address === tokenAddress)
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {

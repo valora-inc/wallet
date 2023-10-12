@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleProp, TextStyle } from 'react-native'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import TokenDisplay from 'src/components/TokenDisplay'
 
 interface Props {
   amount: BigNumber.Value

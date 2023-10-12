@@ -17,10 +17,10 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import TokenDisplay from 'src/components/TokenDisplay'
 import LineItemRow from 'src/components/LineItemRow'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
@@ -42,12 +42,16 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import {
+  useLocalToTokenAmountByAddress,
+  useTokenInfo,
+  useTokenToLocalAmountByAddress,
+} from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, currencyForAnalytics } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
-import { CICOFlow, isUserInputCrypto } from './utils'
 import networkConfig from 'src/web3/networkConfig'
+import { CICOFlow, isUserInputCrypto } from './utils'
 
 const TAG = 'FiatExchangeAmount'
 
@@ -78,9 +82,9 @@ function FiatExchangeAmount({ route }: Props) {
   const { address } = useTokenInfo(tokenId) || {}
 
   const inputConvertedToCrypto =
-    useLocalToTokenAmount(parsedInputAmount, address) || new BigNumber(0)
+    useLocalToTokenAmountByAddress(parsedInputAmount, address) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
-    useTokenToLocalAmount(parsedInputAmount, address) || new BigNumber(0)
+    useTokenToLocalAmountByAddress(parsedInputAmount, address) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
@@ -93,7 +97,7 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
+  const maxWithdrawAmount = useMaxSendAmountByAddress(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
@@ -101,7 +105,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const cUSDToken = useTokenInfo(networkConfig.currencyToTokenId[CiCoCurrency.cUSD])!
   const localCurrencyMaxAmount =
-    useTokenToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.address) ||
+    useTokenToLocalAmountByAddress(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.address) ||
     new BigNumber(0)
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {

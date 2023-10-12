@@ -13,6 +13,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SendAmount from 'src/send/SendAmount'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount2Invite,
@@ -27,7 +28,6 @@ import {
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -103,21 +103,21 @@ const mockTransactionData2 = {
 }
 
 const mockScreenProps = ({
-  defaultTokenOverride,
+  defaultTokenIdOverride,
   isOutgoingPaymentRequest,
-  forceTokenAddress,
+  forceTokenId,
 }: {
-  defaultTokenOverride?: string
+  defaultTokenIdOverride?: string
   isOutgoingPaymentRequest?: boolean
-  forceTokenAddress?: boolean
+  forceTokenId?: boolean
 }) =>
   getMockStackScreenProps(Screens.SendAmount, {
     isFromScan: false,
-    defaultTokenOverride,
+    defaultTokenIdOverride,
     recipient: mockTransactionData.recipient,
     isOutgoingPaymentRequest,
     origin: SendOrigin.AppSendFlow,
-    forceTokenAddress,
+    forceTokenId,
   })
 
 const enterAmount = (wrapper: RenderAPI, text: string) => {
@@ -291,15 +291,19 @@ describe('SendAmount', () => {
         ...storeData,
         tokens: {
           tokenBalances: {
-            [mockCusdAddress]: {
+            [mockCusdTokenId]: {
               address: mockCusdAddress,
+              tokenId: mockCusdTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cUSD',
               priceUsd: '1',
               balance: '0',
               priceFetchedAt: Date.now(),
             },
-            [mockCeurAddress]: {
+            [mockCeurTokenId]: {
               address: mockCeurAddress,
+              tokenId: mockCeurTokenId,
+              networkId: NetworkId['celo-alfajores'],
               symbol: 'cEUR',
               priceUsd: '1.2',
               balance: '10.12',
@@ -335,8 +339,8 @@ describe('SendAmount', () => {
           <SendAmount
             {...mockScreenProps({
               isOutgoingPaymentRequest: false,
-              defaultTokenOverride: mockTestTokenAddress,
-              forceTokenAddress: true,
+              defaultTokenIdOverride: mockTestTokenTokenId,
+              forceTokenId: true,
             })}
           />
         </Provider>
@@ -452,8 +456,8 @@ describe('SendAmount', () => {
         <Provider store={store}>
           <SendAmount
             {...mockScreenProps({
-              forceTokenAddress: true,
-              defaultTokenOverride: mockCeurAddress,
+              forceTokenId: true,
+              defaultTokenIdOverride: mockCeurTokenId,
             })}
           />
         </Provider>

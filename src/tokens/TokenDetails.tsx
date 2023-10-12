@@ -165,8 +165,7 @@ function Actions({ token }: { token: TokenBalance }) {
       text: t('tokenDetails.actions.send'),
       iconComponent: QuickActionsSend,
       onPress: () => {
-        // TODO: this should change to passing tokenId when #4242 is merged
-        navigate(Screens.Send, { defaultTokenOverride: token.address! })
+        navigate(Screens.Send, { defaultTokenIdOverride: token.tokenId })
       },
       visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },

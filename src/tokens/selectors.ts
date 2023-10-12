@@ -254,9 +254,9 @@ export const defaultTokenToSendSelector = createSelector(
   (tokens, stableCoins) => {
     if (tokens.length === 0) {
       // TODO: ideally we return based on location - cUSD for now.
-      return stableCoins.find((coin) => coin.symbol === 'cUSD')?.address ?? ''
+      return stableCoins.find((coin) => coin.symbol === 'cUSD')?.tokenId ?? ''
     }
-    return tokens[0].address
+    return tokens[0].tokenId
   }
 )
 

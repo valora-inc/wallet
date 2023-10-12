@@ -8,7 +8,7 @@ import TokenBottomSheet, {
   DEBOUCE_WAIT_TIME,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
@@ -22,7 +22,7 @@ import {
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-const tokens: TokenBalanceWithAddress[] = [
+const tokens: TokenBalance[] = [
   {
     balance: new BigNumber('10'),
     priceUsd: new BigNumber('1'),
@@ -140,13 +140,19 @@ describe('TokenBottomSheet', () => {
     const { getByTestId } = renderBottomSheet()
 
     fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCusdAddress)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockCusdTokenId)
+    )
 
     fireEvent.press(getByTestId('cEURTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCeurAddress)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockCeurTokenId)
+    )
 
     fireEvent.press(getByTestId('TTTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockTestTokenAddress)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockTestTokenTokenId)
+    )
   })
 
   it('renders and behaves correctly when the search is enabled', () => {
