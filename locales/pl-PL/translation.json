@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Zapraszaj znajomych i otrzymuj nagrody",
-    "body": "Po skonfigurowaniu i dodaniu 10 cUSD do portfela {{appName}} , oboje otrzymacie 0,50 cUSD."
+    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} kwotą 10 cUSD Ty i znajomy otrzymacie 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -646,14 +646,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
-    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i posiadać co najmniej 10 cUSD w portfelu {{appName}} przez 7 dni. <0>Zobacz wszystkie warunki</0>",
+    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i przez 7 dni posiadać w swoim portfelu {{appName}} kwotę 10 cUSD lub wyższą. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
       "title": "Zdobądź cUSD dzięki nagrodom za polecenie Valory",
-      "body": "Zaproś do 25 znajomych, aby dołączyli do {{appName}} , a każdy z nich otrzyma 0,50 cUSD, gdy doda lub otrzyma 10 cUSD lub więcej, do wyczerpania środków."
+      "body": "Zaproś do 25 znajomych, aby dołączyli do {{appName}}. Otrzymacie po 0,50 cUSD, gdy znajomy zasili swój portfel kwotą 10 cUSD lub wyższą przed wyczerpaniem środków."
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -973,7 +973,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Cześć! 👋 Valora to najprostszy sposób na wysyłanie pieniędzy do osób, na których Ci zależy, bez względu na to, gdzie się znajdują. Wszystko czego potrzebujesz to numer telefonu. Pobierz przez ten link, połącz swój numer telefonu i zasil swój nowy portfel kwotą 10 cUSD, aby otrzymać 0,50 USD 💫 \n\n{{link}} \n\nDziałaj teraz, nagrody za polecenie są ograniczone.",
+  "inviteWithRewardsCUSD": "Cześć! 👋 Valora to najprostszy sposób na wysyłanie pieniędzy do osób, na których Ci zależy, bez względu na to, gdzie się znajdują. Wszystko, czego potrzebujesz, to numer telefonu. Pobierz aplikację poprzez ten link, połącz swój numer telefonu i zasil nowy portfel kwotą 10 cUSD, aby otrzymać 0,50 USD 💫 \n\n{{link}} \n\nZacznij działać już teraz – nagrody za polecenie są ograniczone.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1432,12 +1432,12 @@
     "card": "Karta kredytowa/debetowa",
     "bank": "Konto bankowe",
     "mobileMoney": "Pieniądze mobilne",
-    "airtime": "Czas antenowy",
+    "airtime": "Airtime",
     "minFee": "Opłata minimalna",
     "numProviders": "Liczba dostawców: {{count}}",
     "fee": "Opłata",
     "idRequired": "Wymagane ID",
-    "mobileCarrierRequirement": "{{carrier}} Wymagane",
+    "mobileCarrierRequirement": "{{carrier}} Wymagany",
     "numDays": "1–3 dni",
     "oneHour": "Mniej niż 1 godzina",
     "xHours": "Mniej niż {{upperBound}} godz.",
@@ -1759,7 +1759,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Zaproś {{contactName}} do {{appName}} i zdobądź 0,50 cUSD",
-      "body": "Wygląda na to, że {{contactName}} nie jest na Valorze. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub zamiast tego wysłać zaproszenie. \n\n Po pobraniu Valora, podłączeniu numeru telefonu i dodaniu 10 cUSD do portfela, oboje otrzymacie 0,50 cUSD do wyczerpania środków."
+      "body": "Wygląda na to, że {{contactName}} nie jest w Valorze. Nadal możesz wysłać płatność, jeśli znasz adres portfela tej osoby, lub zamiast tego wysłać zaproszenie. \n\nPo pobraniu Valory, połączeniu numeru telefonu i zasileniu portfela kwotą 10 cUSD otrzymacie po 0,50 cUSD przed wyczerpaniem środków."
     }
   },
   "celoNews": {
@@ -1828,16 +1828,16 @@
   },
   "assets": {
     "claimRewards": "Odbierz nagrody",
-    "bridge": "Połączony przez {{bridge}}",
-    "networkName": "{{networkName}} Sieć",
+    "bridge": "Połączono przez {{bridge}}",
+    "networkName": "Sieć {{networkName}}",
     "tabBar": {
-      "tokens": "Żetony",
+      "tokens": "Tokeny",
       "collectibles": "Kolekcje",
-      "dappPositions": "Pozycje Dapp"
+      "dappPositions": "Pozycje dapp"
     }
   },
   "notificationCenterSpotlight": {
-    "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu.",
+    "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu",
     "cta": "Rozumiem"
   },
   "tokenDetails": {
