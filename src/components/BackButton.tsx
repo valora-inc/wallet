@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import BackChevron, { Props as BackChevronProps } from 'src/icons/BackChevron'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton, TopBarIconButtonProps } from 'src/navigator/TopBarButton'
+import { Spacing } from 'src/styles/styles'
 
 type Props = Omit<TopBarIconButtonProps, 'icon'> & BackChevronProps
 
@@ -30,9 +31,9 @@ const styles = StyleSheet.create({
   button: {
     // Quick hack to workaround hitSlop set for the internal Touchable component not working
     // I tried removing the parent view, but it didn't help either
-    paddingHorizontal: 16,
-    paddingVertical: 12, // vertical padding slightly smaller so the ripple effect isn't cut off
-    left: -16,
+    paddingHorizontal: Spacing.Regular16,
+    paddingVertical: Spacing.Small12, // vertical padding slightly smaller so the ripple effect isn't cut off
+    left: -Spacing.Regular16,
   },
 })
 
