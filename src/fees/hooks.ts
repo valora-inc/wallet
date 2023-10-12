@@ -65,8 +65,7 @@ export function useMaxSendAmount(
     ) {
       dispatch(estimateFee({ feeType, tokenAddress: tokenInfo.address }))
     }
-    // TODO: remove ?.tokenId once selectors are fixed
-  }, [tokenInfo?.tokenId, shouldRefresh])
+  }, [tokenInfo, shouldRefresh])
 
   const celoAddress = useSelector(celoAddressSelector)
 
