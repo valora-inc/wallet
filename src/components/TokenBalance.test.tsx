@@ -55,6 +55,11 @@ jest.mocked(getDynamicConfigParams).mockReturnValue({
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
+      )
   })
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
@@ -93,12 +98,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           },
         },
       })
-
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
 
       const tree = render(
         <Provider store={store}>
@@ -140,12 +139,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           },
         },
       })
-
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
 
       const { getByTestId } = render(
         <Provider store={store}>
@@ -214,12 +207,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -264,12 +251,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -291,12 +272,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -311,12 +286,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     'renders correctly with one token balance and some positions',
     async (TokenBalanceComponent) => {
       const store = createMockStore(defaultStore)
-
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
 
       const tree = render(
         <Provider store={store}>
@@ -358,12 +327,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -402,12 +365,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -431,12 +388,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -456,12 +407,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           tokenBalances: {},
         },
       })
-
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
 
       const tree = render(
         <Provider store={store}>
@@ -505,12 +450,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -550,12 +489,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       })
 
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-        )
-
       const tree = render(
         <Provider store={store}>
           <TokenBalanceComponent />
@@ -578,12 +511,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         positions: [],
       },
     })
-
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-      )
 
     const tree = render(
       <Provider store={store}>
@@ -620,12 +547,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         error: true,
       },
     })
-
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-      )
 
     const tree = render(
       <Provider store={store}>
@@ -667,12 +588,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       },
     })
 
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-      )
-
     const tree = render(
       <Provider store={store}>
         <HomeTokenBalance />
@@ -710,12 +625,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       },
     })
 
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-      )
-
     const tree = render(
       <Provider store={store}>
         <HomeTokenBalance />
@@ -747,11 +656,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
 describe('AssetsTokenBalance', () => {
   it('should show info on tap', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-      )
     const { getByText, getByTestId, queryByText } = render(
       <Provider store={createMockStore()}>
         <AssetsTokenBalance showInfo />
