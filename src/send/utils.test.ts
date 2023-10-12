@@ -20,6 +20,7 @@ import {
   mockCeurAddress,
   mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockQRCodeRecipient,
   mockUriData,
 } from 'test/values'
@@ -224,6 +225,7 @@ describe('send/utils', () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
           tokenAmount: new BigNumber('1'),
           inputAmount: new BigNumber('1.33'), // 1 USD in PHP
           amountIsInLocalCurrency: true,
@@ -248,6 +250,7 @@ describe('send/utils', () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
           tokenAmount: new BigNumber('1'),
           inputAmount: new BigNumber('1.33'), // 1 USD in PHP
           amountIsInLocalCurrency: true,
@@ -291,6 +294,7 @@ describe('send/utils', () => {
                 recipientType: RecipientType.Address,
               },
               tokenAddress: mockCeloAddress,
+              tokenId: mockCeloTokenId,
               tokenAmount: new BigNumber(mockUriData[0].amount!).div(5), // 5 is the CELO price.
               inputAmount: new BigNumber(mockUriData[0].amount!).times(1.33), // 1 USD in PHP
               amountIsInLocalCurrency: true,

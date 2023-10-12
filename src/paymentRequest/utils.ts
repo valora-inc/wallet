@@ -46,6 +46,7 @@ export const transactionDataFromPaymentRequest = ({
       recipient: requester,
       inputAmount: new BigNumber(paymentRequest.amount),
       tokenAmount: new BigNumber(paymentRequest.amount),
+      tokenId: cUsdTokenInfo.tokenId,
       amountIsInLocalCurrency: false,
       tokenAddress: cUsdTokenInfo.address,
       paymentRequestId: paymentRequest.uid || '',
@@ -61,6 +62,7 @@ export const transactionDataFromPaymentRequest = ({
       tokenAmount: new BigNumber(paymentRequest.amount).dividedBy(cEurTokenInfo.priceUsd),
       amountIsInLocalCurrency: false,
       tokenAddress: cEurTokenInfo.address,
+      tokenId: cEurTokenInfo.tokenId,
       paymentRequestId: paymentRequest.uid || '',
     }
   }

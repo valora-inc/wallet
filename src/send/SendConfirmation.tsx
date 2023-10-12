@@ -18,8 +18,8 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
+import TokenDisplay from 'src/components/TokenDisplay'
+import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
@@ -38,17 +38,19 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { useInputAmountsByAddress } from 'src/send/SendAmount'
+import { useInputAmounts } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
+import { getNetworkFromNetworkId } from 'src/web3/utils'
+import { Network } from 'src/transactions/types'
 
 type OwnProps = NativeStackScreenProps<
   StackParamList,
@@ -94,6 +96,7 @@ function SendConfirmation(props: Props) {
       amountIsInLocalCurrency,
       tokenAddress,
       comment: commentFromParams,
+      tokenId,
       paymentRequestId,
     },
   } = props.route.params
@@ -101,16 +104,17 @@ function SendConfirmation(props: Props) {
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
+  const tokenNetwork = getNetworkFromNetworkId(tokenInfo?.networkId)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const { localAmount, tokenAmount, usdAmount } = useInputAmountsByAddress(
+  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
-    tokenAddress,
+    tokenId,
     inputTokenAmount
   )
 
@@ -136,24 +140,28 @@ function SendConfirmation(props: Props) {
     })
   }
 
+  // TODO (ACT-922): Update all fee-related code below to work with native tokens
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
-  const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
+  const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
+
+  // TODO (ACT-922): Actually disable Ethereum sends if no fee information exists
+  const disableSend = isSending || (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo)
 
   useEffect(() => {
-    if (!feeEstimate) {
+    if (!feeEstimate && tokenAddress) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
   }, [feeEstimate])
 
   useEffect(() => {
-    if (!isDekRegistered) {
+    if (!isDekRegistered && tokenAddress) {
       dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
     }
   }, [isDekRegistered])
 
   const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
-  const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
+  const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
 
@@ -172,9 +180,9 @@ function SendConfirmation(props: Props) {
           totalFee={totalFeeInUsd}
           showLocalAmount={true}
         />
-        <LegacyTokenTotalLineItem
+        <TokenTotalLineItem
           tokenAmount={tokenAmount}
-          tokenAddress={tokenAddress}
+          tokenId={tokenId}
           feeToAddInUsd={totalFeeInUsd}
         />
       </View>
@@ -203,7 +211,8 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
-    if (!feeEstimate?.feeInfo) {
+    // TODO (ACT-922): Remove Celo network check once we have Ethereum fees
+    if (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
@@ -218,19 +227,20 @@ function SendConfirmation(props: Props) {
       tokenAmount: tokenAmount.toString(),
       tokenSymbol: tokenInfo?.symbol ?? '',
       tokenAddress,
+      tokenId,
       commentLength: comment.length,
     })
 
     dispatch(
       sendPayment(
         tokenAmount,
-        tokenAddress,
+        tokenId,
         usdAmount,
         comment,
         recipient,
-        feeEstimate.feeInfo,
         fromModal,
-        paymentRequestId
+        paymentRequestId,
+        feeEstimate?.feeInfo
       )
     )
   }
@@ -258,7 +268,7 @@ function SendConfirmation(props: Props) {
         confirmButton={{
           action: onSend,
           text: t('send'),
-          disabled: isSending || !feeEstimate?.feeInfo,
+          disabled: disableSend,
         }}
         isSending={isSending}
       >
@@ -286,11 +296,11 @@ function SendConfirmation(props: Props) {
               )}
             </View>
           </View>
-          <LegacyTokenDisplay
+          <TokenDisplay
             testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}
-            tokenAddress={tokenAddress}
+            tokenId={tokenId}
             showLocalAmount={amountIsInLocalCurrency}
           />
           {allowComment && (

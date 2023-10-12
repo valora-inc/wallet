@@ -305,7 +305,7 @@ describe(sendPaymentSaga, () => {
   const sendAction: SendPaymentAction = {
     type: Actions.SEND_PAYMENT,
     amount,
-    tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
     usdAmount: amount,
     comment: '',
     recipient: mockQRCodeRecipient,
@@ -371,7 +371,7 @@ describe(sendPaymentSaga, () => {
         context: { id: 'mock' },
         recipientAddress: sendAction.recipient.address,
         amount: sendAction.amount,
-        tokenAddress: sendAction.tokenAddress,
+        tokenId: sendAction.tokenId,
         comment: sendAction.comment,
         feeInfo: sendAction.feeInfo,
       })

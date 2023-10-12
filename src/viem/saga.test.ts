@@ -29,10 +29,13 @@ import {
   mockAccount,
   mockAccount2,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFeeInfo,
 } from 'test/values'
 import { getAddress } from 'viem'
+import { Network } from 'src/transactions/types'
 
 jest.mock('src/transactions/send', () => ({
   chooseTxFeeDetails: jest.fn(),
@@ -59,7 +62,7 @@ describe('sendPayment', () => {
     context: { id: 'txId' },
     recipientAddress: mockAccount2,
     amount: BigNumber(2),
-    tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
     comment: 'comment',
     feeInfo: mockFeeInfo,
   }
@@ -103,7 +106,7 @@ describe('sendPayment', () => {
   })
 
   it('sends a payment successfully for non stable token', async () => {
-    await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenAddress: mockCeloAddress })
+    await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenId: mockCeloTokenId })
       .withState(createMockStore().getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
@@ -137,7 +140,7 @@ describe('sendPayment', () => {
   it('throws if simulateContract fails', async () => {
     simulateContractSpy.mockRejectedValue(new Error('simulate error'))
 
-    await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenAddress: mockCeloAddress })
+    await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenId: mockCeloTokenId })
       .withState(createMockStore().getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
@@ -151,7 +154,7 @@ describe('sendPayment', () => {
   })
 
   it('throws if sendAndMonitorTransaction fails', async () => {
-    await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenAddress: mockCeloAddress })
+    await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenId: mockCeloTokenId })
       .withState(createMockStore().getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
@@ -291,8 +294,8 @@ describe('sendAndMonitorTransaction', () => {
   const mockTxReceipt = { status: 'success' }
   const mockArgs = {
     context: { id: 'txId' },
-    wallet: mockViemWallet,
-    request: {} as any,
+    network: Network.Celo,
+    sendTx: () => mockTxHash,
   }
 
   beforeEach(() => {
@@ -307,7 +310,6 @@ describe('sendAndMonitorTransaction', () => {
       .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(transactionConfirmedViem('txId'))
       .put(fetchTokenBalances({ showLoading: true }))
-      .call([mockViemWallet, 'writeContract'], mockArgs.request)
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
       .returns(mockTxReceipt)
       .run()
@@ -323,7 +325,6 @@ describe('sendAndMonitorTransaction', () => {
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
-      .call([mockViemWallet, 'writeContract'], mockArgs.request)
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
       .throws(new Error('transaction reverted'))
       .run()
@@ -338,7 +339,6 @@ describe('sendAndMonitorTransaction', () => {
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
-      .call([mockViemWallet, 'writeContract'], mockArgs.request)
       .not.call.fn(publicClient.celo.waitForTransactionReceipt)
       .throws(new Error('write failed'))
       .run()

@@ -47,7 +47,8 @@ export interface TransactionDataInput {
   recipient: Recipient
   inputAmount: BigNumber
   amountIsInLocalCurrency: boolean
-  tokenAddress: string
+  tokenAddress?: string
+  tokenId: string
   tokenAmount: BigNumber
   comment?: string
   paymentRequestId?: string
@@ -98,7 +99,7 @@ export function useInputAmounts(
 export function useInputAmountsByAddress(
   inputAmount: string,
   usingLocalAmount: boolean,
-  tokenAddress: string,
+  tokenAddress?: string,
   inputTokenAmount?: BigNumber
 ) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)

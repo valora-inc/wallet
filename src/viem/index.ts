@@ -8,4 +8,8 @@ export const publicClient = {
     chain: networkConfig.viemChain.celo as typeof celo | typeof celoAlfajores, // this type allows us to use feeCurrency on publicClient methods
     transport: http(),
   }),
+  [Network.Ethereum]: createPublicClient({
+    chain: networkConfig.viemChain.ethereum,
+    transport: http(),
+  }),
 }

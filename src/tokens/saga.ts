@@ -17,7 +17,11 @@ import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Actions } from 'src/stableToken/actions'
-import { lastKnownTokenBalancesSelector, tokensListWithAddressSelector } from 'src/tokens/selectors'
+import {
+  lastKnownTokenBalancesSelector,
+  tokensListWithAddressSelector,
+  tokensListSelectorWrapper,
+} from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -310,20 +314,30 @@ export function* fetchTokenBalancesSaga() {
   }
 }
 
-export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
-  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenId?: string) {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  const tokens: TokenBalance[] = yield* select(tokensListSelectorWrapper(networkIds))
+  const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
   if (!tokenInfo) {
-    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
+    throw Error(`Couldnt find token info for ID ${tokenId}.`)
   }
-
   const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
-export function* getTokenInfo(tokenAddress: string) {
+/**
+ * @deprecated use getTokenInfo instead
+ */
+export function* getTokenInfoByAddress(tokenAddress: string) {
   const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  return tokenInfo
+}
+
+export function* getTokenInfo(tokenId: string) {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  const tokens: TokenBalance[] = yield* select(tokensListSelectorWrapper(networkIds))
+  const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
   return tokenInfo
 }
 

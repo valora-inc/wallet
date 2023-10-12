@@ -597,7 +597,8 @@ interface SendEventsProperties {
         localCurrencyAmount: string | null
         tokenAmount: string
         tokenSymbol: string
-        tokenAddress: string
+        tokenAddress?: string
+        tokenId: string
         commentLength: number
       }
 
@@ -633,7 +634,8 @@ interface SendEventsProperties {
     recipientAddress: string
     amount: string
     usdAmount: string | undefined
-    tokenAddress: string
+    tokenAddress: string | undefined
+    tokenId: string
   }
   [SendEvents.send_tx_error]: {
     error: string

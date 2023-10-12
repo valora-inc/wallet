@@ -400,20 +400,11 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPayment(
-          inputAmount,
-          tokenAddress,
-          inputAmount,
-          '',
-          recipient,
-          mockFeeInfo,
-          false,
-          '123'
-        ),
+        sendPayment(inputAmount, tokenId, inputAmount, '', recipient, mockFeeInfo, false, '123'),
       ])
     )
   })
@@ -448,12 +439,12 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const { inputAmount, tokenAddress } = mockTokenTransactionData
+    const { inputAmount, tokenId } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         sendPayment(
           inputAmount,
-          tokenAddress,
+          tokenId,
           inputAmount,
           '',
           {

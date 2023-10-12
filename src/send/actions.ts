@@ -39,13 +39,13 @@ export interface ShareQRCodeAction {
 export interface SendPaymentAction {
   type: Actions.SEND_PAYMENT
   amount: BigNumber
-  tokenAddress: string
+  tokenId: string
   usdAmount: BigNumber | null
   comment: string
   recipient: Recipient
-  feeInfo: FeeInfo
   fromModal: boolean
   paymentRequestId?: string
+  feeInfo?: FeeInfo
 }
 
 export interface SendPaymentSuccessAction {
@@ -96,25 +96,27 @@ export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
   qrCodeSvg,
 })
 
+// TODO (ACT-922): Make feeInfo a required field again once Ethereum fee estimation exists
+// This will require a few cascading changes, namely in the Viem send saga
 export const sendPayment = (
   amount: BigNumber,
-  tokenAddress: string,
+  tokenId: string,
   usdAmount: BigNumber | null,
   comment: string,
   recipient: Recipient,
-  feeInfo: FeeInfo,
   fromModal: boolean,
-  paymentRequestId?: string
+  paymentRequestId?: string,
+  feeInfo?: FeeInfo
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
-  tokenAddress,
+  tokenId,
   usdAmount,
   comment,
   recipient,
-  feeInfo,
   fromModal,
   paymentRequestId,
+  feeInfo,
 })
 
 export const sendPaymentSuccess = (amount: BigNumber): SendPaymentSuccessAction => ({
