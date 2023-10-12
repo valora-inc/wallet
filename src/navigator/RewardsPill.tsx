@@ -2,17 +2,28 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { rewardsEnabledSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import Rings from 'src/icons/Rings'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 function RewardsPill() {
   const { t } = useTranslation()
+
+  const rewardsEnabled = useSelector(rewardsEnabledSelector)
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
+  const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
+  const restrictSuperchargeForClaimOnly = getFeatureGate(
+    StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
+  )
+  const isSupercharging = phoneNumberVerified && hasBalanceForSupercharge
 
   const onOpenRewards = () => {
     navigate(Screens.ConsumerIncentivesHomeScreen)
@@ -21,10 +32,9 @@ function RewardsPill() {
     })
   }
 
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const showRewardsPill = isE2EEnv || rewardsEnabled
 
-  if (!showRewardsPill) {
+  if ((restrictSuperchargeForClaimOnly && !isSupercharging) || !showRewardsPill) {
     return null
   }
   return <Pill text={t('rewards')} icon={<Rings />} onPress={onOpenRewards} testID="EarnRewards" />
