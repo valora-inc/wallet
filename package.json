@@ -108,7 +108,7 @@
     "@toruslabs/fetch-node-details": "^8.1.1",
     "@toruslabs/torus.js": "^6.4.1",
     "@walletconnect/react-native-compat": "^2.10.2",
-    "@walletconnect/utils": "^2.10.1",
+    "@walletconnect/utils": "^2.10.2",
     "@walletconnect/web3wallet": "^1.9.2",
     "Base64": "^1.3.0",
     "apollo-boost": "^0.4.9",
