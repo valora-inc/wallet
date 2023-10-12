@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
   },
   nftsContentContainer: {
     alignItems: 'flex-start',
-    paddingLeft: Spacing.Thick24,
+    paddingHorizontal: Spacing.Thick24,
   },
   nftsErrorView: {
     width: nftImageSize,
@@ -598,12 +598,12 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Regular16,
   },
   noNftsText: {
-    ...typeScale.labelMedium,
+    ...typeScale.bodySmall,
     color: Colors.gray3,
     textAlign: 'center',
   },
   noNftsTextContainer: {
-    paddingHorizontal: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
 })
 
