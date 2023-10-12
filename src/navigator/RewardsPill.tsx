@@ -32,9 +32,10 @@ function RewardsPill() {
     })
   }
 
-  const showRewardsPill = isE2EEnv || rewardsEnabled
+  const hideRewardsPill =
+    (restrictSuperchargeForClaimOnly && !isSupercharging) || (!isE2EEnv && !rewardsEnabled)
 
-  if ((restrictSuperchargeForClaimOnly && !isSupercharging) || !showRewardsPill) {
+  if (hideRewardsPill) {
     return null
   }
   return <Pill text={t('rewards')} icon={<Rings />} onPress={onOpenRewards} testID="EarnRewards" />
