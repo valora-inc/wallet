@@ -19,6 +19,7 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
+import _ from 'lodash'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -27,6 +28,12 @@ export type CurrencyTokens = {
   [currency in Currency]: TokenBalanceWithAddress | undefined
 }
 
+function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
+  return (
+    networkIds.constructor === Array &&
+    networkIds.every((networkId) => Object.values(NetworkId).includes(networkId))
+  )
+}
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
@@ -56,6 +63,17 @@ export const tokensByIdSelector = createSelector(
       }
     }
     return tokenBalances
+  },
+  {
+    memoizeOptions: {
+      equalityCheck: (previousValue, currentValue) => {
+        if (isNetworkIdList(previousValue) && isNetworkIdList(currentValue)) {
+          return _.isEqual(previousValue, currentValue)
+        }
+        return previousValue === currentValue
+      },
+      maxSize: 10, // This is somewhat arbitrary, but appears to reliably prevent recalculation
+    },
   }
 )
 
@@ -236,9 +254,9 @@ export const defaultTokenToSendSelector = createSelector(
   (tokens, stableCoins) => {
     if (tokens.length === 0) {
       // TODO: ideally we return based on location - cUSD for now.
-      return stableCoins.find((coin) => coin.symbol === 'cUSD')?.address ?? ''
+      return stableCoins.find((coin) => coin.symbol === 'cUSD')?.tokenId ?? ''
     }
-    return tokens[0].address
+    return tokens[0].tokenId
   }
 )
 

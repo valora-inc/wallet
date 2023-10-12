@@ -27,11 +27,11 @@ jest.mock('src/web3/networkConfig', () => {
 const mockOnOpenCurrencyPicker = jest.fn()
 
 function renderComponent({
-  tokenAddress,
+  tokenId,
   cUsdBalance,
   disallowCurrencyChange = false,
 }: {
-  tokenAddress: string
+  tokenId: string
   cUsdBalance?: string
   disallowCurrencyChange?: boolean
 }) {
@@ -69,7 +69,7 @@ function renderComponent({
       })}
     >
       <SendAmountHeader
-        tokenAddress={tokenAddress}
+        tokenId={tokenId}
         isOutgoingPaymentRequest={false}
         onOpenCurrencyPicker={mockOnOpenCurrencyPicker}
         disallowCurrencyChange={disallowCurrencyChange}
@@ -85,7 +85,7 @@ describe('SendAmountHeader', () => {
 
   it("hides selector and changes title if there's only one token with balance", () => {
     const { queryByTestId, getByText } = renderComponent({
-      tokenAddress: mockCeurAddress,
+      tokenId: mockCeurTokenId,
       cUsdBalance: '0',
     })
 
@@ -95,7 +95,7 @@ describe('SendAmountHeader', () => {
 
   it("allows changing the token if there's more than one token with balance", async () => {
     const { getByTestId, getByText } = renderComponent({
-      tokenAddress: mockCeurAddress,
+      tokenId: mockCeurTokenId,
     })
 
     expect(getByText('send')).toBeDefined()

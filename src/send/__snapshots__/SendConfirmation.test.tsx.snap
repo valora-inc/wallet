@@ -96,6 +96,13 @@ exports[`SendConfirmation renders correctly 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "left": -16,
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
         >
           <svg
             fill="none"

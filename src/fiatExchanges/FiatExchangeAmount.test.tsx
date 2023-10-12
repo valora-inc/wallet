@@ -28,7 +28,7 @@ import { NetworkId } from 'src/transactions/types'
 
 const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 jest.mock('src/fees/hooks', () => ({
-  useMaxSendAmount: () => mockUseMaxSendAmount(),
+  useMaxSendAmountByAddress: () => mockUseMaxSendAmount(),
 }))
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),

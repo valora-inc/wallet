@@ -4,12 +4,12 @@ import {
   defaultTokenToSendSelector,
   swappableTokensSelector,
   tokensByAddressSelector,
+  tokensByIdSelector,
   tokensByUsdBalanceSelector,
+  tokensListSelector,
   tokensListWithAddressSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
-  tokensByIdSelector,
-  tokensListSelector,
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -138,6 +138,12 @@ describe(tokensByIdSelector, () => {
       expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
       expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
       expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+    })
+    it('avoids unnecessary recomputation', () => {
+      const tokensById = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
+      const tokensById2 = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
+      expect(tokensById).toEqual(tokensById2)
+      expect(tokensByIdSelector.recomputations()).toEqual(1)
     })
   })
 })
@@ -295,7 +301,7 @@ describe('tokensWithUsdValueSelector', () => {
 describe(defaultTokenToSendSelector, () => {
   describe('when fetching the token with the highest balance', () => {
     it('returns the right token', () => {
-      expect(defaultTokenToSendSelector(state)).toEqual('0x1')
+      expect(defaultTokenToSendSelector(state)).toEqual('celo-alfajores:0x1')
     })
   })
 })

@@ -1,18 +1,19 @@
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import SearchInput from 'src/components/SearchInput'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -23,43 +24,37 @@ export enum TokenPickerOrigin {
 
 export const DEBOUCE_WAIT_TIME = 200
 
-interface Props {
+interface Props<T extends TokenBalance> {
   forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
-  onTokenSelected: (tokenAddress: string) => void
-  tokens: TokenBalanceWithAddress[]
+  onTokenSelected: (token: T) => void
   title: string
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
+  tokens: T[]
 }
 
-function TokenOption({
-  tokenInfo,
-  onPress,
-}: {
-  tokenInfo: TokenBalanceWithAddress
-  onPress: () => void
-}) {
+function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
   return (
     <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
       <View style={styles.tokenOptionContainer}>
-        <Image source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
+        <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
         <View style={styles.tokenNameContainer}>
           <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
           <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
         </View>
         <View style={styles.tokenBalanceContainer}>
-          <LegacyTokenDisplay
+          <TokenDisplay
             style={styles.localBalance}
             amount={tokenInfo.balance}
-            tokenAddress={tokenInfo.address}
+            tokenId={tokenInfo.tokenId}
             showLocalAmount={true}
             testID={`Local${tokenInfo.symbol}Balance`}
           />
-          <LegacyTokenDisplay
+          <TokenDisplay
             style={styles.currencyBalance}
             amount={tokenInfo.balance}
-            tokenAddress={tokenInfo.address}
+            tokenId={tokenInfo.tokenId}
             showLocalAmount={false}
             testID={`${tokenInfo.symbol}Balance`}
           />
@@ -90,7 +85,7 @@ function NoResults({
   )
 }
 
-function TokenBottomSheet({
+function TokenBottomSheet<T extends TokenBalance>({
   forwardedRef,
   snapPoints,
   origin,
@@ -98,17 +93,19 @@ function TokenBottomSheet({
   tokens,
   searchEnabled,
   title,
-}: Props) {
+}: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
   const { t } = useTranslation()
 
-  const onTokenPressed = (tokenAddress: string) => () => {
+  const onTokenPressed = (token: T) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      tokenAddress,
+      tokenAddress: token.address,
+      tokenId: token.tokenId,
+      networkId: token.networkId,
     })
-    onTokenSelected(tokenAddress)
+    onTokenSelected(token)
     setSearchTerm('')
   }
 
@@ -176,9 +173,10 @@ function TokenBottomSheet({
       ) : (
         tokenList.map((tokenInfo, index) => {
           return (
-            <React.Fragment key={`token-${tokenInfo.address}`}>
+            // Duplicate keys could happen with token.address
+            <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
               {index > 0 && <View style={styles.separator} />}
-              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
             </React.Fragment>
           )
         })

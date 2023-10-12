@@ -4,20 +4,20 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
+import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { NetworkId } from 'src/transactions/types'
 import {
-  mockCusdTokenId,
-  mockCusdAddress,
-  mockCeurTokenId,
-  mockCeurAddress,
-  mockCeloTokenId,
   mockCeloAddress,
+  mockCeloTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
 } from 'test/values'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => false),
 }))

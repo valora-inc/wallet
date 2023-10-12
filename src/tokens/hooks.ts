@@ -20,6 +20,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
+  getSupportedNetworkIdsForSend,
   getSupportedNetworkIdsForTokenBalances,
   isCicoToken,
   usdBalance,
@@ -48,6 +49,12 @@ export function useTotalTokenBalance() {
 
 export function useTokensWithTokenBalance() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokens = useSelector((state) => tokensListSelector(state, supportedNetworkIds))
+  return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
+}
+
+export function useTokensForSend() {
+  const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokens = useSelector((state) => tokensListSelector(state, supportedNetworkIds))
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 }
@@ -176,9 +183,9 @@ export function useTokenInfoByCurrency(currency: Currency) {
 
 export function useLocalToTokenAmount(
   localAmount: BigNumber,
-  tokenAddress?: string | null
+  tokenId: string | undefined
 ): BigNumber | null {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertLocalToTokenAmount({
     localAmount,
@@ -187,11 +194,22 @@ export function useLocalToTokenAmount(
   })
 }
 
-export function useTokenToLocalAmount(
-  tokenAmount: BigNumber,
+/**
+ * @deprecated use useLocalToTokenAmount
+ */
+export function useLocalToTokenAmountByAddress(
+  localAmount: BigNumber,
   tokenAddress?: string | null
 ): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  return useLocalToTokenAmount(localAmount, tokenInfo?.tokenId)
+}
+
+export function useTokenToLocalAmount(
+  tokenAmount: BigNumber,
+  tokenId: string | undefined
+): BigNumber | null {
+  const tokenInfo = useTokenInfo(tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   return convertTokenToLocalAmount({
     tokenAmount,
@@ -200,15 +218,34 @@ export function useTokenToLocalAmount(
   })
 }
 
-export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
+/**
+ * @deprecated use useLocalToTokenAmount
+ */
+export function useTokenToLocalAmountByAddress(
+  tokenAmount: BigNumber,
+  tokenAddress?: string | null
+): BigNumber | null {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  return useTokenToLocalAmount(tokenAmount, tokenInfo?.tokenId)
+}
+
+export function useAmountAsUsd(amount: BigNumber, tokenId: string | undefined) {
+  const tokenInfo = useTokenInfo(tokenId)
   if (!tokenInfo?.priceUsd) {
     return null
   }
   return amount.multipliedBy(tokenInfo.priceUsd)
 }
 
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string | null) {
+/**
+ * @deprecated use useAmountAsUsd
+ */
+export function useAmountAsUsdByAddress(amount: BigNumber, tokenAddress: string) {
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  return useAmountAsUsd(amount, tokenInfo?.tokenId)
+}
+
+export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   if (!tokenInfo?.priceUsd) {
     return null
