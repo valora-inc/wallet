@@ -35,6 +35,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
+  [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
 }
 
 export const ExperimentConfigs = {

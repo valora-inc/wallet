@@ -11,6 +11,7 @@ import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
+import { getFeatureGate } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
@@ -40,6 +41,7 @@ jest.mock('src/navigator/NavigationService', () => ({
   ensurePincode: jest.fn(async () => true),
   navigate: jest.fn(),
 }))
+jest.mock('src/statsig')
 
 const DEVICE_HEIGHT = 850
 
@@ -978,6 +980,30 @@ describe('NotificationCenter', () => {
         },
         account: {
           dismissedStartSupercharging: true,
+        },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+        </Provider>
+      )
+
+      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
+      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
+      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
+    })
+
+    it('does not render start supercharging because the user is in a restricted region', () => {
+      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+
+      const store = createMockStore({
+        ...superchargeWithoutRewardsSetUp,
+        account: {
+          ...superchargeWithoutRewardsSetUp.account,
+          dismissedStartSupercharging: false,
+        },
+        tokens: {
+          tokenBalances: mockcUsdWithoutEnoughBalance,
         },
       })
       const { queryByTestId } = render(
