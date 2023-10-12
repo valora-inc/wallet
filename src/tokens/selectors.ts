@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import deviceInfoModule from 'react-native-device-info'
-import { createSelector } from 'reselect'
+import { createSelector, EqualityFn } from 'reselect'
 import {
   STABLE_TRANSACTION_MIN_AMOUNT,
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
@@ -19,6 +19,7 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
+import _ from 'lodash'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -27,6 +28,12 @@ export type CurrencyTokens = {
   [currency in Currency]: TokenBalanceWithAddress | undefined
 }
 
+function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
+  return (
+    networkIds.constructor === Array &&
+    networkIds.every((networkId) => Object.values(NetworkId).includes(networkId))
+  )
+}
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
@@ -56,6 +63,17 @@ export const tokensByIdSelector = createSelector(
       }
     }
     return tokenBalances
+  },
+  {
+    memoizeOptions: {
+      equalityCheck: (previousValue, currentValue) => {
+        if (isNetworkIdList(previousValue) && isNetworkIdList(currentValue)) {
+          return _.isEqual(previousValue, currentValue)
+        }
+        return previousValue === currentValue
+      },
+      maxSize: 10, // This is somewhat arbitrary, but appears to reliably prevent recalculation
+    },
   }
 )
 
