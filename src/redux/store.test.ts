@@ -293,10 +293,6 @@ describe('store state', () => {
           "nftsError": null,
           "nftsLoading": false,
         },
-        "paymentRequest": {
-          "incomingPaymentRequests": [],
-          "outgoingPaymentRequests": [],
-        },
         "positions": {
           "positions": [],
           "previewApiUrl": null,
