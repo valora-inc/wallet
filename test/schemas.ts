@@ -2670,6 +2670,15 @@ export const v157Schema = {
   },
 }
 
+export const v158Schema = {
+  ...v157Schema,
+  paymentRequest: undefined,
+  _persist: {
+    ...v157Schema._persist,
+    version: 158,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v157Schema as Partial<RootState>
+  return v158Schema as Partial<RootState>
 }

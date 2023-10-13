@@ -1331,4 +1331,13 @@ export const migrations = {
       transactions: [],
     },
   }),
+  158: (state: any) => ({
+    ..._.omit(state, 'paymentRequest'),
+    app: {
+      ...state.app,
+      activeScreen: Object.values(Screens).includes(state.app.activeScreen)
+        ? state.app.activeScreen
+        : 'Main', // since PaymentRequestConfirmation screen was deleted
+    },
+  }),
 }
