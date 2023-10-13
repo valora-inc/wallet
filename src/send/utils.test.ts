@@ -63,7 +63,6 @@ describe('send/utils', () => {
         expect.objectContaining({
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
-          isOutgoingPaymentRequest: undefined,
           forceTokenId: true,
           defaultTokenIdOverride: mockCeurTokenId,
         })
@@ -84,7 +83,6 @@ describe('send/utils', () => {
         expect.objectContaining({
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
-          isOutgoingPaymentRequest: undefined,
           forceTokenId: false,
         })
       )
