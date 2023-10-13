@@ -1311,7 +1311,7 @@ describe('Redux persist migrations', () => {
 
     // should otherwise be equal
     expect(_.omit(migratedSchema, 'app.activeScreen')).toStrictEqual(
-      _.omit(preMigrationSchema, 'paymentRequest')
+      _.omit(preMigrationSchema, 'app.activeScreen', 'paymentRequest')
     )
   })
 })
