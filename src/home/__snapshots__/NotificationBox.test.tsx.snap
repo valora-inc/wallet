@@ -1152,18 +1152,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
         }
       }
     />
-    <View
-      style={
-        {
-          "backgroundColor": "#666666",
-          "borderRadius": 5,
-          "flex": 0,
-          "height": 5,
-          "marginHorizontal": 3,
-          "width": 5,
-        }
-      }
-    />
   </View>
 </View>
 `;

@@ -69,9 +69,6 @@ const storeDataNotificationsDisabled = {
     accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: true,
   },
-  paymentRequest: {
-    incomingPaymentRequests: [],
-  },
   home: {
     notifications: {
       testNotification: {
