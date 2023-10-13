@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   touchable: {
-    margin: Spacing.Regular16,
+    padding: Spacing.Regular16,
   },
   touchableView: {
     flexDirection: 'row',
