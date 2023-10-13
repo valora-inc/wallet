@@ -2671,8 +2671,7 @@ export const v157Schema = {
 }
 
 export const v158Schema = {
-  ...v157Schema,
-  paymentRequest: undefined,
+  ..._.omit(v157Schema, 'paymentRequest'),
   _persist: {
     ...v157Schema._persist,
     version: 158,
