@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
+import { HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
 import { useTokenInfo, useTokensForSend } from 'src/tokens/hooks'
@@ -21,8 +21,7 @@ function SendAmountHeader({ tokenId, onOpenCurrencyPicker, disallowCurrencyChang
 
   const backButtonEventName = SendEvents.send_amount_back
 
-  const canChangeToken =
-    (tokensForSend.length >= 2) && !disallowCurrencyChange
+  const canChangeToken = tokensForSend.length >= 2 && !disallowCurrencyChange
 
   const title = useMemo(() => {
     const title = canChangeToken ? t('send') : t('sendToken', { token: tokenInfo?.symbol })
