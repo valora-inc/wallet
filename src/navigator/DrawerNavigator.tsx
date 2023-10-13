@@ -209,7 +209,9 @@ export default function DrawerNavigator({ route }: Props) {
 
   const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
-  const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
+  const shouldShowNftGallery =
+    getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY) &&
+    !getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
 
   const cloudBackupGate = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
   const anyBackupCompleted = backupCompleted || cloudBackupCompleted

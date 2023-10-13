@@ -4,36 +4,34 @@ import { Text } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
-import useSelector from 'src/redux/useSelector'
+import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo, useTokensForSend } from 'src/tokens/hooks'
 
 interface Props {
-  tokenAddress: string
+  tokenId: string
   isOutgoingPaymentRequest: boolean
   onOpenCurrencyPicker: () => void
   disallowCurrencyChange: boolean
 }
 
 function SendAmountHeader({
-  tokenAddress,
+  tokenId,
   isOutgoingPaymentRequest,
   onOpenCurrencyPicker,
   disallowCurrencyChange,
 }: Props) {
   const { t } = useTranslation()
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  const tokensForSend = useTokensForSend()
+  const tokenInfo = useTokenInfo(tokenId)
 
   const backButtonEventName = isOutgoingPaymentRequest
     ? RequestEvents.request_amount_back
     : SendEvents.send_amount_back
 
   const canChangeToken =
-    (tokensWithBalance.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
+    (tokensForSend.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
 
   const title = useMemo(() => {
     let titleText
@@ -66,7 +64,7 @@ function SendAmountHeader({
       title={title}
       right={
         canChangeToken && (
-          <TokenPickerSelector tokenAddress={tokenAddress} onChangeToken={onOpenCurrencyPicker} />
+          <TokenPickerSelector tokenId={tokenId} onChangeToken={onOpenCurrencyPicker} />
         )
       }
     />

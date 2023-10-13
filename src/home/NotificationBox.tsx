@@ -43,6 +43,8 @@ import {
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import variables from 'src/styles/variables'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
@@ -92,6 +94,10 @@ export function useSimpleActions() {
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
+
+  const restrictSuperchargeForClaimOnly = getFeatureGate(
+    StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
+  )
 
   useEffect(() => {
     dispatch(fetchAvailableRewards())
@@ -224,7 +230,7 @@ export function useSimpleActions() {
         })
       }
 
-      if (!isSupercharging && !dismissedStartSupercharging) {
+      if (!isSupercharging && !restrictSuperchargeForClaimOnly && !dismissedStartSupercharging) {
         actions.push({
           id: NotificationType.start_supercharging,
           type: NotificationType.start_supercharging,

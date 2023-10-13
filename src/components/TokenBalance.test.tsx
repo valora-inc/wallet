@@ -10,7 +10,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import * as tokenUtils from 'src/tokens/utils'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
@@ -48,17 +48,18 @@ const defaultStore = {
   },
 }
 
-jest.mocked(getFeatureGate).mockReturnValue(true)
 jest.mocked(getDynamicConfigParams).mockReturnValue({
   showBalances: [NetworkId['celo-alfajores']],
 })
 
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
-  const showAssetDetailsScreenSpy = jest.spyOn(tokenUtils, 'showAssetDetailsScreen')
-
   beforeEach(() => {
-    showAssetDetailsScreenSpy.mockReturnValue(false)
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
+      )
   })
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
@@ -153,7 +154,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
     'navigates to Assets screen on View Balances tap if AssetDetails feature gate is true',
     async (TokenBalanceComponent) => {
-      showAssetDetailsScreenSpy.mockReturnValue(true)
       const store = createMockStore({
         ...defaultStore,
         tokens: {
@@ -180,6 +180,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
           },
         },
       })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
 
       const { getByTestId } = render(
         <Provider store={store}>
@@ -217,7 +219,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   )
 
   it('HomeTokenBalance shows View Assets link if balance is zero and feature gate is true', async () => {
-    showAssetDetailsScreenSpy.mockReturnValue(true)
     const store = createMockStore({
       ...defaultStore,
       tokens: {
@@ -227,6 +228,8 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         positions: [],
       },
     })
+
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
     const tree = render(
       <Provider store={store}>

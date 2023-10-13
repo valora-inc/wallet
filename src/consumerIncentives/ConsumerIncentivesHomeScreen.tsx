@@ -39,6 +39,8 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -236,6 +238,10 @@ export default function ConsumerIncentivesHomeScreen() {
     dispatch(fetchAvailableRewards())
   }, [])
 
+  const restrictSuperchargeForClaimOnly = getFeatureGate(
+    StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
+  )
+
   const userIsVerified = useSelector(phoneNumberVerifiedSelector)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } =
     useSelector(superchargeInfoSelector)
@@ -297,6 +303,8 @@ export default function ConsumerIncentivesHomeScreen() {
           </Trans>
         ) : hasMaxBalance ? (
           t('superchargeDisclaimerMaxRewards', { token: superchargingTokenConfig?.tokenSymbol })
+        ) : restrictSuperchargeForClaimOnly ? (
+          ''
         ) : (
           t('superchargeDisclaimer', {
             amount: tokenConfigToSupercharge.maxBalance,
@@ -304,23 +312,27 @@ export default function ConsumerIncentivesHomeScreen() {
           })
         )}
       </Text>
-      <View style={styles.buttonContainer}>
-        <Button
-          size={BtnSizes.FULL}
-          text={
-            canClaimRewards
-              ? t('superchargeClaimButton')
-              : userIsVerified
-              ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
-              : t('connectNumber')
-          }
-          icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
-          showLoading={showLoadingIndicator || claimRewardsLoading}
-          disabled={showLoadingIndicator || claimRewardsLoading}
-          onPress={onPressCTA}
-          testID="ConsumerIncentives/CTA"
-        />
-      </View>
+
+      {/* If the restricted supercharge promo rule applies, prevent the user from seeing cash in CTA */}
+      {restrictSuperchargeForClaimOnly && userIsVerified && !canClaimRewards ? null : (
+        <View style={styles.buttonContainer}>
+          <Button
+            size={BtnSizes.FULL}
+            text={
+              canClaimRewards
+                ? t('superchargeClaimButton')
+                : userIsVerified
+                ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
+                : t('connectNumber')
+            }
+            icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
+            showLoading={showLoadingIndicator || claimRewardsLoading}
+            disabled={showLoadingIndicator || claimRewardsLoading}
+            onPress={onPressCTA}
+            testID="ConsumerIncentives/CTA"
+          />
+        </View>
+      )}
     </SafeAreaView>
   )
 }

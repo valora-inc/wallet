@@ -38,7 +38,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useLocalToTokenAmount, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
+import { useLocalToTokenAmountByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network } from 'src/transactions/types'
@@ -70,7 +70,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
   const usdTokenInfo = useTokenInfoWithAddressBySymbol(CiCoCurrency.cUSD)!
   const networkFee =
-    useLocalToTokenAmount(
+    useLocalToTokenAmountByAddress(
       feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
       usdTokenInfo.address
     ) ?? new BigNumber(0)
