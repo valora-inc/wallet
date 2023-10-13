@@ -4,9 +4,9 @@ PODS:
     - JWTDecode (= 3.0.1)
     - React-Core
     - SimpleKeychain (= 1.0.1)
-  - Adjust (4.33.3):
-    - Adjust/Core (= 4.33.3)
-  - Adjust/Core (4.33.3)
+  - Adjust (4.35.2):
+    - Adjust/Core (= 4.35.2)
+  - Adjust/Core (4.35.2)
   - Auth0 (2.3.2):
     - JWTDecode (~> 3.0)
     - SimpleKeychain (~> 1.0)
@@ -500,8 +500,8 @@ PODS:
   - React-jsinspector (0.71.12)
   - React-logger (0.71.12):
     - glog
-  - react-native-adjust (4.33.0):
-    - Adjust (= 4.33.3)
+  - react-native-adjust (4.35.1):
+    - Adjust (= 4.35.2)
     - React-Core
   - react-native-blind-threshold-bls (1.0.0):
     - React-Core
@@ -1126,7 +1126,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
-  Adjust: 41d0d5c031409aebe7fb1f5703ff0d3306133439
+  Adjust: cac836ba910f868b38d0350045aaf498f794719a
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
