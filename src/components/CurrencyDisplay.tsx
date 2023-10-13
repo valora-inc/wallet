@@ -138,7 +138,7 @@ export default function CurrencyDisplay({
   )
 
   // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.Celo
+  const shouldShowLocalAmount = showLocalAmount // ?? amountCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount

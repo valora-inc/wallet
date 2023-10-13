@@ -100,7 +100,7 @@ import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
-import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
+import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmationNew'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
