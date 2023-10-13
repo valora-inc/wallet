@@ -1845,10 +1845,15 @@
     "priceDeltaSuffix": "Today",
     "actions": {
       "send": "Send",
+      "sendDetails": "Use any Celo or Ethereum address, domain, phone number, etc.",
       "swap": "Swap",
+      "swapDetails": "Swap your tokens without leaving your wallet",
       "add": "Add",
+      "addDetails": "Buy tokens using one of our trusted providers",
       "withdraw": "Withdraw",
+      "withdrawDetails": "Transfer tokens to a bank account, mobile money, gift card etc.",
       "more": "More"
-    }
+    },
+    "moreActions": "More Actions"
   }
 }

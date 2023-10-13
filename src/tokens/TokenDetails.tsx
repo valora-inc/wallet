@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -31,6 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import MoreActionsBottomSheet from 'src/tokens/MoreActionsBottomSheet'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import {
   useCashInTokens,
@@ -52,6 +54,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   const { tokenId } = route.params
   const { t } = useTranslation()
   const token = useTokenInfo(tokenId)
+  const moreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   if (!token) {
     throw new Error(`token with id ${tokenId} not found`)
@@ -86,7 +89,7 @@ export default function TokenDetailsScreen({ route }: Props) {
             testID="TokenDetails/Chart"
           />
         )}
-        <Actions token={token} />
+        <Actions token={token} moreActionsBottomSheetRef={moreActionsBottomSheetRef} />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
         <TokenBalanceItem token={token} />
         {token.infoUrl && (
@@ -97,6 +100,7 @@ export default function TokenDetailsScreen({ route }: Props) {
           />
         )}
       </ScrollView>
+      <MoreActionsBottomSheet forwardedRef={moreActionsBottomSheetRef} token={token} />
     </SafeAreaView>
   )
 }
@@ -136,7 +140,21 @@ function PriceInfo({ token }: { token: TokenBalance }) {
   )
 }
 
-function Actions({ token }: { token: TokenBalance }) {
+export const onPressCicoAction = (token: TokenBalance, flow: CICOFlow) => {
+  const tokenSymbol = token.symbol
+  // this should always be true given that we only show Add / Withdraw if a
+  // token is CiCoCurrency, but adding it here to ensure type safety
+  if (isCicoToken(tokenSymbol)) {
+    navigate(Screens.FiatExchangeAmount, {
+      currency: tokenSymbol,
+      tokenId: token.tokenId,
+      flow,
+      network: Network.Celo,
+    })
+  }
+}
+
+export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
   const sendableTokens = useSendableTokens()
   const swappableTokens = useSwappableTokens()
@@ -145,24 +163,11 @@ function Actions({ token }: { token: TokenBalance }) {
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
-  const onPressCicoAction = (flow: CICOFlow) => {
-    const tokenSymbol = token.symbol
-    // this should always be true given that we only show Add / Withdraw if a
-    // token is CiCoCurrency, but adding it here to ensure type safety
-    if (isCicoToken(tokenSymbol)) {
-      navigate(Screens.FiatExchangeAmount, {
-        currency: tokenSymbol,
-        tokenId: token.tokenId,
-        flow,
-        network: Network.Celo,
-      })
-    }
-  }
-
-  const actions = [
+  return [
     {
       name: TokenDetailsActionName.Send,
       text: t('tokenDetails.actions.send'),
+      details: t('tokenDetails.actions.sendDetails'),
       iconComponent: QuickActionsSend,
       onPress: () => {
         navigate(Screens.Send, { defaultTokenIdOverride: token.tokenId })
@@ -172,6 +177,7 @@ function Actions({ token }: { token: TokenBalance }) {
     {
       name: TokenDetailsActionName.Swap,
       text: t('tokenDetails.actions.swap'),
+      details: t('tokenDetails.actions.swapDetails'),
       iconComponent: QuickActionsSwap,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
@@ -184,22 +190,37 @@ function Actions({ token }: { token: TokenBalance }) {
     {
       name: TokenDetailsActionName.Add,
       text: t('tokenDetails.actions.add'),
+      details: t('tokenDetails.actions.addDetails'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
-        onPressCicoAction(CICOFlow.CashIn)
+        onPressCicoAction(token, CICOFlow.CashIn)
       },
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
       name: TokenDetailsActionName.Withdraw,
       text: t('tokenDetails.actions.withdraw'),
+      details: t('tokenDetails.actions.withdrawDetails'),
       iconComponent: QuickActionsWithdraw,
       onPress: () => {
-        onPressCicoAction(CICOFlow.CashOut)
+        onPressCicoAction(token, CICOFlow.CashOut)
       },
       visible: showWithdraw,
     },
   ].filter((action) => action.visible)
+}
+
+function Actions({
+  token,
+  moreActionsBottomSheetRef,
+}: {
+  token: TokenBalance
+  moreActionsBottomSheetRef: React.RefObject<BottomSheetRefType>
+}) {
+  const { t } = useTranslation()
+  const actions = useActions(token)
+  const cashOutTokens = useCashOutTokens()
+  const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
   const moreAction = {
     name: TokenDetailsActionName.More,
@@ -207,6 +228,7 @@ function Actions({ token }: { token: TokenBalance }) {
     iconComponent: QuickActionsMore,
     onPress: () => {
       // TODO(ACT-917): open bottom sheet
+      moreActionsBottomSheetRef.current?.snapToIndex(0)
     },
   }
 
