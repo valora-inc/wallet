@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "Kurulum yapıp {{appName}} cüzdanlarına 10 cUSD eklediklerinde, ikiniz de 0,50 cUSD alacaksınız."
+    "body": "{{appName}} cüzdanlarını kurup 10 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -646,14 +646,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
-    "help": "Bu ödülü almak için davetlinin yönlendirme bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 7 gün boyunca 10 cUSD veya daha fazlasını tutması gerekir. <0>Tüm şartları görüntüle</0>",
+    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 10 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
       "title": "Valora Davet Ödülleri ile cUSD kazanın",
-      "body": "En fazla 25 arkadaşınızı {{appName}} adresine katılmaya davet edin ve her biriniz 10 cUSD veya daha fazla para eklediklerinde veya aldıklarında 0,50 cUSD kazanın."
+      "body": "En fazla 25 arkadaşınızı {{appName}} uygulamasına katılmaya davet edin. 10 cUSD veya daha fazla yatırdıklarında, para cüzdanda kaldığı sürece her biriniz 0,50 cUSD kazanacaksınız."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -969,7 +969,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Merhaba! 👋 Valora, nerede olurlarsa olsunlar değer verdiğiniz kişilere para göndermenin en kolay yoludur. Tek ihtiyacınız olan bir telefon numarası. Bu bağlantı üzerinden indirin, telefon numaranızı bağlayın ve 0,50 $ kazanmak için yeni cüzdanınıza 10 cUSD para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, tavsiye ödülleri sınırlıdır.",
+  "inviteWithRewardsCUSD": "Merhaba! 👋 Valora, her yerdeki sevdiklerinize para göndermenin en kolay yoludur. Tek ihtiyacınız olan bir telefon numarası. Bu bağlantı üzerinden indirin, telefon numaranızı bağlayın ve 0,50 $ kazanmak için yeni cüzdanınıza 10 cUSD para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, davet ödülleri sınırlıdır.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1755,7 +1755,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora'da değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Valora'yı indirdikten, telefon numaralarını bağladıktan ve cüzdanlarına 10 cUSD ekledikten sonra, para bitene kadar ikiniz de 0,50 cUSD alacaksınız."
+      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 10 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1824,17 +1824,17 @@
   },
   "assets": {
     "claimRewards": "Ödüllerinizi Alın",
-    "bridge": "{{bridge}}üzerinden köprülenmiştir",
-    "networkName": "{{networkName}} Şebeke",
+    "bridge": "{{bridge}} üzerinden köprülenmiştir",
+    "networkName": "{{networkName}} Ağı",
     "tabBar": {
-      "tokens": "Jetonlar",
+      "tokens": "Tokenlar",
       "collectibles": "Koleksiyon Ürünleri",
       "dappPositions": "Dapp Pozisyonları"
     }
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
-    "cta": "Anladım."
+    "cta": "Anladım"
   },
   "tokenDetails": {
     "yourBalance": "Bakiyeniz",
