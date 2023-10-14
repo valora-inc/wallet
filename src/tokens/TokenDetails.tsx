@@ -32,7 +32,6 @@ import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import MoreActionsBottomSheet from 'src/tokens/MoreActionsBottomSheet'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import {
   useCashInTokens,
@@ -100,7 +99,6 @@ export default function TokenDetailsScreen({ route }: Props) {
           />
         )}
       </ScrollView>
-      <MoreActionsBottomSheet forwardedRef={moreActionsBottomSheetRef} token={token} />
     </SafeAreaView>
   )
 }
@@ -166,8 +164,8 @@ export const useActions = (token: TokenBalance) => {
   return [
     {
       name: TokenDetailsActionName.Send,
-      text: t('tokenDetails.actions.send'),
-      details: t('tokenDetails.actions.sendDetails'),
+      title: t('tokenDetails.actions.send'),
+      details: t('tokenDetails.actionDescriptions.send'),
       iconComponent: QuickActionsSend,
       onPress: () => {
         navigate(Screens.Send, { defaultTokenIdOverride: token.tokenId })
@@ -176,8 +174,8 @@ export const useActions = (token: TokenBalance) => {
     },
     {
       name: TokenDetailsActionName.Swap,
-      text: t('tokenDetails.actions.swap'),
-      details: t('tokenDetails.actions.swapDetails'),
+      title: t('tokenDetails.actions.swap'),
+      details: t('tokenDetails.actionDescriptions.swap'),
       iconComponent: QuickActionsSwap,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
@@ -189,8 +187,8 @@ export const useActions = (token: TokenBalance) => {
     },
     {
       name: TokenDetailsActionName.Add,
-      text: t('tokenDetails.actions.add'),
-      details: t('tokenDetails.actions.addDetails'),
+      title: t('tokenDetails.actions.add'),
+      details: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
         onPressCicoAction(token, CICOFlow.CashIn)
@@ -199,8 +197,8 @@ export const useActions = (token: TokenBalance) => {
     },
     {
       name: TokenDetailsActionName.Withdraw,
-      text: t('tokenDetails.actions.withdraw'),
-      details: t('tokenDetails.actions.withdrawDetails'),
+      title: t('tokenDetails.actions.withdraw'),
+      details: t('tokenDetails.actionDescriptions.withdraw'),
       iconComponent: QuickActionsWithdraw,
       onPress: () => {
         onPressCicoAction(token, CICOFlow.CashOut)
@@ -210,13 +208,7 @@ export const useActions = (token: TokenBalance) => {
   ].filter((action) => action.visible)
 }
 
-function Actions({
-  token,
-  moreActionsBottomSheetRef,
-}: {
-  token: TokenBalance
-  moreActionsBottomSheetRef: React.RefObject<BottomSheetRefType>
-}) {
+function Actions({ token }: { token: TokenBalance }) {
   const { t } = useTranslation()
   const actions = useActions(token)
   const cashOutTokens = useCashOutTokens()
@@ -224,11 +216,10 @@ function Actions({
 
   const moreAction = {
     name: TokenDetailsActionName.More,
-    text: t('tokenDetails.actions.more'),
+    title: t('tokenDetails.actions.more'),
     iconComponent: QuickActionsMore,
     onPress: () => {
-      // TODO(ACT-917): open bottom sheet
-      moreActionsBottomSheetRef.current?.snapToIndex(0)
+      navigate(Screens.TokenDetailsMoreActions, { tokenId: token.tokenId })
     },
   }
 
@@ -252,7 +243,7 @@ function Actions({
       {actionButtons.map((action) => (
         <Button
           key={action.name}
-          text={action.text}
+          text={action.title}
           onPress={() => {
             ValoraAnalytics.track(AssetsEvents.tap_token_details_action, {
               action: action.name,
