@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useRef } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -53,7 +52,6 @@ export default function TokenDetailsScreen({ route }: Props) {
   const { tokenId } = route.params
   const { t } = useTranslation()
   const token = useTokenInfo(tokenId)
-  const moreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   if (!token) {
     throw new Error(`token with id ${tokenId} not found`)
@@ -88,7 +86,7 @@ export default function TokenDetailsScreen({ route }: Props) {
             testID="TokenDetails/Chart"
           />
         )}
-        <Actions token={token} moreActionsBottomSheetRef={moreActionsBottomSheetRef} />
+        <Actions token={token} />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
         <TokenBalanceItem token={token} />
         {token.infoUrl && (
