@@ -16955,10 +16955,10 @@ victory@^36.6.11:
     victory-voronoi-container "^36.6.11"
     victory-zoom-container "^36.6.11"
 
-viem@^1.16.3:
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-1.16.3.tgz#154e9a93bc5434d46fcae49ed0d6ec0a34f4d2c9"
-  integrity sha512-5IErEXuJVrSoMnEYidOh5lzPpTOZ/e33riDiZCxToap2DpLBMDpZCKoZZgroQgH7mAjfZcylv/LS+YIP/Gmeyg==
+viem@^1.16.4:
+  version "1.16.5"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-1.16.5.tgz#99bac3bd6a2ccdff4a097438a8ef23a91f01d414"
+  integrity sha512-D8aE6cp/5w6PDtOOkJjkN+FtLyfsNWkfE78N4yTgCt4BG7KsBsePp4O68r1IaTVTVa41anebiZAy9kNEIwAXiw==
   dependencies:
     "@adraffy/ens-normalize" "1.9.4"
     "@noble/curves" "1.2.0"
