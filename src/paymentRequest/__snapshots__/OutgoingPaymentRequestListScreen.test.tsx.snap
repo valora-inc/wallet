@@ -3,12 +3,12 @@
 exports[`OutgoingPaymentRequestListScreen renders correctly with no requests 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
     {
@@ -40,12 +40,12 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with no requests 1`]
 exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
     {
