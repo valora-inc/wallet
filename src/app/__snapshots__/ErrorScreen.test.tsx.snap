@@ -3,12 +3,12 @@
 exports[`ErrorScreen with errorMessage renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
     {
@@ -182,12 +182,12 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
 exports[`ErrorScreen without errorMessage renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
     {
