@@ -145,7 +145,7 @@ export const onPressCicoAction = (token: TokenBalance, flow: CICOFlow) => {
       currency: tokenSymbol,
       tokenId: token.tokenId,
       flow,
-      network: Network.Celo,
+      network: Network.Celo, // TODO: use networkId from token
     })
   }
 }

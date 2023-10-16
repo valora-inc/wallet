@@ -3,9 +3,12 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
+import { TokenDetailsActionName } from 'src/tokens/types'
+import { Network } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeloTokenId, mockTokenBalances } from 'test/values'
@@ -54,29 +57,52 @@ describe('TokenDetailsMoreActions', () => {
     expect(getByText('tokenDetails.actions.withdraw')).toBeTruthy()
   })
 
-  it('Triggers correct action on send press', () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={TokenDetailsMoreActions}
-          params={{ tokenId: mockCeloTokenId }}
-        />
-      </Provider>
-    )
+  const mockAddParams = {
+    currency: mockCeloBalance.symbol,
+    tokenId: mockCeloTokenId,
+    flow: CICOFlow.CashIn,
+    network: Network.Celo,
+  }
 
-    fireEvent.press(getByText('tokenDetails.actions.send'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      AssetsEvents.tap_token_details_bottom_sheet_action,
-      {
-        action: 'Send',
-        address: mockCeloAddress,
-        balanceUsd: 1325.0855831552522,
-        networkId: mockCeloBalance.networkId,
-        symbol: mockCeloBalance.symbol,
-        tokenId: mockCeloTokenId,
-      }
-    )
+  const mockWithdrawParams = {
+    currency: mockCeloBalance.symbol,
+    tokenId: mockCeloTokenId,
+    flow: CICOFlow.CashOut,
+    network: Network.Celo,
+  }
 
-    expect(navigate).toHaveBeenCalledWith(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
-  })
+  it.each`
+    action                             | buttonText                         | navigatedScreen               | navigationParams
+    ${TokenDetailsActionName.Send}     | ${'tokenDetails.actions.send'}     | ${Screens.Send}               | ${{ defaultTokenIdOverride: mockCeloTokenId }}
+    ${TokenDetailsActionName.Swap}     | ${'tokenDetails.actions.swap'}     | ${Screens.SwapScreenWithBack} | ${{ fromTokenId: mockCeloTokenId }}
+    ${TokenDetailsActionName.Add}      | ${'tokenDetails.actions.add'}      | ${Screens.FiatExchangeAmount} | ${mockAddParams}
+    ${TokenDetailsActionName.Withdraw} | ${'tokenDetails.actions.withdraw'} | ${Screens.FiatExchangeAmount} | ${mockWithdrawParams}
+  `(
+    'triggers the correct analytics and navigation for $buttonText',
+    async ({ action, buttonText, navigatedScreen, navigationParams }) => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={TokenDetailsMoreActions}
+            params={{ tokenId: mockCeloTokenId }}
+          />
+        </Provider>
+      )
+
+      fireEvent.press(getByText(buttonText))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        AssetsEvents.tap_token_details_bottom_sheet_action,
+        {
+          action,
+          address: mockCeloAddress,
+          balanceUsd: 1325.0855831552522,
+          networkId: mockCeloBalance.networkId,
+          symbol: mockCeloBalance.symbol,
+          tokenId: mockCeloTokenId,
+        }
+      )
+
+      expect(navigate).toHaveBeenCalledWith(navigatedScreen, navigationParams)
+    }
+  )
 })
