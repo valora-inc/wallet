@@ -18,7 +18,7 @@ import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItemNew'
+import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { FeeType, estimateFee } from 'src/fees/reducer'
@@ -187,6 +187,7 @@ function SendConfirmation(props: Props) {
           feeToAddInToken={totalFeeToAdd} // TODO: Only need to add this if fee currency is same as token currency
           showLocalAmount={showLocalAmount}
           hideSign={showLocalAmount}
+          newSendScreen={newSendScreen}
         />
       </View>
     )
@@ -306,6 +307,7 @@ function SendConfirmation(props: Props) {
             tokenId={tokenInfo?.tokenId}
             showLocalAmount={showLocalAmount}
           />
+          {/* If showLocalAmount is false, crypto amount is shown and we want to show the fiat amount below */}
           {!showLocalAmount && (
             <TokenDisplay
               testID="SendAmountFiat"

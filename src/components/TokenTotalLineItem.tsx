@@ -3,21 +3,23 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 interface Props {
   tokenAmount: BigNumber
   tokenId?: string
   localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
+  feeToAddInToken?: BigNumber | undefined
   hideSign?: boolean
   title?: string | null
+  showLocalAmount?: boolean
+  newSendScreen?: boolean
 }
 
 export default function TokenTotalLineItem({
@@ -25,12 +27,17 @@ export default function TokenTotalLineItem({
   tokenId,
   localAmount,
   feeToAddInUsd,
+  feeToAddInToken,
   hideSign,
   title,
+  showLocalAmount,
+  newSendScreen,
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenId)
-  const feeInToken = tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined
+  const feeInToken =
+    feeToAddInToken ??
+    (tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined)
 
   return (
     <>
@@ -42,7 +49,9 @@ export default function TokenTotalLineItem({
             amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenId={tokenId}
             localAmount={localAmount}
+            showLocalAmount={showLocalAmount}
             hideSign={hideSign}
+            showApprox={true}
             testID="TotalLineItem/Total"
           />
         }
@@ -50,7 +59,10 @@ export default function TokenTotalLineItem({
       <LineItemRow
         title={
           <Text style={styles.exchangeRate} testID="TotalLineItem/ExchangeRate">
-            <Trans i18nKey={'tokenExchanteRate'} tOptions={{ symbol: tokenInfo?.symbol }}>
+            <Trans
+              i18nKey={newSendScreen ? 'tokenExchanteRate' : 'tokenExchangeRateApprox'}
+              tOptions={{ symbol: tokenInfo?.symbol }}
+            >
               {localAmount?.exchangeRate ? (
                 `${
                   LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
@@ -63,9 +75,9 @@ export default function TokenTotalLineItem({
         }
         amount={
           <TokenDisplay
-            amount={tokenAmount}
+            amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenId={tokenId}
-            showLocalAmount={false}
+            showLocalAmount={!showLocalAmount} // Want to do the opposite of what is done above.
             hideSign={hideSign}
             testID="TotalLineItem/Subtotal"
           />
