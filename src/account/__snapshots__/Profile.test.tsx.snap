@@ -3,9 +3,12 @@
 exports[`Profile renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
     {
