@@ -33,8 +33,6 @@ function ActionRequestPayload(props: Props) {
         : method === SupportedActions.eth_signTypedData ||
           method === SupportedActions.eth_signTypedData_v4
         ? JSON.stringify(params[1])
-        : method === SupportedActions.personal_decrypt
-        ? Buffer.from(params[1]).toString('hex')
         : method === SupportedActions.personal_sign
         ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() ||
           params[0] ||

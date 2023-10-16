@@ -5,6 +5,7 @@ import {
   Address,
   Chain,
   Client,
+  PrepareTransactionRequestReturnType,
   Transport,
   WalletActions,
   WalletRpcSchema,
@@ -12,7 +13,14 @@ import {
   http,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { signMessage, signTransaction, signTypedData, writeContract } from 'viem/actions'
+import {
+  prepareTransactionRequest,
+  sendTransaction,
+  signMessage,
+  signTransaction,
+  signTypedData,
+  writeContract,
+} from 'viem/actions'
 
 const TAG = 'viem/getLockableWallet'
 
@@ -23,13 +31,15 @@ export type ViemWallet<
   account extends Account | undefined = Account | undefined
 > = Client<transport, chain, account, WalletRpcSchema, Actions>
 
-type Actions = {
-  signTransaction: WalletActions['signTransaction']
-  signTypedData: WalletActions['signTypedData']
-  signMessage: WalletActions['signMessage']
-  writeContract: WalletActions['writeContract']
-  unlockAccount: (passphrase: string, duration: number) => Promise<boolean>
-}
+type Actions = Pick<
+  WalletActions,
+  | 'prepareTransactionRequest'
+  | 'sendTransaction'
+  | 'signTransaction'
+  | 'signTypedData'
+  | 'signMessage'
+  | 'writeContract'
+> & { unlockAccount: (passphrase: string, duration: number) => Promise<boolean> }
 
 export default function getLockableViemWallet(
   lock: KeychainLock,
@@ -54,6 +64,17 @@ export default function getLockableViemWallet(
       // For instance we will later need signTransaction which we can add here by
       // importing the signTransaction action and blocking it with the checkLock function
       // Introduction to wallet actions: https://viem.sh/docs/actions/wallet/introduction.html
+      prepareTransactionRequest: (args) => {
+        checkLock()
+        return prepareTransactionRequest(
+          client,
+          args
+        ) as Promise<PrepareTransactionRequestReturnType>
+      },
+      sendTransaction: (args) => {
+        checkLock()
+        return sendTransaction(client, args)
+      },
       signTransaction: (args) => {
         checkLock()
         return signTransaction(client, args)

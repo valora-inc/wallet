@@ -7,7 +7,6 @@ export enum SupportedActions {
   eth_signTypedData_v4 = 'eth_signTypedData_v4',
   eth_sign = 'eth_sign',
   personal_sign = 'personal_sign',
-  personal_decrypt = 'personal_decrypt',
 }
 
 export enum SupportedEvents {
@@ -52,10 +51,6 @@ export function getDescriptionAndTitleFromAction(
     [SupportedActions.personal_sign]: {
       description: t('walletConnectRequest.signPayload', { dappName }),
       title: t('walletConnectRequest.signPayloadTitle'),
-    },
-    [SupportedActions.personal_decrypt]: {
-      description: t('walletConnectRequest.decryptPayload', { dappName }),
-      title: t('walletConnectRequest.decryptPayloadTitle'),
     },
   }
 

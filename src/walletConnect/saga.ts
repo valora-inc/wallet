@@ -528,6 +528,13 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
       ...defaultTrackedProperties,
       error: e.message,
     })
+
+    // Notify the client about the error if possible
+    const { topic, id } = request
+    if (client && topic && id) {
+      const response: JsonRpcResult = formatJsonRpcResult(id, { error: e.message })
+      yield* call([client, 'respondSessionRequest'], { topic, response })
+    }
   }
 
   yield* call(handlePendingStateOrNavigateBack)

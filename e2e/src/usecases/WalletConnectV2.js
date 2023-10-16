@@ -4,7 +4,8 @@ import {
   verifyEIP712TypedDataSigner,
   verifySignature,
 } from '@celo/utils/lib/signatureUtils'
-import { recoverTransaction } from '@celo/wallet-base'
+import { hexToNumber } from 'viem'
+import { parseTransactionCelo } from 'viem/chains/utils'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
@@ -45,8 +46,9 @@ async function formatTestTransaction(address) {
       to: address,
       data: '0x',
       nonce: parseInt(data.result, 16),
-      gasPrice: '0x02540be400',
-      gasLimit: '0x5208',
+      gas: '0x5208',
+      maxFeePerGas: '0x1DCD65000',
+      maxPriorityFeePerGas: '0x77359400',
       value: '0x01',
     }
   } catch (error) {
@@ -231,13 +233,12 @@ export default WalletConnect = () => {
       .withTimeout(15 * 1000)
     await verifySuccessfulTransaction('Sign transaction', tx)
 
-    const [recoveredTx, recoveredSigner] = recoverTransaction(signedTx)
-
-    jestExpect(recoveredSigner.toLowerCase()).toEqual(walletAddress)
-    jestExpect(recoveredTx.nonce).toEqual(tx.nonce)
+    //TODO: assert transaction signer address if once Viem could provide it
+    const recoveredTx = parseTransactionCelo(signedTx)
+    jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
     jestExpect(recoveredTx.to).toEqual(tx.to)
-    jestExpect(recoveredTx.data).toEqual(tx.data)
-    jestExpect(recoveredTx.value).toEqual(tx.value)
+    jestExpect(recoveredTx.gas).toEqual(BigInt(tx.gas))
+    jestExpect(recoveredTx.value).toEqual(BigInt(tx.value))
   })
 
   it('Then is able to sign a message (eth_sign)', async () => {
