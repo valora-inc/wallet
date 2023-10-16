@@ -388,7 +388,8 @@ const styles = StyleSheet.create({
   },
   amountSubscript: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray5,
+    paddingBottom: 16,
   },
   encryptionWarningLabelContainer: {
     flexDirection: 'row',
