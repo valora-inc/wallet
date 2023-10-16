@@ -26,6 +26,7 @@ interface Props {
   testID?: string
   currencyInfo?: CurrencyInfo
   showLocalAmount?: boolean
+  newSendScreen?: boolean
 }
 
 export default function FeeDrawer({
@@ -42,6 +43,7 @@ export default function FeeDrawer({
   testID,
   currencyInfo,
   showLocalAmount,
+  newSendScreen,
 }: Props) {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
@@ -94,7 +96,9 @@ export default function FeeDrawer({
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
+                  hideCode={showLocalAmount}
                   testID={`${testID}/totalFee`}
+                  newSendScreen={newSendScreen}
                 />
               )
             }
@@ -116,7 +120,9 @@ export default function FeeDrawer({
                     formatType={FormatType.Fee}
                     currencyInfo={currencyInfo}
                     showLocalAmount={showLocalAmount}
+                    hideCode={showLocalAmount}
                     testID={`${testID}/exchangeFee`}
+                    newSendScreen={newSendScreen}
                   />
                 )
               }
@@ -133,7 +139,9 @@ export default function FeeDrawer({
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
+                  hideCode={showLocalAmount}
                   testID={`${testID}/dekFee`}
+                  newSendScreen={newSendScreen}
                 />
               }
               textStyle={styles.dropDownText}
@@ -150,7 +158,9 @@ export default function FeeDrawer({
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
+                  hideCode={showLocalAmount}
                   testID={`${testID}/securityFee`}
+                  newSendScreen={newSendScreen}
                 />
               )
             }

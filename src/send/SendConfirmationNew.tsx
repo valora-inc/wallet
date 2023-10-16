@@ -13,7 +13,7 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
-import FeeDrawer from 'src/components/FeeDrawerNew'
+import FeeDrawer from 'src/components/FeeDrawer'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
@@ -140,6 +140,8 @@ function SendConfirmation(props: Props) {
   const feeType = FeeType.SEND
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
 
+  console.log('!!!' + JSON.stringify(feeEstimate))
+
   useEffect(() => {
     if (!feeEstimate) {
       dispatch(estimateFee({ feeType, tokenAddress }))
@@ -152,25 +154,21 @@ function SendConfirmation(props: Props) {
     }
   }, [isDekRegistered])
 
-  console.log('!!!')
-  console.log(JSON.stringify(feeEstimate))
-
-  const securityFee = feeEstimate?.feeInfo ? new BigNumber(feeEstimate.feeInfo.fee) : undefined
+  const securityFee = new BigNumber(0.001) // feeEstimate?.feeInfo ? new BigNumber(feeEstimate.feeInfo.fee) : undefined
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
-  const dekFee = storedDekFee?.feeInfo ? new BigNumber(storedDekFee.feeInfo.fee) : undefined
-  const totalFeeInToken = new BigNumber(0.5) // securityFee?.plus(dekFee ?? 0)
-  console.log('!!!' + totalFeeInToken)
-  console.log(tokenAmount)
-  console.log(tokenAmount.plus(totalFeeInToken ?? 0))
-  console.log(tokenAmount.plus(totalFeeInToken ?? 0).toFormat(6))
+  const dekFee = new BigNumber(0.0001) // storedDekFee?.feeInfo ? new BigNumber(storedDekFee.feeInfo.fee) : undefined
+  const totalFeeInToken = securityFee?.plus(dekFee ?? 0)
   const feeCurrency = Currency['Celo'] // feeEstimate?.feeInfo ? feeEstimate.feeInfo.feeCurrency : undefined
 
-  const showLocalAmount = false // TODO: set behind feature gate???
+  const totalFeeToAdd = totalFeeInToken // TODO: Correct if fee currency is same as token currency, otherwise should be 0 (???)
+
+  const newSendScreen = true // TODO: set behind feature gate???
+  const showLocalAmount = !newSendScreen
 
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        <FeeDrawer // TODO: Replace this with new fee container that shows fees in crypto amount
+        <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
           currency={feeCurrency}
@@ -181,11 +179,12 @@ function SendConfirmation(props: Props) {
           feeHasError={feeEstimate?.error || storedDekFee?.error}
           totalFee={totalFeeInToken}
           showLocalAmount={showLocalAmount}
+          newSendScreen={newSendScreen}
         />
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenInfo?.tokenId}
-          feeToAddInToken={totalFeeInToken} // TODO: Only need to add this if fee currency is same as token currency
+          feeToAddInToken={totalFeeToAdd} // TODO: Only need to add this if fee currency is same as token currency
           showLocalAmount={showLocalAmount}
           hideSign={showLocalAmount}
         />

@@ -33,7 +33,9 @@ export default function TokenTotalLineItem({
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenId)
-  // const feeInToken = tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined
+  const feeInToken =
+    feeToAddInToken ??
+    (tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined)
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function TokenTotalLineItem({
         textStyle={fontStyles.regular600}
         amount={
           <TokenDisplay
-            amount={tokenAmount.plus(feeToAddInToken ?? 0)}
+            amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenId={tokenId}
             localAmount={localAmount}
             showLocalAmount={showLocalAmount}
@@ -71,7 +73,7 @@ export default function TokenTotalLineItem({
         }
         amount={
           <TokenDisplay
-            amount={tokenAmount.plus(feeToAddInToken ?? 0)}
+            amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenId={tokenId}
             showLocalAmount={!showLocalAmount}
             hideSign={hideSign}

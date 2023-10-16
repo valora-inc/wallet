@@ -47,6 +47,7 @@ interface Props {
   style?: StyleProp<TextStyle>
   currencyInfo?: CurrencyInfo
   testID?: string
+  newSendScreen?: boolean
 }
 
 const BIG_SIGN_RATIO = 34 / 48
@@ -131,6 +132,7 @@ export default function CurrencyDisplay({
   style,
   currencyInfo,
   testID,
+  newSendScreen,
 }: Props) {
   const { localCurrencyCode, localCurrencyExchangeRate, amountCurrency } = useLocalCurrencyToShow(
     amount,
@@ -138,7 +140,9 @@ export default function CurrencyDisplay({
   )
 
   // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = showLocalAmount // ?? amountCurrency !== Currency.Celo
+  const shouldShowLocalAmount = newSendScreen
+    ? showLocalAmount
+    : showLocalAmount ?? amountCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
