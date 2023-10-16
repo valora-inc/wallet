@@ -13,7 +13,6 @@ import {
   useSwappableTokens,
   useTokenPricesAreStale,
   useTokenToLocalAmountByAddress,
-  useTokensForAssetsScreen,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -216,75 +215,6 @@ describe('token to fiat exchanges', () => {
 
     const pricesStale = getByTestId('pricesStale')
     expect(pricesStale.props.children).toEqual(true)
-  })
-})
-
-describe('useTokensForAssetsScreen', () => {
-  it('returns tokens with balance and tokens with showZeroBalance set to true', () => {
-    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenHookTestComponent hook={useTokensForAssetsScreen} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockPoofTokenId,
-      mockCeloTokenId,
-      mockCusdTokenId,
-    ])
-  })
-
-  it('sorts by usd balance, then balance if price is not available, then zero balance tokens with natives first', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          ...mockTokenBalances,
-          [ethTokenId]: {
-            tokenId: ethTokenId,
-            balance: '0',
-            priceUsd: '5',
-            networkId: NetworkId['ethereum-sepolia'],
-            showZeroBalance: true,
-            isNative: true,
-          },
-          ['token1']: {
-            tokenId: 'token1',
-            networkId: NetworkId['celo-alfajores'],
-            balance: '10',
-          },
-          ['token2']: {
-            tokenId: 'token2',
-            networkId: NetworkId['celo-alfajores'],
-            balance: '0',
-          },
-          ['token3']: {
-            tokenId: 'token3',
-            networkId: NetworkId['ethereum-sepolia'],
-            balance: '20',
-          },
-        },
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenHookTestComponent hook={useTokensForAssetsScreen} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockPoofTokenId,
-      'token3',
-      'token1',
-      mockCeloTokenId,
-      ethTokenId,
-      mockCusdTokenId,
-    ])
   })
 })
 

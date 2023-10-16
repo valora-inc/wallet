@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import deviceInfoModule from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import {
@@ -19,7 +20,6 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
-import _ from 'lodash'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -340,6 +340,28 @@ export const tokensInfoUnavailableSelector = createSelector(
     // The total balance is null if there was an error fetching the tokens
     // info and there are no cached values
     return totalBalance === null
+  }
+)
+
+export const tokensWithTokenBalanceSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => {
+    return tokens.filter((token) => token.balance.gt(TOKEN_MIN_AMOUNT))
+  }
+)
+
+export const swappableTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => {
+    const appVersion = deviceInfoModule.getVersion()
+    return tokens
+      .filter(
+        (tokenInfo) =>
+          tokenInfo.isSwappable ||
+          (tokenInfo.minimumAppVersionToSwap &&
+            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+      )
+      .sort(tokenCompareByUsdBalanceThenByName)
   }
 )
 
