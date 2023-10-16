@@ -3,12 +3,12 @@
 exports[`QRCode renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
     {
@@ -168,12 +168,12 @@ exports[`QRCode renders correctly 1`] = `
 exports[`QRCode renders correctly 2`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-      "left",
-      "right",
-      "top",
-    ]
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
   }
   style={
     {

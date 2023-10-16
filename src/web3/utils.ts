@@ -96,7 +96,7 @@ export function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
   }
 }
 
-export function getNetworkFromNetworkId(networkId: NetworkId): Network | undefined {
+export function getNetworkFromNetworkId(networkId?: NetworkId): Network | undefined {
   const networkPair = Object.entries(networkConfig.networkToNetworkId).find(
     ([_, mappedNetworkId]) => networkId === mappedNetworkId
   )

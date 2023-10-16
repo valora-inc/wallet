@@ -269,7 +269,7 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position | Nft, SectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position | Nft[], SectionData>[] = []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -315,7 +315,7 @@ function AssetsScreen({ navigation, route }: Props) {
     }
   }
 
-  const NftItem = ({ item, index }: { item: Nft; index: number }) => {
+  const NftItem = ({ item }: { item: Nft }) => {
     return (
       <View testID="NftItem" style={styles.nftsTouchableContainer}>
         <Touchable
@@ -351,7 +351,7 @@ function AssetsScreen({ navigation, route }: Props) {
     return (
       <View style={styles.nftsPairingContainer}>
         {item.map((nft, index) => (
-          <NftItem key={index} item={nft} index={index} />
+          <NftItem key={index} item={nft} />
         ))}
       </View>
     )
@@ -396,7 +396,7 @@ function AssetsScreen({ navigation, route }: Props) {
         else if (nftsLoading) return null
         else
           return (
-            <View style={{ marginTop: listHeaderHeight }}>
+            <View style={[{ marginTop: listHeaderHeight }, styles.noNftsTextContainer]}>
               <Text style={styles.noNftsText}>{t('nftGallery.noNfts')}</Text>
             </View>
           )
@@ -432,10 +432,10 @@ function AssetsScreen({ navigation, route }: Props) {
             paddingBottom: insets.bottom,
             opacity: listHeaderHeight > 0 ? 1 : 0,
           },
-          activeTab === AssetTabType.Collectibles && styles.nftsContentContainer,
-          activeTab === AssetTabType.Collectibles && nftsError
-            ? { alignItems: 'center' }
-            : { paddingLeft: Spacing.Thick24 },
+          activeTab === AssetTabType.Collectibles &&
+            !nftsError &&
+            nfts.length > 0 &&
+            styles.nftsContentContainer,
         ]}
         // ensure header is above the scrollbar on ios overscroll
         scrollIndicatorInsets={{ top: listHeaderHeight }}
@@ -575,6 +575,7 @@ const styles = StyleSheet.create({
   },
   nftsContentContainer: {
     alignItems: 'flex-start',
+    paddingHorizontal: Spacing.Thick24,
   },
   nftsErrorView: {
     width: nftImageSize,
@@ -586,7 +587,7 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Regular16,
   },
   nftsNoMetadataText: {
-    ...typeScale.titleLarge,
+    ...typeScale.labelSmall,
     textAlign: 'center',
   },
   nftsTouchableContainer: {
@@ -597,9 +598,12 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Regular16,
   },
   noNftsText: {
-    ...typeScale.labelMedium,
+    ...typeScale.bodySmall,
     color: Colors.gray3,
     textAlign: 'center',
+  },
+  noNftsTextContainer: {
+    paddingHorizontal: Spacing.Thick24,
   },
 })
 

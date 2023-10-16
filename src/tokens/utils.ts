@@ -1,14 +1,14 @@
 import BigNumber from 'bignumber.js'
-import { CurrencyTokens } from 'src/tokens/selectors'
-import { NetworkId, Network } from 'src/transactions/types'
-import { TokenBalance } from './slice'
 import { TokenProperties } from 'src/analytics/Properties'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import networkConfig from 'src/web3/networkConfig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { CurrencyTokens } from 'src/tokens/selectors'
+import { Network, NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
+import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -137,9 +137,8 @@ export function getTokenId(networkId: NetworkId, tokenAddress?: string): string 
   return `${networkId}:${tokenAddress}`
 }
 
-export function showAssetDetailsScreen() {
-  // TODO(ACT-919): get from feature gate
-  return false
+export function getSupportedNetworkIdsForSend(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSend
 }
 
 export function getSupportedNetworkIdsForSend(): NetworkId[] {
