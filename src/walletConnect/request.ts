@@ -59,7 +59,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       const rawTx: any = { ...params[0] }
       // Convert hex values to numeric ones for Viem
       // TODO: remove once Viem allows hex values as quanitites
-      const normalizedTx = yield* call(normalizeTransaction, wallet, rawTx)
+      const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
       const formattedTx: any = yield* call(formatTransaction, normalizedTx)
 
       // TODO: estimate fee currency for Celo
@@ -84,7 +84,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
   }
 }
 
-function* normalizeTransaction(wallet: ViemWallet, rawTx: any) {
+function normalizeTransaction(wallet: ViemWallet, rawTx: any) {
   const tx = { ...rawTx }
 
   // Handle `gasLimit` as a misnomer for `gas`
