@@ -162,7 +162,7 @@ function SendConfirmation(props: Props) {
   const securityFeeInToken = securityFee?.dividedBy(tokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFee?.dividedBy(tokenInfo?.priceUsd ?? 0)
   const totalFeeInToken = totalFeeInUsd?.dividedBy(tokenInfo?.priceUsd ?? 0)
-  const feeCurrency = newSendScreen ? Currency.Celo : Currency.Dollar // TODO: Need to fix
+  const feeCurrency = newSendScreen ? Currency.Dollar : Currency.Dollar // TODO: Need to fix
 
   const FeeContainer = () => {
     return (
