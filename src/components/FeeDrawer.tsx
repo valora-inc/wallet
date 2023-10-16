@@ -96,7 +96,7 @@ export default function FeeDrawer({
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
-                  hideCode={showLocalAmount}
+                  hideCode={!newSendScreen}
                   testID={`${testID}/totalFee`}
                   newSendScreen={newSendScreen}
                 />
@@ -120,7 +120,7 @@ export default function FeeDrawer({
                     formatType={FormatType.Fee}
                     currencyInfo={currencyInfo}
                     showLocalAmount={showLocalAmount}
-                    hideCode={showLocalAmount}
+                    hideCode={!newSendScreen}
                     testID={`${testID}/exchangeFee`}
                     newSendScreen={newSendScreen}
                   />
@@ -139,7 +139,7 @@ export default function FeeDrawer({
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
-                  hideCode={showLocalAmount}
+                  hideCode={!newSendScreen}
                   testID={`${testID}/dekFee`}
                   newSendScreen={newSendScreen}
                 />
@@ -158,7 +158,7 @@ export default function FeeDrawer({
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
-                  hideCode={showLocalAmount}
+                  hideCode={!newSendScreen}
                   testID={`${testID}/securityFee`}
                   newSendScreen={newSendScreen}
                 />

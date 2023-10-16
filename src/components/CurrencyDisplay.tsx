@@ -146,7 +146,7 @@ export default function CurrencyDisplay({
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
-  const displayCurrency = displayAmount
+  const displayCurrency = displayAmount //TODO: Looks like this is not even used???
     ? displayAmount.currencyCode === Currency.Celo
       ? Currency.Celo
       : Currency.Dollar
@@ -162,7 +162,7 @@ export default function CurrencyDisplay({
   const formattedValue =
     value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const includesLowerThanSymbol = formattedValue.startsWith('<')
-  const code = displayAmount?.currencyCode
+  const code = displayAmount?.currencyCode === Currency.Celo ? 'CELO' : displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
   const color = useColors

@@ -35,9 +35,11 @@ export default function TokenTotalLineItem({
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenId)
-  const feeInToken =
-    feeToAddInToken ??
-    (tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined)
+  const feeInToken = newSendScreen
+    ? feeToAddInToken
+    : tokenInfo?.priceUsd
+    ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd)
+    : undefined
 
   return (
     <>
@@ -51,7 +53,7 @@ export default function TokenTotalLineItem({
             localAmount={localAmount}
             showLocalAmount={showLocalAmount}
             hideSign={hideSign}
-            showApprox={true}
+            showApprox={newSendScreen}
             testID="TotalLineItem/Total"
           />
         }

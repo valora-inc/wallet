@@ -46,6 +46,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { isStablecoin } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
@@ -247,9 +248,10 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment =
-    tokenInfo?.networkId === NetworkId['celo-mainnet'] ||
-    tokenInfo?.networkId === NetworkId['celo-alfajores']
+  const allowComment = newSendScreen
+    ? tokenInfo?.networkId === NetworkId['celo-mainnet'] ||
+      tokenInfo?.networkId === NetworkId['celo-alfajores']
+    : isStablecoin(tokenInfo)
 
   return (
     <SafeAreaView
@@ -307,8 +309,7 @@ function SendConfirmation(props: Props) {
             tokenId={tokenInfo?.tokenId}
             showLocalAmount={showLocalAmount}
           />
-          {/* If showLocalAmount is false, crypto amount is shown and we want to show the fiat amount below */}
-          {!showLocalAmount && (
+          {newSendScreen && (
             <TokenDisplay
               testID="SendAmountFiat"
               style={styles.amountSubscript}

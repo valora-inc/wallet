@@ -14,14 +14,14 @@ import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
-import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
+import TokenDisplay from 'src/components/TokenDisplay'
+import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
-import { estimateFee, FeeType } from 'src/fees/reducer'
+import CustomHeader from 'src/components/header/CustomHeader'
+import { FeeType, estimateFee } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
@@ -36,7 +36,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
+import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { useInputAmountsByAddress } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
@@ -47,6 +47,7 @@ import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
@@ -136,6 +137,8 @@ function SendConfirmation(props: Props) {
     })
   }
 
+  const newSendScreen = true // TODO: set behind feature gate???
+
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
@@ -156,6 +159,10 @@ function SendConfirmation(props: Props) {
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
+  const securityFeeInToken = securityFee?.dividedBy(tokenInfo?.priceUsd ?? 0)
+  const dekFeeInToken = dekFee?.dividedBy(tokenInfo?.priceUsd ?? 0)
+  const totalFeeInToken = totalFeeInUsd?.dividedBy(tokenInfo?.priceUsd ?? 0)
+  const feeCurrency = newSendScreen ? Currency.Celo : Currency.Dollar // TODO: Need to fix
 
   const FeeContainer = () => {
     return (
@@ -163,19 +170,24 @@ function SendConfirmation(props: Props) {
         <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
-          currency={Currency.Dollar}
-          securityFee={securityFee}
+          currency={feeCurrency}
+          securityFee={newSendScreen ? securityFeeInToken : securityFee}
           showDekfee={!isDekRegistered}
-          dekFee={dekFee}
+          dekFee={newSendScreen ? dekFeeInToken : dekFee}
           feeLoading={feeEstimate?.loading || storedDekFee?.loading}
           feeHasError={feeEstimate?.error || storedDekFee?.error}
-          totalFee={totalFeeInUsd}
-          showLocalAmount={true}
+          totalFee={newSendScreen ? totalFeeInToken : totalFeeInUsd}
+          showLocalAmount={!newSendScreen}
+          newSendScreen={newSendScreen}
         />
-        <LegacyTokenTotalLineItem
+        <TokenTotalLineItem
           tokenAmount={tokenAmount}
-          tokenAddress={tokenAddress}
+          tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
+          feeToAddInToken={totalFeeInToken}
+          showLocalAmount={newSendScreen ? false : undefined}
+          hideSign={newSendScreen ? false : undefined}
+          newSendScreen={newSendScreen}
         />
       </View>
     )
@@ -235,7 +247,10 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = isStablecoin(tokenInfo)
+  const allowComment = newSendScreen
+    ? tokenInfo?.networkId === NetworkId['celo-mainnet'] ||
+      tokenInfo?.networkId === NetworkId['celo-alfajores']
+    : isStablecoin(tokenInfo)
 
   return (
     <SafeAreaView
@@ -286,13 +301,22 @@ function SendConfirmation(props: Props) {
               )}
             </View>
           </View>
-          <LegacyTokenDisplay
+          <TokenDisplay
             testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}
-            tokenAddress={tokenAddress}
-            showLocalAmount={amountIsInLocalCurrency}
+            tokenId={tokenInfo?.tokenId}
+            showLocalAmount={newSendScreen ? false : amountIsInLocalCurrency}
           />
+          {newSendScreen && (
+            <TokenDisplay
+              testID="SendAmountFiat"
+              style={styles.amountSubscript}
+              amount={tokenAmount}
+              tokenId={tokenInfo?.tokenId}
+              showLocalAmount={true}
+            />
+          )}
           {allowComment && (
             <CommentTextInput
               testID={'send'}
@@ -361,6 +385,10 @@ const styles = StyleSheet.create({
   amount: {
     paddingVertical: 8,
     ...fontStyles.largeNumber,
+  },
+  amountSubscript: {
+    ...fontStyles.regular,
+    color: colors.gray4,
   },
   encryptionWarningLabelContainer: {
     flexDirection: 'row',
