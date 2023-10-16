@@ -146,7 +146,7 @@ export default function CurrencyDisplay({
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
-  const displayCurrency = displayAmount //TODO: Looks like this is not even used???
+  const displayCurrency = displayAmount
     ? displayAmount.currencyCode === Currency.Celo
       ? Currency.Celo
       : Currency.Dollar

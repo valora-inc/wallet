@@ -62,7 +62,7 @@ export default function TokenTotalLineItem({
         title={
           <Text style={styles.exchangeRate} testID="TotalLineItem/ExchangeRate">
             <Trans
-              i18nKey={newSendScreen ? 'tokenExchanteRate' : 'tokenExchangeRateApprox'}
+              i18nKey={newSendScreen ? 'tokenExchangeRateApprox' : 'tokenExchanteRate'}
               tOptions={{ symbol: tokenInfo?.symbol }}
             >
               {localAmount?.exchangeRate ? (
@@ -77,9 +77,9 @@ export default function TokenTotalLineItem({
         }
         amount={
           <TokenDisplay
-            amount={tokenAmount.plus(feeInToken ?? 0)}
+            amount={tokenAmount.plus(newSendScreen ? feeInToken ?? 0 : 0)}
             tokenId={tokenId}
-            showLocalAmount={!showLocalAmount} // Want to do the opposite of what is done above.
+            showLocalAmount={!showLocalAmount}
             hideSign={hideSign}
             testID="TotalLineItem/Subtotal"
           />
