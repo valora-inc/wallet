@@ -78,6 +78,31 @@ export default offRamps = () => {
       }
     )
 
+    // Verify that some exchanges are displayed not the exact total as this could change
+    // Maybe use total in the future
+    it.each`
+      token     | exchanges
+      ${'cUSD'} | ${{ total: 5, minExpected: 2 }}
+      ${'cEUR'} | ${{ total: 2, minExpected: 1 }}
+      ${'CELO'} | ${{ total: 19, minExpected: 5 }}
+    `(
+      'Then should display at least $exchanges.minExpected $token exchange(s)',
+      async ({ token, exchanges }) => {
+        await waitForElementId(`radio/${token}`)
+        await element(by.id(`radio/${token}`)).tap()
+        await element(by.text('Next')).tap()
+        await waitForElementId('FiatExchangeInput')
+        await element(by.id('FiatExchangeInput')).replaceText('20')
+        await element(by.id('FiatExchangeNextButton')).tap()
+        await expect(element(by.text('Select Withdraw Method'))).toBeVisible()
+        await waitForElementId('Exchanges')
+        await element(by.id('Exchanges')).tap()
+        await waitForElementId('SendBar')
+        // Exchanges start at index 0
+        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
+      }
+    )
+
     it('Then Send To Address', async () => {
       const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
       await waitForElementId('radio/CELO')
@@ -88,28 +113,11 @@ export default offRamps = () => {
       await element(by.id('FiatExchangeNextButton')).tap()
       await waitForElementId('Exchanges')
       await element(by.id('Exchanges')).tap()
-      await element(by.id('WithdrawCeloButton')).tap()
-      await element(by.id('AccountAddress')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-      await element(by.id('CeloAmount')).replaceText(randomAmount)
-      //TODO: Investigate why sleep is needed
-      await sleep(1000)
-      await element(by.id('WithdrawReviewButton')).tap()
-      // Confirm withdrawal for randomAmount
-      await element(by.id('ConfirmWithdrawButton')).tap()
-      // Enter PIN if necessary
-      await enterPinUiIfNecessary()
-      // Assert we've arrived at the home screen
-      await waitForElementId('HomeAction-Withdraw')
-      // flakey due to alfajores blockscout issues
-      // We might want to fix to make the transaction feed { tx receipts } ∪ { blockscout txs }
-      // Assert send transaction is present in feed
-      // const target = element(
-      //   by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))
-      // ).atIndex(0)
-      // await waitFor(target)
-      //   .toBeVisible()
-      //   .withTimeout(30 * 1000)
-      // await expect(target).toBeVisible()
+      await element(by.id('SendBar')).tap()
+      await waitFor(element(by.id('SendSearchInput')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+      // Send e2e test should cover the rest of this flow
     })
   })
 }

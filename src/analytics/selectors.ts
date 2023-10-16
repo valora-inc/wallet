@@ -16,12 +16,12 @@ import {
   positionsByBalanceUsdSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
-import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { coreTokensSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
 const tokensSelector = createSelector(
-  [tokensWithTokenBalanceSelector, coreTokensSelector],
+  [tokensWithTokenBalanceAndAddressSelector, coreTokensSelector],
   (tokens, coreTokens) => ({ tokens, coreTokens })
 )
 

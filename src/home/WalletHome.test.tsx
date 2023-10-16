@@ -129,6 +129,10 @@ jest.mock('src/statsig', () => ({
     cashInBottomSheetEnabled: true,
   })),
   getFeatureGate: jest.fn().mockReturnValue(false),
+  getDynamicConfigParams: jest.fn(() => ({
+    showBalances: ['celo-alfajores'],
+    showTransfers: ['celo-alfajores'],
+  })),
 }))
 
 jest.mock('src/fiatExchanges/utils', () => ({
@@ -174,7 +178,7 @@ describe('WalletHome', () => {
   it('Renders correctly and fires initial actions', async () => {
     const { store, tree } = renderScreen({
       app: {
-        numberVerified: true,
+        phoneNumberVerified: true,
       },
       recipients: {
         phoneRecipientCache: {},
@@ -240,7 +244,7 @@ describe('WalletHome', () => {
   it("doesn't import contacts if number isn't verified", async () => {
     const { store } = renderScreen({
       app: {
-        numberVerified: false,
+        phoneNumberVerified: false,
       },
       recipients: {
         phoneRecipientCache: {},

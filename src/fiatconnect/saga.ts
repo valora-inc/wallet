@@ -73,7 +73,7 @@ import { Screens } from 'src/navigator/Screens'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
 import { Network, newTransactionContext } from 'src/transactions/types'
@@ -956,7 +956,7 @@ export function* _initiateSendTxToProvider({
 }) {
   Logger.info(TAG, 'Starting transfer out transaction..')
 
-  const tokenList: TokenBalanceWithAddress[] = yield* select(tokensListSelector)
+  const tokenList: TokenBalanceWithAddress[] = yield* select(tokensListWithAddressSelector)
   const cryptoType = fiatConnectQuote.getCryptoTypeString()
   const tokenInfo = tokenList.find((token) => token.symbol === cryptoType)
   if (!tokenInfo) {

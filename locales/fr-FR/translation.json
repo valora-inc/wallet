@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invitez des amis pour être récompensé",
-    "body": "Une fois qu'ils se seront installés et qu'ils auront ajouté 10 cUSD à leur portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
+    "body": "Une fois que votre contact aura paramétré son compte et ajouté 10 cUSD à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -646,14 +646,14 @@
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
     "share": "Bonjour ! J'utilise {{appName}} comme mon portefeuille crypto. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{shareUrl}}",
-    "help": "Pour obtenir cette récompense, l'invité doit télécharger via le lien de parrainage, connecter son numéro de téléphone et conserver 10 cUSD ou plus dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
+    "help": "Pour obtenir cette récompense, l'invité doit télécharger l'application depuis le lien de parrainage, connecter son numéro de téléphone et conserver 10 cUSD ou plus dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
     "rewardsActive": {
       "title": "Invitez des amis et collectez des NFTs",
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
       "title": "Obtenez cUSD avec Valora Referral Rewards",
-      "body": "Invite jusqu'à 25 amis à rejoindre {{appName}} et tu recevras chacun 0,50 cUSD lorsqu'ils ajouteront ou recevront 10 cUSD ou plus, jusqu'à épuisement des fonds."
+      "body": "Invitez jusqu'à 25 personnes à rejoindre {{appName}} pour recevoir chacun 0,50 cUSD dès que vos invités ajoutent ou reçoivent 10 cUSD ou plus, offre valable jusqu'à épuisement des fonds."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -1411,13 +1411,6 @@
   "others": "Autres",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 dernières heures",
-  "merchant": "Paiement commerçant",
-  "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un vendeur.",
-  "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
-  "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
-  "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
-  "merchantPaymentSubmitSuccess": "Votre paiement a bien été envoyé",
-  "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre wallet, veuillez réessayer",
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Les achats sont effectués par nos prestataires partenaires. Les frais peuvent varier. Certains modes de paiement ne sont pas disponibles dans votre pays.",
@@ -1435,12 +1428,12 @@
     "card": "Carte de crédit/débit",
     "bank": "Compte bancaire",
     "mobileMoney": "Mobile Money",
-    "airtime": "Temps d'antenne",
+    "airtime": "Airtime",
     "minFee": "Frais min",
     "numProviders": "{{count}} prestataires",
     "fee": "Frais",
     "idRequired": "ID requis",
-    "mobileCarrierRequirement": "{{carrier}} Exigée",
+    "mobileCarrierRequirement": "{{carrier}} obligatoire",
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
     "xHours": "Moins de {{upperBound}} heures",
@@ -1762,7 +1755,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invitez {{contactName}} à {{appName}} et recevez 0.50 cUSD",
-      "body": "On dirait que {{contactName}} n'est pas sur Valora. Tu peux toujours envoyer un paiement si tu connais l'adresse de son portefeuille, ou envoyer une invitation à la place. \n\n Après avoir téléchargé Valora, connecté son numéro de téléphone et ajouté 10 cUSD à son portefeuille, vous recevrez tous les deux 0,50 cUSD jusqu'à épuisement des fonds."
+      "body": "Il semble que {{contactName}} n'est pas sur Valora. Vous pouvez toujours lui envoyer un paiement direct si vous connaissez l'adresse de son wallet, ou lui faire parvenir une invitation. \n\nUne fois son compte configuré, son numéro de téléphone connecté et son portefeuille approvisionné avec 10 cUSD ou plus, vous recevrez tous les deux 0,50 cUSD jusqu'à épuisement des fonds."
     }
   },
   "celoNews": {
@@ -1830,11 +1823,31 @@
     "bannerTitle": "Aperçu des hooks activé, appuyez pour désactiver"
   },
   "assets": {
-    "claimRewards": "Réclamer les récompenses"
+    "claimRewards": "Réclamer les récompenses",
+    "bridge": "Ponté par {{bridge}}",
+    "networkName": "Réseau {{networkName}}",
+    "tabBar": {
+      "tokens": "Jetons",
+      "collectibles": "Objets de collection",
+      "dappPositions": "Positions de Dapp"
+    }
   },
   "notificationCenterSpotlight": {
-    "message": "Introduction d'une nouvelle façon de réclamer des récompenses, de consulter les alertes et de voir les mises à jour en un seul endroit.",
-    "cta": "Je l'ai"
+    "message": "Découvrez une nouvelle façon de profiter de récompenses, de voir les alertes et de consulter les dernières infos en un seul endroit",
+    "cta": "J'ai compris"
+  },
+  "tokenDetails": {
+    "yourBalance": "Ton équilibre",
+    "learnMore": "En savoir plus sur {{tokenName}}",
+    "priceUnavailable": "Prix non disponible",
+    "priceDeltaSuffix": "Aujourd'hui",
+    "actions": {
+      "send": "Envoyer",
+      "swap": "Échanger",
+      "add": "Ajouter",
+      "withdraw": "Retirer",
+      "more": "Plus d'informations"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -3,16 +3,17 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 interface Props {
   tokenAmount: BigNumber
-  tokenAddress?: string
+  tokenId?: string
   localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
   hideSign?: boolean
@@ -21,14 +22,14 @@ interface Props {
 
 export default function TokenTotalLineItem({
   tokenAmount,
-  tokenAddress,
+  tokenId,
   localAmount,
   feeToAddInUsd,
   hideSign,
   title,
 }: Props) {
   const { t } = useTranslation()
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
   const feeInToken = tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined
 
   return (
@@ -39,7 +40,7 @@ export default function TokenTotalLineItem({
         amount={
           <TokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
-            tokenAddress={tokenAddress}
+            tokenId={tokenId}
             localAmount={localAmount}
             hideSign={hideSign}
             testID="TotalLineItem/Total"
@@ -55,11 +56,7 @@ export default function TokenTotalLineItem({
                   LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
                 }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
               ) : (
-                <TokenDisplay
-                  amount={new BigNumber(1)}
-                  tokenAddress={tokenAddress}
-                  showLocalAmount={true}
-                />
+                <TokenDisplay amount={new BigNumber(1)} tokenId={tokenId} showLocalAmount={true} />
               )}
             </Trans>
           </Text>
@@ -67,7 +64,7 @@ export default function TokenTotalLineItem({
         amount={
           <TokenDisplay
             amount={tokenAmount}
-            tokenAddress={tokenAddress}
+            tokenId={tokenId}
             showLocalAmount={false}
             hideSign={hideSign}
             testID="TotalLineItem/Subtotal"

@@ -6,25 +6,8 @@ import { Provider } from 'react-redux'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { NetworkId } from 'src/transactions/types'
-
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(() => false),
-}))
-jest.mock('src/web3/networkConfig', () => {
-  const originalModule = jest.requireActual('src/web3/networkConfig')
-  return {
-    ...originalModule,
-    __esModule: true,
-    default: {
-      ...originalModule.default,
-      defaultNetworkId: 'celo-alfajores',
-    },
-  }
-})
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -39,28 +22,27 @@ describe('TokenDisplay', () => {
           ['celo-alfajores:0xusd']: {
             address: '0xusd',
             tokenId: 'celo-alfajores:0xusd',
-            networkId: NetworkId['celo-alfajores'],
             symbol: 'cUSD',
             balance: '50',
             priceUsd: '1',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
           ['celo-alfajores:0xeur']: {
             address: '0xeur',
             tokenId: 'celo-alfajores:0xeur',
-            networkId: NetworkId['celo-alfajores'],
             symbol: 'cEUR',
             balance: '50',
             priceUsd: '1.2',
+            networkId: NetworkId['celo-alfajores'],
             priceFetchedAt: Date.now(),
           },
-          ['celo-alfajores:0xcelo']: {
-            address: '0xcelo',
-            tokenId: 'celo-alfajores:0xcelo',
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'CELO',
+          ['ethereum-sepolia:native']: {
+            tokenId: 'ethereum-sepolia:native',
+            symbol: 'ETH',
             balance: '10',
             priceUsd: '5',
+            networkId: NetworkId['ethereum-sepolia'],
             priceFetchedAt: Date.now(),
           },
         },
@@ -70,44 +52,15 @@ describe('TokenDisplay', () => {
   }
 
   describe('when displaying tokens', () => {
-    it('throws when both currency and tokenAddress are supplied', () => {
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay
-              showLocalAmount={false}
-              amount={10}
-              tokenAddress={'0xusd'}
-              currency={Currency.Celo}
-              testID="test"
-            />
-          </Provider>
-        )
-      ).toThrow()
-    })
-    it('throws when neither currency nor tokenAddress are supplied', () => {
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).toThrow()
-    })
-    it('allows currency and tokenAddress to be empty when native tokens are permitted', () => {
-      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-      expect(() =>
-        render(
-          <Provider store={store()}>
-            <TokenDisplay showLocalAmount={false} amount={10} testID="test" />
-          </Provider>
-        )
-      ).not.toThrow()
-    })
     it('shows token amount when showLocalAmount is false', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay showLocalAmount={false} amount={10} tokenAddress={'0xusd'} testID="test" />
+          <TokenDisplay
+            showLocalAmount={false}
+            amount={10}
+            tokenId={'celo-alfajores:0xusd'}
+            testID="test"
+          />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toBe('10.00 cUSD')
@@ -116,7 +69,12 @@ describe('TokenDisplay', () => {
     it('shows local amount when showLocalAmount is true', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay showLocalAmount={true} amount={10} tokenAddress={'0xusd'} testID="test" />
+          <TokenDisplay
+            showLocalAmount={true}
+            amount={10}
+            tokenId={'celo-alfajores:0xusd'}
+            testID="test"
+          />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('R$1.00')
@@ -125,7 +83,12 @@ describe('TokenDisplay', () => {
     it('shows local amount when showLocalAmount is true and token is not cUSD', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay showLocalAmount={true} amount={10} tokenAddress={'0xcelo'} testID="test" />
+          <TokenDisplay
+            showLocalAmount={true}
+            amount={10}
+            tokenId={'ethereum-sepolia:native'}
+            testID="test"
+          />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('R$5.00')
@@ -137,7 +100,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay
             showLocalAmount={false}
             amount={0.00000182421}
-            tokenAddress={'0xusd'}
+            tokenId={'celo-alfajores:0xusd'}
             testID="test"
           />
         </Provider>
@@ -152,7 +115,7 @@ describe('TokenDisplay', () => {
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenId={'celo-alfajores:0xusd'}
             testID="test"
           />
         </Provider>
@@ -167,7 +130,7 @@ describe('TokenDisplay', () => {
             showLocalAmount={false}
             showSymbol={false}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenId={'celo-alfajores:0xusd'}
             testID="test"
           />
         </Provider>
@@ -180,7 +143,7 @@ describe('TokenDisplay', () => {
         <Provider store={store()}>
           <TokenDisplay
             amount={10}
-            tokenAddress={'0xcelo'}
+            tokenId={'ethereum-sepolia:native'}
             localAmount={{
               currencyCode: LocalCurrencyCode.PHP,
               exchangeRate: '0.5',
@@ -200,7 +163,7 @@ describe('TokenDisplay', () => {
             showLocalAmount={true}
             showExplicitPositiveSign={true}
             amount={10}
-            tokenAddress={'0xusd'}
+            tokenId={'celo-alfajores:0xusd'}
             testID="test"
           />
         </Provider>
@@ -211,7 +174,12 @@ describe('TokenDisplay', () => {
     it('shows negative values', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay showLocalAmount={true} amount={-10} tokenAddress={'0xusd'} testID="test" />
+          <TokenDisplay
+            showLocalAmount={true}
+            amount={-10}
+            tokenId={'celo-alfajores:0xusd'}
+            testID="test"
+          />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('-R$1.00')
@@ -220,7 +188,7 @@ describe('TokenDisplay', () => {
     it('shows a dash when the token doesnt exist', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
-          <TokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
+          <TokenDisplay amount={10} tokenId={'celo-alfajores:does-not-exist'} testID="test" />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('-')
@@ -231,7 +199,7 @@ describe('TokenDisplay', () => {
         <Provider store={store()}>
           <TokenDisplay
             amount={10}
-            tokenAddress={'0xdoesntexist'}
+            tokenId={'celo-alfajores:does-not-exist'}
             localAmount={{
               currencyCode: LocalCurrencyCode.PHP,
               exchangeRate: '0.5',
@@ -251,7 +219,7 @@ describe('TokenDisplay', () => {
             showLocalAmount={true}
             hideSign={true}
             amount={-10}
-            tokenAddress={'0xusd'}
+            tokenId={'celo-alfajores:0xusd'}
             testID="test"
           />
         </Provider>

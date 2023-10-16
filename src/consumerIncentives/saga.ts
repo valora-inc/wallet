@@ -7,7 +7,7 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { numberVerifiedCentrallySelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
   superchargeRewardContractAddressSelector,
   superchargeV1AddressesSelector,
@@ -43,12 +43,12 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKit } from 'src/web3/contracts'
-import config from 'src/web3/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
-import networkConfig from 'src/web3/networkConfig'
+import { getTokenId } from 'src/tokens/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
@@ -94,6 +94,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
           status: TransactionStatus.Complete,
           value: reward.amount,
           tokenAddress: reward.tokenAddress,
+          tokenId: getTokenId(networkConfig.defaultNetworkId, reward.tokenAddress),
           comment: '',
           timestamp: Math.floor(Date.now() / 1000),
           address: reward.fundsSource,
@@ -211,7 +212,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
   }
 
   const superchargeV2Enabled = yield* select(superchargeV2EnabledSelector)
-  const numberVerifiedCentrally = yield* select(numberVerifiedCentrallySelector)
+  const numberVerifiedCentrally = yield* select(phoneNumberVerifiedSelector)
   if (superchargeV2Enabled && !numberVerifiedCentrally) {
     yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since user is not verified with CPV')
@@ -220,8 +221,8 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
 
   try {
     const superchargeRewardsUrl = superchargeV2Enabled
-      ? config.fetchAvailableSuperchargeRewardsV2
-      : config.fetchAvailableSuperchargeRewards
+      ? networkConfig.fetchAvailableSuperchargeRewardsV2
+      : networkConfig.fetchAvailableSuperchargeRewards
 
     const response = yield* call(
       fetchWithTimeout,

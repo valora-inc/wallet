@@ -1,6 +1,7 @@
 export enum Screens {
   AccountKeyEducation = 'AccountKeyEducation',
   AccounSetupFailureScreen = 'AccounSetupFailureScreen',
+  Assets = 'Assets',
   BackupComplete = 'BackupComplete',
   BackupIntroduction = 'BackupIntroduction',
   BackupPhrase = 'BackupPhrase',
@@ -46,7 +47,6 @@ export enum Screens {
   Licenses = 'Licenses',
   Main = 'Main',
   MainModal = 'MainModal',
-  MerchantPayment = 'MerchantPayment',
   NameAndPicture = 'NameAndPicture',
   NotificationCenter = 'NotificationCenter',
   NftGallery = 'NftGallery',
@@ -85,6 +85,7 @@ export enum Screens {
   SwapExecuteScreen = 'SwapExecuteScreen',
   SwapReviewScreen = 'SwapReviewScreen',
   TokenBalances = 'TokenBalances',
+  TokenDetails = 'TokenDetails',
   TransactionDetailsScreen = 'TransactionDetailsScreen',
   UpgradeScreen = 'UpgradeScreen',
   ValidateRecipientAccount = 'ValidateRecipientAccount',
@@ -98,8 +99,5 @@ export enum Screens {
   WalletSecurityPrimerDrawer = 'WalletSecurityPrimerDrawer',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
-  WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
-  WithdrawCeloReviewScreen = 'WithdrawCeloReviewScreen',
-  WithdrawCeloScreen = 'WithdrawCeloScreen',
   WithdrawSpend = 'WithdrawSpend',
 }

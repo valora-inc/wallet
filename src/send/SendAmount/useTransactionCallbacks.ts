@@ -34,7 +34,7 @@ interface Props {
   tokenAmount: BigNumber
   usdAmount: BigNumber | null
   inputIsInLocalCurrency: boolean
-  transferTokenAddress: string
+  transferTokenId: string
   origin: SendOrigin
   isFromScan: boolean
 }
@@ -46,11 +46,11 @@ function useTransactionCallbacks({
   tokenAmount,
   usdAmount,
   inputIsInLocalCurrency,
-  transferTokenAddress,
+  transferTokenId,
   origin,
   isFromScan,
 }: Props) {
-  const tokenInfo = useTokenInfo(transferTokenAddress)
+  const tokenInfo = useTokenInfo(transferTokenId)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -58,16 +58,21 @@ function useTransactionCallbacks({
 
   const dispatch = useDispatch()
 
-  const getTransactionData = useCallback(
-    (): TransactionDataInput => ({
+  const getTransactionData = useCallback((): TransactionDataInput => {
+    // TODO(ACT-904): Remove this once we have a better way to handle Eth sends
+    if (!tokenInfo?.address) {
+      throw new Error(
+        'getTransactionData cannot be called on token without an address ex: Ethereum'
+      )
+    }
+    return {
       recipient,
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
-      tokenAddress: transferTokenAddress,
-    }),
-    [recipient, tokenAmount, transferTokenAddress]
-  )
+      tokenAddress: tokenInfo.address,
+    }
+  }, [recipient, tokenAmount, transferTokenId, tokenInfo])
 
   const continueAnalyticsParams = useMemo(() => {
     return {
@@ -78,7 +83,7 @@ function useTransactionCallbacks({
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
       localCurrencyAmount: localAmount?.toString() ?? null,
-      underlyingTokenAddress: transferTokenAddress,
+      underlyingTokenAddress: tokenInfo?.address ?? null,
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: usdAmount?.toString() ?? null,
@@ -90,7 +95,7 @@ function useTransactionCallbacks({
     localCurrencyExchangeRate,
     localCurrencyCode,
     localAmount,
-    transferTokenAddress,
+    transferTokenId,
     tokenAmount,
     usdAmount,
   ])
@@ -103,7 +108,7 @@ function useTransactionCallbacks({
 
   const feeType = FeeType.SEND
   const estimateFeeDollars =
-    useSelector(getFeeEstimateDollars(feeType, transferTokenAddress)) ?? new BigNumber(0)
+    useSelector(getFeeEstimateDollars(feeType, tokenInfo)) ?? new BigNumber(0)
 
   const minimumAmount = roundUp(usdAmount?.plus(estimateFeeDollars) ?? estimateFeeDollars)
 
@@ -154,7 +159,7 @@ function useTransactionCallbacks({
     addressValidationType,
     localAmount,
     tokenInfo?.balance,
-    transferTokenAddress,
+    transferTokenId,
     getTransactionData,
     origin,
   ])

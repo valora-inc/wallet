@@ -9,7 +9,7 @@ import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector, nameSelector } from 'src/account/selectors'
 import { sendSupportRequest } from 'src/account/zendesk'
 import { showMessage } from 'src/alert/actions'
-import { numberVerifiedCentrallySelector, sessionIdSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, sessionIdSelector } from 'src/app/selectors'
 import { APP_NAME } from 'src/brandingConfig'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -70,7 +70,7 @@ function SupportContact({ route }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
-  const numberVerifiedCentralized = useSelector(numberVerifiedCentrallySelector)
+  const numberVerifiedCentralized = useSelector(phoneNumberVerifiedSelector)
   const { countryCodeAlpha2: country, region } = useSelector(userLocationDataSelector)
   const hooksPreviewApiUrl = useSelector(hooksPreviewApiUrlSelector)
   const dispatch = useDispatch()
@@ -91,6 +91,7 @@ function SupportContact({ route }: Props) {
     setInProgress(true)
     const deviceInfo = {
       version: DeviceInfo.getVersion(),
+      systemVersion: DeviceInfo.getSystemVersion(),
       buildNumber: DeviceInfo.getBuildNumber(),
       apiLevel: DeviceInfo.getApiLevelSync(),
       os: Platform.OS,

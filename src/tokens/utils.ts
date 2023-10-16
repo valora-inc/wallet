@@ -1,6 +1,13 @@
 import BigNumber from 'bignumber.js'
+import { TokenProperties } from 'src/analytics/Properties'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
-import { Currency } from 'src/utils/currencies'
+import { Network, NetworkId } from 'src/transactions/types'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
@@ -76,9 +83,8 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   return usdBalance(token2).comparedTo(usdBalance(token1))
 }
 
-function usdBalance(token: TokenBalance): BigNumber {
-  // We check that priceUsd is not null before calling this.
-  return token.priceUsd!.times(token.balance)
+export function usdBalance(token: TokenBalance): BigNumber {
+  return token.balance.times(token.priceUsd ?? 0)
 }
 
 export function convertLocalToTokenAmount({
@@ -113,4 +119,54 @@ export function convertTokenToLocalAmount({
   }
 
   return tokenAmount.multipliedBy(tokenPriceUsd).multipliedBy(usdToLocalRate)
+}
+
+export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showBalances
+}
+
+export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {
+  if (
+    (networkId === networkConfig.networkToNetworkId[Network.Celo] &&
+      tokenAddress === networkConfig.celoTokenAddress) ||
+    !tokenAddress
+  ) {
+    return `${networkId}:native`
+  }
+  return `${networkId}:${tokenAddress}`
+}
+
+export function getSupportedNetworkIdsForSend(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSend
+}
+
+export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
+  return {
+    symbol: token.symbol,
+    address: token.address,
+    balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
+    networkId: token.networkId,
+    tokenId: token.tokenId,
+  }
+}
+
+/**
+ * Checks whether the historical price is updated and is one day old +/- 1 hour.
+ * Used for showing / hiding the price delta on legacy Assets and TokenDetails
+ * pages
+ *
+ * @param {TokenBalance} token
+ * @returns {boolean}
+ */
+export function isHistoricalPriceUpdated(token: TokenBalance) {
+  return (
+    !!token.historicalPricesUsd?.lastDay &&
+    ONE_HOUR_IN_MILLIS >
+      Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
+  )
+}
+
+export function isCicoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
+  return Object.values(CiCoCurrency).some((cicoSymbol) => cicoSymbol === tokenSymbol)
 }

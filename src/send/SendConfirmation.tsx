@@ -18,8 +18,8 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
-import TokenDisplay from 'src/components/TokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
@@ -38,14 +38,14 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import { useInputAmountsByAddress } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
-import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
@@ -101,13 +101,13 @@ function SendConfirmation(props: Props) {
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
+  const { localAmount, tokenAmount, usdAmount } = useInputAmountsByAddress(
     inputAmount.toString(),
     amountIsInLocalCurrency,
     tokenAddress,
@@ -172,7 +172,7 @@ function SendConfirmation(props: Props) {
           totalFee={totalFeeInUsd}
           showLocalAmount={true}
         />
-        <TokenTotalLineItem
+        <LegacyTokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenAddress={tokenAddress}
           feeToAddInUsd={totalFeeInUsd}
@@ -286,7 +286,7 @@ function SendConfirmation(props: Props) {
               )}
             </View>
           </View>
-          <TokenDisplay
+          <LegacyTokenDisplay
             testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}

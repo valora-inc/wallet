@@ -1101,26 +1101,6 @@
             ],
             "type": "object"
         },
-        "ExchangeRates": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                },
-                "cGLD": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                },
-                "cUSD": {
-                    "$ref": "#/definitions/Record<Currency,string>"
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "Fee": {
             "additionalProperties": false,
             "properties": {
@@ -2105,13 +2085,6 @@
             },
             "type": "object"
         },
-        "PaymentDeepLinkHandler": {
-            "enum": [
-                "",
-                "merchant"
-            ],
-            "type": "string"
-        },
         "PaymentInfo": {
             "additionalProperties": false,
             "properties": {
@@ -2405,26 +2378,6 @@
             ],
             "type": "string"
         },
-        "Record<Currency,string>": {
-            "additionalProperties": false,
-            "properties": {
-                "cEUR": {
-                    "type": "string"
-                },
-                "cGLD": {
-                    "type": "string"
-                },
-                "cUSD": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "object"
-        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -2460,6 +2413,7 @@
             "enum": [
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
+                "Assets",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -2505,7 +2459,6 @@
                 "Licenses",
                 "Main",
                 "MainModal",
-                "MerchantPayment",
                 "NameAndPicture",
                 "NftGallery",
                 "NftsInfoCarousel",
@@ -2544,6 +2497,7 @@
                 "SwapReviewScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
+                "TokenDetails",
                 "TransactionDetailsScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
@@ -2557,9 +2511,6 @@
                 "WalletSecurityPrimerDrawer",
                 "WebViewScreen",
                 "Welcome",
-                "WithdrawCeloQrScannerScreen",
-                "WithdrawCeloReviewScreen",
-                "WithdrawCeloScreen",
                 "WithdrawSpend"
             ],
             "type": "string"
@@ -2774,6 +2725,9 @@
                 "tokenAddress": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/TokenTransferTypeV2"
                 },
@@ -2788,6 +2742,7 @@
                 "networkId",
                 "status",
                 "timestamp",
+                "tokenId",
                 "type",
                 "value"
             ],
@@ -2920,9 +2875,6 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
-                "paymentDeepLinkHandler": {
-                    "$ref": "#/definitions/PaymentDeepLinkHandler"
-                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -2939,9 +2891,6 @@
                     "type": "boolean"
                 },
                 "rampCashInButtonExpEnabled": {
-                    "type": "boolean"
-                },
-                "requireCPV": {
                     "type": "boolean"
                 },
                 "requirePinOnAppOpen": {
@@ -3032,13 +2981,11 @@
                 "minVersion",
                 "networkTimeoutSeconds",
                 "numberVerified",
-                "paymentDeepLinkHandler",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "rampCashInButtonExpEnabled",
-                "requireCPV",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
@@ -4032,16 +3979,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "exchangeRates": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ExchangeRates"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
                 "history": {
                     "additionalProperties": false,
                     "properties": {
@@ -4075,22 +4012,10 @@
                         "range"
                     ],
                     "type": "object"
-                },
-                "isLoading": {
-                    "type": "boolean"
-                },
-                "tobinTax": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 }
             },
             "required": [
-                "exchangeRates",
-                "history",
-                "isLoading",
-                "tobinTax"
+                "history"
             ],
             "type": "object"
         },
@@ -4263,10 +4188,22 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "infoUrl": {
+                    "type": "string"
+                },
+                "isCashInEligible": {
+                    "type": "boolean"
+                },
+                "isCashOutEligible": {
+                    "type": "boolean"
+                },
                 "isCoreToken": {
                     "type": "boolean"
                 },
                 "isNative": {
+                    "type": "boolean"
+                },
+                "isStableCoin": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4290,6 +4227,9 @@
                 "priceUsd": {
                     "type": "string"
                 },
+                "showZeroBalance": {
+                    "type": "boolean"
+                },
                 "symbol": {
                     "type": "string"
                 },
@@ -4301,7 +4241,6 @@
                 "address",
                 "balance",
                 "decimals",
-                "imageUrl",
                 "name",
                 "networkId",
                 "symbol",
@@ -4645,11 +4584,15 @@
                 "tokenAddress": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "value": {
                     "$ref": "#/definitions/BigNumber.Value"
                 }
             },
             "required": [
+                "tokenId",
                 "value"
             ],
             "type": "object"

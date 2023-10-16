@@ -1,51 +1,37 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import { styles as headerStyles, HeaderTitleWithTokenBalance } from 'src/navigator/Headers'
-import useSelector from 'src/redux/useSelector'
+import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
-import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
+import { useTokenInfo, useTokensForSend } from 'src/tokens/hooks'
 
 interface Props {
-  tokenAddress: string
+  tokenId: string
   isOutgoingPaymentRequest: boolean
-  onChangeToken: (token: string) => void
+  onOpenCurrencyPicker: () => void
   disallowCurrencyChange: boolean
 }
 
 function SendAmountHeader({
-  tokenAddress,
+  tokenId,
   isOutgoingPaymentRequest,
-  onChangeToken,
+  onOpenCurrencyPicker,
   disallowCurrencyChange,
 }: Props) {
   const { t } = useTranslation()
-  const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
-  const stableTokens = useSelector(stablecoinsSelector)
-  const tokenInfo = useTokenInfo(tokenAddress)
-
-  const onTokenSelected = (token: string) => {
-    setShowCurrencyPicker(false)
-    onChangeToken(token)
-  }
-
-  const openCurrencyPicker = () => setShowCurrencyPicker(true)
-  const closeCurrencyPicker = () => setShowCurrencyPicker(false)
+  const tokensForSend = useTokensForSend()
+  const tokenInfo = useTokenInfo(tokenId)
 
   const backButtonEventName = isOutgoingPaymentRequest
     ? RequestEvents.request_amount_back
     : SendEvents.send_amount_back
 
   const canChangeToken =
-    (tokensWithBalance.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
+    (tokensForSend.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
 
   const title = useMemo(() => {
     let titleText
@@ -71,31 +57,17 @@ function SendAmountHeader({
     )
   }, [isOutgoingPaymentRequest, tokenInfo])
 
-  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
-    sortFirstStableThenCeloThenOthersByUsdBalance
-  )
-
   return (
-    <>
-      <CustomHeader
-        style={{ paddingLeft: variables.contentPadding }}
-        left={<BackButton eventName={backButtonEventName} />}
-        title={title}
-        right={
-          canChangeToken && (
-            <TokenPickerSelector tokenAddress={tokenAddress} onChangeToken={openCurrencyPicker} />
-          )
-        }
-      />
-      <TokenBottomSheet
-        isVisible={showingCurrencyPicker}
-        origin={TokenPickerOrigin.Send}
-        onTokenSelected={onTokenSelected}
-        onClose={closeCurrencyPicker}
-        tokens={sortedTokens}
-        title={t('selectToken')}
-      />
-    </>
+    <CustomHeader
+      style={{ paddingLeft: variables.contentPadding }}
+      left={<BackButton eventName={backButtonEventName} />}
+      title={title}
+      right={
+        canChangeToken && (
+          <TokenPickerSelector tokenId={tokenId} onChangeToken={onOpenCurrencyPicker} />
+        )
+      }
+    />
   )
 }
 

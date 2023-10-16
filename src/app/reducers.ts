@@ -4,7 +4,6 @@ import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -12,7 +11,6 @@ export interface State {
   loggedIn: boolean
   numberVerified: boolean // decentrally verified
   phoneNumberVerified: boolean // centrally verified
-  requireCPV: boolean
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -42,7 +40,6 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
-  paymentDeepLinkHandler: PaymentDeepLinkHandler
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
@@ -64,7 +61,6 @@ const initialState = {
   loggedIn: false,
   numberVerified: false,
   phoneNumberVerified: false,
-  requireCPV: REMOTE_CONFIG_VALUES_DEFAULTS.requireCPV,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
@@ -91,7 +87,6 @@ const initialState = {
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
-  paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   visualizeNFTsEnabledInHomeAssetsPage:
@@ -211,7 +206,6 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
-        paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
         visualizeNFTsEnabledInHomeAssetsPage:
@@ -221,7 +215,6 @@ export const appReducer = (
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
-        requireCPV: action.configValues.requireCPV,
         decentralizedVerificationEnabled: action.configValues.decentralizedVerificationEnabled,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:

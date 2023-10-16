@@ -17,7 +17,6 @@ import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
@@ -128,6 +127,7 @@ export const mockPoofTokenId = `celo-alfajores:${mockPoofAddress}`
 export const mockTestTokenTokenId = `celo-alfajores:${mockTestTokenAddress}`
 export const mockCrealTokenId = `celo-alfajores:${mockCrealAddress}`
 export const mockWBTCTokenId = `celo-alfajores:${mockWBTCAddress}`
+export const mockEthTokenId = 'ethereum-sepolia:native'
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -479,27 +479,6 @@ export const mockViemWallet: Partial<ViemWallet> = {
   signMessage: jest.fn(),
 }
 
-export const makeExchangeRates = (
-  celoToDollarExchangeRate: string,
-  dollarToCeloExchangeRate: string
-): ExchangeRates => ({
-  [Currency.Celo]: {
-    [Currency.Dollar]: celoToDollarExchangeRate,
-    [Currency.Euro]: '',
-    [Currency.Celo]: '',
-  },
-  [Currency.Dollar]: {
-    [Currency.Celo]: dollarToCeloExchangeRate,
-    [Currency.Euro]: '',
-    [Currency.Dollar]: '',
-  },
-  [Currency.Euro]: {
-    [Currency.Celo]: '',
-    [Currency.Euro]: '',
-    [Currency.Dollar]: '',
-  },
-})
-
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
   // NOTE: important to keep 'symbol' fields in this object matching their counterparts from here: https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json ,
   //  particularly for CICO currencies
@@ -529,6 +508,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockCusdTokenId]: {
     priceUsd: '1.001',
@@ -543,6 +524,9 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
+    showZeroBalance: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockCeloTokenId]: {
     priceUsd: '13.25085583155252100584',
@@ -557,6 +541,10 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
+    showZeroBalance: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
+    isNative: true,
   },
   [mockCrealTokenId]: {
     priceUsd: '0.17',
@@ -571,6 +559,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
+    isCashInEligible: true,
   },
 }
 

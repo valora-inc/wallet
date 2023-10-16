@@ -30,19 +30,21 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
-  stalePriceSelector,
-  tokenFetchErrorSelector,
-  tokenFetchLoadingSelector,
-  tokensInfoUnavailableSelector,
-  tokensWithTokenBalanceSelector,
-  tokensWithUsdValueSelector,
-  totalTokenBalanceSelector,
-} from 'src/tokens/selectors'
+  useTokenPricesAreStale,
+  useTokensInfoUnavailable,
+  useTokensWithTokenBalance,
+  useTokensWithUsdValue,
+  useTotalTokenBalance,
+} from 'src/tokens/hooks'
+import { tokenFetchErrorSelector, tokenFetchLoadingSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 function TokenBalance({
   style = styles.balance,
@@ -51,12 +53,14 @@ function TokenBalance({
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
 }) {
-  const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useSelector(totalTokenBalanceSelector)
+  const totalTokenBalanceLocal = useTotalTokenBalance()
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
-  const tokensAreStale = useSelector(stalePriceSelector)
+  const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
+  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal =
@@ -105,7 +109,8 @@ function TokenBalance({
 function useErrorMessageWithRefresh() {
   const { t } = useTranslation()
 
-  const tokensInfoUnavailable = useSelector(tokensInfoUnavailableSelector)
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const tokensInfoUnavailable = useTokensInfoUnavailable(supportedNetworkIds)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const localCurrencyError = useSelector(localCurrencyExchangeRateErrorSelector)
 
@@ -179,7 +184,14 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
             </TouchableOpacity>
           )}
         </View>
-        <TokenBalance singleTokenViewEnabled={false} />
+        <TokenBalance
+          style={
+            getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+              ? styles.totalBalance
+              : styles.balance
+          }
+          singleTokenViewEnabled={false}
+        />
 
         {shouldRenderInfoComponent && (
           <Animated.View style={[styles.totalAssetsInfoContainer, animatedStyles]}>
@@ -193,8 +205,9 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 
 export function HomeTokenBalance() {
   const { t } = useTranslation()
-  const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+
+  const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   useErrorMessageWithRefresh()
 
@@ -202,7 +215,11 @@ export function HomeTokenBalance() {
     ValoraAnalytics.track(HomeEvents.view_token_balances, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(Screens.TokenBalances)
+    navigate(
+      getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+        ? Screens.Assets
+        : Screens.TokenBalances
+    )
   }
 
   const onCloseDialog = () => {
@@ -232,28 +249,39 @@ export function HomeTokenBalance() {
         >
           {t('whatTotalValue.body')}
         </Dialog>
-        {tokenBalances.length >= 1 && (
+        {(getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN) ||
+          tokenBalances.length >= 1) && (
           <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
             <ProgressArrow style={styles.arrow} color={Colors.greenUI} />
           </TouchableOpacity>
         )}
       </View>
-      <TokenBalance />
+      <TokenBalance
+        style={
+          getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+            ? styles.totalBalance
+            : styles.balance
+        }
+      />
     </View>
   )
 }
 
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
-  const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+  const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   const onViewBalances = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(Screens.TokenBalances)
+    navigate(
+      getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+        ? Screens.Assets
+        : Screens.TokenBalances
+    )
   }
 
   return (
@@ -280,7 +308,7 @@ const styles = StyleSheet.create({
     margin: variables.contentPadding,
   },
   totalAssets: {
-    ...fontStyles.regular600,
+    ...typeScale.labelMedium,
     color: Colors.gray5,
     marginRight: 4,
   },
@@ -335,6 +363,10 @@ const styles = StyleSheet.create({
   },
   balance: {
     ...fontStyles.largeNumber,
+  },
+  totalBalance: {
+    ...typeScale.titleLarge,
+    color: Colors.dark,
   },
   exchangeBalance: {
     ...fontStyles.large500,

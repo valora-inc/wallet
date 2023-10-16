@@ -3,9 +3,12 @@
 exports[`PaymentRequestConfirmation renders correctly for request payment confirmation 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
     {

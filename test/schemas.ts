@@ -10,7 +10,6 @@ import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
@@ -1066,7 +1065,7 @@ export const v39Schema = {
   },
   app: {
     ...v38Schema.app,
-    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    paymentDeepLinkHandler: '',
   },
 }
 
@@ -2042,7 +2041,7 @@ export const v109Schema = {
   },
   app: {
     ...v108Schema.app,
-    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    paymentDeepLinkHandler: '',
   },
 }
 
@@ -2618,6 +2617,59 @@ export const v152Schema = {
   },
 }
 
+export const v153Schema = {
+  ...v152Schema,
+  _persist: {
+    ...v152Schema._persist,
+    version: 153,
+  },
+  exchange: {
+    ..._.omit(v152Schema.exchange, 'isLoading'),
+  },
+}
+
+export const v154Schema = {
+  ...v153Schema,
+  _persist: {
+    ...v153Schema._persist,
+    version: 154,
+  },
+  exchange: {
+    ..._.omit(v153Schema.exchange, 'exchangeRates', 'tobinTax'),
+  },
+}
+
+export const v155Schema = {
+  ...v154Schema,
+  _persist: {
+    ...v154Schema._persist,
+    version: 155,
+  },
+  app: _.omit(v154Schema.app, 'paymentDeepLinkHandler'),
+}
+
+export const v156Schema = {
+  ...v155Schema,
+  _persist: {
+    ...v155Schema._persist,
+    version: 156,
+  },
+  app: _.omit(v155Schema.app, 'requireCPV'),
+}
+
+export const v157Schema = {
+  ...v156Schema,
+  _persist: {
+    ...v156Schema._persist,
+    version: 157,
+  },
+  transactions: {
+    ...v156Schema.transactions,
+    standbyTransactions: [],
+    transactions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v152Schema as Partial<RootState>
+  return v157Schema as Partial<RootState>
 }

@@ -3,7 +3,7 @@ import { spawn, takeEvery } from 'redux-saga/effects'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { rootSaga } from 'src/redux/sagas'
-import { setupStore, _persistConfig } from 'src/redux/store'
+import { _persistConfig, setupStore } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 152,
+          "version": 157,
         },
         "account": {
           "acceptedTerms": false,
@@ -155,13 +155,11 @@ describe('store state', () => {
           "minVersion": null,
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
-          "paymentDeepLinkHandler": "",
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
-          "requireCPV": false,
           "requirePinOnAppOpen": false,
           "rewardPillText": {
             "de": "Belohnungen",
@@ -207,7 +205,6 @@ describe('store state', () => {
           "sentEscrowedPayments": [],
         },
         "exchange": {
-          "exchangeRates": null,
           "history": {
             "aggregatedExchangeRates": [],
             "celoGoldExchangeRates": [],
@@ -215,8 +212,6 @@ describe('store state', () => {
             "lastTimeUpdated": 0,
             "range": 2592000000,
           },
-          "isLoading": false,
-          "tobinTax": "0",
         },
         "fees": {
           "estimates": {},

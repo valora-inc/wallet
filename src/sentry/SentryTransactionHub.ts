@@ -1,8 +1,7 @@
 import * as Sentry from '@sentry/react-native'
-import { Transaction } from '@sentry/types'
 import { SentryTransaction, SentryTransactions } from 'src/sentry/SentryTransactions'
 
-let transactions = [] as Array<Transaction>
+let transactions = [] as Array<ReturnType<typeof Sentry.startTransaction>>
 
 export const SentryTransactionHub = {
   startTransaction(name: SentryTransaction) {

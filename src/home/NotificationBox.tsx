@@ -24,10 +24,7 @@ import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import {
-  superchargeInfoSelector,
-  userIsVerifiedForSuperchargeSelector,
-} from 'src/consumerIncentives/selectors'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -46,6 +43,8 @@ import {
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import variables from 'src/styles/variables'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
@@ -81,13 +80,12 @@ export function useSimpleActions() {
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
-  const numberVerifiedForSupercharge = useSelector(userIsVerifiedForSuperchargeSelector)
   const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
 
   const extraNotifications = useSelector(getExtraNotifications)
 
   const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
-  const isSupercharging = numberVerifiedForSupercharge && hasBalanceForSupercharge
+  const isSupercharging = phoneNumberVerified && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
@@ -96,6 +94,10 @@ export function useSimpleActions() {
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
+
+  const restrictSuperchargeForClaimOnly = getFeatureGate(
+    StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
+  )
 
   useEffect(() => {
     dispatch(fetchAvailableRewards())
@@ -228,7 +230,7 @@ export function useSimpleActions() {
         })
       }
 
-      if (!isSupercharging && !dismissedStartSupercharging) {
+      if (!isSupercharging && !restrictSuperchargeForClaimOnly && !dismissedStartSupercharging) {
         actions.push({
           id: NotificationType.start_supercharging,
           type: NotificationType.start_supercharging,

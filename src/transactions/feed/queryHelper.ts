@@ -16,8 +16,9 @@ import { TokenTransaction, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig/index'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { DynamicConfigs } from 'src/statsig/constants'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -63,9 +64,8 @@ const deduplicateTransactions = (
 }
 
 export function getAllowedNetworkIds(): Array<NetworkId> {
-  return getFeatureGate(StatsigFeatureGates.SHOW_MULTI_CHAIN_TRANSFERS)
-    ? Object.values(config.networkToNetworkId)
-    : [config.defaultNetworkId]
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showTransfers
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -394,6 +394,7 @@ export const TRANSACTIONS_QUERY = `
     amount {
       value
       tokenAddress
+      tokenId
       localAmount {
         value
         currencyCode
@@ -405,6 +406,7 @@ export const TRANSACTIONS_QUERY = `
       amount {
         value
         tokenAddress
+        tokenId
         localAmount {
           value
           currencyCode
@@ -457,6 +459,7 @@ export const TRANSACTIONS_QUERY = `
     inAmount {
       value
       tokenAddress
+      tokenId
       localAmount {
         value
         currencyCode
@@ -466,6 +469,7 @@ export const TRANSACTIONS_QUERY = `
     outAmount {
       value
       tokenAddress
+      tokenId
       localAmount {
         value
         currencyCode
@@ -477,6 +481,7 @@ export const TRANSACTIONS_QUERY = `
       amount {
         value
         tokenAddress
+        tokenId
         localAmount {
           value
           currencyCode

@@ -1,7 +1,7 @@
 import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
 import { TokenTransactionTypeV2, TransactionStatus, NetworkId } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const mockFeedItem = (timestamp: number, comment: string): FeedTokenTransaction => {
   return {
@@ -13,6 +13,7 @@ const mockFeedItem = (timestamp: number, comment: string): FeedTokenTransaction 
     amount: {
       value: '5.05',
       tokenAddress: mockCusdAddress,
+      tokenId: mockCusdTokenId,
       localAmount: undefined,
     },
     fees: [],

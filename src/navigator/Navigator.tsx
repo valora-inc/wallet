@@ -30,9 +30,6 @@ import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionReq
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
-import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
-import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
-import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -69,7 +66,6 @@ import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
-import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
@@ -113,8 +109,10 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
-import SwapScreenWithBack from 'src/swap/SwapScreenWithBack'
+import SwapScreen from 'src/swap/SwapScreen'
+import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
+import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
@@ -282,31 +280,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.ReclaimPaymentConfirmationScreen}
       component={ReclaimPaymentConfirmationScreen}
       options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.MerchantPayment}
-      component={MerchantPaymentScreen}
-      options={headerWithBackButton}
-    />
-  </>
-)
-
-const exchangeScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.WithdrawCeloScreen}
-      component={WithdrawCeloScreen}
-      options={WithdrawCeloScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.WithdrawCeloQrScannerScreen}
-      component={WithdrawCeloQrScannerScreen}
-      options={WithdrawCeloQrScannerScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.WithdrawCeloReviewScreen}
-      component={WithdrawCeloReviewScreen}
-      options={WithdrawCeloReviewScreen.navigationOptions}
     />
   </>
 )
@@ -551,11 +524,7 @@ const generalScreens = (Navigator: typeof Stack) => (
 
 const swapScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.SwapScreenWithBack}
-      component={SwapScreenWithBack}
-      options={headerWithBackButton}
-    />
+    <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
     <Navigator.Screen
       name={Screens.SwapReviewScreen}
       component={SwapReviewScreen}
@@ -575,6 +544,21 @@ const nftScreens = (Navigator: typeof Stack) => (
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
       options={headerTransparentWithBack}
+    />
+  </>
+)
+
+const assetScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.Assets}
+      component={AssetsScreen}
+      options={AssetsScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.TokenDetails}
+      component={TokenDetailsScreen}
+      options={TokenDetailsScreen.navigationOptions}
     />
   </>
 )
@@ -636,13 +620,13 @@ export function MainStackScreen() {
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
       {verificationScreens(Stack)}
-      {exchangeScreens(Stack)}
       {backupScreens(Stack)}
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
       {swapScreens(Stack)}
       {nftScreens(Stack)}
+      {assetScreens(Stack)}
     </Stack.Navigator>
   )
 }

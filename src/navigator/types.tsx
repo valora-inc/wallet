@@ -3,7 +3,6 @@ import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
-import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
@@ -18,6 +17,7 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
+import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -94,7 +94,6 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExternalExchanges]: {
-    isCashIn?: boolean
     currency: CiCoCurrency
     exchanges: ExternalExchangeProvider[]
   }
@@ -104,6 +103,7 @@ export type StackParamList = {
   }
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
+    tokenId: string
     flow: CICOFlow
     network: Network
   }
@@ -180,7 +180,6 @@ export type StackParamList = {
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
-  [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
@@ -237,8 +236,8 @@ export type StackParamList = {
     | {
         isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
-        forceTokenAddress?: boolean
-        defaultTokenOverride?: string
+        forceTokenId?: boolean
+        defaultTokenIdOverride?: string
       }
     | undefined
   [Screens.SendAmount]: {
@@ -246,8 +245,8 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan: boolean
     origin: SendOrigin
-    forceTokenAddress?: boolean
-    defaultTokenOverride?: string
+    forceTokenId?: boolean
+    defaultTokenIdOverride?: string
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
@@ -266,7 +265,8 @@ export type StackParamList = {
     | undefined
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
-  [Screens.SwapScreenWithBack]: undefined
+  [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.TokenDetails]: { tokenId: string }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
@@ -320,24 +320,15 @@ export type StackParamList = {
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
-  [Screens.WithdrawCeloQrScannerScreen]: {
-    onAddressScanned: (address: string) => void
-  }
-  [Screens.WithdrawCeloReviewScreen]: {
-    amount: BigNumber
-    recipientAddress: string
-    feeEstimate: BigNumber
-    isCashOut: boolean
-  }
-  [Screens.WithdrawCeloScreen]: {
-    isCashOut: boolean
-    amount?: BigNumber
-    recipientAddress?: string
-  }
   [Screens.WithdrawSpend]: undefined
   [Screens.TokenBalances]:
     | {
         activeView: AssetViewType
+      }
+    | undefined
+  [Screens.Assets]:
+    | {
+        activeTab: AssetTabType
       }
     | undefined
 }

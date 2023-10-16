@@ -7,12 +7,11 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { Screens } from 'src/navigator/Screens'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -492,7 +491,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+      paymentDeepLinkHandler: '',
     },
   }),
   40: (state: any) => {
@@ -1037,7 +1036,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+      paymentDeepLinkHandler: '',
     },
   }),
   110: (state: any) => ({
@@ -1306,4 +1305,30 @@ export const migrations = {
     },
   }),
   152: (state: any) => state,
+  153: (state: any) => ({
+    ...state,
+    exchange: _.omit(state.exchange, 'isLoading'),
+  }),
+  154: (state: any) => ({
+    ...state,
+    exchange: {
+      ..._.omit(state.exchange, 'exchangeRates', 'tobinTax'),
+    },
+  }),
+  155: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'paymentDeepLinkHandler'),
+  }),
+  156: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'requireCPV'),
+  }),
+  157: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: [],
+      transactions: [],
+    },
+  }),
 }

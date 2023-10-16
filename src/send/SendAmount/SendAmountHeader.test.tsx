@@ -1,7 +1,8 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -11,7 +12,6 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -24,14 +24,14 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
-const mockOnChangeToken = jest.fn()
+const mockOnOpenCurrencyPicker = jest.fn()
 
 function renderComponent({
-  tokenAddress,
+  tokenId,
   cUsdBalance,
   disallowCurrencyChange = false,
 }: {
-  tokenAddress: string
+  tokenId: string
   cUsdBalance?: string
   disallowCurrencyChange?: boolean
 }) {
@@ -69,9 +69,9 @@ function renderComponent({
       })}
     >
       <SendAmountHeader
-        tokenAddress={tokenAddress}
+        tokenId={tokenId}
         isOutgoingPaymentRequest={false}
-        onChangeToken={mockOnChangeToken}
+        onOpenCurrencyPicker={mockOnOpenCurrencyPicker}
         disallowCurrencyChange={disallowCurrencyChange}
       />
     </Provider>
@@ -85,30 +85,22 @@ describe('SendAmountHeader', () => {
 
   it("hides selector and changes title if there's only one token with balance", () => {
     const { queryByTestId, getByText } = renderComponent({
-      tokenAddress: mockCeurAddress,
+      tokenId: mockCeurTokenId,
       cUsdBalance: '0',
     })
 
-    expect(queryByTestId('onChangeToken')).toBeNull()
+    expect(queryByTestId('TokenPickerSelector')).toBeNull()
     expect(getByText('sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
   it("allows changing the token if there's more than one token with balance", async () => {
     const { getByTestId, getByText } = renderComponent({
-      tokenAddress: mockCeurAddress,
+      tokenId: mockCeurTokenId,
     })
 
-    const tokenPicker = getByTestId('onChangeToken')
-    expect(tokenPicker).not.toBeNull()
     expect(getByText('send')).toBeDefined()
 
-    await act(() => {
-      fireEvent.press(tokenPicker)
-    })
-
-    await waitFor(() => expect(getByTestId('BottomSheetContainer')).toBeVisible())
-
-    fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdAddress)
+    fireEvent.press(getByTestId('TokenPickerSelector'))
+    expect(mockOnOpenCurrencyPicker).toHaveBeenCalled()
   })
 })

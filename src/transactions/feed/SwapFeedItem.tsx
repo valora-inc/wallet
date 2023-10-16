@@ -20,8 +20,8 @@ interface Props {
 
 function SwapFeedItem({ exchange }: Props) {
   const { t } = useTranslation()
-  const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenAddress)
-  const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenAddress)
+  const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenId)
+  const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenId)
 
   const handleTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
@@ -46,7 +46,7 @@ function SwapFeedItem({ exchange }: Props) {
         <View style={styles.tokenAmountContainer}>
           <TokenDisplay
             amount={exchange.inAmount.value}
-            tokenAddress={exchange.inAmount.tokenAddress}
+            tokenId={exchange.inAmount.tokenId}
             showLocalAmount={false}
             showSymbol={true}
             showExplicitPositiveSign={true}
@@ -56,7 +56,7 @@ function SwapFeedItem({ exchange }: Props) {
           />
           <TokenDisplay
             amount={-exchange.outAmount.value}
-            tokenAddress={exchange.outAmount.tokenAddress}
+            tokenId={exchange.outAmount.tokenId}
             showLocalAmount={false}
             showSymbol={true}
             hideSign={false}

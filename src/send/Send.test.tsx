@@ -8,9 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import Send from 'src/send/Send'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
-  mockCeloAddress,
   mockCeloTokenId,
-  mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
   mockE164NumberInvite,
@@ -23,8 +21,8 @@ import {
 const mockScreenProps = (params: {
   isOutgoingPaymentRequest?: boolean
   skipContactsImport?: boolean
-  forceTokenAddress?: boolean
-  defaultTokenOverride?: string
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
 }) => getMockStackScreenProps(Screens.Send, params)
 
 const defaultStore = {
@@ -57,6 +55,15 @@ const defaultStore = {
   },
 }
 
+jest.mock('src/statsig', () => {
+  return {
+    getFeatureGate: jest.fn(),
+    getDynamicConfigParams: jest.fn(() => ({
+      showSend: ['celo-alfajores'],
+    })),
+  }
+})
+
 describe('Send', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -71,7 +78,6 @@ describe('Send', () => {
       </Provider>
     )
 
-    expect(tree).toMatchSnapshot()
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeFalsy()
   })
 
@@ -136,7 +142,7 @@ describe('Send', () => {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: false,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenOverride: mockCusdAddress,
+      defaultTokenIdOverride: mockCusdTokenId,
       isFromScan: false,
     })
   })
@@ -149,8 +155,8 @@ describe('Send', () => {
         <Send
           {...mockScreenProps({
             isOutgoingPaymentRequest: true,
-            defaultTokenOverride: mockCeloAddress,
-            forceTokenAddress: true,
+            defaultTokenIdOverride: mockCeloTokenId,
+            forceTokenId: true,
           })}
         />
       </Provider>
@@ -163,8 +169,8 @@ describe('Send', () => {
       recipient: expect.objectContaining(mockRecipient),
       isOutgoingPaymentRequest: true,
       origin: SendOrigin.AppRequestFlow,
-      defaultTokenOverride: mockCeloAddress,
-      forceTokenAddress: true,
+      defaultTokenIdOverride: mockCeloTokenId,
+      forceTokenId: true,
       isFromScan: false,
     })
   })

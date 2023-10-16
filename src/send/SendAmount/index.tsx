@@ -1,7 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -10,7 +10,9 @@ import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AmountKeypad from 'src/components/AmountKeypad'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { NUMBER_INPUT_MAX_DECIMALS, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -30,10 +32,13 @@ import {
   useAmountAsUsd,
   useLocalToTokenAmount,
   useTokenInfo,
+  useTokenInfoByAddress,
   useTokenToLocalAmount,
+  useTokensForSend,
 } from 'src/tokens/hooks'
-import { defaultTokenToSendSelector } from 'src/tokens/selectors'
-import { fetchTokenBalances } from 'src/tokens/slice'
+import { defaultTokenToSendSelector, stablecoinsSelector } from 'src/tokens/selectors'
+import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
+import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 const LOCAL_CURRENCY_MAX_DECIMALS = 2
 const TOKEN_MAX_DECIMALS = 8
@@ -56,12 +61,12 @@ const { decimalSeparator } = getNumberFormatSettings()
 export function useInputAmounts(
   inputAmount: string,
   usingLocalAmount: boolean,
-  tokenAddress: string,
+  tokenId?: string,
   inputTokenAmount?: BigNumber
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)
-  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId)
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
   // when using the local amount, the "inputAmount" value received here was
@@ -73,17 +78,31 @@ export function useInputAmounts(
   // original, preventing the user from sending the amount e.g. the max token
   // balance could be something like 15.00, after conversion to local currency
   // then back to token amount, it could be 15.000000001.
+
   const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
   const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
-  const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
 
-  const usdAmount = useAmountAsUsd(tokenAmount, tokenAddress)
+  const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
 
   return {
     localAmount,
     tokenAmount,
     usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
+}
+
+/**
+ * @deprecated Use useInputAmounts instead
+ */
+export function useInputAmountsByAddress(
+  inputAmount: string,
+  usingLocalAmount: boolean,
+  tokenAddress: string,
+  inputTokenAmount?: BigNumber
+) {
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  return useInputAmounts(inputAmount, usingLocalAmount, tokenInfo?.tokenId, inputTokenAmount)
 }
 
 function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
@@ -101,31 +120,35 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
 function SendAmount(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const currencyPickerBottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const defaultToken = useSelector(defaultTokenToSendSelector)
+  const tokensForSend = useTokensForSend()
+  const stableTokens = useSelector(stablecoinsSelector)
 
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
-  const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress, defaultTokenOverride } =
+  const { isOutgoingPaymentRequest, recipient, origin, forceTokenId, defaultTokenIdOverride } =
     props.route.params
-  const defaultToken = useSelector(defaultTokenToSendSelector)
-  const [transferTokenAddress, setTransferToken] = useState(defaultTokenOverride ?? defaultToken)
+  const [transferTokenId, setTransferTokenId] = useState(defaultTokenIdOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-  const tokenInfo = useTokenInfo(transferTokenAddress)!
+  const tokenInfo = useTokenInfo(transferTokenId)
   const tokenHasPriceUsd = !!tokenInfo?.priceUsd
   const showInputInLocalAmount = usingLocalAmount && tokenHasPriceUsd
 
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType = FeeType.SEND
   const shouldFetchNewFee = !isOutgoingPaymentRequest
-  const maxBalance = useMaxSendAmount(transferTokenAddress, feeType, shouldFetchNewFee)
-  const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
+  const maxBalance = useMaxSendAmount(transferTokenId, feeType, shouldFetchNewFee)
+  const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenId)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
   const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()
 
   const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
     rawAmount,
     showInputInLocalAmount,
-    transferTokenAddress,
+    transferTokenId,
     isUsingMaxAmount ? maxBalance : undefined
   )
 
@@ -137,13 +160,19 @@ function SendAmount(props: Props) {
       )
     )
     setRawAmount(maxAmountValue?.toFixed() ?? '')
-    ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
+    ValoraAnalytics.track(SendEvents.max_pressed, {
+      tokenId: transferTokenId,
+      tokenAddress: tokenInfo?.address ?? null,
+      networkId: tokenInfo?.networkId ?? null,
+    })
   }
   const onSwapInput = () => {
     onAmountChange('')
     setUsingLocalAmount(!usingLocalAmount)
     ValoraAnalytics.track(SendEvents.swap_input_pressed, {
-      tokenAddress: transferTokenAddress,
+      tokenId: transferTokenId,
+      tokenAddress: tokenInfo?.address ?? null,
+      networkId: tokenInfo?.networkId ?? null,
       swapToLocalAmount: !usingLocalAmount,
     })
   }
@@ -154,7 +183,7 @@ function SendAmount(props: Props) {
 
   useEffect(() => {
     onAmountChange('')
-  }, [transferTokenAddress])
+  }, [transferTokenId])
 
   const { onSend, onRequest } = useTransactionCallbacks({
     recipient,
@@ -162,7 +191,7 @@ function SendAmount(props: Props) {
     tokenAmount,
     usdAmount,
     inputIsInLocalCurrency: showInputInLocalAmount,
-    transferTokenAddress,
+    transferTokenId,
     origin,
     isFromScan: props.route.params.isFromScan,
   })
@@ -183,13 +212,30 @@ function SendAmount(props: Props) {
     setRawAmount(updatedAmount)
   }
 
+  const sortedTokens = useMemo(
+    () =>
+      (isOutgoingPaymentRequest ? stableTokens : tokensForSend).sort(
+        sortFirstStableThenCeloThenOthersByUsdBalance
+      ),
+    [isOutgoingPaymentRequest, stableTokens, tokensForSend]
+  )
+
+  const handleShowCurrencyPicker = () => {
+    currencyPickerBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const handleTokenSelected = (token: TokenBalance) => {
+    setTransferTokenId(token.tokenId)
+    currencyPickerBottomSheetRef.current?.close()
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
-        tokenAddress={transferTokenAddress}
+        tokenId={transferTokenId}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-        onChangeToken={setTransferToken}
-        disallowCurrencyChange={!!forceTokenAddress}
+        onOpenCurrencyPicker={handleShowCurrencyPicker}
+        disallowCurrencyChange={!!forceTokenId}
       />
       <DisconnectBanner />
       <View style={styles.contentContainer}>
@@ -198,7 +244,7 @@ function SendAmount(props: Props) {
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={showInputInLocalAmount}
-          tokenAddress={transferTokenAddress}
+          tokenId={transferTokenId}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
           tokenHasPriceUsd={tokenHasPriceUsd}
@@ -218,6 +264,13 @@ function SendAmount(props: Props) {
         onPress={onReviewButtonPressed}
         disabled={!isAmountValid || reviewButtonPressed}
         testID="Review"
+      />
+      <TokenBottomSheet
+        forwardedRef={currencyPickerBottomSheetRef}
+        origin={TokenPickerOrigin.Send}
+        onTokenSelected={handleTokenSelected}
+        tokens={sortedTokens}
+        title={t('selectToken')}
       />
     </SafeAreaView>
   )

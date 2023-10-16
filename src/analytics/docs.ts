@@ -373,7 +373,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.external_exchange_link]: ``,
   [FiatExchangeEvents.cico_external_exchanges_back]: ``,
   [FiatExchangeEvents.cico_cash_out_copy_address]: ``,
-  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: `When withdraw bar is tapped from cash out CELO`,
 
   // External Exchanges QR Code Screen
   [FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open]: ``,
@@ -524,10 +523,13 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [CeloNewsEvents.celo_news_retry_tap]: `When a user taps on the retry button`,
   [TokenBottomSheetEvents.search_token]: `When a user searches a token using the token bottom sheet search box`,
   [AssetsEvents.show_asset_balance_info]: `When a user taps on the info icon`,
-  [AssetsEvents.view_wallet_assets]: `When a user taps on the "Wallet Assets" segmented control`,
-  [AssetsEvents.view_dapp_positions]: `When a user taps on the "Dapp Positions" segmented control`,
+  [AssetsEvents.view_wallet_assets]: `When a user taps on the "Wallet Assets" segmented control or "Assets" tab`,
+  [AssetsEvents.view_collectibles]: `When a user taps on the "Collectibles" tab`,
+  [AssetsEvents.view_dapp_positions]: `When a user taps on the "Dapp Positions" segmented control or tab`,
   [AssetsEvents.tap_asset]: `When a user taps on an asset`,
   [AssetsEvents.tap_claim_rewards]: `When a user taps on the "Claim Rewards" button`,
+  [AssetsEvents.tap_token_details_action]: `When a user taps one of the actions on the token details screen`,
+  [AssetsEvents.tap_token_details_learn_more]: `When a user taps the learn more link on the token details screen`,
   [NftEvents.nft_error_screen_open]: `When the high level error screen is mounted`,
   [NftEvents.nft_media_load]: `When attempting to load NFT media`,
   [NftEvents.nft_gallery_screen_open]: `When the gallery screen is mounted`,

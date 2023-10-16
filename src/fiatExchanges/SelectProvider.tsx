@@ -48,14 +48,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -79,12 +78,6 @@ import {
 const TAG = 'SelectProviderScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SelectProvider>
-
-function getAddFundsCryptoExchangeExperimentParams() {
-  return getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.ADD_FUNDS_CRYPTO_EXCHANGE_QR_CODE]
-  )
-}
 
 const paymentMethodSections: PaymentMethodSectionMethods[] = [
   PaymentMethod.Card,
@@ -110,7 +103,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoBySymbol(digitalAsset)
+  const tokenInfo = useTokenInfoWithAddressBySymbol(digitalAsset)
 
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
@@ -433,7 +426,10 @@ function ExchangesSection({
   const { addFundsExchangesText: exchangesText, addFundsExchangesLink: exchangesLink } =
     useMemo(() => {
       if (flow === CICOFlow.CashIn) {
-        return getAddFundsCryptoExchangeExperimentParams()
+        return {
+          addFundsExchangesText: SelectProviderExchangesText.DepositFrom,
+          addFundsExchangesLink: SelectProviderExchangesLink.ExchangeQRScreen,
+        }
       }
       return {
         addFundsExchangesText: SelectProviderExchangesText.CryptoExchange,
@@ -455,7 +451,6 @@ function ExchangesSection({
     } else {
       navigate(Screens.ExternalExchanges, {
         currency: selectedCurrency,
-        isCashIn: flow === CICOFlow.CashIn,
         exchanges,
       })
     }

@@ -17,6 +17,7 @@ jobs:
     runs-on: ios-e2e-group
     steps:
       - uses: google-github-actions/auth@v1
+        if: ${{ env.SECRETS_AVAILABLE }}
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
@@ -48,8 +49,8 @@ jobs:
       - name: Install CocoaPods dependencies
         working-directory: ios
         run: bundle exec pod install || bundle exec pod install --repo-update
-      - name: Fail if someone forgot to commit "Podfile.lock"
-        run: git diff --exit-code
+      - name: Fail if someone forgot to commit "Podfile.lock" and push changes if PR is from renovate
+        run: yarn ts-node ./.github/scripts/checkPodfileAndUpdateRenovatePr.ts
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create iOS E2E .env File

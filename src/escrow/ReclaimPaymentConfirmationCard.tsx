@@ -6,13 +6,13 @@ import Avatar from 'src/components/Avatar'
 import { SecurityFeeIcon } from 'src/components/FeeIcon'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import { FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { MobileRecipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
+import { useTokenInfoByAddress, useUsdToTokenAmount } from 'src/tokens/hooks'
 import { celoAddressSelector } from 'src/tokens/selectors'
 import { divideByWei } from 'src/utils/formatting'
 
@@ -36,7 +36,7 @@ export default function ReclaimPaymentConfirmationCard({
   const feeEstimate = feeEstimates[tokenAddress]?.[FeeType.RECLAIM_ESCROW]
 
   const celoAddress = useSelector(celoAddressSelector)
-  const feeToken = useTokenInfo(feeEstimate?.feeInfo?.feeCurrency ?? celoAddress ?? '')
+  const feeToken = useTokenInfoByAddress(feeEstimate?.feeInfo?.feeCurrency ?? celoAddress ?? '')
   const feeInAmountToken = useUsdToTokenAmount(
     new BigNumber(feeEstimate?.usdFee ?? 0),
     tokenAddress
@@ -49,7 +49,7 @@ export default function ReclaimPaymentConfirmationCard({
       <HorizontalLine />
       <LineItemRow
         title={t('amount')}
-        amount={<TokenDisplay amount={amount} tokenAddress={tokenAddress} />}
+        amount={<LegacyTokenDisplay amount={amount} tokenAddress={tokenAddress} />}
         testID={'ReclaimAmount'}
       />
       <LineItemRow
@@ -57,7 +57,7 @@ export default function ReclaimPaymentConfirmationCard({
         titleIcon={<SecurityFeeIcon />}
         amount={
           feeEstimate?.feeInfo?.fee && (
-            <TokenDisplay
+            <LegacyTokenDisplay
               amount={divideByWei(feeEstimate.feeInfo.fee)}
               tokenAddress={feeToken?.address ?? ''}
               testID={'ReclaimFee'}
@@ -69,7 +69,7 @@ export default function ReclaimPaymentConfirmationCard({
         hasError={!!feeEstimate?.error}
       />
       <HorizontalLine />
-      <TokenTotalLineItem
+      <LegacyTokenTotalLineItem
         title={t('totalRefunded')}
         tokenAmount={totalAmount}
         tokenAddress={tokenAddress}

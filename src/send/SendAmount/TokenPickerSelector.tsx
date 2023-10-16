@@ -8,22 +8,24 @@ import colors from 'src/styles/colors'
 import { useTokenInfo } from 'src/tokens/hooks'
 
 interface Props {
-  tokenAddress: string
+  tokenId: string
   onChangeToken: () => void
 }
 
-function TokenPickerSelector({ tokenAddress, onChangeToken }: Props) {
-  const tokenInfo = useTokenInfo(tokenAddress)
+function TokenPickerSelector({ tokenId, onChangeToken }: Props) {
+  const tokenInfo = useTokenInfo(tokenId)
 
   const onButtonPressed = () => {
     onChangeToken()
     ValoraAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenAddress: tokenAddress,
+      currentTokenId: tokenId,
+      currentNetworkId: tokenInfo?.networkId ?? null,
+      currentTokenAddress: tokenInfo?.address ?? null,
     })
   }
 
   return (
-    <Touchable style={styles.touchable} onPress={onButtonPressed} testID="onChangeToken">
+    <Touchable style={styles.touchable} onPress={onButtonPressed} testID="TokenPickerSelector">
       <View style={styles.container}>
         <Text allowFontScaling={false} style={styles.token}>
           {tokenInfo?.symbol}

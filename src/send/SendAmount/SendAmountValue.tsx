@@ -15,7 +15,7 @@ interface Props {
   inputAmount: string
   tokenAmount: BigNumber
   usingLocalAmount: boolean
-  tokenAddress: string
+  tokenId: string
   isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
@@ -26,7 +26,7 @@ function SendAmountValue({
   inputAmount,
   tokenAmount,
   usingLocalAmount,
-  tokenAddress,
+  tokenId,
   isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
@@ -36,8 +36,8 @@ function SendAmountValue({
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const tokenInfo = useTokenInfo(tokenAddress)
-  const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
+  const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
 
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
 

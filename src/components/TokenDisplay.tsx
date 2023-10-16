@@ -4,26 +4,10 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
-import { useTokenInfo, useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
-
-interface Props {
-  amount: BigNumber.Value
-  tokenAddress?: string | null
-  currency?: Currency
-  showSymbol?: boolean
-  showLocalAmount?: boolean
-  hideSign?: boolean
-  showExplicitPositiveSign?: boolean
-  localAmount?: LocalAmount
-  style?: StyleProp<TextStyle>
-  testID?: string
-}
 
 function calculateDecimalsToShow(value: BigNumber) {
   const exponent = value?.e ?? 0
@@ -44,10 +28,21 @@ export function formatValueToDisplay(value: BigNumber) {
   return text
 }
 
+interface Props {
+  amount: BigNumber.Value
+  tokenId?: string
+  showSymbol?: boolean
+  showLocalAmount?: boolean
+  hideSign?: boolean
+  showExplicitPositiveSign?: boolean
+  localAmount?: LocalAmount
+  style?: StyleProp<TextStyle>
+  testID?: string
+}
+
 function TokenDisplay({
   amount,
-  tokenAddress,
-  currency,
+  tokenId,
   showLocalAmount = true,
   showSymbol = true,
   showExplicitPositiveSign = false,
@@ -56,21 +51,9 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  const showNativeTokens = getFeatureGate(StatsigFeatureGates.SHOW_NATIVE_TOKENS)
-  if (!showNativeTokens && (tokenAddress ? currency : !currency)) {
-    throw new Error('TokenDisplay must be passed either "currency" or "tokenAddress" and not both')
-  } else if (tokenAddress && currency) {
-    throw new Error('TokenDisplay must be passed tokenAddress, currency, or nethier, but not both')
-  }
-
-  const tokenInfoFromAddress = useTokenInfo(tokenAddress!)
-  const tokenInfoFromCurrency = useTokenInfoBySymbol(
-    currency! === Currency.Celo ? 'CELO' : currency!
-  )
-  const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
+  const tokenInfo = useTokenInfo(tokenId)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
   const showError = showLocalAmount
     ? !localAmount && (!tokenInfo?.priceUsd || !localCurrencyExchangeRate)
     : !tokenInfo?.symbol

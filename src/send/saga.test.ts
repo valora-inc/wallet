@@ -19,7 +19,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { Actions, HandleBarcodeDetectedAction, QrCode, SendPaymentAction } from 'src/send/actions'
 import { sendPaymentSaga, watchQrCodeDetections } from 'src/send/saga'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
@@ -40,6 +40,7 @@ import {
   mockAccountInvite,
   mockContract,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockE164NumberInvite,
   mockFeeInfo,
@@ -94,6 +95,12 @@ describe(watchQrCodeDetections, () => {
     jest.useRealTimers()
   })
 
+  beforeEach(() => {
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showSend: [NetworkId['celo-alfajores']],
+    })
+  })
+
   afterEach(() => {
     jest.clearAllMocks()
   })
@@ -120,7 +127,7 @@ describe(watchQrCodeDetections, () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
-      forceTokenAddress: false,
+      forceTokenId: false,
     })
   })
 
@@ -151,7 +158,7 @@ describe(watchQrCodeDetections, () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
-      forceTokenAddress: false,
+      forceTokenId: false,
     })
   })
 
@@ -184,7 +191,7 @@ describe(watchQrCodeDetections, () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
-      forceTokenAddress: false,
+      forceTokenId: false,
     })
   })
 
@@ -335,6 +342,7 @@ describe(sendPaymentSaga, () => {
           status: TransactionStatus.Pending,
           value: amount.negated().toString(),
           tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockQRCodeRecipient.address,
         })

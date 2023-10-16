@@ -1,7 +1,6 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -51,7 +50,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxNumRecentDapps: 0,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
-  paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: false,
   dappListApiUrl: '',
   fiatConnectCashInEnabled: false,
@@ -71,6 +69,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeV2Enabled: false,
   superchargeRewardContractAddress: '',
   superchargeV1Addresses: '',
-  requireCPV: false,
   decentralizedVerificationEnabled: true,
 }

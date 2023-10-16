@@ -5,13 +5,18 @@ import FiatExchangeCurrency from 'src/fiatExchanges/FiatExchangeCurrency'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { FiatExchangeFlow } from './utils'
+import { mockCusdTokenId, mockCeurTokenId, mockCeloTokenId, mockEthTokenId } from 'test/values'
+import { getDynamicConfigParams } from 'src/statsig'
 
 jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(() => false),
+  getDynamicConfigParams: jest.fn(() => {
+    return {
+      showCico: ['celo-alfajores'],
+    }
+  }),
 }))
 
 const mockScreenProps = (flow: FiatExchangeFlow) =>
@@ -40,6 +45,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'cUSD',
+      tokenId: mockCusdTokenId,
       flow: FiatExchangeFlow.CashIn,
       network: Network.Celo,
     })
@@ -57,6 +63,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'cEUR',
+      tokenId: mockCeurTokenId,
       flow: FiatExchangeFlow.CashIn,
       network: Network.Celo,
     })
@@ -73,13 +80,16 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByTestId('radio/CELO'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockCeloTokenId,
       currency: 'CELO',
       flow: FiatExchangeFlow.CashIn,
       network: Network.Celo,
     })
   })
   it('ETH Flow', () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
     const store = createMockStore({})
     const tree = render(
       <Provider store={store}>
@@ -91,6 +101,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByTestId('radio/ETH'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockEthTokenId,
       currency: 'ETH',
       flow: FiatExchangeFlow.CashIn,
       network: Network.Ethereum,

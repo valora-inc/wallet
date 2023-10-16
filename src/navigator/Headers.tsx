@@ -5,6 +5,7 @@ import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } f
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
 import BackChevronCentered from 'src/icons/BackChevronCentered'
@@ -186,7 +187,7 @@ export function HeaderTitleWithBalance({
       <Trans i18nKey="balanceAvailable">
         {displayCrypto ? (
           tokenInfo && (
-            <TokenDisplay
+            <LegacyTokenDisplay
               amount={tokenInfo.balance}
               tokenAddress={tokenInfo.address}
               showLocalAmount={false}
@@ -229,7 +230,7 @@ export function HeaderTitleWithTokenBalance({
     <Trans i18nKey="balanceAvailable">
       <TokenDisplay
         amount={tokenInfo.balance}
-        tokenAddress={tokenInfo?.address}
+        tokenId={tokenInfo.tokenId}
         showLocalAmount={showLocalAmount}
         style={styles.headerSubTitle}
       />

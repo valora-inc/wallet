@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "一旦他们设置并在 {{appName}} 钱包中添加 10 cUSD，你们都将收到 0.50 cUSD。"
+    "body": "在他们成功设置 {{appName}} 钱包并转入 10 cUSD 后，你们都将获得 0.50 cUSD 的奖励。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -646,14 +646,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
-    "help": "要领取此奖励，受邀者必须通过推荐链接下载、连接电话号码并在 {{appName}} 钱包中持有 10 cUSD 或以上达 7 天。<0>查看所有条款</0>",
+    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载钱包应用，关联手机号码并向其 {{appName}} 钱包至少转入 10 cUSD，并且 7 天之内不转出资金。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
       "title": "参加 Valora 推荐计划，赚取 cUSD 奖励",
-      "body": "邀请多达 25 位朋友加入 {{appName}} ，当他们加入或收到 10 cUSD 或以上时，您每人将获得 0.50 cUSD，送完即止。"
+      "body": "最多可邀请 25 位好友加入 {{appName}} ，当他们向其钱包至少转入 10 cUSD 时，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -967,7 +967,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "您好！👋 Valora 是向您关心的人汇款的最简单方式，无论他们身在何处。您只需要一个电话号码。通过此链接下载，连接您的电话号码，并用 10 cUSD 为您的新钱包充值，即可获得 0.50 美元 💫 \n\n{{link}} \n\n现在就行动，推荐奖励有限。",
+  "inviteWithRewardsCUSD": "您好！👋 Valora 是向亲朋好友汇款的最简单途径，无论他们身处世界的任何地方。您只需要一个手机号码即可完成所有操作。点击此链接下载，关联您的电话号码并向您的新钱包转入 10 cUSD，即可获得 $0.50 的奖励💫 \n\n{{link}} \n\n立即行动，推荐奖励数额有限。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1409,13 +1409,6 @@
   "others": "其他",
   "nomSpaceRecipient": "Nomspace：{{name}}",
   "lastDay": "最近 24 小时",
-  "merchant": "商户付款",
-  "merchantMoneyEscrow": "您即将向商户发送一笔直接付款。",
-  "merchantPaymentNumberVerificationMessage": "您需要关联手机号码",
-  "merchantPaymentSubmitFail": "您的付款提交失败",
-  "merchantPaymentSetup": "加载商户信息时出错，请尝试再次扫描二维码",
-  "merchantPaymentSubmitSuccess": "您的付款已成功提交",
-  "merchantWalletUnlockError": "解锁您的钱包时出现问题，请重试",
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "购买交易由我们的合作伙伴供应商提供支持。您所在地区可能无法使用某些付款方式。费用可能有所不同。",
@@ -1438,7 +1431,7 @@
     "numProviders": "{{count}} 个提供商",
     "fee": "费用",
     "idRequired": "必须提供 ID",
-    "mobileCarrierRequirement": "{{carrier}} 需要",
+    "mobileCarrierRequirement": "必须提供 {{carrier}}",
     "numDays": "1-3 天",
     "oneHour": "小于 1 小时",
     "xHours": "少于 {{upperBound}} 小时",
@@ -1760,7 +1753,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "看来 {{contactName}} 不在 Valora 上。如果您知道他们的钱包地址，您仍然可以发送付款，或者发送邀请。 \n\n 在他们下载 Valora、连接电话号码并在钱包中添加 10 cUSD 后，您和他们都将获得 0.50 cUSD，直到资金用完为止。"
+      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转入 10 cUSD 之后，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
     }
   },
   "celoNews": {
@@ -1828,11 +1821,31 @@
     "bannerTitle": "挂钩预览已启用，点击即可禁用"
   },
   "assets": {
-    "claimRewards": "领取奖励"
+    "claimRewards": "领取奖励",
+    "bridge": "通过 {{bridge}} 进行桥接",
+    "networkName": "{{networkName}} 网络",
+    "tabBar": {
+      "tokens": "代币",
+      "collectibles": "藏品",
+      "dappPositions": "Dapp 持仓"
+    }
   },
   "notificationCenterSpotlight": {
-    "message": "推出一种新方法，可在一个地方申请奖励、查看警报和查看更新",
-    "cta": "明白"
+    "message": "我们正在推出一种新方法，让您可在同一个地方领取奖励、查看提醒和更新信息",
+    "cta": "知道了"
+  },
+  "tokenDetails": {
+    "yourBalance": "您的余额",
+    "learnMore": "进一步了解 {{tokenName}}",
+    "priceUnavailable": "价格不详",
+    "priceDeltaSuffix": "今天",
+    "actions": {
+      "send": "发送",
+      "swap": "交换",
+      "add": "添加",
+      "withdraw": "提取",
+      "more": "更多信息"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

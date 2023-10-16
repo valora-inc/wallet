@@ -17,9 +17,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Actions } from 'src/stableToken/actions'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
-import { lastKnownTokenBalancesSelector, tokensListSelector } from 'src/tokens/selectors'
+import { lastKnownTokenBalancesSelector, tokensListWithAddressSelector } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -42,6 +40,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 import * as utf8 from 'utf8'
 
@@ -237,9 +236,7 @@ interface UserBalancesResponse {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  const chainsToFetch = getFeatureGate(StatsigFeatureGates.FETCH_MULTI_CHAIN_BALANCES)
-    ? Object.values(networkConfig.networkToNetworkId)
-    : [networkConfig.defaultNetworkId]
+  const chainsToFetch = getSupportedNetworkIdsForTokenBalances()
   const userBalances = await Promise.all(
     chainsToFetch.map((networkId) => {
       return apolloClient.query<UserBalancesResponse, { address: string; networkId: string }>({
@@ -314,7 +311,7 @@ export function* fetchTokenBalancesSaga() {
 }
 
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   if (!tokenInfo) {
     throw Error(`Couldnt find token info for address ${tokenAddress}.`)
@@ -325,7 +322,7 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 export function* getTokenInfo(tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListSelector)
+  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   return tokenInfo
 }

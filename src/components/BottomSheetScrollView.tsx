@@ -1,41 +1,31 @@
-import { BottomSheetScrollView as RNBottomSheetScrollView } from '@gorhom/bottom-sheet'
-import React, { useEffect, useState } from 'react'
-import { Keyboard, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { BottomSheetScrollView as GorhomBottomSheetScrollView } from '@gorhom/bottom-sheet'
+import React, { useState } from 'react'
+import { LayoutChangeEvent, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>
   testId?: string
+  forwardedRef?: React.RefObject<ScrollView>
   children: React.ReactNode
 }
 
-const BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT = 24
+function BottomSheetScrollView({ forwardedRef, containerStyle, testId, children }: Props) {
+  const [containerHeight, setContainerHeight] = useState(0)
+  const [contentHeight, setContentHeight] = useState(0)
 
-function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
-  const [scrollEnabled, setScrollEnabled] = useState(false)
-  const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
-
-  const scrollEnabledContentHeight = height - BOTTOM_SHEET_DEFAULT_HANDLE_HEIGHT
-
-  const handleScrollEnabled = (event: LayoutChangeEvent) => {
-    if (event.nativeEvent.layout.height > scrollEnabledContentHeight) {
-      setScrollEnabled(true)
-    }
-  }
-
-  // Dismiss keyboard on mount
-  useEffect(() => {
-    Keyboard.dismiss()
-  }, [])
+  const scrollEnabled = contentHeight > containerHeight
 
   return (
-    <RNBottomSheetScrollView
-      style={{
-        maxHeight: scrollEnabledContentHeight - insets.top,
-      }}
+    <GorhomBottomSheetScrollView
+      ref={forwardedRef}
       scrollEnabled={scrollEnabled}
+      onLayout={(event: LayoutChangeEvent) => {
+        setContainerHeight(event.nativeEvent.layout.height)
+      }}
+      keyboardShouldPersistTaps="always"
     >
       <View
         style={[
@@ -43,12 +33,14 @@ function BottomSheetScrollView({ containerStyle, testId, children }: Props) {
           { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
           containerStyle,
         ]}
-        onLayout={handleScrollEnabled}
+        onLayout={(event: LayoutChangeEvent) => {
+          setContentHeight(event.nativeEvent.layout.height)
+        }}
         testID={testId}
       >
         {children}
       </View>
-    </RNBottomSheetScrollView>
+    </GorhomBottomSheetScrollView>
   )
 }
 

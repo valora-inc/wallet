@@ -27,7 +27,6 @@ import { Actions } from 'src/firebase/actions'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Actions as HomeActions } from 'src/home/actions'
-import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
@@ -339,7 +338,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
-    paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
@@ -361,7 +359,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     superchargeV2Enabled: flags.superchargeV2Enabled.asBoolean(),
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
     superchargeV1Addresses: flags.superchargeV1Addresses.asString().split(','),
-    requireCPV: flags.requireCPV.asBoolean(),
     decentralizedVerificationEnabled: flags.decentralizedVerificationEnabled.asBoolean(),
   }
 }

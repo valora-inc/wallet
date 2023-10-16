@@ -638,7 +638,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Convide amigos e receba recompensas",
-    "body": "Assim que a pessoa se registar e adicionar 10 cUSD à sua carteira {{appName}} , ambos receberão 0,50 cUSD."
+    "body": "Assim que a pessoa configurar e adicionar 10 cUSD à sua carteira {{appName}}, você dois receberão 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -646,14 +646,14 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
-    "help": "Para receber esta recompensa, o convidado deve descarregar através da ligação de referência, ligar o seu número de telefone e manter 10 cUSD ou mais na sua carteira {{appName}} durante 7 dias. <0>Ver todas as condições</0>",
+    "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de indicação, conectar o número de celular e manter 10 cUSD ou mais em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
       "title": "Ganhe cUSD com Valora Referral Rewards",
-      "body": "Convide até 25 amigos para se juntarem a {{appName}} e cada um receberá 0,50 cUSD quando eles adicionarem ou receberem 10 cUSD ou mais, enquanto durarem os fundos."
+      "body": "Convide até 25 amigos para a {{appName}} e cada um receberá 0,50 cUSD quando eles adicionarem ou receberem 10 cUSD ou mais, enquanto durarem os fundos."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -969,7 +969,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Olá! 👋 Valora é a maneira mais fácil de enviar dinheiro para as pessoas de quem gosta, não importa onde elas estejam. Tudo o que precisas é de um número de telefone. Faça o download através deste link, conecte seu número de telefone e financie sua nova carteira com 10 cUSD para obter US $ 0,50 💫 \n\n{{link}} \n\nAja agora, as recompensas de referência são limitadas.",
+  "inviteWithRewardsCUSD": "Olá! 👋 Valora é a maneira mais fácil de enviar dinheiro para as pessoas de quem você gosta, não importa onde elas estejam. Tudo o que você precisa é de um número de celular. Faça o download através deste link, conecte seu número de celular e adicione 10 cUSD à sua nova carteira para obter US$ 0,50 💫 \n\n{{link}} \n\nNão perca tempo, as recompensas de indicação são limitadas.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1411,13 +1411,6 @@
   "others": "Outros",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
-  "merchant": "Pagamento a comerciantes",
-  "merchantMoneyEscrow": "Você está prestes a enviar um pagamento direto a um comerciante.",
-  "merchantPaymentNumberVerificationMessage": "Você precisa conectar seu número",
-  "merchantPaymentSubmitFail": "Seu pagamento não pôde ser enviado",
-  "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
-  "merchantPaymentSubmitSuccess": "Seu pagamento foi enviado com sucesso",
-  "merchantWalletUnlockError": "Algo deu errado ao desbloquear sua carteira, tente novamente",
   "noMoreTransactions": "Não há mais transacções",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "As compras são fornecidas por nossos fornecedores parceiros. As taxas podem variar. Algumas formas de pagamento não estão disponíveis na sua região.",
@@ -1435,12 +1428,12 @@
     "card": "Cartão de crédito/débito",
     "bank": "Conta bancária",
     "mobileMoney": "Dinheiro móvel",
-    "airtime": "Tempo de antena",
+    "airtime": "Tempo de exibição",
     "minFee": "Taxa mínima",
     "numProviders": "{{count}} fornecedores",
     "fee": "Taxa",
     "idRequired": "Requer identificação",
-    "mobileCarrierRequirement": "{{carrier}} Necessário",
+    "mobileCarrierRequirement": "{{carrier}} Obrigatório",
     "numDays": "1-3 dias",
     "oneHour": "Menos de 1 hora",
     "xHours": "Menos de {{upperBound}} horas",
@@ -1762,7 +1755,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Convide {{contactName}} para a {{appName}} e receba 0,50 cUSD",
-      "body": "Parece que {{contactName}} não está em Valora. Ainda assim, pode enviar um pagamento se souber o endereço da carteira ou enviar um convite. \n\n Depois de ele descarregar Valora, ligar o seu número de telefone e adicionar 10 cUSD à sua carteira, ambos receberão 0,50 cUSD enquanto os fundos durarem."
+      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Depois que seu amigo baixar a Valora, conectar o número de celular e adicionar 10 cUSD à carteira, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
     }
   },
   "celoNews": {
@@ -1830,11 +1823,31 @@
     "bannerTitle": "Visualização de hooks ativada, toque para desativar"
   },
   "assets": {
-    "claimRewards": "Reivindicar Recompensas"
+    "claimRewards": "Reivindicar Recompensas",
+    "bridge": "Ponte via {{bridge}}",
+    "networkName": "Rede {{networkName}}",
+    "tabBar": {
+      "tokens": "Tokens",
+      "collectibles": "Colecionáveis",
+      "dappPositions": "Posições de dapp"
+    }
   },
   "notificationCenterSpotlight": {
-    "message": "Introdução de uma nova forma de solicitar recompensas, ver alertas e ver actualizações num único local",
-    "cta": "Já está"
+    "message": "Apresentamos uma nova forma de resgatar recompensas, ver alertas e consultar atualizações em um só lugar",
+    "cta": "Entendi"
+  },
+  "tokenDetails": {
+    "yourBalance": "Seu saldo",
+    "learnMore": "Saiba mais sobre {{tokenName}}",
+    "priceUnavailable": "Preço indisponível",
+    "priceDeltaSuffix": "Hoje",
+    "actions": {
+      "send": "Enviar",
+      "swap": "Trocar",
+      "add": "Adicionar",
+      "withdraw": "Sacar",
+      "more": "Mais"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
