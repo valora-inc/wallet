@@ -348,7 +348,6 @@ describe('store state', () => {
           "knownFeedTransactions": {},
           "recentTxRecipientsCache": {},
           "standbyTransactions": [],
-          "standbyTransactionsLegacy": [],
           "transactions": [],
         },
         "walletConnect": {

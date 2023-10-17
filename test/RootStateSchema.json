@@ -2743,49 +2743,6 @@
             ],
             "type": "object"
         },
-        "StandbyTransactionLegacy": {
-            "additionalProperties": false,
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "currency": {
-                    "$ref": "#/definitions/Currency"
-                },
-                "hash": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "type": {
-                    "$ref": "#/definitions/TransferTransactionType"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "comment",
-                "context",
-                "currency",
-                "status",
-                "timestamp",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
         "State": {
             "additionalProperties": false,
             "properties": {
@@ -4028,12 +3985,6 @@
                     },
                     "type": "array"
                 },
-                "standbyTransactionsLegacy": {
-                    "items": {
-                        "$ref": "#/definitions/StandbyTransactionLegacy"
-                    },
-                    "type": "array"
-                },
                 "transactions": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -4046,7 +3997,6 @@
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",
-                "standbyTransactionsLegacy",
                 "transactions"
             ],
             "type": "object"
@@ -4779,21 +4729,6 @@
                 "Complete",
                 "Failed",
                 "Pending"
-            ],
-            "type": "string"
-        },
-        "TransferTransactionType": {
-            "enum": [
-                "ESCROW_RECEIVED",
-                "ESCROW_SENT",
-                "FAUCET",
-                "INVITE_RECEIVED",
-                "INVITE_SENT",
-                "NETWORK_FEE",
-                "RECEIVED",
-                "SENT",
-                "VERIFICATION_FEE",
-                "VERIFICATION_REWARD"
             ],
             "type": "string"
         },

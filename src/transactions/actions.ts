@@ -6,11 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { InviteTransactions } from 'src/transactions/reducer'
-import {
-  StandbyTransaction,
-  StandbyTransactionLegacy,
-  TokenTransaction,
-} from 'src/transactions/types'
+import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
@@ -24,8 +20,6 @@ export enum Actions {
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
-  // Remove legacy action once the multitoken support feature is fully released
-  ADD_STANDBY_TRANSACTION_LEGACY = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION_LEGACY',
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
@@ -41,11 +35,6 @@ export interface RemoveStandbyTransactionAction {
 
 export interface ResetStandbyTransactionsAction {
   type: Actions.RESET_STANDBY_TRANSACTIONS
-}
-
-export interface AddStandbyTransactionLegacyAction {
-  type: Actions.ADD_STANDBY_TRANSACTION_LEGACY
-  transactionLegacy: StandbyTransactionLegacy
 }
 
 export interface AddHashToStandbyTransactionAction {
@@ -94,7 +83,6 @@ export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
   | ResetStandbyTransactionsAction
-  | AddStandbyTransactionLegacyAction
   | AddHashToStandbyTransactionAction
   | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
@@ -102,13 +90,6 @@ export type ActionTypes =
   | TransactionConfirmedAction
   | TransactionConfirmedViemAction
   | UpdateInviteTransactionsAction
-
-export const addStandbyTransactionLegacy = (
-  transaction: StandbyTransactionLegacy
-): AddStandbyTransactionLegacyAction => ({
-  type: Actions.ADD_STANDBY_TRANSACTION_LEGACY,
-  transactionLegacy: transaction,
-})
 
 export const addStandbyTransaction = (
   transaction: StandbyTransaction

@@ -2677,6 +2677,7 @@ export const v158Schema = {
     version: 158,
   },
   app: _.omit(v157Schema.app, 'decentralizedVerificationEnabled'),
+  transactions: _.omit(v157Schema.transactions, 'standbyTransactionsLegacy'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
