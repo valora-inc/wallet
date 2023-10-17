@@ -2663,7 +2663,6 @@ export const v157Schema = {
     ...v156Schema._persist,
     version: 157,
   },
-  app: _.omit(v156Schema.app, 'decentralizedVerificationEnabled'),
   transactions: {
     ...v156Schema.transactions,
     standbyTransactions: [],
