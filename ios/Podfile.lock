@@ -245,7 +245,7 @@ PODS:
     - RNPermissions
   - Permission-Camera (3.10.0):
     - RNPermissions
-  - PersonaInquirySDK2 (2.3.9)
+  - PersonaInquirySDK2 (2.12.4)
   - PromisesObjC (2.2.0)
   - PromisesSwift (2.2.0):
     - PromisesObjC (= 2.2.0)
@@ -703,8 +703,11 @@ PODS:
     - React-Core
   - RNPermissions (3.10.0):
     - React-Core
-  - RNPersonaInquiry2 (2.2.23):
-    - PersonaInquirySDK2 (= 2.3.9)
+  - RNPersonaInquiry2 (2.6.4):
+    - React-Core
+    - RNPersonaInquiry2/Core (= 2.6.4)
+  - RNPersonaInquiry2/Core (2.6.4):
+    - PersonaInquirySDK2 (= 2.12.4)
     - React-Core
   - RNReactNativeHapticFeedback (1.14.0):
     - React-Core
@@ -1124,7 +1127,7 @@ SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
   Adjust: cac836ba910f868b38d0350045aaf498f794719a
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
-  boost: 57d2868c099736d80fcd648bf211b4431e51a558
+  boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CleverTap-iOS-SDK: 6a38eea6d2f0c336fb142baadcca2cd8aafd2290
   clevertap-react-native: 3acdd0abca15a23e9339e19fa26abf0635ac4bd2
@@ -1171,10 +1174,10 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-AppTrackingTransparency: 910f02e3f2ca65adf5afdd4461d799f516fad978
   Permission-Camera: c0988031cf68f80212d38b69c08bced8c7eb43b7
-  PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
+  PersonaInquirySDK2: 457b32479a4c9be8acacdad0a490980c07cf11bd
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
-  RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
+  RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 4db5e3e18b906377a502da5b358ff159ba4783ed
   RCTTypeSafety: 6c1a8aed043050de0d537336c95cd1be7b66c272
   React: 214e77358d860a3ed707fede9088e7c00663a087
@@ -1241,7 +1244,7 @@ SPEC CHECKSUMS:
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNLocalize: d4b8af4e442d4bcca54e68fc687a2129b4d71a81
   RNPermissions: 3acba750d9146af1c33a79c013e02f8b48067acc
-  RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
+  RNPersonaInquiry2: 3b9090efc7e1927c210d5d8856a12a338a90ce61
   RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
