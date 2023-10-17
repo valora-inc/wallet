@@ -211,20 +211,10 @@ export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2:
 }
 
 /**
- * @deprecated
+ * @deprecated use swappableTokensByNetworkIdSelector or useSwappableTokens hook
  */
-export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  const appVersion = deviceInfoModule.getVersion()
-
-  return tokens
-    .filter(
-      (tokenInfo) =>
-        tokenInfo.isSwappable ||
-        (tokenInfo.minimumAppVersionToSwap &&
-          !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
-    )
-    .sort(tokenCompareByUsdBalanceThenByName)
-})
+export const swappableTokensSelector = (state: RootState) =>
+  swappableTokensByNetworkIdSelector(state, [networkConfig.defaultNetworkId])
 
 /**
  * @deprecated
