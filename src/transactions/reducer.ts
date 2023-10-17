@@ -66,11 +66,6 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.RESET_STANDBY_TRANSACTIONS:
-      return {
-        ...state,
-        standbyTransactions: [],
-      }
     case Actions.TRANSACTION_CONFIRMED:
       const status = action.receipt.status
 

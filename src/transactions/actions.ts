@@ -11,7 +11,6 @@ import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
-  RESET_STANDBY_TRANSACTIONS = 'TRANSACTIONS/RESET_STANDBY_TRANSACTIONS',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
@@ -31,10 +30,6 @@ export interface AddStandbyTransactionAction {
 export interface RemoveStandbyTransactionAction {
   type: Actions.REMOVE_STANDBY_TRANSACTION
   idx: string
-}
-
-export interface ResetStandbyTransactionsAction {
-  type: Actions.RESET_STANDBY_TRANSACTIONS
 }
 
 export interface AddHashToStandbyTransactionAction {
@@ -82,7 +77,6 @@ export interface UpdateInviteTransactionsAction {
 export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
-  | ResetStandbyTransactionsAction
   | AddHashToStandbyTransactionAction
   | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
@@ -108,10 +102,6 @@ export const updateRecentTxRecipientsCache = (
 ): UpdatedRecentTxRecipientsCacheAction => ({
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   recentTxRecipientsCache,
-})
-
-export const resetStandbyTransactions = (): ResetStandbyTransactionsAction => ({
-  type: Actions.RESET_STANDBY_TRANSACTIONS,
 })
 
 export const transactionConfirmed = (
