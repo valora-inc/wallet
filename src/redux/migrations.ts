@@ -1334,6 +1334,9 @@ export const migrations = {
   158: (state: any) => ({
     ...state,
     app: _.omit(state.app, 'decentralizedVerificationEnabled'),
+  }),
+  159: (state: any) => ({
+    ...state,
     transactions: _.omit(state.transactions, 'standbyTransactionsLegacy'),
   }),
 }
