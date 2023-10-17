@@ -34,8 +34,10 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
-  [StatsigFeatureGates.SHOW_NATIVE_TOKENS]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
+  [StatsigFeatureGates.MULTI_CHAIN_SEND]: false,
+  [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
+  [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
 }
 
 export const ExperimentConfigs = {
@@ -94,6 +96,8 @@ export const DynamicConfigs = {
     defaultValues: {
       showCico: [networkConfig.defaultNetworkId],
       showBalances: [networkConfig.defaultNetworkId],
+      showSend: [networkConfig.defaultNetworkId],
+      showSwap: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
     },
   },

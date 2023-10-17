@@ -67,6 +67,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
+import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
@@ -525,7 +526,7 @@ interface SendEventsProperties {
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
-        underlyingTokenAddress: string
+        underlyingTokenAddress: string | null
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
@@ -593,18 +594,26 @@ interface SendEventsProperties {
     error: string
   }
   [SendEvents.token_dropdown_opened]: {
-    currentTokenAddress: string
+    currentTokenId: string
+    currentTokenAddress: string | null
+    currentNetworkId: NetworkId | null
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    tokenAddress: string
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.max_pressed]: {
-    tokenAddress: string
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.swap_input_pressed]: {
-    tokenAddress: string
     swapToLocalAmount: boolean
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -636,7 +645,7 @@ interface RequestEventsProperties {
         localCurrencyExchangeRate?: string | null
         localCurrency: LocalCurrencyCode
         localCurrencyAmount: string | null
-        underlyingTokenAddress: string
+        underlyingTokenAddress: string | null
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
@@ -1275,6 +1284,14 @@ interface TokenBottomSheetEventsProperties {
   }
 }
 
+export interface TokenProperties {
+  symbol: string
+  address: string | null
+  balanceUsd: number
+  networkId: NetworkId
+  tokenId: string
+}
+
 interface AssetsEventsProperties {
   [AssetsEvents.show_asset_balance_info]: undefined
   [AssetsEvents.view_wallet_assets]: undefined
@@ -1297,16 +1314,16 @@ interface AssetsEventsProperties {
         description: string
         balanceUsd: number
       }
-    | {
+    | ({
         assetType: 'token'
-        address?: string
-        networkId: NetworkId
-        tokenId: string
         title: string // Example: 'cUSD'
         description: string
-        balanceUsd: number
-      }
+      } & TokenProperties)
   [AssetsEvents.tap_claim_rewards]: undefined
+  [AssetsEvents.tap_token_details_action]: {
+    action: TokenDetailsActionName
+  } & TokenProperties
+  [AssetsEvents.tap_token_details_learn_more]: TokenProperties
 }
 
 interface NftsEventsProperties {

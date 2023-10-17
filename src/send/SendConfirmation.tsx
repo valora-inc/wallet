@@ -19,7 +19,7 @@ import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
@@ -38,9 +38,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import { useInputAmountsByAddress } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
-import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -107,7 +107,7 @@ function SendConfirmation(props: Props) {
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
+  const { localAmount, tokenAmount, usdAmount } = useInputAmountsByAddress(
     inputAmount.toString(),
     amountIsInLocalCurrency,
     tokenAddress,
@@ -172,7 +172,7 @@ function SendConfirmation(props: Props) {
           totalFee={totalFeeInUsd}
           showLocalAmount={true}
         />
-        <TokenTotalLineItem
+        <LegacyTokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenAddress={tokenAddress}
           feeToAddInUsd={totalFeeInUsd}

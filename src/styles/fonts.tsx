@@ -81,7 +81,7 @@ export const typeScale = StyleSheet.create({
     lineHeight: 28,
   },
   labelLarge: {
-    fontFamily: Inter.Bold,
+    fontFamily: Inter.Medium,
     fontSize: 18,
     lineHeight: 28,
   },

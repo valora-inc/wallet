@@ -2664,8 +2664,22 @@ export const v157Schema = {
     version: 157,
   },
   app: _.omit(v156Schema.app, 'decentralizedVerificationEnabled'),
+  transactions: {
+    ...v156Schema.transactions,
+    standbyTransactions: [],
+    transactions: [],
+  },
+}
+
+export const v158Schema = {
+  ...v157Schema,
+  _persist: {
+    ...v157Schema._persist,
+    version: 158,
+  },
+  app: _.omit(v157Schema.app, 'decentralizedVerificationEnabled'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v157Schema as Partial<RootState>
+  return v158Schema as Partial<RootState>
 }

@@ -601,6 +601,8 @@ export enum AssetsEvents {
   view_dapp_positions = 'view_dapp_positions',
   tap_asset = 'tap_asset',
   tap_claim_rewards = 'tap_claim_rewards',
+  tap_token_details_action = 'tap_token_details_action',
+  tap_token_details_learn_more = 'tap_token_details_learn_more',
 }
 
 export enum NftEvents {

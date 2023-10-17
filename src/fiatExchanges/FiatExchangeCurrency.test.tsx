@@ -8,6 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Network, NetworkId } from 'src/transactions/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { FiatExchangeFlow } from './utils'
+import { mockCusdTokenId, mockCeurTokenId, mockCeloTokenId, mockEthTokenId } from 'test/values'
 import { getDynamicConfigParams } from 'src/statsig'
 
 jest.mock('src/statsig', () => ({
@@ -44,6 +45,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'cUSD',
+      tokenId: mockCusdTokenId,
       flow: FiatExchangeFlow.CashIn,
       network: Network.Celo,
     })
@@ -61,6 +63,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       currency: 'cEUR',
+      tokenId: mockCeurTokenId,
       flow: FiatExchangeFlow.CashIn,
       network: Network.Celo,
     })
@@ -77,6 +80,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByTestId('radio/CELO'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockCeloTokenId,
       currency: 'CELO',
       flow: FiatExchangeFlow.CashIn,
       network: Network.Celo,
@@ -97,6 +101,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByTestId('radio/ETH'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockEthTokenId,
       currency: 'ETH',
       flow: FiatExchangeFlow.CashIn,
       network: Network.Ethereum,

@@ -103,6 +103,7 @@ export type StackParamList = {
   }
   [Screens.FiatExchangeAmount]: {
     currency: CiCoCurrency
+    tokenId: string
     flow: CICOFlow
     network: Network
   }
@@ -231,8 +232,8 @@ export type StackParamList = {
     | {
         isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
-        forceTokenAddress?: boolean
-        defaultTokenOverride?: string
+        forceTokenId?: boolean
+        defaultTokenIdOverride?: string
       }
     | undefined
   [Screens.SendAmount]: {
@@ -240,8 +241,8 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan: boolean
     origin: SendOrigin
-    forceTokenAddress?: boolean
-    defaultTokenOverride?: string
+    forceTokenId?: boolean
+    defaultTokenIdOverride?: string
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
@@ -261,6 +262,7 @@ export type StackParamList = {
   [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapReviewScreen]: undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.TokenDetails]: { tokenId: string }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }

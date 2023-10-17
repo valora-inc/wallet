@@ -13,12 +13,12 @@ const mockBtcAddress = '0xbtc'
 const mockBtcTokenId = `celo-alfajores:${mockBtcAddress}`
 
 const defaultAmount = new BigNumber(10)
-const defaultTokenAddress = mockCusdAddress
+const defaultTokenId = mockCusdTokenId
 
 describe('TokenTotalLineItem', () => {
   function renderComponent({
     amount = defaultAmount,
-    tokenAddress = defaultTokenAddress,
+    tokenId = defaultTokenId,
     localAmount,
     localCurrencyCode = LocalCurrencyCode.BRL,
     usdToLocalRate = '1.5',
@@ -26,7 +26,7 @@ describe('TokenTotalLineItem', () => {
     hideSign = undefined,
   }: {
     amount?: BigNumber
-    tokenAddress?: string
+    tokenId?: string
     localAmount?: LocalAmount
     localCurrencyCode?: LocalCurrencyCode
     usdToLocalRate?: string
@@ -67,7 +67,7 @@ describe('TokenTotalLineItem', () => {
       >
         <TokenTotalLineItem
           tokenAmount={amount}
-          tokenAddress={tokenAddress}
+          tokenId={tokenId}
           localAmount={localAmount}
           feeToAddInUsd={feeToAddInUsd}
           hideSign={hideSign}
@@ -104,7 +104,7 @@ describe('TokenTotalLineItem', () => {
     it('we show some significant values', () => {
       const { getByTestId } = renderComponent({
         amount: new BigNumber(0.000123456),
-        tokenAddress: mockBtcAddress,
+        tokenId: mockBtcTokenId,
         usdToLocalRate: '1',
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$8.02')

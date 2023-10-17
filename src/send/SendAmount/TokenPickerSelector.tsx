@@ -5,20 +5,22 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import colors from 'src/styles/colors'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 
 interface Props {
-  tokenAddress: string
+  tokenId: string
   onChangeToken: () => void
 }
 
-function TokenPickerSelector({ tokenAddress, onChangeToken }: Props) {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+function TokenPickerSelector({ tokenId, onChangeToken }: Props) {
+  const tokenInfo = useTokenInfo(tokenId)
 
   const onButtonPressed = () => {
     onChangeToken()
     ValoraAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenAddress: tokenAddress,
+      currentTokenId: tokenId,
+      currentNetworkId: tokenInfo?.networkId ?? null,
+      currentTokenAddress: tokenInfo?.address ?? null,
     })
   }
 

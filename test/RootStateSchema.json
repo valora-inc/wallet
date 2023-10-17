@@ -2492,6 +2492,7 @@
                 "SwapReviewScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
+                "TokenDetails",
                 "TransactionDetailsScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
@@ -2719,6 +2720,9 @@
                 "tokenAddress": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/TokenTransferTypeV2"
                 },
@@ -2733,6 +2737,7 @@
                 "networkId",
                 "status",
                 "timestamp",
+                "tokenId",
                 "type",
                 "value"
             ],
@@ -4174,10 +4179,22 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "infoUrl": {
+                    "type": "string"
+                },
+                "isCashInEligible": {
+                    "type": "boolean"
+                },
+                "isCashOutEligible": {
+                    "type": "boolean"
+                },
                 "isCoreToken": {
                     "type": "boolean"
                 },
                 "isNative": {
+                    "type": "boolean"
+                },
+                "isStableCoin": {
                     "type": "boolean"
                 },
                 "isSwappable": {
@@ -4558,11 +4575,15 @@
                 "tokenAddress": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "value": {
                     "$ref": "#/definitions/BigNumber.Value"
                 }
             },
             "required": [
+                "tokenId",
                 "value"
             ],
             "type": "object"

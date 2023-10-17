@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
@@ -23,18 +23,20 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipients/recipient'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
+import { Recipient, filterRecipientFactory, sortRecipients } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
-import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { stablecoinsSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { useTokensForSend } from 'src/tokens/hooks'
+import { stablecoinsSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
@@ -46,8 +48,8 @@ type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
-  const forceTokenAddress = route.params?.forceTokenAddress
-  const defaultTokenOverride = route.params?.defaultTokenOverride
+  const forceTokenId = route.params?.forceTokenId
+  const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
   const { t } = useTranslation()
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
@@ -60,7 +62,7 @@ function Send({ route }: Props) {
   const allRecipients = useSelector(phoneRecipientCacheSelector)
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
 
-  const tokensWithBalance = useSelector(tokensWithTokenBalanceAndAddressSelector)
+  const tokensForSend = useTokensForSend()
   const stableTokens = useSelector(stablecoinsSelector)
 
   const [searchQuery, setSearchQuery] = useState('')
@@ -128,11 +130,11 @@ function Send({ route }: Props) {
 
     // Only show currency picker once we know that the recipient is verified,
     // and only if the user is permitted to change tokens.
-    if (defaultTokenOverride) {
+    if (defaultTokenIdOverride) {
       navigate(Screens.SendAmount, {
         isFromScan: false,
-        defaultTokenOverride,
-        forceTokenAddress,
+        defaultTokenIdOverride,
+        forceTokenId,
         recipient,
         isOutgoingPaymentRequest,
         origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
@@ -160,7 +162,7 @@ function Send({ route }: Props) {
     [isOutgoingPaymentRequest, searchQuery]
   )
 
-  const onTokenSelected = (token: string) => {
+  const onTokenSelected = ({ tokenId }: TokenBalance) => {
     currencyPickerBottomSheetRef.current?.close()
 
     if (!recipient) {
@@ -169,7 +171,7 @@ function Send({ route }: Props) {
 
     navigate(Screens.SendAmount, {
       isFromScan: false,
-      defaultTokenOverride: token,
+      defaultTokenIdOverride: tokenId,
       recipient,
       isOutgoingPaymentRequest,
       origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
@@ -225,7 +227,7 @@ function Send({ route }: Props) {
     return null
   }
 
-  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensWithBalance).sort(
+  const sortedTokens = (isOutgoingPaymentRequest ? stableTokens : tokensForSend).sort(
     sortFirstStableThenCeloThenOthersByUsdBalance
   )
 

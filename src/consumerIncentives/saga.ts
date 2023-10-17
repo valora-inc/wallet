@@ -48,6 +48,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
+import { getTokenId } from 'src/tokens/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
@@ -93,6 +94,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
           status: TransactionStatus.Complete,
           value: reward.amount,
           tokenAddress: reward.tokenAddress,
+          tokenId: getTokenId(networkConfig.defaultNetworkId, reward.tokenAddress),
           comment: '',
           timestamp: Math.floor(Date.now() / 1000),
           address: reward.fundsSource,

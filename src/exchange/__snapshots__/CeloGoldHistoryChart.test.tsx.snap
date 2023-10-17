@@ -4,9 +4,12 @@ exports[`renders properly 1`] = `
 <View
   onTouchStart={[Function]}
   style={
-    {
-      "marginBottom": 24,
-    }
+    [
+      {
+        "marginBottom": 24,
+      },
+      undefined,
+    ]
   }
   testID="SnapshotCeloGoldOverview"
 >
@@ -164,12 +167,16 @@ exports[`renders properly 1`] = `
   </View>
   <View
     style={
-      {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "marginTop": 16,
-        "paddingHorizontal": 16,
-      }
+      [
+        {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginTop": 16,
+        },
+        {
+          "paddingHorizontal": 16,
+        },
+      ]
     }
   >
     <Text
@@ -200,9 +207,12 @@ exports[`renders while update is in progress 1`] = `
 <View
   onTouchStart={[Function]}
   style={
-    {
-      "marginBottom": 24,
-    }
+    [
+      {
+        "marginBottom": 24,
+      },
+      undefined,
+    ]
   }
   testID="SnapshotCeloGoldOverview"
 >
@@ -349,12 +359,16 @@ exports[`renders while update is in progress 1`] = `
   </View>
   <View
     style={
-      {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "marginTop": 16,
-        "paddingHorizontal": 16,
-      }
+      [
+        {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginTop": 16,
+        },
+        {
+          "paddingHorizontal": 16,
+        },
+      ]
     }
   >
     <Text

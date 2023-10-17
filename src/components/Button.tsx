@@ -3,7 +3,7 @@ import React, { ReactNode, useCallback } from 'react'
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
@@ -42,6 +42,7 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
+  fontStyle?: typeof typeScale
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -60,6 +61,7 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
+    fontStyle = fontStyles.regular600,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -103,7 +105,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...fontStyles.regular600,
+                  ...fontStyle,
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
