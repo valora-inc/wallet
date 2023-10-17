@@ -14,7 +14,6 @@ import {
   reclaimEscrowPaymentSuccess,
   storeSentEscrowPayments,
 } from 'src/escrow/actions'
-import { calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { getCurrencyAddress } from 'src/tokens/saga'
@@ -49,16 +48,6 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
   const gas = await estimateGas(tx, txParams)
   Logger.debug(`${TAG}/getReclaimEscrowGas`, `Estimated gas of ${gas.toString()}}`)
   return gas
-}
-
-export async function getReclaimEscrowFee(account: string, paymentID: string) {
-  const gas = await getReclaimEscrowGas(account, paymentID)
-  // TODO: Add support for any allowed fee currency, not just dollar.
-  return calculateFee({
-    gas: gas,
-    feeCurrency: await currencyToFeeCurrency(Currency.Dollar),
-    feeTokenId: 'aaa',
-  })
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
