@@ -163,7 +163,6 @@ export type StackParamList = {
         showZeroBalanceModal?: boolean
       }
     | undefined
-  [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.Invite]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
@@ -183,7 +182,6 @@ export type StackParamList = {
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
-  [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean
