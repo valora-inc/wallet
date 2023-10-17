@@ -13748,16 +13748,16 @@ react-native-permissions@^3.10.0:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.10.0.tgz#946fa7e07908ed90620b3f07eb652f20f482196d"
   integrity sha512-6SB6JInfC0u54Wco8M1QsRoOGThnVjrhaks5IDWyYgwfi6JpXfTIi+F9fZZmRycyyPCgU8vGtht/5gF4VWEB/A==
 
-react-native-persona@^2.2.23:
-  version "2.2.23"
-  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-2.2.23.tgz#a7a4bb524de827b2a8177daaad0ee81074c89752"
-  integrity sha512-DZ/lz63uTVNbLbTNn5Xw/nBX/gQuPIJxzhtzBi+0VyAYKCRPJlnvVLdBCC5RayBgjh8p9/3vOhPM9JN1jxctjg==
+react-native-persona@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-2.6.4.tgz#e7918e3acb2edb2d4421b85274ada4d7a58b1fa2"
+  integrity sha512-nC3J53+80DsKWiH91TigmB/WF8fqFs4uyLLsZ/cWYpHmQ7Ekiasg90Kat6HC0hGBC+Kd6w+xFbNmtPJrd/5b1w==
   dependencies:
     chalk "^4.0.0"
     cli-table "^0.3.1"
     cosmiconfig "^7.0.0"
     inquirer "^7.1.0"
-    minimist "^1.2.5"
+    minimist "^1.2.6"
     object-path "^0.11.8"
     pkg-up "^3.1.0"
     xmlbuilder2 "^3.0.0"
