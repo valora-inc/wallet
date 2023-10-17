@@ -558,7 +558,7 @@ describe('runCentralPhoneVerificationMigration', () => {
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
-  it('should not run if the ODIS pepper for phone number is not cached', async () => {
+  it('should not run if no DEK can be found', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
         [select(dataEncryptionKeySelector), null],
@@ -571,7 +571,7 @@ describe('runCentralPhoneVerificationMigration', () => {
     expect(Logger.warn).toHaveBeenCalled()
   })
 
-  it('should not run if no DEK can be found', async () => {
+  it('should not run if the ODIS pepper for phone number is not cached', async () => {
     await expectSaga(runCentralPhoneVerificationMigration)
       .provide([
         [select(dataEncryptionKeySelector), 'someDEK'],
