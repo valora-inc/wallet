@@ -45,7 +45,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -159,10 +159,19 @@ function SendConfirmation(props: Props) {
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
-  const securityFeeInToken = securityFee?.dividedBy(tokenInfo?.priceUsd ?? 0)
-  const dekFeeInToken = dekFee?.dividedBy(tokenInfo?.priceUsd ?? 0)
-  const totalFeeInToken = totalFeeInUsd?.dividedBy(tokenInfo?.priceUsd ?? 0)
-  const feeCurrency = newSendScreen ? Currency.Dollar : Currency.Dollar // TODO: Need to fix
+  const feeCurrency = newSendScreen
+    ? feeEstimate?.feeInfo?.feeCurrency
+      ? feeEstimate?.feeInfo?.feeCurrency
+      : 'CELO'
+    : undefined
+  const feeTokenInfo = newSendScreen
+    ? feeEstimate?.feeInfo?.feeCurrency
+      ? useTokenInfoByAddress(feeEstimate?.feeInfo?.feeCurrency)
+      : useTokenInfoWithAddressBySymbol('CELO')
+    : tokenInfo
+  const securityFeeInToken = securityFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
 
   const FeeContainer = () => {
     return (
@@ -170,7 +179,7 @@ function SendConfirmation(props: Props) {
         <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
-          currency={feeCurrency}
+          currency={newSendScreen ? feeCurrency : Currency.Dollar}
           securityFee={newSendScreen ? securityFeeInToken : securityFee}
           showDekfee={!isDekRegistered}
           dekFee={newSendScreen ? dekFeeInToken : dekFee}
@@ -184,7 +193,9 @@ function SendConfirmation(props: Props) {
           tokenAmount={tokenAmount}
           tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
-          feeToAddInToken={totalFeeInToken}
+          feeToAddInToken={
+            tokenInfo?.address === feeTokenInfo?.address ? totalFeeInToken : undefined
+          }
           showLocalAmount={newSendScreen ? false : undefined}
           hideSign={newSendScreen ? false : undefined}
           newSendScreen={newSendScreen}
