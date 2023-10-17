@@ -133,7 +133,7 @@ function Send({ route }: Props) {
         defaultTokenIdOverride,
         forceTokenId,
         recipient,
-        origin: SendOrigin.AppSendFlow, // todo remove origin? if this is the only usage
+        origin: SendOrigin.AppSendFlow,
       })
     } else {
       currencyPickerBottomSheetRef.current?.snapToIndex(0)
