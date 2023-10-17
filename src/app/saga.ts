@@ -1,3 +1,6 @@
+import { compressedPubKey } from '@celo/cryptographic-utils'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
+import { hexToBuffer } from '@celo/utils/lib/address'
 import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -5,6 +8,7 @@ import InAppReview from 'react-native-in-app-review'
 import * as Keychain from 'react-native-keychain'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
+import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -19,6 +23,7 @@ import {
   openDeepLink,
   OpenUrlAction,
   SetAppState,
+  phoneNumberVerificationMigrated,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -29,7 +34,9 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
   inAppReviewLastInteractionTimestampSelector,
+  inviterAddressSelector,
   sentryNetworkErrorsSelector,
+  shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import {
   DEFAULT_APP_LANGUAGE,
@@ -55,10 +62,13 @@ import {
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
+import { E164NumberToSaltType } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { Actions as SendActions } from 'src/send/actions'
@@ -79,7 +89,12 @@ import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
-import { walletAddressSelector } from 'src/web3/selectors'
+import networkConfig from 'src/web3/networkConfig'
+import {
+  dataEncryptionKeySelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import {
   all,
   call,
@@ -435,6 +450,96 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
+export function* runCentralPhoneVerificationMigration() {
+  const shouldRunVerificationMigration = yield* select(shouldRunVerificationMigrationSelector)
+  if (!shouldRunVerificationMigration) {
+    return
+  }
+
+  const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
+  if (!privateDataEncryptionKey) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'No data encryption key was found in the store. This should never happen.'
+    )
+    return
+  }
+
+  const address = yield* select(walletAddressSelector)
+  const mtwAddress = yield* select(mtwAddressSelector)
+  const phoneNumber = yield* select(e164NumberSelector)
+  const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+
+  try {
+    const signedMessage = yield* call(retrieveSignedMessage)
+    if (!signedMessage) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No signed message was found for this user. Skipping CPV migration.'
+      )
+      return
+    }
+    if (!phoneNumber) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No phone number was found for this user. Skipping CPV migration.'
+      )
+      return
+    }
+
+    const saltCache: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
+    const cachedSalt = saltCache[phoneNumber]
+    if (!cachedSalt) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No salt was cached for phone number. Skipping CPV migration.'
+      )
+      return
+    }
+
+    Logger.debug(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Starting to run central phone verification migration'
+    )
+
+    const inviterAddress = yield* select(inviterAddressSelector)
+
+    const response = yield* call(fetch, networkConfig.migratePhoneVerificationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${address}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+        publicDataEncryptionKey,
+        phoneNumber,
+        pepper: cachedSalt,
+        phoneHash: getPhoneHash(phoneNumber, cachedSalt),
+        mtwAddress: mtwAddress ?? undefined,
+        inviterAddress: inviterAddress ?? undefined,
+      }),
+    })
+
+    if (response.status === 200) {
+      yield* put(phoneNumberVerificationMigrated())
+      Logger.debug(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'Central phone verification migration completed successfully'
+      )
+    } else {
+      throw new Error(yield* call([response, 'text']))
+    }
+  } catch (error) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Could not complete central phone verification migration',
+      error
+    )
+  }
+}
+
 export function* requestInAppReview() {
   const walletAddress = yield* select(walletAddressSelector)
   // Quick return if no wallet address or the device does not support in app review
@@ -476,6 +581,7 @@ export function* appSaga() {
   yield* spawn(watchDeepLinks)
   yield* spawn(watchOpenUrl)
   yield* spawn(watchAppState)
+  yield* spawn(runCentralPhoneVerificationMigration)
   yield* takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
   yield* spawn(watchAppReview)
 }
