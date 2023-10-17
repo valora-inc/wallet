@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js'
-import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE, TOKEN_MIN_AMOUNT } from 'src/config'
+import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import {
-  swappableTokensSelectorByNetworkId,
+  swappableTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByCurrencySelector,
   tokensByIdSelector,
@@ -22,7 +22,6 @@ import {
   convertTokenToLocalAmount,
   getSupportedNetworkIdsForSend,
   getSupportedNetworkIdsForTokenBalances,
-  isCicoToken,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -87,28 +86,7 @@ export function useSwappableTokens() {
   const networkIdsForSwap = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSwap
-  return useSelector((state) => swappableTokensSelectorByNetworkId(state, networkIdsForSwap))
-}
-
-export function useCashInTokens() {
-  const networkIdsForCico = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
-  const tokens = useSelector((state) => tokensListSelector(state, networkIdsForCico))
-  return tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
-}
-
-export function useCashOutTokens() {
-  const networkIdsForCico = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
-  const tokens = useSelector((state) => tokensListSelector(state, networkIdsForCico))
-  return tokens.filter(
-    (tokenInfo) =>
-      tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
-      tokenInfo.isCashOutEligible &&
-      isCicoToken(tokenInfo.symbol)
-  )
+  return useSelector((state) => swappableTokensByNetworkIdSelector(state, networkIdsForSwap))
 }
 
 export function useTokenInfo(tokenId?: string): TokenBalance | undefined {

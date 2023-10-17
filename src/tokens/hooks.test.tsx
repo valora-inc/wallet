@@ -6,25 +6,16 @@ import { Provider } from 'react-redux'
 import { getDynamicConfigParams } from 'src/statsig'
 import {
   useAmountAsUsdByAddress,
-  useCashInTokens,
-  useCashOutTokens,
   useLocalToTokenAmountByAddress,
-  useSendableTokens,
   useSwappableTokens,
   useTokenPricesAreStale,
   useTokenToLocalAmountByAddress,
+  useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import {
-  mockCeloTokenId,
-  mockCeurTokenId,
-  mockCrealTokenId,
-  mockCusdTokenId,
-  mockPoofTokenId,
-  mockTokenBalances,
-} from 'test/values'
+import { mockCeloTokenId, mockCrealTokenId, mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(() => {
@@ -218,11 +209,11 @@ describe('token to fiat exchanges', () => {
   })
 })
 
-describe('useSendableTokens', () => {
+describe('useTokensForSend', () => {
   it('returns tokens with balance', () => {
     const { getByTestId } = render(
       <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useSendableTokens} />
+        <TokenHookTestComponent hook={useTokensForSend} />
       </Provider>
     )
 
@@ -239,7 +230,7 @@ describe('useSendableTokens', () => {
     })
     const { getByTestId } = render(
       <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useSendableTokens} />
+        <TokenHookTestComponent hook={useTokensForSend} />
       </Provider>
     )
 
@@ -274,66 +265,5 @@ describe('useSwappableTokens', () => {
     )
 
     expect(getByTestId('tokenIDs').props.children).toEqual([ethTokenId, mockCeloTokenId])
-  })
-})
-
-describe('useCashInTokens', () => {
-  it('returns tokens eligible for cash in', () => {
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useCashInTokens} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockCeurTokenId,
-      mockCusdTokenId,
-      mockCeloTokenId,
-      mockCrealTokenId,
-    ])
-  })
-
-  it('returns tokens eligible for cash in for multiple networks', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useCashInTokens} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockCeurTokenId,
-      mockCusdTokenId,
-      mockCeloTokenId,
-      mockCrealTokenId,
-      ethTokenId,
-    ])
-  })
-})
-
-describe('useCashOutTokens', () => {
-  it('returns tokens for eligible for cash out', () => {
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useCashOutTokens} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([mockCeloTokenId])
-  })
-
-  it('returns tokens eligible for cash out for multiple networks', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useCashOutTokens} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([mockCeloTokenId, ethTokenId])
   })
 })
