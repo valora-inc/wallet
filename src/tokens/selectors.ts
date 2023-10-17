@@ -19,7 +19,11 @@ import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
-import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
+import {
+  isCicoToken,
+  sortByUsdBalance,
+  sortFirstStableThenCeloThenOthersByUsdBalance,
+} from './utils'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -353,6 +357,23 @@ export const swappableTokensByNetworkIdSelector = createSelector(
       )
       .sort(tokenCompareByUsdBalanceThenByName)
   }
+)
+
+export const cashInTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) =>
+    tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
+)
+
+export const cashOutTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) =>
+    tokens.filter(
+      (tokenInfo) =>
+        tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
+        tokenInfo.isCashOutEligible &&
+        isCicoToken(tokenInfo.symbol)
+    )
 )
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>

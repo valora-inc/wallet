@@ -32,7 +32,13 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
-import { useSwappableTokens, useTokenInfo, useTokensForSend } from 'src/tokens/hooks'
+import {
+  useCashInTokens,
+  useCashOutTokens,
+  useSwappableTokens,
+  useTokenInfo,
+  useTokensForSend,
+} from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
@@ -132,11 +138,12 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 
 function Actions({ token }: { token: TokenBalance }) {
   const { t } = useTranslation()
-  const tokenHasBalance = token.balance.gt(TOKEN_MIN_AMOUNT)
   const sendableTokens = useTokensForSend()
   const swappableTokens = useSwappableTokens()
+  const cashInTokens = useCashInTokens()
+  const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
-  const showWithdraw = tokenHasBalance && token.isCashOutEligible && isCicoToken(token.symbol)
+  const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
   const onPressCicoAction = (flow: CICOFlow) => {
     const tokenSymbol = token.symbol
@@ -171,8 +178,8 @@ function Actions({ token }: { token: TokenBalance }) {
       },
       visible:
         isSwapEnabled &&
-        tokenHasBalance &&
-        !!swappableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
+        !!swappableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId) &&
+        token.balance.gt(TOKEN_MIN_AMOUNT),
     },
     {
       name: TokenDetailsActionName.Add,
@@ -181,7 +188,7 @@ function Actions({ token }: { token: TokenBalance }) {
       onPress: () => {
         onPressCicoAction(CICOFlow.CashIn)
       },
-      visible: token.isCashInEligible && isCicoToken(token.symbol),
+      visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
       name: TokenDetailsActionName.Withdraw,
