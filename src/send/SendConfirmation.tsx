@@ -159,16 +159,12 @@ function SendConfirmation(props: Props) {
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
-  const feeCurrency = newSendScreen
-    ? feeEstimate?.feeInfo?.feeCurrency
-      ? feeEstimate?.feeInfo?.feeCurrency
-      : 'CELO'
-    : undefined
   const feeTokenInfo = newSendScreen
     ? feeEstimate?.feeInfo?.feeCurrency
       ? useTokenInfoByAddress(feeEstimate?.feeInfo?.feeCurrency)
       : useTokenInfoWithAddressBySymbol('CELO')
     : tokenInfo
+  const feeCurrency = newSendScreen ? feeTokenInfo?.symbol : undefined
   const securityFeeInToken = securityFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
