@@ -31,12 +31,17 @@ const TAG = 'fees/saga'
 export const SWAP_FEE_ESTIMATE_MULTIPLIER = 8
 export const SWAP_CELO_FEE_ESTIMATE_MULTIPLIER = 3 * SWAP_FEE_ESTIMATE_MULTIPLIER
 
-export interface FeeInfo {
+export type FeeInfo = {
   fee: BigNumber
   gas: BigNumber
   gasPrice: BigNumber
-  feeCurrency: string | undefined
-}
+} & (
+  | {
+      feeCurrency: string // actually an address
+      feeTokenId: string // todo make sure this is populated for celo tokens at least (later all tokens)
+    }
+  | { feeCurrency: undefined; feeTokenId: undefined }
+)
 
 // Use default values for fee estimation
 const PLACEHOLDER_ADDRESS = '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
@@ -101,7 +106,7 @@ export function* estimateFeeSaga({
           tokenAddress,
           estimation: {
             usdFee: usdFee.toString(),
-            feeInfo,
+            feeInfo: { ...feeInfo, feeTokenId: tokenInfo.tokenId, feeCurrency: tokenAddress },
             lastUpdated: Date.now(),
             error: false,
             loading: false,
@@ -219,14 +224,32 @@ function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
   return feeInfo.fee.times(tokenInfo.priceUsd).div(1e18)
 }
 
-export async function calculateFee(
-  gas: BigNumber,
-  feeCurrency: string | undefined
-): Promise<FeeInfo> {
+export async function calculateFee({
+  // TODO update consumers (or keep the old version of this if difficult, and make it more DRY with this version)
+  gas,
+  feeTokenId,
+  feeCurrency,
+}: {
+  gas: BigNumber
+} & (
+  | {
+      feeCurrency: string // actually an address
+      feeTokenId: string
+    }
+  | { feeCurrency: undefined; feeTokenId: undefined }
+)): Promise<FeeInfo> {
   const gasPrice = await getGasPrice(feeCurrency)
-  const feeInWei = gas.multipliedBy(gasPrice)
-  Logger.debug(`${TAG}/calculateFee`, `Calculated ${feeCurrency} fee is: ${feeInWei.toString()}`)
-  return { gas, feeCurrency, gasPrice, fee: feeInWei }
+  const fee = gas.multipliedBy(gasPrice)
+  Logger.debug(`${TAG}/calculateFee`, `Calculated ${feeCurrency} fee is: ${fee.toString()}`)
+  return feeCurrency
+    ? { gas, gasPrice, fee, feeCurrency, feeTokenId }
+    : {
+        gas,
+        gasPrice,
+        fee,
+        feeCurrency: undefined,
+        feeTokenId: undefined,
+      }
 }
 
 export async function currencyToFeeCurrency(currency: Currency): Promise<string | undefined> {

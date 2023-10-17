@@ -108,7 +108,7 @@ export async function getSendFee(
       gas = gas.plus(dekGas)
     }
 
-    return calculateFee(gas, await currencyToFeeCurrency(currency))
+    return calculateFee({ gas: gas, feeCurrency: await currencyToFeeCurrency(currency) })
   } catch (error) {
     throw error
   }

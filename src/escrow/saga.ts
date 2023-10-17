@@ -54,7 +54,7 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
 export async function getReclaimEscrowFee(account: string, paymentID: string) {
   const gas = await getReclaimEscrowGas(account, paymentID)
   // TODO: Add support for any allowed fee currency, not just dollar.
-  return calculateFee(gas, await currencyToFeeCurrency(Currency.Dollar))
+  return calculateFee({ gas: gas, feeCurrency: await currencyToFeeCurrency(Currency.Dollar) })
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
