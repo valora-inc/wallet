@@ -502,6 +502,7 @@ export function* runCentralPhoneVerificationMigration() {
       'Starting to run central phone verification migration'
     )
 
+    const phoneHash = yield* call(getPhoneHash, phoneNumber, cachedSalt)
     const inviterAddress = yield* select(inviterAddressSelector)
 
     const response = yield* call(fetch, networkConfig.migratePhoneVerificationUrl, {
@@ -516,7 +517,7 @@ export function* runCentralPhoneVerificationMigration() {
         publicDataEncryptionKey,
         phoneNumber,
         pepper: cachedSalt,
-        phoneHash: getPhoneHash(phoneNumber, cachedSalt),
+        phoneHash,
         mtwAddress: mtwAddress ?? undefined,
         inviterAddress: inviterAddress ?? undefined,
       }),
