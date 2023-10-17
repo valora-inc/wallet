@@ -15,6 +15,7 @@ import { Currency } from 'src/utils/currencies'
 interface Props {
   isEstimate?: boolean
   currency?: Currency
+  symbol?: string
   isExchange?: boolean
   securityFee?: BigNumber
   exchangeFee?: BigNumber
@@ -32,6 +33,7 @@ interface Props {
 export default function FeeDrawer({
   isEstimate,
   currency,
+  symbol,
   isExchange,
   securityFee,
   exchangeFee,
@@ -99,6 +101,7 @@ export default function FeeDrawer({
                   hideCode={!newSendScreen}
                   testID={`${testID}/totalFee`}
                   newSendScreen={newSendScreen}
+                  symbol={symbol}
                 />
               )
             }
@@ -123,6 +126,7 @@ export default function FeeDrawer({
                     hideCode={!newSendScreen}
                     testID={`${testID}/exchangeFee`}
                     newSendScreen={newSendScreen}
+                    symbol={symbol}
                   />
                 )
               }
@@ -142,6 +146,7 @@ export default function FeeDrawer({
                   hideCode={!newSendScreen}
                   testID={`${testID}/dekFee`}
                   newSendScreen={newSendScreen}
+                  symbol={symbol}
                 />
               }
               textStyle={styles.dropDownText}
@@ -161,6 +166,7 @@ export default function FeeDrawer({
                   hideCode={!newSendScreen}
                   testID={`${testID}/securityFee`}
                   newSendScreen={newSendScreen}
+                  symbol={symbol}
                 />
               )
             }

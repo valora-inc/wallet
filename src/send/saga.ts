@@ -35,6 +35,7 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { TokenBalance } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
@@ -50,11 +51,10 @@ import { safely } from 'src/utils/safely'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
-import networkConfig from 'src/web3/networkConfig'
-import { getTokenId } from 'src/tokens/utils'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
@@ -108,7 +108,13 @@ export async function getSendFee(
       gas = gas.plus(dekGas)
     }
 
-    return calculateFee(gas, await currencyToFeeCurrency(currency))
+    const feeCurrency = await currencyToFeeCurrency(currency)
+
+    return calculateFee({
+      gas: gas,
+      feeCurrency: await currencyToFeeCurrency(currency),
+      feeTokenId: 'aaa',
+    })
   } catch (error) {
     throw error
   }

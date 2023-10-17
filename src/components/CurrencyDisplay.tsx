@@ -48,6 +48,7 @@ interface Props {
   currencyInfo?: CurrencyInfo
   testID?: string
   newSendScreen?: boolean
+  symbol?: string
 }
 
 const BIG_SIGN_RATIO = 34 / 48
@@ -133,6 +134,7 @@ export default function CurrencyDisplay({
   currencyInfo,
   testID,
   newSendScreen,
+  symbol,
 }: Props) {
   const { localCurrencyCode, localCurrencyExchangeRate, amountCurrency } = useLocalCurrencyToShow(
     amount,
@@ -162,7 +164,7 @@ export default function CurrencyDisplay({
   const formattedValue =
     value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const includesLowerThanSymbol = formattedValue.startsWith('<')
-  const code = displayAmount?.currencyCode === Currency.Celo ? 'CELO' : displayAmount?.currencyCode
+  const code = symbol ?? displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
   const color = useColors

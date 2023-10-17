@@ -45,10 +45,11 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfoByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
 import { isStablecoin } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
 type OwnProps = NativeStackScreenProps<
@@ -160,11 +161,11 @@ function SendConfirmation(props: Props) {
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
   const feeTokenInfo = newSendScreen
-    ? feeEstimate?.feeInfo?.feeCurrency
-      ? useTokenInfoByAddress(feeEstimate?.feeInfo?.feeCurrency)
-      : useTokenInfoWithAddressBySymbol('CELO')
+    ? feeEstimate?.feeInfo?.feeTokenId
+      ? useTokenInfo(feeEstimate?.feeInfo?.feeTokenId)
+      : useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])
     : tokenInfo
-  const feeCurrency = newSendScreen ? feeTokenInfo?.symbol : undefined
+  const feeSymbol = newSendScreen ? feeTokenInfo?.symbol : undefined
   const securityFeeInToken = securityFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
@@ -175,7 +176,8 @@ function SendConfirmation(props: Props) {
         <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
-          currency={newSendScreen ? feeCurrency : Currency.Dollar}
+          currency={newSendScreen ? undefined : Currency.Dollar}
+          symbol={newSendScreen ? feeSymbol : undefined}
           securityFee={newSendScreen ? securityFeeInToken : securityFee}
           showDekfee={!isDekRegistered}
           dekFee={newSendScreen ? dekFeeInToken : dekFee}
