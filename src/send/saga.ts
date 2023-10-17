@@ -5,7 +5,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { FeeInfo, calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
+import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -49,7 +49,6 @@ import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
-import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { estimateGas } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
@@ -86,30 +85,6 @@ export async function getSendTxGas(
     return gas
   } catch (error) {
     Logger.error(`${TAG}/getSendTxGas`, 'Failed to get send tx gas', error)
-    throw error
-  }
-}
-
-export async function getSendFee(
-  account: string,
-  currency: Currency,
-  params: BasicTokenTransfer,
-  includeDekFee: boolean = false,
-  balance: string
-) {
-  try {
-    if (new BigNumber(params.amount).isGreaterThan(new BigNumber(balance))) {
-      throw new Error(ErrorMessages.INSUFFICIENT_BALANCE)
-    }
-
-    let gas = await getSendTxGas(account, currency, params)
-    if (includeDekFee) {
-      const dekGas = await getRegisterDekTxGas(account, currency)
-      gas = gas.plus(dekGas)
-    }
-
-    return calculateFee(gas, await currencyToFeeCurrency(currency))
-  } catch (error) {
     throw error
   }
 }
