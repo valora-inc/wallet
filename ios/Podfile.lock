@@ -1127,7 +1127,7 @@ SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
   Adjust: cac836ba910f868b38d0350045aaf498f794719a
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
-  boost: a7c83b31436843459a1961bfd74b96033dc77234
+  boost: 57d2868c099736d80fcd648bf211b4431e51a558
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CleverTap-iOS-SDK: 6a38eea6d2f0c336fb142baadcca2cd8aafd2290
   clevertap-react-native: 3acdd0abca15a23e9339e19fa26abf0635ac4bd2
@@ -1177,7 +1177,7 @@ SPEC CHECKSUMS:
   PersonaInquirySDK2: 457b32479a4c9be8acacdad0a490980c07cf11bd
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
-  RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
+  RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 4db5e3e18b906377a502da5b358ff159ba4783ed
   RCTTypeSafety: 6c1a8aed043050de0d537336c95cd1be7b66c272
   React: 214e77358d860a3ed707fede9088e7c00663a087
