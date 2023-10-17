@@ -138,7 +138,7 @@ function SendConfirmation(props: Props) {
     })
   }
 
-  const newSendScreen = true // TODO: set behind feature gate???
+  const newSendScreen = false // TODO: set behind feature gate???
 
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND

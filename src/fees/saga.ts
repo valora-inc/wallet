@@ -202,7 +202,7 @@ function* estimateRegisterDekFee() {
 function* calculateFeeForTx(txo: CeloTxObject<any>, gasMultiplier?: number) {
   const userAddress = yield* call(getWalletAddress)
 
-  const feeCurrencyAndTokenId = yield* call(fetchFeeCurrencySaga)
+  const feeCurrencyAndTokenId = yield* call(fetchFeeCurrencyAndTokenIdSaga)
   const gasNeeded = yield* call(estimateGas, txo, {
     from: userAddress,
     feeCurrency: feeCurrencyAndTokenId?.feeCurrency,
@@ -274,10 +274,15 @@ export async function currencyToFeeCurrency(currency: Currency): Promise<string 
 
 export function* fetchFeeCurrencySaga() {
   const tokens = yield* select(tokensByUsdBalanceSelector)
-  return fetchFeeCurrency(tokens)
+  return fetchFeeCurrencyAndTokenId(tokens)?.feeCurrency
 }
 
-export function fetchFeeCurrency(tokens: TokenBalanceWithAddress[]) {
+export function* fetchFeeCurrencyAndTokenIdSaga() {
+  const tokens = yield* select(tokensByUsdBalanceSelector)
+  return fetchFeeCurrencyAndTokenId(tokens)
+}
+
+export function fetchFeeCurrencyAndTokenId(tokens: TokenBalanceWithAddress[]) {
   for (const token of tokens) {
     if (!token.isCoreToken) {
       continue
