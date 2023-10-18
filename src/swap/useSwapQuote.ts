@@ -4,15 +4,21 @@ import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
+import { STATIC_GAS_PADDING } from 'src/config'
 import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { getGasPrice } from 'src/web3/gas'
+import { publicClient } from 'src/viem'
+import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hex, encodeFunctionData } from 'viem'
+import { Address, EstimateGasExecutionError, Hex, encodeFunctionData } from 'viem'
+
+// Apply a multiplier for the decreased swap amount to account for the
+// varying gas costs of different swap providers (or even the same swap)
+const DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER = 1.2
 
 interface BaseQuoteResult {
   toTokenAddress: string
@@ -33,6 +39,7 @@ export interface QuoteResultNeedDecreaseSwapAmountForGas extends BaseQuoteResult
   type: 'need-decrease-swap-amount-for-gas'
   maxGasCost: BigNumber
   feeCurrency: TokenBalance
+  decreasedSwapAmount: BigNumber
 }
 
 export interface QuoteResultNotEnoughBalanceForGas extends BaseQuoteResult {
@@ -45,7 +52,7 @@ export type QuoteResult =
   | QuoteResultNeedDecreaseSwapAmountForGas
   | QuoteResultNotEnoughBalanceForGas
 
-function createApproveTransaction(
+function createBaseApproveTransaction(
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction
 ) {
@@ -55,7 +62,9 @@ function createApproveTransaction(
     updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
 
   const amountToApprove =
-    amountType === 'buyAmount' ? BigInt(buyAmount) * BigInt(guaranteedPrice) : BigInt(sellAmount)
+    amountType === 'buyAmount'
+      ? BigInt(new BigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0))
+      : BigInt(sellAmount)
 
   const data = encodeFunctionData({
     abi: erc20.abi,
@@ -74,10 +83,10 @@ function createApproveTransaction(
   return approveTx
 }
 
-function createSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) {
+function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) {
   const { from, to, value, data, gas } = unvalidatedSwapTransaction
 
-  const swapTx: TransactionRequestCIP42 = {
+  const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
     from: from as Address,
     to: to as Address,
     value: BigInt(value ? value : 0),
@@ -155,50 +164,88 @@ const useSwapQuote = () => {
       const swapPrice = useGuaranteedPrice
         ? quote.unvalidatedSwapTransaction.guaranteedPrice
         : quote.unvalidatedSwapTransaction.price
+      const price =
+        updatedField === Field.FROM
+          ? swapPrice
+          : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
       const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
       const baseQuoteResult: BaseQuoteResult = {
         toTokenAddress: toToken.address,
         fromTokenAddress: fromToken.address,
         swapAmount: swapAmount[updatedField],
-        price:
-          updatedField === Field.FROM
-            ? swapPrice
-            : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed(),
+        price,
+
         provider: quote.details.swapProvider,
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
       }
 
-      const baseApproveTx = createApproveTransaction(updatedField, quote.unvalidatedSwapTransaction)
-      const baseSwapTx = createSwapTransaction(quote.unvalidatedSwapTransaction)
+      const baseApproveTx = createBaseApproveTransaction(
+        updatedField,
+        quote.unvalidatedSwapTransaction
+      )
+      const baseSwapTx = createBaseSwapTransaction(quote.unvalidatedSwapTransaction)
 
-      let maxGasCosts: Array<[TokenBalance, BigNumber]> = []
+      const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
       for (const feeCurrency of feeCurrencies) {
-        // TODO: this is Celo specific, make it generic
-        const gasPrice = BigInt((await getGasPrice(feeCurrency.address ?? undefined)).toFixed())
+        if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
+          // No balance, try next fee currency
+          continue
+        }
+
+        const feeCurrencyAddress = !feeCurrency.isNative
+          ? (feeCurrency.address as Address)
+          : undefined
+
+        const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
+          publicClient.celo,
+          feeCurrencyAddress
+        )
 
         const approveTx = {
           ...baseApproveTx,
-          maxFeePerGas: gasPrice,
-          feeCurrency: !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined,
-          // We could estimate this ourselves,
-          // but for now we'll just use the value from the quote
-          gas: BigInt(quote.approveTransaction.gas),
+          maxFeePerGas,
+          maxPriorityFeePerGas,
+          feeCurrency: feeCurrencyAddress,
+        }
+
+        // TODO maybe cache this? and add static padding when using non-native fee currency
+        try {
+          const approveGas = await publicClient.celo.estimateGas({
+            ...approveTx,
+            account: approveTx.from,
+          })
+          approveTx.gas = approveGas
+        } catch (e) {
+          if (e instanceof EstimateGasExecutionError) {
+            // Likely too much gas was needed
+            Logger.warn(
+              'SwapScreen@useSwapQuote',
+              `Couldn't estimate gas for approval with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
+              e
+            )
+            continue
+          }
+          throw e
         }
 
         const swapTx = {
           ...baseSwapTx,
-          maxFeePerGas: gasPrice,
-          feeCurrency: !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined,
+          maxFeePerGas,
+          maxPriorityFeePerGas,
+          feeCurrency: feeCurrencyAddress,
+          // We assume the provided gas value is with the native fee currency
+          // If it's not, we add the static padding
+          gas: !feeCurrency.isNative ? baseSwapTx.gas + BigInt(STATIC_GAS_PADDING) : baseSwapTx.gas,
         }
 
         const maxGasCost = getMaxGasCost([approveTx, swapTx])
         const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
           -feeCurrency.decimals
         )
-        maxGasCosts.push([feeCurrency, maxGasCostInDecimal])
-        if (maxGasCostInDecimal.gt(feeCurrency.balance)) {
+        maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
+        if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
           // Not enough balance to pay for gas, try next fee currency
           continue
         }
@@ -208,7 +255,7 @@ const useSwapQuote = () => {
         )
         if (
           fromToken.tokenId === feeCurrency.tokenId &&
-          fromAmount.plus(maxGasCostInDecimal).gt(fromToken.balance)
+          fromAmount.plus(maxGasCostInDecimal).isGreaterThan(fromToken.balance)
         ) {
           // Not enough balance to pay for gas, try next fee currency
           continue
@@ -225,8 +272,10 @@ const useSwapQuote = () => {
 
       // So far not enough balance to pay for gas
       // let's see if we can decrease the swap from amount
-      const result = maxGasCosts.find(([feeCurrency]) => feeCurrency.tokenId === fromToken.tokenId)
-      if (!result || result[1].gt(result[0].balance)) {
+      const result = maxGasCosts.find(
+        ({ feeCurrency }) => feeCurrency.tokenId === fromToken.tokenId
+      )
+      if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
         // Can't decrease the swap from amount
         return {
           ...baseQuoteResult,
@@ -237,14 +286,21 @@ const useSwapQuote = () => {
 
       // We can decrease the swap from amount to pay for gas,
       // We'll ask the user if they want to proceed
+      const adjustedMaxGasCost = result.maxGasCostInDecimal.times(
+        DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER
+      )
+      const maxFromAmount = fromToken.balance.minus(adjustedMaxGasCost)
+      const maxToAmount = maxFromAmount.times(price)
       return {
         ...baseQuoteResult,
         type: 'need-decrease-swap-amount-for-gas',
-        maxGasCost: result[1],
-        feeCurrency: result[0],
+        maxGasCost: adjustedMaxGasCost,
+        feeCurrency: result.feeCurrency,
+        decreasedSwapAmount: updatedField === Field.FROM ? maxFromAmount : maxToAmount,
       } satisfies QuoteResultNeedDecreaseSwapAmountForGas
     },
     {
+      onSuccess: (updatedExchangeRate: QuoteResult | null) => {
         setExchangeRate(updatedExchangeRate)
       },
       onError: (error: Error) => {

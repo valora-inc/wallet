@@ -20,7 +20,7 @@ export default function QuoteResultReviewBottomSheet({
 }: {
   forwardedRef: React.RefObject<BottomSheetRefType>
   quote: QuoteResult
-  onAcceptDecreaseSwapAmountForGas: () => void
+  onAcceptDecreaseSwapAmountForGas: (quote: QuoteResultNeedDecreaseSwapAmountForGas) => void
 }) {
   const quoteType = quote.type
   switch (quoteType) {
@@ -52,7 +52,7 @@ function QuoteResultNeedDecreaseSwapAmountForGasBottomSheet({
 }: {
   forwardedRef: React.RefObject<BottomSheetRefType>
   quote: QuoteResultNeedDecreaseSwapAmountForGas
-  onAcceptDecreaseSwapAmountForGas: () => void
+  onAcceptDecreaseSwapAmountForGas: (quote: QuoteResultNeedDecreaseSwapAmountForGas) => void
 }) {
   const { t } = useTranslation()
 
@@ -72,7 +72,7 @@ function QuoteResultNeedDecreaseSwapAmountForGasBottomSheet({
       </View>
       <Button
         text={t('swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton', { tokenSymbol })}
-        onPress={onAcceptDecreaseSwapAmountForGas}
+        onPress={() => onAcceptDecreaseSwapAmountForGas(quote)}
         size={BtnSizes.FULL}
         type={BtnTypes.PRIMARY}
         testID="QuoteResultNeedDecreaseSwapAmountForGasBottomSheet/PrimaryAction"

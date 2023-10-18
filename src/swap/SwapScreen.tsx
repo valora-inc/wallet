@@ -220,6 +220,7 @@ export function SwapScreen({ route }: Props) {
         setFromSwapAmountError(true)
         showMaxCeloSwapWarning()
         dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
+        return
       }
 
       const quoteResultType = exchangeRate.type
@@ -480,8 +481,9 @@ export function SwapScreen({ route }: Props) {
         <QuoteResultReviewBottomSheet
           forwardedRef={quoteResultReviewBottomSheetRef}
           quote={exchangeRate}
-          onAcceptDecreaseSwapAmountForGas={() => {
-            // TODO
+          onAcceptDecreaseSwapAmountForGas={({ decreasedSwapAmount }) => {
+            handleChangeAmount(updatedField)(decreasedSwapAmount.toString())
+            quoteResultReviewBottomSheetRef.current?.close()
           }}
         />
       )}
