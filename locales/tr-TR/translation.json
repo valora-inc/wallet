@@ -52,11 +52,6 @@
     "body": "Artık bu cihazdan fonlarınıza veya Kurtarma Kelimelerinize erişemeyeceksiniz. Kurtarma Kelimelerinizi kaydetmediyseniz kurtarmanın bir yolu bulunmamaktadır.",
     "resetNow": "Resetle"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Telefon numaranızın bağlantısını kesmek istediğinizden emin misiniz?",
-    "body": "Bağlantı kesildiğinde, telefon numaranızı bu cüzdana tekrar bağlayamazsınız.",
-    "revoke": "Bağlantıyı kes"
-  },
   "protectWallet": {
     "title": "Cüzdanınızı Koruyun",
     "subtitle": "Cüzdanınızı koruyun",
@@ -529,9 +524,6 @@
   },
   "message": "Mesaj",
   "addressLookupFailure": "Telefon numarası adresi araması başarısız",
-  "saltFetchFailure": "Telefon numarası kodu alınamadı",
-  "saltQuotaExceededError": "Telefon numarası adresi araması kotanız doldu",
-  "odisInsufficientBalance": "Lütfen numaranızı bağlayın",
   "ordinals": [
     "sıfırıncı",
     "birinci",
