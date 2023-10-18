@@ -10,7 +10,6 @@ import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { HomeActionName } from 'src/home/types'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsReceive from 'src/icons/quick-actions/Receive'
-import QuickActionsRequest from 'src/icons/quick-actions/Request'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
@@ -62,14 +61,6 @@ function ActionsCarousel() {
         navigate(Screens.SwapScreenWithBack)
       },
       hidden: !shouldShowSwapAction,
-    },
-    {
-      name: HomeActionName.Request,
-      title: t('homeActions.request'),
-      icon: <QuickActionsRequest color={Colors.onboardingGreen} />,
-      onPress: () => {
-        navigate(Screens.Send, { isOutgoingPaymentRequest: true })
-      },
     },
     {
       name: HomeActionName.Withdraw,

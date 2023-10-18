@@ -26,20 +26,13 @@ export const validateRecipientIntroScreenNavOptions = () => ({
 
 const ValidateRecipientIntro = ({ route }: Props) => {
   const { t } = useTranslation()
-  const {
-    addressValidationType,
-    transactionData,
-    isOutgoingPaymentRequest,
-    requesterAddress,
-    origin,
-  } = route.params
+  const { addressValidationType, transactionData, requesterAddress, origin } = route.params
   const onPressScanCode = () => {
     navigate(Screens.QRNavigator, {
       screen: Screens.QRScanner,
       params: {
         transactionData,
         scanIsForSecureSend: true,
-        isOutgoingPaymentRequest,
         requesterAddress,
       },
     })
@@ -51,7 +44,6 @@ const ValidateRecipientIntro = ({ route }: Props) => {
     navigate(Screens.ValidateRecipientAccount, {
       transactionData,
       addressValidationType,
-      isOutgoingPaymentRequest,
       requesterAddress,
       origin,
     })

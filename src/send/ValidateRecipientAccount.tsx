@@ -17,7 +17,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Modal from 'src/components/Modal'
 import { SingleDigitInput } from 'src/components/SingleDigitInput'
 import TextButton from 'src/components/TextButton'
-import i18n, { withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import HamburgerCard from 'src/icons/HamburgerCard'
 import InfoIcon from 'src/icons/InfoIcon'
 import { validateRecipientAddress, validateRecipientAddressReset } from 'src/identity/actions'
@@ -31,7 +31,6 @@ import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import Logger from 'src/utils/Logger'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
 const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
@@ -41,7 +40,6 @@ interface StateProps {
   transactionData: TransactionDataInput
   addressValidationType: AddressValidationType
   validationSuccessful: boolean
-  isOutgoingPaymentRequest?: true
   error?: ErrorMessages | null
 }
 
@@ -79,7 +77,6 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
     recipient,
     transactionData,
     validationSuccessful,
-    isOutgoingPaymentRequest: route.params.isOutgoingPaymentRequest,
     addressValidationType: route.params.addressValidationType,
     error,
   }
@@ -90,24 +87,12 @@ export const validateRecipientAccountScreenNavOptions = () => ({
   headerLeft: () => <BackButton eventName={SendEvents.send_secure_back} />,
 })
 
-function navigateToConfirmationScreen(
-  transactionData: TransactionDataInput,
-  isOutgoingPaymentRequest: boolean,
-  origin: SendOrigin
-) {
-  if (isOutgoingPaymentRequest) {
-    Logger.showMessage(i18n.t('addressConfirmed'))
-    navigate(Screens.PaymentRequestConfirmation, {
-      transactionData,
-      isFromScan: false,
-    })
-  } else {
-    navigate(Screens.SendConfirmation, {
-      transactionData,
-      origin,
-      isFromScan: false,
-    })
-  }
+function navigateToConfirmationScreen(transactionData: TransactionDataInput, origin: SendOrigin) {
+  navigate(Screens.SendConfirmation, {
+    transactionData,
+    origin,
+    isFromScan: false,
+  })
 }
 
 export class ValidateRecipientAccount extends React.Component<Props, State> {
@@ -126,15 +111,11 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   componentDidUpdate = (prevProps: Props) => {
-    const { validationSuccessful, isOutgoingPaymentRequest, transactionData, route } = this.props
+    const { validationSuccessful, transactionData, route } = this.props
     const { singleDigitInputValueArr } = this.state
 
     if (validationSuccessful && prevProps.validationSuccessful === false) {
-      navigateToConfirmationScreen(
-        transactionData,
-        isOutgoingPaymentRequest ?? false,
-        route.params.origin
-      )
+      navigateToConfirmationScreen(transactionData, route.params.origin)
     }
 
     // If the user has entered 4 valid digits, dismiss the keyboard
