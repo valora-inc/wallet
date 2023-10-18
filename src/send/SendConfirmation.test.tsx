@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { act, fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
@@ -42,14 +41,8 @@ import {
 } from 'test/values'
 import { NetworkId } from 'src/transactions/types'
 
-const mockDekFeeGas = new BigNumber(100000)
-
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
-
-jest.mock('src/web3/dataEncryptionKey', () => ({
-  getRegisterDekTxGas: () => mockDekFeeGas,
-}))
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')

@@ -8,7 +8,6 @@ import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/
 import { createReclaimTransaction } from 'src/escrow/saga'
 import { FeeType, estimateFee, feeEstimated } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
-import { getCurrencyAddress } from 'src/tokens/saga'
 import {
   celoAddressSelector,
   coreTokensSelector,
@@ -17,7 +16,6 @@ import {
 } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress, TokenBalancesWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
@@ -262,13 +260,6 @@ export async function calculateFee({
         feeCurrency: undefined,
         feeTokenId: undefined,
       }
-}
-
-export async function currencyToFeeCurrency(currency: Currency): Promise<string | undefined> {
-  if (currency === Currency.Celo) {
-    return undefined
-  }
-  return getCurrencyAddress(currency)
 }
 
 export function* fetchFeeCurrencySaga() {
