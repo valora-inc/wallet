@@ -21,18 +21,6 @@ export interface Scalars {
   Upload: any
 }
 
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE',
-}
-
-export type Event = Transfer
-
-export interface ExchangeRate {
-  __typename?: 'ExchangeRate'
-  rate: Scalars['Decimal']
-}
-
 export interface LocalMoneyAmount {
   __typename?: 'LocalMoneyAmount'
   value: Scalars['Decimal']
@@ -47,120 +35,6 @@ export interface MoneyAmount {
   localAmount?: Maybe<LocalMoneyAmount>
 }
 
-export interface PageInfo {
-  __typename?: 'PageInfo'
-  hasPreviousPage: Scalars['Boolean']
-  hasNextPage: Scalars['Boolean']
-  firstCursor?: Maybe<Scalars['String']>
-  lastCursor?: Maybe<Scalars['String']>
-}
-
-export interface Query {
-  __typename?: 'Query'
-  events?: Maybe<Array<Maybe<Event>>>
-  rewards?: Maybe<Array<Maybe<Transfer>>>
-  tokenTransactions?: Maybe<TokenTransactionConnection>
-  currencyConversion?: Maybe<ExchangeRate>
-}
-
-export interface QueryEventsArgs {
-  address: Scalars['String']
-  sort?: Maybe<Scalars['String']>
-  startblock?: Maybe<Scalars['Int']>
-  endblock?: Maybe<Scalars['Int']>
-  page?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export interface QueryRewardsArgs {
-  address: Scalars['String']
-  sort?: Maybe<Scalars['String']>
-  startblock?: Maybe<Scalars['Int']>
-  endblock?: Maybe<Scalars['Int']>
-  page?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export interface QueryTokenTransactionsArgs {
-  address: Scalars['Address']
-  token: Token
-  localCurrencyCode?: Maybe<Scalars['String']>
-  before?: Maybe<Scalars['String']>
-  last?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  first?: Maybe<Scalars['Int']>
-}
-
-export interface QueryCurrencyConversionArgs {
-  sourceCurrencyCode?: Maybe<Scalars['String']>
-  currencyCode: Scalars['String']
-  timestamp?: Maybe<Scalars['Timestamp']>
-}
-
-export enum Token {
-  CUsd = 'cUSD',
-  CGld = 'cGLD',
-}
-
-export interface TokenTransaction {
-  type: TokenTransactionType
-  timestamp: Scalars['Timestamp']
-  block: Scalars['String']
-  amount: MoneyAmount
-  hash: Scalars['String']
-}
-
-export interface TokenTransactionConnection {
-  __typename?: 'TokenTransactionConnection'
-  edges: TokenTransactionEdge[]
-  pageInfo: PageInfo
-}
-
-export interface TokenTransactionEdge {
-  __typename?: 'TokenTransactionEdge'
-  node?: Maybe<TokenTransaction>
-  cursor: Scalars['String']
-}
-
-export enum TokenTransactionType {
-  Received = 'RECEIVED',
-  Sent = 'SENT',
-  EscrowSent = 'ESCROW_SENT',
-  EscrowReceived = 'ESCROW_RECEIVED',
-  Faucet = 'FAUCET',
-  VerificationReward = 'VERIFICATION_REWARD',
-  VerificationFee = 'VERIFICATION_FEE',
-  InviteSent = 'INVITE_SENT',
-  InviteReceived = 'INVITE_RECEIVED',
-  PayRequest = 'PAY_REQUEST',
-  PayPrefill = 'PAY_PREFILL',
-  NetworkFee = 'NETWORK_FEE',
-}
-
-export type TokenTransfer = TokenTransaction & {
-  __typename?: 'TokenTransfer'
-  type: TokenTransactionType
-  timestamp: Scalars['Timestamp']
-  block: Scalars['String']
-  amount: MoneyAmount
-  address: Scalars['Address']
-  comment?: Maybe<Scalars['String']>
-  token: Token
-  hash: Scalars['String']
-}
-
-export interface Transfer {
-  __typename?: 'Transfer'
-  type: Scalars['String']
-  timestamp: Scalars['Float']
-  block: Scalars['Int']
-  value: Scalars['Float']
-  address: Scalars['String']
-  comment?: Maybe<Scalars['String']>
-  symbol: Scalars['String']
-  hash: Scalars['String']
-}
-
 export interface ExchangeRateQueryVariables {
   currencyCode: Scalars['String']
   sourceCurrencyCode?: Maybe<Scalars['String']>
@@ -169,52 +43,6 @@ export interface ExchangeRateQueryVariables {
 export interface ExchangeRateQuery {
   __typename?: 'Query'
   currencyConversion: Maybe<{ __typename?: 'ExchangeRate'; rate: BigNumber.Value }>
-}
-
-type TransactionFeed_TokenTransfer_Fragment = {
-  __typename?: 'TokenTransfer'
-} & TransferItemFragment
-
-export type TransactionFeedFragment = TransactionFeed_TokenTransfer_Fragment
-
-export interface UserTransactionsQueryVariables {
-  address: Scalars['Address']
-  token: Token
-  localCurrencyCode?: Maybe<Scalars['String']>
-}
-
-export interface UserTransactionsQuery {
-  __typename?: 'Query'
-  tokenTransactions: Maybe<{
-    __typename?: 'TokenTransactionConnection'
-    edges: Array<{
-      __typename?: 'TokenTransactionEdge'
-      node: Maybe<{ __typename?: 'TokenTransfer' } & TransactionFeed_TokenTransfer_Fragment>
-    }>
-  }>
-}
-
-export interface TransferItemFragment {
-  __typename: 'TokenTransfer'
-  type: TokenTransactionType
-  hash: string
-  timestamp: number
-  address: string // wallet address (EOA)
-  account: string // account address (MTW)
-  comment: Maybe<string>
-  amount: {
-    __typename?: 'MoneyAmount'
-    value: BigNumber.Value
-    currencyCode: string
-    localAmount: Maybe<{
-      __typename?: 'LocalMoneyAmount'
-      value: BigNumber.Value
-      currencyCode: string
-      exchangeRate: BigNumber.Value
-    }>
-  }
-  defaultName: Maybe<string>
-  defaultImage: Maybe<string>
 }
 
 export interface IntrospectionResultData {
