@@ -1,10 +1,6 @@
 import { CeloTxReceipt } from '@celo/connect'
-import { SendOrigin } from 'src/analytics/types'
 import { TransactionFeedFragment } from 'src/apollo/types'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
 import { InviteTransactions } from 'src/transactions/reducer'
 import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 
@@ -150,14 +146,3 @@ export const updateInviteTransactions = (
   type: Actions.UPDATE_INVITE_TRANSACTIONS,
   inviteTransactions,
 })
-
-export const navigateToRequestedPaymentReview = (
-  transactionData: TransactionDataInput,
-  isFromScan: boolean
-) => {
-  navigate(Screens.SendConfirmation, {
-    transactionData,
-    origin: SendOrigin.AppRequestFlow,
-    isFromScan,
-  })
-}

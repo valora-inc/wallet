@@ -94,7 +94,6 @@ function SendConfirmation(props: Props) {
       amountIsInLocalCurrency,
       tokenAddress,
       comment: commentFromParams,
-      paymentRequestId,
     },
   } = props.route.params
 
@@ -229,8 +228,7 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         feeEstimate.feeInfo,
-        fromModal,
-        paymentRequestId
+        fromModal
       )
     )
   }

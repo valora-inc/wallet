@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 159,
+          "version": 160,
         },
         "account": {
           "acceptedTerms": false,
@@ -291,10 +291,6 @@ describe('store state', () => {
           "nfts": [],
           "nftsError": null,
           "nftsLoading": false,
-        },
-        "paymentRequest": {
-          "incomingPaymentRequests": [],
-          "outgoingPaymentRequests": [],
         },
         "positions": {
           "positions": [],
