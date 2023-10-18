@@ -8,7 +8,6 @@ import { executeShortcutSuccess } from 'src/positions/slice'
 import { withTimeout } from 'src/redux/sagas-helpers'
 import { shouldUpdateBalance } from 'src/redux/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getConnectedAccount } from 'src/web3/saga'
@@ -74,10 +73,6 @@ export function* watchRefreshBalances() {
   yield* takeLeading(
     [Actions.REFRESH_BALANCES, executeShortcutSuccess.type],
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
-  )
-  yield* takeLeading(
-    TransactionActions.NEW_TRANSACTIONS_IN_FEED,
-    safely(withTimeout(REFRESH_TIMEOUT, refreshBalances))
   )
 }
 
