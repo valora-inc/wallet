@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { act, fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
