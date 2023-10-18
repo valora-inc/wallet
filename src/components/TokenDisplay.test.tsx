@@ -6,8 +6,8 @@ import { Provider } from 'react-redux'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { NetworkId } from 'src/transactions/types'
+import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -225,6 +225,21 @@ describe('TokenDisplay', () => {
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('R$1.00')
+    })
+
+    it('shows approx sign if set', () => {
+      const { getByTestId } = render(
+        <Provider store={store()}>
+          <TokenDisplay
+            showLocalAmount={false}
+            amount={10}
+            tokenId={'celo-alfajores:0xusd'}
+            showApprox={true}
+            testID="test"
+          />
+        </Provider>
+      )
+      expect(getElementText(getByTestId('test'))).toEqual('~10.00 cUSD')
     })
   })
 })
