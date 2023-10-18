@@ -2,38 +2,20 @@
 // Use these instead of the functions in @celo/utils/lib/commentEncryption
 // because these manage comment metadata
 
-import { Address } from '@celo/base'
-import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import {
   decryptComment as decryptCommentRaw,
   encryptComment as encryptCommentRaw,
 } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
-import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
+import { hexToBuffer } from '@celo/utils/lib/address'
 import { memoize, values } from 'lodash'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
-import { updateE164PhoneNumberAddresses, updateE164PhoneNumberSalts } from 'src/identity/actions'
-import {
-  filterNonVerifiedAddresses,
-  lookupAccountAddressesForIdentifier,
-} from 'src/identity/contactMapping'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
-import {
-  AddressToE164NumberType,
-  E164NumberToAddressType,
-  E164NumberToSaltType,
-} from 'src/identity/reducer'
-import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
-import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
-import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
-import { dataEncryptionKeySelector } from 'src/web3/selectors'
-import { all, call, put, select } from 'typed-redux-saga'
+import { call } from 'typed-redux-saga'
 
 const TAG = 'identity/commentKey'
 // A separator to split the comment content from the metadata
@@ -157,159 +139,4 @@ export function extractPhoneNumberMetadata(commentData: string) {
     e164Number: phoneNumMetadata[2],
     salt: phoneNumMetadata[3],
   }
-}
-
-interface IdentityMetadataInTx {
-  address: string
-  e164Number: string
-  salt: string
-  phoneHash?: string
-}
-
-// Check tx comments (if they exist) for identity metadata like phone numbers and salts
-export function* checkTxsForIdentityMetadata({ transactions }: NewTransactionsInFeedAction) {
-  try {
-    if (!transactions || !transactions.length) {
-      return
-    }
-    Logger.debug(TAG + 'checkTxsForIdentityMetadata', `Checking ${transactions.length} txs`)
-
-    const dataEncryptionKey: string | null = yield* select(dataEncryptionKeySelector)
-    if (!dataEncryptionKey) {
-      Logger.error(TAG + 'checkTxsForIdentityMetadata', 'Missing DEK, should never happen.')
-      return
-    }
-
-    const newIdentityData = findIdentityMetadataInComments(transactions, dataEncryptionKey)
-
-    // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
-    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
-    const verifiedMetadata = (yield* call(
-      verifyIdentityMetadata,
-      newIdentityData
-    )) as unknown as IdentityMetadataInTx[]
-    yield* call(updatePhoneNumberMappings, verifiedMetadata)
-    Logger.debug(TAG + 'checkTxsForIdentityMetadata', 'Done checking txs')
-  } catch (error) {
-    Logger.error(TAG + 'checkTxsForIdentityMetadata', 'Error checking metadata', error)
-    // Allowing error to be swallowed for now. Impact is just that tx may not be labelled with full contact info
-  }
-}
-
-// Check all transaction comments for metadata
-function findIdentityMetadataInComments(
-  transactions: TransactionFeedFragment[],
-  dataEncryptionKey: string
-) {
-  const newIdentityData: IdentityMetadataInTx[] = []
-  for (const tx of transactions) {
-    if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
-      continue
-    }
-    const { e164Number, salt } = decryptComment(tx.comment, dataEncryptionKey, false)
-    if (!e164Number || !salt) {
-      continue
-    }
-    Logger.debug(TAG + 'checkTxsForIdentityMetadata', `Found metadata in tx hash ${tx.hash}`)
-    newIdentityData.push({
-      address: tx.address,
-      e164Number,
-      salt,
-    })
-  }
-  return newIdentityData
-}
-
-// Verify the metadata claims (they could be spoofed)
-// Returns set of metadata objects with invalid ones filtered out
-function* verifyIdentityMetadata(data: IdentityMetadataInTx[]) {
-  // This function looks a bit convoluted because:
-  // 1. Data could have dupes in it
-  // 2. Some duped phone hashes could be true, others false
-  // 3. And a given phoneHash could legitimately have multiple addresses
-
-  const contractKit = yield* call(getContractKit)
-  const accountsWrapper: AccountsWrapper = yield* call([
-    contractKit.contracts,
-    contractKit.contracts.getAccounts,
-  ])
-
-  if (!data || !data.length) {
-    return []
-  }
-
-  const verifiedTx = []
-  for (const metadata of data) {
-    const phoneHash = getPhoneHash(metadata.e164Number, metadata.salt)
-    metadata.phoneHash = phoneHash
-    const accountAddresses: Address[] = yield* call(lookupAccountAddressesForIdentifier, phoneHash)
-
-    // Check that there are verified addresses.
-    const verifiedAccountAddresses: Address[] = yield* call(
-      filterNonVerifiedAddresses,
-      accountAddresses,
-      phoneHash
-    )
-    if (verifiedAccountAddresses.length === 0) {
-      Logger.warn(
-        TAG + 'verifyIdentityMetadata',
-        `Phone number and/or salt claimed by address ${metadata.address} is not verified. Values are incorrect or sender is impersonating another number`
-      )
-      continue
-    }
-    const walletAddresses: Address[] = yield* all(
-      verifiedAccountAddresses.map((accountAddress) =>
-        call(accountsWrapper.getWalletAddress, accountAddress)
-      )
-    )
-    if (!walletAddresses.some((walletAddress) => eqAddress(walletAddress, metadata.address))) {
-      Logger.warn(
-        TAG + 'verifyIdentityMetadata',
-        `Phone number and/or salt claimed by address ${metadata.address} does not match any on-chain addresses. Values are incorrect or sender is impersonating another number`
-      )
-      continue
-    }
-
-    verifiedTx.push(metadata)
-  }
-
-  return verifiedTx
-}
-
-// Dispatch updates to store with the new information
-function* updatePhoneNumberMappings(newIdentityData: IdentityMetadataInTx[]) {
-  if (!newIdentityData || !newIdentityData.length) {
-    return
-  }
-
-  const e164NumberToSalt: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
-  const e164NumberToAddress: E164NumberToAddressType = yield* select(e164NumberToAddressSelector)
-
-  const e164NumberToAddressUpdates: E164NumberToAddressType = {}
-  const addressToE164NumberUpdates: AddressToE164NumberType = {}
-  const e164NumberToSaltUpdates: E164NumberToSaltType = {}
-
-  for (const data of newIdentityData) {
-    const { address, e164Number, salt } = data
-
-    // Verify salt is correct
-    const existingSalt = e164NumberToSalt[e164Number]
-    if (existingSalt && salt !== existingSalt) {
-      Logger.warn(
-        TAG + 'updatePhoneNumberMappings',
-        `Salt claimed by address ${address} does not match cached salt. This should never happen. Sender may be attempting to impersonate another number`
-      )
-      continue
-    }
-    e164NumberToSaltUpdates[e164Number] = salt
-
-    // Merge new address in with old ones, create set to avoid duplicates
-    const addressSet = new Set<string>(e164NumberToAddress[e164Number])
-    addressSet.add(address)
-    e164NumberToAddressUpdates[e164Number] = Array.from(addressSet)
-    addressToE164NumberUpdates[address] = e164Number
-  }
-
-  yield* put(updateE164PhoneNumberSalts(e164NumberToSaltUpdates))
-  yield* put(updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates))
 }

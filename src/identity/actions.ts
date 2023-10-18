@@ -5,7 +5,6 @@ import {
   AddressToE164NumberType,
   AddressValidationType,
   E164NumberToAddressType,
-  E164NumberToSaltType,
   WalletToAccountAddressType,
 } from 'src/identity/reducer'
 import { ImportContactsStatus } from 'src/identity/types'
@@ -15,7 +14,6 @@ export enum Actions {
   SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
   UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
-  UPDATE_E164_PHONE_NUMBER_SALT = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_SALT',
   UPDATE_KNOWN_ADDRESSES = 'IDENTITY/UPDATE_KNOWN_ADDRESSES',
   FETCH_ADDRESSES_AND_VALIDATION_STATUS = 'IDENTITY/FETCH_ADDRESSES_AND_VALIDATION_STATUS',
   END_FETCHING_ADDRESSES = 'IDENTITY/END_FETCHING_ADDRESSES',
@@ -46,11 +44,6 @@ export interface UpdateE164PhoneNumberAddressesAction {
 export interface UpdateWalletToAccountAddressAction {
   type: Actions.UPDATE_WALLET_TO_ACCOUNT_ADDRESS
   walletToAccountAddress: WalletToAccountAddressType
-}
-
-export interface UpdateE164PhoneNumberSaltAction {
-  type: Actions.UPDATE_E164_PHONE_NUMBER_SALT
-  e164NumberToSalt: E164NumberToSaltType
 }
 
 export interface UpdateKnownAddressesAction {
@@ -134,7 +127,6 @@ export type ActionTypes =
   | SetHasSeenVerificationNux
   | UpdateE164PhoneNumberAddressesAction
   | UpdateWalletToAccountAddressAction
-  | UpdateE164PhoneNumberSaltAction
   | UpdateKnownAddressesAction
   | ImportContactsAction
   | UpdateImportContactProgress
@@ -198,13 +190,6 @@ export const updateWalletToAccountAddress = (
     walletToAccountAddress: newWalletToAccountAddresses,
   }
 }
-
-export const updateE164PhoneNumberSalts = (
-  e164NumberToSalt: E164NumberToSaltType
-): UpdateE164PhoneNumberSaltAction => ({
-  type: Actions.UPDATE_E164_PHONE_NUMBER_SALT,
-  e164NumberToSalt,
-})
 
 export const updateKnownAddresses = (
   addresses: AddressToDisplayNameType

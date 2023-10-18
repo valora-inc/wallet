@@ -143,11 +143,6 @@ export const reducer = (
           ...action.walletToAccountAddress,
         },
       }
-    case Actions.UPDATE_E164_PHONE_NUMBER_SALT:
-      return {
-        ...state,
-        e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
-      }
     case Actions.UPDATE_KNOWN_ADDRESSES:
       return {
         ...state,

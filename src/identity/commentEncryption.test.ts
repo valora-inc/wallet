@@ -1,23 +1,13 @@
-import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { expectSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
-import { call, select } from 'redux-saga/effects'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
-import { updateE164PhoneNumberAddresses, updateE164PhoneNumberSalts } from 'src/identity/actions'
+import { call } from 'redux-saga/effects'
 import {
-  checkTxsForIdentityMetadata,
   decryptComment,
   embedPhoneNumberMetadata,
   encryptComment,
   extractPhoneNumberMetadata,
 } from 'src/identity/commentEncryption'
-import { lookupAccountAddressesForIdentifier } from 'src/identity/contactMapping'
-import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
-import { newTransactionsInFeed } from 'src/transactions/actions'
-import { getContractKitAsync } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
-import { dataEncryptionKeySelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
 import {
   mockAccount,
@@ -175,98 +165,5 @@ describe(extractPhoneNumberMetadata, () => {
       e164Number: mockE164Number,
       salt: mockE164NumberPepper,
     })
-  })
-})
-
-describe(checkTxsForIdentityMetadata, () => {
-  const transactions: TransactionFeedFragment[] = [
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Sent,
-      hash: '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353',
-      amount: {
-        __typename: 'MoneyAmount',
-        value: '-0.2',
-        currencyCode: 'cUSD',
-        localAmount: {
-          __typename: 'LocalMoneyAmount',
-          value: '-0.2',
-          currencyCode: 'USD',
-          exchangeRate: '1',
-        },
-      },
-      timestamp: 1578530538,
-      address: mockAccount,
-      comment: simpleComment,
-    },
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Sent,
-      hash: '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852',
-    } as any,
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Received,
-      hash: '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa',
-      amount: {
-        __typename: 'MoneyAmount',
-        value: '-0.2',
-        currencyCode: 'cUSD',
-        localAmount: {
-          __typename: 'LocalMoneyAmount',
-          value: '-0.2',
-          currencyCode: 'USD',
-          exchangeRate: '1',
-        },
-      },
-      timestamp: 1578530602,
-      address: mockAccount,
-      comment: simpleCommentWithMetadataEnc,
-    },
-  ]
-
-  it('Finds metadata and dispatches updates', async () => {
-    const contractKit = await getContractKitAsync()
-
-    const lookupResult: string[] = [mockAccount]
-    const stats: AttestationStat = {
-      completed: 3,
-      total: 5,
-    }
-    const mockAttestationsWrapper = {
-      getAttestationStat: jest.fn(() => stats),
-    }
-    const mockAccountsWrapper = {
-      getWalletAddress: jest.fn((address) => address),
-    }
-    await expectSaga(checkTxsForIdentityMetadata, newTransactionsInFeed(transactions))
-      .provide([
-        [select(dataEncryptionKeySelector), mockPrivateDEK2],
-        [matchers.call.fn(lookupAccountAddressesForIdentifier), lookupResult],
-        [call([contractKit.contracts, contractKit.contracts.getAccounts]), mockAccountsWrapper],
-        [
-          call([contractKit.contracts, contractKit.contracts.getAttestations]),
-          mockAttestationsWrapper,
-        ],
-        [select(e164NumberToSaltSelector), {}],
-        [select(e164NumberToAddressSelector), {}],
-      ])
-      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockE164NumberPepper }))
-      .put(
-        updateE164PhoneNumberAddresses(
-          { [mockE164Number]: [mockAccount] },
-          { [mockAccount]: mockE164Number }
-        )
-      )
-      .run()
-  })
-
-  it('Ignores invalid identity claims', async () => {
-    await expectSaga(checkTxsForIdentityMetadata, newTransactionsInFeed(transactions))
-      .provide([
-        [select(dataEncryptionKeySelector), mockPrivateDEK2],
-        [matchers.call.fn(lookupAccountAddressesForIdentifier), {}],
-      ])
-      .run()
   })
 })
