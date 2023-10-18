@@ -43,6 +43,8 @@ import { useInputAmountsByAddress } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
@@ -100,6 +102,8 @@ function SendConfirmation(props: Props) {
     },
   } = props.route.params
 
+  const newSendScreen = getFeatureGate(StatsigFeatureGates.SHOW_NEW_SEND_CONFIRMATION_SCREEN)
+
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
@@ -138,8 +142,6 @@ function SendConfirmation(props: Props) {
     })
   }
 
-  const newSendScreen = true // TODO: set behind feature gate???
-
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
   const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
@@ -165,12 +167,9 @@ function SendConfirmation(props: Props) {
       ? useTokenInfo(feeEstimate?.feeInfo?.feeTokenId)
       : useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])
     : tokenInfo
-  const feeSymbol = newSendScreen ? feeTokenInfo?.symbol : undefined
   const securityFeeInToken = securityFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-
-  console.log('!!!' + JSON.stringify(totalFeeInToken) + ' ' + feeSymbol)
 
   const FeeContainer = () => {
     return (

@@ -10,14 +10,16 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { sendPayment } from 'src/send/actions'
 import SendConfirmation from 'src/send/SendConfirmation'
+import { sendPayment } from 'src/send/actions'
+import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { getGasPrice } from 'src/web3/gas'
 import {
+  RecursivePartial,
   createMockStore,
   getElementText,
   getMockStackScreenProps,
-  RecursivePartial,
 } from 'test/utils'
 import {
   emptyFees,
@@ -39,7 +41,6 @@ import {
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
@@ -86,10 +87,20 @@ const mockFeeEstimates = {
   },
 }
 
+jest.mock('src/statsig', () => {
+  return {
+    getFeatureGate: jest.fn(),
+    getDynamicConfigParams: jest.fn(() => ({
+      showBalances: ['celo-alfajores'],
+    })),
+  }
+})
+
 describe('SendConfirmation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockGetGasPrice.mockImplementation(() => mockGasPrice)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   function renderScreen(
