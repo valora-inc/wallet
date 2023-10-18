@@ -269,8 +269,6 @@
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
-                                "odisInsufficientBalance",
-                                "odisQuotaError",
                                 "paymentRequestFailed",
                                 "paymentRequestUpdateFailed",
                                 "personaAccountEndpointFail",
@@ -283,8 +281,6 @@
                                 "qrFailedInvalidRecipient",
                                 "qrFailedNoPhoneNumber",
                                 "reclaimingEscrowedPaymentFailed",
-                                "saltFetchFailure",
-                                "saltQuotaExceededError",
                                 "sendPaymentFailed",
                                 "setPinFailed",
                                 "simplexPurchaseFetchFailed",
@@ -2467,7 +2463,6 @@
                 "OnboardingSuccessScreen",
                 "OutgoingPaymentRequestListScreen",
                 "PaymentRequestConfirmation",
-                "PhoneNumberLookupQuota",
                 "PincodeEnter",
                 "PincodeSet",
                 "Profile",
@@ -2818,9 +2813,6 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
-                "decentralizedVerificationEnabled": {
-                    "type": "boolean"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2967,7 +2959,6 @@
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
-                "decentralizedVerificationEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
