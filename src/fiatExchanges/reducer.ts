@@ -39,16 +39,6 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         ...state,
         providerLogos: action.providerLogos,
       }
-    case Actions.ASSIGN_PROVIDER_TO_TX_HASH:
-      const { txHash, displayInfo } = action
-
-      return {
-        ...state,
-        txHashToProvider: {
-          ...state.txHashToProvider,
-          [txHash]: displayInfo,
-        },
-      }
     default:
       return state
   }
