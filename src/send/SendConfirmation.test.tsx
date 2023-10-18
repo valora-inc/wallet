@@ -42,8 +42,6 @@ import {
 } from 'test/values'
 import { NetworkId } from 'src/transactions/types'
 
-const mockDekFeeGas = new BigNumber(100000)
-
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
 
