@@ -37,7 +37,6 @@ import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipien
 import { recipientsSaga } from 'src/recipients/saga'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
-import { stableTokenSaga } from 'src/stableToken/saga'
 import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
 import { Actions as TransactionActions } from 'src/transactions/actions'
@@ -123,7 +122,6 @@ export function* rootSaga() {
     yield* spawn(identitySaga)
     yield* spawn(recipientsSaga)
     yield* spawn(feesSaga)
-    yield* spawn(stableTokenSaga)
     yield* spawn(sendSaga)
     yield* spawn(escrowSaga)
     yield* spawn(importSaga)

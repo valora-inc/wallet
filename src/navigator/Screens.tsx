@@ -52,7 +52,6 @@ export enum Screens {
   NftsInfoCarousel = 'NftsInfoCarousel',
   OnboardingRecoveryPhrase = 'OnboardingRecoveryPhrase',
   OnboardingSuccessScreen = 'OnboardingSuccessScreen',
-  PhoneNumberLookupQuota = 'PhoneNumberLookupQuota',
   PincodeEnter = 'PincodeEnter',
   PincodeSet = 'PincodeSet',
   Profile = 'Profile',
