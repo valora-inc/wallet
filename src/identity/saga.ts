@@ -100,7 +100,7 @@ export function* watchValidateRecipientAddress() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(checkTxsForIdentityMetadata))
+  yield* takeEvery(TransactionActions.TRANSACTION_FEED_UPDATED, safely(checkTxsForIdentityMetadata))
 }
 
 function* watchFetchDataEncryptionKey() {

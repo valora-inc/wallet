@@ -1,6 +1,5 @@
 import { CeloTxReceipt } from '@celo/connect'
 import { SendOrigin } from 'src/analytics/types'
-import { TransactionFeedFragment } from 'src/apollo/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
@@ -15,10 +14,9 @@ export enum Actions {
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
-  NEW_TRANSACTIONS_IN_FEED = 'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
-  UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
+  TRANSACTION_FEED_UPDATED = 'TRANSACTIONS/TRANSACTION_FEED_UPDATED',
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
@@ -54,18 +52,13 @@ export interface TransactionFailedAction {
   txId: string
 }
 
-export interface NewTransactionsInFeedAction {
-  type: Actions.NEW_TRANSACTIONS_IN_FEED
-  transactions: TransactionFeedFragment[]
-}
-
 export interface UpdatedRecentTxRecipientsCacheAction {
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE
   recentTxRecipientsCache: NumberToRecipient
 }
 
-export interface UpdateTransactionsAction {
-  type: Actions.UPDATE_TRANSACTIONS
+export interface TransactionFeedUpdatedAction {
+  type: Actions.TRANSACTION_FEED_UPDATED
   transactions: TokenTransaction[]
 }
 
@@ -78,9 +71,8 @@ export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
   | AddHashToStandbyTransactionAction
-  | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
-  | UpdateTransactionsAction
+  | TransactionFeedUpdatedAction
   | TransactionConfirmedAction
   | TransactionConfirmedViemAction
   | UpdateInviteTransactionsAction
@@ -132,15 +124,10 @@ export const addHashToStandbyTransaction = (
   hash,
 })
 
-export const newTransactionsInFeed = (
-  transactions: TransactionFeedFragment[]
-): NewTransactionsInFeedAction => ({
-  type: Actions.NEW_TRANSACTIONS_IN_FEED,
-  transactions,
-})
-
-export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({
-  type: Actions.UPDATE_TRANSACTIONS,
+export const transactionFeedUpdated = (
+  transactions: TokenTransaction[]
+): TransactionFeedUpdatedAction => ({
+  type: Actions.TRANSACTION_FEED_UPDATED,
   transactions,
 })
 

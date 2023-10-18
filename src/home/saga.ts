@@ -76,7 +76,7 @@ export function* watchRefreshBalances() {
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
   )
   yield* takeLeading(
-    TransactionActions.NEW_TRANSACTIONS_IN_FEED,
+    TransactionActions.TRANSACTION_FEED_UPDATED,
     safely(withTimeout(REFRESH_TIMEOUT, refreshBalances))
   )
 }

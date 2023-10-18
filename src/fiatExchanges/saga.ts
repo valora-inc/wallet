@@ -141,7 +141,7 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
     const txHashesToProvider: TxHashToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
-      if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
+      if (!tx.__typename.includes('TokenTransfer') || tx.type !== TokenTransactionType.Received) {
         continue
       }
 
@@ -169,7 +169,7 @@ export function* watchBidaliPaymentRequests() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, safely(tagTxsWithProviderInfo))
+  yield* takeEvery(TransactionActions.TRANSACTION_FEED_UPDATED, safely(tagTxsWithProviderInfo))
 }
 
 export function* fiatExchangesSaga() {

@@ -12,7 +12,7 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  UpdateTransactionsAction,
+  TransactionFeedUpdatedAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
@@ -44,7 +44,7 @@ const TAG = 'transactions/saga'
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
+function* cleanupStandbyTransactions({ transactions }: TransactionFeedUpdatedAction) {
   const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
@@ -87,7 +87,7 @@ function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   }
 }
 
-export function* getInviteTransactionsDetails({ transactions }: UpdateTransactionsAction) {
+export function* getInviteTransactionsDetails({ transactions }: TransactionFeedUpdatedAction) {
   const existingInviteTransactions = yield* select(inviteTransactionsSelector)
   const newInviteTransactions = transactions.filter(
     (transaction) =>
@@ -212,9 +212,9 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
-  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
-  yield* takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
+  yield* takeEvery(Actions.TRANSACTION_FEED_UPDATED, safely(cleanupStandbyTransactions))
+  yield* takeEvery(Actions.TRANSACTION_FEED_UPDATED, safely(getInviteTransactionsDetails))
+  yield* takeLatest(Actions.TRANSACTION_FEED_UPDATED, safely(refreshRecentTxRecipients))
 }
 
 function* watchAddressToE164PhoneNumberUpdate() {
