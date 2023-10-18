@@ -1,9 +1,9 @@
 import { EventLog } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { updateInviteTransactions, updateTransactions } from 'src/transactions/actions'
+import { transactionFeedUpdated, updateInviteTransactions } from 'src/transactions/actions'
 import { getInviteTransactionsDetails } from 'src/transactions/saga'
-import { TokenTransaction, TokenTransactionTypeV2, NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
@@ -45,7 +45,7 @@ const mockEscrowPastEvent: EventLog = {
 describe('getInviteTransactionsDetails', () => {
   it('logs an error if no matching transaction is found in escrow', async () => {
     const kit = await getContractKitAsync()
-    const updateTransactionsAction = updateTransactions([mockInviteTransaction])
+    const updateTransactionsAction = transactionFeedUpdated([mockInviteTransaction])
     const mockEscrowWrapper = {
       getPastEvents: jest.fn(() => [
         {
@@ -71,7 +71,7 @@ describe('getInviteTransactionsDetails', () => {
 
   it('updates the invite transaction details', async () => {
     const kit = await getContractKitAsync()
-    const updateTransactionsAction = updateTransactions([mockInviteTransaction])
+    const updateTransactionsAction = transactionFeedUpdated([mockInviteTransaction])
     const mockEscrowWrapper = {
       getPastEvents: jest.fn(() => [mockEscrowPastEvent]),
       eventTypes: {
