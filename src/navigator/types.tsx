@@ -203,10 +203,6 @@ export type StackParamList = {
         showGuidedOnboarding?: boolean
       }
     | undefined
-  [Screens.PhoneNumberLookupQuota]: {
-    onBuy: () => void
-    onSkip: () => void
-  }
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined

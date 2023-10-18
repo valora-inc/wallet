@@ -10,7 +10,6 @@ import {
 import { checkTxsForIdentityMetadata } from 'src/identity/commentEncryption'
 import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
 import { AddressValidationType } from 'src/identity/reducer'
-import { revokeVerificationSaga } from 'src/identity/revoke'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { recipientHasNumber } from 'src/recipients/recipient'
@@ -88,10 +87,6 @@ export function* validateRecipientAddressSaga({
   }
 }
 
-function* watchVerification() {
-  yield* takeLeading(Actions.REVOKE_VERIFICATION, safely(revokeVerificationSaga))
-}
-
 function* watchContactMapping() {
   yield* takeLeading(Actions.IMPORT_CONTACTS, safely(doImportContactsWrapper))
   yield* takeLatest(
@@ -115,7 +110,6 @@ function* watchFetchDataEncryptionKey() {
 export function* identitySaga() {
   Logger.debug(TAG, 'Initializing identity sagas')
   try {
-    yield* spawn(watchVerification)
     yield* spawn(watchContactMapping)
     yield* spawn(watchValidateRecipientAddress)
     yield* spawn(watchNewFeedTransactions)
