@@ -30,7 +30,7 @@ import {
   v146Schema,
   v148Schema,
   v14Schema,
-  v157Schema,
+  v159Schema,
   v15Schema,
   v16Schema,
   v17Schema,
@@ -1298,12 +1298,12 @@ describe('Redux persist migrations', () => {
     })
   })
 
-  it('works from 157 to 158', () => {
+  it('works from 159 to 160', () => {
     const preMigrationSchema = {
-      ...v157Schema,
+      ...v159Schema,
     }
     preMigrationSchema.app.activeScreen = 'PaymentRequestConfirmation'
-    const migratedSchema = migrations[158](preMigrationSchema)
+    const migratedSchema = migrations[160](preMigrationSchema)
 
     // paymentRequest dropped, activeScreen changed to Main from PaymentRequestConfirmation
     expect('paymentRequest' in migratedSchema).toBe(false)
