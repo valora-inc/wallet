@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 158,
+          "version": 160,
         },
         "account": {
           "acceptedTerms": false,
@@ -292,10 +292,6 @@ describe('store state', () => {
           "nftsError": null,
           "nftsLoading": false,
         },
-        "paymentRequest": {
-          "incomingPaymentRequests": [],
-          "outgoingPaymentRequests": [],
-        },
         "positions": {
           "positions": [],
           "previewApiUrl": null,
@@ -348,7 +344,6 @@ describe('store state', () => {
           "knownFeedTransactions": {},
           "recentTxRecipientsCache": {},
           "standbyTransactions": [],
-          "standbyTransactionsLegacy": [],
           "transactions": [],
         },
         "walletConnect": {

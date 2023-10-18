@@ -52,7 +52,6 @@ interface RecipientProps {
   defaultCountryCode: string | null
   listHeaderComponent?: React.ComponentType<any>
   onSelectRecipient(recipient: Recipient): void
-  isOutgoingPaymentRequest: boolean
   selectedRecipient: Recipient | null
   recipientVerificationStatus: RecipientVerificationStatus
 }
@@ -149,9 +148,7 @@ function RecipientPicker(props: RecipientProps) {
       props.defaultCountryCode ? props.defaultCountryCode : undefined
     )
     if (parsedNumber) {
-      return props.isOutgoingPaymentRequest
-        ? renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
-        : renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+      return renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
     }
     if (isValidAddress(props.searchQuery)) {
       return renderSendToAddress()
@@ -189,25 +186,6 @@ function RecipientPicker(props: RecipientProps) {
     ValoraAnalytics.track(SendEvents.check_account_alert_back)
   }
 
-  const renderRequestFromPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
-    const recipient: MobileRecipient = {
-      displayNumber,
-      name: t('requestFromMobileNumber'),
-      e164PhoneNumber,
-      recipientType: RecipientType.PhoneNumber,
-    }
-    return (
-      <>
-        <RecipientItem
-          recipient={recipient}
-          onSelectRecipient={props.onSelectRecipient}
-          loading={isFetchingVerificationStatus(recipient)}
-        />
-        {renderItemSeparator()}
-      </>
-    )
-  }
-
   const renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
     const recipient: MobileRecipient = {
       displayNumber,
@@ -227,11 +205,11 @@ function RecipientPicker(props: RecipientProps) {
   }
 
   const renderSendToAddress = () => {
-    const { searchQuery, onSelectRecipient, isOutgoingPaymentRequest } = props
+    const { searchQuery, onSelectRecipient } = props
     const searchedAddress = searchQuery.toLowerCase()
     const recipient = getRecipientFromAddress(searchedAddress, recipientInfo)
 
-    if (recipientHasNumber(recipient) || isOutgoingPaymentRequest) {
+    if (recipientHasNumber(recipient)) {
       return (
         <>
           <RecipientItem

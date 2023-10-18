@@ -36,12 +36,6 @@ import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
 import { boostRewards, getVerified, learnCelo, lightningPhone } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
-import OutgoingPaymentRequestSummaryNotification from 'src/paymentRequest/OutgoingPaymentRequestSummaryNotification'
-import {
-  getIncomingPaymentRequests,
-  getOutgoingPaymentRequests,
-} from 'src/paymentRequest/selectors'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -54,8 +48,6 @@ const TAG = 'NotificationBox'
 const BACKUP_PRIORITY = 1000
 const VERIFICATION_PRIORITY = 100
 export const INVITES_PRIORITY = 400
-export const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
-export const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 const SUPERCHARGE_INFO_PRIORITY = 440
@@ -414,32 +406,6 @@ export function useNotifications({
       priority: INVITES_PRIORITY,
       id: NotificationType.escrow_tx_summary,
       type: NotificationType.escrow_tx_summary,
-    })
-  }
-
-  // Incoming payment requests
-  const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
-  if (incomingPaymentRequests && incomingPaymentRequests.length) {
-    notifications.push({
-      renderElement: () => (
-        <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />
-      ),
-      priority: INCOMING_PAYMENT_REQUESTS_PRIORITY,
-      id: NotificationType.incoming_tx_request,
-      type: NotificationType.incoming_tx_request,
-    })
-  }
-
-  // Outgoing payment requests
-  const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
-  if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
-    notifications.push({
-      renderElement: () => (
-        <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />
-      ),
-      priority: OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-      id: NotificationType.outgoing_tx_request,
-      type: NotificationType.outgoing_tx_request,
     })
   }
 

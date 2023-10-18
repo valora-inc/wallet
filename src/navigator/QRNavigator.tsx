@@ -185,8 +185,7 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   const enableCamera = isFocused || (isPartiallyVisible && (hasAskedCameraPermission || wasFocused))
 
   const dispatch = useDispatch()
-  const { scanIsForSecureSend, isOutgoingPaymentRequest, transactionData, requesterAddress } =
-    route.params || {}
+  const { scanIsForSecureSend, transactionData, requesterAddress } = route.params || {}
 
   const onBarCodeDetected = (qrCode: QrCode) => {
     if (lastScannedQR.current === qrCode.data) {
@@ -194,15 +193,7 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
     }
 
     Logger.debug('QRScanner', 'Bar code detected')
-    dispatch(
-      handleBarcodeDetected(
-        qrCode,
-        scanIsForSecureSend,
-        transactionData,
-        isOutgoingPaymentRequest,
-        requesterAddress
-      )
-    )
+    dispatch(handleBarcodeDetected(qrCode, scanIsForSecureSend, transactionData, requesterAddress))
     lastScannedQR.current = qrCode.data
   }
 

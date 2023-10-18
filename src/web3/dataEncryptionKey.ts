@@ -23,7 +23,6 @@ import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
@@ -32,14 +31,13 @@ import {
 import { WalletToAccountAddressType } from 'src/identity/reducer'
 import { walletToAccountAddressSelector } from 'src/identity/selectors'
 import { DEK, retrieveOrGeneratePepper, retrieveSignedMessage } from 'src/pincode/authentication'
-import { getCurrencyAddress } from 'src/tokens/saga'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
-import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
+import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getAccount, getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
 import {
@@ -48,11 +46,9 @@ import {
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { estimateGas } from 'src/web3/utils'
 import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'web3/dataEncryptionKey'
-const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
 export function* fetchDataEncryptionKeyWrapper({ address }: FetchDataEncryptionKeyAction) {
   yield* call(doFetchDataEncryptionKey, address)
@@ -288,22 +284,6 @@ export async function isAccountUpToDate(
     eqAddress(onchainWalletAddress, walletAddress) &&
     eqAddress(onchainDEK, dataKey)
   )
-}
-
-export async function getRegisterDekTxGas(account: string, currency: Currency) {
-  try {
-    Logger.debug(`${TAG}/getRegisterDekTxGas`, 'Getting gas estimate for tx')
-    const contractKit = await getContractKitAsync()
-    const Accounts = await contractKit.contracts.getAccounts()
-    const tx = Accounts.setAccount('', PLACEHOLDER_DEK, account)
-    const txParams = { from: account, feeCurrency: await getCurrencyAddress(currency) }
-    const gas = await estimateGas(tx.txo, txParams)
-    Logger.debug(`${TAG}/getRegisterDekTxGas`, `Estimated gas of ${gas.toString()}`)
-    return gas
-  } catch (error) {
-    Logger.warn(`${TAG}/getRegisterDekTxGas`, 'Failed to estimate DEK tx gas', error)
-    throw Error(ErrorMessages.INSUFFICIENT_BALANCE)
-  }
 }
 
 export function* importDekIfNecessary(wallet: UnlockableWallet | undefined) {

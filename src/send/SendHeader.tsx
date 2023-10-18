@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import { RequestEvents, SendEvents } from 'src/analytics/Events'
+import { SendEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
 import QRCodeBorderlessIcon from 'src/icons/QRCodeBorderless'
 import Times from 'src/icons/Times'
@@ -11,19 +11,12 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 
-interface Props {
-  isOutgoingPaymentRequest: boolean
-}
-
-function SendHeader({ isOutgoingPaymentRequest }: Props) {
+function SendHeader() {
   const { t } = useTranslation()
 
   const goToQRScanner = () =>
     navigate(Screens.QRNavigator, {
       screen: Screens.QRScanner,
-      params: {
-        isOutgoingPaymentRequest,
-      },
     })
 
   return (
@@ -32,17 +25,15 @@ function SendHeader({ isOutgoingPaymentRequest }: Props) {
         <TopBarIconButton
           icon={<Times />}
           onPress={navigateBack}
-          eventName={
-            isOutgoingPaymentRequest ? RequestEvents.request_cancel : SendEvents.send_cancel
-          }
+          eventName={SendEvents.send_cancel}
           style={styles.buttonContainer}
         />
       }
-      title={isOutgoingPaymentRequest ? t('request') : t('send')}
+      title={t('send')}
       right={
         <TopBarIconButton
           icon={<QRCodeBorderlessIcon height={32} color={colors.greenUI} />}
-          eventName={isOutgoingPaymentRequest ? RequestEvents.request_scan : SendEvents.send_scan}
+          eventName={SendEvents.send_scan}
           onPress={goToQRScanner}
           style={styles.buttonContainer}
         />
