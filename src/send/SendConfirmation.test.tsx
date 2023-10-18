@@ -45,6 +45,8 @@ import {
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
 
+jest.mock('src/statsig')
+
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -87,20 +89,12 @@ const mockFeeEstimates = {
   },
 }
 
-jest.mock('src/statsig', () => {
-  return {
-    getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn(() => ({
-      showBalances: ['celo-alfajores'],
-    })),
-  }
-})
+jest.mocked(getFeatureGate).mockReturnValue(false)
 
 describe('SendConfirmation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockGetGasPrice.mockImplementation(() => mockGasPrice)
-    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   function renderScreen(
