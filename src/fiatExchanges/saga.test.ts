@@ -1,26 +1,18 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { select } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { activeScreenChanged } from 'src/app/actions'
-import { assignProviderToTxHash, bidaliPaymentRequested } from 'src/fiatExchanges/actions'
-import { providerLogosSelector } from 'src/fiatExchanges/reducer'
-import {
-  fetchTxHashesToProviderMapping,
-  tagTxsWithProviderInfo,
-  watchBidaliPaymentRequests,
-} from 'src/fiatExchanges/saga'
+import { bidaliPaymentRequested } from 'src/fiatExchanges/actions'
+import { watchBidaliPaymentRequests } from 'src/fiatExchanges/saga'
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
-import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
-import { mockAccount } from 'test/values'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
@@ -196,69 +188,5 @@ describe(watchBidaliPaymentRequests, () => {
     expect(navigate).not.toHaveBeenCalled()
     expect(onPaymentSent).not.toHaveBeenCalled()
     expect(onCancelled).not.toHaveBeenCalled()
-  })
-})
-
-describe(tagTxsWithProviderInfo, () => {
-  const mockAmount = {
-    __typename: 'MoneyAmount',
-    value: '-0.2',
-    currencyCode: 'cUSD',
-    localAmount: {
-      __typename: 'LocalMoneyAmount',
-      value: '-0.2',
-      currencyCode: 'USD',
-      exchangeRate: '1',
-    },
-  }
-
-  const providerTransferHash = '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353'
-  const sentHash = '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852'
-  const nonProviderTransferHash =
-    '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa'
-  const mockProviderAccount = '0x30d5ca2a263e0c0d11e7a668ccf30b38f1482251'
-
-  const transactions: TransactionFeedFragment[] = [
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Received,
-      hash: providerTransferHash,
-      amount: mockAmount,
-      timestamp: 1578530538,
-      address: mockProviderAccount,
-    },
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Sent,
-      hash: sentHash,
-    } as any,
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Received,
-      hash: nonProviderTransferHash,
-      amount: mockAmount,
-      timestamp: 1578530602,
-      address: mockAccount,
-    },
-  ]
-
-  it('assigns specific display info for providers with tx hashes associated with the user', async () => {
-    const providerName = 'Provider'
-    const mockProviderLogo = 'www.provider.com/logo'
-    const mockDisplayInfo = {
-      name: providerName,
-      icon: mockProviderLogo,
-    }
-
-    const mockTxHashesToProvider = { [providerTransferHash]: providerName }
-    const mockProviderLogos = { [providerName]: mockProviderLogo }
-
-    await expectSaga(tagTxsWithProviderInfo, { transactions } as NewTransactionsInFeedAction)
-      .provide([
-        [select(providerLogosSelector), mockProviderLogos],
-        [call(fetchTxHashesToProviderMapping), mockTxHashesToProvider],
-      ])
-      .put(assignProviderToTxHash(providerTransferHash, mockDisplayInfo))
-      .run()
   })
 })

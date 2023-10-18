@@ -7,10 +7,6 @@ export interface ProviderLogos {
   [providerName: string]: string
 }
 
-export interface TxHashToProvider {
-  [txHash: string]: string | undefined
-}
-
 export interface ProviderFeedInfo {
   name: string
   icon: string
