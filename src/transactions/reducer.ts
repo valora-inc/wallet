@@ -104,15 +104,6 @@ export const reducer = (
           }
         }),
       }
-    case Actions.NEW_TRANSACTIONS_IN_FEED:
-      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
-      action.transactions.forEach((tx) => {
-        newKnownFeedTransactions[tx.hash] = tx.address
-      })
-      return {
-        ...state,
-        knownFeedTransactions: newKnownFeedTransactions,
-      }
     case Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE:
       return {
         ...state,

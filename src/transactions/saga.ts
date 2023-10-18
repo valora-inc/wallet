@@ -214,7 +214,6 @@ function* refreshRecentTxRecipients() {
 function* watchNewFeedTransactions() {
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
-  yield* takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
 }
 
 function* watchAddressToE164PhoneNumberUpdate() {
