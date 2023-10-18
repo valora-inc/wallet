@@ -18,12 +18,12 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
+import { TOKEN_MIN_AMOUNT } from 'src/config'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -46,6 +46,7 @@ import {
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
+import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
@@ -55,13 +56,14 @@ import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PositionItem } from 'src/tokens/AssetItem'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
-import {
-  useTokenPricesAreStale,
-  useTokensForAssetsScreen,
-  useTotalTokenBalance,
-} from 'src/tokens/hooks'
+import { useTokenPricesAreStale, useTotalTokenBalance } from 'src/tokens/hooks'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances, getTokenAnalyticsProps } from 'src/tokens/utils'
+import {
+  getSupportedNetworkIdsForTokenBalances,
+  getTokenAnalyticsProps,
+  usdBalance,
+} from 'src/tokens/utils'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 const NUM_OF_NFTS_PER_ROW = 2
@@ -116,7 +118,36 @@ function AssetsScreen({ navigation, route }: Props) {
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-  const tokens = useTokensForAssetsScreen()
+  const allTokens = useSelector((state) => tokensListSelector(state, supportedNetworkIds))
+  const tokens = useMemo(
+    () =>
+      allTokens
+        .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
+        .sort((token1, token2) => {
+          // Sorts by usd balance, then token balance, then zero balance natives by
+          // network id, then zero balance non natives by network id
+          const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
+          if (usdBalanceCompare) {
+            return usdBalanceCompare
+          }
+
+          const balanceCompare = token2.balance.comparedTo(token1.balance)
+          if (balanceCompare) {
+            return balanceCompare
+          }
+
+          if (token1.isNative && !token2.isNative) {
+            return -1
+          }
+          if (!token1.isNative && token2.isNative) {
+            return 1
+          }
+
+          return token1.networkId.localeCompare(token2.networkId)
+        }),
+    [allTokens]
+  )
+
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
