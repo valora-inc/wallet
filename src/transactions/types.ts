@@ -1,6 +1,5 @@
 import { Address } from '@celo/base'
 import BigNumber from 'bignumber.js'
-import { TokenTransactionType } from 'src/apollo/types'
 import { Nft } from 'src/nfts/types'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -63,18 +62,6 @@ export enum TransactionStatus {
   Complete = 'Complete',
   Failed = 'Failed',
 }
-
-type TransferTransactionType =
-  | TokenTransactionType.Sent
-  | TokenTransactionType.Received
-  | TokenTransactionType.EscrowReceived
-  | TokenTransactionType.EscrowSent
-  | TokenTransactionType.Faucet
-  | TokenTransactionType.VerificationReward
-  | TokenTransactionType.VerificationFee
-  | TokenTransactionType.InviteSent
-  | TokenTransactionType.InviteReceived
-  | TokenTransactionType.NetworkFee
 
 export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer
 
