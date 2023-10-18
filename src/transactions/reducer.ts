@@ -3,7 +3,12 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
-import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  isTokenTransfer,
+  StandbyTransaction,
+  TokenTransaction,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 export interface InviteTransactions {
   [txHash: string]: {
@@ -112,7 +117,7 @@ export const reducer = (
     case Actions.TRANSACTION_FEED_UPDATED:
       const newKnownFeedTransactions = { ...state.knownFeedTransactions }
       action.transactions.forEach((tx) => {
-        if ('address' in tx) {
+        if (isTokenTransfer(tx)) {
           newKnownFeedTransactions[tx.transactionHash] = tx.address
         }
       })

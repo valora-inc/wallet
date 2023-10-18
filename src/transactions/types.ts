@@ -63,6 +63,9 @@ export enum TransactionStatus {
   Failed = 'Failed',
 }
 
+export const isTokenTransfer = (transaction: TokenTransaction): transaction is TokenTransfer => {
+  return transaction.__typename === 'TokenTransferV3'
+}
 export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer
 
 export interface TokenAmount {

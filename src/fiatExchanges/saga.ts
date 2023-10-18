@@ -1,7 +1,6 @@
 import { Action, Predicate } from '@redux-saga/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
-import { TokenTransactionType } from 'src/apollo/types'
 import { ActionTypes as AppActionTypes, Actions as AppActions } from 'src/app/actions'
 import {
   Actions,
@@ -20,9 +19,10 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { Actions as SendActions } from 'src/send/actions'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import {
-  NewTransactionsInFeedAction,
   Actions as TransactionActions,
+  TransactionFeedUpdatedAction,
 } from 'src/transactions/actions'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { resolveCurrency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
@@ -129,7 +129,7 @@ export function* fetchTxHashesToProviderMapping() {
   return txHashesToProvider
 }
 
-export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedAction) {
+export function* tagTxsWithProviderInfo({ transactions }: TransactionFeedUpdatedAction) {
   try {
     if (!transactions || !transactions.length) {
       return
@@ -141,15 +141,17 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
     const txHashesToProvider: TxHashToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
-      if (!tx.__typename.includes('TokenTransfer') || tx.type !== TokenTransactionType.Received) {
+      if (tx.type !== TokenTransactionTypeV2.Received) {
         continue
       }
 
-      const provider = txHashesToProvider[tx.hash]
+      const provider = txHashesToProvider[tx.transactionHash]
       const providerLogo = providerLogos[provider || '']
 
       if (provider && providerLogo) {
-        yield* put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
+        yield* put(
+          assignProviderToTxHash(tx.transactionHash, { name: provider, icon: providerLogo })
+        )
       }
     }
 
