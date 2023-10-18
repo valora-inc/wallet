@@ -14,6 +14,7 @@ import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
+import LegacyFeeDrawer from 'src/components/LegacyFeeDrawer'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
@@ -138,7 +139,7 @@ function SendConfirmation(props: Props) {
     })
   }
 
-  const newSendScreen = false // TODO: set behind feature gate???
+  const newSendScreen = true // TODO: set behind feature gate???
 
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
@@ -170,29 +171,44 @@ function SendConfirmation(props: Props) {
   const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
 
+  console.log('!!!' + JSON.stringify(totalFeeInToken) + ' ' + feeSymbol)
+
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        <FeeDrawer
-          testID={'feeDrawer/SendConfirmation'}
-          isEstimate={true}
-          currency={newSendScreen ? undefined : Currency.Dollar}
-          symbol={newSendScreen ? feeSymbol : undefined}
-          securityFee={newSendScreen ? securityFeeInToken : securityFee}
-          showDekfee={!isDekRegistered}
-          dekFee={newSendScreen ? dekFeeInToken : dekFee}
-          feeLoading={feeEstimate?.loading || storedDekFee?.loading}
-          feeHasError={feeEstimate?.error || storedDekFee?.error}
-          totalFee={newSendScreen ? totalFeeInToken : totalFeeInUsd}
-          showLocalAmount={!newSendScreen}
-          newSendScreen={newSendScreen}
-        />
+        {newSendScreen && (
+          <FeeDrawer
+            testID={'feeDrawer/SendConfirmation'}
+            isEstimate={true}
+            securityFee={securityFeeInToken}
+            showDekfee={!isDekRegistered}
+            dekFee={dekFeeInToken}
+            feeLoading={feeEstimate?.loading || storedDekFee?.loading}
+            feeHasError={feeEstimate?.error || storedDekFee?.error}
+            totalFee={totalFeeInToken}
+            showLocalAmount={false}
+          />
+        )}
+        {!newSendScreen && (
+          <LegacyFeeDrawer
+            testID={'feeDrawer/SendConfirmation'}
+            isEstimate={true}
+            currency={Currency.Dollar}
+            securityFee={securityFee}
+            showDekfee={!isDekRegistered}
+            dekFee={dekFee}
+            feeLoading={feeEstimate?.loading || storedDekFee?.loading}
+            feeHasError={feeEstimate?.error || storedDekFee?.error}
+            totalFee={totalFeeInUsd}
+            showLocalAmount={true}
+          />
+        )}
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
           feeToAddInToken={
-            tokenInfo?.address === feeTokenInfo?.address ? totalFeeInToken : undefined
+            tokenInfo?.tokenId === feeTokenInfo?.tokenId ? totalFeeInToken : undefined
           }
           showLocalAmount={newSendScreen ? false : undefined}
           hideSign={newSendScreen ? false : undefined}

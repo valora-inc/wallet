@@ -2,16 +2,19 @@ import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
+import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import Expandable from 'src/components/Expandable'
 import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { CurrencyInfo } from 'src/localCurrency/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   isEstimate?: boolean
+  currency?: Currency
   isExchange?: boolean
   securityFee?: BigNumber
   exchangeFee?: BigNumber
@@ -21,12 +24,16 @@ interface Props {
   feeHasError?: boolean
   totalFee?: BigNumber
   testID?: string
+  currencyInfo?: CurrencyInfo
   showLocalAmount?: boolean
-  tokenId?: string
 }
 
-export default function FeeDrawer({
+/**
+ * @deprecated use FeeDrawer instead
+ */
+export default function LegacyFeeDrawer({
   isEstimate,
+  currency,
   isExchange,
   securityFee,
   exchangeFee,
@@ -36,8 +43,8 @@ export default function FeeDrawer({
   feeHasError,
   totalFee,
   testID,
+  currencyInfo,
   showLocalAmount,
-  tokenId,
 }: Props) {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
@@ -48,6 +55,30 @@ export default function FeeDrawer({
   }
 
   const title = isEstimate ? t('feeEstimate') : t('feeActual')
+
+  const securityAmount = securityFee &&
+    currency && {
+      value: securityFee,
+      currencyCode: currency,
+    }
+
+  const exchangeAmount = exchangeFee &&
+    currency && {
+      value: exchangeFee,
+      currencyCode: currency,
+    }
+
+  const dekFeeAmount = dekFee &&
+    currency && {
+      value: dekFee,
+      currencyCode: currency,
+    }
+
+  const totalFeeAmount = totalFee &&
+    currency && {
+      value: totalFee,
+      currencyCode: currency,
+    }
 
   return (
     // Uses View instead of Fragment to workaround a glitch with LayoutAnimation
@@ -60,12 +91,13 @@ export default function FeeDrawer({
           <LineItemRow
             title={''}
             amount={
-              totalFee && (
-                <TokenDisplay
-                  amount={totalFee}
+              totalFeeAmount && (
+                <CurrencyDisplay
+                  amount={totalFeeAmount}
+                  formatType={FormatType.Fee}
+                  currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
                   testID={`${testID}/totalFee`}
-                  tokenId={tokenId}
                 />
               )
             }
@@ -81,28 +113,30 @@ export default function FeeDrawer({
               title={t('exchangeFee')}
               titleIcon={<ExchangeFeeIcon />}
               amount={
-                exchangeFee && (
-                  <TokenDisplay
-                    amount={exchangeFee}
+                exchangeAmount && (
+                  <CurrencyDisplay
+                    amount={exchangeAmount}
+                    formatType={FormatType.Fee}
+                    currencyInfo={currencyInfo}
                     showLocalAmount={showLocalAmount}
                     testID={`${testID}/exchangeFee`}
-                    tokenId={tokenId}
                   />
                 )
               }
               textStyle={styles.dropDownText}
             />
           )}
-          {showDekfee && dekFee && (
+          {showDekfee && dekFeeAmount && (
             <LineItemRow
               title={t('encryption.feeLabel')}
               titleIcon={<EncryptionFeeIcon />}
               amount={
-                <TokenDisplay
-                  amount={dekFee}
+                <CurrencyDisplay
+                  amount={dekFeeAmount}
+                  formatType={FormatType.Fee}
+                  currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
                   testID={`${testID}/dekFee`}
-                  tokenId={tokenId}
                 />
               }
               textStyle={styles.dropDownText}
@@ -113,12 +147,13 @@ export default function FeeDrawer({
             title={t('securityFee')}
             titleIcon={<SecurityFeeIcon />}
             amount={
-              securityFee && (
-                <TokenDisplay
-                  amount={securityFee}
+              securityAmount && (
+                <CurrencyDisplay
+                  amount={securityAmount}
+                  formatType={FormatType.Fee}
+                  currencyInfo={currencyInfo}
                   showLocalAmount={showLocalAmount}
                   testID={`${testID}/securityFee`}
-                  tokenId={tokenId}
                 />
               )
             }

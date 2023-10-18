@@ -47,8 +47,6 @@ interface Props {
   style?: StyleProp<TextStyle>
   currencyInfo?: CurrencyInfo
   testID?: string
-  newSendScreen?: boolean
-  symbol?: string
 }
 
 const BIG_SIGN_RATIO = 34 / 48
@@ -118,6 +116,9 @@ export function getFullCurrencyName(currency: Currency | null) {
   }
 }
 
+/**
+ * @deprecated use TokenDisplay instead
+ */
 export default function CurrencyDisplay({
   type,
   size,
@@ -133,8 +134,6 @@ export default function CurrencyDisplay({
   style,
   currencyInfo,
   testID,
-  newSendScreen,
-  symbol,
 }: Props) {
   const { localCurrencyCode, localCurrencyExchangeRate, amountCurrency } = useLocalCurrencyToShow(
     amount,
@@ -142,9 +141,7 @@ export default function CurrencyDisplay({
   )
 
   // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = newSendScreen
-    ? showLocalAmount
-    : showLocalAmount ?? amountCurrency !== Currency.Celo
+  const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
@@ -164,7 +161,7 @@ export default function CurrencyDisplay({
   const formattedValue =
     value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const includesLowerThanSymbol = formattedValue.startsWith('<')
-  const code = symbol ?? displayAmount?.currencyCode
+  const code = displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
   const color = useColors
