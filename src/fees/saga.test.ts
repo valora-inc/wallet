@@ -10,11 +10,11 @@ import { createReclaimTransaction } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { calculateFee, estimateFeeSaga, SWAP_FEE_ESTIMATE_MULTIPLIER } from 'src/fees/saga'
 import { buildSendTx } from 'src/send/saga'
+import { NetworkId } from 'src/transactions/types'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCeurTokenId, mockCusdAddress, mockCusdTokenId } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const GAS_AMOUNT = 500000
 
@@ -91,7 +91,11 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, {
+            gas: new BigNumber(GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -115,11 +119,11 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(
-            calculateFee,
-            new BigNumber(SWAP_FEE_ESTIMATE_MULTIPLIER * GAS_AMOUNT),
-            mockCusdAddress
-          ),
+          call(calculateFee, {
+            gas: new BigNumber(SWAP_FEE_ESTIMATE_MULTIPLIER * GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           { fee: new BigNumber(4e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -147,7 +151,11 @@ describe(estimateFeeSaga, () => {
         [call(createReclaimTransaction, 'paymentID'), mockTxo],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, {
+            gas: new BigNumber(GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -177,7 +185,11 @@ describe(estimateFeeSaga, () => {
         [call([kit.contracts, kit.contracts.getAccounts]), mockAccountsWrapper],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, {
+            gas: new BigNumber(GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -201,7 +213,11 @@ describe(estimateFeeSaga, () => {
         [call(createReclaimTransaction, 'paymentID'), mockTxo],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, {
+            gas: new BigNumber(GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
         ],
       ])
@@ -230,7 +246,11 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, {
+            gas: new BigNumber(GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           throwError(new Error('fake error')),
         ],
       ])
@@ -259,7 +279,11 @@ describe(estimateFeeSaga, () => {
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
         [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
+          call(calculateFee, {
+            gas: new BigNumber(GAS_AMOUNT),
+            feeCurrency: mockCusdAddress,
+            feeTokenId: mockCusdTokenId,
+          }),
           { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
         ],
       ])

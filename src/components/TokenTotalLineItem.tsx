@@ -30,8 +30,8 @@ export default function TokenTotalLineItem({
   feeToAddInToken,
   hideSign,
   title,
-  showLocalAmount,
-  newSendScreen,
+  showLocalAmount = true,
+  newSendScreen = false,
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenId)

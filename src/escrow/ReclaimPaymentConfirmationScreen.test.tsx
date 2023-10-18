@@ -6,14 +6,15 @@ import { Provider } from 'react-redux'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import { FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { FeeInfo } from 'src/fees/saga'
-import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { Screens } from 'src/navigator/Screens'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   emptyFees,
   mockAccount,
   mockAccount2,
   mockCusdAddress,
+  mockCusdTokenId,
   mockE164Number,
   mockE164NumberHashWithPepper,
 } from 'test/values'
@@ -24,6 +25,7 @@ const TEST_FEE_INFO_CUSD = {
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
   feeCurrency: mockCusdAddress,
+  feeTokenId: mockCusdTokenId,
 }
 
 // A fee of 0.01 CELO.
@@ -32,6 +34,7 @@ const TEST_FEE_INFO_CELO = {
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
   feeCurrency: undefined,
+  feeTokenId: undefined,
 }
 
 const mockFeeEstimate = ({

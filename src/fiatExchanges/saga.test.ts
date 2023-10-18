@@ -46,12 +46,12 @@ describe(watchBidaliPaymentRequests, () => {
   })
 
   it.each`
-    currencyCode | expectedCurrency   | expectedTokenAddress
-    ${'cUSD'}    | ${Currency.Dollar} | ${'mockCusdAddress'}
-    ${'cEUR'}    | ${Currency.Euro}   | ${'mockCeurAddress'}
+    currencyCode | expectedCurrency   | expectedTokenAddress | expectedTokenId
+    ${'cUSD'}    | ${Currency.Dollar} | ${'mockCusdAddress'} | ${'mockCusdTokenId'}
+    ${'cEUR'}    | ${Currency.Euro}   | ${'mockCeurAddress'} | ${'mockCeurTokenId'}
   `(
     'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
-    async ({ currencyCode, expectedCurrency, expectedTokenAddress }) => {
+    async ({ currencyCode, expectedCurrency, expectedTokenAddress, expectedTokenId }) => {
       const onPaymentSent = jest.fn()
       const onCancelled = jest.fn()
 
@@ -90,6 +90,7 @@ describe(watchBidaliPaymentRequests, () => {
               gas: new BigNumber('0.01'),
               gasPrice: new BigNumber('0.01'),
               feeCurrency: expectedCurrency,
+              feeTokenId: expectedTokenId,
             },
             true
           )
@@ -145,7 +146,8 @@ describe(watchBidaliPaymentRequests, () => {
             fee: new BigNumber('0.01'),
             gas: new BigNumber('0.01'),
             gasPrice: new BigNumber('0.01'),
-            feeCurrency: Currency.Dollar,
+            feeCurrency: 'mockCusdAddress',
+            feeTokenId: 'mockCusdTokenId',
           },
           true
         )

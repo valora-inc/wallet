@@ -103,6 +103,7 @@ import {
   mockCeurAddress,
   mockCrealAddress,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFeeInfo,
   mockFiatConnectProviderInfo,
   mockFiatConnectQuotes,
@@ -1837,6 +1838,7 @@ describe('Fiatconnect saga', () => {
     const TEST_FEE_INFO_CUSD = {
       ...mockFeeInfo,
       feeCurrency: mockCusdAddress,
+      feeTokenId: mockCusdTokenId,
     }
 
     const cryptoTypeToAddress: Record<CryptoType, string> = {

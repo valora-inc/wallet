@@ -238,7 +238,6 @@ function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
 }
 
 export async function calculateFee({
-  // TODO update consumers (or keep the old version of this if difficult, and make it more DRY with this version)
   gas,
   feeTokenId,
   feeCurrency,
