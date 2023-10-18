@@ -47,10 +47,6 @@ const mockDekFeeGas = new BigNumber(100000)
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
 
-jest.mock('src/web3/dataEncryptionKey', () => ({
-  getRegisterDekTxGas: () => mockDekFeeGas,
-}))
-
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {

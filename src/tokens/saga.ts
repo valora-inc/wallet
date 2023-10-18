@@ -1,5 +1,4 @@
-import { toTransactionObject } from '@celo/connect'
-import { CeloContract, StableToken } from '@celo/contractkit'
+import { StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { gql } from 'apollo-boost'
@@ -34,8 +33,6 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
-
-import * as utf8 from 'utf8'
 
 const TAG = 'tokens/saga'
 
@@ -92,13 +89,6 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
   ])
   return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
 }
-
-export interface BasicTokenTransfer {
-  recipientAddress: string
-  amount: BigNumber.Value
-  comment: string
-}
-
 export interface TokenTransfer {
   recipientAddress: string
   amount: string
@@ -109,41 +99,6 @@ export interface TokenTransfer {
 }
 
 export type TokenTransferAction = { type: string } & TokenTransfer
-
-export async function createTokenTransferTransaction(
-  tokenAddress: string,
-  transferAction: BasicTokenTransfer
-) {
-  const { recipientAddress, amount, comment } = transferAction
-  const contract = await getStableTokenContract(tokenAddress)
-
-  const decimals = await contract.methods.decimals().call()
-  const decimalBigNum = new BigNumber(decimals)
-  const decimalFactor = new BigNumber(10).pow(decimalBigNum.toNumber())
-  const convertedAmount = new BigNumber(amount).multipliedBy(decimalFactor).toFixed(0)
-
-  const kit = await getContractKitAsync()
-  return toTransactionObject(
-    kit.connection,
-    contract.methods.transferWithComment(
-      recipientAddress,
-      convertedAmount.toString(),
-      utf8.encode(comment)
-    )
-  )
-}
-
-export async function getCurrencyAddress(currency: Currency) {
-  const contractKit = await getContractKitAsync()
-  switch (currency) {
-    case Currency.Celo:
-      return contractKit.registry.addressFor(CeloContract.GoldToken)
-    case Currency.Dollar:
-      return contractKit.registry.addressFor(CeloContract.StableToken)
-    case Currency.Euro:
-      return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
-  }
-}
 
 export async function getERC20TokenContract(tokenAddress: string) {
   const kit = await getContractKitAsync()
