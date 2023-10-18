@@ -99,7 +99,7 @@ export interface TokenBalances {
  * @deprecated use `TokenBalances` for new code
  */
 export interface TokenBalancesWithAddress {
-  [tokenId: string]: TokenBalanceWithAddress | undefined
+  [tokenAddress: string]: TokenBalanceWithAddress | undefined
 }
 
 export interface State {
