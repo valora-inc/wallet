@@ -2,7 +2,6 @@ import { Address } from '@celo/base'
 import BigNumber from 'bignumber.js'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Nft } from 'src/nfts/types'
-import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
 export enum Network {
@@ -17,17 +16,6 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-export interface StandbyTransactionLegacy {
-  context: TransactionContext
-  type: TransferTransactionType
-  status: TransactionStatus
-  value: string
-  currency: Currency
-  comment: string
-  timestamp: number
-  address: Address
-  hash?: string
-}
 export interface StandbyTransaction {
   context: TransactionContext
   networkId: NetworkId
