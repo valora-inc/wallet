@@ -56,7 +56,6 @@ import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 import KycPending from 'src/fiatconnect/kyc/KycPending'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -72,7 +71,6 @@ import {
   headerTransparentWithBack,
   headerWithBackButton,
   noHeader,
-  noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import QRNavigator from 'src/navigator/QRNavigator'
@@ -138,11 +136,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
-      <Navigator.Screen
-        name={Screens.PhoneNumberLookupQuota}
-        component={PhoneNumberLookupQuotaScreen}
-        options={noHeaderGestureDisabled}
-      />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}

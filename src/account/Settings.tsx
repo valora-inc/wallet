@@ -1,4 +1,3 @@
-import { isE164NumberStrict } from '@celo/phone-utils'
 import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
@@ -26,7 +25,6 @@ import { PincodeType } from 'src/account/reducer'
 import {
   cloudBackupCompletedSelector,
   devModeSelector,
-  e164NumberSelector,
   pincodeTypeSelector,
 } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
@@ -41,7 +39,6 @@ import {
 } from 'src/app/actions'
 import {
   analyticsEnabledSelector,
-  decentralizedVerificationEnabledSelector,
   getRequirePinOnAppOpen,
   hapticFeedbackEnabledSelector,
   phoneNumberVerifiedSelector,
@@ -61,7 +58,6 @@ import {
 } from 'src/components/SettingsItem'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { revokeVerification } from 'src/identity/actions'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -88,12 +84,10 @@ export const Account = ({ navigation, route }: Props) => {
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
-  const [showRevokeModal, setShowRevokeModal] = useState(false)
 
   const sessionId = useSelector(sessionIdSelector)
   const account = useSelector(walletAddressSelector)
   const devModeActive = useSelector(devModeSelector)
-  const e164PhoneNumber = useSelector(e164NumberSelector)
   const analyticsEnabled = useSelector(analyticsEnabledSelector)
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const pincodeType = useSelector(pincodeTypeSelector)
@@ -103,7 +97,6 @@ export const Account = ({ navigation, route }: Props) => {
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
-  const decentralizedVerificationEnabled = useSelector(decentralizedVerificationEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
@@ -154,16 +147,6 @@ export const Account = ({ navigation, route }: Props) => {
     dispatch(setNumberVerified(numberVerified))
   }
 
-  const revokeNumberVerification = () => {
-    hideConfirmRevokeModal()
-    if (e164PhoneNumber && !isE164NumberStrict(e164PhoneNumber)) {
-      Logger.showError('Cannot revoke verificaton: number invalid')
-      return
-    }
-    Logger.showMessage('Revoking verification')
-    dispatch(revokeVerification())
-  }
-
   const handleToggleBackupState = () => {
     dispatch(toggleBackupState())
   }
@@ -191,13 +174,6 @@ export const Account = ({ navigation, route }: Props) => {
               <Text>Toggle verification done</Text>
             </TouchableOpacity>
           </View>
-          {decentralizedVerificationEnabled && (
-            <View style={styles.devSettingsItem}>
-              <TouchableOpacity onPress={showConfirmRevokeModal}>
-                <Text>Revoke Number Verification (on-chain)</Text>
-              </TouchableOpacity>
-            </View>
-          )}
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={handleResetAppOpenedState}>
               <Text>Reset app opened state</Text>
@@ -337,14 +313,6 @@ export const Account = ({ navigation, route }: Props) => {
   const confirmAccountRemoval = () => {
     ValoraAnalytics.track(SettingsEvents.completed_account_removal)
     dispatch(clearStoredAccount(account ?? ''))
-  }
-
-  const showConfirmRevokeModal = () => {
-    setShowRevokeModal(true)
-  }
-
-  const hideConfirmRevokeModal = () => {
-    setShowRevokeModal(false)
   }
 
   const handleShowConfirmRevoke = () => {
@@ -517,17 +485,6 @@ export const Account = ({ navigation, route }: Props) => {
           testID="ConfirmAccountRemovalModal"
         >
           {t('promptConfirmRemovalModal.body')}
-        </Dialog>
-        <Dialog
-          isVisible={showRevokeModal}
-          title={t('promptConfirmRevokeModal.header')}
-          actionText={t('promptConfirmRevokeModal.revoke')}
-          actionPress={revokeNumberVerification}
-          secondaryActionText={t('cancel')}
-          secondaryActionPress={hideConfirmRevokeModal}
-          testID="ConfirmAccountRevokeModal"
-        >
-          {t('promptConfirmRevokeModal.body')}
         </Dialog>
       </ScrollView>
 

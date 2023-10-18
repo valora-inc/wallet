@@ -13,8 +13,6 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
   NewTransactionsInFeedAction,
-  TransactionConfirmedAction,
-  TransactionFailedAction,
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
@@ -42,7 +40,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
-import { call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
+import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'transactions/saga'
 
@@ -134,18 +132,6 @@ export function* getInviteTransactionsDetails({ transactions }: UpdateTransactio
     }
   }
   yield* put(updateInviteTransactions(inviteTransactions))
-}
-
-export function* waitForTransactionWithId(txId: string) {
-  while (true) {
-    const action = (yield* take([Actions.TRANSACTION_CONFIRMED, Actions.TRANSACTION_FAILED])) as
-      | TransactionConfirmedAction
-      | TransactionFailedAction
-    if (action.txId === txId) {
-      // Return the receipt on success and undefined otherwise.
-      return action.type === Actions.TRANSACTION_CONFIRMED ? action.receipt : undefined
-    }
-  }
 }
 
 export function* sendAndMonitorTransaction<T>(
