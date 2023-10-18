@@ -16,7 +16,6 @@ interface Props {
   tokenAmount: BigNumber
   usingLocalAmount: boolean
   tokenId: string
-  isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
   tokenHasPriceUsd: boolean
@@ -27,7 +26,6 @@ function SendAmountValue({
   tokenAmount,
   usingLocalAmount,
   tokenId,
-  isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
   tokenHasPriceUsd,
@@ -44,20 +42,16 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        {isOutgoingPaymentRequest ? (
-          <View style={styles.placeholder} />
-        ) : (
-          <Touchable
-            borderless={true}
-            onPress={onPressMax}
-            style={styles.pressableButton}
-            testID="MaxButton"
-          >
-            <Text adjustsFontSizeToFit={true} maxFontSizeMultiplier={1.618} style={styles.button}>
-              {t('max')}
-            </Text>
-          </Touchable>
-        )}
+        <Touchable
+          borderless={true}
+          onPress={onPressMax}
+          style={styles.pressableButton}
+          testID="MaxButton"
+        >
+          <Text adjustsFontSizeToFit={true} maxFontSizeMultiplier={1.618} style={styles.button}>
+            {t('max')}
+          </Text>
+        </Touchable>
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer} testID="InputAmountContainer">
             {usingLocalAmount && (

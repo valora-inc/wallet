@@ -19,7 +19,6 @@ import {
 } from 'test/values'
 
 const mockScreenProps = (params: {
-  isOutgoingPaymentRequest?: boolean
   skipContactsImport?: boolean
   forceTokenId?: boolean
   defaultTokenIdOverride?: string
@@ -140,7 +139,6 @@ describe('Send', () => {
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       recipient: expect.objectContaining(mockRecipient),
-      isOutgoingPaymentRequest: false,
       origin: SendOrigin.AppSendFlow,
       defaultTokenIdOverride: mockCusdTokenId,
       isFromScan: false,
@@ -154,7 +152,6 @@ describe('Send', () => {
       <Provider store={store}>
         <Send
           {...mockScreenProps({
-            isOutgoingPaymentRequest: true,
             defaultTokenIdOverride: mockCeloTokenId,
             forceTokenId: true,
           })}
@@ -167,8 +164,7 @@ describe('Send', () => {
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       recipient: expect.objectContaining(mockRecipient),
-      isOutgoingPaymentRequest: true,
-      origin: SendOrigin.AppRequestFlow,
+      origin: SendOrigin.AppSendFlow,
       defaultTokenIdOverride: mockCeloTokenId,
       forceTokenId: true,
       isFromScan: false,
