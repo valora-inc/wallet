@@ -186,7 +186,7 @@ function TokenBottomSheet<T extends TokenBalance>({
                 <TokenBalanceItem
                   token={tokenInfo}
                   onPress={onTokenPressed(tokenInfo)}
-                  containerStyle={{ marginHorizontal: 0 }}
+                  containerStyle={styles.tokenBalanceItemContainer}
                 />
               ) : (
                 <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
@@ -252,6 +252,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: Spacing.Regular16,
+  },
+  tokenBalanceItemContainer: {
+    marginHorizontal: 0,
   },
 })
 
