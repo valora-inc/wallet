@@ -29,7 +29,6 @@ import {
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
-  StandbyTransaction,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
@@ -45,13 +44,13 @@ const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
-  const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
+  const standbyTxs = yield* select(standbyTransactionsSelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
     if (
-      standbyTx.hash &&
+      standbyTx.transactionHash &&
       standbyTx.status !== TransactionStatus.Failed &&
-      newFeedTxHashes.has(standbyTx.hash)
+      newFeedTxHashes.has(standbyTx.transactionHash)
     ) {
       yield* put(removeStandbyTransaction(standbyTx.context.id))
     }

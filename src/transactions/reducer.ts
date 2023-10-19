@@ -4,7 +4,12 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
-import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  StandbyTransaction,
+  TokenTransaction,
+  TransactionContext,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 export interface InviteTransactions {
   [txHash: string]: {
@@ -152,7 +157,7 @@ export const standbyTransactionsSelector = createSelector(
   (standbyTransactions) =>
     standbyTransactions
       .filter((tx) => tx.status === TransactionStatus.Pending)
-      .map((tx): TokenTransaction => {
+      .map((tx): TokenTransaction & { context: TransactionContext } => {
         return {
           ...tx,
           block: '',

@@ -6,9 +6,9 @@ import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
-import { Fee, TokenTransactionTypeV2, NetworkId } from 'src/transactions/types'
+import { Fee, NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { createMockStore, RecursivePartial } from 'test/utils'
+import { RecursivePartial, createMockStore } from 'test/utils'
 import { mockAccount, mockNftAllFields } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
@@ -37,7 +37,7 @@ describe('NftFeedItem', () => {
     type = TokenTransactionTypeV2.NftReceived,
     fees = [],
   }: {
-    type?: TokenTransactionTypeV2
+    type?: TokenTransactionTypeV2.NftReceived | TokenTransactionTypeV2.NftSent
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
   }) {
@@ -59,6 +59,7 @@ describe('NftFeedItem', () => {
             block: '2345',
             fees,
             nfts: [mockNftAllFields],
+            status: TransactionStatus.Complete,
           }}
         />
       </Provider>

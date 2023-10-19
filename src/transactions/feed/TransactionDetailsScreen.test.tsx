@@ -15,6 +15,8 @@ import {
   TokenTransfer,
   TokenTransferMetadata,
   NetworkId,
+  TokenTransferTypeV2,
+  TransactionStatus,
 } from 'src/transactions/types'
 import {
   createMockStore,
@@ -87,7 +89,7 @@ describe('TransactionDetailsScreen', () => {
     metadata = {},
     fees = [],
   }: {
-    type: TokenTransactionTypeV2
+    type: TokenTransferTypeV2
     address?: string
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
@@ -104,6 +106,7 @@ describe('TransactionDetailsScreen', () => {
       amount,
       metadata,
       fees,
+      status: TransactionStatus.Complete,
     }
   }
 
@@ -137,6 +140,7 @@ describe('TransactionDetailsScreen', () => {
       outAmount,
       metadata,
       fees,
+      status: TransactionStatus.Complete,
     }
   }
 

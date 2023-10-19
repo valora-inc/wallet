@@ -41,6 +41,7 @@ const mockTransaction = (transactionHash: string): TokenTransaction => {
     timestamp: 1542306118,
     transactionHash,
     type: TokenTransactionTypeV2.Received,
+    status: TransactionStatus.Complete,
   }
 }
 
@@ -48,14 +49,17 @@ const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 
 const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
   {
+    __typename: 'TokenTransferV3',
     context: { id: 'test' },
     networkId: NetworkId['celo-alfajores'],
     type: TokenTransactionTypeV2.Sent,
     status: TransactionStatus.Pending,
-    value: '0.5',
-    tokenAddress: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    comment: '',
+    amount: {
+      value: '0.5',
+      tokenAddress: mockCusdAddress,
+      tokenId: mockCusdTokenId,
+    },
+    metadata: { comment: '' },
     timestamp: 1542300000,
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
   },

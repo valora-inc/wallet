@@ -77,7 +77,7 @@ export interface LocalAmount {
   exchangeRate: string
 }
 
-type TokenTransferTypeV2 =
+export type TokenTransferTypeV2 =
   | TokenTransactionTypeV2.Sent
   | TokenTransactionTypeV2.Received
   | TokenTransactionTypeV2.InviteSent

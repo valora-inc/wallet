@@ -15,6 +15,7 @@ import {
   TokenAmount,
   TokenTransactionTypeV2,
   TokenTransferMetadata,
+  TokenTransferTypeV2,
   TransactionStatus,
   NetworkId,
 } from 'src/transactions/types'
@@ -69,7 +70,7 @@ describe('TransferFeedItem', () => {
     metadata = {},
     fees = [],
   }: {
-    type?: TokenTransactionTypeV2
+    type?: TokenTransferTypeV2
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]

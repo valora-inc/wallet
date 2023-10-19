@@ -1,9 +1,13 @@
-import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
-import { TokenTransactionTypeV2, TransactionStatus, NetworkId } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
-const mockFeedItem = (timestamp: number, comment: string): FeedTokenTransaction => {
+const mockFeedItem = (timestamp: number, comment: string): TokenTransaction => {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
@@ -54,7 +58,7 @@ describe('groupFeedItemsInSections', () => {
       mockFeedItem(daysAgo(275), 'december 2018'),
       mockFeedItem(daysAgo(400), 'august 2018'),
     ]
-    const sections = groupFeedItemsInSections(feedItems)
+    const sections = groupFeedItemsInSections([], feedItems)
     expect(sections.length).toEqual(6)
 
     expect(sections[0].title).toEqual('feedSectionHeaderRecent')
