@@ -49,5 +49,10 @@ jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
   getFontScale: jest.fn(() => 1),
 }))
 
+jest.mock('react-native-shake', () => ({
+  addListener: jest.fn(),
+  removeAllListeners: jest.fn(),
+}))
+
 // @ts-ignore
 global.__reanimatedWorkletInit = jest.fn()

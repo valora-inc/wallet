@@ -30,6 +30,7 @@ import {
   v146Schema,
   v148Schema,
   v14Schema,
+  v159Schema,
   v15Schema,
   v16Schema,
   v17Schema,
@@ -1295,5 +1296,22 @@ describe('Redux persist migrations', () => {
         activeScreen: 'Main',
       },
     })
+  })
+
+  it('works from 159 to 160', () => {
+    const preMigrationSchema = {
+      ...v159Schema,
+    }
+    preMigrationSchema.app.activeScreen = 'PaymentRequestConfirmation'
+    const migratedSchema = migrations[160](preMigrationSchema)
+
+    // paymentRequest dropped, activeScreen changed to Main from PaymentRequestConfirmation
+    expect('paymentRequest' in migratedSchema).toBe(false)
+    expect(migratedSchema.app.activeScreen).toEqual('Main')
+
+    // should otherwise be equal
+    expect(_.omit(migratedSchema, 'app.activeScreen')).toStrictEqual(
+      _.omit(preMigrationSchema, 'app.activeScreen', 'paymentRequest')
+    )
   })
 })
