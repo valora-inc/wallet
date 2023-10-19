@@ -6,12 +6,11 @@ describe(estimateFeesPerGas, () => {
       request: jest.fn(async ({ method, params }) => {
         expect(params).toBeUndefined()
         if (method === 'eth_gasPrice') return '0x64' // 100 in hex
-        if (method === 'eth_maxPriorityFeePerGas') return '0xa' // 10 in hex
         throw new Error(`Unknown method ${method}`)
       }),
     }
     const fees = await estimateFeesPerGas(client as any)
-    expect(fees).toEqual({ maxFeePerGas: BigInt(110), maxPriorityFeePerGas: BigInt(10) })
+    expect(fees).toEqual({ maxFeePerGas: BigInt(100), maxPriorityFeePerGas: undefined })
   })
 
   it('when fee currency is specified, it should return the correct fees per gas', async () => {
@@ -19,11 +18,10 @@ describe(estimateFeesPerGas, () => {
       request: jest.fn(async ({ method, params }) => {
         expect(params).toEqual(['0x123'])
         if (method === 'eth_gasPrice') return '0x64' // 100 in hex
-        if (method === 'eth_maxPriorityFeePerGas') return '0xa' // 10 in hex
         throw new Error(`Unknown method ${method}`)
       }),
     }
     const fees = await estimateFeesPerGas(client as any, '0x123')
-    expect(fees).toEqual({ maxFeePerGas: BigInt(110), maxPriorityFeePerGas: BigInt(10) })
+    expect(fees).toEqual({ maxFeePerGas: BigInt(100), maxPriorityFeePerGas: undefined })
   })
 })
