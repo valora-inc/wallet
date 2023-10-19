@@ -1352,4 +1352,51 @@ export const migrations = {
     delete output.paymentRequest // doing this instead of output = {..._.omit(state, 'paymentRequest')} because _.omit removes underscore-prefixed properties too, like the required _persist key
     return output
   },
+  161: (state: any) => ({
+    ...state,
+    fees: {
+      estimates: {
+        send: {
+          ...state.fees.estimates.send,
+          feeInfo: {
+            ...state.fees.estimates.send.feeInfo,
+            feeCurrency: 'aaa',
+            feeTokenId: 'bbb',
+          },
+        },
+        exchange: {
+          ...state.fees.estimates.exchange,
+          feeInfo: {
+            ...state.fees.estimates.exchange.feeInfo,
+            feeCurrency: 'aaa',
+            feeTokenId: 'bbb',
+          },
+        },
+        swap: {
+          ...state.fees.estimates.swap,
+          feeInfo: {
+            ...state.fees.estimates.swap.feeInfo,
+            feeCurrency: 'aaa',
+            feeTokenId: 'bbb',
+          },
+        },
+        // reclaim-escrow: {
+        //   ...state.fees.estimates.reclaim-escrow,
+        //   feeInfo: {
+        //     ...state.fees.estimates.reclaim-escrow.feeInfo,
+        //     feeCurrency: 'aaa',
+        //     feeTokenId: 'bbb',
+        //   },
+        // },
+        // register-dek: {
+        //   ...state.fees.estimates.register-dek,
+        //   feeInfo: {
+        //     ...state.fees.estimates.register-dek.feeInfo,
+        //     feeCurrency: 'aaa',
+        //     feeTokenId: 'bbb',
+        //   },
+        // },
+      },
+    },
+  }),
 }

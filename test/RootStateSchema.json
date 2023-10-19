@@ -1119,7 +1119,56 @@
                     "type": "boolean"
                 },
                 "feeInfo": {
-                    "$ref": "#/definitions/FeeInfo"
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "fee": {
+                                    "$ref": "#/definitions/BigNumber"
+                                },
+                                "feeCurrency": {
+                                    "type": "string"
+                                },
+                                "feeTokenId": {
+                                    "type": "string"
+                                },
+                                "gas": {
+                                    "$ref": "#/definitions/BigNumber"
+                                },
+                                "gasPrice": {
+                                    "$ref": "#/definitions/BigNumber"
+                                }
+                            },
+                            "required": [
+                                "fee",
+                                "feeCurrency",
+                                "feeTokenId",
+                                "gas",
+                                "gasPrice"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "fee": {
+                                    "$ref": "#/definitions/BigNumber"
+                                },
+                                "gas": {
+                                    "$ref": "#/definitions/BigNumber"
+                                },
+                                "gasPrice": {
+                                    "$ref": "#/definitions/BigNumber"
+                                }
+                            },
+                            "required": [
+                                "fee",
+                                "gas",
+                                "gasPrice"
+                            ],
+                            "type": "object"
+                        }
+                    ]
                 },
                 "lastUpdated": {
                     "type": "number"
@@ -1146,30 +1195,6 @@
             "additionalProperties": {
                 "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
             },
-            "type": "object"
-        },
-        "FeeInfo": {
-            "additionalProperties": false,
-            "properties": {
-                "fee": {
-                    "$ref": "#/definitions/BigNumber"
-                },
-                "feeCurrency": {
-                    "type": "string"
-                },
-                "gas": {
-                    "$ref": "#/definitions/BigNumber"
-                },
-                "gasPrice": {
-                    "$ref": "#/definitions/BigNumber"
-                }
-            },
-            "required": [
-                "fee",
-                "feeCurrency",
-                "gas",
-                "gasPrice"
-            ],
             "type": "object"
         },
         "FiatAccountSchema": {
