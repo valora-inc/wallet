@@ -52,11 +52,6 @@
     "body": "Você não poderá mais acessar seus fundos ou sua Frase de Recuperação a partir deste dispositivo. Não há como recuperar sua Frase de Recuperação se você não a anotou.",
     "resetNow": "Redefinir agora"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Tem certeza de que deseja desconectar o seu número de celular?",
-    "body": "Depois de desconectá-lo, você não poderá reconectar o seu número de celular a esta carteira novamente.",
-    "revoke": "Desconectar"
-  },
   "protectWallet": {
     "title": "Proteja sua carteira",
     "subtitle": "Proteja sua carteira",
@@ -529,9 +524,6 @@
   },
   "message": "Mensagem",
   "addressLookupFailure": "Falha ao procurar endereço do número de celular",
-  "saltFetchFailure": "Falha ao recuperar segredo do número de celular",
-  "saltQuotaExceededError": "Sua cota de busca de número de celular acabou",
-  "odisInsufficientBalance": "Conecte o seu número",
   "ordinals": [
     "zero",
     "primeiro",

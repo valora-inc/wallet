@@ -9201,10 +9201,10 @@ i18next@^22.5.1:
   dependencies:
     "@babel/runtime" "^7.20.6"
 
-ibantools@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.4.tgz#3307155e2354240ec2e4b494d5823c350e364801"
-  integrity sha512-Qs7vDo6IO0v1W78mh/fBwQafS4MVXEMXBlgRJxQ8Viaa4grA5zaOpb6iozSH4LlZeWt3EM/VZjej/c1TteghOw==
+ibantools@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.5.tgz#137a12e98e53074cc5d5d58aef4a0a185d6c5194"
+  integrity sha512-RIEM1nv01QfsazrvA7f9QswQaXPa+K70aNngGPm7ayoPiK8IDXJYZXC54+qsYOfSF4FqYEyu1o3p0ZLstyJWHg==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
