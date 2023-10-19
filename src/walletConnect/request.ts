@@ -8,15 +8,6 @@ import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { call } from 'typed-redux-saga'
 import { SignMessageParameters, formatTransaction } from 'viem'
 
-export interface WalletResponseError {
-  isError: true
-  error: string
-}
-export interface WalletResponseSuccess {
-  isError: false
-  result: string
-}
-
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
 
