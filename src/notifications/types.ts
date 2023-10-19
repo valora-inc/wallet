@@ -2,7 +2,6 @@ import { KycSchema } from '@fiatconnect/fiatconnect-types'
 
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
-  PAYMENT_REQUESTED = 'PAYMENT_REQUESTED',
   FIAT_CONNECT_KYC_APPROVED = 'FIAT_CONNECT_KYC_APPROVED',
 }
 

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import deviceInfoModule from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import {
@@ -18,8 +19,11 @@ import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
-import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
-import _ from 'lodash'
+import {
+  isCicoToken,
+  sortByUsdBalance,
+  sortFirstStableThenCeloThenOthersByUsdBalance,
+} from './utils'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -211,20 +215,12 @@ export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2:
 }
 
 /**
- * @deprecated
+ * @deprecated use swappableTokensByNetworkIdSelector or useSwappableTokens hook
  */
-export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  const appVersion = deviceInfoModule.getVersion()
-
-  return tokens
-    .filter(
-      (tokenInfo) =>
-        tokenInfo.isSwappable ||
-        (tokenInfo.minimumAppVersionToSwap &&
-          !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
-    )
-    .sort(tokenCompareByUsdBalanceThenByName)
-})
+export const swappableTokensSelector = createSelector(
+  (state: RootState) => swappableTokensByNetworkIdSelector(state, [networkConfig.defaultNetworkId]),
+  (tokens) => tokens.filter((tokenInfo) => !!tokenInfo.address) as TokenBalanceWithAddress[]
+)
 
 /**
  * @deprecated
@@ -341,6 +337,45 @@ export const tokensInfoUnavailableSelector = createSelector(
     // info and there are no cached values
     return totalBalance === null
   }
+)
+
+export const tokensWithTokenBalanceSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => {
+    return tokens.filter((token) => token.balance.gt(TOKEN_MIN_AMOUNT))
+  }
+)
+
+export const swappableTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => {
+    const appVersion = deviceInfoModule.getVersion()
+    return tokens
+      .filter(
+        (tokenInfo) =>
+          tokenInfo.isSwappable ||
+          (tokenInfo.minimumAppVersionToSwap &&
+            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+      )
+      .sort(tokenCompareByUsdBalanceThenByName)
+  }
+)
+
+export const cashInTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) =>
+    tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
+)
+
+export const cashOutTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) =>
+    tokens.filter(
+      (tokenInfo) =>
+        tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
+        tokenInfo.isCashOutEligible &&
+        isCicoToken(tokenInfo.symbol)
+    )
 )
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
