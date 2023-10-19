@@ -1,4 +1,4 @@
-import { CeloTx, CeloTxReceipt } from '@celo/connect'
+import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
@@ -27,6 +27,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
   )
 
   const account: string = yield* call(getWalletAddress)
+  const legacyWallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)
@@ -106,9 +107,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
         tx = yield* call(normalizer.populate.bind(normalizer), rawTx)
       }
 
-      const legacyWallet: UnlockableWallet = yield* call(getWallet)
-      const encodedTransaction = yield* call([legacyWallet, 'signTransaction'], tx)
-      return encodedTransaction.raw
+      return (yield* call([legacyWallet, 'signTransaction'], tx)) as EncodedTransaction
     }
     case SupportedActions.eth_sendTransaction: {
       if (useViem) {

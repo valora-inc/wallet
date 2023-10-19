@@ -516,7 +516,10 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     }
 
     const result = yield* call(handleRequest, { ...params.request })
-    const response: JsonRpcResult<string> = formatJsonRpcResult(id, result)
+    const response: JsonRpcResult<string> = formatJsonRpcResult(
+      id,
+      (params.request.method = typeof result === 'string' ? result : result.raw)
+    )
     yield* call([client, 'respondSessionRequest'], { topic, response })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
