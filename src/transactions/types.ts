@@ -1,4 +1,3 @@
-import { Address } from '@celo/base'
 import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
 import { v4 as uuidv4 } from 'uuid'
@@ -15,19 +14,19 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-export interface StandbyTransaction {
+type StandbySwap = {
+  type: TokenTransactionTypeV2.SwapTransaction | TokenTransactionTypeV2.Exchange
+  transactionHash?: string
   context: TransactionContext
-  networkId: NetworkId
-  type: TokenTransferTypeV2
-  status: TransactionStatus
-  value: string
-  tokenId: string
-  tokenAddress?: string
-  comment: string
-  timestamp: number
-  address: Address
-  hash?: string
-}
+} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash'>
+
+type StandbyTransfer = {
+  type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
+  transactionHash?: string
+  context: TransactionContext
+} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash'>
+
+export type StandbyTransaction = StandbySwap | StandbyTransfer
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {
@@ -107,6 +106,7 @@ export interface TokenTransfer {
   amount: TokenAmount
   metadata: TokenTransferMetadata
   fees: Fee[]
+  status: TransactionStatus
 }
 
 export interface TokenTransferMetadata {
@@ -125,6 +125,7 @@ export interface NftTransfer {
   block: string
   fees?: Fee[]
   nfts?: Nft[]
+  status: TransactionStatus
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -139,6 +140,7 @@ export interface TokenExchange {
   outAmount: TokenAmount
   metadata?: TokenExchangeMetadata
   fees: Fee[]
+  status: TransactionStatus
 }
 
 export interface TokenExchangeMetadata {

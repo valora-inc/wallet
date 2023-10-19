@@ -309,14 +309,19 @@ describe(sendPaymentSaga, () => {
       ])
       .put(
         addStandbyTransaction({
+          __typename: 'TokenTransferV3',
           context: mockContext,
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.Sent,
-          comment: sendAction.comment,
+          metadata: {
+            comment: sendAction.comment,
+          },
+          amount: {
+            value: amount.negated().toString(),
+            tokenAddress: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+          },
           status: TransactionStatus.Pending,
-          value: amount.negated().toString(),
-          tokenAddress: mockCusdAddress,
-          tokenId: mockCusdTokenId,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockQRCodeRecipient.address,
         })
