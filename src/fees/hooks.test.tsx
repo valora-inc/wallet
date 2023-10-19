@@ -220,7 +220,7 @@ describe(useFeeCurrencies, () => {
     jest.clearAllMocks()
   })
 
-  function renderComponent(storeOverrides: RecursivePartial<RootState> = {}) {
+  function renderHook(storeOverrides: RecursivePartial<RootState> = {}) {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -291,7 +291,7 @@ describe(useFeeCurrencies, () => {
   }
 
   it('returns feeCurrencies sorted by native currency first, then by USD balance, and balance otherwise', () => {
-    const { result } = renderComponent()
+    const { result } = renderHook()
     expect(result.mock.calls[0][0].map((curr: TokenBalance) => curr.tokenId)).toEqual([
       mockCeloTokenId,
       mockCusdTokenId,
