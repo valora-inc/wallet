@@ -14,20 +14,16 @@ import {
   reclaimEscrowPaymentSuccess,
   storeSentEscrowPayments,
 } from 'src/escrow/actions'
-import { calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { getCurrencyAddress } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
-import { estimateGas } from 'src/web3/utils'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'escrow/saga'
@@ -37,24 +33,6 @@ export async function createReclaimTransaction(paymentID: string) {
 
   const escrow = await contractKit.contracts.getEscrow()
   return escrow.revoke(paymentID).txo
-}
-
-export async function getReclaimEscrowGas(account: string, paymentID: string) {
-  Logger.debug(`${TAG}/getReclaimEscrowGas`, 'Getting gas estimate for escrow reclaim tx')
-  const tx = await createReclaimTransaction(paymentID)
-  const txParams = {
-    from: account,
-    feeCurrency: await getCurrencyAddress(Currency.Dollar),
-  }
-  const gas = await estimateGas(tx, txParams)
-  Logger.debug(`${TAG}/getReclaimEscrowGas`, `Estimated gas of ${gas.toString()}}`)
-  return gas
-}
-
-export async function getReclaimEscrowFee(account: string, paymentID: string) {
-  const gas = await getReclaimEscrowGas(account, paymentID)
-  // TODO: Add support for any allowed fee currency, not just dollar.
-  return calculateFee(gas, await currencyToFeeCurrency(Currency.Dollar))
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {

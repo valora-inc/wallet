@@ -3112,10 +3112,10 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.37.2.tgz#99fd76230d7c1d3c6901ed4c0bea35be7d6fe26d"
   integrity sha512-SxKQOCX94ZaQM4C2ysNjHdJsjYapu/NYZCz1cnPyCdDvYfhwiVge1uq6ZHiQ/ARfxAAOmc3R4Mh3VvEz7WUOdw==
 
-"@sentry/types@^7.73.0":
-  version "7.73.0"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.73.0.tgz#6d811bbe413d319df0a592a672d6d72a94a8e716"
-  integrity sha512-/v8++bly8jW7r4cP2wswYiiVpn7eLLcqwnfPUMeCQze4zj3F3nTRIKc9BGHzU0V+fhHa3RwRC2ksqTGq1oJMDg==
+"@sentry/types@^7.74.0":
+  version "7.74.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.74.0.tgz#810a62cd28db21c5f15f131da6525d7ddf7a29db"
+  integrity sha512-rI5eIRbUycWjn6s6o3yAjjWtIvYSxZDdnKv5je2EZINfLKcMPj1dkl6wQd2F4y7gLfD/N6Y0wZYIXC3DUdJQQg==
 
 "@sentry/utils@7.37.2":
   version "7.37.2"
@@ -9201,10 +9201,10 @@ i18next@^22.5.1:
   dependencies:
     "@babel/runtime" "^7.20.6"
 
-ibantools@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.4.tgz#3307155e2354240ec2e4b494d5823c350e364801"
-  integrity sha512-Qs7vDo6IO0v1W78mh/fBwQafS4MVXEMXBlgRJxQ8Viaa4grA5zaOpb6iozSH4LlZeWt3EM/VZjej/c1TteghOw==
+ibantools@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.5.tgz#137a12e98e53074cc5d5d58aef4a0a185d6c5194"
+  integrity sha512-RIEM1nv01QfsazrvA7f9QswQaXPa+K70aNngGPm7ayoPiK8IDXJYZXC54+qsYOfSF4FqYEyu1o3p0ZLstyJWHg==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -13562,10 +13562,6 @@ react-native-auth0@^2.17.4:
     react-native-securerandom "1.0.0"
     unorm "^1.3.3"
 
-"react-native-blind-threshold-bls@https://github.com/valora-inc/react-native-blind-threshold-bls#e7305cc":
-  version "1.0.0"
-  resolved "https://github.com/valora-inc/react-native-blind-threshold-bls#e7305cc3333756764e674eef41d9d4bfb616c647"
-
 react-native-camera@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-4.2.1.tgz#caf74081f055e89d7e9b0cd5108965d808c60e90"
@@ -13820,10 +13816,10 @@ react-native-safe-modules@^1.0.3:
   dependencies:
     dedent "^0.6.0"
 
-react-native-screens@^3.18.2:
-  version "3.18.2"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.18.2.tgz#d7ab2d145258d3db9fa630fa5379dc4474117866"
-  integrity sha512-ANUEuvMUlsYJ1QKukEhzhfrvOUO9BVH9Nzg+6eWxpn3cfD/O83yPBOF8Mx6x5H/2+sMy+VS5x/chWOOo/U7QJw==
+react-native-screens@^3.25.0:
+  version "3.25.0"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.25.0.tgz#cf45e271ce733c9cf782fef8c9b3eb9e53faf01d"
+  integrity sha512-TSC2Ad0hh763I8QT6XxMsPXAagQ+RawDSdFtKRvIz9fCYr96AjRwwaqmYivbqlDywOgcRBkIVynkFtp0ThmlYw==
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
@@ -13834,15 +13830,15 @@ react-native-securerandom@1.0.0, react-native-securerandom@^1.0.1:
   dependencies:
     base64-js "*"
 
-react-native-shake@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-5.1.1.tgz#733657764b0395b26f26576bba51e2dcbcecfe89"
-  integrity sha512-h6O8LnFd3LkvoYx7O0afM6rO9fDKomZ1EyomGgKRDyFhinxYIU7Z4uPYtwA4Z1Cd3frEEKTLNKHI1Eu0MOI3Yw==
+react-native-shake@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-5.5.0.tgz#55e8a15bebee872f35669a28b6475173eba84aca"
+  integrity sha512-hDcuO+suKahZd19k0F11Xdkrw7Xhir3L9JnHpSuFCOdtj/O+hitoSQe0tyBvd4exxWmAzJVGqy7Ct/zbJHsJ7A==
 
-react-native-share@^7.3.2:
-  version "7.3.2"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-7.3.2.tgz#3b61c42b28b034d1662f3aa7514846c609251502"
-  integrity sha512-1E2xxTzHYrV74WMuBz6VLx6Y9slBBNI9s0NxXDEYb0VsFT6DcHnbiaY4ExW5E6vw37s3gfZxm4zsv9/TwFEukA==
+react-native-share@^7.9.1:
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-7.9.1.tgz#36d1cb9786c58ba14ae31cc72f10b3179a045953"
+  integrity sha512-v4b6lD4YsiCJB14kjXons+d5cvvxgLv8OdBF0aP58X8Qqbcj81QNv1icAxiNmhxFx5OFYsu/E6v+o8S0GSaneQ==
 
 react-native-simple-toast@^1.1.4:
   version "1.1.4"
@@ -13869,10 +13865,10 @@ react-native-svg-mock@^2.0.0:
   resolved "https://registry.yarnpkg.com/react-native-svg-mock/-/react-native-svg-mock-2.0.0.tgz#27f4793e860ec6cae783930e6afb54869f0a2ea9"
   integrity sha512-+Op91zndXy+fUHZlcYo2YU3RzW5yXvKXE/mqMgYOdJLLS2kWwZBjAGt+CiKGl/+ZKnJ8/h0TWiiT0vCSv2NxEA==
 
-react-native-svg@^13.9.0:
-  version "13.9.0"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.9.0.tgz#8df8a690dd00362601f074dec5d3a86dd0f99c7f"
-  integrity sha512-Ey18POH0dA0ob/QiwCBVrxIiwflhYuw0P0hBlOHeY4J5cdbs8ngdKHeWC/Kt9+ryP6fNoEQ1PUgPYw2Bs/rp5Q==
+react-native-svg@^13.14.0:
+  version "13.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.14.0.tgz#879930cfe10e877e51ebb77dfcc2cd65fc6b0d21"
+  integrity sha512-27ZnxUkHgWICimhuj6MuqBkISN53lVvgWJB7pIypjXysAyM+nqgQBPh4vXg+7MbqLBoYvR4PiBgKfwwGAqVxHg==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"

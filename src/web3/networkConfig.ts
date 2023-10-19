@@ -1,9 +1,8 @@
 import { Address } from '@celo/base'
-import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
+import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { NetworkId, Network } from 'src/transactions/types'
 import {
   Chain as ViemChain,
   celo,
@@ -23,8 +22,6 @@ interface NetworkConfig {
   blockchainApiUrl: string
   cloudFunctionsUrl: string
   hooksApiUrl: string
-  odisUrl: string // Phone Number Privacy service url
-  odisPubKey: string
   sentryTracingUrls: string[]
   allowedMtwImplementations: string[]
   currentMtwImplementationAddress: string
@@ -211,8 +208,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: BLOCKCHAIN_API_STAGING,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     hooksApiUrl: HOOKS_API_URL_ALFAJORES,
-    odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisUrl,
-    odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
       BLOCKCHAIN_API_STAGING,
@@ -279,8 +274,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     hooksApiUrl: HOOKS_API_URL_MAINNET,
-    odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisUrl,
-    odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT_PNP.odisPubKey,
     sentryTracingUrls: [
       DEFAULT_FORNO_URL,
       BLOCKCHAIN_API_MAINNET,

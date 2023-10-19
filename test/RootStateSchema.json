@@ -255,7 +255,6 @@
                                 "importBackupFailed",
                                 "importContactsFailed",
                                 "incorrectPin",
-                                "insufficientBalance",
                                 "insufficientBalanceStable",
                                 "invalidAmount",
                                 "invalidBackupPhrase",
@@ -269,8 +268,6 @@
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
-                                "odisInsufficientBalance",
-                                "odisQuotaError",
                                 "paymentRequestFailed",
                                 "paymentRequestUpdateFailed",
                                 "personaAccountEndpointFail",
@@ -283,8 +280,6 @@
                                 "qrFailedInvalidRecipient",
                                 "qrFailedNoPhoneNumber",
                                 "reclaimingEscrowedPaymentFailed",
-                                "saltFetchFailure",
-                                "saltQuotaExceededError",
                                 "sendPaymentFailed",
                                 "setPinFailed",
                                 "simplexPurchaseFetchFailed",
@@ -2101,60 +2096,6 @@
             ],
             "type": "object"
         },
-        "PaymentRequest": {
-            "additionalProperties": false,
-            "properties": {
-                "amount": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "number"
-                },
-                "notified": {
-                    "type": "boolean"
-                },
-                "requesteeAddress": {
-                    "type": "string"
-                },
-                "requesterAddress": {
-                    "type": "string"
-                },
-                "requesterE164Number": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/PaymentRequestStatus"
-                },
-                "type": {
-                    "const": "PAYMENT_REQUESTED",
-                    "type": "string"
-                },
-                "uid": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "amount",
-                "createdAt",
-                "notified",
-                "requesteeAddress",
-                "requesterAddress",
-                "status"
-            ],
-            "type": "object"
-        },
-        "PaymentRequestStatus": {
-            "enum": [
-                "CANCELLED",
-                "COMPLETED",
-                "DECLINED",
-                "REQUESTED"
-            ],
-            "type": "string"
-        },
         "PersistState": {
             "additionalProperties": false,
             "properties": {
@@ -2445,7 +2386,6 @@
                 "FiatExchangeCurrency",
                 "GoldEducation",
                 "ImportWallet",
-                "IncomingPaymentRequestListScreen",
                 "Invite",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
@@ -2465,9 +2405,6 @@
                 "NotificationCenter",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
-                "OutgoingPaymentRequestListScreen",
-                "PaymentRequestConfirmation",
-                "PhoneNumberLookupQuota",
                 "PincodeEnter",
                 "PincodeSet",
                 "Profile",
@@ -2749,49 +2686,6 @@
             ],
             "type": "object"
         },
-        "StandbyTransactionLegacy": {
-            "additionalProperties": false,
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "currency": {
-                    "$ref": "#/definitions/Currency"
-                },
-                "hash": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "type": {
-                    "$ref": "#/definitions/TransferTransactionType"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "comment",
-                "context",
-                "currency",
-                "status",
-                "timestamp",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
         "State": {
             "additionalProperties": false,
             "properties": {
@@ -2817,9 +2711,6 @@
                     "$ref": "#/definitions/CeloNewsConfig"
                 },
                 "coinbasePayEnabled": {
-                    "type": "boolean"
-                },
-                "decentralizedVerificationEnabled": {
                     "type": "boolean"
                 },
                 "fiatConnectCashInEnabled": {
@@ -2968,7 +2859,6 @@
                 "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
-                "decentralizedVerificationEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -3356,28 +3246,6 @@
         "State_16": {
             "additionalProperties": false,
             "properties": {
-                "incomingPaymentRequests": {
-                    "items": {
-                        "$ref": "#/definitions/PaymentRequest"
-                    },
-                    "type": "array"
-                },
-                "outgoingPaymentRequests": {
-                    "items": {
-                        "$ref": "#/definitions/PaymentRequest"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "incomingPaymentRequests",
-                "outgoingPaymentRequests"
-            ],
-            "type": "object"
-        },
-        "State_17": {
-            "additionalProperties": false,
-            "properties": {
                 "providerLogos": {
                     "$ref": "#/definitions/ProviderLogos"
                 },
@@ -3391,7 +3259,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -3420,7 +3288,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -3440,27 +3308,7 @@
             ],
             "type": "object"
         },
-        "State_2": {
-            "additionalProperties": false,
-            "properties": {
-                "connected": {
-                    "type": "boolean"
-                },
-                "rehydrated": {
-                    "type": "boolean"
-                },
-                "userLocationData": {
-                    "$ref": "#/definitions/UserLocationData"
-                }
-            },
-            "required": [
-                "connected",
-                "rehydrated",
-                "userLocationData"
-            ],
-            "type": "object"
-        },
-        "State_20": {
+        "State_19": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -3516,7 +3364,27 @@
             ],
             "type": "object"
         },
-        "State_21": {
+        "State_2": {
+            "additionalProperties": false,
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "rehydrated": {
+                    "type": "boolean"
+                },
+                "userLocationData": {
+                    "$ref": "#/definitions/UserLocationData"
+                }
+            },
+            "required": [
+                "connected",
+                "rehydrated",
+                "userLocationData"
+            ],
+            "type": "object"
+        },
+        "State_20": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -3608,7 +3476,7 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -3763,7 +3631,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "guaranteedSwapPriceEnabled": {
@@ -3805,7 +3673,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "positions": {
@@ -3846,7 +3714,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "backupStatus": {
@@ -3879,7 +3747,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "nfts": {
@@ -4038,12 +3906,6 @@
                     },
                     "type": "array"
                 },
-                "standbyTransactionsLegacy": {
-                    "items": {
-                        "$ref": "#/definitions/StandbyTransactionLegacy"
-                    },
-                    "type": "array"
-                },
                 "transactions": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -4056,7 +3918,6 @@
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",
-                "standbyTransactionsLegacy",
                 "transactions"
             ],
             "type": "object"
@@ -4789,21 +4650,6 @@
                 "Complete",
                 "Failed",
                 "Pending"
-            ],
-            "type": "string"
-        },
-        "TransferTransactionType": {
-            "enum": [
-                "ESCROW_RECEIVED",
-                "ESCROW_SENT",
-                "FAUCET",
-                "INVITE_RECEIVED",
-                "INVITE_SENT",
-                "NETWORK_FEE",
-                "RECEIVED",
-                "SENT",
-                "VERIFICATION_FEE",
-                "VERIFICATION_REWARD"
             ],
             "type": "string"
         },
@@ -5671,7 +5517,7 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_20"
         },
         "escrow": {
             "$ref": "#/definitions/State_11"
@@ -5683,10 +5529,10 @@
             "$ref": "#/definitions/State_12"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_22"
+            "$ref": "#/definitions/State_21"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_16"
         },
         "home": {
             "$ref": "#/definitions/State_5"
@@ -5701,7 +5547,7 @@
             "$ref": "#/definitions/State_15"
         },
         "keylessBackup": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "localCurrency": {
             "$ref": "#/definitions/State_14"
@@ -5710,13 +5556,10 @@
             "$ref": "#/definitions/State_2"
         },
         "nfts": {
-            "$ref": "#/definitions/State_26"
-        },
-        "paymentRequest": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_25"
         },
         "positions": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "recipients": {
             "$ref": "#/definitions/State_13"
@@ -5725,19 +5568,19 @@
             "$ref": "#/definitions/State_4"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "swap": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_22"
         },
         "tokens": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "transactions": {
             "$ref": "#/definitions/State_7"
         },
         "walletConnect": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_17"
         },
         "web3": {
             "$ref": "#/definitions/State_8"
@@ -5762,7 +5605,6 @@
         "localCurrency",
         "networkInfo",
         "nfts",
-        "paymentRequest",
         "positions",
         "recipients",
         "send",

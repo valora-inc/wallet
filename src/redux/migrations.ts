@@ -1331,4 +1331,25 @@ export const migrations = {
       transactions: [],
     },
   }),
+  158: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'decentralizedVerificationEnabled'),
+  }),
+  159: (state: any) => ({
+    ...state,
+    transactions: _.omit(state.transactions, 'standbyTransactionsLegacy'),
+  }),
+  160: (state: any) => {
+    const output = {
+      ...state,
+      app: {
+        ...state.app,
+        activeScreen: Object.values(Screens).includes(state.app.activeScreen)
+          ? state.app.activeScreen
+          : 'Main', // since PaymentRequestConfirmation screen was deleted
+      },
+    }
+    delete output.paymentRequest // doing this instead of output = {..._.omit(state, 'paymentRequest')} because _.omit removes underscore-prefixed properties too, like the required _persist key
+    return output
+  },
 }

@@ -1,8 +1,6 @@
 import { Address } from '@celo/base'
-import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
-import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { NULL_ADDRESS, isValidAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
+import { isValidAddress } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
@@ -13,8 +11,6 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { decentralizedVerificationEnabledSelector } from 'src/app/selectors'
-import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
   FetchAddressesAndValidateAction,
@@ -23,15 +19,12 @@ import {
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
-  updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
   AddressToE164NumberType,
   AddressValidationType,
   E164NumberToAddressType,
   SecureSendPhoneNumberMapping,
-  WalletToAccountAddressType,
 } from 'src/identity/reducer'
 import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
@@ -52,7 +45,7 @@ import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { all, call, delay, put, race, select, take } from 'typed-redux-saga'
+import { call, delay, put, race, select, take } from 'typed-redux-saga'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -161,9 +154,7 @@ export function* fetchAddressesAndValidateSaga({
     // Clear existing entries for those numbers so our mapping consumers know new status is pending.
     yield* put(updateE164PhoneNumberAddresses({ [e164Number]: undefined }, {}))
 
-    // there is a bug with 'all' in typed-redux-saga, so we need to hard cast the result
-    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
-    const walletAddresses = (yield* call(fetchWalletAddresses, e164Number)) as unknown as string[]
+    const walletAddresses: string[] = yield* call(fetchWalletAddresses, e164Number)
 
     const e164NumberToAddressUpdates: E164NumberToAddressType = {}
     const addressToE164NumberUpdates: AddressToE164NumberType = {}
@@ -216,55 +207,6 @@ export function* fetchAddressesAndValidateSaga({
   }
 }
 
-function* getAccountAddresses(e164Number: string) {
-  const phoneHashDetails: PhoneNumberHashDetails = yield* call(fetchPhoneHashPrivate, e164Number)
-  const phoneHash = phoneHashDetails.phoneHash
-  const lostAccounts = yield* call(fetchLostAccounts)
-  const accountAddresses: Address[] = yield* call(
-    lookupAccountAddressesForIdentifier,
-    phoneHash,
-    lostAccounts
-  )
-  return yield* call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
-}
-
-export function* fetchWalletAddressesDecentralized(e164Number: string) {
-  // once odis v1 is EOL'ed, we can remove this whole path for fetching wallet addresses
-  const decentralizedVerificationEnabled = yield* select(decentralizedVerificationEnabledSelector)
-  if (!decentralizedVerificationEnabled) {
-    return []
-  }
-
-  const contractKit = yield* call(getContractKit)
-  const accountsWrapper: AccountsWrapper = yield* call([
-    contractKit.contracts,
-    contractKit.contracts.getAccounts,
-  ])
-
-  const accountAddresses: Address[] = yield* call(getAccountAddresses, e164Number)
-  const walletAddresses: Address[] = yield* all(
-    accountAddresses.map((accountAddress) => call(accountsWrapper.getWalletAddress, accountAddress))
-  )
-
-  const possibleUserAddresses: Set<string> = new Set()
-  const walletToAccountAddress: WalletToAccountAddressType = {}
-  for (const [i, address] of walletAddresses.entries()) {
-    const accountAddress = normalizeAddressWith0x(accountAddresses[i])
-    const walletAddress = normalizeAddressWith0x(address)
-    // `getWalletAddress` returns a null address when there isn't a wallet registered
-    if (walletAddress !== NULL_ADDRESS) {
-      walletToAccountAddress[walletAddress] = accountAddress
-      possibleUserAddresses.add(walletAddress)
-    } else {
-      // NOTE: Only need this else block if we are not confident all wallets are registered
-      walletToAccountAddress[accountAddress] = accountAddress
-      possibleUserAddresses.add(accountAddress)
-    }
-  }
-  yield* put(updateWalletToAccountAddress(walletToAccountAddress))
-  return Array.from(possibleUserAddresses)
-}
-
 function* fetchWalletAddresses(e164Number: string) {
   try {
     const address = yield* select(walletAddressSelector)
@@ -276,40 +218,25 @@ function* fetchWalletAddresses(e164Number: string) {
       clientVersion: DeviceInfo.getVersion(),
     }).toString()
 
-    const [centralisedLookupResponse, addressesFromDecentralizedMapping] = (yield* all([
-      call(fetch, `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`, {
+    const response: Response = yield* call(
+      fetch,
+      `${networkConfig.lookupPhoneNumberUrl}?${centralisedLookupQueryParams}`,
+      {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           authorization: `Valora ${address}:${signedMessage}`,
         },
-      }),
-      call(fetchWalletAddressesDecentralized, e164Number),
-    ])) as [Response, string[]]
+      }
+    )
 
-    if (centralisedLookupResponse.ok) {
-      const { data }: { data: { addresses: string[] } } = yield* call([
-        centralisedLookupResponse,
-        'json',
-      ])
-
-      // combine with addresses found in decentralized mapping to maintain
-      // backwards compatibilty with accounts that have not migrated to CPV
-      return [
-        ...new Set([
-          ...data.addresses.map((address) => address.toLowerCase()),
-          ...addressesFromDecentralizedMapping.map((address) => address.toLowerCase()),
-        ]),
-      ]
-    } else {
-      Logger.debug(
-        `${TAG}/fetchWalletAddresses`,
-        `lookupPhoneNumber service failed with status ${centralisedLookupResponse.status}`
-      )
-      // in the case that the user failed to migrate to CPV, the centralised
-      // service will throw an error so we can only return the decentralised mapping
-      return addressesFromDecentralizedMapping
+    if (!response.ok) {
+      throw new Error(`Failed to look up phone number: ${response.status} ${response.statusText}`)
     }
+
+    const { data }: { data: { addresses: string[] } } = yield* call([response, 'json'])
+
+    return data.addresses.map((address) => address.toLowerCase())
   } catch (error) {
     Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
     throw new Error('Unable to fetch wallet address for this phone number')

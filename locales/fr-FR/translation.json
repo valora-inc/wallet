@@ -52,11 +52,6 @@
     "body": "Vous ne pourrez plus accéder à vos fonds ou à votre Phrase de récupération depuis cet appareil. Il n'y a aucun moyen de récupérer votre Phrase de récupération si vous ne l'avez pas enregistrée quelque part.",
     "resetNow": "Réinitialiser maintenant"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Confirmez-vous vouloir déconnecter votre numéro de téléphone ?",
-    "body": "Une fois déconnecté, vous ne pourrez plus reconnecter votre numéro de téléphone à ce wallet.",
-    "revoke": "Déconnecter"
-  },
   "protectWallet": {
     "title": "Protégez votre portefeuille",
     "subtitle": "Protégez votre portefeuille",
@@ -529,9 +524,6 @@
   },
   "message": "Message",
   "addressLookupFailure": "Impossible de rechercher l'adresse du numéro de téléphone",
-  "saltFetchFailure": "Impossible de récupérer le numéro de téléphone secret",
-  "saltQuotaExceededError": "Le quota de recherches de votre numéro de téléphone est épuisé",
-  "odisInsufficientBalance": "Veuillez connecter votre numéro de téléphone",
   "ordinals": [
     "zéro",
     "premier",

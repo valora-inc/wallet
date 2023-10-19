@@ -163,7 +163,6 @@ export type StackParamList = {
         showZeroBalanceModal?: boolean
       }
     | undefined
-  [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.Invite]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
@@ -183,11 +182,6 @@ export type StackParamList = {
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
-  [Screens.OutgoingPaymentRequestListScreen]: undefined
-  [Screens.PaymentRequestConfirmation]: {
-    transactionData: TransactionDataInput
-    isFromScan: boolean
-  }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean
@@ -203,10 +197,6 @@ export type StackParamList = {
         showGuidedOnboarding?: boolean
       }
     | undefined
-  [Screens.PhoneNumberLookupQuota]: {
-    onBuy: () => void
-    onSkip: () => void
-  }
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
@@ -234,7 +224,6 @@ export type StackParamList = {
   }
   [Screens.Send]:
     | {
-        isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
         forceTokenId?: boolean
         defaultTokenIdOverride?: string
@@ -242,7 +231,6 @@ export type StackParamList = {
     | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
-    isOutgoingPaymentRequest?: boolean
     isFromScan: boolean
     origin: SendOrigin
     forceTokenId?: boolean
@@ -277,14 +265,12 @@ export type StackParamList = {
   [Screens.ValidateRecipientIntro]: {
     transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
-    isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
     transactionData: TransactionDataInput
     addressValidationType: AddressValidationType
-    isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
@@ -347,7 +333,6 @@ export type QRTabParamList = {
     | {
         scanIsForSecureSend?: true
         transactionData?: TransactionDataInput
-        isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
     | undefined

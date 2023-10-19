@@ -390,7 +390,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @celo/base, @celo/connect, @celo/contractkit, @celo/cryptographic-utils, @celo/identity, @celo/phone-utils, @celo/utils, @celo/wallet-base, @celo/wallet-local, @celo/wallet-remote, @celo/wallet-rpc, react-native-blind-threshold-bls. A copy of the source code may be downloaded from https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/base (@celo/base), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/connect (@celo/connect), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/contractkit (@celo/contractkit), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/cryptographic-utils (@celo/cryptographic-utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/identity (@celo/identity), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/phone-utils (@celo/phone-utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/utils (@celo/utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-base), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-local), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-remote), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-rpc), git+https://github.com/celo-org/react-native-blind-threshold-bls.git (react-native-blind-threshold-bls). This software contains the following license and notice below:
+The following software may be included in this product: @celo/base, @celo/connect, @celo/contractkit, @celo/cryptographic-utils, @celo/identity, @celo/phone-utils, @celo/utils, @celo/wallet-base, @celo/wallet-local, @celo/wallet-remote, @celo/wallet-rpc. A copy of the source code may be downloaded from https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/base (@celo/base), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/connect (@celo/connect), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/contractkit (@celo/contractkit), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/cryptographic-utils (@celo/cryptographic-utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/identity (@celo/identity), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/phone-utils (@celo/phone-utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/utils (@celo/utils), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-base), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-local), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-remote), https://github.com/celo-org/celo-monorepo/tree/master/packages/sdk/wallets/ (@celo/wallet-rpc). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
@@ -22734,7 +22734,7 @@ The following software may be included in this product: react-native-shake. A co
 
 MIT License
 
-Copyright (c) 2017 Clip-sub
+Copyright (c) 2017 Quan Pham
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22760,7 +22760,7 @@ The following software may be included in this product: react-native-share. A co
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Esteban Fuentealba
+Copyright (c) 2015 Esteban Fuentealba 🇨🇱, Mateus Andrade 🇧🇷, Mike Hardy 🇪🇨, João Marins 🇧🇷
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

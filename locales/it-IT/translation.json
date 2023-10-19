@@ -52,11 +52,6 @@
     "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua Frase di recupero da questo dispositivo. Se non l’hai annotata, non esiste alcun modo per recuperarla.",
     "resetNow": "Ripristina ora"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Sei sicuro di voler scollegare il tuo numero telefonico?",
-    "body": "Dopo aver scollegato il tuo numero telefonico, non potrai più collegarlo nuovamente a questo wallet.",
-    "revoke": "Disconnetti"
-  },
   "protectWallet": {
     "title": "Proteggi il tuo portafoglio",
     "subtitle": "Proteggi il tuo portafoglio",
@@ -529,9 +524,6 @@
   },
   "message": "Messaggio",
   "addressLookupFailure": "Impossibile cercare l'indirizzo del numero telefonico.",
-  "saltFetchFailure": "Impossibile recuperare il segreto del numero telefonico.",
-  "saltQuotaExceededError": "Hai esaurito la tua quota di ricerca di numeri telefonici.",
-  "odisInsufficientBalance": "Collega il tuo numero telefonico",
   "ordinals": [
     "la parola che precede la prima",
     "prima",

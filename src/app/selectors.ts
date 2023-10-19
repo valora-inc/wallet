@@ -92,17 +92,10 @@ export const phoneVerificationStatusSelector = createSelector(
   }
 )
 
-export const decentralizedVerificationEnabledSelector = (state: RootState) =>
-  state.app.decentralizedVerificationEnabled
-
 export const shouldRunVerificationMigrationSelector = createSelector(
-  [
-    phoneNumberVerifiedSelector,
-    numberVerifiedDecentrallySelector,
-    decentralizedVerificationEnabledSelector,
-  ],
-  (numberVerifiedCentrally, numberVerifiedDecentrally, decentralizedVerificationEnabled) =>
-    numberVerifiedDecentrally && !numberVerifiedCentrally && decentralizedVerificationEnabled
+  [phoneNumberVerifiedSelector, numberVerifiedDecentrallySelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    !numberVerifiedCentrally && numberVerifiedDecentrally
 )
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress

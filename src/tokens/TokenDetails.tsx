@@ -35,9 +35,9 @@ import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import {
   useCashInTokens,
   useCashOutTokens,
-  useSendableTokens,
   useSwappableTokens,
   useTokenInfo,
+  useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsActionName } from 'src/tokens/types'
@@ -152,7 +152,7 @@ export const onPressCicoAction = (token: TokenBalance, flow: CICOFlow) => {
 
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
-  const sendableTokens = useSendableTokens()
+  const sendableTokens = useTokensForSend()
   const swappableTokens = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()

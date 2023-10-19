@@ -12,9 +12,6 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  NewTransactionsInFeedAction,
-  TransactionConfirmedAction,
-  TransactionFailedAction,
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
@@ -28,13 +25,11 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
-  standbyTransactionsLegacySelector,
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
   StandbyTransaction,
-  StandbyTransactionLegacy,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
@@ -42,26 +37,11 @@ import {
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
-import { call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
+import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
-
-// Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactionsLegacy({ transactions }: NewTransactionsInFeedAction) {
-  const standbyTxs: StandbyTransactionLegacy[] = yield* select(standbyTransactionsLegacySelector)
-  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
-  for (const standbyTx of standbyTxs) {
-    if (
-      standbyTx.hash &&
-      standbyTx.status !== TransactionStatus.Failed &&
-      newFeedTxHashes.has(standbyTx.hash)
-    ) {
-      yield* put(removeStandbyTransaction(standbyTx.context.id))
-    }
-  }
-}
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
@@ -134,18 +114,6 @@ export function* getInviteTransactionsDetails({ transactions }: UpdateTransactio
     }
   }
   yield* put(updateInviteTransactions(inviteTransactions))
-}
-
-export function* waitForTransactionWithId(txId: string) {
-  while (true) {
-    const action = (yield* take([Actions.TRANSACTION_CONFIRMED, Actions.TRANSACTION_FAILED])) as
-      | TransactionConfirmedAction
-      | TransactionFailedAction
-    if (action.txId === txId) {
-      // Return the receipt on success and undefined otherwise.
-      return action.type === Actions.TRANSACTION_CONFIRMED ? action.receipt : undefined
-    }
-  }
 }
 
 export function* sendAndMonitorTransaction<T>(
@@ -244,7 +212,6 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, safely(cleanupStandbyTransactionsLegacy))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
   yield* takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))

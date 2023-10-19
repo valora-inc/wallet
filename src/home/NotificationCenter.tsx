@@ -4,32 +4,17 @@ import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import {
-  INCOMING_PAYMENT_REQUESTS_PRIORITY,
-  INVITES_PRIORITY,
-  OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-  useSimpleActions,
-} from 'src/home/NotificationBox'
+import { INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
 import { Notification, NotificationType } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
-import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
-import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
-import {
-  getIncomingPaymentRequests,
-  getOutgoingPaymentRequests,
-} from 'src/paymentRequest/selectors'
-import { getRecipientFromAddress } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -38,9 +23,6 @@ import { Spacing } from 'src/styles/styles'
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
 
 export function useNotifications() {
-  const dispatch = useDispatch()
-  const recipientInfo = useSelector(recipientInfoSelector)
-
   const notifications: Notification[] = []
 
   // Pending outgoing invites in escrow
@@ -56,62 +38,6 @@ export function useNotifications() {
         priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
         id: `${NotificationType.escrow_tx_summary}/${payment.paymentID}`,
         type: NotificationType.escrow_tx_summary,
-      })
-    }
-  }
-
-  // Incoming payment requests
-  const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
-  if (incomingPaymentRequests && incomingPaymentRequests.length) {
-    for (const request of incomingPaymentRequests) {
-      if (!request.uid) {
-        continue
-      }
-
-      const itemPriority = Number(`${INCOMING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
-
-      notifications.push({
-        renderElement: (params?: { index?: number }) => (
-          <IncomingPaymentRequestListItem paymentRequest={request} index={params?.index} />
-        ),
-        priority: !Number.isNaN(itemPriority) ? itemPriority : INCOMING_PAYMENT_REQUESTS_PRIORITY,
-        id: `${NotificationType.incoming_tx_request}/${request.uid}`,
-        type: NotificationType.incoming_tx_request,
-      })
-    }
-  }
-
-  // Outgoing payment requests
-  const handleCancelPaymentRequest = (id: string) => dispatch(cancelPaymentRequest(id))
-  const handleUpdatePaymentRequestNotified = (id: string) =>
-    dispatch(updatePaymentRequestNotified(id, false))
-
-  const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
-  if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
-    for (const request of outgoingPaymentRequests) {
-      if (!request.uid) {
-        continue
-      }
-
-      const id = request.uid
-      const requestee = getRecipientFromAddress(request.requesteeAddress, recipientInfo)
-      const itemPriority = Number(`${OUTGOING_PAYMENT_REQUESTS_PRIORITY}.${request.createdAt ?? 0}`)
-
-      notifications.push({
-        renderElement: (params?: { index?: number }) => (
-          <OutgoingPaymentRequestListItem
-            id={id}
-            amount={request.amount}
-            requestee={requestee}
-            comment={request.comment}
-            cancelPaymentRequest={handleCancelPaymentRequest}
-            updatePaymentRequestNotified={handleUpdatePaymentRequestNotified}
-            index={params?.index}
-          />
-        ),
-        priority: !Number.isNaN(itemPriority) ? itemPriority : OUTGOING_PAYMENT_REQUESTS_PRIORITY,
-        id: `${NotificationType.outgoing_tx_request}/${request.uid}`,
-        type: NotificationType.outgoing_tx_request,
       })
     }
   }

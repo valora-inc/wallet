@@ -33,7 +33,6 @@ import {
   SwapEvents,
   TokenBottomSheetEvents,
   TransactionEvents,
-  VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
 } from 'src/analytics/Events'
@@ -205,16 +204,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.protect_wallet_complete]: ``,
   [OnboardingEvents.cya_button_press]: `when one of the choose your adventure card is pressed. Properties include card name, position of the card (1-based index) and card order`,
   [OnboardingEvents.cya_later]: `when "I'll explore later" is pressed`,
-  [VerificationEvents.verification_start]: ``,
-  [VerificationEvents.verification_complete]: ``,
-  [VerificationEvents.verification_error]: ``,
-  [VerificationEvents.verification_cancel]: ``,
-  [VerificationEvents.verification_timeout]: ``,
-  [VerificationEvents.verification_skip]: ``,
-  [VerificationEvents.verification_skip_confirm]: ``,
-  [VerificationEvents.verification_revoke_start]: ``,
-  [VerificationEvents.verification_revoke_finish]: ``,
-  [VerificationEvents.verification_revoke_error]: ``,
 
   // Events emitted in the CPV flow
   [PhoneVerificationEvents.phone_verification_skip]: `when skip is pressed in the phone number input screen`,
