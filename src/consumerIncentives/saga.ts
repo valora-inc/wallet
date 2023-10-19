@@ -88,17 +88,20 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     for (const reward of receivedRewards) {
       yield* put(
         addStandbyTransaction({
+          __typename: 'TokenTransferV3',
+          type: TokenTransactionTypeV2.Received,
           context: newTransactionContext('Claim Reward', reward.txHash),
           networkId: networkConfig.defaultNetworkId,
-          type: TokenTransactionTypeV2.Received,
-          status: TransactionStatus.Complete,
-          value: reward.amount,
-          tokenAddress: reward.tokenAddress,
-          tokenId: getTokenId(networkConfig.defaultNetworkId, reward.tokenAddress),
-          comment: '',
+          amount: {
+            value: reward.amount,
+            tokenAddress: reward.tokenAddress,
+            tokenId: getTokenId(networkConfig.defaultNetworkId, reward.tokenAddress),
+          },
           timestamp: Math.floor(Date.now() / 1000),
           address: reward.fundsSource,
-          hash: reward.txHash,
+          transactionHash: reward.txHash,
+          metadata: {},
+          status: TransactionStatus.Pending,
         })
       )
     }

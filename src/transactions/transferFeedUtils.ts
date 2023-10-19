@@ -32,7 +32,6 @@ import {
 } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
   inviteTransactionsSelector,
   recentTxRecipientsCacheSelector,
@@ -113,7 +112,7 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
+export function useTransferFeedDetails(transfer: TokenTransfer) {
   const { t } = useTranslation()
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)

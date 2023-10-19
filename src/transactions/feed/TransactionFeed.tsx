@@ -4,80 +4,50 @@ import SectionHead from 'src/components/SectionHead'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
+import NoActivity from 'src/transactions/NoActivity'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
-import { useFetchTransactions } from 'src/transactions/feed/queryHelper'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import NoActivity from 'src/transactions/NoActivity'
+import { getAllowedNetworkIds, useFetchTransactions } from 'src/transactions/feed/queryHelper'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
-import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-import { getAllowedNetworkIds } from 'src/transactions/feed/queryHelper'
-
-export type FeedTokenProperties = {
-  status: TransactionStatus // for standby transactions
-}
-
-export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
-
-function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
-  const transferTx = tx as StandbyTransaction
-  return {
-    __typename: 'TokenTransferV3',
-    networkId: tx.networkId,
-    type: tx.type,
-    status: tx.status,
-    transactionHash: tx.hash || '',
-    timestamp: tx.timestamp,
-    block: '',
-    address: transferTx.address,
-    amount: {
-      tokenId: transferTx.tokenId,
-      value: transferTx.value,
-      tokenAddress: transferTx.tokenAddress,
-    },
-    metadata: {},
-    fees: [],
-  }
-}
 
 function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
     useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
-
-  const confirmedTokenTransactions: TokenTransaction[] =
-    transactions.length > 0 ? transactions : cachedTransactions
-  const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
-    ...tx,
-    status: TransactionStatus.Complete,
-  }))
-
-  const standbyFeedTransactions = useSelector(standbyTransactionsSelector).map((tx) =>
-    mapStandbyTransactionToFeedTokenTransaction(tx)
-  )
-
+  const allStandbyTransactions = useSelector(standbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
-  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions].filter(
-    (tx) => {
+
+  const confirmedFeedTransactions = useMemo(() => {
+    const confirmedTokenTransactions: TokenTransaction[] =
+      transactions.length > 0 ? transactions : cachedTransactions
+    return confirmedTokenTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
-    }
-  )
+    })
+  }, [transactions, cachedTransactions, allowedNetworks])
+
+  const standbyTransactions = useMemo(() => {
+    return allStandbyTransactions.filter((tx) => {
+      return allowedNetworks.includes(tx.networkId)
+    })
+  }, [allStandbyTransactions, allowedNetworks])
 
   const sections = useMemo(() => {
-    if (tokenTransactions.length === 0) {
+    if (confirmedFeedTransactions.length === 0 && standbyTransactions.length === 0) {
       return []
     }
 
-    return groupFeedItemsInSections(tokenTransactions)
-  }, [tokenTransactions.map((tx) => tx.transactionHash).join(',')])
+    return groupFeedItemsInSections(standbyTransactions, confirmedFeedTransactions)
+  }, [standbyTransactions, confirmedFeedTransactions])
 
-  if (!tokenTransactions.length) {
+  if (!sections.length) {
     return <NoActivity loading={loading} error={error} />
   }
 
-  function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
+  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
         return <SwapFeedItem key={tx.transactionHash} exchange={tx} />

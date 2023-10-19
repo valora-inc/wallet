@@ -157,16 +157,21 @@ export function* buildAndSendPayment(
 
   yield* put(
     addStandbyTransaction({
+      __typename: 'TokenTransferV3',
+      type: TokenTransactionTypeV2.Sent,
       context,
       networkId: networkConfig.defaultNetworkId,
-      type: TokenTransactionTypeV2.Sent,
-      comment,
-      status: TransactionStatus.Pending,
-      value: amount.negated().toString(),
-      tokenAddress,
-      tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
+      amount: {
+        value: amount.negated().toString(),
+        tokenAddress,
+        tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
+      },
       timestamp: Math.floor(Date.now() / 1000),
       address: recipientAddress,
+      metadata: {
+        comment,
+      },
+      status: TransactionStatus.Pending,
     })
   )
 

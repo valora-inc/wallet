@@ -22,12 +22,20 @@ import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { TransactionContext, newTransactionContext } from 'src/transactions/types'
+import {
+  TokenTransactionTypeV2,
+  TransactionContext,
+  TransactionStatus,
+  newTransactionContext,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
@@ -182,6 +190,25 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     )
 
     const timeMetrics = getTimeMetrics()
+
+    yield* put(
+      addStandbyTransaction({
+        context: swapExecuteContext,
+        __typename: 'TokenExchangeV3',
+        networkId: networkConfig.defaultNetworkId,
+        type: TokenTransactionTypeV2.SwapTransaction,
+        timestamp: Math.floor(Date.now() / 1000),
+        inAmount: {
+          value: valueToBigNumber(sellAmount).multipliedBy(guaranteedPrice),
+          tokenId: getTokenId(networkConfig.defaultNetworkId, buyTokenAddress),
+        },
+        outAmount: {
+          value: sellAmount,
+          tokenId: getTokenId(networkConfig.defaultNetworkId, sellTokenAddress),
+        },
+        status: TransactionStatus.Pending,
+      })
+    )
 
     yield* put(swapSuccess())
     vibrateSuccess()

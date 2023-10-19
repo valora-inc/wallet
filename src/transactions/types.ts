@@ -1,4 +1,3 @@
-import { Address } from '@celo/base'
 import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
 import { v4 as uuidv4 } from 'uuid'
@@ -15,19 +14,19 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-export interface StandbyTransaction {
+type StandbySwap = {
+  type: TokenTransactionTypeV2.SwapTransaction | TokenTransactionTypeV2.Exchange
+  transactionHash?: string
   context: TransactionContext
-  networkId: NetworkId
-  type: TokenTransferTypeV2
-  status: TransactionStatus
-  value: string
-  tokenId: string
-  tokenAddress?: string
-  comment: string
-  timestamp: number
-  address: Address
-  hash?: string
-}
+} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash'>
+
+type StandbyTransfer = {
+  type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
+  transactionHash?: string
+  context: TransactionContext
+} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash'>
+
+export type StandbyTransaction = StandbySwap | StandbyTransfer
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {
@@ -99,7 +98,7 @@ export enum TokenTransactionTypeV2 {
 export interface TokenTransfer {
   __typename: 'TokenTransferV3'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransferTypeV2
   transactionHash: string
   timestamp: number
   block: string
@@ -107,6 +106,7 @@ export interface TokenTransfer {
   amount: TokenAmount
   metadata: TokenTransferMetadata
   fees: Fee[]
+  status: TransactionStatus
 }
 
 export interface TokenTransferMetadata {
@@ -119,19 +119,20 @@ export interface TokenTransferMetadata {
 export interface NftTransfer {
   __typename: 'NftTransferV3'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.NftReceived | TokenTransactionTypeV2.NftSent
   transactionHash: string
   timestamp: number
   block: string
   fees?: Fee[]
   nfts?: Nft[]
+  status: TransactionStatus
 }
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
   __typename: 'TokenExchangeV3'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.SwapTransaction | TokenTransactionTypeV2.Exchange
   transactionHash: string
   timestamp: number
   block: string
@@ -139,6 +140,7 @@ export interface TokenExchange {
   outAmount: TokenAmount
   metadata?: TokenExchangeMetadata
   fees: Fee[]
+  status: TransactionStatus
 }
 
 export interface TokenExchangeMetadata {

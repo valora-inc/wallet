@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -16,7 +17,7 @@ export interface State {
   // before they are picked up by the chain explorer and
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
-  standbyTransactions: StandbyTransaction[]
+  standbyTransactions: StandbyTransaction[] // TODO migrations
   // Tracks which set of transactions retrieved in the
   // feed have already been processed by the
   // tx feed query watcher. Necessary so we don't re-process
@@ -146,8 +147,20 @@ function mapForContextId(
   })
 }
 
-export const standbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+export const standbyTransactionsSelector = createSelector(
+  [(state: RootState) => state.transactions.standbyTransactions],
+  (standbyTransactions) =>
+    standbyTransactions
+      .filter((tx) => tx.status === TransactionStatus.Pending)
+      .map((tx): TokenTransaction => {
+        return {
+          ...tx,
+          block: '',
+          fees: [],
+          transactionHash: tx.transactionHash ?? '',
+        }
+      })
+)
 
 export const knownFeedTransactionsSelector = (state: RootState) =>
   state.transactions.knownFeedTransactions
