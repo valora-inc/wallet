@@ -1352,4 +1352,26 @@ export const migrations = {
     delete output.paymentRequest // doing this instead of output = {..._.omit(state, 'paymentRequest')} because _.omit removes underscore-prefixed properties too, like the required _persist key
     return output
   },
+  161: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: state.transactions.standbyTransactions.map((tx: any) => {
+        const { value, tokenId, tokenAddress, comment, hash, ...rest } = tx
+        return {
+          ...rest,
+          __typename: 'TokenTransferV3', // only transfers were previously supported
+          transactionHash: hash,
+          amount: {
+            value,
+            tokenId,
+            tokenAddress,
+          },
+          metadata: {
+            comment,
+          },
+        }
+      }),
+    },
+  }),
 }

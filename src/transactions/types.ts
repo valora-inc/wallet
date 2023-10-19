@@ -77,12 +77,6 @@ export interface LocalAmount {
   exchangeRate: string
 }
 
-type TokenTransferTypeV2 =
-  | TokenTransactionTypeV2.Sent
-  | TokenTransactionTypeV2.Received
-  | TokenTransactionTypeV2.InviteSent
-  | TokenTransactionTypeV2.InviteReceived
-
 export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',
   Received = 'RECEIVED',
