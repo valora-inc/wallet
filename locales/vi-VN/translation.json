@@ -52,11 +52,6 @@
     "body": "Bạn sẽ không thể truy cập vào tiền hoặc Cụm từ khôi phục của mình bằng thiết bị này nữa. Không có cách nào để khôi phục Cụm từ khôi phục nếu bạn đã không viết ra.",
     "resetNow": "Đặt lại ngay"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Bạn có chắc chắn muốn ngắt kết nối số điện thoại của mình không?",
-    "body": "Khi đã ngắt kết nối, bạn không thể kết nối lại số điện thoại của mình với ví này.",
-    "revoke": "Ngắt kết nối"
-  },
   "protectWallet": {
     "title": "Bảo vệ ví của bạn",
     "subtitle": "Bảo vệ ví của bạn",
@@ -529,9 +524,6 @@
   },
   "message": "Tin nhắn",
   "addressLookupFailure": "Không tra cứu được địa chỉ số điện thoại",
-  "saltFetchFailure": "Không truy xuất được mã bí mật của số điện thoại",
-  "saltQuotaExceededError": "Bạn đã dùng hết hạn mức tra cứu số điện thoại",
-  "odisInsufficientBalance": "Vui lòng kết nối số điện thoại của bạn",
   "ordinals": [
     "thứ 0",
     "thứ nhất",

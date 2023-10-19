@@ -52,11 +52,6 @@
     "body": "Ya no podrás acceder a tu dinero ni a tu Frase de recuperación desde este dispositivo. No hay forma de recuperar tu Frase de recuperación si no la has guardado.",
     "resetNow": "Restablecer"
   },
-  "promptConfirmRevokeModal": {
-    "header": "¿Confirmas que quieres desconectar tu número de teléfono?",
-    "body": "Una vez desconectado, no podrás volver a conectar tu número de teléfono a esta dirección.",
-    "revoke": "Desconectar"
-  },
   "protectWallet": {
     "title": "Protege tu wallet",
     "subtitle": "Protege tu wallet",
@@ -529,9 +524,6 @@
   },
   "message": "Mensaje",
   "addressLookupFailure": "Error al buscar la dirección del número de teléfono",
-  "saltFetchFailure": "Error al recuperar el secreto del número de teléfono",
-  "saltQuotaExceededError": "Llegaste al límite de búsqueda de número de teléfono",
-  "odisInsufficientBalance": "Conecta tu número de teléfono",
   "ordinals": [
     "cero",
     "primera",

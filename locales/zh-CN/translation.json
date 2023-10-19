@@ -52,11 +52,6 @@
     "body": "您将无法再从此设备上访问您的资金或恢复短语。如果您没有写下恢复短语，则无法恢复它。",
     "resetNow": "立即重置"
   },
-  "promptConfirmRevokeModal": {
-    "header": "您确定要与您的手机号码断开关联吗？",
-    "body": "一旦断开关联，您的手机号码将无法与此钱包重新关联。",
-    "revoke": "断开关联"
-  },
   "protectWallet": {
     "title": "保护您的钱包",
     "subtitle": "保护您的钱包",
@@ -529,9 +524,6 @@
   },
   "message": "消息",
   "addressLookupFailure": "查找电话号码地址失败",
-  "saltFetchFailure": "检索电话号码密钥失败",
-  "saltQuotaExceededError": "您的手机号码查找配额已用完",
-  "odisInsufficientBalance": "请关联您的号码",
   "ordinals": [
     "第零个",
     "第一个",
