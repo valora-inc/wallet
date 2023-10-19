@@ -120,9 +120,6 @@ export function* sendPayment({
   // For tokens with no address, we perform a simple `call` to test the request.
   try {
     if (tokenAddress) {
-      if (!feeInfo) {
-        throw new Error('non-native viem sends require feeInfo')
-      }
       // this returns a method which is then passed to call instead of directly
       // doing yield* call(publicClient.celo.simulateContract, args) because this
       // results in a long TS error
@@ -157,33 +154,27 @@ export function* sendPayment({
         yield* call(tokenAmountInSmallestUnit, amount, tokenInfo.tokenId)
       )
 
-      // The assumption here is that if the call throws, then the actual execution would result
-      // in a revert. I'm not positive that this assumption holds, however.
-      // TODO (ACT-922): Fill in fee estimation for native token transfers (non-Celo)
+      // This call method will throw an error if there are issues with the TX (namely,
+      // if there are insufficient funds to pay for gas).
       const callMethod = () =>
         publicClient[network].call({
           account: wallet.account,
           to: getAddress(recipientAddress),
-          data: '0x00',
           value: convertedAmount,
         })
-      Logger.info(TAG, 'Call completed successfully')
-      const callData = yield* call(callMethod)
-      Logger.info(TAG, `calldata: ${JSON.stringify(callData, null, 4)}`)
+
+      yield* call(callMethod)
       yield* call(unlockAndAddStandby)
 
       const sendNativeTxMethod = function* () {
-        try {
-          const hash = yield* call([wallet, 'sendTransaction'], {
-            account: wallet.account,
-            to: getAddress(recipientAddress),
-            value: convertedAmount,
-          })
-          return hash
-        } catch (err) {
-          Logger.error(TAG, JSON.stringify(err, null, 4))
-        }
+        const hash = yield* call([wallet, 'sendTransaction'], {
+          account: wallet.account,
+          to: getAddress(recipientAddress),
+          value: convertedAmount,
+        })
+        return hash
       }
+
       const receipt = yield* call(sendAndMonitorTransaction, {
         context,
         network,
@@ -220,7 +211,7 @@ function* getTransferSimulateContract({
   amount: BigNumber
   tokenId: string
   comment: string
-  feeInfo: FeeInfo
+  feeInfo?: FeeInfo
 }) {
   const tokenInfo = yield* call(getTokenInfo, tokenId)
   if (!wallet.account) {
@@ -243,20 +234,24 @@ function* getTransferSimulateContract({
     throw new Error('invalid network for transfer')
   }
 
+  // TODO (ACT-922): Remove this check once fee info is available for all sends
+  if (!feeInfo && network === Network.Celo) {
+    throw new Error('Celo sends must include fee info')
+  }
+
   // TODO (ACT-922): Use real fee estimation for Ethereum
-  const feeFields =
-    network === Network.Celo
-      ? yield* call(getSendTxFeeDetails, {
-          recipientAddress,
-          amount,
-          tokenAddress,
-          feeInfo,
-          encryptedComment: encryptedComment || '',
-        })
-      : {
-          gas: undefined,
-          maxFeePerGas: undefined,
-        }
+  const feeFields = feeInfo
+    ? yield* call(getSendTxFeeDetails, {
+        recipientAddress,
+        amount,
+        tokenAddress,
+        feeInfo,
+        encryptedComment: encryptedComment || '',
+      })
+    : {
+        gas: undefined,
+        maxFeePerGas: undefined,
+      }
 
   if (isStablecoin(tokenInfo)) {
     Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {
@@ -354,7 +349,7 @@ export function* sendAndMonitorTransaction({
 }: {
   context: TransactionContext
   network: Network
-  sendTx: () => string
+  sendTx: () => `0x${string}`
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
@@ -372,9 +367,10 @@ export function* sendAndMonitorTransaction({
       txHash: hash,
     })
     yield* put(addHashToStandbyTransaction(context.id, hash))
-    const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], { hash })
+    const receiptMethod = () => publicClient[network].waitForTransactionReceipt({ hash })
+    const receipt = yield* call(receiptMethod)
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
-    return receipt
+    return receipt as unknown as TransactionReceipt
   }
 
   try {
@@ -398,7 +394,6 @@ export function* sendAndMonitorTransaction({
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    Logger.error(TAG + '@sendAndMonitorTransaction', error.message)
     ValoraAnalytics.track(TransactionEvents.transaction_exception, {
       ...commonTxAnalyticsProps,
       error: error.message,

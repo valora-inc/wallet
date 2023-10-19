@@ -104,6 +104,7 @@ export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
 // SECRETS
+export const ALCHEMY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ALCHEMY_API_KEY')
 export const ZENDESK_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ZENDESK_API_KEY')
 export const STATSIG_API_KEY =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY') ??

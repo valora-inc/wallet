@@ -9,12 +9,24 @@ import {
   WalletActions,
   WalletRpcSchema,
   createWalletClient,
-  http,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { writeContract } from 'viem/actions'
+import { viemTransports } from 'src/viem'
+import networkConfig from 'src/web3/networkConfig'
+import { Network } from 'src/transactions/types'
 
 const TAG = 'viem/getLockableWallet'
+
+function getTransport(chain: Chain): Transport {
+  const result = Object.entries(networkConfig.viemChain).find(
+    ([_, viemChain]) => chain === viemChain
+  )
+  if (!result) {
+    throw new Error(`No network defined for viem chain ${chain}, cannot create wallet`)
+  }
+  return viemTransports[result[0] as Network]
+}
 
 // Largely copied from https://github.com/wagmi-dev/viem/blob/main/src/clients/createWalletClient.ts#L32
 export type ViemWallet<
@@ -43,7 +55,7 @@ export default function getLockableViemWallet(
 
   return createWalletClient({
     chain,
-    transport: http(),
+    transport: getTransport(chain),
     account,
   }).extend((client: Client): Actions => {
     return {

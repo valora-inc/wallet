@@ -141,10 +141,6 @@ export function getSupportedNetworkIdsForSend(): NetworkId[] {
   return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSend
 }
 
-export function getSupportedNetworkIdsForSend(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSend
-}
-
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
   return {
     symbol: token.symbol,

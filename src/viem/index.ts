@@ -1,15 +1,27 @@
 import networkConfig from 'src/web3/networkConfig'
 import { Network } from 'src/transactions/types'
-import { createPublicClient, http } from 'viem'
+import { createPublicClient, http, Transport, PublicClient } from 'viem'
 import { celo, celoAlfajores } from 'viem/chains'
+import { ALCHEMY_API_KEY } from 'src/config'
+
+export const viemTransports: Record<Network, Transport> = {
+  [Network.Celo]: http(),
+  [Network.Ethereum]: http(networkConfig.alchemyRpcUrl, {
+    fetchOptions: {
+      headers: {
+        Authorization: `Bearer ${ALCHEMY_API_KEY}`,
+      },
+    },
+  }),
+}
 
 export const publicClient = {
   [Network.Celo]: createPublicClient({
     chain: networkConfig.viemChain.celo as typeof celo | typeof celoAlfajores, // this type allows us to use feeCurrency on publicClient methods
-    transport: http(),
+    transport: viemTransports[Network.Celo],
   }),
   [Network.Ethereum]: createPublicClient({
     chain: networkConfig.viemChain.ethereum,
-    transport: http(),
+    transport: viemTransports[Network.Ethereum],
   }),
 }

@@ -51,6 +51,7 @@ import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { Network } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 
 type OwnProps = NativeStackScreenProps<
   StackParamList,

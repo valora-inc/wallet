@@ -339,9 +339,12 @@ export function* sendPaymentSaga({
 }: SendPaymentAction) {
   try {
     yield* call(getConnectedUnlockedAccount)
+    Logger.info(TAG, 'starting tx')
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
+    Logger.info(TAG, 'calling tokenInfo')
     const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenId)
     if (recipient.address) {
+      Logger.info(TAG, 'calling sendPayment')
       yield* call(sendPayment, recipient.address, amount, usdAmount, tokenId, comment, feeInfo)
       if (tokenInfo?.symbol === 'CELO') {
         ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
@@ -364,6 +367,7 @@ export function* sendPaymentSaga({
     yield* put(sendPaymentSuccess(amount))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
+    Logger.info(TAG, e)
     yield* put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
     yield* put(sendPaymentFailure())
   }

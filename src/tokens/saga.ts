@@ -20,7 +20,7 @@ import { Actions } from 'src/stableToken/actions'
 import {
   lastKnownTokenBalancesSelector,
   tokensListWithAddressSelector,
-  tokensListSelectorWrapper,
+  tokensListSelector,
 } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
@@ -316,7 +316,7 @@ export function* fetchTokenBalancesSaga() {
 
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenId?: string) {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens: TokenBalance[] = yield* select(tokensListSelectorWrapper(networkIds))
+  const tokens: TokenBalance[] = yield* select((state) => tokensListSelector(state, networkIds))
   const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
   if (!tokenInfo) {
     throw Error(`Couldnt find token info for ID ${tokenId}.`)
@@ -336,7 +336,7 @@ export function* getTokenInfoByAddress(tokenAddress: string) {
 
 export function* getTokenInfo(tokenId: string) {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens: TokenBalance[] = yield* select(tokensListSelectorWrapper(networkIds))
+  const tokens: TokenBalance[] = yield* select((state) => tokensListSelector(state, networkIds))
   const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
   return tokenInfo
 }
