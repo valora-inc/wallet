@@ -36,7 +36,7 @@ describe('ActionsCarousel', () => {
       </Provider>
     )
 
-    expect(getAllByTestId(/HomeAction-/)).toHaveLength(6)
+    expect(getAllByTestId(/HomeAction-/)).toHaveLength(5)
   })
 
   it('does not render swap action when disabled', () => {
@@ -47,7 +47,7 @@ describe('ActionsCarousel', () => {
       </Provider>
     )
 
-    expect(getAllByTestId(/HomeAction-/)).toHaveLength(5)
+    expect(getAllByTestId(/HomeAction-/)).toHaveLength(4)
     expect(queryByTestId(`HomeAction/Title-Swap`)).toBeFalsy()
   })
   it.each([
@@ -55,7 +55,6 @@ describe('ActionsCarousel', () => {
     [HomeActionName.Receive, 'receive', Screens.QRNavigator, { screen: Screens.QRCode }],
     [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
-    [HomeActionName.Request, 'request', Screens.Send, { isOutgoingPaymentRequest: true }],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(
     'renders title and navigates to appropriate screen for %s',

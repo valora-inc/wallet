@@ -13,8 +13,6 @@ import { Recipient } from 'src/recipients/recipient'
 
 export enum Actions {
   SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
-  REVOKE_VERIFICATION = 'IDENTITY/REVOKE_VERIFICATION',
-  REVOKE_VERIFICATION_STATE = 'IDENTITY/REVOKE_VERIFICATION_STATE',
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
   UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
   UPDATE_E164_PHONE_NUMBER_SALT = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_SALT',
@@ -37,15 +35,6 @@ export enum Actions {
 export interface SetHasSeenVerificationNux {
   type: Actions.SET_SEEN_VERIFICATION_NUX
   status: boolean
-}
-
-export interface RevokeVerificationAction {
-  type: Actions.REVOKE_VERIFICATION
-}
-
-export interface RevokeVerificationStateAction {
-  type: Actions.REVOKE_VERIFICATION_STATE
-  walletAddress: string
 }
 
 export interface UpdateE164PhoneNumberAddressesAction {
@@ -159,21 +148,10 @@ export type ActionTypes =
   | EndFetchingAddressesAction
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
-  | RevokeVerificationStateAction
 
 export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
   type: Actions.SET_SEEN_VERIFICATION_NUX,
   status,
-})
-
-export const revokeVerification = (): RevokeVerificationAction => ({
-  type: Actions.REVOKE_VERIFICATION,
-})
-
-// Will properly clear verification state when called
-export const revokeVerificationState = (walletAddress: string): RevokeVerificationStateAction => ({
-  type: Actions.REVOKE_VERIFICATION_STATE,
-  walletAddress,
 })
 
 export const fetchAddressesAndValidate = (

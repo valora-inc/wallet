@@ -3,9 +3,12 @@
 exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
     {
@@ -309,9 +312,12 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
 exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`] = `
 <RNCSafeAreaView
   edges={
-    [
-      "bottom",
-    ]
+    {
+      "bottom": "additive",
+      "left": "off",
+      "right": "off",
+      "top": "off",
+    }
   }
   style={
     {
