@@ -1380,22 +1380,22 @@ export const migrations = {
             feeTokenId: 'bbb',
           },
         },
-        // reclaim-escrow: {
-        //   ...state.fees.estimates.reclaim-escrow,
-        //   feeInfo: {
-        //     ...state.fees.estimates.reclaim-escrow.feeInfo,
-        //     feeCurrency: state.fees.estimates.reclaim-escrow.feeInfo.feeCurrency,
-        //     feeTokenId: 'bbb',
-        //   },
-        // },
-        // register-dek: {
-        //   ...state.fees.estimates.register-dek,
-        //   feeInfo: {
-        //     ...state.fees.estimates.register-dek.feeInfo,
-        //     feeCurrency: state.fees.estimates.register-dek.feeInfo.feeCurrency,
-        //     feeTokenId: 'bbb',
-        //   },
-        // },
+        ['reclaim-escrow']: {
+          ...state.fees.estimates['reclaim-escrow'],
+          feeInfo: {
+            ...state.fees.estimates['reclaim-escrow'].feeInfo,
+            feeCurrency: state.fees.estimates['reclaim-escrow'].feeInfo.feeCurrency,
+            feeTokenId: 'bbb',
+          },
+        },
+        ['register-dek']: {
+          ...state.fees.estimates['register-dek'],
+          feeInfo: {
+            ...state.fees.estimates['register-dek'].feeInfo,
+            feeCurrency: state.fees.estimates['register-dek'].feeInfo.feeCurrency,
+            feeTokenId: 'bbb',
+          },
+        },
       },
     },
   }),
