@@ -33,7 +33,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import QuoteResultReviewBottomSheet from 'src/swap/QuoteResultReviewBottomSheet'
+import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
@@ -55,7 +55,7 @@ export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const quoteResultReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -144,7 +144,7 @@ export function SwapScreen({ route }: Props) {
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
       if (toToken && fromToken) {
-        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField)
+        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField, useViemForSwap)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
 
@@ -211,7 +211,7 @@ export function SwapScreen({ route }: Props) {
     ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
 
     if (useViemForSwap) {
-      if (!exchangeRate) {
+      if (!exchangeRate?.preparedTransactions) {
         // Error already shown, do nothing
         return
       }
@@ -223,18 +223,18 @@ export function SwapScreen({ route }: Props) {
         return
       }
 
-      const quoteResultType = exchangeRate.type
-      switch (quoteResultType) {
+      const resultType = exchangeRate.preparedTransactions.type
+      switch (resultType) {
         case 'need-decrease-swap-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
-          quoteResultReviewBottomSheetRef.current?.snapToIndex(0)
+          preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
           break
         case 'possible':
           // TODO: show review screen with the possible transactions
           break
         default:
           // To catch any missing cases at compile time
-          const assertNever: never = quoteResultType
+          const assertNever: never = resultType
           return assertNever
       }
 
@@ -477,13 +477,13 @@ export function SwapScreen({ route }: Props) {
             : t('swapScreen.swapToTokenSelection')
         }
       />
-      {exchangeRate && (
-        <QuoteResultReviewBottomSheet
-          forwardedRef={quoteResultReviewBottomSheetRef}
-          quote={exchangeRate}
+      {exchangeRate?.preparedTransactions && (
+        <PreparedTransactionsReviewBottomSheet
+          forwardedRef={preparedTransactionsReviewBottomSheetRef}
+          preparedTransactions={exchangeRate.preparedTransactions}
           onAcceptDecreaseSwapAmountForGas={({ decreasedSwapAmount }) => {
             handleChangeAmount(updatedField)(decreasedSwapAmount.toString())
-            quoteResultReviewBottomSheetRef.current?.close()
+            preparedTransactionsReviewBottomSheetRef.current?.close()
           }}
         />
       )}

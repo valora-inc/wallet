@@ -8,55 +8,62 @@ import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import {
-  QuoteResult,
-  QuoteResultNeedDecreaseSwapAmountForGas,
-  QuoteResultNotEnoughBalanceForGas,
+  PreparedTransactionsNeedDecreaseSwapAmountForGas,
+  PreparedTransactionsNotEnoughBalanceForGas,
+  PreparedTransactionsResult,
 } from 'src/swap/useSwapQuote'
 
-export default function QuoteResultReviewBottomSheet({
+export default function PreparedTransactionsReviewBottomSheet({
   forwardedRef,
-  quote,
+  preparedTransactions,
   onAcceptDecreaseSwapAmountForGas,
 }: {
   forwardedRef: React.RefObject<BottomSheetRefType>
-  quote: QuoteResult
-  onAcceptDecreaseSwapAmountForGas: (quote: QuoteResultNeedDecreaseSwapAmountForGas) => void
+  preparedTransactions: PreparedTransactionsResult
+  onAcceptDecreaseSwapAmountForGas: (
+    quote: PreparedTransactionsNeedDecreaseSwapAmountForGas
+  ) => void
 }) {
-  const quoteType = quote.type
-  switch (quoteType) {
+  const resultType = preparedTransactions.type
+  switch (resultType) {
     case 'need-decrease-swap-amount-for-gas':
       return (
-        <QuoteResultNeedDecreaseSwapAmountForGasBottomSheet
+        <PreparedTransactionsNeedDecreaseSwapAmountForGasBottomSheet
           forwardedRef={forwardedRef}
-          quote={quote}
+          preparedTransactions={preparedTransactions}
           onAcceptDecreaseSwapAmountForGas={onAcceptDecreaseSwapAmountForGas}
         />
       )
     case 'not-enough-balance-for-gas':
       return (
-        <QuoteResultNotEnoughBalanceForGasBottomSheet forwardedRef={forwardedRef} quote={quote} />
+        <PreparedTransactionsNotEnoughBalanceForGasBottomSheet
+          forwardedRef={forwardedRef}
+          preparedTransactions={preparedTransactions}
+        />
       )
     case 'possible':
       return null
     default:
       // To catch any missing cases at compile time
-      const assertNever: never = quoteType
+      const assertNever: never = resultType
       return assertNever
   }
 }
 
-function QuoteResultNeedDecreaseSwapAmountForGasBottomSheet({
+function PreparedTransactionsNeedDecreaseSwapAmountForGasBottomSheet({
   forwardedRef,
-  quote,
+  preparedTransactions,
   onAcceptDecreaseSwapAmountForGas,
 }: {
   forwardedRef: React.RefObject<BottomSheetRefType>
-  quote: QuoteResultNeedDecreaseSwapAmountForGas
-  onAcceptDecreaseSwapAmountForGas: (quote: QuoteResultNeedDecreaseSwapAmountForGas) => void
+  preparedTransactions: PreparedTransactionsNeedDecreaseSwapAmountForGas
+  onAcceptDecreaseSwapAmountForGas: (
+    quote: PreparedTransactionsNeedDecreaseSwapAmountForGas
+  ) => void
 }) {
   const { t } = useTranslation()
 
-  const tokenSymbol = quote.feeCurrency.symbol
+  const tokenSymbol = preparedTransactions.feeCurrency.symbol
 
   return (
     <BottomSheet
@@ -72,7 +79,7 @@ function QuoteResultNeedDecreaseSwapAmountForGasBottomSheet({
       </View>
       <Button
         text={t('swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton', { tokenSymbol })}
-        onPress={() => onAcceptDecreaseSwapAmountForGas(quote)}
+        onPress={() => onAcceptDecreaseSwapAmountForGas(preparedTransactions)}
         size={BtnSizes.FULL}
         type={BtnTypes.PRIMARY}
         testID="QuoteResultNeedDecreaseSwapAmountForGasBottomSheet/PrimaryAction"
@@ -81,16 +88,18 @@ function QuoteResultNeedDecreaseSwapAmountForGasBottomSheet({
   )
 }
 
-function QuoteResultNotEnoughBalanceForGasBottomSheet({
+function PreparedTransactionsNotEnoughBalanceForGasBottomSheet({
   forwardedRef,
-  quote,
+  preparedTransactions,
 }: {
   forwardedRef: React.RefObject<BottomSheetRefType>
-  quote: QuoteResultNotEnoughBalanceForGas
+  preparedTransactions: PreparedTransactionsNotEnoughBalanceForGas
 }) {
   const { t } = useTranslation()
 
-  const feeCurrencies = quote.feeCurrencies.map((feeCurrency) => feeCurrency.symbol).join(', ')
+  const feeCurrencies = preparedTransactions.feeCurrencies
+    .map((feeCurrency) => feeCurrency.symbol)
+    .join(', ')
 
   return (
     <BottomSheet
