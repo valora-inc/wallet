@@ -1,7 +1,7 @@
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -13,6 +13,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
 
 export enum TokenPickerOrigin {
@@ -29,9 +30,11 @@ interface Props<T extends TokenBalance> {
   origin: TokenPickerOrigin
   onTokenSelected: (token: T) => void
   title: string
+  titleStyle?: TextStyle
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
   tokens: T[]
+  useTokenBalanceItem?: boolean
 }
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
@@ -93,6 +96,8 @@ function TokenBottomSheet<T extends TokenBalance>({
   tokens,
   searchEnabled,
   title,
+  titleStyle,
+  useTokenBalanceItem,
 }: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -142,6 +147,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       forwardedRef={forwardedRef}
       snapPoints={snapPoints}
       title={title}
+      titleStyle={titleStyle}
       stickyTitle={searchEnabled}
       stickyHeaderComponent={
         searchEnabled && (
@@ -175,8 +181,16 @@ function TokenBottomSheet<T extends TokenBalance>({
           return (
             // Duplicate keys could happen with token.address
             <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-              {index > 0 && <View style={styles.separator} />}
-              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
+              {index > 0 && !useTokenBalanceItem && <View style={styles.separator} />}
+              {useTokenBalanceItem ? (
+                <TokenBalanceItem
+                  token={tokenInfo}
+                  onPress={onTokenPressed(tokenInfo)}
+                  containerStyle={{ marginHorizontal: 0 }}
+                />
+              ) : (
+                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
+              )}
             </React.Fragment>
           )
         })

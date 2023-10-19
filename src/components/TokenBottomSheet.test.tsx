@@ -111,7 +111,7 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(searchEnabled: boolean = false) {
+  function renderBottomSheet(searchEnabled: boolean = false, useTokenBalanceItem: boolean = false) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
@@ -121,6 +121,7 @@ describe('TokenBottomSheet', () => {
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
           searchEnabled={searchEnabled}
+          useTokenBalanceItem={useTokenBalanceItem}
         />
       </Provider>
     )
@@ -134,6 +135,17 @@ describe('TokenBottomSheet', () => {
     expect(getByTestId('cEURBalance')).toHaveTextContent('20.00 cEUR')
     expect(getByTestId('LocalcEURBalance')).toHaveTextContent('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
     expect(getByTestId('TTBalance')).toHaveTextContent('10.00 TT')
+  })
+
+  it('renders correctly with TokenBalanceItem', () => {
+    const { getAllByTestId } = renderBottomSheet(false, true)
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(3)
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('10.00 cUSD')
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('₱13.30')
+    expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('20.00 cEUR')
+    expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
+    expect(getAllByTestId('TokenBalanceItem')[2]).toHaveTextContent('10.00 TT')
   })
 
   it('handles the choosing of a token correctly', () => {
@@ -150,6 +162,25 @@ describe('TokenBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('TTTouchable'))
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockTestTokenTokenId)
+    )
+  })
+
+  it('handles the choosing of a token correctly with TokenBalanceItem', () => {
+    const { getAllByTestId } = renderBottomSheet(false, true)
+
+    fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockCusdTokenId)
+    )
+
+    fireEvent.press(getAllByTestId('TokenBalanceItem')[1])
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
+      tokens.find((token) => token.tokenId === mockCeurTokenId)
+    )
+
+    fireEvent.press(getAllByTestId('TokenBalanceItem')[2])
     expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
       tokens.find((token) => token.tokenId === mockTestTokenTokenId)
     )
