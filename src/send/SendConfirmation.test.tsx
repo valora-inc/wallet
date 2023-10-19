@@ -35,6 +35,7 @@ import {
   mockCusdTokenId,
   mockE164Number,
   mockFeeInfo,
+  mockFeeInfoCEUR,
   mockGasPrice,
   mockTestTokenAddress,
   mockTestTokenTokenId,
@@ -47,6 +48,13 @@ const mockGetGasPrice = getGasPrice as jest.Mock
 
 jest.mock('src/statsig')
 
+// jest.mock('src/tokens/hooks', () => ({
+//   ...jest.requireActual('src/tokens/hooks'),
+//   useTokenInfo: jest.fn(),
+//   useTokenInfoByAddress: jest.fn()
+// }))
+
+const mockTokenAAA = mockCeurTokenId
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -55,6 +63,10 @@ jest.mock('src/web3/networkConfig', () => {
     default: {
       ...originalModule.default,
       defaultNetworkId: 'celo-alfajores',
+      currencyToTokenId: {
+        cGLD: 'celo-alfajores:native',
+        cEUR: 'celo-alfajores:' + '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase(),
+      },
     },
   }
 })
@@ -88,8 +100,40 @@ const mockFeeEstimates = {
     feeInfo: mockFeeInfo,
   },
 }
+const mockFeeEstimatesCeur = {
+  ...emptyFees,
+  [FeeType.SEND]: {
+    usdFee: '0.02',
+    lastUpdated: 500,
+    loading: false,
+    error: false,
+    feeInfo: mockFeeInfoCEUR,
+  },
+}
 
-jest.mocked(getFeatureGate).mockReturnValue(false)
+// jest.mocked(useTokenInfo).mockReturnValue({
+//   balance: new BigNumber(0),
+//   priceUsd: new BigNumber(10),
+//   lastKnownPriceUsd: null,
+//   address: '0x0',
+//   tokenId: 'celo-alfajores:0x0',
+//   decimals: 0,
+//   name: 'CELO',
+//   networkId: NetworkId['celo-alfajores'],
+//   symbol: 'CELO',
+// })
+
+// jest.mocked(useTokenInfoByAddress).mockReturnValue({
+//   balance: new BigNumber(0),
+//   priceUsd: new BigNumber(10),
+//   lastKnownPriceUsd: null,
+//   address: '0x0',
+//   tokenId: 'celo-alfajores:0x0',
+//   decimals: 0,
+//   name: 'CELO',
+//   networkId: NetworkId['celo-alfajores'],
+//   symbol: 'CELO',
+// })
 
 describe('SendConfirmation', () => {
   beforeEach(() => {
@@ -148,7 +192,7 @@ describe('SendConfirmation', () => {
       fees: {
         estimates: {
           [mockCusdAddress]: mockFeeEstimates,
-          [mockCeurAddress]: mockFeeEstimates,
+          [mockCeurAddress]: mockFeeEstimatesCeur,
         },
       },
       ...storeOverrides,
@@ -166,12 +210,15 @@ describe('SendConfirmation', () => {
     }
   }
 
+  // TODO: need to redo snapshot for new
   it('renders correctly', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen()
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders correctly for send payment confirmation with cUSD fees', async () => {
+  it('renders correctly for send payment confirmation with cUSD fees (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { getByText, getByTestId } = renderScreen()
 
     fireEvent.press(getByText('feeEstimate'))
@@ -188,7 +235,26 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('renders correctly for send payment confirmation with cEUR fees', async () => {
+  it('renders correctly for send payment confirmation with cUSD fees (new UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const { getByText, getByTestId } = renderScreen()
+
+    fireEvent.press(getByText('feeEstimate'))
+
+    await act(() => {
+      jest.runAllTimers()
+    })
+
+    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee')
+    expect(getElementText(feeComponent)).toEqual('0.004 CELO')
+
+    const totalComponent = getByTestId('TotalLineItem/Total')
+    expect(getElementText(totalComponent)).toEqual('0.004 CELO')
+  })
+
+  // TODO: Need to make for old and new
+  it('renders correctly for send payment confirmation with cEUR fees (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     // Note: Higher balance is picked to pay for fees.
     const { getByText, getByTestId } = renderScreen({
       tokens: {
@@ -231,7 +297,51 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
+  it('renders correctly for send payment confirmation with cEUR fees (new UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    // Note: Higher balance is picked to pay for fees.
+    const { getByText, getByTestId } = renderScreen({
+      tokens: {
+        tokenBalances: {
+          [mockCusdTokenId]: {
+            address: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+            networkId: NetworkId['celo-alfajores'],
+            symbol: 'cUSD',
+            balance: '2',
+            priceUsd: '1',
+            isCoreToken: true,
+            priceFetchedAt: Date.now(),
+          },
+          [mockCeurTokenId]: {
+            address: mockCeurAddress,
+            tokenId: mockCeurTokenId,
+            networkId: NetworkId['celo-alfajores'],
+            symbol: 'cEUR',
+            balance: '100',
+            priceUsd: '1.2',
+            isCoreToken: true,
+            priceFetchedAt: Date.now(),
+          },
+        },
+      },
+    })
+
+    fireEvent.press(getByText('feeEstimate'))
+
+    await act(() => {
+      jest.runAllTimers()
+    })
+
+    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee')
+    expect(getElementText(feeComponent)).toEqual('₱0.0266')
+
+    const totalComponent = getByTestId('TotalLineItem/Total')
+    expect(getElementText(totalComponent)).toEqual('₱1.36')
+  })
+
   it('shows --- for fee when fee estimate fails', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByTestId, getByText } = renderScreen({
       fees: {
         estimates: {
@@ -250,6 +360,7 @@ describe('SendConfirmation', () => {
   })
 
   it('shows loading for fee while fee estimate loads', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByTestId, getByTestId } = renderScreen({
       fees: {
         estimates: {
@@ -268,6 +379,7 @@ describe('SendConfirmation', () => {
   })
 
   it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
     }
@@ -291,6 +403,7 @@ describe('SendConfirmation', () => {
   })
 
   it('updates the comment/reason', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
         estimates: {
@@ -310,6 +423,7 @@ describe('SendConfirmation', () => {
   })
 
   it('doesnt show the comment for CELO', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen(
       {},
       getMockStackScreenProps(Screens.SendConfirmation, {
@@ -325,7 +439,9 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
-  it('doesnt show the comment for non core tokens', () => {
+  // TODO: Need to make this test for new and old version
+  it('doesnt show the comment for non core tokens (old UI)', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen(
       {},
       getMockStackScreenProps(Screens.SendConfirmation, {
@@ -341,7 +457,25 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
+  it('shows comment when on celo network (new UI)', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockTestTokenAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeTruthy()
+  })
+
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
     }
@@ -371,6 +505,7 @@ describe('SendConfirmation', () => {
   })
 
   it('does nothing when trying to press "edit" when user has not gone through Secure Send', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccount2Invite],
     }
@@ -391,6 +526,7 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches an action when the confirm button is pressed', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
 
     expect(store.getActions().length).toEqual(0)
@@ -407,6 +543,7 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches the send action with the right address when going through Secure Send', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { store, getByTestId } = renderScreen(
       {
         identity: {
@@ -457,6 +594,7 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches fee estimation if not already done', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { store } = renderScreen({ fees: { estimates: emptyFees } })
 
     expect(store.getActions()).toMatchInlineSnapshot(`

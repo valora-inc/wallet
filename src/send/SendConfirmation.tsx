@@ -184,6 +184,7 @@ function SendConfirmation(props: Props) {
             feeHasError={feeEstimate?.error || storedDekFee?.error}
             totalFee={totalFeeInToken}
             showLocalAmount={false}
+            tokenId={feeTokenId}
           />
         )}
         {!newSendScreen && (
@@ -207,7 +208,7 @@ function SendConfirmation(props: Props) {
           feeToAddInToken={
             tokenInfo?.tokenId === feeTokenInfo?.tokenId ? totalFeeInToken : undefined
           }
-          showLocalAmount={newSendScreen ? false : undefined}
+          showLocalAmount={!newSendScreen}
           hideSign={newSendScreen ? false : undefined}
           newSendScreen={newSendScreen}
         />

@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import {
   FinclusiveKycStatus,
@@ -180,65 +179,6 @@ export const vNeg1Schema = {
       lastTimeUpdated: 0,
     },
     tobinTax: '0',
-  },
-  fees: {
-    estimates: {
-      send: {
-        feeInfo: {
-          fee: new BigNumber(1),
-          gas: new BigNumber(1),
-          gasPrice: new BigNumber(1),
-          feeCurrency: '0x0',
-        },
-        lastUpdated: 0,
-        loading: false,
-        usdFee: '0',
-      },
-      exchange: {
-        feeInfo: {
-          fee: new BigNumber(1),
-          gas: new BigNumber(1),
-          gasPrice: new BigNumber(1),
-          feeCurrency: '0x0',
-        },
-        lastUpdated: 0,
-        loading: false,
-        usdFee: '0',
-      },
-      swap: {
-        feeInfo: {
-          fee: new BigNumber(1),
-          gas: new BigNumber(1),
-          gasPrice: new BigNumber(1),
-          feeCurrency: '0x0',
-        },
-        lastUpdated: 0,
-        loading: false,
-        usdFee: '0',
-      },
-      ['reclaim-escrow']: {
-        feeInfo: {
-          fee: new BigNumber(1),
-          gas: new BigNumber(1),
-          gasPrice: new BigNumber(1),
-          feeCurrency: '0x0',
-        },
-        lastUpdated: 0,
-        loading: false,
-        usdFee: '0',
-      },
-      ['register-dek']: {
-        feeInfo: {
-          fee: new BigNumber(1),
-          gas: new BigNumber(1),
-          gasPrice: new BigNumber(1),
-          feeCurrency: '0x0',
-        },
-        lastUpdated: 0,
-        loading: false,
-        usdFee: '0',
-      },
-    },
   },
 }
 
@@ -2756,56 +2696,65 @@ export const v160Schema = {
     version: 160,
   },
 }
+
 export const v161Schema = {
+  ...v160Schema,
+  ..._.omit(v160Schema.fees, 'estimates'),
   _persist: {
     ...v160Schema._persist,
     version: 161,
   },
-  fees: {
-    estimates: {
-      send: {
-        ...v160Schema.fees.estimates.send,
-        feeInfo: {
-          ...v160Schema.fees.estimates.send.feeInfo,
-          feeCurrency: v160Schema.fees.estimates.send.feeInfo.feeCurrency,
-          feeTokenId: 'bbb',
-        },
-      },
-      exchange: {
-        ...v160Schema.fees.estimates.exchange,
-        feeInfo: {
-          ...v160Schema.fees.estimates.exchange.feeInfo,
-          feeCurrency: v160Schema.fees.estimates.exchange.feeInfo.feeCurrency,
-          feeTokenId: 'bbb',
-        },
-      },
-      swap: {
-        ...v160Schema.fees.estimates.swap,
-        feeInfo: {
-          ...v160Schema.fees.estimates.swap.feeInfo,
-          feeCurrency: v160Schema.fees.estimates.swap.feeInfo.feeCurrency,
-          feeTokenId: 'bbb',
-        },
-      },
-      ['reclaim-escrow']: {
-        ...v160Schema.fees.estimates['reclaim-escrow'],
-        feeInfo: {
-          ...v160Schema.fees.estimates['reclaim-escrow'].feeInfo,
-          feeCurrency: v160Schema.fees.estimates['reclaim-escrow'].feeInfo.feeCurrency,
-          feeTokenId: 'bbb',
-        },
-      },
-      ['register-dek']: {
-        ...v160Schema.fees.estimates['register-dek'],
-        feeInfo: {
-          ...v160Schema.fees.estimates['register-dek'].feeInfo,
-          feeCurrency: v160Schema.fees.estimates['register-dek'].feeInfo.feeCurrency,
-          feeTokenId: 'bbb',
-        },
-      },
-    },
-  },
 }
+// export const v161Schema = {
+//   _persist: {
+//     ...v160Schema._persist,
+//     version: 161,
+//   },
+//   fees: {
+//     estimates: {
+//       send: {
+//         ...v160Schema.fees.estimates.send,
+//         feeInfo: {
+//           ...v160Schema.fees.estimates.send.feeInfo,
+//           feeCurrency: v160Schema.fees.estimates.send.feeInfo.feeCurrency,
+//           feeTokenId: 'bbb',
+//         },
+//       },
+//       exchange: {
+//         ...v160Schema.fees.estimates.exchange,
+//         feeInfo: {
+//           ...v160Schema.fees.estimates.exchange.feeInfo,
+//           feeCurrency: v160Schema.fees.estimates.exchange.feeInfo.feeCurrency,
+//           feeTokenId: 'bbb',
+//         },
+//       },
+//       swap: {
+//         ...v160Schema.fees.estimates.swap,
+//         feeInfo: {
+//           ...v160Schema.fees.estimates.swap.feeInfo,
+//           feeCurrency: v160Schema.fees.estimates.swap.feeInfo.feeCurrency,
+//           feeTokenId: 'bbb',
+//         },
+//       },
+//       ['reclaim-escrow']: {
+//         ...v160Schema.fees.estimates['reclaim-escrow'],
+//         feeInfo: {
+//           ...v160Schema.fees.estimates['reclaim-escrow'].feeInfo,
+//           feeCurrency: v160Schema.fees.estimates['reclaim-escrow'].feeInfo.feeCurrency,
+//           feeTokenId: 'bbb',
+//         },
+//       },
+//       ['register-dek']: {
+//         ...v160Schema.fees.estimates['register-dek'],
+//         feeInfo: {
+//           ...v160Schema.fees.estimates['register-dek'].feeInfo,
+//           feeCurrency: v160Schema.fees.estimates['register-dek'].feeInfo.feeCurrency,
+//           feeTokenId: 'bbb',
+//         },
+//       },
+//     },
+//   },
+// }
 
 export function getLatestSchema(): Partial<RootState> {
   return v161Schema as Partial<RootState>
