@@ -59,7 +59,8 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
-  yield* call(sendTransaction, txo, walletAddress, transactionContext)
+  const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
+  return receipt
 }
 
 function calculateEstimatedUsdValue({
@@ -97,19 +98,27 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const { quoteReceivedAt } = action.payload
 
   const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
-
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
-  const fromTokenBalance = fromToken
-    ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
-    : ''
-  const estimatedSellTokenUsdValue = fromToken
-    ? calculateEstimatedUsdValue({ tokenInfo: fromToken, tokenAmount: sellAmount })
-    : undefined
-
   const toToken = tokenBalances.find((token) => token.address === buyTokenAddress)
-  const estimatedBuyTokenUsdValue = toToken
-    ? calculateEstimatedUsdValue({ tokenInfo: toToken, tokenAmount: buyAmount })
-    : undefined
+
+  if (!fromToken || !toToken) {
+    Logger.error(
+      TAG,
+      `Could not find to or from token for swap. Swap from ${sellTokenAddress} to ${buyTokenAddress}`
+    )
+    yield* put(swapError())
+    return
+  }
+
+  const fromTokenBalance = fromToken.balance.shiftedBy(fromToken.decimals).toString()
+  const estimatedSellTokenUsdValue = calculateEstimatedUsdValue({
+    tokenInfo: fromToken,
+    tokenAmount: sellAmount,
+  })
+  const estimatedBuyTokenUsdValue = calculateEstimatedUsdValue({
+    tokenInfo: toToken,
+    tokenAmount: buyAmount,
+  })
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
@@ -183,7 +192,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    yield* call(
+    const receipt = yield* call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
       swapExecuteContext
@@ -199,14 +208,17 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         type: TokenTransactionTypeV2.SwapTransaction,
         timestamp: Math.floor(Date.now() / 1000),
         inAmount: {
-          value: valueToBigNumber(sellAmount).multipliedBy(guaranteedPrice),
+          value: valueToBigNumber(sellAmount)
+            .multipliedBy(guaranteedPrice)
+            .shiftedBy(-toToken.decimals),
           tokenId: getTokenId(networkConfig.defaultNetworkId, buyTokenAddress),
         },
         outAmount: {
-          value: sellAmount,
+          value: valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals),
           tokenId: getTokenId(networkConfig.defaultNetworkId, sellTokenAddress),
         },
         status: TransactionStatus.Pending,
+        transactionHash: receipt.transactionHash,
       })
     )
 
