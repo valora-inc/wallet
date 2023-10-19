@@ -80,16 +80,10 @@ function calculateEstimatedUsdValue({
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
-  const {
-    price,
-    guaranteedPrice,
-    buyTokenAddress,
-    sellTokenAddress,
-    buyAmount,
-    sellAmount,
-    allowanceTarget,
-    estimatedPriceImpact,
-  } = action.payload.unvalidatedSwapTransaction
+  const { price, guaranteedPrice, buyAmount, sellAmount, allowanceTarget, estimatedPriceImpact } =
+    action.payload.unvalidatedSwapTransaction
+  const buyTokenAddress = action.payload.unvalidatedSwapTransaction.buyTokenAddress.toLowerCase()
+  const sellTokenAddress = action.payload.unvalidatedSwapTransaction.sellTokenAddress.toLowerCase()
   const amountType =
     action.payload.userInput.updatedField === Field.TO
       ? ('buyAmount' as const)
