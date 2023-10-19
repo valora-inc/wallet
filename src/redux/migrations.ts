@@ -1360,7 +1360,7 @@ export const migrations = {
           ...state.fees.estimates.send,
           feeInfo: {
             ...state.fees.estimates.send.feeInfo,
-            feeCurrency: 'aaa',
+            feeCurrency: state.fees.estimates.send.feeInfo.feeCurrency,
             feeTokenId: 'bbb',
           },
         },
@@ -1368,7 +1368,7 @@ export const migrations = {
           ...state.fees.estimates.exchange,
           feeInfo: {
             ...state.fees.estimates.exchange.feeInfo,
-            feeCurrency: 'aaa',
+            feeCurrency: state.fees.estimates.exchange.feeInfo.feeCurrency,
             feeTokenId: 'bbb',
           },
         },
@@ -1376,7 +1376,7 @@ export const migrations = {
           ...state.fees.estimates.swap,
           feeInfo: {
             ...state.fees.estimates.swap.feeInfo,
-            feeCurrency: 'aaa',
+            feeCurrency: state.fees.estimates.swap.feeInfo.feeCurrency,
             feeTokenId: 'bbb',
           },
         },
@@ -1384,7 +1384,7 @@ export const migrations = {
         //   ...state.fees.estimates.reclaim-escrow,
         //   feeInfo: {
         //     ...state.fees.estimates.reclaim-escrow.feeInfo,
-        //     feeCurrency: 'aaa',
+        //     feeCurrency: state.fees.estimates.reclaim-escrow.feeInfo.feeCurrency,
         //     feeTokenId: 'bbb',
         //   },
         // },
@@ -1392,7 +1392,7 @@ export const migrations = {
         //   ...state.fees.estimates.register-dek,
         //   feeInfo: {
         //     ...state.fees.estimates.register-dek.feeInfo,
-        //     feeCurrency: 'aaa',
+        //     feeCurrency: state.fees.estimates.register-dek.feeInfo.feeCurrency,
         //     feeTokenId: 'bbb',
         //   },
         // },
