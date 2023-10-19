@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetsScreen from 'src/tokens/Assets'
 import { NetworkId } from 'src/transactions/types'
@@ -20,6 +20,7 @@ import {
   mockNftNullMetadata,
   mockPositions,
   mockShortcuts,
+  mockTokenBalances,
 } from 'test/values'
 
 jest.mock('src/statsig', () => {
@@ -30,6 +31,8 @@ jest.mock('src/statsig', () => {
     })),
   }
 })
+
+const ethTokenId = 'ethereum-sepolia:native'
 
 const storeWithTokenBalances = {
   tokens: {
@@ -331,5 +334,56 @@ describe('AssetsScreen', () => {
 
     fireEvent.press(getByText('assets.claimRewards'))
     expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutsRewards)
+  })
+
+  it('displays tokens with balance and ones marked with showZeroBalance in the expected order', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          ...mockTokenBalances,
+          [ethTokenId]: {
+            tokenId: ethTokenId,
+            balance: '0',
+            priceUsd: '5',
+            networkId: NetworkId['ethereum-sepolia'],
+            showZeroBalance: true,
+            isNative: true,
+            symbol: 'ETH',
+          },
+          ['token1']: {
+            tokenId: 'token1',
+            networkId: NetworkId['celo-alfajores'],
+            balance: '10',
+            symbol: 'TK1',
+          },
+          ['token2']: {
+            tokenId: 'token2',
+            networkId: NetworkId['celo-alfajores'],
+            balance: '0',
+            symbol: 'TK2',
+          },
+          ['token3']: {
+            tokenId: 'token3',
+            networkId: NetworkId['ethereum-sepolia'],
+            balance: '20',
+            symbol: 'TK3',
+          },
+        },
+      },
+    })
+
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(6)
+    ;['POOF', 'TK3', 'TK1', 'CELO', 'ETH', 'cUSD'].map((symbol, index) => {
+      expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(symbol)
+    })
   })
 })

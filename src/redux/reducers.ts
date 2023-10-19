@@ -19,7 +19,6 @@ import keylessBackupReducer, { State as KeylessBackupState } from 'src/keylessBa
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import nftsReducer, { State as NFTsState } from 'src/nfts/slice'
-import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
 import positionsReducer, { State as PositionsState } from 'src/positions/slice'
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
@@ -46,7 +45,6 @@ const appReducer = combineReducers({
   recipients,
   localCurrency,
   imports,
-  paymentRequest,
   fiatExchanges,
   walletConnect,
   tokens: tokenReducer,
@@ -96,7 +94,6 @@ export interface RootState {
   recipients: RecipientsState
   localCurrency: LocalCurrencyState
   imports: ImportState
-  paymentRequest: PaymentRequestState
   fiatExchanges: FiatExchangesState
   walletConnect: WalletConnectState
   tokens: TokensState

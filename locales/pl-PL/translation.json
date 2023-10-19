@@ -52,11 +52,6 @@
     "body": "Nie będziesz mieć więcej dostępu do swoich środków ani do frazy odzyskiwania z tego urządzenia. Nie ma sposobu na odzyskanie frazy, jeśli nie masz jej nigdzie zapisanej.",
     "resetNow": "Resetuj teraz"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Czy na pewno chcesz odłączyć swój numer telefonu?",
-    "body": "Po odłączeniu ponowne powiązanie tego numeru telefonu z tym portfelem nie będzie możliwe.",
-    "revoke": "Odłącz"
-  },
   "protectWallet": {
     "title": "Chroń swój portfel",
     "subtitle": "Chroń swój portfel",
@@ -529,9 +524,6 @@
   },
   "message": "Wiadomość",
   "addressLookupFailure": "Nie udało się znaleźć adresu numeru telefonu",
-  "saltFetchFailure": "Nie udało się odzyskać tajnego kodu przypisanego do numeru telefonu",
-  "saltQuotaExceededError": "Wykorzystano limit na wyszukiwanie numerów telefonów",
-  "odisInsufficientBalance": "Podłącz swój numer",
   "ordinals": [
     "zerowe",
     "pierwsze",

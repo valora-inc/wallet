@@ -26,8 +26,7 @@ const TAG = 'send/utils'
 export function* handleSendPaymentData(
   data: UriData,
   isFromScan: boolean,
-  cachedRecipient?: Recipient,
-  isOutgoingPaymentRequest?: boolean
+  cachedRecipient?: Recipient
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
@@ -54,7 +53,6 @@ export function* handleSendPaymentData(
     navigate(Screens.SendAmount, {
       recipient,
       isFromScan,
-      isOutgoingPaymentRequest,
       origin: SendOrigin.AppSendFlow,
       defaultTokenIdOverride: data.token ? tokenInfo?.tokenId : undefined,
       forceTokenId: !!(data.token && tokenInfo?.tokenId),
@@ -95,13 +93,12 @@ export function* handleSendPaymentData(
     })
   } else {
     const canSendTokens: boolean = yield* select(canSendTokensSelector)
-    if (!canSendTokens && !isOutgoingPaymentRequest) {
+    if (!canSendTokens) {
       throw new Error("Precondition failed: Can't send tokens from payment data")
     }
     navigate(Screens.SendAmount, {
       recipient,
       isFromScan,
-      isOutgoingPaymentRequest,
       origin: SendOrigin.AppSendFlow,
       defaultTokenIdOverride: data.token ? tokenInfo?.tokenId : undefined,
       forceTokenId: !!(data.token && tokenInfo?.tokenId),

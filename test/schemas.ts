@@ -2688,6 +2688,14 @@ export const v159Schema = {
   transactions: _.omit(v158Schema.transactions, 'standbyTransactionsLegacy'),
 }
 
+export const v160Schema = {
+  ..._.omit(v159Schema, 'paymentRequest'),
+  _persist: {
+    ...v159Schema._persist,
+    version: 160,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v159Schema as Partial<RootState>
+  return v160Schema as Partial<RootState>
 }

@@ -52,11 +52,6 @@
     "body": "Du wirst nicht mehr auf deine Guthaben oder deine Wiederherstellungsphrase von diesem Gerät aus zugreifen können. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
     "resetNow": "Jetzt zurücksetzen"
   },
-  "promptConfirmRevokeModal": {
-    "header": "Bist du sicher, dass du die Verbindung zu deiner Telefonnummer trennen möchtest?",
-    "body": "Sobald die Verbindung getrennt wurde, kannst du deine Telefonnummer nicht mehr mit dieser Wallet verbinden.",
-    "revoke": "Verbindung trennen"
-  },
   "protectWallet": {
     "title": "Schütze deine Wallet",
     "subtitle": "Schütze deine Wallet",
@@ -529,9 +524,6 @@
   },
   "message": "Nachricht",
   "addressLookupFailure": "Fehler beim Suchen der Telefonnummer-Adresse",
-  "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
-  "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
-  "odisInsufficientBalance": "Bitte verbinde deine Nummer",
   "ordinals": [
     "nullte",
     "erste",
