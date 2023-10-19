@@ -5,11 +5,10 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { FeeInfo, calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
+import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -26,15 +25,13 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  BasicTokenTransfer,
-  createTokenTransferTransaction,
-  getCurrencyAddress,
   getERC20TokenContract,
   getStableTokenContract,
   getTokenInfo,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { TokenBalance } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
@@ -44,75 +41,16 @@ import {
   newTransactionContext,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
-import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { estimateGas } from 'src/web3/utils'
-import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import networkConfig from 'src/web3/networkConfig'
-import { getTokenId } from 'src/tokens/utils'
+import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
-
-// All observed cUSD and CELO transfers take less than 200000 gas.
-export const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
-
-export async function getSendTxGas(
-  account: string,
-  currency: Currency,
-  params: BasicTokenTransfer,
-  useStatic: boolean = true
-): Promise<BigNumber> {
-  if (useStatic) {
-    Logger.debug(`${TAG}/getSendTxGas`, `Using static gas of ${STATIC_SEND_TOKEN_GAS_ESTIMATE}`)
-    return new BigNumber(STATIC_SEND_TOKEN_GAS_ESTIMATE)
-  }
-
-  try {
-    Logger.debug(`${TAG}/getSendTxGas`, 'Getting gas estimate for send tx')
-    const currencyAddress = await getCurrencyAddress(currency)
-    const tx = await createTokenTransferTransaction(currencyAddress, params)
-    const txParams = {
-      from: account,
-      feeCurrency: currency === Currency.Celo ? undefined : currencyAddress,
-    }
-    const gas = await estimateGas(tx.txo, txParams)
-    Logger.debug(`${TAG}/getSendTxGas`, `Estimated gas of ${gas.toString()}`)
-    return gas
-  } catch (error) {
-    Logger.error(`${TAG}/getSendTxGas`, 'Failed to get send tx gas', error)
-    throw error
-  }
-}
-
-export async function getSendFee(
-  account: string,
-  currency: Currency,
-  params: BasicTokenTransfer,
-  includeDekFee: boolean = false,
-  balance: string
-) {
-  try {
-    if (new BigNumber(params.amount).isGreaterThan(new BigNumber(balance))) {
-      throw new Error(ErrorMessages.INSUFFICIENT_BALANCE)
-    }
-
-    let gas = await getSendTxGas(account, currency, params)
-    if (includeDekFee) {
-      const dekGas = await getRegisterDekTxGas(account, currency)
-      gas = gas.plus(dekGas)
-    }
-
-    return calculateFee(gas, await currencyToFeeCurrency(currency))
-  } catch (error) {
-    throw error
-  }
-}
 
 export function* watchQrCodeDetections() {
   while (true) {
@@ -121,7 +59,6 @@ export function* watchQrCodeDetections() {
     const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
 
     const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
-    const isOutgoingPaymentRequest = action.isOutgoingPaymentRequest
     let secureSendTxData
     let requesterAddress
 
@@ -137,7 +74,6 @@ export function* watchQrCodeDetections() {
         e164NumberToAddress,
         recipientInfo,
         secureSendTxData,
-        isOutgoingPaymentRequest,
         requesterAddress
       )
     } catch (error) {
@@ -325,7 +261,6 @@ export function* sendPaymentSaga({
   recipient,
   feeInfo,
   fromModal,
-  paymentRequestId,
 }: SendPaymentAction) {
   try {
     yield* call(getConnectedUnlockedAccount)
@@ -348,9 +283,6 @@ export function* sendPaymentSaga({
       navigateHome()
     }
 
-    if (paymentRequestId) {
-      yield* put(completePaymentRequest(paymentRequestId))
-    }
     yield* put(sendPaymentSuccess(amount))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {

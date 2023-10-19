@@ -22734,7 +22734,7 @@ The following software may be included in this product: react-native-shake. A co
 
 MIT License
 
-Copyright (c) 2017 Clip-sub
+Copyright (c) 2017 Quan Pham
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22760,7 +22760,7 @@ The following software may be included in this product: react-native-share. A co
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Esteban Fuentealba
+Copyright (c) 2015 Esteban Fuentealba 🇨🇱, Mateus Andrade 🇧🇷, Mike Hardy 🇪🇨, João Marins 🇧🇷
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

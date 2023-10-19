@@ -3,7 +3,6 @@ export enum HomeActionName {
   Receive = 'Receive',
   Add = 'Add',
   Swap = 'Swap',
-  Request = 'Request',
   Withdraw = 'Withdraw',
 }
 

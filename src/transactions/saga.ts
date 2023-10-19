@@ -12,7 +12,6 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  NewTransactionsInFeedAction,
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
@@ -26,13 +25,11 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
-  standbyTransactionsLegacySelector,
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
   StandbyTransaction,
-  StandbyTransactionLegacy,
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
@@ -45,21 +42,6 @@ import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-sag
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
-
-// Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactionsLegacy({ transactions }: NewTransactionsInFeedAction) {
-  const standbyTxs: StandbyTransactionLegacy[] = yield* select(standbyTransactionsLegacySelector)
-  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
-  for (const standbyTx of standbyTxs) {
-    if (
-      standbyTx.hash &&
-      standbyTx.status !== TransactionStatus.Failed &&
-      newFeedTxHashes.has(standbyTx.hash)
-    ) {
-      yield* put(removeStandbyTransaction(standbyTx.context.id))
-    }
-  }
-}
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
@@ -230,7 +212,6 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, safely(cleanupStandbyTransactionsLegacy))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
   yield* takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
