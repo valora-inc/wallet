@@ -27,7 +27,6 @@ export interface HandleBarcodeDetectedAction {
   data: QrCode
   scanIsForSecureSend?: boolean
   transactionData?: TransactionDataInput
-  isOutgoingPaymentRequest?: boolean
   requesterAddress?: string
 }
 
@@ -44,7 +43,6 @@ export interface SendPaymentAction {
   comment: string
   recipient: Recipient
   fromModal: boolean
-  paymentRequestId?: string
   feeInfo?: FeeInfo
 }
 
@@ -80,14 +78,12 @@ export const handleBarcodeDetected = (
   data: QrCode,
   scanIsForSecureSend?: boolean,
   transactionData?: TransactionDataInput,
-  isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ): HandleBarcodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
   data,
   scanIsForSecureSend,
   transactionData,
-  isOutgoingPaymentRequest,
   requesterAddress,
 })
 
@@ -105,7 +101,6 @@ export const sendPayment = (
   comment: string,
   recipient: Recipient,
   fromModal: boolean,
-  paymentRequestId?: string,
   feeInfo?: FeeInfo
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
@@ -115,7 +110,6 @@ export const sendPayment = (
   comment,
   recipient,
   fromModal,
-  paymentRequestId,
   feeInfo,
 })
 

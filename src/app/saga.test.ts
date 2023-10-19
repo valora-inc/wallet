@@ -1,4 +1,5 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
@@ -46,7 +47,7 @@ import {
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
-import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -479,10 +480,8 @@ describe('runCentralPhoneVerificationMigration', () => {
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
-        [
-          call(fetchPhoneHashPrivate, '+31619777888'),
-          { pepper: 'somePepper', phoneHash: 'somePhoneHash' },
-        ],
+        [select(e164NumberToSaltSelector), { '+31619777888': 'somePepper' }],
+        [call(getPhoneHash, '+31619777888', 'somePepper'), 'somePhoneHash'],
       ])
       .put(phoneNumberVerificationMigrated())
       .run()
@@ -510,10 +509,8 @@ describe('runCentralPhoneVerificationMigration', () => {
         [select(walletAddressSelector), '0xabc'],
         [select(e164NumberSelector), '+31619777888'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
-        [
-          call(fetchPhoneHashPrivate, '+31619777888'),
-          { pepper: 'somePepper', phoneHash: 'somePhoneHash' },
-        ],
+        [select(e164NumberToSaltSelector), { '+31619777888': 'somePepper' }],
+        [call(getPhoneHash, '+31619777888', 'somePepper'), 'somePhoneHash'],
       ])
       .not.put(phoneNumberVerificationMigrated())
       .run()
@@ -566,6 +563,25 @@ describe('runCentralPhoneVerificationMigration', () => {
       .provide([
         [select(dataEncryptionKeySelector), null],
         [select(shouldRunVerificationMigrationSelector), true],
+      ])
+      .not.put(phoneNumberVerificationMigrated())
+      .run()
+
+    expect(mockFetch).not.toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalled()
+  })
+
+  it('should not run if the ODIS pepper for phone number is not cached', async () => {
+    await expectSaga(runCentralPhoneVerificationMigration)
+      .provide([
+        [select(dataEncryptionKeySelector), 'someDEK'],
+        [select(shouldRunVerificationMigrationSelector), true],
+        [select(inviterAddressSelector), '0x123'],
+        [select(mtwAddressSelector), undefined],
+        [select(walletAddressSelector), '0xabc'],
+        [select(e164NumberSelector), '+31619777888'],
+        [call(retrieveSignedMessage), 'someSignedMessage'],
+        [select(e164NumberToSaltSelector), { '+31619777000': 'somePepper' }],
       ])
       .not.put(phoneNumberVerificationMigrated())
       .run()

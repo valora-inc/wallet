@@ -359,7 +359,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     superchargeV2Enabled: flags.superchargeV2Enabled.asBoolean(),
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
     superchargeV1Addresses: flags.superchargeV1Addresses.asString().split(','),
-    decentralizedVerificationEnabled: flags.decentralizedVerificationEnabled.asBoolean(),
   }
 }
 
@@ -369,22 +368,6 @@ export async function knownAddressesChannel() {
 
 export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')
-}
-
-export async function fetchLostAccounts() {
-  if (!FIREBASE_ENABLED) {
-    return []
-  }
-  return firebase
-    .database()
-    .ref('lostAccounts')
-    .once(VALUE_CHANGE_HOOK)
-    .then((snapshot) => snapshot.val())
-    .then((values) => values.map((address: string) => address.toLowerCase()))
-    .catch((error) => {
-      Logger.error(TAG, 'Error fetching lost accounts', error)
-      return []
-    })
 }
 
 export async function fetchRewardsSenders() {

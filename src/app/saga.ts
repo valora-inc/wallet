@@ -1,5 +1,5 @@
 import { compressedPubKey } from '@celo/cryptographic-utils'
-import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
+import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { hexToBuffer } from '@celo/utils/lib/address'
 import locales from 'locales'
 import { AppState, Platform } from 'react-native'
@@ -22,8 +22,8 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
-  phoneNumberVerificationMigrated,
   SetAppState,
+  phoneNumberVerificationMigrated,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -62,7 +62,8 @@ import {
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
-import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { E164NumberToSaltType } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -263,7 +264,6 @@ export interface RemoteConfigValues {
   superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
   superchargeV1Addresses: string[]
-  decentralizedVerificationEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -487,12 +487,22 @@ export function* runCentralPhoneVerificationMigration() {
       return
     }
 
+    const saltCache: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
+    const cachedSalt = saltCache[phoneNumber]
+    if (!cachedSalt) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No salt was cached for phone number. Skipping CPV migration.'
+      )
+      return
+    }
+
     Logger.debug(
       `${TAG}@runCentralPhoneVerificationMigration`,
       'Starting to run central phone verification migration'
     )
 
-    const phoneHashDetails: PhoneNumberHashDetails = yield* call(fetchPhoneHashPrivate, phoneNumber)
+    const phoneHash = yield* call(getPhoneHash, phoneNumber, cachedSalt)
     const inviterAddress = yield* select(inviterAddressSelector)
 
     const response = yield* call(fetch, networkConfig.migratePhoneVerificationUrl, {
@@ -506,8 +516,8 @@ export function* runCentralPhoneVerificationMigration() {
         clientVersion: DeviceInfo.getVersion(),
         publicDataEncryptionKey,
         phoneNumber,
-        pepper: phoneHashDetails.pepper,
-        phoneHash: phoneHashDetails.phoneHash,
+        pepper: cachedSalt,
+        phoneHash,
         mtwAddress: mtwAddress ?? undefined,
         inviterAddress: inviterAddress ?? undefined,
       }),
@@ -573,10 +583,6 @@ export function* appSaga() {
   yield* spawn(watchOpenUrl)
   yield* spawn(watchAppState)
   yield* spawn(runCentralPhoneVerificationMigration)
-  yield* takeLatest(
-    Actions.UPDATE_REMOTE_CONFIG_VALUES,
-    safely(runCentralPhoneVerificationMigration)
-  )
   yield* takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
   yield* spawn(watchAppReview)
 }

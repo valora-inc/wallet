@@ -51,7 +51,6 @@ export interface TransactionDataInput {
   tokenId: string
   tokenAmount: BigNumber
   comment?: string
-  paymentRequestId?: string
 }
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.SendAmount>
@@ -130,8 +129,7 @@ function SendAmount(props: Props) {
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
-  const { isOutgoingPaymentRequest, recipient, origin, forceTokenId, defaultTokenIdOverride } =
-    props.route.params
+  const { recipient, origin, forceTokenId, defaultTokenIdOverride } = props.route.params
   const [transferTokenId, setTransferTokenId] = useState(defaultTokenIdOverride ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenId)
@@ -140,8 +138,7 @@ function SendAmount(props: Props) {
 
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType = FeeType.SEND
-  const shouldFetchNewFee = !isOutgoingPaymentRequest
-  const maxBalance = useMaxSendAmount(transferTokenId, feeType, shouldFetchNewFee)
+  const maxBalance = useMaxSendAmount(transferTokenId, feeType, true)
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenId)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
   const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()
@@ -186,7 +183,7 @@ function SendAmount(props: Props) {
     onAmountChange('')
   }, [transferTokenId])
 
-  const { onSend, onRequest } = useTransactionCallbacks({
+  const { onSend } = useTransactionCallbacks({
     recipient,
     localAmount,
     tokenAmount,
@@ -199,7 +196,7 @@ function SendAmount(props: Props) {
 
   useEffect(() => {
     if (reviewButtonPressed) {
-      isOutgoingPaymentRequest ? onRequest() : onSend()
+      onSend()
       setReviewButtonPressed(false)
     }
   }, [reviewButtonPressed, recipientVerificationStatus])
@@ -214,11 +211,8 @@ function SendAmount(props: Props) {
   }
 
   const sortedTokens = useMemo(
-    () =>
-      (isOutgoingPaymentRequest ? stableTokens : tokensForSend).sort(
-        sortFirstStableThenCeloThenOthersByUsdBalance
-      ),
-    [isOutgoingPaymentRequest, stableTokens, tokensForSend]
+    () => tokensForSend.sort(sortFirstStableThenCeloThenOthersByUsdBalance),
+    [stableTokens, tokensForSend]
   )
 
   const handleShowCurrencyPicker = () => {
@@ -234,14 +228,12 @@ function SendAmount(props: Props) {
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
         tokenId={transferTokenId}
-        isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
         onOpenCurrencyPicker={handleShowCurrencyPicker}
         disallowCurrencyChange={!!forceTokenId}
       />
       <DisconnectBanner />
       <View style={styles.contentContainer}>
         <SendAmountValue
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={showInputInLocalAmount}

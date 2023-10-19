@@ -50,7 +50,6 @@ export interface State {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
-  decentralizedVerificationEnabled: boolean
   pushNotificationRequestedUnixTime: number | null
   pushNotificationsEnabled: boolean
   inAppReviewLastInteractionTimestamp: number | null
@@ -98,7 +97,6 @@ const initialState = {
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
-  decentralizedVerificationEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.decentralizedVerificationEnabled,
   pushNotificationRequestedUnixTime: null,
   pushNotificationsEnabled: false,
   inAppReviewLastInteractionTimestamp: null,
@@ -215,7 +213,6 @@ export const appReducer = (
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
-        decentralizedVerificationEnabled: action.configValues.decentralizedVerificationEnabled,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {

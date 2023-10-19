@@ -195,20 +195,6 @@ export enum OnboardingEvents {
   cya_later = 'cya_later',
 }
 
-export enum VerificationEvents {
-  verification_start = 'verification_start',
-  verification_complete = 'verification_complete',
-  verification_error = 'verification_error',
-  verification_cancel = 'verification_cancel',
-  verification_timeout = 'verification_timeout',
-  verification_skip = 'verification_skip',
-  verification_skip_confirm = 'verification_skip_confirm',
-
-  verification_revoke_start = 'verification_revoke_start',
-  verification_revoke_finish = 'verification_revoke_finish',
-  verification_revoke_error = 'verification_revoke_error',
-}
-
 // Events emitted in the CPV flow
 export enum PhoneVerificationEvents {
   phone_verification_skip = 'phone_verification_skip',

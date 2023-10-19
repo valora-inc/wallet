@@ -56,7 +56,6 @@ import KycExpired from 'src/fiatconnect/kyc/KycExpired'
 import KycPending from 'src/fiatconnect/kyc/KycPending'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -72,7 +71,6 @@ import {
   headerTransparentWithBack,
   headerWithBackButton,
   noHeader,
-  noHeaderGestureDisabled,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import QRNavigator from 'src/navigator/QRNavigator'
@@ -89,11 +87,6 @@ import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
 import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScreen'
 import Welcome from 'src/onboarding/welcome/Welcome'
-import IncomingPaymentRequestListScreen from 'src/paymentRequest/IncomingPaymentRequestListScreen'
-import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPaymentRequestListScreen'
-import PaymentRequestConfirmation, {
-  paymentConfirmationScreenNavOptions,
-} from 'src/paymentRequest/PaymentRequestConfirmation'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
@@ -138,11 +131,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
-      <Navigator.Screen
-        name={Screens.PhoneNumberLookupQuota}
-        component={PhoneNumberLookupQuotaScreen}
-        options={noHeaderGestureDisabled}
-      />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
@@ -255,21 +243,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.ValidateRecipientAccount}
       component={ValidateRecipientAccount}
       options={validateRecipientAccountScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.PaymentRequestConfirmation}
-      component={PaymentRequestConfirmation}
-      options={paymentConfirmationScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.IncomingPaymentRequestListScreen}
-      component={IncomingPaymentRequestListScreen}
-      options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.OutgoingPaymentRequestListScreen}
-      component={OutgoingPaymentRequestListScreen}
-      options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.EscrowedPaymentListScreen}

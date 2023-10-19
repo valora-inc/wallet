@@ -39,7 +39,6 @@ import {
   SwapEvents,
   TokenBottomSheetEvents,
   TransactionEvents,
-  VerificationEvents,
   WalletConnectEvents,
   WebViewEvents,
 } from 'src/analytics/Events'
@@ -402,50 +401,6 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.cya_later]: {
     cardOrder: AdventureCardName[]
   }
-}
-
-interface VerificationEventsProperties {
-  [VerificationEvents.verification_start]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_complete]:
-    | {
-        feeless?: boolean
-        phoneNumberHash: string
-      }
-    | undefined
-  [VerificationEvents.verification_error]: {
-    error: string
-    feeless?: true
-  }
-  [VerificationEvents.verification_cancel]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_timeout]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_revoke_start]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_revoke_finish]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_revoke_error]: {
-    error: string
-    feeless?: boolean
-  }
-  [VerificationEvents.verification_skip]: undefined
-  [VerificationEvents.verification_skip_confirm]: undefined
 }
 
 interface PhoneVerificationEventsProperties {
@@ -1430,7 +1385,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   SettingsEventsProperties &
   KeylessBackupEventsProperties &
   OnboardingEventsProperties &
-  VerificationEventsProperties &
   PhoneVerificationEventsProperties &
   IdentityEventsProperties &
   AuthenticationEventsProperties &

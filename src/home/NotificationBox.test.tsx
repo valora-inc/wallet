@@ -6,13 +6,12 @@ import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getElementText } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import {
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
-  mockPaymentRequests,
   mockTokenBalances,
 } from 'test/values'
 import { NetworkId } from 'src/transactions/types'
@@ -55,9 +54,6 @@ const storeDataNotificationsEnabled = {
     accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: false,
   },
-  paymentRequest: {
-    incomingPaymentRequests: mockPaymentRequests.slice(0, 2),
-  },
   home: {
     notifications: {
       testNotification,
@@ -72,9 +68,6 @@ const storeDataNotificationsDisabled = {
     dismissedGetVerified: true,
     accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: true,
-  },
-  paymentRequest: {
-    incomingPaymentRequests: [],
   },
   home: {
     notifications: {
@@ -198,94 +191,6 @@ describe('NotificationBox', () => {
     expect(getByText('whatIsGold')).toBeTruthy()
     // Functionality disabled for now
     // expect(getByText('inviteAnyone')).toBeTruthy()
-  })
-
-  it('renders incoming payment request when they exist', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsDisabled,
-      account: {
-        ...storeDataNotificationsDisabled.account,
-      },
-      paymentRequest: {
-        incomingPaymentRequests: [mockPaymentRequests[0]],
-      },
-    })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe(
-      'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
-    )
-    const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
-    expect(getElementText(amountElement)).toBe('₱266,000.00')
-    const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
-    expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
-  })
-
-  it('renders incoming payment requests when they exist', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsDisabled,
-      account: {
-        ...storeDataNotificationsDisabled.account,
-      },
-      paymentRequest: {
-        incomingPaymentRequests: mockPaymentRequests,
-      },
-    })
-    const { getByText } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-    expect(getByText(/incomingPaymentRequestsSummaryTitle/)).toBeTruthy()
-  })
-
-  it('renders outgoing payment requests when they exist', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsDisabled,
-      account: {
-        ...storeDataNotificationsDisabled.account,
-      },
-      paymentRequest: {
-        outgoingPaymentRequests: mockPaymentRequests,
-      },
-    })
-    const { getByText } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-    expect(getByText(/outgoingPaymentRequestsSummaryTitle/)).toBeTruthy()
-  })
-
-  it('renders outgoing payment request when they exist', () => {
-    const store = createMockStore({
-      ...storeDataNotificationsDisabled,
-      account: {
-        ...storeDataNotificationsDisabled.account,
-      },
-      paymentRequest: {
-        outgoingPaymentRequests: [mockPaymentRequests[0]],
-      },
-    })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    const titleElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe(
-      'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
-    )
-    const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
-    expect(getElementText(amountElement)).toBe('₱266,000.00')
-    const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
-    expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
 
   it('renders verification reminder when not verified', () => {

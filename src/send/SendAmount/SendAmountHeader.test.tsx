@@ -70,7 +70,6 @@ function renderComponent({
     >
       <SendAmountHeader
         tokenId={tokenId}
-        isOutgoingPaymentRequest={false}
         onOpenCurrencyPicker={mockOnOpenCurrencyPicker}
         disallowCurrencyChange={disallowCurrencyChange}
       />
