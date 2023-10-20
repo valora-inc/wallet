@@ -92,7 +92,10 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
     to: to as Address,
     value: BigInt(value ? value : 0),
     data: data as Hex,
-    gas: BigInt(gas), // This isn't entirely accurate
+    // This may not be entirely accurate for now
+    // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
+    // We'll try to improve this in our API
+    gas: BigInt(gas),
     type: 'cip42',
   }
 
@@ -116,7 +119,7 @@ async function prepareTransactions(
   unvalidatedSwapTransaction: SwapTransaction,
   price: string,
   feeCurrencies: TokenBalance[]
-) {
+): Promise<PreparedTransactionsResult> {
   const baseApproveTx = createBaseApproveTransaction(updatedField, unvalidatedSwapTransaction)
   const baseSwapTx = createBaseSwapTransaction(unvalidatedSwapTransaction)
 
