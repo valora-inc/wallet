@@ -9,7 +9,7 @@ import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import { getAllowedNetworkIds, useFetchTransactions } from 'src/transactions/feed/queryHelper'
-import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
+import { pendingStandbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
@@ -24,7 +24,7 @@ function TransactionFeed() {
     useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
-  const allStandbyTransactions = useSelector(standbyTransactionsSelector)
+  const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
 
   const confirmedFeedTransactions = useMemo(() => {
@@ -35,19 +35,19 @@ function TransactionFeed() {
     })
   }, [transactions, cachedTransactions, allowedNetworks])
 
-  const standbyTransactions = useMemo(() => {
-    return allStandbyTransactions.filter((tx) => {
+  const pendingTransactions = useMemo(() => {
+    return allPendingTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [allStandbyTransactions, allowedNetworks])
+  }, [allPendingTransactions, allowedNetworks])
 
   const sections = useMemo(() => {
-    if (confirmedFeedTransactions.length === 0 && standbyTransactions.length === 0) {
+    if (confirmedFeedTransactions.length === 0 && pendingTransactions.length === 0) {
       return []
     }
 
-    return groupFeedItemsInSections(standbyTransactions, confirmedFeedTransactions)
-  }, [standbyTransactions, confirmedFeedTransactions])
+    return groupFeedItemsInSections(pendingTransactions, confirmedFeedTransactions)
+  }, [pendingTransactions, confirmedFeedTransactions])
 
   if (!sections.length) {
     return <NoActivity loading={loading} error={error} />

@@ -147,15 +147,17 @@ function mapForContextId(
   })
 }
 
-export const standbyTransactionsSelector = createSelector(
+export const pendingStandbyTransactionsSelector = createSelector(
   [(state: RootState) => state.transactions.standbyTransactions],
   (transactions) => {
-    return transactions.map((transaction) => ({
-      ...transaction,
-      transactionHash: transaction.transactionHash || '',
-      block: '',
-      fees: [],
-    }))
+    return transactions
+      .filter((transaction) => transaction.status === TransactionStatus.Pending)
+      .map((transaction) => ({
+        ...transaction,
+        transactionHash: transaction.transactionHash || '',
+        block: '',
+        fees: [],
+      }))
   }
 )
 
