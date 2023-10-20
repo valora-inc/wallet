@@ -2689,8 +2689,7 @@ export const v159Schema = {
 }
 
 export const v160Schema = {
-  ...v159Schema,
-  ..._.omit(v159Schema, 'paymentRequest'),
+  ...(_.omit(v159Schema, 'paymentRequest') as any),
   _persist: {
     ...v159Schema._persist,
     version: 160,
@@ -2699,10 +2698,34 @@ export const v160Schema = {
 
 export const v161Schema = {
   ...v160Schema,
-  ..._.omit(v160Schema.fees, 'estimates'),
   _persist: {
     ...v160Schema._persist,
     version: 161,
+  },
+  transactions: {
+    ...v160Schema.transactions,
+    standbyTransactions: v160Schema.transactions.standbyTransactions.map((tx: any) => {
+      const { value, tokenId, tokenAddress, comment, hash, ...rest } = tx
+      return {
+        ...rest,
+        __typename: 'TokenTransferV3', // only transfers were previously supported
+        transactionHash: hash,
+        amount: {
+          value,
+          tokenId,
+          tokenAddress,
+        },
+        metadata: {
+          comment,
+        },
+      }
+    }),
+    transactions: v160Schema.transactions.transactions.map((tx: any) => {
+      return {
+        ...tx,
+        status: 'Complete',
+      }
+    }),
   },
 }
 

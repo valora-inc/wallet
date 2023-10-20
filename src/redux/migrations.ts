@@ -1354,6 +1354,30 @@ export const migrations = {
   },
   161: (state: any) => ({
     ...state,
-    fees: _.omit(state.fees, 'estimates'),
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: state.transactions.standbyTransactions.map((tx: any) => {
+        const { value, tokenId, tokenAddress, comment, hash, ...rest } = tx
+        return {
+          ...rest,
+          __typename: 'TokenTransferV3', // only transfers were previously supported
+          transactionHash: hash,
+          amount: {
+            value,
+            tokenId,
+            tokenAddress,
+          },
+          metadata: {
+            comment,
+          },
+        }
+      }),
+      transactions: state.transactions.transactions.map((tx: any) => {
+        return {
+          ...tx,
+          status: 'Complete',
+        }
+      }),
+    },
   }),
 }

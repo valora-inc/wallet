@@ -2,7 +2,7 @@ import { CeloTxReceipt } from '@celo/connect'
 import { TransactionFeedFragment } from 'src/apollo/types'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
-import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { StandbySwap, StandbyTransfer, TokenTransaction } from 'src/transactions/types'
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
@@ -18,9 +18,13 @@ export enum Actions {
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
+type BaseStandbyTransaction =
+  | Omit<StandbyTransfer, 'timestamp' | 'status'>
+  | Omit<StandbySwap, 'timestamp' | 'status'>
+
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
-  transaction: StandbyTransaction
+  transaction: BaseStandbyTransaction
 }
 
 export interface RemoveStandbyTransactionAction {
@@ -82,7 +86,7 @@ export type ActionTypes =
   | UpdateInviteTransactionsAction
 
 export const addStandbyTransaction = (
-  transaction: StandbyTransaction
+  transaction: BaseStandbyTransaction
 ): AddStandbyTransactionAction => ({
   type: Actions.ADD_STANDBY_TRANSACTION,
   transaction,
