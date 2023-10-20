@@ -2689,7 +2689,6 @@ export const v159Schema = {
 }
 
 export const v160Schema = {
-  ...v159Schema,
   ...(_.omit(v159Schema, 'paymentRequest') as any),
   _persist: {
     ...v159Schema._persist,
