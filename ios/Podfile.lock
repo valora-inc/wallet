@@ -657,32 +657,32 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
-  - RNFBAnalytics (17.4.2):
+  - RNFBAnalytics (17.5.0):
     - Firebase/Analytics (= 10.7.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (17.4.2):
+  - RNFBApp (17.5.0):
     - Firebase/CoreOnly (= 10.7.0)
     - React-Core
-  - RNFBAuth (17.4.2):
+  - RNFBAuth (17.5.0):
     - Firebase/Auth (= 10.7.0)
     - React-Core
     - RNFBApp
-  - RNFBDatabase (17.4.2):
+  - RNFBDatabase (17.5.0):
     - Firebase/Database (= 10.7.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (17.4.2):
+  - RNFBDynamicLinks (17.5.0):
     - Firebase/DynamicLinks (= 10.7.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNFBMessaging (17.4.2):
+  - RNFBMessaging (17.5.0):
     - Firebase/Messaging (= 10.7.0)
     - FirebaseCoreExtension (= 10.7.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (17.4.2):
+  - RNFBRemoteConfig (17.5.0):
     - Firebase/RemoteConfig (= 10.7.0)
     - React-Core
     - RNFBApp
@@ -1226,13 +1226,13 @@ SPEC CHECKSUMS:
   RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNExitApp: b6d5fb7a7ef85d502c45fb2d00840f517d6a4ac7
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
-  RNFBAnalytics: 203a7683a759a8d647614b6f34692a04e138bef7
-  RNFBApp: 55dbfc574e5ae414f2984394934f79f87eb4b050
-  RNFBAuth: d30acc0f5f169bc28c7fcbf1b45cd061cc647590
-  RNFBDatabase: 8b3d356cff711fe4cece516a5204da3fc772ed37
-  RNFBDynamicLinks: 82e9846916034c287333ebbcbdbc31435796663c
-  RNFBMessaging: d365361650cc697294227e1280923f35a31d2501
-  RNFBRemoteConfig: 2c7889df00b594b10c20090f33741af0d5d59e67
+  RNFBAnalytics: b4e2f1fb446c4bd15a5e778b0554464a8a303a1e
+  RNFBApp: d59efa0872fff4e27de03cca3c528c203a436ae5
+  RNFBAuth: 54e598bb1358a0cf6c0a187f43161cd1bde90455
+  RNFBDatabase: 80c4a872443796fff15e75f476e0c4b793a9cede
+  RNFBDynamicLinks: 08789ea798da58784e5792d0dff710518b052179
+  RNFBMessaging: 216693dd5ba4f18ba65fb39fc73a44a23c26190f
+  RNFBRemoteConfig: 85ba519c47cf163d824ed5735e3d9ab59e967f86
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: bb86e378287f7713baf3ca205423eb8109790022
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
