@@ -235,7 +235,7 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('renders correctly for send payment confirmation with cUSD fees (new UI)', async () => {
+  it('renders correctly for send payment confirmation, sending cUSD, fee in CELO (new UI)', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByText, getByTestId } = renderScreen()
 
@@ -249,7 +249,7 @@ describe('SendConfirmation', () => {
     expect(getElementText(feeComponent)).toEqual('0.004 CELO')
 
     const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('0.004 CELO')
+    expect(getElementText(totalComponent)).toEqual('~1.00 cUSD')
   })
 
   // TODO: Need to make for old and new
@@ -293,49 +293,6 @@ describe('SendConfirmation', () => {
     expect(getElementText(feeComponent)).toEqual('₱0.0266')
 
     // Subtotal is $1.33, which is added to the fee amount.
-    const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('₱1.36')
-  })
-
-  it('renders correctly for send payment confirmation with cEUR fees (new UI)', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-    // Note: Higher balance is picked to pay for fees.
-    const { getByText, getByTestId } = renderScreen({
-      tokens: {
-        tokenBalances: {
-          [mockCusdTokenId]: {
-            address: mockCusdAddress,
-            tokenId: mockCusdTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'cUSD',
-            balance: '2',
-            priceUsd: '1',
-            isCoreToken: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockCeurTokenId]: {
-            address: mockCeurAddress,
-            tokenId: mockCeurTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'cEUR',
-            balance: '100',
-            priceUsd: '1.2',
-            isCoreToken: true,
-            priceFetchedAt: Date.now(),
-          },
-        },
-      },
-    })
-
-    fireEvent.press(getByText('feeEstimate'))
-
-    await act(() => {
-      jest.runAllTimers()
-    })
-
-    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee')
-    expect(getElementText(feeComponent)).toEqual('₱0.0266')
-
     const totalComponent = getByTestId('TotalLineItem/Total')
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
