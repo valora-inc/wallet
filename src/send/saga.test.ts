@@ -23,7 +23,7 @@ import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import {
   UnlockResult,
@@ -309,15 +309,18 @@ describe(sendPaymentSaga, () => {
       ])
       .put(
         addStandbyTransaction({
+          __typename: 'TokenTransferV3',
           context: mockContext,
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.Sent,
-          comment: sendAction.comment,
-          status: TransactionStatus.Pending,
-          value: amount.negated().toString(),
-          tokenAddress: mockCusdAddress,
-          tokenId: mockCusdTokenId,
-          timestamp: Math.floor(Date.now() / 1000),
+          metadata: {
+            comment: sendAction.comment,
+          },
+          amount: {
+            value: amount.negated().toString(),
+            tokenAddress: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+          },
           address: mockQRCodeRecipient.address,
         })
       )

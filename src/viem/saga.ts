@@ -10,7 +10,7 @@ import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { tokenAmountInSmallestUnit, getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { isStablecoin } from 'src/tokens/utils'
+import { getTokenId, isStablecoin } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
@@ -19,11 +19,7 @@ import {
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import {
-  TokenTransactionTypeV2,
-  TransactionContext,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
@@ -35,6 +31,7 @@ import { call, put } from 'typed-redux-saga'
 import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
 import { Network } from 'src/transactions/types'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
+
 const TAG = 'viem/saga'
 
 /**
@@ -98,16 +95,19 @@ export function* sendPayment({
 
     yield* put(
       addStandbyTransaction({
+        __typename: 'TokenTransferV3',
+        type: TokenTransactionTypeV2.Sent,
         context,
         networkId: tokenInfo.networkId,
-        type: TokenTransactionTypeV2.Sent,
-        comment,
-        status: TransactionStatus.Pending,
-        value: amount.negated().toString(),
-        tokenAddress: tokenInfo.address ?? undefined,
-        tokenId,
-        timestamp: Math.floor(Date.now() / 1000),
+        amount: {
+          value: amount.negated().toString(),
+          tokenAddress: tokenInfo.address ?? undefined,
+          tokenId,
+        },
         address: recipientAddress,
+        metadata: {
+          comment,
+        },
       })
     )
   }

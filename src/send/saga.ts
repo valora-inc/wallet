@@ -38,7 +38,6 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
   TokenTransactionTypeV2,
   TransactionContext,
-  TransactionStatus,
   newTransactionContext,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -155,16 +154,19 @@ export function* buildAndSendPayment(
 
   yield* put(
     addStandbyTransaction({
+      __typename: 'TokenTransferV3',
+      type: TokenTransactionTypeV2.Sent,
       context,
       networkId: networkConfig.defaultNetworkId,
-      type: TokenTransactionTypeV2.Sent,
-      comment,
-      status: TransactionStatus.Pending,
-      value: amount.negated().toString(),
-      tokenAddress,
-      tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
-      timestamp: Math.floor(Date.now() / 1000),
+      amount: {
+        value: amount.negated().toString(),
+        tokenAddress,
+        tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
+      },
       address: recipientAddress,
+      metadata: {
+        comment,
+      },
     })
   )
 
