@@ -118,7 +118,7 @@ describe('TransferFeedItem', () => {
     expect(getByText('feedItemSentInfo, {"context":"noComment"}')).toBeTruthy()
   })
 
-  it('renders a completed transaction correctly', async () => {
+  it('renders a pending transaction correctly', async () => {
     const { getByTestId, getByText } = renderScreen({ status: TransactionStatus.Pending })
 
     expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
