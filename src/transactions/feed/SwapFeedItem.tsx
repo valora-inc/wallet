@@ -5,13 +5,13 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import SwapIcon from 'src/icons/SwapIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
+import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { TokenExchange } from 'src/transactions/types'
 
 interface Props {
@@ -31,7 +31,7 @@ function SwapFeedItem({ exchange }: Props) {
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
       <View style={styles.container}>
-        <SwapIcon />
+        <TransactionFeedItemImage status={exchange.status} transactionType={exchange.__typename} />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'SwapFeedItem/title'}>
             {t('swapScreen.title')}
