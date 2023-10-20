@@ -10,7 +10,7 @@ import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { tokenAmountInSmallestUnit, getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { getTokenId, isStablecoin } from 'src/tokens/utils'
+import { isStablecoin } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
