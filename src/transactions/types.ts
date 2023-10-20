@@ -14,13 +14,13 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-type StandbySwap = {
+export type StandbySwap = {
   type: TokenTransactionTypeV2.SwapTransaction | TokenTransactionTypeV2.Exchange
   transactionHash?: string
   context: TransactionContext
 } & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash'>
 
-type StandbyTransfer = {
+export type StandbyTransfer = {
   type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
   transactionHash?: string
   context: TransactionContext

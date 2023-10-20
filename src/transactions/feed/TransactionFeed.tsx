@@ -9,7 +9,7 @@ import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import { getAllowedNetworkIds, useFetchTransactions } from 'src/transactions/feed/queryHelper'
-import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
+import { pendingStandbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
@@ -24,32 +24,32 @@ function TransactionFeed() {
     useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
-
-  const confirmedTokenTransactions: TokenTransaction[] =
-    transactions.length > 0 ? transactions : cachedTransactions
-  const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
-    ...tx,
-    status: TransactionStatus.Complete,
-  }))
-
-  const standbyFeedTransactions = useSelector(standbyTransactionsSelector)
-
+  const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
-  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions].filter(
-    (tx) => {
+
+  const confirmedFeedTransactions = useMemo(() => {
+    const confirmedTokenTransactions: TokenTransaction[] =
+      transactions.length > 0 ? transactions : cachedTransactions
+    return confirmedTokenTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
-    }
-  )
+    })
+  }, [transactions, cachedTransactions, allowedNetworks])
+
+  const pendingTransactions = useMemo(() => {
+    return allPendingTransactions.filter((tx) => {
+      return allowedNetworks.includes(tx.networkId)
+    })
+  }, [allPendingTransactions, allowedNetworks])
 
   const sections = useMemo(() => {
-    if (tokenTransactions.length === 0) {
+    if (confirmedFeedTransactions.length === 0 && pendingTransactions.length === 0) {
       return []
     }
 
-    return groupFeedItemsInSections(tokenTransactions)
-  }, [tokenTransactions.map((tx) => tx.transactionHash).join(',')])
+    return groupFeedItemsInSections(pendingTransactions, confirmedFeedTransactions)
+  }, [pendingTransactions, confirmedFeedTransactions])
 
-  if (!tokenTransactions.length) {
+  if (!sections.length) {
     return <NoActivity loading={loading} error={error} />
   }
 

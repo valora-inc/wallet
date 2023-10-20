@@ -58,7 +58,14 @@ export const reducer = (
     case Actions.ADD_STANDBY_TRANSACTION:
       return {
         ...state,
-        standbyTransactions: [action.transaction, ...(state.standbyTransactions || [])],
+        standbyTransactions: [
+          {
+            ...action.transaction,
+            timestamp: Date.now(),
+            status: TransactionStatus.Pending,
+          },
+          ...(state.standbyTransactions || []),
+        ],
       }
     case Actions.REMOVE_STANDBY_TRANSACTION:
       return {
@@ -147,15 +154,17 @@ function mapForContextId(
   })
 }
 
-export const standbyTransactionsSelector = createSelector(
+export const pendingStandbyTransactionsSelector = createSelector(
   [(state: RootState) => state.transactions.standbyTransactions],
   (transactions) => {
-    return transactions.map((transaction) => ({
-      ...transaction,
-      transactionHash: transaction.transactionHash || '',
-      block: '',
-      fees: [],
-    }))
+    return transactions
+      .filter((transaction) => transaction.status === TransactionStatus.Pending)
+      .map((transaction) => ({
+        ...transaction,
+        transactionHash: transaction.transactionHash || '',
+        block: '',
+        fees: [],
+      }))
   }
 )
 

@@ -37,7 +37,6 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { TransactionStatus } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
@@ -276,7 +275,6 @@ describe('claimRewardsSaga', () => {
               amount: {
                 tokenAddress: mockCusdAddress.toLowerCase(),
               },
-              status: TransactionStatus.Pending,
             },
           },
         })
@@ -309,7 +307,6 @@ describe('claimRewardsSaga', () => {
               amount: {
                 tokenAddress: mockCusdAddress.toLowerCase(),
               },
-              status: TransactionStatus.Pending,
             },
           },
         })
@@ -320,7 +317,6 @@ describe('claimRewardsSaga', () => {
               amount: {
                 tokenAddress: mockCeurAddress.toLowerCase(),
               },
-              status: TransactionStatus.Pending,
             },
           },
         })
@@ -390,7 +386,6 @@ describe('claimRewardsSaga', () => {
               amount: {
                 tokenAddress: mockCusdAddress.toLowerCase(),
               },
-              status: TransactionStatus.Pending,
             },
           },
         })
@@ -423,7 +418,6 @@ describe('claimRewardsSaga', () => {
               amount: {
                 tokenAddress: mockCusdAddress.toLowerCase(),
               },
-              status: TransactionStatus.Pending,
             },
           },
         })
@@ -434,7 +428,6 @@ describe('claimRewardsSaga', () => {
               amount: {
                 tokenAddress: mockCeurAddress.toLowerCase(),
               },
-              status: TransactionStatus.Pending,
             },
           },
         })
