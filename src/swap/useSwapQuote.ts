@@ -90,7 +90,7 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
   const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
     from: from as Address,
     to: to as Address,
-    value: BigInt(value ? value : 0),
+    value: BigInt(value ?? 0),
     data: data as Hex,
     // This may not be entirely accurate for now
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
@@ -170,7 +170,7 @@ async function prepareTransactions(
       feeCurrency: feeCurrencyAddress,
       // We assume the provided gas value is with the native fee currency
       // If it's not, we add the static padding
-      gas: !feeCurrency.isNative ? baseSwapTx.gas + BigInt(STATIC_GAS_PADDING) : baseSwapTx.gas,
+      gas: baseSwapTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
     }
 
     const maxGasCost = getMaxGasCost([approveTx, swapTx])
