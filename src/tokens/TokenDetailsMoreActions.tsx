@@ -1,39 +1,36 @@
-import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React from 'react'
+import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useActions } from 'src/tokens/TokenDetails'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenDetailsAction } from 'src/tokens/types'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
-type Props = BottomSheetScreenProps<StackParamList, Screens.TokenDetailsMoreActions>
-
-export default function TokenDetailsMoreActions({ route }: Props) {
+export default function TokenDetailsMoreActions({
+  forwardedRef,
+  actions,
+  tokenId,
+}: {
+  forwardedRef: RefObject<BottomSheetRefType>
+  actions: TokenDetailsAction[]
+  tokenId: string
+}) {
   const { t } = useTranslation()
-  const { tokenId } = route.params
   const token = useTokenInfo(tokenId)
-
-  if (!token) {
-    throw new Error(`TokenId: ${tokenId} not found`)
-  }
-
-  const actions: TokenDetailsAction[] = useActions(token)
+  if (!token) throw new Error(`Token ${tokenId} not found`)
 
   return (
-    <BottomSheetScrollView>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{t('tokenDetails.moreActions')}</Text>
-      </View>
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('tokenDetails.moreActions')}
+      testId={'TokenDetailsMoreActions'}
+    >
       <View style={styles.actionsContainer}>
         {actions.map((action) => (
           <Touchable
@@ -58,18 +55,11 @@ export default function TokenDetailsMoreActions({ route }: Props) {
           </Touchable>
         ))}
       </View>
-    </BottomSheetScrollView>
+    </BottomSheet>
   )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    paddingTop: Spacing.Smallest8,
-    paddingBottom: Spacing.Regular16,
-  },
-  title: {
-    ...typeScale.labelLarge,
-  },
   actionsContainer: {
     flex: 1,
     gap: Spacing.Regular16,

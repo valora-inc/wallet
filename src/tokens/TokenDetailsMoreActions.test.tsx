@@ -1,17 +1,22 @@
 import { fireEvent, render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import QuickActionsAdd from 'src/icons/quick-actions/Add'
+import QuickActionsSend from 'src/icons/quick-actions/Send'
+import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { onPressCicoAction } from 'src/tokens/TokenDetails'
 import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
-import { TokenDetailsActionName } from 'src/tokens/types'
-import { Network } from 'src/transactions/types'
-import MockedNavigator from 'test/MockedNavigator'
+import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
+import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockCeloAddress, mockCeloTokenId, mockTokenBalances } from 'test/values'
+import { mockCeloAddress, mockCeloTokenId } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(() => {
@@ -24,29 +29,94 @@ jest.mock('src/statsig', () => ({
   }),
 }))
 
-const mockCeloBalance = mockTokenBalances[mockCeloTokenId]
-mockCeloBalance.balance = '100'
-mockCeloBalance.isSwappable = true
+const mockStoredCeloTokenBalance: StoredTokenBalance = {
+  tokenId: mockCeloTokenId,
+  priceUsd: '1.16',
+  address: mockCeloAddress,
+  isNative: true,
+  symbol: 'CELO',
+  imageUrl:
+    'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_CELO.png',
+  name: 'Celo',
+  decimals: 18,
+  balance: '5',
+  isCoreToken: true,
+  priceFetchedAt: Date.now(),
+  networkId: NetworkId['celo-alfajores'],
+  isSwappable: true,
+  isCashInEligible: true,
+  isCashOutEligible: true,
+}
+
+const mockCeloBalance: TokenBalance = {
+  ...mockStoredCeloTokenBalance,
+  balance: new BigNumber(mockStoredCeloTokenBalance.balance!),
+  lastKnownPriceUsd: new BigNumber(mockStoredCeloTokenBalance.priceUsd!),
+  priceUsd: new BigNumber(mockStoredCeloTokenBalance.priceUsd!),
+}
 
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockCeloTokenId]: mockCeloBalance,
+      [mockCeloTokenId]: mockStoredCeloTokenBalance,
     },
   },
   app: {
-    // TODO(tomm): check with Satish that we only want to display if swap is in the drawer menu
     showSwapMenuInDrawerMenu: true,
   },
 })
+
+const mockActions: TokenDetailsAction[] = [
+  {
+    name: TokenDetailsActionName.Send,
+    title: 'tokenDetails.actions.send',
+    details: 'tokenDetails.actions.sendDetails',
+    iconComponent: QuickActionsSend,
+    onPress: () => {
+      navigate(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
+    },
+    visible: true,
+  },
+  {
+    name: TokenDetailsActionName.Swap,
+    title: 'tokenDetails.actions.swap',
+    details: 'tokenDetails.actions.swapDetails',
+    iconComponent: QuickActionsSwap,
+    onPress: () => {
+      navigate(Screens.SwapScreenWithBack, { fromTokenId: mockCeloTokenId })
+    },
+    visible: true,
+  },
+  {
+    name: TokenDetailsActionName.Add,
+    title: 'tokenDetails.actions.add',
+    details: 'tokenDetails.actions.addDetails',
+    iconComponent: QuickActionsAdd,
+    onPress: () => {
+      onPressCicoAction(mockCeloBalance, CICOFlow.CashIn)
+    },
+    visible: true,
+  },
+  {
+    name: TokenDetailsActionName.Withdraw,
+    title: 'tokenDetails.actions.withdraw',
+    details: 'tokenDetails.actions.withdrawDetails',
+    iconComponent: QuickActionsSend,
+    onPress: () => {
+      onPressCicoAction(mockCeloBalance, CICOFlow.CashOut)
+    },
+    visible: true,
+  },
+]
 
 describe('TokenDetailsMoreActions', () => {
   it('Renders correct actions', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={TokenDetailsMoreActions}
-          params={{ tokenId: mockCeloTokenId }}
+        <TokenDetailsMoreActions
+          forwardedRef={{ current: null }}
+          tokenId={mockCeloTokenId}
+          actions={mockActions}
         />
       </Provider>
     )
@@ -82,9 +152,10 @@ describe('TokenDetailsMoreActions', () => {
     async ({ action, buttonText, navigatedScreen, navigationParams }) => {
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator
-            component={TokenDetailsMoreActions}
-            params={{ tokenId: mockCeloTokenId }}
+          <TokenDetailsMoreActions
+            forwardedRef={{ current: null }}
+            tokenId={mockCeloTokenId}
+            actions={mockActions}
           />
         </Provider>
       )
@@ -95,7 +166,7 @@ describe('TokenDetailsMoreActions', () => {
         {
           action,
           address: mockCeloAddress,
-          balanceUsd: 1325.0855831552522,
+          balanceUsd: 5.8,
           networkId: mockCeloBalance.networkId,
           symbol: mockCeloBalance.symbol,
           tokenId: mockCeloTokenId,

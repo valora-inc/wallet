@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,11 +7,14 @@ import { useSelector } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -23,7 +26,7 @@ import QuickActionsMore from 'src/icons/quick-actions/More'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
@@ -31,7 +34,9 @@ import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
+import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
 import {
   useCashInTokens,
   useCashOutTokens,
@@ -52,13 +57,13 @@ export default function TokenDetailsScreen({ route }: Props) {
   const { tokenId } = route.params
   const { t } = useTranslation()
   const token = useTokenInfo(tokenId)
-
-  if (!token) {
-    throw new Error(`token with id ${tokenId} not found`)
-  }
+  if (!token) throw new Error(`token with id ${tokenId} not found`)
+  const actions = useActions(token)
+  const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
+    <SafeAreaView style={styles.container}>
+      <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <ScrollView>
         <View style={styles.titleContainer}>
           <TokenIcon
@@ -86,7 +91,7 @@ export default function TokenDetailsScreen({ route }: Props) {
             testID="TokenDetails/Chart"
           />
         )}
-        <Actions token={token} />
+        <Actions token={token} bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef} />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
         <TokenBalanceItem token={token} />
         {token.infoUrl && (
@@ -97,12 +102,17 @@ export default function TokenDetailsScreen({ route }: Props) {
           />
         )}
       </ScrollView>
+      <TokenDetailsMoreActions
+        forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
+        tokenId={tokenId}
+        actions={actions}
+      />
     </SafeAreaView>
   )
 }
 
 TokenDetailsScreen.navigationOptions = {
-  ...headerWithBackButton,
+  ...noHeader,
 }
 
 function PriceInfo({ token }: { token: TokenBalance }) {
@@ -206,7 +216,13 @@ export const useActions = (token: TokenBalance) => {
   ].filter((action) => action.visible)
 }
 
-function Actions({ token }: { token: TokenBalance }) {
+function Actions({
+  token,
+  bottomSheetRef,
+}: {
+  token: TokenBalance
+  bottomSheetRef: React.RefObject<BottomSheetRefType>
+}) {
   const { t } = useTranslation()
   const actions = useActions(token)
   const cashOutTokens = useCashOutTokens()
@@ -217,7 +233,7 @@ function Actions({ token }: { token: TokenBalance }) {
     title: t('tokenDetails.actions.more'),
     iconComponent: QuickActionsMore,
     onPress: () => {
-      navigate(Screens.TokenDetailsMoreActions, { tokenId: token.tokenId })
+      bottomSheetRef.current?.snapToIndex(0)
     },
   }
 
