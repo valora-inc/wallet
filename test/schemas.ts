@@ -2705,56 +2705,6 @@ export const v161Schema = {
     version: 161,
   },
 }
-// export const v161Schema = {
-//   _persist: {
-//     ...v160Schema._persist,
-//     version: 161,
-//   },
-//   fees: {
-//     estimates: {
-//       send: {
-//         ...v160Schema.fees.estimates.send,
-//         feeInfo: {
-//           ...v160Schema.fees.estimates.send.feeInfo,
-//           feeCurrency: v160Schema.fees.estimates.send.feeInfo.feeCurrency,
-//           feeTokenId: 'bbb',
-//         },
-//       },
-//       exchange: {
-//         ...v160Schema.fees.estimates.exchange,
-//         feeInfo: {
-//           ...v160Schema.fees.estimates.exchange.feeInfo,
-//           feeCurrency: v160Schema.fees.estimates.exchange.feeInfo.feeCurrency,
-//           feeTokenId: 'bbb',
-//         },
-//       },
-//       swap: {
-//         ...v160Schema.fees.estimates.swap,
-//         feeInfo: {
-//           ...v160Schema.fees.estimates.swap.feeInfo,
-//           feeCurrency: v160Schema.fees.estimates.swap.feeInfo.feeCurrency,
-//           feeTokenId: 'bbb',
-//         },
-//       },
-//       ['reclaim-escrow']: {
-//         ...v160Schema.fees.estimates['reclaim-escrow'],
-//         feeInfo: {
-//           ...v160Schema.fees.estimates['reclaim-escrow'].feeInfo,
-//           feeCurrency: v160Schema.fees.estimates['reclaim-escrow'].feeInfo.feeCurrency,
-//           feeTokenId: 'bbb',
-//         },
-//       },
-//       ['register-dek']: {
-//         ...v160Schema.fees.estimates['register-dek'],
-//         feeInfo: {
-//           ...v160Schema.fees.estimates['register-dek'].feeInfo,
-//           feeCurrency: v160Schema.fees.estimates['register-dek'].feeInfo.feeCurrency,
-//           feeTokenId: 'bbb',
-//         },
-//       },
-//     },
-//   },
-// }
 
 export function getLatestSchema(): Partial<RootState> {
   return v161Schema as Partial<RootState>

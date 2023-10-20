@@ -48,29 +48,6 @@ const mockGetGasPrice = getGasPrice as jest.Mock
 
 jest.mock('src/statsig')
 
-// jest.mock('src/tokens/hooks', () => ({
-//   ...jest.requireActual('src/tokens/hooks'),
-//   useTokenInfo: jest.fn(),
-//   useTokenInfoByAddress: jest.fn()
-// }))
-
-const mockTokenAAA = mockCeurTokenId
-jest.mock('src/web3/networkConfig', () => {
-  const originalModule = jest.requireActual('src/web3/networkConfig')
-  return {
-    ...originalModule,
-    __esModule: true,
-    default: {
-      ...originalModule.default,
-      defaultNetworkId: 'celo-alfajores',
-      currencyToTokenId: {
-        cGLD: 'celo-alfajores:native',
-        cEUR: 'celo-alfajores:' + '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase(),
-      },
-    },
-  }
-})
-
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: {
     ...mockTokenTransactionData,
@@ -110,30 +87,6 @@ const mockFeeEstimatesCeur = {
     feeInfo: mockFeeInfoCEUR,
   },
 }
-
-// jest.mocked(useTokenInfo).mockReturnValue({
-//   balance: new BigNumber(0),
-//   priceUsd: new BigNumber(10),
-//   lastKnownPriceUsd: null,
-//   address: '0x0',
-//   tokenId: 'celo-alfajores:0x0',
-//   decimals: 0,
-//   name: 'CELO',
-//   networkId: NetworkId['celo-alfajores'],
-//   symbol: 'CELO',
-// })
-
-// jest.mocked(useTokenInfoByAddress).mockReturnValue({
-//   balance: new BigNumber(0),
-//   priceUsd: new BigNumber(10),
-//   lastKnownPriceUsd: null,
-//   address: '0x0',
-//   tokenId: 'celo-alfajores:0x0',
-//   decimals: 0,
-//   name: 'CELO',
-//   networkId: NetworkId['celo-alfajores'],
-//   symbol: 'CELO',
-// })
 
 describe('SendConfirmation', () => {
   beforeEach(() => {

@@ -194,5 +194,17 @@ describe('TokenTotalLineItem', () => {
       )
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('R$15.00')
     })
+    it('shows approx total in crypto, new exchange rate, conversion in fiat, with fee', () => {
+      const { getByTestId } = renderComponent({
+        showLocalAmount: false,
+        newSendScreen: true,
+        feeToAddInToken: new BigNumber(0.05),
+      })
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('~10.05 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
+        'tokenExchangeRateApprox, {"symbol":"cUSD"}R$1.50'
+      )
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('R$15.08')
+    })
   })
 })
