@@ -16,8 +16,6 @@ import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemI
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
 
-const AVATAR_SIZE = 40
-
 export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 
 interface Props {
