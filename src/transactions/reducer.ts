@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -146,8 +147,17 @@ function mapForContextId(
   })
 }
 
-export const standbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+export const standbyTransactionsSelector = createSelector(
+  [(state: RootState) => state.transactions.standbyTransactions],
+  (transactions) => {
+    return transactions.map((transaction) => ({
+      ...transaction,
+      transactionHash: transaction.transactionHash || '',
+      block: '',
+      fees: [],
+    }))
+  }
+)
 
 export const knownFeedTransactionsSelector = (state: RootState) =>
   state.transactions.knownFeedTransactions

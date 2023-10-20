@@ -49,9 +49,9 @@ function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
     if (
-      standbyTx.hash &&
+      standbyTx.transactionHash &&
       standbyTx.status !== TransactionStatus.Failed &&
-      newFeedTxHashes.has(standbyTx.hash)
+      newFeedTxHashes.has(standbyTx.transactionHash)
     ) {
       yield* put(removeStandbyTransaction(standbyTx.context.id))
     }

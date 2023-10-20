@@ -37,6 +37,7 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
+import { TransactionStatus } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
@@ -271,7 +272,12 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+              status: TransactionStatus.Pending,
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
@@ -299,13 +305,23 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+              status: TransactionStatus.Pending,
+            },
           },
         })
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCeurAddress.toLowerCase(),
+              },
+              status: TransactionStatus.Pending,
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
@@ -370,7 +386,12 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+              status: TransactionStatus.Pending,
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
@@ -398,13 +419,23 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+              status: TransactionStatus.Pending,
+            },
           },
         })
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCeurAddress.toLowerCase(),
+              },
+              status: TransactionStatus.Pending,
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
