@@ -1807,6 +1807,9 @@
                     },
                     "type": "array"
                 },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
                 "timestamp": {
                     "type": "number"
                 },
@@ -1821,6 +1824,7 @@
                 "__typename",
                 "block",
                 "networkId",
+                "status",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2635,20 +2639,81 @@
             ],
             "type": "object"
         },
-        "StandbyTransaction": {
+        "StandbySwap": {
             "additionalProperties": false,
             "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "comment": {
+                "__typename": {
+                    "const": "TokenExchangeV3",
                     "type": "string"
                 },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
-                "hash": {
+                "inAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/TokenExchangeMetadata"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "outAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
                     "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "context",
+                "inAmount",
+                "networkId",
+                "outAmount",
+                "status",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
+        "StandbyTransaction": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/StandbySwap"
+                },
+                {
+                    "$ref": "#/definitions/StandbyTransfer"
+                }
+            ]
+        },
+        "StandbyTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenTransferV3",
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "amount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/TokenTransferMetadata"
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
@@ -2659,29 +2724,23 @@
                 "timestamp": {
                     "type": "number"
                 },
-                "tokenAddress": {
-                    "type": "string"
-                },
-                "tokenId": {
+                "transactionHash": {
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransferTypeV2"
-                },
-                "value": {
-                    "type": "string"
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
                 }
             },
             "required": [
+                "__typename",
                 "address",
-                "comment",
+                "amount",
                 "context",
+                "metadata",
                 "networkId",
                 "status",
                 "timestamp",
-                "tokenId",
-                "type",
-                "value"
+                "type"
             ],
             "type": "object"
         },
@@ -4486,6 +4545,9 @@
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
                 },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
                 "timestamp": {
                     "type": "number"
                 },
@@ -4503,6 +4565,7 @@
                 "inAmount",
                 "networkId",
                 "outAmount",
+                "status",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -4524,10 +4587,10 @@
         "TokenTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/TokenTransfer"
+                    "$ref": "#/definitions/TokenExchange"
                 },
                 {
-                    "$ref": "#/definitions/TokenExchange"
+                    "$ref": "#/definitions/TokenTransfer"
                 },
                 {
                     "$ref": "#/definitions/NftTransfer"
@@ -4575,6 +4638,9 @@
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
                 "timestamp": {
                     "type": "number"
                 },
@@ -4593,6 +4659,7 @@
                 "fees",
                 "metadata",
                 "networkId",
+                "status",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -4616,15 +4683,6 @@
                 }
             },
             "type": "object"
-        },
-        "TokenTransferTypeV2": {
-            "enum": [
-                "INVITE_RECEIVED",
-                "INVITE_SENT",
-                "RECEIVED",
-                "SENT"
-            ],
-            "type": "string"
         },
         "TransactionContext": {
             "additionalProperties": false,
