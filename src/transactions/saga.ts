@@ -15,7 +15,6 @@ import {
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmed,
   transactionFailed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
@@ -145,7 +144,6 @@ export function* sendAndMonitorTransaction<T>(
       sendTxMethod,
       context
     )) as unknown as CeloTxReceipt
-    yield* put(transactionConfirmed(context.id, txReceipt))
 
     yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }

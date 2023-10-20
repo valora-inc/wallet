@@ -74,43 +74,17 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.TRANSACTION_CONFIRMED:
-      const status = action.receipt.status
-
-      if (!status) {
-        return {
-          ...state,
-        }
-      }
-
-      return {
-        ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
-          return {
-            ...tx,
-            status: TransactionStatus.Complete,
-          }
-        }),
-      }
-    case Actions.TRANSACTION_CONFIRMED_VIEM:
-      return {
-        ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
-          return {
-            ...tx,
-            status: TransactionStatus.Complete,
-          }
-        }),
-      }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
-          return {
-            ...tx,
-            hash: action.hash,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === action.idx) {
+              return { ...standbyTransaction, transactionHash: action.hash }
+            }
+            return standbyTransaction
           }
-        }),
+        ),
       }
     case Actions.NEW_TRANSACTIONS_IN_FEED:
       const newKnownFeedTransactions = { ...state.knownFeedTransactions }
@@ -139,19 +113,6 @@ export const reducer = (
     default:
       return state
   }
-}
-
-function mapForContextId(
-  txs: { context: { id: string } }[],
-  contextId: string,
-  mapping: (tx: any) => any
-) {
-  return txs.map((tx) => {
-    if (tx.context.id !== contextId) {
-      return tx
-    }
-    return mapping(tx)
-  })
 }
 
 export const pendingStandbyTransactionsSelector = createSelector(

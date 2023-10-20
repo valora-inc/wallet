@@ -1,4 +1,3 @@
-import { CeloTxReceipt } from '@celo/connect'
 import { TransactionFeedFragment } from 'src/apollo/types'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
@@ -8,8 +7,6 @@ export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
-  TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
-  TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
   NEW_TRANSACTIONS_IN_FEED = 'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
@@ -36,17 +33,6 @@ export interface AddHashToStandbyTransactionAction {
   type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS
   idx: string
   hash: string
-}
-
-export interface TransactionConfirmedAction {
-  type: Actions.TRANSACTION_CONFIRMED
-  txId: string
-  receipt: CeloTxReceipt
-}
-
-export interface TransactionConfirmedViemAction {
-  type: Actions.TRANSACTION_CONFIRMED_VIEM
-  txId: string
 }
 
 export interface TransactionFailedAction {
@@ -81,8 +67,6 @@ export type ActionTypes =
   | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
-  | TransactionConfirmedAction
-  | TransactionConfirmedViemAction
   | UpdateInviteTransactionsAction
 
 export const addStandbyTransaction = (
@@ -102,20 +86,6 @@ export const updateRecentTxRecipientsCache = (
 ): UpdatedRecentTxRecipientsCacheAction => ({
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   recentTxRecipientsCache,
-})
-
-export const transactionConfirmed = (
-  txId: string,
-  receipt: CeloTxReceipt
-): TransactionConfirmedAction => ({
-  type: Actions.TRANSACTION_CONFIRMED,
-  txId,
-  receipt,
-})
-
-export const transactionConfirmedViem = (txId: string): TransactionConfirmedViemAction => ({
-  type: Actions.TRANSACTION_CONFIRMED_VIEM,
-  txId,
 })
 
 export const transactionFailed = (txId: string): TransactionFailedAction => ({
