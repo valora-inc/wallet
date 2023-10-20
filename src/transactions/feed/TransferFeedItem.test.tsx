@@ -68,12 +68,14 @@ describe('TransferFeedItem', () => {
     },
     metadata = {},
     fees = [],
+    status = TransactionStatus.Complete,
   }: {
     type?: TokenTransactionTypeV2
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
+    status?: TransactionStatus
   }) {
     const store = createMockStore({
       ...storeOverrides,
@@ -86,7 +88,7 @@ describe('TransferFeedItem', () => {
             __typename: 'TokenTransferV3',
             networkId: NetworkId['celo-alfajores'],
             type,
-            status: TransactionStatus.Complete,
+            status,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,
             block: '2345',
@@ -105,9 +107,27 @@ describe('TransferFeedItem', () => {
     }
   }
 
-  it('renders correctly', async () => {
-    const tree = renderScreen({})
-    expect(tree).toMatchSnapshot()
+  it('renders a completed transaction correctly', async () => {
+    const { getByText } = renderScreen({})
+
+    expect(
+      getByText(
+        'feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xFdd8...3075\\"}"}'
+      )
+    ).toBeTruthy()
+    expect(getByText('feedItemSentInfo, {"context":"noComment"}')).toBeTruthy()
+  })
+
+  it('renders a completed transaction correctly', async () => {
+    const { getByTestId, getByText } = renderScreen({ status: TransactionStatus.Pending })
+
+    expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
+    expect(
+      getByText(
+        'feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xFdd8...3075\\"}"}'
+      )
+    ).toBeTruthy()
+    expect(getByText('confirmingTransaction')).toBeTruthy()
   })
 
   function expectDisplay({
