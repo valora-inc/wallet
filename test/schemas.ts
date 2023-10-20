@@ -2720,6 +2720,12 @@ export const v161Schema = {
         },
       }
     }),
+    transactions: v160Schema.transactions.transactions.map((tx: any) => {
+      return {
+        ...tx,
+        status: 'Complete',
+      }
+    }),
   },
 }
 

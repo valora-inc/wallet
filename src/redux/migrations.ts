@@ -1372,6 +1372,12 @@ export const migrations = {
           },
         }
       }),
+      transactions: state.transactions.transactions.map((tx: any) => {
+        return {
+          ...tx,
+          status: 'Complete',
+        }
+      }),
     },
   }),
 }

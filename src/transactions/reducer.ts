@@ -17,7 +17,7 @@ export interface State {
   // before they are picked up by the chain explorer and
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
-  standbyTransactions: StandbyTransaction[] // TODO migration
+  standbyTransactions: StandbyTransaction[]
   // Tracks which set of transactions retrieved in the
   // feed have already been processed by the
   // tx feed query watcher. Necessary so we don't re-process
