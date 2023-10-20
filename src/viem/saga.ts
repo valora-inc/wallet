@@ -19,11 +19,7 @@ import {
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import {
-  TokenTransactionTypeV2,
-  TransactionContext,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
@@ -107,12 +103,10 @@ export function* sendPayment({
           tokenAddress,
           tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
         },
-        timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,
         metadata: {
           comment,
         },
-        status: TransactionStatus.Pending,
       })
     )
 
