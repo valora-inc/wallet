@@ -270,6 +270,7 @@ function Actions({
           size={BtnSizes.FULL}
           touchableStyle={styles.actionTouchable}
           testID={`TokenDetails/Action/${action.name}`}
+          fontStyle={typeScale.labelMedium}
         />
       ))}
     </View>
