@@ -105,7 +105,7 @@ export function* buildSendTx(
   const coreContract: Contract = yield* call(getStableTokenContract, tokenAddress)
 
   const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfoByAddress, tokenAddress)
-  const convertedAmount: string = yield* call(tokenAmountInSmallestUnit, amount, tokenAddress)
+  const convertedAmount: string = yield* call(tokenAmountInSmallestUnit, amount, tokenInfo?.tokenId)
 
   const kit: ContractKit = yield* call(getContractKit)
   return toTransactionObject(

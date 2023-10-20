@@ -18,7 +18,7 @@ import { Network } from 'src/transactions/types'
 
 const TAG = 'viem/getLockableWallet'
 
-function getTransport(chain: Chain): Transport {
+export function getTransport(chain: Chain): Transport {
   const result = Object.entries(networkConfig.viemChain).find(
     ([_, viemChain]) => chain === viemChain
   )

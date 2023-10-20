@@ -214,7 +214,7 @@ describe(tokenAmountInSmallestUnit, () => {
   const mockTokenId = `celo-alfajores:${mockAddress}`
 
   it('map to token amount successfully', async () => {
-    await expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
+    await expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockTokenId)
       .withState(
         createMockStore({
           tokens: {
@@ -235,10 +235,10 @@ describe(tokenAmountInSmallestUnit, () => {
 
   it('throw error if token doenst have info', async () => {
     await expect(
-      expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
+      expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockTokenId)
         .withState(createMockStore({}).getState())
         .run()
-    ).rejects.toThrowError(`Couldnt find token info for address ${mockAddress}.`)
+    ).rejects.toThrowError(`Couldnt find token info for ID ${mockTokenId}.`)
   })
 })
 

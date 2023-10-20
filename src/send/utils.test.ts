@@ -132,6 +132,7 @@ describe('send/utils', () => {
             tokenAddress: mockCeurAddress,
             // 1 PHP in cEUR: 1 (input) / 1.33 (PHP price) / 1.2 (cEUR price)
             tokenAmount: new BigNumber('0.62656641604010025063'),
+            tokenId: mockCeurTokenId,
           },
           origin: SendOrigin.AppSendFlow,
         })
@@ -161,6 +162,7 @@ describe('send/utils', () => {
             inputAmount: new BigNumber(1), // 1 PHP
             amountIsInLocalCurrency: true,
             tokenAddress: mockCusdAddress,
+            tokenId: mockCusdTokenId,
             // 1 PHP in cUSD: 1 (input) / 1.33 (PHP price)
             tokenAmount: new BigNumber('0.75187969924812030075'),
           },

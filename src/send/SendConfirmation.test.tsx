@@ -311,6 +311,7 @@ describe('SendConfirmation', () => {
         transactionData: {
           ...mockTokenTransactionData,
           tokenAddress: mockCeloAddress,
+          tokenId: mockCeloTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
@@ -327,6 +328,7 @@ describe('SendConfirmation', () => {
         transactionData: {
           ...mockTokenTransactionData,
           tokenAddress: mockTestTokenAddress,
+          tokenId: mockTestTokenTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
