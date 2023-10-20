@@ -34,36 +34,58 @@ interface Props<T extends TokenBalance> {
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
   tokens: T[]
-  useTokenBalanceItem?: boolean
+  TokenOptionComponent?: React.ComponentType<TokenOptionProps>
 }
 
-function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
+export interface TokenOptionProps {
+  tokenInfo: TokenBalance
+  onPress: () => void
+  index: number
+}
+
+/**
+ * @deprecated new bottom sheets should use TokenBalanceItemOption
+ */
+export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
   return (
-    <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
-      <View style={styles.tokenOptionContainer}>
-        <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
-        <View style={styles.tokenNameContainer}>
-          <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
-          <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
+    <>
+      {index > 0 && <View style={styles.separator} />}
+      <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
+        <View style={styles.tokenOptionContainer}>
+          <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
+          <View style={styles.tokenNameContainer}>
+            <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
+            <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
+          </View>
+          <View style={styles.tokenBalanceContainer}>
+            <TokenDisplay
+              style={styles.localBalance}
+              amount={tokenInfo.balance}
+              tokenId={tokenInfo.tokenId}
+              showLocalAmount={true}
+              testID={`Local${tokenInfo.symbol}Balance`}
+            />
+            <TokenDisplay
+              style={styles.currencyBalance}
+              amount={tokenInfo.balance}
+              tokenId={tokenInfo.tokenId}
+              showLocalAmount={false}
+              testID={`${tokenInfo.symbol}Balance`}
+            />
+          </View>
         </View>
-        <View style={styles.tokenBalanceContainer}>
-          <TokenDisplay
-            style={styles.localBalance}
-            amount={tokenInfo.balance}
-            tokenId={tokenInfo.tokenId}
-            showLocalAmount={true}
-            testID={`Local${tokenInfo.symbol}Balance`}
-          />
-          <TokenDisplay
-            style={styles.currencyBalance}
-            amount={tokenInfo.balance}
-            tokenId={tokenInfo.tokenId}
-            showLocalAmount={false}
-            testID={`${tokenInfo.symbol}Balance`}
-          />
-        </View>
-      </View>
-    </Touchable>
+      </Touchable>
+    </>
+  )
+}
+
+export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps) {
+  return (
+    <TokenBalanceItem
+      token={tokenInfo}
+      onPress={onPress}
+      containerStyle={styles.tokenBalanceItemContainer}
+    />
   )
 }
 
@@ -97,7 +119,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   searchEnabled,
   title,
   titleStyle,
-  useTokenBalanceItem,
+  TokenOptionComponent = TokenOption,
 }: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -181,16 +203,11 @@ function TokenBottomSheet<T extends TokenBalance>({
           return (
             // Duplicate keys could happen with token.address
             <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-              {index > 0 && !useTokenBalanceItem && <View style={styles.separator} />}
-              {useTokenBalanceItem ? (
-                <TokenBalanceItem
-                  token={tokenInfo}
-                  onPress={onTokenPressed(tokenInfo)}
-                  containerStyle={styles.tokenBalanceItemContainer}
-                />
-              ) : (
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
-              )}
+              <TokenOptionComponent
+                tokenInfo={tokenInfo}
+                onPress={onTokenPressed(tokenInfo)}
+                index={index}
+              />
             </React.Fragment>
           )
         })

@@ -6,6 +6,9 @@ import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenBottomSheet, {
   DEBOUCE_WAIT_TIME,
+  TokenBalanceItemOption,
+  TokenOption,
+  TokenOptionProps,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
@@ -111,7 +114,10 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(searchEnabled: boolean = false, useTokenBalanceItem: boolean = false) {
+  function renderBottomSheet(
+    searchEnabled: boolean = false,
+    TokenOptionComponent: React.ComponentType<TokenOptionProps> = TokenOption
+  ) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
@@ -121,7 +127,7 @@ describe('TokenBottomSheet', () => {
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
           searchEnabled={searchEnabled}
-          useTokenBalanceItem={useTokenBalanceItem}
+          TokenOptionComponent={TokenOptionComponent}
         />
       </Provider>
     )
@@ -138,7 +144,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('renders correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet(false, true)
+    const { getAllByTestId } = renderBottomSheet(false, TokenBalanceItemOption)
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(3)
     expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('10.00 cUSD')
@@ -168,7 +174,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('handles the choosing of a token correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet(false, true)
+    const { getAllByTestId } = renderBottomSheet(false, TokenBalanceItemOption)
 
     fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
     expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
