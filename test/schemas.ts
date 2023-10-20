@@ -2689,6 +2689,7 @@ export const v159Schema = {
 }
 
 export const v160Schema = {
+  ...v159Schema,
   ...(_.omit(v159Schema, 'paymentRequest') as any),
   _persist: {
     ...v159Schema._persist,
@@ -2726,6 +2727,15 @@ export const v161Schema = {
         status: 'Complete',
       }
     }),
+  },
+}
+
+export const v162Schema = {
+  ...v161Schema,
+  ..._.omit(v161Schema.fees, 'estimates'),
+  _persist: {
+    ...v161Schema._persist,
+    version: 162,
   },
 }
 
