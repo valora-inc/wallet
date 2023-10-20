@@ -28,7 +28,6 @@ import { sendTransaction } from 'src/transactions/send'
 import {
   TokenTransactionTypeV2,
   TransactionContext,
-  TransactionStatus,
   newTransactionContext,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -200,7 +199,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         __typename: 'TokenExchangeV3',
         networkId: networkConfig.defaultNetworkId,
         type: TokenTransactionTypeV2.SwapTransaction,
-        timestamp: Math.floor(Date.now() / 1000),
         inAmount: {
           value: valueToBigNumber(sellAmount)
             .multipliedBy(guaranteedPrice)
@@ -211,7 +209,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
           value: valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals),
           tokenId: getTokenId(networkConfig.defaultNetworkId, sellTokenAddress),
         },
-        status: TransactionStatus.Pending,
         transactionHash: receipt.transactionHash,
       })
     )
