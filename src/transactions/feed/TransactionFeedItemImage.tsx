@@ -37,6 +37,7 @@ function TransactionFeedItemImage(props: Props) {
     return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
   }
 
+  // Should never happen
   Logger.error(
     'TransactionFeedItemImage',
     `Could not render image for transaction for transaction type ${transactionType} and status ${status}`
