@@ -72,7 +72,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
   }
 }
 
-function TransactionDetailsScreen({ navigation, route }: Props) {
+function TransactionDetailsScreen({ navigation: { navigate }, route }: Props) {
   const { transaction } = route.params
 
   const title = useHeaderTitle(transaction)
@@ -86,8 +86,10 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
+      retryHandler = () => navigate(Screens.Send)
+      content = <TransferSentContent transfer={transaction as TokenTransfer} />
+      break
     case TokenTransactionTypeV2.InviteSent:
-      retryHandler = () => console.log('TODO RETRY SEND')
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.Received:
@@ -104,7 +106,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent exchange={transaction as TokenExchange} />
-      retryHandler = () => console.log('TODO RETRY SWAP')
+      retryHandler = () => navigate(Screens.SwapScreenWithBack)
       break
   }
 
@@ -114,7 +116,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
         // TODO: add anaytics? e.g.:
         // ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
 
-        navigation.navigate(Screens.WebViewScreen, {
+        navigate(Screens.WebViewScreen, {
           uri: `${networkConfig.blockExplorerBaseTxUrl[transactionNetwork]}${transaction.transactionHash}`,
         })
       }
