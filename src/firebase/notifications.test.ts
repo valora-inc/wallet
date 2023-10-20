@@ -8,8 +8,8 @@ import { handleNotification } from 'src/firebase/notifications'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
-import { NetworkId } from 'src/transactions/types'
 import { recipientInfoSelector } from 'src/recipients/reducer'
+import { NetworkId, TransactionStatus } from 'src/transactions/types'
 import { mockRecipientInfo } from 'test/values'
 
 describe(handleNotification, () => {
@@ -141,6 +141,7 @@ describe(handleNotification, () => {
             comment: 'Tea',
           },
           fees: [],
+          status: TransactionStatus.Complete,
         },
       })
     })

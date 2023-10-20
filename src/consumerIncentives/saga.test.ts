@@ -271,7 +271,11 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
@@ -299,13 +303,21 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+            },
           },
         })
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCeurAddress.toLowerCase(),
+              },
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
@@ -370,7 +382,11 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))
@@ -398,13 +414,21 @@ describe('claimRewardsSaga', () => {
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCusdAddress.toLowerCase(),
+              },
+            },
           },
         })
         .put.like({
           action: {
             type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
+            transaction: {
+              amount: {
+                tokenAddress: mockCeurAddress.toLowerCase(),
+              },
+            },
           },
         })
         .put(fetchAvailableRewards({ forceRefresh: true }))

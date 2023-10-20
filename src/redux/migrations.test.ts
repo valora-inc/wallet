@@ -1314,4 +1314,47 @@ describe('Redux persist migrations', () => {
       _.omit(preMigrationSchema, 'app.activeScreen', 'paymentRequest')
     )
   })
+
+  it('works from 160 to 161', () => {
+    const preMigrationSchema = {
+      ...v159Schema,
+    }
+    preMigrationSchema.transactions.standbyTransactions = [
+      {
+        context: { id: 'someId' },
+        networkId: 'celo-alfajores',
+        type: 'SENT',
+        status: TransactionStatus.Pending,
+        value: '123',
+        tokenId: 'someTokenId',
+        tokenAddress: '0xabc',
+        comment: 'some comment',
+        timestamp: 123456789,
+        address: '0x123',
+        hash: 'someHash',
+      },
+    ]
+    const migratedSchema = migrations[161](preMigrationSchema)
+
+    expect(migratedSchema.transactions.standbyTransactions).toEqual([
+      {
+        __typename: 'TokenTransferV3',
+        type: TokenTransactionTypeV2.Sent,
+        context: { id: 'someId' },
+        networkId: 'celo-alfajores',
+        amount: {
+          value: '123',
+          tokenId: 'someTokenId',
+          tokenAddress: '0xabc',
+        },
+        timestamp: 123456789,
+        address: '0x123',
+        transactionHash: 'someHash',
+        metadata: {
+          comment: 'some comment',
+        },
+        status: TransactionStatus.Pending,
+      },
+    ])
+  })
 })
