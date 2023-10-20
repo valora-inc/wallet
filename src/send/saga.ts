@@ -37,7 +37,6 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
   TokenTransactionTypeV2,
   TransactionContext,
-  TransactionStatus,
   newTransactionContext,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -163,12 +162,10 @@ export function* buildAndSendPayment(
         tokenAddress,
         tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
       },
-      timestamp: Math.floor(Date.now() / 1000),
       address: recipientAddress,
       metadata: {
         comment,
       },
-      status: TransactionStatus.Pending,
     })
   )
 

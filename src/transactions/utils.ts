@@ -3,13 +3,13 @@ import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
-// Recent -> Last 7 days (standby transactions always at the top, followed by recent confirmed transactions).
+// Recent -> Last 7 days (pending transactions always at the top, followed by recent confirmed transactions).
 // [Current month] - "July" -> Captures transactions from the current month that aren’t captured in Recent.
 // [Previous months] - "June" -> Captures transactions by month.
 // [Months over a year ago] — "July 2019" -> Same as above, but with year appended.
 // Sections are hidden if they have no items.
 export function groupFeedItemsInSections(
-  standbyTransactions: TokenTransaction[],
+  pendingTransactions: TokenTransaction[],
   confirmedTransactions: TokenTransaction[]
 ) {
   const sectionsMap: {
@@ -21,10 +21,10 @@ export function groupFeedItemsInSections(
 
   // add standby transactions to top of recent section
   const recentSectionTitle = i18n.t('feedSectionHeaderRecent')
-  if (standbyTransactions.length > 0) {
+  if (pendingTransactions.length > 0) {
     sectionsMap[recentSectionTitle] = {
       daysSinceTransaction: 0,
-      data: standbyTransactions,
+      data: pendingTransactions,
     }
   }
 

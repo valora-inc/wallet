@@ -23,7 +23,7 @@ import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import {
   UnlockResult,
@@ -321,8 +321,6 @@ describe(sendPaymentSaga, () => {
             tokenAddress: mockCusdAddress,
             tokenId: mockCusdTokenId,
           },
-          status: TransactionStatus.Pending,
-          timestamp: Math.floor(Date.now() / 1000),
           address: mockQRCodeRecipient.address,
         })
       )
