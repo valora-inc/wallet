@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenDisplay from 'src/components/TokenDisplay'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: colors.gray2,
-    marginBottom: Spacing.Regular16,
+    marginVertical: Spacing.Regular16,
   },
   rowContainer: {
     flexDirection: 'row',

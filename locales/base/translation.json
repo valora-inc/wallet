@@ -1656,7 +1656,7 @@
   },
   "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
   "swapScreen": {
-    "title": "Swap",
+    "title": "Swap Tokens",
     "review": "Review",
     "swapFrom": "FROM",
     "swapTo": "TO",

@@ -1,17 +1,19 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import i18n from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
-import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
-import networkConfig from 'src/web3/networkConfig'
+import TransactionDetailsPill from 'src/transactions/feed/TransactionDetailsPill'
+import TransactionStatusInfo from 'src/transactions/feed/TransactionStatusInfo'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
   TokenExchange,
@@ -21,6 +23,7 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
@@ -70,15 +73,10 @@ function useHeaderTitle(transaction: TokenTransaction) {
 }
 
 function TransactionDetailsScreen({ navigation, route }: Props) {
-  const { transaction } = route.params
+  const { transaction, transactionStatus } = route.params
 
-  const headerTitle = useHeaderTitle(transaction)
-  useLayoutEffect(() => {
-    const dateTimeStatus = getDatetimeDisplayString(transaction.timestamp, i18n)
-    navigation.setOptions({
-      headerTitle: () => <HeaderTitleWithSubtitle title={headerTitle} subTitle={dateTimeStatus} />,
-    })
-  }, [transaction])
+  const title = useHeaderTitle(transaction)
+  const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
 
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
@@ -106,21 +104,54 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       content = <SwapContent exchange={transaction as TokenExchange} />
       break
   }
+  const onPressTransactionDetailsPill = () => {
+    // TODO: add anaytics? e.g.:
+    // ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
+    navigation.navigate(Screens.WebViewScreen, {
+      uri: `${networkConfig.celoExplorerBaseTxUrl}${transaction.transactionHash}`,
+    })
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-      <SafeAreaView style={styles.content}>{content}</SafeAreaView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.dateTime}>{dateTime}</Text>
+      <View style={styles.status}>
+        <TransactionStatusInfo status={transactionStatus} />
+        <TransactionDetailsPill
+          status={transactionStatus}
+          onPress={onPressTransactionDetailsPill}
+        />
+      </View>
+      <View style={styles.content}>{content}</View>
     </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  container: {
     flexGrow: 1,
+    paddingTop: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
   content: {
-    flexGrow: 1,
-    padding: 16,
+    marginTop: Spacing.Large32,
+  },
+  title: {
+    ...typeScale.titleSmall,
+    color: colors.dark,
+  },
+  dateTime: {
+    ...typeScale.bodyXSmall,
+    color: colors.gray3,
+    marginTop: 2,
+  },
+  status: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 42,
+    marginTop: 8,
   },
 })
 
