@@ -16,7 +16,7 @@ import {
   NotificationTypes,
   TransferNotificationData,
 } from 'src/notifications/types'
-import { TokenTransactionTypeV2 } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { put } from 'typed-redux-saga'
 import networkConfig from 'src/web3/networkConfig'
@@ -47,6 +47,7 @@ function handlePaymentReceived(transferNotification: TransferNotificationData) {
         comment: transferNotification.comment,
       },
       fees: [],
+      status: TransactionStatus.Complete,
     },
   })
 }
