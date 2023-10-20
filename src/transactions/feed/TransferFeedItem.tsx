@@ -42,7 +42,7 @@ function TransferFeedItem({ transfer }: Props) {
         <TransactionFeedItemImage
           recipient={recipient}
           status={transfer.status}
-          __typename={transfer.__typename}
+          transactionType={transfer.__typename}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'}>

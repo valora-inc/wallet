@@ -11,16 +11,16 @@ const AVATAR_SIZE = 40
 type Props =
   | {
       status: TransactionStatus
-      __typename: 'TokenExchangeV3'
+      transactionType: 'TokenExchangeV3'
     }
   | {
       status: TransactionStatus
-      __typename: 'TokenTransferV3'
+      transactionType: 'TokenTransferV3'
       recipient: Recipient
     }
 
 function TransactionFeedItemImage(props: Props) {
-  const { status, __typename } = props
+  const { status, transactionType } = props
 
   if (status === TransactionStatus.Failed) {
     // TODO
@@ -29,17 +29,17 @@ function TransactionFeedItemImage(props: Props) {
   if (status === TransactionStatus.Pending) {
     return <GreenLoadingSpinner height={AVATAR_SIZE} />
   }
-  if (__typename === 'TokenExchangeV3') {
+  if (transactionType === 'TokenExchangeV3') {
     return <SwapIcon />
   }
 
-  if (__typename === 'TokenTransferV3') {
+  if (transactionType === 'TokenTransferV3') {
     return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
   }
 
   Logger.error(
     'TransactionFeedItemImage',
-    `Could not render image for transaction for transaction type ${__typename} and status ${status}`
+    `Could not render image for transaction for transaction type ${transactionType} and status ${status}`
   )
   return null
 }
