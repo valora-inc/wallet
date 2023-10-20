@@ -24,32 +24,32 @@ function TransactionFeed() {
     useFetchTransactions()
 
   const cachedTransactions = useSelector(transactionsSelector)
-
-  const confirmedTokenTransactions: TokenTransaction[] =
-    transactions.length > 0 ? transactions : cachedTransactions
-  const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
-    ...tx,
-    status: TransactionStatus.Complete,
-  }))
-
-  const standbyFeedTransactions = useSelector(standbyTransactionsSelector)
-
+  const allStandbyTransactions = useSelector(standbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
-  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions].filter(
-    (tx) => {
+
+  const confirmedFeedTransactions = useMemo(() => {
+    const confirmedTokenTransactions: TokenTransaction[] =
+      transactions.length > 0 ? transactions : cachedTransactions
+    return confirmedTokenTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
-    }
-  )
+    })
+  }, [transactions, cachedTransactions, allowedNetworks])
+
+  const standbyTransactions = useMemo(() => {
+    return allStandbyTransactions.filter((tx) => {
+      return allowedNetworks.includes(tx.networkId)
+    })
+  }, [allStandbyTransactions, allowedNetworks])
 
   const sections = useMemo(() => {
-    if (tokenTransactions.length === 0) {
+    if (confirmedFeedTransactions.length === 0 && standbyTransactions.length === 0) {
       return []
     }
 
-    return groupFeedItemsInSections(tokenTransactions)
-  }, [tokenTransactions.map((tx) => tx.transactionHash).join(',')])
+    return groupFeedItemsInSections(standbyTransactions, confirmedFeedTransactions)
+  }, [standbyTransactions, confirmedFeedTransactions])
 
-  if (!tokenTransactions.length) {
+  if (!sections.length) {
     return <NoActivity loading={loading} error={error} />
   }
 

@@ -3,7 +3,6 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import ContactCircle from 'src/components/ContactCircle'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,6 +12,7 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
+import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
 
@@ -41,10 +41,10 @@ function TransferFeedItem({ transfer }: Props) {
   return (
     <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
-        <ContactCircle
-          style={{ alignItems: 'flex-start' }}
+        <TransactionFeedItemImage
           recipient={recipient}
-          size={AVATAR_SIZE}
+          status={transfer.status}
+          __typename={transfer.__typename}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'}>
