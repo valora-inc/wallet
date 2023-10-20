@@ -19,7 +19,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { Network, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
@@ -257,7 +257,6 @@ export type StackParamList = {
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
-    transactionStatus: TransactionStatus
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {

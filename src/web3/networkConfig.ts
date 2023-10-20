@@ -3,6 +3,7 @@ import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   Chain as ViemChain,
   celo,
@@ -10,7 +11,6 @@ import {
   mainnet as ethereum,
   sepolia as ethereumSepolia,
 } from 'viem/chains'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export enum Testnets {
   alfajores = 'alfajores',
@@ -41,6 +41,7 @@ interface NetworkConfig {
   celoExplorerBaseTokenUrl: string
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
+  blockExplorerBaseTxUrl: Record<Network, string>
   approveSwapUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
@@ -59,6 +60,7 @@ interface NetworkConfig {
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
   networkToNetworkId: Record<Network, NetworkId>
+  networkIdToNetwork: Partial<Record<NetworkId, Network>>
   defaultNetworkId: NetworkId
   getTokensInfoUrl: string
   viemChain: {
@@ -172,6 +174,12 @@ const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET
 const CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/token/`
 const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/token/`
 
+const ETH_EXPLORER_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
+const ETH_EXPLORER_BASE_URL_MAINNET = 'https://etherscan.io'
+
+const ETH_EXPLORER_BASE_TX_URL_SEPOLIA = `${ETH_EXPLORER_BASE_URL_SEPOLIA}/tx/`
+const ETH_EXPLORER_BASE_TX_URL_MAINNET = `${ETH_EXPLORER_BASE_URL_MAINNET}/tx/`
+
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
@@ -203,6 +211,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-alfajores'],
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
     },
+    networkIdToNetwork: {
+      [NetworkId['celo-alfajores']]: Network.Celo,
+      [NetworkId['ethereum-sepolia']]: Network.Ethereum,
+    },
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: BLOCKCHAIN_API_STAGING,
@@ -232,6 +244,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
+    blockExplorerBaseTxUrl: {
+      [Network.Celo]: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
+      [Network.Ethereum]: ETH_EXPLORER_BASE_TX_URL_SEPOLIA,
+    },
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
@@ -270,6 +286,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-mainnet'],
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
     },
+    networkIdToNetwork: {
+      [NetworkId['celo-mainnet']]: Network.Celo,
+      [NetworkId['ethereum-mainnet']]: Network.Ethereum,
+    },
     defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
@@ -298,6 +318,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
+    blockExplorerBaseTxUrl: {
+      [Network.Celo]: CELO_EXPLORER_BASE_TX_URL_MAINNET,
+      [Network.Ethereum]: ETH_EXPLORER_BASE_TX_URL_MAINNET,
+    },
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,

@@ -73,7 +73,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
 }
 
 function TransactionDetailsScreen({ navigation, route }: Props) {
-  const { transaction, transactionStatus } = route.params
+  const { transaction } = route.params
 
   const title = useHeaderTitle(transaction)
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
@@ -82,10 +82,12 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
   const rewardsSenders = useSelector(rewardsSendersSelector)
 
   let content
+  let retryHandler
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
     case TokenTransactionTypeV2.InviteSent:
+      retryHandler = () => console.log('TODO RETRY SEND')
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.Received:
@@ -102,25 +104,32 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent exchange={transaction as TokenExchange} />
+      retryHandler = () => console.log('TODO RETRY SWAP')
       break
   }
-  const onPressTransactionDetailsPill = () => {
-    // TODO: add anaytics? e.g.:
-    // ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
-    navigation.navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseTxUrl}${transaction.transactionHash}`,
-    })
-  }
+
+  const transactionNetwork = networkConfig.networkIdToNetwork[transaction.networkId]
+  const onShowTransactionDetails = transactionNetwork
+    ? () => {
+        // TODO: add anaytics? e.g.:
+        // ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
+
+        navigation.navigate(Screens.WebViewScreen, {
+          uri: `${networkConfig.blockExplorerBaseTxUrl[transactionNetwork]}${transaction.transactionHash}`,
+        })
+      }
+    : undefined
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.dateTime}>{dateTime}</Text>
       <View style={styles.status}>
-        <TransactionStatusInfo status={transactionStatus} />
+        <TransactionStatusInfo status={transaction.status} />
         <TransactionDetailsPill
-          status={transactionStatus}
-          onPress={onPressTransactionDetailsPill}
+          status={transaction.status}
+          onShowDetails={onShowTransactionDetails}
+          onRetry={retryHandler}
         />
       </View>
       <View style={styles.content}>{content}</View>

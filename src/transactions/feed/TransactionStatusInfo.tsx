@@ -19,9 +19,9 @@ function TransactionStatusInfo({ status, testID }: Props) {
   const { t } = useTranslation()
 
   const titleByStatus: Record<TransactionStatus, string> = {
-    [TransactionStatus.Complete]: t('Completed'),
-    [TransactionStatus.Pending]: t('Pending'),
-    [TransactionStatus.Failed]: t('Failed'),
+    [TransactionStatus.Complete]: t('transactionStatus.transactionIsCompleted'),
+    [TransactionStatus.Pending]: t('transactionStatus.transactionIsPending'),
+    [TransactionStatus.Failed]: t('transactionStatus.transactionIsFailed'),
   }
   const title = titleByStatus[status]
 

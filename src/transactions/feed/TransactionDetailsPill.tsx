@@ -10,21 +10,45 @@ import { TransactionStatus } from 'src/transactions/types'
 
 interface Props {
   status: TransactionStatus
-  onPress: () => void
+  onShowDetails?: () => void
+  onRetry?: () => void
   testID?: string
 }
 
-function TransactionDetailsPill({ status, onPress, testID }: Props) {
+function TransactionDetailsPill({ status, onShowDetails, onRetry, testID }: Props) {
   const { t } = useTranslation()
 
-  const presentationByStatus: Record<TransactionStatus, [string, colors, colors]> = {
-    [TransactionStatus.Complete]: [t('Details'), colors.successDark, colors.successLight],
-    [TransactionStatus.Pending]: [t('CheckStatus'), colors.warningDark, colors.warningLight],
-    [TransactionStatus.Failed]: [t('Retry'), colors.errorDark, colors.errorLight],
+  const titleByStatus: Record<TransactionStatus, string> = {
+    [TransactionStatus.Complete]: t('transactionDetailsActions.showCompletedTransactionDetails'),
+    [TransactionStatus.Pending]: t('transactionDetailsActions.checkPendingTransactionStatus'),
+    [TransactionStatus.Failed]: t('transactionDetailsActions.retryFailedTransaction'),
   }
+  const title = titleByStatus[status]
 
-  const [title, color, backgroundColor] = presentationByStatus[status]
-  const icon = status !== TransactionStatus.Failed ? <OpenLinkIcon color={color} /> : null
+  const colorsByStatus: Record<TransactionStatus, [colors, colors]> = {
+    [TransactionStatus.Complete]: [colors.successDark, colors.successLight],
+    [TransactionStatus.Pending]: [colors.warningDark, colors.warningLight],
+    [TransactionStatus.Failed]: [colors.errorDark, colors.errorLight],
+  }
+  const [color, backgroundColor] = colorsByStatus[status]
+
+  const iconByStatus: Record<TransactionStatus, React.ReactNode> = {
+    [TransactionStatus.Complete]: <OpenLinkIcon color={color} />,
+    [TransactionStatus.Pending]: <OpenLinkIcon color={color} />,
+    [TransactionStatus.Failed]: null,
+  }
+  const icon = iconByStatus[status]
+
+  const pressHandlerByStatus: Record<TransactionStatus, (() => void) | undefined> = {
+    [TransactionStatus.Complete]: onShowDetails,
+    [TransactionStatus.Pending]: onShowDetails,
+    [TransactionStatus.Failed]: onRetry,
+  }
+  const onPress = pressHandlerByStatus[status]
+
+  if (!onPress) {
+    return null
+  }
 
   return (
     <Touchable style={[styles.container, { backgroundColor }]} onPress={onPress} testID={testID}>
@@ -43,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.Smallest8,
     borderRadius: 100,
-    gap: 2,
+    gap: 6,
   },
   text: {
     ...typeScale.bodyXSmall,
