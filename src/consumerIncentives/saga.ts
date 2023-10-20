@@ -31,13 +31,10 @@ import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import {
-  TokenTransactionTypeV2,
-  TransactionStatus,
-  newTransactionContext,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
@@ -48,7 +45,6 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
-import { getTokenId } from 'src/tokens/utils'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
@@ -88,17 +84,18 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     for (const reward of receivedRewards) {
       yield* put(
         addStandbyTransaction({
+          __typename: 'TokenTransferV3',
+          type: TokenTransactionTypeV2.Received,
           context: newTransactionContext('Claim Reward', reward.txHash),
           networkId: networkConfig.defaultNetworkId,
-          type: TokenTransactionTypeV2.Received,
-          status: TransactionStatus.Complete,
-          value: reward.amount,
-          tokenAddress: reward.tokenAddress,
-          tokenId: getTokenId(networkConfig.defaultNetworkId, reward.tokenAddress),
-          comment: '',
-          timestamp: Math.floor(Date.now() / 1000),
+          amount: {
+            value: reward.amount,
+            tokenAddress: reward.tokenAddress,
+            tokenId: getTokenId(networkConfig.defaultNetworkId, reward.tokenAddress),
+          },
           address: reward.fundsSource,
-          hash: reward.txHash,
+          transactionHash: reward.txHash,
+          metadata: {},
         })
       )
     }

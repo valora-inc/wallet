@@ -555,7 +555,7 @@ PODS:
   - react-native-video/Video (6.0.0-alpha.7):
     - PromisesSwift
     - React-Core
-  - react-native-webview (13.4.0):
+  - react-native-webview (13.6.2):
     - React-Core
   - React-perflogger (0.71.12)
   - React-RCTActionSheet (0.71.12):
@@ -755,7 +755,7 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
-  - segment-analytics-react-native (2.15.0):
+  - segment-analytics-react-native (2.16.1):
     - React-Core
     - sovran-react-native
   - Sentry/HybridSDK (7.31.5)
@@ -1205,7 +1205,7 @@ SPEC CHECKSUMS:
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: 967eead48aaa42c25a9e1d65c3b1ab30762a88df
-  react-native-webview: 64c9bf9646e7377240fb87d70f74556af6433143
+  react-native-webview: 8fc09f66a1a5b16bbe37c3878fda27d5982bb776
   React-perflogger: 75b0e25075c67565a830985f3c373e2eae5389e0
   React-RCTActionSheet: a0c3e916b327e297d124d9ebe8b0c721840ee04d
   React-RCTAnimation: 3da7025801d7bf0f8cfd94574d6278d5b82a8b88
@@ -1249,7 +1249,7 @@ SPEC CHECKSUMS:
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  segment-analytics-react-native: 2b90f606cda9234dd110d117c4ffc918d9ba29bb
+  segment-analytics-react-native: 13d4ba325add2b2ed796ee58531e3b4cacfe692f
   Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
