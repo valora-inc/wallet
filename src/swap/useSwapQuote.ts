@@ -90,7 +90,7 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
   const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
     from: from as Address,
     to: to as Address,
-    value: BigInt(value ? value : 0),
+    value: BigInt(value ?? 0),
     data: data as Hex,
     gas: BigInt(gas), // This isn't entirely accurate
     type: 'cip42',
