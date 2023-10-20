@@ -13,7 +13,7 @@ describe(estimateFeesPerGas, () => {
     expect(fees).toEqual({ maxFeePerGas: BigInt(100), maxPriorityFeePerGas: undefined })
   })
 
-  it('when fee currency is specified, it should return the correct fees per gas', async () => {
+  it('should return the correct fees per gas when fee currency is specified', async () => {
     const client = {
       request: jest.fn(async ({ method, params }) => {
         expect(params).toEqual(['0x123'])
