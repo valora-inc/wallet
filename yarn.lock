@@ -1898,36 +1898,10 @@
     xcode "^3.0.1"
     xml2js "0.4.23"
 
-"@expo/config-plugins@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-5.0.4.tgz#216fea6558fe66615af1370de55193f4181cb23e"
-  integrity sha512-vzUcVpqOMs3h+hyRdhGwk+eGIOhXa5xYdd92yO17RMNHav3v/+ekMbs7XA2c3lepMO8Yd4/5hqmRw9ZTL6jGzg==
-  dependencies:
-    "@expo/config-types" "^47.0.0"
-    "@expo/json-file" "8.2.36"
-    "@expo/plist" "0.0.18"
-    "@expo/sdk-runtime-versions" "^1.0.0"
-    "@react-native/normalize-color" "^2.0.0"
-    chalk "^4.1.2"
-    debug "^4.3.1"
-    find-up "~5.0.0"
-    getenv "^1.0.0"
-    glob "7.1.6"
-    resolve-from "^5.0.0"
-    semver "^7.3.5"
-    slash "^3.0.0"
-    xcode "^3.0.1"
-    xml2js "0.4.23"
-
 "@expo/config-types@^45.0.0":
   version "45.0.0"
   resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-45.0.0.tgz#963c2fdce8fbcbd003758b92ed8a25375f437ef6"
   integrity sha512-/QGhhLWyaGautgEyU50UJr5YqKJix5t77ePTwreOVAhmZH+ff3nrrtYTTnccx+qF08ZNQmfAyYMCD3rQfzpiJA==
-
-"@expo/config-types@^47.0.0":
-  version "47.0.0"
-  resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-47.0.0.tgz#99eeabe0bba7a776e0f252b78beb0c574692c38d"
-  integrity sha512-r0pWfuhkv7KIcXMUiNACJmJKKwlTBGMw9VZHNdppS8/0Nve8HZMTkNRFQzTHW1uH3pBj8jEXpyw/2vSWDHex9g==
 
 "@expo/json-file@8.2.36":
   version "8.2.36"
@@ -2744,49 +2718,45 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/analytics@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-17.4.2.tgz#f1d2e6e7dcb7152ef29962d5bbcb653194a6385f"
-  integrity sha512-hWidKfex0Yv/1cJ+WPQ/UMwSoSFnehEn3CQBhFTSKXdo8OrIymCpv74/9q3IWpvBRICCtgbRF8ZpqITJv6TCmA==
+"@react-native-firebase/analytics@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-17.5.0.tgz#4f133f64edf2c5959116f862a62c12e6f4ec20ce"
+  integrity sha512-SATj+O8YbSJkL5tHtMSxaXqojZROO6+1mq4BDm9m2Gt8HqDXL7FCUl8dyB1h0dp5cvQ6Jl3nkYEICzHNnSXMeQ==
 
-"@react-native-firebase/app@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-17.4.2.tgz#29c1959fbc7cd15dc73bcd01c8a228021c8b5c5a"
-  integrity sha512-8oj29shxA2lxwmOxpxJ/nHVSEqK5ebHJW1WUKIBwcLTvfi+EFI7CKzPG+BFpYtdapH5BuK+yQjuReRNBy+oQjQ==
+"@react-native-firebase/app@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-17.5.0.tgz#faccb298f1e7f78cab06a20f232857a0edf3e6e8"
+  integrity sha512-8DWjguVmVYmuPWI7mhXlmLB6GxKnPjUjZ4Wnnyj3Wh5uqHzgUREHEA1aH92PT84LJLZL8F6dJZk+fIyo9UyXnA==
   dependencies:
-    "@expo/config-plugins" "^5.0.4"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-17.4.2.tgz#d8994ccc99567ad8d5c8af0d99b9455abaffe2fb"
-  integrity sha512-JF6e7vMdHJelos42DqtlPurzzhFBb3OtYeCjhaOmyWwToD1tvCGGO1GkiXbWZcZIOuL6SCXBwvtvCHac+9YZXA==
+"@react-native-firebase/auth@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-17.5.0.tgz#7d8df67fb94439452b2d0a4835b9fb26a64c4b10"
+  integrity sha512-iF5Wv7dcDPmxu2om5SkPVGPELAwahAp3izFXjrv6wQAFmOTQ+2rEIDRBFMmS7EZ/qwNodvKK3vgDLEnOxDtTAQ==
   dependencies:
-    "@expo/config-plugins" "^5.0.4"
     plist "^3.0.5"
 
-"@react-native-firebase/database@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-17.4.2.tgz#a291c044e77c1b6941d144a1f3b37ed7042ec270"
-  integrity sha512-RNVzdRueRIm6tOLI5EYPlA56MHigva0U60HvZwRV7ObHHZ6wxmQBAFRI7K6vNk/tNg4YnI5FPbLCts3XA1behA==
+"@react-native-firebase/database@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-17.5.0.tgz#079bb2d0d5316474409be8000a7361455477b37c"
+  integrity sha512-THtlYXt6o+YgRR+kphRkuZgG3uoE/TiIpTzEUatGGcp/XYGeZbr77dE/6jbATQz/ORFrE7lsEpJRJm/c4iuQ6g==
 
-"@react-native-firebase/dynamic-links@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-17.4.2.tgz#b390cc854c39f3b1e86590a6668957ef1817533f"
-  integrity sha512-htllTe2MSdH8MdXZAZ6R4CCXuX3rCKWPDkZcbgy9XQMNfJkL6ekn64C8/lAix5Z76wRkQs+nDhzWh2fxX3QN4A==
-  dependencies:
-    "@expo/config-plugins" "^5.0.4"
+"@react-native-firebase/dynamic-links@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-17.5.0.tgz#54ac23fb9914ad6945d40ba3ab835d1791ccb0b6"
+  integrity sha512-3vuApAMSHpZkJ0oeAJNMt9gpkancVpVPyUkCuRubgOaeKXnYVEWpxvhbnxERx+ighV5/kVJTjmqfJiqyQXdOvw==
 
-"@react-native-firebase/messaging@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-17.4.2.tgz#ebc589bd0e77783f4b4330d71287fd150f9dc120"
-  integrity sha512-WgqDFjx4JfCed459jrFtzYcejIoBbQKBKGM5lSjmH/cIGU+5Kp9g0x5QNrXdZL5dNo91bW+jJB/6JMjOLH56fw==
+"@react-native-firebase/messaging@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-17.5.0.tgz#9c6db50423c67760dd61e553189187b9e5a2b75e"
+  integrity sha512-9jB7jEt4ySdALio2qwquAkXI106GTdPEuGY+vUFuNT6Wwwc5VQhyiJ5yforaF0BEsppFgK151PLYQQdIhahgzA==
 
-"@react-native-firebase/remote-config@^17.4.2":
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-17.4.2.tgz#96605f0cafacd04dd42a126110c7babe5aed7e6b"
-  integrity sha512-cJMSAKjdrnZsCTuyHskBWlkXBcKivNVPVJOtcWcVbs89GVlHVhEvIzGzwcn/9PhNqI0Qs//mh+GHdiZzm+txpQ==
+"@react-native-firebase/remote-config@^17.5.0":
+  version "17.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-17.5.0.tgz#142a2d9f6eebfadd1f4a942d4c8dd601846393e9"
+  integrity sha512-qfNGhj1kcPZaaeTMZup+Dy146Fw99cKeRZEYIUvcMNtN2NLWz0FE0rw8RZ9kb0vkxhjcXwHXrG4M8DU7SmRAjw==
 
 "@react-native-masked-view/masked-view@^0.3.0":
   version "0.3.0"
