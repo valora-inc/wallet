@@ -135,12 +135,8 @@ export function* sendPayment({
       const { request } = yield* call(simulateContractMethod)
       yield* call(unlockAndAddStandby)
 
-      const sendContractTxMethod = function* () {
-        return yield* call(
-          [wallet, 'writeContract'],
-          request as SimulateContractReturnType['request']
-        )
-      }
+      const sendContractTxMethod = () =>
+        wallet.writeContract(request as SimulateContractReturnType['request'])
 
       const receipt = yield* call(sendAndMonitorTransaction, {
         context,
@@ -166,13 +162,16 @@ export function* sendPayment({
       yield* call(callMethod)
       yield* call(unlockAndAddStandby)
 
-      const sendNativeTxMethod = function* () {
-        const hash = yield* call([wallet, 'sendTransaction'], {
+      const sendNativeTxMethod = () => {
+        if (!wallet.account) {
+          throw new Error('no account found in the wallet')
+        }
+        return wallet.sendTransaction({
           account: wallet.account,
           to: getAddress(recipientAddress),
           value: convertedAmount,
+          chain: networkConfig.viemChain[network],
         })
-        return hash
       }
 
       const receipt = yield* call(sendAndMonitorTransaction, {
@@ -288,6 +287,7 @@ function* getTransferSimulateContract({
       functionName: 'transfer',
       account: wallet.account,
       args: [getAddress(recipientAddress), convertedAmount],
+      feeCurrency: '0x123',
       ...feeFields,
     })
 }
@@ -349,7 +349,7 @@ export function* sendAndMonitorTransaction({
 }: {
   context: TransactionContext
   network: Network
-  sendTx: () => `0x${string}`
+  sendTx: () => Promise<`0x${string}`>
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
@@ -367,8 +367,7 @@ export function* sendAndMonitorTransaction({
       txHash: hash,
     })
     yield* put(addHashToStandbyTransaction(context.id, hash))
-    const receiptMethod = () => publicClient[network].waitForTransactionReceipt({ hash })
-    const receipt = yield* call(receiptMethod)
+    const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], { hash })
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt as unknown as TransactionReceipt
   }

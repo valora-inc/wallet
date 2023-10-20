@@ -290,12 +290,12 @@ describe('getSendTxFeeDetails', () => {
 })
 
 describe('sendAndMonitorTransaction', () => {
-  const mockTxHash = '0x12345678901234'
+  const mockTxHash: `0x${string}` = '0x12345678901234'
   const mockTxReceipt = { status: 'success' }
   const mockArgs = {
     context: { id: 'txId' },
     network: Network.Celo,
-    sendTx: () => mockTxHash,
+    sendTx: () => Promise.resolve(mockTxHash),
   }
 
   beforeEach(() => {
@@ -303,10 +303,7 @@ describe('sendAndMonitorTransaction', () => {
   })
   it('confirms a transaction if successfully executed', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
-      .provide([
-        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
-        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
-      ])
+      .provide([[matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt]])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(transactionConfirmedViem('txId'))
       .put(fetchTokenBalances({ showLoading: true }))
@@ -318,7 +315,6 @@ describe('sendAndMonitorTransaction', () => {
   it('fails a transaction and removes standby tx if receipt status is reverted', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .provide([
-        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), { status: 'reverted' }],
       ])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
@@ -331,7 +327,11 @@ describe('sendAndMonitorTransaction', () => {
   })
 
   it('fails a transaction and removes standby tx if writeContract throws', async () => {
-    await expectSaga(sendAndMonitorTransaction, mockArgs)
+    const sendTxFail = () => Promise.reject(new Error('write failed'))
+    await expectSaga(sendAndMonitorTransaction, {
+      ...mockArgs,
+      sendTx: sendTxFail,
+    })
       .provide([
         [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
       ])
@@ -347,7 +347,6 @@ describe('sendAndMonitorTransaction', () => {
   it('fails a transaction and removes standby tx if wait for receipt throws', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .provide([
-        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [
           matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
           throwError(new Error('wait failed')),
