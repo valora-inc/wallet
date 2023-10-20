@@ -11,7 +11,9 @@ import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/s
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
+import { Actions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -19,6 +21,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
   mockContract,
@@ -106,6 +109,11 @@ describe(swapSubmitSaga, () => {
           priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
         },
+        {
+          ...mockTokenBalances[mockCeloTokenId],
+          priceUsd: new BigNumber('0.5'),
+          balance: new BigNumber('10'),
+        },
       ],
     ],
     [
@@ -125,6 +133,24 @@ describe(swapSubmitSaga, () => {
       .provide(defaultProviders)
       .put(swapApprove())
       .put(swapExecute())
+      .put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenExchangeV3',
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: mockCeloTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: mockCeurTokenId,
+            },
+            status: TransactionStatus.Pending,
+          },
+        },
+      })
       .run()
     expect(sendTransaction).toHaveBeenCalledTimes(2)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
@@ -144,7 +170,7 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
       quoteToTransactionElapsedTimeInMs: 10000,
-      estimatedBuyTokenUsdValue: undefined,
+      estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
     })
   })
@@ -176,7 +202,7 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
       quoteToTransactionElapsedTimeInMs: undefined,
-      estimatedBuyTokenUsdValue: undefined,
+      estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
     })
   })
