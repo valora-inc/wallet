@@ -18,17 +18,6 @@ import { Network, NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeloTokenId } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(() => {
-    return {
-      showCico: ['celo-alfajores'],
-      showSend: ['celo-alfajores'],
-      showSwap: ['celo-alfajores'],
-      showBalances: ['celo-alfajores'],
-    }
-  }),
-}))
-
 const mockStoredCeloTokenBalance: StoredTokenBalance = {
   tokenId: mockCeloTokenId,
   priceUsd: '1.16',
@@ -115,7 +104,7 @@ describe('TokenDetailsMoreActions', () => {
       <Provider store={store}>
         <TokenDetailsMoreActions
           forwardedRef={{ current: null }}
-          tokenId={mockCeloTokenId}
+          token={mockCeloBalance}
           actions={mockActions}
         />
       </Provider>
@@ -154,7 +143,7 @@ describe('TokenDetailsMoreActions', () => {
         <Provider store={store}>
           <TokenDetailsMoreActions
             forwardedRef={{ current: null }}
-            tokenId={mockCeloTokenId}
+            token={mockCeloBalance}
             actions={mockActions}
           />
         </Provider>

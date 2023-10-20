@@ -45,7 +45,7 @@ import {
   useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { TokenDetailsActionName } from 'src/tokens/types'
+import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 
@@ -91,7 +91,11 @@ export default function TokenDetailsScreen({ route }: Props) {
             testID="TokenDetails/Chart"
           />
         )}
-        <Actions token={token} bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef} />
+        <Actions
+          bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef}
+          token={token}
+          actions={actions}
+        />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
         <TokenBalanceItem token={token} />
         {token.infoUrl && (
@@ -104,7 +108,7 @@ export default function TokenDetailsScreen({ route }: Props) {
       </ScrollView>
       <TokenDetailsMoreActions
         forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
-        tokenId={tokenId}
+        token={token}
         actions={actions}
       />
     </SafeAreaView>
@@ -219,12 +223,13 @@ export const useActions = (token: TokenBalance) => {
 function Actions({
   token,
   bottomSheetRef,
+  actions,
 }: {
   token: TokenBalance
   bottomSheetRef: React.RefObject<BottomSheetRefType>
+  actions: TokenDetailsAction[]
 }) {
   const { t } = useTranslation()
-  const actions = useActions(token)
   const cashOutTokens = useCashOutTokens()
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 

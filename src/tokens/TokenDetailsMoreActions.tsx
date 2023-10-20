@@ -8,28 +8,27 @@ import Touchable from 'src/components/Touchable'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction } from 'src/tokens/types'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
 export default function TokenDetailsMoreActions({
   forwardedRef,
   actions,
-  tokenId,
+  token,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   actions: TokenDetailsAction[]
-  tokenId: string
+  token: TokenBalance
 }) {
   const { t } = useTranslation()
-  const token = useTokenInfo(tokenId)
-  if (!token) throw new Error(`Token ${tokenId} not found`)
 
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
       title={t('tokenDetails.moreActions')}
       testId={'TokenDetailsMoreActions'}
+      titleStyle={styles.title}
     >
       <View style={styles.actionsContainer}>
         {actions.map((action) => (
@@ -69,6 +68,9 @@ const styles = StyleSheet.create({
   },
   actionDetails: {
     ...typeScale.bodySmall,
+  },
+  title: {
+    ...typeScale.labelLarge,
   },
   touchable: {
     backgroundColor: Colors.gray1,
