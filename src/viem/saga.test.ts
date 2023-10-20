@@ -33,9 +33,12 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockFeeInfo,
+  mockEthTokenId,
+  mockUSDCTokenId,
+  mockUSDCAddress,
 } from 'test/values'
 import { getAddress } from 'viem'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 
 jest.mock('src/transactions/send', () => ({
   chooseTxFeeDetails: jest.fn(),
@@ -56,7 +59,14 @@ const mockViemWallet = {
 } as any as ViemWallet
 
 describe('sendPayment', () => {
-  const simulateContractSpy = jest.spyOn(publicClient.celo, 'simulateContract')
+  const simulateContractCeloSpy = jest.spyOn(publicClient.celo, 'simulateContract')
+  // We need to mock this outright for Ethereum, since for some reason, the viem simulation on Ethereum
+  // complains that "transfer" does not exist on the contract, when it actually does
+  const mockSimulateContractEthereum = jest
+    .spyOn(publicClient.ethereum, 'simulateContract')
+    // @ts-ignore
+    .mockResolvedValue('some request')
+  const callSpy = jest.spyOn(publicClient.ethereum, 'call')
 
   const mockSendPaymentArgs = {
     context: { id: 'txId' },
@@ -69,7 +79,7 @@ describe('sendPayment', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    simulateContractSpy.mockResolvedValue({ request: 'req' as any } as any)
+    simulateContractCeloSpy.mockResolvedValue({ request: 'req' as any } as any)
   })
 
   it('sends a payment successfully for stable token', async () => {
@@ -95,7 +105,7 @@ describe('sendPayment', () => {
       .returns('txReceipt')
       .run()
 
-    expect(simulateContractSpy).toHaveBeenCalledWith({
+    expect(simulateContractCeloSpy).toHaveBeenCalledWith({
       address: getAddress(mockCusdAddress),
       abi: stableToken.abi,
       functionName: 'transferWithComment',
@@ -127,7 +137,7 @@ describe('sendPayment', () => {
       .returns('txReceipt')
       .run()
 
-    expect(simulateContractSpy).toHaveBeenCalledWith({
+    expect(simulateContractCeloSpy).toHaveBeenCalledWith({
       address: getAddress(mockCeloAddress),
       abi: erc20.abi,
       functionName: 'transfer',
@@ -138,7 +148,7 @@ describe('sendPayment', () => {
   })
 
   it('throws if simulateContract fails', async () => {
-    simulateContractSpy.mockRejectedValue(new Error('simulate error'))
+    simulateContractCeloSpy.mockRejectedValue(new Error('simulate error'))
 
     await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenId: mockCeloTokenId })
       .withState(createMockStore().getState())
@@ -164,6 +174,103 @@ describe('sendPayment', () => {
       ])
       .throws(new Error('tx failed'))
       .run()
+  })
+
+  it('sends a payment successfully for a non-Celo native asset', async () => {
+    const mockSendEthPaymentArgs = {
+      context: { id: 'txId' },
+      recipientAddress: mockAccount2,
+      amount: BigNumber(2),
+      tokenId: mockEthTokenId,
+      comment: '',
+    }
+    const mockEthTokenBalance = {
+      name: 'Ethereum',
+      networkId: NetworkId['ethereum-sepolia'],
+      tokenId: mockEthTokenId,
+      symbol: 'ETH',
+      decimals: 18,
+      imageUrl: '',
+      balance: '10',
+      priceUsd: '1',
+      isCoreToken: true,
+    }
+    await expectSaga(sendPayment, mockSendEthPaymentArgs)
+      .withState(
+        createMockStore({
+          tokens: {
+            tokenBalances: {
+              [mockEthTokenId]: mockEthTokenBalance,
+            },
+          },
+        }).getState()
+      )
+      .provide([
+        [matchers.call.fn(getViemWallet), mockViemWallet],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
+      ])
+      .call(getViemWallet, networkConfig.viemChain.ethereum)
+      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
+      .returns('txReceipt')
+      .run()
+
+    expect(callSpy).toHaveBeenCalledWith({
+      account: mockViemWallet.account,
+      to: getAddress(mockSendPaymentArgs.recipientAddress),
+      value: BigInt(2e18),
+    })
+  })
+
+  it('sends a payment successfully for a non-Celo ERC20', async () => {
+    const mockSendUSDCPaymentArgs = {
+      context: { id: 'txId' },
+      recipientAddress: mockAccount2,
+      amount: BigNumber(2),
+      tokenId: mockUSDCTokenId,
+      comment: '',
+    }
+    const mockUSDCTokenBalance = {
+      name: 'USDC coin',
+      networkId: NetworkId['ethereum-sepolia'],
+      tokenId: mockUSDCTokenId,
+      address: mockUSDCAddress,
+      symbol: 'USDC',
+      decimals: 18,
+      imageUrl: '',
+      balance: '10',
+      priceUsd: '1',
+    }
+    await expectSaga(sendPayment, mockSendUSDCPaymentArgs)
+      .withState(
+        createMockStore({
+          tokens: {
+            tokenBalances: {
+              [mockUSDCTokenId]: mockUSDCTokenBalance,
+            },
+          },
+        }).getState()
+      )
+      .provide([
+        [matchers.call.fn(getViemWallet), mockViemWallet],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
+      ])
+      .not.call.fn(encryptComment)
+      .call(getViemWallet, networkConfig.viemChain.ethereum)
+      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
+      .returns('txReceipt')
+      .run()
+
+    expect(mockSimulateContractEthereum).toHaveBeenCalledWith({
+      address: getAddress(mockUSDCAddress),
+      abi: erc20.abi,
+      functionName: 'transfer',
+      account: mockViemWallet.account,
+      args: [getAddress(mockSendPaymentArgs.recipientAddress), BigInt(2e18)],
+      gas: undefined,
+      maxFeePerGad: undefined,
+    })
   })
 })
 

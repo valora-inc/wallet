@@ -287,7 +287,6 @@ function* getTransferSimulateContract({
       functionName: 'transfer',
       account: wallet.account,
       args: [getAddress(recipientAddress), convertedAmount],
-      feeCurrency: '0x123',
       ...feeFields,
     })
 }

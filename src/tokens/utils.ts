@@ -33,7 +33,11 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
 }
 
 export function isStablecoin(token: TokenBalance | undefined) {
-  return token?.isCoreToken && token.symbol !== 'CELO'
+  return (
+    token?.isCoreToken &&
+    token.symbol !== 'CELO' &&
+    token.networkId === networkConfig.networkToNetworkId[Network.Celo]
+  )
 }
 
 /**
