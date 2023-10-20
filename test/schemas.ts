@@ -2731,7 +2731,7 @@ export const v161Schema = {
 
 export const v162Schema = {
   ...v161Schema,
-  fees: _.omit(v161Schema.fees, 'estimates'),
+  fees: { ...v161Schema.fees, estimates: {} },
   _persist: {
     ...v161Schema._persist,
     version: 162,

@@ -1382,6 +1382,6 @@ export const migrations = {
   }),
   162: (state: any) => ({
     ...state,
-    fees: _.omit(state.fees, 'estimates'),
+    fees: { ...state.fees, estimates: {} },
   }),
 }
