@@ -167,7 +167,7 @@ async function prepareTransactions(
       feeCurrency: feeCurrencyAddress,
       // We assume the provided gas value is with the native fee currency
       // If it's not, we add the static padding
-      gas: !feeCurrency.isNative ? baseSwapTx.gas + BigInt(STATIC_GAS_PADDING) : baseSwapTx.gas,
+      gas: baseSwapTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
     }
 
     const maxGasCost = getMaxGasCost([approveTx, swapTx])
