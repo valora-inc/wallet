@@ -13,7 +13,7 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { Actions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -147,7 +147,6 @@ describe(swapSubmitSaga, () => {
               value: BigNumber('0.01'),
               tokenId: mockCeurTokenId,
             },
-            status: TransactionStatus.Pending,
           },
         },
       })
