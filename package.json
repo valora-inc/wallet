@@ -202,7 +202,7 @@
     "victory-native": "^36.6.11",
     "viem": "^1.16.6",
     "vm-browserify": "^1.1.2",
-    "web3": "1.10.2"
+    "web3": "1.10.3"
   },
   "devDependencies": {
     "@actions/github": "^5.1.1",
@@ -331,7 +331,7 @@
     "hermes-engine": "^0.11.0",
     "react-native-securerandom": "^1.0.1",
     "minimatch": "^3.1.2",
-    "web3": "1.10.2",
+    "web3": "1.10.3",
     "events": "^3.3.0",
     "qs": "^6.11.2",
     "flat": "^5.0.2"
