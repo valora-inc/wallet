@@ -12,7 +12,7 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesSelector } from 'src/transactions/reducer'
-import { TokenTransaction, NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -114,7 +114,12 @@ export function useFetchTransactions(): QueryHookResult {
     for (const [networkId, result] of Object.entries(results) as Array<
       [NetworkId, QueryResponse]
     >) {
-      const returnedTransactions = result.data?.tokenTransactionsV3?.transactions ?? []
+      const returnedTransactions = (result.data?.tokenTransactionsV3?.transactions ?? []).map(
+        (transaction) => ({
+          ...transaction,
+          status: TransactionStatus.Complete,
+        })
+      )
 
       const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
 
