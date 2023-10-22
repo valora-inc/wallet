@@ -8,6 +8,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
+import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getViemWallet, getWallet } from 'src/web3/contracts'
@@ -15,7 +16,8 @@ import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
-import { formatTransaction } from 'viem'
+import { Address, GetTransactionCountParameters, formatTransaction } from 'viem'
+import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'WalletConnect/handle-request'
 
@@ -26,7 +28,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
     StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
   )
 
-  const account: string = yield* call(getWalletAddress)
+  const account = yield* call(getWalletAddress)
   const legacyWallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)
   // Call Sentry performance monitoring after entering pin if required
@@ -50,14 +52,24 @@ export function* handleRequest({ method, params }: { method: string; params: any
         // TODO: remove once Viem allows hex values as quanitites
         const formattedTx: any = yield* call(formatTransaction, tx)
 
-        // TODO: inject fee currency for Celo
+        // TODO: inject fee currency for Celo when it's ready
 
-        // Fill in missing values, if any:
-        // - nonce
-        // - maxFeePerGas
-        // - maxPriorityFeePerGas
-        // TODO: use @jeanregisser tooling instead once this PR is merged: https://github.com/valora-inc/wallet/pull/4335
-        const txRequest = yield* call([wallet, 'prepareTransactionRequest'], formattedTx)
+        const txCountParams: GetTransactionCountParameters = {
+          address: account as Address,
+          blockTag: 'pending',
+        }
+        const nonce = yield* call(getTransactionCount, wallet, txCountParams)
+        const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
+          estimateFeesPerGas,
+          wallet,
+          formattedTx.feeCurrency
+        )
+        const txRequest = {
+          ...formattedTx,
+          ...(formattedTx.nonce === undefined ? { nonce } : {}),
+          ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
+          ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
+        }
 
         return (yield* call([wallet, 'signTransaction'], txRequest)) as string
       }
@@ -113,19 +125,35 @@ export function* handleRequest({ method, params }: { method: string; params: any
       if (useViem) {
         const rawTx: any = { ...params[0] }
 
+        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
+
         // Convert hex values to numeric ones for Viem
         // TODO: remove once Viem allows hex values as quanitites
-        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
         const formattedTx: any = yield* call(formatTransaction, normalizedTx)
 
-        // TODO: inject fee currency for Celo
+        // TODO: inject fee currency for Celo when it's ready
 
         // Fill in missing values, if any:
         // - nonce
-        // - maxFeePerGas
-        // - maxPriorityFeePerGas
-        // TODO: use @jeanregisser tooling instead once this PR is merged: https://github.com/valora-inc/wallet/pull/4335
-        const txRequest = yield* call([wallet, 'prepareTransactionRequest'], formattedTx)
+        // - maxFeePerGas (with respect to feeCurrency)
+        // - maxPriorityFeePerGas (with repsect to feeCurrency)
+        const txCountParams: GetTransactionCountParameters = {
+          address: account as Address,
+          blockTag: 'pending',
+        }
+        const nonce = yield* call(getTransactionCount, wallet, txCountParams)
+        const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
+          estimateFeesPerGas,
+          wallet,
+          formattedTx.feeCurrency
+        )
+        const txRequest = {
+          ...formattedTx,
+          ...(formattedTx.nonce === undefined ? { nonce } : {}),
+          ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
+          ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
+        }
+
         return (yield* call([wallet, 'sendTransaction'], txRequest)) as string
       }
 
