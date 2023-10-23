@@ -130,14 +130,16 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
   </View>
   <View
     style={
-      {
-        "borderStyle": "solid",
-        "borderTopColor": "#F8F9F9",
-        "borderTopWidth": 1,
-        "marginBottom": 15,
-        "marginTop": 10,
-        "width": "100%",
-      }
+      [
+        {
+          "height": 1,
+          "marginVertical": 16,
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#E6E6E6",
+        },
+      ]
     }
   />
   <View
@@ -359,14 +361,16 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
   </View>
   <View
     style={
-      {
-        "borderStyle": "solid",
-        "borderTopColor": "#F8F9F9",
-        "borderTopWidth": 1,
-        "marginBottom": 15,
-        "marginTop": 10,
-        "width": "100%",
-      }
+      [
+        {
+          "height": 1,
+          "marginVertical": 16,
+          "width": "100%",
+        },
+        {
+          "backgroundColor": "#E6E6E6",
+        },
+      ]
     }
   />
   <View
