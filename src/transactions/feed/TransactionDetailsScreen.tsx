@@ -121,7 +121,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
   }
 
   const transactionNetwork = networkConfig.networkIdToNetwork[transaction.networkId]
-  const openBlockExplorer = transactionNetwork
+  const openBlockExplorerHandler = transactionNetwork
     ? () => {
         navigate(Screens.WebViewScreen, {
           uri: `${networkConfig.blockExplorerBaseTxUrl[transactionNetwork]}${transaction.transactionHash}`,
@@ -130,7 +130,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
     : undefined
 
   const primaryActionHanlder =
-    transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorer
+    transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -147,18 +147,17 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
         )}
       </View>
       <View style={styles.content}>{content}</View>
-      {openBlockExplorer && (
+      {openBlockExplorerHandler && (
         <>
           <Separator />
           <Touchable
             style={styles.rowContainer}
             borderless={true}
             onPress={() => {
-              ValoraAnalytics.track(
-                TransactionDetailsEvents.transaction_details_tap_view_on_block_explorer
-              )
-              openBlockExplorer()
+              ValoraAnalytics.track(TransactionDetailsEvents.transaction_details_tap_block_explorer)
+              openBlockExplorerHandler()
             }}
+            testID="transactionDetails/blockExplorerLink"
           >
             <>
               <Text style={styles.blockExplorerLink}>

@@ -1382,7 +1382,7 @@ interface TransactionDetailsProperties {
   [TransactionDetailsEvents.transaction_details_tap_details]: undefined
   [TransactionDetailsEvents.transaction_details_tap_check_status]: undefined
   [TransactionDetailsEvents.transaction_details_tap_rety]: undefined
-  [TransactionDetailsEvents.transaction_details_tap_view_on_block_explorer]: undefined
+  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

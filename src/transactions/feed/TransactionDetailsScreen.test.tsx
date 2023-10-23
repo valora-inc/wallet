@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -8,6 +10,7 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import {
   Fee,
   FeeType,
+  Network,
   NetworkId,
   TokenAmount,
   TokenExchange,
@@ -18,6 +21,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 import {
   RecursivePartial,
   createMockStore,
@@ -35,6 +39,8 @@ import {
   mockDisplayNumber2,
   mockE164Number2,
 } from 'test/values'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -354,7 +360,9 @@ describe('TransactionDetailsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(
       Screens.WebViewScreen,
       expect.objectContaining({
-        uri: expect.stringMatching(/^https:\/\/explorer.celo.org\/alfajores/),
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Celo]).origin}`)
+        ),
       })
     )
   })
@@ -372,7 +380,9 @@ describe('TransactionDetailsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(
       Screens.WebViewScreen,
       expect.objectContaining({
-        uri: expect.stringMatching(/^https:\/\/sepolia.etherscan.io/),
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Ethereum]).origin}`)
+        ),
       })
     )
   })
@@ -387,5 +397,70 @@ describe('TransactionDetailsScreen', () => {
     })
 
     expect(queryByTestId('transactionDetails/primaryAction')).toBeFalsy()
+  })
+
+  it(`navigates to the celo block explorer url on tap on block explorer link when network is celo`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['celo-alfajores'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('viewOnCeloBlockExplorer'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Celo]).origin}`)
+        ),
+      })
+    )
+  })
+
+  it(`navigates to the ethereum block explorer url on tap on block explorer link when the network is ethereum`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['ethereum-sepolia'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('viewOnEthereumBlockExplorer'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Ethereum]).origin}`)
+        ),
+      })
+    )
+  })
+
+  it('does not render block explorer link if the transaction networkId is unknown', () => {
+    const { queryByTestId } = renderScreen({
+      transaction: swapTransaction({
+        // @ts-ignore: an edge case specifically for unit tests
+        networkId: 'test-unknown-network',
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(queryByTestId('transactionDetails/blockExplorerLink')).toBeFalsy()
+  })
+
+  it('sends correct analytics event on tap on explorer link', () => {
+    const { getByTestId } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByTestId('transactionDetails/blockExplorerLink'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionDetailsEvents.transaction_details_tap_block_explorer
+    )
   })
 })

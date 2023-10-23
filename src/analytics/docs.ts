@@ -538,5 +538,5 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_details]: `When a user press 'Details' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_rety]: `When a user press 'Retry' on transaction details page`,
-  [TransactionDetailsEvents.transaction_details_tap_view_on_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
+  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
 }
