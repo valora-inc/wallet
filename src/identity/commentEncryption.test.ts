@@ -14,7 +14,12 @@ import {
 import { lookupAccountAddressesForIdentifier } from 'src/identity/contactMapping'
 import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { transactionFeedUpdated } from 'src/transactions/actions'
-import { NetworkId, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
@@ -196,6 +201,7 @@ describe(checkTxsForIdentityMetadata, () => {
     block: '123',
     fees: [],
     metadata: {},
+    status: TransactionStatus.Complete,
   }
   const transactions: TokenTransaction[] = [
     {

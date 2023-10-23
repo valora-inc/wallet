@@ -17,7 +17,12 @@ import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { TransactionFeedUpdatedAction } from 'src/transactions/actions'
-import { NetworkId, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
@@ -224,6 +229,7 @@ describe(tagTxsWithProviderInfo, () => {
     block: '123',
     fees: [],
     metadata: {},
+    status: TransactionStatus.Complete,
   }
   const transactions: TokenTransaction[] = [
     {
