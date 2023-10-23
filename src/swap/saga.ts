@@ -42,8 +42,6 @@ import { call, put, select, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'swap/saga'
 
-const nativeTokenAddressForSwapProviders = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-
 function getPercentageDifference(price1: number, price2: number) {
   return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
 }
@@ -118,19 +116,9 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     tokensByIdSelector(state, [networkConfig.defaultNetworkId])
   )
   const fromToken =
-    tokens[
-      getTokenId(
-        networkConfig.defaultNetworkId,
-        sellTokenAddress === nativeTokenAddressForSwapProviders ? undefined : sellTokenAddress
-      )
-    ]
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.fromToken)]
   const toToken =
-    tokens[
-      getTokenId(
-        networkConfig.defaultNetworkId,
-        buyTokenAddress === nativeTokenAddressForSwapProviders ? undefined : buyTokenAddress
-      )
-    ]
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.toToken)]
 
   if (!fromToken || !toToken) {
     Logger.error(
