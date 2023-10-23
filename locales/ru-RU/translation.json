@@ -1680,7 +1680,17 @@
       "title": "Перед обменом",
       "body": "Мы не можем оценить стоимость этого обмена. {{appName}} не несет ответственности, если вы решите продолжить."
     },
-    "estimatedExchangeRate": "Расчетная ставка ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Расчетная ставка ≈ <0>0.00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Недостаточный баланс {{tokenSymbol}}",
+      "description": "У тебя недостаточно {{tokenSymbol}} , чтобы покрыть расходы на бензин. Не хочешь ли ты обменять меньшую сумму?",
+      "confirmDecreaseButton": "Обмен меньшей суммой"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Недостаточный баланс газового токена",
+      "description": "У тебя не хватает {{feeCurrencies}} , чтобы покрыть расходы на бензин. Пожалуйста, добавь в свой кошелёк {{feeCurrencies}} , чтобы завершить этот обмен.",
+      "dismissButton": "Отклонить"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обменять с",
