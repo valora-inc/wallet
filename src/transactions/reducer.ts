@@ -36,7 +36,7 @@ export interface KnownFeedTransactionsType {
   [txHash: string]: string | boolean
 }
 
-const initialState = {
+export const initialState = {
   standbyTransactions: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
