@@ -82,7 +82,8 @@ function* handleSendSwapTransaction(
   )
 
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
-  return receipt
+
+  yield* put(addHashToStandbyTransaction(transactionContext.id, receipt.transactionHash))
 }
 
 function calculateEstimatedUsdValue({
@@ -225,7 +226,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    const receipt = yield* call(
+    yield* call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
       swapExecuteContext,
@@ -235,7 +236,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const timeMetrics = getTimeMetrics()
 
-    yield* put(addHashToStandbyTransaction(swapExecuteContext.id, receipt.transactionHash))
     yield* put(swapSuccess())
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
