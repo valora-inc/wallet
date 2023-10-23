@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import i18n from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
@@ -73,7 +74,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
   }
 }
 
-function TransactionDetailsScreen({ navigation: { navigate }, route }: Props) {
+function TransactionDetailsScreen({ navigation, route }: Props) {
   const { transaction } = route.params
 
   const title = useHeaderTitle(transaction)

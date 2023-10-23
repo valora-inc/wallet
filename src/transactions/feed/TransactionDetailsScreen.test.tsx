@@ -1,6 +1,7 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
@@ -37,10 +38,6 @@ import {
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
-
-const mockedHandlers = {
-  retryHandler: jest.fn(),
-}
 
 describe('TransactionDetailsScreen', () => {
   beforeEach(() => {
@@ -138,16 +135,18 @@ describe('TransactionDetailsScreen', () => {
       },
     ],
     status = TransactionStatus.Complete,
+    networkId = NetworkId['celo-alfajores'],
   }: {
     inAmount?: TokenAmount
     outAmount?: TokenAmount
     metadata?: TokenExchangeMetadata
     fees?: Fee[]
     status?: TransactionStatus
+    networkId?: NetworkId
   }): TokenExchange {
     return {
       __typename: 'TokenExchangeV3',
-      networkId: NetworkId['celo-alfajores'],
+      networkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
       timestamp: 1531306119,
@@ -336,6 +335,54 @@ describe('TransactionDetailsScreen', () => {
       transaction: tokenTransfer({
         type,
         status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(queryByTestId('transactionDetails/primaryAction')).toBeFalsy()
+  })
+
+  it(`navigates to the celo block explorer url on tap on details action when network is celo`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['celo-alfajores'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('transactionDetailsActions.showCompletedTransactionDetails'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(/^https:\/\/explorer.celo.org\/alfajores/),
+      })
+    )
+  })
+
+  it(`navigates to the ethereum block explorer url on tap on details action when the network is ethereum`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['ethereum-sepolia'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('transactionDetailsActions.showCompletedTransactionDetails'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(/^https:\/\/sepolia.etherscan.io/),
+      })
+    )
+  })
+
+  it('does not render details action if the transaction networkId is unknown', () => {
+    const { queryByTestId } = renderScreen({
+      transaction: swapTransaction({
+        // @ts-ignore: an edge case specifically for unit tests
+        networkId: 'test-unknown-network',
+        status: TransactionStatus.Complete,
       }),
     })
 
