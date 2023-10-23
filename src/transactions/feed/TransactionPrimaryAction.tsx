@@ -19,33 +19,29 @@ interface Props {
 function TransactionPrimaryAction({ status, onPress, testID }: Props) {
   const { t } = useTranslation()
 
-  const titleByStatus: Record<TransactionStatus, string> = {
+  const title = {
     [TransactionStatus.Complete]: t('transactionDetailsActions.showCompletedTransactionDetails'),
     [TransactionStatus.Pending]: t('transactionDetailsActions.checkPendingTransactionStatus'),
     [TransactionStatus.Failed]: t('transactionDetailsActions.retryFailedTransaction'),
-  }
-  const title = titleByStatus[status]
+  }[status]
 
-  const colorsByStatus: Record<TransactionStatus, [colors, colors]> = {
+  const [color, backgroundColor] = {
     [TransactionStatus.Complete]: [colors.successDark, colors.successLight],
     [TransactionStatus.Pending]: [colors.warningDark, colors.warningLight],
     [TransactionStatus.Failed]: [colors.errorDark, colors.errorLight],
-  }
-  const [color, backgroundColor] = colorsByStatus[status]
+  }[status]
 
-  const iconByStatus: Record<TransactionStatus, React.ReactNode> = {
+  const icon = {
     [TransactionStatus.Complete]: <OpenLinkIcon color={color} />,
     [TransactionStatus.Pending]: <OpenLinkIcon color={color} />,
     [TransactionStatus.Failed]: null,
-  }
-  const icon = iconByStatus[status]
+  }[status]
 
-  const analyticsEventByStatus: Record<TransactionStatus, TransactionDetailsEvents> = {
+  const analyticsEvent = {
     [TransactionStatus.Complete]: TransactionDetailsEvents.transaction_details_tap_check_status,
     [TransactionStatus.Pending]: TransactionDetailsEvents.transaction_details_tap_details,
     [TransactionStatus.Failed]: TransactionDetailsEvents.transaction_details_tap_rety,
-  }
-  const analyticsEvent = analyticsEventByStatus[status]
+  }[status]
 
   const pressHandler = () => {
     ValoraAnalytics.track(analyticsEvent)

@@ -18,26 +18,23 @@ interface Props {
 function TransactionStatusIndicator({ status, testID }: Props) {
   const { t } = useTranslation()
 
-  const titleByStatus: Record<TransactionStatus, string> = {
+  const title = {
     [TransactionStatus.Complete]: t('transactionStatus.transactionIsCompleted'),
     [TransactionStatus.Pending]: t('transactionStatus.transactionIsPending'),
     [TransactionStatus.Failed]: t('transactionStatus.transactionIsFailed'),
-  }
-  const title = titleByStatus[status]
+  }[status]
 
-  const colorsByStatus: Record<TransactionStatus, [colors, colors]> = {
+  const [color, backgroundColor] = {
     [TransactionStatus.Complete]: [colors.successDark, colors.successLight],
     [TransactionStatus.Pending]: [colors.warningDark, colors.warningLight],
     [TransactionStatus.Failed]: [colors.errorDark, colors.errorLight],
-  }
-  const [color, backgroundColor] = colorsByStatus[status]
+  }[status]
 
-  const iconByStatus: Record<TransactionStatus, React.ReactNode> = {
+  const icon = {
     [TransactionStatus.Complete]: <Checkmark color={color} width={10} height={10} />,
     [TransactionStatus.Pending]: <ClockIcon color={color} width={10} height={10} />,
     [TransactionStatus.Failed]: <ExclamationCircleIcon color={color} size={10} />,
-  }
-  const icon = iconByStatus[status]
+  }[status]
 
   return (
     <View style={styles.container} testID={testID}>
