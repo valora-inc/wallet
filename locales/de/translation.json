@@ -1676,7 +1676,17 @@
       "title": "Bevor du tauschst",
       "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, fortzufahren."
     },
-    "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Unzureichendes {{tokenSymbol}} Gleichgewicht",
+      "description": "Du hast nicht genug {{tokenSymbol}} , um die Gaskosten zu decken. Möchtest du einen kleineren Betrag tauschen?",
+      "confirmDecreaseButton": "Kleinere Menge tauschen"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Unzureichende Gas-Token-Bilanz",
+      "description": "Du hast nicht genug {{feeCurrencies}} , um die Benzinkosten zu decken. Bitte füge {{feeCurrencies}} zu deinem Geldbeutel hinzu, um diesen Tausch abzuschließen.",
+      "dismissButton": "Verwerfen"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Tausch von",
