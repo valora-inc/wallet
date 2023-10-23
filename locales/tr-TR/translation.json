@@ -1849,6 +1849,13 @@
       "add": "Ekle",
       "withdraw": "Çek",
       "more": "Daha fazla"
+    },
+    "moreActions": "Daha Fazla Eylem",
+    "actionDescriptions": {
+      "send": "Herhangi bir Celo adresi, alan adı, telefon numarası vb. kullanın.",
+      "swap": "Jetonlarınızı cüzdanınızdan çıkmadan takas edin",
+      "add": "Güvenilir sağlayıcılarımızdan birini kullanarak token satın alın",
+      "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
