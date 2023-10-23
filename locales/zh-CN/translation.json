@@ -1847,6 +1847,13 @@
       "add": "添加",
       "withdraw": "提取",
       "more": "更多信息"
+    },
+    "moreActions": "更多行动",
+    "actionDescriptions": {
+      "send": "使用任何 Celo 地址、域名、电话号码等。",
+      "swap": "无需离开钱包即可交换代币",
+      "add": "使用我们值得信赖的供应商之一购买代币",
+      "withdraw": "将代币转入银行账户、移动支付、礼品卡等。"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
