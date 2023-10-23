@@ -1853,6 +1853,13 @@
       "add": "Dodaj",
       "withdraw": "Wycofaj",
       "more": "Więcej"
+    },
+    "moreActions": "Więcej działań",
+    "actionDescriptions": {
+      "send": "Użyj dowolnego adresu Celo, domeny, numeru telefonu itp.",
+      "swap": "Wymieniaj żetony bez opuszczania portfela",
+      "add": "Kup tokeny, korzystając z usług jednego z naszych zaufanych dostawców",
+      "withdraw": "Przelewaj tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
