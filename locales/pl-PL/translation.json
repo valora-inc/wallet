@@ -1680,7 +1680,17 @@
       "title": "Zanim dokonasz swapu",
       "body": "Nie możemy oszacować wartości tego swapu. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
     },
-    "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Niewystarczające saldo {{tokenSymbol}}",
+      "description": "Nie masz wystarczającej ilości {{tokenSymbol}} , aby pokryć opłaty za paliwo. Chcesz wymienić mniejszą kwotę?",
+      "confirmDecreaseButton": "Wymień mniejszą kwotę"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Niewystarczający bilans żetonów gazu",
+      "description": "Nie masz wystarczającej ilości {{feeCurrencies}} , aby pokryć opłaty za paliwo. Dodaj {{feeCurrencies}} do swojego portfela, aby dokończyć tę wymianę.",
+      "dismissButton": "Odrzuć"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Zamień z",
