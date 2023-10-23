@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -13,26 +14,29 @@ import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
-import CustomHeader from 'src/components/header/CustomHeader'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { useFeeCurrency } from 'src/fees/hooks'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
-import { swapStart } from 'src/swap/slice'
+import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
+import { getMaxGasCost } from 'src/swap/useSwapQuote'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
-import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
+import { divideByWei } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 const initialUserInput = {
@@ -53,13 +57,19 @@ const toCeloWorkaround = (tokenAddress: string) => {
     : tokenAddress
 }
 
-export function SwapReviewScreen() {
+type Props = NativeStackScreenProps<StackParamList, Screens.SwapReviewScreen>
+
+export function SwapReviewScreen({ route }: Props) {
   const userInput = useSelector(swapUserInputSelector)
   const { toToken, fromToken, swapAmount, updatedField } = userInput || initialUserInput
-  const [shouldFetch, setShouldFetch] = useState(true)
+  // Existing quote from previous screen with the new flow for viem
+  const quote = route.params?.quote
+  const [shouldFetch, setShouldFetch] = useState(!quote)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
-  const [swapResponse, setSwapResponse] = useState<FetchQuoteResponse | null>(null)
+  const [swapResponse, setSwapResponse] = useState<FetchQuoteResponse | null>(
+    route.params?.quote?.rawSwapResponse ?? null
+  )
   const [fetchError, setFetchError] = useState(false)
   const tokensByAddress = useSelector(tokensByAddressSelector)
   const walletAddress = useSelector(walletAddressSelector)
@@ -94,7 +104,25 @@ export function SwapReviewScreen() {
     return estimatedCeloFeeAmount.dividedBy(feeCurrencyPriceUsd).multipliedBy(celoPriceUsd)
   }
 
-  const estimatedFeeAmount = estimateFeeAmount()
+  function getEstimatedMaxFee() {
+    if (!feeCurrency || quote?.preparedTransactions?.type !== 'possible') {
+      return new BigNumber(0)
+    }
+    const feeCurrencyToken = tokensByAddress[feeCurrency]
+    if (!feeCurrencyToken || !feeCurrencyToken.priceUsd) {
+      return new BigNumber(0)
+    }
+
+    const maxGasCost = getMaxGasCost([
+      quote.preparedTransactions.approveTransaction,
+      quote.preparedTransactions.swapTransaction,
+    ])
+    return new BigNumber(maxGasCost.toString())
+      .shiftedBy(-feeCurrencyToken.decimals)
+      .times(feeCurrencyToken.priceUsd)
+  }
+
+  const estimatedFeeAmount = quote ? getEstimatedMaxFee() : estimateFeeAmount()
 
   // Items set from remote config
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
@@ -187,6 +215,17 @@ export function SwapReviewScreen() {
       price,
       provider: swapResponse.details.swapProvider,
     })
+
+    // New flow for viem
+    if (quote && userInput) {
+      dispatch(
+        swapStartPrepared({
+          quote,
+          userInput,
+        })
+      )
+      return
+    }
     // Dispatch swap submission
     if (userInput && quoteReceivedAtRef.current) {
       dispatch(
@@ -219,13 +258,16 @@ export function SwapReviewScreen() {
       <ScrollView
         style={styles.contentContainer}
         refreshControl={
-          <RefreshControl
-            tintColor={colors.greenBrand}
-            colors={[colors.greenBrand]}
-            style={{ backgroundColor: colors.light }}
-            refreshing={shouldFetch}
-            onRefresh={() => setShouldFetch(true)}
-          />
+          // Pull to refresh only for the old flow
+          !quote ? (
+            <RefreshControl
+              tintColor={colors.greenBrand}
+              colors={[colors.greenBrand]}
+              style={{ backgroundColor: colors.light }}
+              refreshing={shouldFetch}
+              onRefresh={() => setShouldFetch(true)}
+            />
+          ) : undefined
         }
       >
         {swapResponse !== null && (

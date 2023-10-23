@@ -16,9 +16,10 @@ import {
   swapExecute,
   swapPriceChange,
   swapStart,
+  swapStartPrepared,
   swapSuccess,
 } from 'src/swap/slice'
-import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
+import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -33,12 +34,15 @@ import {
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
-import { getContractKit } from 'src/web3/contracts'
+import { publicClient } from 'src/viem'
+import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
+import { Hash } from 'viem'
+import { getBlock, getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
 
@@ -234,8 +238,182 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   }
 }
 
+export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>) {
+  const swapSubmittedAt = Date.now()
+  const {
+    price,
+    buyTokenAddress,
+    sellTokenAddress,
+    buyAmount,
+    sellAmount,
+    allowanceTarget,
+    estimatedPriceImpact,
+  } = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction
+  const amountType =
+    action.payload.userInput.updatedField === Field.TO
+      ? ('buyAmount' as const)
+      : ('sellAmount' as const)
+  const amount = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction[amountType]
+  const quoteReceivedAt = action.payload.quote.receivedAt
+
+  const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
+
+  const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
+  const fromTokenBalance = fromToken
+    ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
+    : ''
+  const estimatedSellTokenUsdValue = fromToken
+    ? calculateEstimatedUsdValue({ tokenInfo: fromToken, tokenAmount: sellAmount })
+    : undefined
+
+  const toToken = tokenBalances.find((token) => token.address === buyTokenAddress)
+  const estimatedBuyTokenUsdValue = toToken
+    ? calculateEstimatedUsdValue({ tokenInfo: toToken, tokenAmount: buyAmount })
+    : undefined
+
+  const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
+  const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
+
+  const defaultSwapExecuteProps = {
+    toToken: buyTokenAddress,
+    fromToken: sellTokenAddress,
+    amount,
+    amountType,
+    price,
+    allowanceTarget,
+    estimatedPriceImpact,
+    provider: action.payload.quote.rawSwapResponse.details.swapProvider,
+    fromTokenBalance,
+    swapExecuteTxId: swapExecuteContext.id,
+    swapApproveTxId: swapApproveContext.id,
+    estimatedSellTokenUsdValue,
+    estimatedBuyTokenUsdValue,
+  }
+
+  let quoteToTransactionElapsedTimeInMs: number | undefined
+
+  const getTimeMetrics = (): SwapTimeMetrics => ({
+    quoteToUserConfirmsSwapElapsedTimeInMs: swapSubmittedAt - quoteReceivedAt,
+    quoteToTransactionElapsedTimeInMs,
+  })
+
+  try {
+    // Navigate to swap pending screen
+    navigate(Screens.SwapExecuteScreen)
+
+    const wallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
+    if (!wallet.account) {
+      // this should never happen
+      throw new Error('no account found in the wallet')
+    }
+
+    const preparedTransactions = action.payload.quote.preparedTransactions
+    if (preparedTransactions?.type !== 'possible') {
+      // Should never happen
+      throw new Error('No prepared transactions possible')
+    }
+
+    // @ts-ignore
+    const block = yield* call(getBlock, wallet, { blockTag: 'latest' })
+    // @ts-ignore
+    let nonce: number = yield* call(getTransactionCount, wallet, {
+      address: wallet.account.address,
+      blockTag: 'pending',
+    })
+
+    console.log('==block==', block)
+    console.log('==nonce==', nonce)
+
+    // unlock account before executing tx
+    yield* call(unlockAccount, wallet.account.address)
+
+    const txHashes: Hash[] = []
+    for (let preparedTransaction of [
+      preparedTransactions.approveTransaction,
+      preparedTransactions.swapTransaction,
+    ]) {
+      console.log('==Signing', preparedTransaction)
+      const signedTx = yield* call([wallet, 'signTransaction'], {
+        ...preparedTransaction,
+        nonce: nonce++,
+      } as any)
+      console.log('==signedTx==', signedTx)
+      const hash = yield* call([wallet, 'sendRawTransaction'], {
+        serializedTransaction: signedTx,
+      })
+      console.log('==hash==', hash)
+      txHashes.push(hash)
+    }
+
+    const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
+      hash: txHashes[txHashes.length - 1],
+    })
+    console.log('==receipt==', receipt)
+    if (receipt.status !== 'success') {
+      throw new Error('Swap transaction reverted')
+    }
+
+    // const walletAddress = yield* select(walletAddressSelector)
+
+    // const amountToApprove =
+    //   amountType === 'buyAmount'
+    //     ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
+    //     : sellAmount
+
+    // Approve transaction
+    // yield* put(swapApprove())
+    // Logger.debug(
+    //   TAG,
+    //   `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
+    // )
+    // yield* call(
+    //   sendApproveTx,
+    //   sellTokenAddress,
+    //   amountToApprove,
+    //   allowanceTarget,
+    //   swapApproveContext
+    // )
+
+    // Execute transaction
+    yield* put(swapExecute())
+    // Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
+
+    const beforeSwapExecutionTimestamp = Date.now()
+    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
+    // yield* call(
+    //   handleSendSwapTransaction,
+    //   { ...action.payload.unvalidatedSwapTransaction },
+    //   swapExecuteContext
+    // )
+
+    const timeMetrics = getTimeMetrics()
+
+    yield* put(swapSuccess())
+    vibrateSuccess()
+    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
+      ...defaultSwapExecuteProps,
+      ...timeMetrics,
+    })
+  } catch (err) {
+    const error = ensureError(err)
+    const timeMetrics = getTimeMetrics()
+
+    Logger.error(TAG, 'Error while swapping', error)
+    ValoraAnalytics.track(SwapEvents.swap_execute_error, {
+      ...defaultSwapExecuteProps,
+      ...timeMetrics,
+      error: error.message,
+    })
+    yield* put(swapError())
+    vibrateError()
+  }
+}
+
 export function* swapSaga() {
+  // Legacy
   yield* takeLatest(swapStart.type, safely(swapSubmitSaga))
+  // New flow with prepared transactions
+  yield* takeLatest(swapStartPrepared.type, safely(swapSubmitPreparedSaga))
 }
 
 export function* sendApproveTx(

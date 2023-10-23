@@ -28,6 +28,11 @@ export interface QuoteResult {
   provider: string
   estimatedPriceImpact: BigNumber | null
   preparedTransactions?: PreparedTransactionsResult
+  /**
+   * @deprecated Temporary until we remove the swap review screen
+   */
+  rawSwapResponse: FetchQuoteResponse
+  receivedAt: number
 }
 
 interface PreparedTransactionsPossible {
@@ -77,7 +82,6 @@ function createBaseApproveTransaction(
     from: from as Address,
     to: sellTokenAddress as Address,
     data,
-    type: 'cip42',
     amountToApprove,
   }
 
@@ -95,14 +99,13 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
     // This may not be entirely accurate for now
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
     // We'll try to improve this in our API
-    gas: BigInt(gas),
-    type: 'cip42',
+    gas: BigInt(gas) * BigInt(3), // TODO adjust this in the backend for 0x, otherwise was reverting
   }
 
   return swapTx
 }
 
-function getMaxGasCost(txs: TransactionRequestCIP42[]) {
+export function getMaxGasCost(txs: TransactionRequestCIP42[]) {
   let maxGasCost = BigInt(0)
   for (const tx of txs) {
     if (!tx.gas || !tx.maxFeePerGas) {
@@ -140,7 +143,9 @@ async function prepareTransactions(
       ...baseApproveTx,
       maxFeePerGas,
       maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
+      // Don't include the feeCurrency field if not present.
+      // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
+      ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
     }
 
     // TODO maybe cache this? and add static padding when using non-native fee currency
@@ -167,7 +172,9 @@ async function prepareTransactions(
       ...baseSwapTx,
       maxFeePerGas,
       maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
+      // Don't include the feeCurrency field if not present.
+      // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
+      ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
       // We assume the provided gas value is with the native fee currency
       // If it's not, we add the static padding
       gas: baseSwapTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
@@ -300,6 +307,8 @@ const useSwapQuote = () => {
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
+        rawSwapResponse: quote,
+        receivedAt: Date.now(),
       }
 
       // TODO: this branch will be part of the normal flow once viem is always used
