@@ -1,7 +1,7 @@
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -13,6 +13,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
 
 export enum TokenPickerOrigin {
@@ -29,38 +30,62 @@ interface Props<T extends TokenBalance> {
   origin: TokenPickerOrigin
   onTokenSelected: (token: T) => void
   title: string
+  titleStyle?: TextStyle
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
   tokens: T[]
+  TokenOptionComponent?: React.ComponentType<TokenOptionProps>
 }
 
-function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
+export interface TokenOptionProps {
+  tokenInfo: TokenBalance
+  onPress: () => void
+  index: number
+}
+
+/**
+ * @deprecated new bottom sheets should use TokenBalanceItemOption
+ */
+export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
   return (
-    <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
-      <View style={styles.tokenOptionContainer}>
-        <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
-        <View style={styles.tokenNameContainer}>
-          <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
-          <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
+    <>
+      {index > 0 && <View style={styles.separator} />}
+      <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
+        <View style={styles.tokenOptionContainer}>
+          <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
+          <View style={styles.tokenNameContainer}>
+            <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
+            <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
+          </View>
+          <View style={styles.tokenBalanceContainer}>
+            <TokenDisplay
+              style={styles.localBalance}
+              amount={tokenInfo.balance}
+              tokenId={tokenInfo.tokenId}
+              showLocalAmount={true}
+              testID={`Local${tokenInfo.symbol}Balance`}
+            />
+            <TokenDisplay
+              style={styles.currencyBalance}
+              amount={tokenInfo.balance}
+              tokenId={tokenInfo.tokenId}
+              showLocalAmount={false}
+              testID={`${tokenInfo.symbol}Balance`}
+            />
+          </View>
         </View>
-        <View style={styles.tokenBalanceContainer}>
-          <TokenDisplay
-            style={styles.localBalance}
-            amount={tokenInfo.balance}
-            tokenId={tokenInfo.tokenId}
-            showLocalAmount={true}
-            testID={`Local${tokenInfo.symbol}Balance`}
-          />
-          <TokenDisplay
-            style={styles.currencyBalance}
-            amount={tokenInfo.balance}
-            tokenId={tokenInfo.tokenId}
-            showLocalAmount={false}
-            testID={`${tokenInfo.symbol}Balance`}
-          />
-        </View>
-      </View>
-    </Touchable>
+      </Touchable>
+    </>
+  )
+}
+
+export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps) {
+  return (
+    <TokenBalanceItem
+      token={tokenInfo}
+      onPress={onPress}
+      containerStyle={styles.tokenBalanceItemContainer}
+    />
   )
 }
 
@@ -93,6 +118,8 @@ function TokenBottomSheet<T extends TokenBalance>({
   tokens,
   searchEnabled,
   title,
+  titleStyle,
+  TokenOptionComponent = TokenOption,
 }: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -142,6 +169,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       forwardedRef={forwardedRef}
       snapPoints={snapPoints}
       title={title}
+      titleStyle={titleStyle}
       stickyTitle={searchEnabled}
       stickyHeaderComponent={
         searchEnabled && (
@@ -175,8 +203,11 @@ function TokenBottomSheet<T extends TokenBalance>({
           return (
             // Duplicate keys could happen with token.address
             <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-              {index > 0 && <View style={styles.separator} />}
-              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
+              <TokenOptionComponent
+                tokenInfo={tokenInfo}
+                onPress={onTokenPressed(tokenInfo)}
+                index={index}
+              />
             </React.Fragment>
           )
         })
@@ -238,6 +269,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: Spacing.Regular16,
+  },
+  tokenBalanceItemContainer: {
+    marginHorizontal: 0,
   },
 })
 
