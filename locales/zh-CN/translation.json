@@ -1674,7 +1674,17 @@
       "title": "交换之前",
       "body": "我们无法估算本次交换的价值。如果您选择继续， {{appName}} 不承担任何责任。"
     },
-    "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "{{tokenSymbol}} 余额不足",
+      "description": "您没有足够的 {{tokenSymbol}} 来支付汽油费。您想交换较少的金额吗？",
+      "confirmDecreaseButton": "少量交换"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "气体令牌余额不足",
+      "description": "您没有足够的 {{feeCurrencies}} 来支付汽油费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交换。",
+      "dismissButton": "忽略"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",
