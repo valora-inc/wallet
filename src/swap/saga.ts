@@ -20,10 +20,10 @@ import {
 } from 'src/swap/slice'
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { swappableTokensSelector } from 'src/tokens/selectors'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction } from 'src/transactions/actions'
+import { addHashToStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
   TokenTransactionTypeV2,
@@ -48,7 +48,9 @@ function getPercentageDifference(price1: number, price2: number) {
 
 function* handleSendSwapTransaction(
   rawTx: SwapTransaction,
-  transactionContext: TransactionContext
+  transactionContext: TransactionContext,
+  fromToken: TokenBalance,
+  toToken: TokenBalance
 ) {
   const kit: ContractKit = yield* call(getContractKit)
   const walletAddress: string = yield* call(getConnectedUnlockedAccount)
@@ -58,8 +60,28 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  yield* put(
+    addStandbyTransaction({
+      context: transactionContext,
+      __typename: 'TokenExchangeV3',
+      networkId: networkConfig.defaultNetworkId,
+      type: TokenTransactionTypeV2.SwapTransaction,
+      inAmount: {
+        value: valueToBigNumber(rawTx.sellAmount)
+          .multipliedBy(rawTx.guaranteedPrice)
+          .shiftedBy(-toToken.decimals),
+        tokenId: toToken.tokenId,
+      },
+      outAmount: {
+        value: valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals),
+        tokenId: fromToken.tokenId,
+      },
+    })
+  )
+
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
-  return receipt
+
+  yield* put(addHashToStandbyTransaction(transactionContext.id, receipt.transactionHash))
 }
 
 function calculateEstimatedUsdValue({
@@ -90,9 +112,13 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
   const { quoteReceivedAt } = action.payload
 
-  const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
-  const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
-  const toToken = tokenBalances.find((token) => token.address === buyTokenAddress)
+  const tokens = yield* select((state) =>
+    tokensByIdSelector(state, [networkConfig.defaultNetworkId])
+  )
+  const fromToken =
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.fromToken)]
+  const toToken =
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.toToken)]
 
   if (!fromToken || !toToken) {
     Logger.error(
@@ -171,13 +197,16 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
     )
-    yield* call(
-      sendApproveTx,
-      sellTokenAddress,
-      amountToApprove,
-      allowanceTarget,
-      swapApproveContext
-    )
+
+    if (fromToken.address) {
+      yield* call(
+        sendApproveTx,
+        fromToken.address,
+        amountToApprove,
+        allowanceTarget,
+        swapApproveContext
+      )
+    }
 
     // Execute transaction
     yield* put(swapExecute())
@@ -185,33 +214,15 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    const receipt = yield* call(
+    yield* call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
-      swapExecuteContext
+      swapExecuteContext,
+      fromToken,
+      toToken
     )
 
     const timeMetrics = getTimeMetrics()
-
-    yield* put(
-      addStandbyTransaction({
-        context: swapExecuteContext,
-        __typename: 'TokenExchangeV3',
-        networkId: networkConfig.defaultNetworkId,
-        type: TokenTransactionTypeV2.SwapTransaction,
-        inAmount: {
-          value: valueToBigNumber(sellAmount)
-            .multipliedBy(guaranteedPrice)
-            .shiftedBy(-toToken.decimals),
-          tokenId: getTokenId(networkConfig.defaultNetworkId, buyTokenAddress),
-        },
-        outAmount: {
-          value: valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals),
-          tokenId: getTokenId(networkConfig.defaultNetworkId, sellTokenAddress),
-        },
-        transactionHash: receipt.transactionHash,
-      })
-    )
 
     yield* put(swapSuccess())
     vibrateSuccess()

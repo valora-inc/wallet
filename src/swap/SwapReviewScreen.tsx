@@ -13,9 +13,10 @@ import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
-import CustomHeader from 'src/components/header/CustomHeader'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { useFeeCurrency } from 'src/fees/hooks'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
@@ -28,11 +29,10 @@ import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
-import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
+import { divideByWei } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 const initialUserInput = {
@@ -43,14 +43,6 @@ const initialUserInput = {
     [Field.TO]: null,
   },
   updatedField: Field.TO,
-}
-
-// Workaround for buying Celo - Mainnet only
-const toCeloWorkaround = (tokenAddress: string) => {
-  // Check if the token is CELO
-  return tokenAddress.toLowerCase() === '0x471ece3750da237f93b8e339c536989b8978a438'
-    ? '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-    : tokenAddress
 }
 
 export function SwapReviewScreen() {
@@ -129,7 +121,7 @@ export function SwapReviewScreen() {
     async () => {
       if (!shouldFetch) return
       const params = {
-        buyToken: toCeloWorkaround(toToken),
+        buyToken: toToken,
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
         // Enable when supported by 0xAPI & valora-rest-api
