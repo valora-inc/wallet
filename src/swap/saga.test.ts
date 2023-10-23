@@ -5,12 +5,10 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { swappableTokensSelector } from 'src/tokens/selectors'
 import { Actions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -18,6 +16,7 @@ import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
@@ -88,6 +87,23 @@ const mockSwap: PayloadAction<SwapInfo> = {
   },
 }
 
+const store = createMockStore({
+  tokens: {
+    tokenBalances: {
+      [mockCeurTokenId]: {
+        ...mockTokenBalances[mockCeurTokenId],
+        priceUsd: '1',
+        balance: '10',
+      },
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
+        priceUsd: '0.5',
+        balance: '10',
+      },
+    },
+  },
+})
+
 describe(swapSubmitSaga, () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -102,21 +118,6 @@ describe(swapSubmitSaga, () => {
     [call(getContractKit), contractKit],
     [call(getConnectedUnlockedAccount), mockAccount],
     [
-      select(swappableTokensSelector),
-      [
-        {
-          ...mockTokenBalances[mockCeurTokenId],
-          priceUsd: new BigNumber('1'),
-          balance: new BigNumber('10'),
-        },
-        {
-          ...mockTokenBalances[mockCeloTokenId],
-          priceUsd: new BigNumber('0.5'),
-          balance: new BigNumber('10'),
-        },
-      ],
-    ],
-    [
       call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
       mockContract,
     ],
@@ -126,7 +127,7 @@ describe(swapSubmitSaga, () => {
     jest
       .spyOn(Date, 'now')
       .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
 
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
@@ -176,7 +177,7 @@ describe(swapSubmitSaga, () => {
 
   it('should set swap state correctly on error', async () => {
     jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
-    ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
+    jest.mocked(sendTransaction).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
     await expectSaga(swapSubmitSaga, mockSwap)
