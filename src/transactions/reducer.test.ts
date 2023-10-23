@@ -65,7 +65,7 @@ describe('transactions reducer', () => {
     })
   })
 
-  it('should update correctly for the UPDATE_TRANSACTIONS action', () => {
+  it('should update correctly for the TRANSACTION_FEED_UPDATED action', () => {
     expect(
       reducer(
         {
@@ -76,7 +76,7 @@ describe('transactions reducer', () => {
           ],
         },
         {
-          type: Actions.UPDATE_TRANSACTIONS,
+          type: Actions.TRANSACTION_FEED_UPDATED,
           transactions: [createMockTransaction('id2')],
         }
       )
@@ -84,6 +84,9 @@ describe('transactions reducer', () => {
       ...initialState,
       transactions: [createMockTransaction('id2')],
       standbyTransactions: [createMockStandbyTransaction('id1')],
+      knownFeedTransactions: {
+        [transactionHash]: '0x047154ac4d7e01b1dc9ddeea9e8996b57895a747',
+      },
     })
   })
 })
