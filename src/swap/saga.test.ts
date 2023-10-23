@@ -70,8 +70,8 @@ const mockSwap: PayloadAction<SwapInfo> = {
     },
     userInput: {
       updatedField: Field.TO,
-      fromToken: mockCeloAddress,
-      toToken: mockCeurAddress,
+      fromToken: mockCeurAddress,
+      toToken: mockCeloAddress,
       swapAmount: {
         [Field.FROM]: '100',
         [Field.TO]: '200',
