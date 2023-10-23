@@ -32,6 +32,7 @@ import {
   SettingsEvents,
   SwapEvents,
   TokenBottomSheetEvents,
+  TransactionDetailsEvents,
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
@@ -535,4 +536,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_copy]: `When the user copies the transaction details via the bottom sheet`,
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted]: `When the user confirms the transaction via the bottom sheet`,
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: `When the user rejects the transaction via the bottom sheet`,
+  [TransactionDetailsEvents.transaction_details_tap_details]: `When a user press 'Details' on transaction detail page`,
+  [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction detail page`,
+  [TransactionDetailsEvents.transaction_details_tap_rety]: `When a user press 'Retry' on transaction detail page`,
 }

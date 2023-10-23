@@ -114,9 +114,6 @@ function TransactionDetailsScreen({ navigation: { navigate }, route }: Props) {
   const transactionNetwork = networkConfig.networkIdToNetwork[transaction.networkId]
   const openBlockExplorer = transactionNetwork
     ? () => {
-        // TODO: add anaytics? e.g.:
-        // ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
-
         navigate(Screens.WebViewScreen, {
           uri: `${networkConfig.blockExplorerBaseTxUrl[transactionNetwork]}${transaction.transactionHash}`,
         })
@@ -133,7 +130,11 @@ function TransactionDetailsScreen({ navigation: { navigate }, route }: Props) {
       <View style={styles.status}>
         <TransactionStatusIndicator status={transaction.status} />
         {primaryActionHanlder && (
-          <TransactionPrimaryAction status={transaction.status} onPress={primaryActionHanlder} />
+          <TransactionPrimaryAction
+            status={transaction.status}
+            onPress={primaryActionHanlder}
+            testID="transactionDetails/primaryAction"
+          />
         )}
       </View>
       <View style={styles.content}>{content}</View>

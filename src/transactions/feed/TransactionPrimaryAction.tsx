@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import colors from 'src/styles/colors'
@@ -10,7 +12,7 @@ import { TransactionStatus } from 'src/transactions/types'
 
 interface Props {
   status: TransactionStatus
-  onPress?: () => void
+  onPress: () => void
   testID?: string
 }
 
@@ -38,8 +40,24 @@ function TransactionPrimaryAction({ status, onPress, testID }: Props) {
   }
   const icon = iconByStatus[status]
 
+  const analyticsEventByStatus: Record<TransactionStatus, TransactionDetailsEvents> = {
+    [TransactionStatus.Complete]: TransactionDetailsEvents.transaction_details_tap_check_status,
+    [TransactionStatus.Pending]: TransactionDetailsEvents.transaction_details_tap_details,
+    [TransactionStatus.Failed]: TransactionDetailsEvents.transaction_details_tap_rety,
+  }
+  const analyticsEvent = analyticsEventByStatus[status]
+
+  const pressHandler = () => {
+    ValoraAnalytics.track(analyticsEvent)
+    onPress()
+  }
+
   return (
-    <Touchable style={[styles.container, { backgroundColor }]} onPress={onPress} testID={testID}>
+    <Touchable
+      style={[styles.container, { backgroundColor }]}
+      onPress={pressHandler}
+      testID={testID}
+    >
       <>
         <Text style={[styles.text, { color }]}>{title}</Text>
         {icon}

@@ -629,3 +629,9 @@ export enum DappShortcutsEvents {
   dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted',
   dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected',
 }
+
+export enum TransactionDetailsEvents {
+  transaction_details_tap_details = 'transaction_details_tap_details',
+  transaction_details_tap_check_status = 'transaction_details_tap_check_status',
+  transaction_details_tap_rety = 'transaction_details_tap_rety',
+}

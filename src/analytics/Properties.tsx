@@ -38,6 +38,7 @@ import {
   SettingsEvents,
   SwapEvents,
   TokenBottomSheetEvents,
+  TransactionDetailsEvents,
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
@@ -1378,6 +1379,12 @@ interface DappShortcutsProperties {
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: DappShortcutClaimRewardEvent
 }
 
+interface TransactionDetailsProperties {
+  [TransactionDetailsEvents.transaction_details_tap_details]: undefined
+  [TransactionDetailsEvents.transaction_details_tap_check_status]: undefined
+  [TransactionDetailsEvents.transaction_details_tap_rety]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1411,6 +1418,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   AssetsEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
-  DappShortcutsProperties
+  DappShortcutsProperties &
+  TransactionDetailsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList
