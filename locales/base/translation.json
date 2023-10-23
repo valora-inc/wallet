@@ -1684,8 +1684,7 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
-    "estimatedFee": "Estimated Fee",
-    "viewOnExplorer": "View on CeloExplorer"
+    "estimatedFee": "Estimated Fee"
   },
   "swapReviewScreen": {
     "title": "Review Swap",
@@ -1852,5 +1851,7 @@
     "showCompletedTransactionDetails": "Details",
     "checkPendingTransactionStatus": "Check Status",
     "retryFailedTransaction": "Retry"
-  }
+  },
+  "viewOnCeloBlockExplorer": "View on CeloExplorer",
+  "viewOnEthereumBlockExplorer": "View on Etherscan"
 }

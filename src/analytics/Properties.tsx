@@ -1232,7 +1232,6 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_screen_review_swap]: undefined
-  [SwapEvents.swap_feed_detail_view_tx]: undefined
   [SwapEvents.swap_review_screen_open]: SwapEvent
   [SwapEvents.swap_review_submit]: SwapQuoteEvent & {
     usdTotal: number
@@ -1383,6 +1382,7 @@ interface TransactionDetailsProperties {
   [TransactionDetailsEvents.transaction_details_tap_details]: undefined
   [TransactionDetailsEvents.transaction_details_tap_check_status]: undefined
   [TransactionDetailsEvents.transaction_details_tap_rety]: undefined
+  [TransactionDetailsEvents.transaction_details_tap_view_on_block_explorer]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

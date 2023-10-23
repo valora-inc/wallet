@@ -2,14 +2,19 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Separator from 'src/components/Separator'
+import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
+import ArrowRight from 'src/icons/ArrowRight'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -17,6 +22,7 @@ import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAc
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
+  Network,
   TokenExchange,
   TokenTransaction,
   TokenTransactionTypeV2,
@@ -76,6 +82,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
 
 function TransactionDetailsScreen({ navigation, route }: Props) {
   const { transaction } = route.params
+
+  const { t } = useTranslation()
 
   const title = useHeaderTitle(transaction)
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
@@ -139,6 +147,29 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
         )}
       </View>
       <View style={styles.content}>{content}</View>
+      {openBlockExplorer && (
+        <>
+          <Separator />
+          <Touchable
+            style={styles.rowContainer}
+            borderless={true}
+            onPress={() => {
+              ValoraAnalytics.track(
+                TransactionDetailsEvents.transaction_details_tap_view_on_block_explorer
+              )
+              openBlockExplorer()
+            }}
+          >
+            <>
+              <Text style={styles.blockExplorerLink}>
+                {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
+                {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
+              </Text>
+              <ArrowRight color={Colors.gray3} size={8} />
+            </>
+          </Touchable>
+        </>
+      )}
     </ScrollView>
   )
 }
@@ -154,11 +185,11 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
-    color: colors.dark,
+    color: Colors.dark,
   },
   dateTime: {
     ...typeScale.bodyXSmall,
-    color: colors.gray3,
+    color: Colors.gray3,
     marginTop: 2,
   },
   status: {
@@ -166,7 +197,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 42,
-    marginTop: 8,
+    marginTop: Spacing.Smallest8,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  blockExplorerLink: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray3,
+    marginRight: Spacing.Tiny4,
   },
 })
 
