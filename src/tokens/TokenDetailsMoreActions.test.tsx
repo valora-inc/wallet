@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -15,7 +14,6 @@ import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { Network, NetworkId } from 'src/transactions/types'
-import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeloTokenId } from 'test/values'
 
 const mockStoredCeloTokenBalance: StoredTokenBalance = {
@@ -43,17 +41,6 @@ const mockCeloBalance: TokenBalance = {
   lastKnownPriceUsd: new BigNumber(mockStoredCeloTokenBalance.priceUsd!),
   priceUsd: new BigNumber(mockStoredCeloTokenBalance.priceUsd!),
 }
-
-const store = createMockStore({
-  tokens: {
-    tokenBalances: {
-      [mockCeloTokenId]: mockStoredCeloTokenBalance,
-    },
-  },
-  app: {
-    showSwapMenuInDrawerMenu: true,
-  },
-})
 
 const mockActions: TokenDetailsAction[] = [
   {
@@ -101,13 +88,11 @@ const mockActions: TokenDetailsAction[] = [
 describe('TokenDetailsMoreActions', () => {
   it('Renders correct actions', () => {
     const { getByText } = render(
-      <Provider store={store}>
-        <TokenDetailsMoreActions
-          forwardedRef={{ current: null }}
-          token={mockCeloBalance}
-          actions={mockActions}
-        />
-      </Provider>
+      <TokenDetailsMoreActions
+        forwardedRef={{ current: null }}
+        token={mockCeloBalance}
+        actions={mockActions}
+      />
     )
 
     expect(getByText('tokenDetails.actions.send')).toBeTruthy()
@@ -140,13 +125,11 @@ describe('TokenDetailsMoreActions', () => {
     'triggers the correct analytics and navigation for $buttonText',
     async ({ action, buttonText, navigatedScreen, navigationParams }) => {
       const { getByText } = render(
-        <Provider store={store}>
-          <TokenDetailsMoreActions
-            forwardedRef={{ current: null }}
-            token={mockCeloBalance}
-            actions={mockActions}
-          />
-        </Provider>
+        <TokenDetailsMoreActions
+          forwardedRef={{ current: null }}
+          token={mockCeloBalance}
+          actions={mockActions}
+        />
       )
 
       fireEvent.press(getByText(buttonText))
