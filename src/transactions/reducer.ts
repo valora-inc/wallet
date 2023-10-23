@@ -101,9 +101,14 @@ export const reducer = (
         recentTxRecipientsCache: action.recentTxRecipientsCache,
       }
     case Actions.UPDATE_TRANSACTIONS:
+      const newFeedTxHashes = new Set(action.transactions.map((tx) => tx?.transactionHash))
       return {
         ...state,
         transactions: action.transactions,
+        standbyTransactions: state.standbyTransactions.filter(
+          (standbyTx: StandbyTransaction) =>
+            !standbyTx.transactionHash || !newFeedTxHashes.has(standbyTx.transactionHash)
+        ),
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {

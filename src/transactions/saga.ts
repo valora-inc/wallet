@@ -24,14 +24,9 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
-  pendingStandbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import {
-  StandbyTransaction,
-  TokenTransactionTypeV2,
-  TransactionContext,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
@@ -40,17 +35,6 @@ import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-sag
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
-
-// Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
-  const standbyTxs: StandbyTransaction[] = yield* select(pendingStandbyTransactionsSelector)
-  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
-  for (const standbyTx of standbyTxs) {
-    if (standbyTx.transactionHash && newFeedTxHashes.has(standbyTx.transactionHash)) {
-      yield* put(removeStandbyTransaction(standbyTx.context.id))
-    }
-  }
-}
 
 function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   const kit: ContractKit = yield* call(getContractKit)
@@ -205,7 +189,6 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
   yield* takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, safely(refreshRecentTxRecipients))
 }
