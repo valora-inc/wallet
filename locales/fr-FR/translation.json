@@ -1849,6 +1849,13 @@
       "add": "Ajouter",
       "withdraw": "Retirer",
       "more": "Plus d'informations"
+    },
+    "moreActions": "Plus d'actions",
+    "actionDescriptions": {
+      "send": "Utilise n'importe quelle adresse Celo, domaine, numéro de téléphone, etc.",
+      "swap": "Échange tes jetons sans quitter ton portefeuille.",
+      "add": "Achète des jetons en utilisant l'un de nos fournisseurs de confiance.",
+      "withdraw": "Transfère des jetons vers un compte bancaire, de l'argent mobile, une carte cadeau, etc."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
