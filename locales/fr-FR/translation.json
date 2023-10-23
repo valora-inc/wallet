@@ -1676,7 +1676,17 @@
       "title": "Avant d'échanger",
       "body": "Nous ne pouvons pas estimer la valeur de cet échange. {{appName}} n'est pas responsable si vous choisissez de continuer."
     },
-    "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Solde insuffisant de {{tokenSymbol}}",
+      "description": "Tu n'as pas assez de {{tokenSymbol}} pour couvrir les frais d'essence. Veux-tu échanger une plus petite somme ?",
+      "confirmDecreaseButton": "Échanger une petite quantité"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Solde insuffisant des jetons de gaz",
+      "description": "Tu n'as pas assez de {{feeCurrencies}} pour couvrir les frais d'essence. Merci d'ajouter {{feeCurrencies}} à ton portefeuille pour réaliser cet échange.",
+      "dismissButton": "Refuser"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Échanger de",
