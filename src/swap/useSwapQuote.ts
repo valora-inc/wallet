@@ -302,6 +302,7 @@ const useSwapQuote = () => {
           : null,
       }
 
+      // TODO: this branch will be part of the normal flow once viem is always used
       if (shouldPrepareTransactions) {
         const preparedTransactions = await prepareTransactions(
           fromToken,
