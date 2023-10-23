@@ -208,13 +208,16 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
     )
-    yield* call(
-      sendApproveTx,
-      sellTokenAddress,
-      amountToApprove,
-      allowanceTarget,
-      swapApproveContext
-    )
+
+    if (fromToken.address) {
+      yield* call(
+        sendApproveTx,
+        fromToken.address,
+        amountToApprove,
+        allowanceTarget,
+        swapApproveContext
+      )
+    }
 
     // Execute transaction
     yield* put(swapExecute())
