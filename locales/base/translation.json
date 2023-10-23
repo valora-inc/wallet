@@ -1842,5 +1842,15 @@
       "withdraw": "Withdraw",
       "more": "More"
     }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Completed",
+    "transactionIsPending": "Pending",
+    "transactionIsFailed": "Failed"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Check Status",
+    "retryFailedTransaction": "Retry"
   }
 }
