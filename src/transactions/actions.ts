@@ -1,28 +1,26 @@
-import { CeloTxReceipt } from '@celo/connect'
-import { SendOrigin } from 'src/analytics/types'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
 import { InviteTransactions } from 'src/transactions/reducer'
-import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { StandbySwap, StandbyTransfer, TokenTransaction } from 'src/transactions/types'
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
-  TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
-  TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   TRANSACTION_FEED_UPDATED = 'TRANSACTIONS/TRANSACTION_FEED_UPDATED',
+  UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
+type BaseStandbyTransaction =
+  | Omit<StandbyTransfer, 'timestamp' | 'status'>
+  | Omit<StandbySwap, 'timestamp' | 'status'>
+
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
-  transaction: StandbyTransaction
+  transaction: BaseStandbyTransaction
 }
 
 export interface RemoveStandbyTransactionAction {
@@ -34,17 +32,6 @@ export interface AddHashToStandbyTransactionAction {
   type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS
   idx: string
   hash: string
-}
-
-export interface TransactionConfirmedAction {
-  type: Actions.TRANSACTION_CONFIRMED
-  txId: string
-  receipt: CeloTxReceipt
-}
-
-export interface TransactionConfirmedViemAction {
-  type: Actions.TRANSACTION_CONFIRMED_VIEM
-  txId: string
 }
 
 export interface TransactionFailedAction {
@@ -73,12 +60,10 @@ export type ActionTypes =
   | AddHashToStandbyTransactionAction
   | UpdatedRecentTxRecipientsCacheAction
   | TransactionFeedUpdatedAction
-  | TransactionConfirmedAction
-  | TransactionConfirmedViemAction
   | UpdateInviteTransactionsAction
 
 export const addStandbyTransaction = (
-  transaction: StandbyTransaction
+  transaction: BaseStandbyTransaction
 ): AddStandbyTransactionAction => ({
   type: Actions.ADD_STANDBY_TRANSACTION,
   transaction,
@@ -94,20 +79,6 @@ export const updateRecentTxRecipientsCache = (
 ): UpdatedRecentTxRecipientsCacheAction => ({
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   recentTxRecipientsCache,
-})
-
-export const transactionConfirmed = (
-  txId: string,
-  receipt: CeloTxReceipt
-): TransactionConfirmedAction => ({
-  type: Actions.TRANSACTION_CONFIRMED,
-  txId,
-  receipt,
-})
-
-export const transactionConfirmedViem = (txId: string): TransactionConfirmedViemAction => ({
-  type: Actions.TRANSACTION_CONFIRMED_VIEM,
-  txId,
 })
 
 export const transactionFailed = (txId: string): TransactionFailedAction => ({
@@ -137,14 +108,3 @@ export const updateInviteTransactions = (
   type: Actions.UPDATE_INVITE_TRANSACTIONS,
   inviteTransactions,
 })
-
-export const navigateToRequestedPaymentReview = (
-  transactionData: TransactionDataInput,
-  isFromScan: boolean
-) => {
-  navigate(Screens.SendConfirmation, {
-    transactionData,
-    origin: SendOrigin.AppRequestFlow,
-    isFromScan,
-  })
-}

@@ -14,7 +14,6 @@ import {
   Actions,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmedViem,
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails } from 'src/transactions/send'
@@ -305,7 +304,6 @@ describe('sendAndMonitorTransaction', () => {
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
       ])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(transactionConfirmedViem('txId'))
       .put(fetchTokenBalances({ showLoading: true }))
       .call([mockViemWallet, 'writeContract'], mockArgs.request)
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })

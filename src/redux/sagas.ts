@@ -32,7 +32,6 @@ import { keylessBackupSaga } from 'src/keylessBackup/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { nftsSaga } from 'src/nfts/saga'
-import { paymentRequestSaga } from 'src/paymentRequest/saga'
 import { positionsSaga } from 'src/positions/saga'
 import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
@@ -123,7 +122,6 @@ export function* rootSaga() {
     yield* spawn(recipientsSaga)
     yield* spawn(feesSaga)
     yield* spawn(sendSaga)
-    yield* spawn(paymentRequestSaga)
     yield* spawn(escrowSaga)
     yield* spawn(importSaga)
     yield* spawn(dappKitSaga)

@@ -1,9 +1,8 @@
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
-import { showError, showMessage } from 'src/alert/actions'
+import { showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { openUrl } from 'src/app/actions'
 import {
   RewardsScreenOrigin,
@@ -17,46 +16,13 @@ import {
   NotificationTypes,
   TransferNotificationData,
 } from 'src/notifications/types'
-import { PaymentRequest } from 'src/paymentRequest/types'
-import { transactionDataFromPaymentRequest } from 'src/paymentRequest/utils'
-import { RecipientInfo, getRecipientFromAddress } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
-import { TransactionDataInput } from 'src/send/SendAmount'
-import { stablecoinsSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
-import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
-import { TokenTransactionTypeV2 } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { call, put, select } from 'typed-redux-saga'
+import { put } from 'typed-redux-saga'
 import networkConfig from 'src/web3/networkConfig'
 import { getTokenId } from 'src/tokens/utils'
 
 const TAG = 'FirebaseNotifications'
-
-function* handlePaymentRequested(paymentRequest: PaymentRequest) {
-  if (!paymentRequest.requesterAddress) {
-    Logger.error(TAG, 'Payment request must specify a requester address')
-    return
-  }
-
-  const info: RecipientInfo = yield* select(recipientInfoSelector)
-  const requester = getRecipientFromAddress(paymentRequest.requesterAddress, info)
-  const stableTokens: TokenBalance[] = yield* select(stablecoinsSelector)
-
-  let transactionData: TransactionDataInput
-  try {
-    transactionData = transactionDataFromPaymentRequest({
-      paymentRequest,
-      stableTokens,
-      requester,
-    })
-  } catch (e) {
-    yield* put(showError(ErrorMessages.INSUFFICIENT_BALANCE_STABLE))
-    return
-  }
-
-  navigateToRequestedPaymentReview(transactionData, false)
-}
 
 function handlePaymentReceived(transferNotification: TransferNotificationData) {
   const address = transferNotification.sender.toLowerCase()
@@ -81,6 +47,7 @@ function handlePaymentReceived(transferNotification: TransferNotificationData) {
         comment: transferNotification.comment,
       },
       fees: [],
+      status: TransactionStatus.Complete,
     },
   })
 }
@@ -118,11 +85,6 @@ export function* handleNotification(
   }
 
   switch (message.data?.type) {
-    case NotificationTypes.PAYMENT_REQUESTED:
-      // message.data can be any object, but we control it so we know what it is and can safely cast
-      yield* call(handlePaymentRequested, message.data as unknown as PaymentRequest)
-      break
-
     case NotificationTypes.PAYMENT_RECEIVED:
       // message.data can be any object, but we control it so we know what it is and can safely cast
       handlePaymentReceived(message.data as unknown as TransferNotificationData)

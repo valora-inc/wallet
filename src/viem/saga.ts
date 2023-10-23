@@ -10,20 +10,15 @@ import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { isStablecoin } from 'src/tokens/utils'
+import { getTokenId, isStablecoin } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmedViem,
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import {
-  TokenTransactionTypeV2,
-  TransactionContext,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
@@ -33,7 +28,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { call, put } from 'typed-redux-saga'
 import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
-import { getTokenId } from 'src/tokens/utils'
 const TAG = 'viem/saga'
 
 /**
@@ -99,16 +93,19 @@ export function* sendPayment({
 
     yield* put(
       addStandbyTransaction({
+        __typename: 'TokenTransferV3',
+        type: TokenTransactionTypeV2.Sent,
         context,
         networkId: networkConfig.defaultNetworkId,
-        type: TokenTransactionTypeV2.Sent,
-        comment,
-        status: TransactionStatus.Pending,
-        value: amount.negated().toString(),
-        tokenAddress,
-        tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
-        timestamp: Math.floor(Date.now() / 1000),
+        amount: {
+          value: amount.negated().toString(),
+          tokenAddress,
+          tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
+        },
         address: recipientAddress,
+        metadata: {
+          comment,
+        },
       })
     )
 
@@ -305,7 +302,6 @@ export function* sendAndMonitorTransaction({
       throw new Error('transaction reverted')
     }
     ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
-    yield* put(transactionConfirmedViem(context.id))
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {

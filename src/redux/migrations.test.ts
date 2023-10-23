@@ -30,6 +30,7 @@ import {
   v146Schema,
   v148Schema,
   v14Schema,
+  v159Schema,
   v15Schema,
   v16Schema,
   v17Schema,
@@ -1295,5 +1296,65 @@ describe('Redux persist migrations', () => {
         activeScreen: 'Main',
       },
     })
+  })
+
+  it('works from 159 to 160', () => {
+    const preMigrationSchema = {
+      ...v159Schema,
+    }
+    preMigrationSchema.app.activeScreen = 'PaymentRequestConfirmation'
+    const migratedSchema = migrations[160](preMigrationSchema)
+
+    // paymentRequest dropped, activeScreen changed to Main from PaymentRequestConfirmation
+    expect('paymentRequest' in migratedSchema).toBe(false)
+    expect(migratedSchema.app.activeScreen).toEqual('Main')
+
+    // should otherwise be equal
+    expect(_.omit(migratedSchema, 'app.activeScreen')).toStrictEqual(
+      _.omit(preMigrationSchema, 'app.activeScreen', 'paymentRequest')
+    )
+  })
+
+  it('works from 160 to 161', () => {
+    const preMigrationSchema = {
+      ...v159Schema,
+    }
+    preMigrationSchema.transactions.standbyTransactions = [
+      {
+        context: { id: 'someId' },
+        networkId: 'celo-alfajores',
+        type: 'SENT',
+        status: TransactionStatus.Pending,
+        value: '123',
+        tokenId: 'someTokenId',
+        tokenAddress: '0xabc',
+        comment: 'some comment',
+        timestamp: 123456789,
+        address: '0x123',
+        hash: 'someHash',
+      },
+    ]
+    const migratedSchema = migrations[161](preMigrationSchema)
+
+    expect(migratedSchema.transactions.standbyTransactions).toEqual([
+      {
+        __typename: 'TokenTransferV3',
+        type: TokenTransactionTypeV2.Sent,
+        context: { id: 'someId' },
+        networkId: 'celo-alfajores',
+        amount: {
+          value: '123',
+          tokenId: 'someTokenId',
+          tokenAddress: '0xabc',
+        },
+        timestamp: 123456789,
+        address: '0x123',
+        transactionHash: 'someHash',
+        metadata: {
+          comment: 'some comment',
+        },
+        status: TransactionStatus.Pending,
+      },
+    ])
   })
 })

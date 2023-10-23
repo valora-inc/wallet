@@ -139,9 +139,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
                   "flexDirection": "row",
                   "justifyContent": "center",
                 },
-                {
-                  "alignItems": "flex-start",
-                },
+                undefined,
               ]
             }
           >

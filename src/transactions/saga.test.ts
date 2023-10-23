@@ -3,7 +3,12 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { transactionFeedUpdated, updateInviteTransactions } from 'src/transactions/actions'
 import { getInviteTransactionsDetails } from 'src/transactions/saga'
-import { NetworkId, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
@@ -27,6 +32,7 @@ const mockInviteTransaction: TokenTransaction = {
   timestamp: 1542306118,
   transactionHash,
   type: TokenTransactionTypeV2.InviteSent,
+  status: TransactionStatus.Complete,
 }
 const mockEscrowPastEvent: EventLog = {
   event: 'PastEvent',

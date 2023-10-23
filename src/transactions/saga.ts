@@ -15,7 +15,6 @@ import {
   TransactionFeedUpdatedAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmed,
   transactionFailed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
@@ -25,15 +24,9 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
-  standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import {
-  StandbyTransaction,
-  TokenTransactionTypeV2,
-  TransactionContext,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
@@ -42,21 +35,6 @@ import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-sag
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
-
-// Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: TransactionFeedUpdatedAction) {
-  const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
-  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
-  for (const standbyTx of standbyTxs) {
-    if (
-      standbyTx.hash &&
-      standbyTx.status !== TransactionStatus.Failed &&
-      newFeedTxHashes.has(standbyTx.hash)
-    ) {
-      yield* put(removeStandbyTransaction(standbyTx.context.id))
-    }
-  }
-}
 
 function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   const kit: ContractKit = yield* call(getContractKit)
@@ -150,7 +128,6 @@ export function* sendAndMonitorTransaction<T>(
       sendTxMethod,
       context
     )) as unknown as CeloTxReceipt
-    yield* put(transactionConfirmed(context.id, txReceipt))
 
     yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
@@ -212,7 +189,6 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.TRANSACTION_FEED_UPDATED, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.TRANSACTION_FEED_UPDATED, safely(getInviteTransactionsDetails))
   yield* takeLatest(Actions.TRANSACTION_FEED_UPDATED, safely(refreshRecentTxRecipients))
 }

@@ -34,8 +34,6 @@ import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/r
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
-import { NotificationTypes } from 'src/notifications/types'
-import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { Position, Shortcut } from 'src/positions/types'
 import { UriData } from 'src/qrcode/schema'
 import {
@@ -342,46 +340,6 @@ export const mockEscrowedPayment: EscrowedPayment = {
   timestamp: new BigNumber(10000),
   expirySeconds: new BigNumber(50000),
 }
-
-const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)').getTime()
-export const mockPaymentRequests: PaymentRequest[] = [
-  {
-    amount: '200000.00',
-    uid: 'FAKE_ID_1',
-    createdAt: date,
-    comment: 'Dinner for me and the gals, PIZZAA!',
-    requesteeAddress: mockAccount,
-    requesterAddress: mockAccount2,
-    requesterE164Number: mockE164Number,
-    status: PaymentRequestStatus.REQUESTED,
-    notified: true,
-    type: NotificationTypes.PAYMENT_REQUESTED,
-  },
-  {
-    createdAt: date + 1000,
-    amount: '180.89',
-    uid: 'FAKE_ID_2',
-    comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
-    requesteeAddress: mockAccount,
-    requesterAddress: mockAccount2,
-    requesterE164Number: mockE164Number,
-    status: PaymentRequestStatus.REQUESTED,
-    notified: true,
-    type: NotificationTypes.PAYMENT_REQUESTED,
-  },
-  {
-    createdAt: date + 2000,
-    amount: '1234.56',
-    uid: 'FAKE_ID_3',
-    comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
-    requesteeAddress: mockAccount,
-    requesterAddress: mockAccount2,
-    requesterE164Number: mockE164Number,
-    status: PaymentRequestStatus.REQUESTED,
-    notified: true,
-    type: NotificationTypes.PAYMENT_REQUESTED,
-  },
-]
 
 export const mockUriData: UriData[] = [
   {

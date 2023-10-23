@@ -35,9 +35,9 @@ import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import {
   useCashInTokens,
   useCashOutTokens,
-  useSendableTokens,
   useSwappableTokens,
   useTokenInfo,
+  useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsActionName } from 'src/tokens/types'
@@ -138,7 +138,7 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 
 function Actions({ token }: { token: TokenBalance }) {
   const { t } = useTranslation()
-  const sendableTokens = useSendableTokens()
+  const sendableTokens = useTokensForSend()
   const swappableTokens = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
@@ -243,6 +243,7 @@ function Actions({ token }: { token: TokenBalance }) {
           size={BtnSizes.FULL}
           touchableStyle={styles.actionTouchable}
           testID={`TokenDetails/Action/${action.name}`}
+          fontStyle={typeScale.labelMedium}
         />
       ))}
     </View>

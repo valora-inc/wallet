@@ -10,7 +10,6 @@ import NotificationCenter from 'src/home/NotificationCenter'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import { getFeatureGate } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
 import { multiplyByWei } from 'src/utils/formatting'
@@ -21,7 +20,6 @@ import {
   mockE164Number,
   mockE164NumberPepper,
   mockEscrowedPayment,
-  mockPaymentRequests,
 } from 'test/values'
 import { NetworkId } from 'src/transactions/types'
 
@@ -391,135 +389,6 @@ describe('NotificationCenter', () => {
         notificationId: NotificationType.celo_asset_education,
         notificationPositionInList: 0,
       })
-    })
-  })
-
-  describe('incoming payment requests', () => {
-    it('renders incoming payment request when it exists', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        paymentRequest: {
-          incomingPaymentRequests: [mockPaymentRequests[0]],
-        },
-      })
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-      expect(getElementText(titleElement)).toBe(
-        'incomingPaymentRequestNotificationTitle, {"name":"Jane Doe"}'
-      )
-      const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
-      expect(getElementText(amountElement)).toBe('₱266,000.00')
-      const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
-      expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
-    })
-
-    it('renders incoming payment requests in reverse chronological order', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        paymentRequest: {
-          incomingPaymentRequests: mockPaymentRequests,
-        },
-      })
-      const { getAllByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const items = getAllByTestId(/IncomingPaymentRequestNotification\/FAKE_ID_[1-3]\/Amount/)
-      expect(getElementText(items[0])).toBe('₱1,641.96')
-      expect(getElementText(items[1])).toBe('₱240.58')
-      expect(getElementText(items[2])).toBe('₱266,000.00')
-    })
-  })
-
-  describe('outgoing payment requests', () => {
-    it('renders outgoing payment request when it exists', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        paymentRequest: {
-          outgoingPaymentRequests: [mockPaymentRequests[0]],
-        },
-      })
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const titleElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title')
-      expect(getElementText(titleElement)).toBe(
-        'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
-      )
-      const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
-      expect(getElementText(amountElement)).toBe('₱266,000.00')
-      const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
-      expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
-    })
-
-    it('dispatches correct events when outgoing payment request buttons are pressed', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        paymentRequest: {
-          outgoingPaymentRequests: [mockPaymentRequests[0]],
-        },
-      })
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const remindButton = getByTestId(
-        'OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/remind/Button'
-      )
-      fireEvent.press(remindButton)
-      expect(store.getActions().at(-1)).toEqual(updatePaymentRequestNotified('FAKE_ID_1', false))
-
-      const cancelButton = getByTestId(
-        'OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/cancel/Button'
-      )
-      fireEvent.press(cancelButton)
-      expect(store.getActions().at(-1)).toEqual(cancelPaymentRequest('FAKE_ID_1'))
-    })
-
-    it('renders outgoing payment requests in reverse chronological order', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        paymentRequest: {
-          outgoingPaymentRequests: mockPaymentRequests,
-        },
-      })
-      const { getAllByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const items = getAllByTestId(/OutgoingPaymentRequestNotification\/FAKE_ID_[1-3]\/Amount/)
-      expect(getElementText(items[0])).toBe('₱1,641.96')
-      expect(getElementText(items[1])).toBe('₱240.58')
-      expect(getElementText(items[2])).toBe('₱266,000.00')
     })
   })
 
