@@ -12,14 +12,15 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
-import TransactionDetailsPill from 'src/transactions/feed/TransactionDetailsPill'
-import TransactionStatusInfo from 'src/transactions/feed/TransactionStatusInfo'
+import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAction'
+import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
   TokenExchange,
   TokenTransaction,
   TokenTransactionTypeV2,
   TokenTransfer,
+  TransactionStatus,
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
@@ -111,7 +112,7 @@ function TransactionDetailsScreen({ navigation: { navigate }, route }: Props) {
   }
 
   const transactionNetwork = networkConfig.networkIdToNetwork[transaction.networkId]
-  const onShowTransactionDetails = transactionNetwork
+  const openBlockExplorer = transactionNetwork
     ? () => {
         // TODO: add anaytics? e.g.:
         // ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
@@ -122,17 +123,18 @@ function TransactionDetailsScreen({ navigation: { navigate }, route }: Props) {
       }
     : undefined
 
+  const primaryActionHanlder =
+    transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorer
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.dateTime}>{dateTime}</Text>
       <View style={styles.status}>
-        <TransactionStatusInfo status={transaction.status} />
-        <TransactionDetailsPill
-          status={transaction.status}
-          onShowDetails={onShowTransactionDetails}
-          onRetry={retryHandler}
-        />
+        <TransactionStatusIndicator status={transaction.status} />
+        {primaryActionHanlder && (
+          <TransactionPrimaryAction status={transaction.status} onPress={primaryActionHanlder} />
+        )}
       </View>
       <View style={styles.content}>{content}</View>
     </ScrollView>

@@ -10,12 +10,11 @@ import { TransactionStatus } from 'src/transactions/types'
 
 interface Props {
   status: TransactionStatus
-  onShowDetails?: () => void
-  onRetry?: () => void
+  onPress?: () => void
   testID?: string
 }
 
-function TransactionDetailsPill({ status, onShowDetails, onRetry, testID }: Props) {
+function TransactionPrimaryAction({ status, onPress, testID }: Props) {
   const { t } = useTranslation()
 
   const titleByStatus: Record<TransactionStatus, string> = {
@@ -38,17 +37,6 @@ function TransactionDetailsPill({ status, onShowDetails, onRetry, testID }: Prop
     [TransactionStatus.Failed]: null,
   }
   const icon = iconByStatus[status]
-
-  const pressHandlerByStatus: Record<TransactionStatus, (() => void) | undefined> = {
-    [TransactionStatus.Complete]: onShowDetails,
-    [TransactionStatus.Pending]: onShowDetails,
-    [TransactionStatus.Failed]: onRetry,
-  }
-  const onPress = pressHandlerByStatus[status]
-
-  if (!onPress) {
-    return null
-  }
 
   return (
     <Touchable style={[styles.container, { backgroundColor }]} onPress={onPress} testID={testID}>
@@ -74,4 +62,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TransactionDetailsPill
+export default TransactionPrimaryAction

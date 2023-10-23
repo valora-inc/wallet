@@ -7,6 +7,7 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import {
   Fee,
   FeeType,
+  NetworkId,
   TokenAmount,
   TokenExchange,
   TokenExchangeMetadata,
@@ -14,14 +15,13 @@ import {
   TokenTransactionTypeV2,
   TokenTransfer,
   TokenTransferMetadata,
-  NetworkId,
   TransactionStatus,
 } from 'src/transactions/types'
 import {
+  RecursivePartial,
   createMockStore,
   getElementText,
   getMockStackScreenProps,
-  RecursivePartial,
 } from 'test/utils'
 import {
   mockAccount,
@@ -37,6 +37,10 @@ import {
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
+
+const mockedHandlers = {
+  retryHandler: jest.fn(),
+}
 
 describe('TransactionDetailsScreen', () => {
   beforeEach(() => {
@@ -87,12 +91,14 @@ describe('TransactionDetailsScreen', () => {
     },
     metadata = {},
     fees = [],
+    status = TransactionStatus.Complete,
   }: {
     type: TokenTransactionTypeV2
     address?: string
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]
+    status?: TransactionStatus
   }): TokenTransfer {
     return {
       __typename: 'TokenTransferV3',
@@ -105,7 +111,7 @@ describe('TransactionDetailsScreen', () => {
       amount,
       metadata,
       fees,
-      status: TransactionStatus.Complete,
+      status,
     }
   }
 
@@ -121,12 +127,23 @@ describe('TransactionDetailsScreen', () => {
       tokenId: mockCusdTokenId,
     },
     metadata = {},
-    fees = [],
+    fees = [
+      {
+        type: FeeType.SecurityFee,
+        amount: {
+          value: 0.1,
+          tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+        },
+      },
+    ],
+    status = TransactionStatus.Complete,
   }: {
     inAmount?: TokenAmount
     outAmount?: TokenAmount
     metadata?: TokenExchangeMetadata
     fees?: Fee[]
+    status?: TransactionStatus
   }): TokenExchange {
     return {
       __typename: 'TokenExchangeV3',
@@ -139,7 +156,7 @@ describe('TransactionDetailsScreen', () => {
       outAmount,
       metadata,
       fees,
-      status: TransactionStatus.Complete,
+      status,
     }
   }
 
@@ -219,18 +236,7 @@ describe('TransactionDetailsScreen', () => {
 
   it('renders correctly for cUSD to cEUR swap', async () => {
     const { getByTestId } = renderScreen({
-      transaction: swapTransaction({
-        fees: [
-          {
-            type: FeeType.SecurityFee,
-            amount: {
-              value: 0.1,
-              tokenAddress: mockCusdAddress,
-              tokenId: mockCusdTokenId,
-            },
-          },
-        ],
-      }),
+      transaction: swapTransaction({}),
       storeOverrides: {},
     })
 
@@ -246,5 +252,41 @@ describe('TransactionDetailsScreen', () => {
     // Includes the fee
     const estimatedFee = getByTestId('SwapContent/estimatedFee')
     expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
+  })
+
+  it('renders retry button for failed sent transacton', () => {
+    const { queryByText } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(queryByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+  })
+
+  it('renders retry button for failed swap transacton', () => {
+    const { queryByText } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(queryByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+  })
+
+  it.each([
+    TokenTransactionTypeV2.InviteSent,
+    TokenTransactionTypeV2.Received,
+    TokenTransactionTypeV2.InviteReceived,
+  ])('does not render retry button for %p transaction', (type) => {
+    const { queryByText } = renderScreen({
+      transaction: tokenTransfer({
+        type,
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(queryByText('transactionDetailsActions.retryFailedTransaction')).toBeFalsy()
   })
 })

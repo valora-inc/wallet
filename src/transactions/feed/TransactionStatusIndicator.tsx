@@ -15,7 +15,7 @@ interface Props {
   testID?: string
 }
 
-function TransactionStatusInfo({ status, testID }: Props) {
+function TransactionStatusIndicator({ status, testID }: Props) {
   const { t } = useTranslation()
 
   const titleByStatus: Record<TransactionStatus, string> = {
@@ -40,7 +40,7 @@ function TransactionStatusInfo({ status, testID }: Props) {
   const icon = iconByStatus[status]
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <CircledIcon backgroundColor={backgroundColor} radius={20}>
         {icon}
       </CircledIcon>
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TransactionStatusInfo
+export default TransactionStatusIndicator
