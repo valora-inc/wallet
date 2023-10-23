@@ -20,7 +20,6 @@ describe('TokenTotalLineItem', () => {
     amount = defaultAmount,
     tokenId = defaultTokenId,
     localAmount,
-    localCurrencyCode = LocalCurrencyCode.BRL,
     usdToLocalRate = '1.5',
     feeToAddInUsd = undefined,
     feeToAddInToken = undefined,
@@ -31,7 +30,6 @@ describe('TokenTotalLineItem', () => {
     amount?: BigNumber
     tokenId?: string
     localAmount?: LocalAmount
-    localCurrencyCode?: LocalCurrencyCode
     usdToLocalRate?: string
     feeToAddInUsd?: BigNumber
     feeToAddInToken?: BigNumber
@@ -80,6 +78,7 @@ describe('TokenTotalLineItem', () => {
           hideSign={hideSign}
           showLocalAmount={showLocalAmount}
           newSendScreen={newSendScreen}
+          showApprox={newSendScreen}
         />
       </Provider>
     )

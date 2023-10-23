@@ -211,6 +211,7 @@ function SendConfirmation(props: Props) {
           showLocalAmount={!newSendScreen}
           hideSign={newSendScreen ? false : undefined}
           newSendScreen={newSendScreen}
+          showApprox={newSendScreen}
         />
       </View>
     )

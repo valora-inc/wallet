@@ -20,6 +20,7 @@ interface Props {
   title?: string | null
   showLocalAmount?: boolean
   newSendScreen?: boolean
+  showApprox?: boolean
 }
 
 export default function TokenTotalLineItem({
@@ -31,6 +32,7 @@ export default function TokenTotalLineItem({
   hideSign,
   title,
   showLocalAmount = true,
+  showApprox = false,
   newSendScreen = false,
 }: Props) {
   const { t } = useTranslation()
@@ -51,7 +53,7 @@ export default function TokenTotalLineItem({
             localAmount={localAmount}
             showLocalAmount={showLocalAmount}
             hideSign={hideSign}
-            showApprox={newSendScreen}
+            showApprox={showApprox}
             testID="TotalLineItem/Total"
           />
         }
