@@ -257,6 +257,9 @@ describe('TransactionDetailsScreen', () => {
     // Includes the fee
     const estimatedFee = getByTestId('SwapContent/estimatedFee')
     expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
+
+    const estimatedFeeInLocalCurrency = getByTestId('SwapContent/estimatedFeeLocalAmount')
+    expect(getElementText(estimatedFeeInLocalCurrency)).toEqual('₱0.13')
   })
 
   it.each([

@@ -8,7 +8,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
-import { TokenExchange } from 'src/transactions/types'
+import { TokenExchange, TransactionStatus } from 'src/transactions/types'
 export interface Props {
   exchange: TokenExchange
 }
@@ -30,7 +30,7 @@ export default function SwapContent({ exchange }: Props) {
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapTo')}</Text>
         <TokenDisplay
-          style={styles.currencyAmountText}
+          style={styles.currencyAmountPrimaryText}
           amount={exchange.inAmount.value}
           tokenId={exchange.inAmount.tokenId}
           showLocalAmount={false}
@@ -42,7 +42,7 @@ export default function SwapContent({ exchange }: Props) {
       <View style={[styles.row]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapFrom')}</Text>
         <TokenDisplay
-          style={styles.currencyAmountText}
+          style={styles.currencyAmountPrimaryText}
           amount={exchange.outAmount.value}
           tokenId={exchange.outAmount.tokenId}
           showLocalAmount={false}
@@ -54,22 +54,37 @@ export default function SwapContent({ exchange }: Props) {
       <Separator />
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.rate')}</Text>
-        <Text testID="SwapContent/rate" style={styles.currencyAmountText}>
+        <Text testID="SwapContent/rate" style={styles.currencyAmountPrimaryText}>
           {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
             new BigNumber(exchange.inAmount.value).dividedBy(exchange.outAmount.value)
           )} ${toTokenSymbol}`}
         </Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.bodyText}>{t('swapTransactionDetailPage.estimatedFee')}</Text>
+        <Text style={styles.bodyText}>
+          {exchange.status === TransactionStatus.Pending
+            ? t('swapTransactionDetailPage.estimatedFee')
+            : t('swapTransactionDetailPage.networkFee')}
+        </Text>
         <TokenDisplay
-          style={styles.currencyAmountText}
+          style={styles.currencyAmountPrimaryText}
           amount={exchange.fees[0].amount.value}
           tokenId={exchange.fees[0].amount.tokenId}
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
           testID="SwapContent/estimatedFee"
+        />
+      </View>
+      <View style={styles.row}>
+        <TokenDisplay
+          style={styles.currencyAmountSecondaryText}
+          amount={exchange.fees[0].amount.value}
+          tokenId={exchange.fees[0].amount.tokenId}
+          showLocalAmount={true}
+          showSymbol={true}
+          hideSign={true}
+          testID="SwapContent/estimatedFeeLocalAmount"
         />
       </View>
     </View>
@@ -90,10 +105,15 @@ const styles = StyleSheet.create({
     color: Colors.dark,
     width: '40%',
   },
-  currencyAmountText: {
+  currencyAmountPrimaryText: {
     ...typeScale.bodyMedium,
     color: Colors.dark,
     width: '60%',
     textAlign: 'right',
+  },
+  currencyAmountSecondaryText: {
+    ...typeScale.bodySmall,
+    color: Colors.gray4,
+    marginLeft: 'auto',
   },
 })

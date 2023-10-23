@@ -1684,7 +1684,8 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
-    "estimatedFee": "Estimated Fee"
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "Network Fee"
   },
   "swapReviewScreen": {
     "title": "Review Swap",
