@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Separator from 'src/components/Separator'
+import HorizontalLine from 'src/components/HorizontalLine'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import ArrowRight from 'src/icons/ArrowRight'
@@ -149,7 +149,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       <View style={styles.content}>{content}</View>
       {openBlockExplorerHandler && (
         <>
-          <Separator />
+          <HorizontalLine />
           <Touchable
             style={styles.rowContainer}
             borderless={true}

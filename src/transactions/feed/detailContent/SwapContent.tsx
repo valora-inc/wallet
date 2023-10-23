@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import Separator from 'src/components/Separator'
+import HorizontalLine from 'src/components/HorizontalLine'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -51,7 +51,7 @@ export default function SwapContent({ exchange }: Props) {
           testID="SwapContent/swapFrom"
         />
       </View>
-      <Separator />
+      <HorizontalLine />
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.rate')}</Text>
         <Text testID="SwapContent/rate" style={styles.currencyAmountPrimaryText}>
