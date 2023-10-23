@@ -1,17 +1,18 @@
 import BigNumber from 'bignumber.js'
+import { stringify } from 'query-string'
 import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount } from 'src/swap/types'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 interface ExchangeRate {
-  toTokenAddress: string
-  fromTokenAddress: string
+  toTokenId: string
+  fromTokenId: string
   swapAmount: BigNumber
   price: string
   provider: string
@@ -30,8 +31,8 @@ const useSwapQuote = () => {
 
   const refreshQuote = useAsyncCallback(
     async (
-      fromToken: TokenBalanceWithAddress,
-      toToken: TokenBalanceWithAddress,
+      fromToken: TokenBalance,
+      toToken: TokenBalance,
       swapAmount: ParsedSwapAmount,
       updatedField: Field
     ) => {
@@ -48,12 +49,17 @@ const useSwapQuote = () => {
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
         buyToken: toToken.address,
+        buyIsNative: toToken.isNative ?? false,
+        buyNetworkId: toToken.networkId,
         sellToken: fromToken.address,
+        sellIsNative: fromToken.isNative ?? false,
+        sellNetworkId: fromToken.networkId,
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
       }
-      const queryParams = new URLSearchParams({ ...params }).toString()
-      const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
+
+      const queryParams = stringify({ ...params }, { skipNull: true })
+      const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`
       if (requestUrl === requestUrlRef.current) {
         // return the current exchange rate if the request url hasn't changed
         return exchangeRate
@@ -72,8 +78,8 @@ const useSwapQuote = () => {
         : quote.unvalidatedSwapTransaction.price
       const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
       const updatedExchangeRate: ExchangeRate = {
-        toTokenAddress: toToken.address,
-        fromTokenAddress: fromToken.address,
+        toTokenId: toToken.tokenId,
+        fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price:
           updatedField === Field.FROM

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import deviceInfoModule from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import {
@@ -19,7 +20,6 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
-import _ from 'lodash'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -210,10 +210,7 @@ export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2:
   }
 }
 
-/**
- * @deprecated
- */
-export const swappableTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
+export const swappableTokensSelector = createSelector(tokensListSelector, (tokens) => {
   const appVersion = deviceInfoModule.getVersion()
 
   return tokens

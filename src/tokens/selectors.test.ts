@@ -329,7 +329,7 @@ describe(totalTokenBalanceSelector, () => {
 
   describe(swappableTokensSelector, () => {
     it('should return the tokens that are swappable', () => {
-      expect(swappableTokensSelector(state)).toMatchInlineSnapshot(`
+      expect(swappableTokensSelector(state, [NetworkId['celo-mainnet']])).toMatchInlineSnapshot(`
         [
           {
             "address": "0xeur",

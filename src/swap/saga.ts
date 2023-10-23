@@ -88,7 +88,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
   const { quoteReceivedAt } = action.payload
 
-  const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
+  const tokenBalances = yield* select(swappableTokensSelector)
 
   const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
   const fromTokenBalance = fromToken

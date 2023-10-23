@@ -3,6 +3,7 @@ import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   Chain as ViemChain,
   celo,
@@ -10,7 +11,6 @@ import {
   mainnet as ethereum,
   sepolia as ethereumSepolia,
 } from 'viem/chains'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export enum Testnets {
   alfajores = 'alfajores',
@@ -41,7 +41,7 @@ interface NetworkConfig {
   celoExplorerBaseTokenUrl: string
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
-  approveSwapUrl: string
+  getSwapQuoteUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
   verifyPhoneNumberUrl: string
@@ -174,7 +174,7 @@ const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
-const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
+const GET_SWAP_QUOTE_URL = `${CLOUD_FUNCTIONS_MAINNET}/getSwapQuote`
 
 const HOOKS_API_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api`
 const HOOKS_API_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api`
@@ -232,7 +232,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
-    approveSwapUrl: APPROVE_SWAP_URL,
+    getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
@@ -298,7 +298,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
-    approveSwapUrl: APPROVE_SWAP_URL,
+    getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
