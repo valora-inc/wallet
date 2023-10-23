@@ -225,7 +225,7 @@ export function SwapScreen({ route }: Props) {
 
       const resultType = exchangeRate.preparedTransactions.type
       switch (resultType) {
-        case 'need-decrease-swap-amount-for-gas': // fallthrough on purpose
+        case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
           preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
           break
@@ -481,8 +481,8 @@ export function SwapScreen({ route }: Props) {
         <PreparedTransactionsReviewBottomSheet
           forwardedRef={preparedTransactionsReviewBottomSheetRef}
           preparedTransactions={exchangeRate.preparedTransactions}
-          onAcceptDecreaseSwapAmountForGas={({ decreasedSwapAmount }) => {
-            handleChangeAmount(updatedField)(decreasedSwapAmount.toString())
+          onAcceptDecreaseSwapAmountForGas={({ decreasedSpendAmount }) => {
+            handleChangeAmount(updatedField)(decreasedSpendAmount.toString())
             preparedTransactionsReviewBottomSheetRef.current?.close()
           }}
         />

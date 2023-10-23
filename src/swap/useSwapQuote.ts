@@ -14,7 +14,7 @@ import { publicClient } from 'src/viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, EstimateGasExecutionError, Hex, encodeFunctionData } from 'viem'
+import { Address, encodeFunctionData, EstimateGasExecutionError, Hex } from 'viem'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas costs of different swap providers (or even the same swap)
@@ -30,17 +30,23 @@ export interface QuoteResult {
   preparedTransactions?: PreparedTransactionsResult
 }
 
-interface PreparedTransactionsPossible {
+type PreparedTransactionsPossible = {
   type: 'possible'
-  approveTransaction: TransactionRequestCIP42 & { amountToApprove: bigint }
-  swapTransaction: TransactionRequestCIP42
-}
+} & (
+  | {
+      approveTransaction: TransactionRequestCIP42 & { amountToApprove: bigint }
+      swapTransaction: TransactionRequestCIP42
+    }
+  | {
+      sendTransaction: TransactionRequestCIP42
+    }
+) // todo improve on this. should probly split into two types... or make the return type conditional on the inputs
 
-export interface PreparedTransactionsNeedDecreaseSwapAmountForGas {
-  type: 'need-decrease-swap-amount-for-gas'
+export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
+  type: 'need-decrease-spend-amount-for-gas'
   maxGasCost: BigNumber
   feeCurrency: TokenBalance
-  decreasedSwapAmount: BigNumber
+  decreasedSpendAmount: BigNumber
 }
 
 export interface PreparedTransactionsNotEnoughBalanceForGas {
@@ -50,7 +56,7 @@ export interface PreparedTransactionsNotEnoughBalanceForGas {
 
 export type PreparedTransactionsResult =
   | PreparedTransactionsPossible
-  | PreparedTransactionsNeedDecreaseSwapAmountForGas
+  | PreparedTransactionsNeedDecreaseSpendAmountForGas
   | PreparedTransactionsNotEnoughBalanceForGas
 
 function createBaseApproveTransaction(
@@ -222,11 +228,119 @@ async function prepareTransactions(
   const maxToAmount = maxFromAmount.times(price)
 
   return {
-    type: 'need-decrease-swap-amount-for-gas',
+    type: 'need-decrease-spend-amount-for-gas',
     maxGasCost: adjustedMaxGasCost,
     feeCurrency: result.feeCurrency,
-    decreasedSwapAmount: updatedField === Field.FROM ? maxFromAmount : maxToAmount,
-  } satisfies PreparedTransactionsNeedDecreaseSwapAmountForGas
+    decreasedSpendAmount: updatedField === Field.FROM ? maxFromAmount : maxToAmount,
+  } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
+}
+
+/**
+ * Prepare a transaction for sending an ERC-20 token.
+ *
+ * Works for ERC-20 and native transfers.
+ *
+ * NOTE: does not include fees for registering a DEK before sending a c-stable, since that is a different transaction.
+ *
+ */
+export async function prepareSendERC20Transaction(
+  fromWalletAddress: string,
+  toWalletAddress: string,
+  sendToken: TokenBalanceWithAddress,
+  amountWei: bigint,
+  feeCurrencies: TokenBalance[]
+): Promise<PreparedTransactionsResult> {
+  const baseSendTx: TransactionRequestCIP42 = {
+    from: fromWalletAddress as Address,
+    to: sendToken.address as Address,
+    data: encodeFunctionData({
+      abi: erc20.abi,
+      functionName: 'transfer',
+      args: [toWalletAddress as Address, amountWei],
+    }),
+    type: 'cip42',
+  }
+  const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
+  for (const feeCurrency of feeCurrencies) {
+    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
+      // No balance, try next fee currency
+      continue
+    }
+    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
+    const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
+      publicClient.celo,
+      feeCurrencyAddress
+    )
+    const sendTx = {
+      ...baseSendTx,
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+      feeCurrency: feeCurrencyAddress,
+    }
+    try {
+      const sendGas = await publicClient.celo.estimateGas({
+        ...sendTx,
+        account: sendTx.from,
+      })
+      sendTx.gas = sendGas
+    } catch (e) {
+      if (e instanceof EstimateGasExecutionError) {
+        Logger.warn(
+          'TODO TAG',
+          `Could'nt estimate gas for send with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
+          e
+        )
+        continue
+      }
+      throw e
+    }
+    const maxGasCost = getMaxGasCost([sendTx])
+    const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
+      -feeCurrency.decimals
+    )
+    maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
+    if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
+      // Not enough balance to pay for gas, try next fee currency
+      continue
+    }
+    const fromAmount = new BigNumber(amountWei.toString()).shiftedBy(-feeCurrency.decimals)
+    if (
+      sendToken.tokenId === feeCurrency.tokenId &&
+      fromAmount.plus(maxGasCostInDecimal).isGreaterThan(sendToken.balance)
+    ) {
+      // Not enough balance to pay for gas, try next fee currency
+      continue
+    }
+
+    // This is the one we can use
+    return {
+      type: 'possible',
+      sendTransaction: sendTx,
+    } satisfies PreparedTransactionsPossible
+  }
+
+  // So far not enough balance to pay for gas
+  // let's see if we can decrease the send amount
+  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === sendToken.tokenId)
+  if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
+    // Can't decrease the send amount
+    return {
+      type: 'not-enough-balance-for-gas',
+      feeCurrencies,
+    } satisfies PreparedTransactionsNotEnoughBalanceForGas
+  }
+
+  // We can decrease the send amount to pay for gas,
+  // We'll ask the user if they want to proceed
+  const adjustedMaxGasCost = result.maxGasCostInDecimal
+  const maxAmount = sendToken.balance.minus(adjustedMaxGasCost)
+
+  return {
+    type: 'need-decrease-spend-amount-for-gas',
+    maxGasCost: adjustedMaxGasCost,
+    feeCurrency: result.feeCurrency,
+    decreasedSpendAmount: maxAmount,
+  } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
 }
 
 const useSwapQuote = () => {

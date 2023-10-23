@@ -2,14 +2,11 @@ import BigNumber from 'bignumber.js'
 import { FeeType } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalance } from 'src/tokens/slice'
-import { divideByWei } from 'src/utils/formatting'
 
-export function getFeeInTokens(feeInWei: BigNumber.Value | null | undefined) {
-  return feeInWei ? divideByWei(feeInWei) : undefined
-}
-
+/** @deprecated */ // todo add explanation of what to use instead
 export const feeEstimatesSelector = (state: RootState) => state.fees.estimates
 
+/** @deprecated */ // todo add explanation of what to use instead
 export function getFeeEstimateDollars(
   feeType: FeeType | null,
   tokenInfo: TokenBalance | undefined

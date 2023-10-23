@@ -8,7 +8,7 @@ import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import {
-  PreparedTransactionsNeedDecreaseSwapAmountForGas,
+  PreparedTransactionsNeedDecreaseSpendAmountForGas,
   PreparedTransactionsNotEnoughBalanceForGas,
   PreparedTransactionsResult,
 } from 'src/swap/useSwapQuote'
@@ -21,12 +21,12 @@ export default function PreparedTransactionsReviewBottomSheet({
   forwardedRef: React.RefObject<BottomSheetRefType>
   preparedTransactions: PreparedTransactionsResult
   onAcceptDecreaseSwapAmountForGas: (
-    quote: PreparedTransactionsNeedDecreaseSwapAmountForGas
+    quote: PreparedTransactionsNeedDecreaseSpendAmountForGas
   ) => void
 }) {
   const resultType = preparedTransactions.type
   switch (resultType) {
-    case 'need-decrease-swap-amount-for-gas':
+    case 'need-decrease-spend-amount-for-gas':
       return (
         <PreparedTransactionsNeedDecreaseSwapAmountForGasBottomSheet
           forwardedRef={forwardedRef}
@@ -56,9 +56,9 @@ function PreparedTransactionsNeedDecreaseSwapAmountForGasBottomSheet({
   onAcceptDecreaseSwapAmountForGas,
 }: {
   forwardedRef: React.RefObject<BottomSheetRefType>
-  preparedTransactions: PreparedTransactionsNeedDecreaseSwapAmountForGas
+  preparedTransactions: PreparedTransactionsNeedDecreaseSpendAmountForGas
   onAcceptDecreaseSwapAmountForGas: (
-    quote: PreparedTransactionsNeedDecreaseSwapAmountForGas
+    quote: PreparedTransactionsNeedDecreaseSpendAmountForGas
   ) => void
 }) {
   const { t } = useTranslation()
