@@ -49,14 +49,6 @@ const initialUserInput = {
   updatedField: Field.TO,
 }
 
-// Workaround for buying Celo - Mainnet only
-const toCeloWorkaround = (tokenAddress: string) => {
-  // Check if the token is CELO
-  return tokenAddress.toLowerCase() === '0x471ece3750da237f93b8e339c536989b8978a438'
-    ? '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-    : tokenAddress
-}
-
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapReviewScreen>
 
 export function SwapReviewScreen({ route }: Props) {
@@ -157,7 +149,7 @@ export function SwapReviewScreen({ route }: Props) {
     async () => {
       if (!shouldFetch) return
       const params = {
-        buyToken: toCeloWorkaround(toToken),
+        buyToken: toToken,
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
         // Enable when supported by 0xAPI & valora-rest-api
