@@ -1,9 +1,17 @@
 import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
-import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import {
+  ActivityIndicator,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import fontStyles from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
@@ -42,7 +50,7 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
-  fontStyle?: typeof typeScale
+  fontStyle?: TextStyle
 }
 
 export default React.memo(function Button(props: ButtonProps) {
