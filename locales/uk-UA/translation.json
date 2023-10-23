@@ -1680,7 +1680,17 @@
       "title": "Перед свопом",
       "body": "Неможливо оцінити вартість цього свопа. Якщо вирішите продовжити, із застосунку {{appName}} знімається відповідальність."
     },
-    "estimatedExchangeRate": "Орієнтовний курс ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Орієнтовний курс ≈ <0>0.00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Недостатній баланс {{tokenSymbol}}",
+      "description": "У вас недостатньо {{tokenSymbol}} для оплати за газ. Хочете обміняти меншу суму?",
+      "confirmDecreaseButton": "Обміняйте меншу суму"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Недостатній баланс газових токенів",
+      "description": "У вас недостатньо {{feeCurrencies}} для оплати за газ. Будь ласка, додайте {{feeCurrencies}} до свого гаманця, щоб завершити обмін.",
+      "dismissButton": "Відхилити"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обміняти з",
