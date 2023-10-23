@@ -19,7 +19,7 @@ export enum Colors {
   gray5 = '#505050',
   gray4 = '#666666',
   gray3 = '#757575',
-  gray2 = '#E6E6E6',
+  gray2 = '#EDEEEF',
   gray1 = '#F8F9F9',
   light = '#FFFFFF',
   purple = '#D39CFE',
