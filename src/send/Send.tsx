@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
@@ -34,6 +34,8 @@ import { SendSearchInput } from 'src/send/SendSearchInput'
 import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { useTokensForSend } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
@@ -132,6 +134,14 @@ function Send({ route }: Props) {
         isFromScan: false,
         defaultTokenIdOverride,
         forceTokenId,
+        recipient,
+        origin: SendOrigin.AppSendFlow,
+      })
+    } else if (getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
+      // TODO: (ACT: 945) New Send without bottom sheet
+      // Currently navigates to old send flow without bottom sheet
+      navigate(Screens.SendAmount, {
+        isFromScan: false,
         recipient,
         origin: SendOrigin.AppSendFlow,
       })
