@@ -1849,6 +1849,13 @@
       "add": "Depositar",
       "withdraw": "Retirar",
       "more": "Más"
+    },
+    "moreActions": "Más acciones",
+    "actionDescriptions": {
+      "send": "Utiliza cualquier dirección de Celo, dominio, número de teléfono, etc.",
+      "swap": "Intercambia tus fichas sin salir de tu cartera",
+      "add": "Compra fichas utilizando uno de nuestros proveedores de confianza",
+      "withdraw": "Transfiere fichas a una cuenta bancaria, dinero móvil, tarjeta regalo, etc."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
