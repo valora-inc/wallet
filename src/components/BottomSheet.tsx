@@ -1,7 +1,7 @@
 import GorhomBottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import React, { useCallback, useRef } from 'react'
-import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Colors from 'src/styles/colors'
@@ -11,6 +11,7 @@ import { Spacing } from 'src/styles/styles'
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   title: string
+  titleStyle?: TextStyle
   description?: string | null
   children?: React.ReactNode | React.ReactNode[]
   onClose?: () => void
@@ -29,6 +30,7 @@ export type BottomSheetRefType = GorhomBottomSheet
 const BottomSheet = ({
   forwardedRef,
   title,
+  titleStyle = fontStyles.h2,
   description,
   children,
   onClose,
@@ -82,7 +84,7 @@ const BottomSheet = ({
     >
       {hasStickyHeader && (
         <View style={[styles.stickyHeaderContainer, styles.headerContentSpacing]}>
-          {stickyTitle && <Text style={styles.title}>{title}</Text>}
+          {stickyTitle && <Text style={titleStyle}>{title}</Text>}
           {stickyHeaderComponent}
         </View>
       )}
@@ -91,7 +93,7 @@ const BottomSheet = ({
         containerStyle={hasStickyHeader ? { paddingTop: 0 } : undefined}
         testId={testId}
       >
-        {!stickyTitle && <Text style={[styles.title, styles.headerContentSpacing]}>{title}</Text>}
+        {!stickyTitle && <Text style={[titleStyle, styles.headerContentSpacing]}>{title}</Text>}
         {description && <Text style={styles.description}>{description}</Text>}
         {children}
       </BottomSheetScrollView>
@@ -109,9 +111,6 @@ const styles = StyleSheet.create({
   },
   stickyHeaderContainer: {
     padding: Spacing.Thick24,
-  },
-  title: {
-    ...fontStyles.h2,
   },
   description: {
     ...fontStyles.small,
