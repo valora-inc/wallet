@@ -1656,7 +1656,7 @@
   },
   "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
   "swapScreen": {
-    "title": "Swap Tokens",
+    "title": "Swap",
     "review": "Review",
     "swapFrom": "FROM",
     "swapTo": "TO",
@@ -1842,15 +1842,5 @@
       "withdraw": "Withdraw",
       "more": "More"
     }
-  },
-  "transactionStatus": {
-    "transactionIsCompleted": "Completed",
-    "transactionIsPending": "Pending",
-    "transactionIsFailed": "Failed"
-  },
-  "transactionDetailsActions": {
-    "showCompletedTransactionDetails": "Details",
-    "checkPendingTransactionStatus": "Check Status",
-    "retryFailedTransaction": "Retry"
   }
 }
