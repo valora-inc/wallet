@@ -158,17 +158,18 @@ function SendConfirmation(props: Props) {
     }
   }, [isDekRegistered])
 
-  const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
+  const securityFeeInUsd = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
-  const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
-  const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
+  const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
+  const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
   const feeTokenId =
     feeEstimate?.feeInfo?.feeTokenId ?? networkConfig.currencyToTokenId[Currency.Celo]
   const feeTokenInfoFromEstimate = useTokenInfo(feeTokenId)
   const feeTokenInfo = newSendScreen ? feeTokenInfoFromEstimate : tokenInfo
-  const securityFeeInToken = securityFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const totalFeeInFeeToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const totalFeeInSendToken = totalFeeInUsd?.dividedBy(tokenInfo?.priceUsd ?? 0)
 
   const FeeContainer = () => {
     return (
@@ -182,7 +183,7 @@ function SendConfirmation(props: Props) {
             dekFee={dekFeeInToken}
             feeLoading={feeEstimate?.loading || storedDekFee?.loading}
             feeHasError={feeEstimate?.error || storedDekFee?.error}
-            totalFee={totalFeeInToken}
+            totalFee={totalFeeInFeeToken}
             showLocalAmount={false}
             tokenId={feeTokenId}
           />
@@ -192,9 +193,9 @@ function SendConfirmation(props: Props) {
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
             currency={Currency.Dollar}
-            securityFee={securityFee}
+            securityFee={securityFeeInUsd}
             showDekfee={!isDekRegistered}
-            dekFee={dekFee}
+            dekFee={dekFeeInUsd}
             feeLoading={feeEstimate?.loading || storedDekFee?.loading}
             feeHasError={feeEstimate?.error || storedDekFee?.error}
             totalFee={totalFeeInUsd}
@@ -205,9 +206,7 @@ function SendConfirmation(props: Props) {
           tokenAmount={tokenAmount}
           tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
-          feeToAddInToken={
-            tokenInfo?.tokenId === feeTokenInfo?.tokenId ? totalFeeInToken : new BigNumber(0)
-          }
+          feeToAddInToken={totalFeeInSendToken}
           showLocalAmount={!newSendScreen}
           hideSign={newSendScreen ? false : undefined}
           newSendScreen={newSendScreen}

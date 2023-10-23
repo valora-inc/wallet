@@ -214,7 +214,7 @@ describe('SendConfirmation', () => {
     expect(getElementText(feeComponent)).toEqual('0.004 CELO')
 
     const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('~1.00 cUSD')
+    expect(getElementText(totalComponent)).toEqual('~1.02 cUSD')
   })
 
   // TODO: Need to make for old and new
