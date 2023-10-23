@@ -1849,6 +1849,13 @@
       "add": "Hinzufügen",
       "withdraw": "Abheben",
       "more": "Mehr"
+    },
+    "moreActions": "Mehr Aktionen",
+    "actionDescriptions": {
+      "send": "Verwende eine beliebige Celo Adresse, Domain, Telefonnummer, etc.",
+      "swap": "Tausche deine Token, ohne dein Portemonnaie zu verlassen",
+      "add": "Kaufe Token über einen unserer vertrauenswürdigen Anbieter",
+      "withdraw": "Überweise Token auf ein Bankkonto, mobiles Geld, eine Geschenkkarte usw."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
