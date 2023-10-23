@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { fetchFeeCurrencyAndTokenId } from 'src/fees/saga'
@@ -10,8 +10,9 @@ import {
   celoAddressSelector,
   tokensByCurrencySelector,
   tokensByUsdBalanceSelector,
+  tokensListSelector,
 } from 'src/tokens/selectors'
-import { Fee, FeeType as TransactionFeeType } from 'src/transactions/types'
+import { Fee, NetworkId, FeeType as TransactionFeeType } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
@@ -103,4 +104,41 @@ export function useMaxSendAmountByAddress(
 ) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
   return useMaxSendAmount(tokenInfo?.tokenId, feeType, shouldRefresh)
+}
+
+/**
+ * Returns the list of currencies that can be used to pay fees
+ * Sorted by native currency first, then by USD balance, and balance otherwise
+ */
+export function useFeeCurrencies(networkId: NetworkId) {
+  const networkTokens = useSelector((state) => tokensListSelector(state, [networkId]))
+
+  const result = useMemo(
+    () =>
+      networkTokens
+        .filter((token) => token.isCoreToken || token.isNative)
+        .sort((a, b) => {
+          if (a.isNative && !b.isNative) {
+            return -1
+          }
+          if (b.isNative && !a.isNative) {
+            return 1
+          }
+          if (a.priceUsd && b.priceUsd) {
+            const aBalanceUsd = a.balance.multipliedBy(a.priceUsd)
+            const bBalanceUsd = b.balance.multipliedBy(b.priceUsd)
+            return bBalanceUsd.comparedTo(aBalanceUsd)
+          }
+          if (a.priceUsd) {
+            return -1
+          }
+          if (b.priceUsd) {
+            return 1
+          }
+          return b.balance.comparedTo(a.balance)
+        }),
+    [networkTokens]
+  )
+
+  return result
 }

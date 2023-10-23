@@ -34,6 +34,7 @@ export enum StatsigFeatureGates {
   MULTI_CHAIN_SEND = 'multi_chain_send',
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
+  USE_VIEM_FOR_SWAP = 'use_viem_for_swap',
   SHOW_NEW_SEND_CONFIRMATION_SCREEN = 'show_new_send_confirmation_screen',
 }
 
