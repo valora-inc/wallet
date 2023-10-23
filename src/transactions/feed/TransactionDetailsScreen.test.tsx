@@ -254,39 +254,91 @@ describe('TransactionDetailsScreen', () => {
     expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
   })
 
-  it('renders retry button for failed sent transacton', () => {
-    const { queryByText } = renderScreen({
+  it.each([
+    TokenTransactionTypeV2.Sent,
+    TokenTransactionTypeV2.InviteSent,
+    TokenTransactionTypeV2.Received,
+    TokenTransactionTypeV2.InviteReceived,
+  ])('renders details action for complete %s transaction', (type) => {
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type,
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+  })
+
+  it(`renders details action for complete ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+  })
+
+  it.each([
+    TokenTransactionTypeV2.Sent,
+    TokenTransactionTypeV2.InviteSent,
+    TokenTransactionTypeV2.Received,
+    TokenTransactionTypeV2.InviteReceived,
+  ])('renders check status action for pending %s transaction', (type) => {
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type,
+        status: TransactionStatus.Pending,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+  })
+
+  it(`renders check status action for pending ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Pending,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+  })
+
+  it(`renders retry action for failed ${TokenTransactionTypeV2.Sent} transacton`, () => {
+    const { getByText } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Sent,
         status: TransactionStatus.Failed,
       }),
     })
 
-    expect(queryByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+    expect(getByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
   })
 
-  it('renders retry button for failed swap transacton', () => {
-    const { queryByText } = renderScreen({
+  it(`renders retry action for failed ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
+    const { getByText } = renderScreen({
       transaction: swapTransaction({
         status: TransactionStatus.Failed,
       }),
     })
 
-    expect(queryByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+    expect(getByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
   })
 
   it.each([
     TokenTransactionTypeV2.InviteSent,
     TokenTransactionTypeV2.Received,
     TokenTransactionTypeV2.InviteReceived,
-  ])('does not render retry button for %p transaction', (type) => {
-    const { queryByText } = renderScreen({
+  ])('does not render retry action for %s transaction', (type) => {
+    const { queryByTestId } = renderScreen({
       transaction: tokenTransfer({
         type,
         status: TransactionStatus.Failed,
       }),
     })
 
-    expect(queryByText('transactionDetailsActions.retryFailedTransaction')).toBeFalsy()
+    expect(queryByTestId('transactionDetails/primaryAction')).toBeFalsy()
   })
 })
