@@ -108,7 +108,7 @@ export const reducer = (
         standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
           return {
             ...tx,
-            hash: action.hash,
+            transactionHash: action.hash,
           }
         }),
       }
