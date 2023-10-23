@@ -1676,7 +1676,17 @@
       "title": "Antes de trocar",
       "body": "Não podemos estimar o valor desta troca. {{appName}} não se responsabiliza se você optar por prosseguir."
     },
-    "estimatedExchangeRate": "Câmbio estimado ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Câmbio estimado ≈ <0>0.00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Saldo insuficiente {{tokenSymbol}}",
+      "description": "Você não tem {{tokenSymbol}} suficiente para cobrir as taxas de gás. Você gostaria de trocar uma quantia menor?",
+      "confirmDecreaseButton": "Trocar uma quantidade menor"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Balanço insuficiente de tokens de gás",
+      "description": "Você não tem {{feeCurrencies}} suficiente para cobrir as taxas de combustível. Por favor, adicione {{feeCurrencies}} à sua carteira para concluir essa troca.",
+      "dismissButton": "Ignorar"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trocar de",
