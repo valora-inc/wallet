@@ -36,7 +36,7 @@ export type FeeInfo = {
 } & (
   | {
       feeCurrency: string // actually an address
-      feeTokenId: string // todo make sure this is populated for celo tokens at least (later all tokens)
+      feeTokenId: string
     }
   | { feeCurrency: undefined; feeTokenId: undefined }
 )

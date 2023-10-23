@@ -46,6 +46,18 @@ import {
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
 
+jest.mock('src/web3/networkConfig', () => {
+  const originalModule = jest.requireActual('src/web3/networkConfig')
+  return {
+    ...originalModule,
+    __esModule: true,
+    default: {
+      ...originalModule.default,
+      defaultNetworkId: 'celo-alfajores',
+    },
+  }
+})
+
 jest.mock('src/statsig')
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {

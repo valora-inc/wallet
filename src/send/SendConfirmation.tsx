@@ -164,8 +164,8 @@ function SendConfirmation(props: Props) {
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
   const feeTokenId =
     feeEstimate?.feeInfo?.feeTokenId ?? networkConfig.currencyToTokenId[Currency.Celo]
-  const feeTokenInfoNew = useTokenInfo(feeTokenId)
-  const feeTokenInfo = newSendScreen ? feeTokenInfoNew : tokenInfo
+  const feeTokenInfoFromEstimate = useTokenInfo(feeTokenId)
+  const feeTokenInfo = newSendScreen ? feeTokenInfoFromEstimate : tokenInfo
   const securityFeeInToken = securityFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFee?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
@@ -206,7 +206,7 @@ function SendConfirmation(props: Props) {
           tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
           feeToAddInToken={
-            tokenInfo?.tokenId === feeTokenInfo?.tokenId ? totalFeeInToken : undefined
+            tokenInfo?.tokenId === feeTokenInfo?.tokenId ? totalFeeInToken : new BigNumber(0)
           }
           showLocalAmount={!newSendScreen}
           hideSign={newSendScreen ? false : undefined}
