@@ -31,9 +31,9 @@ function TransactionStatusIndicator({ status, testID }: Props) {
   }[status]
 
   const icon = {
-    [TransactionStatus.Complete]: <Checkmark color={color} width={10} height={10} />,
-    [TransactionStatus.Pending]: <ClockIcon color={color} width={10} height={10} />,
-    [TransactionStatus.Failed]: <ExclamationCircleIcon color={color} size={10} />,
+    [TransactionStatus.Complete]: <Checkmark color={color} width={16} height={16} />,
+    [TransactionStatus.Pending]: <ClockIcon color={color} width={16} height={16} />,
+    [TransactionStatus.Failed]: <ExclamationCircleIcon color={color} size={16} />,
   }[status]
 
   return (

@@ -7,15 +7,11 @@ interface Props {
   size?: number
 }
 
-const ArrowRight = ({ color = Colors.greenUI, size = 18 }: Props) => (
-  <Svg width={size} height={size} viewBox="0 0 18 18" fill="none">
+const ArrowRight = ({ color = Colors.greenUI, size = 24 }: Props) => (
+  <Svg width={size} height={size} viewBox="0 0 16 16" fill="none">
     <Path
-      d="M1 9h16m0 0-7-8m7 8-7 8"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
+      d="m9.333 12-.933-.967 2.367-2.366h-8.1V7.333h8.1L8.4 4.967 9.333 4l4 4-4 4Z"
+      fill={color}
     />
   </Svg>
 )

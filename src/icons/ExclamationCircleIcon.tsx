@@ -8,9 +8,9 @@ interface Props {
 
 const ExclamationCircleIcon = ({ size = 20, color = Colors.greenUI }: Props) => {
   return (
-    <Svg width={size} height={size} viewBox="0 0 20 20" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 16 16" fill="none">
       <Path
-        d="M9 13h2v2H9v-2Zm0-8h2v6H9V5Zm.99-5C4.47 0 0 4.48 0 10s4.47 10 9.99 10C15.52 20 20 15.52 20 10S15.52 0 9.99 0ZM10 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8Z"
+        d="M7.4 9.8h1.2V11H7.4V9.8Zm0-4.8h1.2v3.6H7.4V5ZM8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 10.8a4.8 4.8 0 1 1 0-9.6 4.8 4.8 0 0 1 0 9.6Z"
         fill={color}
       />
     </Svg>

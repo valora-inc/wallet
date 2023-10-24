@@ -164,7 +164,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
                 {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
                 {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
               </Text>
-              <ArrowRight color={Colors.gray3} size={8} />
+              <ArrowRight color={Colors.gray3} size={16} />
             </>
           </Touchable>
         </>
