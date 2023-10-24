@@ -97,9 +97,10 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
     value: BigInt(value ?? 0),
     data: data as Hex,
     // This may not be entirely accurate for now
+    // without the approval transaction being executed first.
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
-    // We'll try to improve this in our API
-    gas: BigInt(gas) * BigInt(3), // TODO adjust this in the backend for 0x, otherwise was reverting
+    // We control this from our API.
+    gas: BigInt(gas),
   }
 
   return swapTx
