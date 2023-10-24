@@ -2729,6 +2729,18 @@ export const v161Schema = {
   },
 }
 
+export const v162Schema = {
+  ...v161Schema,
+  _persist: {
+    ...v161Schema._persist,
+    version: 162,
+  },
+  send: {
+    ..._.omit(v161Schema.send, 'lastUsedCurrency'),
+    lastUsedTokenId: undefined,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v161Schema as Partial<RootState>
+  return v162Schema as Partial<RootState>
 }
