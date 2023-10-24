@@ -17,6 +17,7 @@ import {
 } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
   isCicoToken,
@@ -350,16 +351,14 @@ export const swappableTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     const appVersion = deviceInfoModule.getVersion()
-    return (
-      tokens
-        // .filter(
-        //   (tokenInfo) =>
-        //     tokenInfo.isSwappable ||
-        //     (tokenInfo.minimumAppVersionToSwap &&
-        //       !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
-        // )
-        .sort(tokenCompareByUsdBalanceThenByName)
-    )
+    return tokens
+      .filter(
+        (tokenInfo) =>
+          tokenInfo.isSwappable ||
+          (tokenInfo.minimumAppVersionToSwap &&
+            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+      )
+      .sort(tokenCompareByUsdBalanceThenByName)
   }
 )
 
