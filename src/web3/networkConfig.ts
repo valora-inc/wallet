@@ -41,7 +41,9 @@ interface NetworkConfig {
   celoExplorerBaseTokenUrl: string
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
+  blockExplorerBaseTokenUrl: Record<Network, string>
   blockExplorerBaseTxUrl: Record<Network, string>
+  blockExplorerBaseAddressUrl: Record<Network, string>
   approveSwapUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
@@ -174,11 +176,29 @@ const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET
 const CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/token/`
 const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/token/`
 
-const ETH_EXPLORER_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
-const ETH_EXPLORER_BASE_URL_MAINNET = 'https://etherscan.io'
+const CELOSCAN_BASE_URL_ALFAJORES = 'https://alfajores.celoscan.io'
+const CELOSCAN_BASE_URL_MAINNET = 'https://celoscan.io'
 
-const ETH_EXPLORER_BASE_TX_URL_SEPOLIA = `${ETH_EXPLORER_BASE_URL_SEPOLIA}/tx/`
-const ETH_EXPLORER_BASE_TX_URL_MAINNET = `${ETH_EXPLORER_BASE_URL_MAINNET}/tx/`
+const CELOSCAN_BASE_TX_URL_ALFAJORES = `${CELOSCAN_BASE_URL_ALFAJORES}/tx/`
+const CELOSCAN_BASE_TX_URL_MAINNET = `${CELOSCAN_BASE_URL_MAINNET}/tx/`
+
+const CELOSCAN_BASE_ADDRESS_URL_ALFAJORES = `${CELOSCAN_BASE_URL_ALFAJORES}/address/`
+const CELOSCAN_BASE_ADDRESS_URL_MAINNET = `${CELOSCAN_BASE_URL_MAINNET}/address/`
+
+const CELOSCAN_BASE_TOKEN_URL_ALFAJORES = `${CELOSCAN_BASE_URL_ALFAJORES}/token/`
+const CELOSCAN_BASE_TOKEN_URL_MAINNET = `${CELOSCAN_BASE_URL_MAINNET}/token/`
+
+const ETHERSCAN_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
+const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
+
+const ETHERSCAN_BASE_TX_URL_SEPOLIA = `${ETHERSCAN_BASE_URL_SEPOLIA}/tx/`
+const ETHERSCAN_BASE_TX_URL_MAINNET = `${ETHERSCAN_BASE_URL_MAINNET}/tx/`
+
+const ETHERSCAN_BASE_ADDRESS_URL_SEPOLIA = `${ETHERSCAN_BASE_URL_SEPOLIA}/address/`
+const ETHERSCAN_BASE_ADDRESS_URL_MAINNET = `${ETHERSCAN_BASE_URL_MAINNET}/address/`
+
+const ETHERSCAN_BASE_TOKEN_URL_SEPOLIA = `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`
+const ETHERSCAN_BASE_TOKEN_URL_MAINNET = `${ETHERSCAN_BASE_URL_MAINNET}/token/`
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
@@ -244,9 +264,17 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
+    blockExplorerBaseTokenUrl: {
+      [Network.Celo]: CELOSCAN_BASE_TOKEN_URL_ALFAJORES,
+      [Network.Ethereum]: ETHERSCAN_BASE_TOKEN_URL_SEPOLIA,
+    },
     blockExplorerBaseTxUrl: {
-      [Network.Celo]: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
-      [Network.Ethereum]: ETH_EXPLORER_BASE_TX_URL_SEPOLIA,
+      [Network.Celo]: CELOSCAN_BASE_TX_URL_ALFAJORES,
+      [Network.Ethereum]: ETHERSCAN_BASE_TX_URL_SEPOLIA,
+    },
+    blockExplorerBaseAddressUrl: {
+      [Network.Celo]: CELOSCAN_BASE_ADDRESS_URL_ALFAJORES,
+      [Network.Ethereum]: ETHERSCAN_BASE_ADDRESS_URL_SEPOLIA,
     },
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
@@ -318,9 +346,17 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
+    blockExplorerBaseTokenUrl: {
+      [Network.Celo]: CELOSCAN_BASE_TOKEN_URL_MAINNET,
+      [Network.Ethereum]: ETHERSCAN_BASE_TOKEN_URL_MAINNET,
+    },
     blockExplorerBaseTxUrl: {
-      [Network.Celo]: CELO_EXPLORER_BASE_TX_URL_MAINNET,
-      [Network.Ethereum]: ETH_EXPLORER_BASE_TX_URL_MAINNET,
+      [Network.Celo]: CELOSCAN_BASE_TX_URL_MAINNET,
+      [Network.Ethereum]: ETHERSCAN_BASE_TX_URL_MAINNET,
+    },
+    blockExplorerBaseAddressUrl: {
+      [Network.Celo]: CELOSCAN_BASE_ADDRESS_URL_MAINNET,
+      [Network.Ethereum]: ETHERSCAN_BASE_ADDRESS_URL_MAINNET,
     },
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,

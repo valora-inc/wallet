@@ -9,12 +9,12 @@ import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
-import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
-import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
-import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
+import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
 import CheckmarkCircle from 'src/icons/CheckmarkCircle'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
@@ -28,6 +28,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -121,8 +122,8 @@ function SuccessOrProcessingSection({
   const provider = normalizedQuote.getProviderId()
   const address = useSelector(walletAddressSelector)
   const uri = txHash
-    ? `${networkConfig.celoExplorerBaseTxUrl}${txHash}`
-    : `${networkConfig.celoExplorerBaseAddressUrl}${address}`
+    ? `${networkConfig.blockExplorerBaseTxUrl[Network.Celo]}${txHash}`
+    : `${networkConfig.blockExplorerBaseAddressUrl[Network.Celo]}${address}`
 
   let icon: JSX.Element
   let title: string
