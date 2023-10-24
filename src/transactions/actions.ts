@@ -1,5 +1,4 @@
 import { CeloTxReceipt } from '@celo/connect'
-import { TransactionFeedFragment } from 'src/apollo/types'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
 import { StandbySwap, StandbyTransfer, TokenTransaction } from 'src/transactions/types'
@@ -11,7 +10,6 @@ export enum Actions {
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
-  NEW_TRANSACTIONS_IN_FEED = 'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
@@ -54,11 +52,6 @@ export interface TransactionFailedAction {
   txId: string
 }
 
-export interface NewTransactionsInFeedAction {
-  type: Actions.NEW_TRANSACTIONS_IN_FEED
-  transactions: TransactionFeedFragment[]
-}
-
 export interface UpdatedRecentTxRecipientsCacheAction {
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE
   recentTxRecipientsCache: NumberToRecipient
@@ -78,7 +71,6 @@ export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
   | AddHashToStandbyTransactionAction
-  | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
@@ -130,13 +122,6 @@ export const addHashToStandbyTransaction = (
   type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS,
   idx,
   hash,
-})
-
-export const newTransactionsInFeed = (
-  transactions: TransactionFeedFragment[]
-): NewTransactionsInFeedAction => ({
-  type: Actions.NEW_TRANSACTIONS_IN_FEED,
-  transactions,
 })
 
 export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({

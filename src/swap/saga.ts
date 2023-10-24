@@ -42,7 +42,7 @@ import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
-import { Hash } from 'viem'
+import { Hash, zeroAddress } from 'viem'
 import { getBlock, getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
@@ -191,19 +191,20 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const walletAddress = yield* select(walletAddressSelector)
 
-    const amountToApprove =
-      amountType === 'buyAmount'
-        ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
-        : sellAmount
+    // Approve transaction if the sell token is ERC-20
+    if (allowanceTarget !== zeroAddress && fromToken.address) {
+      const amountToApprove =
+        amountType === 'buyAmount'
+          ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
+          : sellAmount
 
-    // Approve transaction
-    yield* put(swapApprove())
-    Logger.debug(
-      TAG,
-      `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
-    )
+      // Approve transaction
+      yield* put(swapApprove())
+      Logger.debug(
+        TAG,
+        `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
+      )
 
-    if (fromToken.address) {
       yield* call(
         sendApproveTx,
         fromToken.address,
