@@ -20,20 +20,17 @@ export type FeedTokenProperties = {
 export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
 function TransactionFeed() {
-  const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
-    useFetchTransactions()
+  const { loading, error, fetchingMoreTransactions, fetchMoreTransactions } = useFetchTransactions()
 
-  const cachedTransactions = useSelector(transactionsSelector)
+  const transactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
 
   const confirmedFeedTransactions = useMemo(() => {
-    const confirmedTokenTransactions: TokenTransaction[] =
-      transactions.length > 0 ? transactions : cachedTransactions
-    return confirmedTokenTransactions.filter((tx) => {
+    return transactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [transactions, cachedTransactions, allowedNetworks])
+  }, [transactions, allowedNetworks])
 
   const pendingTransactions = useMemo(() => {
     return allPendingTransactions.filter((tx) => {

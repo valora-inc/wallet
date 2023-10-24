@@ -25,7 +25,6 @@ const MIN_NUM_TRANSACTIONS = 10
 export interface QueryHookResult {
   loading: boolean
   error: Error | undefined
-  transactions: TokenTransaction[]
   fetchingMoreTransactions: boolean
   fetchMoreTransactions: () => void
 }
@@ -238,7 +237,6 @@ export function useFetchTransactions(): QueryHookResult {
   return {
     loading,
     error,
-    transactions: fetchedResult.transactions,
     fetchingMoreTransactions,
     fetchMoreTransactions: () => {
       if (!fetchedResult.pageInfo) {
