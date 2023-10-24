@@ -352,12 +352,12 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				67AE4B745DA21694F659A4A5 /* [CP] Embed Pods Frameworks */,
+				0F49F5F5270F2F2A0005F897 /* Embed App Extensions */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				0FA148AE242137AC009239C6 /* Copy GoogleService-Info.plist */,
 				FAA606D3D7E04ED7985FC9FF /* Upload Debug Symbols to Sentry */,
-				67AE4B745DA21694F659A4A5 /* [CP] Embed Pods Frameworks */,
 				17C74982970FB703473BB542 /* [CP-User] [RNFB] Core Configuration */,
-				0F49F5F5270F2F2A0005F897 /* Embed App Extensions */,
 				32DB46242FD085CEFD30BC90 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (

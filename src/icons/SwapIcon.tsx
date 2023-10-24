@@ -1,15 +1,13 @@
 import * as React from 'react'
-import Svg, { Circle, Path } from 'react-native-svg'
+import Svg, { Path, Rect } from 'react-native-svg'
 
 const SwapIcon = () => (
   <Svg width={40} height={40} fill="none">
-    <Circle cx={20} cy={20} r={20} fill="#F8F9F9" />
+    <Rect width={40} height={40} fill="#F1FDF1" rx={20} />
     <Path
-      d="M27 26V13m0 0-4 4m4-4 4 4M14 13v13m0 0 4-4m-4 4-4-4"
-      stroke="#B4B9BD"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="#137211"
+      stroke="#137211"
+      d="M23.722 25.567v.5h2.624l-3.235 3.227-3.235-3.227H22.5v-7.79h1.222v7.29Zm-7.889-11.134v-.5H13.21l3.235-3.227 3.236 3.227h-2.624v7.79h-1.223v-7.29Z"
     />
   </Svg>
 )

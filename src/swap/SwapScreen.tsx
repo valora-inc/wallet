@@ -26,18 +26,20 @@ import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 
@@ -53,6 +55,7 @@ export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -63,6 +66,8 @@ export function SwapScreen({ route }: Props) {
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
+
+  const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSelector(swappableTokensSelector)
@@ -99,6 +104,8 @@ export function SwapScreen({ route }: Props) {
     ? new BigNumber(0)
     : maxFromAmountUnchecked
   // TODO: Check the user has enough balance in native tokens to pay for the gas fee
+
+  const fromTokenBalance = useTokenInfoByAddress(fromToken?.address)?.balance ?? new BigNumber(0)
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
     useSwapQuote()
@@ -137,7 +144,7 @@ export function SwapScreen({ route }: Props) {
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
       if (toToken && fromToken) {
-        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField)
+        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField, useViemForSwap)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
 
@@ -202,6 +209,37 @@ export function SwapScreen({ route }: Props) {
 
   const handleReview = () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
+
+    if (useViemForSwap) {
+      if (!exchangeRate?.preparedTransactions) {
+        // Error already shown, do nothing
+        return
+      }
+
+      if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
+        setFromSwapAmountError(true)
+        showMaxCeloSwapWarning()
+        dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
+        return
+      }
+
+      const resultType = exchangeRate.preparedTransactions.type
+      switch (resultType) {
+        case 'need-decrease-swap-amount-for-gas': // fallthrough on purpose
+        case 'not-enough-balance-for-gas':
+          preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
+          break
+        case 'possible':
+          // TODO: show review screen with the possible transactions
+          break
+        default:
+          // To catch any missing cases at compile time
+          const assertNever: never = resultType
+          return assertNever
+      }
+
+      return
+    }
 
     if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
@@ -288,7 +326,13 @@ export function SwapScreen({ route }: Props) {
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
-      [Field.FROM]: maxFromAmount.toFormat({
+      [Field.FROM]: (useViemForSwap
+        ? // The viem flow uses the new fee currency selection logic
+          // which returns fully determined TXs (gas, feeCurrency, etc).
+          // We try the current balance first, and we will prompt the user if it's too high
+          fromTokenBalance
+        : maxFromAmount
+      ).toFormat({
         decimalSeparator,
       }),
     }))
@@ -433,6 +477,16 @@ export function SwapScreen({ route }: Props) {
             : t('swapScreen.swapToTokenSelection')
         }
       />
+      {exchangeRate?.preparedTransactions && (
+        <PreparedTransactionsReviewBottomSheet
+          forwardedRef={preparedTransactionsReviewBottomSheetRef}
+          preparedTransactions={exchangeRate.preparedTransactions}
+          onAcceptDecreaseSwapAmountForGas={({ decreasedSwapAmount }) => {
+            handleChangeAmount(updatedField)(decreasedSwapAmount.toString())
+            preparedTransactionsReviewBottomSheetRef.current?.close()
+          }}
+        />
+      )}
     </SafeAreaView>
   )
 }

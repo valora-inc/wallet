@@ -1674,7 +1674,17 @@
       "title": "交换之前",
       "body": "我们无法估算本次交换的价值。如果您选择继续， {{appName}} 不承担任何责任。"
     },
-    "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "{{tokenSymbol}} 余额不足",
+      "description": "您没有足够的 {{tokenSymbol}} 来支付汽油费。您想交换较少的金额吗？",
+      "confirmDecreaseButton": "少量交换"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "气体令牌余额不足",
+      "description": "您没有足够的 {{feeCurrencies}} 来支付汽油费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交换。",
+      "dismissButton": "忽略"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "交换自",
@@ -1837,6 +1847,13 @@
       "add": "添加",
       "withdraw": "提取",
       "more": "更多信息"
+    },
+    "moreActions": "更多行动",
+    "actionDescriptions": {
+      "send": "使用任何 Celo 地址、域名、电话号码等。",
+      "swap": "无需离开钱包即可交换代币",
+      "add": "使用我们值得信赖的供应商之一购买代币",
+      "withdraw": "将代币转入银行账户、移动支付、礼品卡等。"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

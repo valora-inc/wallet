@@ -1326,6 +1326,9 @@ interface AssetsEventsProperties {
     action: TokenDetailsActionName
   } & TokenProperties
   [AssetsEvents.tap_token_details_learn_more]: TokenProperties
+  [AssetsEvents.tap_token_details_bottom_sheet_action]: {
+    action: TokenDetailsActionName
+  } & TokenProperties
 }
 
 interface NftsEventsProperties {
