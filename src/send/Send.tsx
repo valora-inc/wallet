@@ -129,19 +129,13 @@ function Send({ route }: Props) {
 
     // Only show currency picker once we know that the recipient is verified,
     // and only if the user is permitted to change tokens.
-    if (defaultTokenIdOverride) {
+    if (defaultTokenIdOverride || getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
+      // TODO (ACT-945): Use New Send Flow conditionally
+      // Currently navigates to old send flow without bottom sheet
       navigate(Screens.SendAmount, {
         isFromScan: false,
         defaultTokenIdOverride,
         forceTokenId,
-        recipient,
-        origin: SendOrigin.AppSendFlow,
-      })
-    } else if (getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
-      // TODO: (ACT: 945) New Send without bottom sheet
-      // Currently navigates to old send flow without bottom sheet
-      navigate(Screens.SendAmount, {
-        isFromScan: false,
         recipient,
         origin: SendOrigin.AppSendFlow,
       })
