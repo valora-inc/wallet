@@ -3,7 +3,6 @@ import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-ide
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { updateE164PhoneNumberAddresses, updateE164PhoneNumberSalts } from 'src/identity/actions'
 import {
   checkTxsForIdentityMetadata,
@@ -14,7 +13,13 @@ import {
 } from 'src/identity/commentEncryption'
 import { lookupAccountAddressesForIdentifier } from 'src/identity/contactMapping'
 import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
-import { newTransactionsInFeed } from 'src/transactions/actions'
+import { updateTransactions } from 'src/transactions/actions'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
@@ -179,49 +184,42 @@ describe(extractPhoneNumberMetadata, () => {
 })
 
 describe(checkTxsForIdentityMetadata, () => {
-  const transactions: TransactionFeedFragment[] = [
-    {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Sent,
-      hash: '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353',
-      amount: {
-        __typename: 'MoneyAmount',
+  const mockTransactionDetails = {
+    __typename: 'TokenTransferV3' as const,
+    amount: {
+      value: '-0.2',
+      localAmount: {
         value: '-0.2',
-        currencyCode: 'cUSD',
-        localAmount: {
-          __typename: 'LocalMoneyAmount',
-          value: '-0.2',
-          currencyCode: 'USD',
-          exchangeRate: '1',
-        },
+        currencyCode: 'USD',
+        exchangeRate: '1',
       },
-      timestamp: 1578530538,
-      address: mockAccount,
-      comment: simpleComment,
+      tokenId: 'celo-mainnet:0xabc',
+    },
+    timestamp: 1578530602,
+    address: mockAccount,
+    networkId: NetworkId['celo-mainnet'],
+    block: '123',
+    fees: [],
+    metadata: {},
+    status: TransactionStatus.Complete,
+  }
+  const transactions: TokenTransaction[] = [
+    {
+      ...mockTransactionDetails,
+      type: TokenTransactionTypeV2.Sent,
+      transactionHash: '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353',
+      metadata: { comment: simpleComment },
     },
     {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Sent,
-      hash: '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852',
-    } as any,
+      ...mockTransactionDetails,
+      type: TokenTransactionTypeV2.Sent,
+      transactionHash: '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852',
+    },
     {
-      __typename: 'TokenTransfer',
-      type: TokenTransactionType.Received,
-      hash: '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa',
-      amount: {
-        __typename: 'MoneyAmount',
-        value: '-0.2',
-        currencyCode: 'cUSD',
-        localAmount: {
-          __typename: 'LocalMoneyAmount',
-          value: '-0.2',
-          currencyCode: 'USD',
-          exchangeRate: '1',
-        },
-      },
-      timestamp: 1578530602,
-      address: mockAccount,
-      comment: simpleCommentWithMetadataEnc,
+      ...mockTransactionDetails,
+      type: TokenTransactionTypeV2.Received,
+      transactionHash: '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa',
+      metadata: { comment: simpleCommentWithMetadataEnc },
     },
   ]
 
@@ -239,7 +237,7 @@ describe(checkTxsForIdentityMetadata, () => {
     const mockAccountsWrapper = {
       getWalletAddress: jest.fn((address) => address),
     }
-    await expectSaga(checkTxsForIdentityMetadata, newTransactionsInFeed(transactions))
+    await expectSaga(checkTxsForIdentityMetadata, updateTransactions(transactions))
       .provide([
         [select(dataEncryptionKeySelector), mockPrivateDEK2],
         [matchers.call.fn(lookupAccountAddressesForIdentifier), lookupResult],
@@ -262,7 +260,7 @@ describe(checkTxsForIdentityMetadata, () => {
   })
 
   it('Ignores invalid identity claims', async () => {
-    await expectSaga(checkTxsForIdentityMetadata, newTransactionsInFeed(transactions))
+    await expectSaga(checkTxsForIdentityMetadata, updateTransactions(transactions))
       .provide([
         [select(dataEncryptionKeySelector), mockPrivateDEK2],
         [matchers.call.fn(lookupAccountAddressesForIdentifier), {}],
