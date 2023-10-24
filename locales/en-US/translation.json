@@ -1676,7 +1676,17 @@
       "title": "Before you swap",
       "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
     },
-    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>"
+    "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Insufficient {{tokenSymbol}} balance",
+      "description": "You don't have enough {{tokenSymbol}} to cover gas fees. Would you like to swap a smaller amount?",
+      "confirmDecreaseButton": "Swap smaller amount"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Insufficient gas token balance",
+      "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this swap.",
+      "dismissButton": "Dismiss"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",
@@ -1839,6 +1849,13 @@
       "add": "Add",
       "withdraw": "Withdraw",
       "more": "More"
+    },
+    "moreActions": "More Actions",
+    "actionDescriptions": {
+      "send": "Use any Celo address, domain, phone number, etc.",
+      "swap": "Swap your tokens without leaving your wallet",
+      "add": "Buy tokens using one of our trusted providers",
+      "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

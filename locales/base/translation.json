@@ -1852,6 +1852,13 @@
       "add": "Add",
       "withdraw": "Withdraw",
       "more": "More"
+    },
+    "moreActions": "More Actions",
+    "actionDescriptions": {
+      "send": "Use any Celo address, domain, phone number, etc.",
+      "swap": "Swap your tokens without leaving your wallet",
+      "add": "Buy tokens using one of our trusted providers",
+      "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   }
 }

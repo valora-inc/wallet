@@ -2464,6 +2464,7 @@
                 "SwapScreenWithBack",
                 "TokenBalances",
                 "TokenDetails",
+                "TokenDetailsMoreActions",
                 "TransactionDetailsScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",

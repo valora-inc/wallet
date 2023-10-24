@@ -56,7 +56,6 @@ const loggerBlocklist = [
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
   updateValoraRecipientCache.toString(),
-  TransactionActions.NEW_TRANSACTIONS_IN_FEED,
   TransactionActions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   TransactionActions.UPDATE_TRANSACTIONS,
   Web3Actions.SET_DATA_ENCRYPTION_KEY,
