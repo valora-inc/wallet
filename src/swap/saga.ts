@@ -20,18 +20,26 @@ import {
 } from 'src/swap/slice'
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { swappableTokensSelector } from 'src/tokens/selectors'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+import { addHashToStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { TransactionContext, newTransactionContext } from 'src/transactions/types'
+import {
+  TokenTransactionTypeV2,
+  TransactionContext,
+  newTransactionContext,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { getContractKit } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
+import { zeroAddress } from 'viem'
 
 const TAG = 'swap/saga'
 
@@ -41,7 +49,9 @@ function getPercentageDifference(price1: number, price2: number) {
 
 function* handleSendSwapTransaction(
   rawTx: SwapTransaction,
-  transactionContext: TransactionContext
+  transactionContext: TransactionContext,
+  fromToken: TokenBalance,
+  toToken: TokenBalance
 ) {
   const kit: ContractKit = yield* call(getContractKit)
   const walletAddress: string = yield* call(getConnectedUnlockedAccount)
@@ -51,7 +61,28 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
-  yield* call(sendTransaction, txo, walletAddress, transactionContext)
+  yield* put(
+    addStandbyTransaction({
+      context: transactionContext,
+      __typename: 'TokenExchangeV3',
+      networkId: networkConfig.defaultNetworkId,
+      type: TokenTransactionTypeV2.SwapTransaction,
+      inAmount: {
+        value: valueToBigNumber(rawTx.sellAmount)
+          .multipliedBy(rawTx.guaranteedPrice)
+          .shiftedBy(-toToken.decimals),
+        tokenId: toToken.tokenId,
+      },
+      outAmount: {
+        value: valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals),
+        tokenId: fromToken.tokenId,
+      },
+    })
+  )
+
+  const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
+
+  yield* put(addHashToStandbyTransaction(transactionContext.id, receipt.transactionHash))
 }
 
 function calculateEstimatedUsdValue({
@@ -71,16 +102,10 @@ function calculateEstimatedUsdValue({
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
-  const {
-    price,
-    guaranteedPrice,
-    buyTokenAddress,
-    sellTokenAddress,
-    buyAmount,
-    sellAmount,
-    allowanceTarget,
-    estimatedPriceImpact,
-  } = action.payload.unvalidatedSwapTransaction
+  const { price, guaranteedPrice, buyAmount, sellAmount, allowanceTarget, estimatedPriceImpact } =
+    action.payload.unvalidatedSwapTransaction
+  const buyTokenAddress = action.payload.unvalidatedSwapTransaction.buyTokenAddress.toLowerCase()
+  const sellTokenAddress = action.payload.unvalidatedSwapTransaction.sellTokenAddress.toLowerCase()
   const amountType =
     action.payload.userInput.updatedField === Field.TO
       ? ('buyAmount' as const)
@@ -88,20 +113,32 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
   const { quoteReceivedAt } = action.payload
 
-  const tokenBalances: TokenBalance[] = yield* select(swappableTokensSelector)
+  const tokens = yield* select((state) =>
+    tokensByIdSelector(state, [networkConfig.defaultNetworkId])
+  )
+  const fromToken =
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.fromToken)]
+  const toToken =
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.toToken)]
 
-  const fromToken = tokenBalances.find((token) => token.address === sellTokenAddress)
-  const fromTokenBalance = fromToken
-    ? fromToken.balance.shiftedBy(fromToken.decimals).toString()
-    : ''
-  const estimatedSellTokenUsdValue = fromToken
-    ? calculateEstimatedUsdValue({ tokenInfo: fromToken, tokenAmount: sellAmount })
-    : undefined
+  if (!fromToken || !toToken) {
+    Logger.error(
+      TAG,
+      `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
+    )
+    yield* put(swapError())
+    return
+  }
 
-  const toToken = tokenBalances.find((token) => token.address === buyTokenAddress)
-  const estimatedBuyTokenUsdValue = toToken
-    ? calculateEstimatedUsdValue({ tokenInfo: toToken, tokenAmount: buyAmount })
-    : undefined
+  const fromTokenBalance = fromToken.balance.shiftedBy(fromToken.decimals).toString()
+  const estimatedSellTokenUsdValue = calculateEstimatedUsdValue({
+    tokenInfo: fromToken,
+    tokenAmount: sellAmount,
+  })
+  const estimatedBuyTokenUsdValue = calculateEstimatedUsdValue({
+    tokenInfo: toToken,
+    tokenAmount: buyAmount,
+  })
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
@@ -150,24 +187,28 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const walletAddress = yield* select(walletAddressSelector)
 
-    const amountToApprove =
-      amountType === 'buyAmount'
-        ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
-        : sellAmount
+    // Approve transaction if the sell token is ERC-20
+    if (allowanceTarget !== zeroAddress && fromToken.address) {
+      const amountToApprove =
+        amountType === 'buyAmount'
+          ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
+          : sellAmount
 
-    // Approve transaction
-    yield* put(swapApprove())
-    Logger.debug(
-      TAG,
-      `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
-    )
-    yield* call(
-      sendApproveTx,
-      sellTokenAddress,
-      amountToApprove,
-      allowanceTarget,
-      swapApproveContext
-    )
+      // Approve transaction
+      yield* put(swapApprove())
+      Logger.debug(
+        TAG,
+        `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
+      )
+
+      yield* call(
+        sendApproveTx,
+        fromToken.address,
+        amountToApprove,
+        allowanceTarget,
+        swapApproveContext
+      )
+    }
 
     // Execute transaction
     yield* put(swapExecute())
@@ -178,7 +219,9 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     yield* call(
       handleSendSwapTransaction,
       { ...action.payload.unvalidatedSwapTransaction },
-      swapExecuteContext
+      swapExecuteContext,
+      fromToken,
+      toToken
     )
 
     const timeMetrics = getTimeMetrics()

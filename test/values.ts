@@ -14,7 +14,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
-import { TokenTransactionType } from 'src/apollo/types'
 import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { FeeType } from 'src/fees/reducer'
@@ -48,7 +47,7 @@ import {
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { StoredTokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -192,14 +191,7 @@ export const mockTransactionDataLegacy = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
   currency: Currency.Dollar,
-  type: TokenTransactionType.Sent,
-}
-
-export const mockInviteTransactionData = {
-  recipient: mockInvitableRecipient2,
-  amount: new BigNumber(1),
-  currency: Currency.Dollar,
-  type: TokenTransactionType.InviteSent,
+  type: TokenTransactionTypeV2.Sent,
 }
 
 export const mockInvitableRecipient3: ContactRecipient = {

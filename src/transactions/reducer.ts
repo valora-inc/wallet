@@ -108,18 +108,9 @@ export const reducer = (
         standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
           return {
             ...tx,
-            hash: action.hash,
+            transactionHash: action.hash,
           }
         }),
-      }
-    case Actions.NEW_TRANSACTIONS_IN_FEED:
-      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
-      action.transactions.forEach((tx) => {
-        newKnownFeedTransactions[tx.hash] = tx.address
-      })
-      return {
-        ...state,
-        knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE:
       return {
@@ -127,9 +118,17 @@ export const reducer = (
         recentTxRecipientsCache: action.recentTxRecipientsCache,
       }
     case Actions.UPDATE_TRANSACTIONS:
+      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
+      action.transactions.forEach((tx) => {
+        if ('address' in tx) {
+          newKnownFeedTransactions[tx.transactionHash] = tx.address
+        }
+      })
+
       return {
         ...state,
         transactions: action.transactions,
+        knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {

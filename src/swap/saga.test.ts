@@ -5,25 +5,28 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { store } from 'src/redux/store'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { swappableTokensSelector } from 'src/tokens/selectors'
+import { Actions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
   mockContract,
   mockTokenBalances,
 } from 'test/values'
+import { zeroAddress } from 'viem'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -68,8 +71,8 @@ const mockSwap: PayloadAction<SwapInfo> = {
     },
     userInput: {
       updatedField: Field.TO,
-      fromToken: mockCeloAddress,
-      toToken: mockCeurAddress,
+      fromToken: mockCeurAddress,
+      toToken: mockCeloAddress,
       swapAmount: {
         [Field.FROM]: '100',
         [Field.TO]: '200',
@@ -85,6 +88,34 @@ const mockSwap: PayloadAction<SwapInfo> = {
   },
 }
 
+const mockSwapWithNativeSellToken: PayloadAction<SwapInfo> = {
+  ...mockSwap,
+  payload: {
+    ...mockSwap.payload,
+    unvalidatedSwapTransaction: {
+      ...mockSwap.payload.unvalidatedSwapTransaction,
+      allowanceTarget: zeroAddress,
+    },
+  },
+}
+
+const store = createMockStore({
+  tokens: {
+    tokenBalances: {
+      [mockCeurTokenId]: {
+        ...mockTokenBalances[mockCeurTokenId],
+        priceUsd: '1',
+        balance: '10',
+      },
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
+        priceUsd: '0.5',
+        balance: '10',
+      },
+    },
+  },
+})
+
 describe(swapSubmitSaga, () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -99,16 +130,6 @@ describe(swapSubmitSaga, () => {
     [call(getContractKit), contractKit],
     [call(getConnectedUnlockedAccount), mockAccount],
     [
-      select(swappableTokensSelector),
-      [
-        {
-          ...mockTokenBalances[mockCeurTokenId],
-          priceUsd: new BigNumber('1'),
-          balance: new BigNumber('10'),
-        },
-      ],
-    ],
-    [
       call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
       mockContract,
     ],
@@ -118,13 +139,30 @@ describe(swapSubmitSaga, () => {
     jest
       .spyOn(Date, 'now')
       .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
 
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide(defaultProviders)
       .put(swapApprove())
       .put(swapExecute())
+      .put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenExchangeV3',
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: mockCeloTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: mockCeurTokenId,
+            },
+          },
+        },
+      })
       .run()
     expect(sendTransaction).toHaveBeenCalledTimes(2)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
@@ -144,14 +182,43 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
       quoteToTransactionElapsedTimeInMs: 10000,
-      estimatedBuyTokenUsdValue: undefined,
+      estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
     })
   })
 
+  it('should complete swap without approval for native sell token', async () => {
+    await expectSaga(swapSubmitSaga, mockSwapWithNativeSellToken)
+      .withState(store.getState())
+      .provide(defaultProviders)
+      .not.put(swapApprove())
+      .put(swapExecute())
+      .put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenExchangeV3',
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: mockCeloTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: mockCeurTokenId,
+            },
+          },
+        },
+      })
+      .run()
+
+    expect(sendTransaction).toHaveBeenCalledTimes(1)
+    expect(loggerErrorSpy).not.toHaveBeenCalled()
+  })
+
   it('should set swap state correctly on error', async () => {
     jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
-    ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
+    jest.mocked(sendTransaction).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
     await expectSaga(swapSubmitSaga, mockSwap)
@@ -176,7 +243,7 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'a uuid',
       quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
       quoteToTransactionElapsedTimeInMs: undefined,
-      estimatedBuyTokenUsdValue: undefined,
+      estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
     })
   })
