@@ -10,7 +10,7 @@ import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { tokenAmountInSmallestUnit, getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { isStablecoin } from 'src/tokens/utils'
+import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
@@ -31,6 +31,7 @@ import { call, put } from 'typed-redux-saga'
 import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
 import { Network } from 'src/transactions/types'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
+import { TokenBalance } from 'src/tokens/slice'
 
 const TAG = 'viem/saga'
 
@@ -125,7 +126,8 @@ export function* sendPayment({
       // results in a long TS error
       const simulateContractMethod = yield* call(getTransferSimulateContract, {
         wallet,
-        tokenId,
+        tokenAddress,
+        tokenInfo,
         amount,
         recipientAddress,
         comment,
@@ -199,36 +201,33 @@ export function* sendPayment({
  */
 function* getTransferSimulateContract({
   wallet,
-  tokenId,
+  tokenAddress,
+  tokenInfo,
   amount,
   recipientAddress,
   comment,
   feeInfo,
 }: {
   wallet: ViemWallet
+  tokenAddress: string
+  tokenInfo: TokenBalance
   recipientAddress: string
   amount: BigNumber
-  tokenId: string
   comment: string
   feeInfo?: FeeInfo
 }) {
-  const tokenInfo = yield* call(getTokenInfo, tokenId)
   if (!wallet.account) {
     // this should never happen
     throw new Error('no account found in the wallet')
   }
-  const tokenAddress = tokenInfo?.address
-  if (!tokenAddress) {
-    throw new Error('token is native, no contract to simulate')
-  }
 
-  const convertedAmount = BigInt(yield* call(tokenAmountInSmallestUnit, amount, tokenInfo?.tokenId))
+  const convertedAmount = BigInt(yield* call(tokenAmountInSmallestUnit, amount, tokenInfo.tokenId))
 
-  const encryptedComment = isStablecoin(tokenInfo)
+  const encryptedComment = tokenSupportsComments(tokenInfo)
     ? yield* call(encryptComment, comment, recipientAddress, wallet.account.address, true)
     : undefined
 
-  const network = getNetworkFromNetworkId(tokenInfo?.networkId)
+  const network = getNetworkFromNetworkId(tokenInfo.networkId)
   if (!network) {
     throw new Error('invalid network for transfer')
   }
@@ -252,7 +251,7 @@ function* getTransferSimulateContract({
         maxFeePerGas: undefined,
       }
 
-  if (isStablecoin(tokenInfo)) {
+  if (tokenSupportsComments(tokenInfo)) {
     Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {
       recipientAddress,
       convertedAmount,
@@ -368,7 +367,7 @@ export function* sendAndMonitorTransaction({
     yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], { hash })
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
-    return receipt as unknown as TransactionReceipt
+    return receipt as unknown as TransactionReceipt // Need to cast here else the wrapSendTransactionWithRetry call complains
   }
 
   try {

@@ -2,14 +2,14 @@ import networkConfig from 'src/web3/networkConfig'
 import { Network } from 'src/transactions/types'
 import { createPublicClient, http, Transport } from 'viem'
 import { celo, celoAlfajores } from 'viem/chains'
-import { ALCHEMY_API_KEY } from 'src/config'
+import { ALCHEMY_ETHEREUM_API_KEY } from 'src/config'
 
 export const viemTransports: Record<Network, Transport> = {
   [Network.Celo]: http(),
-  [Network.Ethereum]: http(networkConfig.alchemyRpcUrl, {
+  [Network.Ethereum]: http(networkConfig.alchemyEthereumRpcUrl, {
     fetchOptions: {
       headers: {
-        Authorization: `Bearer ${ALCHEMY_API_KEY}`,
+        Authorization: `Bearer ${ALCHEMY_ETHEREUM_API_KEY}`,
       },
     },
   }),

@@ -206,9 +206,10 @@ export function* fetchTokenBalancesSaga() {
 }
 
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenId?: string) {
-  const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens: TokenBalance[] = yield* select((state) => tokensListSelector(state, networkIds))
-  const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
+  if (!tokenId) {
+    throw Error('Missing tokenID')
+  }
+  const tokenInfo = yield* getTokenInfo(tokenId)
   if (!tokenInfo) {
     throw Error(`Couldnt find token info for ID ${tokenId}.`)
   }

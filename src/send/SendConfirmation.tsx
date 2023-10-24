@@ -46,7 +46,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { isStablecoin } from 'src/tokens/utils'
+import { tokenSupportsComments } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
@@ -225,7 +225,8 @@ function SendConfirmation(props: Props) {
       localCurrencyAmount: localAmount?.toString() ?? null,
       tokenAmount: tokenAmount.toString(),
       tokenSymbol: tokenInfo?.symbol ?? '',
-      tokenAddress,
+      tokenAddress: tokenAddress ?? null,
+      networkId: tokenInfo?.networkId ?? null,
       tokenId,
       commentLength: comment.length,
     })
@@ -243,7 +244,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = isStablecoin(tokenInfo)
+  const allowComment = tokenSupportsComments(tokenInfo)
 
   return (
     <SafeAreaView

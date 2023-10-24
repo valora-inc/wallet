@@ -552,7 +552,8 @@ interface SendEventsProperties {
         localCurrencyAmount: string | null
         tokenAmount: string
         tokenSymbol: string
-        tokenAddress?: string
+        tokenAddress: string | null
+        networkId: NetworkId | null
         tokenId: string
         commentLength: number
       }
