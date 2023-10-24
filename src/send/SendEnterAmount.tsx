@@ -135,7 +135,13 @@ function SendEnterAmount({ route }: Props) {
               forwardedRef={textInputRef}
               onChangeText={(value) => {
                 handleSetStartPosition(undefined)
-                setAmount(value)
+                if (!value) {
+                  setAmount('')
+                } else {
+                  setAmount(
+                    (prev) => value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev
+                  )
+                }
               }}
               value={amount}
               placeholder="0"

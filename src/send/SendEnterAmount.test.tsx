@@ -12,7 +12,13 @@ import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockCeloTokenId, mockPoofAddress, mockPoofTokenId, mockTokenBalances } from 'test/values'
+import {
+  mockCeloTokenId,
+  mockEthTokenId,
+  mockPoofAddress,
+  mockPoofTokenId,
+  mockTokenBalances,
+} from 'test/values'
 
 jest.mock('src/tokens/utils', () => ({
   ...jest.requireActual('src/tokens/utils'),
@@ -21,14 +27,12 @@ jest.mock('src/tokens/utils', () => ({
 
 jest.mock('src/fees/hooks')
 
-const ethTokenId = 'ethereum-sepolia:native'
-
 const mockStore = {
   tokens: {
     tokenBalances: {
       ...mockTokenBalances,
-      [ethTokenId]: {
-        tokenId: ethTokenId,
+      [mockEthTokenId]: {
+        tokenId: mockEthTokenId,
         balance: '0',
         priceUsd: '5',
         networkId: NetworkId['ethereum-sepolia'],
@@ -80,7 +84,7 @@ describe('SendEnterAmount', () => {
   })
 
   it('renders components with picker using last used token', () => {
-    const store = createMockStore({ ...mockStore, send: { lastUsedTokenId: ethTokenId } })
+    const store = createMockStore({ ...mockStore, send: { lastUsedTokenId: mockEthTokenId } })
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -100,7 +104,7 @@ describe('SendEnterAmount', () => {
   })
 
   it('renders components with picker using token override', () => {
-    const store = createMockStore({ ...mockStore, send: { lastUsedTokenId: ethTokenId } })
+    const store = createMockStore({ ...mockStore, send: { lastUsedTokenId: mockEthTokenId } })
 
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -130,7 +134,7 @@ describe('SendEnterAmount', () => {
       <Provider store={store}>
         <MockedNavigator
           component={SendEnterAmount}
-          params={{ ...params, defaultTokenIdOverride: ethTokenId }}
+          params={{ ...params, defaultTokenIdOverride: mockEthTokenId }}
         />
       </Provider>
     )
@@ -157,6 +161,23 @@ describe('SendEnterAmount', () => {
 
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10')
     expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1.33')
+  })
+
+  it('only allows numeric input', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10.5')
+    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10.5.1')
+    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), 'abc')
+    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
   })
 
   it('selecting new token updates token and network info', async () => {
@@ -188,7 +209,7 @@ describe('SendEnterAmount', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.token_selected, {
       networkId: NetworkId['ethereum-sepolia'],
       tokenAddress: undefined,
-      tokenId: ethTokenId,
+      tokenId: mockEthTokenId,
       origin: 'Send',
     })
     // TODO(ACT-958): assert fees

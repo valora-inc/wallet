@@ -8,11 +8,13 @@ import {
   tokensByUsdBalanceSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
+  tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { mockEthTokenId } from 'test/values'
 
 const mockDate = 1588200517518
 
@@ -49,6 +51,7 @@ const state: any = {
         symbol: 'cUSD',
         priceFetchedAt: mockDate,
         isSwappable: true,
+        showZeroBalance: true,
       },
       ['celo-alfajores:0xeur']: {
         tokenId: 'celo-alfajores:0xeur',
@@ -117,6 +120,16 @@ const state: any = {
         balance: '50',
         priceUsd: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+      },
+      [mockEthTokenId]: {
+        name: 'Ether',
+        tokenId: mockEthTokenId,
+        networkId: NetworkId['ethereum-sepolia'],
+        balance: '0',
+        priceUsd: '500',
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+        showZeroBalance: true,
+        isNative: true,
       },
     },
   },
@@ -372,5 +385,38 @@ describe(totalTokenBalanceSelector, () => {
         ]
       `)
     })
+  })
+})
+
+describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
+  it('returns expected tokens in the correct order', () => {
+    const tokens = tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+
+    expect(tokens.map((token) => token.tokenId)).toEqual([
+      'celo-alfajores:0x1',
+      'celo-alfajores:0xeur',
+      'celo-alfajores:0x4',
+      'celo-alfajores:0x5',
+      'celo-alfajores:0x6',
+      'ethereum-sepolia:0x7',
+      'ethereum-sepolia:native',
+      'celo-alfajores:0xusd',
+    ])
+  })
+  it('avoids unnecessary recomputation', () => {
+    const prevComputations = tokensWithNonZeroBalanceAndShowZeroBalanceSelector.recomputations()
+    const tokens = tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+    ])
+    const tokens2 = tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+    ])
+    expect(tokens).toEqual(tokens2)
+    expect(tokensWithNonZeroBalanceAndShowZeroBalanceSelector.recomputations()).toEqual(
+      prevComputations + 1
+    )
   })
 })
