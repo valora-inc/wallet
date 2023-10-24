@@ -267,7 +267,7 @@ export async function prepareSendERC20Transaction(
   amountWei: bigint,
   feeCurrencies: TokenBalance[]
 ): Promise<PreparedTransactionsResult> {
-  // TODO make more DRY with prepareSendTransactions
+  // TODO make this work for transfer with comment
   const baseSendTx: TransactionRequestCIP42 = {
     from: fromWalletAddress as Address,
     to: sendToken.address as Address,
@@ -278,87 +278,13 @@ export async function prepareSendERC20Transaction(
     }),
     type: 'cip42',
   }
-  const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
-  for (const feeCurrency of feeCurrencies) {
-    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
-      // No balance, try next fee currency
-      continue
-    }
-    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
-    const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-      publicClient.celo,
-      feeCurrencyAddress
-    )
-    const sendTx = {
-      ...baseSendTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
-    }
-    try {
-      const sendGas = await publicClient.celo.estimateGas({
-        ...sendTx,
-        account: sendTx.from,
-      })
-      sendTx.gas = sendGas
-    } catch (e) {
-      if (e instanceof EstimateGasExecutionError) {
-        Logger.warn(
-          'TODO TAG',
-          `Could'nt estimate gas for send with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
-          e
-        )
-        continue
-      }
-      throw e
-    }
-    const maxGasCost = getMaxGasCost([sendTx])
-    const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
-      -feeCurrency.decimals
-    )
-    maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
-    if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-    const fromAmount = new BigNumber(amountWei.toString()).shiftedBy(-feeCurrency.decimals)
-    if (
-      sendToken.tokenId === feeCurrency.tokenId &&
-      fromAmount.plus(maxGasCostInDecimal).isGreaterThan(sendToken.balance)
-    ) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-
-    // This is the one we can use
-    return {
-      type: 'possible',
-      transactions: [sendTx],
-    } satisfies PreparedTransactionsPossible
-  }
-
-  // So far not enough balance to pay for gas
-  // let's see if we can decrease the send amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === sendToken.tokenId)
-  if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
-    // Can't decrease the send amount
-    return {
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies,
-    } satisfies PreparedTransactionsNotEnoughBalanceForGas
-  }
-
-  // We can decrease the send amount to pay for gas,
-  // We'll ask the user if they want to proceed
-  const adjustedMaxGasCost = result.maxGasCostInDecimal
-  const maxAmount = sendToken.balance.minus(adjustedMaxGasCost)
-
-  return {
-    type: 'need-decrease-spend-amount-for-gas',
-    maxGasCost: adjustedMaxGasCost,
-    feeCurrency: result.feeCurrency,
-    decreasedAmount: maxAmount,
-  } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
+  return prepareTransactions({
+    feeCurrencies,
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amountWei.toString()),
+    decreasedAmountGasCostMultiplier: 1,
+    baseTransactions: [baseSendTx],
+  })
 }
 
 const useSwapQuote = () => {
