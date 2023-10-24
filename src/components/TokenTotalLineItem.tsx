@@ -79,6 +79,8 @@ export default function TokenTotalLineItem({
           <TokenDisplay
             amount={tokenAmount.plus(newSendScreen ? feeInToken ?? 0 : 0)}
             tokenId={tokenId}
+            // showLocalAmount says what we want to do for TotalLineItem/Total, here we want to do the opposite.
+            // i.e. If in the total we show local amount, here we want to show the conversion to crypto amount.
             showLocalAmount={!showLocalAmount}
             hideSign={hideSign}
             testID="TotalLineItem/Subtotal"
