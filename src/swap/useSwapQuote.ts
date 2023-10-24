@@ -30,17 +30,10 @@ export interface QuoteResult {
   preparedTransactions?: PreparedTransactionsResult
 }
 
-type PreparedTransactionsPossible = {
+interface PreparedTransactionsPossible {
   type: 'possible'
-} & (
-  | {
-      approveTransaction: TransactionRequestCIP42 & { amountToApprove: bigint }
-      swapTransaction: TransactionRequestCIP42
-    }
-  | {
-      sendTransaction: TransactionRequestCIP42
-    }
-) // todo improve on this. should probly split into two types... or make the return type conditional on the inputs
+  transactions: TransactionRequestCIP42[]
+}
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
@@ -128,124 +121,40 @@ async function prepareSwapTransactions(
 ): Promise<PreparedTransactionsResult> {
   const baseApproveTx = createBaseApproveTransaction(updatedField, unvalidatedSwapTransaction)
   const baseSwapTx = createBaseSwapTransaction(unvalidatedSwapTransaction)
-
-  const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
-  for (const feeCurrency of feeCurrencies) {
-    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
-      // No balance, try next fee currency
-      continue
-    }
-
-    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
-    const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-      publicClient.celo,
-      feeCurrencyAddress
-    )
-
-    const approveTx = {
-      ...baseApproveTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
-    }
-
-    // TODO maybe cache this? and add static padding when using non-native fee currency
-    try {
-      const approveGas = await publicClient.celo.estimateGas({
-        ...approveTx,
-        account: approveTx.from,
-      })
-      approveTx.gas = approveGas
-    } catch (e) {
-      if (e instanceof EstimateGasExecutionError) {
-        // Likely too much gas was needed
-        Logger.warn(
-          'SwapScreen@useSwapQuote',
-          `Couldn't estimate gas for approval with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
-          e
-        )
-        continue
-      }
-      throw e
-    }
-
-    const swapTx = {
-      ...baseSwapTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
-      // We assume the provided gas value is with the native fee currency
-      // If it's not, we add the static padding
-      gas: baseSwapTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
-    }
-
-    const maxGasCost = getMaxGasCost([approveTx, swapTx])
-    const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
-      -feeCurrency.decimals
-    )
-    maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
-    if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-
-    const fromAmount = new BigNumber(approveTx.amountToApprove.toString()).shiftedBy(
-      -fromToken.decimals
-    )
-    if (
-      fromToken.tokenId === feeCurrency.tokenId &&
-      fromAmount.plus(maxGasCostInDecimal).isGreaterThan(fromToken.balance)
-    ) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-
-    // This is the one we can use
+  const output = await prepareTransactions({
+    feeCurrencies,
+    spendToken: fromToken,
+    spendTokenAmount: new BigNumber(baseApproveTx.amountToApprove.toString()),
+    decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
+    baseTransactions: [baseApproveTx, baseSwapTx],
+  })
+  if (output.type === 'need-decrease-spend-amount-for-gas') {
+    const maxFromAmount = fromToken.balance.minus(output.maxGasCost)
     return {
-      type: 'possible',
-      approveTransaction: approveTx,
-      swapTransaction: swapTx,
-    } satisfies PreparedTransactionsPossible
+      ...output,
+      decreasedAmount: updatedField === Field.FROM ? maxFromAmount : maxFromAmount.times(price), // max "to" amount
+    } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
   }
-
-  // So far not enough balance to pay for gas
-  // let's see if we can decrease the swap from amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === fromToken.tokenId)
-  if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
-    // Can't decrease the swap from amount
-    return {
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies,
-    } satisfies PreparedTransactionsNotEnoughBalanceForGas
-  }
-
-  // We can decrease the swap from amount to pay for gas,
-  // We'll ask the user if they want to proceed
-  const adjustedMaxGasCost = result.maxGasCostInDecimal.times(
-    DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER
-  )
-  const maxFromAmount = fromToken.balance.minus(adjustedMaxGasCost)
-  const maxToAmount = maxFromAmount.times(price)
-
-  return {
-    type: 'need-decrease-spend-amount-for-gas',
-    maxGasCost: adjustedMaxGasCost,
-    feeCurrency: result.feeCurrency,
-    decreasedAmount: updatedField === Field.FROM ? maxFromAmount : maxToAmount,
-  } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
+  return output
 }
 
 function allTruthy<T>(arr: (T | undefined | null)[]): arr is T[] {
   return arr.every((x) => !!x)
 }
 
-async function prepareTransactions(
-  feeCurrencies: TokenBalance[],
-  spendToken: TokenBalanceWithAddress,
-  spendTokenAmount: BigNumber,
-  decreasedAmountGasCostMultiplier: number,
-  ...baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
-): Promise<PreparedTransactionsResult> {
+async function prepareTransactions({
+  feeCurrencies,
+  spendToken,
+  spendTokenAmount,
+  decreasedAmountGasCostMultiplier,
+  baseTransactions,
+}: {
+  feeCurrencies: TokenBalance[]
+  spendToken: TokenBalanceWithAddress
+  spendTokenAmount: BigNumber
+  decreasedAmountGasCostMultiplier: number
+  baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
+}): Promise<PreparedTransactionsResult> {
   const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
   for (const feeCurrency of feeCurrencies) {
     if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
@@ -316,7 +225,7 @@ async function prepareTransactions(
     return {
       type: 'possible',
       transactions,
-    } // TODO 'satisfies PreparedTransactionsPossible'
+    } satisfies PreparedTransactionsPossible
   }
 
   // So far not enough balance to pay for gas
@@ -358,6 +267,7 @@ export async function prepareSendERC20Transaction(
   amountWei: bigint,
   feeCurrencies: TokenBalance[]
 ): Promise<PreparedTransactionsResult> {
+  // TODO make more DRY with prepareSendTransactions
   const baseSendTx: TransactionRequestCIP42 = {
     from: fromWalletAddress as Address,
     to: sendToken.address as Address,
@@ -423,7 +333,7 @@ export async function prepareSendERC20Transaction(
     // This is the one we can use
     return {
       type: 'possible',
-      sendTransaction: sendTx,
+      transactions: [sendTx],
     } satisfies PreparedTransactionsPossible
   }
 
