@@ -3,6 +3,7 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -350,6 +351,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
 
+    // Execute transaction
+    yield* put(swapExecute())
+    Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
+
+    const beforeSwapExecutionTimestamp = Date.now()
+    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
+
     const txHashes: Hash[] = []
     for (let preparedTransaction of [
       preparedTransactions.approveTransaction,
@@ -368,46 +376,33 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       txHashes.push(hash)
     }
 
+    const swapTxHash = txHashes[txHashes.length - 1]
+
+    yield* put(
+      addStandbyTransaction({
+        context: swapExecuteContext,
+        __typename: 'TokenExchangeV3',
+        networkId: networkConfig.defaultNetworkId,
+        type: TokenTransactionTypeV2.SwapTransaction,
+        inAmount: {
+          value: new BigNumber(sellAmount).shiftedBy(-fromToken.decimals),
+          tokenId: fromToken.tokenId,
+        },
+        outAmount: {
+          value: new BigNumber(buyAmount).shiftedBy(-toToken.decimals),
+          tokenId: fromToken.tokenId,
+        },
+        transactionHash: swapTxHash,
+      })
+    )
+
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
-      hash: txHashes[txHashes.length - 1],
+      hash: swapTxHash,
     })
     console.log('==receipt==', receipt)
     if (receipt.status !== 'success') {
       throw new Error('Swap transaction reverted')
     }
-
-    // const walletAddress = yield* select(walletAddressSelector)
-
-    // const amountToApprove =
-    //   amountType === 'buyAmount'
-    //     ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
-    //     : sellAmount
-
-    // Approve transaction
-    // yield* put(swapApprove())
-    // Logger.debug(
-    //   TAG,
-    //   `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
-    // )
-    // yield* call(
-    //   sendApproveTx,
-    //   sellTokenAddress,
-    //   amountToApprove,
-    //   allowanceTarget,
-    //   swapApproveContext
-    // )
-
-    // Execute transaction
-    yield* put(swapExecute())
-    // Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-
-    const beforeSwapExecutionTimestamp = Date.now()
-    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    // yield* call(
-    //   handleSendSwapTransaction,
-    //   { ...action.payload.unvalidatedSwapTransaction },
-    //   swapExecuteContext
-    // )
 
     const timeMetrics = getTimeMetrics()
 
