@@ -5,7 +5,7 @@ import Checkmark from 'src/icons/Checkmark'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
 import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TransactionStatus } from 'src/transactions/types'
@@ -25,9 +25,9 @@ function TransactionStatusIndicator({ status, testID }: Props) {
   }[status]
 
   const [color, backgroundColor] = {
-    [TransactionStatus.Complete]: [colors.successDark, colors.successLight],
-    [TransactionStatus.Pending]: [colors.warningDark, colors.warningLight],
-    [TransactionStatus.Failed]: [colors.errorDark, colors.errorLight],
+    [TransactionStatus.Complete]: [Colors.successDark, Colors.successLight],
+    [TransactionStatus.Pending]: [Colors.warningDark, Colors.warningLight],
+    [TransactionStatus.Failed]: [Colors.errorDark, Colors.errorLight],
   }[status]
 
   const icon = {
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   text: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.labelXSmall,
   },
 })
 

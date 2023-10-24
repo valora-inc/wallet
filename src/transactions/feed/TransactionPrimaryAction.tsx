@@ -5,7 +5,7 @@ import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TransactionStatus } from 'src/transactions/types'
@@ -26,9 +26,9 @@ function TransactionPrimaryAction({ status, onPress, testID }: Props) {
   }[status]
 
   const [color, backgroundColor] = {
-    [TransactionStatus.Complete]: [colors.successDark, colors.successLight],
-    [TransactionStatus.Pending]: [colors.warningDark, colors.warningLight],
-    [TransactionStatus.Failed]: [colors.errorDark, colors.errorLight],
+    [TransactionStatus.Complete]: [Colors.successDark, Colors.successLight],
+    [TransactionStatus.Pending]: [Colors.warningDark, Colors.warningLight],
+    [TransactionStatus.Failed]: [Colors.errorDark, Colors.errorLight],
   }[status]
 
   const icon = {
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   text: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.labelXSmall,
   },
 })
 
