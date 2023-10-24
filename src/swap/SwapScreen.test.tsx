@@ -10,10 +10,13 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
+import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -59,6 +62,15 @@ jest.mock('src/statsig', () => {
     getFeatureGate: jest.fn(),
   }
 })
+
+jest.spyOn(publicClient.celo, 'estimateGas').mockImplementation(async () => BigInt(21000))
+
+jest.mock('src/viem/estimateFeesPerGas', () => ({
+  estimateFeesPerGas: jest.fn(async () => ({
+    maxFeePerGas: BigInt(12000000000),
+    maxPriorityFeePerGas: BigInt(2000000000),
+  })),
+}))
 
 const now = Date.now()
 
@@ -132,6 +144,7 @@ const renderScreen = ({
           decimals: 18,
           imageUrl:
             'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+          isNative: true,
           isCoreToken: true,
           isSwappable: true,
           name: 'Celo native asset',
@@ -183,14 +196,26 @@ const renderScreen = ({
   }
 }
 
-const defaultQuoteResponse = JSON.stringify({
+const defaultQuote = {
   unvalidatedSwapTransaction: {
     price: '1.2345678',
+    guaranteedPrice: '1.1234567',
+    sellTokenAddress: mockCeloAddress,
+    buyTokenAddress: mockCusdAddress,
+    sellAmount: '1234000000000000000',
+    buyAmount: '1523456665200000000',
+    allowanceTarget: '0x0000000000000000000000000000000000000123',
+    from: mockAccount,
+    to: '0x0000000000000000000000000000000000000123',
+    value: '0',
+    data: '0x0',
+    gas: '1800000',
   },
   details: {
     swapProvider: 'someProvider',
   },
-})
+}
+const defaultQuoteResponse = JSON.stringify(defaultQuote)
 
 describe('SwapScreen', () => {
   beforeEach(() => {
@@ -353,11 +378,10 @@ describe('SwapScreen', () => {
   it('should keep the from amount in sync with the exchange rate', async () => {
     mockFetch.mockResponse(
       JSON.stringify({
+        ...defaultQuote,
         unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
           price: '0.12345678',
-        },
-        details: {
-          swapProvider: 'someProvider',
         },
       })
     )
@@ -397,23 +421,21 @@ describe('SwapScreen', () => {
 
     mockFetch.mockResponseOnce(
       JSON.stringify({
+        ...defaultQuote,
         unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
           price: highPriceImpactPrice,
           estimatedPriceImpact: highPriceImpact,
-        },
-        details: {
-          swapProvider: 'someProvider',
         },
       })
     )
     mockFetch.mockResponseOnce(
       JSON.stringify({
+        ...defaultQuote,
         unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
           price: lowPriceImpactPrice,
           estimatedPriceImpact: lowPriceImpact,
-        },
-        details: {
-          swapProvider: 'someProvider',
         },
       })
     )
@@ -460,23 +482,21 @@ describe('SwapScreen', () => {
 
     mockFetch.mockResponseOnce(
       JSON.stringify({
+        ...defaultQuote,
         unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
           price: highPriceImpactPrice,
           estimatedPriceImpact: null,
-        },
-        details: {
-          swapProvider: 'someProvider',
         },
       })
     )
     mockFetch.mockResponseOnce(
       JSON.stringify({
+        ...defaultQuote,
         unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
           price: lowPriceImpactPrice,
           estimatedPriceImpact: '2.3',
-        },
-        details: {
-          swapProvider: 'someProvider',
         },
       })
     )
@@ -563,11 +583,10 @@ describe('SwapScreen', () => {
     mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(
       JSON.stringify({
+        ...defaultQuote,
         unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
           price: '0.12345678',
-        },
-        details: {
-          swapProvider: 'someProvider',
         },
       })
     )
@@ -809,5 +828,302 @@ describe('SwapScreen', () => {
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
+  })
+
+  // When viem is enabled, it also uses the new fee estimation logic
+  describe('when USE_VIEM_FOR_SWAP is enabled', () => {
+    beforeEach(() => {
+      mockExperimentParams.mockReturnValue({
+        swappingNonNativeTokensEnabled: true,
+      })
+
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation((gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_SWAP)
+    })
+
+    it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {
+      // Swap from POOF to CELO, when no feeCurrency has any balance
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { getByText, getByTestId, store, swapFromContainer, swapToContainer } = renderScreen({
+        celoBalance: '0',
+        cUSDBalance: '0',
+      })
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('POOFTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('POOFTouchable'))
+
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('CELOTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('CELOTouchable'))
+
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.review')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.review'))
+
+      expect(
+        getByText(
+          'swapScreen.notEnoughBalanceForGas.dismissButton, {"feeCurrencies":"CELO, cEUR, cUSD"}'
+        )
+      ).toBeTruthy()
+
+      expect(store.getActions()).toEqual(
+        expect.not.arrayContaining([
+          expect.objectContaining({
+            type: setSwapUserInput.type,
+          }),
+        ])
+      )
+    })
+
+    it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
+      // Swap from POOF to CELO, when no feeCurrency has any balance
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { getByText, getByTestId, store, swapFromContainer, swapToContainer } = renderScreen({
+        celoBalance: '0.001',
+        cUSDBalance: '0.001',
+      })
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('POOFTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('POOFTouchable'))
+
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('CELOTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('CELOTouchable'))
+
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.review')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.review'))
+
+      expect(
+        getByText(
+          'swapScreen.notEnoughBalanceForGas.dismissButton, {"feeCurrencies":"CELO, cUSD, cEUR"}'
+        )
+      ).toBeTruthy()
+
+      expect(store.getActions()).toEqual(
+        expect.not.arrayContaining([
+          expect.objectContaining({
+            type: setSwapUserInput.type,
+          }),
+        ])
+      )
+    })
+
+    it('should prompt the user to decrease the swap amount when swapping the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
+      // Swap CELO to cUSD, when only CELO has balance
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { getByText, getByTestId, queryByText, store, swapToContainer, swapFromContainer } =
+        renderScreen({
+          celoBalance: '1.234',
+          cUSDBalance: '0',
+        })
+
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+        '1.234' // matching the value inside the mocked store
+      )
+
+      expect(getByText('swapScreen.review')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.review'))
+
+      const confirmDecrease = getByText(
+        'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
+      )
+      expect(confirmDecrease).toBeTruthy()
+
+      expect(store.getActions()).toEqual(
+        expect.not.arrayContaining([
+          expect.objectContaining({
+            type: setSwapUserInput.type,
+          }),
+        ])
+      )
+
+      // Mock next call with the decreased amount
+      mockFetch.mockResponse(
+        JSON.stringify({
+          ...defaultQuote,
+          unvalidatedSwapTransaction: {
+            ...defaultQuote.unvalidatedSwapTransaction,
+            sellAmount: '1207057600000000000',
+          },
+        })
+      )
+
+      // Now, decrease the swap amount
+      fireEvent.press(confirmDecrease)
+
+      expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+        '1.2077776' // 1.234 minus the max fee calculated for the swap
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(
+        queryByText(
+          'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
+        )
+      ).toBeFalsy()
+    })
+
+    it('should prompt the user to decrease the swap amount when swapping close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
+      // Swap CELO to cUSD, when only CELO has balance
+      mockFetch.mockResponse(
+        JSON.stringify({
+          ...defaultQuote,
+          unvalidatedSwapTransaction: {
+            ...defaultQuote.unvalidatedSwapTransaction,
+            sellAmount: '1233000000000000000', // 1.233
+          },
+        })
+      )
+      const { getByText, getByTestId, queryByText, store, swapToContainer, swapFromContainer } =
+        renderScreen({
+          celoBalance: '1.234',
+          cUSDBalance: '0',
+        })
+
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.233')
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.review')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.review'))
+
+      const confirmDecrease = getByText(
+        'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
+      )
+      expect(confirmDecrease).toBeTruthy()
+
+      expect(store.getActions()).toEqual(
+        expect.not.arrayContaining([
+          expect.objectContaining({
+            type: setSwapUserInput.type,
+          }),
+        ])
+      )
+
+      // Mock next call with the decreased amount
+      mockFetch.mockResponse(
+        JSON.stringify({
+          ...defaultQuote,
+          unvalidatedSwapTransaction: {
+            ...defaultQuote.unvalidatedSwapTransaction,
+            sellAmount: '1207057600000000000',
+          },
+        })
+      )
+
+      // Now, decrease the swap amount
+      fireEvent.press(confirmDecrease)
+
+      expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+        '1.2077776' // 1.234 (max balance) minus the max fee calculated for the swap
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(
+        queryByText(
+          'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
+        )
+      ).toBeFalsy()
+    })
+
+    it("should allow swapping the entered amount of a feeCurrency when there's enough balance to cover for the fee, while no other feeCurrency can pay for the fee", async () => {
+      // Swap CELO to cUSD, when only CELO has balance
+      mockFetch.mockResponse(
+        JSON.stringify({
+          ...defaultQuote,
+          unvalidatedSwapTransaction: {
+            ...defaultQuote.unvalidatedSwapTransaction,
+            sellAmount: '1000000000000000000', // 1
+          },
+        })
+      )
+      const { getByText, getByTestId, queryByTestId, swapToContainer, swapFromContainer } =
+        renderScreen({
+          celoBalance: '1.234',
+          cUSDBalance: '0',
+        })
+
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.review')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.review'))
+
+      expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
+      expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
+    })
+
+    it("should allow swapping the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
+      // Swap full CELO balance to cUSD
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { getByText, getByTestId, queryByTestId, swapToContainer, swapFromContainer } =
+        renderScreen({
+          celoBalance: '1.234',
+          cUSDBalance: '10',
+        })
+
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
+      fireEvent.press(getByTestId('cUSDTouchable'))
+
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+        '1.234' // matching the value inside the mocked store
+      )
+
+      expect(getByText('swapScreen.review')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.review'))
+
+      expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
+      expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
+    })
   })
 })

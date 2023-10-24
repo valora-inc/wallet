@@ -9,6 +9,7 @@ import {
   TokenExchangeMetadata,
   TokenTransactionTypeV2,
   NetworkId,
+  TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { mockCeurTokenId, mockCusdTokenId } from 'test/values'
@@ -63,6 +64,7 @@ describe('SwapFeedItem', () => {
             outAmount,
             metadata,
             fees,
+            status: TransactionStatus.Complete,
           }}
         />
       </Provider>

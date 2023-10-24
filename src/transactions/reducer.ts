@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -57,7 +58,14 @@ export const reducer = (
     case Actions.ADD_STANDBY_TRANSACTION:
       return {
         ...state,
-        standbyTransactions: [action.transaction, ...(state.standbyTransactions || [])],
+        standbyTransactions: [
+          {
+            ...action.transaction,
+            timestamp: Date.now(),
+            status: TransactionStatus.Pending,
+          },
+          ...(state.standbyTransactions || []),
+        ],
       }
     case Actions.REMOVE_STANDBY_TRANSACTION:
       return {
@@ -100,7 +108,7 @@ export const reducer = (
         standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
           return {
             ...tx,
-            hash: action.hash,
+            transactionHash: action.hash,
           }
         }),
       }
@@ -146,8 +154,19 @@ function mapForContextId(
   })
 }
 
-export const standbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+export const pendingStandbyTransactionsSelector = createSelector(
+  [(state: RootState) => state.transactions.standbyTransactions],
+  (transactions) => {
+    return transactions
+      .filter((transaction) => transaction.status === TransactionStatus.Pending)
+      .map((transaction) => ({
+        ...transaction,
+        transactionHash: transaction.transactionHash || '',
+        block: '',
+        fees: [],
+      }))
+  }
+)
 
 export const knownFeedTransactionsSelector = (state: RootState) =>
   state.transactions.knownFeedTransactions
