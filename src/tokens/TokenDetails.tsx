@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,11 +7,14 @@ import { useSelector } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -23,7 +26,7 @@ import QuickActionsMore from 'src/icons/quick-actions/More'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
@@ -31,7 +34,9 @@ import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
+import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
 import {
   useCashInTokens,
   useCashOutTokens,
@@ -40,7 +45,7 @@ import {
   useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { TokenDetailsActionName } from 'src/tokens/types'
+import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 
@@ -52,13 +57,13 @@ export default function TokenDetailsScreen({ route }: Props) {
   const { tokenId } = route.params
   const { t } = useTranslation()
   const token = useTokenInfo(tokenId)
-
-  if (!token) {
-    throw new Error(`token with id ${tokenId} not found`)
-  }
+  if (!token) throw new Error(`token with id ${tokenId} not found`)
+  const actions = useActions(token)
+  const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
+    <SafeAreaView style={styles.container}>
+      <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <ScrollView>
         <View style={styles.titleContainer}>
           <TokenIcon
@@ -86,7 +91,11 @@ export default function TokenDetailsScreen({ route }: Props) {
             testID="TokenDetails/Chart"
           />
         )}
-        <Actions token={token} />
+        <Actions
+          bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef}
+          token={token}
+          actions={actions}
+        />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
         <TokenBalanceItem token={token} />
         {token.infoUrl && (
@@ -97,12 +106,17 @@ export default function TokenDetailsScreen({ route }: Props) {
           />
         )}
       </ScrollView>
+      <TokenDetailsMoreActions
+        forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
+        token={token}
+        actions={actions}
+      />
     </SafeAreaView>
   )
 }
 
 TokenDetailsScreen.navigationOptions = {
-  ...headerWithBackButton,
+  ...noHeader,
 }
 
 function PriceInfo({ token }: { token: TokenBalance }) {
@@ -136,7 +150,21 @@ function PriceInfo({ token }: { token: TokenBalance }) {
   )
 }
 
-function Actions({ token }: { token: TokenBalance }) {
+export const onPressCicoAction = (token: TokenBalance, flow: CICOFlow) => {
+  const tokenSymbol = token.symbol
+  // this should always be true given that we only show Add / Withdraw if a
+  // token is CiCoCurrency, but adding it here to ensure type safety
+  if (isCicoToken(tokenSymbol)) {
+    navigate(Screens.FiatExchangeAmount, {
+      currency: tokenSymbol,
+      tokenId: token.tokenId,
+      flow,
+      network: Network.Celo, // TODO (ACT-954): use networkId from token
+    })
+  }
+}
+
+export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
   const sendableTokens = useTokensForSend()
   const swappableTokens = useSwappableTokens()
@@ -145,24 +173,11 @@ function Actions({ token }: { token: TokenBalance }) {
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
-  const onPressCicoAction = (flow: CICOFlow) => {
-    const tokenSymbol = token.symbol
-    // this should always be true given that we only show Add / Withdraw if a
-    // token is CiCoCurrency, but adding it here to ensure type safety
-    if (isCicoToken(tokenSymbol)) {
-      navigate(Screens.FiatExchangeAmount, {
-        currency: tokenSymbol,
-        tokenId: token.tokenId,
-        flow,
-        network: Network.Celo,
-      })
-    }
-  }
-
-  const actions = [
+  return [
     {
       name: TokenDetailsActionName.Send,
-      text: t('tokenDetails.actions.send'),
+      title: t('tokenDetails.actions.send'),
+      details: t('tokenDetails.actionDescriptions.send'),
       iconComponent: QuickActionsSend,
       onPress: () => {
         navigate(Screens.Send, { defaultTokenIdOverride: token.tokenId })
@@ -171,7 +186,8 @@ function Actions({ token }: { token: TokenBalance }) {
     },
     {
       name: TokenDetailsActionName.Swap,
-      text: t('tokenDetails.actions.swap'),
+      title: t('tokenDetails.actions.swap'),
+      details: t('tokenDetails.actionDescriptions.swap'),
       iconComponent: QuickActionsSwap,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
@@ -183,30 +199,46 @@ function Actions({ token }: { token: TokenBalance }) {
     },
     {
       name: TokenDetailsActionName.Add,
-      text: t('tokenDetails.actions.add'),
+      title: t('tokenDetails.actions.add'),
+      details: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
-        onPressCicoAction(CICOFlow.CashIn)
+        onPressCicoAction(token, CICOFlow.CashIn)
       },
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
       name: TokenDetailsActionName.Withdraw,
-      text: t('tokenDetails.actions.withdraw'),
+      title: t('tokenDetails.actions.withdraw'),
+      details: t('tokenDetails.actionDescriptions.withdraw'),
       iconComponent: QuickActionsWithdraw,
       onPress: () => {
-        onPressCicoAction(CICOFlow.CashOut)
+        onPressCicoAction(token, CICOFlow.CashOut)
       },
       visible: showWithdraw,
     },
   ].filter((action) => action.visible)
+}
+
+function Actions({
+  token,
+  bottomSheetRef,
+  actions,
+}: {
+  token: TokenBalance
+  bottomSheetRef: React.RefObject<BottomSheetRefType>
+  actions: TokenDetailsAction[]
+}) {
+  const { t } = useTranslation()
+  const cashOutTokens = useCashOutTokens()
+  const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
   const moreAction = {
     name: TokenDetailsActionName.More,
-    text: t('tokenDetails.actions.more'),
+    title: t('tokenDetails.actions.more'),
     iconComponent: QuickActionsMore,
     onPress: () => {
-      // TODO(ACT-917): open bottom sheet
+      bottomSheetRef.current?.snapToIndex(0)
     },
   }
 
@@ -230,7 +262,7 @@ function Actions({ token }: { token: TokenBalance }) {
       {actionButtons.map((action) => (
         <Button
           key={action.name}
-          text={action.text}
+          text={action.title}
           onPress={() => {
             ValoraAnalytics.track(AssetsEvents.tap_token_details_action, {
               action: action.name,
@@ -243,6 +275,7 @@ function Actions({ token }: { token: TokenBalance }) {
           size={BtnSizes.FULL}
           touchableStyle={styles.actionTouchable}
           testID={`TokenDetails/Action/${action.name}`}
+          fontStyle={typeScale.labelMedium}
         />
       ))}
     </View>

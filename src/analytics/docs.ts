@@ -518,6 +518,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AssetsEvents.tap_asset]: `When a user taps on an asset`,
   [AssetsEvents.tap_claim_rewards]: `When a user taps on the "Claim Rewards" button`,
   [AssetsEvents.tap_token_details_action]: `When a user taps one of the actions on the token details screen`,
+  [AssetsEvents.tap_token_details_bottom_sheet_action]: `When a user taps one of the actions on the more actions bottom sheet`,
   [AssetsEvents.tap_token_details_learn_more]: `When a user taps the learn more link on the token details screen`,
   [NftEvents.nft_error_screen_open]: `When the high level error screen is mounted`,
   [NftEvents.nft_media_load]: `When attempting to load NFT media`,

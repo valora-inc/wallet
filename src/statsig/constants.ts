@@ -38,6 +38,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.MULTI_CHAIN_SEND]: false,
   [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
+  [StatsigFeatureGates.USE_VIEM_FOR_SWAP]: false,
 }
 
 export const ExperimentConfigs = {
