@@ -3,22 +3,22 @@ import { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
-import { batch, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { getDynamicConfigParams } from 'src/statsig/index'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesSelector } from 'src/transactions/reducer'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { deduplicateTransactions } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getDynamicConfigParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { DynamicConfigs } from 'src/statsig/constants'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -48,20 +48,6 @@ const TAG = 'transactions/feed/queryHelper'
 
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
-
-const deduplicateTransactions = (
-  existingTxs: TokenTransaction[],
-  incomingTxs: TokenTransaction[]
-) => {
-  const currentHashes = new Set(existingTxs.map((tx) => tx.transactionHash))
-  const transactionsWithoutDuplicatedHash = existingTxs.concat(
-    incomingTxs.filter((tx) => !isEmpty(tx) && !currentHashes.has(tx.transactionHash))
-  )
-  transactionsWithoutDuplicatedHash.sort((a, b) => {
-    return b.timestamp - a.timestamp
-  })
-  return transactionsWithoutDuplicatedHash
-}
 
 export function getAllowedNetworkIds(): Array<NetworkId> {
   return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
@@ -157,10 +143,7 @@ export function useFetchTransactions(): QueryHookResult {
           }
           // If there are new transactions update transactions in redux and fetch balances
           if (hasNewTransaction) {
-            batch(() => {
-              dispatch(updateTransactions(nonEmptyTransactions))
-              dispatch(fetchTokenBalances({ showLoading: false }))
-            })
+            dispatch(updateTransactions(nonEmptyTransactions))
             vibrateSuccess()
           }
         }

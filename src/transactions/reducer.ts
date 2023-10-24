@@ -5,6 +5,7 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { deduplicateTransactions } from 'src/transactions/utils'
 
 export interface InviteTransactions {
   [txHash: string]: {
@@ -127,7 +128,7 @@ export const reducer = (
 
       return {
         ...state,
-        transactions: action.transactions,
+        transactions: deduplicateTransactions(state.transactions, action.transactions),
         knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:

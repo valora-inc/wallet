@@ -7,11 +7,11 @@ import { RootState } from 'src/redux/reducers'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import {
+  NetworkId,
   StandbyTransaction,
   TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
-  NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
@@ -169,7 +169,15 @@ describe('TransactionFeed', () => {
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
     expect(tree.queryByTestId('NoActivity/error')).toBeNull()
     expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(tree).toMatchSnapshot()
+    expect(tree.getAllByTestId('TransferFeedItem').length).toBe(1)
+    expect(
+      tree.getByText(
+        'feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}'
+      )
+    ).toBeTruthy()
+    expect(tree.getByText('feedItemReceivedInfo, {"context":"noComment"}')).toBeTruthy()
+    expect(tree.getByTestId('TransferFeedItem/amount')).toHaveTextContent('+₱0.13')
+    expect(tree.getByTestId('TransferFeedItem/tokenAmount')).toHaveTextContent('0.10 cUSD')
   })
 
   it("doesn't render transfers for tokens that we don't know about", async () => {

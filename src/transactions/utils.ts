@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import i18n from 'src/i18n'
 import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
@@ -46,4 +47,18 @@ export function groupFeedItemsInSections(
       title: key,
       data: value.data,
     }))
+}
+
+export const deduplicateTransactions = (
+  existingTxs: TokenTransaction[],
+  incomingTxs: TokenTransaction[]
+) => {
+  const currentHashes = new Set(existingTxs.map((tx) => tx.transactionHash))
+  const transactionsWithoutDuplicatedHash = existingTxs.concat(
+    incomingTxs.filter((tx) => !isEmpty(tx) && !currentHashes.has(tx.transactionHash))
+  )
+  transactionsWithoutDuplicatedHash.sort((a, b) => {
+    return b.timestamp - a.timestamp
+  })
+  return transactionsWithoutDuplicatedHash
 }
