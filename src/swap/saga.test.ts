@@ -26,6 +26,7 @@ import {
   mockContract,
   mockTokenBalances,
 } from 'test/values'
+import { zeroAddress } from 'viem'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -84,6 +85,17 @@ const mockSwap: PayloadAction<SwapInfo> = {
       swapProvider: '0x',
     },
     quoteReceivedAt: mockQuoteReceivedTimestamp,
+  },
+}
+
+const mockSwapWithNativeSellToken: PayloadAction<SwapInfo> = {
+  ...mockSwap,
+  payload: {
+    ...mockSwap.payload,
+    unvalidatedSwapTransaction: {
+      ...mockSwap.payload.unvalidatedSwapTransaction,
+      allowanceTarget: zeroAddress,
+    },
   },
 }
 
@@ -173,6 +185,35 @@ describe(swapSubmitSaga, () => {
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
     })
+  })
+
+  it('should complete swap without approval for native sell token', async () => {
+    await expectSaga(swapSubmitSaga, mockSwapWithNativeSellToken)
+      .withState(store.getState())
+      .provide(defaultProviders)
+      .not.put(swapApprove())
+      .put(swapExecute())
+      .put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenExchangeV3',
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: mockCeloTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: mockCeurTokenId,
+            },
+          },
+        },
+      })
+      .run()
+
+    expect(sendTransaction).toHaveBeenCalledTimes(1)
+    expect(loggerErrorSpy).not.toHaveBeenCalled()
   })
 
   it('should set swap state correctly on error', async () => {
