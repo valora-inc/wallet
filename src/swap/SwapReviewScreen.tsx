@@ -105,10 +105,7 @@ export function SwapReviewScreen({ route }: Props) {
       return new BigNumber(0)
     }
 
-    const maxGasCost = getMaxGasCost([
-      quote.preparedTransactions.approveTransaction,
-      quote.preparedTransactions.swapTransaction,
-    ])
+    const maxGasCost = getMaxGasCost(quote.preparedTransactions.transactions)
     return new BigNumber(maxGasCost.toString())
       .shiftedBy(-feeCurrencyToken.decimals)
       .times(feeCurrencyToken.priceUsd)

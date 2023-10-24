@@ -360,10 +360,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
 
     const txHashes: Hash[] = []
-    for (let preparedTransaction of [
-      preparedTransactions.approveTransaction,
-      preparedTransactions.swapTransaction,
-    ]) {
+    for (const preparedTransaction of preparedTransactions.transactions) {
       console.log('==Signing', preparedTransaction)
       const signedTx = yield* call([wallet, 'signTransaction'], {
         ...preparedTransaction,
