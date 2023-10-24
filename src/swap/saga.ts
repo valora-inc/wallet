@@ -3,7 +3,6 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
-import BigNumber from 'bignumber.js'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -261,6 +260,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     sellAmount,
     allowanceTarget,
     estimatedPriceImpact,
+    guaranteedPrice,
   } = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction
   const amountType =
     action.payload.userInput.updatedField === Field.TO
@@ -386,11 +386,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         networkId: networkConfig.defaultNetworkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
-          value: new BigNumber(sellAmount).shiftedBy(-fromToken.decimals),
-          tokenId: fromToken.tokenId,
+          value: valueToBigNumber(sellAmount)
+            .multipliedBy(guaranteedPrice)
+            .shiftedBy(-toToken.decimals),
+          tokenId: toToken.tokenId,
         },
         outAmount: {
-          value: new BigNumber(buyAmount).shiftedBy(-toToken.decimals),
+          value: valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals),
           tokenId: fromToken.tokenId,
         },
         transactionHash: swapTxHash,
