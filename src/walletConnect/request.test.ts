@@ -3,6 +3,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga/effects'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
+import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { getViemWallet, getWallet } from 'src/web3/contracts'
@@ -19,6 +20,8 @@ import {
   mockViemWallet,
   mockWallet,
 } from 'test/values'
+import { formatTransaction } from 'viem'
+import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
 jest.mock('src/web3/networkConfig', () => {
@@ -31,6 +34,12 @@ jest.mock('src/web3/networkConfig', () => {
       defaultNetworkId: 'celo-alfajores',
     },
   }
+})
+
+const mockTransactionCount = jest.fn().mockResolvedValue(7)
+const mockEstimateFeePerGas = jest.fn().mockResolvedValue({
+  maxFeePerGas: BigInt(12345),
+  maxPriorityFeePerGas: undefined,
 })
 
 const signTransactionRequest = {
@@ -113,7 +122,9 @@ describe(handleRequest, () => {
     await expectSaga(handleRequest, personalSignRequest)
       .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
       .withState(state)
-      .call([mockViemWallet, 'signMessage'], { message: { raw: 'Some message' } })
+      .call([mockViemWallet, 'signMessage'], {
+        message: { raw: 'Some message' },
+      })
       .run()
   })
 
@@ -144,26 +155,13 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC', gasLimit: '0x5208' }],
         })
-          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
+          .provide([
+            [matchers.call.fn(getViemWallet), mockViemWallet],
+            [matchers.call.fn(getTransactionCount), mockTransactionCount],
+            [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
+          ])
           .withState(state)
-          .call([mockViemWallet, 'prepareTransactionRequest'], {
-            from: '0xTEST',
-            data: '0xABC',
-            blockHash: null,
-            blockNumber: null,
-            chainId: undefined,
-            gas: BigInt(21000),
-            gasPrice: undefined,
-            maxFeePerGas: undefined,
-            maxPriorityFeePerGas: undefined,
-            nonce: undefined,
-            to: null,
-            transactionIndex: null,
-            type: undefined,
-            typeHex: undefined,
-            value: undefined,
-            v: undefined,
-          })
+          .call(formatTransaction, { from: '0xTEST', data: '0xABC', gas: '0x5208' })
           .run()
       })
 
@@ -172,26 +170,13 @@ describe(handleRequest, () => {
           method: SupportedActions.eth_signTransaction,
           params: [{ from: '0xTEST', data: '0xABC', gasPrice: '0x5208' }],
         })
-          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
+          .provide([
+            [matchers.call.fn(getViemWallet), mockViemWallet],
+            [matchers.call.fn(getTransactionCount), mockTransactionCount],
+            [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
+          ])
           .withState(state)
-          .call([mockViemWallet, 'prepareTransactionRequest'], {
-            from: '0xTEST',
-            data: '0xABC',
-            blockHash: null,
-            blockNumber: null,
-            chainId: undefined,
-            gas: undefined,
-            gasPrice: undefined,
-            maxFeePerGas: undefined,
-            maxPriorityFeePerGas: undefined,
-            nonce: undefined,
-            to: null,
-            transactionIndex: null,
-            type: undefined,
-            typeHex: undefined,
-            value: undefined,
-            v: undefined,
-          })
+          .call(formatTransaction, { from: '0xTEST', data: '0xABC' })
           .run()
       })
 
@@ -208,26 +193,17 @@ describe(handleRequest, () => {
             },
           ],
         })
-          .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
+          .provide([
+            [matchers.call.fn(getViemWallet), mockViemWallet],
+            [matchers.call.fn(getTransactionCount), mockTransactionCount],
+            [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
+          ])
           .withState(state)
-          .call([mockViemWallet, 'prepareTransactionRequest'], {
+          .call(formatTransaction, {
             from: '0xTEST',
             data: '0xABC',
-            blockHash: null,
-            blockNumber: null,
-            chainId: undefined,
-            gas: undefined,
             gasLimit: '0x5208',
-            gasPrice: BigInt(21000),
-            maxFeePerGas: undefined,
-            maxPriorityFeePerGas: undefined,
-            nonce: undefined,
-            to: null,
-            transactionIndex: null,
-            type: undefined,
-            typeHex: undefined,
-            value: undefined,
-            v: undefined,
+            gasPrice: '0x5208',
           })
           .run()
       })

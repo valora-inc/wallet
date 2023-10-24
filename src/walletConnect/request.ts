@@ -16,7 +16,12 @@ import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
-import { Address, GetTransactionCountParameters, formatTransaction } from 'viem'
+import {
+  Address,
+  GetTransactionCountParameters,
+  SignMessageParameters,
+  formatTransaction,
+} from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'WalletConnect/handle-request'
@@ -184,16 +189,12 @@ export function* handleRequest({ method, params }: { method: string; params: any
     case SupportedActions.eth_signTypedData:
       return (yield* call([wallet, 'signTypedData'], JSON.parse(params[1]))) as string
     case SupportedActions.personal_sign: {
-      return (yield* call([wallet, 'signMessage'], {
-        message: { raw: params[0] },
-        account: params[1],
-      })) as string
+      const data = { message: { raw: params[0] } } as SignMessageParameters
+      return (yield* call([wallet, 'signMessage'], data)) as string
     }
     case SupportedActions.eth_sign: {
-      return (yield* call([wallet, 'signMessage'], {
-        message: { raw: params[1] },
-        account: params[0],
-      })) as string
+      const data = { message: { raw: params[1] } } as SignMessageParameters
+      return (yield* call([wallet, 'signMessage'], data)) as string
     }
     default:
       throw new Error('unsupported RPC method')
