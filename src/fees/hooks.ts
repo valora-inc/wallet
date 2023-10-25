@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { estimateFee, FeeType } from 'src/fees/reducer'
-import { fetchFeeCurrencyAndTokenId } from 'src/fees/saga'
+import { FeeType, estimateFee } from 'src/fees/reducer'
+import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenInfoByAddress, useUsdToTokenAmount } from 'src/tokens/hooks'
@@ -18,7 +18,7 @@ import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 export function useFeeCurrency(): string | undefined {
   const tokens = useSelector(tokensByUsdBalanceSelector)
-  return fetchFeeCurrencyAndTokenId(tokens)?.feeCurrency
+  return fetchFeeCurrency(tokens)
 }
 
 export function usePaidFees(fees: Fee[]) {

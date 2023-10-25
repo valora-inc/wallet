@@ -1393,8 +1393,4 @@ export const migrations = {
       }),
     },
   }),
-  163: (state: any) => ({
-    ...state,
-    fees: { ...state.fees, estimates: {} },
-  }),
 }

@@ -550,14 +550,6 @@ export const mockFeeInfo = {
   gas: new BigNumber(20000),
   gasPrice: mockGasPrice,
   feeCurrency: undefined,
-  feeTokenId: undefined,
-}
-export const mockFeeInfoCEUR = {
-  fee: new BigNumber(10000000000000000),
-  gas: new BigNumber(20000),
-  gasPrice: mockGasPrice,
-  feeCurrency: mockCeurAddress,
-  feeTokenId: mockCeurTokenId,
 }
 
 export const emptyFees = {

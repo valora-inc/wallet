@@ -2743,15 +2743,6 @@ export const v162Schema = {
   },
 }
 
-export const v163Schema = {
-  ...v162Schema,
-  _persist: {
-    ...v162Schema._persist,
-    version: 163,
-  },
-  fees: { ...v162Schema.fees, estimates: {} },
-}
-
 export function getLatestSchema(): Partial<RootState> {
-  return v163Schema as Partial<RootState>
+  return v162Schema as Partial<RootState>
 }

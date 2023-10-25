@@ -35,7 +35,6 @@ import {
   mockCusdTokenId,
   mockE164Number,
   mockFeeInfo,
-  mockFeeInfoCEUR,
   mockGasPrice,
   mockTestTokenAddress,
   mockTestTokenTokenId,
@@ -96,7 +95,7 @@ const mockFeeEstimatesCeur = {
     lastUpdated: 500,
     loading: false,
     error: false,
-    feeInfo: mockFeeInfoCEUR,
+    feeInfo: mockFeeInfo,
   },
 }
 

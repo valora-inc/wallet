@@ -29,17 +29,13 @@ const TAG = 'fees/saga'
 export const SWAP_FEE_ESTIMATE_MULTIPLIER = 8
 export const SWAP_CELO_FEE_ESTIMATE_MULTIPLIER = 3 * SWAP_FEE_ESTIMATE_MULTIPLIER
 
-export type FeeInfo = {
+export interface FeeInfo {
   fee: BigNumber
   gas: BigNumber
   gasPrice: BigNumber
-} & (
-  | {
-      feeCurrency: string // actually an address
-      feeTokenId: string
-    }
-  | { feeCurrency: undefined; feeTokenId: undefined }
-)
+  feeCurrency?: string // actually an address
+  feeTokenId?: string
+}
 
 // Use default values for fee estimation
 const PLACEHOLDER_ADDRESS = '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
@@ -200,26 +196,13 @@ function* estimateRegisterDekFee() {
 function* calculateFeeForTx(txo: CeloTxObject<any>, gasMultiplier?: number) {
   const userAddress = yield* call(getWalletAddress)
 
-  const feeCurrencyAndTokenId = yield* call(fetchFeeCurrencyAndTokenIdSaga)
+  const feeCurrency = yield* call(fetchFeeCurrencySaga)
   const gasNeeded = yield* call(estimateGas, txo, {
     from: userAddress,
-    feeCurrency: feeCurrencyAndTokenId?.feeCurrency,
+    feeCurrency,
   })
 
-  const calculateFeeInput =
-    feeCurrencyAndTokenId?.feeCurrency && feeCurrencyAndTokenId?.feeTokenId
-      ? {
-          gas: gasNeeded.multipliedBy(gasMultiplier ?? 1),
-          feeCurrency: feeCurrencyAndTokenId?.feeCurrency,
-          feeTokenId: feeCurrencyAndTokenId?.feeTokenId,
-        }
-      : {
-          gas: gasNeeded.multipliedBy(gasMultiplier ?? 1),
-          feeCurrency: undefined,
-          feeTokenId: undefined,
-        }
-
-  const feeInfo = yield* call(calculateFee, calculateFeeInput)
+  const feeInfo = yield* call(calculateFee, gasNeeded.multipliedBy(gasMultiplier ?? 1), feeCurrency)
   return feeInfo
 }
 
@@ -235,53 +218,31 @@ function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
   return feeInfo.fee.times(tokenInfo.priceUsd).div(1e18)
 }
 
-export async function calculateFee({
-  gas,
-  feeTokenId,
-  feeCurrency,
-}: {
-  gas: BigNumber
-} & (
-  | {
-      feeCurrency: string // actually an address
-      feeTokenId: string
-    }
-  | { feeCurrency: undefined; feeTokenId: undefined }
-)): Promise<FeeInfo> {
+export async function calculateFee(
+  gas: BigNumber,
+  feeCurrency: string | undefined
+): Promise<FeeInfo> {
   const gasPrice = await getGasPrice(feeCurrency)
-  const fee = gas.multipliedBy(gasPrice)
-  Logger.debug(`${TAG}/calculateFee`, `Calculated ${feeCurrency} fee is: ${fee.toString()}`)
-  return feeCurrency
-    ? { gas, gasPrice, fee, feeCurrency, feeTokenId }
-    : {
-        gas,
-        gasPrice,
-        fee,
-        feeCurrency: undefined,
-        feeTokenId: undefined,
-      }
+  const feeInWei = gas.multipliedBy(gasPrice)
+  Logger.debug(`${TAG}/calculateFee`, `Calculated ${feeCurrency} fee is: ${feeInWei.toString()}`)
+  return { gas, feeCurrency, gasPrice, fee: feeInWei }
 }
 
 export function* fetchFeeCurrencySaga() {
   const tokens = yield* select(tokensByUsdBalanceSelector)
-  return fetchFeeCurrencyAndTokenId(tokens)?.feeCurrency
+  return fetchFeeCurrency(tokens)
 }
 
-export function* fetchFeeCurrencyAndTokenIdSaga() {
-  const tokens = yield* select(tokensByUsdBalanceSelector)
-  return fetchFeeCurrencyAndTokenId(tokens)
-}
-
-export function fetchFeeCurrencyAndTokenId(tokens: TokenBalanceWithAddress[]) {
+export function fetchFeeCurrency(tokens: TokenBalanceWithAddress[]) {
   for (const token of tokens) {
     if (!token.isCoreToken) {
       continue
     }
     if (token.symbol === 'CELO' && token.balance.gte(CELO_TRANSACTION_MIN_AMOUNT)) {
-      // Paying for fee with CELO requires passing undefined.
-      return { feeCurrency: undefined, feeTokenId: undefined }
+      // Paying for fee with CELO requires passing undefined for feeCurrency.
+      return undefined
     } else if (token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT)) {
-      return { feeCurrency: token.address, feeTokenId: token.tokenId }
+      return token.address
     }
   }
   Logger.warn(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')

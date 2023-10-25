@@ -14,7 +14,6 @@ import {
   mockAccount,
   mockAccount2,
   mockCusdAddress,
-  mockCusdTokenId,
   mockE164Number,
   mockE164NumberHashWithPepper,
 } from 'test/values'
@@ -25,7 +24,6 @@ const TEST_FEE_INFO_CUSD = {
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
   feeCurrency: mockCusdAddress,
-  feeTokenId: mockCusdTokenId,
 }
 
 // A fee of 0.01 CELO.
@@ -34,7 +32,6 @@ const TEST_FEE_INFO_CELO = {
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
   feeCurrency: undefined,
-  feeTokenId: undefined,
 }
 
 const mockFeeEstimate = ({

@@ -48,10 +48,10 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { celoAddressSelector } from 'src/tokens/selectors'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
-import networkConfig from 'src/web3/networkConfig'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
 type OwnProps = NativeStackScreenProps<
@@ -161,9 +161,8 @@ function SendConfirmation(props: Props) {
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
-  const feeTokenId =
-    feeEstimate?.feeInfo?.feeTokenId ?? networkConfig.currencyToTokenId[Currency.Celo]
-  const feeTokenInfoFromEstimate = useTokenInfo(feeTokenId)
+  const feeTokenAddress = feeEstimate?.feeInfo?.feeCurrency ?? useSelector(celoAddressSelector)
+  const feeTokenInfoFromEstimate = useTokenInfoByAddress(feeTokenAddress)
   const feeTokenInfo = newSendScreen ? feeTokenInfoFromEstimate : tokenInfo
   const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
@@ -183,7 +182,7 @@ function SendConfirmation(props: Props) {
             feeHasError={feeEstimate?.error || storedDekFee?.error}
             totalFee={totalFeeInFeeToken}
             showLocalAmount={false}
-            tokenId={feeTokenId}
+            tokenId={feeTokenInfo?.tokenId}
           />
         )}
         {!newSendScreen && (
