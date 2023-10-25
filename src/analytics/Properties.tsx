@@ -619,6 +619,8 @@ interface SendEventsProperties {
   [SendEvents.check_account_do_not_ask_selected]: undefined
   [SendEvents.check_account_alert_back]: undefined
   [SendEvents.check_account_alerts_continue]: undefined
+  [SendEvents.send_redesign_scan_qr]: undefined
+  [SendEvents.send_redesign_invite]: undefined
 }
 
 interface RequestEventsProperties {

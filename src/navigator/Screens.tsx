@@ -66,6 +66,7 @@ export enum Screens {
   SelectLocalCurrency = 'SelectLocalCurrency',
   SelectProvider = 'SelectProvider',
   Send = 'Send',
+  SendRedesign = 'SendRedesign',
   SendAmount = 'SendAmount',
   SendConfirmation = 'SendConfirmation',
   SendConfirmationModal = 'SendConfirmationModal',

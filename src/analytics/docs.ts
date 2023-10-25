@@ -287,6 +287,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.check_account_alert_back]: ``,
   [SendEvents.check_account_alerts_continue]: ``,
 
+  // Events for the new initial Send screen redesign
+  [SendEvents.send_redesign_scan_qr]: `When the QR code button is pressed`,
+  [SendEvents.send_redesign_invite]: `When the import contacts button is pressed`,
+
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,
   [QrScreenEvents.qr_screen_bottom_sheet_close]: ``,

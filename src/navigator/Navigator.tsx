@@ -92,6 +92,7 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
+import SendRedesign from 'src/send/SendRedesign'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import ValidateRecipientAccount, {
@@ -223,6 +224,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.Send}
       component={Send}
       options={Send.navigationOptions as NativeStackNavigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.SendRedesign}
+      component={SendRedesign}
+      options={SendRedesign.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendAmount}
