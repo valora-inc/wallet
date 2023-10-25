@@ -1166,6 +1166,7 @@
             },
             "required": [
                 "fee",
+                "feeCurrency",
                 "gas",
                 "gasPrice"
             ],

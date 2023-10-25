@@ -33,7 +33,7 @@ export interface FeeInfo {
   fee: BigNumber
   gas: BigNumber
   gasPrice: BigNumber
-  feeCurrency?: string // actually an address
+  feeCurrency: string | undefined // actually an address
 }
 
 // Use default values for fee estimation
