@@ -1894,5 +1894,10 @@
         }
       }
     }
+  },
+  "sendEnterAmountScreen": {
+    "title": "Enter Amount",
+    "selectToken": "Select a Token",
+    "networkFee": "{{networkName}} Network Fee"
   }
 }

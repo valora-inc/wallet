@@ -70,6 +70,7 @@ export enum Screens {
   SendAmount = 'SendAmount',
   SendConfirmation = 'SendConfirmation',
   SendConfirmationModal = 'SendConfirmationModal',
+  SendEnterAmount = 'SendEnterAmount',
   Settings = 'Settings',
   SetUpKeylessBackup = 'SetUpKeylessBackup',
   SignInWithEmail = 'SignInWithEmail',
