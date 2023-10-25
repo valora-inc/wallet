@@ -32,7 +32,7 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
@@ -121,14 +121,12 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
   }
 
-  const transactionNetwork = networkConfig.networkIdToNetwork[transaction.networkId]
-  const openBlockExplorerHandler = transactionNetwork
-    ? () => {
-        navigate(Screens.WebViewScreen, {
-          uri: `${networkConfig.blockExplorerBaseTxUrl[transactionNetwork]}${transaction.transactionHash}`,
-        })
-      }
-    : undefined
+  const transactionNetwork = networkIdToNetwork[transaction.networkId]
+
+  const openBlockExplorerHandler = () =>
+    navigate(Screens.WebViewScreen, {
+      uri: `${blockExplorerUrls[transaction.networkId].baseTxUrl}${transaction.transactionHash}`,
+    })
 
   const primaryActionHanlder =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler

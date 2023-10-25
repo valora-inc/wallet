@@ -21,7 +21,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
   RecursivePartial,
   createMockStore,
@@ -364,7 +364,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Celo]).origin}`)
+          RegExp(`^${new URL(networkConfig.blockExplorerUrl[Network.Celo]).origin}`)
         ),
       })
     )
@@ -384,7 +384,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Ethereum]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['ethereum-sepolia']].baseTxUrl).origin}`)
         ),
       })
     )
@@ -416,7 +416,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Celo]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl).origin}`)
         ),
       })
     )
@@ -436,7 +436,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Ethereum]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['ethereum-sepolia']].baseTxUrl).origin}`)
         ),
       })
     )

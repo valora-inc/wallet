@@ -41,7 +41,6 @@ interface NetworkConfig {
   celoExplorerBaseTokenUrl: string
   celoExplorerBaseTxUrl: string
   celoExplorerBaseAddressUrl: string
-  blockExplorerBaseTxUrl: Record<Network, string>
   approveSwapUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
@@ -60,7 +59,6 @@ interface NetworkConfig {
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
   networkToNetworkId: Record<Network, NetworkId>
-  networkIdToNetwork: Partial<Record<NetworkId, Network>>
   defaultNetworkId: NetworkId
   getTokensInfoUrl: string
   viemChain: {
@@ -70,6 +68,14 @@ interface NetworkConfig {
     [key in CiCoCurrency | Currency]: string
   }
   celoTokenAddress: string
+}
+
+export type blockExplorerUrls = {
+  [key in NetworkId]: { baseTxUrl: string }
+}
+
+export type networkIdToNetwork = {
+  [key in NetworkId]: Network
 }
 
 const CELO_TOKEN_ADDRESS_STAGING = '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9'
@@ -211,10 +217,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-alfajores'],
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
     },
-    networkIdToNetwork: {
-      [NetworkId['celo-alfajores']]: Network.Celo,
-      [NetworkId['ethereum-sepolia']]: Network.Ethereum,
-    },
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: BLOCKCHAIN_API_STAGING,
@@ -244,10 +246,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
-    blockExplorerBaseTxUrl: {
-      [Network.Celo]: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
-      [Network.Ethereum]: ETH_EXPLORER_BASE_TX_URL_SEPOLIA,
-    },
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
@@ -286,10 +284,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-mainnet'],
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
     },
-    networkIdToNetwork: {
-      [NetworkId['celo-mainnet']]: Network.Celo,
-      [NetworkId['ethereum-mainnet']]: Network.Ethereum,
-    },
     defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
@@ -318,10 +312,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
-    blockExplorerBaseTxUrl: {
-      [Network.Celo]: CELO_EXPLORER_BASE_TX_URL_MAINNET,
-      [Network.Ethereum]: ETH_EXPLORER_BASE_TX_URL_MAINNET,
-    },
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
@@ -354,6 +344,20 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
   },
+}
+
+export const blockExplorerUrls: blockExplorerUrls = {
+  [NetworkId['celo-mainnet']]: { baseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET },
+  [NetworkId['celo-alfajores']]: { baseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES },
+  [NetworkId['ethereum-mainnet']]: { baseTxUrl: ETH_EXPLORER_BASE_TX_URL_MAINNET },
+  [NetworkId['ethereum-sepolia']]: { baseTxUrl: ETH_EXPLORER_BASE_TX_URL_SEPOLIA },
+}
+
+export const networkIdToNetwork: networkIdToNetwork = {
+  [NetworkId['celo-mainnet']]: Network.Celo,
+  [NetworkId['celo-alfajores']]: Network.Celo,
+  [NetworkId['ethereum-mainnet']]: Network.Ethereum,
+  [NetworkId['ethereum-sepolia']]: Network.Ethereum,
 }
 
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)
