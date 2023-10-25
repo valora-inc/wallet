@@ -43,6 +43,7 @@ export default function TokenDetailsMoreActions({
               })
               action.onPress()
             }}
+            testID={`TokenDetailsMoreActions/${action.name}`}
           >
             <>
               <action.iconComponent color={Colors.dark} />
