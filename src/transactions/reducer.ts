@@ -1,11 +1,14 @@
+import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
 import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
+import { getTokenId } from 'src/tokens/utils'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   CompletedStandbyTransaction,
+  FeeType,
   StandbyTransaction,
   TokenTransaction,
   TransactionStatus,
@@ -92,13 +95,22 @@ export const reducer = (
         standbyTransactions: state.standbyTransactions.map(
           (standbyTransaction): StandbyTransaction => {
             if (standbyTransaction.context.id === action.txId) {
+              const { gasUsed, effectiveGasPrice, feeCurrency } = action.receipt
               return {
                 ...standbyTransaction,
                 status: TransactionStatus.Complete,
                 transactionHash,
                 block,
                 timestamp: Date.now(),
-                fees: [],
+                fees: [
+                  {
+                    type: FeeType.SecurityFee,
+                    amount: {
+                      value: new BigNumber(gasUsed).multipliedBy(effectiveGasPrice),
+                      tokenId: getTokenId(standbyTransaction.networkId, feeCurrency ?? undefined),
+                    },
+                  },
+                ],
               }
             }
             return standbyTransaction

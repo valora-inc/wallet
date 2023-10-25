@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { CeloTransactionReceipt } from 'node_modules/viem/_types/chains/celo/types'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'
@@ -297,7 +298,7 @@ export function* sendAndMonitorTransaction({
       wrapSendTransactionWithRetry,
       sendTxMethod,
       context
-    )) as unknown as TransactionReceipt
+    )) as unknown as TransactionReceipt | CeloTransactionReceipt
 
     if (receipt.status === 'reverted') {
       throw new Error('transaction reverted')
@@ -308,6 +309,9 @@ export function* sendAndMonitorTransaction({
         transactionHash: receipt.transactionHash,
         block: receipt.blockNumber.toString(),
         status: true,
+        effectiveGasPrice: receipt.effectiveGasPrice.toString(),
+        gasUsed: receipt.gasUsed.toString(),
+        feeCurrency: 'feeCurrency' in receipt ? receipt.feeCurrency : undefined,
       })
     )
     yield* put(fetchTokenBalances({ showLoading: true }))

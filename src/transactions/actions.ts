@@ -44,6 +44,9 @@ type BaseTransactionReceipt = {
   status: boolean
   block: string
   transactionHash: string
+  effectiveGasPrice: string
+  gasUsed: string
+  feeCurrency?: string | null
 }
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
