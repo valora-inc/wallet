@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import HorizontalLine from 'src/components/HorizontalLine'
@@ -134,41 +135,45 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.dateTime}>{dateTime}</Text>
-      <View style={styles.status}>
-        <TransactionStatusIndicator status={transaction.status} />
-        {primaryActionHanlder && (
-          <TransactionPrimaryAction
-            status={transaction.status}
-            onPress={primaryActionHanlder}
-            testID="transactionDetails/primaryAction"
-          />
+      <SafeAreaView edges={['right', 'bottom', 'left']}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.dateTime}>{dateTime}</Text>
+        <View style={styles.status}>
+          <TransactionStatusIndicator status={transaction.status} />
+          {primaryActionHanlder && (
+            <TransactionPrimaryAction
+              status={transaction.status}
+              onPress={primaryActionHanlder}
+              testID="transactionDetails/primaryAction"
+            />
+          )}
+        </View>
+        <View style={styles.content}>{content}</View>
+        {openBlockExplorerHandler && (
+          <>
+            <HorizontalLine />
+            <Touchable
+              style={styles.rowContainer}
+              borderless={true}
+              onPress={() => {
+                ValoraAnalytics.track(
+                  TransactionDetailsEvents.transaction_details_tap_block_explorer
+                )
+                openBlockExplorerHandler()
+              }}
+              testID="transactionDetails/blockExplorerLink"
+            >
+              <>
+                <Text style={styles.blockExplorerLink}>
+                  {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
+                  {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
+                </Text>
+                <ArrowRight color={Colors.gray3} size={16} />
+              </>
+            </Touchable>
+          </>
         )}
-      </View>
-      <View style={styles.content}>{content}</View>
-      {openBlockExplorerHandler && (
-        <>
-          <HorizontalLine />
-          <Touchable
-            style={styles.rowContainer}
-            borderless={true}
-            onPress={() => {
-              ValoraAnalytics.track(TransactionDetailsEvents.transaction_details_tap_block_explorer)
-              openBlockExplorerHandler()
-            }}
-            testID="transactionDetails/blockExplorerLink"
-          >
-            <>
-              <Text style={styles.blockExplorerLink}>
-                {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
-                {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
-              </Text>
-              <ArrowRight color={Colors.gray3} size={16} />
-            </>
-          </Touchable>
-        </>
-      )}
+      </SafeAreaView>
     </ScrollView>
   )
 }
