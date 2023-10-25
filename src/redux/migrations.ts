@@ -1382,7 +1382,6 @@ export const migrations = {
   }),
   162: (state: any) => ({
     ...state,
-    fees: { ...state.fees, estimates: {} },
     transactions: {
       ...state.transactions,
       standbyTransactions: state.transactions.standbyTransactions.filter((tx: any) => {
