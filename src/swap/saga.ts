@@ -366,6 +366,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       txHashes.push(hash)
     }
 
+    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
+
     const swapTxHash = txHashes[txHashes.length - 1]
 
     yield* put(
@@ -391,9 +393,9 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
       hash: swapTxHash,
     })
-    console.log('==receipt==', receipt)
+    Logger.debug('Got swap transaction receipt', receipt)
     if (receipt.status !== 'success') {
-      throw new Error('Swap transaction reverted')
+      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
     }
 
     const timeMetrics = getTimeMetrics()
