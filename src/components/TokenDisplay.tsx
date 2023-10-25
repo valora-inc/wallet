@@ -70,15 +70,7 @@ function TokenDisplay({
 
   const amountToShow = showLocalAmount ? amountInLocalCurrency : new BigNumber(amount)
 
-  const sign = hideSign
-    ? ''
-    : amountToShow.isNegative()
-    ? '-'
-    : showExplicitPositiveSign
-    ? '+'
-    : showApprox
-    ? '~'
-    : ''
+  const sign = hideSign ? '' : amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
 
   return (
     <Text style={style} testID={testID}>
@@ -86,6 +78,7 @@ function TokenDisplay({
         '-'
       ) : (
         <>
+          {showApprox && '~'}
           {sign}
           {showLocalAmount && fiatSymbol}
           {formatValueToDisplay(amountToShow.absoluteValue())}

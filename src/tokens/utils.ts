@@ -32,8 +32,12 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
   return token2UsdBalance.comparedTo(token1UsdBalance)
 }
 
-export function isStablecoin(token: TokenBalance | undefined) {
-  return token?.isCoreToken && token.symbol !== 'CELO'
+export function isCeloStablecoin(token: TokenBalance | undefined) {
+  return (
+    token?.isCoreToken &&
+    token.symbol !== 'CELO' &&
+    (token.networkId == NetworkId['celo-mainnet'] || token.networkId == NetworkId['celo-alfajores'])
+  )
 }
 
 /**

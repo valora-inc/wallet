@@ -10,7 +10,7 @@ import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { getTokenId, isStablecoin } from 'src/tokens/utils'
+import { getTokenId, isCeloStablecoin } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
@@ -157,7 +157,7 @@ function* getTransferSimulateContract({
 
   const convertedAmount = BigInt(yield* call(tokenAmountInSmallestUnit, amount, tokenAddress))
 
-  const encryptedComment = isStablecoin(tokenInfo)
+  const encryptedComment = isCeloStablecoin(tokenInfo)
     ? yield* call(encryptComment, comment, recipientAddress, wallet.account.address, true)
     : undefined
 
@@ -169,7 +169,7 @@ function* getTransferSimulateContract({
     encryptedComment: encryptedComment || '',
   })
 
-  if (isStablecoin(tokenInfo)) {
+  if (isCeloStablecoin(tokenInfo)) {
     Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {
       recipientAddress,
       convertedAmount,

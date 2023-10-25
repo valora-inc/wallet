@@ -39,18 +39,17 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { useInputAmountsByAddress } from 'src/send/SendAmount'
+import { useInputAmounts } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
-import { isStablecoin } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { isCeloStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
@@ -107,16 +106,16 @@ function SendConfirmation(props: Props) {
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const { localAmount, tokenAmount, usdAmount } = useInputAmountsByAddress(
+  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
-    tokenAddress,
+    tokenInfo?.tokenId,
     inputTokenAmount
   )
 
@@ -269,10 +268,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = newSendScreen
-    ? tokenInfo?.networkId === NetworkId['celo-mainnet'] ||
-      tokenInfo?.networkId === NetworkId['celo-alfajores']
-    : isStablecoin(tokenInfo)
+  const allowComment = isCeloStablecoin(tokenInfo)
 
   return (
     <SafeAreaView
@@ -409,7 +405,7 @@ const styles = StyleSheet.create({
     ...fontStyles.largeNumber,
   },
   amountSubscript: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray5,
     paddingBottom: 16,
   },
