@@ -338,9 +338,9 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       throw new Error('No prepared transactions possible')
     }
 
-    // @ts-ignore
+    // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
     const block = yield* call(getBlock, wallet, { blockTag: 'latest' })
-    // @ts-ignore
+    // @ts-ignore ditto
     let nonce: number = yield* call(getTransactionCount, wallet, {
       address: wallet.account.address,
       blockTag: 'pending',
@@ -352,7 +352,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
 
-    // Execute transaction
+    // Execute transaction(s)
     yield* put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
 
