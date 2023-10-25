@@ -130,11 +130,6 @@ jest.mock('src/statsig', () => ({
   })),
 }))
 
-jest.mock('src/fiatExchanges/utils', () => ({
-  ...(jest.requireActual('src/fiatExchanges/utils') as any),
-  fetchProviders: jest.fn(),
-}))
-
 describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
 
