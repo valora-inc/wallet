@@ -1,4 +1,3 @@
-import { uniqBy } from 'lodash'
 import i18n from 'src/i18n'
 import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
@@ -53,9 +52,17 @@ export const deduplicateTransactions = (
   existingTxs: TokenTransaction[],
   incomingTxs: TokenTransaction[]
 ) => {
-  const combinedTransations = [...existingTxs, ...incomingTxs]
+  const combinedTxs = [...incomingTxs, ...existingTxs]
+  const transactionHashSet = new Set<string>()
+  const transactionsWithoutDuplicatedHash: TokenTransaction[] = []
+  for (const tx of combinedTxs) {
+    if (!transactionHashSet.has(tx.transactionHash)) {
+      transactionHashSet.add(tx.transactionHash)
+      transactionsWithoutDuplicatedHash.push(tx)
+    }
+  }
 
-  return uniqBy(combinedTransations, 'transactionHash').sort((a, b) => {
+  return transactionsWithoutDuplicatedHash.sort((a, b) => {
     return b.timestamp - a.timestamp
   })
 }

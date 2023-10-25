@@ -118,7 +118,7 @@ describe('deduplicateTransactions', () => {
     const incomingTxs = [
       txItem(daysAgo(2), 'id2'), // already exists in existingTxs, should be filtered out
       txItem(daysAgo(0), 'id0'),
-      txItem(daysAgo(0), 'id0'), // duplicate tx, should be filtered out
+      txItem(daysAgo(1), 'id0'), // duplicate tx, should be filtered out
     ]
 
     expect(deduplicateTransactions(existingTxs, incomingTxs)).toEqual([
