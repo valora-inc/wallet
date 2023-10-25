@@ -2731,13 +2731,27 @@ export const v161Schema = {
 
 export const v162Schema = {
   ...v161Schema,
-  fees: { ...v161Schema.fees, estimates: {} },
   _persist: {
     ...v161Schema._persist,
     version: 162,
   },
+  transactions: {
+    ...v161Schema.transactions,
+    standbyTransactions: v161Schema.transactions.standbyTransactions.filter((tx: any) => {
+      return tx.status !== 'Complete'
+    }),
+  },
+}
+
+export const v163Schema = {
+  ...v162Schema,
+  _persist: {
+    ...v162Schema._persist,
+    version: 163,
+  },
+  fees: { ...v162Schema.fees, estimates: {} },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v162Schema as Partial<RootState>
+  return v163Schema as Partial<RootState>
 }

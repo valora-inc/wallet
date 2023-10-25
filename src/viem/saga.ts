@@ -15,7 +15,7 @@ import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmedViem,
+  transactionConfirmed,
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
@@ -303,7 +303,13 @@ export function* sendAndMonitorTransaction({
       throw new Error('transaction reverted')
     }
     ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
-    yield* put(transactionConfirmedViem(context.id))
+    yield* put(
+      transactionConfirmed(context.id, {
+        transactionHash: receipt.transactionHash,
+        block: receipt.blockNumber.toString(),
+        status: true,
+      })
+    )
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {

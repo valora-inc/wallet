@@ -2125,6 +2125,103 @@
             ],
             "type": "object"
         },
+        "PendingStandbySwap": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenExchangeV3",
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "inAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/TokenExchangeMetadata"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "outAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "context",
+                "inAmount",
+                "networkId",
+                "outAmount",
+                "status",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
+        "PendingStandbyTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenTransferV3",
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "amount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/TokenTransferMetadata"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "address",
+                "amount",
+                "context",
+                "metadata",
+                "networkId",
+                "status",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PersistState": {
             "additionalProperties": false,
             "properties": {
@@ -2665,110 +2762,136 @@
             ],
             "type": "object"
         },
-        "StandbySwap": {
-            "additionalProperties": false,
-            "properties": {
-                "__typename": {
-                    "const": "TokenExchangeV3",
-                    "type": "string"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "inAmount": {
-                    "$ref": "#/definitions/TokenAmount"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/TokenExchangeMetadata"
-                },
-                "networkId": {
-                    "$ref": "#/definitions/NetworkId"
-                },
-                "outAmount": {
-                    "$ref": "#/definitions/TokenAmount"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
-                }
-            },
-            "required": [
-                "__typename",
-                "context",
-                "inAmount",
-                "networkId",
-                "outAmount",
-                "status",
-                "timestamp",
-                "type"
-            ],
-            "type": "object"
-        },
         "StandbyTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/StandbySwap"
+                    "$ref": "#/definitions/PendingStandbySwap"
                 },
                 {
-                    "$ref": "#/definitions/StandbyTransfer"
+                    "$ref": "#/definitions/PendingStandbyTransfer"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
+                            "const": "TokenExchangeV3",
+                            "type": "string"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "metadata": {
+                            "$ref": "#/definitions/TokenExchangeMetadata"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "status": {
+                            "const": "Complete",
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "block",
+                        "context",
+                        "fees",
+                        "inAmount",
+                        "networkId",
+                        "outAmount",
+                        "status",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
+                            "const": "TokenTransferV3",
+                            "type": "string"
+                        },
+                        "address": {
+                            "type": "string"
+                        },
+                        "amount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "metadata": {
+                            "$ref": "#/definitions/TokenTransferMetadata"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "const": "Complete",
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "address",
+                        "amount",
+                        "block",
+                        "context",
+                        "fees",
+                        "metadata",
+                        "networkId",
+                        "status",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
                 }
             ]
-        },
-        "StandbyTransfer": {
-            "additionalProperties": false,
-            "properties": {
-                "__typename": {
-                    "const": "TokenTransferV3",
-                    "type": "string"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "amount": {
-                    "$ref": "#/definitions/TokenAmount"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/TokenTransferMetadata"
-                },
-                "networkId": {
-                    "$ref": "#/definitions/NetworkId"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
-                }
-            },
-            "required": [
-                "__typename",
-                "address",
-                "amount",
-                "context",
-                "metadata",
-                "networkId",
-                "status",
-                "timestamp",
-                "type"
-            ],
-            "type": "object"
         },
         "State": {
             "additionalProperties": false,
