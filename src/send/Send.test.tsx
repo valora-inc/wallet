@@ -225,7 +225,7 @@ describe('Send', () => {
     )
 
     fireEvent.press(getAllByTestId('RecipientItem')[0])
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       isFromScan: false,
       origin: SendOrigin.AppSendFlow,
       recipient: expect.objectContaining(mockRecipient),

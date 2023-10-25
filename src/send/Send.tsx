@@ -128,9 +128,7 @@ function Send({ route }: Props) {
     }
 
     if (getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
-      // TODO (ACT-945): Use New Send Flow
-      // Currently navigates to old send flow without bottom sheet
-      navigate(Screens.SendAmount, {
+      navigate(Screens.SendEnterAmount, {
         isFromScan: false,
         defaultTokenIdOverride,
         forceTokenId,
