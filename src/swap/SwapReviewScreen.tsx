@@ -53,6 +53,7 @@ function getFeeCurrency(quote: QuoteResult) {
   if (quote.preparedTransactions?.type !== 'possible') {
     return undefined
   }
+  // The prepared transactions always use the same fee currency
   return quote.preparedTransactions.transactions[0].feeCurrency
 }
 
