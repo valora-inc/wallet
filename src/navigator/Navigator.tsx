@@ -94,6 +94,7 @@ import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
+import SendEnterAmount from 'src/send/SendEnterAmount'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -253,6 +254,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.ReclaimPaymentConfirmationScreen}
       component={ReclaimPaymentConfirmationScreen}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.SendEnterAmount}
+      component={SendEnterAmount}
+      options={noHeader}
     />
   </>
 )

@@ -47,25 +47,23 @@ const mockTransaction = (transactionHash: string): TokenTransaction => {
 
 const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 
-const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
-  {
-    __typename: 'TokenTransferV3',
-    context: { id: 'test' },
-    networkId: NetworkId['celo-alfajores'],
-    type: TokenTransactionTypeV2.Sent,
-    status: TransactionStatus.Pending,
-    amount: {
-      value: '0.5',
-      tokenAddress: mockCusdAddress,
-      tokenId: mockCusdTokenId,
-    },
-    metadata: {
-      comment: '',
-    },
-    timestamp: 1542300000,
-    address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+const MOCK_STANDBY_TRANSACTION: StandbyTransaction = {
+  __typename: 'TokenTransferV3',
+  context: { id: 'test' },
+  networkId: NetworkId['celo-alfajores'],
+  type: TokenTransactionTypeV2.Sent,
+  status: TransactionStatus.Pending,
+  amount: {
+    value: '0.5',
+    tokenAddress: mockCusdAddress,
+    tokenId: mockCusdTokenId,
   },
-]
+  metadata: {
+    comment: '',
+  },
+  timestamp: 1542300000,
+  address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+}
 
 const END_CURSOR = 'YXJyYXljb25uZWN0aW9uOjk='
 
@@ -172,6 +170,26 @@ describe('TransactionFeed', () => {
     expect(tree).toMatchSnapshot()
   })
 
+  it('renders correctly with completed standby transactions', async () => {
+    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE))
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          {
+            ...MOCK_STANDBY_TRANSACTION,
+            status: TransactionStatus.Complete,
+            transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8bxx',
+            block: '8888',
+            fees: [],
+          },
+        ],
+      },
+    })
+
+    await waitFor(() => expect(tree.getAllByTestId('TransferFeedItem').length).toBe(2))
+  })
+
   it("doesn't render transfers for tokens that we don't know about", async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE))
 
@@ -218,7 +236,7 @@ describe('TransactionFeed', () => {
 
     const tree = renderScreen({
       transactions: {
-        standbyTransactions: MOCK_STANDBY_TRANSACTIONS,
+        standbyTransactions: [MOCK_STANDBY_TRANSACTION],
       },
     })
 

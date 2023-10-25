@@ -40,6 +40,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SWAP]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
+  [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
 }
 
 export const ExperimentConfigs = {

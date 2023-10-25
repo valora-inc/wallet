@@ -36,6 +36,7 @@ export enum StatsigFeatureGates {
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   USE_VIEM_FOR_SWAP = 'use_viem_for_swap',
   USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS = 'use_viem_for_walletconnect_transactions',
+  USE_NEW_SEND_FLOW = 'use_new_send_flow',
 }
 
 export enum StatsigExperiments {
