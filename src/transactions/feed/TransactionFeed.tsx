@@ -8,8 +8,16 @@ import NoActivity from 'src/transactions/NoActivity'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import { getAllowedNetworkIds, useFetchTransactions } from 'src/transactions/feed/queryHelper'
-import { pendingStandbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
+import {
+  deduplicateTransactions,
+  getAllowedNetworkIds,
+  useFetchTransactions,
+} from 'src/transactions/feed/queryHelper'
+import {
+  completedStandbyTransactionsSelector,
+  pendingStandbyTransactionsSelector,
+  transactionsSelector,
+} from 'src/transactions/reducer'
 import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
@@ -25,15 +33,20 @@ function TransactionFeed() {
 
   const cachedTransactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
+  const allConfirmedStandbyTransactions = useSelector(completedStandbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
 
   const confirmedFeedTransactions = useMemo(() => {
     const confirmedTokenTransactions: TokenTransaction[] =
       transactions.length > 0 ? transactions : cachedTransactions
-    return confirmedTokenTransactions.filter((tx) => {
+    const allConfirmedTransactions = deduplicateTransactions(
+      confirmedTokenTransactions,
+      allConfirmedStandbyTransactions
+    )
+    return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [transactions, cachedTransactions, allowedNetworks])
+  }, [transactions, cachedTransactions, allowedNetworks, allConfirmedStandbyTransactions])
 
   const pendingTransactions = useMemo(() => {
     return allPendingTransactions.filter((tx) => {
