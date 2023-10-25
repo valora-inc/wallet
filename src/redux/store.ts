@@ -149,9 +149,8 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
   const enhancers = []
 
   if (__DEV__) {
-    // TODO remove that in separate PR
-    // const Reactotron = require('src/reactotronConfig').default
-    // enhancers.push(Reactotron.createEnhancer())
+    const Reactotron = require('src/reactotronConfig').default
+    enhancers.push(Reactotron.createEnhancer())
   }
 
   const persistedReducer = persistReducer(config, rootReducer)
