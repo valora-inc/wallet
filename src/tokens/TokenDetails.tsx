@@ -150,20 +150,6 @@ function PriceInfo({ token }: { token: TokenBalance }) {
   )
 }
 
-export const onPressCicoAction = (token: TokenBalance, flow: CICOFlow) => {
-  const tokenSymbol = token.symbol
-  // this should always be true given that we only show Add / Withdraw if a
-  // token is CiCoCurrency, but adding it here to ensure type safety
-  if (isCicoToken(tokenSymbol)) {
-    navigate(Screens.FiatExchangeAmount, {
-      currency: tokenSymbol,
-      tokenId: token.tokenId,
-      flow,
-      network: Network.Celo, // TODO (ACT-954): use networkId from token
-    })
-  }
-}
-
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
   const sendableTokens = useTokensForSend()
@@ -203,7 +189,17 @@ export const useActions = (token: TokenBalance) => {
       details: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
-        onPressCicoAction(token, CICOFlow.CashIn)
+        const tokenSymbol = token.symbol
+        // this should always be true given that we only show Add / Withdraw if a
+        // token is CiCoCurrency, but adding it here to ensure type safety
+        if (isCicoToken(tokenSymbol)) {
+          navigate(Screens.FiatExchangeAmount, {
+            currency: tokenSymbol,
+            tokenId: token.tokenId,
+            flow: CICOFlow.CashIn,
+            network: Network.Celo, // TODO (ACT-954): use networkId from token
+          })
+        }
       },
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
@@ -213,7 +209,7 @@ export const useActions = (token: TokenBalance) => {
       details: t('tokenDetails.actionDescriptions.withdraw'),
       iconComponent: QuickActionsWithdraw,
       onPress: () => {
-        onPressCicoAction(token, CICOFlow.CashOut)
+        navigate(Screens.WithdrawSpend)
       },
       visible: showWithdraw,
     },

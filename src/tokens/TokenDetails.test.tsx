@@ -1,9 +1,13 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
+import { Network } from 'src/transactions/types'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -25,6 +29,9 @@ jest.mock('src/statsig', () => ({
 }))
 
 describe('TokenDetails', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   it('renders title, balance and token balance item', () => {
     const store = createMockStore({
       tokens: {
@@ -322,5 +329,47 @@ describe('TokenDetails', () => {
     expect(getByTestId('TokenDetails/Action/Add')).toBeTruthy()
     expect(getByTestId('TokenDetails/Action/More')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
+  })
+
+  it('actions navigate to appropriate screens', async () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            balance: '10',
+            isSwappable: true,
+          },
+        },
+      },
+      app: {
+        showSwapMenuInDrawerMenu: true,
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('TokenDetails/Action/Send'))
+    expect(navigate).toHaveBeenCalledWith(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
+    fireEvent.press(getByTestId('TokenDetails/Action/Swap'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
+      fromTokenId: mockCeloTokenId,
+    })
+    fireEvent.press(getByTestId('TokenDetails/Action/More'))
+    await waitFor(() => expect(getByTestId('TokenDetailsMoreActions')).toBeTruthy())
+    fireEvent.press(getByTestId('TokenDetailsMoreActions/Add'))
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      currency: CiCoCurrency.CELO,
+      tokenId: mockCeloTokenId,
+      flow: CICOFlow.CashIn,
+      network: Network.Celo,
+    })
+    fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
+    expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
   })
 })
