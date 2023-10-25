@@ -1,19 +1,20 @@
 import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { groupFeedItemsInSections } from 'src/transactions/utils'
+import { deduplicateTransactions, groupFeedItemsInSections } from 'src/transactions/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const mockFeedItem = (
   timestamp: number,
   comment: string,
-  status = TransactionStatus.Complete
+  status = TransactionStatus.Complete,
+  transactionHash = 'any_value'
 ): FeedTokenTransaction => {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
     type: TokenTransactionTypeV2.Sent,
     block: '8648978',
-    transactionHash: 'any_value',
+    transactionHash,
     amount: {
       value: '5.05',
       tokenAddress: mockCusdAddress,
@@ -101,5 +102,27 @@ describe('groupFeedItemsInSections', () => {
 
     expect(sections[5].title).toEqual('August 2018')
     expect(sections[5].data.length).toEqual(1)
+  })
+})
+
+describe('deduplicateTransactions', () => {
+  it('should return unique transactions sorted by time', () => {
+    const existingTxs = [
+      mockFeedItem(daysAgo(1), 'noComment', TransactionStatus.Complete, 'tx1'),
+      mockFeedItem(daysAgo(2), 'noComment', TransactionStatus.Complete, 'tx2'),
+      mockFeedItem(daysAgo(3), 'noComment', TransactionStatus.Complete, 'tx3'),
+    ]
+    const incomingTxs = [
+      mockFeedItem(daysAgo(2), 'noComment', TransactionStatus.Complete, 'tx2'), // already exists in existingTxs, should be filtered out
+      mockFeedItem(daysAgo(0), 'noComment', TransactionStatus.Complete, 'tx0'),
+      mockFeedItem(daysAgo(0), 'noComment', TransactionStatus.Complete, 'tx0'), // duplicate tx, should be filtered out
+    ]
+
+    expect(deduplicateTransactions(existingTxs, incomingTxs)).toEqual([
+      mockFeedItem(daysAgo(0), 'noComment', TransactionStatus.Complete, 'tx0'),
+      mockFeedItem(daysAgo(1), 'noComment', TransactionStatus.Complete, 'tx1'),
+      mockFeedItem(daysAgo(2), 'noComment', TransactionStatus.Complete, 'tx2'),
+      mockFeedItem(daysAgo(3), 'noComment', TransactionStatus.Complete, 'tx3'),
+    ])
   })
 })
