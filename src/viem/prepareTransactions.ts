@@ -31,7 +31,7 @@ export type PreparedTransactionsResult =
   | PreparedTransactionsNeedDecreaseSpendAmountForGas
   | PreparedTransactionsNotEnoughBalanceForGas
 
-function getMaxGasCost(txs: TransactionRequestCIP42[]) {
+function getMaxGasCost(txs: TransactionRequestCIP42[]): BigNumber {
   let maxGasCost = BigInt(0)
   for (const tx of txs) {
     if (!tx.gas || !tx.maxFeePerGas) {
@@ -39,7 +39,7 @@ function getMaxGasCost(txs: TransactionRequestCIP42[]) {
     }
     maxGasCost += BigInt(tx.gas) * BigInt(tx.maxFeePerGas)
   }
-  return maxGasCost
+  return new BigNumber(maxGasCost.toString())
 }
 
 function allTruthy<T>(arr: (T | undefined | null)[]): arr is T[] {
@@ -107,10 +107,8 @@ export async function prepareTransactions({
       // gas estimation failed for some transaction, try next fee currency
       continue
     }
-    const maxGasCost = new BigNumber(getMaxGasCost(transactions).toString())
-    const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
-      -feeCurrency.decimals
-    )
+    const maxGasCost = getMaxGasCost(transactions)
+    const maxGasCostInDecimal = maxGasCost.shiftedBy(-feeCurrency.decimals)
     maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
     if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
       // Not enough balance to pay for gas, try next fee currency
