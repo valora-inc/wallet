@@ -248,7 +248,7 @@ async function prepareTransactions({
     type: 'need-decrease-spend-amount-for-gas',
     maxGasCost: adjustedMaxGasCost,
     feeCurrency: result.feeCurrency,
-    decreasedAmount: maxAmount, // todo swaps sometimes use a different decreasedAmount...
+    decreasedAmount: maxAmount,
   } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
 }
 
