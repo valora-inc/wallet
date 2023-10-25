@@ -11,7 +11,7 @@ import {
   PreparedTransactionsNeedDecreaseSpendAmountForGas,
   PreparedTransactionsNotEnoughBalanceForGas,
   PreparedTransactionsResult,
-} from 'src/swap/useSwapQuote'
+} from 'src/viem/prepareTransactions'
 
 export default function PreparedTransactionsReviewBottomSheet({
   forwardedRef,

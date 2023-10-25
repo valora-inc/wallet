@@ -4,17 +4,19 @@ import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
-import { STATIC_GAS_PADDING } from 'src/config'
 import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { publicClient } from 'src/viem'
-import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, encodeFunctionData, EstimateGasExecutionError, Hex } from 'viem'
+import { Address, encodeFunctionData, Hex } from 'viem'
+import {
+  prepareTransactions,
+  PreparedTransactionsNeedDecreaseSpendAmountForGas,
+  PreparedTransactionsResult,
+} from 'src/viem/prepareTransactions'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas costs of different swap providers (or even the same swap)
@@ -29,28 +31,6 @@ export interface QuoteResult {
   estimatedPriceImpact: BigNumber | null
   preparedTransactions?: PreparedTransactionsResult
 }
-
-interface PreparedTransactionsPossible {
-  type: 'possible'
-  transactions: TransactionRequestCIP42[]
-}
-
-export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
-  type: 'need-decrease-spend-amount-for-gas'
-  maxGasCost: BigNumber
-  feeCurrency: TokenBalance
-  decreasedAmount: BigNumber
-}
-
-export interface PreparedTransactionsNotEnoughBalanceForGas {
-  type: 'not-enough-balance-for-gas'
-  feeCurrencies: TokenBalance[]
-}
-
-export type PreparedTransactionsResult =
-  | PreparedTransactionsPossible
-  | PreparedTransactionsNeedDecreaseSpendAmountForGas
-  | PreparedTransactionsNotEnoughBalanceForGas
 
 function createBaseApproveTransaction(
   updatedField: Field,
@@ -101,17 +81,6 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
   return swapTx
 }
 
-function getMaxGasCost(txs: TransactionRequestCIP42[]) {
-  let maxGasCost = BigInt(0)
-  for (const tx of txs) {
-    if (!tx.gas || !tx.maxFeePerGas) {
-      throw new Error('Missing gas or maxFeePerGas')
-    }
-    maxGasCost += BigInt(tx.gas) * BigInt(tx.maxFeePerGas)
-  }
-  return maxGasCost
-}
-
 async function prepareSwapTransactions(
   fromToken: TokenBalanceWithAddress,
   updatedField: Field,
@@ -136,155 +105,6 @@ async function prepareSwapTransactions(
     } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
   }
   return output
-}
-
-function allTruthy<T>(arr: (T | undefined | null)[]): arr is T[] {
-  return arr.every((x) => !!x)
-}
-
-async function prepareTransactions({
-  feeCurrencies,
-  spendToken,
-  spendTokenAmount,
-  decreasedAmountGasCostMultiplier,
-  baseTransactions,
-}: {
-  feeCurrencies: TokenBalance[]
-  spendToken: TokenBalanceWithAddress
-  spendTokenAmount: BigNumber
-  decreasedAmountGasCostMultiplier: number
-  baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
-}): Promise<PreparedTransactionsResult> {
-  const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
-  for (const feeCurrency of feeCurrencies) {
-    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
-      // No balance, try next fee currency
-      continue
-    }
-    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
-    const transactions: (TransactionRequestCIP42 | null)[] = await Promise.all(
-      baseTransactions.map(async (baseTransaction) => {
-        const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-          publicClient.celo,
-          feeCurrencyAddress
-        )
-        const transaction = {
-          ...baseTransaction,
-          maxFeePerGas,
-          maxPriorityFeePerGas,
-          feeCurrency: feeCurrencyAddress,
-        }
-        if (baseTransaction.gas) {
-          transaction.gas =
-            baseTransaction.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING)
-        } else {
-          try {
-            baseTransaction.gas = await publicClient.celo.estimateGas({
-              ...baseTransaction,
-              account: baseTransaction.from,
-            })
-          } catch (e) {
-            if (e instanceof EstimateGasExecutionError) {
-              // likely too much gas was needed
-              Logger.warn(
-                'TODO TAG',
-                `Couldn't estimate gas for transaction with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
-                e
-              )
-              return null
-            }
-            throw e
-          }
-        }
-        return transaction
-      })
-    )
-    if (!allTruthy(transactions)) {
-      // gas estimation failed for some transaction, try next fee currency
-      continue
-    }
-    const maxGasCost = new BigNumber(getMaxGasCost(transactions).toString())
-    const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
-      -feeCurrency.decimals
-    )
-    maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
-    if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-    const spendAmountDecimal = spendTokenAmount.shiftedBy(-spendToken.decimals)
-    if (
-      spendToken.tokenId === feeCurrency.tokenId &&
-      spendAmountDecimal.plus(maxGasCostInDecimal).isGreaterThan(spendToken.balance)
-    ) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-
-    // This is the one we can use
-    return {
-      type: 'possible',
-      transactions,
-    } satisfies PreparedTransactionsPossible
-  }
-
-  // So far not enough balance to pay for gas
-  // let's see if we can decrease the spend amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
-  if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
-    // Can't decrease the spend amount
-    return {
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies,
-    } satisfies PreparedTransactionsNotEnoughBalanceForGas
-  }
-
-  // We can decrease the spend amount to pay for gas,
-  // We'll ask the user if they want to proceed
-  const adjustedMaxGasCost = result.maxGasCostInDecimal.times(decreasedAmountGasCostMultiplier)
-  const maxAmount = spendToken.balance.minus(adjustedMaxGasCost)
-
-  return {
-    type: 'need-decrease-spend-amount-for-gas',
-    maxGasCost: adjustedMaxGasCost,
-    feeCurrency: result.feeCurrency,
-    decreasedAmount: maxAmount,
-  } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
-}
-
-/**
- * Prepare a transaction for sending an ERC-20 token.
- *
- * Works for ERC-20 and native transfers.
- *
- * NOTE: does not include fees for registering a DEK before sending a c-stable, since that is a different transaction.
- *
- */
-export async function prepareSendERC20Transaction(
-  fromWalletAddress: string,
-  toWalletAddress: string,
-  sendToken: TokenBalanceWithAddress,
-  amountWei: bigint,
-  feeCurrencies: TokenBalance[]
-): Promise<PreparedTransactionsResult> {
-  // TODO make this work for transfer with comment
-  const baseSendTx: TransactionRequestCIP42 = {
-    from: fromWalletAddress as Address,
-    to: sendToken.address as Address,
-    data: encodeFunctionData({
-      abi: erc20.abi,
-      functionName: 'transfer',
-      args: [toWalletAddress as Address, amountWei],
-    }),
-    type: 'cip42',
-  }
-  return prepareTransactions({
-    feeCurrencies,
-    spendToken: sendToken,
-    spendTokenAmount: new BigNumber(amountWei.toString()),
-    decreasedAmountGasCostMultiplier: 1,
-    baseTransactions: [baseSendTx],
-  })
 }
 
 const useSwapQuote = () => {
