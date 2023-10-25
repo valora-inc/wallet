@@ -12,11 +12,7 @@ import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, encodeFunctionData, Hex } from 'viem'
-import {
-  prepareTransactions,
-  PreparedTransactionsNeedDecreaseSpendAmountForGas,
-  PreparedTransactionsResult,
-} from 'src/viem/prepareTransactions'
+import { prepareTransactions, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas costs of different swap providers (or even the same swap)
@@ -90,21 +86,13 @@ async function prepareSwapTransactions(
 ): Promise<PreparedTransactionsResult> {
   const baseApproveTx = createBaseApproveTransaction(updatedField, unvalidatedSwapTransaction)
   const baseSwapTx = createBaseSwapTransaction(unvalidatedSwapTransaction)
-  const output = await prepareTransactions({
+  return prepareTransactions({
     feeCurrencies,
     spendToken: fromToken,
     spendTokenAmount: new BigNumber(baseApproveTx.amountToApprove.toString()),
     decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
     baseTransactions: [baseApproveTx, baseSwapTx],
   })
-  if (output.type === 'need-decrease-spend-amount-for-gas') {
-    const maxFromAmount = fromToken.balance.minus(output.maxGasCost)
-    return {
-      ...output,
-      decreasedAmount: updatedField === Field.FROM ? maxFromAmount : maxFromAmount.times(price), // max "to" amount
-    } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
-  }
-  return output
 }
 
 const useSwapQuote = () => {

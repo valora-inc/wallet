@@ -481,8 +481,14 @@ export function SwapScreen({ route }: Props) {
         <PreparedTransactionsReviewBottomSheet
           forwardedRef={preparedTransactionsReviewBottomSheetRef}
           preparedTransactions={exchangeRate.preparedTransactions}
-          onAcceptDecreaseSwapAmountForGas={({ decreasedAmount }) => {
-            handleChangeAmount(updatedField)(decreasedAmount.toString())
+          onAcceptDecreaseSwapAmountForGas={({ decreasedSpendAmount }) => {
+            handleChangeAmount(updatedField)(
+              // ensure units are for the asset whose amount is being selected by the user
+              (updatedField === Field.FROM
+                ? decreasedSpendAmount
+                : decreasedSpendAmount.times(exchangeRate.price)
+              ).toString()
+            )
             preparedTransactionsReviewBottomSheetRef.current?.close()
           }}
         />

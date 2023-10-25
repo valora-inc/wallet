@@ -18,7 +18,7 @@ export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
   maxGasCost: BigNumber
   feeCurrency: TokenBalance
-  decreasedAmount: BigNumber
+  decreasedSpendAmount: BigNumber
 }
 
 export interface PreparedTransactionsNotEnoughBalanceForGas {
@@ -150,6 +150,6 @@ export async function prepareTransactions({
     type: 'need-decrease-spend-amount-for-gas',
     maxGasCost: adjustedMaxGasCost,
     feeCurrency: result.feeCurrency,
-    decreasedAmount: maxAmount,
+    decreasedSpendAmount: maxAmount,
   } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
 }
