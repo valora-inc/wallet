@@ -194,7 +194,7 @@ export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gr
 export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
 ```
 
-(optional) You may want install Jenv to manage multiple Java versions:
+(optional) You may want install [Jenv](https://www.jenv.be/) to manage multiple Java versions:
 
 ```bash
 brew install jenv
@@ -591,10 +591,11 @@ If they do not have fixes and they do not apply to production, you may ignore th
 
 If you're having an error with installing packages, or `secrets.json` not existing:
 
-try to run `yarn postinstall` in the wallet root folder after running `yarn install`.
+* Try to run `yarn postinstall` in the wallet root folder after running `yarn install`.
 
-If some of your assets are not loaded and you see an error running sync_branding.sh.
-Check if you have set up your Github connection with SSH.
+If some of your assets are not loaded and you see an error running `sync_branding.sh`:
+
+* Check if you have set up your Github connection with SSH.
 
 A successful `yarn postinstall` looks like:
 
@@ -645,7 +646,7 @@ When adding new images to the [branding repo](https://github.com/valora-inc/valo
 
 #### `Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`
 
-From time to time the app refuses to start showing this error:
+From time to time, the app refuses and shows the following error:
 
 ```text
 557 actionable tasks: 525 executed, 32 up-to-date
