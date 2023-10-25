@@ -7,6 +7,8 @@ import { publicClient } from 'src/viem/index'
 import { STATIC_GAS_PADDING } from 'src/config'
 import Logger from 'src/utils/Logger'
 
+const TAG = 'viem/prepareTransactions'
+
 interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
@@ -89,7 +91,7 @@ export async function prepareTransactions({
             if (e instanceof EstimateGasExecutionError) {
               // likely too much gas was needed
               Logger.warn(
-                'TODO TAG',
+                TAG,
                 `Couldn't estimate gas for transaction with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
                 e
               )
