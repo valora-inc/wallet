@@ -22,6 +22,7 @@ import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import { estimateFee, FeeType } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
@@ -134,18 +135,15 @@ function SendConfirmation(props: Props) {
     })
   }
 
-  const feeEstimate = {
-    usdFee: 0,
-    loading: false,
-    error: false,
-    [FeeType.REGISTER_DEK]: { usdFee: 0, loading: false, error: false },
-    feeInfo: {
-      fee: new BigNumber(0),
-      gas: new BigNumber(0),
-      gasPrice: new BigNumber(0),
-      feeCurrency: undefined, // todo this needs to be an address
-    },
-  } // TODO
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const feeType = FeeType.SEND
+  const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
+
+  useEffect(() => {
+    if (!feeEstimate) {
+      dispatch(estimateFee({ feeType, tokenAddress }))
+    }
+  }, [feeEstimate])
 
   useEffect(() => {
     if (!isDekRegistered) {
@@ -154,7 +152,7 @@ function SendConfirmation(props: Props) {
   }, [isDekRegistered])
 
   const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
-  const storedDekFee = feeEstimate?.[FeeType.REGISTER_DEK]
+  const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
 
