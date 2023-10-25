@@ -2735,6 +2735,20 @@ export const v162Schema = {
     ...v161Schema._persist,
     version: 162,
   },
+  transactions: {
+    ...v161Schema.transactions,
+    standbyTransactions: v161Schema.transactions.standbyTransactions.filter((tx: any) => {
+      return tx.status !== 'Complete'
+    }),
+  },
+}
+
+export const v163Schema = {
+  ...v161Schema,
+  _persist: {
+    ...v161Schema._persist,
+    version: 163,
+  },
   send: {
     ..._.omit(v161Schema.send, 'lastUsedCurrency'),
     lastUsedTokenId: undefined,
@@ -2742,5 +2756,5 @@ export const v162Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v162Schema as Partial<RootState>
+  return v163Schema as Partial<RootState>
 }
