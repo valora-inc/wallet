@@ -107,22 +107,25 @@ describe('groupFeedItemsInSections', () => {
 
 describe('deduplicateTransactions', () => {
   it('should return unique transactions sorted by time', () => {
+    const txItem = (timestamp: number, transactionHash: string) =>
+      mockFeedItem(timestamp, 'noComment', TransactionStatus.Complete, transactionHash)
+
     const existingTxs = [
-      mockFeedItem(daysAgo(1), 'noComment', TransactionStatus.Complete, 'tx1'),
-      mockFeedItem(daysAgo(2), 'noComment', TransactionStatus.Complete, 'tx2'),
-      mockFeedItem(daysAgo(3), 'noComment', TransactionStatus.Complete, 'tx3'),
+      txItem(daysAgo(1), 'id1'),
+      txItem(daysAgo(2), 'id2'),
+      txItem(daysAgo(3), 'id3'),
     ]
     const incomingTxs = [
-      mockFeedItem(daysAgo(2), 'noComment', TransactionStatus.Complete, 'tx2'), // already exists in existingTxs, should be filtered out
-      mockFeedItem(daysAgo(0), 'noComment', TransactionStatus.Complete, 'tx0'),
-      mockFeedItem(daysAgo(0), 'noComment', TransactionStatus.Complete, 'tx0'), // duplicate tx, should be filtered out
+      txItem(daysAgo(2), 'id2'), // already exists in existingTxs, should be filtered out
+      txItem(daysAgo(0), 'id0'),
+      txItem(daysAgo(0), 'id0'), // duplicate tx, should be filtered out
     ]
 
     expect(deduplicateTransactions(existingTxs, incomingTxs)).toEqual([
-      mockFeedItem(daysAgo(0), 'noComment', TransactionStatus.Complete, 'tx0'),
-      mockFeedItem(daysAgo(1), 'noComment', TransactionStatus.Complete, 'tx1'),
-      mockFeedItem(daysAgo(2), 'noComment', TransactionStatus.Complete, 'tx2'),
-      mockFeedItem(daysAgo(3), 'noComment', TransactionStatus.Complete, 'tx3'),
+      txItem(daysAgo(0), 'id0'),
+      txItem(daysAgo(1), 'id1'),
+      txItem(daysAgo(2), 'id2'),
+      txItem(daysAgo(3), 'id3'),
     ])
   })
 })
