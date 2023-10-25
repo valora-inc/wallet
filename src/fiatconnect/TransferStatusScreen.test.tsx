@@ -14,8 +14,8 @@ import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slic
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import appTheme from 'src/styles/appTheme'
-import { Network } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
+import { NetworkId } from 'src/transactions/types'
+import { blockExplorerUrls } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
@@ -152,7 +152,10 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('txDetails')).toBeTruthy()
       fireEvent.press(getByTestId('txDetails'))
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: `${networkConfig.blockExplorerBaseTxUrl[Network.Celo]}${mockTxHash}`,
+        uri: new URL(
+          mockTxHash,
+          blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl
+        ).toString(),
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -224,7 +227,10 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('txDetails')).toBeTruthy()
       fireEvent.press(getByTestId('txDetails'))
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: `${networkConfig.blockExplorerBaseAddressUrl[Network.Celo]}${mockAddress}`,
+        uri: new URL(
+          mockAddress,
+          blockExplorerUrls[NetworkId['celo-alfajores']].baseAddressUrl
+        ).toString(),
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(

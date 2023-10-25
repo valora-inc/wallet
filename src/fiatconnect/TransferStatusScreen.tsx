@@ -28,8 +28,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { Network } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const LOADING_DESCRIPTION_TIMEOUT_MS = 8000
@@ -122,8 +121,11 @@ function SuccessOrProcessingSection({
   const provider = normalizedQuote.getProviderId()
   const address = useSelector(walletAddressSelector)
   const uri = txHash
-    ? `${networkConfig.blockExplorerBaseTxUrl[Network.Celo]}${txHash}`
-    : `${networkConfig.blockExplorerBaseAddressUrl[Network.Celo]}${address}`
+    ? new URL(txHash, blockExplorerUrls[networkConfig.defaultNetworkId].baseTxUrl).toString()
+    : new URL(
+        String(address),
+        blockExplorerUrls[networkConfig.defaultNetworkId].baseAddressUrl
+      ).toString()
 
   let icon: JSX.Element
   let title: string

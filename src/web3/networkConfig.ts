@@ -71,7 +71,11 @@ interface NetworkConfig {
 }
 
 export type blockExplorerUrls = {
-  [key in NetworkId]: { baseTxUrl: string }
+  [key in NetworkId]: {
+    baseTxUrl: string
+    baseAddressUrl: string
+    baseTokenUrl: string
+  }
 }
 
 export type networkIdToNetwork = {
@@ -365,10 +369,26 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
 }
 
 export const blockExplorerUrls: blockExplorerUrls = {
-  [NetworkId['celo-mainnet']]: { baseTxUrl: CELOSCAN_BASE_TX_URL_MAINNET },
-  [NetworkId['celo-alfajores']]: { baseTxUrl: CELOSCAN_BASE_TX_URL_ALFAJORES },
-  [NetworkId['ethereum-mainnet']]: { baseTxUrl: ETHERSCAN_BASE_TX_URL_MAINNET },
-  [NetworkId['ethereum-sepolia']]: { baseTxUrl: ETHERSCAN_BASE_TX_URL_SEPOLIA },
+  [NetworkId['celo-mainnet']]: {
+    baseTxUrl: CELOSCAN_BASE_TX_URL_MAINNET,
+    baseAddressUrl: CELOSCAN_BASE_ADDRESS_URL_MAINNET,
+    baseTokenUrl: CELOSCAN_BASE_TOKEN_URL_MAINNET,
+  },
+  [NetworkId['celo-alfajores']]: {
+    baseTxUrl: CELOSCAN_BASE_TX_URL_ALFAJORES,
+    baseAddressUrl: CELOSCAN_BASE_ADDRESS_URL_ALFAJORES,
+    baseTokenUrl: CELOSCAN_BASE_TOKEN_URL_ALFAJORES,
+  },
+  [NetworkId['ethereum-mainnet']]: {
+    baseTxUrl: ETHERSCAN_BASE_TX_URL_MAINNET,
+    baseAddressUrl: ETHERSCAN_BASE_ADDRESS_URL_MAINNET,
+    baseTokenUrl: ETHERSCAN_BASE_TOKEN_URL_MAINNET,
+  },
+  [NetworkId['ethereum-sepolia']]: {
+    baseTxUrl: ETHERSCAN_BASE_TX_URL_SEPOLIA,
+    baseAddressUrl: ETHERSCAN_BASE_ADDRESS_URL_SEPOLIA,
+    baseTokenUrl: ETHERSCAN_BASE_TOKEN_URL_SEPOLIA,
+  },
 }
 
 export const networkIdToNetwork: networkIdToNetwork = {
