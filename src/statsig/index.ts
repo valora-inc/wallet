@@ -86,9 +86,6 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
   try {
-    if (featureGateName === StatsigFeatureGates.USE_VIEM_FOR_SWAP) {
-      return true
-    }
     return Statsig.checkGate(featureGateName)
   } catch (error) {
     Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
