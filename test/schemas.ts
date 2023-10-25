@@ -2749,9 +2749,21 @@ export const v163Schema = {
     ...v162Schema._persist,
     version: 163,
   },
+  send: {
+    ..._.omit(v162Schema.send, 'lastUsedCurrency'),
+    lastUsedTokenId: undefined,
+  },
+}
+
+export const v164Schema = {
+  ...v163Schema,
+  _persist: {
+    ...v163Schema._persist,
+    version: 164,
+  },
   app: _.omit(v162Schema.app, 'rampCashInButtonExpEnabled'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v163Schema as Partial<RootState>
+  return v164Schema as Partial<RootState>
 }

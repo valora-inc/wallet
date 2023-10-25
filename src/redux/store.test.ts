@@ -311,7 +311,7 @@ describe('store state', () => {
           "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,
-          "lastUsedCurrency": "cUSD",
+          "lastUsedTokenId": undefined,
           "recentPayments": [],
           "recentRecipients": [],
           "showSendToAddressWarning": true,

@@ -1395,6 +1395,10 @@ export const migrations = {
   }),
   163: (state: any) => ({
     ...state,
+    send: { ..._.omit(state.send, 'lastUsedCurrency'), lastUsedTokenId: undefined },
+  }),
+  164: (state: any) => ({
+    ...state,
     app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
   }),
 }
