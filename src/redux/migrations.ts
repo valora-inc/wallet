@@ -1393,4 +1393,8 @@ export const migrations = {
       }),
     },
   }),
+  163: (state: any) => ({
+    ...state,
+    send: { ..._.omit(state.send, 'lastUsedCurrency'), lastUsedTokenId: undefined },
+  }),
 }

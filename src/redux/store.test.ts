@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 162,
+          "version": 163,
         },
         "account": {
           "acceptedTerms": false,
@@ -312,7 +312,7 @@ describe('store state', () => {
           "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,
-          "lastUsedCurrency": "cUSD",
+          "lastUsedTokenId": undefined,
           "recentPayments": [],
           "recentRecipients": [],
           "showSendToAddressWarning": true,
