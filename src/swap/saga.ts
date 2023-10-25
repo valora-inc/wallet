@@ -42,7 +42,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
 import { Hash, zeroAddress } from 'viem'
-import { getBlock, getTransactionCount } from 'viem/actions'
+import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
 
@@ -339,17 +339,12 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     }
 
     // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
-    const block = yield* call(getBlock, wallet, { blockTag: 'latest' })
-    // @ts-ignore ditto
     let nonce: number = yield* call(getTransactionCount, wallet, {
       address: wallet.account.address,
       blockTag: 'pending',
     })
 
-    console.log('==block==', block)
-    console.log('==nonce==', nonce)
-
-    // unlock account before executing tx
+    // Unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
 
     // Execute transaction(s)
@@ -361,16 +356,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
     const txHashes: Hash[] = []
     for (const preparedTransaction of preparedTransactions.transactions) {
-      console.log('==Signing', preparedTransaction)
       const signedTx = yield* call([wallet, 'signTransaction'], {
         ...preparedTransaction,
         nonce: nonce++,
       } as any)
-      console.log('==signedTx==', signedTx)
       const hash = yield* call([wallet, 'sendRawTransaction'], {
         serializedTransaction: signedTx,
       })
-      console.log('==hash==', hash)
       txHashes.push(hash)
     }
 
