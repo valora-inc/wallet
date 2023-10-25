@@ -633,6 +633,6 @@ export enum DappShortcutsEvents {
 export enum TransactionDetailsEvents {
   transaction_details_tap_details = 'transaction_details_tap_details',
   transaction_details_tap_check_status = 'transaction_details_tap_check_status',
-  transaction_details_tap_rety = 'transaction_details_tap_rety',
+  transaction_details_tap_retry = 'transaction_details_tap_retry',
   transaction_details_tap_block_explorer = 'transaction_details_tap_block_explorer',
 }

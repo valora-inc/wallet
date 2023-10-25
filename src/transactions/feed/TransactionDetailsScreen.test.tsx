@@ -10,7 +10,6 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import {
   Fee,
   FeeType,
-  Network,
   NetworkId,
   TokenAmount,
   TokenExchange,
@@ -21,7 +20,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
+import { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
   RecursivePartial,
   createMockStore,
@@ -364,7 +363,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Celo]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl).origin}`)
         ),
       })
     )
@@ -384,7 +383,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Ethereum]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['ethereum-sepolia']].baseTxUrl).origin}`)
         ),
       })
     )
@@ -416,7 +415,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Celo]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl).origin}`)
         ),
       })
     )
@@ -436,7 +435,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerBaseTxUrl[Network.Ethereum]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['ethereum-sepolia']].baseTxUrl).origin}`)
         ),
       })
     )
@@ -463,7 +462,11 @@ describe('TransactionDetailsScreen', () => {
 
     fireEvent.press(getByTestId('transactionDetails/blockExplorerLink'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      TransactionDetailsEvents.transaction_details_tap_block_explorer
+      TransactionDetailsEvents.transaction_details_tap_block_explorer,
+      {
+        transactionType: TokenTransactionTypeV2.SwapTransaction,
+        transactionStatus: TransactionStatus.Complete,
+      }
     )
   })
 })

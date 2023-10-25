@@ -8,15 +8,16 @@ import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 
 interface Props {
   status: TransactionStatus
+  type: TokenTransactionTypeV2
   onPress: () => void
   testID?: string
 }
 
-function TransactionPrimaryAction({ status, onPress, testID }: Props) {
+function TransactionPrimaryAction({ status, type, onPress, testID }: Props) {
   const { t } = useTranslation()
 
   const title = {
@@ -40,11 +41,14 @@ function TransactionPrimaryAction({ status, onPress, testID }: Props) {
   const analyticsEvent = {
     [TransactionStatus.Complete]: TransactionDetailsEvents.transaction_details_tap_check_status,
     [TransactionStatus.Pending]: TransactionDetailsEvents.transaction_details_tap_details,
-    [TransactionStatus.Failed]: TransactionDetailsEvents.transaction_details_tap_rety,
+    [TransactionStatus.Failed]: TransactionDetailsEvents.transaction_details_tap_retry,
   }[status]
 
   const pressHandler = () => {
-    ValoraAnalytics.track(analyticsEvent)
+    ValoraAnalytics.track(analyticsEvent, {
+      transactionType: type,
+      transactionStatus: status,
+    })
     onPress()
   }
 

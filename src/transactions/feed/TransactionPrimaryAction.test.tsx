@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import TransactionPrimaryAction from './TransactionPrimaryAction'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -13,7 +13,13 @@ describe('TransactionPrimaryAction', () => {
     [TransactionStatus.Pending, 'transactionDetailsActions.checkPendingTransactionStatus'],
     [TransactionStatus.Failed, 'transactionDetailsActions.retryFailedTransaction'],
   ])('renders the correct text when transaction status is %s', (status, expectedText) => {
-    const { getByText } = render(<TransactionPrimaryAction status={status} onPress={jest.fn} />)
+    const { getByText } = render(
+      <TransactionPrimaryAction
+        status={status}
+        type={TokenTransactionTypeV2.SwapTransaction}
+        onPress={jest.fn}
+      />
+    )
     expect(getByText(expectedText)).toBeTruthy()
   })
 
@@ -22,6 +28,7 @@ describe('TransactionPrimaryAction', () => {
     const { getByTestId } = render(
       <TransactionPrimaryAction
         status={TransactionStatus.Complete}
+        type={TokenTransactionTypeV2.SwapTransaction}
         onPress={onPress}
         testID="test-primary-action"
       />
@@ -33,15 +40,23 @@ describe('TransactionPrimaryAction', () => {
   it.each([
     [TransactionStatus.Complete, TransactionDetailsEvents.transaction_details_tap_check_status],
     [TransactionStatus.Pending, TransactionDetailsEvents.transaction_details_tap_details],
-    [TransactionStatus.Failed, TransactionDetailsEvents.transaction_details_tap_rety],
+    [TransactionStatus.Failed, TransactionDetailsEvents.transaction_details_tap_retry],
   ])(
     'sends correct analytics event on tap when transaction status is %s',
     (status, expectedEvent) => {
       const { getByTestId } = render(
-        <TransactionPrimaryAction status={status} onPress={jest.fn} testID="test-primary-action" />
+        <TransactionPrimaryAction
+          status={status}
+          type={TokenTransactionTypeV2.SwapTransaction}
+          onPress={jest.fn}
+          testID="test-primary-action"
+        />
       )
       fireEvent.press(getByTestId('test-primary-action'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(expectedEvent)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(expectedEvent, {
+        transactionType: TokenTransactionTypeV2.SwapTransaction,
+        transactionStatus: status,
+      })
     }
   )
 })

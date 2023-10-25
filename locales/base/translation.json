@@ -1695,7 +1695,8 @@
     "swapTo": "Swap to",
     "rate": "Rate",
     "estimatedFee": "Est Network Fee",
-    "networkFee": "Network Fee"
+    "networkFee": "Network Fee",
+    "viewOnExplorer": "View on CeloExplorer"
   },
   "swapReviewScreen": {
     "title": "Review Swap",

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Path, Svg } from 'react-native-svg'
 import Colors from 'src/styles/colors'
+
 interface Props {
   size?: number
   color?: Colors | string
