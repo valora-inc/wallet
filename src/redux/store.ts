@@ -146,13 +146,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
     )
   }
 
-  const enhancers = []
-
-  if (__DEV__) {
-    const Reactotron = require('src/reactotronConfig').default
-    enhancers.push(Reactotron.createEnhancer())
-  }
-
   const persistedReducer = persistReducer(config, rootReducer)
 
   const createdStore = configureStore({
@@ -163,7 +156,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
         immutableCheck: false,
         serializableCheck: false,
       }).concat(...middlewares),
-    enhancers,
   })
   const createdPersistor = persistStore(createdStore)
   sagaMiddleware.run(rootSaga)
