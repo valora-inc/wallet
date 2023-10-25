@@ -1676,7 +1676,17 @@
       "title": "Prima di uno scambio",
       "body": "Non possiamo stimare il valore di questo scambio. Qualora tu decida di procedere, {{appName}} non sarà responsabile."
     },
-    "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>"
+    "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>",
+    "needDecreaseSwapAmountForGas": {
+      "title": "Equilibrio insufficiente {{tokenSymbol}}",
+      "description": "Non hai abbastanza {{tokenSymbol}} per coprire le spese del gas. Vuoi scambiare un importo minore?",
+      "confirmDecreaseButton": "Scambia una quantità minore"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Bilanciamento dei gettoni di gas insufficiente",
+      "description": "Non hai abbastanza {{feeCurrencies}} per coprire le spese di benzina. Per favore, aggiungi {{feeCurrencies}} al tuo portafoglio per completare questo scambio.",
+      "dismissButton": "Ignorare"
+    }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Scambia da",
@@ -1839,6 +1849,13 @@
       "add": "Aggiungi",
       "withdraw": "Preleva",
       "more": "Altro"
+    },
+    "moreActions": "Altre azioni",
+    "actionDescriptions": {
+      "send": "Usa qualsiasi indirizzo Celo, dominio, numero di telefono, ecc.",
+      "swap": "Scambia i tuoi gettoni senza lasciare il tuo portafoglio",
+      "add": "Acquista i token utilizzando uno dei nostri fornitori di fiducia",
+      "withdraw": "Trasferisci i gettoni su un conto bancario, una moneta mobile, una carta regalo, ecc."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
