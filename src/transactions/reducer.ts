@@ -51,9 +51,13 @@ export const reducer = (
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
+      const rehydratePayload = getRehydratePayload(action, 'transactions')
       return {
         ...state,
-        ...getRehydratePayload(action, 'transactions'),
+        ...rehydratePayload,
+        // only keep the most recent 10 transactions from the previous session
+        // so that any faulty data can be cleared
+        transactions: rehydratePayload.transactions.slice(0, 10),
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
