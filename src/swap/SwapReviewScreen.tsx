@@ -31,7 +31,7 @@ import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
-import { getMaxGasCost } from 'src/swap/useSwapQuote'
+import { QuoteResult, getMaxGasCost } from 'src/swap/useSwapQuote'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
@@ -47,6 +47,13 @@ const initialUserInput = {
     [Field.TO]: null,
   },
   updatedField: Field.TO,
+}
+
+function getFeeCurrency(quote: QuoteResult) {
+  if (quote.preparedTransactions?.type !== 'possible') {
+    return undefined
+  }
+  return quote.preparedTransactions.transactions[0].feeCurrency
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapReviewScreen>
@@ -66,7 +73,8 @@ export function SwapReviewScreen({ route }: Props) {
   const tokensByAddress = useSelector(tokensByAddressSelector)
   const walletAddress = useSelector(walletAddressSelector)
   const celoAddress = useSelector(celoAddressSelector)
-  const feeCurrency = useFeeCurrency() ?? celoAddress
+  const feeCurrencyFromHook = useFeeCurrency()
+  const feeCurrency = (quote ? getFeeCurrency(quote) : feeCurrencyFromHook) ?? celoAddress
   const quoteReceivedAtRef = useRef<number | undefined>()
 
   const estimateFeeAmount = () => {
