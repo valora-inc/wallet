@@ -74,7 +74,8 @@ describe('TokenTotalLineItem', () => {
           feeToAddInUsd={feeToAddInUsd}
           hideSign={hideSign}
           showLocalAmountForTotal={showLocalAmountForTotal}
-          newSendScreen={newSendScreen}
+          showApproxTotalBalance={newSendScreen}
+          showApproxExchangeRate={newSendScreen}
         />
       </Provider>
     )
@@ -128,7 +129,7 @@ describe('TokenTotalLineItem', () => {
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
         'tokenExchanteRate, {"symbol":"cUSD"}R$1.50'
       )
-      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.12 cUSD')
     })
   })
 

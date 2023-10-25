@@ -18,7 +18,8 @@ interface Props {
   hideSign?: boolean
   title?: string | null
   showLocalAmountForTotal?: boolean
-  newSendScreen?: boolean
+  showApproxTotalBalance?: boolean
+  showApproxExchangeRate?: boolean
 }
 
 export default function TokenTotalLineItem({
@@ -29,11 +30,13 @@ export default function TokenTotalLineItem({
   hideSign,
   title,
   showLocalAmountForTotal = true,
-  newSendScreen = false,
+  showApproxTotalBalance = false,
+  showApproxExchangeRate = false,
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenId)
   const feeInToken = tokenInfo?.priceUsd ? feeToAddInUsd?.dividedBy(tokenInfo.priceUsd) : undefined
+  const showLocalAmountForSubtotal = !showLocalAmountForTotal
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function TokenTotalLineItem({
             localAmount={localAmount}
             showLocalAmount={showLocalAmountForTotal}
             hideSign={hideSign}
-            showApprox={newSendScreen}
+            showApprox={showApproxTotalBalance}
             testID="TotalLineItem/Total"
           />
         }
@@ -56,7 +59,7 @@ export default function TokenTotalLineItem({
         title={
           <Text style={styles.exchangeRate} testID="TotalLineItem/ExchangeRate">
             <Trans
-              i18nKey={newSendScreen ? 'tokenExchangeRateApprox' : 'tokenExchanteRate'}
+              i18nKey={showApproxExchangeRate ? 'tokenExchangeRateApprox' : 'tokenExchanteRate'}
               tOptions={{ symbol: tokenInfo?.symbol }}
             >
               {localAmount?.exchangeRate ? (
@@ -71,11 +74,9 @@ export default function TokenTotalLineItem({
         }
         amount={
           <TokenDisplay
-            amount={tokenAmount.plus(newSendScreen ? feeInToken ?? 0 : 0)}
+            amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenId={tokenId}
-            // showLocalAmountForTotal says what we want to do for TotalLineItem/Total, here we want to do the opposite.
-            // i.e. If in the total we show local amount, here we want to show the conversion to crypto amount.
-            showLocalAmount={!showLocalAmountForTotal}
+            showLocalAmount={showLocalAmountForSubtotal}
             hideSign={hideSign}
             testID="TotalLineItem/Subtotal"
           />

@@ -205,7 +205,8 @@ function SendConfirmation(props: Props) {
           tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
           showLocalAmountForTotal={!newSendScreen}
-          newSendScreen={newSendScreen}
+          showApproxTotalBalance={newSendScreen}
+          showApproxExchangeRate={newSendScreen}
         />
       </View>
     )
