@@ -48,8 +48,8 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { isCeloStablecoin } from 'src/tokens/utils'
+import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
+import { tokenSupportsComments } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
@@ -106,7 +106,7 @@ function SendConfirmation(props: Props) {
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
-  const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenInfo = useTokenInfoByAddress(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
@@ -207,7 +207,6 @@ function SendConfirmation(props: Props) {
           feeToAddInUsd={totalFeeInUsd}
           feeToAddInToken={totalFeeInSendToken}
           showLocalAmount={!newSendScreen}
-          hideSign={newSendScreen ? false : undefined}
           newSendScreen={newSendScreen}
           showApprox={newSendScreen}
         />
@@ -268,7 +267,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = isCeloStablecoin(tokenInfo)
+  const allowComment = tokenSupportsComments(tokenInfo)
 
   return (
     <SafeAreaView

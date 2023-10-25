@@ -379,14 +379,14 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
-  it('shows comment when on celo network (new UI)', () => {
+  it('shows comment when stable token on celo network (new UI)', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByTestId } = renderScreen(
       {},
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
           ...mockTokenTransactionData,
-          tokenAddress: mockTestTokenAddress,
+          tokenAddress: mockCusdAddress,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
