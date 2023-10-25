@@ -83,7 +83,7 @@ export async function prepareTransactions({
             baseTransaction.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING)
         } else {
           try {
-            baseTransaction.gas = await publicClient.celo.estimateGas({
+            transaction.gas = await publicClient.celo.estimateGas({
               ...baseTransaction,
               account: baseTransaction.from,
             })
