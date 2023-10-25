@@ -10,7 +10,6 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import {
   Fee,
   FeeType,
-  Network,
   NetworkId,
   TokenAmount,
   TokenExchange,
@@ -21,7 +20,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
+import { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
   RecursivePartial,
   createMockStore,
@@ -364,7 +363,7 @@ describe('TransactionDetailsScreen', () => {
       Screens.WebViewScreen,
       expect.objectContaining({
         uri: expect.stringMatching(
-          RegExp(`^${new URL(networkConfig.blockExplorerUrl[Network.Celo]).origin}`)
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl).origin}`)
         ),
       })
     )
