@@ -69,7 +69,7 @@ import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
-import { NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -1382,10 +1382,22 @@ interface DappShortcutsProperties {
 }
 
 interface TransactionDetailsProperties {
-  [TransactionDetailsEvents.transaction_details_tap_details]: undefined
-  [TransactionDetailsEvents.transaction_details_tap_check_status]: undefined
-  [TransactionDetailsEvents.transaction_details_tap_retry]: undefined
-  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: undefined
+  [TransactionDetailsEvents.transaction_details_tap_details]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_check_status]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_retry]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

@@ -143,6 +143,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
           {primaryActionHanlder && (
             <TransactionPrimaryAction
               status={transaction.status}
+              type={transaction.type}
               onPress={primaryActionHanlder}
               testID="transactionDetails/primaryAction"
             />
@@ -157,7 +158,11 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
               borderless={true}
               onPress={() => {
                 ValoraAnalytics.track(
-                  TransactionDetailsEvents.transaction_details_tap_block_explorer
+                  TransactionDetailsEvents.transaction_details_tap_block_explorer,
+                  {
+                    transactionType: transaction.type,
+                    transactionStatus: transaction.status,
+                  }
                 )
                 openBlockExplorerHandler()
               }}
