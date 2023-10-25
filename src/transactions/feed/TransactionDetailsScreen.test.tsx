@@ -462,7 +462,11 @@ describe('TransactionDetailsScreen', () => {
 
     fireEvent.press(getByTestId('transactionDetails/blockExplorerLink'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      TransactionDetailsEvents.transaction_details_tap_block_explorer
+      TransactionDetailsEvents.transaction_details_tap_block_explorer,
+      {
+        transactionType: TokenTransactionTypeV2.SwapTransaction,
+        transactionStatus: TransactionStatus.Complete,
+      }
     )
   })
 })

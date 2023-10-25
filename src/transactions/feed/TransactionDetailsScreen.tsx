@@ -24,6 +24,7 @@ import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusI
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
   Network,
+  NetworkId,
   TokenExchange,
   TokenTransaction,
   TokenTransactionTypeV2,
@@ -123,13 +124,16 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   const transactionNetwork = networkIdToNetwork[transaction.networkId]
 
-  const openBlockExplorerHandler = () =>
-    navigate(Screens.WebViewScreen, {
-      uri: new URL(
-        transaction.transactionHash,
-        blockExplorerUrls[transaction.networkId].baseTxUrl
-      ).toString(),
-    })
+  const openBlockExplorerHandler =
+    transaction.networkId in NetworkId
+      ? () =>
+          navigate(Screens.WebViewScreen, {
+            uri: new URL(
+              transaction.transactionHash,
+              blockExplorerUrls[transaction.networkId].baseTxUrl
+            ).toString(),
+          })
+      : undefined
 
   const primaryActionHanlder =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
