@@ -33,7 +33,7 @@ export interface FeeInfo {
   fee: BigNumber
   gas: BigNumber
   gasPrice: BigNumber
-  feeCurrency: string | undefined // actually an address
+  feeCurrency: string | undefined
 }
 
 // Use default values for fee estimation
@@ -238,7 +238,7 @@ export function fetchFeeCurrency(tokens: TokenBalanceWithAddress[]) {
       continue
     }
     if (token.symbol === 'CELO' && token.balance.gte(CELO_TRANSACTION_MIN_AMOUNT)) {
-      // Paying for fee with CELO requires passing undefined for feeCurrency.
+      // Paying for fee with CELO requires passing undefined.
       return undefined
     } else if (token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT)) {
       return token.address
