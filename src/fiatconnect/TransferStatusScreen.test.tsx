@@ -14,8 +14,7 @@ import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slic
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import appTheme from 'src/styles/appTheme'
-import { NetworkId } from 'src/transactions/types'
-import { blockExplorerUrls } from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
@@ -154,7 +153,7 @@ describe('TransferStatusScreen', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
         uri: new URL(
           mockTxHash,
-          blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl
+          blockExplorerUrls[networkConfig.defaultNetworkId].baseTxUrl
         ).toString(),
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
@@ -229,7 +228,7 @@ describe('TransferStatusScreen', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
         uri: new URL(
           mockAddress,
-          blockExplorerUrls[NetworkId['celo-alfajores']].baseAddressUrl
+          blockExplorerUrls[networkConfig.defaultNetworkId].baseAddressUrl
         ).toString(),
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)

@@ -1552,7 +1552,7 @@
       "descriptionXtoYDays": "Your transaction request has been sent & your funds will arrive in {{lowerBound}}-{{upperBound}} days.",
       "baseDescription": "Your transaction request has been sent.",
       "txDetails": "View on CeloExplorer",
-      "viewOnBlockExplorer": "View on CeloScan",
+      "viewOnCeloBlockExplorer": "View on CeloScan",
       "continue": "Continue"
     },
     "requestNotCompleted": {

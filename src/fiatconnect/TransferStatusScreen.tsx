@@ -189,7 +189,9 @@ function SuccessOrProcessingSection({
       {flow === CICOFlow.CashOut && (
         <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
           <View style={styles.txDetailsContainer}>
-            <Text style={styles.txDetails}>{t('fiatConnectStatusScreen.success.txDetails')}</Text>
+            <Text style={styles.txDetails}>
+              {t('fiatConnectStatusScreen.success.viewOnCeloBlockExplorer')}
+            </Text>
             <OpenLinkIcon color={colors.gray4} />
           </View>
         </Touchable>
