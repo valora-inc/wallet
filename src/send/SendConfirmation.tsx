@@ -168,7 +168,6 @@ function SendConfirmation(props: Props) {
   const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInFeeToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const totalFeeInSendToken = totalFeeInUsd?.dividedBy(tokenInfo?.priceUsd ?? 0)
 
   const FeeContainer = () => {
     return (
@@ -205,10 +204,8 @@ function SendConfirmation(props: Props) {
           tokenAmount={tokenAmount}
           tokenId={tokenInfo?.tokenId}
           feeToAddInUsd={totalFeeInUsd}
-          feeToAddInToken={totalFeeInSendToken}
-          showLocalAmount={!newSendScreen}
+          showLocalAmountForTotal={!newSendScreen}
           newSendScreen={newSendScreen}
-          showApprox={newSendScreen}
         />
       </View>
     )
