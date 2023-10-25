@@ -1380,4 +1380,17 @@ export const migrations = {
       }),
     },
   }),
+  162: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: state.transactions.standbyTransactions.filter((tx: any) => {
+        // this migration requires extra data on completed standby transactions
+        // that we cannot recover, so we remove these from the store. this is
+        // low risk since completed tx's will be returned by blockchain-api
+        // eventually.
+        return tx.status !== 'Complete'
+      }),
+    },
+  }),
 }
