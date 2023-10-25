@@ -3,17 +3,13 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { onPressCicoAction } from 'src/tokens/TokenDetails'
 import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
-import { Network, NetworkId } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import { mockCeloAddress, mockCeloTokenId } from 'test/values'
 
 const mockStoredCeloTokenBalance: StoredTokenBalance = {
@@ -48,9 +44,7 @@ const mockActions: TokenDetailsAction[] = [
     title: 'tokenDetails.actions.send',
     details: 'tokenDetails.actions.sendDetails',
     iconComponent: QuickActionsSend,
-    onPress: () => {
-      navigate(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
-    },
+    onPress: jest.fn(),
     visible: true,
   },
   {
@@ -58,9 +52,7 @@ const mockActions: TokenDetailsAction[] = [
     title: 'tokenDetails.actions.swap',
     details: 'tokenDetails.actions.swapDetails',
     iconComponent: QuickActionsSwap,
-    onPress: () => {
-      navigate(Screens.SwapScreenWithBack, { fromTokenId: mockCeloTokenId })
-    },
+    onPress: jest.fn(),
     visible: true,
   },
   {
@@ -68,9 +60,7 @@ const mockActions: TokenDetailsAction[] = [
     title: 'tokenDetails.actions.add',
     details: 'tokenDetails.actions.addDetails',
     iconComponent: QuickActionsAdd,
-    onPress: () => {
-      onPressCicoAction(mockCeloBalance, CICOFlow.CashIn)
-    },
+    onPress: jest.fn(),
     visible: true,
   },
   {
@@ -78,9 +68,7 @@ const mockActions: TokenDetailsAction[] = [
     title: 'tokenDetails.actions.withdraw',
     details: 'tokenDetails.actions.withdrawDetails',
     iconComponent: QuickActionsSend,
-    onPress: () => {
-      onPressCicoAction(mockCeloBalance, CICOFlow.CashOut)
-    },
+    onPress: jest.fn(),
     visible: true,
   },
 ]
@@ -101,29 +89,9 @@ describe('TokenDetailsMoreActions', () => {
     expect(getByText('tokenDetails.actions.withdraw')).toBeTruthy()
   })
 
-  const mockAddParams = {
-    currency: mockCeloBalance.symbol,
-    tokenId: mockCeloTokenId,
-    flow: CICOFlow.CashIn,
-    network: Network.Celo,
-  }
-
-  const mockWithdrawParams = {
-    currency: mockCeloBalance.symbol,
-    tokenId: mockCeloTokenId,
-    flow: CICOFlow.CashOut,
-    network: Network.Celo,
-  }
-
-  it.each`
-    action                             | buttonText                         | navigatedScreen               | navigationParams
-    ${TokenDetailsActionName.Send}     | ${'tokenDetails.actions.send'}     | ${Screens.Send}               | ${{ defaultTokenIdOverride: mockCeloTokenId }}
-    ${TokenDetailsActionName.Swap}     | ${'tokenDetails.actions.swap'}     | ${Screens.SwapScreenWithBack} | ${{ fromTokenId: mockCeloTokenId }}
-    ${TokenDetailsActionName.Add}      | ${'tokenDetails.actions.add'}      | ${Screens.FiatExchangeAmount} | ${mockAddParams}
-    ${TokenDetailsActionName.Withdraw} | ${'tokenDetails.actions.withdraw'} | ${Screens.FiatExchangeAmount} | ${mockWithdrawParams}
-  `(
+  it.each(mockActions)(
     'triggers the correct analytics and navigation for $buttonText',
-    async ({ action, buttonText, navigatedScreen, navigationParams }) => {
+    async ({ name, title, onPress }) => {
       const { getByText } = render(
         <TokenDetailsMoreActions
           forwardedRef={{ current: null }}
@@ -132,11 +100,11 @@ describe('TokenDetailsMoreActions', () => {
         />
       )
 
-      fireEvent.press(getByText(buttonText))
+      fireEvent.press(getByText(title))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         AssetsEvents.tap_token_details_bottom_sheet_action,
         {
-          action,
+          action: name,
           address: mockCeloAddress,
           balanceUsd: 5.8,
           networkId: mockCeloBalance.networkId,
@@ -145,7 +113,7 @@ describe('TokenDetailsMoreActions', () => {
         }
       )
 
-      expect(navigate).toHaveBeenCalledWith(navigatedScreen, navigationParams)
+      expect(onPress).toHaveBeenCalled()
     }
   )
 })
