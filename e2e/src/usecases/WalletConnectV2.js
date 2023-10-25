@@ -180,20 +180,16 @@ export default WalletConnect = () => {
       })
 
       it('Then is able to establish a session', async () => {
-        if (device.getPlatform() === 'android') {
-          await launchApp({
-            url: pairingUrl,
-            newInstance: true,
-            launchArgs: {
-              // ensure proper feauture flag
-              statsigGateOverrides: `use_viem_for_walletconnect_transactions=${
-                web3Library === 'viem'
-              }`,
-            },
-          })
-        } else {
-          await device.openURL({ url: pairingUrl })
-        }
+        await launchApp({
+          url: pairingUrl,
+          newInstance: true,
+          launchArgs: {
+            // ensure proper feauture flag
+            statsigGateOverrides: `use_viem_for_walletconnect_transactions=${
+              web3Library === 'viem'
+            }`,
+          },
+        })
 
         await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
           .toBeVisible()
