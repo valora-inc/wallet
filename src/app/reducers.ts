@@ -34,7 +34,6 @@ export interface State {
   rewardPillText?: {
     [lang: string]: string
   }
-  rampCashInButtonExpEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
@@ -79,7 +78,6 @@ const initialState = {
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
-  rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
@@ -199,7 +197,6 @@ export const appReducer = (
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
-        rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         skipVerification: action.configValues.skipVerification,
