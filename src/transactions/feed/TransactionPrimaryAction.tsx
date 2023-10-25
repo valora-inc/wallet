@@ -40,7 +40,7 @@ function TransactionPrimaryAction({ status, onPress, testID }: Props) {
   const analyticsEvent = {
     [TransactionStatus.Complete]: TransactionDetailsEvents.transaction_details_tap_check_status,
     [TransactionStatus.Pending]: TransactionDetailsEvents.transaction_details_tap_details,
-    [TransactionStatus.Failed]: TransactionDetailsEvents.transaction_details_tap_rety,
+    [TransactionStatus.Failed]: TransactionDetailsEvents.transaction_details_tap_retry,
   }[status]
 
   const pressHandler = () => {

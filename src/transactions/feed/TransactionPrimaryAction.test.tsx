@@ -33,7 +33,7 @@ describe('TransactionPrimaryAction', () => {
   it.each([
     [TransactionStatus.Complete, TransactionDetailsEvents.transaction_details_tap_check_status],
     [TransactionStatus.Pending, TransactionDetailsEvents.transaction_details_tap_details],
-    [TransactionStatus.Failed, TransactionDetailsEvents.transaction_details_tap_rety],
+    [TransactionStatus.Failed, TransactionDetailsEvents.transaction_details_tap_retry],
   ])(
     'sends correct analytics event on tap when transaction status is %s',
     (status, expectedEvent) => {

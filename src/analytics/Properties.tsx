@@ -1384,7 +1384,7 @@ interface DappShortcutsProperties {
 interface TransactionDetailsProperties {
   [TransactionDetailsEvents.transaction_details_tap_details]: undefined
   [TransactionDetailsEvents.transaction_details_tap_check_status]: undefined
-  [TransactionDetailsEvents.transaction_details_tap_rety]: undefined
+  [TransactionDetailsEvents.transaction_details_tap_retry]: undefined
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: undefined
 }
 
