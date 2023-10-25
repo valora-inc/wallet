@@ -14,7 +14,6 @@ interface SendRedesignSearchInputProps {
   onChangeText: (value: string) => void
 }
 
-// Input field for Send screen
 export function SendRedesignSearchInput({ input, onChangeText }: SendRedesignSearchInputProps) {
   const { t } = useTranslation()
   return (
