@@ -161,7 +161,8 @@ function SendConfirmation(props: Props) {
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
-  const feeTokenAddress = feeEstimate?.feeInfo?.feeCurrency ?? useSelector(celoAddressSelector)
+  const celoAddress = useSelector(celoAddressSelector)
+  const feeTokenAddress = feeEstimate?.feeInfo?.feeCurrency ?? celoAddress
   const feeTokenInfoFromEstimate = useTokenInfoByAddress(feeTokenAddress)
   const feeTokenInfo = newSendScreen ? feeTokenInfoFromEstimate : tokenInfo
   const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
