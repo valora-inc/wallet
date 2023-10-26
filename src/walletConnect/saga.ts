@@ -535,7 +535,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     // Notify the client about the error if possible
     const { topic, id } = request
     if (client && topic && id) {
-      const response: JsonRpcResult = formatJsonRpcResult(id, { error: e.message })
+      const response = formatJsonRpcResult(id, { error: e })
       yield* call([client, 'respondSessionRequest'], { topic, response })
     }
   }

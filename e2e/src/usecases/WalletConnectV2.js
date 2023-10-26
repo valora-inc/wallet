@@ -42,6 +42,7 @@ async function formatTestTransaction(address, web3Library) {
     })
     const data = await response.json()
 
+    // TODO: keep only Viem branch after feeCurrecny estimation is ready
     if (web3Library === 'viem') {
       return {
         from: address,
@@ -108,10 +109,14 @@ export default WalletConnect = () => {
   let walletConnectClient, pairingUrl, core
   let intervalsToClear = []
 
+  // TODO: keep only Viem branch after feeCurrecny estimation is ready
   describe.each([{ web3Library: 'contract-kit' }, { web3Library: 'viem' }])(
     'When using $web3Library',
     ({ web3Library }) => {
       beforeAll(async () => {
+        // ensure clean slate when starting the tests, in case test cases before this ended on a different screen
+        await reloadReactNative()
+
         // @walletconnect/heartbeat keeps a setInterval running, which causes jest to hang, unable to shut down cleanly
         // https://github.com/WalletConnect/walletconnect-utils/blob/4484e47f24a5a82078c27a0cf0185db921cf60d7/misc/heartbeat/src/heartbeat.ts#L47
         // As a workaround, since no reference to the interval is kept, we capture them
@@ -180,6 +185,13 @@ export default WalletConnect = () => {
       })
 
       it('Then is able to establish a session', async () => {
+        // TODO: restore initial starting logic after feeCurrecny estimation is ready
+        // Initial code for reference:
+        // if (device.getPlatform() === 'android') {
+        //   await launchApp({ url: pairingUrl, newInstance: true })
+        // } else {
+        //   await device.openURL({ url: pairingUrl })
+        // }
         await launchApp({
           url: pairingUrl,
           newInstance: true,
@@ -251,8 +263,9 @@ export default WalletConnect = () => {
           .withTimeout(15 * 1000)
         await verifySuccessfulTransaction('Sign transaction', tx)
 
+        // TODO: keep only Viem branch after feeCurrecny estimation is ready
         if (web3Library === 'viem') {
-          //TODO: assert transaction signer address if once Viem could provide it
+          // TODO: assert transaction signer address if once Viem could provide it
           const recoveredTx = parseTransactionCelo(signedTx)
           jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
           jestExpect(recoveredTx.to).toEqual(tx.to)

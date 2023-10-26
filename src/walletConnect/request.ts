@@ -41,6 +41,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
 
   switch (method) {
     case SupportedActions.eth_signTransaction: {
+      // TODO: keep only Viem branch after feeCurrecny estimation is ready
       if (useViem) {
         const rawTx: any = { ...params[0] }
 
@@ -127,6 +128,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       return (yield* call([legacyWallet, 'signTransaction'], tx)) as EncodedTransaction
     }
     case SupportedActions.eth_sendTransaction: {
+      // TODO: keep only Viem branch after feeCurrecny estimation is ready
       if (useViem) {
         const rawTx: any = { ...params[0] }
 
