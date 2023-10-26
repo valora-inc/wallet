@@ -62,8 +62,8 @@ describe('prepareTransactions', () => {
 
     const result = await prepareTransactions({
       feeCurrencies: mockFeeCurrencies,
-      fromToken: mockSpendToken,
-      fromTokenAmount: new BigNumber(100_000),
+      spendToken: mockSpendToken,
+      spendTokenAmount: new BigNumber(100_000),
       decreasedAmountGasCostMultiplier: 1,
       baseTransactions: [
         {

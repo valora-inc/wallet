@@ -138,14 +138,14 @@ async function tryEstimateTransactions(
 
 export async function prepareTransactions({
   feeCurrencies,
-  fromToken,
-  fromTokenAmount,
+  spendToken,
+  spendTokenAmount,
   decreasedAmountGasCostMultiplier,
   baseTransactions,
 }: {
   feeCurrencies: TokenBalance[]
-  fromToken: TokenBalanceWithAddress
-  fromTokenAmount: BigNumber
+  spendToken: TokenBalanceWithAddress
+  spendTokenAmount: BigNumber
   decreasedAmountGasCostMultiplier: number
   baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
 }): Promise<PreparedTransactionsResult> {
@@ -167,10 +167,10 @@ export async function prepareTransactions({
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
-    const spendAmountDecimal = fromTokenAmount.shiftedBy(-fromToken.decimals)
+    const spendAmountDecimal = spendTokenAmount.shiftedBy(-spendToken.decimals)
     if (
-      fromToken.tokenId === feeCurrency.tokenId &&
-      spendAmountDecimal.plus(maxGasCostInDecimal).isGreaterThan(fromToken.balance)
+      spendToken.tokenId === feeCurrency.tokenId &&
+      spendAmountDecimal.plus(maxGasCostInDecimal).isGreaterThan(spendToken.balance)
     ) {
       // Not enough balance to pay for gas, try next fee currency
       continue
@@ -185,7 +185,7 @@ export async function prepareTransactions({
 
   // So far not enough balance to pay for gas
   // let's see if we can decrease the spend amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === fromToken.tokenId)
+  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
   if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
     // Can't decrease the spend amount
     return {
@@ -197,7 +197,7 @@ export async function prepareTransactions({
   // We can decrease the spend amount to pay for gas,
   // We'll ask the user if they want to proceed
   const adjustedMaxGasCost = result.maxGasCostInDecimal.times(decreasedAmountGasCostMultiplier)
-  const maxAmount = fromToken.balance.minus(adjustedMaxGasCost)
+  const maxAmount = spendToken.balance.minus(adjustedMaxGasCost)
 
   return {
     type: 'need-decrease-spend-amount-for-gas',
@@ -273,8 +273,8 @@ export async function prepareSwapTransactions(
   )
   return prepareTransactions({
     feeCurrencies,
-    fromToken: fromToken,
-    fromTokenAmount: new BigNumber(amountToApprove.toString()),
+    spendToken: fromToken,
+    spendTokenAmount: new BigNumber(amountToApprove.toString()),
     decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
     baseTransactions,
   })
@@ -304,8 +304,8 @@ export async function prepareERC20TransferTransaction(
   }
   return prepareTransactions({
     feeCurrencies,
-    fromToken: sendToken,
-    fromTokenAmount: new BigNumber(amountWei.toString()),
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amountWei.toString()),
     decreasedAmountGasCostMultiplier: 1,
     baseTransactions: [baseSendTx],
   })
