@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -12,6 +12,7 @@ import {
   phoneNumberVerifiedSelector,
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
+import Button from 'src/components/Button'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -68,6 +69,9 @@ function WalletHome() {
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
+
+  const [hideBalances, setHideBalances] = useState(false)
+  const eyeballOnPress = () => setHideBalances(!hideBalances)
 
   useEffect(() => {
     dispatch(visitHome())
@@ -171,7 +175,12 @@ function WalletHome() {
   }
   const tokenBalanceSection = {
     data: [{}],
-    renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
+    renderItem: () => (
+      <>
+        <HomeTokenBalance key={'HomeTokenBalance'} hideBalance={hideBalances} />
+        <Button text={'hideBalances'} onPress={eyeballOnPress} />
+      </>
+    ), // TODO: Add param here for hiding/showing balances
   }
   const actionsCarouselSection = {
     data: [{}],
@@ -191,7 +200,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <TransactionFeed key={'TransactionList'} />,
+    renderItem: () => <TransactionFeed key={'TransactionList'} />, // TODO: Add param for hiding balances
   })
 
   const topRightElements = (

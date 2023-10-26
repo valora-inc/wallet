@@ -49,9 +49,11 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
+  hideBalance = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
+  hideBalance?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -87,11 +89,12 @@ function TokenBalance({
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
           <Text style={style} testID={'TotalTokenBalance'}>
-            {localCurrencySymbol}
-            {totalTokenBalanceLocal?.toFormat(2) ?? '-'}
+            {!hideBalance && localCurrencySymbol}
+            {hideBalance ? 'XX.XX' : totalTokenBalanceLocal?.toFormat(2) ?? '-'}
           </Text>
           <Text style={styles.tokenBalance}>
-            {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
+            {!hideBalance && formatValueToDisplay(tokenBalance)}{' '}
+            {!hideBalance && tokensWithUsdValue[0].symbol}
           </Text>
         </View>
       </View>
@@ -203,7 +206,11 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   )
 }
 
-export function HomeTokenBalance() {
+interface HomeTokenBalanceProps {
+  hideBalance: boolean
+}
+
+export function HomeTokenBalance({ hideBalance }: HomeTokenBalanceProps) {
   const { t } = useTranslation()
 
   const totalBalance = useTotalTokenBalance()
@@ -263,6 +270,7 @@ export function HomeTokenBalance() {
             ? styles.totalBalance
             : styles.balance
         }
+        hideBalance={hideBalance}
       />
     </View>
   )
