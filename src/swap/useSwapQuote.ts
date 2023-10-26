@@ -99,8 +99,8 @@ async function prepareSwapTransactions(
   )
   return prepareTransactions({
     feeCurrencies,
-    spendToken: fromToken,
-    spendTokenAmount: new BigNumber(amountToApprove.toString()),
+    fromToken: fromToken,
+    fromTokenAmount: new BigNumber(amountToApprove.toString()),
     decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
     baseTransactions,
   })

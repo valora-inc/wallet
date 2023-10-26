@@ -33,8 +33,8 @@ export async function prepareSendERC20Transaction(
   }
   return prepareTransactions({
     feeCurrencies,
-    spendToken: sendToken,
-    spendTokenAmount: new BigNumber(amountWei.toString()),
+    fromToken: sendToken,
+    fromTokenAmount: new BigNumber(amountWei.toString()),
     decreasedAmountGasCostMultiplier: 1,
     baseTransactions: [baseSendTx],
   })

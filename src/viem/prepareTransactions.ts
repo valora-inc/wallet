@@ -98,25 +98,10 @@ async function tryEstimateTransactions(
     feeCurrencyAddress
   )
 
-  for (const [index, baseTx] of baseTransactions.entries()) {
-    // We can only truly estimate the gas for the first transaction
-    if (index === 0) {
-      const tx = await tryEstimateTransaction({
-        baseTransaction: baseTx,
-        feeCurrencyAddress,
-        maxFeePerGas,
-        maxPriorityFeePerGas,
-      })
-      if (!tx) {
-        return null
-      }
-      transactions.push(tx)
-    } else {
-      if (!baseTx.gas) {
-        throw new Error(
-          'When multiple transactions are provided, all transactions but the first one must have a gas value'
-        )
-      }
+  for (const baseTx of baseTransactions) {
+    if (baseTx.gas) {
+      // We have an estimate of gas already and don't want to recalculate it
+      // e.g. if this is a swap transaction that depends on an approval transaction that hasn't been submitted yet, so simulation would fail
       transactions.push({
         ...baseTx,
         maxFeePerGas,
@@ -128,6 +113,17 @@ async function tryEstimateTransactions(
         // If it's not, we add the static padding
         gas: baseTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
       })
+    } else {
+      const tx = await tryEstimateTransaction({
+        baseTransaction: baseTx,
+        feeCurrencyAddress,
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+      })
+      if (!tx) {
+        return null
+      }
+      transactions.push(tx)
     }
   }
 
@@ -136,14 +132,14 @@ async function tryEstimateTransactions(
 
 export async function prepareTransactions({
   feeCurrencies,
-  spendToken,
-  spendTokenAmount,
+  fromToken,
+  fromTokenAmount,
   decreasedAmountGasCostMultiplier,
   baseTransactions,
 }: {
   feeCurrencies: TokenBalance[]
-  spendToken: TokenBalanceWithAddress
-  spendTokenAmount: BigNumber
+  fromToken: TokenBalanceWithAddress
+  fromTokenAmount: BigNumber
   decreasedAmountGasCostMultiplier: number
   baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
 }): Promise<PreparedTransactionsResult> {
@@ -165,10 +161,10 @@ export async function prepareTransactions({
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
-    const spendAmountDecimal = spendTokenAmount.shiftedBy(-spendToken.decimals)
+    const spendAmountDecimal = fromTokenAmount.shiftedBy(-fromToken.decimals)
     if (
-      spendToken.tokenId === feeCurrency.tokenId &&
-      spendAmountDecimal.plus(maxGasCostInDecimal).isGreaterThan(spendToken.balance)
+      fromToken.tokenId === feeCurrency.tokenId &&
+      spendAmountDecimal.plus(maxGasCostInDecimal).isGreaterThan(fromToken.balance)
     ) {
       // Not enough balance to pay for gas, try next fee currency
       continue
@@ -183,7 +179,7 @@ export async function prepareTransactions({
 
   // So far not enough balance to pay for gas
   // let's see if we can decrease the spend amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
+  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === fromToken.tokenId)
   if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
     // Can't decrease the spend amount
     return {
@@ -195,7 +191,7 @@ export async function prepareTransactions({
   // We can decrease the spend amount to pay for gas,
   // We'll ask the user if they want to proceed
   const adjustedMaxGasCost = result.maxGasCostInDecimal.times(decreasedAmountGasCostMultiplier)
-  const maxAmount = spendToken.balance.minus(adjustedMaxGasCost)
+  const maxAmount = fromToken.balance.minus(adjustedMaxGasCost)
 
   return {
     type: 'need-decrease-spend-amount-for-gas',
