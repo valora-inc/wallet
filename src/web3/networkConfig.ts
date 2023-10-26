@@ -3,6 +3,7 @@ import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import {
   Chain as ViemChain,
   celo,
@@ -10,7 +11,6 @@ import {
   mainnet as ethereum,
   sepolia as ethereumSepolia,
 } from 'viem/chains'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export enum Testnets {
   alfajores = 'alfajores',
@@ -68,6 +68,14 @@ interface NetworkConfig {
     [key in CiCoCurrency | Currency]: string
   }
   celoTokenAddress: string
+}
+
+export type blockExplorerUrls = {
+  [key in NetworkId]: { baseTxUrl: string }
+}
+
+export type NetworkIdToNetwork = {
+  [key in NetworkId]: Network
 }
 
 const CELO_TOKEN_ADDRESS_STAGING = '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9'
@@ -171,6 +179,12 @@ const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET
 
 const CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/token/`
 const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/token/`
+
+const ETH_EXPLORER_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
+const ETH_EXPLORER_BASE_URL_MAINNET = 'https://etherscan.io'
+
+const ETH_EXPLORER_BASE_TX_URL_SEPOLIA = `${ETH_EXPLORER_BASE_URL_SEPOLIA}/tx/`
+const ETH_EXPLORER_BASE_TX_URL_MAINNET = `${ETH_EXPLORER_BASE_URL_MAINNET}/tx/`
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
@@ -330,6 +344,20 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
   },
+}
+
+export const blockExplorerUrls: blockExplorerUrls = {
+  [NetworkId['celo-mainnet']]: { baseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET },
+  [NetworkId['celo-alfajores']]: { baseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES },
+  [NetworkId['ethereum-mainnet']]: { baseTxUrl: ETH_EXPLORER_BASE_TX_URL_MAINNET },
+  [NetworkId['ethereum-sepolia']]: { baseTxUrl: ETH_EXPLORER_BASE_TX_URL_SEPOLIA },
+}
+
+export const networkIdToNetwork: NetworkIdToNetwork = {
+  [NetworkId['celo-mainnet']]: Network.Celo,
+  [NetworkId['celo-alfajores']]: Network.Celo,
+  [NetworkId['ethereum-mainnet']]: Network.Ethereum,
+  [NetworkId['ethereum-sepolia']]: Network.Ethereum,
 }
 
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)
