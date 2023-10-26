@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import RowDivider from 'src/components/RowDivider'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
-import ArrowRight from 'src/icons/ArrowRight'
+import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -173,13 +173,13 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
               }}
               testID="transactionDetails/blockExplorerLink"
             >
-              <>
+              <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
                   {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
                   {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
                 </Text>
-                <ArrowRight color={Colors.gray3} size={16} />
-              </>
+                <ArrowRightThick size={16} />
+              </View>
             </Touchable>
           </>
         )}
