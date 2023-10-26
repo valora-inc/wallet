@@ -114,9 +114,6 @@ export default WalletConnect = () => {
     'When using $web3Library',
     ({ web3Library }) => {
       beforeAll(async () => {
-        // ensure clean slate when starting the tests, in case test cases before this ended on a different screen
-        await reloadReactNative()
-
         // @walletconnect/heartbeat keeps a setInterval running, which causes jest to hang, unable to shut down cleanly
         // https://github.com/WalletConnect/walletconnect-utils/blob/4484e47f24a5a82078c27a0cf0185db921cf60d7/misc/heartbeat/src/heartbeat.ts#L47
         // As a workaround, since no reference to the interval is kept, we capture them
