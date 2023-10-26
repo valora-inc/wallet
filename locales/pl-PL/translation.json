@@ -1862,6 +1862,11 @@
       "withdraw": "Przelewaj tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
     }
   },
+  "sendEnterAmountScreen": {
+    "title": "Wprowadź kwotę",
+    "selectToken": "Wybierz token",
+    "networkFee": "{{networkName}} Opłata sieciowa"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

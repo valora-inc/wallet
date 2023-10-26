@@ -17,6 +17,7 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
+import { QuoteResult } from 'src/swap/useSwapQuote'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { Network, TokenTransaction } from 'src/transactions/types'
@@ -259,7 +260,11 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapExecuteScreen]: undefined
-  [Screens.SwapReviewScreen]: undefined
+  [Screens.SwapReviewScreen]:
+    | {
+        quote: QuoteResult
+      }
+    | undefined // old flow before viem
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TransactionDetailsScreen]: {

@@ -7,11 +7,13 @@ import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { swapStart } from 'src/swap/slice'
+import { Screens } from 'src/navigator/Screens'
 import SwapReviewScreen from 'src/swap/SwapReviewScreen'
+import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { createMockStore } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
@@ -23,7 +25,6 @@ import {
   mockWBTCAddress,
   mockWBTCTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const mockFetch = fetch as FetchMock
 const mockFeeCurrency = jest.fn()
@@ -109,6 +110,8 @@ const store = {
 
 const mockStore = createMockStore(store)
 
+const mockScreenProps = getMockStackScreenProps(Screens.SwapReviewScreen)
+
 const unvalidatedSwapTransaction = {
   sellToken: mockCeloAddress,
   buyToken: mockCusdAddress,
@@ -182,7 +185,7 @@ describe('SwapReviewScreen', () => {
 
     const { getByTestId } = render(
       <Provider store={mockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -246,7 +249,7 @@ describe('SwapReviewScreen', () => {
 
     const { getByTestId } = render(
       <Provider store={newMockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -309,7 +312,7 @@ describe('SwapReviewScreen', () => {
 
     const { getByTestId } = render(
       <Provider store={newMockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -339,7 +342,7 @@ describe('SwapReviewScreen', () => {
 
     render(
       <Provider store={mockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -355,7 +358,7 @@ describe('SwapReviewScreen', () => {
 
     render(
       <Provider store={mockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -376,7 +379,7 @@ describe('SwapReviewScreen', () => {
 
     const { getByText } = render(
       <Provider store={mockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -397,7 +400,7 @@ describe('SwapReviewScreen', () => {
 
     const { getByText } = render(
       <Provider store={mockStore}>
-        <SwapReviewScreen />
+        <SwapReviewScreen {...mockScreenProps} />
       </Provider>
     )
 
