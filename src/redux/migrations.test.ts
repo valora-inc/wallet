@@ -1359,7 +1359,7 @@ describe('Redux persist migrations', () => {
     ])
   })
 
-  it.only('works from 163 to 164', () => {
+  it('works from 163 to 164', () => {
     const preMigrationSchema = {
       ...v163Schema,
     }
