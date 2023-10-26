@@ -44,9 +44,14 @@ type BaseTransactionReceipt = {
   status: boolean
   block: string
   transactionHash: string
-  effectiveGasPrice: string
-  gasUsed: string
-  feeCurrency?: string | null
+  // contractKit does not give us the feeCurrency in the transaction receipt,
+  // but viem does. this `fee` property should be required once we remove
+  // contractKit.
+  fee?: {
+    effectiveGasPrice: string
+    gasUsed: string
+    feeCurrency?: string | null
+  }
 }
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED

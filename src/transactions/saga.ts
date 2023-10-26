@@ -150,12 +150,6 @@ export function* sendAndMonitorTransaction<T>(
         transactionHash: txReceipt.transactionHash,
         block: txReceipt.blockNumber.toString(),
         status: txReceipt.status,
-        effectiveGasPrice: txReceipt.effectiveGasPrice.toString(),
-        gasUsed: txReceipt.gasUsed.toString(),
-        // TODO: how to get this? the txReceipt has the following properties
-        // only
-        // ["blockHash","blockNumber","contractAddress","cumulativeGasUsed","effectiveGasPrice","from","gasUsed","logsBloom","status","to","transactionHash","transactionIndex","type","events"]
-        feeCurrency: undefined,
       })
     )
 

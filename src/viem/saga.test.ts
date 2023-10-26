@@ -1,5 +1,6 @@
 import { CeloTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
+import { CeloTransactionReceipt } from 'node_modules/viem/_types/chains/celo/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -288,7 +289,14 @@ describe('getSendTxFeeDetails', () => {
 
 describe('sendAndMonitorTransaction', () => {
   const mockTxHash = '0x12345678901234'
-  const mockTxReceipt = { status: 'success', transactionHash: mockTxHash, blockNumber: 123 }
+  const mockTxReceipt: Partial<CeloTransactionReceipt> = {
+    status: 'success',
+    transactionHash: mockTxHash,
+    blockNumber: BigInt(123),
+    effectiveGasPrice: BigInt(1235),
+    gasUsed: BigInt(4444),
+    feeCurrency: '0xabc',
+  }
   const mockArgs = {
     context: { id: 'txId' },
     wallet: mockViemWallet,
@@ -310,6 +318,11 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: true,
+          fee: {
+            effectiveGasPrice: '1235',
+            gasUsed: '4444',
+            feeCurrency: '0xabc',
+          },
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))

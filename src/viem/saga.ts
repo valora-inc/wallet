@@ -309,9 +309,11 @@ export function* sendAndMonitorTransaction({
         transactionHash: receipt.transactionHash,
         block: receipt.blockNumber.toString(),
         status: true,
-        effectiveGasPrice: receipt.effectiveGasPrice.toString(),
-        gasUsed: receipt.gasUsed.toString(),
-        feeCurrency: 'feeCurrency' in receipt ? receipt.feeCurrency : undefined,
+        fee: {
+          effectiveGasPrice: receipt.effectiveGasPrice.toString(),
+          gasUsed: receipt.gasUsed.toString(),
+          feeCurrency: 'feeCurrency' in receipt ? receipt.feeCurrency : undefined,
+        },
       })
     )
     yield* put(fetchTokenBalances({ showLoading: true }))

@@ -95,22 +95,30 @@ export const reducer = (
         standbyTransactions: state.standbyTransactions.map(
           (standbyTransaction): StandbyTransaction => {
             if (standbyTransaction.context.id === action.txId) {
-              const { gasUsed, effectiveGasPrice, feeCurrency } = action.receipt
+              const fees = action.receipt.fee
+                ? [
+                    {
+                      type: FeeType.SecurityFee,
+                      amount: {
+                        value: new BigNumber(action.receipt.fee.gasUsed).multipliedBy(
+                          action.receipt.fee.effectiveGasPrice
+                        ),
+                        tokenId: getTokenId(
+                          standbyTransaction.networkId,
+                          action.receipt.fee.feeCurrency ?? undefined
+                        ),
+                      },
+                    },
+                  ]
+                : []
+
               return {
                 ...standbyTransaction,
                 status: TransactionStatus.Complete,
                 transactionHash,
                 block,
                 timestamp: Date.now(),
-                fees: [
-                  {
-                    type: FeeType.SecurityFee,
-                    amount: {
-                      value: new BigNumber(gasUsed).multipliedBy(effectiveGasPrice),
-                      tokenId: getTokenId(standbyTransaction.networkId, feeCurrency ?? undefined),
-                    },
-                  },
-                ],
+                fees,
               }
             }
             return standbyTransaction
