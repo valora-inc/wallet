@@ -1,22 +1,15 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
-import erc20 from 'src/abis/IERC20'
 import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
-import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { FetchQuoteResponse, Field, ParsedSwapAmount } from 'src/swap/types'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, encodeFunctionData, Hex, zeroAddress } from 'viem'
-import { prepareTransactions, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
-
-// Apply a multiplier for the decreased swap amount to account for the
-// varying gas costs of different swap providers (or even the same swap)
-const DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER = 1.2
+import { PreparedTransactionsResult, prepareSwapTransactions } from 'src/viem/prepareTransactions'
 
 export interface QuoteResult {
   toTokenAddress: string
@@ -31,79 +24,6 @@ export interface QuoteResult {
    */
   rawSwapResponse: FetchQuoteResponse
   receivedAt: number
-}
-
-function createBaseTransactions(
-  fromToken: TokenBalanceWithAddress,
-  updatedField: Field,
-  unvalidatedSwapTransaction: SwapTransaction
-) {
-  const baseTransactions: TransactionRequestCIP42[] = []
-
-  const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
-    unvalidatedSwapTransaction
-  const amountType: string =
-    updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
-
-  const amountToApprove =
-    amountType === 'buyAmount'
-      ? BigInt(new BigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0))
-      : BigInt(sellAmount)
-
-  // Approve transaction if the sell token is ERC-20
-  if (allowanceTarget !== zeroAddress && fromToken.address) {
-    const data = encodeFunctionData({
-      abi: erc20.abi,
-      functionName: 'approve',
-      args: [allowanceTarget as Address, amountToApprove],
-    })
-
-    const approveTx: TransactionRequestCIP42 = {
-      from: from as Address,
-      to: fromToken.address as Address,
-      data,
-    }
-    baseTransactions.push(approveTx)
-  }
-
-  const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
-    from: from as Address,
-    to: to as Address,
-    value: BigInt(value ?? 0),
-    data: data as Hex,
-    // This may not be entirely accurate for now
-    // without the approval transaction being executed first.
-    // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
-    // We control this from our API.
-    gas: BigInt(gas),
-  }
-  baseTransactions.push(swapTx)
-
-  return {
-    amountToApprove,
-    baseTransactions,
-  }
-}
-
-async function prepareSwapTransactions(
-  fromToken: TokenBalanceWithAddress,
-  updatedField: Field,
-  unvalidatedSwapTransaction: SwapTransaction,
-  price: string,
-  feeCurrencies: TokenBalance[]
-): Promise<PreparedTransactionsResult> {
-  const { amountToApprove, baseTransactions } = createBaseTransactions(
-    fromToken,
-    updatedField,
-    unvalidatedSwapTransaction
-  )
-  return prepareTransactions({
-    feeCurrencies,
-    fromToken: fromToken,
-    fromTokenAmount: new BigNumber(amountToApprove.toString()),
-    decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
-    baseTransactions,
-  })
 }
 
 const useSwapQuote = () => {
