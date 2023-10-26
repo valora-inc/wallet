@@ -53,11 +53,13 @@ function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
 async function tryEstimateTransaction({
   baseTransaction,
   maxFeePerGas,
+  feeCurrencySymbol,
   feeCurrencyAddress,
   maxPriorityFeePerGas,
 }: {
   baseTransaction: TransactionRequestCIP42
   maxFeePerGas: bigint
+  feeCurrencySymbol: string
   feeCurrencyAddress?: Address
   maxPriorityFeePerGas?: bigint
 }) {
@@ -81,7 +83,7 @@ async function tryEstimateTransaction({
       // Likely too much gas was needed
       Logger.warn(
         'SwapScreen@useSwapQuote',
-        `Couldn't estimate gas with feeCurrencyAddress ${feeCurrencyAddress}`,
+        `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`,
         e
       )
       return null
@@ -122,6 +124,7 @@ async function tryEstimateTransactions(
     } else {
       const tx = await tryEstimateTransaction({
         baseTransaction: baseTx,
+        feeCurrencySymbol: feeCurrency.symbol,
         feeCurrencyAddress,
         maxFeePerGas,
         maxPriorityFeePerGas,
