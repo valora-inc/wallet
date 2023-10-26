@@ -2755,6 +2755,20 @@ export const v163Schema = {
   },
 }
 
+export const v164Schema = {
+  ...v163Schema,
+  _persist: {
+    ...v163Schema._persist,
+    version: 164,
+  },
+  transactions: {
+    ...v163Schema.transactions,
+    transactions: {
+      [networkConfig.defaultNetworkId]: v163Schema.transactions.transactions,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v163Schema as Partial<RootState>
+  return v164Schema as Partial<RootState>
 }

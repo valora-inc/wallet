@@ -4081,10 +4081,7 @@
                     "type": "array"
                 },
                 "transactions": {
-                    "items": {
-                        "$ref": "#/definitions/TokenTransaction"
-                    },
-                    "type": "array"
+                    "$ref": "#/definitions/Transactions"
                 }
             },
             "required": [
@@ -4825,6 +4822,36 @@
                 "Pending"
             ],
             "type": "string"
+        },
+        "Transactions": {
+            "additionalProperties": false,
+            "properties": {
+                "celo-alfajores": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "celo-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "ethereum-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
         },
         "TransferType": {
             "enum": [

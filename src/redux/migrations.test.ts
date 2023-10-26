@@ -32,6 +32,7 @@ import {
   v14Schema,
   v159Schema,
   v15Schema,
+  v163Schema,
   v16Schema,
   v17Schema,
   v18Schema,
@@ -1356,5 +1357,39 @@ describe('Redux persist migrations', () => {
         status: TransactionStatus.Pending,
       },
     ])
+  })
+
+  it.only('works from 163 to 164', () => {
+    const preMigrationSchema = {
+      ...v163Schema,
+    }
+    const celoSwap = {
+      __typename: 'TokenExchangeV3',
+      type: 'SWAP_TRANSACTION',
+      networkId: 'celo-alfajores',
+      block: '22127052',
+      transactionHash: '0x28fc7261a01bbbe97d5cc1f4c41ccf278bb9980ab12b4cd4bf62b76f137a6691',
+    }
+    const celoTransfer = {
+      __typename: 'TokenTransferV3',
+      block: '22115616',
+      transactionHash: '0x9fa0eb09da50ead38ba96fba8e7d8d341af81fd407cda0fae400943c173371c1',
+      type: 'SENT',
+      // no networkId, for older clients
+    }
+    const ethereumTransfer = {
+      __typename: 'TokenTransferV3',
+      block: '22115737',
+      transactionHash: '0x8f3cb9816418ec3df206b914d88285f3eb251b6a07a8b89b11379eed57fec22e',
+      type: 'SENT',
+      networkId: 'ethereum-sepolia',
+    }
+    preMigrationSchema.transactions.transactions = [celoSwap, ethereumTransfer, celoTransfer]
+    const migratedSchema = migrations[164](preMigrationSchema)
+
+    expect(migratedSchema.transactions.transactions).toEqual({
+      [NetworkId['celo-alfajores']]: [celoSwap, celoTransfer],
+      [NetworkId['ethereum-sepolia']]: [ethereumTransfer],
+    })
   })
 })

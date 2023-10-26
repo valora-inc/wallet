@@ -1397,4 +1397,21 @@ export const migrations = {
     ...state,
     send: { ..._.omit(state.send, 'lastUsedCurrency'), lastUsedTokenId: undefined },
   }),
+  164: (state: any) => {
+    const transactionsByNetwork: any = {}
+    for (const tx of state.transactions.transactions) {
+      const txNetworkId = tx.networkId ?? networkConfig.defaultNetworkId
+      transactionsByNetwork[txNetworkId] = transactionsByNetwork[txNetworkId]
+        ? [...transactionsByNetwork[txNetworkId], tx]
+        : [tx]
+    }
+
+    return {
+      ...state,
+      transactions: {
+        ...state.transactions,
+        transactions: transactionsByNetwork,
+      },
+    }
+  },
 }

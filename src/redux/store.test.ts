@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 163,
+          "version": 164,
         },
         "account": {
           "acceptedTerms": false,
@@ -344,7 +344,7 @@ describe('store state', () => {
           "knownFeedTransactions": {},
           "recentTxRecipientsCache": {},
           "standbyTransactions": [],
-          "transactions": [],
+          "transactions": {},
         },
         "walletConnect": {
           "pendingActions": [],
