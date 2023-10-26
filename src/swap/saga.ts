@@ -24,7 +24,7 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { addHashToStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
   TokenTransactionTypeV2,
@@ -85,7 +85,13 @@ function* handleSendSwapTransaction(
 
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
 
-  yield* put(addHashToStandbyTransaction(transactionContext.id, receipt.transactionHash))
+  yield* put(
+    transactionConfirmed(transactionContext.id, {
+      transactionHash: receipt.transactionHash,
+      block: receipt.blockNumber.toString(),
+      status: receipt.status,
+    })
+  )
 }
 
 function calculateEstimatedUsdValue({
@@ -397,6 +403,14 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     if (receipt.status !== 'success') {
       throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
     }
+
+    yield* put(
+      transactionConfirmed(swapExecuteContext.id, {
+        transactionHash: receipt.transactionHash,
+        block: receipt.blockNumber.toString(),
+        status: receipt.status === 'success',
+      })
+    )
 
     const timeMetrics = getTimeMetrics()
 

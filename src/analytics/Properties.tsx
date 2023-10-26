@@ -38,6 +38,7 @@ import {
   SettingsEvents,
   SwapEvents,
   TokenBottomSheetEvents,
+  TransactionDetailsEvents,
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
@@ -68,7 +69,7 @@ import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
-import { NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -530,6 +531,8 @@ interface SendEventsProperties {
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
+        tokenId: string | null
+        networkId: string | null
       }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]:
@@ -1231,7 +1234,6 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_screen_review_swap]: undefined
-  [SwapEvents.swap_feed_detail_view_tx]: undefined
   [SwapEvents.swap_review_screen_open]: SwapEvent
   [SwapEvents.swap_review_submit]: SwapQuoteEvent & {
     usdTotal: number
@@ -1381,6 +1383,25 @@ interface DappShortcutsProperties {
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: DappShortcutClaimRewardEvent
 }
 
+interface TransactionDetailsProperties {
+  [TransactionDetailsEvents.transaction_details_tap_details]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_check_status]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_retry]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1414,6 +1435,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   AssetsEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
-  DappShortcutsProperties
+  DappShortcutsProperties &
+  TransactionDetailsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

@@ -12,10 +12,9 @@ import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId, isStablecoin } from 'src/tokens/utils'
 import {
-  addHashToStandbyTransaction,
   addStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmedViem,
+  transactionConfirmed,
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
@@ -282,7 +281,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       txHash: hash,
     })
-    yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], { hash })
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt
@@ -303,7 +301,13 @@ export function* sendAndMonitorTransaction({
       throw new Error('transaction reverted')
     }
     ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
-    yield* put(transactionConfirmedViem(context.id))
+    yield* put(
+      transactionConfirmed(context.id, {
+        transactionHash: receipt.transactionHash,
+        block: receipt.blockNumber.toString(),
+        status: true,
+      })
+    )
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {

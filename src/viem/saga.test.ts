@@ -12,9 +12,8 @@ import { buildSendTx } from 'src/send/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  addHashToStandbyTransaction,
   removeStandbyTransaction,
-  transactionConfirmedViem,
+  transactionConfirmed,
   transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails } from 'src/transactions/send'
@@ -288,7 +287,7 @@ describe('getSendTxFeeDetails', () => {
 
 describe('sendAndMonitorTransaction', () => {
   const mockTxHash = '0x12345678901234'
-  const mockTxReceipt = { status: 'success' }
+  const mockTxReceipt = { status: 'success', transactionHash: mockTxHash, blockNumber: 123 }
   const mockArgs = {
     context: { id: 'txId' },
     wallet: mockViemWallet,
@@ -304,8 +303,13 @@ describe('sendAndMonitorTransaction', () => {
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(transactionConfirmedViem('txId'))
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: true,
+        })
+      )
       .put(fetchTokenBalances({ showLoading: true }))
       .call([mockViemWallet, 'writeContract'], mockArgs.request)
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
@@ -319,7 +323,6 @@ describe('sendAndMonitorTransaction', () => {
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), { status: 'reverted' }],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
@@ -334,7 +337,7 @@ describe('sendAndMonitorTransaction', () => {
       .provide([
         [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
       ])
-      .not.put(addHashToStandbyTransaction('txId', mockTxHash))
+      .not.put(transactionConfirmed('txId', expect.anything()))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
@@ -353,7 +356,6 @@ describe('sendAndMonitorTransaction', () => {
           throwError(new Error('wait failed')),
         ],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

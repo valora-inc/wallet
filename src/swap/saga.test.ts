@@ -45,7 +45,7 @@ const contractKit = {
 }
 
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
+  sendTransaction: jest.fn(() => ({ transactionHash: '0x123', blockNumber: '1234', status: true })),
 }))
 
 const mockSwapTransaction: SwapTransaction = {
@@ -255,6 +255,16 @@ describe(swapSubmitSaga, () => {
           },
         },
       })
+      .put.like({
+        action: {
+          type: Actions.TRANSACTION_CONFIRMED,
+          receipt: {
+            transactionHash: '0x123',
+            block: '1234',
+            status: true,
+          },
+        },
+      })
       .run()
     expect(sendTransaction).toHaveBeenCalledTimes(2)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
@@ -368,7 +378,7 @@ describe(swapSubmitPreparedSaga, () => {
     }),
   } as any as ViemWallet
 
-  const mockTxReceipt = { status: 'success' }
+  const mockTxReceipt = { status: 'success', blockNumber: BigInt(1234), transactionHash: '0x2' }
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
     [matchers.call.fn(getViemWallet), mockViemWallet],
@@ -406,6 +416,16 @@ describe(swapSubmitPreparedSaga, () => {
               value: BigNumber('0.01'),
               tokenId: mockCeurTokenId,
             },
+          },
+        },
+      })
+      .put.like({
+        action: {
+          type: Actions.TRANSACTION_CONFIRMED,
+          receipt: {
+            transactionHash: '0x2',
+            block: '1234',
+            status: true,
           },
         },
       })

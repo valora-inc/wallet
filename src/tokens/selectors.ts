@@ -23,6 +23,7 @@ import {
   isCicoToken,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
+  usdBalance,
 } from './utils'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
@@ -376,6 +377,35 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
         tokenInfo.isCashOutEligible &&
         isCicoToken(tokenInfo.symbol)
     )
+)
+
+export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) =>
+    tokens
+      .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
+      .sort((token1, token2) => {
+        // Sorts by usd balance, then token balance, then zero balance natives by
+        // network id, then zero balance non natives by network id
+        const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
+        if (usdBalanceCompare) {
+          return usdBalanceCompare
+        }
+
+        const balanceCompare = token2.balance.comparedTo(token1.balance)
+        if (balanceCompare) {
+          return balanceCompare
+        }
+
+        if (token1.isNative && !token2.isNative) {
+          return -1
+        }
+        if (!token1.isNative && token2.isNative) {
+          return 1
+        }
+
+        return token1.networkId.localeCompare(token2.networkId)
+      })
 )
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>

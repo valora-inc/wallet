@@ -573,7 +573,6 @@ export enum SwapEvents {
   swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
   swap_screen_review_swap = 'swap_screen_review_swap',
-  swap_feed_detail_view_tx = 'swap_feed_detail_view_tx',
   swap_review_screen_open = 'swap_review_screen_open',
   swap_review_submit = 'swap_review_submit',
   swap_execute_price_change = 'swap_execute_price_change',
@@ -629,4 +628,11 @@ export enum DappShortcutsEvents {
   dapp_shortcuts_reward_tx_copy = 'dapp_shortcuts_reward_tx_copy',
   dapp_shortcuts_reward_tx_accepted = 'dapp_shortcuts_reward_tx_accepted',
   dapp_shortcuts_reward_tx_rejected = 'dapp_shortcuts_reward_tx_rejected',
+}
+
+export enum TransactionDetailsEvents {
+  transaction_details_tap_details = 'transaction_details_tap_details',
+  transaction_details_tap_check_status = 'transaction_details_tap_check_status',
+  transaction_details_tap_retry = 'transaction_details_tap_retry',
+  transaction_details_tap_block_explorer = 'transaction_details_tap_block_explorer',
 }

@@ -239,6 +239,13 @@ export type StackParamList = {
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
+  [Screens.SendEnterAmount]: {
+    recipient: Recipient
+    isFromScan: boolean
+    origin: SendOrigin
+    forceTokenId?: boolean
+    defaultTokenIdOverride?: string
+  }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: {
