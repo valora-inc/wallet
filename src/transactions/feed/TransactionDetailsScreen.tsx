@@ -140,7 +140,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <SafeAreaView edges={['right', 'bottom', 'left']}>
+      <SafeAreaView edges={['bottom']}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.dateTime}>{dateTime}</Text>
         <View style={styles.status}>
